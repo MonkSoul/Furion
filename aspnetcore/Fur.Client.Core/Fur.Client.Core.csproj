@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fur.Database\Fur.Database.csproj" />
+    <ProjectReference Include="..\Fur\Fur.csproj" />
+  </ItemGroup>
+
+</Project>
