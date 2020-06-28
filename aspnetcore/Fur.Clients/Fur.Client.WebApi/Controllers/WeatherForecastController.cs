@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Fur.Versatile;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Fur.Client.WebApi.Controllers
 {
@@ -17,10 +17,18 @@ namespace Fur.Client.WebApi.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        private readonly ITestService _testService;
+        private readonly ITestServiceOfT<Test> _testServiceOfT;
+        private readonly ITestServiceOfT<Test2> _testServiceOfT2;
+        public WeatherForecastController(ILogger<WeatherForecastController> logger
+            , ITestService testService
+            , ITestServiceOfT<Test> testServiceOfT
+             , ITestServiceOfT<Test2> testServiceOfT2)
         {
             _logger = logger;
+            _testService = testService;
+            _testServiceOfT = testServiceOfT;
+            _testServiceOfT2 = testServiceOfT2;
         }
 
         [HttpGet]
@@ -34,6 +42,20 @@ namespace Fur.Client.WebApi.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet]
+        [Route(nameof(GetName))]
+        public string GetName()
+        {
+            return _testService.GetName();
+        }
+
+        [HttpGet]
+        [Route(nameof(GetNameOfT))]
+        public string GetNameOfT()
+        {
+            return _testServiceOfT.GetName() + _testServiceOfT2.GetName();
         }
     }
 }
