@@ -26,26 +26,26 @@ namespace Fur.DependencyInjection.Modules
         /// <param name="applicationTypes">应用类型集合</param>
         private void RegisterBaseTypes(ContainerBuilder builder, IEnumerable<ApplicationTypeInfo> applicationTypes)
         {
-            var baseTypes = applicationTypes.Where(t => !t.IsGenericType);
+            var baseTypes = applicationTypes.Where(t => !t.IsGenericType).Select(u => u.Type);
 
-            builder.RegisterTypes(baseTypes.Where(t => typeof(ITransientLifetime).IsAssignableFrom(t.Type)).Select(u => u.Type).ToArray())
+            builder.RegisterTypes(baseTypes.Where(t => typeof(ITransientLifetime).IsAssignableFrom(t)).ToArray())
                 .AsImplementedInterfaces()
                 .InstancePerDependency();
-            builder.RegisterTypes(baseTypes.Where(t => typeof(ITransientAsSelfLifetime).IsAssignableFrom(t.Type)).Select(u => u.Type).ToArray())
+            builder.RegisterTypes(baseTypes.Where(t => typeof(ITransientAsSelfLifetime).IsAssignableFrom(t)).ToArray())
                 .AsSelf()
                 .InstancePerDependency();
 
-            builder.RegisterTypes(baseTypes.Where(t => typeof(IScopedLifetime).IsAssignableFrom(t.Type)).Select(u => u.Type).ToArray())
+            builder.RegisterTypes(baseTypes.Where(t => typeof(IScopedLifetime).IsAssignableFrom(t)).ToArray())
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
-            builder.RegisterTypes(baseTypes.Where(t => typeof(IScopedAsSelfLifetime).IsAssignableFrom(t.Type)).Select(u => u.Type).ToArray())
+            builder.RegisterTypes(baseTypes.Where(t => typeof(IScopedAsSelfLifetime).IsAssignableFrom(t)).ToArray())
                 .AsSelf()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterTypes(baseTypes.Where(t => typeof(ISingletonLifetime).IsAssignableFrom(t.Type)).Select(u => u.Type).ToArray())
+            builder.RegisterTypes(baseTypes.Where(t => typeof(ISingletonLifetime).IsAssignableFrom(t)).ToArray())
                 .AsImplementedInterfaces()
                 .SingleInstance();
-            builder.RegisterTypes(baseTypes.Where(t => typeof(ISingletonAsSelfLifetime).IsAssignableFrom(t.Type)).Select(u => u.Type).ToArray())
+            builder.RegisterTypes(baseTypes.Where(t => typeof(ISingletonAsSelfLifetime).IsAssignableFrom(t)).ToArray())
                .AsSelf()
                .SingleInstance();
         }

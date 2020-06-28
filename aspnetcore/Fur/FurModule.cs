@@ -6,7 +6,6 @@ namespace Fur
     {
         protected override void Load(ContainerBuilder builder)
         {
-            
         }
     }
 }
