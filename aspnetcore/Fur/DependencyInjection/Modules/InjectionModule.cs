@@ -2,6 +2,8 @@
 using Fur.ApplicationSystem;
 using Fur.DependencyInjection.Lifetimes;
 using Fur.DependencyInjection.Lifetimes.AsSelf;
+using Fur.Models.ApplicationSystem;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Fur.DependencyInjection.Modules
@@ -12,28 +14,51 @@ namespace Fur.DependencyInjection.Modules
         {
             var applicationTypes = ApplicationPrepare.ApplicationAssemblies.SelectMany(a => a.PublicClassTypes);
 
-            var noGenericTypes = applicationTypes.Where(t => !t.IsGenericType);
-            builder.RegisterTypes(noGenericTypes.Where(t => typeof(ITransientLifetime).IsAssignableFrom(t.Type)).Select(u => u.Type).ToArray())
+            RegisterBaseTypes(builder, applicationTypes);
+            RegisterGenericTypes(builder, applicationTypes);
+        }
+
+        #region 注册基础类型（非泛型）- private void RegisterBaseTypes(ContainerBuilder builder, IEnumerable<ApplicationTypeInfo> applicationTypes)
+        /// <summary>
+        /// 注册基础类型（非泛型）
+        /// </summary>
+        /// <param name="builder">容器构建器</param>
+        /// <param name="applicationTypes">应用类型集合</param>
+        private void RegisterBaseTypes(ContainerBuilder builder, IEnumerable<ApplicationTypeInfo> applicationTypes)
+        {
+            var baseTypes = applicationTypes.Where(t => !t.IsGenericType);
+
+            builder.RegisterTypes(baseTypes.Where(t => typeof(ITransientLifetime).IsAssignableFrom(t.Type)).Select(u => u.Type).ToArray())
                 .AsImplementedInterfaces()
                 .InstancePerDependency();
-            builder.RegisterTypes(noGenericTypes.Where(t => typeof(ITransientAsSelfLifetime).IsAssignableFrom(t.Type)).Select(u => u.Type).ToArray())
+            builder.RegisterTypes(baseTypes.Where(t => typeof(ITransientAsSelfLifetime).IsAssignableFrom(t.Type)).Select(u => u.Type).ToArray())
                 .AsSelf()
                 .InstancePerDependency();
 
-            builder.RegisterTypes(noGenericTypes.Where(t => typeof(IScopedLifetime).IsAssignableFrom(t.Type)).Select(u => u.Type).ToArray())
+            builder.RegisterTypes(baseTypes.Where(t => typeof(IScopedLifetime).IsAssignableFrom(t.Type)).Select(u => u.Type).ToArray())
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
-            builder.RegisterTypes(noGenericTypes.Where(t => typeof(IScopedAsSelfLifetime).IsAssignableFrom(t.Type)).Select(u => u.Type).ToArray())
+            builder.RegisterTypes(baseTypes.Where(t => typeof(IScopedAsSelfLifetime).IsAssignableFrom(t.Type)).Select(u => u.Type).ToArray())
                 .AsSelf()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterTypes(noGenericTypes.Where(t => typeof(ISingletonLifetime).IsAssignableFrom(t.Type)).Select(u => u.Type).ToArray())
+            builder.RegisterTypes(baseTypes.Where(t => typeof(ISingletonLifetime).IsAssignableFrom(t.Type)).Select(u => u.Type).ToArray())
                 .AsImplementedInterfaces()
                 .SingleInstance();
-            builder.RegisterTypes(noGenericTypes.Where(t => typeof(ISingletonAsSelfLifetime).IsAssignableFrom(t.Type)).Select(u => u.Type).ToArray())
+            builder.RegisterTypes(baseTypes.Where(t => typeof(ISingletonAsSelfLifetime).IsAssignableFrom(t.Type)).Select(u => u.Type).ToArray())
                .AsSelf()
                .SingleInstance();
+        }
+        #endregion
 
+        #region 注册泛型类型 - private void RegisterGenericTypes(ContainerBuilder builder, IEnumerable<ApplicationTypeInfo> applicationTypes)
+        /// <summary>
+        /// 注册泛型类型
+        /// </summary>
+        /// <param name="builder">容器构建器</param>
+        /// <param name="applicationTypes">应用类型集合</param>
+        private void RegisterGenericTypes(ContainerBuilder builder, IEnumerable<ApplicationTypeInfo> applicationTypes)
+        {
             var genericTypes = applicationTypes.Where(t => t.IsGenericType);
             foreach (var type in genericTypes)
             {
@@ -64,5 +89,6 @@ namespace Fur.DependencyInjection.Modules
                 else { }
             }
         }
+        #endregion
     }
 }
