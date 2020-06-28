@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Fur.Client.WebApi
+namespace Fur.Web.Host
 {
     public class Startup
     {
@@ -19,13 +19,11 @@ namespace Fur.Client.WebApi
 
         public void ConfigureContainer(ContainerBuilder builder) => Injection.Initialize(builder);
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

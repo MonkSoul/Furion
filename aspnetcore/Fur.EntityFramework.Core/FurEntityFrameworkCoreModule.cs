@@ -1,8 +1,8 @@
 ﻿using Autofac;
 
-namespace Fur.Versatile
+namespace Fur.EntityFramework.Core
 {
-    public class FurVersatileModule : Module
+    public class FurEntityFrameworkCoreModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

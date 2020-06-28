@@ -1,8 +1,8 @@
 ﻿using Autofac;
 
-namespace Fur.Database
+namespace Fur.Web.Core
 {
-    public class FurDatabaseModule : Module
+    public class FurWebCoreModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

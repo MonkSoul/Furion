@@ -1,8 +1,8 @@
 ﻿using Autofac;
 
-namespace Fur.Archive
+namespace Fur.Core
 {
-    public class FurArchiveModule : Module
+    public class FurCoreModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

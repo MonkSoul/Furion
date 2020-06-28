@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Fur.Archive\Fur.Archive.csproj" />
+    <ProjectReference Include="..\Fur.EntityFramework.Core\Fur.EntityFramework.Core.csproj" />
     <ProjectReference Include="..\Fur\Fur.csproj" />
   </ItemGroup>
 
