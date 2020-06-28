@@ -24,6 +24,9 @@ namespace Fur.Models.ApplicationSystem
         /// 是否是泛型类型
         /// </summary>
         public bool IsGenericType { get; set; }
+        /// <summary>
+        /// 泛型类型参数
+        /// </summary>
         public IEnumerable<Type> GenericArguments { get; set; }
     }
 }
