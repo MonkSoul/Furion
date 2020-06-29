@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Fur.AttachController.Attributes
 {
@@ -6,8 +7,12 @@ namespace Fur.AttachController.Attributes
     /// 附加控制器特性类
     /// </summary>
     [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class)]
-    public class AttachControllerAttribute : Attribute
+    public class AttachControllerAttribute : ApiExplorerSettingsAttribute
     {
+        /// <summary>
+        /// 分组分隔符
+        /// </summary>
+        private const string groupNameSeparator = "|||";
         /// <summary>
         /// 默认构造函数
         /// </summary>
@@ -16,12 +21,20 @@ namespace Fur.AttachController.Attributes
         /// 构造函数
         /// </summary>
         /// <param name="attach">是否附加</param>
-        public AttachControllerAttribute(bool attach) => Attach = attach;
+        public AttachControllerAttribute(bool attach)
+        {
+            Attach = attach;
+            base.IgnoreApi = this.IgnoreApi = !attach;
+        }
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="groups">swagger分组名称列表</param>
-        public AttachControllerAttribute(params string[] groups) => AttachTo = groups;
+        public AttachControllerAttribute(params string[] groups)
+        {
+            AttachTo = groups;
+            base.GroupName = this.GroupName = string.Join(groupNameSeparator, groups);
+        }
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -31,6 +44,8 @@ namespace Fur.AttachController.Attributes
         {
             Attach = attach;
             AttachTo = groups;
+            base.IgnoreApi = this.IgnoreApi = !attach;
+            base.GroupName = this.GroupName = string.Join(groupNameSeparator, groups);
         }
         /// <summary>
         /// 接口版本
@@ -48,5 +63,13 @@ namespace Fur.AttachController.Attributes
         /// 接口授权标识名称列表
         /// </summary>
         public string[] AuthorizeTo { get; set; }
+        /// <summary>
+        /// 分组名
+        /// </summary>
+        internal new string GroupName { get; set; }
+        /// <summary>
+        /// 是否忽略Api
+        /// </summary>
+        internal new bool IgnoreApi { get; set; }
     }
 }

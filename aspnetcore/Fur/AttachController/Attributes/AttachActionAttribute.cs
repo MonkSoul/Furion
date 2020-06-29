@@ -9,6 +9,9 @@ namespace Fur.AttachController.Attributes
     [AttributeUsage(AttributeTargets.Method)]
     public class AttachActionAttribute : ApiExplorerSettingsAttribute
     {
+        /// <summary>
+        /// 分组分隔符
+        /// </summary>
         private const string groupNameSeparator = "|||";
         /// <summary>
         /// 默认构造函数
