@@ -21,11 +21,11 @@ namespace Fur.Linq
         /// <returns>新的表达式</returns>
         public static Expression<TSource> Compose<TSource>(this Expression<TSource> expression, Expression<TSource> extendExpression, Func<Expression, Expression, Expression> mergeWay)
         {
-            var parameterExpressionMap = expression.Parameters
+            var parameterExpressionSetter = expression.Parameters
                 .Select((u, i) => new { u, Parameter = extendExpression.Parameters[i] })
                 .ToDictionary(d => d.Parameter, d => d.u);
 
-            var extendExpressionBody = ParameterExpressionVisitor.ReplaceParameters(parameterExpressionMap, extendExpression.Body);
+            var extendExpressionBody = ParameterExpressionVisitor.ReplaceParameters(parameterExpressionSetter, extendExpression.Body);
             return Expression.Lambda<TSource>(mergeWay(expression.Body, extendExpressionBody), expression.Parameters);
         }
         #endregion

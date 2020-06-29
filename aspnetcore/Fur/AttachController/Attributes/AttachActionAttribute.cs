@@ -10,13 +10,12 @@ namespace Fur.AttachController.Attributes
     public class AttachActionAttribute : ApiExplorerSettingsAttribute
     {
         /// <summary>
-        /// 分组分隔符
-        /// </summary>
-        private const string groupNameSeparator = "|||";
-        /// <summary>
         /// 默认构造函数
         /// </summary>
-        public AttachActionAttribute() { }
+        public AttachActionAttribute()
+        {
+            base.IgnoreApi = this.IgnoreApi = false;
+        }
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -33,7 +32,7 @@ namespace Fur.AttachController.Attributes
         public AttachActionAttribute(params string[] groups)
         {
             AttachTo = groups;
-            base.GroupName = this.GroupName = string.Join(groupNameSeparator, groups);
+            base.GroupName = this.GroupName = string.Join(Consts.GroupNameSeparator, groups);
         }
         /// <summary>
         /// 构造函数
@@ -45,7 +44,7 @@ namespace Fur.AttachController.Attributes
             Attach = attach;
             AttachTo = groups;
             base.IgnoreApi = this.IgnoreApi = !attach;
-            base.GroupName = this.GroupName = string.Join(groupNameSeparator, groups);
+            base.GroupName = this.GroupName = string.Join(Consts.GroupNameSeparator, groups);
         }
         public string ApiVersion { get; set; }
         /// <summary>

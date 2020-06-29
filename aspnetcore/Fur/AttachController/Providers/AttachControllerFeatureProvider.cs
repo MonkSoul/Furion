@@ -7,6 +7,6 @@ namespace Fur.AttachController.Providers
     internal sealed class AttachControllerFeatureProvider : ControllerFeatureProvider
     {
         protected override bool IsController(TypeInfo typeInfo)
-            => ApplicationGlobal.IsControllerType(typeInfo);
+            => ApplicationGlobal.IsControllerType(typeInfo, true);
     }
 }

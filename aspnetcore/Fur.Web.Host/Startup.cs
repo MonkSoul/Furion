@@ -22,7 +22,7 @@ namespace Fur.Web.Host
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddAttachControllers();
+            services.AddControllers().AddAttachControllers(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

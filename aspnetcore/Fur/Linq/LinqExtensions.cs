@@ -49,5 +49,16 @@ namespace Fur.Linq
             return expressionBody.Substring(expressionBody.LastIndexOf(".") + 1);
         }
         #endregion
+
+        #region 是否是空集合 +/* public static bool IsNullOrEmpty<TSource>(this IEnumerable<TSource> sources)
+        /// <summary>
+        /// 是否是空集合
+        /// </summary>
+        /// <typeparam name="TSource">泛型类型</typeparam>
+        /// <param name="sources">集合对象</param>
+        /// <returns>是否为空集合</returns>
+        public static bool IsNullOrEmpty<TSource>(this IEnumerable<TSource> sources)
+            => sources == null || sources.Count() == 0;
+        #endregion
     }
 }
