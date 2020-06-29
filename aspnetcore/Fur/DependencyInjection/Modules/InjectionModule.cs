@@ -1,8 +1,8 @@
 ﻿using Autofac;
 using Fur.ApplicationSystem;
+using Fur.ApplicationSystem.Models;
 using Fur.DependencyInjection.Lifetimes;
 using Fur.DependencyInjection.Lifetimes.AsSelf;
-using Fur.Models.ApplicationSystem;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,7 +12,7 @@ namespace Fur.DependencyInjection.Modules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            var applicationTypes = ApplicationPrepare.ApplicationAssemblies.SelectMany(a => a.PublicClassTypes);
+            var applicationTypes = ApplicationGlobal.ApplicationAssemblies.SelectMany(a => a.PublicClassTypes);
 
             RegisterBaseTypes(builder, applicationTypes);
             RegisterGenericTypes(builder, applicationTypes);

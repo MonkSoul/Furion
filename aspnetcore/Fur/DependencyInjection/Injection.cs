@@ -15,7 +15,7 @@ namespace Fur.DependencyInjection
         /// </summary>
         /// <param name="builder">容器构建器</param>
         public static void Initialize(ContainerBuilder builder)
-            => builder.RegisterAssemblyModules(ApplicationPrepare.ApplicationAssemblies.Select(a => a.Assembly).ToArray());
+            => builder.RegisterAssemblyModules(ApplicationGlobal.ApplicationAssemblies.Select(a => a.Assembly).ToArray());
         #endregion
     }
 }

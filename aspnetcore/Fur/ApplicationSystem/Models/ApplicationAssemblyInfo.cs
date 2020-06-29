@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace Fur.Models.ApplicationSystem
+namespace Fur.ApplicationSystem.Models
 {
     /// <summary>
     /// 应用程序集信息类

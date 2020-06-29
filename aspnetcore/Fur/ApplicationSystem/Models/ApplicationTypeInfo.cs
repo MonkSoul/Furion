@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Fur.Models.ApplicationSystem
+namespace Fur.ApplicationSystem.Models
 {
     /// <summary>
     /// 应用类型信息类
@@ -28,5 +28,9 @@ namespace Fur.Models.ApplicationSystem
         /// 泛型类型参数
         /// </summary>
         public IEnumerable<Type> GenericArguments { get; set; }
+        /// <summary>
+        /// 是否控制器类型
+        /// </summary>
+        public bool IsControllerType { get; set; }
     }
 }
