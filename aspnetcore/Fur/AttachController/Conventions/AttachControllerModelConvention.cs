@@ -239,18 +239,21 @@ namespace Fur.AttachController.Conventions
             var parameters = ApplicationGlobal.ApplicationInfo.PublicInstanceMethods.FirstOrDefault(u => u.Method == actionModel.ActionMethod).Parameters;
             foreach (var parameterInfo in parameters)
             {
-                var parameterAttributes = parameterInfo.CustomAttributes;
-
-                var hasFromAttribute = parameterAttributes.Any(u => u.GetType() == typeof(FromRouteAttribute) || !typeof(IBindingSourceMetadata).IsAssignableFrom(u.GetType()));
-
                 var parameterType = parameterInfo.Type;
-                if (Helper.IsPrimitiveIncludeNullable(parameterType) && hasFromAttribute)
+                if (Helper.IsPrimitiveIncludeNullable(parameterType))
                 {
+                    var parameterAttributes = parameterInfo.CustomAttributes;
+                    var hasFromAttribute = parameterAttributes.Count() == 0 ||
+                                                           parameterAttributes.Any(u => u.GetType() == typeof(FromRouteAttribute)) ||
+                                                           parameterAttributes.Count(u => typeof(IBindingSourceMetadata).IsAssignableFrom(u.GetType())) == 0;
+
+                    if (!hasFromAttribute) continue;
+
                     // 设置路由约束
                     var routeConstraintAttribute = parameterAttributes.FirstOrDefault(u => u.GetType() == typeof(RouteConstraintAttribute)) as RouteConstraintAttribute;
                     if (routeConstraintAttribute != null && !string.IsNullOrEmpty(routeConstraintAttribute.Constraint))
                     {
-                        stringBuilder.Append($"/{routeConstraintAttribute.Constraint}");
+                        stringBuilder.Append($"/{{{parameterInfo.Name + routeConstraintAttribute.Constraint + (parameterType.IsNullable() ? "?" : "")}}}");
                     }
                     else
                     {

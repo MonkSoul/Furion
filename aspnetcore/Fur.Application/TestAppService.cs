@@ -10,15 +10,9 @@ namespace Fur.Application
     [AttachController("Test", ApiVersion = "v1.0.0")]
     public class TestAppService : ITestAppService, IAttachControllerDependency
     {
-        /// <summary>
-        /// 测试注释
-        /// </summary>
-        /// <param name="name">测试</param>
-        /// <param name="id">测试</param>
-        /// <param name="age">测试</param>
-        /// <returns></returns>
         [AttachAction(ApiVersion = "v1.0.0.1")]
-        public Task<string> GetByName1([FromQuery] string name, [RouteConstraint("{id:int?}")] int id, [FromRoute] int age)
+        //[Route("api/v1.0.0/Test/v1.0.0.1/GetByName1/{id}")]
+        public Task<string> GetByName1([FromQuery] string name, int id)
         {
             throw new System.NotImplementedException();
         }

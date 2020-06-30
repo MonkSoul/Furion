@@ -14,7 +14,7 @@ namespace Fur.AttachController.Attributes
         /// <param name="constraint"></param>
         public RouteConstraintAttribute(string constraint) => Constraint = constraint;
         /// <summary>
-        /// 约束，支持{id?}，{id:int?}，{id:min(10)}
+        /// 约束，支持?，int，:int?，:min(10)
         /// </summary>
         public string Constraint { get; set; }
     }

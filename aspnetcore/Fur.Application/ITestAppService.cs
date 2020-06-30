@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Fur.AttachController.Attributes;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace Fur.Application
     {
         Task<string> GetName1();
 
-        Task<string> GetByName1([FromQuery] string name, [FromQuery] int id, [FromRoute] int age);
+        Task<string> GetByName1([FromQuery] string name, int id);
 
         Task<string> GetTestName1(string name);
 
