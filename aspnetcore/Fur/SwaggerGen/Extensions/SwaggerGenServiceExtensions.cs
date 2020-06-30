@@ -22,7 +22,8 @@ namespace Fur.SwaggerGen.Extensions
             var attactControllerOptions = configuration.GetSection($"{nameof(FurSettings)}:{nameof(SwaggerOptions)}");
             services.AddOptions<SwaggerOptions>().Bind(attactControllerOptions).ValidateDataAnnotations();
 
-            services.AddSwaggerGen(options => SwaggerConfigure.Initialize(options, attactControllerOptions.Get<SwaggerOptions>()));
+            SwaggerConfigure.SetSwaggerOptions(attactControllerOptions.Get<SwaggerOptions>());
+            services.AddSwaggerGen(options => SwaggerConfigure.Initialize(options));
 
             return services;
         }

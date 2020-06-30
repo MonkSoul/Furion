@@ -27,15 +27,21 @@ namespace Fur.SwaggerGen
         /// </summary>
         private static SwaggerOptions swaggerOptions;
 
-        #region 初始化Swagger服务 -/* public static void Initialize(SwaggerGenOptions swaggerGenOptions, SwaggerOptions swaggerOptions)
+        #region 设置Swagger选项配置 +/* public static void SetSwaggerOptions(SwaggerOptions swaggerOptions)
+        /// <summary>
+        /// 设置Swagger选项配置
+        /// </summary>
+        /// <param name="swaggerOptions">Swagger选项配置</param>
+        public static void SetSwaggerOptions(SwaggerOptions swaggerOptions) => SwaggerConfigure.swaggerOptions = swaggerOptions;
+        #endregion
+
+        #region 初始化Swagger服务 -/* public static void Initialize(SwaggerGenOptions swaggerGenOptions)
         /// <summary>
         /// 初始化Swagger服务
         /// </summary>
         /// <param name="swaggerGenOptions">Swagger生成器选项</param>
-        /// <param name="swaggerOptions">Swagger选项配置</param>
-        public static void Initialize(SwaggerGenOptions swaggerGenOptions, SwaggerOptions swaggerOptions)
+        public static void Initialize(SwaggerGenOptions swaggerGenOptions)
         {
-            SwaggerConfigure.swaggerOptions = swaggerOptions;
             CreateSwaggerDocs(swaggerGenOptions);
             SetSwaggerBaseConfigure(swaggerGenOptions);
         }
@@ -175,7 +181,7 @@ namespace Fur.SwaggerGen
             }
 
             swaggerUIOptions.RoutePrefix = string.Empty;
-            swaggerUIOptions.DocumentTitle = swaggerOptions?.DocumentTime;
+            swaggerUIOptions.DocumentTitle = swaggerOptions?.DocumentTitle;
         }
         #endregion
     }

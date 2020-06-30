@@ -8,7 +8,7 @@
         /// <summary>
         /// 文档标题
         /// </summary>
-        public string DocumentTime { get; set; }
+        public string DocumentTitle { get; set; }
         /// <summary>
         /// 所有分组配置选项
         /// </summary>
