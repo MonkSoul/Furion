@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="SwaggerGen\Options\" />
     <Folder Include="Validation\" />
   </ItemGroup>
 

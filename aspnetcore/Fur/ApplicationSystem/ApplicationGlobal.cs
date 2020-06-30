@@ -3,7 +3,7 @@ using Fur.AttachController.Attributes;
 using Fur.AttachController.Dependencies;
 using Fur.DependencyInjection.Attributes;
 using Fur.Extensions;
-using Fur.Linq;
+using Fur.Linq.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyModel;
 using System;

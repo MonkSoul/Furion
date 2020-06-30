@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace Fur.Linq
+namespace Fur.Linq.Builders
 {
     public class LinqBuilderOfEFCore
     {

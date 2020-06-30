@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Fur.Linq
+namespace Fur.Linq.Builders
 {
     /// <summary>
     /// Linq/Lambda 构建器

@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Fur.Linq.Builders;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Fur.Linq
+namespace Fur.Linq.Extensions
 {
     /// <summary>
     /// [EF Core] Linq/Lambda 拓展类

@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Fur.Linq
+namespace Fur.Linq.Extensions
 {
     /// <summary>
     /// linq/Lambda 表达式拓展

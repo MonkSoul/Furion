@@ -2,7 +2,7 @@
 using Fur.AttachController.Attributes;
 using Fur.AttachController.Helpers;
 using Fur.AttachController.Options;
-using Fur.Linq;
+using Fur.Linq.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
