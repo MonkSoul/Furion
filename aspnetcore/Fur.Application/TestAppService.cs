@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Fur.Application
 {
-    [AttachController("Test")]
+    [AttachController("Test", ApiVersion = "v1.0.0")]
     public class TestAppService : ITestAppService, IAttachControllerDependency
     {
         /// <summary>
@@ -12,6 +12,7 @@ namespace Fur.Application
         /// </summary>
         /// <param name="name">名称</param>
         /// <returns>测试</returns>
+        [AttachAction(ApiVersion = "v1.0.0.1")]
         public Task<string> GetByName1(string name)
         {
             throw new System.NotImplementedException();
