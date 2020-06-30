@@ -1,6 +1,7 @@
 using Autofac;
 using Fur.AttachController.Extensions;
 using Fur.DependencyInjection;
+using Fur.SwaggerGen.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -18,12 +19,13 @@ namespace Fur.Web.Host
 
         public IConfiguration Configuration { get; }
 
-        public void ConfigureContainer(ContainerBuilder builder) => Injection.Initialize(builder);
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddAttachControllers(Configuration);
+            services.AddFurSwaggerGen(Configuration);
         }
+        public void ConfigureContainer(ContainerBuilder builder) => Injection.Initialize(builder);
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -35,6 +37,8 @@ namespace Fur.Web.Host
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.AddFurSwaggerUI();
 
             app.UseAuthorization();
 

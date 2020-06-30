@@ -75,20 +75,21 @@ namespace Fur.ApplicationSystem
         /// <returns>是或否</returns>
         public static bool IsControllerType(TypeInfo typeInfo, bool exceptMvcController = false)
         {
-            // 1）不能是非公开、抽象类、泛型类、接口
+            // 1）必须是公开非抽象类、非泛型类、非接口类型
             if (!typeInfo.IsPublic || typeInfo.IsAbstract || typeInfo.IsGenericType || typeInfo.IsInterface) return false;
 
-            // 2）必须贴 [AttachController] 特性，且 [AttachController].Attach != false，且需继承 IAttachControllerDependency 接口
+            // 2）判断是否是控制器类型，且 [ApiExplorerSettings].IgnoreApi!=true
+            if (!exceptMvcController)
+            {
+                var apiExplorerSettingsAttribute = typeInfo.GetDeepAttribute<ApiExplorerSettingsAttribute>();
+                if (typeof(ControllerBase).IsAssignableFrom(typeInfo) && (apiExplorerSettingsAttribute == null || apiExplorerSettingsAttribute.IgnoreApi != true)) return true;
+            }
+
+            // 3）是否是附加控制器类型，且 [AttachController].Attach!=false，且继承 IAttachControllerDependency 接口
             var attachControllerAttribute = typeInfo.GetDeepAttribute<AttachControllerAttribute>();
-            if (attachControllerAttribute == null || attachControllerAttribute.Attach == false || !typeof(IAttachControllerDependency).IsAssignableFrom(typeInfo)) return false;
+            if (attachControllerAttribute != null && attachControllerAttribute.Attach != false && typeof(IAttachControllerDependency).IsAssignableFrom(typeInfo)) return true;
 
-            // 3）贴了 [ApiExplorerSettings] 特性，且 [ApiExplorerSettings].IgnoreApi != true
-            var apiExplorerSettingsAttribute = typeInfo.GetDeepAttribute<ApiExplorerSettingsAttribute>();
-            if (apiExplorerSettingsAttribute != null && apiExplorerSettingsAttribute.IgnoreApi == true) return false;
-
-            if (exceptMvcController && typeof(ControllerBase).IsAssignableFrom(typeInfo)) return false;
-
-            return true;
+            return false;
         }
         #endregion
 
@@ -101,6 +102,27 @@ namespace Fur.ApplicationSystem
         /// <returns>是或否</returns>
         public static bool IsControllerType(Type type, bool exceptMvcController = false)
             => IsControllerType(type.GetTypeInfo(), exceptMvcController);
+        #endregion
+
+        #region 判断是否是控制器Action类型 +/* public static bool IsControllerActionType(MethodInfo methodInfo)
+        /// <summary>
+        /// 判断是否是控制器Action类型
+        /// </summary>
+        /// <param name="methodInfo"></param>
+        /// <returns></returns>
+        public static bool IsControllerActionType(MethodInfo methodInfo)
+        {
+            // 1）方法所在类必须是一个控制器类型
+            if (!IsControllerType(methodInfo.DeclaringType)) return false;
+
+            // 2）必须是公开的，非抽象类，非静态方法
+            if (!methodInfo.IsPublic || methodInfo.IsAbstract || methodInfo.IsStatic) return false;
+
+            // 3）定义了 [ApiExplorerSettings] 特性，但特性 IgnoreApi 为 false
+            if (methodInfo.IsDefined(typeof(ApiExplorerSettingsAttribute), true) && methodInfo.GetCustomAttribute<ApiExplorerSettingsAttribute>().IgnoreApi) return false;
+
+            return true;
+        }
         #endregion
 
         #region 获取应用程序集，并且不包含Nuget下载 -/* private IEnumerable<Assembly> GetApplicationAssembliesWithoutNuget(string prefix = nameof(Fur))
@@ -139,11 +161,14 @@ namespace Fur.ApplicationSystem
                     IsControllerType = IsControllerType(t),
                     GenericArguments = t.IsGenericType ? t.GetGenericArguments() : null,
                     CustomAttributes = t.GetCustomAttributes(),
+                    SwaggerGroups = IsControllerType(t) ? (t.GetCustomAttribute<AttachControllerAttribute>()?.SwaggerGroups ?? new string[] { "Default" }) : null,
                     PublicInstanceMethods = t.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(m => m.DeclaringType == t && !m.IsDefined(typeof(NotInjectAttribute))).Select(m => new ApplicationMethodInfo()
                     {
                         CustomAttributes = m.GetCustomAttributes(),
                         Method = m,
                         ReturnType = m.ReturnType,
+                        IsControllerActionType = IsControllerActionType(m),
+                        SwaggerGroups = IsControllerActionType(m) ? (m.GetCustomAttribute<AttachActionAttribute>()?.SwaggerGroups ?? (t.GetCustomAttribute<AttachControllerAttribute>()?.SwaggerGroups ?? new string[] { "Default" }) ?? new string[] { "Default" }) : null,
                         Parameters = m.GetParameters().Where(p => !p.IsDefined(typeof(NotInjectAttribute))).Select(p => new ApplicationParameterInfo()
                         {
                             Name = p.Name,

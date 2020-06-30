@@ -28,23 +28,23 @@ namespace Fur.AttachController.Attributes
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="groups">swagger分组名称列表</param>
-        public AttachActionAttribute(params string[] groups)
+        /// <param name="swaggerGroups">swagger分组名称列表</param>
+        public AttachActionAttribute(params string[] swaggerGroups)
         {
-            AttachTo = groups;
-            base.GroupName = this.GroupName = string.Join(Consts.GroupNameSeparator, groups);
+            SwaggerGroups = swaggerGroups;
+            base.GroupName = this.GroupName = string.Join(Consts.GroupNameSeparator, swaggerGroups);
         }
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="attach">是否附加</param>
-        /// <param name="groups">swagger分组名称列表</param>
-        public AttachActionAttribute(bool attach, params string[] groups)
+        /// <param name="swaggerGroups">swagger分组名称列表</param>
+        public AttachActionAttribute(bool attach, params string[] swaggerGroups)
         {
             Attach = attach;
-            AttachTo = groups;
+            SwaggerGroups = swaggerGroups;
             base.IgnoreApi = this.IgnoreApi = !attach;
-            base.GroupName = this.GroupName = string.Join(Consts.GroupNameSeparator, groups);
+            base.GroupName = this.GroupName = string.Join(Consts.GroupNameSeparator, swaggerGroups);
         }
         public string ApiVersion { get; set; }
         /// <summary>
@@ -54,7 +54,7 @@ namespace Fur.AttachController.Attributes
         /// <summary>
         /// 附加到swagger分组名称列表
         /// </summary>
-        public string[] AttachTo { get; set; }
+        public string[] SwaggerGroups { get; set; }
         /// <summary>
         /// 接口授权标识名称列表
         /// </summary>

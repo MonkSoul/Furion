@@ -21,6 +21,7 @@ namespace Fur.AttachController.Extensions
         /// 附加控制器服务拓展方法
         /// </summary>
         /// <param name="services">服务集合</param>
+        /// <param name="configuration">配置选项</param>
         /// <returns>新的服务集合</returns>
         public static IServiceCollection AddAttachControllers(this IServiceCollection services, IConfiguration configuration)
         {

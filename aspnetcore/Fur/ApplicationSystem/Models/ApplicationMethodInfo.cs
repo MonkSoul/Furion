@@ -25,5 +25,13 @@ namespace Fur.ApplicationSystem.Models
         /// 参数列表
         /// </summary>
         public IEnumerable<ApplicationParameterInfo> Parameters { get; set; }
+        /// <summary>
+        /// 判断是否是控制器Action类型
+        /// </summary>
+        public bool IsControllerActionType { get; set; }
+        /// <summary>
+        /// Swagger 文档分组
+        /// </summary>
+        public string[] SwaggerGroups { get; set; }
     }
 }

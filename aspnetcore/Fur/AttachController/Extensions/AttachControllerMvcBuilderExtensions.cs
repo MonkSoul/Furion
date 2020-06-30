@@ -20,6 +20,7 @@ namespace Fur.AttachController.Extensions
         /// 附加控制器Mvc构建器拓展方法
         /// </summary>
         /// <param name="mvcBuilder">Mvc构建器</param>
+        /// <param name="configuration">配置选项</param>
         /// <returns>新的Mvc构建器</returns>
         public static IMvcBuilder AddAttachControllers(this IMvcBuilder mvcBuilder, IConfiguration configuration)
         {

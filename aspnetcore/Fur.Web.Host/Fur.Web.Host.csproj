@@ -10,5 +10,9 @@
     <ProjectReference Include="..\Fur\Fur.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 
 </Project>

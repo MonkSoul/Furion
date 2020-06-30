@@ -32,5 +32,9 @@ namespace Fur.ApplicationSystem.Models
         /// 是否控制器类型
         /// </summary>
         public bool IsControllerType { get; set; }
+        /// <summary>
+        /// Swagger 文档分组
+        /// </summary>
+        public string[] SwaggerGroups { get; set; }
     }
 }

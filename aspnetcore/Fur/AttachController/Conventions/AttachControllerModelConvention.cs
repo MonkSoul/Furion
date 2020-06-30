@@ -197,6 +197,7 @@ namespace Fur.AttachController.Conventions
 
             if (!actionModelSelector.ActionConstraints.Any())
             {
+                actionModelSelector.ActionConstraints.Add(new HttpMethodActionConstraint(new[] { verb }));
                 switch (verb)
                 {
                     case "GET":
