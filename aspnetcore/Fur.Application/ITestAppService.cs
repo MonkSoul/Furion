@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Fur.Application
 {
@@ -6,7 +7,7 @@ namespace Fur.Application
     {
         Task<string> GetName1();
 
-        Task<string> GetByName1(string name);
+        Task<string> GetByName1([FromQuery] string name, int id, [FromQuery] int age);
 
         Task<string> GetTestName1(string name);
 

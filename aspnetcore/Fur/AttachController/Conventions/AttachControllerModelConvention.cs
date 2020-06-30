@@ -236,7 +236,11 @@ namespace Fur.AttachController.Conventions
             foreach (var parameterModel in actionModel.Parameters)
             {
                 var parameterType = parameterModel.ParameterType;
-                if (Helper.IsPrimitiveIncludeNullable(parameterType) || parameterType.IsDefined(typeof(FromQueryAttribute), false))
+                // 判断是否贴有[FromXXX] 特性
+                var fromAttributes = parameterModel.Attributes.Where(u => typeof(IBindingSourceMetadata).IsAssignableFrom(u.GetType()));
+                var hasFromRouteAttribute = fromAttributes.Any(u => u.GetType() == typeof(FromRouteAttribute));
+
+                if (Helper.IsPrimitiveIncludeNullable(parameterType) && (!fromAttributes.Any() || hasFromRouteAttribute))
                 {
                     stringBuilder.Append($"/{{{parameterModel.ParameterName}}}");
                 }

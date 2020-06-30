@@ -1,5 +1,7 @@
 ﻿using Fur.AttachController.Attributes;
 using Fur.AttachController.Dependencies;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace Fur.Application
@@ -10,10 +12,12 @@ namespace Fur.Application
         /// <summary>
         /// 测试注释
         /// </summary>
-        /// <param name="name">名称</param>
-        /// <returns>测试</returns>
+        /// <param name="name">测试</param>
+        /// <param name="id">测试</param>
+        /// <param name="age">测试</param>
+        /// <returns></returns>
         [AttachAction(ApiVersion = "v1.0.0.1")]
-        public Task<string> GetByName1(string name)
+        public Task<string> GetByName1([FromQuery] string name, int id, [FromRoute] int age)
         {
             throw new System.NotImplementedException();
         }
