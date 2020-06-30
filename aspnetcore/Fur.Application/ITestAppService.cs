@@ -9,6 +9,8 @@ namespace Fur.Application
     {
         Task<string> GetName1();
 
+        Task<string> GetByName1([FromQuery] string name);
+
         Task<string> GetByName1([FromQuery] string name, int id);
 
         Task<string> GetTestName1(string name);

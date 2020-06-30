@@ -247,18 +247,9 @@ namespace Fur.AttachController.Conventions
                                                            parameterAttributes.Any(u => u.GetType() == typeof(FromRouteAttribute)) ||
                                                            parameterAttributes.Count(u => typeof(IBindingSourceMetadata).IsAssignableFrom(u.GetType())) == 0;
 
-                    if (!hasFromAttribute) continue;
+                    if (!hasFromAttribute || parameterType.IsNullable()) continue;
 
-                    // 设置路由约束
-                    var routeConstraintAttribute = parameterAttributes.FirstOrDefault(u => u.GetType() == typeof(RouteConstraintAttribute)) as RouteConstraintAttribute;
-                    if (routeConstraintAttribute != null && !string.IsNullOrEmpty(routeConstraintAttribute.Constraint))
-                    {
-                        stringBuilder.Append($"/{{{parameterInfo.Name + routeConstraintAttribute.Constraint + (parameterType.IsNullable() ? "?" : "")}}}");
-                    }
-                    else
-                    {
-                        stringBuilder.Append($"/{{{parameterInfo.Name + (parameterType.IsNullable() ? "?" : "")}}}");
-                    }
+                    stringBuilder.Append($"/{{{parameterInfo.Name}}}");
                 }
             }
 

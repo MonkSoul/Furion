@@ -11,7 +11,12 @@ namespace Fur.Application
     public class TestAppService : ITestAppService, IAttachControllerDependency
     {
         [AttachAction(ApiVersion = "v1.0.0.1")]
-        //[Route("api/v1.0.0/Test/v1.0.0.1/GetByName1/{id}")]
+        public Task<string> GetByName1([FromQuery] string name)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        [AttachAction(ApiVersion = "v1.0.0.1")]
         public Task<string> GetByName1([FromQuery] string name, int id)
         {
             throw new System.NotImplementedException();
