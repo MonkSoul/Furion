@@ -240,14 +240,14 @@ namespace Fur.AttachController.Conventions
             foreach (var parameterInfo in parameters)
             {
                 var parameterType = parameterInfo.Type;
-                if (Helper.IsPrimitiveIncludeNullable(parameterType))
+                if (Helper.IsPrimitiveIncludeNullable(parameterType) && !parameterType.IsNullable())
                 {
                     var parameterAttributes = parameterInfo.CustomAttributes;
                     var hasFromAttribute = parameterAttributes.Count() == 0 ||
                                                            parameterAttributes.Any(u => u.GetType() == typeof(FromRouteAttribute)) ||
                                                            parameterAttributes.Count(u => typeof(IBindingSourceMetadata).IsAssignableFrom(u.GetType())) == 0;
 
-                    if (!hasFromAttribute || parameterType.IsNullable()) continue;
+                    if (!hasFromAttribute) continue;
 
                     stringBuilder.Append($"/{{{parameterInfo.Name}}}");
                 }

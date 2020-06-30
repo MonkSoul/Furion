@@ -1,8 +1,6 @@
 ﻿using Fur.AttachController.Attributes;
 using Fur.AttachController.Dependencies;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace Fur.Application
@@ -268,6 +266,11 @@ namespace Fur.Application
         }
 
         public Task<string> PostTestName1(TestModel1 testModel1)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<string> PostTestName1(string name)
         {
             throw new System.NotImplementedException();
         }

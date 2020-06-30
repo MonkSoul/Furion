@@ -1,6 +1,4 @@
-﻿using Fur.AttachController.Attributes;
-using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Fur.Application
@@ -20,6 +18,8 @@ namespace Fur.Application
         Task<string> PostByName1(TestModel1 testModel1);
 
         Task<string> PostTestName1(TestModel1 testModel1);
+
+        Task<string> PostTestName1(string name);
 
 
 
