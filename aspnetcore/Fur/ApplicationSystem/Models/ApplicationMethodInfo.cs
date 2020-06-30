@@ -10,7 +10,15 @@ namespace Fur.ApplicationSystem.Models
     public sealed class ApplicationMethodInfo
     {
         /// <summary>
-        /// 方法
+        /// 所属程序集
+        /// </summary>
+        public Assembly Assembly { get; set; }
+        /// <summary>
+        /// 所属类型
+        /// </summary>
+        public Type DeclareType { get; set; }
+        /// <summary>
+        /// 所属方法
         /// </summary>
         public MethodInfo Method { get; set; }
         /// <summary>

@@ -65,8 +65,8 @@ namespace Fur.SwaggerGen
         /// <returns>分组名</returns>
         private static string[] ScanAssemblyGroups()
         {
-            var controllerTypes = ApplicationGlobal.ApplicationAssemblies.SelectMany(u => u.PublicClassTypes.Where(u => u.IsControllerType));
-            var controllerActionTypes = controllerTypes.SelectMany(u => u.PublicInstanceMethods.Where(u => u.IsControllerActionType));
+            var controllerTypes = ApplicationGlobal.ApplicationInfo.PublicClassTypes.Where(u => u.IsControllerType);
+            var controllerActionTypes = ApplicationGlobal.ApplicationInfo.PublicInstanceMethods.Where(u => u.IsControllerActionType);
 
             var swaggerGroups = controllerTypes
                     .Where(u => u.SwaggerGroups != null)
@@ -138,10 +138,10 @@ namespace Fur.SwaggerGen
             swaggerGenOptions.CustomSchemaIds(x => x.FullName);
             //options.AddFluentValidationRules();
 
-            var assemblyNames = ApplicationGlobal.ApplicationAssemblies.Select(u => u.Assembly.GetName().Name);
-            foreach (var assemblyName in assemblyNames)
+            var assemblyInfos = ApplicationGlobal.ApplicationInfo.Assemblies;
+            foreach (var assemblyInfo in assemblyInfos)
             {
-                var assemblyXml = $"{assemblyName}.xml";
+                var assemblyXml = $"{assemblyInfo.Name}.xml";
                 var assemblyXmlPath = Path.Combine(AppContext.BaseDirectory, assemblyXml);
                 if (File.Exists(assemblyXmlPath))
                 {

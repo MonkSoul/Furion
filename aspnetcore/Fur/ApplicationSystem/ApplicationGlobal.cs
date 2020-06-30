@@ -22,7 +22,7 @@ namespace Fur.ApplicationSystem
         /// <summary>
         /// 应用程序信息
         /// </summary>
-        public static IEnumerable<ApplicationAssemblyInfo> ApplicationAssemblies = GetApplicationAssemblyInfos();
+        public static ApplicationInfo ApplicationInfo = GetApplicationInfo();
 
         #region 获取类型的应用类型信息 +/*  public static ApplicationTypeInfo GetApplicationTypeInfo(Type type)
         /// <summary>
@@ -31,7 +31,7 @@ namespace Fur.ApplicationSystem
         /// <param name="type">类型对象</param>
         /// <returns>应用类型信息对象</returns>
         public static ApplicationTypeInfo GetApplicationTypeInfo(Type type)
-            => ApplicationAssemblies.SelectMany(a => a.PublicClassTypes).FirstOrDefault(t => t.Type == type);
+            => ApplicationInfo.PublicClassTypes.FirstOrDefault(u => u.Type == type);
         #endregion
 
         #region 获取特定类型的特定方法信息 +/* public static ApplicationMethodInfo GetApplicationMethodInfo(MethodInfo methodInfo)
@@ -41,7 +41,7 @@ namespace Fur.ApplicationSystem
         /// <param name="methodInfo">方法对象</param>
         /// <returns>应用方法信息</returns>
         public static ApplicationMethodInfo GetApplicationMethodInfo(MethodInfo methodInfo)
-            => GetApplicationTypeInfo(methodInfo.DeclaringType).PublicInstanceMethods.FirstOrDefault(m => m.Method.Equals(methodInfo));
+            => ApplicationInfo.PublicInstanceMethods.FirstOrDefault(u => u.Method == methodInfo);
         #endregion
 
         #region 获取类型指定特性 +/* public static TAttribute GetTypeAttribute<TAttribute>(Type type) where TAttribute : Attribute
@@ -141,43 +141,55 @@ namespace Fur.ApplicationSystem
         }
         #endregion
 
-        #region 获取应用程序集信息 -/* private static IEnumerable<ApplicationAssemblyInfo> GetApplicationAssemblyInfos()
+        #region 获取应用信息类 -/* private static ApplicationInfo GetApplicationInfo()
         /// <summary>
-        /// 获取应用程序集信息
+        /// 获取应用信息类
         /// </summary>
-        /// <returns>程序集集合对象</returns>
-        private static IEnumerable<ApplicationAssemblyInfo> GetApplicationAssemblyInfos()
+        /// <returns>应用信息类</returns>
+        private static ApplicationInfo GetApplicationInfo()
         {
             var applicationAssemblies = GetApplicationAssembliesWithoutNuget();
-            return applicationAssemblies.Select(a => new ApplicationAssemblyInfo()
+            var applicationInfo = new ApplicationInfo
             {
-                Assembly = a,
-                Name = a.GetName().Name,
-                FullName = a.FullName,
-                PublicClassTypes = a.GetTypes().Where(t => !t.IsInterface && !t.IsAbstract && t.IsPublic && !t.IsDefined(typeof(NotInjectAttribute))).Select(t => new ApplicationTypeInfo()
+                Assemblies = applicationAssemblies.Select(a => new ApplicationAssemblyInfo()
                 {
-                    Type = t,
-                    IsGenericType = t.IsGenericType,
-                    IsControllerType = IsControllerType(t),
-                    GenericArguments = t.IsGenericType ? t.GetGenericArguments() : null,
-                    CustomAttributes = t.GetCustomAttributes(),
-                    SwaggerGroups = IsControllerType(t) ? (t.GetCustomAttribute<AttachControllerAttribute>()?.SwaggerGroups ?? new string[] { "Default" }) : null,
-                    PublicInstanceMethods = t.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(m => m.DeclaringType == t && !m.IsDefined(typeof(NotInjectAttribute))).Select(m => new ApplicationMethodInfo()
+                    Assembly = a,
+                    Name = a.GetName().Name,
+                    FullName = a.FullName,
+                    PublicClassTypes = a.GetTypes().Where(t => !t.IsInterface && !t.IsAbstract && t.IsPublic && !t.IsDefined(typeof(NotInjectAttribute))).Select(t => new ApplicationTypeInfo()
                     {
-                        CustomAttributes = m.GetCustomAttributes(),
-                        Method = m,
-                        ReturnType = m.ReturnType,
-                        IsControllerActionType = IsControllerActionType(m),
-                        SwaggerGroups = IsControllerActionType(m) ? (m.GetCustomAttribute<AttachActionAttribute>()?.SwaggerGroups ?? (t.GetCustomAttribute<AttachControllerAttribute>()?.SwaggerGroups ?? new string[] { "Default" }) ?? new string[] { "Default" }) : null,
-                        Parameters = m.GetParameters().Where(p => !p.IsDefined(typeof(NotInjectAttribute))).Select(p => new ApplicationParameterInfo()
+                        Assembly = a,
+                        Type = t,
+                        IsGenericType = t.IsGenericType,
+                        IsControllerType = IsControllerType(t),
+                        GenericArguments = t.IsGenericType ? t.GetGenericArguments() : null,
+                        CustomAttributes = t.GetCustomAttributes(),
+                        SwaggerGroups = IsControllerType(t) ? (t.GetCustomAttribute<AttachControllerAttribute>()?.SwaggerGroups ?? new string[] { "Default" }) : null,
+                        PublicInstanceMethods = t.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(m => m.DeclaringType == t && !m.IsDefined(typeof(NotInjectAttribute))).Select(m => new ApplicationMethodInfo()
                         {
-                            Name = p.Name,
-                            Type = p.ParameterType,
-                            CustomAttributes = p.GetCustomAttributes()
+                            Assembly = a,
+                            DeclareType = t,
+                            Method = m,
+                            CustomAttributes = m.GetCustomAttributes(),
+                            ReturnType = m.ReturnType,
+                            IsControllerActionType = IsControllerActionType(m),
+                            SwaggerGroups = IsControllerActionType(m) ? (m.GetCustomAttribute<AttachActionAttribute>()?.SwaggerGroups ?? (t.GetCustomAttribute<AttachControllerAttribute>()?.SwaggerGroups ?? new string[] { "Default" }) ?? new string[] { "Default" }) : null,
+                            Parameters = m.GetParameters().Where(p => !p.IsDefined(typeof(NotInjectAttribute))).Select(p => new ApplicationParameterInfo()
+                            {
+                                Assembly = a,
+                                DeclareType = t,
+                                Method = m,
+                                Name = p.Name,
+                                Type = p.ParameterType,
+                                CustomAttributes = p.GetCustomAttributes()
+                            })
                         })
                     })
                 })
-            });
+            };
+            applicationInfo.PublicClassTypes = applicationInfo.Assemblies.SelectMany(u => u.PublicClassTypes);
+            applicationInfo.PublicInstanceMethods = applicationInfo.PublicClassTypes.SelectMany(u => u.PublicInstanceMethods);
+            return applicationInfo;
         }
         #endregion
     }

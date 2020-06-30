@@ -43,5 +43,14 @@ namespace Fur.Extensions
         public static TAttribute GetDeepAttribute<TAttribute>(this Type type) where TAttribute : Attribute
             => GetDeepAttribute<TAttribute>(type.GetTypeInfo());
         #endregion
+
+        #region 是否是可空类型 +/* public static bool IsNullable(this Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>); 
+        /// <summary>
+        /// 是否是可空类型
+        /// </summary>
+        /// <param name="type">类型</param>
+        /// <returns>是/否</returns>
+        public static bool IsNullable(this Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
+        #endregion
     }
 }

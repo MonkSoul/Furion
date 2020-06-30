@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Fur.ApplicationSystem.Models
 {
@@ -8,6 +9,10 @@ namespace Fur.ApplicationSystem.Models
     /// </summary>
     public sealed class ApplicationTypeInfo
     {
+        /// <summary>
+        /// 所属程序集
+        /// </summary>
+        public Assembly Assembly { get; set; }
         /// <summary>
         /// 类型
         /// </summary>

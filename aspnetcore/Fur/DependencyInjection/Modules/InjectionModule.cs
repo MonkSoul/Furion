@@ -12,7 +12,7 @@ namespace Fur.DependencyInjection.Modules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            var applicationTypes = ApplicationGlobal.ApplicationAssemblies.SelectMany(a => a.PublicClassTypes);
+            var applicationTypes = ApplicationGlobal.ApplicationInfo.PublicClassTypes;
 
             RegisterBaseTypes(builder, applicationTypes);
             RegisterGenericTypes(builder, applicationTypes);

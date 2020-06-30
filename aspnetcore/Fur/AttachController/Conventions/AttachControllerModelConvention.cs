@@ -2,11 +2,13 @@
 using Fur.AttachController.Attributes;
 using Fur.AttachController.Helpers;
 using Fur.AttachController.Options;
+using Fur.Extensions;
 using Fur.Linq.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -233,18 +235,30 @@ namespace Fur.AttachController.Conventions
 
             stringBuilder.Append($"{_attactControllerOptions.DefaultStartRoutePrefix}/{areaName}/{controllerModel.ControllerName}/{attachActionAttribute?.ApiVersion}/{actionModel.ActionName}");
 
-            foreach (var parameterModel in actionModel.Parameters)
+            // 读取参数信息
+            var parameters = ApplicationGlobal.ApplicationInfo.PublicInstanceMethods.FirstOrDefault(u => u.Method == actionModel.ActionMethod).Parameters;
+            foreach (var parameterInfo in parameters)
             {
-                var parameterType = parameterModel.ParameterType;
-                // 判断是否贴有[FromXXX] 特性
-                var fromAttributes = parameterModel.Attributes.Where(u => typeof(IBindingSourceMetadata).IsAssignableFrom(u.GetType()));
-                var hasFromRouteAttribute = fromAttributes.Any(u => u.GetType() == typeof(FromRouteAttribute));
+                var parameterAttributes = parameterInfo.CustomAttributes;
 
-                if (Helper.IsPrimitiveIncludeNullable(parameterType) && (!fromAttributes.Any() || hasFromRouteAttribute))
+                var hasFromAttribute = parameterAttributes.Any(u => u.GetType() == typeof(FromRouteAttribute) || !typeof(IBindingSourceMetadata).IsAssignableFrom(u.GetType()));
+
+                var parameterType = parameterInfo.Type;
+                if (Helper.IsPrimitiveIncludeNullable(parameterType) && hasFromAttribute)
                 {
-                    stringBuilder.Append($"/{{{parameterModel.ParameterName}}}");
+                    // 设置路由约束
+                    var routeConstraintAttribute = parameterAttributes.FirstOrDefault(u => u.GetType() == typeof(RouteConstraintAttribute)) as RouteConstraintAttribute;
+                    if (routeConstraintAttribute != null && !string.IsNullOrEmpty(routeConstraintAttribute.Constraint))
+                    {
+                        stringBuilder.Append($"/{routeConstraintAttribute.Constraint}");
+                    }
+                    else
+                    {
+                        stringBuilder.Append($"/{{{parameterInfo.Name + (parameterType.IsNullable() ? "?" : "")}}}");
+                    }
                 }
             }
+
             return new AttributeRouteModel(new RouteAttribute(stringBuilder.ToString().Replace("//", "/")));
         }
         #endregion

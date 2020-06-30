@@ -1,6 +1,7 @@
 ﻿using Fur.AttachController.Attributes;
 using Fur.AttachController.Dependencies;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
@@ -17,7 +18,7 @@ namespace Fur.Application
         /// <param name="age">测试</param>
         /// <returns></returns>
         [AttachAction(ApiVersion = "v1.0.0.1")]
-        public Task<string> GetByName1([FromQuery] string name, int id, [FromRoute] int age)
+        public Task<string> GetByName1([FromQuery] string name, [RouteConstraint("{id:int?}")] int id, [FromRoute] int age)
         {
             throw new System.NotImplementedException();
         }
