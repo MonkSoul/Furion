@@ -7,6 +7,11 @@ namespace Fur.Application
     [AttachController("Test")]
     public class TestAppService : ITestAppService, IAttachControllerDependency
     {
+        /// <summary>
+        /// 测试注释
+        /// </summary>
+        /// <param name="name">名称</param>
+        /// <returns>测试</returns>
         public Task<string> GetByName1(string name)
         {
             throw new System.NotImplementedException();

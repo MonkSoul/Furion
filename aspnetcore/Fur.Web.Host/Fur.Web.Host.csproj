@@ -4,6 +4,11 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>obj\Debug\net5.0\Fur.Web.Host.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Fur.Application\Fur.Application.csproj" />
     <ProjectReference Include="..\Fur.Web.Core\Fur.Web.Core.csproj" />

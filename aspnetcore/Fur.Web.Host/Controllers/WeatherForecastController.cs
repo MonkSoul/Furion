@@ -25,6 +25,10 @@ namespace Fur.Web.Host.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// 测试注释
+        /// </summary>
+        /// <returns>测试注释</returns>
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
