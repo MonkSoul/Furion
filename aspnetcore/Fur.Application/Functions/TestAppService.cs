@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Fur.Application.Functions
@@ -51,6 +52,21 @@ namespace Fur.Application.Functions
             return await _testRepository.Get(true)
                     .WhereIf(input.Id.HasValue, u => u.Id == input.Id.Value)
                     .WhereIf(input.Name.HasValue(), u => u.Name.Contains(input.Name))
+                    .ProjectToType<TestOutput>()
+                    .ToListAsync();
+        }
+
+        /// <summary>
+        /// 关键字搜索
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <returns></returns>
+        [AttachAction(KeepRouteVerb = true)]
+        [HttpPost]
+        public async Task<IEnumerable<TestOutput>> SearchAsync(string keyword)
+        {
+            return await _testRepository.Get(true)
+                    .Where(u => u.Name.Contains(keyword))
                     .ProjectToType<TestOutput>()
                     .ToListAsync();
         }
