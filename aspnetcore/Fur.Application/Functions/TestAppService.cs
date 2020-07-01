@@ -42,7 +42,9 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<TestOutput>> SubmitSearchAsync([Required] TestSearchInput input)
+        [AttachAction(KeepRouteVerb = true)]
+        [HttpPost]
+        public async Task<IEnumerable<TestOutput>> SearchAsync([Required] TestSearchInput input)
         {
             input = input ?? throw new InvalidOperationException("非法操作：搜索条件为空。");
 

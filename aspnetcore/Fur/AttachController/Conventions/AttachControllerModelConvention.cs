@@ -127,10 +127,11 @@ namespace Fur.AttachController.Conventions
         {
             foreach (var actionModel in controllerModel.Actions)
             {
-                ConfigureActionApiExplorerAndParameters(actionModel);
-                ConfigureActionName(actionModel);
-
                 var attachActionAttribute = ApplicationGlobal.GetMethodAttribute<AttachActionAttribute>(actionModel.ActionMethod);
+
+                ConfigureActionApiExplorerAndParameters(actionModel);
+                ConfigureActionName(actionModel, attachActionAttribute);
+
                 if (actionModel.Selectors.IsNullOrEmpty() || actionModel.Selectors.Any(a => a.ActionConstraints.IsNullOrEmpty()))
                 {
                     ConfigureActionRouteAndHttpMethod(controllerModel, actionModel, attachActionAttribute);
@@ -172,10 +173,14 @@ namespace Fur.AttachController.Conventions
         /// 配置Action名称
         /// </summary>
         /// <param name="actionModel"></param>
-        private void ConfigureActionName(ActionModel actionModel)
+        private void ConfigureActionName(ActionModel actionModel, AttachActionAttribute attachActionAttribute)
         {
+            // 保留原始名称
+            if (attachActionAttribute?.KeepOriginalName ?? false) return;
+
             actionModel.ActionName = Helper.ClearStringAffix(actionModel.ActionName, _attactControllerOptions.ClearActionRouteAffix);
-            if (_attactControllerOptions.RemoveActionRouteVerb)
+            // 判断是否保留谓词
+            if (_attactControllerOptions.RemoveActionRouteVerb && !(attachActionAttribute?.KeepRouteVerb ?? false))
             {
                 var verbKey = Helper.GetCamelCaseFirstWord(actionModel.ActionName);
                 if (Consts.HttpVerbSetter.ContainsKey(verbKey.ToLower()))
@@ -244,7 +249,15 @@ namespace Fur.AttachController.Conventions
             stringBuilder.Append($"{_attactControllerOptions.DefaultStartRoutePrefix}/{areaName}/{controllerModel.ControllerName}/{attachActionAttribute?.ApiVersion}");
             if (!(_attactControllerOptions.RemoveActionRouteVerb && !actionModel.ActionName.HasValue()))
             {
-                stringBuilder.Append($"/{actionModel.ActionName}");
+                if (!(attachActionAttribute?.EveryWordToRoutePath ?? false))
+                {
+                    stringBuilder.Append($"/{actionModel.ActionName}");
+                }
+                else
+                {
+                    var everyWords = Helper.CamelCaseSplitString(actionModel.ActionName);
+                    stringBuilder.Append($"/{string.Join("/", everyWords)}");
+                }
             }
 
             // 读取参数信息

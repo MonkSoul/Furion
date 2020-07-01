@@ -17,7 +17,7 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<IEnumerable<TestOutput>> SubmitSearchAsync(TestSearchInput input);
+        Task<IEnumerable<TestOutput>> SearchAsync(TestSearchInput input);
 
         /// <summary>
         /// 查询一条
