@@ -175,6 +175,14 @@ namespace Fur.AttachController.Conventions
         private void ConfigureActionName(ActionModel actionModel)
         {
             actionModel.ActionName = Helper.ClearStringAffix(actionModel.ActionName, _attactControllerOptions.ClearActionRouteAffix);
+            if (_attactControllerOptions.RemoveActionRouteVerb)
+            {
+                var verbKey = Helper.GetCamelCaseFirstWord(actionModel.ActionName);
+                if (Consts.HttpVerbSetter.ContainsKey(verbKey.ToLower()))
+                {
+                    actionModel.ActionName = actionModel.ActionName.Substring(verbKey.Length);
+                }
+            }
         }
         #endregion
 
@@ -187,7 +195,7 @@ namespace Fur.AttachController.Conventions
         /// <param name="attachActionAttribute">附加控制器模型</param>
         private void ConfigureActionRouteAndHttpMethod(ControllerModel controllerModel, ActionModel actionModel, AttachActionAttribute attachActionAttribute)
         {
-            var verbKey = Helper.GetCamelCaseFirstWord(actionModel.ActionName).ToLower();
+            var verbKey = Helper.GetCamelCaseFirstWord(actionModel.ActionMethod.Name).ToLower();
             var verb = Consts.HttpVerbSetter.ContainsKey(verbKey) ? Consts.HttpVerbSetter[verbKey] : _attactControllerOptions.DefaultHttpMethod.ToLower();
 
             var actionModelSelector = actionModel.Selectors[0];
@@ -233,7 +241,11 @@ namespace Fur.AttachController.Conventions
             var stringBuilder = new StringBuilder();
             var areaName = controllerModel.RouteValues.ContainsKey("area") ? controllerModel.RouteValues["area"] : null;
 
-            stringBuilder.Append($"{_attactControllerOptions.DefaultStartRoutePrefix}/{areaName}/{controllerModel.ControllerName}/{attachActionAttribute?.ApiVersion}/{actionModel.ActionName}");
+            stringBuilder.Append($"{_attactControllerOptions.DefaultStartRoutePrefix}/{areaName}/{controllerModel.ControllerName}/{attachActionAttribute?.ApiVersion}");
+            if (!(_attactControllerOptions.RemoveActionRouteVerb && string.IsNullOrEmpty(actionModel.ActionName)))
+            {
+                stringBuilder.Append($"/{actionModel.ActionName}");
+            }
 
             // 读取参数信息
             var parameters = ApplicationGlobal.ApplicationInfo.PublicInstanceMethods.FirstOrDefault(u => u.Method == actionModel.ActionMethod).Parameters;

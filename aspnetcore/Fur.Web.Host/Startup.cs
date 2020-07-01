@@ -1,6 +1,7 @@
 using Autofac;
 using Fur.AttachController.Extensions;
 using Fur.DependencyInjection;
+using Fur.EntityFramework.Core.Extensions;
 using Fur.SwaggerGen.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,9 +13,11 @@ namespace Fur.Web.Host
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IWebHostEnvironment Environment { get; }
+        public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             Configuration = configuration;
+            Environment = webHostEnvironment;
         }
 
         public IConfiguration Configuration { get; }
@@ -22,14 +25,16 @@ namespace Fur.Web.Host
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddAttachControllers(Configuration);
+            services.AddControllers().AddFurAttachControllers(Configuration);
             services.AddFurSwaggerGen(Configuration);
+
+            services.AddFurDbContextPool(Environment, Configuration);
         }
         public void ConfigureContainer(ContainerBuilder builder) => Injection.Initialize(builder);
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
+            if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }

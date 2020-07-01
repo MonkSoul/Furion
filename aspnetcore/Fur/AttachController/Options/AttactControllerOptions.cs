@@ -35,5 +35,10 @@ namespace Fur.AttachController.Options
         /// </summary>
         [Required]
         public bool LowerCaseUri { get; set; }
+        /// <summary>
+        /// 移除Actoin路由名称请求动词
+        /// </summary>
+        [Required]
+        public bool RemoveActionRouteVerb { get; set; }
     }
 }

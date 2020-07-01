@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using Fur.EntityFramework.Core.DbContexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace Fur.EntityFramework.Core
 {
@@ -6,6 +8,9 @@ namespace Fur.EntityFramework.Core
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<FurSqlServerDbContext>()
+                .As<DbContext>()
+                .InstancePerLifetimeScope();
         }
     }
 }
