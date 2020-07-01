@@ -2,6 +2,8 @@
 using Fur.AttachController.Attributes;
 using Fur.AttachController.Dependencies;
 using Fur.DatabaseVisitor.Repositories;
+using Fur.Extensions;
+using Fur.Linq.Extensions;
 using Fur.Record.Entities;
 using Mapster;
 using Microsoft.AspNetCore.Http;
@@ -9,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace Fur.Application.Functions
@@ -29,7 +32,25 @@ namespace Fur.Application.Functions
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<TestOutput>> GetAsync()
         {
-            return await _testRepository.Get().ProjectToType<TestOutput>().ToListAsync();
+            return await _testRepository.Entity
+                .ProjectToType<TestOutput>()
+                .ToListAsync();
+        }
+
+        /// <summary>
+        /// 搜索数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<TestOutput>> SubmitSearchAsync([Required] TestSearchInput input)
+        {
+            input = input ?? throw new InvalidOperationException("非法操作：搜索条件为空。");
+
+            return await _testRepository.Get(true)
+                    .WhereIf(input.Id.HasValue, u => u.Id == input.Id.Value)
+                    .WhereIf(input.Name.HasValue(), u => u.Name.Contains(input.Name))
+                    .ProjectToType<TestOutput>()
+                    .ToListAsync();
         }
 
         /// <summary>
@@ -65,9 +86,9 @@ namespace Fur.Application.Functions
         /// <returns></returns>
         public async Task UpdateAsync(int id, TestInput input)
         {
-            var entity = await _testRepository.FindAsync(id) ?? throw new InvalidOperationException();
-            input.Adapt(entity);
+            var entity = await _testRepository.FindAsync(id) ?? throw new InvalidOperationException("非法操作：没找到数据。");
 
+            input.Adapt(entity);
             await _testRepository.SaveChangesAsync();
         }
 
@@ -78,7 +99,8 @@ namespace Fur.Application.Functions
         /// <returns></returns>
         public async Task DeleteAsync(int id)
         {
-            var entity = await _testRepository.FindAsync(id) ?? throw new InvalidOperationException();
+            var entity = await _testRepository.FindAsync(id) ?? throw new InvalidOperationException("非法操作：没找到数据。");
+
             await _testRepository.DeleteSaveChangesAsync(entity);
         }
     }

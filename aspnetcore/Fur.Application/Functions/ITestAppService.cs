@@ -13,6 +13,13 @@ namespace Fur.Application.Functions
         Task<IEnumerable<TestOutput>> GetAsync();
 
         /// <summary>
+        /// 搜索数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<IEnumerable<TestOutput>> SubmitSearchAsync(TestSearchInput input);
+
+        /// <summary>
         /// 查询一条
         /// </summary>
         /// <param name="id"></param>

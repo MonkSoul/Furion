@@ -451,15 +451,45 @@ namespace Fur.DatabaseVisitor.Repositories
             else return FirstOrDefaultAsync(expression);
         }
 
-        public IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> expression = null, bool noTracking = false, bool ignoreQueryFilters = false)
+        public virtual IQueryable<TEntity> Get(bool noTracking = false, bool ignoreQueryFilters = false)
+        {
+            return GetQueryConditionCombine(null, noTracking, ignoreQueryFilters);
+        }
+        public virtual Task<List<TEntity>> GetAsync(bool noTracking = false, bool ignoreQueryFilters = false)
+        {
+            var query = GetQueryConditionCombine(null, noTracking, ignoreQueryFilters);
+            return query.ToListAsync();
+        }
+
+        public virtual IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> expression = null, bool noTracking = false, bool ignoreQueryFilters = false)
         {
             return GetQueryConditionCombine(expression, noTracking, ignoreQueryFilters);
         }
 
-        public Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = false, bool ignoreQueryFilters = false)
+        public virtual Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = false, bool ignoreQueryFilters = false)
         {
             var query = GetQueryConditionCombine(expression, noTracking, ignoreQueryFilters);
             return query.ToListAsync();
+        }
+
+        public virtual int SaveChanges()
+        {
+            return DbContext.SaveChanges();
+        }
+
+        public virtual int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            return DbContext.SaveChanges(acceptAllChangesOnSuccess);
+        }
+
+        public virtual Task<int> SaveChangesAsync()
+        {
+            return DbContext.SaveChangesAsync();
+        }
+
+        public virtual Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess)
+        {
+            return DbContext.SaveChangesAsync(acceptAllChangesOnSuccess);
         }
 
         private IQueryable<TEntity> GetQueryConditionCombine(Expression<Func<TEntity, bool>> expression = null, bool noTracking = false, bool ignoreQueryFilters = false)
@@ -470,26 +500,6 @@ namespace Fur.DatabaseVisitor.Repositories
             if (expression != null) entities = entities.Where(expression);
 
             return entities;
-        }
-
-        public int SaveChanges()
-        {
-            return DbContext.SaveChanges();
-        }
-
-        public int SaveChanges(bool acceptAllChangesOnSuccess)
-        {
-            return DbContext.SaveChanges(acceptAllChangesOnSuccess);
-        }
-
-        public Task<int> SaveChangesAsync()
-        {
-            return DbContext.SaveChangesAsync();
-        }
-
-        public Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess)
-        {
-            return DbContext.SaveChangesAsync(acceptAllChangesOnSuccess);
         }
     }
 }

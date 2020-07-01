@@ -35,6 +35,7 @@ namespace Fur.AttachController
                 ["insert"] = "POST",
                 ["append"] = "POST",
                 ["save"] = "POST",
+                ["submit"] = "POST",
 
                 ["get"] = "GET",
                 ["find"] = "GET",

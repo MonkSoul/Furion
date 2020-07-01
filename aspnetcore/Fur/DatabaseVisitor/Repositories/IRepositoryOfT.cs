@@ -106,6 +106,8 @@ namespace Fur.DatabaseVisitor.Repositories
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression, bool noTracking);
 
         // 查询多条
+        IQueryable<TEntity> Get(bool noTracking = false, bool ignoreQueryFilters = false);
+        Task<List<TEntity>> GetAsync(bool noTracking = false, bool ignoreQueryFilters = false);
         IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> expression = null, bool noTracking = false, bool ignoreQueryFilters = false);
         Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = false, bool ignoreQueryFilters = false);
 

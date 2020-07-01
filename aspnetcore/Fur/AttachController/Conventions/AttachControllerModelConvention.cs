@@ -81,11 +81,11 @@ namespace Fur.AttachController.Conventions
         {
             if (!controllerModel.RouteValues.ContainsKey("area"))
             {
-                if (!string.IsNullOrEmpty(attactControllerAttribute.ApiVersion))
+                if (attactControllerAttribute.ApiVersion.HasValue())
                 {
                     controllerModel.RouteValues["area"] = attactControllerAttribute.ApiVersion;
                 }
-                else if (!string.IsNullOrEmpty(_attactControllerOptions.DefaultApiVersion))
+                else if (_attactControllerOptions.DefaultApiVersion.HasValue())
                 {
                     controllerModel.RouteValues["area"] = _attactControllerOptions.DefaultApiVersion;
                 }
@@ -242,7 +242,7 @@ namespace Fur.AttachController.Conventions
             var areaName = controllerModel.RouteValues.ContainsKey("area") ? controllerModel.RouteValues["area"] : null;
 
             stringBuilder.Append($"{_attactControllerOptions.DefaultStartRoutePrefix}/{areaName}/{controllerModel.ControllerName}/{attachActionAttribute?.ApiVersion}");
-            if (!(_attactControllerOptions.RemoveActionRouteVerb && string.IsNullOrEmpty(actionModel.ActionName)))
+            if (!(_attactControllerOptions.RemoveActionRouteVerb && !actionModel.ActionName.HasValue()))
             {
                 stringBuilder.Append($"/{actionModel.ActionName}");
             }

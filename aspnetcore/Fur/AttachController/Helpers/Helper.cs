@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fur.Extensions;
+using System;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -16,7 +17,7 @@ namespace Fur.AttachController.Helpers
         /// <returns>新的字符串</returns>
         internal static string ClearStringAffix(string str, params string[] affixs)
         {
-            if (string.IsNullOrEmpty(str)) throw new ArgumentNullException(nameof(str));
+            if (!str.HasValue()) throw new ArgumentNullException(nameof(str));
 
             if (affixs == null || affixs.Length == 0) return str;
 
@@ -42,7 +43,7 @@ namespace Fur.AttachController.Helpers
                 if (isClearStart && isClearEnd) break;
             }
             var newStr = stringBuilder.ToString();
-            return !string.IsNullOrEmpty(newStr) ? newStr : str;
+            return newStr.HasValue() ? newStr : str;
         }
         #endregion
 
@@ -54,10 +55,10 @@ namespace Fur.AttachController.Helpers
         /// <returns>切换后数组</returns>
         internal static string[] CamelCaseSplitString(string str)
         {
-            if (string.IsNullOrEmpty(str)) throw new ArgumentNullException(nameof(str));
+            if (!str.HasValue()) throw new ArgumentNullException(nameof(str));
             if (str.Length == 1) return new string[] { str };
 
-            return Regex.Split(str, @"(?=\p{Lu}\p{Ll})|(?<=\p{Ll})(?=\p{Lu})").Where(u => !string.IsNullOrEmpty(u)).ToArray();
+            return Regex.Split(str, @"(?=\p{Lu}\p{Ll})|(?<=\p{Ll})(?=\p{Lu})").Where(u => u.HasValue()).ToArray();
         }
         #endregion
 

@@ -136,7 +136,7 @@ namespace Fur.ApplicationSystem
             var dependencyConext = DependencyContext.Default;
             return dependencyConext.CompileLibraries
                 .Where(u => !u.Serviceable && u.Type != "package")
-                .WhereIf(!string.IsNullOrEmpty(prefix), u => u.Name.StartsWith(prefix))
+                .WhereIf(prefix.HasValue(), u => u.Name.StartsWith(prefix))
                 .Select(u => AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(u.Name)));
         }
         #endregion
