@@ -2,6 +2,7 @@ using Autofac;
 using Fur.AttachController.Extensions;
 using Fur.DependencyInjection;
 using Fur.EntityFramework.Core.Extensions;
+using Fur.ObjectMapper.Extensions;
 using Fur.SwaggerGen.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +29,7 @@ namespace Fur.Web.Host
             services.AddControllers().AddFurAttachControllers(Configuration);
             services.AddFurSwaggerGen(Configuration);
 
+            services.AddFurObjectMapper();
             services.AddFurDbContextPool(Environment, Configuration);
         }
         public void ConfigureContainer(ContainerBuilder builder) => Injection.Initialize(builder);

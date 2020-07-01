@@ -1,0 +1,44 @@
+﻿using Fur.Application.Functions.Dtos;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace Fur.Application.Functions
+{
+    public interface ITestAppService
+    {
+        /// <summary>
+        /// 查询所有
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<TestOutput>> GetAsync();
+
+        /// <summary>
+        /// 查询一条
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<TestOutput> GetAsync(int id);
+
+        /// <summary>
+        /// 插入数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<int> InsertAsync(TestInput input);
+
+        /// <summary>
+        /// 更新数据
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task UpdateAsync(int id, TestInput input);
+
+        /// <summary>
+        /// 删除数据
+        /// </summary>
+        /// <param name="id">主键Id</param>
+        /// <returns></returns>
+        Task DeleteAsync(int id);
+    }
+}

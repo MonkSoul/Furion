@@ -108,5 +108,11 @@ namespace Fur.DatabaseVisitor.Repositories
         // 查询多条
         IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> expression = null, bool noTracking = false, bool ignoreQueryFilters = false);
         Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = false, bool ignoreQueryFilters = false);
+
+        // 保存操作
+        int SaveChanges();
+        int SaveChanges(bool acceptAllChangesOnSuccess);
+        Task<int> SaveChangesAsync();
+        Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess);
     }
 }

@@ -64,40 +64,40 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual EntityEntry<TEntity> InsertSaveChanges(TEntity entity)
         {
             var trackEntity = Insert(entity);
-            DbContext.SaveChanges();
+            SaveChanges();
             return trackEntity;
         }
 
         public virtual void InsertSaveChanges(params TEntity[] entities)
         {
             Insert(entities);
-            DbContext.SaveChanges();
+            SaveChanges();
         }
 
         public virtual void InsertSaveChanges(IEnumerable<TEntity> entities)
         {
             Insert(entities);
-            DbContext.SaveChanges();
+            SaveChanges();
         }
 
         public virtual async ValueTask<EntityEntry<TEntity>> InsertSaveChangesAsync(TEntity entity)
         {
             var trackEntity = await InsertAsync(entity);
-            await DbContext.SaveChangesAsync();
+            await SaveChangesAsync();
             return trackEntity;
         }
 
         public virtual async Task InsertSaveChangesAsync(params TEntity[] entities)
         {
             await InsertAsync(entities);
-            await DbContext.SaveChangesAsync();
+            await SaveChangesAsync();
             await Task.CompletedTask;
         }
 
         public virtual async Task InsertSaveChangesAsync(IEnumerable<TEntity> entities)
         {
             await InsertAsync(entities);
-            await DbContext.SaveChangesAsync();
+            await SaveChangesAsync();
             await Task.CompletedTask;
         }
 
@@ -138,39 +138,39 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual EntityEntry<TEntity> UpdateSaveChanges(TEntity entity)
         {
             var trackEntity = Update(entity);
-            DbContext.SaveChanges();
+            SaveChanges();
             return trackEntity;
         }
 
         public virtual void UpdateSaveChanges(params TEntity[] entities)
         {
             Update(entities);
-            DbContext.SaveChanges();
+            SaveChanges();
         }
 
         public virtual void UpdateSaveChanges(IEnumerable<TEntity> entities)
         {
             Update(entities);
-            DbContext.SaveChanges();
+            SaveChanges();
         }
 
         public virtual async Task<EntityEntry<TEntity>> UpdateSaveChangesAsync(TEntity entity)
         {
             var trackEntities = await UpdateAsync(entity);
-            await DbContext.SaveChangesAsync();
+            await SaveChangesAsync();
             return trackEntities;
         }
 
         public virtual async Task UpdateSaveChangesAsync(params TEntity[] entities)
         {
             await UpdateAsync(entities);
-            await DbContext.SaveChangesAsync();
+            await SaveChangesAsync();
         }
 
         public virtual async Task UpdateSaveChangesAsync(IEnumerable<TEntity> entities)
         {
             await UpdateAsync(entities);
-            await DbContext.SaveChangesAsync();
+            await SaveChangesAsync();
         }
 
         // 删除功能
@@ -216,52 +216,52 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual EntityEntry<TEntity> DeleteSaveChanges(TEntity entity)
         {
             var trackEntity = Delete(entity);
-            DbContext.SaveChanges();
+            SaveChanges();
             return trackEntity;
         }
 
         public virtual void DeleteSaveChanges(params TEntity[] entities)
         {
             Delete(entities);
-            DbContext.SaveChanges();
+            SaveChanges();
         }
 
         public virtual void DeleteSaveChanges(IEnumerable<TEntity> entities)
         {
             Delete(entities);
-            DbContext.SaveChanges();
+            SaveChanges();
         }
 
         public virtual EntityEntry<TEntity> DeleteSaveChanges(object id)
         {
             var trackEntity = Delete(id);
-            DbContext.SaveChanges();
+            SaveChanges();
             return trackEntity;
         }
 
         public virtual async Task<EntityEntry<TEntity>> DeleteSaveChangesAsync(TEntity entity)
         {
             var trackEntity = await DeleteAsync(entity);
-            await DbContext.SaveChangesAsync();
+            await SaveChangesAsync();
             return trackEntity;
         }
 
         public virtual async Task DeleteSaveChangesAsync(params TEntity[] entities)
         {
             await DeleteAsync(entities);
-            await DbContext.SaveChangesAsync();
+            await SaveChangesAsync();
         }
 
         public virtual async Task DeleteSaveChangesAsync(IEnumerable<TEntity> entities)
         {
             await DeleteAsync(entities);
-            await DbContext.SaveChangesAsync();
+            await SaveChangesAsync();
         }
 
         public virtual async Task<EntityEntry<TEntity>> DeleteSaveChangesAsync(object id)
         {
             var trackEntity = await DeleteAsync(id);
-            await DbContext.SaveChangesAsync();
+            await SaveChangesAsync();
             return trackEntity;
         }
 
@@ -470,6 +470,26 @@ namespace Fur.DatabaseVisitor.Repositories
             if (expression != null) entities = entities.Where(expression);
 
             return entities;
+        }
+
+        public int SaveChanges()
+        {
+            return DbContext.SaveChanges();
+        }
+
+        public int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            return DbContext.SaveChanges(acceptAllChangesOnSuccess);
+        }
+
+        public Task<int> SaveChangesAsync()
+        {
+            return DbContext.SaveChangesAsync();
+        }
+
+        public Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess)
+        {
+            return DbContext.SaveChangesAsync(acceptAllChangesOnSuccess);
         }
     }
 }

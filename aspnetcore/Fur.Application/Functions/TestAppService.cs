@@ -1,14 +1,17 @@
-﻿using Fur.AttachController.Attributes;
+﻿using Fur.Application.Functions.Dtos;
+using Fur.AttachController.Attributes;
 using Fur.AttachController.Dependencies;
 using Fur.DatabaseVisitor.Repositories;
 using Fur.Record.Entities;
+using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Fur.Application
+namespace Fur.Application.Functions
 {
     [AttachController]
     public class TestAppService : ITestAppService, IAttachControllerDependency
@@ -24,10 +27,9 @@ namespace Fur.Application
         /// </summary>
         /// <returns></returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IEnumerable<Test>> GetAsync()
+        public async Task<IEnumerable<TestOutput>> GetAsync()
         {
-            return await _testRepository.GetAsync();
+            return await _testRepository.Get().ProjectToType<TestOutput>().ToListAsync();
         }
 
         /// <summary>
@@ -37,50 +39,47 @@ namespace Fur.Application
         /// <returns></returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<Test> GetAsync(int id)
-        {
-            return await _testRepository.FindAsync(id);
-        }
-
-        /// <summary>
-        /// 插入新数据
-        /// </summary>
-        /// <param name="test"></param>
-        /// <returns></returns>
-        public async Task<int> InsertAsync(Test test)
-        {
-            var entity = await _testRepository.InsertSaveChangesAsync(test);
-            return entity.Entity.Id;
-        }
-
-        /// <summary>
-        /// 更新新数据
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="name"></param>
-        /// <param name="age"></param>
-        /// <returns></returns>
-        public async Task<Test> UpdateAsync(int id, string name, int age)
+        public async Task<TestOutput> GetAsync(int id)
         {
             var entity = await _testRepository.FindAsync(id);
-            entity.Name = name;
-            entity.Age = age;
+            return entity.Adapt<TestOutput>();
+        }
 
-            var trackEntity = await _testRepository.UpdateSaveChangesAsync(entity);
-            return trackEntity.Entity;
+        /// <summary>
+        /// 插入数据
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<int> InsertAsync(TestInput input)
+        {
+            var entity = input.Adapt<Test>();
+            var newEntity = await _testRepository.InsertSaveChangesAsync(entity);
+            return newEntity.Entity.Id;
+        }
+
+        /// <summary>
+        /// 更新数据
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task UpdateAsync(int id, TestInput input)
+        {
+            var entity = await _testRepository.FindAsync(id) ?? throw new InvalidOperationException();
+            input.Adapt(entity);
+
+            await _testRepository.SaveChangesAsync();
         }
 
         /// <summary>
         /// 删除数据
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">主键Id</param>
         /// <returns></returns>
-        public async Task<Test> DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            var entity = await _testRepository.FindAsync(id);
-            var trackEntity = await _testRepository.DeleteSaveChangesAsync(entity);
-            return trackEntity.Entity;
+            var entity = await _testRepository.FindAsync(id) ?? throw new InvalidOperationException();
+            await _testRepository.DeleteSaveChangesAsync(entity);
         }
     }
 }
