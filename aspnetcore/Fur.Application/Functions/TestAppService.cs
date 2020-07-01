@@ -62,7 +62,6 @@ namespace Fur.Application.Functions
         /// <param name="keyword"></param>
         /// <returns></returns>
         [AttachAction(KeepRouteVerb = true)]
-        [HttpPost]
         public async Task<IEnumerable<TestOutput>> SearchAsync(string keyword)
         {
             return await _testRepository.Get(true)
