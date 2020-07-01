@@ -3,8 +3,11 @@ using Fur.DependencyInjection.Lifetimes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Fur.DatabaseVisitor.Repositories
@@ -25,97 +28,6 @@ namespace Fur.DatabaseVisitor.Repositories
         public EntityEntry<TEntity> Delete(TEntity entity)
         {
             return Entity.Remove(entity);
-        }
-
-        public void Delete(params TEntity[] entities)
-        {
-            Entity.RemoveRange(entities);
-        }
-
-        public void Delete(IEnumerable<TEntity> entities)
-        {
-            Entity.RemoveRange(entities);
-        }
-
-        public EntityEntry<TEntity> Delete(object id)
-        {
-            var entity = Entity.Find(id);
-            return Delete(entity);
-        }
-
-        public Task<EntityEntry<TEntity>> DeleteAsync(TEntity entity)
-        {
-            return Task.FromResult(Entity.Remove(entity));
-        }
-
-        public Task DeleteAsync(params TEntity[] entities)
-        {
-            Entity.RemoveRange(entities);
-            return Task.CompletedTask;
-        }
-
-        public Task DeleteAsync(IEnumerable<TEntity> entities)
-        {
-            Entity.RemoveRange(entities);
-            return Task.CompletedTask;
-        }
-
-        public async Task<EntityEntry<TEntity>> DeleteAsync(object id)
-        {
-            var entity = await Entity.FindAsync(id);
-            return await DeleteAsync(entity);
-        }
-
-        public EntityEntry<TEntity> DeleteSaveChanges(TEntity entity)
-        {
-            var trackEntity = Delete(entity);
-            DbContext.SaveChanges();
-            return trackEntity;
-        }
-
-        public void DeleteSaveChanges(params TEntity[] entities)
-        {
-            Delete(entities);
-            DbContext.SaveChanges();
-        }
-
-        public void DeleteSaveChanges(IEnumerable<TEntity> entities)
-        {
-            Delete(entities);
-            DbContext.SaveChanges();
-        }
-
-        public EntityEntry<TEntity> DeleteSaveChanges(object id)
-        {
-            var trackEntity = Delete(id);
-            DbContext.SaveChanges();
-            return trackEntity;
-        }
-
-        public async Task<EntityEntry<TEntity>> DeleteSaveChangesAsync(TEntity entity)
-        {
-            var trackEntity = await DeleteAsync(entity);
-            await DbContext.SaveChangesAsync();
-            return trackEntity;
-        }
-
-        public async Task DeleteSaveChangesAsync(params TEntity[] entities)
-        {
-            await DeleteAsync(entities);
-            await DbContext.SaveChangesAsync();
-        }
-
-        public async Task DeleteSaveChangesAsync(IEnumerable<TEntity> entities)
-        {
-            await DeleteAsync(entities);
-            await DbContext.SaveChangesAsync();
-        }
-
-        public async Task<EntityEntry<TEntity>> DeleteSaveChangesAsync(object id)
-        {
-            var trackEntity = await DeleteAsync(id);
-            await DbContext.SaveChangesAsync();
-            return trackEntity;
         }
 
         // 新增操作
@@ -190,75 +102,374 @@ namespace Fur.DatabaseVisitor.Repositories
         }
 
         // 更新操作
-        public EntityEntry<TEntity> Update(TEntity entity)
+        public virtual EntityEntry<TEntity> Update(TEntity entity)
         {
             return Entity.Update(entity);
         }
 
-        public void Update(params TEntity[] entities)
+        public virtual void Update(params TEntity[] entities)
         {
             Entity.UpdateRange(entities);
         }
 
-        public void Update(IEnumerable<TEntity> entities)
+        public virtual void Update(IEnumerable<TEntity> entities)
         {
             Entity.UpdateRange(entities);
         }
 
-        public Task<EntityEntry<TEntity>> UpdateAsync(TEntity entity)
+        public virtual Task<EntityEntry<TEntity>> UpdateAsync(TEntity entity)
         {
             var trackEntity = Entity.Update(entity);
             return Task.FromResult(trackEntity);
         }
 
-        public Task UpdateAsync(params TEntity[] entities)
+        public virtual Task UpdateAsync(params TEntity[] entities)
         {
             Entity.UpdateRange(entities);
             return Task.CompletedTask;
         }
 
-        public Task UpdateAsync(IEnumerable<TEntity> entities)
+        public virtual Task UpdateAsync(IEnumerable<TEntity> entities)
         {
             Entity.UpdateRange(entities);
             return Task.CompletedTask;
         }
 
-        public EntityEntry<TEntity> UpdateSaveChanges(TEntity entity)
+        public virtual EntityEntry<TEntity> UpdateSaveChanges(TEntity entity)
         {
             var trackEntity = Update(entity);
             DbContext.SaveChanges();
             return trackEntity;
         }
 
-        public void UpdateSaveChanges(params TEntity[] entities)
+        public virtual void UpdateSaveChanges(params TEntity[] entities)
         {
             Update(entities);
             DbContext.SaveChanges();
         }
 
-        public void UpdateSaveChanges(IEnumerable<TEntity> entities)
+        public virtual void UpdateSaveChanges(IEnumerable<TEntity> entities)
         {
             Update(entities);
             DbContext.SaveChanges();
         }
 
-        public async Task<EntityEntry<TEntity>> UpdateSaveChangesAsync(TEntity entity)
+        public virtual async Task<EntityEntry<TEntity>> UpdateSaveChangesAsync(TEntity entity)
         {
             var trackEntities = await UpdateAsync(entity);
             await DbContext.SaveChangesAsync();
             return trackEntities;
         }
 
-        public async Task UpdateSaveChangesAsync(params TEntity[] entities)
+        public virtual async Task UpdateSaveChangesAsync(params TEntity[] entities)
         {
             await UpdateAsync(entities);
             await DbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateSaveChangesAsync(IEnumerable<TEntity> entities)
+        public virtual async Task UpdateSaveChangesAsync(IEnumerable<TEntity> entities)
         {
             await UpdateAsync(entities);
             await DbContext.SaveChangesAsync();
+        }
+
+        // 删除功能
+        public virtual void Delete(params TEntity[] entities)
+        {
+            Entity.RemoveRange(entities);
+        }
+
+        public virtual void Delete(IEnumerable<TEntity> entities)
+        {
+            Entity.RemoveRange(entities);
+        }
+
+        public virtual EntityEntry<TEntity> Delete(object id)
+        {
+            var entity = Entity.Find(id);
+            return Delete(entity);
+        }
+
+        public virtual Task<EntityEntry<TEntity>> DeleteAsync(TEntity entity)
+        {
+            return Task.FromResult(Entity.Remove(entity));
+        }
+
+        public virtual Task DeleteAsync(params TEntity[] entities)
+        {
+            Entity.RemoveRange(entities);
+            return Task.CompletedTask;
+        }
+
+        public virtual Task DeleteAsync(IEnumerable<TEntity> entities)
+        {
+            Entity.RemoveRange(entities);
+            return Task.CompletedTask;
+        }
+
+        public virtual async Task<EntityEntry<TEntity>> DeleteAsync(object id)
+        {
+            var entity = await Entity.FindAsync(id);
+            return await DeleteAsync(entity);
+        }
+
+        public virtual EntityEntry<TEntity> DeleteSaveChanges(TEntity entity)
+        {
+            var trackEntity = Delete(entity);
+            DbContext.SaveChanges();
+            return trackEntity;
+        }
+
+        public virtual void DeleteSaveChanges(params TEntity[] entities)
+        {
+            Delete(entities);
+            DbContext.SaveChanges();
+        }
+
+        public virtual void DeleteSaveChanges(IEnumerable<TEntity> entities)
+        {
+            Delete(entities);
+            DbContext.SaveChanges();
+        }
+
+        public virtual EntityEntry<TEntity> DeleteSaveChanges(object id)
+        {
+            var trackEntity = Delete(id);
+            DbContext.SaveChanges();
+            return trackEntity;
+        }
+
+        public virtual async Task<EntityEntry<TEntity>> DeleteSaveChangesAsync(TEntity entity)
+        {
+            var trackEntity = await DeleteAsync(entity);
+            await DbContext.SaveChangesAsync();
+            return trackEntity;
+        }
+
+        public virtual async Task DeleteSaveChangesAsync(params TEntity[] entities)
+        {
+            await DeleteAsync(entities);
+            await DbContext.SaveChangesAsync();
+        }
+
+        public virtual async Task DeleteSaveChangesAsync(IEnumerable<TEntity> entities)
+        {
+            await DeleteAsync(entities);
+            await DbContext.SaveChangesAsync();
+        }
+
+        public virtual async Task<EntityEntry<TEntity>> DeleteSaveChangesAsync(object id)
+        {
+            var trackEntity = await DeleteAsync(id);
+            await DbContext.SaveChangesAsync();
+            return trackEntity;
+        }
+
+        public virtual TEntity Find(object id)
+        {
+            return Entity.Find(id);
+        }
+
+        public virtual ValueTask<TEntity> FindAsync(object id)
+        {
+            return Entity.FindAsync(id);
+        }
+
+        public virtual TEntity Single()
+        {
+            return Entity.Single();
+        }
+
+        public virtual Task<TEntity> SingleAsync()
+        {
+            return Entity.SingleAsync();
+        }
+
+        public virtual TEntity Single(Expression<Func<TEntity, bool>> expression)
+        {
+            return Entity.Single(expression);
+        }
+
+        public virtual Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> expression)
+        {
+            return Entity.SingleAsync(expression);
+        }
+
+        public virtual TEntity SingleOrDefault()
+        {
+            return Entity.SingleOrDefault();
+        }
+
+        public virtual Task<TEntity> SingleOrDefaultAsync()
+        {
+            return Entity.SingleOrDefaultAsync();
+        }
+
+        public virtual TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression)
+        {
+            return Entity.SingleOrDefault(expression);
+        }
+
+        public virtual Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> expression)
+        {
+            return Entity.SingleOrDefaultAsync(expression);
+        }
+
+        public virtual TEntity Single(bool noTracking)
+        {
+            if (noTracking) return Entity.AsNoTracking().Single();
+            else return Single();
+        }
+
+        public virtual Task<TEntity> SingleAsync(bool noTracking)
+        {
+            if (noTracking) return Entity.AsNoTracking().SingleAsync();
+            else return SingleAsync();
+        }
+
+        public virtual TEntity Single(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        {
+            if (noTracking) return Entity.AsNoTracking().Single(expression);
+            else return Single(expression);
+        }
+
+        public virtual Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        {
+            if (noTracking) return Entity.AsNoTracking().SingleAsync(expression);
+            else return SingleAsync(expression);
+        }
+
+        public virtual TEntity SingleOrDefault(bool noTracking)
+        {
+            if (noTracking) return Entity.AsNoTracking().SingleOrDefault();
+            else return SingleOrDefault();
+        }
+
+        public virtual Task<TEntity> SingleOrDefaultAsync(bool noTracking)
+        {
+            if (noTracking) return Entity.AsNoTracking().SingleOrDefaultAsync();
+            else return SingleOrDefaultAsync();
+        }
+
+        public virtual TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        {
+            if (noTracking) return Entity.AsNoTracking().SingleOrDefault(expression);
+            else return SingleOrDefault(expression);
+        }
+
+        public virtual Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        {
+            if (noTracking) return Entity.AsNoTracking().SingleOrDefaultAsync(expression);
+            else return SingleOrDefaultAsync(expression);
+        }
+
+        public virtual TEntity First()
+        {
+            return Entity.First();
+        }
+
+        public virtual Task<TEntity> FirstAsync()
+        {
+            return Entity.FirstAsync();
+        }
+
+        public virtual TEntity First(Expression<Func<TEntity, bool>> expression)
+        {
+            return Entity.First(expression);
+        }
+
+        public virtual Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> expression)
+        {
+            return Entity.FirstAsync(expression);
+        }
+
+        public virtual TEntity FirstOrDefault()
+        {
+            return Entity.FirstOrDefault();
+        }
+
+        public virtual Task<TEntity> FirstOrDefaultAsync()
+        {
+            return Entity.FirstOrDefaultAsync();
+        }
+
+        public virtual TEntity FirstOrDefault(Expression<Func<TEntity, bool>> expression)
+        {
+            return Entity.FirstOrDefault(expression);
+        }
+
+        public virtual Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression)
+        {
+            return Entity.FirstOrDefaultAsync(expression);
+        }
+
+        public virtual TEntity First(bool noTracking)
+        {
+            if (noTracking) return Entity.AsNoTracking().First();
+            else return First();
+        }
+
+        public virtual Task<TEntity> FirstAsync(bool noTracking)
+        {
+            if (noTracking) return Entity.AsNoTracking().FirstAsync();
+            else return FirstAsync();
+        }
+
+        public virtual TEntity First(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        {
+            if (noTracking) return Entity.AsNoTracking().First(expression);
+            else return First(expression);
+        }
+
+        public virtual Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        {
+            if (noTracking) return Entity.AsNoTracking().FirstAsync(expression);
+            else return FirstAsync(expression);
+        }
+
+        public virtual TEntity FirstOrDefault(bool noTracking)
+        {
+            if (noTracking) return Entity.AsNoTracking().FirstOrDefault();
+            else return FirstOrDefault();
+        }
+
+        public virtual Task<TEntity> FirstOrDefaultAsync(bool noTracking)
+        {
+            if (noTracking) return Entity.AsNoTracking().FirstOrDefaultAsync();
+            else return FirstOrDefaultAsync();
+        }
+
+        public virtual TEntity FirstOrDefault(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        {
+            if (noTracking) return Entity.AsNoTracking().FirstOrDefault(expression);
+            else return FirstOrDefault(expression);
+        }
+
+        public virtual Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        {
+            if (noTracking) return Entity.AsNoTracking().FirstOrDefaultAsync(expression);
+            else return FirstOrDefaultAsync(expression);
+        }
+
+        public IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> expression = null, bool noTracking = false, bool ignoreQueryFilters = false)
+        {
+            return GetQueryConditionCombine(expression, noTracking, ignoreQueryFilters);
+        }
+
+        public Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = false, bool ignoreQueryFilters = false)
+        {
+            var query = GetQueryConditionCombine(expression, noTracking, ignoreQueryFilters);
+            return query.ToListAsync();
+        }
+
+        private IQueryable<TEntity> GetQueryConditionCombine(Expression<Func<TEntity, bool>> expression = null, bool noTracking = false, bool ignoreQueryFilters = false)
+        {
+            IQueryable<TEntity> entities = Entity;
+            if (noTracking) entities = entities.AsNoTracking();
+            if (ignoreQueryFilters) entities = entities.IgnoreQueryFilters();
+            if (expression != null) entities = entities.Where(expression);
+
+            return entities;
         }
     }
 }
