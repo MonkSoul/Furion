@@ -17,6 +17,9 @@ using System.Threading.Tasks;
 
 namespace Fur.Application.Functions
 {
+    /// <summary>
+    /// 测试接口
+    /// </summary>
     [AttachController]
     public class TestAppService : ITestAppService, IAttachControllerDependency
     {
