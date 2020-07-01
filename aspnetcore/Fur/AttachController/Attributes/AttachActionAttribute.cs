@@ -56,6 +56,14 @@ namespace Fur.AttachController.Attributes
         /// </summary>
         public string[] SwaggerGroups { get; set; }
         /// <summary>
+        /// 保持原始名称（如果全局启用名词前后缀处理，还是会去掉前后占位符）
+        /// </summary>
+        public bool KeepOriginalName { get; set; }
+        /// <summary>
+        /// 每个单词都生成路由路径（如果全局启用名词前后缀处理，还是会去掉前后占位符）
+        /// </summary>
+        public bool EveryWordToRoutePath { get; set; }
+        /// <summary>
         /// 接口授权标识名称列表
         /// </summary>
         public string[] AuthorizeTo { get; set; }
