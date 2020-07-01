@@ -5,17 +5,15 @@ using System.Threading.Tasks;
 
 namespace Fur.Application
 {
-    [AttachController("Test", ApiVersion = "v1.0.0")]
+    [AttachController("Test")]
     public class TestAppService : ITestAppService, IAttachControllerDependency
     {
-        [AttachAction(ApiVersion = "v1.0.0.1")]
-        public Task<string> GetByName1([FromQuery] string name)
+        public Task<string> GetByName1(string name)
         {
             throw new System.NotImplementedException();
         }
 
-        [AttachAction(ApiVersion = "v1.0.0.1")]
-        public Task<string> GetByName1([FromQuery] string name, int id)
+        public Task<string> GetByName1(string name, int id)
         {
             throw new System.NotImplementedException();
         }

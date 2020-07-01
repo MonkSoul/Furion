@@ -253,7 +253,8 @@ namespace Fur.AttachController.Conventions
                 }
             }
 
-            return new AttributeRouteModel(new RouteAttribute(stringBuilder.ToString().Replace("//", "/")));
+            var route = stringBuilder.ToString().Replace("//", "/");
+            return new AttributeRouteModel(new RouteAttribute(_attactControllerOptions.LowerCaseUri ? route.ToLower() : route));
         }
         #endregion
 

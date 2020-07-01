@@ -30,5 +30,10 @@ namespace Fur.AttachController.Options
         /// </summary>
         [Required]
         public string DefaultHttpMethod { get; set; }
+        /// <summary>
+        /// 小写Api地址
+        /// </summary>
+        [Required]
+        public bool LowerCaseUri { get; set; }
     }
 }
