@@ -33,5 +33,28 @@ namespace Fur.Application
         {
             return await _testRepository.Entity.FindAsync(id);
         }
+
+        public async Task<int> InsertAsync(Test test)
+        {
+            var entity = await _testRepository.InsertSaveChangesAsync(test);
+            return entity.Entity.Id;
+        }
+
+        public async Task<Test> UpdateAsync(int id, string name, int age)
+        {
+            var entity = await _testRepository.Entity.FindAsync(id);
+            entity.Name = name;
+            entity.Age = age;
+
+            var trackEntity = await _testRepository.UpdateSaveChangesAsync(entity);
+            return trackEntity.Entity;
+        }
+
+        public async Task<Test> DeleteAsync(int id)
+        {
+            var entity = await _testRepository.Entity.FindAsync(id);
+            var trackEntity = await _testRepository.DeleteSaveChangesAsync(entity);
+            return trackEntity.Entity;
+        }
     }
 }

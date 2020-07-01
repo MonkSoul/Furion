@@ -9,7 +9,7 @@ namespace Fur.DatabaseVisitor.Dependencies
         /// <summary>
         /// 创建时间
         /// </summary>
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime CreatedTime { get; set; }
         /// <summary>
         /// 更新时间

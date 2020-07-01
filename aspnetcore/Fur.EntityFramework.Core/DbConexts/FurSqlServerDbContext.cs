@@ -20,6 +20,12 @@ namespace Fur.EntityFramework.Core.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Test>(entity =>
+            {
+                entity.Property(u => u.CreatedTime).HasDefaultValueSql("getdate()");
+                entity.Property(u => u.UpdatedTime).HasDefaultValueSql("getdate()");
+            });
         }
     }
 }
