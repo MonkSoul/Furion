@@ -18,6 +18,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\" />
     <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>

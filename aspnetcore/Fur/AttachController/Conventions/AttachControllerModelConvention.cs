@@ -247,17 +247,21 @@ namespace Fur.AttachController.Conventions
             var areaName = controllerModel.RouteValues.ContainsKey("area") ? controllerModel.RouteValues["area"] : null;
 
             stringBuilder.Append($"{_attactControllerOptions.DefaultStartRoutePrefix}/{areaName}/{controllerModel.ControllerName}/{attachActionAttribute?.ApiVersion}");
+
+            var actionName = actionModel.ActionName;
             if (!(_attactControllerOptions.RemoveActionRouteVerb && !actionModel.ActionName.HasValue()))
             {
-                if (!(attachActionAttribute?.EveryWordToRoutePath ?? false))
-                {
-                    stringBuilder.Append($"/{actionModel.ActionName}");
-                }
-                else
+                if (attachActionAttribute?.EveryWordToRoutePath ?? false)
                 {
                     var everyWords = Helper.CamelCaseSplitString(actionModel.ActionName);
-                    stringBuilder.Append($"/{string.Join("/", everyWords)}");
+                    actionName = string.Join("/", everyWords);
                 }
+            }
+
+            // 准备好方法占位符
+            if (actionName.HasValue())
+            {
+                stringBuilder.Append($"/##action_name##");
             }
 
             // 读取参数信息
@@ -278,8 +282,10 @@ namespace Fur.AttachController.Conventions
                 }
             }
 
-            var route = stringBuilder.ToString().Replace("//", "/");
-            return new AttributeRouteModel(new RouteAttribute(_attactControllerOptions.LowerCaseUri ? (!(attachActionAttribute?.KeepOriginalName ?? false) ? route.ToLower() : route) : route));
+            var route = stringBuilder.ToString();
+            route = _attactControllerOptions.LowerCaseUri ? route.ToLower() : route;
+            route = route.Replace("##action_name##", ((attachActionAttribute?.KeepOriginalName ?? false) ? actionName : actionName.ToLower())).Replace("//", "/");
+            return new AttributeRouteModel(new RouteAttribute(route));
         }
         #endregion
 
