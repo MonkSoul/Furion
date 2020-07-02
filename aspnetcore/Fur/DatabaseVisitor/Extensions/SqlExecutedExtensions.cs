@@ -8,6 +8,7 @@ using StackExchange.Profiling;
 using StackExchange.Profiling.Data;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
@@ -47,7 +48,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        public static DataTable DbSqlQuery(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        public static DataTable SqlQuery(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var (dbConnection, dbCommand) = databaseFacade.WrapperDbConnectionAndCommand(sql, parameters);
             var dbDataReader = dbCommand.ExecuteReader();
@@ -59,12 +60,12 @@ namespace Fur.DatabaseVisitor.Extensions
             return dataTable;
         }
 
-        public static IEnumerable<T> DbSqlQuery<T>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        public static IEnumerable<T> SqlQuery<T>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
-            return DbSqlQuery(databaseFacade, sql, parameters).ToEnumerable<T>();
+            return SqlQuery(databaseFacade, sql, parameters).ToEnumerable<T>();
         }
 
-        public static async Task<DataTable> DbSqlQueryAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        public static async Task<DataTable> SqlQueryAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var (dbConnection, dbCommand) = await databaseFacade.WrapperDbConnectionAndCommandAsync(sql, parameters);
             var dbDataReader = await dbCommand.ExecuteReaderAsync();
@@ -76,9 +77,9 @@ namespace Fur.DatabaseVisitor.Extensions
             return await Task.FromResult(dataTable);
         }
 
-        public static Task<IEnumerable<T>> DbSqlQueryAsync<T>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        public static Task<IEnumerable<T>> SqlQueryAsync<T>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
-            return DbSqlQueryAsync(databaseFacade, sql, parameters).ToEnumerableAsync<T>();
+            return SqlQueryAsync(databaseFacade, sql, parameters).ToEnumerableAsync<T>();
         }
 
         #region 包装数据库链接和执行命令对象 -/* private static (DbConnection, DbCommand) WrapperDbConnectionAndCommand(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
@@ -169,7 +170,7 @@ namespace Fur.DatabaseVisitor.Extensions
                     propertyInfos.ForEach(p =>
                     {
                         var columnName = p.Name;
-                        //if (p.IsDefined(typeof(ColumnAttribute))) columnName = p.GetCustomAttribute<ColumnAttribute>().Name;
+                        if (p.IsDefined(typeof(ColumnAttribute))) columnName = p.GetCustomAttribute<ColumnAttribute>().Name;
 
                         if (dataTable.Columns.IndexOf(columnName) != -1 && row[columnName] != DBNull.Value)
                         {
@@ -206,7 +207,7 @@ namespace Fur.DatabaseVisitor.Extensions
                     propertyInfos.ForEach(p =>
                     {
                         var columnName = p.Name;
-                        //if (p.IsDefined(typeof(ColumnAttribute))) columnName = p.GetCustomAttribute<ColumnAttribute>().Name;
+                        if (p.IsDefined(typeof(ColumnAttribute))) columnName = p.GetCustomAttribute<ColumnAttribute>().Name;
 
                         if (dataTable.Columns.IndexOf(columnName) != -1 && row[columnName] != DBNull.Value)
                         {

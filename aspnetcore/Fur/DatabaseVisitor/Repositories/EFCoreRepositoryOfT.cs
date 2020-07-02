@@ -504,24 +504,24 @@ namespace Fur.DatabaseVisitor.Repositories
             return Entity.FromSqlRaw(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual DataTable FromSqlOriginal(string sql, params object[] parameters)
+        public virtual DataTable FromSqlQuery(string sql, params object[] parameters)
         {
-            return Database.DbSqlQuery(sql, parameters);
+            return Database.SqlQuery(sql, parameters);
         }
 
-        public virtual Task<DataTable> FromSqlOriginalAsync(string sql, params object[] parameters)
+        public virtual Task<DataTable> FromSqlQueryAsync(string sql, params object[] parameters)
         {
-            return Database.DbSqlQueryAsync(sql, parameters);
+            return Database.SqlQueryAsync(sql, parameters);
         }
 
-        public virtual IEnumerable<T> FromSqlOriginal<T>(string sql, params object[] parameters)
+        public virtual IEnumerable<T> FromSqlQuery<T>(string sql, params object[] parameters)
         {
-            return Database.DbSqlQuery<T>(sql, parameters);
+            return Database.SqlQuery<T>(sql, parameters);
         }
 
-        public virtual Task<IEnumerable<T>> FromSqlOriginalAsync<T>(string sql, params object[] parameters)
+        public virtual Task<IEnumerable<T>> FromSqlQueryAsync<T>(string sql, params object[] parameters)
         {
-            return Database.DbSqlQueryAsync<T>(sql, parameters);
+            return Database.SqlQueryAsync<T>(sql, parameters);
         }
 
         private IQueryable<TEntity> GetQueryConditionCombine(Expression<Func<TEntity, bool>> expression = null, bool noTracking = false, bool ignoreQueryFilters = false)
@@ -534,24 +534,24 @@ namespace Fur.DatabaseVisitor.Repositories
             return entities;
         }
 
-        public DataTable FromSqlOriginal<TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public DataTable FromSqlQuery<TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
         {
-            return FromSqlOriginal(sql, parameterModel.ToSqlParameters());
+            return FromSqlQuery(sql, parameterModel.ToSqlParameters());
         }
 
-        public Task<DataTable> FromSqlOriginalAsync<TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public Task<DataTable> FromSqlQueryAsync<TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
         {
-            return FromSqlOriginalAsync(sql, parameterModel.ToSqlParameters());
+            return FromSqlQueryAsync(sql, parameterModel.ToSqlParameters());
         }
 
-        public IEnumerable<T> FromSqlOriginal<T, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public IEnumerable<T> FromSqlQuery<T, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
         {
-            return FromSqlOriginal<T>(sql, parameterModel.ToSqlParameters());
+            return FromSqlQuery<T>(sql, parameterModel.ToSqlParameters());
         }
 
-        public Task<IEnumerable<T>> FromSqlOriginalAsync<T, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public Task<IEnumerable<T>> FromSqlQueryAsync<T, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
         {
-            return FromSqlOriginalAsync<T>(sql, parameterModel.ToSqlParameters());
+            return FromSqlQueryAsync<T>(sql, parameterModel.ToSqlParameters());
         }
     }
 }
