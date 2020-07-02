@@ -43,7 +43,7 @@ namespace Fur.DatabaseVisitor.Extensions
             return databaseFacade.SqlQuery(sql, parameters);
         }
 
-        public static IEnumerable<T> SqlProcedureQuery<T, TParameterModel>(this DatabaseFacade databaseFacade, string name, object parameterModel)
+        public static IEnumerable<T> SqlProcedureQuery<T>(this DatabaseFacade databaseFacade, string name, object parameterModel)
         {
             var (sql, parameters) = Helper.CombineExecuteSql(ExcuteSqlOptions.Procedure, name, parameterModel);
             return databaseFacade.SqlQuery<T>(sql, parameters);
@@ -55,7 +55,7 @@ namespace Fur.DatabaseVisitor.Extensions
             return databaseFacade.SqlQueryAsync(sql, parameters);
         }
 
-        public static Task<IEnumerable<T>> SqlProcedureQueryAsync<T, TParameterModel>(this DatabaseFacade databaseFacade, string name, object parameterModel)
+        public static Task<IEnumerable<T>> SqlProcedureQueryAsync<T>(this DatabaseFacade databaseFacade, string name, object parameterModel)
         {
             var (sql, parameters) = Helper.CombineExecuteSql(ExcuteSqlOptions.Procedure, name, parameterModel);
             return databaseFacade.SqlQueryAsync<T>(sql, parameters);

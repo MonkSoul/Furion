@@ -788,12 +788,12 @@ namespace Fur.DatabaseVisitor.Repositories
 
         public virtual IEnumerable<T> FromSqlProcedureQuery<T>(string name, object parameterModel)
         {
-            return Database.SqlProcedureQuery<T>(name, parameterModel.ToSqlParameters());
+            return Database.SqlProcedureQuery<T>(name, parameterModel);
         }
 
         public virtual Task<IEnumerable<T>> FromSqlProcedureQueryAsync<T>(string name, object parameterModel)
         {
-            return Database.SqlProcedureQueryAsync<T>(name, parameterModel.ToSqlParameters());
+            return Database.SqlProcedureQueryAsync<T>(name, parameterModel);
         }
     }
 }
