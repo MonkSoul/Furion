@@ -37,7 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DatabaseVisitor\Attributes\" />
     <Folder Include="Validation\" />
   </ItemGroup>
 

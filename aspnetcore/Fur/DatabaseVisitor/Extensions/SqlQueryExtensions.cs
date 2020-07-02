@@ -1,4 +1,5 @@
 ﻿using Fur.DatabaseVisitor.Helpers;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using StackExchange.Profiling;

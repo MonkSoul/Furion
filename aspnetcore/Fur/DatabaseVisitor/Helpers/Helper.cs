@@ -1,6 +1,12 @@
-﻿using Fur.Linq.Extensions;
+﻿using Fur.DatabaseVisitor.Attributes;
+using Fur.DatabaseVisitor.Enums;
+using Fur.Linq.Extensions;
 using Microsoft.Data.SqlClient;
+using System;
+using System.Collections.Generic;
 using System.Data.Common;
+using System.Reflection;
+using System.Text;
 
 namespace Fur.DatabaseVisitor.Helpers
 {
@@ -27,5 +33,91 @@ namespace Fur.DatabaseVisitor.Helpers
             }
         }
         #endregion
+
+        #region 组合存储过程/函数Sql语句 + internal static (string sql, SqlParameter[] parameters) CombineExecuteSql<TParameterModel>(ExcuteSqlOptions excuteSqlOptions, string name, TParameterModel parameterModel = null) where TParameterModel : class
+        /// <summary>
+        /// 组合存储过程/函数Sql语句
+        /// </summary>
+        /// <typeparam name="TParameterModel"></typeparam>
+        /// <param name="excuteSqlOptions"></param>
+        /// <param name="name"></param>
+        /// <param name="parameterModel"></param>
+        /// <returns></returns>
+        internal static (string sql, SqlParameter[] parameters) CombineExecuteSql<TParameterModel>(ExcuteSqlOptions excuteSqlOptions, string name, TParameterModel parameterModel = null) where TParameterModel : class
+        {
+            var type = parameterModel?.GetType();
+            var properities = type?.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            var paramValues = new List<SqlParameter>();
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append($"{(excuteSqlOptions == ExcuteSqlOptions.Procedure ? "EXECUTE" : "SELECT")} {name}{(excuteSqlOptions == ExcuteSqlOptions.Procedure ? "" : "(")}");
+
+            for (int i = 0; i < properities?.Length; i++)
+            {
+                var property = properities[i];
+                if (parameterModel != null)
+                {
+                    var value = property.GetValue(parameterModel);
+                    paramValues.Add(new SqlParameter(property.Name, value ?? DBNull.Value));
+                }
+
+                if (excuteSqlOptions == ExcuteSqlOptions.Procedure)
+                {
+                    if (!property.PropertyType.IsDefined(typeof(ParameterAttribute), false))
+                    {
+                        stringBuilder.Append($" @{property.Name},");
+                    }
+                    else
+                    {
+                        var parameterAttribute = property.GetCustomAttribute<ParameterAttribute>();
+                        stringBuilder.Append($" @{parameterAttribute.Name}=@{property.Name},");
+                    }
+                }
+                else
+                {
+                    stringBuilder.Append($" @{property.Name},");
+                }
+            }
+            var sql = stringBuilder.ToString();
+            if (sql.EndsWith(",")) sql = sql[0..^1];
+
+            if (excuteSqlOptions == ExcuteSqlOptions.ScalarFunction)
+            {
+                sql += (")");
+            }
+
+            return (sql, paramValues.ToArray());
+        }
+        #endregion
+
+        /// <summary>
+        /// 组合存储过程/函数Sql语句
+        /// </summary>
+        /// <param name="excuteSqlOptions"></param>
+        /// <param name="name"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        internal static string CombineExecuteSql(ExcuteSqlOptions excuteSqlOptions, string name, params object[] parameters)
+        {
+            var sqlParameters = (SqlParameter[])parameters;
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append($"{(excuteSqlOptions == ExcuteSqlOptions.Procedure ? "EXECUTE" : "SELECT")} {name}{(excuteSqlOptions == ExcuteSqlOptions.Procedure ? "" : "(")}");
+
+            for (int i = 0; i < sqlParameters.Length; i++)
+            {
+                SqlParameter sqlParameter = sqlParameters[i];
+                stringBuilder.Append($" @{(sqlParameter.ParameterName.Replace("@", ""))},");
+            }
+
+            var sql = stringBuilder.ToString();
+            if (sql.EndsWith(",")) sql = sql[0..^1];
+
+            if (excuteSqlOptions == ExcuteSqlOptions.ScalarFunction)
+            {
+                sql += (")");
+            }
+
+            return sql;
+        }
     }
 }

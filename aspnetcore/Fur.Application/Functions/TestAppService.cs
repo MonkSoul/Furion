@@ -145,5 +145,27 @@ namespace Fur.Application.Functions
         {
             return _testRepository.FromSqlDataSetQueryAsync<TestOutput, TestOutput>(input.Sql);
         }
+
+        /// <summary>
+        /// 执行存储过程
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        // ================================
+        //    CREATE PROCEDURE PR_GetTest @Name NVARCHAR(32)
+        //    AS
+        //    BEGIN
+        //        SELECT Id,
+        //               Name,
+        //               Age
+        //        FROM dbo.Tests
+        //        WHERE Name LIKE '%' + @Name + '%';
+        //    END;
+        // ================================
+        [AttachAction(EveryWordToRoutePath = true)]
+        public Task<IEnumerable<TestOutput>> SqlProcedureQueryAsync(string name)
+        {
+            return _testRepository.FromSqlProcedureQueryAsync<TestOutput, object>(name, new { Name = "小僧" });
+        }
     }
 }

@@ -2,6 +2,7 @@
 using Fur.Linq.Extensions;
 using Mapster;
 using Microsoft.Data.SqlClient;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -24,8 +25,9 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns>SqlParameter[]</returns>
         public static SqlParameter[] ToSqlParameters<TParameterModel>(this TParameterModel parameterModel) where TParameterModel : class
         {
-            var type = parameterModel.GetType();
-            var properities = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var type = parameterModel?.GetType();
+
+            var properities = type?.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
             var paramValues = new List<SqlParameter>();
 

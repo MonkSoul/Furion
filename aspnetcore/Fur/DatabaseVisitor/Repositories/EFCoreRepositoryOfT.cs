@@ -1,6 +1,7 @@
 ﻿using Fur.DatabaseVisitor.Dependencies;
 using Fur.DatabaseVisitor.Extensions;
 using Fur.DependencyInjection.Lifetimes;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -749,9 +750,50 @@ namespace Fur.DatabaseVisitor.Repositories
             return FromSqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8>(sql, parameterModel.ToSqlParameters());
         }
 
+
         public virtual Task<object> FromSqlDataSetQueryAsync<TParameterModel>(string sql, object[] types, TParameterModel parameterModel) where TParameterModel : class
         {
             return FromSqlDataSetQueryAsync(sql, types, parameterModel.ToSqlParameters());
+        }
+
+        public virtual DataTable FromSqlProcedureQuery(string name, params object[] parameters)
+        {
+            return Database.SqlProcedureQuery(name, parameters);
+        }
+
+        public virtual Task<DataTable> FromSqlProcedureQueryAsync(string name, params object[] parameters)
+        {
+            return Database.SqlProcedureQueryAsync(name, parameters);
+        }
+
+        public virtual DataTable FromSqlProcedureQuery<TParameterModel>(string name, TParameterModel parameterModel) where TParameterModel : class
+        {
+            return Database.SqlProcedureQuery(name, parameterModel);
+        }
+
+        public virtual Task<DataTable> FromSqlProcedureQueryAsync<TParameterModel>(string name, TParameterModel parameterModel) where TParameterModel : class
+        {
+            return Database.SqlProcedureQueryAsync(name, parameterModel);
+        }
+
+        public virtual IEnumerable<T> FromSqlProcedureQuery<T>(string name, params object[] parameters)
+        {
+            return Database.SqlProcedureQuery<T>(name, parameters);
+        }
+
+        public virtual Task<IEnumerable<T>> FromSqlProcedureQueryAsync<T>(string name, params object[] parameters)
+        {
+            return Database.SqlProcedureQueryAsync<T>(name, parameters);
+        }
+
+        public virtual IEnumerable<T> FromSqlProcedureQuery<T, TParameterModel>(string name, TParameterModel parameterModel) where TParameterModel : class
+        {
+            return Database.SqlProcedureQuery<T, TParameterModel>(name, parameterModel);
+        }
+
+        public virtual Task<IEnumerable<T>> FromSqlProcedureQueryAsync<T, TParameterModel>(string name, TParameterModel parameterModel) where TParameterModel : class
+        {
+            return Database.SqlProcedureQueryAsync<T, TParameterModel>(name, parameterModel);
         }
     }
 }

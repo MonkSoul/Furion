@@ -1,4 +1,5 @@
 ﻿using Fur.DatabaseVisitor.Dependencies;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -176,5 +177,15 @@ namespace Fur.DatabaseVisitor.Repositories
         Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7)> FromSqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class;
         Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> FromSqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class;
         Task<object> FromSqlDataSetQueryAsync<TParameterModel>(string sql, object[] types, TParameterModel parameterModel) where TParameterModel : class;
+
+        // 存储过程
+        DataTable FromSqlProcedureQuery(string name, params object[] parameters);
+        Task<DataTable> FromSqlProcedureQueryAsync(string name, params object[] parameters);
+        DataTable FromSqlProcedureQuery<TParameterModel>(string name, TParameterModel parameterModel) where TParameterModel : class;
+        Task<DataTable> FromSqlProcedureQueryAsync<TParameterModel>(string name, TParameterModel parameterModel) where TParameterModel : class;
+        IEnumerable<T> FromSqlProcedureQuery<T>(string name, params object[] parameters);
+        Task<IEnumerable<T>> FromSqlProcedureQueryAsync<T>(string name, params object[] parameters);
+        IEnumerable<T> FromSqlProcedureQuery<T, TParameterModel>(string name, TParameterModel parameterModel) where TParameterModel : class;
+        Task<IEnumerable<T>> FromSqlProcedureQueryAsync<T, TParameterModel>(string name, TParameterModel parameterModel) where TParameterModel : class;
     }
 }
