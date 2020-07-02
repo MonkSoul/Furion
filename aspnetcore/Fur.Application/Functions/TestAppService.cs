@@ -1,6 +1,7 @@
 ﻿using Fur.Application.Functions.Dtos;
 using Fur.AttachController.Attributes;
 using Fur.AttachController.Dependencies;
+using Fur.DatabaseVisitor.Extensions;
 using Fur.DatabaseVisitor.Repositories;
 using Fur.Extensions;
 using Fur.Linq.Extensions;
@@ -122,6 +123,17 @@ namespace Fur.Application.Functions
             var entity = await _testRepository.FindAsync(id) ?? throw new InvalidOperationException("非法操作：没找到数据。");
 
             await _testRepository.DeleteSaveChangesAsync(entity);
+        }
+
+        /// <summary>
+        /// 原始Sql查询
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AttachAction(EveryWordToRoutePath = true)]
+        public Task<IEnumerable<TestOutput>> SqlQueryAsync(TestSqlInput input)
+        {
+            return _testRepository.FromSqlOriginalAsync(input.Sql).ToEnumerableAsync<TestOutput>();
         }
     }
 }

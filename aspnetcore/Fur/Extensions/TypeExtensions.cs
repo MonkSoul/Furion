@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Reflection;
 
 namespace Fur.Extensions
@@ -52,5 +53,22 @@ namespace Fur.Extensions
         /// <returns>是/否</returns>
         public static bool IsNullable(this Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
         #endregion
+
+        public static void SetPropertyValue(this PropertyInfo property, object obj, object value)
+            => property.SetValue(obj, SetPropertyValue(value, property.PropertyType));
+
+        private static object SetPropertyValue(object value, Type conversionType)
+        {
+            if (conversionType.IsGenericType && conversionType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
+            {
+                if (value == null) return null;
+
+                NullableConverter nullableConverter = new NullableConverter(conversionType);
+                conversionType = nullableConverter.UnderlyingType;
+            }
+            if (typeof(System.Enum).IsAssignableFrom(conversionType)) return Enum.Parse(conversionType, value.ToString());
+
+            return Convert.ChangeType(value, conversionType);
+        }
     }
 }

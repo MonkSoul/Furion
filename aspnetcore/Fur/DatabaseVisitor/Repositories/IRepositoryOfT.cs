@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
@@ -120,5 +121,7 @@ namespace Fur.DatabaseVisitor.Repositories
         // 原始Sql查询
         IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters);
         IQueryable<TEntity> FromSqlRaw<TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class;
+        DataTable FromSqlOriginal(string sql, params object[] parameters);
+        Task<DataTable> FromSqlOriginalAsync(string sql, params object[] parameters);
     }
 }

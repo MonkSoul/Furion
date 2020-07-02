@@ -26,13 +26,13 @@ namespace Fur.EntityFramework.Core.Extensions
         {
             services.AddDbContextPool<FurSqlServerDbContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("FurConnectionString"));
                 if (env.IsDevelopment())
                 {
                     options/*.UseLazyLoadingProxies()*/
                                 .EnableDetailedErrors()
-                                .ConfigureWarnings(c => c.Log((RelationalEventId.CommandExecuting, LogLevel.Debug)));
+                                .EnableSensitiveDataLogging();
                 }
+                options.UseSqlServer(configuration.GetConnectionString("FurConnectionString"));
             }
             , poolSize: 128);
 

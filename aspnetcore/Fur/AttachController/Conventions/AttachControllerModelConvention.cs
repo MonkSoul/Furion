@@ -201,7 +201,7 @@ namespace Fur.AttachController.Conventions
         private void ConfigureActionRouteAndHttpMethod(ControllerModel controllerModel, ActionModel actionModel, AttachActionAttribute attachActionAttribute)
         {
             var verbKey = Helper.GetCamelCaseFirstWord(actionModel.ActionMethod.Name).ToLower();
-            var verb = Consts.HttpVerbSetter.ContainsKey(verbKey) ? Consts.HttpVerbSetter[verbKey] : _attactControllerOptions.DefaultHttpMethod.ToLower();
+            var verb = Consts.HttpVerbSetter.ContainsKey(verbKey) ? Consts.HttpVerbSetter[verbKey] : _attactControllerOptions.DefaultHttpMethod.ToUpper();
 
             var actionModelSelector = actionModel.Selectors[0];
 

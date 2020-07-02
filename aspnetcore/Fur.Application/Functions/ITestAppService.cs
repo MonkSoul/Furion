@@ -1,5 +1,6 @@
 ﻿using Fur.Application.Functions.Dtos;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 
 namespace Fur.Application.Functions
@@ -54,5 +55,12 @@ namespace Fur.Application.Functions
         /// <param name="id">主键Id</param>
         /// <returns></returns>
         Task DeleteAsync(int id);
+
+        /// <summary>
+        /// 原始Sql查询
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<IEnumerable<TestOutput>> SqlQueryAsync(TestSqlInput input);
     }
 }
