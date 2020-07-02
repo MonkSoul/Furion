@@ -140,7 +140,7 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [AttachAction(KeepOriginalName = true)]
+        [AttachAction(EveryWordToRoutePath = true)]
         public Task<(IEnumerable<TestOutput>, IEnumerable<TestOutput>)> SqlDatasetQueryAsync(TestSqlInput input)
         {
             return _testRepository.FromSqlDataSetQueryAsync<TestOutput, TestOutput>(input.Sql);
