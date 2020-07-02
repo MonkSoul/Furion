@@ -1,13 +1,10 @@
 ﻿using Fur.Extensions;
-using Fur.Linq.Extensions;
 using Mapster;
 using Microsoft.Data.SqlClient;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -16,14 +13,14 @@ namespace Fur.DatabaseVisitor.Extensions
 {
     public static class SqlModelExtensions
     {
-        #region 类转SqlParameter参数 +/* public static SqlParameter[] ToSqlParameters<TParameterModel>(this TParameterModel parameterModel) where TParameterModel : class
+        #region 类转SqlParameter参数 +/* public static SqlParameter[] ToSqlParameters(this object parameterModel) 
         /// <summary>
         /// 类转SqlParameter参数
         /// </summary>
         /// <typeparam name="TParameterModel">类泛型类型</typeparam>
         /// <param name="parameterModel">类泛型类型值</param>
         /// <returns>SqlParameter[]</returns>
-        public static SqlParameter[] ToSqlParameters<TParameterModel>(this TParameterModel parameterModel) where TParameterModel : class
+        public static SqlParameter[] ToSqlParameters(this object parameterModel)
         {
             var type = parameterModel?.GetType();
 

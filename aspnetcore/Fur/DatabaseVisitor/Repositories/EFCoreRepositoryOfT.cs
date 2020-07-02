@@ -500,7 +500,7 @@ namespace Fur.DatabaseVisitor.Repositories
             return Entity.FromSqlRaw(sql, parameters);
         }
 
-        public virtual IQueryable<TEntity> FromSqlRaw<TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual IQueryable<TEntity> FromSqlRaw(string sql, object parameterModel)
         {
             return Entity.FromSqlRaw(sql, parameterModel.ToSqlParameters());
         }
@@ -535,22 +535,22 @@ namespace Fur.DatabaseVisitor.Repositories
             return entities;
         }
 
-        public virtual DataTable FromSqlQuery<TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual DataTable FromSqlQuery(string sql, object parameterModel)
         {
             return FromSqlQuery(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual Task<DataTable> FromSqlQueryAsync<TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual Task<DataTable> FromSqlQueryAsync(string sql, object parameterModel)
         {
             return FromSqlQueryAsync(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual IEnumerable<T> FromSqlQuery<T, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual IEnumerable<T> FromSqlQuery<T>(string sql, object parameterModel)
         {
             return FromSqlQuery<T>(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual Task<IEnumerable<T>> FromSqlQueryAsync<T, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual Task<IEnumerable<T>> FromSqlQueryAsync<T>(string sql, object parameterModel)
         {
             return FromSqlQueryAsync<T>(sql, parameterModel.ToSqlParameters());
         }
@@ -565,12 +565,12 @@ namespace Fur.DatabaseVisitor.Repositories
             return Database.SqlDataSetQueryAsync(sql, parameters);
         }
 
-        public virtual DataSet FromSqlDataSetQuery<TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual DataSet FromSqlDataSetQuery(string sql, object parameterModel)
         {
             return FromSqlDataSetQuery(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual Task<DataSet> FromSqlDataSetQueryAsync<TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual Task<DataSet> FromSqlDataSetQueryAsync(string sql, object parameterModel)
         {
             return FromSqlDataSetQueryAsync(sql, parameterModel.ToSqlParameters());
         }
@@ -665,93 +665,93 @@ namespace Fur.DatabaseVisitor.Repositories
             return Database.SqlDataSetQueryAsync(sql, types, parameters);
         }
 
-        public virtual IEnumerable<T1> FromSqlDataSetQuery<T1, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual IEnumerable<T1> FromSqlDataSetQuery<T1>(string sql, object parameterModel)
         {
             return FromSqlDataSetQuery<T1>(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual (IEnumerable<T1> data1, IEnumerable<T2> data2) FromSqlDataSetQuery<T1, T2, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual (IEnumerable<T1> data1, IEnumerable<T2> data2) FromSqlDataSetQuery<T1, T2>(string sql, object parameterModel)
         {
             return FromSqlDataSetQuery<T1, T2>(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3) FromSqlDataSetQuery<T1, T2, T3, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3) FromSqlDataSetQuery<T1, T2, T3>(string sql, object parameterModel)
         {
             return FromSqlDataSetQuery<T1, T2, T3>(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4) FromSqlDataSetQuery<T1, T2, T3, T4, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4) FromSqlDataSetQuery<T1, T2, T3, T4>(string sql, object parameterModel)
         {
             return FromSqlDataSetQuery<T1, T2, T3, T4>(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5) FromSqlDataSetQuery<T1, T2, T3, T4, T5, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5) FromSqlDataSetQuery<T1, T2, T3, T4, T5>(string sql, object parameterModel)
         {
             return FromSqlDataSetQuery<T1, T2, T3, T4, T5>(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6) FromSqlDataSetQuery<T1, T2, T3, T4, T5, T6, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6) FromSqlDataSetQuery<T1, T2, T3, T4, T5, T6>(string sql, object parameterModel)
         {
             return FromSqlDataSetQuery<T1, T2, T3, T4, T5, T6>(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7) FromSqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7) FromSqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7>(string sql, object parameterModel)
         {
             return FromSqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7>(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) FromSqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7, T8, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) FromSqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, object parameterModel)
         {
             return FromSqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7, T8>(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual object FromSqlDataSetQuery<TParameterModel>(string sql, object[] types, TParameterModel parameterModel) where TParameterModel : class
+        public virtual object FromSqlDataSetQuery(string sql, object[] types, object parameterModel)
         {
             return FromSqlDataSetQuery(sql, types, parameterModel.ToSqlParameters());
         }
 
-        public virtual Task<IEnumerable<T1>> FromSqlDataSetQueryAsync<T1, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual Task<IEnumerable<T1>> FromSqlDataSetQueryAsync<T1>(string sql, object parameterModel)
         {
             return FromSqlDataSetQueryAsync<T1>(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual Task<(IEnumerable<T1> data1, IEnumerable<T2> data2)> FromSqlDataSetQueryAsync<T1, T2, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual Task<(IEnumerable<T1> data1, IEnumerable<T2> data2)> FromSqlDataSetQueryAsync<T1, T2>(string sql, object parameterModel)
         {
             return FromSqlDataSetQueryAsync<T1, T2>(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3)> FromSqlDataSetQueryAsync<T1, T2, T3, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3)> FromSqlDataSetQueryAsync<T1, T2, T3>(string sql, object parameterModel)
         {
             return FromSqlDataSetQueryAsync<T1, T2, T3>(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4)> FromSqlDataSetQueryAsync<T1, T2, T3, T4, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4)> FromSqlDataSetQueryAsync<T1, T2, T3, T4>(string sql, object parameterModel)
         {
             return FromSqlDataSetQueryAsync<T1, T2, T3, T4>(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5)> FromSqlDataSetQueryAsync<T1, T2, T3, T4, T5, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5)> FromSqlDataSetQueryAsync<T1, T2, T3, T4, T5>(string sql, object parameterModel)
         {
             return FromSqlDataSetQueryAsync<T1, T2, T3, T4, T5>(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6)> FromSqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6)> FromSqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6>(string sql, object parameterModel)
         {
             return FromSqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6>(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7)> FromSqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7)> FromSqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7>(string sql, object parameterModel)
         {
             return FromSqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7>(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> FromSqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        public virtual Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> FromSqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, object parameterModel)
         {
             return FromSqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8>(sql, parameterModel.ToSqlParameters());
         }
 
 
-        public virtual Task<object> FromSqlDataSetQueryAsync<TParameterModel>(string sql, object[] types, TParameterModel parameterModel) where TParameterModel : class
+        public virtual Task<object> FromSqlDataSetQueryAsync(string sql, object[] types, object parameterModel)
         {
             return FromSqlDataSetQueryAsync(sql, types, parameterModel.ToSqlParameters());
         }
@@ -766,12 +766,12 @@ namespace Fur.DatabaseVisitor.Repositories
             return Database.SqlProcedureQueryAsync(name, parameters);
         }
 
-        public virtual DataTable FromSqlProcedureQuery<TParameterModel>(string name, TParameterModel parameterModel) where TParameterModel : class
+        public virtual DataTable FromSqlProcedureQuery(string name, object parameterModel)
         {
             return Database.SqlProcedureQuery(name, parameterModel);
         }
 
-        public virtual Task<DataTable> FromSqlProcedureQueryAsync<TParameterModel>(string name, TParameterModel parameterModel) where TParameterModel : class
+        public virtual Task<DataTable> FromSqlProcedureQueryAsync(string name, object parameterModel)
         {
             return Database.SqlProcedureQueryAsync(name, parameterModel);
         }
@@ -786,14 +786,14 @@ namespace Fur.DatabaseVisitor.Repositories
             return Database.SqlProcedureQueryAsync<T>(name, parameters);
         }
 
-        public virtual IEnumerable<T> FromSqlProcedureQuery<T, TParameterModel>(string name, TParameterModel parameterModel) where TParameterModel : class
+        public virtual IEnumerable<T> FromSqlProcedureQuery<T>(string name, object parameterModel)
         {
-            return Database.SqlProcedureQuery<T, TParameterModel>(name, parameterModel);
+            return Database.SqlProcedureQuery<T>(name, parameterModel.ToSqlParameters());
         }
 
-        public virtual Task<IEnumerable<T>> FromSqlProcedureQueryAsync<T, TParameterModel>(string name, TParameterModel parameterModel) where TParameterModel : class
+        public virtual Task<IEnumerable<T>> FromSqlProcedureQueryAsync<T>(string name, object parameterModel)
         {
-            return Database.SqlProcedureQueryAsync<T, TParameterModel>(name, parameterModel);
+            return Database.SqlProcedureQueryAsync<T>(name, parameterModel.ToSqlParameters());
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Fur.DatabaseVisitor.Helpers
         }
         #endregion
 
-        #region 组合存储过程/函数Sql语句 + internal static (string sql, SqlParameter[] parameters) CombineExecuteSql<TParameterModel>(ExcuteSqlOptions excuteSqlOptions, string name, TParameterModel parameterModel = null) where TParameterModel : class
+        #region 组合存储过程/函数Sql语句 + internal static (string sql, SqlParameter[] parameters) CombineExecuteSql(ExcuteSqlOptions excuteSqlOptions, string name, object parameterModel = null) 
         /// <summary>
         /// 组合存储过程/函数Sql语句
         /// </summary>
@@ -43,7 +43,7 @@ namespace Fur.DatabaseVisitor.Helpers
         /// <param name="name"></param>
         /// <param name="parameterModel"></param>
         /// <returns></returns>
-        internal static (string sql, SqlParameter[] parameters) CombineExecuteSql<TParameterModel>(ExcuteSqlOptions excuteSqlOptions, string name, TParameterModel parameterModel = null) where TParameterModel : class
+        internal static (string sql, SqlParameter[] parameters) CombineExecuteSql(ExcuteSqlOptions excuteSqlOptions, string name, object parameterModel = null)
         {
             var type = parameterModel?.GetType();
             var properities = type?.GetProperties(BindingFlags.Public | BindingFlags.Instance);
