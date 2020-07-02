@@ -134,5 +134,16 @@ namespace Fur.Application.Functions
         {
             return _testRepository.FromSqlQueryAsync<TestOutput>(input.Sql);
         }
+
+        /// <summary>
+        /// 原始Sql DataSet 查询
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AttachAction(EveryWordToRoutePath = true)]
+        public Task<(IEnumerable<TestOutput>, IEnumerable<TestOutput>)> SqlDatasetQueryAsync(TestSqlInput input)
+        {
+            return _testRepository.FromSqlDataSetQueryAsync<TestOutput, TestOutput>(input.Sql);
+        }
     }
 }

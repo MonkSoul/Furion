@@ -62,5 +62,12 @@ namespace Fur.Application.Functions
         /// <param name="input"></param>
         /// <returns></returns>
         Task<IEnumerable<TestOutput>> SqlQueryAsync(TestSqlInput input);
+
+        /// <summary>
+        /// 原始Sql DataSet 查询
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<(IEnumerable<TestOutput>, IEnumerable<TestOutput>)> SqlDatasetQueryAsync(TestSqlInput input);
     }
 }

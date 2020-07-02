@@ -36,6 +36,8 @@ namespace Fur.AttachController.Extensions
                 options.Conventions.Add(new AttachControllerModelConvention(attactControllerOptions.Get<AttactControllerOptions>()));
             });
 
+            mvcBuilder.AddNewtonsoftJson();
+
             return mvcBuilder;
         }
         #endregion
