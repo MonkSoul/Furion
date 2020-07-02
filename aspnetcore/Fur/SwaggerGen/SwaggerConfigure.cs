@@ -182,6 +182,13 @@ namespace Fur.SwaggerGen
 
             swaggerUIOptions.RoutePrefix = string.Empty;
             swaggerUIOptions.DocumentTitle = swaggerOptions?.DocumentTitle;
+
+            if (swaggerOptions.EnableMiniProfiler)
+            {
+                var thisType = typeof(SwaggerConfigure);
+                var thisAssembly = thisType.Assembly;
+                swaggerUIOptions.IndexStream = () => thisAssembly.GetManifestResourceStream($"{thisType.Namespace}.Assets.MiniProfilerIndex.html");
+            }
         }
         #endregion
     }

@@ -1,4 +1,5 @@
 ﻿using Fur.DatabaseVisitor.Dependencies;
+using Fur.DatabaseVisitor.Extensions;
 using Fur.DependencyInjection.Lifetimes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -500,6 +501,16 @@ namespace Fur.DatabaseVisitor.Repositories
             if (expression != null) entities = entities.Where(expression);
 
             return entities;
+        }
+
+        public IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters)
+        {
+            return Entity.FromSqlRaw(sql, parameters);
+        }
+
+        public IQueryable<TEntity> FromSqlRaw<TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        {
+            return Entity.FromSqlRaw(sql, parameterModel.ToSqlParameters());
         }
     }
 }

@@ -2,6 +2,8 @@
 using Fur.SwaggerGen.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Profiling.Storage;
+using System;
 
 namespace Fur.SwaggerGen.Extensions
 {
@@ -19,11 +21,22 @@ namespace Fur.SwaggerGen.Extensions
         /// <returns>新的服务集合</returns>
         public static IServiceCollection AddFurSwaggerGen(this IServiceCollection services, IConfiguration configuration)
         {
-            var attactControllerOptions = configuration.GetSection($"{nameof(FurSettings)}:{nameof(SwaggerOptions)}");
-            services.AddOptions<SwaggerOptions>().Bind(attactControllerOptions).ValidateDataAnnotations();
+            var swaggerOptionsConfiguration = configuration.GetSection($"{nameof(FurSettings)}:{nameof(SwaggerOptions)}");
+            services.AddOptions<SwaggerOptions>().Bind(swaggerOptionsConfiguration).ValidateDataAnnotations();
 
-            SwaggerConfigure.SetSwaggerOptions(attactControllerOptions.Get<SwaggerOptions>());
+            var swaggerOptions = swaggerOptionsConfiguration.Get<SwaggerOptions>();
+            SwaggerConfigure.SetSwaggerOptions(swaggerOptions);
             services.AddSwaggerGen(options => SwaggerConfigure.Initialize(options));
+
+            if (swaggerOptions.EnableMiniProfiler)
+            {
+                services.AddMiniProfiler(options =>
+                {
+                    options.RouteBasePath = "/profiler";
+                    (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromMinutes(10);
+                })
+                    .AddEntityFramework();
+            }
 
             return services;
         }

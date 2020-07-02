@@ -116,5 +116,9 @@ namespace Fur.DatabaseVisitor.Repositories
         int SaveChanges(bool acceptAllChangesOnSuccess);
         Task<int> SaveChangesAsync();
         Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess);
+
+        // 原始Sql查询
+        IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters);
+        IQueryable<TEntity> FromSqlRaw<TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class;
     }
 }

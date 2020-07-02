@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Fur.SwaggerGen.Options;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Fur.SwaggerGen.Extensions
 {
@@ -15,6 +18,11 @@ namespace Fur.SwaggerGen.Extensions
         /// <returns>新的应用构建器</returns>
         public static IApplicationBuilder AddFurSwaggerUI(this IApplicationBuilder app)
         {
+            var swaggerOptions = app.ApplicationServices.GetService<IOptionsMonitor<SwaggerOptions>>().CurrentValue;
+            if (swaggerOptions.EnableMiniProfiler)
+            {
+                app.UseMiniProfiler();
+            }
             app.UseSwagger();
             app.UseSwaggerUI(options => SwaggerConfigure.Initialize(options));
 
