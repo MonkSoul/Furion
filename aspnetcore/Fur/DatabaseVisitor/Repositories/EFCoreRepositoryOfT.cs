@@ -494,6 +494,36 @@ namespace Fur.DatabaseVisitor.Repositories
             return DbContext.SaveChangesAsync(acceptAllChangesOnSuccess);
         }
 
+        public virtual IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters)
+        {
+            return Entity.FromSqlRaw(sql, parameters);
+        }
+
+        public virtual IQueryable<TEntity> FromSqlRaw<TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        {
+            return Entity.FromSqlRaw(sql, parameterModel.ToSqlParameters());
+        }
+
+        public virtual DataTable FromSqlOriginal(string sql, params object[] parameters)
+        {
+            return Database.DbSqlQuery(sql, parameters);
+        }
+
+        public virtual Task<DataTable> FromSqlOriginalAsync(string sql, params object[] parameters)
+        {
+            return Database.DbSqlQueryAsync(sql, parameters);
+        }
+
+        public virtual IEnumerable<T> FromSqlOriginal<T>(string sql, params object[] parameters)
+        {
+            return Database.DbSqlQuery<T>(sql, parameters);
+        }
+
+        public virtual Task<IEnumerable<T>> FromSqlOriginalAsync<T>(string sql, params object[] parameters)
+        {
+            return Database.DbSqlQueryAsync<T>(sql, parameters);
+        }
+
         private IQueryable<TEntity> GetQueryConditionCombine(Expression<Func<TEntity, bool>> expression = null, bool noTracking = false, bool ignoreQueryFilters = false)
         {
             IQueryable<TEntity> entities = Entity;
@@ -502,26 +532,6 @@ namespace Fur.DatabaseVisitor.Repositories
             if (expression != null) entities = entities.Where(expression);
 
             return entities;
-        }
-
-        public IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters)
-        {
-            return Entity.FromSqlRaw(sql, parameters);
-        }
-
-        public IQueryable<TEntity> FromSqlRaw<TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
-        {
-            return Entity.FromSqlRaw(sql, parameterModel.ToSqlParameters());
-        }
-
-        public DataTable FromSqlOriginal(string sql, params object[] parameters)
-        {
-            return Database.DbSqlQuery(sql, parameters);
-        }
-
-        public Task<DataTable> FromSqlOriginalAsync(string sql, params object[] parameters)
-        {
-            return Database.DbSqlQueryAsync(sql, parameters);
         }
     }
 }

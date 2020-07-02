@@ -133,7 +133,7 @@ namespace Fur.Application.Functions
         [AttachAction(EveryWordToRoutePath = true)]
         public Task<IEnumerable<TestOutput>> SqlQueryAsync(TestSqlInput input)
         {
-            return _testRepository.FromSqlOriginalAsync(input.Sql).ToEnumerableAsync<TestOutput>();
+            return _testRepository.FromSqlOriginalAsync<TestOutput>(input.Sql);
         }
     }
 }

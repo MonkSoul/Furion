@@ -123,5 +123,7 @@ namespace Fur.DatabaseVisitor.Repositories
         IQueryable<TEntity> FromSqlRaw<TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class;
         DataTable FromSqlOriginal(string sql, params object[] parameters);
         Task<DataTable> FromSqlOriginalAsync(string sql, params object[] parameters);
+        IEnumerable<T> FromSqlOriginal<T>(string sql, params object[] parameters);
+        Task<IEnumerable<T>> FromSqlOriginalAsync<T>(string sql, params object[] parameters);
     }
 }

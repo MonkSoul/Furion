@@ -59,6 +59,11 @@ namespace Fur.DatabaseVisitor.Extensions
             return dataTable;
         }
 
+        public static IEnumerable<T> DbSqlQuery<T>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        {
+            return DbSqlQuery(databaseFacade, sql, parameters).ToEnumerable<T>();
+        }
+
         public static async Task<DataTable> DbSqlQueryAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var (dbConnection, dbCommand) = await databaseFacade.WrapperDbConnectionAndCommandAsync(sql, parameters);
@@ -69,6 +74,11 @@ namespace Fur.DatabaseVisitor.Extensions
             await dbConnection.CloseAsync();
             dbCommand.Parameters.Clear();
             return await Task.FromResult(dataTable);
+        }
+
+        public static Task<IEnumerable<T>> DbSqlQueryAsync<T>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        {
+            return DbSqlQueryAsync(databaseFacade, sql, parameters).ToEnumerableAsync<T>();
         }
 
         #region 包装数据库链接和执行命令对象 -/* private static (DbConnection, DbCommand) WrapperDbConnectionAndCommand(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
