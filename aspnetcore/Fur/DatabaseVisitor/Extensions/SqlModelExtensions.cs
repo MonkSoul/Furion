@@ -29,13 +29,14 @@ namespace Fur.DatabaseVisitor.Extensions
 
             var paramValues = new List<SqlParameter>();
 
-            for (int i = 0; i < properities.Length; i++)
+            for (int i = 0; i < properities?.Length; i++)
             {
                 var property = properities[i];
-                var value = property.GetValue(parameterModel);
-                if (value == null) continue;
-
-                paramValues.Add(new SqlParameter(property.Name, value));
+                if (parameterModel != null)
+                {
+                    var value = property.GetValue(parameterModel);
+                    paramValues.Add(new SqlParameter(property.Name, value ?? DBNull.Value));
+                }
             }
             return paramValues.ToArray();
         }
