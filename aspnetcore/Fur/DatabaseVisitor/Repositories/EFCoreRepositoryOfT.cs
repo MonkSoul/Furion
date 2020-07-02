@@ -533,5 +533,25 @@ namespace Fur.DatabaseVisitor.Repositories
 
             return entities;
         }
+
+        public DataTable FromSqlOriginal<TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        {
+            return FromSqlOriginal(sql, parameterModel.ToSqlParameters());
+        }
+
+        public Task<DataTable> FromSqlOriginalAsync<TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        {
+            return FromSqlOriginalAsync(sql, parameterModel.ToSqlParameters());
+        }
+
+        public IEnumerable<T> FromSqlOriginal<T, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        {
+            return FromSqlOriginal<T>(sql, parameterModel.ToSqlParameters());
+        }
+
+        public Task<IEnumerable<T>> FromSqlOriginalAsync<T, TParameterModel>(string sql, TParameterModel parameterModel) where TParameterModel : class
+        {
+            return FromSqlOriginalAsync<T>(sql, parameterModel.ToSqlParameters());
+        }
     }
 }

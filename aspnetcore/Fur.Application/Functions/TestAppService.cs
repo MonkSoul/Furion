@@ -1,7 +1,6 @@
 ﻿using Fur.Application.Functions.Dtos;
 using Fur.AttachController.Attributes;
 using Fur.AttachController.Dependencies;
-using Fur.DatabaseVisitor.Extensions;
 using Fur.DatabaseVisitor.Repositories;
 using Fur.Extensions;
 using Fur.Linq.Extensions;
