@@ -1,9 +1,9 @@
 ﻿using Fur.ApplicationSystem;
-using Fur.ApplicationSystem.Models;
 using Fur.DatabaseVisitor.Dependencies;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Reflection;
 
 namespace Fur.DatabaseVisitor.DbContexts
 {
@@ -35,29 +35,42 @@ namespace Fur.DatabaseVisitor.DbContexts
             if (IsScanViewEntity) return;
 
             var viewTypes = ApplicationGlobal.ApplicationInfo.PublicClassTypes.Where(u => typeof(View).IsAssignableFrom(u.Type));
+            ResolveModelBuilderMethods(modelBuilder);
             foreach (var viewType in viewTypes)
             {
-                var entityMethodInfo = modelBuilder.GetType().GetMethods()
-                    .Where(u => u.Name == "Entity" && u.GetParameters().Length == 0)
-                    .FirstOrDefault();
-                entityMethodInfo = entityMethodInfo.MakeGenericMethod(new Type[] { viewType.Type });
-                var entityTypeBuilder = entityMethodInfo.Invoke(modelBuilder, null);
+                modelBuilderEntityMethod = modelBuilderEntityMethod.MakeGenericMethod(new Type[] { viewType.Type });
+                var entityTypeBuilder = modelBuilderEntityMethod.Invoke(modelBuilder, null);
 
                 var entityTypeBuilderType = entityTypeBuilder.GetType();
                 var hasNoKeyMethodInfo = entityTypeBuilderType.GetMethod("HasNoKey");
                 hasNoKeyMethodInfo.Invoke(entityTypeBuilder, null);
 
-                var relationalEntityTypeBuilderExtensionsType = typeof(RelationalEntityTypeBuilderExtensions);
-                var toViewMethod = relationalEntityTypeBuilderExtensionsType.GetMethods()
-                    .Where(u => u.Name == "ToView" && u.GetParameters().Length == 2 && u.GetParameters().First().ParameterType.IsGenericType)
-                    .FirstOrDefault();
-
-                toViewMethod = toViewMethod.MakeGenericMethod(new Type[] { viewType.Type });
+                entityBuilderEntityToViewMethod = entityBuilderEntityToViewMethod.MakeGenericMethod(new Type[] { viewType.Type });
                 var viewInstance = Activator.CreateInstance(viewType.Type) as View;
-                toViewMethod.Invoke(null, new object[] { entityTypeBuilder, viewInstance.ToViewName });
+                entityBuilderEntityToViewMethod.Invoke(null, new object[] { entityTypeBuilder, viewInstance.ToViewName });
             }
 
             IsScanViewEntity = true;
+        }
+
+        private static MethodInfo modelBuilderEntityMethod = null;
+        private static MethodInfo entityBuilderEntityToViewMethod = null;
+        private static void ResolveModelBuilderMethods(ModelBuilder modelBuilder)
+        {
+            if (modelBuilderEntityMethod == null)
+            {
+                modelBuilderEntityMethod = modelBuilder.GetType().GetMethods()
+                    .Where(u => u.Name == "Entity" && u.GetParameters().Length == 0)
+                    .FirstOrDefault();
+            }
+
+            if (entityBuilderEntityToViewMethod == null)
+            {
+                var relationalEntityTypeBuilderExtensionsType = typeof(RelationalEntityTypeBuilderExtensions);
+                entityBuilderEntityToViewMethod = relationalEntityTypeBuilderExtensionsType.GetMethods()
+                    .Where(u => u.Name == "ToView" && u.GetParameters().Length == 2 && u.GetParameters().First().ParameterType.IsGenericType)
+                    .FirstOrDefault();
+            }
         }
     }
 }
