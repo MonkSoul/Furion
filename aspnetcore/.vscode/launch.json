@@ -5,7 +5,7 @@
    "version": "0.2.0",
    "configurations": [
         {
-            "name": ".NET Core Launch (web)",
+            "name": "Fur Server For Web",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -27,7 +27,7 @@
             }
         },
         {
-            "name": ".NET Core Attach",
+            "name": "Fur Server For Attach",
             "type": "coreclr",
             "request": "attach",
             "processId": "${command:pickProcess}"
