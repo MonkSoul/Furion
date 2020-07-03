@@ -396,6 +396,7 @@ namespace Fur.DatabaseVisitor.Repositories
             await SaveChangesAsync();
         }
 
+        // 新增或更新
         public virtual EntityEntry<TEntity> InsertOrUpdate(TEntity entity)
         {
             if (!IsKeySet(entity))
@@ -431,6 +432,59 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity)
         {
             var entityEntry = await InsertOrUpdateAsync(entity);
+            await SaveChangesAsync();
+            return entityEntry;
+        }
+
+        public virtual EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbUpdateTypeOptions dbUpdateTypeOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            if (!IsKeySet(entity))
+            {
+                return Insert(entity);
+            }
+            else
+            {
+                if (dbUpdateTypeOptions == DbUpdateTypeOptions.IncludeProperties)
+                {
+                    return UpdateIncludeProperties(entity, propertyExpressions);
+                }
+                else
+                {
+                    return UpdateExcludeProperties(entity, propertyExpressions);
+                }
+            }
+        }
+
+        public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbUpdateTypeOptions dbUpdateTypeOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            if (!IsKeySet(entity))
+            {
+                var entityEntry = await InsertAsync(entity);
+                return entityEntry;
+            }
+            else
+            {
+                if (dbUpdateTypeOptions == DbUpdateTypeOptions.IncludeProperties)
+                {
+                    return await UpdateIncludePropertiesAsync(entity, propertyExpressions);
+                }
+                else
+                {
+                    return await UpdateExcludePropertiesAsync(entity, propertyExpressions);
+                }
+            }
+        }
+
+        public virtual EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbUpdateTypeOptions dbUpdateTypeOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            var entityEntry = InsertOrUpdate(entity, dbUpdateTypeOptions, propertyExpressions);
+            SaveChanges();
+            return entityEntry;
+        }
+
+        public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbUpdateTypeOptions dbUpdateTypeOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            var entityEntry = await InsertOrUpdateAsync(entity, dbUpdateTypeOptions, propertyExpressions);
             await SaveChangesAsync();
             return entityEntry;
         }
