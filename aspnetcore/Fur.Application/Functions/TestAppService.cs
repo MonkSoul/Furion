@@ -140,6 +140,8 @@ namespace Fur.Application.Functions
             var entity = await _testRepository.FindAsync(id) ?? throw new InvalidOperationException("非法操作：没找到数据。");
             input.Adapt(entity);
 
+            entity.CreatedTime = DateTime.Now; // 测试代码，不会更新
+
             await _testRepository.UpdateIncludePropertiesSaveChangesAsync(entity, u => u.Name);
         }
 
@@ -155,7 +157,22 @@ namespace Fur.Application.Functions
             var entity = await _testRepository.FindAsync(id) ?? throw new InvalidOperationException("非法操作：没找到数据。");
             input.Adapt(entity);
 
+            entity.CreatedTime = DateTime.Now; // 测试代码，不会更新
+
             await _testRepository.UpdateExcludePropertiesSaveChangesAsync(entity, u => u.Name);
+        }
+
+        /// <summary>
+        /// 新增或更新
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AttachAction(KeepOriginalName = true)]
+        public async Task<TestOutput> InsertOrUpdateAsync(TestOutput input)
+        {
+            var entity = input.Adapt<Test>();
+            var trackEntity = await _testRepository.InsertOrUpdateSaveChangesAsync(entity);
+            return trackEntity.Adapt<TestOutput>();
         }
 
         /// <summary>

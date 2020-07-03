@@ -75,6 +75,13 @@ namespace Fur.DatabaseVisitor.Repositories
         void UpdateExcludePropertiesSaveChanges(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions);
         Task UpdateExcludePropertiesSaveChangesAsync(IAsyncEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions);
 
+        // 新增或更新
+        EntityEntry<TEntity> InsertOrUpdate(TEntity entity);
+        Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity);
+        EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity);
+        Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity);
+
+
         // 删除操作
         EntityEntry<TEntity> Delete(TEntity entity);
         void Delete(params TEntity[] entities);

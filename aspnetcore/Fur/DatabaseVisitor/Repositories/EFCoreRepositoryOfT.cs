@@ -61,11 +61,13 @@ namespace Fur.DatabaseVisitor.Repositories
         }
 
         // 新增更新时候，更新时间/创建时间等字段
-        private void UpdateInvokeDefendPropertyHandler(params TEntity[] entities)
+        private EntityEntry<TEntity>[] UpdateInvokeDefendPropertyHandler(Action updateHandler, params TEntity[] entities)
         {
+            var entityEntries = new List<EntityEntry<TEntity>>();
             foreach (var entity in entities)
             {
                 var entityEntry = EntityEntry(entity);
+                entityEntries.Add(entityEntry);
 
                 var updatedTimeProperty = entityEntry.Property(nameof(EntityBase<int>.UpdatedTime));
                 if (updatedTimeProperty != null && !updatedTimeProperty.IsModified)
@@ -73,14 +75,17 @@ namespace Fur.DatabaseVisitor.Repositories
                     updatedTimeProperty.CurrentValue = DateTime.Now;
                     updatedTimeProperty.IsModified = true;
                 }
-
+                if (updateHandler != null)
+                {
+                    updateHandler();
+                }
                 var createdTimeProperty = entityEntry.Property(nameof(EntityBase<int>.CreatedTime));
                 if (createdTimeProperty != null)
                 {
                     createdTimeProperty.IsModified = false;
                 }
             }
-
+            return entityEntries.ToArray();
         }
 
         // 新增操作
@@ -163,41 +168,52 @@ namespace Fur.DatabaseVisitor.Repositories
         // 更新操作
         public virtual EntityEntry<TEntity> Update(TEntity entity)
         {
-            UpdateInvokeDefendPropertyHandler(entity);
-            var entityEntry = Entity.Update(entity);
-            return entityEntry;
+            return UpdateInvokeDefendPropertyHandler(() =>
+             {
+                 Entity.Update(entity);
+             }, entity).First();
         }
 
         public virtual void Update(params TEntity[] entities)
         {
-            UpdateInvokeDefendPropertyHandler(entities);
-            Entity.UpdateRange(entities);
+            UpdateInvokeDefendPropertyHandler(() =>
+            {
+                Entity.UpdateRange(entities);
+            }, entities);
         }
 
         public virtual void Update(IEnumerable<TEntity> entities)
         {
-            UpdateInvokeDefendPropertyHandler(entities.ToArray());
-            Entity.UpdateRange(entities);
+            UpdateInvokeDefendPropertyHandler(() =>
+            {
+                Entity.UpdateRange(entities);
+            }, entities.ToArray());
         }
 
         public virtual Task<EntityEntry<TEntity>> UpdateAsync(TEntity entity)
         {
-            UpdateInvokeDefendPropertyHandler(entity);
-            var trackEntity = Entity.Update(entity);
-            return Task.FromResult(trackEntity);
+            var entityEntry = UpdateInvokeDefendPropertyHandler(() =>
+             {
+                 Entity.Update(entity);
+             }, entity).First();
+            return Task.FromResult(entityEntry);
         }
 
         public virtual Task UpdateAsync(params TEntity[] entities)
         {
-            UpdateInvokeDefendPropertyHandler(entities);
-            Entity.UpdateRange(entities);
+            UpdateInvokeDefendPropertyHandler(() =>
+            {
+                Entity.UpdateRange(entities);
+            }, entities);
             return Task.CompletedTask;
         }
 
         public virtual Task UpdateAsync(IEnumerable<TEntity> entities)
         {
-            UpdateInvokeDefendPropertyHandler(entities.ToArray());
-            Entity.UpdateRange(entities);
+            UpdateInvokeDefendPropertyHandler(() =>
+            {
+                Entity.UpdateRange(entities);
+            }, entities.ToArray());
             return Task.CompletedTask;
         }
 
@@ -250,7 +266,7 @@ namespace Fur.DatabaseVisitor.Repositories
                 entityEntry.Property(expression).IsModified = true;
             }
 
-            UpdateInvokeDefendPropertyHandler(entity);
+            UpdateInvokeDefendPropertyHandler(null, entity);
             return entityEntry;
         }
 
@@ -258,13 +274,12 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             var entityEntry = EntityEntry(entity);
             Attach(entity);
-
             foreach (var expression in propertyExpressions)
             {
                 entityEntry.Property(expression).IsModified = true;
             }
 
-            UpdateInvokeDefendPropertyHandler(entity);
+            UpdateInvokeDefendPropertyHandler(null, entity);
             return Task.FromResult(entityEntry);
         }
 
@@ -315,13 +330,12 @@ namespace Fur.DatabaseVisitor.Repositories
             var entityEntry = EntityEntry(entity);
             Attach(entity);
             entityEntry.State = EntityState.Modified;
-
             foreach (var expression in propertyExpressions)
             {
                 entityEntry.Property(expression).IsModified = false;
             }
 
-            UpdateInvokeDefendPropertyHandler(entity);
+            UpdateInvokeDefendPropertyHandler(null, entity);
             return entityEntry;
         }
 
@@ -330,13 +344,12 @@ namespace Fur.DatabaseVisitor.Repositories
             var entityEntry = EntityEntry(entity);
             Attach(entity);
             entityEntry.State = EntityState.Modified;
-
             foreach (var expression in propertyExpressions)
             {
                 entityEntry.Property(expression).IsModified = false;
             }
 
-            UpdateInvokeDefendPropertyHandler(entity);
+            UpdateInvokeDefendPropertyHandler(null, entity);
             return Task.FromResult(entityEntry);
         }
 
@@ -379,6 +392,42 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             await UpdateExcludePropertiesAsync(entities, propertyExpressions);
             await SaveChangesAsync();
+        }
+
+        public virtual EntityEntry<TEntity> InsertOrUpdate(TEntity entity)
+        {
+            if (!IsKeySet(entity))
+            {
+                return Insert(entity);
+            }
+            else
+            {
+                return Update(entity);
+            }
+        }
+        public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity)
+        {
+            if (!IsKeySet(entity))
+            {
+                var entityEntry = await InsertAsync(entity);
+                return entityEntry;
+            }
+            else
+            {
+                return await UpdateAsync(entity);
+            }
+        }
+        public virtual EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity)
+        {
+            var entityEntry = InsertOrUpdate(entity);
+            SaveChanges();
+            return entityEntry;
+        }
+        public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity)
+        {
+            var entityEntry = await InsertOrUpdateAsync(entity);
+            await SaveChangesAsync();
+            return entityEntry;
         }
 
 

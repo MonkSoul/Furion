@@ -74,6 +74,13 @@ namespace Fur.Application.Functions
         Task UpdateExcludeProperties(int id, TestInput input);
 
         /// <summary>
+        /// 新增或更新
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<TestOutput> InsertOrUpdateAsync(TestOutput input);
+
+        /// <summary>
         /// 真删除数据
         /// </summary>
         /// <param name="id">主键Id</param>
