@@ -103,7 +103,7 @@ namespace Fur.Application.Functions
         }
 
         /// <summary>
-        /// 更新数据
+        /// 更新所有列数据
         /// </summary>
         /// <param name="id"></param>
         /// <param name="input"></param>
@@ -111,9 +111,39 @@ namespace Fur.Application.Functions
         public async Task UpdateAsync(int id, TestInput input)
         {
             var entity = await _testRepository.FindAsync(id) ?? throw new InvalidOperationException("非法操作：没找到数据。");
-
             input.Adapt(entity);
-            await _testRepository.SaveChangesAsync();
+
+            await _testRepository.UpdateSaveChangesAsync(entity);
+        }
+
+        /// <summary>
+        /// 更新指定列（只更新Name列）
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AttachAction(EveryWordToRoutePath = true)]
+        public async Task UpdateIncludeProperties(int id, TestInput input)
+        {
+            var entity = await _testRepository.FindAsync(id) ?? throw new InvalidOperationException("非法操作：没找到数据。");
+            input.Adapt(entity);
+
+            await _testRepository.UpdateIncludePropertiesSaveChangesAsync(entity, u => u.Name);
+        }
+
+        /// <summary>
+        /// 排除指定列更新（除了Name列都更新）
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [AttachAction(EveryWordToRoutePath = true)]
+        public async Task UpdateExcludeProperties(int id, TestInput input)
+        {
+            var entity = await _testRepository.FindAsync(id) ?? throw new InvalidOperationException("非法操作：没找到数据。");
+            input.Adapt(entity);
+
+            await _testRepository.UpdateExcludePropertiesSaveChangesAsync(entity, u => u.Name);
         }
 
         /// <summary>

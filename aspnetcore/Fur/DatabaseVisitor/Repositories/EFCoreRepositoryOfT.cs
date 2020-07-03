@@ -28,6 +28,8 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual DatabaseFacade Database => DbContext.Database;
         public virtual DbConnection DbConnection => DbContext.Database.GetDbConnection();
 
+        public virtual EntityEntry<TEntity> EntityEntry(TEntity entity) => DbContext.Entry(entity);
+
         public EntityEntry<TEntity> Delete(TEntity entity)
         {
             return Entity.Remove(entity);
@@ -174,6 +176,98 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             await UpdateAsync(entities);
             await SaveChangesAsync();
+        }
+
+        // 更新指定列
+        public virtual EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            var entityEntry = EntityEntry(entity);
+            if (entityEntry.State == EntityState.Detached)
+            {
+                DbContext.Attach(entity);
+            }
+            entityEntry.State = EntityState.Unchanged;
+
+            foreach (var expression in propertyExpressions)
+            {
+                entityEntry.Property(expression).IsModified = true;
+            }
+            return entityEntry;
+        }
+
+        public virtual Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            var entityEntry = EntityEntry(entity);
+            if (entityEntry.State == EntityState.Detached)
+            {
+                DbContext.Attach(entity);
+            }
+            entityEntry.State = EntityState.Unchanged;
+
+            foreach (var expression in propertyExpressions)
+            {
+                entityEntry.Property(expression).IsModified = true;
+            }
+            return Task.FromResult(entityEntry);
+        }
+
+        public virtual EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            var entityEntry = UpdateIncludeProperties(entity, propertyExpressions);
+            SaveChanges();
+            return entityEntry;
+        }
+        public virtual async Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            var entityEntry = await UpdateIncludePropertiesAsync(entity, propertyExpressions);
+            await SaveChangesAsync();
+            return entityEntry;
+        }
+
+        // 排除指定列
+        public virtual EntityEntry<TEntity> UpdateExcludeProperties(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            var entityEntry = EntityEntry(entity);
+            if (entityEntry.State == EntityState.Detached)
+            {
+                DbContext.Attach(entity);
+            }
+            entityEntry.State = EntityState.Modified;
+
+            foreach (var expression in propertyExpressions)
+            {
+                entityEntry.Property(expression).IsModified = false;
+            }
+            return entityEntry;
+        }
+
+        public virtual Task<EntityEntry<TEntity>> UpdateExcludePropertiesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            var entityEntry = EntityEntry(entity);
+            if (entityEntry.State == EntityState.Detached)
+            {
+                DbContext.Attach(entity);
+            }
+            entityEntry.State = EntityState.Modified;
+
+            foreach (var expression in propertyExpressions)
+            {
+                entityEntry.Property(expression).IsModified = false;
+            }
+            return Task.FromResult(entityEntry);
+        }
+
+        public virtual EntityEntry<TEntity> UpdateExcludePropertiesSaveChanges(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            var entityEntry = UpdateExcludeProperties(entity, propertyExpressions);
+            SaveChanges();
+            return entityEntry;
+        }
+        public virtual async Task<EntityEntry<TEntity>> UpdateExcludePropertiesSaveChangesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            var entityEntry = await UpdateExcludePropertiesAsync(entity, propertyExpressions);
+            await SaveChangesAsync();
+            return entityEntry;
         }
 
         // 删除功能

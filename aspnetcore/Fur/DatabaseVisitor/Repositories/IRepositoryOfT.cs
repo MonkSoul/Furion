@@ -18,10 +18,11 @@ namespace Fur.DatabaseVisitor.Repositories
     /// <typeparam name="TEntity"></typeparam>
     public partial interface IRepositoryOfT<TEntity> where TEntity : class, IEntity, new()
     {
-        public DbContext DbContext { get; }
-        public DbSet<TEntity> Entity { get; }
-        public DatabaseFacade Database { get; }
-        public DbConnection DbConnection { get; }
+        DbContext DbContext { get; }
+        DbSet<TEntity> Entity { get; }
+        DatabaseFacade Database { get; }
+        DbConnection DbConnection { get; }
+        EntityEntry<TEntity> EntityEntry(TEntity entity);
 
         // 新增操作
         EntityEntry<TEntity> Insert(TEntity entity);
@@ -50,6 +51,18 @@ namespace Fur.DatabaseVisitor.Repositories
         Task<EntityEntry<TEntity>> UpdateSaveChangesAsync(TEntity entity);
         Task UpdateSaveChangesAsync(params TEntity[] entities);
         Task UpdateSaveChangesAsync(IEnumerable<TEntity> entities);
+
+        // 更新特定列
+        EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
+
+        // 排除特定列
+        EntityEntry<TEntity> UpdateExcludeProperties(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        Task<EntityEntry<TEntity>> UpdateExcludePropertiesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        EntityEntry<TEntity> UpdateExcludePropertiesSaveChanges(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        Task<EntityEntry<TEntity>> UpdateExcludePropertiesSaveChangesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
 
         // 删除操作
         EntityEntry<TEntity> Delete(TEntity entity);

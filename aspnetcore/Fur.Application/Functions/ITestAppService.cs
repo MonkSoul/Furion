@@ -41,12 +41,28 @@ namespace Fur.Application.Functions
         Task<int> InsertAsync(TestInput input);
 
         /// <summary>
-        /// 更新数据
+        /// 更新所有列数据
         /// </summary>
         /// <param name="id"></param>
         /// <param name="input"></param>
         /// <returns></returns>
         Task UpdateAsync(int id, TestInput input);
+
+        /// <summary>
+        /// 更新指定列
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task UpdateIncludeProperties(int id, TestInput input);
+
+        /// <summary>
+        /// 排除指定列更新
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task UpdateExcludeProperties(int id, TestInput input);
 
         /// <summary>
         /// 删除数据
