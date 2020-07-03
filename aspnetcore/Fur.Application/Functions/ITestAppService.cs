@@ -1,4 +1,5 @@
 ﻿using Fur.Application.Functions.Dtos;
+using Fur.DatabaseVisitor.Page;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,6 +12,14 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <returns></returns>
         Task<IEnumerable<TestOutput>> GetAsync();
+
+        /// <summary>
+        /// 分页查询所有
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        Task<IPagedListOfT<TestOutput>> GetAsync(int pageIndex = 0, int pageSize = 20);
 
         /// <summary>
         /// 搜索数据

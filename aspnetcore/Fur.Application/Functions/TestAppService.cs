@@ -1,6 +1,7 @@
 ﻿using Fur.Application.Functions.Dtos;
 using Fur.AttachController.Attributes;
 using Fur.AttachController.Dependencies;
+using Fur.DatabaseVisitor.Page;
 using Fur.DatabaseVisitor.Repositories;
 using Fur.Extensions;
 using Fur.Linq.Extensions;
@@ -46,6 +47,17 @@ namespace Fur.Application.Functions
         }
 
         /// <summary>
+        /// 分页查询所有
+        /// </summary>
+        /// <returns></returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IPagedListOfT<TestOutput>> GetAsync(int pageIndex = 0, int pageSize = 20)
+        {
+            var pageList = await _testRepository.GetPageAsync(pageIndex, pageSize);
+            return pageList.Adapt<IPagedListOfT<TestOutput>>();
+        }
+
+        /// <summary>
         /// 搜索数据
         /// </summary>
         /// <param name="input"></param>
@@ -56,7 +68,7 @@ namespace Fur.Application.Functions
         {
             input = input ?? throw new InvalidOperationException("非法操作：搜索条件为空。");
 
-            return await _testRepository.Get(true)
+            return await _testRepository.Get()
                     .WhereIf(input.Id.HasValue, u => u.Id == input.Id.Value)
                     .WhereIf(input.Name.HasValue(), u => u.Name.Contains(input.Name))
                     .ProjectToType<TestOutput>()

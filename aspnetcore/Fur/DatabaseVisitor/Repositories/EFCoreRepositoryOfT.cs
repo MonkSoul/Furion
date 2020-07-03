@@ -1,6 +1,7 @@
 ﻿using Fur.DatabaseVisitor.Dependencies;
 using Fur.DatabaseVisitor.Enums;
 using Fur.DatabaseVisitor.Extensions;
+using Fur.DatabaseVisitor.Page;
 using Fur.DependencyInjection.Lifetimes;
 using Fur.Extensions;
 using Fur.Linq.Extensions;
@@ -754,26 +755,59 @@ namespace Fur.DatabaseVisitor.Repositories
             else return FirstOrDefaultAsync(expression);
         }
 
-        public virtual IQueryable<TEntity> Get(bool noTracking = false, bool ignoreQueryFilters = false)
+        // 获取所有
+        public virtual IQueryable<TEntity> Get(bool noTracking = true, bool ignoreQueryFilters = false)
         {
             return GetQueryConditionCombine(null, noTracking, ignoreQueryFilters);
         }
-        public virtual Task<List<TEntity>> GetAsync(bool noTracking = false, bool ignoreQueryFilters = false)
+        public virtual Task<List<TEntity>> GetAsync(bool noTracking = true, bool ignoreQueryFilters = false)
         {
             var query = GetQueryConditionCombine(null, noTracking, ignoreQueryFilters);
             return query.ToListAsync();
         }
 
-        public virtual IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> expression = null, bool noTracking = false, bool ignoreQueryFilters = false)
+        public virtual IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false)
         {
             return GetQueryConditionCombine(expression, noTracking, ignoreQueryFilters);
         }
 
-        public virtual Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = false, bool ignoreQueryFilters = false)
+        public virtual Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false)
         {
             var query = GetQueryConditionCombine(expression, noTracking, ignoreQueryFilters);
             return query.ToListAsync();
         }
+
+
+
+
+
+        public virtual IPagedListOfT<TEntity> GetPage(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
+        {
+            var query = GetQueryConditionCombine(null, noTracking, ignoreQueryFilters);
+            return query.ToPagedList(pageIndex, pageSize);
+        }
+        public virtual Task<IPagedListOfT<TEntity>> GetPageAsync(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
+        {
+            var query = GetQueryConditionCombine(null, noTracking, ignoreQueryFilters);
+            return query.ToPagedListAsync(pageIndex, pageSize);
+        }
+
+        public virtual IPagedListOfT<TEntity> GetPage(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
+        {
+            var query = GetQueryConditionCombine(expression, noTracking, ignoreQueryFilters);
+            return query.ToPagedList(pageIndex, pageSize);
+        }
+
+        public virtual Task<IPagedListOfT<TEntity>> GetPageAsync(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
+        {
+            var query = GetQueryConditionCombine(expression, noTracking, ignoreQueryFilters);
+            return query.ToPagedListAsync(pageIndex, pageSize);
+        }
+
+
+
+
+
 
         public virtual int SaveChanges()
         {
@@ -1107,7 +1141,7 @@ namespace Fur.DatabaseVisitor.Repositories
         }
 
 
-        private IQueryable<TEntity> GetQueryConditionCombine(Expression<Func<TEntity, bool>> expression = null, bool noTracking = false, bool ignoreQueryFilters = false)
+        private IQueryable<TEntity> GetQueryConditionCombine(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false)
         {
             IQueryable<TEntity> entities = Entity;
             if (noTracking) entities = entities.AsNoTracking();
@@ -1418,6 +1452,11 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
             return Entity.MinAsync(expression);
+        }
+
+        public virtual bool IsKeySet(TEntity entity)
+        {
+            return EntityEntry(entity).IsKeySet;
         }
     }
 }

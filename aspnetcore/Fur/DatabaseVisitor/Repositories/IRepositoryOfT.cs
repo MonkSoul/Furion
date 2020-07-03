@@ -1,4 +1,5 @@
 ﻿using Fur.DatabaseVisitor.Dependencies;
+using Fur.DatabaseVisitor.Page;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -144,10 +145,17 @@ namespace Fur.DatabaseVisitor.Repositories
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression, bool noTracking);
 
         // 查询多条
-        IQueryable<TEntity> Get(bool noTracking = false, bool ignoreQueryFilters = false);
-        Task<List<TEntity>> GetAsync(bool noTracking = false, bool ignoreQueryFilters = false);
-        IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> expression = null, bool noTracking = false, bool ignoreQueryFilters = false);
-        Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = false, bool ignoreQueryFilters = false);
+        IQueryable<TEntity> Get(bool noTracking = true, bool ignoreQueryFilters = false);
+        Task<List<TEntity>> GetAsync(bool noTracking = true, bool ignoreQueryFilters = false);
+        IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false);
+        Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false);
+
+
+        // 分页查询
+        IPagedListOfT<TEntity> GetPage(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false);
+        Task<IPagedListOfT<TEntity>> GetPageAsync(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false);
+        IPagedListOfT<TEntity> GetPage(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false);
+        Task<IPagedListOfT<TEntity>> GetPageAsync(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false);
 
         // 保存操作
         int SaveChanges();
@@ -332,5 +340,7 @@ namespace Fur.DatabaseVisitor.Repositories
         TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression);
         Task<TEntity> MinAsync();
         Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression);
+
+        bool IsKeySet(TEntity entity);
     }
 }
