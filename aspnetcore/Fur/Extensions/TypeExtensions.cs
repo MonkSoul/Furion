@@ -10,6 +10,7 @@ namespace Fur.Extensions
     public static class TypeExtensions
     {
         #region 递归获取特性 +/* public static TAttribute GetDeepAttribute<TAttribute>(this TypeInfo typeInfo) where TAttribute : Attribute
+
         /// <summary>
         /// 递归获取特性
         /// </summary>
@@ -32,9 +33,11 @@ namespace Fur.Extensions
 
             return null;
         }
-        #endregion
+
+        #endregion 递归获取特性 +/* public static TAttribute GetDeepAttribute<TAttribute>(this TypeInfo typeInfo) where TAttribute : Attribute
 
         #region 递归获取特性 +/* public static TAttribute GetDeepAttribute<TAttribute>(this Type type) where TAttribute : Attribute
+
         /// <summary>
         /// 递归获取特性
         /// </summary>
@@ -43,16 +46,19 @@ namespace Fur.Extensions
         /// <returns>特性对象</returns>
         public static TAttribute GetDeepAttribute<TAttribute>(this Type type) where TAttribute : Attribute
             => GetDeepAttribute<TAttribute>(type.GetTypeInfo());
-        #endregion
 
-        #region 是否是可空类型 +/* public static bool IsNullable(this Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>); 
+        #endregion 递归获取特性 +/* public static TAttribute GetDeepAttribute<TAttribute>(this Type type) where TAttribute : Attribute
+
+        #region 是否是可空类型 +/* public static bool IsNullable(this Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
+
         /// <summary>
         /// 是否是可空类型
         /// </summary>
         /// <param name="type">类型</param>
         /// <returns>是/否</returns>
         public static bool IsNullable(this Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
-        #endregion
+
+        #endregion 是否是可空类型 +/* public static bool IsNullable(this Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
 
         public static void SetPropertyValue(this PropertyInfo property, object obj, object value)
             => property.SetValue(obj, SetPropertyValue(value, property.PropertyType));

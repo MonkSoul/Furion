@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Runtime.CompilerServices;
+﻿using Microsoft.CSharp.RuntimeBinder;
 using System;
-using Microsoft.CSharp.RuntimeBinder;
+using System.Collections;
+using System.Runtime.CompilerServices;
 
 namespace Fur.FastMember
 {
@@ -26,6 +26,7 @@ namespace Fur.FastMember
             }
             return callSite.Target(callSite, target);
         }
+
         internal static void SetValue(string name, object target, object value)
         {
             CallSite<Func<CallSite, object, object, object>> callSite = (CallSite<Func<CallSite, object, object, object>>)setters[name];
@@ -43,6 +44,5 @@ namespace Fur.FastMember
             }
             callSite.Target(callSite, target, value);
         }
-        
     }
 }

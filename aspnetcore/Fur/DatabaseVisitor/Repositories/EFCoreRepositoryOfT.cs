@@ -289,13 +289,13 @@ namespace Fur.DatabaseVisitor.Repositories
             SaveChanges();
             return entityEntry;
         }
+
         public virtual async Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
             var entityEntry = await UpdateIncludePropertiesAsync(entity, propertyExpressions);
             await SaveChangesAsync();
             return entityEntry;
         }
-
 
         public virtual void UpdateIncludeProperties(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
@@ -318,6 +318,7 @@ namespace Fur.DatabaseVisitor.Repositories
             UpdateIncludeProperties(entities, propertyExpressions);
             SaveChanges();
         }
+
         public virtual async Task UpdateIncludePropertiesSaveChangesAsync(IAsyncEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
             await UpdateIncludePropertiesAsync(entities, propertyExpressions);
@@ -359,13 +360,13 @@ namespace Fur.DatabaseVisitor.Repositories
             SaveChanges();
             return entityEntry;
         }
+
         public virtual async Task<EntityEntry<TEntity>> UpdateExcludePropertiesSaveChangesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
             var entityEntry = await UpdateExcludePropertiesAsync(entity, propertyExpressions);
             await SaveChangesAsync();
             return entityEntry;
         }
-
 
         public virtual void UpdateExcludeProperties(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
@@ -388,6 +389,7 @@ namespace Fur.DatabaseVisitor.Repositories
             UpdateExcludeProperties(entities, propertyExpressions);
             SaveChanges();
         }
+
         public virtual async Task UpdateExcludePropertiesSaveChangesAsync(IAsyncEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
             await UpdateExcludePropertiesAsync(entities, propertyExpressions);
@@ -405,6 +407,7 @@ namespace Fur.DatabaseVisitor.Repositories
                 return Update(entity);
             }
         }
+
         public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity)
         {
             if (!IsKeySet(entity))
@@ -417,19 +420,20 @@ namespace Fur.DatabaseVisitor.Repositories
                 return await UpdateAsync(entity);
             }
         }
+
         public virtual EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity)
         {
             var entityEntry = InsertOrUpdate(entity);
             SaveChanges();
             return entityEntry;
         }
+
         public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity)
         {
             var entityEntry = await InsertOrUpdateAsync(entity);
             await SaveChangesAsync();
             return entityEntry;
         }
-
 
         // 删除功能
         public virtual void Delete(params TEntity[] entities)
@@ -523,7 +527,6 @@ namespace Fur.DatabaseVisitor.Repositories
             return trackEntity;
         }
 
-
         public virtual EntityEntry<TEntity> FakeDelete(TEntity entity, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
         {
             Attach(entity);
@@ -540,6 +543,7 @@ namespace Fur.DatabaseVisitor.Repositories
                 FakeDelete(entity, fakeDeleteProperty, flagValue);
             }
         }
+
         public virtual Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
         {
             Attach(entity);
@@ -548,6 +552,7 @@ namespace Fur.DatabaseVisitor.Repositories
 
             return UpdateIncludePropertiesAsync(entity, fakeDeleteProperty);
         }
+
         public virtual async Task FakeDeleteAsync(IAsyncEnumerable<TEntity> entities, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
         {
             await foreach (var entity in entities)
@@ -555,12 +560,14 @@ namespace Fur.DatabaseVisitor.Repositories
                 FakeDelete(entity, fakeDeleteProperty, flagValue);
             }
         }
+
         public virtual EntityEntry<TEntity> FakeDeleteSaveChanges(TEntity entity, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
         {
             var entityEntry = FakeDelete(entity, fakeDeleteProperty, flagValue);
             SaveChanges();
             return entityEntry;
         }
+
         public virtual void FakeDeleteSaveChanges(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
         {
             foreach (var entity in entities)
@@ -569,12 +576,14 @@ namespace Fur.DatabaseVisitor.Repositories
             }
             SaveChanges();
         }
+
         public virtual async Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(TEntity entity, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
         {
             var entityEntry = await FakeDeleteAsync(entity, fakeDeleteProperty, flagValue);
             await SaveChangesAsync();
             return entityEntry;
         }
+
         public virtual async Task FakeDeleteSaveChangesAsync(IAsyncEnumerable<TEntity> entities, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
         {
             await foreach (var entity in entities)
@@ -589,32 +598,26 @@ namespace Fur.DatabaseVisitor.Repositories
             var entity = Find(id);
             return FakeDelete(entity, fakeDeleteProperty, flagValue);
         }
+
         public virtual async Task<EntityEntry<TEntity>> FakeDeleteAsync(object id, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
         {
             var entity = await FindAsync(id);
             return await FakeDeleteAsync(entity, fakeDeleteProperty, flagValue);
         }
+
         public virtual EntityEntry<TEntity> FakeDeleteSaveChanges(object id, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
         {
             var entityEntry = FakeDelete(id, fakeDeleteProperty, flagValue);
             SaveChanges();
             return entityEntry;
         }
+
         public virtual async Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(object id, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
         {
             var entityEntry = await FakeDeleteAsync(id, fakeDeleteProperty, flagValue);
             await SaveChangesAsync();
             return entityEntry;
         }
-
-
-
-
-
-
-
-
-
 
         // 查询一条
 
@@ -809,6 +812,7 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             return GetQueryConditionCombine(null, noTracking, ignoreQueryFilters);
         }
+
         public virtual Task<List<TEntity>> GetAsync(bool noTracking = true, bool ignoreQueryFilters = false)
         {
             var query = GetQueryConditionCombine(null, noTracking, ignoreQueryFilters);
@@ -826,15 +830,12 @@ namespace Fur.DatabaseVisitor.Repositories
             return query.ToListAsync();
         }
 
-
-
-
-
         public virtual IPagedListOfT<TEntity> GetPage(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
         {
             var query = GetQueryConditionCombine(null, noTracking, ignoreQueryFilters);
             return query.ToPagedList(pageIndex, pageSize);
         }
+
         public virtual Task<IPagedListOfT<TEntity>> GetPageAsync(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
         {
             var query = GetQueryConditionCombine(null, noTracking, ignoreQueryFilters);
@@ -852,11 +853,6 @@ namespace Fur.DatabaseVisitor.Repositories
             var query = GetQueryConditionCombine(expression, noTracking, ignoreQueryFilters);
             return query.ToPagedListAsync(pageIndex, pageSize);
         }
-
-
-
-
-
 
         public virtual int SaveChanges()
         {
@@ -1123,7 +1119,6 @@ namespace Fur.DatabaseVisitor.Repositories
             return FromSqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8>(sql, parameterModel.ToSqlParameters());
         }
 
-
         public virtual Task<object> FromSqlDataSetQueryAsync(string sql, object[] types, object parameterModel)
         {
             return FromSqlDataSetQueryAsync(sql, types, parameterModel.ToSqlParameters());
@@ -1188,7 +1183,6 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             return Database.SqlProcedureDataSetQueryAsync(name, parameterModel);
         }
-
 
         private IQueryable<TEntity> GetQueryConditionCombine(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false)
         {
@@ -1380,7 +1374,6 @@ namespace Fur.DatabaseVisitor.Repositories
             return Database.SqlProcedureDataSetQueryAsync(name, types, parameterModel);
         }
 
-
         // 标量函数
         public virtual TResult FromSqlScalarFunctionQuery<TResult>(string name, params object[] parameters) where TResult : struct
         {
@@ -1464,40 +1457,41 @@ namespace Fur.DatabaseVisitor.Repositories
             return expression == null ? Entity.CountAsync() : Entity.CountAsync(expression);
         }
 
-
-
-
         public virtual TEntity Max()
         {
             return Entity.Max();
         }
+
         public virtual TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
             return Entity.Max(expression);
         }
+
         public virtual Task<TEntity> MaxAsync()
         {
             return Entity.MaxAsync();
         }
+
         public virtual Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
             return Entity.MaxAsync(expression);
         }
 
-
-
         public virtual TEntity Min()
         {
             return Entity.Min();
         }
+
         public virtual TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
             return Entity.Min(expression);
         }
+
         public virtual Task<TEntity> MinAsync()
         {
             return Entity.MinAsync();
         }
+
         public virtual Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
             return Entity.MinAsync(expression);

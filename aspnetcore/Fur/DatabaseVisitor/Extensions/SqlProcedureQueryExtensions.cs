@@ -57,9 +57,6 @@ namespace Fur.DatabaseVisitor.Extensions
             return databaseFacade.SqlQueryAsync<T>(sql, parameters);
         }
 
-
-
-
         public static DataSet SqlProcedureDataSetQuery(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
             var sql = Helper.CombineExecuteSql(DbCanExecuteTypeOptions.DbProcedure, name, parameters);
@@ -83,10 +80,6 @@ namespace Fur.DatabaseVisitor.Extensions
             var (sql, parameters) = Helper.CombineExecuteSql(DbCanExecuteTypeOptions.DbProcedure, name, parameterModel);
             return databaseFacade.SqlDataSetQueryAsync(sql, parameters);
         }
-
-
-
-
 
         public static IEnumerable<T1> SqlProcedureDataSetQuery<T1>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
@@ -195,21 +188,6 @@ namespace Fur.DatabaseVisitor.Extensions
             var sql = Helper.CombineExecuteSql(DbCanExecuteTypeOptions.DbProcedure, name, parameters);
             return databaseFacade.SqlDataSetQueryAsync(sql, types, parameters);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         public static IEnumerable<T1> SqlProcedureDataSetQuery<T1>(this DatabaseFacade databaseFacade, string name, object parameterModel)
         {

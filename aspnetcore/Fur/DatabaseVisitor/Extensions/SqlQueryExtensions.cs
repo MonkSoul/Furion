@@ -1,5 +1,4 @@
 ﻿using Fur.DatabaseVisitor.Helpers;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using StackExchange.Profiling;
@@ -16,7 +15,6 @@ namespace Fur.DatabaseVisitor.Extensions
     /// </summary>
     public static class SqlQueryExtensions
     {
-
         public static DataTable SqlQuery(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var (dbConnection, dbCommand) = databaseFacade.WrapperDbConnectionAndCommand(sql, parameters);
@@ -52,6 +50,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
 
         #region 包装数据库链接和执行命令对象 -/* private static (DbConnection, DbCommand) WrapperDbConnectionAndCommand(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+
         /// <summary>
         /// 包装数据库链接和执行命令对象
         /// </summary>
@@ -73,9 +72,11 @@ namespace Fur.DatabaseVisitor.Extensions
 
             return (dbConnection, dbCommand);
         }
-        #endregion
+
+        #endregion 包装数据库链接和执行命令对象 -/* private static (DbConnection, DbCommand) WrapperDbConnectionAndCommand(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
 
         #region 包装数据库链接和执行命令对象 -/* private async static Task<(DbConnection, DbCommand)> WrapperDbConnectionAndCommandAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+
         /// <summary>
         /// 包装数据库链接和执行命令对象
         /// </summary>
@@ -97,7 +98,7 @@ namespace Fur.DatabaseVisitor.Extensions
 
             return (dbConnection, dbCommand);
         }
-        #endregion
 
+        #endregion 包装数据库链接和执行命令对象 -/* private async static Task<(DbConnection, DbCommand)> WrapperDbConnectionAndCommandAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
     }
 }

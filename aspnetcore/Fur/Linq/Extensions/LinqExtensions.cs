@@ -11,6 +11,7 @@ namespace Fur.Linq.Extensions
     public static class LinqExtensions
     {
         #region 根据条件成立再构建 Where 查询 +/* public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> sources, bool condition, Func<TSource, bool> expression)
+
         /// <summary>
         /// 根据条件成立再构建 Where 查询
         /// </summary>
@@ -21,9 +22,11 @@ namespace Fur.Linq.Extensions
         /// <returns>新的集合对象</returns>
         public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> sources, bool condition, Func<TSource, bool> expression)
             => condition ? sources.Where(expression) : sources;
-        #endregion
+
+        #endregion 根据条件成立再构建 Where 查询 +/* public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> sources, bool condition, Func<TSource, bool> expression)
 
         #region 根据条件成立再构建 Where 查询，支持索引器 +/* public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> sources, bool condition, Func<TSource, int, bool> expression)
+
         /// <summary>
         /// 根据条件成立再构建 Where 查询，支持索引器
         /// </summary>
@@ -34,9 +37,11 @@ namespace Fur.Linq.Extensions
         /// <returns>新的集合对象</returns>
         public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> sources, bool condition, Func<TSource, int, bool> expression)
             => condition ? sources.Where(expression) : sources;
-        #endregion
+
+        #endregion 根据条件成立再构建 Where 查询，支持索引器 +/* public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> sources, bool condition, Func<TSource, int, bool> expression)
 
         #region 获取Lambda表达式属性名，只限 u=>u.Property 表达式 +/* public static string GetExpressionPropertyName<TSource>(this Expression<Func<TSource, object>> expression)
+
         /// <summary>
         /// 获取Lambda表达式属性名，只限 u=>u.Property 表达式
         /// </summary>
@@ -60,9 +65,11 @@ namespace Fur.Linq.Extensions
 
             throw new InvalidCastException(nameof(expression));
         }
-        #endregion
+
+        #endregion 获取Lambda表达式属性名，只限 u=>u.Property 表达式 +/* public static string GetExpressionPropertyName<TSource>(this Expression<Func<TSource, object>> expression)
 
         #region 是否是空集合 +/* public static bool IsNullOrEmpty<TSource>(this IEnumerable<TSource> sources)
+
         /// <summary>
         /// 是否是空集合
         /// </summary>
@@ -71,6 +78,7 @@ namespace Fur.Linq.Extensions
         /// <returns>是否为空集合</returns>
         public static bool IsNullOrEmpty<TSource>(this IEnumerable<TSource> sources)
             => sources == null || sources.Count() == 0;
-        #endregion
+
+        #endregion 是否是空集合 +/* public static bool IsNullOrEmpty<TSource>(this IEnumerable<TSource> sources)
     }
 }

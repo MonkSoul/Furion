@@ -13,10 +13,12 @@ namespace Fur.AttachController
         /// 分组名分割器
         /// </summary>
         internal const string GroupNameSeparator = "|||";
+
         /// <summary>
         /// 请求行为字典
         /// </summary>
         internal static Dictionary<string, string> HttpVerbSetter { get; private set; }
+
         /// <summary>
         /// 数据绑定忽略类型
         /// </summary>

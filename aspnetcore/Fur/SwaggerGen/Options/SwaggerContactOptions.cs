@@ -9,10 +9,12 @@
         /// 名称
         /// </summary>
         public string Name { get; set; }
+
         /// <summary>
         /// Uri地址
         /// </summary>
         public string Uri { get; set; }
+
         /// <summary>
         /// 邮箱
         /// </summary>

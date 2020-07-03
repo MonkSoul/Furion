@@ -1,7 +1,7 @@
 ﻿using Fur.SwaggerGen.Options;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Fur.SwaggerGen.Extensions
 {
@@ -11,6 +11,7 @@ namespace Fur.SwaggerGen.Extensions
     public static class SwaggerGenMiddlewareExtensions
     {
         #region Swagger UI 中间件拓展 +/* public static IApplicationBuilder AddFurSwaggerUI(this IApplicationBuilder app)
+
         /// <summary>
         /// Swagger UI 中间件拓展
         /// </summary>
@@ -28,6 +29,7 @@ namespace Fur.SwaggerGen.Extensions
 
             return app;
         }
-        #endregion
+
+        #endregion Swagger UI 中间件拓展 +/* public static IApplicationBuilder AddFurSwaggerUI(this IApplicationBuilder app)
     }
 }

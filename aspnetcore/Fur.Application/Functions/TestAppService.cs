@@ -27,6 +27,7 @@ namespace Fur.Application.Functions
     {
         private readonly IRepositoryOfT<Test> _testRepository;
         private readonly IRepositoryOfT<V_Test> _vTestRepository;
+
         public TestAppService(IRepositoryOfT<Test> testRepository
             , IRepositoryOfT<V_Test> vTestRepository)
         {

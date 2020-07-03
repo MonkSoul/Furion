@@ -6,6 +6,7 @@
     public abstract class View : IView, IEntity
     {
         public string ToViewName { get; set; }
+
         public View(string toViewName) => ToViewName = toViewName;
     }
 }

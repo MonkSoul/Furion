@@ -13,7 +13,8 @@ namespace Fur.DatabaseVisitor.Extensions
 {
     public static class SqlModelExtensions
     {
-        #region 类转SqlParameter参数 +/* public static SqlParameter[] ToSqlParameters(this object parameterModel) 
+        #region 类转SqlParameter参数 +/* public static SqlParameter[] ToSqlParameters(this object parameterModel)
+
         /// <summary>
         /// 类转SqlParameter参数
         /// </summary>
@@ -39,9 +40,11 @@ namespace Fur.DatabaseVisitor.Extensions
             }
             return paramValues.ToArray();
         }
-        #endregion
+
+        #endregion 类转SqlParameter参数 +/* public static SqlParameter[] ToSqlParameters(this object parameterModel)
 
         #region DataTable转对象集合 +/* public static IEnumerable<T> ToEnumerable<T>(this DataTable dataTable)
+
         /// <summary>
         /// DataTable转对象集合
         /// </summary>
@@ -79,9 +82,11 @@ namespace Fur.DatabaseVisitor.Extensions
             }
             return list;
         }
-        #endregion
+
+        #endregion DataTable转对象集合 +/* public static IEnumerable<T> ToEnumerable<T>(this DataTable dataTable)
 
         #region DataTable转对象集合 + public static object ToEnumerable(this DataTable dataTable, object obj)
+
         /// <summary>
         /// DataTable转对象集合
         /// </summary>
@@ -125,7 +130,8 @@ namespace Fur.DatabaseVisitor.Extensions
             var results = list as IEnumerable<object>;
             return type.IsGenericType ? results : results.FirstOrDefault();
         }
-        #endregion
+
+        #endregion DataTable转对象集合 + public static object ToEnumerable(this DataTable dataTable, object obj)
 
         public static Task<IEnumerable<T>> ToEnumerableAsync<T>(this DataTable dataTable)
         {

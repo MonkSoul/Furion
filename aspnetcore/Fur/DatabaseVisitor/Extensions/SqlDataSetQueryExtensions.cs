@@ -21,6 +21,7 @@ namespace Fur.DatabaseVisitor.Extensions
             dbCommand.Parameters.Clear();
             return dataSet;
         }
+
         public static async Task<DataSet> SqlDataSetQueryAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var dataSet = new DataSet();
@@ -37,6 +38,7 @@ namespace Fur.DatabaseVisitor.Extensions
             if (dataset.Tables.Count == 0) return default;
             return dataset.Tables[0].ToEnumerable<T1>();
         }
+
         public static (IEnumerable<T1> data1, IEnumerable<T2> data2) SqlDataSetQuery<T1, T2>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var dataset = SqlDataSetQuery(databaseFacade, sql, parameters);
@@ -50,6 +52,7 @@ namespace Fur.DatabaseVisitor.Extensions
             }
             return default;
         }
+
         public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3) SqlDataSetQuery<T1, T2, T3>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var dataset = SqlDataSetQuery(databaseFacade, sql, parameters);
@@ -67,6 +70,7 @@ namespace Fur.DatabaseVisitor.Extensions
             }
             return default;
         }
+
         public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4) SqlDataSetQuery<T1, T2, T3, T4>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var dataset = SqlDataSetQuery(databaseFacade, sql, parameters);
@@ -88,6 +92,7 @@ namespace Fur.DatabaseVisitor.Extensions
             }
             return default;
         }
+
         public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5) SqlDataSetQuery<T1, T2, T3, T4, T5>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var dataset = SqlDataSetQuery(databaseFacade, sql, parameters);
@@ -113,6 +118,7 @@ namespace Fur.DatabaseVisitor.Extensions
             }
             return default;
         }
+
         public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6) SqlDataSetQuery<T1, T2, T3, T4, T5, T6>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var dataset = SqlDataSetQuery(databaseFacade, sql, parameters);
@@ -142,6 +148,7 @@ namespace Fur.DatabaseVisitor.Extensions
             }
             return default;
         }
+
         public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7) SqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var dataset = SqlDataSetQuery(databaseFacade, sql, parameters);
@@ -175,6 +182,7 @@ namespace Fur.DatabaseVisitor.Extensions
             }
             return default;
         }
+
         public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) SqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7, T8>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var dataset = SqlDataSetQuery(databaseFacade, sql, parameters);
@@ -212,6 +220,7 @@ namespace Fur.DatabaseVisitor.Extensions
             }
             return default;
         }
+
         public static object SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, object[] types, params object[] parameters)
         {
             var dataset = SqlDataSetQuery(databaseFacade, sql, parameters);
@@ -250,13 +259,13 @@ namespace Fur.DatabaseVisitor.Extensions
             return default;
         }
 
-
         public static async Task<IEnumerable<T1>> SqlDataSetQueryAsync<T1>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var dataset = await SqlDataSetQueryAsync(databaseFacade, sql, parameters);
             if (dataset.Tables.Count == 0) return default;
             return dataset.Tables[0].ToEnumerable<T1>();
         }
+
         public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2)> SqlDataSetQueryAsync<T1, T2>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var dataset = await SqlDataSetQueryAsync(databaseFacade, sql, parameters);
@@ -270,6 +279,7 @@ namespace Fur.DatabaseVisitor.Extensions
             }
             return default;
         }
+
         public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3)> SqlDataSetQueryAsync<T1, T2, T3>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var dataset = await SqlDataSetQueryAsync(databaseFacade, sql, parameters);
@@ -287,6 +297,7 @@ namespace Fur.DatabaseVisitor.Extensions
             }
             return default;
         }
+
         public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4)> SqlDataSetQueryAsync<T1, T2, T3, T4>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var dataset = await SqlDataSetQueryAsync(databaseFacade, sql, parameters);
@@ -308,6 +319,7 @@ namespace Fur.DatabaseVisitor.Extensions
             }
             return default;
         }
+
         public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5)> SqlDataSetQueryAsync<T1, T2, T3, T4, T5>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var dataset = await SqlDataSetQueryAsync(databaseFacade, sql, parameters);
@@ -333,6 +345,7 @@ namespace Fur.DatabaseVisitor.Extensions
             }
             return default;
         }
+
         public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6)> SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var dataset = await SqlDataSetQueryAsync(databaseFacade, sql, parameters);
@@ -362,6 +375,7 @@ namespace Fur.DatabaseVisitor.Extensions
             }
             return default;
         }
+
         public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7)> SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var dataset = await SqlDataSetQueryAsync(databaseFacade, sql, parameters);
@@ -395,6 +409,7 @@ namespace Fur.DatabaseVisitor.Extensions
             }
             return default;
         }
+
         public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var dataset = await SqlDataSetQueryAsync(databaseFacade, sql, parameters);
@@ -432,6 +447,7 @@ namespace Fur.DatabaseVisitor.Extensions
             }
             return default;
         }
+
         public static async Task<object> SqlDataSetQueryAsync(this DatabaseFacade databaseFacade, string sql, object[] types, params object[] parameters)
         {
             var dataset = await SqlDataSetQueryAsync(databaseFacade, sql, parameters);
@@ -470,9 +486,8 @@ namespace Fur.DatabaseVisitor.Extensions
             return default;
         }
 
-
-
         #region 包装数据库连接、执行命令、适配器 -/* private static (DbConnection, DbCommand, DbDataAdapter) WrapperDbDataAdapter(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+
         /// <summary>
         /// 包装数据库连接、执行命令、适配器
         /// </summary>
@@ -499,9 +514,11 @@ namespace Fur.DatabaseVisitor.Extensions
 
             return (dbConnection, dbCommand, dbDataAdapter);
         }
-        #endregion
+
+        #endregion 包装数据库连接、执行命令、适配器 -/* private static (DbConnection, DbCommand, DbDataAdapter) WrapperDbDataAdapter(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
 
         #region 包装数据库连接、执行命令、适配器 -/* private static async Task<(DbConnection, DbCommand, DbDataAdapter)> WrapperDbDataAdapterAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+
         /// <summary>
         /// 包装数据库连接、执行命令、适配器
         /// </summary>
@@ -528,6 +545,7 @@ namespace Fur.DatabaseVisitor.Extensions
 
             return await Task.FromResult((dbConnection, dbCommand, dbDataAdapter));
         }
-        #endregion
+
+        #endregion 包装数据库连接、执行命令、适配器 -/* private static async Task<(DbConnection, DbCommand, DbDataAdapter)> WrapperDbDataAdapterAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
     }
 }

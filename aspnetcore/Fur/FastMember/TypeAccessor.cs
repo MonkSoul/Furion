@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Threading;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Threading;
 
 namespace Fur.FastMember
 {
@@ -21,6 +21,7 @@ namespace Fur.FastMember
         /// Does this type support new instances via a parameterless constructor?
         /// </summary>
         public virtual bool CreateNewSupported { get { return false; } }
+
         /// <summary>
         /// Create a new instance of this type
         /// </summary>
@@ -30,6 +31,7 @@ namespace Fur.FastMember
         /// Can this type be queried for member availability?
         /// </summary>
         public virtual bool GetMembersSupported { get { return false; } }
+
         /// <summary>
         /// Query the members available for this type
         /// </summary>
@@ -67,10 +69,15 @@ namespace Fur.FastMember
                 return obj;
             }
         }
-        sealed class DynamicAccessor : TypeAccessor
+
+        private sealed class DynamicAccessor : TypeAccessor
         {
             public static readonly DynamicAccessor Singleton = new DynamicAccessor();
-            private DynamicAccessor() { }
+
+            private DynamicAccessor()
+            {
+            }
+
             public override object this[object target, string name]
             {
                 get { return CallSiteCache.GetValue(name, target); }
@@ -87,7 +94,8 @@ namespace Fur.FastMember
             return Interlocked.Increment(ref counter);
         }
 
-        static readonly MethodInfo tryGetValue = typeof(Dictionary<string, int>).GetMethod("TryGetValue");
+        private static readonly MethodInfo tryGetValue = typeof(Dictionary<string, int>).GetMethod("TryGetValue");
+
         private static void WriteMapImpl(ILGenerator il, Type type, List<MemberInfo> members, FieldBuilder mapField, bool allowNonPublicAccessors, bool isGet)
         {
             OpCode obj, index, value;
@@ -233,7 +241,9 @@ namespace Fur.FastMember
             /// Can this type be queried for member availability?
             /// </summary>
             public override bool GetMembersSupported { get { return true; } }
+
             private MemberSet members;
+
             /// <summary>
             /// Query the members available for this type
             /// </summary>
@@ -242,17 +252,20 @@ namespace Fur.FastMember
                 return members ?? (members = new MemberSet(Type));
             }
         }
-        sealed class DelegateAccessor : RuntimeTypeAccessor
+
+        private sealed class DelegateAccessor : RuntimeTypeAccessor
         {
             private readonly Dictionary<string, int> map;
             private readonly Func<int, object, object> getter;
             private readonly Action<int, object, object> setter;
             private readonly Func<object> ctor;
             private readonly Type type;
+
             protected override Type Type
             {
                 get { return type; }
             }
+
             public DelegateAccessor(Dictionary<string, int> map, Func<int, object, object> getter, Action<int, object, object> setter, Func<object> ctor, Type type)
             {
                 this.map = map;
@@ -261,11 +274,14 @@ namespace Fur.FastMember
                 this.ctor = ctor;
                 this.type = type;
             }
+
             public override bool CreateNewSupported { get { return ctor != null; } }
+
             public override object CreateNew()
             {
                 return ctor != null ? ctor() : base.CreateNew();
             }
+
             public override object this[object target, string name]
             {
                 get
@@ -282,6 +298,7 @@ namespace Fur.FastMember
                 }
             }
         }
+
         private static bool IsFullyPublic(Type type, PropertyInfo[] props, bool allowNonPublicAccessors)
         {
             while (type.IsNestedPublic) type = type.DeclaringType;
@@ -298,7 +315,8 @@ namespace Fur.FastMember
 
             return true;
         }
-        static TypeAccessor CreateNew(Type type, bool allowNonPublicAccessors)
+
+        private static TypeAccessor CreateNew(Type type, bool allowNonPublicAccessors)
         {
             if (typeof(IDynamicMetaObjectProvider).IsAssignableFrom(type))
             {
@@ -366,7 +384,6 @@ namespace Fur.FastMember
             FieldBuilder mapField = tb.DefineField("_map", typeof(Dictionary<string, int>), FieldAttributes.InitOnly | FieldAttributes.Private);
             il.Emit(OpCodes.Stfld, mapField);
             il.Emit(OpCodes.Ret);
-
 
             PropertyInfo indexer = typeof(TypeAccessor).GetProperty("Item");
             MethodInfo baseGetter = indexer.GetGetMethod(), baseSetter = indexer.GetSetMethod();

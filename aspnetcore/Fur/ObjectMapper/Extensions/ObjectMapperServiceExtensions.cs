@@ -2,7 +2,6 @@
 using Fur.ObjectMapper.Mappers;
 using Mapster;
 using MapsterMapper;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 
@@ -14,6 +13,7 @@ namespace Fur.ObjectMapper.Extensions
     public static class ObjectMapperServiceExtensions
     {
         #region 对象映射拓展方法 + public static IServiceCollection AddFurObjectMapper(this IServiceCollection services)
+
         /// <summary>
         /// 对象映射拓展方法
         /// </summary>
@@ -30,6 +30,7 @@ namespace Fur.ObjectMapper.Extensions
 
             return services;
         }
-        #endregion
+
+        #endregion 对象映射拓展方法 + public static IServiceCollection AddFurObjectMapper(this IServiceCollection services)
     }
 }

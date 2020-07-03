@@ -62,6 +62,7 @@ namespace Fur.DatabaseVisitor.DbContexts
         private static MethodInfo modelBuilderEntityMethod = null;
         private static MethodInfo entityBuilderEntityToViewMethod = null;
         private static MethodInfo modelBuilderHasDbFunctionMethod = null;
+
         private static void ResolveModelBuilderMethods(ModelBuilder modelBuilder)
         {
             if (modelBuilderEntityMethod == null)

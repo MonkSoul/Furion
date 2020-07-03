@@ -39,8 +39,6 @@ namespace Fur.FastMember
         {
             if (source == null) throw new ArgumentOutOfRangeException("source");
 
-            
-
             bool allMembers = members == null || members.Length == 0;
 
             this.accessor = TypeAccessor.Create(type);
@@ -100,8 +98,7 @@ namespace Fur.FastMember
             this.source = source.GetEnumerator();
         }
 
-        object current;
-
+        private object current;
 
         public override int Depth
         {
@@ -134,6 +131,7 @@ namespace Fur.FastMember
             }
             return table;
         }
+
         public override void Close()
         {
             Shutdown();
@@ -146,12 +144,15 @@ namespace Fur.FastMember
                 return active;
             }
         }
+
         private bool active = true;
+
         public override bool NextResult()
         {
             active = false;
             return false;
         }
+
         public override bool Read()
         {
             if (active)
@@ -181,6 +182,7 @@ namespace Fur.FastMember
             base.Dispose(disposing);
             if (disposing) Shutdown();
         }
+
         private void Shutdown()
         {
             active = false;
@@ -194,6 +196,7 @@ namespace Fur.FastMember
         {
             get { return memberNames.Length; }
         }
+
         public override bool IsClosed
         {
             get
@@ -336,8 +339,8 @@ namespace Fur.FastMember
         public override object this[string name]
         {
             get { return accessor[current, name] ?? DBNull.Value; }
-
         }
+
         /// <summary>
         /// Gets the value of the current object in the member specified
         /// </summary>

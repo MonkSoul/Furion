@@ -22,20 +22,24 @@ namespace Fur.SwaggerGen
         /// Swagger分组
         /// </summary>
         private static readonly string[] SwaggerGroups = ScanAssemblyGroups();
+
         /// <summary>
         /// Swagger选项
         /// </summary>
         private static SwaggerOptions swaggerOptions;
 
         #region 设置Swagger选项配置 +/* public static void SetSwaggerOptions(SwaggerOptions swaggerOptions)
+
         /// <summary>
         /// 设置Swagger选项配置
         /// </summary>
         /// <param name="swaggerOptions">Swagger选项配置</param>
         public static void SetSwaggerOptions(SwaggerOptions swaggerOptions) => SwaggerConfigure.swaggerOptions = swaggerOptions;
-        #endregion
+
+        #endregion 设置Swagger选项配置 +/* public static void SetSwaggerOptions(SwaggerOptions swaggerOptions)
 
         #region 初始化Swagger服务 -/* public static void Initialize(SwaggerGenOptions swaggerGenOptions)
+
         /// <summary>
         /// 初始化Swagger服务
         /// </summary>
@@ -45,9 +49,11 @@ namespace Fur.SwaggerGen
             CreateSwaggerDocs(swaggerGenOptions);
             SetSwaggerBaseConfigure(swaggerGenOptions);
         }
-        #endregion
+
+        #endregion 初始化Swagger服务 -/* public static void Initialize(SwaggerGenOptions swaggerGenOptions)
 
         #region 初始化Swagger路由 -  public static void Initialize(SwaggerUIOptions swaggerUIOptions)
+
         /// <summary>
         /// 初始化Swagger路由
         /// </summary>
@@ -56,9 +62,11 @@ namespace Fur.SwaggerGen
         {
             CreateSwaggerEndpointsAndBaseConfigure(swaggerUIOptions);
         }
-        #endregion
+
+        #endregion 初始化Swagger路由 -  public static void Initialize(SwaggerUIOptions swaggerUIOptions)
 
         #region 扫描程序集中所有的Swagger分组 +/* private static string[] ScanAssemblyGroups()
+
         /// <summary>
         /// 扫描程序集中所有的Swagger分组
         /// </summary>
@@ -81,9 +89,11 @@ namespace Fur.SwaggerGen
 
             return swaggerGroups.ToArray();
         }
-        #endregion
+
+        #endregion 扫描程序集中所有的Swagger分组 +/* private static string[] ScanAssemblyGroups()
 
         #region 生成分组文档 -/* private static void CreateSwaggerDocs(SwaggerGenOptions swaggerGenOptions)
+
         /// <summary>
         /// 生成分组文档
         /// </summary>
@@ -95,9 +105,11 @@ namespace Fur.SwaggerGen
                 swaggerGenOptions.SwaggerDoc(group, LoadSwaggerGroupOptions(group));
             }
         }
-        #endregion
+
+        #endregion 生成分组文档 -/* private static void CreateSwaggerDocs(SwaggerGenOptions swaggerGenOptions)
 
         #region 加载分组配置信息 -/* private static OpenApiInfo LoadSwaggerGroupOptions(string group)
+
         /// <summary>
         /// 加载分组配置信息
         /// </summary>
@@ -125,9 +137,11 @@ namespace Fur.SwaggerGen
                 }
             };
         }
-        #endregion
+
+        #endregion 加载分组配置信息 -/* private static OpenApiInfo LoadSwaggerGroupOptions(string group)
 
         #region 设置Swagger基础配置 -/* private static void SetSwaggerBaseConfigure(SwaggerGenOptions swaggerGenOptions)
+
         /// <summary>
         /// 设置Swagger基础配置
         /// </summary>
@@ -149,9 +163,11 @@ namespace Fur.SwaggerGen
                 }
             }
         }
-        #endregion
+
+        #endregion 设置Swagger基础配置 -/* private static void SetSwaggerBaseConfigure(SwaggerGenOptions swaggerGenOptions)
 
         #region Swagger分组切换接口显示列表 - private static bool SwaggerGroupSwitchPredicate(string currentGroup, ApiDescription apiDescription)
+
         /// <summary>
         /// Swagger分组切换接口显示列表
         /// </summary>
@@ -165,9 +181,11 @@ namespace Fur.SwaggerGen
 
             return methodSwaggerGroups.Contains(currentGroup);
         }
-        #endregion
+
+        #endregion Swagger分组切换接口显示列表 - private static bool SwaggerGroupSwitchPredicate(string currentGroup, ApiDescription apiDescription)
 
         #region 创建Swagger终点路由配置 -/* private static void CreateSwaggerEndpointsAndBaseConfigure(SwaggerUIOptions swaggerUIOptions)
+
         /// <summary>
         /// 创建Swagger终点路由配置
         /// </summary>
@@ -190,6 +208,7 @@ namespace Fur.SwaggerGen
                 swaggerUIOptions.IndexStream = () => thisAssembly.GetManifestResourceStream($"{thisType.Namespace}.Assets.MiniProfilerIndex.html");
             }
         }
-        #endregion
+
+        #endregion 创建Swagger终点路由配置 -/* private static void CreateSwaggerEndpointsAndBaseConfigure(SwaggerUIOptions swaggerUIOptions)
     }
 }

@@ -18,12 +18,14 @@ namespace Fur.AttachController.Conventions
     internal sealed class AttachControllerModelConvention : IApplicationModelConvention
     {
         private readonly AttactControllerOptions _attactControllerOptions;
+
         public AttachControllerModelConvention(AttactControllerOptions attactControllerOptions)
         {
             _attactControllerOptions = attactControllerOptions;
         }
 
         #region 解析附加控制器 + public void Apply(ApplicationModel application)
+
         /// <summary>
         /// 解析附加控制器
         /// </summary>
@@ -53,9 +55,11 @@ namespace Fur.AttachController.Conventions
                 }
             }
         }
-        #endregion
+
+        #endregion 解析附加控制器 + public void Apply(ApplicationModel application)
 
         #region 配置控制器模型信息 - private void ConfigureController(ControllerModel controllerModel, TypeInfo controllerTypeInfo)
+
         /// <summary>
         /// 配置控制器模型信息
         /// </summary>
@@ -69,9 +73,11 @@ namespace Fur.AttachController.Conventions
             ConfigureControllerName(controllerModel);
             ConfigureControllerApiExplorer(controllerModel);
         }
-        #endregion
+
+        #endregion 配置控制器模型信息 - private void ConfigureController(ControllerModel controllerModel, TypeInfo controllerTypeInfo)
 
         #region 配置区域/ApiVersion名称 - private void ConfigureAreaName(ControllerModel controllerModel, AttachControllerAttribute attactControllerAttribute)
+
         /// <summary>
         /// 配置区域/ApiVersion名称
         /// </summary>
@@ -91,9 +97,11 @@ namespace Fur.AttachController.Conventions
                 }
             }
         }
-        #endregion
+
+        #endregion 配置区域/ApiVersion名称 - private void ConfigureAreaName(ControllerModel controllerModel, AttachControllerAttribute attactControllerAttribute)
 
         #region 配置控制器名称 - private void ConfigureControllerName(ControllerModel controllerModel)
+
         /// <summary>
         /// 配置控制器名称
         /// </summary>
@@ -102,9 +110,11 @@ namespace Fur.AttachController.Conventions
         {
             controllerModel.ControllerName = Helper.ClearStringAffix(controllerModel.ControllerName, _attactControllerOptions.ClearControllerRouteAffix);
         }
-        #endregion
+
+        #endregion 配置控制器名称 - private void ConfigureControllerName(ControllerModel controllerModel)
 
         #region 配置控制器导出可见情况 - private void ConfigureControllerApiExplorer(ControllerModel controllerModel)
+
         /// <summary>
         /// 配置控制器导出可见情况
         /// </summary>
@@ -116,9 +126,11 @@ namespace Fur.AttachController.Conventions
                 controllerModel.ApiExplorer.IsVisible = true;
             }
         }
-        #endregion
+
+        #endregion 配置控制器导出可见情况 - private void ConfigureControllerApiExplorer(ControllerModel controllerModel)
 
         #region 配置Action模型信息 - private void ConfigureAction(ControllerModel controllerModel)
+
         /// <summary>
         /// 配置Action模型信息
         /// </summary>
@@ -149,9 +161,11 @@ namespace Fur.AttachController.Conventions
                 }
             }
         }
-        #endregion
+
+        #endregion 配置Action模型信息 - private void ConfigureAction(ControllerModel controllerModel)
 
         #region 配置Action导出可见情况 - private void ConfigureActionApiExplorerAndParameters(ActionModel actionModel)
+
         /// <summary>
         /// 配置Action导出可见情况及参数绑定
         /// </summary>
@@ -166,9 +180,11 @@ namespace Fur.AttachController.Conventions
             // 参数值绑定
             ConfigureActionParameters(actionModel);
         }
-        #endregion
+
+        #endregion 配置Action导出可见情况 - private void ConfigureActionApiExplorerAndParameters(ActionModel actionModel)
 
         #region 配置Action名称 - private void ConfigureActionName(ActionModel actionModel)
+
         /// <summary>
         /// 配置Action名称
         /// </summary>
@@ -189,9 +205,11 @@ namespace Fur.AttachController.Conventions
                 }
             }
         }
-        #endregion
+
+        #endregion 配置Action名称 - private void ConfigureActionName(ActionModel actionModel)
 
         #region 配置Action路由和请求方式 - private void ConfigureActionRouteAndHttpMethod(ControllerModel controllerModel, ActionModel actionModel, AttachActionAttribute attachActionAttribute)
+
         /// <summary>
         /// 配置Action路由和请求方式
         /// </summary>
@@ -218,22 +236,28 @@ namespace Fur.AttachController.Conventions
                     case "GET":
                         actionModelSelector.EndpointMetadata.Add(new HttpGetAttribute());
                         break;
+
                     case "POST":
                         actionModelSelector.EndpointMetadata.Add(new HttpPostAttribute());
                         break;
+
                     case "PUT":
                         actionModelSelector.EndpointMetadata.Add(new HttpPutAttribute());
                         break;
+
                     case "DELETE":
                         actionModelSelector.EndpointMetadata.Add(new HttpDeleteAttribute());
                         break;
+
                     default: throw new System.Exception($"Unsupported HttpVerb: {verb}");
                 }
             }
         }
-        #endregion
+
+        #endregion 配置Action路由和请求方式 - private void ConfigureActionRouteAndHttpMethod(ControllerModel controllerModel, ActionModel actionModel, AttachActionAttribute attachActionAttribute)
 
         #region 配置Action路由信息 - private AttributeRouteModel ConfigureActionRoute(ControllerModel controllerModel, ActionModel actionModel, AttachActionAttribute attachActionAttribute)
+
         /// <summary>
         /// 配置Action路由信息
         /// </summary>
@@ -292,9 +316,11 @@ namespace Fur.AttachController.Conventions
                 .Replace("//", "/");
             return new AttributeRouteModel(new RouteAttribute(route));
         }
-        #endregion
+
+        #endregion 配置Action路由信息 - private AttributeRouteModel ConfigureActionRoute(ControllerModel controllerModel, ActionModel actionModel, AttachActionAttribute attachActionAttribute)
 
         #region Action模型参数值绑定 - private void ConfigureActionParameters(ActionModel actionModel)
+
         /// <summary>
         /// Action模型参数值绑定
         /// </summary>
@@ -311,9 +337,11 @@ namespace Fur.AttachController.Conventions
                 }
             }
         }
-        #endregion
+
+        #endregion Action模型参数值绑定 - private void ConfigureActionParameters(ActionModel actionModel)
 
         #region 检查是否能够通过Body绑定参数值 - private bool CanBindingFromBody(ActionModel actionModel, ParameterModel parameterModel)
+
         /// <summary>
         /// 检查是否能够通过Body绑定参数值
         /// </summary>
@@ -340,6 +368,7 @@ namespace Fur.AttachController.Conventions
 
             return true;
         }
-        #endregion
+
+        #endregion 检查是否能够通过Body绑定参数值 - private bool CanBindingFromBody(ActionModel actionModel, ParameterModel parameterModel)
     }
 }

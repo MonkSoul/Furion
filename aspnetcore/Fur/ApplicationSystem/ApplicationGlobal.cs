@@ -25,6 +25,7 @@ namespace Fur.ApplicationSystem
         public static ApplicationInfo ApplicationInfo = GetApplicationInfo();
 
         #region 获取类型的应用类型信息 +/*  public static ApplicationTypeInfo GetApplicationTypeInfo(Type type)
+
         /// <summary>
         /// 获取类型的应用类型信息
         /// </summary>
@@ -32,9 +33,11 @@ namespace Fur.ApplicationSystem
         /// <returns>应用类型信息对象</returns>
         public static ApplicationTypeInfo GetApplicationTypeInfo(Type type)
             => ApplicationInfo.PublicClassTypes.FirstOrDefault(u => u.Type == type);
-        #endregion
+
+        #endregion 获取类型的应用类型信息 +/*  public static ApplicationTypeInfo GetApplicationTypeInfo(Type type)
 
         #region 获取特定类型的特定方法信息 +/* public static ApplicationMethodInfo GetApplicationMethodInfo(MethodInfo methodInfo)
+
         /// <summary>
         /// 获取特定类型的特定方法信息
         /// </summary>
@@ -42,9 +45,11 @@ namespace Fur.ApplicationSystem
         /// <returns>应用方法信息</returns>
         public static ApplicationMethodInfo GetApplicationMethodInfo(MethodInfo methodInfo)
             => ApplicationInfo.PublicInstanceMethods.FirstOrDefault(u => u.Method == methodInfo);
-        #endregion
+
+        #endregion 获取特定类型的特定方法信息 +/* public static ApplicationMethodInfo GetApplicationMethodInfo(MethodInfo methodInfo)
 
         #region 获取类型指定特性 +/* public static TAttribute GetTypeAttribute<TAttribute>(Type type) where TAttribute : Attribute
+
         /// <summary>
         /// 获取类型指定特性
         /// </summary>
@@ -53,9 +58,11 @@ namespace Fur.ApplicationSystem
         /// <returns>特性对象</returns>
         public static TAttribute GetTypeAttribute<TAttribute>(Type type) where TAttribute : Attribute
             => GetApplicationTypeInfo(type).CustomAttributes.FirstOrDefault(u => u is TAttribute) as TAttribute;
-        #endregion
+
+        #endregion 获取类型指定特性 +/* public static TAttribute GetTypeAttribute<TAttribute>(Type type) where TAttribute : Attribute
 
         #region 获取类型指定特性 +/* public static TAttribute GetMethodAttribute<TAttribute>(MethodInfo methodInfo) where TAttribute : Attribute
+
         /// <summary>
         /// 获取类型指定特性
         /// </summary>
@@ -64,9 +71,11 @@ namespace Fur.ApplicationSystem
         /// <returns>特性对象</returns>
         public static TAttribute GetMethodAttribute<TAttribute>(MethodInfo methodInfo) where TAttribute : Attribute
             => GetApplicationMethodInfo(methodInfo).CustomAttributes.FirstOrDefault(u => u is TAttribute) as TAttribute;
-        #endregion
+
+        #endregion 获取类型指定特性 +/* public static TAttribute GetMethodAttribute<TAttribute>(MethodInfo methodInfo) where TAttribute : Attribute
 
         #region 判断是否是控制器类型 +/* public static bool IsControllerType(TypeInfo typeInfo, bool exceptMvcController = false)
+
         /// <summary>
         /// 判断是否是控制器类型
         /// </summary>
@@ -91,9 +100,11 @@ namespace Fur.ApplicationSystem
 
             return false;
         }
-        #endregion
+
+        #endregion 判断是否是控制器类型 +/* public static bool IsControllerType(TypeInfo typeInfo, bool exceptMvcController = false)
 
         #region 判断是否是控制器类型 +/*  public static bool IsControllerType(Type type, bool exceptMvcController = false)
+
         /// <summary>
         /// 判断是否是控制器类型
         /// </summary>
@@ -102,9 +113,11 @@ namespace Fur.ApplicationSystem
         /// <returns>是或否</returns>
         public static bool IsControllerType(Type type, bool exceptMvcController = false)
             => IsControllerType(type.GetTypeInfo(), exceptMvcController);
-        #endregion
+
+        #endregion 判断是否是控制器类型 +/*  public static bool IsControllerType(Type type, bool exceptMvcController = false)
 
         #region 判断是否是控制器Action类型 +/* public static bool IsControllerActionType(MethodInfo methodInfo)
+
         /// <summary>
         /// 判断是否是控制器Action类型
         /// </summary>
@@ -123,9 +136,11 @@ namespace Fur.ApplicationSystem
 
             return true;
         }
-        #endregion
+
+        #endregion 判断是否是控制器Action类型 +/* public static bool IsControllerActionType(MethodInfo methodInfo)
 
         #region 获取应用程序集，并且不包含Nuget下载 -/* private IEnumerable<Assembly> GetApplicationAssembliesWithoutNuget(string prefix = nameof(Fur))
+
         /// <summary>
         /// 获取应用程序集，并且不包含Nuget下载
         /// </summary>
@@ -139,9 +154,11 @@ namespace Fur.ApplicationSystem
                 .WhereIf(prefix.HasValue(), u => u.Name.StartsWith(prefix))
                 .Select(u => AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(u.Name)));
         }
-        #endregion
+
+        #endregion 获取应用程序集，并且不包含Nuget下载 -/* private IEnumerable<Assembly> GetApplicationAssembliesWithoutNuget(string prefix = nameof(Fur))
 
         #region 获取应用信息类 -/* private static ApplicationInfo GetApplicationInfo()
+
         /// <summary>
         /// 获取应用信息类
         /// </summary>
@@ -194,6 +211,7 @@ namespace Fur.ApplicationSystem
             applicationInfo.PublicInstanceMethods = applicationInfo.PublicClassTypes.SelectMany(u => u.PublicInstanceMethods);
             return applicationInfo;
         }
-        #endregion
+
+        #endregion 获取应用信息类 -/* private static ApplicationInfo GetApplicationInfo()
     }
 }

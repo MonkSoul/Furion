@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
 
 namespace Fur.FastMember
 {
-
     internal static class TypeHelpers
     {
-
         public static int Min(int x, int y)
         {
             return x < y ? x : y;
@@ -25,6 +22,5 @@ namespace Fur.FastMember
         {
             return !type.IsInterface ? type.GetProperties(flags) : (new[] { type }).Concat(type.GetInterfaces()).SelectMany(i => i.GetProperties(flags)).ToArray();
         }
-
     }
 }

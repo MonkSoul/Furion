@@ -12,8 +12,8 @@ namespace Fur.DatabaseVisitor.Helpers
 {
     internal class Helper
     {
-
         #region 修复和合并数据库命令参数 -/* internal static void FixedAndCombineSqlParameters(ref DbCommand dbCommand, params object[] parameters)
+
         /// <summary>
         /// 修复和合并数据库命令参数
         /// </summary>
@@ -32,9 +32,11 @@ namespace Fur.DatabaseVisitor.Helpers
                 dbCommand.Parameters.Add(parameter);
             }
         }
-        #endregion
 
-        #region 组合存储过程/函数Sql语句 + internal static (string sql, SqlParameter[] parameters) CombineExecuteSql(ExcuteSqlOptions excuteSqlOptions, string name, object parameterModel = null) 
+        #endregion 修复和合并数据库命令参数 -/* internal static void FixedAndCombineSqlParameters(ref DbCommand dbCommand, params object[] parameters)
+
+        #region 组合存储过程/函数Sql语句 + internal static (string sql, SqlParameter[] parameters) CombineExecuteSql(ExcuteSqlOptions excuteSqlOptions, string name, object parameterModel = null)
+
         /// <summary>
         /// 组合存储过程/函数Sql语句
         /// </summary>
@@ -88,7 +90,8 @@ namespace Fur.DatabaseVisitor.Helpers
 
             return (sql, paramValues.ToArray());
         }
-        #endregion
+
+        #endregion 组合存储过程/函数Sql语句 + internal static (string sql, SqlParameter[] parameters) CombineExecuteSql(ExcuteSqlOptions excuteSqlOptions, string name, object parameterModel = null)
 
         /// <summary>
         /// 组合存储过程/函数Sql语句

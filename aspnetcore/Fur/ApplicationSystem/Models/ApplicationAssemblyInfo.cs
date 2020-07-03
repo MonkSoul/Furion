@@ -12,14 +12,17 @@ namespace Fur.ApplicationSystem.Models
         /// 程序集
         /// </summary>
         public Assembly Assembly { get; set; }
+
         /// <summary>
         /// 程序集名称
         /// </summary>
         public string Name { get; set; }
+
         /// <summary>
         /// 程序集完整名称
         /// </summary>
         public string FullName { get; set; }
+
         /// <summary>
         /// 程序集公开类型
         /// </summary>

@@ -15,6 +15,7 @@ namespace Fur.Web.Host
     public class Startup
     {
         public IWebHostEnvironment Environment { get; }
+
         public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             Configuration = configuration;
@@ -22,7 +23,6 @@ namespace Fur.Web.Host
         }
 
         public IConfiguration Configuration { get; }
-
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -32,6 +32,7 @@ namespace Fur.Web.Host
             services.AddFurObjectMapper();
             services.AddFurDbContextPool(Environment, Configuration);
         }
+
         public void ConfigureContainer(ContainerBuilder builder) => Injection.Initialize(builder);
 
         public void Configure(IApplicationBuilder app)

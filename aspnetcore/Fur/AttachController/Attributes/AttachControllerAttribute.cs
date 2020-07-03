@@ -16,6 +16,7 @@ namespace Fur.AttachController.Attributes
         {
             base.IgnoreApi = this.IgnoreApi = false;
         }
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -25,6 +26,7 @@ namespace Fur.AttachController.Attributes
             Attach = attach;
             base.IgnoreApi = this.IgnoreApi = !attach;
         }
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -34,6 +36,7 @@ namespace Fur.AttachController.Attributes
             SwaggerGroups = swaggerGroups;
             base.GroupName = this.GroupName = string.Join(Consts.GroupNameSeparator, swaggerGroups);
         }
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -46,26 +49,32 @@ namespace Fur.AttachController.Attributes
             base.IgnoreApi = this.IgnoreApi = !attach;
             base.GroupName = this.GroupName = string.Join(Consts.GroupNameSeparator, swaggerGroups);
         }
+
         /// <summary>
         /// 接口版本
         /// </summary>
         public string ApiVersion { get; set; }
+
         /// <summary>
         /// 是否附加到控制器，默认true（附加）
         /// </summary>
         public bool Attach { get; set; } = true;
+
         /// <summary>
         /// 附加到swagger分组名称列表
         /// </summary>
         public string[] SwaggerGroups { get; set; }
+
         /// <summary>
         /// 接口授权标识名称列表
         /// </summary>
         public string[] AuthorizeTo { get; set; }
+
         /// <summary>
         /// 分组名
         /// </summary>
         internal new string GroupName { get; set; }
+
         /// <summary>
         /// 是否忽略Api
         /// </summary>

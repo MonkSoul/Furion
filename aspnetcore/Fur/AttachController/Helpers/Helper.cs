@@ -9,6 +9,7 @@ namespace Fur.AttachController.Helpers
     internal class Helper
     {
         #region 移除字符串前后缀 +/* internal static string ClearStringAffix(string str, params string[] affixs)
+
         /// <summary>
         /// 移除字符串前后缀
         /// </summary>
@@ -45,9 +46,11 @@ namespace Fur.AttachController.Helpers
             var newStr = stringBuilder.ToString();
             return newStr.HasValue() ? newStr : str;
         }
-        #endregion
+
+        #endregion 移除字符串前后缀 +/* internal static string ClearStringAffix(string str, params string[] affixs)
 
         #region 将字符串按照骆驼命名反射切割 +/* internal string[] CamelCaseSplitString(string str)
+
         /// <summary>
         /// 将字符串按照骆驼命名反射切割
         /// </summary>
@@ -60,9 +63,11 @@ namespace Fur.AttachController.Helpers
 
             return Regex.Split(str, @"(?=\p{Lu}\p{Ll})|(?<=\p{Ll})(?=\p{Lu})").Where(u => u.HasValue()).ToArray();
         }
-        #endregion
+
+        #endregion 将字符串按照骆驼命名反射切割 +/* internal string[] CamelCaseSplitString(string str)
 
         #region 获取骆驼命名第一个单词 +/* internal static string GetCamelCaseFirstWord(string str)
+
         /// <summary>
         /// 获取骆驼命名第一个单词
         /// </summary>
@@ -70,9 +75,11 @@ namespace Fur.AttachController.Helpers
         /// <returns>首个单词</returns>
         internal static string GetCamelCaseFirstWord(string str)
             => CamelCaseSplitString(str).FirstOrDefault();
-        #endregion
+
+        #endregion 获取骆驼命名第一个单词 +/* internal static string GetCamelCaseFirstWord(string str)
 
         #region 是否是基元类型 +/* internal static bool IsPrimitive(Type type, bool includeEnum = true)
+
         /// <summary>
         /// 是否是基元类型
         /// </summary>
@@ -91,9 +98,11 @@ namespace Fur.AttachController.Helpers
                    type == typeof(TimeSpan) ||
                    type == typeof(Guid);
         }
-        #endregion
+
+        #endregion 是否是基元类型 +/* internal static bool IsPrimitive(Type type, bool includeEnum = true)
 
         #region 是否是基元类型，包括可空对象 +/* internal static bool IsPrimitiveIncludeNullable(Type type, bool includeEnum = true)
+
         /// <summary>
         /// 是否是基元类型，包括可空对象
         /// </summary>
@@ -109,6 +118,7 @@ namespace Fur.AttachController.Helpers
 
             return false;
         }
-        #endregion
+
+        #endregion 是否是基元类型，包括可空对象 +/* internal static bool IsPrimitiveIncludeNullable(Type type, bool includeEnum = true)
     }
 }

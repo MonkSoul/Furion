@@ -1,11 +1,9 @@
 ﻿using Fur.EntityFramework.Core.DbContexts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace Fur.EntityFramework.Core.Extensions
 {
@@ -15,6 +13,7 @@ namespace Fur.EntityFramework.Core.Extensions
     public static class DbContextServiceExtensions
     {
         #region 数据库上下文服务拓展方法 +/* public static IServiceCollection AddFurDbContextPool(this IServiceCollection services, IWebHostEnvironment env, IConfiguration configuration)
+
         /// <summary>
         /// 数据库上下文服务拓展方法
         /// </summary>
@@ -38,6 +37,7 @@ namespace Fur.EntityFramework.Core.Extensions
 
             return services;
         }
-        #endregion
+
+        #endregion 数据库上下文服务拓展方法 +/* public static IServiceCollection AddFurDbContextPool(this IServiceCollection services, IWebHostEnvironment env, IConfiguration configuration)
     }
 }

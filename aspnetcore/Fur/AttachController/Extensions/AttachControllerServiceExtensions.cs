@@ -17,6 +17,7 @@ namespace Fur.AttachController.Extensions
     public static class AttachControllerServiceExtensions
     {
         #region 附加控制器服务拓展方法 +/* public static IServiceCollection AddFurAttachControllers(this IServiceCollection services)
+
         /// <summary>
         /// 附加控制器服务拓展方法
         /// </summary>
@@ -39,6 +40,7 @@ namespace Fur.AttachController.Extensions
 
             return services;
         }
-        #endregion
+
+        #endregion 附加控制器服务拓展方法 +/* public static IServiceCollection AddFurAttachControllers(this IServiceCollection services)
     }
 }

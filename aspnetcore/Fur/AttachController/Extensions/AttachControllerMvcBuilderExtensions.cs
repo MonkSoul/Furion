@@ -16,6 +16,7 @@ namespace Fur.AttachController.Extensions
     public static class AttachControllerMvcBuilderExtensions
     {
         #region 附加控制器Mvc构建器拓展方法 +/* public static IMvcBuilder AddFurAttachControllers(this IMvcBuilder mvcBuilder)
+
         /// <summary>
         /// 附加控制器Mvc构建器拓展方法
         /// </summary>
@@ -40,6 +41,7 @@ namespace Fur.AttachController.Extensions
 
             return mvcBuilder;
         }
-        #endregion
+
+        #endregion 附加控制器Mvc构建器拓展方法 +/* public static IMvcBuilder AddFurAttachControllers(this IMvcBuilder mvcBuilder)
     }
 }
