@@ -147,7 +147,7 @@ namespace Fur.Application.Functions
         }
 
         /// <summary>
-        /// 删除数据
+        /// 真删除数据
         /// </summary>
         /// <param name="id">主键Id</param>
         /// <returns></returns>
@@ -156,6 +156,17 @@ namespace Fur.Application.Functions
             var entity = await _testRepository.FindAsync(id) ?? throw new InvalidOperationException("非法操作：没找到数据。");
 
             await _testRepository.DeleteSaveChangesAsync(entity);
+        }
+
+        /// <summary>
+        /// 假删除数据
+        /// </summary>
+        /// <param name="id">主键Id</param>
+        /// <returns></returns>
+        [AttachAction(EveryWordToRoutePath = true)]
+        public Task FakeDeleteAsync(int id)
+        {
+            return _testRepository.FakeDeleteSaveChangesAsync(id, u => u.IsDeleted, true);
         }
 
         /// <summary>

@@ -45,8 +45,20 @@ namespace Fur.Linq.Extensions
         /// <returns>属性名</returns>
         public static string GetExpressionPropertyName<TSource>(this Expression<Func<TSource, object>> expression)
         {
-            var expressionBody = expression.Body.ToString();
-            return expressionBody.Substring(expressionBody.LastIndexOf(".") + 1);
+            if (expression.Body is UnaryExpression unaryExpression)
+            {
+                return ((MemberExpression)unaryExpression.Operand).Member.Name;
+            }
+            else if (expression.Body is MemberExpression memberExpression)
+            {
+                return memberExpression.Member.Name;
+            }
+            else if (expression.Body is ParameterExpression parameterExpression)
+            {
+                return parameterExpression.Type.Name;
+            }
+
+            throw new InvalidCastException(nameof(expression));
         }
         #endregion
 

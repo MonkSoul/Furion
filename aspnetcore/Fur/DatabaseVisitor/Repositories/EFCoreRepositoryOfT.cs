@@ -2,6 +2,8 @@
 using Fur.DatabaseVisitor.Enums;
 using Fur.DatabaseVisitor.Extensions;
 using Fur.DependencyInjection.Lifetimes;
+using Fur.Extensions;
+using Fur.Linq.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -27,6 +29,14 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual DbSet<TEntity> Entity { get; }
         public virtual DatabaseFacade Database => DbContext.Database;
         public virtual DbConnection DbConnection => DbContext.Database.GetDbConnection();
+
+        public virtual void Attach(TEntity entity)
+        {
+            if (EntityEntry(entity).State == EntityState.Detached)
+            {
+                DbContext.Attach(entity);
+            }
+        }
 
         public virtual EntityEntry<TEntity> EntityEntry(TEntity entity) => DbContext.Entry(entity);
 
@@ -232,11 +242,7 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
             var entityEntry = EntityEntry(entity);
-            if (entityEntry.State == EntityState.Detached)
-            {
-                DbContext.Attach(entity);
-            }
-            entityEntry.State = EntityState.Unchanged;
+            Attach(entity);
 
             foreach (var expression in propertyExpressions)
             {
@@ -250,11 +256,7 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
             var entityEntry = EntityEntry(entity);
-            if (entityEntry.State == EntityState.Detached)
-            {
-                DbContext.Attach(entity);
-            }
-            entityEntry.State = EntityState.Unchanged;
+            Attach(entity);
 
             foreach (var expression in propertyExpressions)
             {
@@ -310,10 +312,7 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual EntityEntry<TEntity> UpdateExcludeProperties(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
             var entityEntry = EntityEntry(entity);
-            if (entityEntry.State == EntityState.Detached)
-            {
-                DbContext.Attach(entity);
-            }
+            Attach(entity);
             entityEntry.State = EntityState.Modified;
 
             foreach (var expression in propertyExpressions)
@@ -328,10 +327,7 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual Task<EntityEntry<TEntity>> UpdateExcludePropertiesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
             var entityEntry = EntityEntry(entity);
-            if (entityEntry.State == EntityState.Detached)
-            {
-                DbContext.Attach(entity);
-            }
+            Attach(entity);
             entityEntry.State = EntityState.Modified;
 
             foreach (var expression in propertyExpressions)
@@ -476,6 +472,101 @@ namespace Fur.DatabaseVisitor.Repositories
             await SaveChangesAsync();
             return trackEntity;
         }
+
+
+        public virtual EntityEntry<TEntity> FakeDelete(TEntity entity, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
+        {
+            Attach(entity);
+            var propertyName = fakeDeleteProperty.GetExpressionPropertyName();
+            entity.SetProperyValue(propertyName, flagValue);
+
+            return UpdateIncludeProperties(entity, fakeDeleteProperty);
+        }
+
+        public virtual void FakeDelete(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
+        {
+            foreach (var entity in entities)
+            {
+                FakeDelete(entity, fakeDeleteProperty, flagValue);
+            }
+        }
+        public virtual Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
+        {
+            Attach(entity);
+            var propertyName = fakeDeleteProperty.GetExpressionPropertyName();
+            entity.SetProperyValue(propertyName, flagValue);
+
+            return UpdateIncludePropertiesAsync(entity, fakeDeleteProperty);
+        }
+        public virtual async Task FakeDeleteAsync(IAsyncEnumerable<TEntity> entities, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
+        {
+            await foreach (var entity in entities)
+            {
+                FakeDelete(entity, fakeDeleteProperty, flagValue);
+            }
+        }
+        public virtual EntityEntry<TEntity> FakeDeleteSaveChanges(TEntity entity, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
+        {
+            var entityEntry = FakeDelete(entity, fakeDeleteProperty, flagValue);
+            SaveChanges();
+            return entityEntry;
+        }
+        public virtual void FakeDeleteSaveChanges(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
+        {
+            foreach (var entity in entities)
+            {
+                FakeDelete(entity, fakeDeleteProperty, flagValue);
+            }
+            SaveChanges();
+        }
+        public virtual async Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(TEntity entity, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
+        {
+            var entityEntry = await FakeDeleteAsync(entity, fakeDeleteProperty, flagValue);
+            await SaveChangesAsync();
+            return entityEntry;
+        }
+        public virtual async Task FakeDeleteSaveChangesAsync(IAsyncEnumerable<TEntity> entities, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
+        {
+            await foreach (var entity in entities)
+            {
+                FakeDelete(entity, fakeDeleteProperty, flagValue);
+            }
+            await SaveChangesAsync();
+        }
+
+        public virtual EntityEntry<TEntity> FakeDelete(object id, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
+        {
+            var entity = Find(id);
+            return FakeDelete(entity, fakeDeleteProperty, flagValue);
+        }
+        public virtual async Task<EntityEntry<TEntity>> FakeDeleteAsync(object id, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
+        {
+            var entity = await FindAsync(id);
+            return await FakeDeleteAsync(entity, fakeDeleteProperty, flagValue);
+        }
+        public virtual EntityEntry<TEntity> FakeDeleteSaveChanges(object id, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
+        {
+            var entityEntry = FakeDelete(id, fakeDeleteProperty, flagValue);
+            SaveChanges();
+            return entityEntry;
+        }
+        public virtual async Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(object id, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
+        {
+            var entityEntry = await FakeDeleteAsync(id, fakeDeleteProperty, flagValue);
+            await SaveChangesAsync();
+            return entityEntry;
+        }
+
+
+
+
+
+
+
+
+
+
+        // 查询一条
 
         public virtual TEntity Find(object id)
         {

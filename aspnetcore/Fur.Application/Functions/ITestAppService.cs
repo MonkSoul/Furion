@@ -65,11 +65,18 @@ namespace Fur.Application.Functions
         Task UpdateExcludeProperties(int id, TestInput input);
 
         /// <summary>
-        /// 删除数据
+        /// 真删除数据
         /// </summary>
         /// <param name="id">主键Id</param>
         /// <returns></returns>
         Task DeleteAsync(int id);
+
+        /// <summary>
+        /// 假删除数据
+        /// </summary>
+        /// <param name="id">主键Id</param>
+        /// <returns></returns>
+        Task FakeDeleteAsync(int id);
 
         /// <summary>
         /// 原始Sql查询

@@ -24,6 +24,8 @@ namespace Fur.DatabaseVisitor.Repositories
         DbConnection DbConnection { get; }
         EntityEntry<TEntity> EntityEntry(TEntity entity);
 
+        void Attach(TEntity entity);
+
         // 新增操作
         EntityEntry<TEntity> Insert(TEntity entity);
         void Insert(params TEntity[] entities);
@@ -89,6 +91,20 @@ namespace Fur.DatabaseVisitor.Repositories
         Task<EntityEntry<TEntity>> DeleteAsync(object id);
         EntityEntry<TEntity> DeleteSaveChanges(object id);
         Task<EntityEntry<TEntity>> DeleteSaveChangesAsync(object id);
+
+        // 假删除
+        EntityEntry<TEntity> FakeDelete(TEntity entity, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue);
+        void FakeDelete(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue);
+        Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue);
+        Task FakeDeleteAsync(IAsyncEnumerable<TEntity> entities, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue);
+        EntityEntry<TEntity> FakeDeleteSaveChanges(TEntity entity, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue);
+        void FakeDeleteSaveChanges(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue);
+        Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(TEntity entity, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue);
+        Task FakeDeleteSaveChangesAsync(IAsyncEnumerable<TEntity> entities, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue);
+        EntityEntry<TEntity> FakeDelete(object id, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue);
+        Task<EntityEntry<TEntity>> FakeDeleteAsync(object id, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue);
+        EntityEntry<TEntity> FakeDeleteSaveChanges(object id, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue);
+        Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(object id, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue);
 
         // 查询一条
         TEntity Find(object id);
