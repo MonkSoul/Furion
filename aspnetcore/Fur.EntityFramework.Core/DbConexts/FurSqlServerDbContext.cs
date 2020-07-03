@@ -6,7 +6,7 @@ namespace Fur.EntityFramework.Core.DbContexts
 {
     public class FurSqlServerDbContext : FurDbContextOfT<FurSqlServerDbContext>
     {
-        DbSet<Test> Tests { get; set; }
+        public virtual DbSet<Test> Tests { get; set; }
 
         public FurSqlServerDbContext(DbContextOptions<FurSqlServerDbContext> options) : base(options)
         {
@@ -19,13 +19,13 @@ namespace Fur.EntityFramework.Core.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
             modelBuilder.Entity<Test>(entity =>
             {
                 entity.Property(u => u.CreatedTime).HasDefaultValueSql("getdate()");
                 entity.Property(u => u.UpdatedTime).HasDefaultValueSql("getdate()");
             });
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

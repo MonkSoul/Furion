@@ -24,9 +24,12 @@ namespace Fur.Application.Functions
     public class TestAppService : ITestAppService, IAttachControllerDependency
     {
         private readonly IRepositoryOfT<Test> _testRepository;
-        public TestAppService(IRepositoryOfT<Test> testRepository)
+        private readonly IRepositoryOfT<V_Test> _vTestRepository;
+        public TestAppService(IRepositoryOfT<Test> testRepository
+            , IRepositoryOfT<V_Test> vTestRepository)
         {
             _testRepository = testRepository;
+            _vTestRepository = vTestRepository;
         }
 
         /// <summary>
@@ -166,6 +169,18 @@ namespace Fur.Application.Functions
         public Task<IEnumerable<TestOutput>> SqlProcedureQueryAsync(string name)
         {
             return _testRepository.FromSqlProcedureQueryAsync<TestOutput>(name, new { Name = "小僧" });
+        }
+
+        /// <summary>
+        /// 查询视图
+        /// </summary>
+        /// <returns></returns>
+        [AttachAction(EveryWordToRoutePath = true)]
+        public async Task<IEnumerable<TestOutput>> SqlViewQueryAsync()
+        {
+            return await _vTestRepository.Entity
+                .ProjectToType<TestOutput>()
+                .ToListAsync();
         }
     }
 }

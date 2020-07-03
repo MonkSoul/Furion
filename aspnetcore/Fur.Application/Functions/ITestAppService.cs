@@ -1,6 +1,5 @@
 ﻿using Fur.Application.Functions.Dtos;
 using System.Collections.Generic;
-using System.Data;
 using System.Threading.Tasks;
 
 namespace Fur.Application.Functions
@@ -76,5 +75,11 @@ namespace Fur.Application.Functions
         /// <param name="name"></param>
         /// <returns></returns>
         Task<IEnumerable<TestOutput>> SqlProcedureQueryAsync(string name);
+
+        /// <summary>
+        /// 查询视图
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<TestOutput>> SqlViewQueryAsync();
     }
 }
