@@ -224,6 +224,34 @@ namespace Fur.DatabaseVisitor.Repositories
             return entityEntry;
         }
 
+
+        public virtual void UpdateIncludeProperties(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            foreach (var entity in entities)
+            {
+                UpdateIncludeProperties(entity, propertyExpressions);
+            }
+        }
+
+        public virtual async Task UpdateIncludePropertiesAsync(IAsyncEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            await foreach (var entity in entities)
+            {
+                await UpdateIncludePropertiesAsync(entity, propertyExpressions);
+            }
+        }
+
+        public virtual void UpdateIncludePropertiesSaveChanges(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            UpdateIncludeProperties(entities, propertyExpressions);
+            SaveChanges();
+        }
+        public virtual async Task UpdateIncludePropertiesSaveChangesAsync(IAsyncEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            await UpdateIncludePropertiesAsync(entities, propertyExpressions);
+            await SaveChangesAsync();
+        }
+
         // 排除指定列
         public virtual EntityEntry<TEntity> UpdateExcludeProperties(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
@@ -269,6 +297,35 @@ namespace Fur.DatabaseVisitor.Repositories
             await SaveChangesAsync();
             return entityEntry;
         }
+
+
+        public virtual void UpdateExcludeProperties(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            foreach (var entity in entities)
+            {
+                UpdateExcludeProperties(entity, propertyExpressions);
+            }
+        }
+
+        public virtual async Task UpdateExcludePropertiesAsync(IAsyncEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            await foreach (var entity in entities)
+            {
+                await UpdateExcludePropertiesAsync(entity, propertyExpressions);
+            }
+        }
+
+        public virtual void UpdateExcludePropertiesSaveChanges(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            UpdateExcludeProperties(entities, propertyExpressions);
+            SaveChanges();
+        }
+        public virtual async Task UpdateExcludePropertiesSaveChangesAsync(IAsyncEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            await UpdateExcludePropertiesAsync(entities, propertyExpressions);
+            await SaveChangesAsync();
+        }
+
 
         // 删除功能
         public virtual void Delete(params TEntity[] entities)
