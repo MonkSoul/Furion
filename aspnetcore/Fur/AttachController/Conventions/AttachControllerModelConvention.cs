@@ -264,6 +264,8 @@ namespace Fur.AttachController.Conventions
                 stringBuilder.Append($"/##action_name##");
             }
 
+            stringBuilder.Append($"##parameter_name##");
+            var parameterNames = string.Empty;
             // 读取参数信息
             var parameters = ApplicationGlobal.ApplicationInfo.PublicInstanceMethods.FirstOrDefault(u => u.Method == actionModel.ActionMethod).Parameters;
             foreach (var parameterInfo in parameters)
@@ -278,13 +280,16 @@ namespace Fur.AttachController.Conventions
 
                     if (!hasFromAttribute) continue;
 
-                    stringBuilder.Append($"/{{{parameterInfo.Name}}}");
+                    parameterNames += $"/{{{parameterInfo.Name}}}";
                 }
             }
 
             var route = stringBuilder.ToString();
             route = _attactControllerOptions.LowerCaseUri ? route.ToLower() : route;
-            route = route.Replace("##action_name##", ((attachActionAttribute?.KeepOriginalName ?? false) ? actionName : actionName.ToLower())).Replace("//", "/");
+            route = route
+                .Replace("##action_name##", ((attachActionAttribute?.KeepOriginalName ?? false) ? actionName : actionName.ToLower()))
+                .Replace("##parameter_name##", parameterNames)
+                .Replace("//", "/");
             return new AttributeRouteModel(new RouteAttribute(route));
         }
         #endregion

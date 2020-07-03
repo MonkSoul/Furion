@@ -51,9 +51,9 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <returns></returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IPagedListOfT<TestOutput>> GetAsync(int pageIndex = 0, int pageSize = 20)
+        public async Task<IPagedListOfT<TestOutput>> GetAsync(int page = 0, int page_size = 20)
         {
-            var pageList = await _testRepository.GetPageAsync(pageIndex, pageSize);
+            var pageList = await _testRepository.GetPageAsync(page, page_size);
             return pageList.Adapt<IPagedListOfT<TestOutput>>();
         }
 
