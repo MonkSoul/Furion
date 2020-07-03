@@ -294,6 +294,11 @@ namespace Fur.Application.Functions
         /// 查询视图
         /// </summary>
         /// <returns></returns>
+        // ================================
+        //  CREATE VIEW V_Test
+        //  AS
+        //  SELECT Id,Name,Age FROM Tests;
+        // ================================
         [AttachAction(EveryWordToRoutePath = true)]
         public async Task<IEnumerable<TestOutput>> SqlViewQueryAsync()
         {
