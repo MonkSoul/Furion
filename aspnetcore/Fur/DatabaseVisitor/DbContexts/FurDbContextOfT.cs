@@ -34,7 +34,7 @@ namespace Fur.DatabaseVisitor.DbContexts
         {
             if (IsScanViewEntity) return;
 
-            var viewTypes = ApplicationGlobal.ApplicationInfo.PublicClassTypes.Where(u => typeof(View).IsAssignableFrom(u.Type));
+            var viewTypes = ApplicationGlobal.ApplicationInfo.PublicClassTypes.Where(u => typeof(View).IsAssignableFrom(u.Type) && u.CanNewType);
             ResolveModelBuilderMethods(modelBuilder);
             foreach (var viewType in viewTypes)
             {
@@ -50,11 +50,18 @@ namespace Fur.DatabaseVisitor.DbContexts
                 entityBuilderEntityToViewMethod.Invoke(null, new object[] { entityTypeBuilder, viewInstance.ToViewName });
             }
 
+            var dbFunctionMethods = ApplicationGlobal.ApplicationInfo.PublicInstanceMethods.Where(u => u.IsStaticType && u.Method.IsDefined(typeof(DbFunctionAttribute)) && u.DeclareType.IsAbstract && u.DeclareType.IsSealed);
+            foreach (var dbFunction in dbFunctionMethods)
+            {
+                modelBuilderHasDbFunctionMethod.Invoke(null, new object[] { modelBuilder, dbFunction.Method });
+            }
+
             IsScanViewEntity = true;
         }
 
         private static MethodInfo modelBuilderEntityMethod = null;
         private static MethodInfo entityBuilderEntityToViewMethod = null;
+        private static MethodInfo modelBuilderHasDbFunctionMethod = null;
         private static void ResolveModelBuilderMethods(ModelBuilder modelBuilder)
         {
             if (modelBuilderEntityMethod == null)
@@ -70,6 +77,14 @@ namespace Fur.DatabaseVisitor.DbContexts
                 entityBuilderEntityToViewMethod = relationalEntityTypeBuilderExtensionsType.GetMethods()
                     .Where(u => u.Name == "ToView" && u.GetParameters().Length == 2 && u.GetParameters().First().ParameterType.IsGenericType)
                     .FirstOrDefault();
+            }
+
+            if (modelBuilderHasDbFunctionMethod == null)
+            {
+                var relationalModelBuilderExtensionsType = typeof(RelationalModelBuilderExtensions);
+                modelBuilderHasDbFunctionMethod = relationalModelBuilderExtensionsType.GetMethods()
+                      .Where(u => u.Name == "HasDbFunction" && u.GetParameters().Length == 2 && u.GetParameters().Last().ParameterType == typeof(MethodInfo))
+                      .FirstOrDefault();
             }
         }
     }

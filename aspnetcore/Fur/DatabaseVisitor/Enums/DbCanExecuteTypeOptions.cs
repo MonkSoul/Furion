@@ -3,6 +3,7 @@
     public enum DbCanExecuteTypeOptions
     {
         DbProcedure,
-        DbFunction
+        DbScalarFunction,
+        DbTableFunction
     }
 }

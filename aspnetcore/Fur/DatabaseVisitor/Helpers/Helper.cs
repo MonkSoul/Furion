@@ -50,7 +50,7 @@ namespace Fur.DatabaseVisitor.Helpers
 
             var paramValues = new List<SqlParameter>();
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"{(excuteSqlOptions == DbCanExecuteTypeOptions.DbProcedure ? "EXECUTE" : "SELECT")} {name}{(excuteSqlOptions == DbCanExecuteTypeOptions.DbProcedure ? "" : "(")}");
+            stringBuilder.Append($"{(excuteSqlOptions == DbCanExecuteTypeOptions.DbProcedure ? "EXECUTE" : $"SELECT{(excuteSqlOptions == DbCanExecuteTypeOptions.DbTableFunction ? " * FROM " : "")}")} {name}{(excuteSqlOptions == DbCanExecuteTypeOptions.DbProcedure ? "" : "(")}");
 
             for (int i = 0; i < properities?.Length; i++)
             {
@@ -81,7 +81,7 @@ namespace Fur.DatabaseVisitor.Helpers
             var sql = stringBuilder.ToString();
             if (sql.EndsWith(",")) sql = sql[0..^1];
 
-            if (excuteSqlOptions == DbCanExecuteTypeOptions.DbFunction)
+            if (excuteSqlOptions != DbCanExecuteTypeOptions.DbProcedure)
             {
                 sql += (")");
             }
@@ -101,7 +101,7 @@ namespace Fur.DatabaseVisitor.Helpers
         {
             var sqlParameters = (SqlParameter[])parameters;
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"{(excuteSqlOptions == DbCanExecuteTypeOptions.DbProcedure ? "EXECUTE" : "SELECT")} {name}{(excuteSqlOptions == DbCanExecuteTypeOptions.DbProcedure ? "" : "(")}");
+            stringBuilder.Append($"{(excuteSqlOptions == DbCanExecuteTypeOptions.DbProcedure ? "EXECUTE" : $"SELECT{(excuteSqlOptions == DbCanExecuteTypeOptions.DbTableFunction ? " * FROM " : "")}")} {name}{(excuteSqlOptions == DbCanExecuteTypeOptions.DbProcedure ? "" : "(")}");
 
             for (int i = 0; i < sqlParameters.Length; i++)
             {
@@ -112,7 +112,7 @@ namespace Fur.DatabaseVisitor.Helpers
             var sql = stringBuilder.ToString();
             if (sql.EndsWith(",")) sql = sql[0..^1];
 
-            if (excuteSqlOptions == DbCanExecuteTypeOptions.DbFunction)
+            if (excuteSqlOptions != DbCanExecuteTypeOptions.DbProcedure)
             {
                 sql += (")");
             }

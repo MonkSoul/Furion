@@ -1,4 +1,5 @@
 ﻿using Fur.DatabaseVisitor.Dependencies;
+using Fur.DatabaseVisitor.Enums;
 using Fur.DatabaseVisitor.Extensions;
 using Fur.DependencyInjection.Lifetimes;
 using Microsoft.EntityFrameworkCore;
@@ -1000,64 +1001,64 @@ namespace Fur.DatabaseVisitor.Repositories
         // 标量函数
         public virtual TResult FromSqlScalarFunctionQuery<TResult>(string name, params object[] parameters) where TResult : struct
         {
-            return Database.SqlFunctionQuery<TResult>(name, parameters).FirstOrDefault();
+            return Database.SqlFunctionQuery<TResult>(DbCanExecuteTypeOptions.DbScalarFunction, name, parameters).FirstOrDefault();
         }
 
         public virtual async Task<TResult> FromSqlScalarFunctionQueryAsync<TResult>(string name, params object[] parameters) where TResult : struct
         {
-            var results = await Database.SqlFunctionQueryAsync<TResult>(name, parameters);
+            var results = await Database.SqlFunctionQueryAsync<TResult>(DbCanExecuteTypeOptions.DbScalarFunction, name, parameters);
             return results.FirstOrDefault();
         }
 
         public virtual TResult FromSqlScalarFunctionQuery<TResult>(string name, object parameterModel) where TResult : struct
         {
-            return Database.SqlFunctionQuery<TResult>(name, parameterModel).FirstOrDefault();
+            return Database.SqlFunctionQuery<TResult>(DbCanExecuteTypeOptions.DbScalarFunction, name, parameterModel).FirstOrDefault();
         }
 
         public virtual async Task<TResult> FromSqlScalarFunctionQueryAsync<TResult>(string name, object parameterModel) where TResult : struct
         {
-            var results = await Database.SqlFunctionQueryAsync<TResult>(name, parameterModel);
+            var results = await Database.SqlFunctionQueryAsync<TResult>(DbCanExecuteTypeOptions.DbScalarFunction, name, parameterModel);
             return results.FirstOrDefault();
         }
 
         public virtual DataTable FromSqlTableFunctionQuery(string name, params object[] parameters)
         {
-            return Database.SqlFunctionQuery(name, parameters);
+            return Database.SqlFunctionQuery(DbCanExecuteTypeOptions.DbTableFunction, name, parameters);
         }
 
         public virtual Task<DataTable> FromSqlTableFunctionQueryAsync(string name, params object[] parameters)
         {
-            return Database.SqlFunctionQueryAsync(name, parameters);
+            return Database.SqlFunctionQueryAsync(DbCanExecuteTypeOptions.DbTableFunction, name, parameters);
         }
 
         public virtual DataTable FromSqlTableFunctionQuery(string name, object parameterModel)
         {
-            return Database.SqlFunctionQuery(name, parameterModel);
+            return Database.SqlFunctionQuery(DbCanExecuteTypeOptions.DbTableFunction, name, parameterModel);
         }
 
         public virtual Task<DataTable> FromSqlTableFunctionQueryAsync(string name, object parameterModel)
         {
-            return Database.SqlFunctionQueryAsync(name, parameterModel);
+            return Database.SqlFunctionQueryAsync(DbCanExecuteTypeOptions.DbTableFunction, name, parameterModel);
         }
 
         public virtual IEnumerable<T> FromSqlTableFunctionQuery<T>(string name, params object[] parameters)
         {
-            return Database.SqlFunctionQuery<T>(name, parameters);
+            return Database.SqlFunctionQuery<T>(DbCanExecuteTypeOptions.DbTableFunction, name, parameters);
         }
 
         public virtual Task<IEnumerable<T>> FromSqlTableFunctionQueryAsync<T>(string name, params object[] parameters)
         {
-            return Database.SqlFunctionQueryAsync<T>(name, parameters);
+            return Database.SqlFunctionQueryAsync<T>(DbCanExecuteTypeOptions.DbTableFunction, name, parameters);
         }
 
         public virtual IEnumerable<T> FromSqlTableFunctionQuery<T>(string name, object parameterModel)
         {
-            return Database.SqlFunctionQuery<T>(name, parameterModel);
+            return Database.SqlFunctionQuery<T>(DbCanExecuteTypeOptions.DbTableFunction, name, parameterModel);
         }
 
         public virtual Task<IEnumerable<T>> FromSqlTableFunctionQueryAsync<T>(string name, object parameterModel)
         {
-            return Database.SqlFunctionQueryAsync<T>(name, parameterModel);
+            return Database.SqlFunctionQueryAsync<T>(DbCanExecuteTypeOptions.DbTableFunction, name, parameterModel);
         }
     }
 }

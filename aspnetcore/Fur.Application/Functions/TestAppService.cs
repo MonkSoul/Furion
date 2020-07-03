@@ -4,6 +4,7 @@ using Fur.AttachController.Dependencies;
 using Fur.DatabaseVisitor.Repositories;
 using Fur.Extensions;
 using Fur.Linq.Extensions;
+using Fur.Record;
 using Fur.Record.Entities;
 using Mapster;
 using Microsoft.AspNetCore.Http;
@@ -172,6 +173,53 @@ namespace Fur.Application.Functions
         }
 
         /// <summary>
+        /// 调用数据库标量函数
+        /// </summary>
+        /// <returns></returns>
+        // ================================
+        //   CREATE FUNCTION FN_GetId
+        //  (
+        //      @id INT
+        //  )
+        //  RETURNS INT
+        //  AS
+        //  BEGIN
+        //      RETURN @id + 1;
+        //  END;
+        // ================================
+        [AttachAction(EveryWordToRoutePath = true)]
+        public Task<int> SqlScalarFunctionQueryAsync()
+        {
+            return _testRepository.FromSqlScalarFunctionQueryAsync<int>("dbo.FN_GetId", new { Id = 1 });
+        }
+
+        /// <summary>
+        /// 调用数据库表值函数
+        /// </summary>
+        /// <returns></returns>
+        // ================================
+        //   CREATE FUNCTION FN_GetTable
+        //  (
+        //      @id INT
+        //  )
+        //  RETURNS TABLE
+        //  AS
+        //  RETURN
+        //  (
+        //      SELECT Id,
+        //             Name,
+        //             Age
+        //      FROM dbo.Tests
+        //      WHERE Id > @id
+        //  );
+        // ================================
+        [AttachAction(EveryWordToRoutePath = true)]
+        public Task<IEnumerable<TestOutput>> SqlTableFunctionQueryAsync()
+        {
+            return _testRepository.FromSqlTableFunctionQueryAsync<TestOutput>("dbo.FN_GetTable", new { Id = 5 });
+        }
+
+        /// <summary>
         /// 查询视图
         /// </summary>
         /// <returns></returns>
@@ -179,6 +227,19 @@ namespace Fur.Application.Functions
         public async Task<IEnumerable<TestOutput>> SqlViewQueryAsync()
         {
             return await _vTestRepository.Entity
+                .ProjectToType<TestOutput>()
+                .ToListAsync();
+        }
+
+        /// <summary>
+        /// Linq中调用函数
+        /// </summary>
+        /// <returns></returns>
+        [AttachAction(EveryWordToRoutePath = true)]
+        public async Task<IEnumerable<TestOutput>> GetLinqFunctionAsync()
+        {
+            return await _testRepository.Get(true)
+                .Where(u => u.Id >= LinqDbFunctions.GetId(0))
                 .ProjectToType<TestOutput>()
                 .ToListAsync();
         }

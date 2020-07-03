@@ -41,5 +41,9 @@ namespace Fur.ApplicationSystem.Models
         /// Swagger 文档分组
         /// </summary>
         public string[] SwaggerGroups { get; set; }
+        /// <summary>
+        /// 是否静态类型
+        /// </summary>
+        public bool IsStaticType { get; set; }
     }
 }

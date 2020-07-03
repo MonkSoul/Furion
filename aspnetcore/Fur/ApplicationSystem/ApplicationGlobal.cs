@@ -156,7 +156,7 @@ namespace Fur.ApplicationSystem
                     Assembly = a,
                     Name = a.GetName().Name,
                     FullName = a.FullName,
-                    PublicClassTypes = a.GetTypes().Where(t => !t.IsInterface && !t.IsAbstract && t.IsPublic && !t.IsDefined(typeof(NotInjectAttribute))).Select(t => new ApplicationTypeInfo()
+                    PublicClassTypes = a.GetTypes().Where(t => !t.IsInterface && t.IsPublic && !t.IsDefined(typeof(NotInjectAttribute))).Select(t => new ApplicationTypeInfo()
                     {
                         Assembly = a,
                         Type = t,
@@ -165,7 +165,9 @@ namespace Fur.ApplicationSystem
                         GenericArguments = t.IsGenericType ? t.GetGenericArguments() : null,
                         CustomAttributes = t.GetCustomAttributes(),
                         SwaggerGroups = IsControllerType(t) ? (t.GetCustomAttribute<AttachControllerAttribute>()?.SwaggerGroups ?? new string[] { "Default" }) : null,
-                        PublicInstanceMethods = t.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(m => m.DeclaringType == t && !m.IsDefined(typeof(NotInjectAttribute))).Select(m => new ApplicationMethodInfo()
+                        IsStaticType = (t.IsAbstract && t.IsSealed),
+                        CanNewType = !t.IsAbstract,
+                        PublicInstanceMethods = t.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static).Where(m => m.DeclaringType == t && !m.IsDefined(typeof(NotInjectAttribute))).Select(m => new ApplicationMethodInfo()
                         {
                             Assembly = a,
                             DeclareType = t,
@@ -182,7 +184,8 @@ namespace Fur.ApplicationSystem
                                 Name = p.Name,
                                 Type = p.ParameterType,
                                 CustomAttributes = p.GetCustomAttributes()
-                            })
+                            }),
+                            IsStaticType = m.IsStatic,
                         })
                     })
                 })
