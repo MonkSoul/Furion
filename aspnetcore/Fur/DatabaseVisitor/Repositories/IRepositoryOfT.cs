@@ -316,5 +316,21 @@ namespace Fur.DatabaseVisitor.Repositories
         Task<IEnumerable<T>> FromSqlTableFunctionQueryAsync<T>(string name, params object[] parameters);
         IEnumerable<T> FromSqlTableFunctionQuery<T>(string name, object parameterModel);
         Task<IEnumerable<T>> FromSqlTableFunctionQueryAsync<T>(string name, object parameterModel);
+
+        bool Exists(Expression<Func<TEntity, bool>> expression = null);
+        Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> expression = null);
+
+        int Count(Expression<Func<TEntity, bool>> expression = null);
+        Task<int> CountAsync(Expression<Func<TEntity, bool>> expression = null);
+
+        TEntity Max();
+        TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression);
+        Task<TEntity> MaxAsync();
+        Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression);
+
+        TEntity Min();
+        TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression);
+        Task<TEntity> MinAsync();
+        Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression);
     }
 }

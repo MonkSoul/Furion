@@ -1360,5 +1360,64 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             return Database.SqlFunctionQueryAsync<T>(DbCanExecuteTypeOptions.DbTableFunction, name, parameterModel);
         }
+
+        public virtual bool Exists(Expression<Func<TEntity, bool>> expression = null)
+        {
+            return expression == null ? Entity.Any() : Entity.Any(expression);
+        }
+
+        public virtual Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> expression = null)
+        {
+            return expression == null ? Entity.AnyAsync() : Entity.AnyAsync(expression);
+        }
+
+        public virtual int Count(Expression<Func<TEntity, bool>> expression = null)
+        {
+            return expression == null ? Entity.Count() : Entity.Count(expression);
+        }
+
+        public virtual Task<int> CountAsync(Expression<Func<TEntity, bool>> expression = null)
+        {
+            return expression == null ? Entity.CountAsync() : Entity.CountAsync(expression);
+        }
+
+
+
+
+        public virtual TEntity Max()
+        {
+            return Entity.Max();
+        }
+        public virtual TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression)
+        {
+            return Entity.Max(expression);
+        }
+        public virtual Task<TEntity> MaxAsync()
+        {
+            return Entity.MaxAsync();
+        }
+        public virtual Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
+        {
+            return Entity.MaxAsync(expression);
+        }
+
+
+
+        public virtual TEntity Min()
+        {
+            return Entity.Min();
+        }
+        public virtual TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression)
+        {
+            return Entity.Min(expression);
+        }
+        public virtual Task<TEntity> MinAsync()
+        {
+            return Entity.MinAsync();
+        }
+        public virtual Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
+        {
+            return Entity.MinAsync(expression);
+        }
     }
 }
