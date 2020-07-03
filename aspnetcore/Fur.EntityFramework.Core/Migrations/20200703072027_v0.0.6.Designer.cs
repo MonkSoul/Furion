@@ -4,14 +4,16 @@ using Fur.EntityFramework.Core.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fur.EntityFramework.Core.Migrations
 {
     [DbContext(typeof(FurSqlServerDbContext))]
-    partial class FurSqlServerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200703072027_v0.0.6")]
+    partial class v006
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

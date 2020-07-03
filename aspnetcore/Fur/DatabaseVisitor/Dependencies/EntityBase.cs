@@ -9,13 +9,13 @@ namespace Fur.DatabaseVisitor.Dependencies
         /// <summary>
         /// 创建时间
         /// </summary>
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime CreatedTime { get; set; }
         /// <summary>
         /// 更新时间
         /// </summary>
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime UpdatedTime { get; set; }
+        //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime? UpdatedTime { get; set; }
         /// <summary>
         /// 假删除
         /// </summary>

@@ -35,34 +35,77 @@ namespace Fur.DatabaseVisitor.Repositories
             return Entity.Remove(entity);
         }
 
+        // 处理新增时候，创建时间/等字段
+        private void InsertInvokeDefendPropertyHandler(params TEntity[] entities)
+        {
+            foreach (var entity in entities)
+            {
+                var entityEntry = EntityEntry(entity);
+                var createdTimeProperty = entityEntry.Property(nameof(EntityBase<int>.CreatedTime));
+                if (createdTimeProperty != null)
+                {
+                    createdTimeProperty.CurrentValue = DateTime.Now;
+                }
+            }
+        }
+
+        // 新增更新时候，更新时间/创建时间等字段
+        private void UpdateInvokeDefendPropertyHandler(params TEntity[] entities)
+        {
+            foreach (var entity in entities)
+            {
+                var entityEntry = EntityEntry(entity);
+
+                var updatedTimeProperty = entityEntry.Property(nameof(EntityBase<int>.UpdatedTime));
+                if (updatedTimeProperty != null && !updatedTimeProperty.IsModified)
+                {
+                    updatedTimeProperty.CurrentValue = DateTime.Now;
+                    updatedTimeProperty.IsModified = true;
+                }
+
+                var createdTimeProperty = entityEntry.Property(nameof(EntityBase<int>.CreatedTime));
+                if (createdTimeProperty != null)
+                {
+                    createdTimeProperty.IsModified = false;
+                }
+            }
+
+        }
+
         // 新增操作
         public virtual EntityEntry<TEntity> Insert(TEntity entity)
         {
+            InsertInvokeDefendPropertyHandler(entity);
             return Entity.Add(entity);
         }
 
         public virtual void Insert(params TEntity[] entities)
         {
+            InsertInvokeDefendPropertyHandler(entities);
             Entity.AddRange(entities);
         }
 
         public virtual void Insert(IEnumerable<TEntity> entities)
         {
+            InsertInvokeDefendPropertyHandler(entities.ToArray());
             Entity.AddRange(entities);
         }
 
         public virtual ValueTask<EntityEntry<TEntity>> InsertAsync(TEntity entity)
         {
+            InsertInvokeDefendPropertyHandler(entity);
             return Entity.AddAsync(entity);
         }
 
         public virtual Task InsertAsync(params TEntity[] entities)
         {
+            InsertInvokeDefendPropertyHandler(entities);
             return Entity.AddRangeAsync();
         }
 
         public virtual Task InsertAsync(IEnumerable<TEntity> entities)
         {
+            InsertInvokeDefendPropertyHandler(entities.ToArray());
             return Entity.AddRangeAsync();
         }
 
@@ -109,33 +152,40 @@ namespace Fur.DatabaseVisitor.Repositories
         // 更新操作
         public virtual EntityEntry<TEntity> Update(TEntity entity)
         {
-            return Entity.Update(entity);
+            UpdateInvokeDefendPropertyHandler(entity);
+            var entityEntry = Entity.Update(entity);
+            return entityEntry;
         }
 
         public virtual void Update(params TEntity[] entities)
         {
+            UpdateInvokeDefendPropertyHandler(entities);
             Entity.UpdateRange(entities);
         }
 
         public virtual void Update(IEnumerable<TEntity> entities)
         {
+            UpdateInvokeDefendPropertyHandler(entities.ToArray());
             Entity.UpdateRange(entities);
         }
 
         public virtual Task<EntityEntry<TEntity>> UpdateAsync(TEntity entity)
         {
+            UpdateInvokeDefendPropertyHandler(entity);
             var trackEntity = Entity.Update(entity);
             return Task.FromResult(trackEntity);
         }
 
         public virtual Task UpdateAsync(params TEntity[] entities)
         {
+            UpdateInvokeDefendPropertyHandler(entities);
             Entity.UpdateRange(entities);
             return Task.CompletedTask;
         }
 
         public virtual Task UpdateAsync(IEnumerable<TEntity> entities)
         {
+            UpdateInvokeDefendPropertyHandler(entities.ToArray());
             Entity.UpdateRange(entities);
             return Task.CompletedTask;
         }
@@ -192,6 +242,8 @@ namespace Fur.DatabaseVisitor.Repositories
             {
                 entityEntry.Property(expression).IsModified = true;
             }
+
+            UpdateInvokeDefendPropertyHandler(entity);
             return entityEntry;
         }
 
@@ -208,6 +260,8 @@ namespace Fur.DatabaseVisitor.Repositories
             {
                 entityEntry.Property(expression).IsModified = true;
             }
+
+            UpdateInvokeDefendPropertyHandler(entity);
             return Task.FromResult(entityEntry);
         }
 
@@ -266,6 +320,8 @@ namespace Fur.DatabaseVisitor.Repositories
             {
                 entityEntry.Property(expression).IsModified = false;
             }
+
+            UpdateInvokeDefendPropertyHandler(entity);
             return entityEntry;
         }
 
@@ -282,6 +338,8 @@ namespace Fur.DatabaseVisitor.Repositories
             {
                 entityEntry.Property(expression).IsModified = false;
             }
+
+            UpdateInvokeDefendPropertyHandler(entity);
             return Task.FromResult(entityEntry);
         }
 
