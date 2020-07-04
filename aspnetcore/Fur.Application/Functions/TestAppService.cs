@@ -25,12 +25,15 @@ namespace Fur.Application.Functions
     [AttachController]
     public class TestAppService : ITestAppService, IAttachControllerDependency
     {
+        private readonly IRepository _repository;
         private readonly IRepositoryOfT<Test> _testRepository;
         private readonly IRepositoryOfT<V_Test> _vTestRepository;
 
-        public TestAppService(IRepositoryOfT<Test> testRepository
+        public TestAppService(IRepository repository
+            , IRepositoryOfT<Test> testRepository
             , IRepositoryOfT<V_Test> vTestRepository)
         {
+            _repository = repository;
             _testRepository = testRepository;
             _vTestRepository = vTestRepository;
         }
@@ -318,6 +321,18 @@ namespace Fur.Application.Functions
                 .Where(u => u.Id >= LinqDbFunctions.GetId(0))
                 .ProjectToType<TestOutput>()
                 .ToListAsync();
+        }
+
+        /// <summary>
+        /// 测试仓储实例生命周期
+        /// </summary>
+        /// <returns></returns>
+        [AttachAction(KeepOriginalName = true)]
+        public Task<bool> TestRepositoryScopeLifetime()
+        {
+            var testRepository = _repository.GetRepository<Test>();
+
+            return Task.FromResult(testRepository == _testRepository);
         }
     }
 }

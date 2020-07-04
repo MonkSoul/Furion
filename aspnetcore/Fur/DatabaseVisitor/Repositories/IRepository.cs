@@ -1,6 +1,9 @@
-﻿namespace Fur.DatabaseVisitor.Repositories
+﻿using Fur.DatabaseVisitor.Dependencies;
+
+namespace Fur.DatabaseVisitor.Repositories
 {
-    public partial interface IRepository
+    public interface IRepository
     {
+        IRepositoryOfT<TEntity> GetRepository<TEntity>(bool newScope = false) where TEntity : class, IEntity, new();
     }
 }

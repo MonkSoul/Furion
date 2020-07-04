@@ -138,5 +138,11 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <returns></returns>
         Task<IEnumerable<TestOutput>> GetLinqFunctionAsync();
+
+        /// <summary>
+        /// 测试仓储实例生命周期
+        /// </summary>
+        /// <returns></returns>
+        Task<bool> TestRepositoryScopeLifetime();
     }
 }
