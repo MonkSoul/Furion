@@ -1,7 +1,10 @@
-﻿using Fur.DatabaseVisitor.Dependencies;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Fur.DatabaseVisitor.Dependencies;
 using Fur.DatabaseVisitor.Enums;
 using Fur.DatabaseVisitor.Extensions;
 using Fur.DatabaseVisitor.Page;
+using Fur.DatabaseVisitor.Provider;
 using Fur.DependencyInjection.Lifetimes;
 using Fur.Extensions;
 using Fur.Linq.Extensions;
@@ -20,10 +23,20 @@ namespace Fur.DatabaseVisitor.Repositories
 {
     public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity>, IScopedLifetimeOfT<TEntity> where TEntity : class, IEntity, new()
     {
-        public EFCoreRepositoryOfT(DbContext dbContext)
+        private readonly IMaintenanceProvider _maintenanceProvider;
+        private readonly IServiceProvider _serviceProvider;
+        public EFCoreRepositoryOfT(DbContext dbContext
+            , IServiceProvider serviceProvider)
         {
             DbContext = dbContext;
             Entity = DbContext.Set<TEntity>();
+
+            _serviceProvider = serviceProvider;
+            var autofacContainer = _serviceProvider.GetAutofacRoot();
+            if (autofacContainer.IsRegistered<IMaintenanceProvider>())
+            {
+                _maintenanceProvider = autofacContainer.Resolve<IMaintenanceProvider>();
+            }
         }
 
         public virtual DbContext DbContext { get; }
@@ -52,7 +65,7 @@ namespace Fur.DatabaseVisitor.Repositories
             foreach (var entity in entities)
             {
                 var entityEntry = EntityEntry(entity);
-                var createdTimeProperty = entityEntry.Property(nameof(EntityBase<int>.CreatedTime));
+                var createdTimeProperty = entityEntry.Property(_maintenanceProvider?.GetInsertedTimeName() ?? nameof(EntityBase<int>.CreatedTime));
                 if (createdTimeProperty != null)
                 {
                     createdTimeProperty.CurrentValue = DateTime.Now;
@@ -69,17 +82,14 @@ namespace Fur.DatabaseVisitor.Repositories
                 var entityEntry = EntityEntry(entity);
                 entityEntries.Add(entityEntry);
 
-                var updatedTimeProperty = entityEntry.Property(nameof(EntityBase<int>.UpdatedTime));
+                var updatedTimeProperty = entityEntry.Property(_maintenanceProvider?.GetUpdatedTimeName() ?? nameof(EntityBase<int>.UpdatedTime));
                 if (updatedTimeProperty != null && !updatedTimeProperty.IsModified)
                 {
                     updatedTimeProperty.CurrentValue = DateTime.Now;
                     updatedTimeProperty.IsModified = true;
                 }
-                if (updateHandler != null)
-                {
-                    updateHandler();
-                }
-                var createdTimeProperty = entityEntry.Property(nameof(EntityBase<int>.CreatedTime));
+                updateHandler?.Invoke();
+                var createdTimeProperty = entityEntry.Property(_maintenanceProvider?.GetInsertedTimeName() ?? nameof(EntityBase<int>.CreatedTime));
                 if (createdTimeProperty != null)
                 {
                     createdTimeProperty.IsModified = false;
