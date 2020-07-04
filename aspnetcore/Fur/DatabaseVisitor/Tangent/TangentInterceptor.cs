@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Fur.DatabaseVisitor.Tangent
 {
@@ -36,19 +37,19 @@ namespace Fur.DatabaseVisitor.Tangent
 
             var (sql, parameters) = AnalysisMethodInfoToSql(methodInfo, tangentAttribute, invocation.Arguments);
 
-            // 处理异步和非异步
+            // 处理异步和非异步（还未处理异步）
             var methodReturnType = methodInfo.ReturnType;
             var sourceType = tangentAttribute.SourceType;
             if (methodReturnType == typeof(DataSet))
             {
-                _dbContext.Database.SqlDataSetQuery(sql, parameters);
+                return _dbContext.Database.SqlDataSetQuery(sql, parameters);
             }
             else if (methodReturnType.ToString().StartsWith("System.ValueTuple"))
             {
                 var result = _dbContext.Database.SqlDataSetQuery(sql, (sourceType ?? methodReturnType).GenericTypeArguments.ToArray(), parameters);
 
                 var defaultResult = result.Adapt(result.GetType(), sourceType ?? methodReturnType);
-                invocation.ReturnValue = sourceType == null ? defaultResult : defaultResult?.Adapt(defaultResult.GetType(), methodReturnType);
+                return sourceType == null ? defaultResult : defaultResult?.Adapt(defaultResult.GetType(), methodReturnType);
             }
             else
             {
