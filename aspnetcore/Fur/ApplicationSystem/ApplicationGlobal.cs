@@ -189,6 +189,7 @@ namespace Fur.ApplicationSystem
                             Assembly = a,
                             DeclareType = t,
                             Method = m,
+                            Name = m.Name,
                             CustomAttributes = m.GetCustomAttributes(),
                             ReturnType = m.ReturnType,
                             IsControllerActionType = IsControllerActionType(m),

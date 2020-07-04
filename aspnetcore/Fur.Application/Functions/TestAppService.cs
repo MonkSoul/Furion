@@ -3,6 +3,7 @@ using Fur.AttachController.Attributes;
 using Fur.AttachController.Dependencies;
 using Fur.DatabaseVisitor.Page;
 using Fur.DatabaseVisitor.Repositories;
+using Fur.DatabaseVisitor.Tangent;
 using Fur.Extensions;
 using Fur.Linq.Extensions;
 using Fur.Record;
@@ -28,14 +29,17 @@ namespace Fur.Application.Functions
         private readonly IRepository _repository;
         private readonly IRepositoryOfT<Test> _testRepository;
         private readonly IRepositoryOfT<V_Test> _vTestRepository;
+        private readonly INonDbSetQuery _nonDbSetQuery;
 
         public TestAppService(IRepository repository
             , IRepositoryOfT<Test> testRepository
-            , IRepositoryOfT<V_Test> vTestRepository)
+            , IRepositoryOfT<V_Test> vTestRepository
+            , ITangentDbContext tangentDbContext)
         {
             _repository = repository;
             _testRepository = testRepository;
             _vTestRepository = vTestRepository;
+            _nonDbSetQuery = tangentDbContext.For<INonDbSetQuery>();
         }
 
         /// <summary>
@@ -333,6 +337,51 @@ namespace Fur.Application.Functions
             var testRepository = _repository.GetRepository<Test>();
 
             return Task.FromResult(testRepository == _testRepository);
+        }
+
+        /// <summary>
+        /// 切面上下文读取
+        /// </summary>
+        /// <returns></returns>
+        [AttachAction(KeepOriginalName = true)]
+        public Task<IEnumerable<TestOutput>> GetTestsByTangent()
+        {
+            var result = _nonDbSetQuery.GetTests();
+            return Task.FromResult(result);
+        }
+
+
+        /// <summary>
+        /// 切面执行存储过程
+        /// </summary>
+        /// <returns></returns>
+        [AttachAction(KeepOriginalName = true)]
+        public Task<IEnumerable<TestOutput>> GetTestsByTangentPR()
+        {
+            var result = _nonDbSetQuery.GetPRTests("小僧");
+            return Task.FromResult(result);
+        }
+
+        /// <summary>
+        /// 切面执行标量函数
+        /// </summary>
+        /// <returns></returns>
+        [AttachAction(KeepOriginalName = true)]
+        public Task<int> GetIdTangentSF()
+        {
+            var result = _nonDbSetQuery.GetSFById(0);
+            return Task.FromResult(result);
+        }
+
+        /// <summary>
+        /// 切面执行表值函数
+        /// </summary>
+        /// <returns></returns>
+        [AttachAction(KeepOriginalName = true)]
+        public Task<IEnumerable<TestOutput>> GetTestsByTangentTR()
+        {
+            var result = _nonDbSetQuery.GetFNTests(1);
+            return Task.FromResult(result);
         }
     }
 }

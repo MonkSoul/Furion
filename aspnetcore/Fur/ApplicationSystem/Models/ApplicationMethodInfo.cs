@@ -25,6 +25,11 @@ namespace Fur.ApplicationSystem.Models
         public MethodInfo Method { get; set; }
 
         /// <summary>
+        /// 方法名称
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// 方法自定义特性
         /// </summary>
         public IEnumerable<Attribute> CustomAttributes { get; set; }

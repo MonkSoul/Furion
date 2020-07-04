@@ -127,7 +127,16 @@ namespace Fur.DatabaseVisitor.Extensions
                     list.GetType().GetMethod("Add").Invoke(list, new object[] { obj });
                 });
             }
-            var results = list as IEnumerable<object>;
+
+            IEnumerable<object> results;
+            if (Fur.AttachController.Helpers.Helper.IsPrimitive(returnType))
+            {
+                results = list.Adapt<IEnumerable<object>>();
+            }
+            else
+            {
+                results = list as IEnumerable<object>;
+            }
             return type.IsGenericType ? results : results.FirstOrDefault();
         }
 
