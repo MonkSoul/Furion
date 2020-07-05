@@ -24,7 +24,7 @@ namespace Fur.EntityFramework.Core.Extensions
         /// <returns>新的服务集合对象</returns>
         public static IServiceCollection AddFurDbContextPool(this IServiceCollection services, IWebHostEnvironment env, IConfiguration configuration)
         {
-            services.AddEntityFrameworkSqlServer();
+            //services.AddEntityFrameworkSqlServer();
             services.AddDbContextPool<FurSqlServerDbContext>(options =>
             {
                 if (env.IsDevelopment())
