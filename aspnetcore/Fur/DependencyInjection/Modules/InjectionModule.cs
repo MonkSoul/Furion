@@ -65,27 +65,29 @@ namespace Fur.DependencyInjection.Modules
             var genericTypes = applicationTypes.Where(t => t.IsGenericType);
             foreach (var type in genericTypes)
             {
-                if (typeof(ITransientLifetimeOfT<>).MakeGenericType(type.GenericArguments.ToArray()).IsAssignableFrom(type.Type))
+                var genericType = type.GenericArguments.FirstOrDefault();
+
+                if (typeof(ITransientLifetimeOfT<>).MakeGenericType(genericType).IsAssignableFrom(type.Type))
                 {
                     builder.RegisterGeneric(type.Type).AsImplementedInterfaces().InstancePerDependency();
                 }
-                else if (typeof(ITransientAsSelfLifetimeOfT<>).MakeGenericType(type.GenericArguments.ToArray()).IsAssignableFrom(type.Type))
+                else if (typeof(ITransientAsSelfLifetimeOfT<>).MakeGenericType(genericType).IsAssignableFrom(type.Type))
                 {
                     builder.RegisterGeneric(type.Type).AsSelf().InstancePerDependency();
                 }
-                else if (typeof(IScopedLifetimeOfT<>).MakeGenericType(type.GenericArguments.ToArray()).IsAssignableFrom(type.Type))
+                else if (typeof(IScopedLifetimeOfT<>).MakeGenericType(genericType).IsAssignableFrom(type.Type))
                 {
                     builder.RegisterGeneric(type.Type).AsImplementedInterfaces().InstancePerLifetimeScope();
                 }
-                else if (typeof(IScopedAsSelfLifetimeOfT<>).MakeGenericType(type.GenericArguments.ToArray()).IsAssignableFrom(type.Type))
+                else if (typeof(IScopedAsSelfLifetimeOfT<>).MakeGenericType(genericType).IsAssignableFrom(type.Type))
                 {
                     builder.RegisterGeneric(type.Type).AsSelf().InstancePerLifetimeScope();
                 }
-                else if (typeof(IScopedLifetimeOfT<>).MakeGenericType(type.GenericArguments.ToArray()).IsAssignableFrom(type.Type))
+                else if (typeof(IScopedLifetimeOfT<>).MakeGenericType(genericType).IsAssignableFrom(type.Type))
                 {
                     builder.RegisterGeneric(type.Type).AsImplementedInterfaces().SingleInstance();
                 }
-                else if (typeof(IScopedAsSelfLifetimeOfT<>).MakeGenericType(type.GenericArguments.ToArray()).IsAssignableFrom(type.Type))
+                else if (typeof(IScopedAsSelfLifetimeOfT<>).MakeGenericType(genericType).IsAssignableFrom(type.Type))
                 {
                     builder.RegisterGeneric(type.Type).AsSelf().SingleInstance();
                 }

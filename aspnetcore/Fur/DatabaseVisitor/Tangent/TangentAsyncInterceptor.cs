@@ -1,7 +1,10 @@
-﻿using Castle.DynamicProxy;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Castle.DynamicProxy;
 using Fur.DatabaseVisitor.Enums;
 using Fur.DatabaseVisitor.Extensions;
 using Fur.DatabaseVisitor.Helpers;
+using Fur.DatabaseVisitor.Identifiers;
 using Fur.DatabaseVisitor.Tangent.Attributes;
 using Mapster;
 using Microsoft.Data.SqlClient;
@@ -17,9 +20,13 @@ namespace Fur.DatabaseVisitor.Tangent
 {
     public class TangentAsyncInterceptor : IAsyncInterceptor
     {
+        private readonly IServiceProvider _serviceProvider;
         private readonly DbContext _dbContext;
-        public TangentAsyncInterceptor(DbContext dbContext)
+        public TangentAsyncInterceptor(
+            IServiceProvider serviceProvider
+            , DbContext dbContext)
         {
+            _serviceProvider = serviceProvider;
             _dbContext = dbContext;
         }
 
@@ -42,16 +49,16 @@ namespace Fur.DatabaseVisitor.Tangent
         // 处理异步不带返回值
         private Task AsynchronousInvoke(IInvocation invocation)
         {
-            ResolveMethodInfo(invocation, out MethodInfo methodInfo, out string sql, out SqlParameter[] parameters, out Type sourceType);
+            ResolveMethodInfo(invocation, out MethodInfo methodInfo, out string sql, out SqlParameter[] parameters, out Type sourceType, out DbContext whichDbContext);
 
-            var result = _dbContext.Database.SqlQueryAsync(sql, parameters);
+            var result = whichDbContext.Database.SqlQueryAsync(sql, parameters);
             return Task.FromResult(result.Result);
         }
 
         // 处理异步带返回值
         private async Task<TResult> AsynchronousOfTInvoke<TResult>(IInvocation invocation)
         {
-            ResolveMethodInfo(invocation, out MethodInfo methodInfo, out string sql, out SqlParameter[] parameters, out Type sourceType);
+            ResolveMethodInfo(invocation, out MethodInfo methodInfo, out string sql, out SqlParameter[] parameters, out Type sourceType, out DbContext whichDbContext);
 
             if (sourceType != null && sourceType.ToString().StartsWith("System.Threading.Tasks.Task"))
             {
@@ -60,18 +67,18 @@ namespace Fur.DatabaseVisitor.Tangent
             var methodActualReturnType = typeof(TResult);
             if (methodActualReturnType == typeof(DataSet))
             {
-                object result = await _dbContext.Database.SqlDataSetQueryAsync(sql, parameters);
+                object result = await whichDbContext.Database.SqlDataSetQueryAsync(sql, parameters);
                 return (TResult)result;
             }
             else if (methodActualReturnType.ToString().StartsWith("System.ValueTuple"))
             {
-                object result = await _dbContext.Database.SqlDataSetQueryAsync(sql, (sourceType ?? methodActualReturnType).GenericTypeArguments.ToArray(), parameters);
+                object result = await whichDbContext.Database.SqlDataSetQueryAsync(sql, (sourceType ?? methodActualReturnType).GenericTypeArguments.ToArray(), parameters);
                 var defaultResult = result.Adapt(result.GetType(), sourceType ?? methodActualReturnType);
                 return (TResult)(sourceType == null ? defaultResult : defaultResult?.Adapt(defaultResult.GetType(), methodActualReturnType));
             }
             else
             {
-                object result = await _dbContext.Database.SqlQueryAsync(sql, (sourceType ?? methodActualReturnType), parameters);
+                object result = await whichDbContext.Database.SqlQueryAsync(sql, (sourceType ?? methodActualReturnType), parameters);
                 if (methodActualReturnType == typeof(DataTable)) return (TResult)result;
                 else
                 {
@@ -83,24 +90,24 @@ namespace Fur.DatabaseVisitor.Tangent
         // 处理同步
         private object SynchronousInvoke(IInvocation invocation)
         {
-            ResolveMethodInfo(invocation, out MethodInfo methodInfo, out string sql, out SqlParameter[] parameters, out Type sourceType);
+            ResolveMethodInfo(invocation, out MethodInfo methodInfo, out string sql, out SqlParameter[] parameters, out Type sourceType, out DbContext whichDbContext);
 
             var methodReturnType = methodInfo.ReturnType;
 
             if (methodReturnType == typeof(DataSet))
             {
-                return _dbContext.Database.SqlDataSetQuery(sql, parameters);
+                return whichDbContext.Database.SqlDataSetQuery(sql, parameters);
             }
             else if (methodReturnType.ToString().StartsWith("System.ValueTuple"))
             {
-                var result = _dbContext.Database.SqlDataSetQuery(sql, (sourceType ?? methodReturnType).GenericTypeArguments.ToArray(), parameters);
+                var result = whichDbContext.Database.SqlDataSetQuery(sql, (sourceType ?? methodReturnType).GenericTypeArguments.ToArray(), parameters);
 
                 var defaultResult = result.Adapt(result.GetType(), sourceType ?? methodReturnType);
                 return sourceType == null ? defaultResult : defaultResult?.Adapt(defaultResult.GetType(), methodReturnType);
             }
             else
             {
-                var result = _dbContext.Database.SqlQuery(sql, parameters);
+                var result = whichDbContext.Database.SqlQuery(sql, parameters);
                 if (methodReturnType == typeof(DataTable)) return result;
                 else if (methodReturnType == typeof(void)) return typeof(void);
                 else
@@ -111,7 +118,7 @@ namespace Fur.DatabaseVisitor.Tangent
             }
         }
 
-        private void ResolveMethodInfo(IInvocation invocation, out MethodInfo methodInfo, out string sql, out SqlParameter[] parameters, out Type sourceType)
+        private void ResolveMethodInfo(IInvocation invocation, out MethodInfo methodInfo, out string sql, out SqlParameter[] parameters, out Type sourceType, out DbContext whichDbContext)
         {
             methodInfo = invocation.MethodInvocationTarget ?? invocation.Method;
             var tangentAttribute = methodInfo.GetCustomAttributes(true).FirstOrDefault(u => typeof(TangentAttribute).IsAssignableFrom(u.GetType())) as TangentAttribute
@@ -119,6 +126,16 @@ namespace Fur.DatabaseVisitor.Tangent
 
             (sql, parameters) = CombineSql(methodInfo, tangentAttribute, invocation.Arguments);
             sourceType = tangentAttribute.SourceType;
+
+            var dbContextIdentifierType = tangentAttribute.DbContextIdentifier;
+            if (dbContextIdentifierType != null && typeof(IDbContextIdentifier).IsAssignableFrom(dbContextIdentifierType))
+            {
+                whichDbContext = _serviceProvider.GetAutofacRoot().ResolveNamed<DbContext>(dbContextIdentifierType.Name);
+            }
+            else
+            {
+                whichDbContext = _dbContext;
+            }
         }
 
         private (string sql, SqlParameter[] parameters) CombineSql(MethodInfo methodInfo, TangentAttribute tangentAttribute, object[] arguments)

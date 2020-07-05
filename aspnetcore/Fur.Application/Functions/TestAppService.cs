@@ -8,6 +8,7 @@ using Fur.Extensions;
 using Fur.Linq.Extensions;
 using Fur.Record;
 using Fur.Record.Entities;
+using Fur.Record.Identifiers;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,16 +32,21 @@ namespace Fur.Application.Functions
         private readonly IRepositoryOfT<Test> _testRepository;
         private readonly IRepositoryOfT<V_Test> _vTestRepository;
         private readonly INonDbSetQuery _nonDbSetQuery;
-
+        private readonly IMultipleRepositoryOfT<Test, FurMultipleDbContextIdentifier> _multipleRepository;
+        private readonly IMultipleRepositoryOfT<V_Test, FurMultipleDbContextIdentifier> _vTestMultipleRepository;
         public TestAppService(IRepository repository
             , IRepositoryOfT<Test> testRepository
             , IRepositoryOfT<V_Test> vTestRepository
-            , ITangentDbContext tangentDbContext)
+            , ITangentDbContext tangentDbContext
+            , IMultipleRepositoryOfT<Test, FurMultipleDbContextIdentifier> multipleRepository
+            , IMultipleRepositoryOfT<V_Test, FurMultipleDbContextIdentifier> vTestMultipleRepository)
         {
             _repository = repository;
             _testRepository = testRepository;
             _vTestRepository = vTestRepository;
             _nonDbSetQuery = tangentDbContext.For<INonDbSetQuery>();
+            _multipleRepository = multipleRepository;
+            _vTestMultipleRepository = vTestMultipleRepository;
         }
 
         /// <summary>

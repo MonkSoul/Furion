@@ -35,6 +35,18 @@ namespace Fur.EntityFramework.Core.Extensions
             }
             , poolSize: 128);
 
+            services.AddDbContextPool<FurMultipleSqlServerDbContext>(options =>
+            {
+                if (env.IsDevelopment())
+                {
+                    options/*.UseLazyLoadingProxies()*/
+                                .EnableDetailedErrors()
+                                .EnableSensitiveDataLogging();
+                }
+                options.UseSqlServer(configuration.GetConnectionString("FurMultipleConnectionString"));
+            }
+            , poolSize: 128);
+
             return services;
         }
 
