@@ -5,6 +5,8 @@ using Fur.DatabaseVisitor.Page;
 using Fur.DatabaseVisitor.Repositories;
 using Fur.DatabaseVisitor.Tangent;
 using Fur.Extensions;
+using Fur.FriendlyException;
+using Fur.FriendlyException.Attributes;
 using Fur.Linq.Extensions;
 using Fur.Record;
 using Fur.Record.Entities;
@@ -123,10 +125,14 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        //[IfException(2000, "我自己抛出的错误")]
         public async Task<int> InsertAsync(TestInput input)
         {
             var entity = input.Adapt<Test>();
             var newEntity = await _testRepository.InsertAsync(entity);
+
+            //throw Oops.Set(2000);
+
             return newEntity.Entity.Id;
         }
 
