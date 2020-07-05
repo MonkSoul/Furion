@@ -2,6 +2,7 @@
 using Autofac.Extensions.DependencyInjection;
 using Fur.DatabaseVisitor.Dependencies;
 using Fur.DatabaseVisitor.Identifiers;
+using Fur.DatabaseVisitor.TenantSaaS;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -12,8 +13,9 @@ namespace Fur.DatabaseVisitor.Repositories
         where TDbContextIdentifier : IDbContextIdentifier
     {
         public MultipleEFCoreRepositoryOfT(
-            IServiceProvider serviceProvider)
-            : base(serviceProvider.GetAutofacRoot().ResolveNamed<DbContext>(typeof(TDbContextIdentifier).Name), serviceProvider)
+            IServiceProvider serviceProvider
+            , ITenantProvider tenantProvider)
+            : base(serviceProvider.GetAutofacRoot().ResolveNamed<DbContext>(typeof(TDbContextIdentifier).Name), serviceProvider, tenantProvider)
         {
         }
     }

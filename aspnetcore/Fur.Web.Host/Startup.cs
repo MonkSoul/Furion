@@ -26,6 +26,7 @@ namespace Fur.Web.Host
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
             services.AddControllers().AddFurAttachControllers(Configuration);
             services.AddFurSwaggerGen(Configuration);
 

@@ -1,5 +1,6 @@
 ﻿using Fur.ApplicationSystem;
 using Fur.DatabaseVisitor.Dependencies;
+using Fur.DatabaseVisitor.TenantSaaS;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace Fur.DatabaseVisitor.DbContexts
     {
         private static bool IsScanViewEntity = false;
 
+        public virtual DbSet<Tenant> Tenants { get; set; }
+
         public FurDbContextOfT(DbContextOptions<TDbContext> options) : base(options)
         {
         }
@@ -24,8 +27,28 @@ namespace Fur.DatabaseVisitor.DbContexts
             base.OnConfiguring(optionsBuilder);
         }
 
+        public int GetTenantId(string host)
+        {
+            var tenant = Tenants.FirstOrDefault(t => t.Host == host);
+            return tenant?.Id ?? 0;
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Tenant>().HasData(
+                new Tenant()
+                {
+                    Id = 1,
+                    Name = "默认租户",
+                    Host = "localhost:44307"
+                },
+                new Tenant()
+                {
+                    Id = 2,
+                    Name = "默认租户",
+                    Host = "localhost:41529"
+                });
+
             AutoConfigureDbViewEntity(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }

@@ -5,6 +5,7 @@ using Fur.DatabaseVisitor.Enums;
 using Fur.DatabaseVisitor.Extensions;
 using Fur.DatabaseVisitor.Page;
 using Fur.DatabaseVisitor.Provider;
+using Fur.DatabaseVisitor.TenantSaaS;
 using Fur.DependencyInjection.Lifetimes;
 using Fur.Extensions;
 using Fur.Linq.Extensions;
@@ -25,11 +26,14 @@ namespace Fur.DatabaseVisitor.Repositories
     {
         private readonly IMaintenanceProvider _maintenanceProvider;
         private readonly IServiceProvider _serviceProvider;
+        private readonly ITenantProvider _tenantProvider;
         public EFCoreRepositoryOfT(DbContext dbContext
-            , IServiceProvider serviceProvider)
+            , IServiceProvider serviceProvider
+            , ITenantProvider tenantProvider)
         {
             DbContext = dbContext;
             Entity = DbContext.Set<TEntity>();
+            _tenantProvider = tenantProvider;
 
             _serviceProvider = serviceProvider;
             var autofacContainer = _serviceProvider.GetAutofacRoot();
@@ -70,6 +74,12 @@ namespace Fur.DatabaseVisitor.Repositories
                 {
                     createdTimeProperty.CurrentValue = DateTime.Now;
                 }
+
+                var tenantIdProperty = entityEntry.Property(nameof(Entity<int>.TenantId));
+                if (tenantIdProperty != null)
+                {
+                    tenantIdProperty.CurrentValue = _tenantProvider.GetTenantId();
+                }
             }
         }
 
@@ -93,6 +103,12 @@ namespace Fur.DatabaseVisitor.Repositories
                 if (createdTimeProperty != null)
                 {
                     createdTimeProperty.IsModified = false;
+                }
+
+                var tenantIdProperty = entityEntry.Property(nameof(Entity<int>.TenantId));
+                if (tenantIdProperty != null)
+                {
+                    tenantIdProperty.IsModified = false;
                 }
             }
             return entityEntries.ToArray();

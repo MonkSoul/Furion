@@ -16,5 +16,10 @@ namespace Fur.DatabaseVisitor.Dependencies
         [ScaffoldColumn(false)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public TKey Id { get; set; }
+
+        /// <summary>
+        /// 租户Id
+        /// </summary>
+        public int TenantId { get; set; }
     }
 }

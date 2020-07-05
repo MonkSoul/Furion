@@ -1,6 +1,10 @@
 ﻿using Fur.DatabaseVisitor.DbContexts;
+using Fur.DatabaseVisitor.Dependencies;
+using Fur.DatabaseVisitor.TenantSaaS;
 using Fur.Record.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Fur.EntityFramework.Core.DbContexts
 {
@@ -19,7 +23,9 @@ namespace Fur.EntityFramework.Core.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Test>();
+            var tenantProvider = this.GetService<ITenantProvider>();
+
+            modelBuilder.Entity<Test>().HasQueryFilter(b => EF.Property<int>(b, nameof(Entity<int>.TenantId)) == tenantProvider.GetTenantId());
 
             base.OnModelCreating(modelBuilder);
         }

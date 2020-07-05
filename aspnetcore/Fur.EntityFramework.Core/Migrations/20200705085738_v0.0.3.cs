@@ -2,14 +2,16 @@
 
 namespace Fur.EntityFramework.Core.Migrations
 {
-    public partial class v002 : Migration
+    public partial class v003 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+
         }
     }
 }
