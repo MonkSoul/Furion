@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using StackExchange.Profiling;
 using StackExchange.Profiling.Data;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -32,6 +33,16 @@ namespace Fur.DatabaseVisitor.Extensions
             return SqlQuery(databaseFacade, sql, parameters).ToEnumerable<T>();
         }
 
+        public static object SqlQuery(this DatabaseFacade databaseFacade, string sql, object obj, params object[] parameters)
+        {
+            var type = obj as Type;
+            if (type == typeof(DataTable))
+            {
+                return SqlQuery(databaseFacade, sql, parameters);
+            }
+            return SqlQuery(databaseFacade, sql, parameters).ToEnumerable(obj);
+        }
+
         public static async Task<DataTable> SqlQueryAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var (dbConnection, dbCommand) = await databaseFacade.WrapperDbConnectionAndCommandAsync(sql, parameters);
@@ -47,6 +58,16 @@ namespace Fur.DatabaseVisitor.Extensions
         public static Task<IEnumerable<T>> SqlQueryAsync<T>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             return SqlQueryAsync(databaseFacade, sql, parameters).ToEnumerableAsync<T>();
+        }
+        public static Task<object> SqlQueryAsync(this DatabaseFacade databaseFacade, string sql, object obj, params object[] parameters)
+        {
+            var type = obj as Type;
+            if (type == typeof(DataTable))
+            {
+                var datatable = SqlQueryAsync(databaseFacade, sql, parameters);
+                return Task.FromResult<object>(datatable.Result);
+            }
+            return SqlQueryAsync(databaseFacade, sql, parameters).ToEnumerableAsync(obj);
         }
 
         #region 包装数据库链接和执行命令对象 -/* private static (DbConnection, DbCommand) WrapperDbConnectionAndCommand(this DatabaseFacade databaseFacade, string sql, params object[] parameters)

@@ -968,6 +968,16 @@ namespace Fur.DatabaseVisitor.Repositories
             return Database.SqlQueryAsync<T>(sql, parameters);
         }
 
+        public virtual object FromSqlQuery(string sql, object obj, params object[] parameters)
+        {
+            return Database.SqlQuery(sql, obj, parameters);
+        }
+
+        public virtual Task<object> FromSqlQueryAsync(string sql, object obj, params object[] parameters)
+        {
+            return Database.SqlQueryAsync(sql, obj, parameters);
+        }
+
         public virtual DataTable FromSqlQuery(string sql, object parameterModel)
         {
             return FromSqlQuery(sql, parameterModel.ToSqlParameters());

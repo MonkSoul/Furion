@@ -304,6 +304,8 @@ namespace Fur.DatabaseVisitor.Repositories
         IEnumerable<T> FromSqlQuery<T>(string sql, object parameterModel);
 
         Task<IEnumerable<T>> FromSqlQueryAsync<T>(string sql, object parameterModel);
+        object FromSqlQuery(string sql, object obj, params object[] parameters);
+        Task<object> FromSqlQueryAsync(string sql, object obj, params object[] parameters);
 
         DataSet FromSqlDataSetQuery(string sql, params object[] parameters);
 

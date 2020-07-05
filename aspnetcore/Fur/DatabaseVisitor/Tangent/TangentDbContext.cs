@@ -14,7 +14,7 @@ namespace Fur.DatabaseVisitor.Tangent
 
         public TTangent For<TTangent>() where TTangent : class, ITangentQueryDependency
         {
-            return new ProxyGenerator().CreateInterfaceProxyWithoutTarget<TTangent>(new TangentInterceptor(_dbContext));
+            return new ProxyGenerator().CreateInterfaceProxyWithoutTarget<TTangent>(new TangentInterceptor(new TangentAsyncInterceptor(_dbContext)));
         }
     }
 }

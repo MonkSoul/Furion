@@ -12,6 +12,7 @@ using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -346,8 +347,7 @@ namespace Fur.Application.Functions
         [AttachAction(KeepOriginalName = true)]
         public Task<IEnumerable<TestOutput>> GetTestsByTangent()
         {
-            var result = _nonDbSetQuery.GetTests();
-            return Task.FromResult(result);
+            return _nonDbSetQuery.GetTestsAsync();
         }
 
 
@@ -358,8 +358,10 @@ namespace Fur.Application.Functions
         [AttachAction(KeepOriginalName = true)]
         public Task<IEnumerable<TestOutput>> GetTestsByTangentPR()
         {
-            var result = _nonDbSetQuery.GetPRTests("小僧");
-            return Task.FromResult(result);
+            //var result = _nonDbSetQuery.GetPRTests("小僧");
+            //return Task.FromResult(result);
+
+            return _nonDbSetQuery.GetPRTestsAsync("小僧");
         }
 
         /// <summary>
@@ -369,8 +371,7 @@ namespace Fur.Application.Functions
         [AttachAction(KeepOriginalName = true)]
         public Task<int> GetIdTangentSF()
         {
-            var result = _nonDbSetQuery.GetSFById(0);
-            return Task.FromResult(result);
+            return _nonDbSetQuery.GetSFByIdAsync(0);
         }
 
         /// <summary>
@@ -380,8 +381,18 @@ namespace Fur.Application.Functions
         [AttachAction(KeepOriginalName = true)]
         public Task<IEnumerable<TestOutput>> GetTestsByTangentTR()
         {
-            var result = _nonDbSetQuery.GetFNTests(1);
-            return Task.FromResult(result);
+            return _nonDbSetQuery.GetFNTestsAsync(1);
         }
+
+
+        //[AttachAction(KeepOriginalName = true)]
+        //public async Task<string> GetsDataSet()
+        //{
+        //    var dataset = await _nonDbSetQuery.GetTestsDataSetAsync();
+
+        //    return JsonConvert.SerializeObject(dataset);
+
+        //    //return _nonDbSetQuery.GetTestsDataSetAsync();
+        //}
     }
 }
