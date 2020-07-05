@@ -3,7 +3,6 @@ using Fur.DatabaseVisitor.Tangent;
 using Fur.DatabaseVisitor.Tangent.Attributes;
 using Fur.Record.Entities;
 using System.Collections.Generic;
-using System.Data;
 using System.Threading.Tasks;
 
 namespace Fur.Application.Functions
@@ -21,7 +20,6 @@ namespace Fur.Application.Functions
 
         [DbTableFunction("dbo.FN_GetTable")]
         IEnumerable<TestOutput> GetFNTests(int id);
-
 
         [DbSentence("select * from tests", SourceType = typeof(Task<IEnumerable<Test>>))]
         Task<IEnumerable<TestOutput>> GetTestsAsync();

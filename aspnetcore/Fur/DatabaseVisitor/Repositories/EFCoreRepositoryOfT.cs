@@ -27,6 +27,7 @@ namespace Fur.DatabaseVisitor.Repositories
         private readonly IMaintenanceProvider _maintenanceProvider;
         private readonly IServiceProvider _serviceProvider;
         private readonly ITenantProvider _tenantProvider;
+
         public EFCoreRepositoryOfT(DbContext dbContext
             , IServiceProvider serviceProvider
             , ITenantProvider tenantProvider)

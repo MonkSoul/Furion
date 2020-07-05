@@ -59,6 +59,7 @@ namespace Fur.DatabaseVisitor.Extensions
         {
             return SqlQueryAsync(databaseFacade, sql, parameters).ToEnumerableAsync<T>();
         }
+
         public static Task<object> SqlQueryAsync(this DatabaseFacade databaseFacade, string sql, object obj, params object[] parameters)
         {
             var type = obj as Type;

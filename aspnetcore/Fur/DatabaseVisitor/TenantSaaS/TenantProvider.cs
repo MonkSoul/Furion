@@ -7,6 +7,7 @@ namespace Fur.DatabaseVisitor.TenantSaaS
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly FurTenantDbContext _tenantDbContext;
+
         public TenantProvider(IHttpContextAccessor httpContextAccessor, FurTenantDbContext tenantDbContext)
         {
             _httpContextAccessor = httpContextAccessor;

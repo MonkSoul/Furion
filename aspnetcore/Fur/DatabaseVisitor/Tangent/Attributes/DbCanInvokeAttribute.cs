@@ -6,6 +6,7 @@ namespace Fur.DatabaseVisitor.Tangent.Attributes
     public class DbCanInvokeAttribute : TangentAttribute
     {
         public DbCanInvokeAttribute(string name) => this.Name = name;
+
         public string Name { get; set; }
     }
 }

@@ -9,6 +9,7 @@ namespace Fur.DatabaseVisitor.Repositories
     public partial class EFCoreRepository : IRepository, IScopedLifetime
     {
         private readonly IServiceProvider _serviceProvider;
+
         public EFCoreRepository(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;

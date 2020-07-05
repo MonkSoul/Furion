@@ -34,6 +34,7 @@ namespace Fur.Application.Functions
         private readonly INonDbSetQuery _nonDbSetQuery;
         private readonly IMultipleRepositoryOfT<Test, FurMultipleDbContextIdentifier> _multipleRepository;
         private readonly IMultipleRepositoryOfT<V_Test, FurMultipleDbContextIdentifier> _vTestMultipleRepository;
+
         public TestAppService(IRepository repository
             , IRepositoryOfT<Test> testRepository
             , IRepositoryOfT<V_Test> vTestRepository
@@ -356,7 +357,6 @@ namespace Fur.Application.Functions
             return _nonDbSetQuery.GetTestsAsync();
         }
 
-
         /// <summary>
         /// 切面执行存储过程
         /// </summary>
@@ -389,7 +389,6 @@ namespace Fur.Application.Functions
         {
             return _nonDbSetQuery.GetFNTestsAsync(1);
         }
-
 
         //[AttachAction(KeepOriginalName = true)]
         //public async Task<string> GetsDataSet()

@@ -9,6 +9,7 @@ namespace Fur.DatabaseVisitor.Tangent
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly DbContext _dbContext;
+
         public TangentDbContext(
             IServiceProvider serviceProvider
             , DbContext dbContext)

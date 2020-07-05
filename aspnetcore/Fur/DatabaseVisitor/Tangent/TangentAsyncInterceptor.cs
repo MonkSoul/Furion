@@ -22,6 +22,7 @@ namespace Fur.DatabaseVisitor.Tangent
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly DbContext _dbContext;
+
         public TangentAsyncInterceptor(
             IServiceProvider serviceProvider
             , DbContext dbContext)
