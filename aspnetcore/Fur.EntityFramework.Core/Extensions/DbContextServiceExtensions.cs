@@ -1,6 +1,8 @@
-﻿using Fur.DatabaseVisitor.TenantSaaS;
+﻿using Fur.DatabaseVisitor.Filters;
+using Fur.DatabaseVisitor.TenantSaaS;
 using Fur.EntityFramework.Core.DbContexts;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -59,6 +61,12 @@ namespace Fur.EntityFramework.Core.Extensions
                 options.UseSqlServer(configuration.GetConnectionString("FurMultipleConnectionString"));
             }
             , poolSize: 128);
+
+
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add<UnitOfWorkAsyncFilter>();
+            });
 
             return services;
         }

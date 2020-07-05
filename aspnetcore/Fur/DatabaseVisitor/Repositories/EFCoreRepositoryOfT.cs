@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Fur.DatabaseVisitor.DbContextPool;
 using Fur.DatabaseVisitor.Dependencies;
 using Fur.DatabaseVisitor.Enums;
 using Fur.DatabaseVisitor.Extensions;
@@ -27,14 +28,19 @@ namespace Fur.DatabaseVisitor.Repositories
         private readonly IMaintenanceProvider _maintenanceProvider;
         private readonly IServiceProvider _serviceProvider;
         private readonly ITenantProvider _tenantProvider;
+        private readonly IDbContextPool _dbContextPool;
 
         public EFCoreRepositoryOfT(DbContext dbContext
             , IServiceProvider serviceProvider
-            , ITenantProvider tenantProvider)
+            , ITenantProvider tenantProvider
+            , IDbContextPool dbContextPool)
         {
             DbContext = dbContext;
             Entity = DbContext.Set<TEntity>();
             _tenantProvider = tenantProvider;
+            _dbContextPool = dbContextPool;
+
+            _dbContextPool.SaveDbContext(DbContext);
 
             _serviceProvider = serviceProvider;
             var autofacContainer = _serviceProvider.GetAutofacRoot();

@@ -126,7 +126,7 @@ namespace Fur.Application.Functions
         public async Task<int> InsertAsync(TestInput input)
         {
             var entity = input.Adapt<Test>();
-            var newEntity = await _testRepository.InsertSaveChangesAsync(entity);
+            var newEntity = await _testRepository.InsertAsync(entity);
             return newEntity.Entity.Id;
         }
 
@@ -141,7 +141,7 @@ namespace Fur.Application.Functions
             var entity = await _testRepository.FindAsync(id) ?? throw new InvalidOperationException("非法操作：没找到数据。");
             input.Adapt(entity);
 
-            await _testRepository.UpdateSaveChangesAsync(entity);
+            await _testRepository.UpdateAsync(entity);
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace Fur.Application.Functions
 
             entity.CreatedTime = DateTime.Now; // 测试代码，不会更新
 
-            await _testRepository.UpdateIncludePropertiesSaveChangesAsync(entity, u => u.Name);
+            await _testRepository.UpdateIncludePropertiesAsync(entity, u => u.Name);
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace Fur.Application.Functions
 
             entity.CreatedTime = DateTime.Now; // 测试代码，不会更新
 
-            await _testRepository.UpdateExcludePropertiesSaveChangesAsync(entity, u => u.Name);
+            await _testRepository.UpdateExcludePropertiesAsync(entity, u => u.Name);
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace Fur.Application.Functions
         public async Task<TestOutput> InsertOrUpdateAsync(TestOutput input)
         {
             var entity = input.Adapt<Test>();
-            var trackEntity = await _testRepository.InsertOrUpdateSaveChangesAsync(entity);
+            var trackEntity = await _testRepository.InsertOrUpdateAsync(entity);
             return trackEntity.Adapt<TestOutput>();
         }
 
@@ -200,7 +200,7 @@ namespace Fur.Application.Functions
         {
             var entity = await _testRepository.FindAsync(id) ?? throw new InvalidOperationException("非法操作：没找到数据。");
 
-            await _testRepository.DeleteSaveChangesAsync(entity);
+            await _testRepository.DeleteAsync(entity);
         }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace Fur.Application.Functions
         [AttachAction(EveryWordToRoutePath = true)]
         public Task FakeDeleteAsync(int id)
         {
-            return _testRepository.FakeDeleteSaveChangesAsync(id, u => u.IsDeleted, true);
+            return _testRepository.FakeDeleteAsync(id, u => u.IsDeleted, true);
         }
 
         /// <summary>
