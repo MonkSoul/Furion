@@ -2,10 +2,12 @@ using Autofac;
 using Fur.AttachController.Extensions;
 using Fur.DependencyInjection;
 using Fur.EntityFramework.Core.Extensions;
+using Fur.Mvc.Filters;
 using Fur.ObjectMapper.Extensions;
 using Fur.SwaggerGen.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -32,6 +34,11 @@ namespace Fur.Web.Host
 
             services.AddFurObjectMapper();
             services.AddFurDbContextPool(Environment, Configuration);
+
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add<ExceptionAsyncFilter>();
+            });
         }
 
         public void ConfigureContainer(ContainerBuilder builder) => Injection.Initialize(builder);
