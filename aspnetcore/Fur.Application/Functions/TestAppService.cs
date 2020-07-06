@@ -1,11 +1,13 @@
 ﻿using Fur.Application.Functions.Dtos;
 using Fur.AttachController.Attributes;
 using Fur.AttachController.Dependencies;
+using Fur.DatabaseVisitor.Attributes;
 using Fur.DatabaseVisitor.Page;
 using Fur.DatabaseVisitor.Repositories;
 using Fur.DatabaseVisitor.Tangent;
 using Fur.Extensions;
 using Fur.Linq.Extensions;
+using Fur.Mvc.Attributes;
 using Fur.Record;
 using Fur.Record.Entities;
 using Fur.Record.Identifiers;
@@ -54,6 +56,8 @@ namespace Fur.Application.Functions
         /// 查询所有
         /// </summary>
         /// <returns></returns>
+        [UnitOfWork(false)]
+        [NotVaildate]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<TestOutput>> GetAsync()
         {

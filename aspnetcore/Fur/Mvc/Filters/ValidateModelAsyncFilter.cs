@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Fur.Mvc.Attributes;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using StackExchange.Profiling;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Fur.Mvc.Filters
@@ -12,6 +15,14 @@ namespace Fur.Mvc.Filters
     {
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
+            var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
+            if (controllerActionDescriptor.MethodInfo.IsDefined(typeof(NotVaildateAttribute)) || controllerActionDescriptor.ControllerTypeInfo.IsDefined(typeof(NotVaildateAttribute)))
+            {
+                MiniProfiler.Current.CustomTiming("validation", "Validation Disable", "Disable !");
+                await next();
+                return;
+            }
+
             MiniProfiler.Current.CustomTiming("validation", "Validation Enable", "Enable");
             if (!context.ModelState.IsValid)
             {
