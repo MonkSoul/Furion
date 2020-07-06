@@ -56,8 +56,8 @@ namespace Fur.Application.Functions
         /// 查询所有
         /// </summary>
         /// <returns></returns>
-        [UnitOfWork(false)]
         [NotVaildate]
+        [NotTransaction]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<TestOutput>> GetAsync()
         {

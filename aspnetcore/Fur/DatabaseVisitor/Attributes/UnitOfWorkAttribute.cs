@@ -10,11 +10,6 @@ namespace Fur.DatabaseVisitor.Attributes
         {
         }
 
-        public UnitOfWorkAttribute(bool disabled)
-        {
-            Disabled = !disabled;
-        }
-
         public UnitOfWorkAttribute(IsolationLevel isolationLevel)
         {
             this.IsolationLevel = isolationLevel;
@@ -25,8 +20,6 @@ namespace Fur.DatabaseVisitor.Attributes
             this.TransactionScopeOption = transactionScopeOption;
             this.IsolationLevel = isolationLevel;
         }
-
-        public bool Disabled { get; set; } = false;
 
         public TransactionScopeOption TransactionScopeOption { get; set; } = TransactionScopeOption.Required;
 

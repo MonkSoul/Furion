@@ -16,7 +16,9 @@ namespace Fur.Mvc.Filters
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
-            if (controllerActionDescriptor.MethodInfo.IsDefined(typeof(NotVaildateAttribute)) || controllerActionDescriptor.ControllerTypeInfo.IsDefined(typeof(NotVaildateAttribute)))
+            var methodInfo = controllerActionDescriptor.MethodInfo;
+
+            if (methodInfo.IsDefined(typeof(NotVaildateAttribute)) || methodInfo.DeclaringType.IsDefined(typeof(NotVaildateAttribute)))
             {
                 MiniProfiler.Current.CustomTiming("validation", "Validation Disable", "Disable !");
                 await next();

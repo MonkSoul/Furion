@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using StackExchange.Profiling;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Transactions;
 
@@ -19,9 +20,10 @@ namespace Fur.DatabaseVisitor.Filters
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var unitOfWorkAttribute = GetUnitOfWork(context);
+            var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
+            var methodInfo = controllerActionDescriptor.MethodInfo;
 
-            if (unitOfWorkAttribute != null && unitOfWorkAttribute.Disabled == true)
+            if (methodInfo.IsDefined(typeof(NotTransactionAttribute)) || methodInfo.DeclaringType.IsDefined(typeof(NotTransactionAttribute)))
             {
                 MiniProfiler.Current.CustomTiming("transaction", "TransactionScope Disable", "Disable !");
                 await next();
@@ -29,6 +31,17 @@ namespace Fur.DatabaseVisitor.Filters
             }
 
             MiniProfiler.Current.CustomTiming("transaction", "TransactionScope Enable", "Enable");
+
+            UnitOfWorkAttribute unitOfWorkAttribute = null;
+            if (!controllerActionDescriptor.MethodInfo.IsDefined(typeof(UnitOfWorkAttribute)))
+            {
+                unitOfWorkAttribute ??= new UnitOfWorkAttribute();
+            }
+            else
+            {
+                unitOfWorkAttribute = methodInfo.GetCustomAttributes(typeof(UnitOfWorkAttribute), false).FirstOrDefault() as UnitOfWorkAttribute ?? new UnitOfWorkAttribute();
+            }
+
 
             unitOfWorkAttribute ??= new UnitOfWorkAttribute();
             using var transaction = new TransactionScope(unitOfWorkAttribute.TransactionScopeOption, new TransactionOptions { IsolationLevel = unitOfWorkAttribute.IsolationLevel }, unitOfWorkAttribute.AsyncFlowOption);
@@ -46,19 +59,6 @@ namespace Fur.DatabaseVisitor.Filters
             {
                 MiniProfiler.Current.CustomTiming("transaction", "TransactionScope Rollback", "Rollback !");
             }
-        }
-
-        private UnitOfWorkAttribute GetUnitOfWork(ActionExecutingContext context)
-        {
-            var descriptor = context.ActionDescriptor as ControllerActionDescriptor;
-            var unitOfWorkAttribute = descriptor.MethodInfo.GetCustomAttributes(typeof(UnitOfWorkAttribute), false).FirstOrDefault() as UnitOfWorkAttribute;
-
-            if (unitOfWorkAttribute == null)
-            {
-                unitOfWorkAttribute = descriptor.MethodInfo.DeclaringType.GetCustomAttributes(typeof(UnitOfWorkAttribute), false).FirstOrDefault() as UnitOfWorkAttribute;
-            }
-
-            return unitOfWorkAttribute;
         }
     }
 }
