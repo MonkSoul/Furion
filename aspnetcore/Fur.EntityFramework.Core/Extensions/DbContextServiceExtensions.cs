@@ -27,6 +27,17 @@ namespace Fur.EntityFramework.Core.Extensions
         public static IServiceCollection AddFurDbContextPool(this IServiceCollection services, IWebHostEnvironment env, IConfiguration configuration)
         {
             //services.AddEntityFrameworkSqlServer();
+            services.AddDbContextPool<FurTenantDbContext>(options =>
+            {
+                if (env.IsDevelopment())
+                {
+                    options/*.UseLazyLoadingProxies()*/
+                                .EnableDetailedErrors()
+                                .EnableSensitiveDataLogging();
+                }
+                options.UseSqlServer(configuration.GetConnectionString("FurConnectionString"));
+            }
+        , poolSize: 128);
             services.AddDbContextPool<FurSqlServerDbContext>(options =>
             {
                 if (env.IsDevelopment())
@@ -38,17 +49,6 @@ namespace Fur.EntityFramework.Core.Extensions
                 options.UseSqlServer(configuration.GetConnectionString("FurConnectionString"));
             }
             , poolSize: 128);
-            services.AddDbContextPool<FurTenantDbContext>(options =>
-            {
-                if (env.IsDevelopment())
-                {
-                    options/*.UseLazyLoadingProxies()*/
-                                .EnableDetailedErrors()
-                                .EnableSensitiveDataLogging();
-                }
-                options.UseSqlServer(configuration.GetConnectionString("FurConnectionString"));
-            }
-           , poolSize: 128);
 
             services.AddDbContextPool<FurMultipleSqlServerDbContext>(options =>
             {

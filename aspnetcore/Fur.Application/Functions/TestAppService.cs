@@ -318,9 +318,9 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <returns></returns>
         // ================================
-        //  CREATE VIEW V_Test
-        //  AS
-        //  SELECT Id,Name,Age FROM Tests;
+        // CREATE VIEW V_Test
+        // AS
+        // SELECT Id,Name,Age,TenantId FROM Tests;
         // ================================
         [AttachAction(EveryWordToRoutePath = true)]
         public async Task<IEnumerable<TestOutput>> SqlViewQueryAsync()

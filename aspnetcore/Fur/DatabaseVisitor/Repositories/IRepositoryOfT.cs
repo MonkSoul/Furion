@@ -25,6 +25,8 @@ namespace Fur.DatabaseVisitor.Repositories
         DatabaseFacade Database { get; }
         DbConnection DbConnection { get; }
 
+        int TenantId { get; }
+
         EntityEntry<TEntity> EntityEntry(TEntity entity);
 
         void Attach(TEntity entity);

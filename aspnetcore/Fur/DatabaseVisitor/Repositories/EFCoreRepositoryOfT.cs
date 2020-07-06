@@ -55,6 +55,8 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual DatabaseFacade Database => DbContext.Database;
         public virtual DbConnection DbConnection => DbContext.Database.GetDbConnection();
 
+        public virtual int TenantId => _tenantProvider.GetTenantId();
+
         public virtual void Attach(TEntity entity)
         {
             if (EntityEntry(entity).State == EntityState.Detached)
