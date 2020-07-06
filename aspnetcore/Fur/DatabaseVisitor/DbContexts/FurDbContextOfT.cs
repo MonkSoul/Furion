@@ -51,8 +51,6 @@ namespace Fur.DatabaseVisitor.DbContexts
         {
             if (FurDbContextOfTStatus.CheckOnModelCreatingInit()) return;
 
-            TenantProvider ??= this.GetService<ITenantProvider>();
-
             modelBuilder.Entity<Tenant>().HasData(
                 new Tenant()
                 {
