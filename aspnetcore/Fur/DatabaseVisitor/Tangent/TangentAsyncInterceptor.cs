@@ -1,11 +1,13 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Castle.DynamicProxy;
+using Fur.DatabaseVisitor.Dependencies;
 using Fur.DatabaseVisitor.Enums;
 using Fur.DatabaseVisitor.Extensions;
 using Fur.DatabaseVisitor.Helpers;
 using Fur.DatabaseVisitor.Identifiers;
 using Fur.DatabaseVisitor.Tangent.Attributes;
+using Fur.DatabaseVisitor.TenantSaaS;
 using Mapster;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -22,13 +24,16 @@ namespace Fur.DatabaseVisitor.Tangent
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly DbContext _dbContext;
+        private readonly ITenantProvider _tenantProvider;
 
         public TangentAsyncInterceptor(
             IServiceProvider serviceProvider
-            , DbContext dbContext)
+            , DbContext dbContext
+            , ITenantProvider tenantProvider)
         {
             _serviceProvider = serviceProvider;
             _dbContext = dbContext;
+            _tenantProvider = tenantProvider;
         }
 
         public void InterceptAsynchronous(IInvocation invocation)
@@ -196,7 +201,15 @@ namespace Fur.DatabaseVisitor.Tangent
 
             for (int i = 0; i < methodParameters.Length; i++)
             {
-                parameters.Add(new SqlParameter(methodParameters[i].Name, arguments[i] ?? DBNull.Value));
+                // 占位符
+                if (methodParameters[i].Name == nameof(EntityBase<int>.TenantId))
+                {
+                    parameters.Add(new SqlParameter(methodParameters[i].Name, _tenantProvider.GetTenantId()));
+                }
+                else
+                {
+                    parameters.Add(new SqlParameter(methodParameters[i].Name, arguments[i] ?? DBNull.Value));
+                }
             }
 
             return parameters.ToArray();
