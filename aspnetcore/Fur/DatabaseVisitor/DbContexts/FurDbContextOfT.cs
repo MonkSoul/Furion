@@ -1,7 +1,9 @@
 ﻿using Fur.ApplicationSystem;
 using Fur.DatabaseVisitor.Dependencies;
 using Fur.DatabaseVisitor.TenantSaaS;
+using Fur.EmitExpression;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -56,59 +58,70 @@ namespace Fur.DatabaseVisitor.DbContexts
         private void AutoConfigureDbViewEntity(ModelBuilder modelBuilder)
         {
             if (IsScanViewEntity) return;
+            CreateModelBuilderMethodDelegate();
 
-            var viewTypes = ApplicationGlobal.ApplicationInfo.PublicClassTypes.Where(u => typeof(View).IsAssignableFrom(u.Type) && u.CanNewType);
-            ResolveModelBuilderMethods(modelBuilder);
+            var viewTypes = ApplicationGlobal.ApplicationInfo.PublicClassTypes
+                .Where(u => typeof(View).IsAssignableFrom(u.Type) && u.CanNewType);
+
             foreach (var viewType in viewTypes)
             {
-                modelBuilderEntityMethod = modelBuilderEntityMethod.MakeGenericMethod(new Type[] { viewType.Type });
-                var entityTypeBuilder = modelBuilderEntityMethod.Invoke(modelBuilder, null);
+                var entityTypeBuilder = ModelBuilderMethod_Entity(modelBuilder, viewType.Type);
+                entityTypeBuilder = EntityTypeBuilderMethod_HasNoKey(entityTypeBuilder);
 
-                var entityTypeBuilderType = entityTypeBuilder.GetType();
-                var hasNoKeyMethodInfo = entityTypeBuilderType.GetMethod("HasNoKey");
-                hasNoKeyMethodInfo.Invoke(entityTypeBuilder, null);
-
-                entityBuilderEntityToViewMethod = entityBuilderEntityToViewMethod.MakeGenericMethod(new Type[] { viewType.Type });
-                var viewInstance = Activator.CreateInstance(viewType.Type) as View;
-                entityBuilderEntityToViewMethod.Invoke(null, new object[] { entityTypeBuilder, viewInstance.ToViewName });
+                var viewInstance = ExpressionCreateObject.CreateInstance<View>(viewType.Type);
+                entityTypeBuilder = EntityTypeBuilderMethod_ToView(entityTypeBuilder, viewInstance.ToViewName);
             }
 
-            var dbFunctionMethods = ApplicationGlobal.ApplicationInfo.PublicInstanceMethods.Where(u => u.IsStaticType && u.Method.IsDefined(typeof(DbFunctionAttribute)) && u.DeclareType.IsAbstract && u.DeclareType.IsSealed);
+            var dbFunctionMethods = ApplicationGlobal.ApplicationInfo.PublicInstanceMethods
+                .Where(u => u.IsStaticType && u.Method.IsDefined(typeof(DbFunctionAttribute)) && u.DeclareType.IsAbstract && u.DeclareType.IsSealed);
+
             foreach (var dbFunction in dbFunctionMethods)
             {
-                modelBuilderHasDbFunctionMethod.Invoke(null, new object[] { modelBuilder, dbFunction.Method });
+                ModelBuilderMethod_HasDbFunction(modelBuilder, dbFunction.Method);
             }
 
             IsScanViewEntity = true;
         }
 
-        private static MethodInfo modelBuilderEntityMethod = null;
-        private static MethodInfo entityBuilderEntityToViewMethod = null;
-        private static MethodInfo modelBuilderHasDbFunctionMethod = null;
+        private static Func<ModelBuilder, Type, EntityTypeBuilder> ModelBuilderMethod_Entity = null;
+        private static Func<EntityTypeBuilder, EntityTypeBuilder> EntityTypeBuilderMethod_HasNoKey = null;
+        private static Func<EntityTypeBuilder, string, EntityTypeBuilder> EntityTypeBuilderMethod_ToView = null;
+        private static Func<ModelBuilder, MethodInfo, DbFunctionBuilder> ModelBuilderMethod_HasDbFunction = null;
 
-        private static void ResolveModelBuilderMethods(ModelBuilder modelBuilder)
+        private static void CreateModelBuilderMethodDelegate()
         {
-            if (modelBuilderEntityMethod == null)
+            if (ModelBuilderMethod_Entity == null)
             {
-                modelBuilderEntityMethod = modelBuilder.GetType().GetMethods()
-                    .Where(u => u.Name == "Entity" && u.GetParameters().Length == 0)
+                var entityMethod = typeof(ModelBuilder).GetMethods()
+                    .Where(u => u.Name == "Entity" && u.GetParameters().Length == 1 && u.GetParameters().First().ParameterType == typeof(Type))
                     .FirstOrDefault();
+
+                ModelBuilderMethod_Entity = (Func<ModelBuilder, Type, EntityTypeBuilder>)Delegate.CreateDelegate(typeof(Func<ModelBuilder, Type, EntityTypeBuilder>), entityMethod);
             }
 
-            if (entityBuilderEntityToViewMethod == null)
+            if (EntityTypeBuilderMethod_HasNoKey == null)
+            {
+                EntityTypeBuilderMethod_HasNoKey = (Func<EntityTypeBuilder, EntityTypeBuilder>)Delegate.CreateDelegate(typeof(Func<EntityTypeBuilder, EntityTypeBuilder>), typeof(EntityTypeBuilder).GetMethod("HasNoKey"));
+            }
+
+            if (EntityTypeBuilderMethod_ToView == null)
             {
                 var relationalEntityTypeBuilderExtensionsType = typeof(RelationalEntityTypeBuilderExtensions);
-                entityBuilderEntityToViewMethod = relationalEntityTypeBuilderExtensionsType.GetMethods()
-                    .Where(u => u.Name == "ToView" && u.GetParameters().Length == 2 && u.GetParameters().First().ParameterType.IsGenericType)
+                var toViewMethod = relationalEntityTypeBuilderExtensionsType.GetMethods()
+                    .Where(u => u.Name == "ToView" && u.GetParameters().Length == 2 && u.GetParameters().Last().ParameterType == typeof(string))
                     .FirstOrDefault();
+
+                EntityTypeBuilderMethod_ToView = (Func<EntityTypeBuilder, string, EntityTypeBuilder>)Delegate.CreateDelegate(typeof(Func<EntityTypeBuilder, string, EntityTypeBuilder>), toViewMethod);
             }
 
-            if (modelBuilderHasDbFunctionMethod == null)
+            if (ModelBuilderMethod_HasDbFunction == null)
             {
                 var relationalModelBuilderExtensionsType = typeof(RelationalModelBuilderExtensions);
-                modelBuilderHasDbFunctionMethod = relationalModelBuilderExtensionsType.GetMethods()
-                      .Where(u => u.Name == "HasDbFunction" && u.GetParameters().Length == 2 && u.GetParameters().Last().ParameterType == typeof(MethodInfo))
-                      .FirstOrDefault();
+                var hasDbFunctionMethod = relationalModelBuilderExtensionsType.GetMethods()
+                         .Where(u => u.Name == "HasDbFunction" && u.GetParameters().Length == 2 && u.GetParameters().Last().ParameterType == typeof(MethodInfo))
+                         .FirstOrDefault();
+
+                ModelBuilderMethod_HasDbFunction = (Func<ModelBuilder, MethodInfo, DbFunctionBuilder>)Delegate.CreateDelegate(typeof(Func<ModelBuilder, MethodInfo, DbFunctionBuilder>), hasDbFunctionMethod);
             }
         }
     }
