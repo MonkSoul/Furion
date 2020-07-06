@@ -28,7 +28,7 @@ namespace Fur.Mvc.Filters
             MiniProfiler.Current.CustomTiming("validation", "Validation Enable", "Enable");
             if (!context.ModelState.IsValid)
             {
-                var errorInfo = context.ModelState.Keys.SelectMany(key => context.ModelState[key].Errors.Select(x => x));
+                var errorInfo = context.ModelState.Keys.SelectMany(key => context.ModelState[key].Errors.Select(x => new { key, x.ErrorMessage }));
                 MiniProfiler.Current.CustomTiming("validation", "Validation Fail:\r\n" + JsonConvert.SerializeObject(errorInfo, Formatting.Indented), "Fail !");
                 context.Result = new JsonResult(new
                 {
