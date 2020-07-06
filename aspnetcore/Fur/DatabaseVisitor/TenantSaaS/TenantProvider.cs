@@ -22,6 +22,9 @@ namespace Fur.DatabaseVisitor.TenantSaaS
 
         public int GetTenantId()
         {
+            // 处理 ef 迁移命令错误问题
+            if (_httpContextAccessor?.HttpContext == null) return 0;
+
             var host = _httpContextAccessor.HttpContext.Request.Host.Value;
 
             var isExistsKey = _memoryCache.TryGetValue(host, out object value);
