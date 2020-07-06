@@ -8,6 +8,7 @@ namespace Fur.Application.Functions.Dtos
         public string Name { get; set; }
 
         [Required]
+        [Range(1, int.MaxValue)]
         public int Age { get; set; }
     }
 }

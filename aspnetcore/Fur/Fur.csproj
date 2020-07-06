@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Validation\" />
+    <Folder Include="Mvc\Extensions\" />
   </ItemGroup>
 
 </Project>

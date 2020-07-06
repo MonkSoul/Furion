@@ -38,6 +38,7 @@ namespace Fur.Web.Host
             services.Configure<MvcOptions>(options =>
             {
                 options.Filters.Add<ExceptionAsyncFilter>();
+                options.Filters.Add<ValidateModelAsyncFilter>();
             });
         }
 
