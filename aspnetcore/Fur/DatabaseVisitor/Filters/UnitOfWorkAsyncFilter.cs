@@ -2,6 +2,7 @@
 using Fur.DatabaseVisitor.DbContextPool;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
+using StackExchange.Profiling;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -22,9 +23,12 @@ namespace Fur.DatabaseVisitor.Filters
 
             if (unitOfWorkAttribute != null && unitOfWorkAttribute.Disabled == true)
             {
+                MiniProfiler.Current.CustomTiming("transaction", "TransactionScope Disable", "Disable !");
                 await next();
                 return;
             }
+
+            MiniProfiler.Current.CustomTiming("transaction", "TransactionScope Enable", "Enable");
 
             unitOfWorkAttribute ??= new UnitOfWorkAttribute();
             using var transaction = new TransactionScope(unitOfWorkAttribute.TransactionScopeOption, new TransactionOptions { IsolationLevel = unitOfWorkAttribute.IsolationLevel }, unitOfWorkAttribute.AsyncFlowOption);
@@ -33,8 +37,14 @@ namespace Fur.DatabaseVisitor.Filters
 
             if (resultContext.Exception == null)
             {
-                await _dbContextPool.SavePoolChangesAsync();
+                var hasChangesCount = await _dbContextPool.SavePoolChangesAsync();
                 transaction.Complete();
+
+                MiniProfiler.Current.CustomTiming("transaction", $"TransactionScope Complete - DbContexts: Count/{ _dbContextPool.GetDbContexts().Count()}, Has Changes/{hasChangesCount}", "Complete");
+            }
+            else
+            {
+                MiniProfiler.Current.CustomTiming("transaction", "TransactionScope Rollback", "Rollback !");
             }
         }
 

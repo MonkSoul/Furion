@@ -27,26 +27,32 @@ namespace Fur.DatabaseVisitor.DbContextPool
             return dbContexts.ToList();
         }
 
-        public void SavePoolChanges()
+        public int SavePoolChanges()
         {
+            var hasChangeCount = 0;
             foreach (var dbContext in dbContexts)
             {
                 if (dbContext.ChangeTracker.HasChanges())
                 {
                     dbContext.SaveChanges();
+                    hasChangeCount++;
                 }
             }
+            return hasChangeCount;
         }
 
-        public async Task SavePoolChangesAsync()
+        public async Task<int> SavePoolChangesAsync()
         {
+            var hasChangeCount = 0;
             foreach (var dbContext in dbContexts)
             {
                 if (dbContext.ChangeTracker.HasChanges())
                 {
+                    hasChangeCount++;
                     await dbContext.SaveChangesAsync();
                 }
             }
+            return hasChangeCount;
         }
     }
 }

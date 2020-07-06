@@ -9,8 +9,8 @@ namespace Fur.DatabaseVisitor.DbContextPool
         void SaveDbContext(DbContext dbContext);
         IEnumerable<DbContext> GetDbContexts();
 
-        void SavePoolChanges();
+        int SavePoolChanges();
 
-        Task SavePoolChangesAsync();
+        Task<int> SavePoolChangesAsync();
     }
 }

@@ -21,7 +21,7 @@ namespace Fur.Mvc.Filters
 
             context.Result = new ContentResult() { Content = exceptionErrorString, StatusCode = StatusCodes.Status500InternalServerError };
 
-            MiniProfiler.Current.CustomTiming("Errors !", exceptionErrorString);
+            MiniProfiler.Current.CustomTiming("errors", exceptionErrorString, "Throw");
             return Task.CompletedTask;
         }
 

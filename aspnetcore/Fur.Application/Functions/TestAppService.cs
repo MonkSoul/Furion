@@ -5,8 +5,6 @@ using Fur.DatabaseVisitor.Page;
 using Fur.DatabaseVisitor.Repositories;
 using Fur.DatabaseVisitor.Tangent;
 using Fur.Extensions;
-using Fur.FriendlyException;
-using Fur.FriendlyException.Attributes;
 using Fur.Linq.Extensions;
 using Fur.Record;
 using Fur.Record.Entities;

@@ -31,15 +31,15 @@ namespace Fur.Web.Host
             services.AddHttpContextAccessor();
             services.AddControllers().AddFurAttachControllers(Configuration);
             services.AddFurSwaggerGen(Configuration);
-
-            services.AddFurObjectMapper();
-            services.AddFurDbContextPool(Environment, Configuration);
-
             services.Configure<MvcOptions>(options =>
             {
                 options.Filters.Add<ExceptionAsyncFilter>();
                 options.Filters.Add<ValidateModelAsyncFilter>();
             });
+            services.AddFurObjectMapper();
+            services.AddFurDbContextPool(Environment, Configuration);
+
+
         }
 
         public void ConfigureContainer(ContainerBuilder builder) => Injection.Initialize(builder);
