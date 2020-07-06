@@ -13,7 +13,7 @@ namespace Fur.Record.Entities
         public string Name { get; set; }
         public int Age { get; set; }
         public bool IsDeleted { get; set; }
-        public DateTime UpdatedTime { get; set; }
+        public DateTime? UpdatedTime { get; set; }
         public DateTime CreatedTime { get; set; }
     }
 }
