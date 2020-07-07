@@ -80,6 +80,7 @@ namespace Fur.DatabaseVisitor.Helpers
                     stringBuilder.Append($" @{property.Name},");
                 }
             }
+
             var sql = stringBuilder.ToString();
             if (sql.EndsWith(",")) sql = sql[0..^1];
 

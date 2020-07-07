@@ -71,10 +71,14 @@ namespace Fur.DatabaseVisitor.DbContexts
 
         private void AutoConfigureDbViewEntity(ModelBuilder modelBuilder)
         {
-            CreateModelBuilderMethodDelegate();
-
             var viewTypes = ApplicationCore.ApplicationWrapper.PublicClassTypeWrappers
                 .Where(u => typeof(View).IsAssignableFrom(u.Type) && u.CanBeNew);
+
+            var dbFunctionMethods = ApplicationCore.ApplicationWrapper.PublicMethodWrappers
+                .Where(u => u.IsStaticMethod && u.Method.IsDefined(typeof(DbFunctionAttribute)) && u.ThisDeclareType.IsAbstract && u.ThisDeclareType.IsSealed);
+
+            // 如果找到视图或函数才初始化委托
+            if (viewTypes.Any() || dbFunctionMethods.Any()) CreateModelBuilderMethodDelegate();
 
             foreach (var viewType in viewTypes)
             {
@@ -87,9 +91,6 @@ namespace Fur.DatabaseVisitor.DbContexts
                 var lambdaExpression = CreateDbViewHasQueryFilterLambdaExpression(viewType.Type, TenantId);
                 entityTypeBuilder = EntityTypeBuilderMethod_HasQueryFilter(entityTypeBuilder, lambdaExpression);
             }
-
-            var dbFunctionMethods = ApplicationCore.ApplicationWrapper.PublicMethodWrappers
-                .Where(u => u.IsStaticMethod && u.Method.IsDefined(typeof(DbFunctionAttribute)) && u.ThisDeclareType.IsAbstract && u.ThisDeclareType.IsSealed);
 
             foreach (var dbFunction in dbFunctionMethods)
             {
