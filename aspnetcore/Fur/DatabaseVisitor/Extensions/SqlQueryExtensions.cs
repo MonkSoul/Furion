@@ -18,46 +18,6 @@ namespace Fur.DatabaseVisitor.Extensions
     /// </summary>
     public static class SqlQueryExtensions
     {
-        public static (Dictionary<string, object> outputValues, object returnValue) SqlNonQuery(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
-        {
-            var sqlParameters = parameters.Any() ? (SqlParameter[])parameters : new SqlParameter[] { };
-            var (dbConnection, dbCommand) = databaseFacade.WrapperDbConnectionAndCommand(sql, sqlParameters);
-            var rowEffects = dbCommand.ExecuteNonQuery();
-            dbConnection.Close();
-
-            // 读取 OUTPUT 参数
-            var outputValues = sqlParameters
-                .Where(u => u.Direction == ParameterDirection.Output)
-                .Select(u => new { Name = u.ParameterName, u.Value })
-                .ToDictionary(u => u.Name, u => u.Value);
-
-            // 读取返回值
-            var returnValue = sqlParameters.FirstOrDefault(u => u.Direction == ParameterDirection.ReturnValue)?.Value;
-
-            dbCommand.Parameters.Clear();
-            return (outputValues, returnValue);
-        }
-
-        public static async Task<(Dictionary<string, object> outputValues, object returnValue)> SqlNonQueryAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
-        {
-            var sqlParameters = parameters.Any() ? (SqlParameter[])parameters : new SqlParameter[] { };
-            var (dbConnection, dbCommand) = await databaseFacade.WrapperDbConnectionAndCommandAsync(sql, sqlParameters);
-            var rowEffects = await dbCommand.ExecuteNonQueryAsync();
-            await dbConnection.CloseAsync();
-
-            // 读取 OUTPUT 参数
-            var outputValues = sqlParameters
-                .Where(u => u.Direction == ParameterDirection.Output)
-                .Select(u => new { Name = u.ParameterName, u.Value })
-                .ToDictionary(u => u.Name, u => u.Value);
-
-            // 读取返回值
-            var returnValue = sqlParameters.FirstOrDefault(u => u.Direction == ParameterDirection.ReturnValue)?.Value;
-
-            dbCommand.Parameters.Clear();
-            return (outputValues, returnValue);
-        }
-
         public static DataTable SqlQuery(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var (dbConnection, dbCommand) = databaseFacade.WrapperDbConnectionAndCommand(sql, parameters);
@@ -112,6 +72,47 @@ namespace Fur.DatabaseVisitor.Extensions
             }
             return SqlQueryAsync(databaseFacade, sql, parameters).ToEnumerableAsync(obj);
         }
+
+        public static (Dictionary<string, object> outputValues, object returnValue) SqlNonQuery(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        {
+            var sqlParameters = parameters.Any() ? (SqlParameter[])parameters : new SqlParameter[] { };
+            var (dbConnection, dbCommand) = databaseFacade.WrapperDbConnectionAndCommand(sql, sqlParameters);
+            var rowEffects = dbCommand.ExecuteNonQuery();
+            dbConnection.Close();
+
+            // 读取 OUTPUT 参数
+            var outputValues = sqlParameters
+                .Where(u => u.Direction == ParameterDirection.Output)
+                .Select(u => new { Name = u.ParameterName, u.Value })
+                .ToDictionary(u => u.Name, u => u.Value);
+
+            // 读取返回值
+            var returnValue = sqlParameters.FirstOrDefault(u => u.Direction == ParameterDirection.ReturnValue)?.Value;
+
+            dbCommand.Parameters.Clear();
+            return (outputValues, returnValue);
+        }
+
+        public static async Task<(Dictionary<string, object> outputValues, object returnValue)> SqlNonQueryAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        {
+            var sqlParameters = parameters.Any() ? (SqlParameter[])parameters : new SqlParameter[] { };
+            var (dbConnection, dbCommand) = await databaseFacade.WrapperDbConnectionAndCommandAsync(sql, sqlParameters);
+            var rowEffects = await dbCommand.ExecuteNonQueryAsync();
+            await dbConnection.CloseAsync();
+
+            // 读取 OUTPUT 参数
+            var outputValues = sqlParameters
+                .Where(u => u.Direction == ParameterDirection.Output)
+                .Select(u => new { Name = u.ParameterName, u.Value })
+                .ToDictionary(u => u.Name, u => u.Value);
+
+            // 读取返回值
+            var returnValue = sqlParameters.FirstOrDefault(u => u.Direction == ParameterDirection.ReturnValue)?.Value;
+
+            dbCommand.Parameters.Clear();
+            return (outputValues, returnValue);
+        }
+
 
         #region 包装数据库链接和执行命令对象 -/* private static (DbConnection, DbCommand) WrapperDbConnectionAndCommand(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
 
