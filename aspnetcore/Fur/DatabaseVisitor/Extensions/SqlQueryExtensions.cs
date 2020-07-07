@@ -25,9 +25,13 @@ namespace Fur.DatabaseVisitor.Extensions
             var rowEffects = dbCommand.ExecuteNonQuery();
             dbConnection.Close();
 
+            // 读取 OUTPUT 参数
             var outputValues = sqlParameters
                 .Where(u => u.Direction == ParameterDirection.Output)
-                .Select(u => new { Name = u.ParameterName, u.Value }).ToDictionary(u => u.Name, u => u.Value);
+                .Select(u => new { Name = u.ParameterName, u.Value })
+                .ToDictionary(u => u.Name, u => u.Value);
+
+            // 读取返回值
             var returnValue = sqlParameters.FirstOrDefault(u => u.Direction == ParameterDirection.ReturnValue)?.Value;
 
             dbCommand.Parameters.Clear();
@@ -41,9 +45,13 @@ namespace Fur.DatabaseVisitor.Extensions
             var rowEffects = await dbCommand.ExecuteNonQueryAsync();
             await dbConnection.CloseAsync();
 
+            // 读取 OUTPUT 参数
             var outputValues = sqlParameters
                 .Where(u => u.Direction == ParameterDirection.Output)
-                .Select(u => new { Name = u.ParameterName, u.Value }).ToDictionary(u => u.Name, u => u.Value);
+                .Select(u => new { Name = u.ParameterName, u.Value })
+                .ToDictionary(u => u.Name, u => u.Value);
+
+            // 读取返回值
             var returnValue = sqlParameters.FirstOrDefault(u => u.Direction == ParameterDirection.ReturnValue)?.Value;
 
             dbCommand.Parameters.Clear();
