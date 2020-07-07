@@ -73,11 +73,11 @@ namespace Fur.AttachController.Attributes
         /// <summary>
         /// 分组名
         /// </summary>
-        internal new string GroupName { get; set; }
+        private new string GroupName { get; set; }
 
         /// <summary>
         /// 是否忽略Api
         /// </summary>
-        internal new bool IgnoreApi { get; set; }
+        private new bool IgnoreApi { get; set; }
     }
 }

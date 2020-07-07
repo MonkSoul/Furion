@@ -1,4 +1,4 @@
-﻿using Fur.ApplicationSystem;
+﻿using Fur.ApplicationBase;
 using Fur.SwaggerGen.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -73,8 +73,8 @@ namespace Fur.SwaggerGen
         /// <returns>分组名</returns>
         private static string[] ScanAssemblyGroups()
         {
-            var controllerTypes = ApplicationGlobal.ApplicationInfo.PublicClassTypes.Where(u => u.IsControllerType);
-            var controllerActionTypes = ApplicationGlobal.ApplicationInfo.PublicInstanceMethods.Where(u => u.IsControllerActionType);
+            var controllerTypes = ApplicationCore.ApplicationWrapper.PublicClassTypeWrappers.Where(u => u.IsControllerType);
+            var controllerActionTypes = ApplicationCore.ApplicationWrapper.PublicMethodWrappers.Where(u => u.IsControllerActionType);
 
             var swaggerGroups = controllerTypes
                     .Where(u => u.SwaggerGroups != null)
@@ -152,7 +152,7 @@ namespace Fur.SwaggerGen
             swaggerGenOptions.CustomSchemaIds(x => x.FullName);
             //options.AddFluentValidationRules();
 
-            var assemblyInfos = ApplicationGlobal.ApplicationInfo.Assemblies;
+            var assemblyInfos = ApplicationCore.ApplicationWrapper.AssemblyWrappers;
             foreach (var assemblyInfo in assemblyInfos)
             {
                 var assemblyXml = $"{assemblyInfo.Name}.xml";
@@ -177,7 +177,7 @@ namespace Fur.SwaggerGen
         private static bool SwaggerGroupSwitchPredicate(string currentGroup, ApiDescription apiDescription)
         {
             if (!apiDescription.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
-            var methodSwaggerGroups = ApplicationGlobal.GetApplicationMethodInfo(methodInfo).SwaggerGroups;
+            var methodSwaggerGroups = ApplicationCore.GetMethodWrapper(methodInfo).SwaggerGroups;
 
             return methodSwaggerGroups.Contains(currentGroup);
         }

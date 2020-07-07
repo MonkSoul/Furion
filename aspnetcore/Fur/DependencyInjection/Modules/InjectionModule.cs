@@ -1,6 +1,6 @@
 ﻿using Autofac;
-using Fur.ApplicationSystem;
-using Fur.ApplicationSystem.Models;
+using Fur.ApplicationBase;
+using Fur.ApplicationBase.Wrappers;
 using Fur.DependencyInjection.Lifetimes;
 using Fur.DependencyInjection.Lifetimes.AsSelf;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace Fur.DependencyInjection.Modules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            var applicationTypes = ApplicationGlobal.ApplicationInfo.PublicClassTypes.Where(u => u.CanNewType);
+            var applicationTypes = ApplicationCore.ApplicationWrapper.PublicClassTypeWrappers.Where(u => u.CanBeNew);
 
             RegisterBaseTypes(builder, applicationTypes);
             RegisterGenericTypes(builder, applicationTypes);
@@ -25,7 +25,7 @@ namespace Fur.DependencyInjection.Modules
         /// </summary>
         /// <param name="builder">容器构建器</param>
         /// <param name="applicationTypes">应用类型集合</param>
-        private void RegisterBaseTypes(ContainerBuilder builder, IEnumerable<ApplicationTypeInfo> applicationTypes)
+        private void RegisterBaseTypes(ContainerBuilder builder, IEnumerable<TypeWrapper> applicationTypes)
         {
             var baseTypes = applicationTypes.Where(t => !t.IsGenericType).Select(u => u.Type);
 
@@ -60,12 +60,12 @@ namespace Fur.DependencyInjection.Modules
         /// </summary>
         /// <param name="builder">容器构建器</param>
         /// <param name="applicationTypes">应用类型集合</param>
-        private void RegisterGenericTypes(ContainerBuilder builder, IEnumerable<ApplicationTypeInfo> applicationTypes)
+        private void RegisterGenericTypes(ContainerBuilder builder, IEnumerable<TypeWrapper> applicationTypes)
         {
             var genericTypes = applicationTypes.Where(t => t.IsGenericType);
             foreach (var type in genericTypes)
             {
-                var genericType = type.GenericArguments.FirstOrDefault();
+                var genericType = type.GenericArgumentTypes.FirstOrDefault();
 
                 if (typeof(ITransientLifetimeOfT<>).MakeGenericType(genericType).IsAssignableFrom(type.Type))
                 {

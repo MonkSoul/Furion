@@ -1,4 +1,4 @@
-﻿using Fur.ApplicationSystem;
+﻿using Fur.ApplicationBase;
 using Fur.ObjectMapper.Mappers;
 using Mapster;
 using MapsterMapper;
@@ -23,7 +23,7 @@ namespace Fur.ObjectMapper.Extensions
         {
             services.AddScoped<IMapper, ServiceMapper>();
 
-            TypeAdapterConfig.GlobalSettings.Scan(ApplicationGlobal.ApplicationInfo.Assemblies.Select(a => a.Assembly).ToArray());
+            TypeAdapterConfig.GlobalSettings.Scan(ApplicationCore.ApplicationWrapper.AssemblyWrappers.Select(a => a.Assembly).ToArray());
             TypeAdapterConfig.GlobalSettings.Default
                 .NameMatchingStrategy(NameMatchingStrategy.IgnoreCase)
                 .PreserveReference(true);

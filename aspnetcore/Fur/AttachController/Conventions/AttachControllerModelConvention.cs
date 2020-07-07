@@ -1,4 +1,4 @@
-﻿using Fur.ApplicationSystem;
+﻿using Fur.ApplicationBase;
 using Fur.AttachController.Attributes;
 using Fur.AttachController.Helpers;
 using Fur.AttachController.Options;
@@ -67,7 +67,7 @@ namespace Fur.AttachController.Conventions
         /// <param name="controllerTypeInfo">控制器类型</param>
         private void ConfigureController(ControllerModel controllerModel, TypeInfo controllerTypeInfo)
         {
-            var attactControllerAttribute = ApplicationGlobal.GetTypeAttribute<AttachControllerAttribute>(controllerTypeInfo.AsType());
+            var attactControllerAttribute = ApplicationCore.GetPublicClassTypeCustomAttribute<AttachControllerAttribute>(controllerTypeInfo.AsType());
 
             ConfigureAreaName(controllerModel, attactControllerAttribute);
             ConfigureControllerName(controllerModel);
@@ -139,7 +139,7 @@ namespace Fur.AttachController.Conventions
         {
             foreach (var actionModel in controllerModel.Actions)
             {
-                var attachActionAttribute = ApplicationGlobal.GetMethodAttribute<AttachActionAttribute>(actionModel.ActionMethod);
+                var attachActionAttribute = ApplicationCore.GetPublicMethodCustomAttribute<AttachActionAttribute>(actionModel.ActionMethod);
 
                 ConfigureActionApiExplorerAndParameters(actionModel);
                 ConfigureActionName(actionModel, attachActionAttribute);
@@ -291,7 +291,7 @@ namespace Fur.AttachController.Conventions
             stringBuilder.Append($"##parameter_name##");
             var parameterNames = string.Empty;
             // 读取参数信息
-            var parameters = ApplicationGlobal.ApplicationInfo.PublicInstanceMethods.FirstOrDefault(u => u.Method == actionModel.ActionMethod).Parameters;
+            var parameters = ApplicationCore.ApplicationWrapper.PublicMethodWrappers.FirstOrDefault(u => u.Method == actionModel.ActionMethod).Parameters;
             foreach (var parameterInfo in parameters)
             {
                 var parameterType = parameterInfo.Type;

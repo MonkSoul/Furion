@@ -1,4 +1,4 @@
-﻿using Fur.ApplicationSystem;
+﻿using Fur.ApplicationBase;
 using Fur.DatabaseVisitor.Dependencies;
 using Fur.DatabaseVisitor.TenantSaaS;
 using Fur.EmitExpression;
@@ -73,8 +73,8 @@ namespace Fur.DatabaseVisitor.DbContexts
         {
             CreateModelBuilderMethodDelegate();
 
-            var viewTypes = ApplicationGlobal.ApplicationInfo.PublicClassTypes
-                .Where(u => typeof(View).IsAssignableFrom(u.Type) && u.CanNewType);
+            var viewTypes = ApplicationCore.ApplicationWrapper.PublicClassTypeWrappers
+                .Where(u => typeof(View).IsAssignableFrom(u.Type) && u.CanBeNew);
 
             foreach (var viewType in viewTypes)
             {
@@ -88,8 +88,8 @@ namespace Fur.DatabaseVisitor.DbContexts
                 entityTypeBuilder = EntityTypeBuilderMethod_HasQueryFilter(entityTypeBuilder, lambdaExpression);
             }
 
-            var dbFunctionMethods = ApplicationGlobal.ApplicationInfo.PublicInstanceMethods
-                .Where(u => u.IsStaticType && u.Method.IsDefined(typeof(DbFunctionAttribute)) && u.DeclareType.IsAbstract && u.DeclareType.IsSealed);
+            var dbFunctionMethods = ApplicationCore.ApplicationWrapper.PublicMethodWrappers
+                .Where(u => u.IsStaticMethod && u.Method.IsDefined(typeof(DbFunctionAttribute)) && u.ThisDeclareType.IsAbstract && u.ThisDeclareType.IsSealed);
 
             foreach (var dbFunction in dbFunctionMethods)
             {

@@ -1,4 +1,4 @@
-﻿using Fur.ApplicationSystem.Models;
+﻿using Fur.ApplicationBase.Options;
 using Fur.SwaggerGen.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +22,7 @@ namespace Fur.SwaggerGen.Extensions
         /// <returns>新的服务集合</returns>
         public static IServiceCollection AddFurSwaggerGen(this IServiceCollection services, IConfiguration configuration)
         {
-            var swaggerOptionsConfiguration = configuration.GetSection($"{nameof(FurSettings)}:{nameof(SwaggerOptions)}");
+            var swaggerOptionsConfiguration = configuration.GetSection($"{nameof(FurOptions)}:{nameof(SwaggerOptions)}");
             services.AddOptions<SwaggerOptions>().Bind(swaggerOptionsConfiguration).ValidateDataAnnotations();
 
             var swaggerOptions = swaggerOptionsConfiguration.Get<SwaggerOptions>();

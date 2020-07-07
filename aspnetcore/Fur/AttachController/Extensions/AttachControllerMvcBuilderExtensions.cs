@@ -1,4 +1,4 @@
-﻿using Fur.ApplicationSystem.Models;
+﻿using Fur.ApplicationBase.Options;
 using Fur.AttachController.Conventions;
 using Fur.AttachController.Options;
 using Fur.AttachController.Providers;
@@ -28,7 +28,7 @@ namespace Fur.AttachController.Extensions
             var partManager = mvcBuilder.Services.FirstOrDefault(s => s.ServiceType == typeof(ApplicationPartManager)).ImplementationInstance as ApplicationPartManager
                 ?? throw new InvalidOperationException($"`{nameof(AddFurAttachControllers)}` must be invoked after `{nameof(MvcServiceCollectionExtensions.AddControllers)}`.");
 
-            var attactControllerOptions = configuration.GetSection($"{nameof(FurSettings)}:{nameof(AttactControllerOptions)}");
+            var attactControllerOptions = configuration.GetSection($"{nameof(FurOptions)}:{nameof(AttactControllerOptions)}");
             mvcBuilder.Services.AddOptions<AttactControllerOptions>().Bind(attactControllerOptions).ValidateDataAnnotations();
 
             partManager.FeatureProviders.Add(new AttachControllerFeatureProvider());
