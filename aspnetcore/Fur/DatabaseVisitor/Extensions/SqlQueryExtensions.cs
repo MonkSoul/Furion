@@ -30,6 +30,7 @@ namespace Fur.DatabaseVisitor.Extensions
                 .Select(u => new { Name = u.ParameterName, u.Value }).ToDictionary(u => u.Name, u => u.Value);
             var returnValue = sqlParameters.FirstOrDefault(u => u.Direction == ParameterDirection.ReturnValue)?.Value;
 
+            dbCommand.Parameters.Clear();
             return (outputValues, returnValue);
         }
 
@@ -45,6 +46,7 @@ namespace Fur.DatabaseVisitor.Extensions
                 .Select(u => new { Name = u.ParameterName, u.Value }).ToDictionary(u => u.Name, u => u.Value);
             var returnValue = sqlParameters.FirstOrDefault(u => u.Direction == ParameterDirection.ReturnValue)?.Value;
 
+            dbCommand.Parameters.Clear();
             return (outputValues, returnValue);
         }
 
