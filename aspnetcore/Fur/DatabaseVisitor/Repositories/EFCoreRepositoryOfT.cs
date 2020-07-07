@@ -1473,6 +1473,26 @@ namespace Fur.DatabaseVisitor.Repositories
             return Database.SqlProcedureDataSetQueryAsync(name, types, parameterModel);
         }
 
+        public virtual (Dictionary<string, object> outputValues, object returnValue) FromSqlProcedureRepayQuery(string sql, params object[] parameters)
+        {
+            return Database.SqlProcedureRepayQuery(sql, parameters);
+        }
+
+        public virtual Task<(Dictionary<string, object> outputValues, object returnValue)> FromSqlProcedureRepayQueryAsync(string sql, params object[] parameters)
+        {
+            return Database.SqlProcedureRepayQueryAsync(sql, parameters);
+        }
+
+        public virtual (Dictionary<string, object> outputValues, object returnValue) FromSqlProcedureRepayQuery(string sql, object parameterModel)
+        {
+            return FromSqlProcedureRepayQuery(sql, parameterModel.ToSqlParameters());
+        }
+
+        public virtual Task<(Dictionary<string, object> outputValues, object returnValue)> FromSqlProcedureRepayQueryAsync(string sql, object parameterModel)
+        {
+            return FromSqlProcedureRepayQueryAsync(sql, parameterModel.ToSqlParameters());
+        }
+
         // 标量函数
         public virtual TResult FromSqlScalarFunctionQuery<TResult>(string name, params object[] parameters) where TResult : struct
         {

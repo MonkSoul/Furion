@@ -1,4 +1,5 @@
 ﻿using Fur.DatabaseVisitor.Helpers;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using StackExchange.Profiling;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Fur.DatabaseVisitor.Extensions
@@ -16,6 +18,36 @@ namespace Fur.DatabaseVisitor.Extensions
     /// </summary>
     public static class SqlQueryExtensions
     {
+        public static (Dictionary<string, object> outputValues, object returnValue) SqlNonQuery(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        {
+            var sqlParameters = parameters.Any() ? (SqlParameter[])parameters : new SqlParameter[] { };
+            var (dbConnection, dbCommand) = databaseFacade.WrapperDbConnectionAndCommand(sql, sqlParameters);
+            var rowEffects = dbCommand.ExecuteNonQuery();
+            dbConnection.Close();
+
+            var outputValues = sqlParameters
+                .Where(u => u.Direction == ParameterDirection.Output)
+                .Select(u => new { Name = u.ParameterName, u.Value }).ToDictionary(u => u.Name, u => u.Value);
+            var returnValue = sqlParameters.FirstOrDefault(u => u.Direction == ParameterDirection.ReturnValue).Value;
+
+            return (outputValues, returnValue);
+        }
+
+        public static async Task<(Dictionary<string, object> outputValues, object returnValue)> SqlNonQueryAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        {
+            var sqlParameters = parameters.Any() ? (SqlParameter[])parameters : new SqlParameter[] { };
+            var (dbConnection, dbCommand) = await databaseFacade.WrapperDbConnectionAndCommandAsync(sql, sqlParameters);
+            var rowEffects = await dbCommand.ExecuteNonQueryAsync();
+            await dbConnection.CloseAsync();
+
+            var outputValues = sqlParameters
+                .Where(u => u.Direction == ParameterDirection.Output)
+                .Select(u => new { Name = u.ParameterName, u.Value }).ToDictionary(u => u.Name, u => u.Value);
+            var returnValue = sqlParameters.FirstOrDefault(u => u.Direction == ParameterDirection.ReturnValue).Value;
+
+            return (outputValues, returnValue);
+        }
+
         public static DataTable SqlQuery(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var (dbConnection, dbCommand) = databaseFacade.WrapperDbConnectionAndCommand(sql, parameters);

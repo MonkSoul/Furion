@@ -296,5 +296,15 @@ namespace Fur.DatabaseVisitor.Extensions
             var (sql, parameters) = Helper.CombineExecuteSql(DbCanExecuteTypeOptions.DbProcedure, name, parameterModel);
             return databaseFacade.SqlDataSetQueryAsync(sql, types, parameters);
         }
+
+        public static (Dictionary<string, object> outputValues, object returnValue) SqlProcedureRepayQuery(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        {
+            return databaseFacade.SqlNonQuery(sql, parameters);
+        }
+
+        public static Task<(Dictionary<string, object> outputValues, object returnValue)> SqlProcedureRepayQueryAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        {
+            return databaseFacade.SqlNonQueryAsync(sql, parameters);
+        }
     }
 }

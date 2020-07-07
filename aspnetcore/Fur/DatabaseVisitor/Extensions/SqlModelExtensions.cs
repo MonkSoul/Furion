@@ -1,4 +1,5 @@
-﻿using Fur.Extensions;
+﻿using Fur.DatabaseVisitor.Attributes;
+using Fur.Extensions;
 using Mapster;
 using Microsoft.Data.SqlClient;
 using System;
@@ -32,11 +33,16 @@ namespace Fur.DatabaseVisitor.Extensions
             for (int i = 0; i < properities?.Length; i++)
             {
                 var property = properities[i];
-                if (parameterModel != null)
+                var value = property.GetValue(parameterModel);
+
+                if (property.PropertyType.IsDefined(typeof(ParameterAttribute), false))
                 {
-                    var value = property.GetValue(parameterModel);
-                    paramValues.Add(new SqlParameter(property.Name, value ?? DBNull.Value));
+                    var parameterAttribute = property.GetCustomAttribute<ParameterAttribute>();
+                    paramValues.Add(new SqlParameter(property.Name, value ?? DBNull.Value) { Direction = parameterAttribute.Direction });
+                    continue;
                 }
+
+                paramValues.Add(new SqlParameter(property.Name, value ?? DBNull.Value));
             }
             return paramValues.ToArray();
         }

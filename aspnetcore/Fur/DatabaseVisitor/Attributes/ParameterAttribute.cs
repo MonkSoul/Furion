@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 
 namespace Fur.DatabaseVisitor.Attributes
 {
@@ -8,5 +9,7 @@ namespace Fur.DatabaseVisitor.Attributes
         public ParameterAttribute(string name) => Name = name;
 
         public string Name { get; set; }
+
+        public ParameterDirection Direction { get; set; } = ParameterDirection.Input;
     }
 }

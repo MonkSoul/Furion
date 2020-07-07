@@ -488,6 +488,15 @@ namespace Fur.DatabaseVisitor.Repositories
 
         Task<object> FromSqlProcedureDataSetQueryAsync(string name, object[] types, object parameterModel);
 
+        (Dictionary<string, object> outputValues, object returnValue) FromSqlProcedureRepayQuery(string sql, params object[] parameters);
+
+        Task<(Dictionary<string, object> outputValues, object returnValue)> FromSqlProcedureRepayQueryAsync(string sql, params object[] parameters);
+
+        (Dictionary<string, object> outputValues, object returnValue) FromSqlProcedureRepayQuery(string sql, object parameterModel);
+
+        Task<(Dictionary<string, object> outputValues, object returnValue)> FromSqlProcedureRepayQueryAsync(string sql, object parameterModel);
+
+        // 函数
         TResult FromSqlScalarFunctionQuery<TResult>(string name, params object[] parameters) where TResult : struct;
 
         Task<TResult> FromSqlScalarFunctionQueryAsync<TResult>(string name, params object[] parameters) where TResult : struct;
