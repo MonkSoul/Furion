@@ -311,6 +311,16 @@ namespace Fur.DatabaseVisitor.Repositories
 
         Task<object> FromSqlQueryAsync(string sql, Type type, params object[] parameters);
 
+
+        (Dictionary<string, object> outputValues, object returnValue) FromSqlRepayExecute(string sql, params object[] parameters);
+        (Dictionary<string, object> outputValues, object returnValue) FromSqlRepayExecute(string sql, object parameterModel);
+
+        Task<(Dictionary<string, object> outputValues, object returnValue)> FromSqlRepayExecuteAsync(string sql, params object[] parameters);
+        Task<(Dictionary<string, object> outputValues, object returnValue)> FromSqlRepayExecuteAsync(string sql, object parameterModel);
+
+
+
+        // 数据集
         DataSet FromSqlDataSetQuery(string sql, params object[] parameters);
 
         Task<DataSet> FromSqlDataSetQueryAsync(string sql, params object[] parameters);
@@ -488,6 +498,18 @@ namespace Fur.DatabaseVisitor.Repositories
 
         Task<object> FromSqlProcedureDataSetQueryAsync(string name, Type[] types, object parameterModel);
 
+
+        (Dictionary<string, object> outputValues, object returnValue) FromSqlProcedureRepayExecute(string name, params object[] parameters);
+
+        Task<(Dictionary<string, object> outputValues, object returnValue)> FromSqlProcedureRepayExecuteAsync(string name, params object[] parameters);
+
+        (Dictionary<string, object> outputValues, object returnValue) FromSqlProcedureRepayExecute(string name, object parameterModel);
+
+        Task<(Dictionary<string, object> outputValues, object returnValue)> FromSqlProcedureRepayExecuteAsync(string name, object parameterModel);
+
+
+        // 执行函数
+
         TResult FromSqlScalarFunctionQuery<TResult>(string name, params object[] parameters) where TResult : struct;
 
         Task<TResult> FromSqlScalarFunctionQueryAsync<TResult>(string name, params object[] parameters) where TResult : struct;
@@ -512,6 +534,7 @@ namespace Fur.DatabaseVisitor.Repositories
 
         Task<IEnumerable<T>> FromSqlTableFunctionQueryAsync<T>(string name, object parameterModel);
 
+        // 其他操作
         bool Exists(Expression<Func<TEntity, bool>> expression = null);
 
         Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> expression = null);
