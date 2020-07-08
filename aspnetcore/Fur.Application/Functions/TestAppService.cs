@@ -259,7 +259,7 @@ namespace Fur.Application.Functions
         [AttachAction(EveryWordToRoutePath = true)]
         public Task<IEnumerable<TestOutput>> SqlProcedureQueryAsync(string name)
         {
-            return _testRepository.FromSqlProcedureQueryAsync<TestOutput>(name, new { Name = "小僧" });
+            return _testRepository.FromSqlProcedureQueryAsync<TestOutput>(name, new { Name = "string" });
         }
 
         /// <summary>

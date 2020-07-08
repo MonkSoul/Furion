@@ -1,15 +1,10 @@
 ﻿namespace Fur.DatabaseVisitor.Options
 {
     /// <summary>
-    /// 数据库编译类型选项
+    /// 数据库函数类型选项
     /// </summary>
-    public enum DbCompileTypeOptions
+    public enum DbFunctionTypeOptions
     {
-        /// <summary>
-        /// 存储过程
-        /// </summary>
-        DbProcedure,
-
         /// <summary>
         /// 标量函数
         /// </summary>

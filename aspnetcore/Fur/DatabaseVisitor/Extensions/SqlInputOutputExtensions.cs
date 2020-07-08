@@ -27,7 +27,7 @@ namespace Fur.DatabaseVisitor.Extensions
         {
             var paramValues = new List<SqlParameter>();
             var type = parameterModel?.GetType();
-            if (type == null || type.IsInterface || type.IsAbstract || type.IsGenericType) return paramValues.ToArray();
+            if (type == null || type.IsInterface || type.IsAbstract) return paramValues.ToArray();
 
             var properities = type?.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             if (!properities.Any()) return paramValues.ToArray();
@@ -37,7 +37,7 @@ namespace Fur.DatabaseVisitor.Extensions
                 var property = properities[i];
                 var value = property.GetValue(parameterModel) ?? DBNull.Value;
 
-                if (property.PropertyType.IsDefined(typeof(DbParameterAttribute), false))
+                if (property.IsDefined(typeof(DbParameterAttribute), false))
                 {
                     var parameterAttribute = property.GetCustomAttribute<DbParameterAttribute>();
                     paramValues.Add(new SqlParameter(property.Name, value) { Direction = parameterAttribute.Direction });

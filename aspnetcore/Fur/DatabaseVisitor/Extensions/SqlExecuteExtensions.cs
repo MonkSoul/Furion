@@ -18,17 +18,18 @@ namespace Fur.DatabaseVisitor.Extensions
     /// </summary>
     public static class SqlExecuteExtensions
     {
-        #region Sql 执行 + public static DataTable SqlExecute(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        #region Sql 执行 + public static DataTable SqlExecute(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 执行
         /// </summary>
         /// <param name="databaseFacade">数据库操作对象</param>
         /// <param name="sql">sql 语句</param>
+        /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="DataTable"/></returns>
-        public static DataTable SqlExecute(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        public static DataTable SqlExecute(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
-            var (dbConnection, dbCommand) = databaseFacade.PrepareDbCommand(sql, parameters);
+            var (dbConnection, dbCommand) = databaseFacade.PrepareDbCommand(sql, commandType, parameters);
             using var dbDataReader = dbCommand.ExecuteReader();
             using var dataTable = new DataTable();
 
@@ -42,51 +43,54 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region Sql 执行 + public static IEnumerable<T> SqlExecute<T>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        #region Sql 执行 + public static IEnumerable<T> SqlExecute<T>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 执行
         /// </summary>
         /// <typeparam name="T">返回值类型</typeparam>
         /// <param name="databaseFacade">数据库操作对象</param>
         /// <param name="sql">sql语句</param>
+        /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="IEnumerable{T}"/></returns>
-        public static IEnumerable<T> SqlExecute<T>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        public static IEnumerable<T> SqlExecute<T>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
-            return SqlExecute(databaseFacade, sql, parameters).ToEnumerable<T>();
+            return SqlExecute(databaseFacade, sql, commandType, parameters).ToEnumerable<T>();
         }
         #endregion
 
-        #region Sql 执行 + public static object SqlExecute(this DatabaseFacade databaseFacade, string sql, Type type, params object[] parameters)
+        #region Sql 执行 + public static object SqlExecute(this DatabaseFacade databaseFacade, string sql, Type type, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 执行
         /// </summary>
         /// <param name="databaseFacade">数据库操作对象</param>
         /// <param name="sql">sql 语句</param>
         /// <param name="type">返回值类型</param>
+        /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns>object</returns>
-        public static object SqlExecute(this DatabaseFacade databaseFacade, string sql, Type type, params object[] parameters)
+        public static object SqlExecute(this DatabaseFacade databaseFacade, string sql, Type type, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             if (type == typeof(DataTable))
             {
-                return SqlExecute(databaseFacade, sql, parameters);
+                return SqlExecute(databaseFacade, sql, commandType, parameters);
             }
-            return SqlExecute(databaseFacade, sql, parameters).ToEnumerable(type);
+            return SqlExecute(databaseFacade, sql, commandType, parameters).ToEnumerable(type);
         }
         #endregion
 
-        #region Sql 执行 + public static async Task<DataTable> SqlExecuteAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        #region Sql 执行 + public static async Task<DataTable> SqlExecuteAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 执行
         /// </summary>
         /// <param name="databaseFacade">数据库操作对象</param>
         /// <param name="sql">sql 语句</param>
+        /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static async Task<DataTable> SqlExecuteAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        public static async Task<DataTable> SqlExecuteAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
-            var (dbConnection, dbCommand) = await databaseFacade.PrepareDbCommandAsync(sql, parameters);
+            var (dbConnection, dbCommand) = await databaseFacade.PrepareDbCommandAsync(sql, commandType, parameters);
             using var dbDataReader = await dbCommand.ExecuteReaderAsync();
             using var dataTable = new DataTable();
 
@@ -100,42 +104,44 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region Sql 执行 + public static Task<IEnumerable<T>> SqlExecuteAsync<T>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        #region Sql 执行 + public static Task<IEnumerable<T>> SqlExecuteAsync<T>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 执行
         /// </summary>
         /// <typeparam name="T">返回值类型</typeparam>
         /// <param name="databaseFacade">数据库操作对象</param>
         /// <param name="sql">sql 语句</param>
+        /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static Task<IEnumerable<T>> SqlExecuteAsync<T>(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        public static Task<IEnumerable<T>> SqlExecuteAsync<T>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
-            return SqlExecuteAsync(databaseFacade, sql, parameters).ToEnumerableAsync<T>();
+            return SqlExecuteAsync(databaseFacade, sql, commandType, parameters).ToEnumerableAsync<T>();
         }
         #endregion
 
-        #region Sql 执行 + public static Task<object> SqlExecuteAsync(this DatabaseFacade databaseFacade, string sql, Type type, params object[] parameters)
+        #region Sql 执行 + public static Task<object> SqlExecuteAsync(this DatabaseFacade databaseFacade, string sql, Type type, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 执行
         /// </summary>
         /// <param name="databaseFacade">数据库操作对象</param>
         /// <param name="sql">sql 语句</param>
         /// <param name="type">返回值类型</param>
+        /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static Task<object> SqlExecuteAsync(this DatabaseFacade databaseFacade, string sql, Type type, params object[] parameters)
+        public static Task<object> SqlExecuteAsync(this DatabaseFacade databaseFacade, string sql, Type type, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             if (type == typeof(DataTable))
             {
-                var datatable = SqlExecuteAsync(databaseFacade, sql, parameters);
+                var datatable = SqlExecuteAsync(databaseFacade, sql, commandType, parameters);
                 return Task.FromResult<object>(datatable.Result);
             }
-            return SqlExecuteAsync(databaseFacade, sql, parameters).ToEnumerableAsync(type);
+            return SqlExecuteAsync(databaseFacade, sql, commandType, parameters).ToEnumerableAsync(type);
         }
         #endregion
 
-        #region Sql 执行 + public static (Dictionary<string, object> outputValues, object returnValue) SqlRepayExecute(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        #region Sql 执行 + public static (Dictionary<string, object> outputValues, object returnValue) SqlJustExecute(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.StoredProcedure, params object[] parameters)
         /// <summary>
         /// Sql 执行
         /// <para>带 <c>OUTPUT</c> 和 <c>RETURN</c> 输出和返回值</para>
@@ -143,12 +149,13 @@ namespace Fur.DatabaseVisitor.Extensions
         /// </summary>
         /// <param name="databaseFacade">数据库操作对象</param>
         /// <param name="sql">sql 语句</param>
+        /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/></param>
         /// <returns><see cref="Tuple{T1, T2}"/></returns>
-        public static (Dictionary<string, object> outputValues, object returnValue) SqlRepayExecute(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        public static (Dictionary<string, object> outputValues, object returnValue) SqlJustExecute(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.StoredProcedure, params object[] parameters)
         {
             var sqlParameters = parameters.Any() ? (SqlParameter[])parameters : new SqlParameter[] { };
-            var (dbConnection, dbCommand) = databaseFacade.PrepareDbCommand(sql, sqlParameters);
+            var (dbConnection, dbCommand) = databaseFacade.PrepareDbCommand(sql, commandType, sqlParameters);
 
             var rowEffects = dbCommand.ExecuteNonQuery();
 
@@ -166,7 +173,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region Sql 执行 + public static async Task<(Dictionary<string, object> outputValues, object returnValue)> SqlRepayExecuteAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        #region Sql 执行 + public static async Task<(Dictionary<string, object> outputValues, object returnValue)> SqlJustExecuteAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.StoredProcedure, params object[] parameters)
         /// <summary>
         /// Sql 执行
         /// <para>带 <c>OUTPUT</c> 和 <c>RETURN</c> 输出和返回值</para>
@@ -174,12 +181,13 @@ namespace Fur.DatabaseVisitor.Extensions
         /// </summary>
         /// <param name="databaseFacade">数据库操作对象</param>
         /// <param name="sql">sql 语句</param>
+        /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/></param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static async Task<(Dictionary<string, object> outputValues, object returnValue)> SqlRepayExecuteAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        public static async Task<(Dictionary<string, object> outputValues, object returnValue)> SqlJustExecuteAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.StoredProcedure, params object[] parameters)
         {
             var sqlParameters = parameters.Any() ? (SqlParameter[])parameters : new SqlParameter[] { };
-            var (dbConnection, dbCommand) = await databaseFacade.PrepareDbCommandAsync(sql, sqlParameters);
+            var (dbConnection, dbCommand) = await databaseFacade.PrepareDbCommandAsync(sql, commandType, sqlParameters);
 
             var rowEffects = await dbCommand.ExecuteNonQueryAsync();
 
@@ -198,16 +206,17 @@ namespace Fur.DatabaseVisitor.Extensions
         #endregion
 
 
-        #region 准备 DbCommand 对象 + private static (DbConnection, DbCommand) PrepareDbCommand(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        #region 准备 DbCommand 对象 + private static (DbConnection, DbCommand) PrepareDbCommand(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// 准备 <see cref="DbCommand"/> 对象
         /// <para>包括参数追加、性能监测包装</para>
         /// </summary>
         /// <param name="databaseFacade">数据库操作对象</param>
         /// <param name="sql">sql 语句</param>
+        /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters">命令参数</param>
         /// <returns><see cref="Tuple{T1, T2}"/></returns>
-        private static (DbConnection, DbCommand) PrepareDbCommand(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        private static (DbConnection, DbCommand) PrepareDbCommand(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dbConnection = new ProfiledDbConnection(databaseFacade.GetDbConnection(), MiniProfiler.Current);
 
@@ -217,23 +226,25 @@ namespace Fur.DatabaseVisitor.Extensions
             }
 
             DbCommand dbCommand = dbConnection.CreateCommand();
+            dbCommand.CommandType = commandType;
             dbCommand.CommandText = sql;
-            Helper.FixedAndCombineSqlParameters(ref dbCommand, parameters);
+            Helper.FixedSqlParameters(ref dbCommand, parameters);
 
             return (dbConnection, dbCommand);
         }
         #endregion
 
-        #region 准备 DbCommand 对象 + private async static Task<(DbConnection, DbCommand)> PrepareDbCommandAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        #region 准备 DbCommand 对象 + private async static Task<(DbConnection, DbCommand)> PrepareDbCommandAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// 准备 <see cref="DbCommand"/> 对象
         /// <para>包括参数追加、性能监测包装</para>
         /// </summary>
         /// <param name="databaseFacade">数据库操作对象</param>
         /// <param name="sql">sql 语句</param>
+        /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters">命令参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        private async static Task<(DbConnection, DbCommand)> PrepareDbCommandAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
+        private async static Task<(DbConnection, DbCommand)> PrepareDbCommandAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dbConnection = new ProfiledDbConnection(databaseFacade.GetDbConnection(), MiniProfiler.Current);
 
@@ -243,8 +254,9 @@ namespace Fur.DatabaseVisitor.Extensions
             }
 
             DbCommand dbCommand = dbConnection.CreateCommand();
+            dbCommand.CommandType = commandType;
             dbCommand.CommandText = sql;
-            Helper.FixedAndCombineSqlParameters(ref dbCommand, parameters);
+            Helper.FixedSqlParameters(ref dbCommand, parameters);
 
             return (dbConnection, dbCommand);
         }
