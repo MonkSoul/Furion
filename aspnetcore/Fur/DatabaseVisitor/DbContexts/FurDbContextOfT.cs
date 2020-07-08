@@ -1,26 +1,35 @@
-﻿using Fur.ApplicationBase;
-using Fur.DatabaseVisitor.Dependencies;
-using Fur.DatabaseVisitor.TenantSaaS;
-using Fur.EmitExpression;
+﻿using Fur.DatabaseVisitor.TenantSaaS;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 
 namespace Fur.DatabaseVisitor.DbContexts
 {
     /// <summary>
-    /// DbContext 抽象父类
+    /// 框架内自定义 DbContext 类
+    /// <code>abstract</code>
+    /// <para>所有操作数据库的上下文都需继承 <see cref="FurDbContextOfT{TDbContext}"/></para>
+    /// <para>该类默认继承 <see cref="DbContext"/></para>
     /// </summary>
-    /// <typeparam name="TDbContext"></typeparam>
+    /// <typeparam name="TDbContext"><see cref="DbContext"/> 类型</typeparam>
     public abstract class FurDbContextOfT<TDbContext> : DbContext where TDbContext : DbContext
     {
+        /// <summary>
+        /// 租户实体表
+        /// <para>框架默认启用了租户模式。参见：<see cref="Tenant"/></para>
+        /// </summary>
+        public virtual DbSet<Tenant> Tenants { get; set; }
+
+        /// <summary>
+        /// 租户提供器
+        /// </summary>
         private ITenantProvider TenantProvider;
 
-        protected int TenantId
+        /// <summary>
+        /// 租户Id属性
+        /// <para>支持子类重写</para>
+        /// </summary>
+        protected virtual int TenantId
         {
             get
             {
@@ -29,160 +38,77 @@ namespace Fur.DatabaseVisitor.DbContexts
             }
         }
 
-        public virtual DbSet<Tenant> Tenants { get; set; }
-
+        #region 默认构造函数 + public FurDbContextOfT(DbContextOptions<TDbContext> options) : base(options)
+        /// <summary>
+        /// 默认构造函数
+        /// </summary>
+        /// <param name="options">DbContext上下文配置选项</param>
         public FurDbContextOfT(DbContextOptions<TDbContext> options) : base(options)
         {
         }
+        #endregion
 
+        #region DbContext上下文初始化配置时调用的方法 + protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        /// <summary>
+        /// DbContext上下文初始化配置时调用的方法
+        /// <para>可在这里配置数据库连接字符串，数据库提供器等</para>
+        /// </summary>
+        /// <param name="optionsBuilder">DbContext上下文配置选项构建器</param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (FurDbContextOfTStatus.CheckOnConfiguringInit()) return;
             base.OnConfiguring(optionsBuilder);
-        }
 
-        public int GetTenantId(string host)
+            if (FurDbContextOfTStatus.CallOnConfiguringed()) return;
+        }
+        #endregion
+
+        #region DbContext 上下文初始化模型时调用的方法 + protected override void OnModelCreating(ModelBuilder modelBuilder)
+        /// <summary>
+        /// DbContext 上下文初始化模型时调用的方法
+        /// </summary>
+        /// <param name="modelBuilder">DbContext 上下文模型构建器</param>
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            if (FurDbContextOfTStatus.CallOnModelCreatinged()) return;
+
+            // 初始化租户实例表
+            // 备注：后续 HasData迁移单独抽离出来，避免影响正常运行的代码
+            //           只存在于数据库迁移命令中有效
+            modelBuilder.Entity<Tenant>().HasData(
+                new Tenant() { Id = 1, Name = "默认租户", Host = "localhost:44307" },
+                new Tenant() { Id = 2, Name = "默认租户", Host = "localhost:41529" }
+             );
+
+            // 扫描数据库编译实体
+            ScanDbCompileEntityToCreateModelEntity(modelBuilder);
+        }
+        #endregion
+
+        #region DbContext 上下文扫描配置数据库编译实体调用方法 + protected virtual void ScanDbCompileEntityToCreateModelEntity(ModelBuilder modelBuilder)
+        /// <summary>
+        /// DbContext 上下文扫描配置数据库编译实体调用方法
+        /// <para>该方法在 <see cref="OnModelCreating(ModelBuilder)"/> 中调用</para>
+        /// </summary>
+        /// <param name="modelBuilder">模型构建器</param>
+        protected virtual void ScanDbCompileEntityToCreateModelEntity(ModelBuilder modelBuilder)
+        {
+            FurDbContextOfTStatus.ScanDbCompileEntityToCreateModelEntity(modelBuilder, nameof(TenantId), TenantId);
+        }
+        #endregion
+
+        #region DbContext 上下文获取租户Id + public virtual int GetTenantId(string host)
+        /// <summary>
+        /// DbContext 上下文获取租户Id
+        /// </summary>
+        /// <param name="host">主机地址</param>
+        /// <returns>int</returns>
+        public virtual int GetTenantId(string host)
         {
             var tenant = Tenants.FirstOrDefault(t => t.Host == host);
             return tenant?.Id ?? 0;
         }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            if (FurDbContextOfTStatus.CheckOnModelCreatingInit()) return;
-
-            modelBuilder.Entity<Tenant>().HasData(
-                new Tenant()
-                {
-                    Id = 1,
-                    Name = "默认租户",
-                    Host = "localhost:44307"
-                },
-                new Tenant()
-                {
-                    Id = 2,
-                    Name = "默认租户",
-                    Host = "localhost:41529"
-                });
-
-            AutoConfigureDbViewEntity(modelBuilder);
-            base.OnModelCreating(modelBuilder);
-        }
-
-        private void AutoConfigureDbViewEntity(ModelBuilder modelBuilder)
-        {
-            var viewTypes = ApplicationCore.ApplicationWrapper.PublicClassTypeWrappers
-                .Where(u => typeof(View).IsAssignableFrom(u.Type) && u.CanBeNew);
-
-            var dbFunctionMethods = ApplicationCore.ApplicationWrapper.PublicMethodWrappers
-                .Where(u => u.IsStaticMethod && u.Method.IsDefined(typeof(DbFunctionAttribute)) && u.ThisDeclareType.IsAbstract && u.ThisDeclareType.IsSealed);
-
-            // 如果找到视图或函数才初始化委托
-            if (viewTypes.Any() || dbFunctionMethods.Any()) CreateModelBuilderMethodDelegate();
-
-            foreach (var viewType in viewTypes)
-            {
-                var entityTypeBuilder = ModelBuilderMethod_Entity(modelBuilder, viewType.Type);
-                entityTypeBuilder = EntityTypeBuilderMethod_HasNoKey(entityTypeBuilder);
-
-                var viewInstance = ExpressionCreateObject.CreateInstance<View>(viewType.Type);
-                entityTypeBuilder = EntityTypeBuilderMethod_ToView(entityTypeBuilder, viewInstance.ToViewName);
-
-                var lambdaExpression = CreateDbViewHasQueryFilterLambdaExpression(viewType.Type, TenantId);
-                entityTypeBuilder = EntityTypeBuilderMethod_HasQueryFilter(entityTypeBuilder, lambdaExpression);
-            }
-
-            foreach (var dbFunction in dbFunctionMethods)
-            {
-                ModelBuilderMethod_HasDbFunction(modelBuilder, dbFunction.Method);
-            }
-        }
-
-        private static Func<ModelBuilder, Type, EntityTypeBuilder> ModelBuilderMethod_Entity = null;
-        private static Func<EntityTypeBuilder, EntityTypeBuilder> EntityTypeBuilderMethod_HasNoKey = null;
-        private static Func<EntityTypeBuilder, string, EntityTypeBuilder> EntityTypeBuilderMethod_ToView = null;
-        private static Func<EntityTypeBuilder, LambdaExpression, EntityTypeBuilder> EntityTypeBuilderMethod_HasQueryFilter = null;
-        private static Func<ModelBuilder, MethodInfo, DbFunctionBuilder> ModelBuilderMethod_HasDbFunction = null;
-
-        private static void CreateModelBuilderMethodDelegate()
-        {
-            if (ModelBuilderMethod_Entity == null)
-            {
-                var entityMethod = typeof(ModelBuilder).GetMethods()
-                    .Where(u => u.Name == "Entity" && u.GetParameters().Length == 1 && u.GetParameters().First().ParameterType == typeof(Type))
-                    .FirstOrDefault();
-
-                ModelBuilderMethod_Entity = (Func<ModelBuilder, Type, EntityTypeBuilder>)Delegate.CreateDelegate(typeof(Func<ModelBuilder, Type, EntityTypeBuilder>), entityMethod);
-            }
-
-            if (EntityTypeBuilderMethod_HasNoKey == null)
-            {
-                EntityTypeBuilderMethod_HasNoKey = (Func<EntityTypeBuilder, EntityTypeBuilder>)Delegate.CreateDelegate(typeof(Func<EntityTypeBuilder, EntityTypeBuilder>), typeof(EntityTypeBuilder).GetMethod("HasNoKey"));
-            }
-
-            if (EntityTypeBuilderMethod_ToView == null)
-            {
-                var relationalEntityTypeBuilderExtensionsType = typeof(RelationalEntityTypeBuilderExtensions);
-                var toViewMethod = relationalEntityTypeBuilderExtensionsType.GetMethods()
-                    .Where(u => u.Name == "ToView" && u.GetParameters().Length == 2 && u.GetParameters().Last().ParameterType == typeof(string))
-                    .FirstOrDefault();
-
-                EntityTypeBuilderMethod_ToView = (Func<EntityTypeBuilder, string, EntityTypeBuilder>)Delegate.CreateDelegate(typeof(Func<EntityTypeBuilder, string, EntityTypeBuilder>), toViewMethod);
-            }
-
-            if (EntityTypeBuilderMethod_HasQueryFilter == null)
-            {
-                EntityTypeBuilderMethod_HasQueryFilter = (Func<EntityTypeBuilder, LambdaExpression, EntityTypeBuilder>)Delegate.CreateDelegate(typeof(Func<EntityTypeBuilder, LambdaExpression, EntityTypeBuilder>), typeof(EntityTypeBuilder).GetMethod("HasQueryFilter"));
-            }
-
-            if (ModelBuilderMethod_HasDbFunction == null)
-            {
-                var relationalModelBuilderExtensionsType = typeof(RelationalModelBuilderExtensions);
-                var hasDbFunctionMethod = relationalModelBuilderExtensionsType.GetMethods()
-                         .Where(u => u.Name == "HasDbFunction" && u.GetParameters().Length == 2 && u.GetParameters().Last().ParameterType == typeof(MethodInfo))
-                         .FirstOrDefault();
-
-                ModelBuilderMethod_HasDbFunction = (Func<ModelBuilder, MethodInfo, DbFunctionBuilder>)Delegate.CreateDelegate(typeof(Func<ModelBuilder, MethodInfo, DbFunctionBuilder>), hasDbFunctionMethod);
-            }
-        }
-
-        private static LambdaExpression CreateDbViewHasQueryFilterLambdaExpression(Type type, int TenantId)
-        {
-            // b => EF.Property<int>(b, nameof(Entity<int>.TenantId)) == tenantProvider.GetTenantId()
-            ParameterExpression parameter = Expression.Parameter(type, "b");
-
-            var efPropertyMethod = typeof(EF).GetMethod("Property").MakeGenericMethod(typeof(int));
-            ConstantExpression constantKey = Expression.Constant("TenantId");
-            ConstantExpression constantValue = Expression.Constant(TenantId);
-
-            var expression = Expression.Equal(Expression.Call(efPropertyMethod, parameter, constantKey), constantValue);
-
-            return Expression.Lambda(expression, parameter);
-        }
-    }
-
-    internal static class FurDbContextOfTStatus
-    {
-        private static bool OnConfiguringInit = false;
-        private static bool OnModelCreatingInit = false;
-        internal static bool CheckOnConfiguringInit()
-        {
-            if (!OnConfiguringInit)
-            {
-                OnConfiguringInit = true;
-                return false;
-            }
-            return true;
-        }
-
-        internal static bool CheckOnModelCreatingInit()
-        {
-            if (!OnModelCreatingInit)
-            {
-                OnModelCreatingInit = true;
-                return false;
-            }
-            return true;
-        }
+        #endregion
     }
 }

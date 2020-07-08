@@ -21,6 +21,7 @@ namespace Fur.EntityFramework.Core.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Test>().HasQueryFilter(b => EF.Property<int>(b, nameof(Entity<int>.TenantId)) == TenantId);
         }
     }
