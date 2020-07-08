@@ -183,7 +183,7 @@ namespace Fur.ApplicationBase
 
                     // 创建类型包装器
                     PublicClassTypes = a.GetTypes()
-                    .Where(t => !t.IsInterface && t.IsPublic && !t.IsDefined(typeof(NotBeWrapperAttribute)))
+                    .Where(t => !t.IsInterface && t.IsPublic && !t.IsDefined(typeof(NonWrapperAttribute)))
                     .Select(t => new TypeWrapper()
                     {
                         ThisAssembly = a,
@@ -198,7 +198,7 @@ namespace Fur.ApplicationBase
 
                         // 创建包装属性器
                         PublicPropertis = t.GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
-                        .Where(p => p.DeclaringType == t && !p.IsDefined(typeof(NotBeWrapperAttribute)))
+                        .Where(p => p.DeclaringType == t && !p.IsDefined(typeof(NonWrapperAttribute)))
                         .Select(p => new PropertyWrapper()
                         {
                             Name = p.Name,
@@ -210,7 +210,7 @@ namespace Fur.ApplicationBase
 
                         // 创建方法包装器
                         PublicMethods = t.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static)
-                        .Where(m => m.DeclaringType == t && !m.IsDefined(typeof(NotBeWrapperAttribute)))
+                        .Where(m => m.DeclaringType == t && !m.IsDefined(typeof(NonWrapperAttribute)))
                         .Select(m => new MethodWrapper()
                         {
                             ThisAssembly = a,
@@ -224,7 +224,7 @@ namespace Fur.ApplicationBase
 
                             // 创建参数包装器
                             Parameters = m.GetParameters()
-                            .Where(p => !p.IsDefined(typeof(NotBeWrapperAttribute)))
+                            .Where(p => !p.IsDefined(typeof(NonWrapperAttribute)))
                             .Select(p => new ParameterWrapper()
                             {
                                 ThisAssembly = a,

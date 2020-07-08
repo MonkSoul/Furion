@@ -23,7 +23,7 @@ namespace Fur.DatabaseVisitor.Filters
             var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
             var methodInfo = controllerActionDescriptor.MethodInfo;
 
-            if (methodInfo.IsDefined(typeof(NotTransactionAttribute)) || methodInfo.DeclaringType.IsDefined(typeof(NotTransactionAttribute)))
+            if (methodInfo.IsDefined(typeof(NonTransactionAttribute)) || methodInfo.DeclaringType.IsDefined(typeof(NonTransactionAttribute)))
             {
                 MiniProfiler.Current.CustomTiming("transaction", "TransactionScope Disable", "Disable !");
                 await next();

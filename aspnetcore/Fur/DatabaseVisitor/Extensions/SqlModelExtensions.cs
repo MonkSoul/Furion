@@ -35,9 +35,9 @@ namespace Fur.DatabaseVisitor.Extensions
                 var property = properities[i];
                 var value = property.GetValue(parameterModel);
 
-                if (property.PropertyType.IsDefined(typeof(ParameterAttribute), false))
+                if (property.PropertyType.IsDefined(typeof(DbParameterAttribute), false))
                 {
-                    var parameterAttribute = property.GetCustomAttribute<ParameterAttribute>();
+                    var parameterAttribute = property.GetCustomAttribute<DbParameterAttribute>();
                     paramValues.Add(new SqlParameter(property.Name, value ?? DBNull.Value) { Direction = parameterAttribute.Direction });
                     continue;
                 }

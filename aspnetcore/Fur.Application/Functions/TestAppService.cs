@@ -57,7 +57,7 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <returns></returns>
         [NotVaildate]
-        [NotTransaction]
+        [NonTransaction]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<TestOutput>> GetAsync()
         {

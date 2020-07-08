@@ -63,9 +63,9 @@ namespace Fur.DatabaseVisitor.Helpers
 
                 if (excuteSqlOptions == DbCompileTypeOptions.DbProcedure)
                 {
-                    if (property.PropertyType.IsDefined(typeof(ParameterAttribute), false))
+                    if (property.PropertyType.IsDefined(typeof(DbParameterAttribute), false))
                     {
-                        var parameterAttribute = property.GetCustomAttribute<ParameterAttribute>();
+                        var parameterAttribute = property.GetCustomAttribute<DbParameterAttribute>();
                         stringBuilder.Append($" @{parameterAttribute.Name}=@{property.Name},");
                         paramValues.Add(new SqlParameter(property.Name, value ?? DBNull.Value) { Direction = parameterAttribute.Direction });
                         continue;

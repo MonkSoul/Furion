@@ -44,7 +44,7 @@ namespace Fur.ApplicationBase.Wrappers
         /// <para>不包含：</para>
         /// <list type="bullet">
         /// <item>
-        /// <description>接口类、贴有 [NotBeWrapper] 特性的类型。参见：<see cref="Fur.ApplicationBase.Attributes.NotBeWrapperAttribute"/></description>
+        /// <description>接口类、贴有 [<see cref="Fur.ApplicationBase.Attributes.NonWrapperAttribute"/>] 特性的类型。参见：<see cref="Fur.ApplicationBase.Attributes.NonWrapperAttribute"/></description>
         /// </item>
         /// </list>
         /// </summary>
