@@ -1,5 +1,5 @@
 ﻿using Fur.DatabaseVisitor.Attributes;
-using Fur.DatabaseVisitor.Enums;
+using Fur.DatabaseVisitor.Options;
 using Fur.Linq.Extensions;
 using Microsoft.Data.SqlClient;
 using System;
@@ -46,14 +46,14 @@ namespace Fur.DatabaseVisitor.Helpers
         /// <param name="name"></param>
         /// <param name="parameterModel"></param>
         /// <returns></returns>
-        internal static (string sql, SqlParameter[] parameters) CombineExecuteSql(DbCanExecuteTypeOptions excuteSqlOptions, string name, object parameterModel = null)
+        internal static (string sql, SqlParameter[] parameters) CombineExecuteSql(DbCompileTypeOptions excuteSqlOptions, string name, object parameterModel = null)
         {
             var type = parameterModel?.GetType();
             var properities = type?.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
             var paramValues = new List<SqlParameter>();
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"{(excuteSqlOptions == DbCanExecuteTypeOptions.DbProcedure ? "EXECUTE" : $"SELECT{(excuteSqlOptions == DbCanExecuteTypeOptions.DbTableFunction ? " * FROM " : "")}")} {name}{(excuteSqlOptions == DbCanExecuteTypeOptions.DbProcedure ? "" : "(")}");
+            stringBuilder.Append($"{(excuteSqlOptions == DbCompileTypeOptions.DbProcedure ? "EXECUTE" : $"SELECT{(excuteSqlOptions == DbCompileTypeOptions.DbTableFunction ? " * FROM " : "")}")} {name}{(excuteSqlOptions == DbCompileTypeOptions.DbProcedure ? "" : "(")}");
 
             for (int i = 0; i < properities?.Length; i++)
             {
@@ -61,7 +61,7 @@ namespace Fur.DatabaseVisitor.Helpers
 
                 var value = property.GetValue(parameterModel);
 
-                if (excuteSqlOptions == DbCanExecuteTypeOptions.DbProcedure)
+                if (excuteSqlOptions == DbCompileTypeOptions.DbProcedure)
                 {
                     if (property.PropertyType.IsDefined(typeof(ParameterAttribute), false))
                     {
@@ -79,7 +79,7 @@ namespace Fur.DatabaseVisitor.Helpers
             var sql = stringBuilder.ToString();
             if (sql.EndsWith(",")) sql = sql[0..^1];
 
-            if (excuteSqlOptions != DbCanExecuteTypeOptions.DbProcedure)
+            if (excuteSqlOptions != DbCompileTypeOptions.DbProcedure)
             {
                 sql += (")");
             }
@@ -96,12 +96,12 @@ namespace Fur.DatabaseVisitor.Helpers
         /// <param name="name"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        internal static string CombineExecuteSql(DbCanExecuteTypeOptions excuteSqlOptions, string name, params object[] parameters)
+        internal static string CombineExecuteSql(DbCompileTypeOptions excuteSqlOptions, string name, params object[] parameters)
         {
             var sqlParameters = parameters.Any() ? (SqlParameter[])parameters : new SqlParameter[] { };
 
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"{(excuteSqlOptions == DbCanExecuteTypeOptions.DbProcedure ? "EXECUTE" : $"SELECT{(excuteSqlOptions == DbCanExecuteTypeOptions.DbTableFunction ? " * FROM " : "")}")} {name}{(excuteSqlOptions == DbCanExecuteTypeOptions.DbProcedure ? "" : "(")}");
+            stringBuilder.Append($"{(excuteSqlOptions == DbCompileTypeOptions.DbProcedure ? "EXECUTE" : $"SELECT{(excuteSqlOptions == DbCompileTypeOptions.DbTableFunction ? " * FROM " : "")}")} {name}{(excuteSqlOptions == DbCompileTypeOptions.DbProcedure ? "" : "(")}");
 
             for (int i = 0; i < sqlParameters.Length; i++)
             {
@@ -112,7 +112,7 @@ namespace Fur.DatabaseVisitor.Helpers
             var sql = stringBuilder.ToString();
             if (sql.EndsWith(",")) sql = sql[0..^1];
 
-            if (excuteSqlOptions != DbCanExecuteTypeOptions.DbProcedure)
+            if (excuteSqlOptions != DbCompileTypeOptions.DbProcedure)
             {
                 sql += (")");
             }

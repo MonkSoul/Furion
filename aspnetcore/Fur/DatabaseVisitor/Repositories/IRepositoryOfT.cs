@@ -1,5 +1,5 @@
 ﻿using Fur.DatabaseVisitor.Entities;
-using Fur.DatabaseVisitor.Enums;
+using Fur.DatabaseVisitor.Options;
 using Fur.DatabaseVisitor.Page;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -124,13 +124,13 @@ namespace Fur.DatabaseVisitor.Repositories
 
         Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity);
 
-        EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbUpdateTypeOptions dbUpdateTypeOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbTableUpdateOptions dbUpdateTypeOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
 
-        Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbUpdateTypeOptions dbUpdateTypeOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbTableUpdateOptions dbUpdateTypeOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
 
-        EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbUpdateTypeOptions dbUpdateTypeOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbTableUpdateOptions dbUpdateTypeOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
 
-        Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbUpdateTypeOptions dbUpdateTypeOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbTableUpdateOptions dbUpdateTypeOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
 
         // 删除操作
         EntityEntry<TEntity> Delete(TEntity entity);

@@ -2,7 +2,7 @@
 using Autofac.Extensions.DependencyInjection;
 using Castle.DynamicProxy;
 using Fur.DatabaseVisitor.Entities;
-using Fur.DatabaseVisitor.Enums;
+using Fur.DatabaseVisitor.Options;
 using Fur.DatabaseVisitor.Extensions;
 using Fur.DatabaseVisitor.Helpers;
 using Fur.DatabaseVisitor.Identifiers;
@@ -160,22 +160,22 @@ namespace Fur.DatabaseVisitor.Tangent
             }
             else if (tangentAttribute is DbProcedureAttribute dbProcedureAttribute)
             {
-                sql = CreateSql(methodInfo, arguments, parameters, DbCanExecuteTypeOptions.DbProcedure, IsPrimitiveArguments, dbProcedureAttribute);
+                sql = CreateSql(methodInfo, arguments, parameters, DbCompileTypeOptions.DbProcedure, IsPrimitiveArguments, dbProcedureAttribute);
             }
             else if (tangentAttribute is DbScalarFunctionAttribute dbScalarFunctionAttribute)
             {
-                sql = CreateSql(methodInfo, arguments, parameters, DbCanExecuteTypeOptions.DbScalarFunction, IsPrimitiveArguments, dbScalarFunctionAttribute);
+                sql = CreateSql(methodInfo, arguments, parameters, DbCompileTypeOptions.DbScalarFunction, IsPrimitiveArguments, dbScalarFunctionAttribute);
             }
             else if (tangentAttribute is DbTableFunctionAttribute dbTableFunctionAttribute)
             {
-                sql = CreateSql(methodInfo, arguments, parameters, DbCanExecuteTypeOptions.DbTableFunction, IsPrimitiveArguments, dbTableFunctionAttribute);
+                sql = CreateSql(methodInfo, arguments, parameters, DbCompileTypeOptions.DbTableFunction, IsPrimitiveArguments, dbTableFunctionAttribute);
             }
             else throw new System.SystemException($"Unsupported type: {tangentAttribute.GetType().Name}.");
 
             return (sql, parameters.ToArray());
         }
 
-        private string CreateSql(MethodInfo methodInfo, object[] arguments, List<SqlParameter> parameters, DbCanExecuteTypeOptions dbCanExecuteTypeOptions, bool IsPrimitiveArguments, DbCanInvokeAttribute dbCanInvokeAttribute)
+        private string CreateSql(MethodInfo methodInfo, object[] arguments, List<SqlParameter> parameters, DbCompileTypeOptions dbCanExecuteTypeOptions, bool IsPrimitiveArguments, DbCanInvokeAttribute dbCanInvokeAttribute)
         {
             string sql;
             if (IsPrimitiveArguments)
