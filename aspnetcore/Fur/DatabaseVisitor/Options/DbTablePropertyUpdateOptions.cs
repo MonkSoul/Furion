@@ -3,21 +3,21 @@
     /// <summary>
     /// 数据库表更新选项
     /// </summary>
-    public enum DbTableUpdateOptions
+    public enum DbTablePropertyUpdateOptions
     {
         /// <summary>
         /// 全部列更新
         /// </summary>
-        AllProperties,
+        All,
 
         /// <summary>
         /// 特定列更新
         /// </summary>
-        IncludeProperties,
+        Include,
 
         /// <summary>
         /// 排除特定列更新
         /// </summary>
-        ExcludeProperties
+        Exclude
     }
 }

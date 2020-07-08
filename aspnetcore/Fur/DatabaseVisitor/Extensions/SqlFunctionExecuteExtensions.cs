@@ -164,7 +164,7 @@ namespace Fur.DatabaseVisitor.Extensions
 
             var paramValues = new List<SqlParameter>();
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"SELECT{(dbFunctionTypeOptions == DbFunctionTypeOptions.DbTableFunction ? " * FROM " : "")} {name} (");
+            stringBuilder.Append($"SELECT{(dbFunctionTypeOptions == DbFunctionTypeOptions.Table ? " * FROM " : "")} {name} (");
 
             for (int i = 0; i < properities?.Length; i++)
             {
@@ -197,7 +197,7 @@ namespace Fur.DatabaseVisitor.Extensions
             var sqlParameters = parameters.Any() ? (SqlParameter[])parameters : new SqlParameter[] { };
 
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"SELECT{(dbFunctionTypeOptions == DbFunctionTypeOptions.DbTableFunction ? " * FROM " : "")} {name} (");
+            stringBuilder.Append($"SELECT{(dbFunctionTypeOptions == DbFunctionTypeOptions.Table ? " * FROM " : "")} {name} (");
 
             for (int i = 0; i < sqlParameters.Length; i++)
             {

@@ -471,7 +471,7 @@ namespace Fur.DatabaseVisitor.Repositories
             return entityEntry;
         }
 
-        public virtual EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbTableUpdateOptions dbTableUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        public virtual EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
             if (!IsKeySet(entity))
             {
@@ -479,11 +479,11 @@ namespace Fur.DatabaseVisitor.Repositories
             }
             else
             {
-                if (dbTableUpdateOptions == DbTableUpdateOptions.IncludeProperties)
+                if (dbTablePropertyUpdateOptions == DbTablePropertyUpdateOptions.Include)
                 {
                     return UpdateIncludeProperties(entity, propertyExpressions);
                 }
-                else if (dbTableUpdateOptions == DbTableUpdateOptions.ExcludeProperties)
+                else if (dbTablePropertyUpdateOptions == DbTablePropertyUpdateOptions.Exclude)
                 {
                     return UpdateExcludeProperties(entity, propertyExpressions);
                 }
@@ -494,7 +494,7 @@ namespace Fur.DatabaseVisitor.Repositories
             }
         }
 
-        public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbTableUpdateOptions dbTableUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
             if (!IsKeySet(entity))
             {
@@ -503,11 +503,11 @@ namespace Fur.DatabaseVisitor.Repositories
             }
             else
             {
-                if (dbTableUpdateOptions == DbTableUpdateOptions.IncludeProperties)
+                if (dbTablePropertyUpdateOptions == DbTablePropertyUpdateOptions.Include)
                 {
                     return await UpdateIncludePropertiesAsync(entity, propertyExpressions);
                 }
-                else if (dbTableUpdateOptions == DbTableUpdateOptions.ExcludeProperties)
+                else if (dbTablePropertyUpdateOptions == DbTablePropertyUpdateOptions.Exclude)
                 {
                     return await UpdateExcludePropertiesAsync(entity, propertyExpressions);
                 }
@@ -518,16 +518,16 @@ namespace Fur.DatabaseVisitor.Repositories
             }
         }
 
-        public virtual EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbTableUpdateOptions dbTableUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        public virtual EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
-            var entityEntry = InsertOrUpdate(entity, dbTableUpdateOptions, propertyExpressions);
+            var entityEntry = InsertOrUpdate(entity, dbTablePropertyUpdateOptions, propertyExpressions);
             SaveChanges();
             return entityEntry;
         }
 
-        public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbTableUpdateOptions dbTableUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
-            var entityEntry = await InsertOrUpdateAsync(entity, dbTableUpdateOptions, propertyExpressions);
+            var entityEntry = await InsertOrUpdateAsync(entity, dbTablePropertyUpdateOptions, propertyExpressions);
             await SaveChangesAsync();
             return entityEntry;
         }
@@ -1508,64 +1508,64 @@ namespace Fur.DatabaseVisitor.Repositories
         // 标量函数
         public virtual TResult FromSqlScalarFunctionQuery<TResult>(string name, params object[] parameters) where TResult : struct
         {
-            return Database.SqlFunctionExecute<TResult>(DbFunctionTypeOptions.DbScalarFunction, name, parameters).FirstOrDefault();
+            return Database.SqlFunctionExecute<TResult>(DbFunctionTypeOptions.Scalar, name, parameters).FirstOrDefault();
         }
 
         public virtual async Task<TResult> FromSqlScalarFunctionQueryAsync<TResult>(string name, params object[] parameters) where TResult : struct
         {
-            var results = await Database.SqlFunctionExecuteAsync<TResult>(DbFunctionTypeOptions.DbScalarFunction, name, parameters);
+            var results = await Database.SqlFunctionExecuteAsync<TResult>(DbFunctionTypeOptions.Scalar, name, parameters);
             return results.FirstOrDefault();
         }
 
         public virtual TResult FromSqlScalarFunctionQuery<TResult>(string name, object parameterModel) where TResult : struct
         {
-            return Database.SqlFunctionExecute<TResult>(DbFunctionTypeOptions.DbScalarFunction, name, parameterModel).FirstOrDefault();
+            return Database.SqlFunctionExecute<TResult>(DbFunctionTypeOptions.Scalar, name, parameterModel).FirstOrDefault();
         }
 
         public virtual async Task<TResult> FromSqlScalarFunctionQueryAsync<TResult>(string name, object parameterModel) where TResult : struct
         {
-            var results = await Database.SqlFunctionExecuteAsync<TResult>(DbFunctionTypeOptions.DbScalarFunction, name, parameterModel);
+            var results = await Database.SqlFunctionExecuteAsync<TResult>(DbFunctionTypeOptions.Scalar, name, parameterModel);
             return results.FirstOrDefault();
         }
 
         public virtual DataTable FromSqlTableFunctionQuery(string name, params object[] parameters)
         {
-            return Database.SqlFunctionExecute(DbFunctionTypeOptions.DbTableFunction, name, parameters);
+            return Database.SqlFunctionExecute(DbFunctionTypeOptions.Table, name, parameters);
         }
 
         public virtual Task<DataTable> FromSqlTableFunctionQueryAsync(string name, params object[] parameters)
         {
-            return Database.SqlFunctionExecuteAsync(DbFunctionTypeOptions.DbTableFunction, name, parameters);
+            return Database.SqlFunctionExecuteAsync(DbFunctionTypeOptions.Table, name, parameters);
         }
 
         public virtual DataTable FromSqlTableFunctionQuery(string name, object parameterModel)
         {
-            return Database.SqlFunctionExecute(DbFunctionTypeOptions.DbTableFunction, name, parameterModel);
+            return Database.SqlFunctionExecute(DbFunctionTypeOptions.Table, name, parameterModel);
         }
 
         public virtual Task<DataTable> FromSqlTableFunctionQueryAsync(string name, object parameterModel)
         {
-            return Database.SqlFunctionExecuteAsync(DbFunctionTypeOptions.DbTableFunction, name, parameterModel);
+            return Database.SqlFunctionExecuteAsync(DbFunctionTypeOptions.Table, name, parameterModel);
         }
 
         public virtual IEnumerable<T> FromSqlTableFunctionQuery<T>(string name, params object[] parameters)
         {
-            return Database.SqlFunctionExecute<T>(DbFunctionTypeOptions.DbTableFunction, name, parameters);
+            return Database.SqlFunctionExecute<T>(DbFunctionTypeOptions.Table, name, parameters);
         }
 
         public virtual Task<IEnumerable<T>> FromSqlTableFunctionQueryAsync<T>(string name, params object[] parameters)
         {
-            return Database.SqlFunctionExecuteAsync<T>(DbFunctionTypeOptions.DbTableFunction, name, parameters);
+            return Database.SqlFunctionExecuteAsync<T>(DbFunctionTypeOptions.Table, name, parameters);
         }
 
         public virtual IEnumerable<T> FromSqlTableFunctionQuery<T>(string name, object parameterModel)
         {
-            return Database.SqlFunctionExecute<T>(DbFunctionTypeOptions.DbTableFunction, name, parameterModel);
+            return Database.SqlFunctionExecute<T>(DbFunctionTypeOptions.Table, name, parameterModel);
         }
 
         public virtual Task<IEnumerable<T>> FromSqlTableFunctionQueryAsync<T>(string name, object parameterModel)
         {
-            return Database.SqlFunctionExecuteAsync<T>(DbFunctionTypeOptions.DbTableFunction, name, parameterModel);
+            return Database.SqlFunctionExecuteAsync<T>(DbFunctionTypeOptions.Table, name, parameterModel);
         }
 
         public virtual bool Exists(Expression<Func<TEntity, bool>> expression = null)

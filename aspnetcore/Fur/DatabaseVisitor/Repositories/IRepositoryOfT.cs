@@ -124,13 +124,13 @@ namespace Fur.DatabaseVisitor.Repositories
 
         Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity);
 
-        EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbTableUpdateOptions dbTableUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
 
-        Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbTableUpdateOptions dbTableUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
 
-        EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbTableUpdateOptions dbTableUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
 
-        Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbTableUpdateOptions dbTableUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
 
         // 删除操作
         EntityEntry<TEntity> Delete(TEntity entity);

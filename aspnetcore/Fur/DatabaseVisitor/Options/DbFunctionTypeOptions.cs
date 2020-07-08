@@ -8,11 +8,11 @@
         /// <summary>
         /// 标量函数
         /// </summary>
-        DbScalarFunction,
+        Scalar,
 
         /// <summary>
         /// 表值函数
         /// </summary>
-        DbTableFunction
+        Table
     }
 }
