@@ -176,18 +176,18 @@ namespace Fur.DatabaseVisitor.Tangent
             return (sql, parameters.ToArray());
         }
 
-        private string CreateSql(MethodInfo methodInfo, object[] arguments, List<SqlParameter> parameters, DbCompileTypeOptions dbCanExecuteTypeOptions, bool IsPrimitiveArguments, DbCanInvokeAttribute dbCanInvokeAttribute)
+        private string CreateSql(MethodInfo methodInfo, object[] arguments, List<SqlParameter> parameters, DbCompileTypeOptions dbCompileTypeOptions, bool IsPrimitiveArguments, DbCanInvokeAttribute dbCanInvokeAttribute)
         {
             string sql;
             if (IsPrimitiveArguments)
             {
                 var sqlParameters = CreateSqlParameters(methodInfo, arguments);
-                sql = Helper.CombineExecuteSql(dbCanExecuteTypeOptions, dbCanInvokeAttribute.Name, sqlParameters);
+                sql = Helper.CombineExecuteSql(dbCompileTypeOptions, dbCanInvokeAttribute.Name, sqlParameters);
                 parameters.AddRange(sqlParameters);
             }
             else
             {
-                var result = Helper.CombineExecuteSql(dbCanExecuteTypeOptions, dbCanInvokeAttribute.Name, arguments?.FirstOrDefault());
+                var result = Helper.CombineExecuteSql(dbCompileTypeOptions, dbCanInvokeAttribute.Name, arguments?.FirstOrDefault());
                 sql = result.sql;
                 parameters.AddRange(result.parameters);
             }
