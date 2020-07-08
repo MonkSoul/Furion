@@ -1,4 +1,4 @@
-﻿using Fur.DatabaseVisitor.DbContexts;
+﻿using Fur.DatabaseVisitor.Contexts;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fur.DatabaseVisitor.TenantSaaS

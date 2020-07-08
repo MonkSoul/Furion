@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.Linq;
 
-namespace Fur.DatabaseVisitor.DbContexts
+namespace Fur.DatabaseVisitor.Contexts
 {
     /// <summary>
     /// 框架内自定义 DbContext 类

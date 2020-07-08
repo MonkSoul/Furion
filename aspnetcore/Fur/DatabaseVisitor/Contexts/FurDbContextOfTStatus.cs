@@ -8,7 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Fur.DatabaseVisitor.DbContexts
+namespace Fur.DatabaseVisitor.Contexts
 {
     /// <summary>
     /// 框架自定义DbContext 状态器
