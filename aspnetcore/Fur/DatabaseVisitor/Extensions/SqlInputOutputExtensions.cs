@@ -12,7 +12,10 @@ using System.Threading.Tasks;
 
 namespace Fur.DatabaseVisitor.Extensions
 {
-    public static class SqlModelExtensions
+    /// <summary>
+    /// 数据库输入输出参数拓展
+    /// </summary>
+    public static class SqlInputOutputExtensions
     {
         #region 将模型转换为 SqlParameter 数组 + public static SqlParameter[] ToSqlParameters(this object parameterModel)
         /// <summary>
