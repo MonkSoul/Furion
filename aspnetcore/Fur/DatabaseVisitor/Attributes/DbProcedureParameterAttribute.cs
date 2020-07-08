@@ -4,25 +4,20 @@ using System.Data;
 namespace Fur.DatabaseVisitor.Attributes
 {
     /// <summary>
-    /// 生成数据库执行参数特性类
+    /// 生成存储过程参数
     /// <para>主要用于将 Model 转 <see cref="Microsoft.Data.SqlClient.SqlParameter"/> 类</para>
     /// <para>只能贴到属性上</para>
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public class DbParameterAttribute : Attribute
+    public class DbProcedureParameterAttribute : Attribute
     {
-        #region 默认构造函数 + public DbParameterAttribute(string name) => Name = name; 
+        #region 构造函数 +  public DbParameterAttribute(ParameterDirection direction)
         /// <summary>
-        /// 默认构造函数
+        /// 构造函数
         /// </summary>
-        /// <param name="name">数据库参数名</param>
-        public DbParameterAttribute(string name) => Name = name;
+        /// <param name="direction">参数方向 <see cref="ParameterDirection"/></param>
+        public DbProcedureParameterAttribute(ParameterDirection direction) => Direction = direction;
         #endregion
-
-        /// <summary>
-        /// 参数名
-        /// </summary>
-        public string Name { get; set; }
 
         /// <summary>
         /// 参数方向

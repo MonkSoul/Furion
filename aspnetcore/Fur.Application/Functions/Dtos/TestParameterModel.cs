@@ -1,4 +1,5 @@
 ﻿using Fur.DatabaseVisitor.Attributes;
+using System.Data;
 
 namespace Fur.Application.Functions.Dtos
 {
@@ -6,7 +7,10 @@ namespace Fur.Application.Functions.Dtos
     {
         public string Name { get; set; }
 
-        [DbParameter(nameof(ReturnValue) + "a", Direction = System.Data.ParameterDirection.ReturnValue)]
+        [DbProcedureParameter(ParameterDirection.Output)]
+        public int OutputValue { get; set; }
+
+        [DbProcedureParameter(ParameterDirection.ReturnValue)]
         public int ReturnValue { get; set; }
     }
 }
