@@ -1001,14 +1001,14 @@ namespace Fur.DatabaseVisitor.Repositories
             return Database.SqlQueryAsync<T>(sql, parameters);
         }
 
-        public virtual object FromSqlQuery(string sql, object obj, params object[] parameters)
+        public virtual object FromSqlQuery(string sql, Type type, params object[] parameters)
         {
-            return Database.SqlQuery(sql, obj, parameters);
+            return Database.SqlQuery(sql, type, parameters);
         }
 
-        public virtual Task<object> FromSqlQueryAsync(string sql, object obj, params object[] parameters)
+        public virtual Task<object> FromSqlQueryAsync(string sql, Type type, params object[] parameters)
         {
-            return Database.SqlQueryAsync(sql, obj, parameters);
+            return Database.SqlQueryAsync(sql, type, parameters);
         }
 
         public virtual DataTable FromSqlQuery(string sql, object parameterModel)
@@ -1091,7 +1091,7 @@ namespace Fur.DatabaseVisitor.Repositories
             return Database.SqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7, T8>(sql, parameters);
         }
 
-        public virtual object FromSqlDataSetQuery(string sql, object[] types, params object[] parameters)
+        public virtual object FromSqlDataSetQuery(string sql, Type[] types, params object[] parameters)
         {
             return Database.SqlDataSetQuery(sql, types, parameters);
         }
@@ -1136,7 +1136,7 @@ namespace Fur.DatabaseVisitor.Repositories
             return Database.SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8>(sql, parameters);
         }
 
-        public virtual Task<object> FromSqlDataSetQueryAsync(string sql, object[] types, params object[] parameters)
+        public virtual Task<object> FromSqlDataSetQueryAsync(string sql, Type[] types, params object[] parameters)
         {
             return Database.SqlDataSetQueryAsync(sql, types, parameters);
         }
@@ -1181,7 +1181,7 @@ namespace Fur.DatabaseVisitor.Repositories
             return FromSqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7, T8>(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual object FromSqlDataSetQuery(string sql, object[] types, object parameterModel)
+        public virtual object FromSqlDataSetQuery(string sql, Type[] types, object parameterModel)
         {
             return FromSqlDataSetQuery(sql, types, parameterModel.ToSqlParameters());
         }
@@ -1226,7 +1226,7 @@ namespace Fur.DatabaseVisitor.Repositories
             return FromSqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8>(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual Task<object> FromSqlDataSetQueryAsync(string sql, object[] types, object parameterModel)
+        public virtual Task<object> FromSqlDataSetQueryAsync(string sql, Type[] types, object parameterModel)
         {
             return FromSqlDataSetQueryAsync(sql, types, parameterModel.ToSqlParameters());
         }
@@ -1341,7 +1341,7 @@ namespace Fur.DatabaseVisitor.Repositories
             return Database.SqlProcedureDataSetQuery<T1, T2, T3, T4, T5, T6, T7, T8>(name, parameters);
         }
 
-        public virtual object FromSqlProcedureDataSetQuery(string name, object[] types, params object[] parameters)
+        public virtual object FromSqlProcedureDataSetQuery(string name, Type[] types, params object[] parameters)
         {
             return Database.SqlProcedureDataSetQuery(name, types, parameters);
         }
@@ -1386,7 +1386,7 @@ namespace Fur.DatabaseVisitor.Repositories
             return Database.SqlProcedureDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8>(name, parameters);
         }
 
-        public virtual Task<object> FromSqlProcedureDataSetQueryAsync(string name, object[] types, params object[] parameters)
+        public virtual Task<object> FromSqlProcedureDataSetQueryAsync(string name, Type[] types, params object[] parameters)
         {
             return Database.SqlProcedureDataSetQueryAsync(name, types, parameters);
         }
@@ -1431,7 +1431,7 @@ namespace Fur.DatabaseVisitor.Repositories
             return Database.SqlProcedureDataSetQuery<T1, T2, T3, T4, T5, T6, T7, T8>(name, parameterModel);
         }
 
-        public virtual object FromSqlProcedureDataSetQuery(string name, object[] types, object parameterModel)
+        public virtual object FromSqlProcedureDataSetQuery(string name, Type[] types, object parameterModel)
         {
             return Database.SqlProcedureDataSetQuery(name, types, parameterModel);
         }
@@ -1476,7 +1476,7 @@ namespace Fur.DatabaseVisitor.Repositories
             return Database.SqlProcedureDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8>(name, parameterModel);
         }
 
-        public virtual Task<object> FromSqlProcedureDataSetQueryAsync(string name, object[] types, object parameterModel)
+        public virtual Task<object> FromSqlProcedureDataSetQueryAsync(string name, Type[] types, object parameterModel)
         {
             return Database.SqlProcedureDataSetQueryAsync(name, types, parameterModel);
         }

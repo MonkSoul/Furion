@@ -295,7 +295,7 @@ namespace Fur.AttachController.Conventions
             foreach (var parameterInfo in parameters)
             {
                 var parameterType = parameterInfo.Type;
-                if (Helper.IsPrimitiveIncludeNullable(parameterType) && !parameterType.IsNullable())
+                if (parameterType.IsPrimitivePlusIncludeNullable() && !parameterType.IsNullable())
                 {
                     var parameterAttributes = parameterInfo.CustomAttributes;
                     var hasFromAttribute = parameterAttributes.Count() == 0 ||
@@ -331,7 +331,7 @@ namespace Fur.AttachController.Conventions
             {
                 if (parameterModel.BindingInfo != null) continue;
 
-                if (!Helper.IsPrimitiveIncludeNullable(parameterModel.ParameterType) && CanBindingFromBody(actionModel, parameterModel))
+                if (!parameterModel.ParameterType.IsPrimitivePlusIncludeNullable() && CanBindingFromBody(actionModel, parameterModel))
                 {
                     parameterModel.BindingInfo = BindingInfo.GetBindingInfo(new[] { new FromBodyAttribute() });
                 }

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using System;
 
 namespace Fur.DatabaseVisitor.Extensions
 {
@@ -129,7 +130,7 @@ namespace Fur.DatabaseVisitor.Extensions
             return databaseFacade.SqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7, T8>(sql, parameters);
         }
 
-        public static object SqlProcedureDataSetQuery(this DatabaseFacade databaseFacade, string name, object[] types, params object[] parameters)
+        public static object SqlProcedureDataSetQuery(this DatabaseFacade databaseFacade, string name, Type[] types, params object[] parameters)
         {
             var sql = Helper.CombineExecuteSql(DbCompileTypeOptions.DbProcedure, name, parameters);
             return databaseFacade.SqlDataSetQuery(sql, parameters, types, parameters);
@@ -183,7 +184,7 @@ namespace Fur.DatabaseVisitor.Extensions
             return databaseFacade.SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8>(sql, parameters);
         }
 
-        public static Task<object> SqlProcedureDataSetQueryAsync(this DatabaseFacade databaseFacade, string name, object[] types, params object[] parameters)
+        public static Task<object> SqlProcedureDataSetQueryAsync(this DatabaseFacade databaseFacade, string name, Type[] types, params object[] parameters)
         {
             var sql = Helper.CombineExecuteSql(DbCompileTypeOptions.DbProcedure, name, parameters);
             return databaseFacade.SqlDataSetQueryAsync(sql, types, parameters);
@@ -237,7 +238,7 @@ namespace Fur.DatabaseVisitor.Extensions
             return databaseFacade.SqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7, T8>(sql, parameters);
         }
 
-        public static object SqlProcedureDataSetQuery(this DatabaseFacade databaseFacade, string name, object[] types, object parameterModel)
+        public static object SqlProcedureDataSetQuery(this DatabaseFacade databaseFacade, string name, Type[] types, object parameterModel)
         {
             var (sql, parameters) = Helper.CombineExecuteSql(DbCompileTypeOptions.DbProcedure, name, parameterModel);
             return databaseFacade.SqlDataSetQuery(sql, parameters, types, parameters);
@@ -291,7 +292,7 @@ namespace Fur.DatabaseVisitor.Extensions
             return databaseFacade.SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8>(sql, parameters);
         }
 
-        public static Task<object> SqlProcedureDataSetQueryAsync(this DatabaseFacade databaseFacade, string name, object[] types, object parameterModel)
+        public static Task<object> SqlProcedureDataSetQueryAsync(this DatabaseFacade databaseFacade, string name, Type[] types, object parameterModel)
         {
             var (sql, parameters) = Helper.CombineExecuteSql(DbCompileTypeOptions.DbProcedure, name, parameterModel);
             return databaseFacade.SqlDataSetQueryAsync(sql, types, parameters);

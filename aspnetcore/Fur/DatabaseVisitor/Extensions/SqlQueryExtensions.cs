@@ -35,14 +35,13 @@ namespace Fur.DatabaseVisitor.Extensions
             return SqlQuery(databaseFacade, sql, parameters).ToEnumerable<T>();
         }
 
-        public static object SqlQuery(this DatabaseFacade databaseFacade, string sql, object obj, params object[] parameters)
+        public static object SqlQuery(this DatabaseFacade databaseFacade, string sql, Type type, params object[] parameters)
         {
-            var type = obj as Type;
             if (type == typeof(DataTable))
             {
                 return SqlQuery(databaseFacade, sql, parameters);
             }
-            return SqlQuery(databaseFacade, sql, parameters).ToEnumerable(obj);
+            return SqlQuery(databaseFacade, sql, parameters).ToEnumerable(type);
         }
 
         public static async Task<DataTable> SqlQueryAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
@@ -62,15 +61,14 @@ namespace Fur.DatabaseVisitor.Extensions
             return SqlQueryAsync(databaseFacade, sql, parameters).ToEnumerableAsync<T>();
         }
 
-        public static Task<object> SqlQueryAsync(this DatabaseFacade databaseFacade, string sql, object obj, params object[] parameters)
+        public static Task<object> SqlQueryAsync(this DatabaseFacade databaseFacade, string sql, Type type, params object[] parameters)
         {
-            var type = obj as Type;
             if (type == typeof(DataTable))
             {
                 var datatable = SqlQueryAsync(databaseFacade, sql, parameters);
                 return Task.FromResult<object>(datatable.Result);
             }
-            return SqlQueryAsync(databaseFacade, sql, parameters).ToEnumerableAsync(obj);
+            return SqlQueryAsync(databaseFacade, sql, parameters).ToEnumerableAsync(type);
         }
 
         public static (Dictionary<string, object> outputValues, object returnValue) SqlNonQuery(this DatabaseFacade databaseFacade, string sql, params object[] parameters)

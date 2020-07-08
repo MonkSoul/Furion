@@ -47,6 +47,30 @@ namespace Fur.Extensions
         public static TAttribute GetDeepAttribute<TAttribute>(this Type type) where TAttribute : Attribute
             => GetDeepAttribute<TAttribute>(type.GetTypeInfo());
 
+        internal static bool IsPrimitivePlus(this Type type, bool includeEnum = true)
+        {
+            if (type.IsPrimitive) return true;
+            if (includeEnum && type.IsEnum) return true;
+
+            return type == typeof(string) ||
+                   type == typeof(decimal) ||
+                   type == typeof(float) ||
+                   type == typeof(DateTime) ||
+                   type == typeof(DateTimeOffset) ||
+                   type == typeof(TimeSpan) ||
+                   type == typeof(Guid);
+        }
+
+        internal static bool IsPrimitivePlusIncludeNullable(this Type type, bool includeEnum = true)
+        {
+            if (IsPrimitivePlus(type, includeEnum)) return true;
+
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+                return IsPrimitivePlus(type.GenericTypeArguments[0], includeEnum);
+
+            return false;
+        }
+
         #endregion 递归获取特性 +/* public static TAttribute GetDeepAttribute<TAttribute>(this Type type) where TAttribute : Attribute
 
         #region 是否是可空类型 +/* public static bool IsNullable(this Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
@@ -76,5 +100,6 @@ namespace Fur.Extensions
 
             return Convert.ChangeType(value, conversionType);
         }
+
     }
 }

@@ -307,9 +307,9 @@ namespace Fur.DatabaseVisitor.Repositories
 
         Task<IEnumerable<T>> FromSqlQueryAsync<T>(string sql, object parameterModel);
 
-        object FromSqlQuery(string sql, object obj, params object[] parameters);
+        object FromSqlQuery(string sql, Type type, params object[] parameters);
 
-        Task<object> FromSqlQueryAsync(string sql, object obj, params object[] parameters);
+        Task<object> FromSqlQueryAsync(string sql, Type type, params object[] parameters);
 
         DataSet FromSqlDataSetQuery(string sql, params object[] parameters);
 
@@ -335,7 +335,7 @@ namespace Fur.DatabaseVisitor.Repositories
 
         (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) FromSqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, params object[] parameters);
 
-        object FromSqlDataSetQuery(string sql, object[] types, params object[] parameters);
+        object FromSqlDataSetQuery(string sql, Type[] types, params object[] parameters);
 
         Task<IEnumerable<T1>> FromSqlDataSetQueryAsync<T1>(string sql, params object[] parameters);
 
@@ -353,7 +353,7 @@ namespace Fur.DatabaseVisitor.Repositories
 
         Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> FromSqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, params object[] parameters);
 
-        Task<object> FromSqlDataSetQueryAsync(string sql, object[] types, params object[] parameters);
+        Task<object> FromSqlDataSetQueryAsync(string sql, Type[] types, params object[] parameters);
 
         IEnumerable<T1> FromSqlDataSetQuery<T1>(string sql, object parameterModel);
 
@@ -371,7 +371,7 @@ namespace Fur.DatabaseVisitor.Repositories
 
         (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) FromSqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, object parameterModel);
 
-        object FromSqlDataSetQuery(string sql, object[] types, object parameterModel);
+        object FromSqlDataSetQuery(string sql, Type[] types, object parameterModel);
 
         Task<IEnumerable<T1>> FromSqlDataSetQueryAsync<T1>(string sql, object parameterModel);
 
@@ -389,7 +389,7 @@ namespace Fur.DatabaseVisitor.Repositories
 
         Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> FromSqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, object parameterModel);
 
-        Task<object> FromSqlDataSetQueryAsync(string sql, object[] types, object parameterModel);
+        Task<object> FromSqlDataSetQueryAsync(string sql, Type[] types, object parameterModel);
 
         // 存储过程
         DataTable FromSqlProcedureQuery(string name, params object[] parameters);
@@ -432,7 +432,7 @@ namespace Fur.DatabaseVisitor.Repositories
 
         (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) FromSqlProcedureDataSetQuery<T1, T2, T3, T4, T5, T6, T7, T8>(string name, params object[] parameters);
 
-        object FromSqlProcedureDataSetQuery(string name, object[] types, params object[] parameters);
+        object FromSqlProcedureDataSetQuery(string name, Type[] types, params object[] parameters);
 
         Task<IEnumerable<T1>> FromSqlProcedureDataSetQueryAsync<T1>(string name, params object[] parameters);
 
@@ -450,7 +450,7 @@ namespace Fur.DatabaseVisitor.Repositories
 
         Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> FromSqlProcedureDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string name, params object[] parameters);
 
-        Task<object> FromSqlProcedureDataSetQueryAsync(string name, object[] types, params object[] parameters);
+        Task<object> FromSqlProcedureDataSetQueryAsync(string name, Type[] types, params object[] parameters);
 
         IEnumerable<T1> FromSqlProcedureDataSetQuery<T1>(string name, object parameterModel);
 
@@ -468,7 +468,7 @@ namespace Fur.DatabaseVisitor.Repositories
 
         (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) FromSqlProcedureDataSetQuery<T1, T2, T3, T4, T5, T6, T7, T8>(string name, object parameterModel);
 
-        object FromSqlProcedureDataSetQuery(string name, object[] types, object parameterModel);
+        object FromSqlProcedureDataSetQuery(string name, Type[] types, object parameterModel);
 
         Task<IEnumerable<T1>> FromSqlProcedureDataSetQueryAsync<T1>(string name, object parameterModel);
 
@@ -486,7 +486,7 @@ namespace Fur.DatabaseVisitor.Repositories
 
         Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> FromSqlProcedureDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string name, object parameterModel);
 
-        Task<object> FromSqlProcedureDataSetQueryAsync(string name, object[] types, object parameterModel);
+        Task<object> FromSqlProcedureDataSetQueryAsync(string name, Type[] types, object parameterModel);
 
         TResult FromSqlScalarFunctionQuery<TResult>(string name, params object[] parameters) where TResult : struct;
 

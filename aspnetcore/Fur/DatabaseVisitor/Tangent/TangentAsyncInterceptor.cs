@@ -17,6 +17,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Fur.Extensions;
 
 namespace Fur.DatabaseVisitor.Tangent
 {
@@ -149,7 +150,7 @@ namespace Fur.DatabaseVisitor.Tangent
             var parameters = new List<SqlParameter>();
 
             var firstArguments = arguments?.FirstOrDefault();
-            var IsPrimitiveArguments = firstArguments != null && Fur.AttachController.Helpers.Helper.IsPrimitive(firstArguments.GetType());
+            var IsPrimitiveArguments = firstArguments != null && firstArguments.GetType().IsPrimitivePlusIncludeNullable();
 
             string sql;
             if (tangentAttribute is DbSentenceAttribute dbSentenceAttribute)

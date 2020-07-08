@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using StackExchange.Profiling;
 using StackExchange.Profiling.Data;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -221,7 +222,7 @@ namespace Fur.DatabaseVisitor.Extensions
             return default;
         }
 
-        public static object SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, object[] types, params object[] parameters)
+        public static object SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, Type[] types, params object[] parameters)
         {
             var dataset = SqlDataSetQuery(databaseFacade, sql, parameters);
             if (dataset.Tables.Count >= 8)
@@ -448,7 +449,7 @@ namespace Fur.DatabaseVisitor.Extensions
             return default;
         }
 
-        public static async Task<object> SqlDataSetQueryAsync(this DatabaseFacade databaseFacade, string sql, object[] types, params object[] parameters)
+        public static async Task<object> SqlDataSetQueryAsync(this DatabaseFacade databaseFacade, string sql, Type[] types, params object[] parameters)
         {
             var dataset = await SqlDataSetQueryAsync(databaseFacade, sql, parameters);
             if (dataset.Tables.Count >= 8)

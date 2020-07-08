@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace Fur.EmitExpression
+namespace Fur.EmitReflection
 {
     public class ExpressionCreateObject
     {

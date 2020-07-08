@@ -77,48 +77,5 @@ namespace Fur.AttachController.Helpers
             => CamelCaseSplitString(str).FirstOrDefault();
 
         #endregion 获取骆驼命名第一个单词 +/* internal static string GetCamelCaseFirstWord(string str)
-
-        #region 是否是基元类型 +/* internal static bool IsPrimitive(Type type, bool includeEnum = true)
-
-        /// <summary>
-        /// 是否是基元类型
-        /// </summary>
-        /// <param name="type">类型对象</param>
-        /// <param name="includeEnum">是否包含枚举</param>
-        /// <returns>是否</returns>
-        internal static bool IsPrimitive(Type type, bool includeEnum = true)
-        {
-            if (type.IsPrimitive) return true;
-            if (includeEnum && type.IsEnum) return true;
-
-            return type == typeof(string) ||
-                   type == typeof(decimal) ||
-                   type == typeof(DateTime) ||
-                   type == typeof(DateTimeOffset) ||
-                   type == typeof(TimeSpan) ||
-                   type == typeof(Guid);
-        }
-
-        #endregion 是否是基元类型 +/* internal static bool IsPrimitive(Type type, bool includeEnum = true)
-
-        #region 是否是基元类型，包括可空对象 +/* internal static bool IsPrimitiveIncludeNullable(Type type, bool includeEnum = true)
-
-        /// <summary>
-        /// 是否是基元类型，包括可空对象
-        /// </summary>
-        /// <param name="type">类型对象</param>
-        /// <param name="includeEnum">是否包含枚举</param>
-        /// <returns>是否</returns>
-        internal static bool IsPrimitiveIncludeNullable(Type type, bool includeEnum = true)
-        {
-            if (IsPrimitive(type, includeEnum)) return true;
-
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
-                return IsPrimitive(type.GenericTypeArguments[0], includeEnum);
-
-            return false;
-        }
-
-        #endregion 是否是基元类型，包括可空对象 +/* internal static bool IsPrimitiveIncludeNullable(Type type, bool includeEnum = true)
     }
 }
