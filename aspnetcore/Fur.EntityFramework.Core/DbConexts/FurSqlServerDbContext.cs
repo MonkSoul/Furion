@@ -1,5 +1,4 @@
 ﻿using Fur.DatabaseVisitor.DbContexts;
-using Fur.DatabaseVisitor.Dependencies;
 using Fur.Record.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,7 +21,7 @@ namespace Fur.EntityFramework.Core.DbContexts
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Test>().HasQueryFilter(b => EF.Property<int>(b, nameof(Entity<int>.TenantId)) == TenantId);
+            modelBuilder.Entity<Test>().HasQueryFilter(b => EF.Property<int>(b, nameof(TenantId)) == TenantId);
         }
     }
 }
