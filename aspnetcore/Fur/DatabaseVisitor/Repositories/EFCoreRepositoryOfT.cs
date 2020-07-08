@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Fur.DatabaseVisitor.DbContextPool;
-using Fur.DatabaseVisitor.Dependencies;
+using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Enums;
 using Fur.DatabaseVisitor.Extensions;
 using Fur.DatabaseVisitor.Page;
@@ -23,7 +23,7 @@ using System.Threading.Tasks;
 
 namespace Fur.DatabaseVisitor.Repositories
 {
-    public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity>, IScopedLifetimeOfT<TEntity> where TEntity : class, IEntity, new()
+    public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity>, IScopedLifetimeOfT<TEntity> where TEntity : class, IDbEntity, new()
     {
         private readonly IMaintenanceProvider _maintenanceProvider;
         private readonly IServiceProvider _serviceProvider;
@@ -78,13 +78,13 @@ namespace Fur.DatabaseVisitor.Repositories
             foreach (var entity in entities)
             {
                 var entityEntry = EntityEntry(entity);
-                var createdTimeProperty = entityEntry.Property(_maintenanceProvider?.GetInsertedTimeName() ?? nameof(EntityBase<int>.CreatedTime));
+                var createdTimeProperty = entityEntry.Property(_maintenanceProvider?.GetInsertedTimeName() ?? nameof(DbEntityBaseOfT<int>.CreatedTime));
                 if (createdTimeProperty != null)
                 {
                     createdTimeProperty.CurrentValue = DateTime.Now;
                 }
 
-                var tenantIdProperty = entityEntry.Property(nameof(Entity<int>.TenantId));
+                var tenantIdProperty = entityEntry.Property(nameof(DbEntityOfT<int>.TenantId));
                 if (tenantIdProperty != null)
                 {
                     tenantIdProperty.CurrentValue = _tenantProvider.GetTenantId();
@@ -101,20 +101,20 @@ namespace Fur.DatabaseVisitor.Repositories
                 var entityEntry = EntityEntry(entity);
                 entityEntries.Add(entityEntry);
 
-                var updatedTimeProperty = entityEntry.Property(_maintenanceProvider?.GetUpdatedTimeName() ?? nameof(EntityBase<int>.UpdatedTime));
+                var updatedTimeProperty = entityEntry.Property(_maintenanceProvider?.GetUpdatedTimeName() ?? nameof(DbEntityBaseOfT<int>.UpdatedTime));
                 if (updatedTimeProperty != null && !updatedTimeProperty.IsModified)
                 {
                     updatedTimeProperty.CurrentValue = DateTime.Now;
                     updatedTimeProperty.IsModified = true;
                 }
                 updateHandler?.Invoke();
-                var createdTimeProperty = entityEntry.Property(_maintenanceProvider?.GetInsertedTimeName() ?? nameof(EntityBase<int>.CreatedTime));
+                var createdTimeProperty = entityEntry.Property(_maintenanceProvider?.GetInsertedTimeName() ?? nameof(DbEntityBaseOfT<int>.CreatedTime));
                 if (createdTimeProperty != null)
                 {
                     createdTimeProperty.IsModified = false;
                 }
 
-                var tenantIdProperty = entityEntry.Property(nameof(Entity<int>.TenantId));
+                var tenantIdProperty = entityEntry.Property(nameof(DbEntityOfT<int>.TenantId));
                 if (tenantIdProperty != null)
                 {
                     tenantIdProperty.IsModified = false;
@@ -1471,26 +1471,6 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual Task<object> FromSqlProcedureDataSetQueryAsync(string name, object[] types, object parameterModel)
         {
             return Database.SqlProcedureDataSetQueryAsync(name, types, parameterModel);
-        }
-
-        public virtual (Dictionary<string, object> outputValues, object returnValue) FromSqlProcedureRepayQuery(string sql, params object[] parameters)
-        {
-            return Database.SqlProcedureRepayQuery(sql, parameters);
-        }
-
-        public virtual Task<(Dictionary<string, object> outputValues, object returnValue)> FromSqlProcedureRepayQueryAsync(string sql, params object[] parameters)
-        {
-            return Database.SqlProcedureRepayQueryAsync(sql, parameters);
-        }
-
-        public virtual (Dictionary<string, object> outputValues, object returnValue) FromSqlProcedureRepayQuery(string sql, object parameterModel)
-        {
-            return FromSqlProcedureRepayQuery(sql, parameterModel.ToSqlParameters());
-        }
-
-        public virtual Task<(Dictionary<string, object> outputValues, object returnValue)> FromSqlProcedureRepayQueryAsync(string sql, object parameterModel)
-        {
-            return FromSqlProcedureRepayQueryAsync(sql, parameterModel.ToSqlParameters());
         }
 
         // 标量函数

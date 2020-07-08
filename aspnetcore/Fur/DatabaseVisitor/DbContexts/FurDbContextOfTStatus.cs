@@ -1,5 +1,5 @@
 ﻿using Fur.ApplicationBase;
-using Fur.DatabaseVisitor.Dependencies;
+using Fur.DatabaseVisitor.Entities;
 using Fur.EmitExpression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -228,7 +228,7 @@ namespace Fur.DatabaseVisitor.DbContexts
         internal static void ScanDbCompileEntityToCreateModelEntity(ModelBuilder modelBuilder, string tenantIdKey, int tenantId)
         {
             var viewTypes = ApplicationCore.ApplicationWrapper.PublicClassTypeWrappers
-                .Where(u => typeof(View).IsAssignableFrom(u.Type) && u.CanBeNew);
+                .Where(u => typeof(DbView).IsAssignableFrom(u.Type) && u.CanBeNew);
 
             var dbFunctionMethods = ApplicationCore.ApplicationWrapper.PublicMethodWrappers
                 .Where(u => u.IsStaticMethod && u.Method.IsDefined(typeof(DbFunctionAttribute)) && u.ThisDeclareType.IsAbstract && u.ThisDeclareType.IsSealed);
@@ -238,8 +238,8 @@ namespace Fur.DatabaseVisitor.DbContexts
                 var entityTypeBuilder = FurDbContextOfTStatus.EntityDelegate(modelBuilder, viewType.Type);
                 entityTypeBuilder = FurDbContextOfTStatus.HasNoKeyDelegate(entityTypeBuilder);
 
-                var viewInstance = ExpressionCreateObject.CreateInstance<View>(viewType.Type);
-                entityTypeBuilder = FurDbContextOfTStatus.ToViewDelegate(entityTypeBuilder, viewInstance.ToViewName);
+                var viewInstance = ExpressionCreateObject.CreateInstance<IDbView>(viewType.Type);
+                entityTypeBuilder = FurDbContextOfTStatus.ToViewDelegate(entityTypeBuilder, viewInstance.ViewName);
 
                 var lambdaExpression = FurDbContextOfTStatus.CreateHasQueryFilterExpression(viewType.Type, tenantIdKey, tenantId);
                 entityTypeBuilder = FurDbContextOfTStatus.HasQueryFilterDelegate(entityTypeBuilder, lambdaExpression);

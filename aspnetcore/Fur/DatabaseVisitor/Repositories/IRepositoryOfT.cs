@@ -1,4 +1,4 @@
-﻿using Fur.DatabaseVisitor.Dependencies;
+﻿using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Enums;
 using Fur.DatabaseVisitor.Page;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +18,7 @@ namespace Fur.DatabaseVisitor.Repositories
     /// 泛型仓储类
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public partial interface IRepositoryOfT<TEntity> where TEntity : class, IEntity, new()
+    public partial interface IRepositoryOfT<TEntity> where TEntity : class, IDbEntity, new()
     {
         DbContext DbContext { get; }
         DbSet<TEntity> Entity { get; }
@@ -488,15 +488,6 @@ namespace Fur.DatabaseVisitor.Repositories
 
         Task<object> FromSqlProcedureDataSetQueryAsync(string name, object[] types, object parameterModel);
 
-        (Dictionary<string, object> outputValues, object returnValue) FromSqlProcedureRepayQuery(string sql, params object[] parameters);
-
-        Task<(Dictionary<string, object> outputValues, object returnValue)> FromSqlProcedureRepayQueryAsync(string sql, params object[] parameters);
-
-        (Dictionary<string, object> outputValues, object returnValue) FromSqlProcedureRepayQuery(string sql, object parameterModel);
-
-        Task<(Dictionary<string, object> outputValues, object returnValue)> FromSqlProcedureRepayQueryAsync(string sql, object parameterModel);
-
-        // 函数
         TResult FromSqlScalarFunctionQuery<TResult>(string name, params object[] parameters) where TResult : struct;
 
         Task<TResult> FromSqlScalarFunctionQueryAsync<TResult>(string name, params object[] parameters) where TResult : struct;

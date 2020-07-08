@@ -1,16 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Fur.DatabaseVisitor.Dependencies
+namespace Fur.DatabaseVisitor.Entities
 {
     /// <summary>
-    /// 实体抽象类
+    /// 数据库实体抽象类
+    /// <para>简化 <see cref="IDbEntity"/> 手动实现</para>
     /// </summary>
-    /// <typeparam name="TKey">主键类型</typeparam>
-    public abstract class Entity<TKey> : IEntity where TKey : struct
+    /// <typeparam name="TKey">
+    /// 主键类型
+    /// <code>struct</code>
+    /// </typeparam>
+    public abstract class DbEntityOfT<TKey> : IDbEntity where TKey : struct
     {
         /// <summary>
         /// 主键Id
+        /// <para>默认自增</para>
         /// </summary>
         [Key]
         [ScaffoldColumn(false)]
@@ -19,6 +24,7 @@ namespace Fur.DatabaseVisitor.Dependencies
 
         /// <summary>
         /// 租户Id
+        /// <para>参见：<see cref="Fur.DatabaseVisitor.TenantSaaS.Tenant"/></para>
         /// </summary>
         public int TenantId { get; set; }
     }

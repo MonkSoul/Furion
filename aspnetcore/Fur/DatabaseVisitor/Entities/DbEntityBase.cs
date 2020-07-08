@@ -1,26 +1,30 @@
 ﻿using System;
-using System.ComponentModel;
 
-namespace Fur.DatabaseVisitor.Dependencies
+namespace Fur.DatabaseVisitor.Entities
 {
-    public abstract class EntityBase<TKey> : Entity<TKey> where TKey : struct
+    /// <summary>
+    /// 数据库实体基础抽象类
+    /// <para>包含常见的维护字段：
+    /// <see cref="CreatedTime"/>
+    /// <see cref="UpdatedTime"/>
+    /// <see cref="IsDeleted"/>
+    /// </para>
+    /// </summary>
+    public abstract class DbEntityBase : DbEntity
     {
         /// <summary>
         /// 创建时间
         /// </summary>
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime CreatedTime { get; set; }
 
         /// <summary>
         /// 更新时间
         /// </summary>
-        //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime? UpdatedTime { get; set; }
 
         /// <summary>
         /// 假删除
         /// </summary>
-        [DefaultValue(0)]
         public bool IsDeleted { get; set; }
     }
 }

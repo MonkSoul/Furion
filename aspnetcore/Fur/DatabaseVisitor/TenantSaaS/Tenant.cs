@@ -1,10 +1,10 @@
-﻿using Fur.DatabaseVisitor.Dependencies;
+﻿using Fur.DatabaseVisitor.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Fur.DatabaseVisitor.TenantSaaS
 {
-    public class Tenant : IEntity
+    public class Tenant : IDbEntity
     {
         /// <summary>
         /// 主键Id

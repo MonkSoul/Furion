@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Fur.DatabaseVisitor.Dependencies;
+using Fur.DatabaseVisitor.Entities;
 using Fur.DependencyInjection.Lifetimes;
 using System;
 
@@ -15,7 +15,7 @@ namespace Fur.DatabaseVisitor.Repositories
             _serviceProvider = serviceProvider;
         }
 
-        public IRepositoryOfT<TEntity> GetRepository<TEntity>(bool newScope = false) where TEntity : class, IEntity, new()
+        public IRepositoryOfT<TEntity> GetRepository<TEntity>(bool newScope = false) where TEntity : class, IDbEntity, new()
         {
             if (newScope)
             {

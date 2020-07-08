@@ -1,8 +1,8 @@
-﻿using Fur.DatabaseVisitor.Dependencies;
+﻿using Fur.DatabaseVisitor.Entities;
 
 namespace Fur.Record.Entities
 {
-    public class V_Test : View
+    public class V_Test : DbView
     {
         public V_Test() : base("V_Test")
         {

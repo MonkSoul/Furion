@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Castle.DynamicProxy;
-using Fur.DatabaseVisitor.Dependencies;
+using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Enums;
 using Fur.DatabaseVisitor.Extensions;
 using Fur.DatabaseVisitor.Helpers;
@@ -55,7 +55,7 @@ namespace Fur.DatabaseVisitor.Tangent
         // 处理异步不带返回值
         private Task AsynchronousInvoke(IInvocation invocation)
         {
-            ResolveMethodInfo(invocation, out _, out string sql, out SqlParameter[] parameters, out Type sourceType, out DbContext whichDbContext);
+            ResolveMethodInfo(invocation, out MethodInfo methodInfo, out string sql, out SqlParameter[] parameters, out Type sourceType, out DbContext whichDbContext);
 
             var result = whichDbContext.Database.SqlQueryAsync(sql, parameters);
             return Task.FromResult(result.Result);
@@ -64,13 +64,12 @@ namespace Fur.DatabaseVisitor.Tangent
         // 处理异步带返回值
         private async Task<TResult> AsynchronousOfTInvoke<TResult>(IInvocation invocation)
         {
-            ResolveMethodInfo(invocation, out _, out string sql, out SqlParameter[] parameters, out Type sourceType, out DbContext whichDbContext);
+            ResolveMethodInfo(invocation, out MethodInfo methodInfo, out string sql, out SqlParameter[] parameters, out Type sourceType, out DbContext whichDbContext);
 
             if (sourceType != null && sourceType.ToString().StartsWith("System.Threading.Tasks.Task"))
             {
                 sourceType = sourceType.GenericTypeArguments.First();
             }
-
             var methodActualReturnType = typeof(TResult);
             if (methodActualReturnType == typeof(DataSet))
             {
@@ -202,8 +201,8 @@ namespace Fur.DatabaseVisitor.Tangent
 
             for (int i = 0; i < methodParameters.Length; i++)
             {
-                // 租户Id占位符
-                if (methodParameters[i].Name == nameof(EntityBase<int>.TenantId))
+                // 占位符
+                if (methodParameters[i].Name == nameof(DbEntityBaseOfT<int>.TenantId))
                 {
                     parameters.Add(new SqlParameter(methodParameters[i].Name, _tenantProvider.GetTenantId()));
                 }

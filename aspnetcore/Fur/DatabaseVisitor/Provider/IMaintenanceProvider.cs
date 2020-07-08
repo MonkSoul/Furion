@@ -1,11 +1,11 @@
-﻿using Fur.DatabaseVisitor.Dependencies;
+﻿using Fur.DatabaseVisitor.Entities;
 
 namespace Fur.DatabaseVisitor.Provider
 {
     public interface IMaintenanceProvider
     {
-        string GetInsertedTimeName() => nameof(EntityBase<int>.CreatedTime);
+        string GetInsertedTimeName() => nameof(DbEntityBaseOfT<int>.CreatedTime);
 
-        string GetUpdatedTimeName() => nameof(EntityBase<int>.UpdatedTime);
+        string GetUpdatedTimeName() => nameof(DbEntityBaseOfT<int>.UpdatedTime);
     }
 }
