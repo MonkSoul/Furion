@@ -1,5 +1,5 @@
 ﻿using Fur.DatabaseVisitor.Attributes;
-using Fur.DatabaseVisitor.DbContextPool;
+using Fur.DatabaseVisitor.Contexts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using StackExchange.Profiling;

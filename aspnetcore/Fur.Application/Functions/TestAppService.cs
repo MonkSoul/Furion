@@ -56,9 +56,7 @@ namespace Fur.Application.Functions
         /// 查询所有
         /// </summary>
         /// <returns></returns>
-        [NotVaildate]
-        [NonTransaction]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [NotVaildate, NonTransaction, ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<TestOutput>> GetAsync()
         {
             return await _testRepository.Entity
@@ -82,8 +80,7 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [AttachAction(KeepRouteVerb = true)]
-        [HttpPost]
+        [HttpPost, AttachAction(KeepRouteVerb = true)]
         public async Task<IEnumerable<TestOutput>> SearchAsync([Required] TestSearchInput input)
         {
             input = input ?? throw new InvalidOperationException("非法操作：搜索条件为空。");
@@ -114,8 +111,7 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK), ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<TestOutput> GetAsync(int id)
         {
             var entity = await _testRepository.FindAsync(id);

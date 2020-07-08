@@ -1,4 +1,5 @@
 ﻿using Castle.DynamicProxy;
+using Fur.DatabaseVisitor.Contexts;
 using Fur.DatabaseVisitor.TenantSaaS;
 using Fur.DependencyInjection.Lifetimes;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +16,13 @@ namespace Fur.DatabaseVisitor.Tangent
         public TangentDbContext(
             IServiceProvider serviceProvider
             , DbContext dbContext
-            , ITenantProvider tenantProvider)
+            , ITenantProvider tenantProvider
+            , IDbContextPool dbContextPool)
         {
             _serviceProvider = serviceProvider;
             _dbContext = dbContext;
+            dbContextPool.SaveDbContext(dbContext);
+
             _tenantProvider = tenantProvider;
         }
 

@@ -32,7 +32,17 @@ namespace Fur.ApplicationBase
         /// <summary>
         /// 应用包装器
         /// </summary>
-        public static ApplicationWrapper ApplicationWrapper = GetApplicationWrappers();
+        public static ApplicationWrapper ApplicationWrapper = null;
+
+        #region 静态构造函数 + static ApplicationCore()
+        /// <summary>
+        /// 静态构造函数
+        /// </summary>
+        static ApplicationCore()
+        {
+            ApplicationWrapper ??= GetApplicationWrappers();
+        }
+        #endregion
 
         #region 获取类型的包装类型 + public static TypeWrapper GetTypeWrapper(Type type)
         /// <summary>

@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Fur.DatabaseVisitor.DbContextPool;
+using Fur.DatabaseVisitor.Contexts;
 using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Identifiers;
 using Fur.DatabaseVisitor.TenantSaaS;
