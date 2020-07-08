@@ -74,12 +74,12 @@ namespace Fur.DatabaseVisitor.Tangent
             var methodActualReturnType = typeof(TResult);
             if (methodActualReturnType == typeof(DataSet))
             {
-                object result = await whichDbContext.Database.SqlDataSetQueryAsync(sql, parameters);
+                object result = await whichDbContext.Database.SqlDataSetExecuteAsync(sql, parameters);
                 return (TResult)result;
             }
             else if (methodActualReturnType.ToString().StartsWith("System.ValueTuple"))
             {
-                object result = await whichDbContext.Database.SqlDataSetQueryAsync(sql, (sourceType ?? methodActualReturnType).GenericTypeArguments.ToArray(), parameters);
+                object result = await whichDbContext.Database.SqlDataSetExecuteAsync(sql, (sourceType ?? methodActualReturnType).GenericTypeArguments.ToArray(), parameters);
                 var defaultResult = result.Adapt(result.GetType(), sourceType ?? methodActualReturnType);
                 return (TResult)(sourceType == null ? defaultResult : defaultResult?.Adapt(defaultResult.GetType(), methodActualReturnType));
             }
@@ -103,11 +103,11 @@ namespace Fur.DatabaseVisitor.Tangent
 
             if (methodReturnType == typeof(DataSet))
             {
-                return whichDbContext.Database.SqlDataSetQuery(sql, parameters);
+                return whichDbContext.Database.SqlDataSetExecute(sql, parameters);
             }
             else if (methodReturnType.ToString().StartsWith("System.ValueTuple"))
             {
-                var result = whichDbContext.Database.SqlDataSetQuery(sql, (sourceType ?? methodReturnType).GenericTypeArguments.ToArray(), parameters);
+                var result = whichDbContext.Database.SqlDataSetExecute(sql, (sourceType ?? methodReturnType).GenericTypeArguments.ToArray(), parameters);
 
                 var defaultResult = result.Adapt(result.GetType(), sourceType ?? methodReturnType);
                 return sourceType == null ? defaultResult : defaultResult?.Adapt(defaultResult.GetType(), methodReturnType);

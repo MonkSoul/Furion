@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseVisitor.Extensions
 {
     /// <summary>
-    /// Sql 执行拓展类
+    /// Sql 执行返回单结果集拓展类
     /// </summary>
     public static class SqlExecuteExtensions
     {
@@ -210,6 +210,7 @@ namespace Fur.DatabaseVisitor.Extensions
         private static (DbConnection, DbCommand) PrepareDbCommand(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var dbConnection = new ProfiledDbConnection(databaseFacade.GetDbConnection(), MiniProfiler.Current);
+
             if (dbConnection.State == ConnectionState.Closed)
             {
                 dbConnection.Open();
@@ -235,6 +236,7 @@ namespace Fur.DatabaseVisitor.Extensions
         private async static Task<(DbConnection, DbCommand)> PrepareDbCommandAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
             var dbConnection = new ProfiledDbConnection(databaseFacade.GetDbConnection(), MiniProfiler.Current);
+
             if (dbConnection.State == ConnectionState.Closed)
             {
                 await dbConnection.OpenAsync();
