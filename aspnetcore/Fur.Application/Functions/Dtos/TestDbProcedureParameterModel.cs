@@ -3,7 +3,7 @@ using System.Data;
 
 namespace Fur.Application.Functions.Dtos
 {
-    public class TestParameterModel
+    public class TestDbProcedureParameterModel
     {
         public string Name { get; set; }
 
