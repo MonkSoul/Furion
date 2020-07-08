@@ -58,7 +58,7 @@ namespace Fur.DatabaseVisitor.Tangent
         {
             ResolveMethodInfo(invocation, out MethodInfo methodInfo, out string sql, out SqlParameter[] parameters, out Type sourceType, out DbContext whichDbContext);
 
-            var result = whichDbContext.Database.SqlQueryAsync(sql, parameters);
+            var result = whichDbContext.Database.SqlExecuteAsync(sql, parameters);
             return Task.FromResult(result.Result);
         }
 
@@ -85,7 +85,7 @@ namespace Fur.DatabaseVisitor.Tangent
             }
             else
             {
-                object result = await whichDbContext.Database.SqlQueryAsync(sql, (sourceType ?? methodActualReturnType), parameters);
+                object result = await whichDbContext.Database.SqlExecuteAsync(sql, (sourceType ?? methodActualReturnType), parameters);
                 if (methodActualReturnType == typeof(DataTable)) return (TResult)result;
                 else
                 {
@@ -114,7 +114,7 @@ namespace Fur.DatabaseVisitor.Tangent
             }
             else
             {
-                var result = whichDbContext.Database.SqlQuery(sql, parameters);
+                var result = whichDbContext.Database.SqlExecute(sql, parameters);
                 if (methodReturnType == typeof(DataTable)) return result;
                 else if (methodReturnType == typeof(void)) return typeof(void);
                 else

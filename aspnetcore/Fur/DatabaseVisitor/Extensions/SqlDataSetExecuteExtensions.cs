@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Fur.DatabaseVisitor.Extensions
 {
-    public static class SqlDataSetQueryExtensions
+    public static class SqlDataSetExecuteExtensions
     {
         public static DataSet SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {

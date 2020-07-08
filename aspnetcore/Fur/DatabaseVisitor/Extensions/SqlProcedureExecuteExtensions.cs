@@ -8,54 +8,54 @@ using System;
 
 namespace Fur.DatabaseVisitor.Extensions
 {
-    public static class SqlProcedureQueryExtensions
+    public static class SqlProcedureExecuteExtensions
     {
         public static DataTable SqlProcedureQuery(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
             var sql = Helper.CombineExecuteSql(DbCompileTypeOptions.DbProcedure, name, parameters);
-            return databaseFacade.SqlQuery(sql, parameters);
+            return databaseFacade.SqlExecute(sql, parameters);
         }
 
         public static IEnumerable<T> SqlProcedureQuery<T>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
             var sql = Helper.CombineExecuteSql(DbCompileTypeOptions.DbProcedure, name, parameters);
-            return databaseFacade.SqlQuery<T>(sql, parameters);
+            return databaseFacade.SqlExecute<T>(sql, parameters);
         }
 
         public static Task<DataTable> SqlProcedureQueryAsync(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
             var sql = Helper.CombineExecuteSql(DbCompileTypeOptions.DbProcedure, name, parameters);
-            return databaseFacade.SqlQueryAsync(sql, parameters);
+            return databaseFacade.SqlExecuteAsync(sql, parameters);
         }
 
         public static Task<IEnumerable<T>> SqlProcedureQueryAsync<T>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
             var sql = Helper.CombineExecuteSql(DbCompileTypeOptions.DbProcedure, name, parameters);
-            return databaseFacade.SqlQueryAsync<T>(sql, parameters);
+            return databaseFacade.SqlExecuteAsync<T>(sql, parameters);
         }
 
         public static DataTable SqlProcedureQuery(this DatabaseFacade databaseFacade, string name, object parameterModel)
         {
             var (sql, parameters) = Helper.CombineExecuteSql(DbCompileTypeOptions.DbProcedure, name, parameterModel);
-            return databaseFacade.SqlQuery(sql, parameters);
+            return databaseFacade.SqlExecute(sql, parameters);
         }
 
         public static IEnumerable<T> SqlProcedureQuery<T>(this DatabaseFacade databaseFacade, string name, object parameterModel)
         {
             var (sql, parameters) = Helper.CombineExecuteSql(DbCompileTypeOptions.DbProcedure, name, parameterModel);
-            return databaseFacade.SqlQuery<T>(sql, parameters);
+            return databaseFacade.SqlExecute<T>(sql, parameters);
         }
 
         public static Task<DataTable> SqlProcedureQueryAsync(this DatabaseFacade databaseFacade, string name, object parameterModel)
         {
             var (sql, parameters) = Helper.CombineExecuteSql(DbCompileTypeOptions.DbProcedure, name, parameterModel);
-            return databaseFacade.SqlQueryAsync(sql, parameters);
+            return databaseFacade.SqlExecuteAsync(sql, parameters);
         }
 
         public static Task<IEnumerable<T>> SqlProcedureQueryAsync<T>(this DatabaseFacade databaseFacade, string name, object parameterModel)
         {
             var (sql, parameters) = Helper.CombineExecuteSql(DbCompileTypeOptions.DbProcedure, name, parameterModel);
-            return databaseFacade.SqlQueryAsync<T>(sql, parameters);
+            return databaseFacade.SqlExecuteAsync<T>(sql, parameters);
         }
 
         public static DataSet SqlProcedureDataSetQuery(this DatabaseFacade databaseFacade, string name, params object[] parameters)
@@ -300,12 +300,12 @@ namespace Fur.DatabaseVisitor.Extensions
 
         public static (Dictionary<string, object> outputValues, object returnValue) SqlProcedureRepayQuery(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
-            return databaseFacade.SqlNonQuery(sql, parameters);
+            return databaseFacade.SqlRepayExecute(sql, parameters);
         }
 
         public static Task<(Dictionary<string, object> outputValues, object returnValue)> SqlProcedureRepayQueryAsync(this DatabaseFacade databaseFacade, string sql, params object[] parameters)
         {
-            return databaseFacade.SqlNonQueryAsync(sql, parameters);
+            return databaseFacade.SqlRepayExecuteAsync(sql, parameters);
         }
     }
 }

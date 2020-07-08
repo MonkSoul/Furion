@@ -983,32 +983,32 @@ namespace Fur.DatabaseVisitor.Repositories
 
         public virtual DataTable FromSqlQuery(string sql, params object[] parameters)
         {
-            return Database.SqlQuery(sql, parameters);
+            return Database.SqlExecute(sql, parameters);
         }
 
         public virtual Task<DataTable> FromSqlQueryAsync(string sql, params object[] parameters)
         {
-            return Database.SqlQueryAsync(sql, parameters);
+            return Database.SqlExecuteAsync(sql, parameters);
         }
 
         public virtual IEnumerable<T> FromSqlQuery<T>(string sql, params object[] parameters)
         {
-            return Database.SqlQuery<T>(sql, parameters);
+            return Database.SqlExecute<T>(sql, parameters);
         }
 
         public virtual Task<IEnumerable<T>> FromSqlQueryAsync<T>(string sql, params object[] parameters)
         {
-            return Database.SqlQueryAsync<T>(sql, parameters);
+            return Database.SqlExecuteAsync<T>(sql, parameters);
         }
 
         public virtual object FromSqlQuery(string sql, Type type, params object[] parameters)
         {
-            return Database.SqlQuery(sql, type, parameters);
+            return Database.SqlExecute(sql, type, parameters);
         }
 
         public virtual Task<object> FromSqlQueryAsync(string sql, Type type, params object[] parameters)
         {
-            return Database.SqlQueryAsync(sql, type, parameters);
+            return Database.SqlExecuteAsync(sql, type, parameters);
         }
 
         public virtual DataTable FromSqlQuery(string sql, object parameterModel)
