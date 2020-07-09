@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Fur.ApplicationBase.Attributes;
 using Fur.DatabaseVisitor.Contexts;
 using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Extensions;
@@ -8,8 +9,6 @@ using Fur.DatabaseVisitor.Page;
 using Fur.DatabaseVisitor.Provider;
 using Fur.DatabaseVisitor.TenantSaaS;
 using Fur.DependencyInjection.Lifetimes;
-using Fur.Extensions;
-using Fur.Linq.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
