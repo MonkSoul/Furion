@@ -4,6 +4,7 @@ using Fur.AttachController.Dependencies;
 using Fur.DatabaseVisitor.Attributes;
 using Fur.DatabaseVisitor.Page;
 using Fur.DatabaseVisitor.Repositories;
+using Fur.DatabaseVisitor.Repositories.Multiples;
 using Fur.DatabaseVisitor.Tangent;
 using Fur.Extensions;
 using Fur.Linq.Extensions;
@@ -34,15 +35,15 @@ namespace Fur.Application.Functions
         private readonly IRepositoryOfT<Test> _testRepository;
         private readonly IRepositoryOfT<V_Test> _vTestRepository;
         private readonly INonDbSetQuery _nonDbSetQuery;
-        private readonly IMultipleRepositoryOfT<Test, FurMultipleDbContextIdentifier> _multipleRepository;
-        private readonly IMultipleRepositoryOfT<V_Test, FurMultipleDbContextIdentifier> _vTestMultipleRepository;
+        private readonly IMultipleDbContextRepositoryOfT<Test, FurMultipleDbContextIdentifier> _multipleRepository;
+        private readonly IMultipleDbContextRepositoryOfT<V_Test, FurMultipleDbContextIdentifier> _vTestMultipleRepository;
 
         public TestAppService(IRepository repository
             , IRepositoryOfT<Test> testRepository
             , IRepositoryOfT<V_Test> vTestRepository
             , ITangentDbContext tangentDbContext
-            , IMultipleRepositoryOfT<Test, FurMultipleDbContextIdentifier> multipleRepository
-            , IMultipleRepositoryOfT<V_Test, FurMultipleDbContextIdentifier> vTestMultipleRepository)
+            , IMultipleDbContextRepositoryOfT<Test, FurMultipleDbContextIdentifier> multipleRepository
+            , IMultipleDbContextRepositoryOfT<V_Test, FurMultipleDbContextIdentifier> vTestMultipleRepository)
         {
             _repository = repository;
             _testRepository = testRepository;
