@@ -3,7 +3,7 @@
 namespace Fur.DatabaseVisitor.Tangent.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class DbTableFunctionAttribute : DbCanInvokeAttribute
+    public class DbTableFunctionAttribute : DbCompileTypeAttribute
     {
         public DbTableFunctionAttribute(string name) : base(name)
         {
