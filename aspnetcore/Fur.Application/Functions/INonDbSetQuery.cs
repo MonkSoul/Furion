@@ -9,7 +9,7 @@ namespace Fur.Application.Functions
 {
     public interface INonDbSetQuery : ITangentQueryDependency
     {
-        [DbSentence("select * from tests", SourceType = typeof(IEnumerable<Test>))]
+        [DbQuery("select * from tests", SourceType = typeof(IEnumerable<Test>))]
         IEnumerable<TestOutput> GetTests();
 
         [DbProcedure("dbo.PR_GetTest")]
@@ -21,7 +21,7 @@ namespace Fur.Application.Functions
         [DbTableFunction("dbo.FN_GetTable")]
         IEnumerable<TestOutput> GetFNTests(int id);
 
-        [DbSentence("select * from tests", SourceType = typeof(Task<IEnumerable<Test>>))]
+        [DbQuery("select * from tests", SourceType = typeof(Task<IEnumerable<Test>>))]
         Task<IEnumerable<TestOutput>> GetTestsAsync();
 
         [DbProcedure("dbo.PR_GetTest")]
