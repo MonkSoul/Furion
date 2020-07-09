@@ -152,10 +152,10 @@ namespace Fur.SwaggerGen
             swaggerGenOptions.CustomSchemaIds(x => x.FullName);
             //options.AddFluentValidationRules();
 
-            var assemblyInfos = ApplicationCore.ApplicationWrapper.AssemblyWrappers;
-            foreach (var assemblyInfo in assemblyInfos)
+            var loadCommentsAssemblies = swaggerOptions.LoadCommentsAssemblies;
+            foreach (var assemblyName in loadCommentsAssemblies)
             {
-                var assemblyXml = $"{assemblyInfo.Name}.xml";
+                var assemblyXml = $"{assemblyName}.xml";
                 var assemblyXmlPath = Path.Combine(AppContext.BaseDirectory, assemblyXml);
                 if (File.Exists(assemblyXmlPath))
                 {

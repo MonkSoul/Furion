@@ -13,6 +13,11 @@ namespace Fur.SwaggerGen.Options
         public string DocumentTitle { get; set; }
 
         /// <summary>
+        /// 加载注释的程序集
+        /// </summary>
+        public string[] LoadCommentsAssemblies { get; set; }
+
+        /// <summary>
         /// 所有分组配置选项
         /// </summary>
         public SwaggerGroupOptions[] Groups { get; set; }
