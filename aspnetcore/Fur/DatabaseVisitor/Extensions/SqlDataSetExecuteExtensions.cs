@@ -1,4 +1,4 @@
-﻿using Fur.DatabaseVisitor.Helpers;
+﻿using Fur.DatabaseVisitor.Utilities;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -799,7 +799,7 @@ namespace Fur.DatabaseVisitor.Extensions
             var dbDataAdapter = profiledDbProviderFactory.CreateDataAdapter();
             dbCommand.CommandType = commandType;
             dbCommand.CommandText = sql;
-            Helper.FixedSqlParameters(ref dbCommand, parameters);
+            Utility.RectifySqlParameters(ref dbCommand, parameters);
             dbDataAdapter.SelectCommand = dbCommand;
 
             return (dbConnection, dbCommand, dbDataAdapter);
@@ -832,7 +832,7 @@ namespace Fur.DatabaseVisitor.Extensions
             var dbDataAdapter = profiledDbProviderFactory.CreateDataAdapter();
             dbCommand.CommandType = commandType;
             dbCommand.CommandText = sql;
-            Helper.FixedSqlParameters(ref dbCommand, parameters);
+            Utility.RectifySqlParameters(ref dbCommand, parameters);
             dbDataAdapter.SelectCommand = dbCommand;
 
             return await Task.FromResult((dbConnection, dbCommand, dbDataAdapter));

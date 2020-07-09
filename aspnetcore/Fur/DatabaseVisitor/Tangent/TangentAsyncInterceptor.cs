@@ -4,7 +4,7 @@ using Castle.DynamicProxy;
 using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Options;
 using Fur.DatabaseVisitor.Extensions;
-using Fur.DatabaseVisitor.Helpers;
+using Fur.DatabaseVisitor.Utilities;
 using Fur.DatabaseVisitor.Identifiers;
 using Fur.DatabaseVisitor.Tangent.Attributes;
 using Fur.DatabaseVisitor.TenantSaaS;

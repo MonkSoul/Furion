@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace Fur.DatabaseVisitor.Filters
+namespace Fur.DatabaseVisitor.Interceptors
 {
     /// <summary>
     /// 工作单元异步筛选器
@@ -42,18 +42,19 @@ namespace Fur.DatabaseVisitor.Filters
         /// <returns><see cref="Task"/></returns>
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
+            var miniProfilerName = "transaction";
             var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
             var methodInfo = controllerActionDescriptor.MethodInfo;
 
             // 如果贴了 [NonTransaction] 特性，则不开启事务
             if (methodInfo.IsDefined(typeof(NonTransactionAttribute)) || methodInfo.DeclaringType.IsDefined(typeof(NonTransactionAttribute)))
             {
-                MiniProfiler.Current.CustomTiming("transaction", "TransactionScope Disable", "Disable !");
+                MiniProfiler.Current.CustomTiming(miniProfilerName, "TransactionScope Disable", "Disable !");
                 await next();
                 return;
             }
 
-            MiniProfiler.Current.CustomTiming("transaction", "TransactionScope Enable", "Enable");
+            MiniProfiler.Current.CustomTiming(miniProfilerName, "TransactionScope Enable", "Enable");
 
             UnitOfWorkAttribute unitOfWorkAttribute = null;
             if (!methodInfo.IsDefined(typeof(UnitOfWorkAttribute)))
@@ -77,12 +78,12 @@ namespace Fur.DatabaseVisitor.Filters
                 var hasChangesCount = await _dbContextPool.SavePoolChangesAsync();
                 transaction.Complete();
 
-                MiniProfiler.Current.CustomTiming("transaction", $"TransactionScope Complete - DbContexts: Count/{ _dbContextPool.GetDbContexts().Count()}, Has Changes/{hasChangesCount}", "Complete");
+                MiniProfiler.Current.CustomTiming(miniProfilerName, $"TransactionScope Complete - DbContexts: Count/{ _dbContextPool.GetDbContexts().Count()}, Has Changes/{hasChangesCount}", "Complete");
             }
             // 否则回滚
             else
             {
-                MiniProfiler.Current.CustomTiming("transaction", "TransactionScope Rollback", "Rollback !");
+                MiniProfiler.Current.CustomTiming(miniProfilerName, "TransactionScope Rollback", "Rollback !");
             }
         }
         #endregion

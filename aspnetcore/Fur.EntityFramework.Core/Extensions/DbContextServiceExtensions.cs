@@ -1,4 +1,4 @@
-﻿using Fur.DatabaseVisitor.Filters;
+﻿using Fur.DatabaseVisitor.Interceptors;
 using Fur.DatabaseVisitor.TenantSaaS;
 using Fur.EntityFramework.Core.DbContexts;
 using Microsoft.AspNetCore.Hosting;
