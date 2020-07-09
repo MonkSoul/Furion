@@ -65,12 +65,14 @@ namespace Fur.DatabaseVisitor.Repositories
             }
         }
 
+        public virtual void AttachRange(TEntity[] entities)
+        {
+            DbContext.AttachRange(entities);
+        }
+
         public virtual EntityEntry<TEntity> EntityEntry(TEntity entity) => DbContext.Entry(entity);
 
-        public EntityEntry<TEntity> Delete(TEntity entity)
-        {
-            return Entity.Remove(entity);
-        }
+
 
         // 处理新增时候，创建时间/等字段
         private void InsertInvokeDefendPropertyHandler(params TEntity[] entities)
@@ -78,7 +80,7 @@ namespace Fur.DatabaseVisitor.Repositories
             foreach (var entity in entities)
             {
                 var entityEntry = EntityEntry(entity);
-                var createdTimeProperty = entityEntry.Property(_maintenanceProvider?.GetCreatedTimeName() ?? nameof(DbEntityBaseOfT<int>.CreatedTime));
+                var createdTimeProperty = entityEntry.Property(_maintenanceProvider?.GetCreatedTimePropertyName() ?? nameof(DbEntityBase.CreatedTime));
                 if (createdTimeProperty != null)
                 {
                     createdTimeProperty.CurrentValue = DateTime.Now;
@@ -101,14 +103,14 @@ namespace Fur.DatabaseVisitor.Repositories
                 var entityEntry = EntityEntry(entity);
                 entityEntries.Add(entityEntry);
 
-                var updatedTimeProperty = entityEntry.Property(_maintenanceProvider?.GetUpdatedTimeName() ?? nameof(DbEntityBaseOfT<int>.UpdatedTime));
+                var updatedTimeProperty = entityEntry.Property(_maintenanceProvider?.GetUpdatedTimePropertyName() ?? nameof(DbEntityBase.UpdatedTime));
                 if (updatedTimeProperty != null && !updatedTimeProperty.IsModified)
                 {
                     updatedTimeProperty.CurrentValue = DateTime.Now;
                     updatedTimeProperty.IsModified = true;
                 }
                 updateHandler?.Invoke();
-                var createdTimeProperty = entityEntry.Property(_maintenanceProvider?.GetCreatedTimeName() ?? nameof(DbEntityBaseOfT<int>.CreatedTime));
+                var createdTimeProperty = entityEntry.Property(_maintenanceProvider?.GetCreatedTimePropertyName() ?? nameof(DbEntityBase.CreatedTime));
                 if (createdTimeProperty != null)
                 {
                     createdTimeProperty.IsModified = false;
@@ -533,188 +535,7 @@ namespace Fur.DatabaseVisitor.Repositories
         }
 
         // 删除功能
-        public virtual void Delete(params TEntity[] entities)
-        {
-            Entity.RemoveRange(entities);
-        }
 
-        public virtual void Delete(IEnumerable<TEntity> entities)
-        {
-            Entity.RemoveRange(entities);
-        }
-
-        public virtual EntityEntry<TEntity> Delete(object id)
-        {
-            var entity = Entity.Find(id);
-            return Delete(entity);
-        }
-
-        public virtual Task<EntityEntry<TEntity>> DeleteAsync(TEntity entity)
-        {
-            return Task.FromResult(Entity.Remove(entity));
-        }
-
-        public virtual Task DeleteAsync(params TEntity[] entities)
-        {
-            Entity.RemoveRange(entities);
-            return Task.CompletedTask;
-        }
-
-        public virtual Task DeleteAsync(IEnumerable<TEntity> entities)
-        {
-            Entity.RemoveRange(entities);
-            return Task.CompletedTask;
-        }
-
-        public virtual async Task<EntityEntry<TEntity>> DeleteAsync(object id)
-        {
-            var entity = await Entity.FindAsync(id);
-            return await DeleteAsync(entity);
-        }
-
-        public virtual EntityEntry<TEntity> DeleteSaveChanges(TEntity entity)
-        {
-            var trackEntity = Delete(entity);
-            SaveChanges();
-            return trackEntity;
-        }
-
-        public virtual void DeleteSaveChanges(params TEntity[] entities)
-        {
-            Delete(entities);
-            SaveChanges();
-        }
-
-        public virtual void DeleteSaveChanges(IEnumerable<TEntity> entities)
-        {
-            Delete(entities);
-            SaveChanges();
-        }
-
-        public virtual EntityEntry<TEntity> DeleteSaveChanges(object id)
-        {
-            var trackEntity = Delete(id);
-            SaveChanges();
-            return trackEntity;
-        }
-
-        public virtual async Task<EntityEntry<TEntity>> DeleteSaveChangesAsync(TEntity entity)
-        {
-            var trackEntity = await DeleteAsync(entity);
-            await SaveChangesAsync();
-            return trackEntity;
-        }
-
-        public virtual async Task DeleteSaveChangesAsync(params TEntity[] entities)
-        {
-            await DeleteAsync(entities);
-            await SaveChangesAsync();
-        }
-
-        public virtual async Task DeleteSaveChangesAsync(IEnumerable<TEntity> entities)
-        {
-            await DeleteAsync(entities);
-            await SaveChangesAsync();
-        }
-
-        public virtual async Task<EntityEntry<TEntity>> DeleteSaveChangesAsync(object id)
-        {
-            var trackEntity = await DeleteAsync(id);
-            await SaveChangesAsync();
-            return trackEntity;
-        }
-
-        public virtual EntityEntry<TEntity> FakeDelete(TEntity entity, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
-        {
-            Attach(entity);
-            var propertyName = fakeDeleteProperty.GetExpressionPropertyName();
-            entity.SetProperyValue(propertyName, flagValue);
-
-            return UpdateIncludeProperties(entity, fakeDeleteProperty);
-        }
-
-        public virtual void FakeDelete(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
-        {
-            foreach (var entity in entities)
-            {
-                FakeDelete(entity, fakeDeleteProperty, flagValue);
-            }
-        }
-
-        public virtual Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
-        {
-            Attach(entity);
-            var propertyName = fakeDeleteProperty.GetExpressionPropertyName();
-            entity.SetProperyValue(propertyName, flagValue);
-
-            return UpdateIncludePropertiesAsync(entity, fakeDeleteProperty);
-        }
-
-        public virtual async Task FakeDeleteAsync(IAsyncEnumerable<TEntity> entities, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
-        {
-            await foreach (var entity in entities)
-            {
-                FakeDelete(entity, fakeDeleteProperty, flagValue);
-            }
-        }
-
-        public virtual EntityEntry<TEntity> FakeDeleteSaveChanges(TEntity entity, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
-        {
-            var entityEntry = FakeDelete(entity, fakeDeleteProperty, flagValue);
-            SaveChanges();
-            return entityEntry;
-        }
-
-        public virtual void FakeDeleteSaveChanges(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
-        {
-            foreach (var entity in entities)
-            {
-                FakeDelete(entity, fakeDeleteProperty, flagValue);
-            }
-            SaveChanges();
-        }
-
-        public virtual async Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(TEntity entity, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
-        {
-            var entityEntry = await FakeDeleteAsync(entity, fakeDeleteProperty, flagValue);
-            await SaveChangesAsync();
-            return entityEntry;
-        }
-
-        public virtual async Task FakeDeleteSaveChangesAsync(IAsyncEnumerable<TEntity> entities, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
-        {
-            await foreach (var entity in entities)
-            {
-                FakeDelete(entity, fakeDeleteProperty, flagValue);
-            }
-            await SaveChangesAsync();
-        }
-
-        public virtual EntityEntry<TEntity> FakeDelete(object id, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
-        {
-            var entity = Find(id);
-            return FakeDelete(entity, fakeDeleteProperty, flagValue);
-        }
-
-        public virtual async Task<EntityEntry<TEntity>> FakeDeleteAsync(object id, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
-        {
-            var entity = await FindAsync(id);
-            return await FakeDeleteAsync(entity, fakeDeleteProperty, flagValue);
-        }
-
-        public virtual EntityEntry<TEntity> FakeDeleteSaveChanges(object id, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
-        {
-            var entityEntry = FakeDelete(id, fakeDeleteProperty, flagValue);
-            SaveChanges();
-            return entityEntry;
-        }
-
-        public virtual async Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(object id, Expression<Func<TEntity, object>> fakeDeleteProperty, object flagValue)
-        {
-            var entityEntry = await FakeDeleteAsync(id, fakeDeleteProperty, flagValue);
-            await SaveChangesAsync();
-            return entityEntry;
-        }
 
         // 查询一条
 
@@ -1631,6 +1452,148 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual bool IsKeySet(TEntity entity)
         {
             return EntityEntry(entity).IsKeySet;
+        }
+
+
+
+
+        public virtual EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, params string[] propertyNames)
+        {
+            var entityEntry = EntityEntry(entity);
+            Attach(entity);
+
+            foreach (var propertyName in propertyNames)
+            {
+                entityEntry.Property(propertyName).IsModified = true;
+            }
+
+            UpdateInvokeDefendPropertyHandler(null, entity);
+            return entityEntry;
+        }
+
+        public virtual Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, params string[] propertyNames)
+        {
+            var entityEntry = EntityEntry(entity);
+            Attach(entity);
+            foreach (var propertyName in propertyNames)
+            {
+                entityEntry.Property(propertyName).IsModified = true;
+            }
+
+            UpdateInvokeDefendPropertyHandler(null, entity);
+            return Task.FromResult(entityEntry);
+        }
+
+        public virtual EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, params string[] propertyNames)
+        {
+            var entityEntry = UpdateIncludeProperties(entity, propertyNames);
+            SaveChanges();
+            return entityEntry;
+        }
+
+        public virtual async Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params string[] propertyNames)
+        {
+            var entityEntry = await UpdateIncludePropertiesAsync(entity, propertyNames);
+            await SaveChangesAsync();
+            return entityEntry;
+        }
+
+        public virtual void UpdateIncludeProperties(IEnumerable<TEntity> entities, params string[] propertyNames)
+        {
+            foreach (var entity in entities)
+            {
+                UpdateIncludeProperties(entity, propertyNames);
+            }
+        }
+
+        public virtual async Task UpdateIncludePropertiesAsync(IAsyncEnumerable<TEntity> entities, params string[] propertyNames)
+        {
+            await foreach (var entity in entities)
+            {
+                await UpdateIncludePropertiesAsync(entity, propertyNames);
+            }
+        }
+
+        public virtual void UpdateIncludePropertiesSaveChanges(IEnumerable<TEntity> entities, params string[] propertyNames)
+        {
+            UpdateIncludeProperties(entities, propertyNames);
+            SaveChanges();
+        }
+
+        public virtual async Task UpdateIncludePropertiesSaveChangesAsync(IAsyncEnumerable<TEntity> entities, params string[] propertyNames)
+        {
+            await UpdateIncludePropertiesAsync(entities, propertyNames);
+            await SaveChangesAsync();
+        }
+
+        public virtual EntityEntry<TEntity> UpdateExcludeProperties(TEntity entity, params string[] propertyNames)
+        {
+            var entityEntry = EntityEntry(entity);
+            Attach(entity);
+            entityEntry.State = EntityState.Modified;
+            foreach (var propertyName in propertyNames)
+            {
+                entityEntry.Property(propertyName).IsModified = false;
+            }
+
+            UpdateInvokeDefendPropertyHandler(null, entity);
+            return entityEntry;
+        }
+
+        public virtual Task<EntityEntry<TEntity>> UpdateExcludePropertiesAsync(TEntity entity, params string[] propertyNames)
+        {
+            var entityEntry = EntityEntry(entity);
+            Attach(entity);
+            entityEntry.State = EntityState.Modified;
+            foreach (var propertyName in propertyNames)
+            {
+                entityEntry.Property(propertyName).IsModified = false;
+            }
+
+            UpdateInvokeDefendPropertyHandler(null, entity);
+            return Task.FromResult(entityEntry);
+        }
+
+        public virtual EntityEntry<TEntity> UpdateExcludePropertiesSaveChanges(TEntity entity, params string[] propertyNames)
+        {
+            var entityEntry = UpdateExcludeProperties(entity, propertyNames);
+            SaveChanges();
+            return entityEntry;
+        }
+
+        public virtual async Task<EntityEntry<TEntity>> UpdateExcludePropertiesSaveChangesAsync(TEntity entity, params string[] propertyNames)
+        {
+            var entityEntry = await UpdateExcludePropertiesAsync(entity, propertyNames);
+            await SaveChangesAsync();
+            return entityEntry;
+        }
+
+        public virtual void UpdateExcludeProperties(IEnumerable<TEntity> entities, params string[] propertyNames)
+        {
+            foreach (var entity in entities)
+            {
+                UpdateExcludeProperties(entity, propertyNames);
+            }
+        }
+
+        public virtual async Task UpdateExcludePropertiesAsync(IAsyncEnumerable<TEntity> entities, params string[] propertyNames)
+        {
+            await foreach (var entity in entities)
+            {
+                await UpdateExcludePropertiesAsync(entity, propertyNames);
+            }
+        }
+
+        public virtual void UpdateExcludePropertiesSaveChanges(IEnumerable<TEntity> entities, params string[] propertyNames)
+        {
+            UpdateExcludeProperties(entities, propertyNames);
+            SaveChanges();
+        }
+
+        public virtual async Task UpdateExcludePropertiesSaveChangesAsync(IAsyncEnumerable<TEntity> entities, params string[] propertyNames)
+        {
+            await UpdateExcludePropertiesAsync(entities, propertyNames);
+            await SaveChangesAsync();
         }
     }
 }

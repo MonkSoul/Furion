@@ -4,8 +4,10 @@ namespace Fur.DatabaseVisitor.Provider
 {
     public interface IMaintenanceProvider
     {
-        string GetCreatedTimeName() => nameof(DbEntityBaseOfT<int>.CreatedTime);
+        string GetCreatedTimePropertyName() => nameof(DbEntityBase.CreatedTime);
 
-        string GetUpdatedTimeName() => nameof(DbEntityBaseOfT<int>.UpdatedTime);
+        string GetUpdatedTimePropertyName() => nameof(DbEntityBase.UpdatedTime);
+
+        (string flagPropertyName, object flagValue) GetFakeDeletePropertyInfo() => (nameof(DbEntityBase.IsDeleted), 1);
     }
 }

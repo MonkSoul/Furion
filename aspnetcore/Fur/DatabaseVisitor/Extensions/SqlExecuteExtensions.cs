@@ -55,7 +55,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="IEnumerable{T}"/></returns>
         public static IEnumerable<T> SqlExecute<T>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
-            return SqlExecute(databaseFacade, sql, commandType, parameters).ToEnumerable<T>();
+            return SqlExecute(databaseFacade, sql, commandType, parameters).ToList<T>();
         }
         #endregion
 
@@ -75,7 +75,7 @@ namespace Fur.DatabaseVisitor.Extensions
             {
                 return SqlExecute(databaseFacade, sql, commandType, parameters);
             }
-            return SqlExecute(databaseFacade, sql, commandType, parameters).ToEnumerable(type);
+            return SqlExecute(databaseFacade, sql, commandType, parameters).ToList(type);
         }
         #endregion
 
@@ -116,7 +116,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Task{TResult}"/></returns>
         public static Task<IEnumerable<T>> SqlExecuteAsync<T>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
-            return SqlExecuteAsync(databaseFacade, sql, commandType, parameters).ToEnumerableAsync<T>();
+            return SqlExecuteAsync(databaseFacade, sql, commandType, parameters).ToListAsync<T>();
         }
         #endregion
 
@@ -137,7 +137,7 @@ namespace Fur.DatabaseVisitor.Extensions
                 var datatable = SqlExecuteAsync(databaseFacade, sql, commandType, parameters);
                 return Task.FromResult<object>(datatable.Result);
             }
-            return SqlExecuteAsync(databaseFacade, sql, commandType, parameters).ToEnumerableAsync(type);
+            return SqlExecuteAsync(databaseFacade, sql, commandType, parameters).ToListAsync(type);
         }
         #endregion
 

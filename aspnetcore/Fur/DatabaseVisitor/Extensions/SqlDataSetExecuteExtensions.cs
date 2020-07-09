@@ -78,7 +78,7 @@ namespace Fur.DatabaseVisitor.Extensions
             var dataset = SqlDataSetExecute(databaseFacade, sql, commandType, parameters);
 
             if (dataset.Tables.Count == 0) return default;
-            return dataset.Tables[0].ToEnumerable<T1>();
+            return dataset.Tables[0].ToList<T1>();
         }
         #endregion
 
@@ -98,11 +98,11 @@ namespace Fur.DatabaseVisitor.Extensions
             var dataset = SqlDataSetExecute(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 2)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>());
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>());
             }
             else if (dataset.Tables.Count == 1)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), default);
+                return (dataset.Tables[0].ToList<T1>(), default);
             }
             return default;
         }
@@ -125,15 +125,15 @@ namespace Fur.DatabaseVisitor.Extensions
             var dataset = SqlDataSetExecute(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 3)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>());
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>());
             }
             else if (dataset.Tables.Count == 2)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), default);
             }
             else if (dataset.Tables.Count == 1)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), default, default);
+                return (dataset.Tables[0].ToList<T1>(), default, default);
             }
             return default;
         }
@@ -157,19 +157,19 @@ namespace Fur.DatabaseVisitor.Extensions
             var dataset = SqlDataSetExecute(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 4)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>());
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>());
             }
             else if (dataset.Tables.Count == 3)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), default);
             }
             else if (dataset.Tables.Count == 2)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), default, default);
             }
             else if (dataset.Tables.Count == 1)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), default, default, default);
             }
             return default;
         }
@@ -194,23 +194,23 @@ namespace Fur.DatabaseVisitor.Extensions
             var dataset = SqlDataSetExecute(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 5)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), dataset.Tables[4].ToEnumerable<T5>());
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), dataset.Tables[4].ToList<T5>());
             }
             else if (dataset.Tables.Count == 4)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), default);
             }
             else if (dataset.Tables.Count == 3)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), default, default);
             }
             else if (dataset.Tables.Count == 2)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), default, default, default);
             }
             else if (dataset.Tables.Count == 1)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), default, default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), default, default, default, default);
             }
             return default;
         }
@@ -236,27 +236,27 @@ namespace Fur.DatabaseVisitor.Extensions
             var dataset = SqlDataSetExecute(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 6)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), dataset.Tables[4].ToEnumerable<T5>(), dataset.Tables[5].ToEnumerable<T6>());
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), dataset.Tables[4].ToList<T5>(), dataset.Tables[5].ToList<T6>());
             }
             else if (dataset.Tables.Count == 5)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), dataset.Tables[4].ToEnumerable<T5>(), default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), dataset.Tables[4].ToList<T5>(), default);
             }
             else if (dataset.Tables.Count == 4)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), default, default);
             }
             else if (dataset.Tables.Count == 3)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), default, default, default);
             }
             else if (dataset.Tables.Count == 2)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), default, default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), default, default, default, default);
             }
             else if (dataset.Tables.Count == 1)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), default, default, default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), default, default, default, default, default);
             }
             return default;
         }
@@ -283,31 +283,31 @@ namespace Fur.DatabaseVisitor.Extensions
             var dataset = SqlDataSetExecute(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 7)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), dataset.Tables[4].ToEnumerable<T5>(), dataset.Tables[5].ToEnumerable<T6>(), dataset.Tables[6].ToEnumerable<T7>());
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), dataset.Tables[4].ToList<T5>(), dataset.Tables[5].ToList<T6>(), dataset.Tables[6].ToList<T7>());
             }
             else if (dataset.Tables.Count == 6)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), dataset.Tables[4].ToEnumerable<T5>(), dataset.Tables[5].ToEnumerable<T6>(), default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), dataset.Tables[4].ToList<T5>(), dataset.Tables[5].ToList<T6>(), default);
             }
             else if (dataset.Tables.Count == 5)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), dataset.Tables[4].ToEnumerable<T5>(), default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), dataset.Tables[4].ToList<T5>(), default, default);
             }
             else if (dataset.Tables.Count == 4)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), default, default, default);
             }
             else if (dataset.Tables.Count == 3)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), default, default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), default, default, default, default);
             }
             else if (dataset.Tables.Count == 2)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), default, default, default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), default, default, default, default, default);
             }
             else if (dataset.Tables.Count == 1)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), default, default, default, default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), default, default, default, default, default, default);
             }
             return default;
         }
@@ -335,35 +335,35 @@ namespace Fur.DatabaseVisitor.Extensions
             var dataset = SqlDataSetExecute(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 8)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), dataset.Tables[4].ToEnumerable<T5>(), dataset.Tables[5].ToEnumerable<T6>(), dataset.Tables[6].ToEnumerable<T7>(), dataset.Tables[7].ToEnumerable<T8>());
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), dataset.Tables[4].ToList<T5>(), dataset.Tables[5].ToList<T6>(), dataset.Tables[6].ToList<T7>(), dataset.Tables[7].ToList<T8>());
             }
             else if (dataset.Tables.Count == 7)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), dataset.Tables[4].ToEnumerable<T5>(), dataset.Tables[5].ToEnumerable<T6>(), dataset.Tables[6].ToEnumerable<T7>(), default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), dataset.Tables[4].ToList<T5>(), dataset.Tables[5].ToList<T6>(), dataset.Tables[6].ToList<T7>(), default);
             }
             else if (dataset.Tables.Count == 6)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), dataset.Tables[4].ToEnumerable<T5>(), dataset.Tables[5].ToEnumerable<T6>(), default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), dataset.Tables[4].ToList<T5>(), dataset.Tables[5].ToList<T6>(), default, default);
             }
             else if (dataset.Tables.Count == 5)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), dataset.Tables[4].ToEnumerable<T5>(), default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), dataset.Tables[4].ToList<T5>(), default, default, default);
             }
             else if (dataset.Tables.Count == 4)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), default, default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), default, default, default, default);
             }
             else if (dataset.Tables.Count == 3)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), default, default, default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), default, default, default, default, default);
             }
             else if (dataset.Tables.Count == 2)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), default, default, default, default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), default, default, default, default, default, default);
             }
             else if (dataset.Tables.Count == 1)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), default, default, default, default, default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), default, default, default, default, default, default, default);
             }
             return default;
         }
@@ -384,35 +384,35 @@ namespace Fur.DatabaseVisitor.Extensions
             var dataset = SqlDataSetExecute(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 8)
             {
-                return (dataset.Tables[0].ToEnumerable(types[0]), dataset.Tables[1].ToEnumerable(types[1]), dataset.Tables[2].ToEnumerable(types[2]), dataset.Tables[3].ToEnumerable(types[3]), dataset.Tables[4].ToEnumerable(types[4]), dataset.Tables[5].ToEnumerable(types[5]), dataset.Tables[6].ToEnumerable(types[6]), dataset.Tables[7].ToEnumerable(types[7]));
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]), dataset.Tables[5].ToList(types[5]), dataset.Tables[6].ToList(types[6]), dataset.Tables[7].ToList(types[7]));
             }
             else if (dataset.Tables.Count == 7)
             {
-                return (dataset.Tables[0].ToEnumerable(types[0]), dataset.Tables[1].ToEnumerable(types[1]), dataset.Tables[2].ToEnumerable(types[2]), dataset.Tables[3].ToEnumerable(types[3]), dataset.Tables[4].ToEnumerable(types[4]), dataset.Tables[5].ToEnumerable(types[5]), dataset.Tables[6].ToEnumerable(types[6]));
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]), dataset.Tables[5].ToList(types[5]), dataset.Tables[6].ToList(types[6]));
             }
             else if (dataset.Tables.Count == 6)
             {
-                return (dataset.Tables[0].ToEnumerable(types[0]), dataset.Tables[1].ToEnumerable(types[1]), dataset.Tables[2].ToEnumerable(types[2]), dataset.Tables[3].ToEnumerable(types[3]), dataset.Tables[4].ToEnumerable(types[4]), dataset.Tables[5].ToEnumerable(types[5]));
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]), dataset.Tables[5].ToList(types[5]));
             }
             else if (dataset.Tables.Count == 5)
             {
-                return (dataset.Tables[0].ToEnumerable(types[0]), dataset.Tables[1].ToEnumerable(types[1]), dataset.Tables[2].ToEnumerable(types[2]), dataset.Tables[3].ToEnumerable(types[3]), dataset.Tables[4].ToEnumerable(types[4]));
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]));
             }
             else if (dataset.Tables.Count == 4)
             {
-                return (dataset.Tables[0].ToEnumerable(types[0]), dataset.Tables[1].ToEnumerable(types[1]), dataset.Tables[2].ToEnumerable(types[2]), dataset.Tables[3].ToEnumerable(types[3]));
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]));
             }
             else if (dataset.Tables.Count == 3)
             {
-                return (dataset.Tables[0].ToEnumerable(types[0]), dataset.Tables[1].ToEnumerable(types[1]), dataset.Tables[2].ToEnumerable(types[2]));
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]));
             }
             else if (dataset.Tables.Count == 2)
             {
-                return (dataset.Tables[0].ToEnumerable(types[0]), dataset.Tables[1].ToEnumerable(types[1]));
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]));
             }
             else if (dataset.Tables.Count == 1)
             {
-                return dataset.Tables[0].ToEnumerable(types[0]);
+                return dataset.Tables[0].ToList(types[0]);
             }
             return default;
         }
@@ -432,7 +432,7 @@ namespace Fur.DatabaseVisitor.Extensions
         {
             var dataset = await SqlDataSetExecuteAsync(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count == 0) return default;
-            return dataset.Tables[0].ToEnumerable<T1>();
+            return dataset.Tables[0].ToList<T1>();
         }
         #endregion
 
@@ -452,11 +452,11 @@ namespace Fur.DatabaseVisitor.Extensions
             var dataset = await SqlDataSetExecuteAsync(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 2)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>());
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>());
             }
             else if (dataset.Tables.Count == 1)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), default);
+                return (dataset.Tables[0].ToList<T1>(), default);
             }
             return default;
         }
@@ -479,15 +479,15 @@ namespace Fur.DatabaseVisitor.Extensions
             var dataset = await SqlDataSetExecuteAsync(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 3)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>());
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>());
             }
             else if (dataset.Tables.Count == 2)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), default);
             }
             else if (dataset.Tables.Count == 1)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), default, default);
+                return (dataset.Tables[0].ToList<T1>(), default, default);
             }
             return default;
         }
@@ -511,19 +511,19 @@ namespace Fur.DatabaseVisitor.Extensions
             var dataset = await SqlDataSetExecuteAsync(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 4)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>());
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>());
             }
             else if (dataset.Tables.Count == 3)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), default);
             }
             else if (dataset.Tables.Count == 2)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), default, default);
             }
             else if (dataset.Tables.Count == 1)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), default, default, default);
             }
             return default;
         }
@@ -548,23 +548,23 @@ namespace Fur.DatabaseVisitor.Extensions
             var dataset = await SqlDataSetExecuteAsync(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 5)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), dataset.Tables[4].ToEnumerable<T5>());
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), dataset.Tables[4].ToList<T5>());
             }
             else if (dataset.Tables.Count == 4)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), default);
             }
             else if (dataset.Tables.Count == 3)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), default, default);
             }
             else if (dataset.Tables.Count == 2)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), default, default, default);
             }
             else if (dataset.Tables.Count == 1)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), default, default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), default, default, default, default);
             }
             return default;
         }
@@ -590,27 +590,27 @@ namespace Fur.DatabaseVisitor.Extensions
             var dataset = await SqlDataSetExecuteAsync(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 6)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), dataset.Tables[4].ToEnumerable<T5>(), dataset.Tables[5].ToEnumerable<T6>());
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), dataset.Tables[4].ToList<T5>(), dataset.Tables[5].ToList<T6>());
             }
             else if (dataset.Tables.Count == 5)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), dataset.Tables[4].ToEnumerable<T5>(), default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), dataset.Tables[4].ToList<T5>(), default);
             }
             else if (dataset.Tables.Count == 4)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), default, default);
             }
             else if (dataset.Tables.Count == 3)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), default, default, default);
             }
             else if (dataset.Tables.Count == 2)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), default, default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), default, default, default, default);
             }
             else if (dataset.Tables.Count == 1)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), default, default, default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), default, default, default, default, default);
             }
             return default;
         }
@@ -637,31 +637,31 @@ namespace Fur.DatabaseVisitor.Extensions
             var dataset = await SqlDataSetExecuteAsync(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 7)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), dataset.Tables[4].ToEnumerable<T5>(), dataset.Tables[5].ToEnumerable<T6>(), dataset.Tables[6].ToEnumerable<T7>());
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), dataset.Tables[4].ToList<T5>(), dataset.Tables[5].ToList<T6>(), dataset.Tables[6].ToList<T7>());
             }
             else if (dataset.Tables.Count == 6)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), dataset.Tables[4].ToEnumerable<T5>(), dataset.Tables[5].ToEnumerable<T6>(), default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), dataset.Tables[4].ToList<T5>(), dataset.Tables[5].ToList<T6>(), default);
             }
             else if (dataset.Tables.Count == 5)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), dataset.Tables[4].ToEnumerable<T5>(), default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), dataset.Tables[4].ToList<T5>(), default, default);
             }
             else if (dataset.Tables.Count == 4)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), default, default, default);
             }
             else if (dataset.Tables.Count == 3)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), default, default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), default, default, default, default);
             }
             else if (dataset.Tables.Count == 2)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), default, default, default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), default, default, default, default, default);
             }
             else if (dataset.Tables.Count == 1)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), default, default, default, default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), default, default, default, default, default, default);
             }
             return default;
         }
@@ -689,35 +689,35 @@ namespace Fur.DatabaseVisitor.Extensions
             var dataset = await SqlDataSetExecuteAsync(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 8)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), dataset.Tables[4].ToEnumerable<T5>(), dataset.Tables[5].ToEnumerable<T6>(), dataset.Tables[6].ToEnumerable<T7>(), dataset.Tables[7].ToEnumerable<T8>());
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), dataset.Tables[4].ToList<T5>(), dataset.Tables[5].ToList<T6>(), dataset.Tables[6].ToList<T7>(), dataset.Tables[7].ToList<T8>());
             }
             else if (dataset.Tables.Count == 7)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), dataset.Tables[4].ToEnumerable<T5>(), dataset.Tables[5].ToEnumerable<T6>(), dataset.Tables[6].ToEnumerable<T7>(), default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), dataset.Tables[4].ToList<T5>(), dataset.Tables[5].ToList<T6>(), dataset.Tables[6].ToList<T7>(), default);
             }
             else if (dataset.Tables.Count == 6)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), dataset.Tables[4].ToEnumerable<T5>(), dataset.Tables[5].ToEnumerable<T6>(), default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), dataset.Tables[4].ToList<T5>(), dataset.Tables[5].ToList<T6>(), default, default);
             }
             else if (dataset.Tables.Count == 5)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), dataset.Tables[4].ToEnumerable<T5>(), default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), dataset.Tables[4].ToList<T5>(), default, default, default);
             }
             else if (dataset.Tables.Count == 4)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), dataset.Tables[3].ToEnumerable<T4>(), default, default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), dataset.Tables[3].ToList<T4>(), default, default, default, default);
             }
             else if (dataset.Tables.Count == 3)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), dataset.Tables[2].ToEnumerable<T3>(), default, default, default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), dataset.Tables[2].ToList<T3>(), default, default, default, default, default);
             }
             else if (dataset.Tables.Count == 2)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), dataset.Tables[1].ToEnumerable<T2>(), default, default, default, default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), dataset.Tables[1].ToList<T2>(), default, default, default, default, default, default);
             }
             else if (dataset.Tables.Count == 1)
             {
-                return (dataset.Tables[0].ToEnumerable<T1>(), default, default, default, default, default, default, default);
+                return (dataset.Tables[0].ToList<T1>(), default, default, default, default, default, default, default);
             }
             return default;
         }
@@ -738,35 +738,35 @@ namespace Fur.DatabaseVisitor.Extensions
             var dataset = await SqlDataSetExecuteAsync(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 8)
             {
-                return (dataset.Tables[0].ToEnumerable(types[0]), dataset.Tables[1].ToEnumerable(types[1]), dataset.Tables[2].ToEnumerable(types[2]), dataset.Tables[3].ToEnumerable(types[3]), dataset.Tables[4].ToEnumerable(types[4]), dataset.Tables[5].ToEnumerable(types[5]), dataset.Tables[6].ToEnumerable(types[6]), dataset.Tables[7].ToEnumerable(types[7]));
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]), dataset.Tables[5].ToList(types[5]), dataset.Tables[6].ToList(types[6]), dataset.Tables[7].ToList(types[7]));
             }
             else if (dataset.Tables.Count == 7)
             {
-                return (dataset.Tables[0].ToEnumerable(types[0]), dataset.Tables[1].ToEnumerable(types[1]), dataset.Tables[2].ToEnumerable(types[2]), dataset.Tables[3].ToEnumerable(types[3]), dataset.Tables[4].ToEnumerable(types[4]), dataset.Tables[5].ToEnumerable(types[5]), dataset.Tables[6].ToEnumerable(types[6]));
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]), dataset.Tables[5].ToList(types[5]), dataset.Tables[6].ToList(types[6]));
             }
             else if (dataset.Tables.Count == 6)
             {
-                return (dataset.Tables[0].ToEnumerable(types[0]), dataset.Tables[1].ToEnumerable(types[1]), dataset.Tables[2].ToEnumerable(types[2]), dataset.Tables[3].ToEnumerable(types[3]), dataset.Tables[4].ToEnumerable(types[4]), dataset.Tables[5].ToEnumerable(types[5]));
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]), dataset.Tables[5].ToList(types[5]));
             }
             else if (dataset.Tables.Count == 5)
             {
-                return (dataset.Tables[0].ToEnumerable(types[0]), dataset.Tables[1].ToEnumerable(types[1]), dataset.Tables[2].ToEnumerable(types[2]), dataset.Tables[3].ToEnumerable(types[3]), dataset.Tables[4].ToEnumerable(types[4]));
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]));
             }
             else if (dataset.Tables.Count == 4)
             {
-                return (dataset.Tables[0].ToEnumerable(types[0]), dataset.Tables[1].ToEnumerable(types[1]), dataset.Tables[2].ToEnumerable(types[2]), dataset.Tables[3].ToEnumerable(types[3]));
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]));
             }
             else if (dataset.Tables.Count == 3)
             {
-                return (dataset.Tables[0].ToEnumerable(types[0]), dataset.Tables[1].ToEnumerable(types[1]), dataset.Tables[2].ToEnumerable(types[2]));
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]));
             }
             else if (dataset.Tables.Count == 2)
             {
-                return (dataset.Tables[0].ToEnumerable(types[0]), dataset.Tables[1].ToEnumerable(types[1]));
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]));
             }
             else if (dataset.Tables.Count == 1)
             {
-                return dataset.Tables[0].ToEnumerable(types[0]);
+                return dataset.Tables[0].ToList(types[0]);
             }
             return default;
         }

@@ -54,6 +54,25 @@ namespace Fur.DatabaseVisitor.Repositories
 
         Task UpdateIncludePropertiesSaveChangesAsync(IAsyncEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions);
 
+
+
+        EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, params string[] propertyNames);
+
+        Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, params string[] propertyNames);
+
+        EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, params string[] propertyNames);
+
+        Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params string[] propertyNames);
+
+        void UpdateIncludeProperties(IEnumerable<TEntity> entities, params string[] propertyNames);
+
+        Task UpdateIncludePropertiesAsync(IAsyncEnumerable<TEntity> entities, params string[] propertyNames);
+
+        void UpdateIncludePropertiesSaveChanges(IEnumerable<TEntity> entities, params string[] propertyNames);
+
+        Task UpdateIncludePropertiesSaveChangesAsync(IAsyncEnumerable<TEntity> entities, params string[] propertyNames);
+
+
         // 排除特定列
         EntityEntry<TEntity> UpdateExcludeProperties(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
 
@@ -70,5 +89,23 @@ namespace Fur.DatabaseVisitor.Repositories
         void UpdateExcludePropertiesSaveChanges(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions);
 
         Task UpdateExcludePropertiesSaveChangesAsync(IAsyncEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions);
+
+
+
+        EntityEntry<TEntity> UpdateExcludeProperties(TEntity entity, params string[] propertyNames);
+
+        Task<EntityEntry<TEntity>> UpdateExcludePropertiesAsync(TEntity entity, params string[] propertyNames);
+
+        EntityEntry<TEntity> UpdateExcludePropertiesSaveChanges(TEntity entity, params string[] propertyNames);
+
+        Task<EntityEntry<TEntity>> UpdateExcludePropertiesSaveChangesAsync(TEntity entity, params string[] propertyNames);
+
+        void UpdateExcludeProperties(IEnumerable<TEntity> entities, params string[] propertyNames);
+
+        Task UpdateExcludePropertiesAsync(IAsyncEnumerable<TEntity> entities, params string[] propertyNames);
+
+        void UpdateExcludePropertiesSaveChanges(IEnumerable<TEntity> entities, params string[] propertyNames);
+
+        Task UpdateExcludePropertiesSaveChangesAsync(IAsyncEnumerable<TEntity> entities, params string[] propertyNames);
     }
 }

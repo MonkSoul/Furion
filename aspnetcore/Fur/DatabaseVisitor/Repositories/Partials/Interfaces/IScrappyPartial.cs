@@ -17,7 +17,7 @@ namespace Fur.DatabaseVisitor.Repositories
 
         void Attach(TEntity entity);
 
-
+        void AttachRange(TEntity[] entities);
         bool IsKeySet(TEntity entity);
 
         int SaveChanges();

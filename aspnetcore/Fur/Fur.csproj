@@ -39,7 +39,6 @@
 
   <ItemGroup>
     <Folder Include="DatabaseVisitor\Extensions\StartupExtensions\" />
-    <Folder Include="DatabaseVisitor\Repositories\Partials\implements\" />
     <Folder Include="Mvc\Extensions\" />
   </ItemGroup>
 
