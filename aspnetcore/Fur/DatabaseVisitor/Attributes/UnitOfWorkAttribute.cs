@@ -7,7 +7,7 @@ namespace Fur.DatabaseVisitor.Attributes
     /// 工作单元特性
     /// <para>所谓的工作单元就是将一系列的操作包裹在一个事务中，只要任何地方出错，所有受影响的数据库操作都将回滚</para>
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Method)]
     public class UnitOfWorkAttribute : Attribute
     {
         #region 默认无参构造函数 + public UnitOfWorkAttribute()

@@ -65,7 +65,7 @@ namespace Fur.EntityFramework.Core.Extensions
 
             services.Configure<MvcOptions>(options =>
             {
-                options.Filters.Add<UnitOfWorkAsyncFilter>();
+                options.Filters.Add<UnitOfWorkAsyncActionFilter>();
             });
 
             return services;
