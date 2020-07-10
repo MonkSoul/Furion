@@ -260,7 +260,7 @@ namespace Fur.Application.Functions
         [AttachAction(EveryWordToRoutePath = true)]
         public Task<IEnumerable<TestOutput>> SqlProcedureQueryAsync(string name)
         {
-            return _testRepository.FromSqlProcedureQueryAsync<TestOutput>(name, new { Name = "string" });
+            return _testRepository.SqlProcedureQueryAsync<TestOutput>(name, new { Name = "string" });
         }
 
         /// <summary>
@@ -281,7 +281,7 @@ namespace Fur.Application.Functions
         [AttachAction(EveryWordToRoutePath = true)]
         public Task<int> SqlScalarFunctionQueryAsync()
         {
-            return _testRepository.FromSqlScalarFunctionQueryAsync<int>("dbo.FN_GetId", new { Id = 1 });
+            return _testRepository.SqlScalarFunctionQueryAsync<int>("dbo.FN_GetId", new { Id = 1 });
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace Fur.Application.Functions
         [AttachAction(EveryWordToRoutePath = true)]
         public Task<IEnumerable<TestOutput>> SqlTableFunctionQueryAsync()
         {
-            return _testRepository.FromSqlTableFunctionQueryAsync<TestOutput>("dbo.FN_GetTable", new { Id = 5 });
+            return _testRepository.SqlTableFunctionQueryAsync<TestOutput>("dbo.FN_GetTable", new { Id = 5 });
         }
 
         /// <summary>

@@ -491,7 +491,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>多个实体</returns>
         public virtual IQueryable<TEntity> All(bool noTracking = true, bool ignoreQueryFilters = false)
         {
-            return GetQueryConditionCombine(null, noTracking, ignoreQueryFilters);
+            return CombineIQueryable(null, noTracking, ignoreQueryFilters);
         }
         #endregion
 
@@ -504,7 +504,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>多个实体</returns>
         public virtual Task<List<TEntity>> AllAsync(bool noTracking = true, bool ignoreQueryFilters = false)
         {
-            var query = GetQueryConditionCombine(null, noTracking, ignoreQueryFilters);
+            var query = CombineIQueryable(null, noTracking, ignoreQueryFilters);
             return query.ToListAsync();
         }
         #endregion
@@ -519,7 +519,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>多个实体</returns>
         public virtual IQueryable<TEntity> All(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false)
         {
-            return GetQueryConditionCombine(expression, noTracking, ignoreQueryFilters);
+            return CombineIQueryable(expression, noTracking, ignoreQueryFilters);
         }
         #endregion
 
@@ -533,7 +533,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>多个实体</returns>
         public virtual Task<List<TEntity>> AllAsync(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false)
         {
-            var query = GetQueryConditionCombine(expression, noTracking, ignoreQueryFilters);
+            var query = CombineIQueryable(expression, noTracking, ignoreQueryFilters);
             return query.ToListAsync();
         }
         #endregion
@@ -550,7 +550,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="IPagedListOfT{T}"/></returns>
         public virtual IPagedListOfT<TEntity> PageAll(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
         {
-            var query = GetQueryConditionCombine(null, noTracking, ignoreQueryFilters);
+            var query = CombineIQueryable(null, noTracking, ignoreQueryFilters);
             return query.ToPagedList(pageIndex, pageSize);
         }
         #endregion
@@ -566,7 +566,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>多个实体</returns>
         public virtual Task<IPagedListOfT<TEntity>> PageAllAsync(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
         {
-            var query = GetQueryConditionCombine(null, noTracking, ignoreQueryFilters);
+            var query = CombineIQueryable(null, noTracking, ignoreQueryFilters);
             return query.ToPagedListAsync(pageIndex, pageSize);
         }
         #endregion
@@ -583,7 +583,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>多个实体</returns>
         public virtual IPagedListOfT<TEntity> PageAll(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
         {
-            var query = GetQueryConditionCombine(expression, noTracking, ignoreQueryFilters);
+            var query = CombineIQueryable(expression, noTracking, ignoreQueryFilters);
             return query.ToPagedList(pageIndex, pageSize);
         }
         #endregion
@@ -600,8 +600,27 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>多个实体</returns>
         public virtual Task<IPagedListOfT<TEntity>> PageAllAsync(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
         {
-            var query = GetQueryConditionCombine(expression, noTracking, ignoreQueryFilters);
+            var query = CombineIQueryable(expression, noTracking, ignoreQueryFilters);
             return query.ToPagedListAsync(pageIndex, pageSize);
+        }
+        #endregion
+
+
+        #region 组合查询条件 + private IQueryable<TEntity> CombineIQueryable(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false)
+        /// <summary>
+        /// 组合查询条件
+        /// </summary>
+        /// <param name="expression">表达式</param>
+        /// <param name="noTracking">不跟踪实体</param>
+        /// <param name="ignoreQueryFilters">忽略过滤器</param>
+        /// <returns><see cref="IQueryable{T}"/></returns>
+        private IQueryable<TEntity> CombineIQueryable(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false)
+        {
+            IQueryable<TEntity> entities = noTracking ? DerailEntity : Entity;
+            if (ignoreQueryFilters) entities = entities.IgnoreQueryFilters();
+            if (expression != null) entities = entities.Where(expression);
+
+            return entities;
         }
         #endregion
     }

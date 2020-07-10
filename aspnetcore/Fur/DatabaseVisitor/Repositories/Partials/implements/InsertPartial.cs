@@ -1,6 +1,7 @@
 ﻿using Fur.DatabaseVisitor.Entities;
 using Fur.DependencyInjection.Lifetimes;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -167,6 +168,33 @@ namespace Fur.DatabaseVisitor.Repositories
             await InsertAsync(entities);
             await SaveChangesAsync();
             await Task.CompletedTask;
+        }
+        #endregion
+
+
+        #region 设置新增时维护字段 + private void SetInsertMaintenanceFields(params TEntity[] entities)
+        /// <summary>
+        /// 设置新增时维护字段
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        private void SetInsertMaintenanceFields(params TEntity[] entities)
+        {
+            foreach (var entity in entities)
+            {
+                var entityEntry = EntityEntry(entity);
+
+                var createdTimeProperty = EntityEntryProperty(entityEntry, _maintenanceProvider?.GetCreatedTimePropertyName() ?? nameof(DbEntityBase.CreatedTime));
+                if (createdTimeProperty != null)
+                {
+                    createdTimeProperty.CurrentValue = DateTime.Now;
+                }
+
+                var tenantIdProperty = EntityEntryProperty(entityEntry, nameof(DbEntity.TenantId));
+                if (tenantIdProperty != null)
+                {
+                    tenantIdProperty.CurrentValue = _tenantProvider.GetTenantId();
+                }
+            }
         }
         #endregion
     }

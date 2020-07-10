@@ -724,5 +724,44 @@ namespace Fur.DatabaseVisitor.Repositories
             await SaveChangesAsync();
         }
         #endregion
+
+
+        #region 设置更新时维护字段 + private EntityEntry<TEntity>[] SetUpdateMaintenanceFields(Action updateHandle, params TEntity[] entities)
+        /// <summary>
+        /// 设置更新时维护字段
+        /// </summary>
+        /// <param name="updateHandle">更新程序</param>
+        /// <param name="entities">多个实体</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
+        private EntityEntry<TEntity>[] SetUpdateMaintenanceFields(Action updateHandle, params TEntity[] entities)
+        {
+            var entityEntries = new List<EntityEntry<TEntity>>();
+            foreach (var entity in entities)
+            {
+                var entityEntry = EntityEntry(entity);
+                entityEntries.Add(entityEntry);
+
+                var updatedTimeProperty = EntityEntryProperty(entityEntry, _maintenanceProvider?.GetUpdatedTimePropertyName() ?? nameof(DbEntityBase.UpdatedTime));
+                if (updatedTimeProperty != null && !updatedTimeProperty.IsModified)
+                {
+                    updatedTimeProperty.CurrentValue = DateTime.Now;
+                    updatedTimeProperty.IsModified = true;
+                }
+                updateHandle?.Invoke();
+                var createdTimeProperty = EntityEntryProperty(entityEntry, _maintenanceProvider?.GetCreatedTimePropertyName() ?? nameof(DbEntityBase.CreatedTime));
+                if (createdTimeProperty != null)
+                {
+                    createdTimeProperty.IsModified = false;
+                }
+
+                var tenantIdProperty = EntityEntryProperty(entityEntry, nameof(DbEntity.TenantId));
+                if (tenantIdProperty != null)
+                {
+                    tenantIdProperty.IsModified = false;
+                }
+            }
+            return entityEntries.ToArray();
+        }
+        #endregion
     }
 }
