@@ -72,7 +72,7 @@ namespace Fur.Application.Functions
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IPagedListOfT<TestOutput>> GetAsync(int page = 0, int page_size = 20)
         {
-            var pageList = await _testRepository.GetPageAsync(page, page_size);
+            var pageList = await _testRepository.PageAllAsync(page, page_size);
             return pageList.Adapt<IPagedListOfT<TestOutput>>();
         }
 
@@ -86,7 +86,7 @@ namespace Fur.Application.Functions
         {
             input = input ?? throw new InvalidOperationException("非法操作：搜索条件为空。");
 
-            return await _testRepository.Get()
+            return await _testRepository.All()
                     .WhereIf(input.Id.HasValue, u => u.Id == input.Id.Value)
                     .WhereIf(input.Name.HasValue(), u => u.Name.Contains(input.Name))
                     .ProjectToType<TestOutput>()
@@ -101,7 +101,7 @@ namespace Fur.Application.Functions
         [AttachAction(KeepRouteVerb = true)]
         public async Task<IEnumerable<TestOutput>> SearchAsync(string keyword)
         {
-            return await _testRepository.Get(true)
+            return await _testRepository.All(true)
                     .Where(u => u.Name.Contains(keyword))
                     .ProjectToType<TestOutput>()
                     .ToListAsync();
@@ -334,7 +334,7 @@ namespace Fur.Application.Functions
         [AttachAction(EveryWordToRoutePath = true)]
         public async Task<IEnumerable<TestOutput>> GetLinqFunctionAsync()
         {
-            return await _testRepository.Get(true)
+            return await _testRepository.All(true)
                 .Where(u => u.Id >= LinqDbFunctions.GetId(0))
                 .ProjectToType<TestOutput>()
                 .ToListAsync();
