@@ -14,7 +14,7 @@ namespace Fur.DatabaseVisitor.Extensions
     /// <summary>
     /// ADO.NET 拓展类
     /// </summary>
-    public static class SqlAdoNetExtensions
+    internal static class SqlAdoNetExtensions
     {
         #region 执行 Sql 返回 DataTable + internal static DataTable SqlExecuteReader(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>

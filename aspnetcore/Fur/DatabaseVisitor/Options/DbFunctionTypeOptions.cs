@@ -3,7 +3,7 @@
     /// <summary>
     /// 数据库函数类型选项
     /// </summary>
-    public enum DbFunctionTypeOptions
+    internal enum DbFunctionTypeOptions
     {
         /// <summary>
         /// 标量函数

@@ -15,9 +15,9 @@ namespace Fur.DatabaseVisitor.Extensions
     /// <summary>
     /// Sql 函数 拓展类
     /// </summary>
-    public static class SqlFunctionExtensions
+    internal static class SqlFunctionExtensions
     {
-        #region 执行标量函数 返回 TResult + public static TResult SqlScalarFunctionExecute<TResult>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        #region 执行标量函数 返回 TResult + internal static TResult SqlScalarFunctionExecute<TResult>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         /// <summary>
         /// 执行标量函数 返回 TResult
         /// </summary>
@@ -25,14 +25,14 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="name">函数名称</param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns>TResult</returns>
-        public static TResult SqlScalarFunctionExecute<TResult>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        internal static TResult SqlScalarFunctionExecute<TResult>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
             var sql = CombineSql(DbFunctionTypeOptions.Scalar, name, parameters);
             return databaseFacade.SqlExecuteScalar(sql, CommandType.Text, parameters).Adapt<TResult>();
         }
         #endregion
 
-        #region 执行标量函数 返回 TResult + public static TResult SqlScalarFunctionExecute<TResult>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        #region 执行标量函数 返回 TResult + internal static TResult SqlScalarFunctionExecute<TResult>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         /// <summary>
         /// 执行标量函数 返回 TResult
         /// </summary>
@@ -40,7 +40,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="name">函数名称</param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static async Task<TResult> SqlScalarFunctionExecuteAsync<TResult>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        internal static async Task<TResult> SqlScalarFunctionExecuteAsync<TResult>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
             var sql = CombineSql(DbFunctionTypeOptions.Scalar, name, parameters);
             var result = await databaseFacade.SqlExecuteScalarAsync(sql, CommandType.Text, parameters);
@@ -48,7 +48,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region 执行标量函数 返回 TResult + public static TResult SqlScalarFunctionExecute<TResult>(this DatabaseFacade databaseFacade, string name, object parameterModel)
+        #region 执行标量函数 返回 TResult + internal static TResult SqlScalarFunctionExecute<TResult>(this DatabaseFacade databaseFacade, string name, object parameterModel)
         /// <summary>
         /// 执行标量函数 返回 TResult
         /// </summary>
@@ -56,14 +56,14 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="name">函数名称</param>
         /// <param name="parameterModel">参数模型</param>
         /// <returns>TResult</returns>
-        public static TResult SqlScalarFunctionExecute<TResult>(this DatabaseFacade databaseFacade, string name, object parameterModel)
+        internal static TResult SqlScalarFunctionExecute<TResult>(this DatabaseFacade databaseFacade, string name, object parameterModel)
         {
             var (sql, parameters) = CombineSql(DbFunctionTypeOptions.Scalar, name, parameterModel);
             return databaseFacade.SqlExecuteScalar(sql, CommandType.Text, parameters).Adapt<TResult>();
         }
         #endregion
 
-        #region 执行标量函数 返回 TResult + public static TResult SqlScalarFunctionExecute<TResult>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        #region 执行标量函数 返回 TResult + internal static TResult SqlScalarFunctionExecute<TResult>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         /// <summary>
         /// 执行标量函数 返回 TResult
         /// </summary>
@@ -71,7 +71,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="name">函数名称</param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static async Task<TResult> SqlScalarFunctionExecuteAsync<TResult>(this DatabaseFacade databaseFacade, string name, object parameterModel)
+        internal static async Task<TResult> SqlScalarFunctionExecuteAsync<TResult>(this DatabaseFacade databaseFacade, string name, object parameterModel)
         {
             var (sql, parameters) = CombineSql(DbFunctionTypeOptions.Scalar, name, parameterModel);
             var result = await databaseFacade.SqlExecuteScalarAsync(sql, CommandType.Text, parameters);
@@ -80,7 +80,7 @@ namespace Fur.DatabaseVisitor.Extensions
         #endregion
 
 
-        #region 执行表值函数 返回 DataTable + public static DataTable SqlTableFunctionExecute(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        #region 执行表值函数 返回 DataTable + internal static DataTable SqlTableFunctionExecute(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         /// <summary>
         /// 执行表值函数 返回 DataTable
         /// </summary>
@@ -88,14 +88,14 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="name">函数名称</param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="DataTable"/></returns>
-        public static DataTable SqlTableFunctionExecute(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        internal static DataTable SqlTableFunctionExecute(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
             var sql = CombineSql(DbFunctionTypeOptions.Table, name, parameters);
             return databaseFacade.SqlExecuteReader(sql, CommandType.Text, parameters);
         }
         #endregion
 
-        #region 执行表值函数 返回 DataTable + public static Task<DataTable> SqlTableFunctionExecuteAsync(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        #region 执行表值函数 返回 DataTable + internal static Task<DataTable> SqlTableFunctionExecuteAsync(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         /// <summary>
         /// 执行表值函数 返回 DataTable
         /// </summary>
@@ -103,7 +103,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="name">函数名称</param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static Task<DataTable> SqlTableFunctionExecuteAsync(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        internal static Task<DataTable> SqlTableFunctionExecuteAsync(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
             var sql = CombineSql(DbFunctionTypeOptions.Table, name, parameters);
             return databaseFacade.SqlExecuteReaderAsync(sql, CommandType.Text, parameters);
@@ -111,7 +111,7 @@ namespace Fur.DatabaseVisitor.Extensions
         #endregion
 
 
-        #region 执行表值函数 + public static IEnumerable<T> SqlTableFunctionExecute<T>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        #region 执行表值函数 + internal static IEnumerable<T> SqlTableFunctionExecute<T>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         /// <summary>
         /// 执行表值函数
         /// </summary>
@@ -120,14 +120,14 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="name">函数名称</param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="IEnumerable{T}"/></returns>
-        public static IEnumerable<T> SqlTableFunctionExecute<T>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        internal static IEnumerable<T> SqlTableFunctionExecute<T>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
             var sql = CombineSql(DbFunctionTypeOptions.Table, name, parameters);
             return databaseFacade.SqlQuery<T>(sql, CommandType.Text, parameters);
         }
         #endregion
 
-        #region 执行表值函数 + public static Task<IEnumerable<T>> SqlTableFunctionExecuteAsync<T>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        #region 执行表值函数 + internal static Task<IEnumerable<T>> SqlTableFunctionExecuteAsync<T>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         /// <summary>
         /// 执行表值函数
         /// </summary>
@@ -136,7 +136,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="name">函数名称</param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static Task<IEnumerable<T>> SqlTableFunctionExecuteAsync<T>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        internal static Task<IEnumerable<T>> SqlTableFunctionExecuteAsync<T>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
             var sql = CombineSql(DbFunctionTypeOptions.Table, name, parameters);
             return databaseFacade.SqlQueryAsync<T>(sql, CommandType.Text, parameters);
@@ -144,7 +144,7 @@ namespace Fur.DatabaseVisitor.Extensions
         #endregion
 
 
-        #region 执行表值函数 返回 DataTable + public static DataTable SqlTableFunctionExecute(this DatabaseFacade databaseFacade, string name, object parameterModel)
+        #region 执行表值函数 返回 DataTable + internal static DataTable SqlTableFunctionExecute(this DatabaseFacade databaseFacade, string name, object parameterModel)
         /// <summary>
         /// 执行表值函数 返回 DataTable
         /// </summary>
@@ -152,14 +152,14 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="name">函数名称</param>
         /// <param name="parameterModel">参数模型</param>
         /// <returns><see cref="DataTable"/></returns>
-        public static DataTable SqlTableFunctionExecute(this DatabaseFacade databaseFacade, string name, object parameterModel)
+        internal static DataTable SqlTableFunctionExecute(this DatabaseFacade databaseFacade, string name, object parameterModel)
         {
             var (sql, parameters) = CombineSql(DbFunctionTypeOptions.Table, name, parameterModel);
             return databaseFacade.SqlExecuteReader(sql, CommandType.Text, parameters);
         }
         #endregion
 
-        #region 执行表值函数 返回 DataTable + public static Task<DataTable> SqlTableFunctionExecuteAsync(this DatabaseFacade databaseFacade, string name, object parameterModel)
+        #region 执行表值函数 返回 DataTable + internal static Task<DataTable> SqlTableFunctionExecuteAsync(this DatabaseFacade databaseFacade, string name, object parameterModel)
         /// <summary>
         /// 执行表值函数 返回 DataTable
         /// </summary>
@@ -167,7 +167,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="name">函数名称</param>
         /// <param name="parameterModel">参数模型</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static Task<DataTable> SqlTableFunctionExecuteAsync(this DatabaseFacade databaseFacade, string name, object parameterModel)
+        internal static Task<DataTable> SqlTableFunctionExecuteAsync(this DatabaseFacade databaseFacade, string name, object parameterModel)
         {
             var (sql, parameters) = CombineSql(DbFunctionTypeOptions.Table, name, parameterModel);
             return databaseFacade.SqlExecuteReaderAsync(sql, CommandType.Text, parameters);
@@ -175,7 +175,7 @@ namespace Fur.DatabaseVisitor.Extensions
         #endregion
 
 
-        #region 执行表值函数 + public static IEnumerable<T> SqlTableFunctionExecute<T>(this DatabaseFacade databaseFacade, string name, object parameterModel)
+        #region 执行表值函数 + internal static IEnumerable<T> SqlTableFunctionExecute<T>(this DatabaseFacade databaseFacade, string name, object parameterModel)
         /// <summary>
         /// 执行表值函数
         /// </summary>
@@ -184,14 +184,14 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="name">函数名称</param>
         /// <param name="parameterModel">参数模型</param>
         /// <returns><see cref="IEnumerable{T}"/></returns>
-        public static IEnumerable<T> SqlTableFunctionExecute<T>(this DatabaseFacade databaseFacade, string name, object parameterModel)
+        internal static IEnumerable<T> SqlTableFunctionExecute<T>(this DatabaseFacade databaseFacade, string name, object parameterModel)
         {
             var (sql, parameters) = CombineSql(DbFunctionTypeOptions.Table, name, parameterModel);
             return databaseFacade.SqlQuery<T>(sql, CommandType.Text, parameters);
         }
         #endregion
 
-        #region 执行表值函数 + public static Task<IEnumerable<T>> SqlTableFunctionExecuteAsync<T>(this DatabaseFacade databaseFacade, string name, object parameterModel)
+        #region 执行表值函数 + internal static Task<IEnumerable<T>> SqlTableFunctionExecuteAsync<T>(this DatabaseFacade databaseFacade, string name, object parameterModel)
         /// <summary>
         /// 执行表值函数
         /// </summary>
@@ -200,7 +200,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="name">函数名称</param>
         /// <param name="parameterModel">参数模型</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static Task<IEnumerable<T>> SqlTableFunctionExecuteAsync<T>(this DatabaseFacade databaseFacade, string name, object parameterModel)
+        internal static Task<IEnumerable<T>> SqlTableFunctionExecuteAsync<T>(this DatabaseFacade databaseFacade, string name, object parameterModel)
         {
             var (sql, parameters) = CombineSql(DbFunctionTypeOptions.Table, name, parameterModel);
             return databaseFacade.SqlQueryAsync<T>(sql, CommandType.Text, parameters);

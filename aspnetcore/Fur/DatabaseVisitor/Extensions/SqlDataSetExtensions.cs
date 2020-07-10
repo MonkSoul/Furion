@@ -10,9 +10,9 @@ namespace Fur.DatabaseVisitor.Extensions
     /// <summary>
     /// Sql DataSet 拓展类
     /// </summary>
-    public static class SqlDataSetExtensions
+    internal static class SqlDataSetExtensions
     {
-        #region Sql 查询返回 DataSet + public static DataSet SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回 DataSet + internal static DataSet SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回 <see cref="DataSet"/>
         /// </summary>
@@ -21,13 +21,13 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="Microsoft.Data.SqlClient.SqlParameter"/></param>
         /// <returns><see cref="DataSet"/></returns>
-        public static DataSet SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        internal static DataSet SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             return databaseFacade.SqlDataAdapterFill(sql, commandType, parameters);
         }
         #endregion
 
-        #region Sql 查询返回 DataSet + public static async Task<DataSet> SqlDataSetQueryAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回 DataSet + internal static async Task<DataSet> SqlDataSetQueryAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回 <see cref="DataSet"/>
         /// </summary>
@@ -36,14 +36,14 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="Microsoft.Data.SqlClient.SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static Task<DataSet> SqlDataSetQueryAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        internal static Task<DataSet> SqlDataSetQueryAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             return databaseFacade.SqlDataAdapterFillAsync(sql, commandType, parameters);
         }
         #endregion
 
 
-        #region Sql 查询返回一个结果集 + public static IEnumerable<T1> SqlDataSetQuery<T1>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回一个结果集 + internal static IEnumerable<T1> SqlDataSetQuery<T1>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回一个结果集
         /// </summary>
@@ -53,7 +53,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/></param>
         /// <returns><see cref="IEnumerable{T}"/></returns>
-        public static IEnumerable<T1> SqlDataSetQuery<T1>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        internal static IEnumerable<T1> SqlDataSetQuery<T1>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dataset = SqlDataSetQuery(databaseFacade, sql, commandType, parameters);
 
@@ -62,7 +62,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region Sql 查询返回两个结果集 + public static (IEnumerable<T1> data1, IEnumerable<T2> data2) SqlDataSetQuery<T1, T2>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回两个结果集 + internal static (IEnumerable<T1> data1, IEnumerable<T2> data2) SqlDataSetQuery<T1, T2>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回两个结果集
         /// </summary>
@@ -73,7 +73,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Tuple{T1, T2}"/></returns>
-        public static (IEnumerable<T1> data1, IEnumerable<T2> data2) SqlDataSetQuery<T1, T2>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        internal static (IEnumerable<T1> data1, IEnumerable<T2> data2) SqlDataSetQuery<T1, T2>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dataset = SqlDataSetQuery(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 2)
@@ -88,7 +88,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region Sql 查询返回三个结果集 + public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3) SqlDataSetQuery<T1, T2, T3>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回三个结果集 + internal static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3) SqlDataSetQuery<T1, T2, T3>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回三个结果集
         /// </summary>
@@ -100,7 +100,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Tuple{T1, T2, T3}"/></returns>
-        public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3) SqlDataSetQuery<T1, T2, T3>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        internal static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3) SqlDataSetQuery<T1, T2, T3>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dataset = SqlDataSetQuery(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 3)
@@ -119,7 +119,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region Sql 查询返回四个结果集 + public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4) SqlDataSetQuery<T1, T2, T3, T4>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回四个结果集 + internal static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4) SqlDataSetQuery<T1, T2, T3, T4>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回四个结果集
         /// </summary>
@@ -132,7 +132,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Tuple{T1, T2, T3, T4}"/></returns>
-        public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4) SqlDataSetQuery<T1, T2, T3, T4>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        internal static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4) SqlDataSetQuery<T1, T2, T3, T4>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dataset = SqlDataSetQuery(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 4)
@@ -155,7 +155,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region Sql 查询返回五个结果集 + public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5) SqlDataSetQuery<T1, T2, T3, T4, T5>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回五个结果集 + internal static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5) SqlDataSetQuery<T1, T2, T3, T4, T5>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回五个结果集
         /// </summary>
@@ -169,7 +169,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Tuple{T1, T2, T3, T4, T5}"/></returns>
-        public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5) SqlDataSetQuery<T1, T2, T3, T4, T5>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        internal static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5) SqlDataSetQuery<T1, T2, T3, T4, T5>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dataset = SqlDataSetQuery(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 5)
@@ -196,7 +196,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region Sql 查询返回六个结果集 + public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6) SqlDataSetQuery<T1, T2, T3, T4, T5, T6>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回六个结果集 + internal static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6) SqlDataSetQuery<T1, T2, T3, T4, T5, T6>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回六个结果集
         /// </summary>
@@ -211,7 +211,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Tuple{T1, T2, T3, T4, T5, T6}"/></returns>
-        public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6) SqlDataSetQuery<T1, T2, T3, T4, T5, T6>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        internal static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6) SqlDataSetQuery<T1, T2, T3, T4, T5, T6>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dataset = SqlDataSetQuery(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 6)
@@ -242,7 +242,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region Sql 查询返回七个结果集 + public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7) SqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回七个结果集 + internal static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7) SqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回七个结果集
         /// </summary>
@@ -258,7 +258,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Tuple{T1, T2, T3, T4, T5, T6, T7}"/></returns>
-        public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7) SqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        internal static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7) SqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dataset = SqlDataSetQuery(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 7)
@@ -293,7 +293,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region Sql 查询返回八个结果集 + public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) SqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7, T8>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回八个结果集 + internal static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) SqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7, T8>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回八个结果集
         /// </summary>
@@ -310,7 +310,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/></returns>
-        public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) SqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7, T8>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        internal static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) SqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7, T8>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dataset = SqlDataSetQuery(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 8)
@@ -350,7 +350,7 @@ namespace Fur.DatabaseVisitor.Extensions
         #endregion
 
 
-        #region Sql 查询返回一个结果集 + public static async Task<IEnumerable<T1>> SqlDataSetQueryAsync<T1>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回一个结果集 + internal static async Task<IEnumerable<T1>> SqlDataSetQueryAsync<T1>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回一个结果集
         /// </summary>
@@ -360,7 +360,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static async Task<IEnumerable<T1>> SqlDataSetQueryAsync<T1>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        internal static async Task<IEnumerable<T1>> SqlDataSetQueryAsync<T1>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dataset = await SqlDataSetQueryAsync(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count == 0) return default;
@@ -368,7 +368,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region Sql 查询返回两个结果集 + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2)> SqlDataSetQueryAsync<T1, T2>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回两个结果集 + internal static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2)> SqlDataSetQueryAsync<T1, T2>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回两个结果集
         /// </summary>
@@ -379,7 +379,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2)> SqlDataSetQueryAsync<T1, T2>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        internal static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2)> SqlDataSetQueryAsync<T1, T2>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dataset = await SqlDataSetQueryAsync(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 2)
@@ -394,7 +394,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region Sql 查询返回三个结果集 + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3)> SqlDataSetQueryAsync<T1, T2, T3>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回三个结果集 + internal static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3)> SqlDataSetQueryAsync<T1, T2, T3>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回三个结果集
         /// </summary>
@@ -406,7 +406,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3)> SqlDataSetQueryAsync<T1, T2, T3>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        internal static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3)> SqlDataSetQueryAsync<T1, T2, T3>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dataset = await SqlDataSetQueryAsync(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 3)
@@ -425,7 +425,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region Sql 查询返回四个结果集 + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4)> SqlDataSetQueryAsync<T1, T2, T3, T4>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回四个结果集 + internal static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4)> SqlDataSetQueryAsync<T1, T2, T3, T4>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回四个结果集
         /// </summary>
@@ -438,7 +438,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4)> SqlDataSetQueryAsync<T1, T2, T3, T4>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        internal static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4)> SqlDataSetQueryAsync<T1, T2, T3, T4>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dataset = await SqlDataSetQueryAsync(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 4)
@@ -461,7 +461,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region Sql 查询返回五个结果集 + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5)> SqlDataSetQueryAsync<T1, T2, T3, T4, T5>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回五个结果集 + internal static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5)> SqlDataSetQueryAsync<T1, T2, T3, T4, T5>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回五个结果集
         /// </summary>
@@ -475,7 +475,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5)> SqlDataSetQueryAsync<T1, T2, T3, T4, T5>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        internal static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5)> SqlDataSetQueryAsync<T1, T2, T3, T4, T5>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dataset = await SqlDataSetQueryAsync(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 5)
@@ -502,7 +502,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region Sql 查询返回六个结果集 + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6)> SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回六个结果集 + internal static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6)> SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回六个结果集
         /// </summary>
@@ -517,7 +517,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6)> SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        internal static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6)> SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dataset = await SqlDataSetQueryAsync(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 6)
@@ -548,7 +548,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region Sql 查询返回七个结果集 + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7)> SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回七个结果集 + internal static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7)> SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回七个结果集
         /// </summary>
@@ -564,7 +564,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7)> SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        internal static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7)> SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dataset = await SqlDataSetQueryAsync(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 7)
@@ -599,7 +599,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region Sql 查询返回八个结果集 + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回八个结果集 + internal static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回八个结果集
         /// </summary>
@@ -616,7 +616,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        internal static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dataset = await SqlDataSetQueryAsync(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 8)
@@ -656,7 +656,7 @@ namespace Fur.DatabaseVisitor.Extensions
         #endregion
 
 
-        #region Sql 查询返回特定个数结果集 + public static object SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, Type[] returnTypes, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回特定个数结果集 + internal static object SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, Type[] returnTypes, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回特定个数结果集
         /// </summary>
@@ -666,7 +666,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns>object</returns>
-        public static object SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, Type[] returnTypes, CommandType commandType = CommandType.Text, params object[] parameters)
+        internal static object SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, Type[] returnTypes, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dataset = SqlDataSetQuery(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 8)
@@ -705,7 +705,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region Sql 查询返回特定个数结果集 + public static async Task<object> SqlDataSetQueryAsync(this DatabaseFacade databaseFacade, string sql, Type[] returnTypes, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回特定个数结果集 + internal static async Task<object> SqlDataSetQueryAsync(this DatabaseFacade databaseFacade, string sql, Type[] returnTypes, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回特定个数结果集
         /// </summary>
@@ -715,7 +715,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static async Task<object> SqlDataSetQueryAsync(this DatabaseFacade databaseFacade, string sql, Type[] returnTypes, CommandType commandType = CommandType.Text, params object[] parameters)
+        internal static async Task<object> SqlDataSetQueryAsync(this DatabaseFacade databaseFacade, string sql, Type[] returnTypes, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dataset = await SqlDataSetQueryAsync(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 8)
