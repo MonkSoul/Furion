@@ -124,7 +124,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// 更新指定列
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">表达式</param>
+        /// <param name="propertyExpressions">属性</param>
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
         #endregion
@@ -134,7 +134,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// 更新指定列
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">表达式</param>
+        /// <param name="propertyExpressions">属性</param>
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
         #endregion
@@ -144,7 +144,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// 更新指定列
         /// </summary>
         /// <param name="entities">多个实体</param>
-        /// <param name="propertyExpressions">表达式</param>
+        /// <param name="propertyExpressions">属性</param>
         void UpdateIncludeProperties(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions);
         #endregion
 
@@ -153,7 +153,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// 更新指定列
         /// </summary>
         /// <param name="entities">多个实体</param>
-        /// <param name="propertyExpressions">表达式</param>
+        /// <param name="propertyExpressions">属性</param>
         /// <returns><see cref="Task"/></returns>
         Task UpdateIncludePropertiesAsync(IAsyncEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions);
         #endregion
@@ -164,7 +164,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// 更新指定列并立即保存
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">表达式</param>
+        /// <param name="propertyExpressions">属性</param>
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
         #endregion
@@ -174,7 +174,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// 更新指定列并立即保存
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">表达式</param>
+        /// <param name="propertyExpressions">属性</param>
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
         #endregion
@@ -184,7 +184,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// 更新指定列并立即保存
         /// </summary>
         /// <param name="entities">多个实体</param>
-        /// <param name="propertyExpressions">表达式</param>
+        /// <param name="propertyExpressions">属性</param>
         void UpdateIncludePropertiesSaveChanges(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions);
         #endregion
 
@@ -193,27 +193,90 @@ namespace Fur.DatabaseVisitor.Repositories
         /// 更新指定列并立即保存
         /// </summary>
         /// <param name="entities">多个实体</param>
-        /// <param name="propertyExpressions">表达式</param>
+        /// <param name="propertyExpressions">属性</param>
         /// <returns><see cref="Task"/></returns>
         Task UpdateIncludePropertiesSaveChangesAsync(IAsyncEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions);
         #endregion
 
 
+        #region 更新指定列 + EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, params string[] propertyNames)
+        /// <summary>
+        /// 更新指定列
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, params string[] propertyNames);
+        #endregion
 
+        #region 更新指定列 + Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, params string[] propertyNames)
+        /// <summary>
+        /// 更新指定列
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
         Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, params string[] propertyNames);
+        #endregion
 
-        EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, params string[] propertyNames);
-
-        Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params string[] propertyNames);
-
+        #region 更新指定列 + void UpdateIncludeProperties(IEnumerable<TEntity> entities, params string[] propertyNames)
+        /// <summary>
+        /// 更新指定列
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyNames">属性</param>
         void UpdateIncludeProperties(IEnumerable<TEntity> entities, params string[] propertyNames);
+        #endregion
 
+        #region 更新指定列 + Task UpdateIncludePropertiesAsync(IAsyncEnumerable<TEntity> entities, params string[] propertyNames)
+        /// <summary>
+        /// 更新指定列
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="Task"/></returns>
         Task UpdateIncludePropertiesAsync(IAsyncEnumerable<TEntity> entities, params string[] propertyNames);
+        #endregion
 
+
+        #region 更新指定列并立即保存 + EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, params string[] propertyNames)
+        /// <summary>
+        /// 更新指定列并立即保存
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
+        EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, params string[] propertyNames);
+        #endregion
+
+        #region 更新指定列并立即保存 + Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params string[] propertyNames)
+        /// <summary>
+        /// 更新指定列并立即保存
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params string[] propertyNames);
+        #endregion
+
+        #region 更新指定列并立即保存 + void UpdateIncludePropertiesSaveChanges(IEnumerable<TEntity> entities, params string[] propertyNames)
+        /// <summary>
+        /// 更新指定列并立即保存
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyNames">属性</param>
         void UpdateIncludePropertiesSaveChanges(IEnumerable<TEntity> entities, params string[] propertyNames);
+        #endregion
 
+        #region 更新指定列并立即保存 + Task UpdateIncludePropertiesSaveChangesAsync(IAsyncEnumerable<TEntity> entities, params string[] propertyNames)
+        /// <summary>
+        /// 更新指定列并立即保存
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyExpressions">属性</param>
+        /// <returns><see cref="Task"/></returns>
         Task UpdateIncludePropertiesSaveChangesAsync(IAsyncEnumerable<TEntity> entities, params string[] propertyNames);
+        #endregion
 
 
 

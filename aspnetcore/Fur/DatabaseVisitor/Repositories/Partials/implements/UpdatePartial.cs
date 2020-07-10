@@ -231,21 +231,12 @@ namespace Fur.DatabaseVisitor.Repositories
         }
         #endregion
 
-
-        public virtual EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
-        {
-            var entityEntry = UpdateIncludeProperties(entity, propertyExpressions);
-            SaveChanges();
-            return entityEntry;
-        }
-
-        public virtual async Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
-        {
-            var entityEntry = await UpdateIncludePropertiesAsync(entity, propertyExpressions);
-            await SaveChangesAsync();
-            return entityEntry;
-        }
-
+        #region 更新指定列 + public virtual void UpdateIncludeProperties(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        /// <summary>
+        /// 更新指定列
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyExpressions">表达式</param>
         public virtual void UpdateIncludeProperties(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
             foreach (var entity in entities)
@@ -253,7 +244,15 @@ namespace Fur.DatabaseVisitor.Repositories
                 UpdateIncludeProperties(entity, propertyExpressions);
             }
         }
+        #endregion
 
+        #region 更新指定列 + public virtual async Task UpdateIncludePropertiesAsync(IAsyncEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        /// <summary>
+        /// 更新指定列
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyExpressions">表达式</param>
+        /// <returns><see cref="Task"/></returns>
         public virtual async Task UpdateIncludePropertiesAsync(IAsyncEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
             await foreach (var entity in entities)
@@ -261,18 +260,199 @@ namespace Fur.DatabaseVisitor.Repositories
                 await UpdateIncludePropertiesAsync(entity, propertyExpressions);
             }
         }
+        #endregion
 
+
+        #region 更新指定列并立即保存 + public virtual EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        /// <summary>
+        /// 更新指定列并立即保存
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyExpressions">表达式</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
+        public virtual EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            var entityEntry = UpdateIncludeProperties(entity, propertyExpressions);
+            SaveChanges();
+            return entityEntry;
+        }
+        #endregion
+
+        #region 更新指定列并立即保存 + public virtual async Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        /// <summary>
+        /// 更新指定列并立即保存
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyExpressions">表达式</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual async Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            var entityEntry = await UpdateIncludePropertiesAsync(entity, propertyExpressions);
+            await SaveChangesAsync();
+            return entityEntry;
+        }
+        #endregion
+
+        #region 更新指定列并立即保存 + public virtual void UpdateIncludePropertiesSaveChanges(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        /// <summary>
+        /// 更新指定列并立即保存
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyExpressions">表达式</param>
         public virtual void UpdateIncludePropertiesSaveChanges(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
             UpdateIncludeProperties(entities, propertyExpressions);
             SaveChanges();
         }
+        #endregion
 
+        #region 更新指定列并立即保存 + public virtual async Task UpdateIncludePropertiesSaveChangesAsync(IAsyncEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        /// <summary>
+        /// 更新指定列并立即保存
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyExpressions">表达式</param>
+        /// <returns><see cref="Task"/></returns>
         public virtual async Task UpdateIncludePropertiesSaveChangesAsync(IAsyncEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
             await UpdateIncludePropertiesAsync(entities, propertyExpressions);
             await SaveChangesAsync();
         }
+        #endregion
+
+
+        #region 更新指定列 + public virtual EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, params string[] propertyNames)
+        /// <summary>
+        /// 更新指定列
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
+        public virtual EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, params string[] propertyNames)
+        {
+            var entityEntry = EntityEntry(entity);
+            Attach(entity);
+
+            foreach (var propertyName in propertyNames)
+            {
+                EntityEntryProperty(entityEntry, propertyName).IsModified = true;
+            }
+
+            SetUpdateMaintenanceFields(null, entity);
+            return entityEntry;
+        }
+        #endregion
+
+        #region 更新指定列 + public virtual Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, params string[] propertyNames)
+        /// <summary>
+        /// 更新指定列
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, params string[] propertyNames)
+        {
+            var entityEntry = EntityEntry(entity);
+            Attach(entity);
+            foreach (var propertyName in propertyNames)
+            {
+                EntityEntryProperty(entityEntry, propertyName).IsModified = true;
+            }
+
+            SetUpdateMaintenanceFields(null, entity);
+            return Task.FromResult(entityEntry);
+        }
+        #endregion
+
+        #region 更新指定列 + public virtual void UpdateIncludeProperties(IEnumerable<TEntity> entities, params string[] propertyNames)
+        /// <summary>
+        /// 更新指定列
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyNames">属性</param>
+        public virtual void UpdateIncludeProperties(IEnumerable<TEntity> entities, params string[] propertyNames)
+        {
+            foreach (var entity in entities)
+            {
+                UpdateIncludeProperties(entity, propertyNames);
+            }
+        }
+        #endregion
+
+        #region 更新指定列 + public virtual async Task UpdateIncludePropertiesAsync(IAsyncEnumerable<TEntity> entities, params string[] propertyNames)
+        /// <summary>
+        /// 更新指定列
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="Task"/></returns>
+        public virtual async Task UpdateIncludePropertiesAsync(IAsyncEnumerable<TEntity> entities, params string[] propertyNames)
+        {
+            await foreach (var entity in entities)
+            {
+                await UpdateIncludePropertiesAsync(entity, propertyNames);
+            }
+        }
+        #endregion
+
+
+        #region 更新指定列并立即保存 + public virtual EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, params string[] propertyNames)
+        /// <summary>
+        /// 更新指定列并立即保存
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
+        public virtual EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, params string[] propertyNames)
+        {
+            var entityEntry = UpdateIncludeProperties(entity, propertyNames);
+            SaveChanges();
+            return entityEntry;
+        }
+        #endregion
+
+        #region 更新指定列并立即保存 + public virtual async Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params string[] propertyNames)
+        /// <summary>
+        /// 更新指定列并立即保存
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual async Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params string[] propertyNames)
+        {
+            var entityEntry = await UpdateIncludePropertiesAsync(entity, propertyNames);
+            await SaveChangesAsync();
+            return entityEntry;
+        }
+        #endregion
+
+        #region 更新指定列并立即保存 + public virtual void UpdateIncludePropertiesSaveChanges(IEnumerable<TEntity> entities, params string[] propertyNames)
+        /// <summary>
+        /// 更新指定列并立即保存
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyNames">属性</param>
+        public virtual void UpdateIncludePropertiesSaveChanges(IEnumerable<TEntity> entities, params string[] propertyNames)
+        {
+            UpdateIncludeProperties(entities, propertyNames);
+            SaveChanges();
+        }
+        #endregion
+
+        #region 更新指定列并立即保存 + public virtual async Task UpdateIncludePropertiesSaveChangesAsync(IAsyncEnumerable<TEntity> entities, params string[] propertyNames)
+        /// <summary>
+        /// 更新指定列并立即保存
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyExpressions">属性</param>
+        /// <returns><see cref="Task"/></returns>
+        public virtual async Task UpdateIncludePropertiesSaveChangesAsync(IAsyncEnumerable<TEntity> entities, params string[] propertyNames)
+        {
+            await UpdateIncludePropertiesAsync(entities, propertyNames);
+            await SaveChangesAsync();
+        }
+        #endregion
+
 
         // 排除指定列
         public virtual EntityEntry<TEntity> UpdateExcludeProperties(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
