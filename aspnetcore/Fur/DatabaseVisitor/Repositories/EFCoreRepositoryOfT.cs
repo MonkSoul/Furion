@@ -71,7 +71,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <summary>
         /// 不跟踪的（脱轨）实体
         /// </summary>
-        public virtual IQueryable<TEntity> DerailEntity => DerailEntity;
+        public virtual IQueryable<TEntity> DerailEntity => Entity.AsNoTracking();
 
         /// <summary>
         /// 数据库操作对象

@@ -72,8 +72,9 @@ namespace Fur.DatabaseVisitor.Contexts
                 {
                     var relationalModelBuilderExtensionsType = typeof(RelationalModelBuilderExtensions);
                     var hasDbFunctionMethod = relationalModelBuilderExtensionsType.GetMethods()
-                             .Where(u => u.Name == "HasDbFunction" && u.GetParameters().Length == 2 &&
-                                          u.GetParameters().Last().ParameterType == typeof(MethodInfo))
+                             .Where(u => u.Name == "HasDbFunction" &&
+                                         u.GetParameters().Length == 2 &&
+                                         u.GetParameters().Last().ParameterType == typeof(MethodInfo))
                              .FirstOrDefault();
 
                     _hasDbFunctionDelegate = (Func<ModelBuilder, MethodInfo, DbFunctionBuilder>)Delegate.CreateDelegate(typeof(Func<ModelBuilder, MethodInfo, DbFunctionBuilder>), hasDbFunctionMethod);
@@ -124,8 +125,9 @@ namespace Fur.DatabaseVisitor.Contexts
                 {
                     var relationalEntityTypeBuilderExtensionsType = typeof(RelationalEntityTypeBuilderExtensions);
                     var toViewMethod = relationalEntityTypeBuilderExtensionsType.GetMethods()
-                        .Where(u => u.Name == nameof(RelationalEntityTypeBuilderExtensions.ToView) && u.GetParameters().Length == 2 &&
-                                     u.GetParameters().Last().ParameterType == typeof(string))
+                        .Where(u => u.Name == nameof(RelationalEntityTypeBuilderExtensions.ToView) &&
+                                    u.GetParameters().Length == 2 &&
+                                    u.GetParameters().Last().ParameterType == typeof(string))
                         .FirstOrDefault();
 
                     _toViewDelegate = (Func<EntityTypeBuilder, string, EntityTypeBuilder>)Delegate.CreateDelegate(typeof(Func<EntityTypeBuilder, string, EntityTypeBuilder>), toViewMethod);
