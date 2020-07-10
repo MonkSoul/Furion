@@ -28,7 +28,7 @@ namespace Fur.DatabaseVisitor.Extensions
         public static DataTable SqlFunctionExecute(this DatabaseFacade databaseFacade, DbFunctionTypeOptions dbFunctionTypeOptions, string name, params object[] parameters)
         {
             var sql = CombineSql(dbFunctionTypeOptions, name, parameters);
-            return databaseFacade.SqlExecute(sql, CommandType.Text, parameters);
+            return databaseFacade.SqlQuery(sql, CommandType.Text, parameters);
         }
         #endregion
 
@@ -45,7 +45,7 @@ namespace Fur.DatabaseVisitor.Extensions
         public static IEnumerable<T> SqlFunctionExecute<T>(this DatabaseFacade databaseFacade, DbFunctionTypeOptions dbFunctionTypeOptions, string name, params object[] parameters)
         {
             var sql = CombineSql(dbFunctionTypeOptions, name, parameters);
-            return databaseFacade.SqlExecute<T>(sql, CommandType.Text, parameters);
+            return databaseFacade.SqlQuery<T>(sql, CommandType.Text, parameters);
         }
         #endregion
 
@@ -61,7 +61,7 @@ namespace Fur.DatabaseVisitor.Extensions
         public static Task<DataTable> SqlFunctionExecuteAsync(this DatabaseFacade databaseFacade, DbFunctionTypeOptions dbFunctionTypeOptions, string name, params object[] parameters)
         {
             var sql = CombineSql(dbFunctionTypeOptions, name, parameters);
-            return databaseFacade.SqlExecuteAsync(sql, CommandType.Text, parameters);
+            return databaseFacade.SqlQueryAsync(sql, CommandType.Text, parameters);
         }
         #endregion
 
@@ -78,7 +78,7 @@ namespace Fur.DatabaseVisitor.Extensions
         public static Task<IEnumerable<T>> SqlFunctionExecuteAsync<T>(this DatabaseFacade databaseFacade, DbFunctionTypeOptions dbFunctionTypeOptions, string name, params object[] parameters)
         {
             var sql = CombineSql(dbFunctionTypeOptions, name, parameters);
-            return databaseFacade.SqlExecuteAsync<T>(sql, CommandType.Text, parameters);
+            return databaseFacade.SqlQueryAsync<T>(sql, CommandType.Text, parameters);
         }
         #endregion
 
@@ -94,7 +94,7 @@ namespace Fur.DatabaseVisitor.Extensions
         public static DataTable SqlFunctionExecute(this DatabaseFacade databaseFacade, DbFunctionTypeOptions dbFunctionTypeOptions, string name, object parameterModel)
         {
             var (sql, parameters) = CombineSql(dbFunctionTypeOptions, name, parameterModel);
-            return databaseFacade.SqlExecute(sql, CommandType.Text, parameters);
+            return databaseFacade.SqlQuery(sql, CommandType.Text, parameters);
         }
         #endregion
 
@@ -111,7 +111,7 @@ namespace Fur.DatabaseVisitor.Extensions
         public static IEnumerable<T> SqlFunctionExecute<T>(this DatabaseFacade databaseFacade, DbFunctionTypeOptions dbFunctionTypeOptions, string name, object parameterModel)
         {
             var (sql, parameters) = CombineSql(dbFunctionTypeOptions, name, parameterModel);
-            return databaseFacade.SqlExecute<T>(sql, CommandType.Text, parameters);
+            return databaseFacade.SqlQuery<T>(sql, CommandType.Text, parameters);
         }
         #endregion
 
@@ -127,7 +127,7 @@ namespace Fur.DatabaseVisitor.Extensions
         public static Task<DataTable> SqlFunctionExecuteAsync(this DatabaseFacade databaseFacade, DbFunctionTypeOptions dbFunctionTypeOptions, string name, object parameterModel)
         {
             var (sql, parameters) = CombineSql(dbFunctionTypeOptions, name, parameterModel);
-            return databaseFacade.SqlExecuteAsync(sql, CommandType.Text, parameters);
+            return databaseFacade.SqlQueryAsync(sql, CommandType.Text, parameters);
         }
         #endregion
 
@@ -144,7 +144,7 @@ namespace Fur.DatabaseVisitor.Extensions
         public static Task<IEnumerable<T>> SqlFunctionExecuteAsync<T>(this DatabaseFacade databaseFacade, DbFunctionTypeOptions dbFunctionTypeOptions, string name, object parameterModel)
         {
             var (sql, parameters) = CombineSql(dbFunctionTypeOptions, name, parameterModel);
-            return databaseFacade.SqlExecuteAsync<T>(sql, CommandType.Text, parameters);
+            return databaseFacade.SqlQueryAsync<T>(sql, CommandType.Text, parameters);
         }
         #endregion
 

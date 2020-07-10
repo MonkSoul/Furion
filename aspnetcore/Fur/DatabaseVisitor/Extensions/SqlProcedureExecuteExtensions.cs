@@ -21,7 +21,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="DataTable"/></returns>
         public static DataTable SqlProcedureExecute(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlExecute(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlQuery(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -35,7 +35,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Task{TResult}"/></returns>
         public static Task<DataTable> SqlProcedureExecuteAsync(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlExecuteAsync(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlQueryAsync(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -49,7 +49,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="DataSet"/></returns>
         public static DataSet SqlProcedureDataSetExecute(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetExecute(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQuery(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -63,7 +63,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Task{TResult}"/></returns>
         public static Task<DataSet> SqlProcedureDataSetExecuteAsync(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetExecuteAsync(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQueryAsync(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -78,7 +78,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns>object</returns>
         public static object SqlProcedureDataSetExecute(this DatabaseFacade databaseFacade, string name, Type[] types, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetExecute(name, types, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQuery(name, types, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -93,7 +93,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Task{TResult}"/></returns>
         public static Task<object> SqlProcedureDataSetExecuteAsync(this DatabaseFacade databaseFacade, string name, Type[] types, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetExecuteAsync(name, types, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQueryAsync(name, types, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -108,7 +108,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="IEnumerable{T}"/></returns>
         public static IEnumerable<T> SqlProcedureExecute<T>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlExecute<T>(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlQuery<T>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -123,7 +123,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Task{TResult}"/></returns>
         public static Task<IEnumerable<T>> SqlProcedureExecuteAsync<T>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlExecuteAsync<T>(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlQueryAsync<T>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -138,7 +138,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="IEnumerable{T}"/></returns>
         public static IEnumerable<T1> SqlProcedureDataSetExecute<T1>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetExecute<T1>(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQuery<T1>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -154,7 +154,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Tuple{T1, T2}"/></returns>
         public static (IEnumerable<T1> data1, IEnumerable<T2> data2) SqlProcedureDataSetExecute<T1, T2>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetExecute<T1, T2>(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQuery<T1, T2>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -171,7 +171,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Tuple{T1, T2, T3}"/></returns>
         public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3) SqlProcedureDataSetExecute<T1, T2, T3>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetExecute<T1, T2, T3>(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQuery<T1, T2, T3>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -189,7 +189,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Tuple{T1, T2, T3, T4}"/></returns>
         public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4) SqlProcedureDataSetExecute<T1, T2, T3, T4>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetExecute<T1, T2, T3, T4>(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQuery<T1, T2, T3, T4>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -208,7 +208,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Tuple{T1, T2, T3, T4, T5}"/></returns>
         public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5) SqlProcedureDataSetExecute<T1, T2, T3, T4, T5>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetExecute<T1, T2, T3, T4, T5>(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQuery<T1, T2, T3, T4, T5>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -228,7 +228,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Tuple{T1, T2, T3, T4, T5, T6}"/></returns>
         public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6) SqlProcedureDataSetExecute<T1, T2, T3, T4, T5, T6>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetExecute<T1, T2, T3, T4, T5, T6>(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQuery<T1, T2, T3, T4, T5, T6>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -249,7 +249,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Tuple{T1, T2, T3, T4, T5, T6, T7}"/></returns>
         public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7) SqlProcedureDataSetExecute<T1, T2, T3, T4, T5, T6, T7>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetExecute<T1, T2, T3, T4, T5, T6, T7>(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -271,7 +271,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/></returns>
         public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) SqlProcedureDataSetExecute<T1, T2, T3, T4, T5, T6, T7, T8>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetExecute<T1, T2, T3, T4, T5, T6, T7, T8>(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQuery<T1, T2, T3, T4, T5, T6, T7, T8>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -287,7 +287,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Task{TResult}"/></returns>
         public static Task<IEnumerable<T1>> SqlProcedureDataSetExecuteAsync<T1>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetExecuteAsync<T1>(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQueryAsync<T1>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -303,7 +303,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Task{TResult}"/></returns>
         public static Task<(IEnumerable<T1> data1, IEnumerable<T2> data2)> SqlProcedureDataSetExecuteAsync<T1, T2>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetExecuteAsync<T1, T2>(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQueryAsync<T1, T2>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -320,7 +320,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Task{TResult}"/></returns>
         public static Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3)> SqlProcedureDataSetExecuteAsync<T1, T2, T3>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetExecuteAsync<T1, T2, T3>(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQueryAsync<T1, T2, T3>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -338,7 +338,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Task{TResult}"/></returns>
         public static Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4)> SqlProcedureDataSetExecuteAsync<T1, T2, T3, T4>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetExecuteAsync<T1, T2, T3, T4>(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQueryAsync<T1, T2, T3, T4>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -357,7 +357,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Task{TResult}"/></returns>
         public static Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5)> SqlProcedureDataSetExecuteAsync<T1, T2, T3, T4, T5>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetExecuteAsync<T1, T2, T3, T4, T5>(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQueryAsync<T1, T2, T3, T4, T5>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -377,7 +377,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Task{TResult}"/></returns>
         public static Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6)> SqlProcedureDataSetExecuteAsync<T1, T2, T3, T4, T5, T6>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetExecuteAsync<T1, T2, T3, T4, T5, T6>(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -398,7 +398,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Task{TResult}"/></returns>
         public static Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7)> SqlProcedureDataSetExecuteAsync<T1, T2, T3, T4, T5, T6, T7>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetExecuteAsync<T1, T2, T3, T4, T5, T6, T7>(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -420,7 +420,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Task{TResult}"/></returns>
         public static Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> SqlProcedureDataSetExecuteAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetExecuteAsync<T1, T2, T3, T4, T5, T6, T7, T8>(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQueryAsync<T1, T2, T3, T4, T5, T6, T7, T8>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -436,7 +436,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Tuple{T1, T2}"/></returns>
         public static (Dictionary<string, object> outputValues, object returnValue) SqlProcedureJustExecute(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlJustExecute(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlExecute(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -451,7 +451,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Task{TResult}"/></returns>
         public static Task<(Dictionary<string, object> outputValues, object returnValue)> SqlProcedureJustExecuteAsync(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlJustExecuteAsync(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlExecuteAsync(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
     }

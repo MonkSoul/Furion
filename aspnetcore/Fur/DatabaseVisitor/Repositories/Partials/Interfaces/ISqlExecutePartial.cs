@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseVisitor.Repositories
 {
     /// <summary>
-    /// Sql执行分部类
+    /// 泛型仓储 执行sql语句 分部接口
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     public partial interface IRepositoryOfT<TEntity> where TEntity : class, IDbEntity, new()

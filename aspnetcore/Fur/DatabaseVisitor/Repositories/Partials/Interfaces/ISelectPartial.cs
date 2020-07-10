@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseVisitor.Repositories
 {
     /// <summary>
-    /// 泛型仓储 查询操作 分部类
+    /// 泛型仓储 查询操作 分部接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     public partial interface IRepositoryOfT<TEntity> where TEntity : class, IDbEntity, new()
