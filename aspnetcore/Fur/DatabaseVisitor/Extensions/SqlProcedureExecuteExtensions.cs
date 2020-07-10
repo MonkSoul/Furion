@@ -97,6 +97,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
+
         #region 执行存储过程 返回单个结果集 + public static IEnumerable<T> SqlProcedureExecute<T>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         /// <summary>
         /// 执行存储过程
@@ -126,6 +127,7 @@ namespace Fur.DatabaseVisitor.Extensions
             return databaseFacade.SqlQueryAsync<T>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
+
 
         #region 执行存储过程返回一个结果集 + public static IEnumerable<T1> SqlProcedureDataSetExecute<T1>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         /// <summary>

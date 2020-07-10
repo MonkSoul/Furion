@@ -13,7 +13,6 @@ namespace Fur.DatabaseVisitor.Repositories
     /// <typeparam name="TEntity"></typeparam>
     public partial interface IRepositoryOfT<TEntity> where TEntity : class, IDbEntity, new()
     {
-        // 原始Sql查询
         IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters);
 
         IQueryable<TEntity> FromSqlRaw(string sql, object parameterModel);

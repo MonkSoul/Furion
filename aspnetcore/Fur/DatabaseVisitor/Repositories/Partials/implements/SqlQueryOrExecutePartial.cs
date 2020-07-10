@@ -16,7 +16,6 @@ namespace Fur.DatabaseVisitor.Repositories
     /// <typeparam name="TEntity">实体类型</typeparam>
     public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity>, IScopedLifetimeOfT<TEntity> where TEntity : class, IDbEntity, new()
     {
-
         public virtual IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters)
         {
             return Entity.FromSqlRaw(sql, parameters);

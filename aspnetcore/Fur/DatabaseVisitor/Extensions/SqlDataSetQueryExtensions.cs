@@ -370,55 +370,6 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region Sql 查询返回特定个数结果集 + public static object SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, Type[] types, CommandType commandType = CommandType.Text, params object[] parameters)
-        /// <summary>
-        /// Sql 查询返回特定个数结果集
-        /// </summary>
-        /// <param name="databaseFacade">数据库操作对象</param>
-        /// <param name="sql">sql 语句</param>
-        /// <param name="types">结果集类型数组</param>
-        /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
-        /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
-        /// <returns>object</returns>
-        public static object SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, Type[] types, CommandType commandType = CommandType.Text, params object[] parameters)
-        {
-            var dataset = SqlDataSetQuery(databaseFacade, sql, commandType, parameters);
-            if (dataset.Tables.Count >= 8)
-            {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]), dataset.Tables[5].ToList(types[5]), dataset.Tables[6].ToList(types[6]), dataset.Tables[7].ToList(types[7]));
-            }
-            else if (dataset.Tables.Count == 7)
-            {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]), dataset.Tables[5].ToList(types[5]), dataset.Tables[6].ToList(types[6]));
-            }
-            else if (dataset.Tables.Count == 6)
-            {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]), dataset.Tables[5].ToList(types[5]));
-            }
-            else if (dataset.Tables.Count == 5)
-            {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]));
-            }
-            else if (dataset.Tables.Count == 4)
-            {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]));
-            }
-            else if (dataset.Tables.Count == 3)
-            {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]));
-            }
-            else if (dataset.Tables.Count == 2)
-            {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]));
-            }
-            else if (dataset.Tables.Count == 1)
-            {
-                return dataset.Tables[0].ToList(types[0]);
-            }
-            return default;
-        }
-        #endregion
-
 
         #region Sql 查询返回一个结果集 + public static async Task<IEnumerable<T1>> SqlDataSetQueryAsync<T1>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
@@ -720,6 +671,56 @@ namespace Fur.DatabaseVisitor.Extensions
             else if (dataset.Tables.Count == 1)
             {
                 return (dataset.Tables[0].ToList<T1>(), default, default, default, default, default, default, default);
+            }
+            return default;
+        }
+        #endregion
+
+
+        #region Sql 查询返回特定个数结果集 + public static object SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, Type[] types, CommandType commandType = CommandType.Text, params object[] parameters)
+        /// <summary>
+        /// Sql 查询返回特定个数结果集
+        /// </summary>
+        /// <param name="databaseFacade">数据库操作对象</param>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="types">结果集类型数组</param>
+        /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
+        /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
+        /// <returns>object</returns>
+        public static object SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, Type[] types, CommandType commandType = CommandType.Text, params object[] parameters)
+        {
+            var dataset = SqlDataSetQuery(databaseFacade, sql, commandType, parameters);
+            if (dataset.Tables.Count >= 8)
+            {
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]), dataset.Tables[5].ToList(types[5]), dataset.Tables[6].ToList(types[6]), dataset.Tables[7].ToList(types[7]));
+            }
+            else if (dataset.Tables.Count == 7)
+            {
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]), dataset.Tables[5].ToList(types[5]), dataset.Tables[6].ToList(types[6]));
+            }
+            else if (dataset.Tables.Count == 6)
+            {
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]), dataset.Tables[5].ToList(types[5]));
+            }
+            else if (dataset.Tables.Count == 5)
+            {
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]));
+            }
+            else if (dataset.Tables.Count == 4)
+            {
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]));
+            }
+            else if (dataset.Tables.Count == 3)
+            {
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]));
+            }
+            else if (dataset.Tables.Count == 2)
+            {
+                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]));
+            }
+            else if (dataset.Tables.Count == 1)
+            {
+                return dataset.Tables[0].ToList(types[0]);
             }
             return default;
         }

@@ -50,6 +50,7 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
+
         #region 将 DataTable 转 IEnumerable{T} + public static IEnumerable<T> ToList<T>(this DataTable dataTable)
         /// <summary>
         /// 将 DataTable 转 <see cref="IEnumerable{T}"/>
@@ -85,6 +86,61 @@ namespace Fur.DatabaseVisitor.Extensions
                 });
             }
             return list;
+        }
+        #endregion
+
+        #region 将 DataTable 转 IEnumerable{T} + public static Task<IEnumerable<T>> ToListAsync<T>(this DataTable dataTable)
+        /// <summary>
+        /// 将 DataTable 转 <see cref="IEnumerable{T}"/>
+        /// </summary>
+        /// <typeparam name="T">返回值类型</typeparam>
+        /// <param name="dataTable">DataTable</param>
+        /// <returns><see cref="IEnumerable{T}"/></returns>
+        public static Task<IEnumerable<T>> ToListAsync<T>(this DataTable dataTable)
+        {
+            return Task.FromResult(dataTable.ToList<T>());
+        }
+        #endregion
+
+        #region  将 DataTable 转 IEnumerable{T} + public static async Task<IEnumerable<T>> ToListAsync<T>(this Task<DataTable> dataTable)
+        /// <summary>
+        /// 将 DataTable 转 <see cref="IEnumerable{T}"/>
+        /// </summary>
+        /// <typeparam name="T">返回值类型</typeparam>
+        /// <param name="dataTable">DataTable</param>
+        /// <returns><see cref="IEnumerable{T}"/></returns>
+        public static async Task<IEnumerable<T>> ToListAsync<T>(this Task<DataTable> dataTable)
+        {
+            var dataTableNoTask = await dataTable;
+            return await dataTableNoTask.ToListAsync<T>();
+        }
+        #endregion
+
+
+        #region 将 DataTable 转 特定类型 + public static Task<object> ToListAsync(this DataTable dataTable, Type type)
+        /// <summary>
+        /// 将 DataTable 转 特定类型
+        /// </summary>
+        /// <param name="dataTable"><see cref="DataTable"/></param>
+        /// <param name="type">类型</param>
+        /// <returns>object</returns>
+        public static Task<object> ToListAsync(this DataTable dataTable, Type type)
+        {
+            return Task.FromResult(dataTable.ToList(type));
+        }
+        #endregion
+
+        #region 将 DataTable 转 特定类型 + public static async Task<object> ToListAsync(this Task<DataTable> dataTable, Type type)
+        /// <summary>
+        /// 将 DataTable 转 特定类型
+        /// </summary>
+        /// <param name="dataTable"><see cref="DataTable"/></param>
+        /// <param name="type">类型</param>
+        /// <returns>object</returns>
+        public static async Task<object> ToListAsync(this Task<DataTable> dataTable, Type type)
+        {
+            var dataTableNoTask = await dataTable;
+            return await dataTableNoTask.ToListAsync(type);
         }
         #endregion
 
@@ -138,60 +194,6 @@ namespace Fur.DatabaseVisitor.Extensions
                 : list as IEnumerable<object>;
 
             return type.IsGenericType ? results : results.FirstOrDefault();
-        }
-        #endregion
-
-        #region 将 DataTable 转 IEnumerable{T} + public static Task<IEnumerable<T>> ToListAsync<T>(this DataTable dataTable)
-        /// <summary>
-        /// 将 DataTable 转 <see cref="IEnumerable{T}"/>
-        /// </summary>
-        /// <typeparam name="T">返回值类型</typeparam>
-        /// <param name="dataTable">DataTable</param>
-        /// <returns><see cref="IEnumerable{T}"/></returns>
-        public static Task<IEnumerable<T>> ToListAsync<T>(this DataTable dataTable)
-        {
-            return Task.FromResult(dataTable.ToList<T>());
-        }
-        #endregion
-
-        #region 将异步 DataTable 转 IEnumerable{T} + public static async Task<IEnumerable<T>> ToListAsync<T>(this Task<DataTable> dataTable)
-        /// <summary>
-        /// 将异步 DataTable 转 <see cref="IEnumerable{T}"/>
-        /// </summary>
-        /// <typeparam name="T">返回值类型</typeparam>
-        /// <param name="dataTable">DataTable</param>
-        /// <returns><see cref="IEnumerable{T}"/></returns>
-        public static async Task<IEnumerable<T>> ToListAsync<T>(this Task<DataTable> dataTable)
-        {
-            var dataTableNoTask = await dataTable;
-            return await dataTableNoTask.ToListAsync<T>();
-        }
-        #endregion
-
-        #region 将 DataTable 转 特定类型 + public static Task<object> ToListAsync(this DataTable dataTable, Type type)
-        /// <summary>
-        /// 将 DataTable 转 特定类型
-        /// </summary>
-        /// <param name="dataTable"><see cref="DataTable"/></param>
-        /// <param name="type">类型</param>
-        /// <returns>object</returns>
-        public static Task<object> ToListAsync(this DataTable dataTable, Type type)
-        {
-            return Task.FromResult(dataTable.ToList(type));
-        }
-        #endregion
-
-        #region 将异步 DataTable 转 特定类型 + public static async Task<object> ToListAsync(this Task<DataTable> dataTable, Type type)
-        /// <summary>
-        /// 将异步 DataTable 转 特定类型
-        /// </summary>
-        /// <param name="dataTable"><see cref="DataTable"/></param>
-        /// <param name="type">类型</param>
-        /// <returns>object</returns>
-        public static async Task<object> ToListAsync(this Task<DataTable> dataTable, Type type)
-        {
-            var dataTableNoTask = await dataTable;
-            return await dataTableNoTask.ToListAsync(type);
         }
         #endregion
     }
