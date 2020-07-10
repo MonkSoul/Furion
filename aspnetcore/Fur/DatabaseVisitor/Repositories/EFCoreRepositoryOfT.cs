@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Fur.ApplicationBase.Attributes;
 using Fur.DatabaseVisitor.Contexts;
 using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Extensions;
@@ -56,20 +55,7 @@ namespace Fur.DatabaseVisitor.Repositories
 
         public virtual int TenantId => _tenantProvider.GetTenantId();
 
-        public virtual void Attach(TEntity entity)
-        {
-            if (EntityEntry(entity).State == EntityState.Detached)
-            {
-                DbContext.Attach(entity);
-            }
-        }
-
-        public virtual void AttachRange(TEntity[] entities)
-        {
-            DbContext.AttachRange(entities);
-        }
-
-        public virtual EntityEntry<TEntity> EntityEntry(TEntity entity) => DbContext.Entry(entity);
+   
 
 
 
@@ -599,25 +585,6 @@ namespace Fur.DatabaseVisitor.Repositories
             return query.ToPagedListAsync(pageIndex, pageSize);
         }
 
-        public virtual int SaveChanges()
-        {
-            return DbContext.SaveChanges();
-        }
-
-        public virtual int SaveChanges(bool acceptAllChangesOnSuccess)
-        {
-            return DbContext.SaveChanges(acceptAllChangesOnSuccess);
-        }
-
-        public virtual Task<int> SaveChangesAsync()
-        {
-            return DbContext.SaveChangesAsync();
-        }
-
-        public virtual Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess)
-        {
-            return DbContext.SaveChangesAsync(acceptAllChangesOnSuccess);
-        }
 
         public virtual IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters)
         {
@@ -1214,71 +1181,6 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual Task<IEnumerable<T>> FromSqlTableFunctionQueryAsync<T>(string name, object parameterModel)
         {
             return Database.SqlFunctionExecuteAsync<T>(DbFunctionTypeOptions.Table, name, parameterModel);
-        }
-
-        public virtual bool Exists(Expression<Func<TEntity, bool>> expression = null)
-        {
-            return expression == null ? Entity.Any() : Entity.Any(expression);
-        }
-
-        public virtual Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> expression = null)
-        {
-            return expression == null ? Entity.AnyAsync() : Entity.AnyAsync(expression);
-        }
-
-        public virtual int Count(Expression<Func<TEntity, bool>> expression = null)
-        {
-            return expression == null ? Entity.Count() : Entity.Count(expression);
-        }
-
-        public virtual Task<int> CountAsync(Expression<Func<TEntity, bool>> expression = null)
-        {
-            return expression == null ? Entity.CountAsync() : Entity.CountAsync(expression);
-        }
-
-        public virtual TEntity Max()
-        {
-            return Entity.Max();
-        }
-
-        public virtual TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression)
-        {
-            return Entity.Max(expression);
-        }
-
-        public virtual Task<TEntity> MaxAsync()
-        {
-            return Entity.MaxAsync();
-        }
-
-        public virtual Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
-        {
-            return Entity.MaxAsync(expression);
-        }
-
-        public virtual TEntity Min()
-        {
-            return Entity.Min();
-        }
-
-        public virtual TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression)
-        {
-            return Entity.Min(expression);
-        }
-
-        public virtual Task<TEntity> MinAsync()
-        {
-            return Entity.MinAsync();
-        }
-
-        public virtual Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
-        {
-            return Entity.MinAsync(expression);
-        }
-
-        public virtual bool IsKeySet(TEntity entity)
-        {
-            return EntityEntry(entity).IsKeySet;
         }
 
 
