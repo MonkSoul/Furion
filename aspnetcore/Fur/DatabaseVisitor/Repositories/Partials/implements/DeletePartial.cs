@@ -462,7 +462,6 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity)
         {
-            // 后续测试不要这句话看看
             Attach(entity);
             var (flagPropertyName, flagValue) = _maintenanceProvider.GetFakeDeletePropertyInfo();
 
@@ -565,9 +564,13 @@ namespace Fur.DatabaseVisitor.Repositories
         /// </summary>
         /// <param name="entities">多个实体</param>
         /// <returns><see cref="Task"/></returns>
-        public virtual Task FakeDeleteSaveChangesAsync(IEnumerable<TEntity> entities)
+        public virtual async Task FakeDeleteSaveChangesAsync(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            foreach (var entity in entities)
+            {
+                FakeDelete(entity);
+            }
+            await SaveChangesAsync();
         }
         #endregion
 
