@@ -1,4 +1,4 @@
-﻿using Fur.DatabaseVisitor.Utilities;
+﻿using Fur.Linq.Extensions;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -226,7 +226,7 @@ namespace Fur.DatabaseVisitor.Extensions
             DbCommand dbCommand = dbConnection.CreateCommand();
             dbCommand.CommandType = commandType;
             dbCommand.CommandText = sql;
-            Utility.RectifySqlParameters(ref dbCommand, parameters);
+            RectifySqlParameters(ref dbCommand, parameters);
 
             return (dbConnection, dbCommand);
         }
@@ -254,7 +254,7 @@ namespace Fur.DatabaseVisitor.Extensions
             DbCommand dbCommand = dbConnection.CreateCommand();
             dbCommand.CommandType = commandType;
             dbCommand.CommandText = sql;
-            Utility.RectifySqlParameters(ref dbCommand, parameters);
+            RectifySqlParameters(ref dbCommand, parameters);
 
             return (dbConnection, dbCommand);
         }
@@ -286,7 +286,7 @@ namespace Fur.DatabaseVisitor.Extensions
             var dbDataAdapter = profiledDbProviderFactory.CreateDataAdapter();
             dbCommand.CommandType = commandType;
             dbCommand.CommandText = sql;
-            Utility.RectifySqlParameters(ref dbCommand, parameters);
+            RectifySqlParameters(ref dbCommand, parameters);
             dbDataAdapter.SelectCommand = dbCommand;
 
             return (dbConnection, dbCommand, dbDataAdapter);
@@ -319,10 +319,32 @@ namespace Fur.DatabaseVisitor.Extensions
             var dbDataAdapter = profiledDbProviderFactory.CreateDataAdapter();
             dbCommand.CommandType = commandType;
             dbCommand.CommandText = sql;
-            Utility.RectifySqlParameters(ref dbCommand, parameters);
+            RectifySqlParameters(ref dbCommand, parameters);
             dbDataAdapter.SelectCommand = dbCommand;
 
             return await Task.FromResult((dbConnection, dbCommand, dbDataAdapter));
+        }
+        #endregion
+
+
+        #region 纠正 SqlParameter 参数 + private static void RectifySqlParameters(ref DbCommand dbCommand, params object[] parameters)
+        /// <summary>
+        /// 纠正 <see cref="SqlParameter"/> 参数
+        /// </summary>
+        /// <param name="dbCommand"><see cref="DbCommand"/> 参数</param>
+        /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
+        private static void RectifySqlParameters(ref DbCommand dbCommand, params object[] parameters)
+        {
+            if (parameters.IsNullOrEmpty()) return;
+
+            foreach (SqlParameter parameter in parameters)
+            {
+                if (!parameter.ParameterName.Contains("@"))
+                {
+                    parameter.ParameterName = $"@{parameter.ParameterName}";
+                }
+                dbCommand.Parameters.Add(parameter);
+            }
         }
         #endregion
     }

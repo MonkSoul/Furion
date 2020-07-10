@@ -1,23 +1,7 @@
-﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using Castle.DynamicProxy;
-using Fur.DatabaseVisitor.Entities;
-using Fur.DatabaseVisitor.Options;
-using Fur.DatabaseVisitor.Extensions;
-using Fur.DatabaseVisitor.Utilities;
-using Fur.DatabaseVisitor.Identifiers;
-using Fur.DatabaseVisitor.Tangent.Attributes;
+﻿using Castle.DynamicProxy;
 using Fur.DatabaseVisitor.TenantSaaS;
-using Mapster;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Fur.Extensions;
 
 namespace Fur.DatabaseVisitor.Tangent
 {
