@@ -117,63 +117,63 @@ namespace Fur.DatabaseVisitor.Extensions
         #endregion
 
 
-        #region 将 DataTable 转 特定类型 + public static Task<object> ToListAsync(this DataTable dataTable, Type type)
+        #region 将 DataTable 转 特定类型 + public static Task<object> ToListAsync(this DataTable dataTable, Type returnType)
         /// <summary>
         /// 将 DataTable 转 特定类型
         /// </summary>
         /// <param name="dataTable"><see cref="DataTable"/></param>
-        /// <param name="type">类型</param>
+        /// <param name="returnType">结果集类型</param>
         /// <returns>object</returns>
-        public static Task<object> ToListAsync(this DataTable dataTable, Type type)
+        public static Task<object> ToListAsync(this DataTable dataTable, Type returnType)
         {
-            return Task.FromResult(dataTable.ToList(type));
+            return Task.FromResult(dataTable.ToList(returnType));
         }
         #endregion
 
-        #region 将 DataTable 转 特定类型 + public static async Task<object> ToListAsync(this Task<DataTable> dataTable, Type type)
+        #region 将 DataTable 转 特定类型 + public static async Task<object> ToListAsync(this Task<DataTable> dataTable, Type returnType)
         /// <summary>
         /// 将 DataTable 转 特定类型
         /// </summary>
         /// <param name="dataTable"><see cref="DataTable"/></param>
-        /// <param name="type">类型</param>
+        /// <param name="returnType">结果集类型</param>
         /// <returns>object</returns>
-        public static async Task<object> ToListAsync(this Task<DataTable> dataTable, Type type)
+        public static async Task<object> ToListAsync(this Task<DataTable> dataTable, Type returnType)
         {
             var dataTableNoTask = await dataTable;
-            return await dataTableNoTask.ToListAsync(type);
+            return await dataTableNoTask.ToListAsync(returnType);
         }
         #endregion
 
-        #region 将 DataTable 转 特定类型 + public static object ToList(this DataTable dataTable, Type type)
+        #region 将 DataTable 转 特定类型 + public static object ToList(this DataTable dataTable, Type returnType)
         /// <summary>
         /// 将 DataTable 转 特定类型
         /// </summary>
         /// <param name="dataTable">DataTable</param>
-        /// <param name="type">类型</param>
+        /// <param name="returnType">类型</param>
         /// <returns>object</returns>
-        public static object ToList(this DataTable dataTable, Type type)
+        public static object ToList(this DataTable dataTable, Type returnType)
         {
-            var returnType = type.IsGenericType ? type.GenericTypeArguments.FirstOrDefault() : type;
+            var genericType = returnType.IsGenericType ? returnType.GenericTypeArguments.FirstOrDefault() : returnType;
 
             // 反射创建 List对象，并反射调用 Add方法
-            var list = Activator.CreateInstance(typeof(List<>).MakeGenericType(returnType));
+            var list = Activator.CreateInstance(typeof(List<>).MakeGenericType(genericType));
             var addMethod = list.GetType().GetMethod("Add");
 
             var dataTableRows = dataTable.AsEnumerable().ToList();
-            if (returnType.IsPrimitivePlusIncludeNullable())
+            if (genericType.IsPrimitivePlusIncludeNullable())
             {
                 dataTableRows.ForEach(row =>
                 {
                     var rowValue = row[0];
-                    addMethod.Invoke(list, new object[] { rowValue.Adapt(rowValue.GetType(), returnType) });
+                    addMethod.Invoke(list, new object[] { rowValue.Adapt(rowValue.GetType(), genericType) });
                 });
             }
             else
             {
-                var propertyInfos = returnType.GetProperties(BindingFlags.Public | BindingFlags.Instance).ToList();
+                var propertyInfos = genericType.GetProperties(BindingFlags.Public | BindingFlags.Instance).ToList();
                 dataTableRows.ForEach(row =>
                 {
-                    var obj = Activator.CreateInstance(returnType);
+                    var obj = Activator.CreateInstance(genericType);
                     propertyInfos.ForEach(p =>
                     {
                         var columnName = p.Name;
@@ -189,11 +189,11 @@ namespace Fur.DatabaseVisitor.Extensions
                 });
             }
 
-            IEnumerable<object> results = returnType.IsPrimitivePlusIncludeNullable()
+            IEnumerable<object> results = genericType.IsPrimitivePlusIncludeNullable()
                 ? list.Adapt<IEnumerable<object>>()
                 : list as IEnumerable<object>;
 
-            return type.IsGenericType ? results : results.FirstOrDefault();
+            return returnType.IsGenericType ? results : results.FirstOrDefault();
         }
         #endregion
     }

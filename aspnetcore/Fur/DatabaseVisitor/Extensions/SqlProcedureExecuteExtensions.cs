@@ -67,33 +67,33 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region 执行存储过程 + public static object SqlProcedureDataSetExecute(this DatabaseFacade databaseFacade, string name, Type[] types, params object[] parameters)
+        #region 执行存储过程 + public static object SqlProcedureDataSetExecute(this DatabaseFacade databaseFacade, string name, Type[] returnTypes, params object[] parameters)
         /// <summary>
         /// 执行存储过程
         /// </summary>
         /// <param name="databaseFacade">数据库操作对象</param>
         /// <param name="name">存储过程名</param>
-        /// <param name="types">结果集类型数组</param>
+        /// <param name="returnTypes">结果集类型数组</param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns>object</returns>
-        public static object SqlProcedureDataSetExecute(this DatabaseFacade databaseFacade, string name, Type[] types, params object[] parameters)
+        public static object SqlProcedureDataSetExecute(this DatabaseFacade databaseFacade, string name, Type[] returnTypes, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetQuery(name, types, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQuery(name, returnTypes, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
-        #region 执行存储过程 + public static Task<object> SqlProcedureDataSetExecuteAsync(this DatabaseFacade databaseFacade, string name, Type[] types, params object[] parameters)
+        #region 执行存储过程 + public static Task<object> SqlProcedureDataSetExecuteAsync(this DatabaseFacade databaseFacade, string name, Type[] returnTypes, params object[] parameters)
         /// <summary>
         /// 执行存储过程
         /// </summary>
         /// <param name="databaseFacade">数据库操作对象</param>
         /// <param name="name">存储过程名</param>
-        /// <param name="types">结果集类型数组</param>
+        /// <param name="returnTypes">结果集类型数组</param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static Task<object> SqlProcedureDataSetExecuteAsync(this DatabaseFacade databaseFacade, string name, Type[] types, params object[] parameters)
+        public static Task<object> SqlProcedureDataSetExecuteAsync(this DatabaseFacade databaseFacade, string name, Type[] returnTypes, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetQueryAsync(name, types, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQueryAsync(name, returnTypes, CommandType.StoredProcedure, parameters);
         }
         #endregion
 

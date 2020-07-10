@@ -26,54 +26,54 @@ namespace Fur.DatabaseVisitor.Repositories
             return Entity.FromSqlRaw(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual DataTable FromSqlQuery(string sql, params object[] parameters)
+        public virtual DataTable SqlQuery(string sql, params object[] parameters)
         {
             return Database.SqlQuery(sql, CommandType.Text, parameters);
         }
 
-        public virtual Task<DataTable> FromSqlQueryAsync(string sql, params object[] parameters)
+        public virtual Task<DataTable> SqlQueryAsync(string sql, params object[] parameters)
         {
             return Database.SqlQueryAsync(sql, CommandType.Text, parameters);
         }
 
-        public virtual IEnumerable<T> FromSqlQuery<T>(string sql, params object[] parameters)
+        public virtual IEnumerable<T> SqlQuery<T>(string sql, params object[] parameters)
         {
             return Database.SqlQuery<T>(sql, CommandType.Text, parameters);
         }
 
-        public virtual Task<IEnumerable<T>> FromSqlQueryAsync<T>(string sql, params object[] parameters)
+        public virtual Task<IEnumerable<T>> SqlQueryAsync<T>(string sql, params object[] parameters)
         {
             return Database.SqlQueryAsync<T>(sql, CommandType.Text, parameters);
         }
 
-        public virtual object FromSqlQuery(string sql, Type type, params object[] parameters)
+        public virtual object SqlQuery(string sql, Type type, params object[] parameters)
         {
             return Database.SqlQuery(sql, type, CommandType.Text, parameters);
         }
 
-        public virtual Task<object> FromSqlQueryAsync(string sql, Type type, params object[] parameters)
+        public virtual Task<object> SqlQueryAsync(string sql, Type type, params object[] parameters)
         {
             return Database.SqlQueryAsync(sql, type, CommandType.Text, parameters);
         }
 
-        public virtual DataTable FromSqlQuery(string sql, object parameterModel)
+        public virtual DataTable SqlQuery(string sql, object parameterModel)
         {
-            return FromSqlQuery(sql, parameterModel.ToSqlParameters());
+            return SqlQuery(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual Task<DataTable> FromSqlQueryAsync(string sql, object parameterModel)
+        public virtual Task<DataTable> SqlQueryAsync(string sql, object parameterModel)
         {
-            return FromSqlQueryAsync(sql, parameterModel.ToSqlParameters());
+            return SqlQueryAsync(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual IEnumerable<T> FromSqlQuery<T>(string sql, object parameterModel)
+        public virtual IEnumerable<T> SqlQuery<T>(string sql, object parameterModel)
         {
-            return FromSqlQuery<T>(sql, parameterModel.ToSqlParameters());
+            return SqlQuery<T>(sql, parameterModel.ToSqlParameters());
         }
 
-        public virtual Task<IEnumerable<T>> FromSqlQueryAsync<T>(string sql, object parameterModel)
+        public virtual Task<IEnumerable<T>> SqlQueryAsync<T>(string sql, object parameterModel)
         {
-            return FromSqlQueryAsync<T>(sql, parameterModel.ToSqlParameters());
+            return SqlQueryAsync<T>(sql, parameterModel.ToSqlParameters());
         }
 
         // 数据集

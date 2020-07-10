@@ -677,99 +677,99 @@ namespace Fur.DatabaseVisitor.Extensions
         #endregion
 
 
-        #region Sql 查询返回特定个数结果集 + public static object SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, Type[] types, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回特定个数结果集 + public static object SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, Type[] returnTypes, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回特定个数结果集
         /// </summary>
         /// <param name="databaseFacade">数据库操作对象</param>
         /// <param name="sql">sql 语句</param>
-        /// <param name="types">结果集类型数组</param>
+        /// <param name="returnTypes">结果集类型数组</param>
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns>object</returns>
-        public static object SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, Type[] types, CommandType commandType = CommandType.Text, params object[] parameters)
+        public static object SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, Type[] returnTypes, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dataset = SqlDataSetQuery(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 8)
             {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]), dataset.Tables[5].ToList(types[5]), dataset.Tables[6].ToList(types[6]), dataset.Tables[7].ToList(types[7]));
+                return (dataset.Tables[0].ToList(returnTypes[0]), dataset.Tables[1].ToList(returnTypes[1]), dataset.Tables[2].ToList(returnTypes[2]), dataset.Tables[3].ToList(returnTypes[3]), dataset.Tables[4].ToList(returnTypes[4]), dataset.Tables[5].ToList(returnTypes[5]), dataset.Tables[6].ToList(returnTypes[6]), dataset.Tables[7].ToList(returnTypes[7]));
             }
             else if (dataset.Tables.Count == 7)
             {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]), dataset.Tables[5].ToList(types[5]), dataset.Tables[6].ToList(types[6]));
+                return (dataset.Tables[0].ToList(returnTypes[0]), dataset.Tables[1].ToList(returnTypes[1]), dataset.Tables[2].ToList(returnTypes[2]), dataset.Tables[3].ToList(returnTypes[3]), dataset.Tables[4].ToList(returnTypes[4]), dataset.Tables[5].ToList(returnTypes[5]), dataset.Tables[6].ToList(returnTypes[6]));
             }
             else if (dataset.Tables.Count == 6)
             {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]), dataset.Tables[5].ToList(types[5]));
+                return (dataset.Tables[0].ToList(returnTypes[0]), dataset.Tables[1].ToList(returnTypes[1]), dataset.Tables[2].ToList(returnTypes[2]), dataset.Tables[3].ToList(returnTypes[3]), dataset.Tables[4].ToList(returnTypes[4]), dataset.Tables[5].ToList(returnTypes[5]));
             }
             else if (dataset.Tables.Count == 5)
             {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]));
+                return (dataset.Tables[0].ToList(returnTypes[0]), dataset.Tables[1].ToList(returnTypes[1]), dataset.Tables[2].ToList(returnTypes[2]), dataset.Tables[3].ToList(returnTypes[3]), dataset.Tables[4].ToList(returnTypes[4]));
             }
             else if (dataset.Tables.Count == 4)
             {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]));
+                return (dataset.Tables[0].ToList(returnTypes[0]), dataset.Tables[1].ToList(returnTypes[1]), dataset.Tables[2].ToList(returnTypes[2]), dataset.Tables[3].ToList(returnTypes[3]));
             }
             else if (dataset.Tables.Count == 3)
             {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]));
+                return (dataset.Tables[0].ToList(returnTypes[0]), dataset.Tables[1].ToList(returnTypes[1]), dataset.Tables[2].ToList(returnTypes[2]));
             }
             else if (dataset.Tables.Count == 2)
             {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]));
+                return (dataset.Tables[0].ToList(returnTypes[0]), dataset.Tables[1].ToList(returnTypes[1]));
             }
             else if (dataset.Tables.Count == 1)
             {
-                return dataset.Tables[0].ToList(types[0]);
+                return dataset.Tables[0].ToList(returnTypes[0]);
             }
             return default;
         }
         #endregion
 
-        #region Sql 查询返回特定个数结果集 + public static async Task<object> SqlDataSetQueryAsync(this DatabaseFacade databaseFacade, string sql, Type[] types, CommandType commandType = CommandType.Text, params object[] parameters)
+        #region Sql 查询返回特定个数结果集 + public static async Task<object> SqlDataSetQueryAsync(this DatabaseFacade databaseFacade, string sql, Type[] returnTypes, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
         /// Sql 查询返回特定个数结果集
         /// </summary>
         /// <param name="databaseFacade">数据库操作对象</param>
         /// <param name="sql">sql 语句</param>
-        /// <param name="types">结果集类型数组</param>
+        /// <param name="returnTypes">结果集类型数组</param>
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static async Task<object> SqlDataSetQueryAsync(this DatabaseFacade databaseFacade, string sql, Type[] types, CommandType commandType = CommandType.Text, params object[] parameters)
+        public static async Task<object> SqlDataSetQueryAsync(this DatabaseFacade databaseFacade, string sql, Type[] returnTypes, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             var dataset = await SqlDataSetQueryAsync(databaseFacade, sql, commandType, parameters);
             if (dataset.Tables.Count >= 8)
             {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]), dataset.Tables[5].ToList(types[5]), dataset.Tables[6].ToList(types[6]), dataset.Tables[7].ToList(types[7]));
+                return (dataset.Tables[0].ToList(returnTypes[0]), dataset.Tables[1].ToList(returnTypes[1]), dataset.Tables[2].ToList(returnTypes[2]), dataset.Tables[3].ToList(returnTypes[3]), dataset.Tables[4].ToList(returnTypes[4]), dataset.Tables[5].ToList(returnTypes[5]), dataset.Tables[6].ToList(returnTypes[6]), dataset.Tables[7].ToList(returnTypes[7]));
             }
             else if (dataset.Tables.Count == 7)
             {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]), dataset.Tables[5].ToList(types[5]), dataset.Tables[6].ToList(types[6]));
+                return (dataset.Tables[0].ToList(returnTypes[0]), dataset.Tables[1].ToList(returnTypes[1]), dataset.Tables[2].ToList(returnTypes[2]), dataset.Tables[3].ToList(returnTypes[3]), dataset.Tables[4].ToList(returnTypes[4]), dataset.Tables[5].ToList(returnTypes[5]), dataset.Tables[6].ToList(returnTypes[6]));
             }
             else if (dataset.Tables.Count == 6)
             {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]), dataset.Tables[5].ToList(types[5]));
+                return (dataset.Tables[0].ToList(returnTypes[0]), dataset.Tables[1].ToList(returnTypes[1]), dataset.Tables[2].ToList(returnTypes[2]), dataset.Tables[3].ToList(returnTypes[3]), dataset.Tables[4].ToList(returnTypes[4]), dataset.Tables[5].ToList(returnTypes[5]));
             }
             else if (dataset.Tables.Count == 5)
             {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]), dataset.Tables[4].ToList(types[4]));
+                return (dataset.Tables[0].ToList(returnTypes[0]), dataset.Tables[1].ToList(returnTypes[1]), dataset.Tables[2].ToList(returnTypes[2]), dataset.Tables[3].ToList(returnTypes[3]), dataset.Tables[4].ToList(returnTypes[4]));
             }
             else if (dataset.Tables.Count == 4)
             {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]), dataset.Tables[3].ToList(types[3]));
+                return (dataset.Tables[0].ToList(returnTypes[0]), dataset.Tables[1].ToList(returnTypes[1]), dataset.Tables[2].ToList(returnTypes[2]), dataset.Tables[3].ToList(returnTypes[3]));
             }
             else if (dataset.Tables.Count == 3)
             {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]), dataset.Tables[2].ToList(types[2]));
+                return (dataset.Tables[0].ToList(returnTypes[0]), dataset.Tables[1].ToList(returnTypes[1]), dataset.Tables[2].ToList(returnTypes[2]));
             }
             else if (dataset.Tables.Count == 2)
             {
-                return (dataset.Tables[0].ToList(types[0]), dataset.Tables[1].ToList(types[1]));
+                return (dataset.Tables[0].ToList(returnTypes[0]), dataset.Tables[1].ToList(returnTypes[1]));
             }
             else if (dataset.Tables.Count == 1)
             {
-                return dataset.Tables[0].ToList(types[0]);
+                return dataset.Tables[0].ToList(returnTypes[0]);
             }
             return default;
         }

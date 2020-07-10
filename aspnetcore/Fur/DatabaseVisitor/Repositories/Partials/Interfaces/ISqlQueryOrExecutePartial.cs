@@ -13,29 +13,134 @@ namespace Fur.DatabaseVisitor.Repositories
     /// <typeparam name="TEntity"></typeparam>
     public partial interface IRepositoryOfT<TEntity> where TEntity : class, IDbEntity, new()
     {
+        #region 执行Sql返回 IQueryable{T} + IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters)
+        /// <summary>
+        /// 执行Sql返回 <see cref="IQueryable{T}"/>
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
+        /// <returns><see cref="IQueryable{T}"/></returns>
         IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters);
+        #endregion
 
+        #region 执行Sql返回 IQueryable{T} + IQueryable<TEntity> FromSqlRaw(string sql, object parameterModel)
+        /// <summary>
+        /// 执行Sql返回 <see cref="IQueryable{T}"/>
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameterModel">参数模型</param>
+        /// <returns><see cref="IQueryable{T}"/></returns>
         IQueryable<TEntity> FromSqlRaw(string sql, object parameterModel);
+        #endregion
 
-        DataTable FromSqlQuery(string sql, params object[] parameters);
 
-        Task<DataTable> FromSqlQueryAsync(string sql, params object[] parameters);
+        #region sql 查询 + DataTable SqlQuery(string sql, params object[] parameters)
+        /// <summary>
+        /// sql 查询
+        /// </summary>
+        /// <param name="sql">sql语句</param>
+        /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
+        /// <returns><see cref="DataTable"/></returns>
+        DataTable SqlQuery(string sql, params object[] parameters);
+        #endregion
 
-        DataTable FromSqlQuery(string sql, object parameterModel);
+        #region sql 查询 + Task<DataTable> SqlQueryAsync(string sql, params object[] parameters)
+        /// <summary>
+        /// sql 查询
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        Task<DataTable> SqlQueryAsync(string sql, params object[] parameters);
+        #endregion
 
-        Task<DataTable> FromSqlQueryAsync(string sql, object parameterModel);
+        #region sql 查询 + DataTable SqlQuery(string sql, object parameterModel)
+        /// <summary>
+        /// sql 查询 
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="parameterModel">参数模型</param>
+        /// <returns><see cref="DataTable"/></returns>
+        DataTable SqlQuery(string sql, object parameterModel);
+        #endregion
 
-        IEnumerable<T> FromSqlQuery<T>(string sql, params object[] parameters);
+        #region Sql 查询 + Task<DataTable> SqlQueryAsync(string sql, object parameterModel)
+        /// <summary>
+        /// Sql 查询
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameterModel">参数模型</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        Task<DataTable> SqlQueryAsync(string sql, object parameterModel);
+        #endregion
 
-        Task<IEnumerable<T>> FromSqlQueryAsync<T>(string sql, params object[] parameters);
 
-        IEnumerable<T> FromSqlQuery<T>(string sql, object parameterModel);
+        #region sql 查询 + IEnumerable<T> SqlQuery<T>(string sql, params object[] parameters)
+        /// <summary>
+        /// sql 查询
+        /// </summary>
+        /// <typeparam name="T">结果集类型</typeparam>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
+        /// <returns><see cref="IEnumerable{T}"/></returns>
+        IEnumerable<T> SqlQuery<T>(string sql, params object[] parameters);
+        #endregion
 
-        Task<IEnumerable<T>> FromSqlQueryAsync<T>(string sql, object parameterModel);
+        #region sql 查询 + Task<IEnumerable<T>> SqlQueryAsync<T>(string sql, params object[] parameters)
+        /// <summary>
+        /// sql 查询
+        /// </summary>
+        /// <typeparam name="T">结果集类型</typeparam>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        Task<IEnumerable<T>> SqlQueryAsync<T>(string sql, params object[] parameters);
+        #endregion
 
-        object FromSqlQuery(string sql, Type type, params object[] parameters);
+        #region sql 查询 + IEnumerable<T> SqlQuery<T>(string sql, object parameterModel)
+        /// <summary>
+        /// sql 查询
+        /// </summary>
+        /// <typeparam name="T">结果集类型</typeparam>
+        /// <param name="sql">sql 查询</param>
+        /// <param name="parameterModel">参数模型</param>
+        /// <returns><see cref="IEnumerable{T}"/></returns>
+        IEnumerable<T> SqlQuery<T>(string sql, object parameterModel);
+        #endregion
 
-        Task<object> FromSqlQueryAsync(string sql, Type type, params object[] parameters);
+        #region sql 查询 + Task<IEnumerable<T>> SqlQueryAsync<T>(string sql, object parameterModel)
+        /// <summary>
+        /// sql 查询
+        /// </summary>
+        /// <typeparam name="T">结果集类型</typeparam>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameterModel">参数模型</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        Task<IEnumerable<T>> SqlQueryAsync<T>(string sql, object parameterModel);
+        #endregion
+
+
+        #region sql 查询 + object SqlQuery(string sql, Type returnType, params object[] parameters)
+        /// <summary>
+        /// sql 查询
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="returnType">结果集类型</param>
+        /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
+        /// <returns>object</returns>
+        object SqlQuery(string sql, Type returnType, params object[] parameters);
+        #endregion
+
+        #region sql 查询 + Task<object> SqlQueryAsync(string sql, Type returnType, params object[] parameters)
+        /// <summary>
+        /// sql 查询
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="returnType">结果集类型</param>
+        /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        Task<object> SqlQueryAsync(string sql, Type returnType, params object[] parameters);
+        #endregion
 
         // 数据集
         DataSet FromSqlDataSetQuery(string sql, params object[] parameters);
