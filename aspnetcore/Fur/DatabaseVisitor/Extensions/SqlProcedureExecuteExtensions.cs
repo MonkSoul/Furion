@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Fur.DatabaseVisitor.Extensions
@@ -21,7 +23,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="DataTable"/></returns>
         public static DataTable SqlProcedureExecute(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlQuery(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlExecuteReader(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -35,7 +37,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Task{TResult}"/></returns>
         public static Task<DataTable> SqlProcedureExecuteAsync(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlQueryAsync(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlExecuteReaderAsync(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -50,7 +52,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="DataSet"/></returns>
         public static DataSet SqlProcedureDataSetExecute(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetQuery(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataAdapterFill(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -64,7 +66,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Task{TResult}"/></returns>
         public static Task<DataSet> SqlProcedureDataSetExecuteAsync(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlDataSetQueryAsync(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataAdapterFillAsync(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -111,7 +113,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="IEnumerable{T}"/></returns>
         public static IEnumerable<T> SqlProcedureExecute<T>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlQuery<T>(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQuery<T>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -126,7 +128,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Task{TResult}"/></returns>
         public static Task<IEnumerable<T>> SqlProcedureExecuteAsync<T>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlQueryAsync<T>(name, CommandType.StoredProcedure, parameters);
+            return databaseFacade.SqlDataSetQueryAsync<T>(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
 
@@ -440,7 +442,17 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="Tuple{T1, T2}"/></returns>
         public static (Dictionary<string, object> outputValues, object returnValue) SqlProcedureJustExecute(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlExecute(name, CommandType.StoredProcedure, parameters);
+            var sqlParameters = parameters.Any() ? (SqlParameter[])parameters : new SqlParameter[] { };
+            var rowEffects = databaseFacade.SqlExecuteNonQuery(name, CommandType.StoredProcedure, sqlParameters);
+
+            var outputValues = sqlParameters
+               .Where(u => u.Direction == ParameterDirection.Output)
+               .Select(u => new { Name = u.ParameterName, u.Value })
+               .ToDictionary(u => u.Name, u => u.Value);
+
+            var returnValue = sqlParameters.FirstOrDefault(u => u.Direction == ParameterDirection.ReturnValue)?.Value;
+
+            return (outputValues, returnValue);
         }
         #endregion
 
@@ -453,9 +465,19 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="name">存储过程名</param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static Task<(Dictionary<string, object> outputValues, object returnValue)> SqlProcedureJustExecuteAsync(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        public static async Task<(Dictionary<string, object> outputValues, object returnValue)> SqlProcedureJustExecuteAsync(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            return databaseFacade.SqlExecuteAsync(name, CommandType.StoredProcedure, parameters);
+            var sqlParameters = parameters.Any() ? (SqlParameter[])parameters : new SqlParameter[] { };
+            var rowEffects = await databaseFacade.SqlExecuteNonQueryAsync(name, CommandType.StoredProcedure, sqlParameters);
+
+            var outputValues = sqlParameters
+             .Where(u => u.Direction == ParameterDirection.Output)
+             .Select(u => new { Name = u.ParameterName, u.Value })
+             .ToDictionary(u => u.Name, u => u.Value);
+
+            var returnValue = sqlParameters.FirstOrDefault(u => u.Direction == ParameterDirection.ReturnValue)?.Value;
+
+            return (outputValues, returnValue);
         }
         #endregion
     }

@@ -101,7 +101,7 @@ namespace Fur.Application.Functions
         [AttachAction(KeepRouteVerb = true)]
         public async Task<IEnumerable<TestOutput>> SearchAsync(string keyword)
         {
-            return await _testRepository.All(true)
+            return await _testRepository.All()
                     .Where(u => u.Name.Contains(keyword))
                     .ProjectToType<TestOutput>()
                     .ToListAsync();
@@ -334,7 +334,7 @@ namespace Fur.Application.Functions
         [AttachAction(EveryWordToRoutePath = true)]
         public async Task<IEnumerable<TestOutput>> GetLinqFunctionAsync()
         {
-            return await _testRepository.All(true)
+            return await _testRepository.All()
                 .Where(u => u.Id >= LinqDbFunctions.GetId(0))
                 .ProjectToType<TestOutput>()
                 .ToListAsync();

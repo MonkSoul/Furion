@@ -1,13 +1,8 @@
-﻿using Fur.DatabaseVisitor.Utilities;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using StackExchange.Profiling;
-using StackExchange.Profiling.Data;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Threading.Tasks;
 
 namespace Fur.DatabaseVisitor.Extensions
@@ -28,15 +23,7 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <returns><see cref="DataSet"/></returns>
         public static DataSet SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
-            var (dbConnection, dbCommand, dbDataAdapter) = PrepareDbDataAdapter(databaseFacade, sql, commandType, parameters);
-            using var dataSet = new DataSet();
-
-            dbDataAdapter.Fill(dataSet);
-
-            dbConnection.Close();
-            dbCommand.Parameters.Clear();
-
-            return dataSet;
+            return databaseFacade.SqlDataAdapterFill(sql, commandType, parameters);
         }
         #endregion
 
@@ -49,17 +36,9 @@ namespace Fur.DatabaseVisitor.Extensions
         /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
         /// <param name="parameters"><see cref="Microsoft.Data.SqlClient.SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public static async Task<DataSet> SqlDataSetQueryAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        public static Task<DataSet> SqlDataSetQueryAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
-            var (dbConnection, dbCommand, dbDataAdapter) = await PrepareDbDataAdapterAsync(databaseFacade, sql, commandType, parameters);
-            using var dataSet = new DataSet();
-
-            dbDataAdapter.Fill(dataSet);
-
-            await dbConnection.CloseAsync();
-            dbCommand.Parameters.Clear();
-
-            return dataSet;
+            return databaseFacade.SqlDataAdapterFillAsync(sql, commandType, parameters);
         }
         #endregion
 
@@ -775,71 +754,5 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-
-        #region 准备 DbDataAdapter 对象 + private static (DbConnection, DbCommand, DbDataAdapter) PrepareDbDataAdapter(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
-        /// <summary>
-        /// 准备 <see cref="DbDataAdapter"/> 对象
-        /// <para>包括参数追加、性能监测包装</para>
-        /// </summary>
-        /// <param name="databaseFacade">数据库操作对象</param>
-        /// <param name="sql">sql 语句</param>
-        /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
-        /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
-        /// <returns><see cref="Tuple{T1, T2, T3}"/></returns>
-        private static (DbConnection, DbCommand, DbDataAdapter) PrepareDbDataAdapter(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
-        {
-            var dbConnection = databaseFacade.GetDbConnection();
-            var dbProviderFactory = DbProviderFactories.GetFactory(dbConnection);
-            dbConnection = new ProfiledDbConnection(dbConnection, MiniProfiler.Current);
-            var profiledDbProviderFactory = new ProfiledDbProviderFactory(dbProviderFactory, true);
-
-            if (dbConnection.State == ConnectionState.Closed)
-            {
-                dbConnection.Open();
-            }
-
-            DbCommand dbCommand = dbConnection.CreateCommand();
-            var dbDataAdapter = profiledDbProviderFactory.CreateDataAdapter();
-            dbCommand.CommandType = commandType;
-            dbCommand.CommandText = sql;
-            Utility.RectifySqlParameters(ref dbCommand, parameters);
-            dbDataAdapter.SelectCommand = dbCommand;
-
-            return (dbConnection, dbCommand, dbDataAdapter);
-        }
-        #endregion
-
-        #region 准备 DbDataAdapter 对象 + private static async Task<(DbConnection, DbCommand, DbDataAdapter)> PrepareDbDataAdapterAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
-        /// <summary>
-        /// 准备 <see cref="DbDataAdapter"/> 对象
-        /// <para>包括参数追加、性能监测包装</para>
-        /// </summary>
-        /// <param name="databaseFacade">数据库操作对象</param>
-        /// <param name="sql">sql 语句</param>
-        /// <param name="commandType">命令类型 <see cref="CommandType"/></param>
-        /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
-        /// <returns><see cref="Tuple{T1, T2, T3}"/></returns>
-        private static async Task<(DbConnection, DbCommand, DbDataAdapter)> PrepareDbDataAdapterAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
-        {
-            var dbConnection = databaseFacade.GetDbConnection();
-            var dbProviderFactory = DbProviderFactories.GetFactory(dbConnection);
-            dbConnection = new ProfiledDbConnection(dbConnection, MiniProfiler.Current);
-            var profiledDbProviderFactory = new ProfiledDbProviderFactory(dbProviderFactory, true);
-
-            if (dbConnection.State == ConnectionState.Closed)
-            {
-                await dbConnection.OpenAsync();
-            }
-
-            DbCommand dbCommand = dbConnection.CreateCommand();
-            var dbDataAdapter = profiledDbProviderFactory.CreateDataAdapter();
-            dbCommand.CommandType = commandType;
-            dbCommand.CommandText = sql;
-            Utility.RectifySqlParameters(ref dbCommand, parameters);
-            dbDataAdapter.SelectCommand = dbCommand;
-
-            return await Task.FromResult((dbConnection, dbCommand, dbDataAdapter));
-        }
-        #endregion
     }
 }

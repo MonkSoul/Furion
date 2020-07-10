@@ -25,11 +25,11 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>结果类型值</returns>
         public virtual TResult SqlScalarFunctionQuery<TResult>(string name, params object[] parameters)
         {
-            return Database.SqlFunctionExecute<TResult>(DbFunctionTypeOptions.Scalar, name, parameters).FirstOrDefault();
+            return Database.SqlScalarFunctionExecute<TResult>(name, parameters);
         }
         #endregion
 
-        #region 执行标量函数 + public virtual async Task<TResult> SqlScalarFunctionQueryAsync<TResult>(string name, params object[] parameters)
+        #region 执行标量函数 + public virtual Task<TResult> SqlScalarFunctionQueryAsync<TResult>(string name, params object[] parameters)
         /// <summary>
         /// 执行标量函数
         /// </summary>
@@ -37,10 +37,9 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <param name="name">函数名称</param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public virtual async Task<TResult> SqlScalarFunctionQueryAsync<TResult>(string name, params object[] parameters)
+        public virtual Task<TResult> SqlScalarFunctionQueryAsync<TResult>(string name, params object[] parameters)
         {
-            var results = await Database.SqlFunctionExecuteAsync<TResult>(DbFunctionTypeOptions.Scalar, name, parameters);
-            return results.FirstOrDefault();
+            return Database.SqlScalarFunctionExecuteAsync<TResult>(name, parameters);
         }
         #endregion
 
@@ -54,11 +53,11 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>结果类型值</returns>
         public virtual TResult SqlScalarFunctionQuery<TResult>(string name, object parameterModel)
         {
-            return Database.SqlFunctionExecute<TResult>(DbFunctionTypeOptions.Scalar, name, parameterModel).FirstOrDefault();
+            return Database.SqlScalarFunctionExecute<TResult>(name, parameterModel);
         }
         #endregion
 
-        #region 执行标量函数 + public virtual async Task<TResult> SqlScalarFunctionQueryAsync<TResult>(string name, object parameterModel)
+        #region 执行标量函数 + public virtual Task<TResult> SqlScalarFunctionQueryAsync<TResult>(string name, object parameterModel)
         /// <summary>
         /// 执行标量函数
         /// </summary>
@@ -66,10 +65,9 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <param name="name">函数名称</param>
         /// <param name="parameterModel">参数模型</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public virtual async Task<TResult> SqlScalarFunctionQueryAsync<TResult>(string name, object parameterModel)
+        public virtual Task<TResult> SqlScalarFunctionQueryAsync<TResult>(string name, object parameterModel)
         {
-            var results = await Database.SqlFunctionExecuteAsync<TResult>(DbFunctionTypeOptions.Scalar, name, parameterModel);
-            return results.FirstOrDefault();
+            return Database.SqlScalarFunctionExecuteAsync<TResult>(name, parameterModel);
         }
         #endregion
 
@@ -83,7 +81,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="DataTable"/></returns>
         public virtual DataTable SqlTableFunctionQuery(string name, params object[] parameters)
         {
-            return Database.SqlFunctionExecute(DbFunctionTypeOptions.Table, name, parameters);
+            return Database.SqlTableFunctionExecute(name, parameters);
         }
         #endregion
 
@@ -96,7 +94,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<DataTable> SqlTableFunctionQueryAsync(string name, params object[] parameters)
         {
-            return Database.SqlFunctionExecuteAsync(DbFunctionTypeOptions.Table, name, parameters);
+            return Database.SqlTableFunctionExecuteAsync(name, parameters);
         }
         #endregion
 
@@ -109,7 +107,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="DataTable"/></returns>
         public virtual DataTable SqlTableFunctionQuery(string name, object parameterModel)
         {
-            return Database.SqlFunctionExecute(DbFunctionTypeOptions.Table, name, parameterModel);
+            return Database.SqlTableFunctionExecute(name, parameterModel);
         }
         #endregion
 
@@ -122,7 +120,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<DataTable> SqlTableFunctionQueryAsync(string name, object parameterModel)
         {
-            return Database.SqlFunctionExecuteAsync(DbFunctionTypeOptions.Table, name, parameterModel);
+            return Database.SqlTableFunctionExecuteAsync(name, parameterModel);
         }
         #endregion
 
@@ -137,7 +135,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="IEnumerable{T}"/></returns>
         public virtual IEnumerable<T> SqlTableFunctionQuery<T>(string name, params object[] parameters)
         {
-            return Database.SqlFunctionExecute<T>(DbFunctionTypeOptions.Table, name, parameters);
+            return Database.SqlTableFunctionExecute<T>(name, parameters);
         }
         #endregion
 
@@ -151,7 +149,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<IEnumerable<T>> SqlTableFunctionQueryAsync<T>(string name, params object[] parameters)
         {
-            return Database.SqlFunctionExecuteAsync<T>(DbFunctionTypeOptions.Table, name, parameters);
+            return Database.SqlTableFunctionExecuteAsync<T>(name, parameters);
         }
         #endregion
 
@@ -165,7 +163,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="IEnumerable{T}"/></returns>
         public virtual IEnumerable<T> SqlTableFunctionQuery<T>(string name, object parameterModel)
         {
-            return Database.SqlFunctionExecute<T>(DbFunctionTypeOptions.Table, name, parameterModel);
+            return Database.SqlTableFunctionExecute<T>(name, parameterModel);
         }
         #endregion
 
@@ -179,7 +177,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<IEnumerable<T>> SqlTableFunctionQueryAsync<T>(string name, object parameterModel)
         {
-            return Database.SqlFunctionExecuteAsync<T>(DbFunctionTypeOptions.Table, name, parameterModel);
+            return Database.SqlTableFunctionExecuteAsync<T>(name, parameterModel);
         }
         #endregion
     }
