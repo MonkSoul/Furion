@@ -13,9 +13,9 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseVisitor.Extensions
 {
     /// <summary>
-    /// 数据库输入输出参数拓展
+    /// Sql 参数及返回值 拓展类
     /// </summary>
-    public static class SqlInputOutputExtensions
+    public static class SqlConvertExtensions
     {
         #region 将模型转换为 SqlParameter 数组 + public static SqlParameter[] ToSqlParameters(this object parameterModel)
         /// <summary>

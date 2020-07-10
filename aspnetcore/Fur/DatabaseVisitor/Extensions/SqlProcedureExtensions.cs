@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseVisitor.Extensions
 {
     /// <summary>
-    /// 存储过程执行拓展类
+    /// Sql 存储过程 拓展类
     /// </summary>
-    public static class SqlProcedureExecuteExtensions
+    public static class SqlProcedureExtensions
     {
         #region 执行存储过程 返回 DataTable + public static DataTable SqlProcedureExecute(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         /// <summary>

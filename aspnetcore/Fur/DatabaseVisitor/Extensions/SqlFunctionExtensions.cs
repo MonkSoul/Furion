@@ -13,9 +13,9 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseVisitor.Extensions
 {
     /// <summary>
-    /// 函数执行拓展类
+    /// Sql 函数 拓展类
     /// </summary>
-    public static class SqlTableFunctionExecuteExtensions
+    public static class SqlFunctionExtensions
     {
         #region 执行标量函数 返回 TResult + public static TResult SqlScalarFunctionExecute<TResult>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         /// <summary>

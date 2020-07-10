@@ -1,10 +1,8 @@
 ﻿using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Extensions;
-using Fur.DatabaseVisitor.Options;
 using Fur.DependencyInjection.Lifetimes;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Fur.DatabaseVisitor.Repositories

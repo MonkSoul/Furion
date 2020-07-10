@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseVisitor.Extensions
 {
     /// <summary>
-    /// Sql 查询拓展类
+    /// Sql 查询 拓展类
     /// </summary>
     public static class SqlQueryExtensions
     {

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseVisitor.Extensions
 {
     /// <summary>
-    /// Sql 查询返回多结果集拓展类
+    /// Sql DataSet 拓展类
     /// </summary>
-    public static class SqlDataSetQueryExtensions
+    public static class SqlDataSetExtensions
     {
         #region Sql 查询返回 DataSet + public static DataSet SqlDataSetQuery(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>
