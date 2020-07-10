@@ -21,7 +21,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         public virtual EntityEntry<TEntity> Insert(TEntity entity)
         {
-            InsertInvokeDefendPropertyHandler(entity);
+            SetInsertMaintenanceFields(entity);
             return Entity.Add(entity);
         }
         #endregion
@@ -33,7 +33,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <param name="entities">多个实体</param>
         public virtual void Insert(params TEntity[] entities)
         {
-            InsertInvokeDefendPropertyHandler(entities);
+            SetInsertMaintenanceFields(entities);
             Entity.AddRange(entities);
         }
         #endregion
@@ -45,7 +45,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <param name="entities">多个实体</param>
         public virtual void Insert(IEnumerable<TEntity> entities)
         {
-            InsertInvokeDefendPropertyHandler(entities.ToArray());
+            SetInsertMaintenanceFields(entities.ToArray());
             Entity.AddRange(entities);
         }
         #endregion
@@ -58,7 +58,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="ValueTask{TResult}"/></returns>
         public virtual ValueTask<EntityEntry<TEntity>> InsertAsync(TEntity entity)
         {
-            InsertInvokeDefendPropertyHandler(entity);
+            SetInsertMaintenanceFields(entity);
             return Entity.AddAsync(entity);
         }
         #endregion
@@ -71,7 +71,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task InsertAsync(params TEntity[] entities)
         {
-            InsertInvokeDefendPropertyHandler(entities);
+            SetInsertMaintenanceFields(entities);
             return Entity.AddRangeAsync();
         }
         #endregion
@@ -84,7 +84,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task InsertAsync(IEnumerable<TEntity> entities)
         {
-            InsertInvokeDefendPropertyHandler(entities.ToArray());
+            SetInsertMaintenanceFields(entities.ToArray());
             return Entity.AddRangeAsync();
         }
         #endregion

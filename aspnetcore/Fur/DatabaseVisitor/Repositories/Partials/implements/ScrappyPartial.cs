@@ -3,6 +3,7 @@ using Fur.DependencyInjection.Lifetimes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -152,13 +153,13 @@ namespace Fur.DatabaseVisitor.Repositories
         }
         #endregion
 
-        #region 附加实体到上下文中 + public virtual void AttachRange(TEntity[] entities)
+        #region 附加实体到上下文中 + public virtual void AttachRange(IEnumerable<TEntity> entities)
         /// <summary>
         /// 附加实体到上下文中
         /// <para>此时实体状态为 <c>Unchanged</c> 状态</para>
         /// </summary>
         /// <param name="entities">多个实体</param>
-        public virtual void AttachRange(TEntity[] entities)
+        public virtual void AttachRange(IEnumerable<TEntity> entities)
         {
             var noTrackEntites = entities.Where(u => EntityEntry(u).State == EntityState.Deleted);
             DbContext.AttachRange(noTrackEntites);

@@ -1,6 +1,8 @@
 ﻿using Fur.DatabaseVisitor.Entities;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -115,15 +117,14 @@ namespace Fur.DatabaseVisitor.Repositories
         void Attach(TEntity entity);
         #endregion
 
-        #region 附加实体到上下文中 + void AttachRange(TEntity[] entities)
+        #region 附加实体到上下文中 + void AttachRange(IEnumerable<TEntity> entites)
         /// <summary>
         /// 附加实体到上下文中
         /// <para>此时实体状态为 <c>Unchanged</c> 状态</para>
         /// </summary>
         /// <param name="entities">多个实体</param>
-        void AttachRange(TEntity[] entities);
+        void AttachRange(IEnumerable<TEntity> entites);
         #endregion
-
 
         #region 判断记录是否存在 + bool Any(Expression<Func<TEntity, bool>> expression = null)
         /// <summary>

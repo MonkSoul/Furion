@@ -61,18 +61,19 @@ namespace Fur.DatabaseVisitor.Repositories
 
 
         // 处理新增时候，创建时间/等字段
-        private void InsertInvokeDefendPropertyHandler(params TEntity[] entities)
+        private void SetInsertMaintenanceFields(params TEntity[] entities)
         {
             foreach (var entity in entities)
             {
                 var entityEntry = EntityEntry(entity);
-                var createdTimeProperty = entityEntry.Property(_maintenanceProvider?.GetCreatedTimePropertyName() ?? nameof(DbEntityBase.CreatedTime));
+
+                var createdTimeProperty = EntityEntryProperty(entityEntry, _maintenanceProvider?.GetCreatedTimePropertyName() ?? nameof(DbEntityBase.CreatedTime));
                 if (createdTimeProperty != null)
                 {
                     createdTimeProperty.CurrentValue = DateTime.Now;
                 }
 
-                var tenantIdProperty = entityEntry.Property(nameof(DbEntityOfT<int>.TenantId));
+                var tenantIdProperty = EntityEntryProperty(entityEntry, nameof(DbEntity.TenantId));
                 if (tenantIdProperty != null)
                 {
                     tenantIdProperty.CurrentValue = _tenantProvider.GetTenantId();
@@ -81,7 +82,7 @@ namespace Fur.DatabaseVisitor.Repositories
         }
 
         // 新增更新时候，更新时间/创建时间等字段
-        private EntityEntry<TEntity>[] UpdateInvokeDefendPropertyHandler(Action updateHandler, params TEntity[] entities)
+        private EntityEntry<TEntity>[] SetUpdateMaintenanceFields(Action updateHandler, params TEntity[] entities)
         {
             var entityEntries = new List<EntityEntry<TEntity>>();
             foreach (var entity in entities)
@@ -89,20 +90,20 @@ namespace Fur.DatabaseVisitor.Repositories
                 var entityEntry = EntityEntry(entity);
                 entityEntries.Add(entityEntry);
 
-                var updatedTimeProperty = entityEntry.Property(_maintenanceProvider?.GetUpdatedTimePropertyName() ?? nameof(DbEntityBase.UpdatedTime));
+                var updatedTimeProperty = EntityEntryProperty(entityEntry, _maintenanceProvider?.GetUpdatedTimePropertyName() ?? nameof(DbEntityBase.UpdatedTime));
                 if (updatedTimeProperty != null && !updatedTimeProperty.IsModified)
                 {
                     updatedTimeProperty.CurrentValue = DateTime.Now;
                     updatedTimeProperty.IsModified = true;
                 }
                 updateHandler?.Invoke();
-                var createdTimeProperty = entityEntry.Property(_maintenanceProvider?.GetCreatedTimePropertyName() ?? nameof(DbEntityBase.CreatedTime));
+                var createdTimeProperty = EntityEntryProperty(entityEntry, _maintenanceProvider?.GetCreatedTimePropertyName() ?? nameof(DbEntityBase.CreatedTime));
                 if (createdTimeProperty != null)
                 {
                     createdTimeProperty.IsModified = false;
                 }
 
-                var tenantIdProperty = entityEntry.Property(nameof(DbEntityOfT<int>.TenantId));
+                var tenantIdProperty = EntityEntryProperty(entityEntry, nameof(DbEntity.TenantId));
                 if (tenantIdProperty != null)
                 {
                     tenantIdProperty.IsModified = false;
@@ -110,242 +111,6 @@ namespace Fur.DatabaseVisitor.Repositories
             }
             return entityEntries.ToArray();
         }
-
-        // 新增操作
-
-
-        // 更新操作
-        public virtual EntityEntry<TEntity> Update(TEntity entity)
-        {
-            return UpdateInvokeDefendPropertyHandler(() =>
-             {
-                 Entity.Update(entity);
-             }, entity).First();
-        }
-
-        public virtual void Update(params TEntity[] entities)
-        {
-            UpdateInvokeDefendPropertyHandler(() =>
-            {
-                Entity.UpdateRange(entities);
-            }, entities);
-        }
-
-        public virtual void Update(IEnumerable<TEntity> entities)
-        {
-            UpdateInvokeDefendPropertyHandler(() =>
-            {
-                Entity.UpdateRange(entities);
-            }, entities.ToArray());
-        }
-
-        public virtual Task<EntityEntry<TEntity>> UpdateAsync(TEntity entity)
-        {
-            var entityEntry = UpdateInvokeDefendPropertyHandler(() =>
-             {
-                 Entity.Update(entity);
-             }, entity).First();
-            return Task.FromResult(entityEntry);
-        }
-
-        public virtual Task UpdateAsync(params TEntity[] entities)
-        {
-            UpdateInvokeDefendPropertyHandler(() =>
-            {
-                Entity.UpdateRange(entities);
-            }, entities);
-            return Task.CompletedTask;
-        }
-
-        public virtual Task UpdateAsync(IEnumerable<TEntity> entities)
-        {
-            UpdateInvokeDefendPropertyHandler(() =>
-            {
-                Entity.UpdateRange(entities);
-            }, entities.ToArray());
-            return Task.CompletedTask;
-        }
-
-        public virtual EntityEntry<TEntity> UpdateSaveChanges(TEntity entity)
-        {
-            var trackEntity = Update(entity);
-            SaveChanges();
-            return trackEntity;
-        }
-
-        public virtual void UpdateSaveChanges(params TEntity[] entities)
-        {
-            Update(entities);
-            SaveChanges();
-        }
-
-        public virtual void UpdateSaveChanges(IEnumerable<TEntity> entities)
-        {
-            Update(entities);
-            SaveChanges();
-        }
-
-        public virtual async Task<EntityEntry<TEntity>> UpdateSaveChangesAsync(TEntity entity)
-        {
-            var trackEntities = await UpdateAsync(entity);
-            await SaveChangesAsync();
-            return trackEntities;
-        }
-
-        public virtual async Task UpdateSaveChangesAsync(params TEntity[] entities)
-        {
-            await UpdateAsync(entities);
-            await SaveChangesAsync();
-        }
-
-        public virtual async Task UpdateSaveChangesAsync(IEnumerable<TEntity> entities)
-        {
-            await UpdateAsync(entities);
-            await SaveChangesAsync();
-        }
-
-        // 更新指定列
-        public virtual EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
-        {
-            var entityEntry = EntityEntry(entity);
-            Attach(entity);
-
-            foreach (var expression in propertyExpressions)
-            {
-                entityEntry.Property(expression).IsModified = true;
-            }
-
-            UpdateInvokeDefendPropertyHandler(null, entity);
-            return entityEntry;
-        }
-
-        public virtual Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
-        {
-            var entityEntry = EntityEntry(entity);
-            Attach(entity);
-            foreach (var expression in propertyExpressions)
-            {
-                entityEntry.Property(expression).IsModified = true;
-            }
-
-            UpdateInvokeDefendPropertyHandler(null, entity);
-            return Task.FromResult(entityEntry);
-        }
-
-        public virtual EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
-        {
-            var entityEntry = UpdateIncludeProperties(entity, propertyExpressions);
-            SaveChanges();
-            return entityEntry;
-        }
-
-        public virtual async Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
-        {
-            var entityEntry = await UpdateIncludePropertiesAsync(entity, propertyExpressions);
-            await SaveChangesAsync();
-            return entityEntry;
-        }
-
-        public virtual void UpdateIncludeProperties(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
-        {
-            foreach (var entity in entities)
-            {
-                UpdateIncludeProperties(entity, propertyExpressions);
-            }
-        }
-
-        public virtual async Task UpdateIncludePropertiesAsync(IAsyncEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
-        {
-            await foreach (var entity in entities)
-            {
-                await UpdateIncludePropertiesAsync(entity, propertyExpressions);
-            }
-        }
-
-        public virtual void UpdateIncludePropertiesSaveChanges(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
-        {
-            UpdateIncludeProperties(entities, propertyExpressions);
-            SaveChanges();
-        }
-
-        public virtual async Task UpdateIncludePropertiesSaveChangesAsync(IAsyncEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
-        {
-            await UpdateIncludePropertiesAsync(entities, propertyExpressions);
-            await SaveChangesAsync();
-        }
-
-        // 排除指定列
-        public virtual EntityEntry<TEntity> UpdateExcludeProperties(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
-        {
-            var entityEntry = EntityEntry(entity);
-            Attach(entity);
-            entityEntry.State = EntityState.Modified;
-            foreach (var expression in propertyExpressions)
-            {
-                entityEntry.Property(expression).IsModified = false;
-            }
-
-            UpdateInvokeDefendPropertyHandler(null, entity);
-            return entityEntry;
-        }
-
-        public virtual Task<EntityEntry<TEntity>> UpdateExcludePropertiesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
-        {
-            var entityEntry = EntityEntry(entity);
-            Attach(entity);
-            entityEntry.State = EntityState.Modified;
-            foreach (var expression in propertyExpressions)
-            {
-                entityEntry.Property(expression).IsModified = false;
-            }
-
-            UpdateInvokeDefendPropertyHandler(null, entity);
-            return Task.FromResult(entityEntry);
-        }
-
-        public virtual EntityEntry<TEntity> UpdateExcludePropertiesSaveChanges(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
-        {
-            var entityEntry = UpdateExcludeProperties(entity, propertyExpressions);
-            SaveChanges();
-            return entityEntry;
-        }
-
-        public virtual async Task<EntityEntry<TEntity>> UpdateExcludePropertiesSaveChangesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
-        {
-            var entityEntry = await UpdateExcludePropertiesAsync(entity, propertyExpressions);
-            await SaveChangesAsync();
-            return entityEntry;
-        }
-
-        public virtual void UpdateExcludeProperties(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
-        {
-            foreach (var entity in entities)
-            {
-                UpdateExcludeProperties(entity, propertyExpressions);
-            }
-        }
-
-        public virtual async Task UpdateExcludePropertiesAsync(IAsyncEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
-        {
-            await foreach (var entity in entities)
-            {
-                await UpdateExcludePropertiesAsync(entity, propertyExpressions);
-            }
-        }
-
-        public virtual void UpdateExcludePropertiesSaveChanges(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
-        {
-            UpdateExcludeProperties(entities, propertyExpressions);
-            SaveChanges();
-        }
-
-        public virtual async Task UpdateExcludePropertiesSaveChangesAsync(IAsyncEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
-        {
-            await UpdateExcludePropertiesAsync(entities, propertyExpressions);
-            await SaveChangesAsync();
-        }
-
-
 
         public virtual DataTable FromSqlProcedureQuery(string name, params object[] parameters)
         {
@@ -694,7 +459,7 @@ namespace Fur.DatabaseVisitor.Repositories
                 entityEntry.Property(propertyName).IsModified = true;
             }
 
-            UpdateInvokeDefendPropertyHandler(null, entity);
+            SetUpdateMaintenanceFields(null, entity);
             return entityEntry;
         }
 
@@ -707,7 +472,7 @@ namespace Fur.DatabaseVisitor.Repositories
                 entityEntry.Property(propertyName).IsModified = true;
             }
 
-            UpdateInvokeDefendPropertyHandler(null, entity);
+            SetUpdateMaintenanceFields(null, entity);
             return Task.FromResult(entityEntry);
         }
 
@@ -763,7 +528,7 @@ namespace Fur.DatabaseVisitor.Repositories
                 entityEntry.Property(propertyName).IsModified = false;
             }
 
-            UpdateInvokeDefendPropertyHandler(null, entity);
+            SetUpdateMaintenanceFields(null, entity);
             return entityEntry;
         }
 
@@ -777,7 +542,7 @@ namespace Fur.DatabaseVisitor.Repositories
                 entityEntry.Property(propertyName).IsModified = false;
             }
 
-            UpdateInvokeDefendPropertyHandler(null, entity);
+            SetUpdateMaintenanceFields(null, entity);
             return Task.FromResult(entityEntry);
         }
 

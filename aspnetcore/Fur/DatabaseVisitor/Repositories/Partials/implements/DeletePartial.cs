@@ -22,6 +22,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="EntityEntry(TEntity)"/></returns>
         public virtual EntityEntry<TEntity> Delete(TEntity entity)
         {
+            Attach(entity);
             return Entity.Remove(entity);
         }
         #endregion
@@ -33,6 +34,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <param name="entities">多个实体</param>
         public virtual void Delete(params TEntity[] entities)
         {
+            AttachRange(entities);
             Entity.RemoveRange(entities);
         }
         #endregion
@@ -44,6 +46,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <param name="entities">多个实体</param>
         public virtual void Delete(IEnumerable<TEntity> entities)
         {
+            AttachRange(entities);
             Entity.RemoveRange(entities);
         }
         #endregion
@@ -56,6 +59,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<EntityEntry<TEntity>> DeleteAsync(TEntity entity)
         {
+            Attach(entity);
             return Task.FromResult(Entity.Remove(entity));
         }
         #endregion
@@ -68,6 +72,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task"/></returns>
         public virtual Task DeleteAsync(params TEntity[] entities)
         {
+            AttachRange(entities);
             Entity.RemoveRange(entities);
             return Task.CompletedTask;
         }
@@ -81,6 +86,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task"/></returns>
         public virtual Task DeleteAsync(IEnumerable<TEntity> entities)
         {
+            AttachRange(entities);
             Entity.RemoveRange(entities);
             return Task.CompletedTask;
         }
@@ -231,7 +237,7 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual EntityEntry<TEntity> FakeDelete(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
         {
             Attach(entity);
-            EntityEntry(entity).Property(flagProperty).CurrentValue = flagValue;
+            EntityEntryProperty(entity, flagProperty).CurrentValue = flagValue;
             return UpdateIncludeProperties(entity, flagProperty);
         }
         #endregion
@@ -262,9 +268,8 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
         {
-            // 后续测试不要这句话看看
             Attach(entity);
-            EntityEntry(entity).Property(flagProperty).CurrentValue = flagValue;
+            EntityEntryProperty(entity, flagProperty).CurrentValue = flagValue;
 
             return UpdateIncludePropertiesAsync(entity, flagProperty);
         }
@@ -429,7 +434,7 @@ namespace Fur.DatabaseVisitor.Repositories
             Attach(entity);
             var (flagPropertyName, flagValue) = _maintenanceProvider.GetFakeDeletePropertyInfo();
 
-            EntityEntry(entity).Property(flagPropertyName).CurrentValue = flagValue;
+            EntityEntryProperty(entity, flagPropertyName).CurrentValue = flagValue;
             return UpdateIncludeProperties(entity, flagPropertyName);
         }
         #endregion
@@ -460,7 +465,7 @@ namespace Fur.DatabaseVisitor.Repositories
             Attach(entity);
             var (flagPropertyName, flagValue) = _maintenanceProvider.GetFakeDeletePropertyInfo();
 
-            EntityEntry(entity).Property(flagPropertyName).CurrentValue = flagValue;
+            EntityEntryProperty(entity, flagPropertyName).CurrentValue = flagValue;
 
             return UpdateIncludePropertiesAsync(entity, flagPropertyName);
         }
