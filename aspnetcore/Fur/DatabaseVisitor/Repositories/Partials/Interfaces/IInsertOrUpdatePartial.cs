@@ -13,20 +13,129 @@ namespace Fur.DatabaseVisitor.Repositories
     /// <typeparam name="TEntity"></typeparam>
     public partial interface IRepositoryOfT<TEntity> where TEntity : class, IDbEntity, new()
     {
+        #region 新增或更新操作 + EntityEntry<TEntity> InsertOrUpdate(TEntity entity)
+        /// <summary>
+        /// 新增或更新操作
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         EntityEntry<TEntity> InsertOrUpdate(TEntity entity);
+        #endregion
 
+        #region 新增或更新操作 + Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity)
+        /// <summary>
+        /// 新增或更新操作
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
         Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity);
+        #endregion
 
-        EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity);
-
-        Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity);
-
+        #region 新增或更新操作 + EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions); 
+        /// <summary>
+        /// 新增或更新操作
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="dbTablePropertyUpdateOptions">更新选项 <see cref="DbTablePropertyUpdateOptions"/></param>
+        /// <param name="propertyExpressions">更新/排除的属性</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        #endregion
 
+        #region 新增或更新操作 + Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        /// <summary>
+        /// 新增或更新操作
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="dbTablePropertyUpdateOptions">更新选项 <see cref="DbTablePropertyUpdateOptions"/></param>
+        /// <param name="propertyExpressions">更新/排除的属性</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
         Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        #endregion
 
+        #region 新增或更新操作 + EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyNames)
+        /// <summary>
+        /// 新增或更新操作
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="dbTablePropertyUpdateOptions">更新选项 <see cref="DbTablePropertyUpdateOptions"/></param>
+        /// <param name="propertyNames">更新/排除的属性</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
+        EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyNames);
+        #endregion
+
+        #region 新增或更新操作 + Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyNames)
+        /// <summary>
+        /// 新增或更新操作
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="dbTablePropertyUpdateOptions">更新选项 <see cref="DbTablePropertyUpdateOptions"/></param>
+        /// <param name="propertyNames">更新/排除的属性</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyNames);
+        #endregion
+
+
+        #region 新增或更新操作并立即保存 + EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity)
+        /// <summary>
+        /// 新增或更新操作并立即保存
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
+        EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity);
+        #endregion
+
+        #region 新增或更新操作并立即保存 + Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity)
+        /// <summary>
+        /// 新增或更新操作并立即保存
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity);
+        #endregion
+
+        #region 新增或更新操作并立即保存 + EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        /// <summary>
+        /// 新增或更新操作并立即保存
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="dbTablePropertyUpdateOptions">更新选项 <see cref="DbTablePropertyUpdateOptions"/></param>
+        /// <param name="propertyExpressions">更新/排除的属性</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        #endregion
 
+        #region 新增或更新操作并立即保存 + Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        /// <summary>
+        /// 新增或更新操作并立即保存
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="dbTablePropertyUpdateOptions">更新选项 <see cref="DbTablePropertyUpdateOptions"/></param>
+        /// <param name="propertyExpressions">更新/排除的属性</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
         Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        #endregion
+
+        #region 新增或更新操作并立即保存 + EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyExpressions)
+        /// <summary>
+        /// 新增或更新操作并立即保存
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="dbTablePropertyUpdateOptions">更新选项 <see cref="DbTablePropertyUpdateOptions"/></param>
+        /// <param name="propertyExpressions">更新/排除的属性</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
+        EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyExpressions);
+        #endregion
+
+        #region 新增或更新操作并立即保存 + Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyExpressions)
+        /// <summary>
+        /// 新增或更新操作并立即保存
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="dbTablePropertyUpdateOptions">更新选项 <see cref="DbTablePropertyUpdateOptions"/></param>
+        /// <param name="propertyExpressions">更新/排除的属性</param>
+        /// <returns></returns>
+        Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyExpressions);
+        #endregion
     }
 }
