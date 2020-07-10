@@ -16,9 +16,9 @@ namespace Fur.DatabaseVisitor.Extensions
     /// </summary>
     public static class SqlFunctionExecuteExtensions
     {
-        #region 执行函数 + public static DataTable SqlFunctionExecute(this DatabaseFacade databaseFacade, DbCompileTypeOptions dbFunctionTypeOptions, string name, params object[] parameters)
+        #region 执行函数 返回 DataTable + public static DataTable SqlFunctionExecute(this DatabaseFacade databaseFacade, DbCompileTypeOptions dbFunctionTypeOptions, string name, params object[] parameters)
         /// <summary>
-        /// 执行函数
+        /// 执行函数 返回 DataTable
         /// </summary>
         /// <param name="databaseFacade">数据库操作对象</param>
         /// <param name="dbFunctionTypeOptions">数据库编译类型选项</param>
@@ -31,6 +31,23 @@ namespace Fur.DatabaseVisitor.Extensions
             return databaseFacade.SqlQuery(sql, CommandType.Text, parameters);
         }
         #endregion
+
+        #region 执行函数 返回 DataTable + public static Task<DataTable> SqlFunctionExecuteAsync(this DatabaseFacade databaseFacade, DbCompileTypeOptions dbFunctionTypeOptions, string name, params object[] parameters)
+        /// <summary>
+        /// 执行函数 返回 DataTable
+        /// </summary>
+        /// <param name="databaseFacade">数据库操作对象</param>
+        /// <param name="dbFunctionTypeOptions">数据库编译类型选项</param>
+        /// <param name="name">函数名称</param>
+        /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public static Task<DataTable> SqlFunctionExecuteAsync(this DatabaseFacade databaseFacade, DbFunctionTypeOptions dbFunctionTypeOptions, string name, params object[] parameters)
+        {
+            var sql = CombineSql(dbFunctionTypeOptions, name, parameters);
+            return databaseFacade.SqlQueryAsync(sql, CommandType.Text, parameters);
+        }
+        #endregion
+
 
         #region 执行函数 + public static IEnumerable<T> SqlFunctionExecute<T>(this DatabaseFacade databaseFacade, DbCompileTypeOptions dbFunctionTypeOptions, string name, params object[] parameters)
         /// <summary>
@@ -46,22 +63,6 @@ namespace Fur.DatabaseVisitor.Extensions
         {
             var sql = CombineSql(dbFunctionTypeOptions, name, parameters);
             return databaseFacade.SqlQuery<T>(sql, CommandType.Text, parameters);
-        }
-        #endregion
-
-        #region 执行函数 + public static Task<DataTable> SqlFunctionExecuteAsync(this DatabaseFacade databaseFacade, DbCompileTypeOptions dbFunctionTypeOptions, string name, params object[] parameters)
-        /// <summary>
-        /// 执行函数
-        /// </summary>
-        /// <param name="databaseFacade">数据库操作对象</param>
-        /// <param name="dbFunctionTypeOptions">数据库编译类型选项</param>
-        /// <param name="name">函数名称</param>
-        /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
-        /// <returns><see cref="Task{TResult}"/></returns>
-        public static Task<DataTable> SqlFunctionExecuteAsync(this DatabaseFacade databaseFacade, DbFunctionTypeOptions dbFunctionTypeOptions, string name, params object[] parameters)
-        {
-            var sql = CombineSql(dbFunctionTypeOptions, name, parameters);
-            return databaseFacade.SqlQueryAsync(sql, CommandType.Text, parameters);
         }
         #endregion
 
@@ -82,9 +83,10 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region 执行函数 + public static DataTable SqlFunctionExecute(this DatabaseFacade databaseFacade, DbCompileTypeOptions dbFunctionTypeOptions, string name, object parameterModel)
+
+        #region 执行函数 返回 DataTable + public static DataTable SqlFunctionExecute(this DatabaseFacade databaseFacade, DbCompileTypeOptions dbFunctionTypeOptions, string name, object parameterModel)
         /// <summary>
-        /// 执行函数
+        /// 执行函数 返回 DataTable
         /// </summary>
         /// <param name="databaseFacade">数据库操作对象</param>
         /// <param name="dbFunctionTypeOptions">数据库编译类型选项</param>
@@ -97,6 +99,23 @@ namespace Fur.DatabaseVisitor.Extensions
             return databaseFacade.SqlQuery(sql, CommandType.Text, parameters);
         }
         #endregion
+
+        #region 执行函数 返回 DataTable + public static Task<DataTable> SqlFunctionExecuteAsync(this DatabaseFacade databaseFacade, DbCompileTypeOptions dbFunctionTypeOptions, string name, object parameterModel)
+        /// <summary>
+        /// 执行函数 返回 DataTable
+        /// </summary>
+        /// <param name="databaseFacade">数据库操作对象</param>
+        /// <param name="dbFunctionTypeOptions">数据库编译类型选项</param>
+        /// <param name="name">函数名称</param>
+        /// <param name="parameterModel">参数模型</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public static Task<DataTable> SqlFunctionExecuteAsync(this DatabaseFacade databaseFacade, DbFunctionTypeOptions dbFunctionTypeOptions, string name, object parameterModel)
+        {
+            var (sql, parameters) = CombineSql(dbFunctionTypeOptions, name, parameterModel);
+            return databaseFacade.SqlQueryAsync(sql, CommandType.Text, parameters);
+        }
+        #endregion
+
 
         #region 执行函数 + public static IEnumerable<T> SqlFunctionExecute<T>(this DatabaseFacade databaseFacade, DbCompileTypeOptions dbFunctionTypeOptions, string name, object parameterModel)
         /// <summary>
@@ -112,22 +131,6 @@ namespace Fur.DatabaseVisitor.Extensions
         {
             var (sql, parameters) = CombineSql(dbFunctionTypeOptions, name, parameterModel);
             return databaseFacade.SqlQuery<T>(sql, CommandType.Text, parameters);
-        }
-        #endregion
-
-        #region 执行函数 + public static Task<DataTable> SqlFunctionExecuteAsync(this DatabaseFacade databaseFacade, DbCompileTypeOptions dbFunctionTypeOptions, string name, object parameterModel)
-        /// <summary>
-        /// 执行函数
-        /// </summary>
-        /// <param name="databaseFacade">数据库操作对象</param>
-        /// <param name="dbFunctionTypeOptions">数据库编译类型选项</param>
-        /// <param name="name">函数名称</param>
-        /// <param name="parameterModel">参数模型</param>
-        /// <returns><see cref="Task{TResult}"/></returns>
-        public static Task<DataTable> SqlFunctionExecuteAsync(this DatabaseFacade databaseFacade, DbFunctionTypeOptions dbFunctionTypeOptions, string name, object parameterModel)
-        {
-            var (sql, parameters) = CombineSql(dbFunctionTypeOptions, name, parameterModel);
-            return databaseFacade.SqlQueryAsync(sql, CommandType.Text, parameters);
         }
         #endregion
 

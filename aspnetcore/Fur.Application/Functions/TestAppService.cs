@@ -238,7 +238,7 @@ namespace Fur.Application.Functions
         [AttachAction(EveryWordToRoutePath = true)]
         public Task<(IEnumerable<TestOutput>, IEnumerable<TestOutput>)> SqlDatasetQueryAsync(TestSqlInput input)
         {
-            return _testRepository.FromSqlDataSetQueryAsync<TestOutput, TestOutput>(input.Sql);
+            return _testRepository.SqlDataSetQueryAsync<TestOutput, TestOutput>(input.Sql);
         }
 
         /// <summary>

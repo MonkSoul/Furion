@@ -11,9 +11,9 @@ namespace Fur.DatabaseVisitor.Extensions
     /// </summary>
     public static class SqlProcedureExecuteExtensions
     {
-        #region 执行存储过程 + public static DataTable SqlProcedureExecute(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        #region 执行存储过程 返回 DataTable + public static DataTable SqlProcedureExecute(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         /// <summary>
-        /// 执行存储过程
+        /// 执行存储过程 返回 DataTable
         /// </summary>
         /// <param name="databaseFacade">数据库操作对象</param>
         /// <param name="name">存储过程名</param>
@@ -25,9 +25,9 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region 执行存储过程 + public static Task<DataTable> SqlProcedureExecuteAsync(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        #region 执行存储过程 返回 DataTable + public static Task<DataTable> SqlProcedureExecuteAsync(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         /// <summary>
-        /// 执行存储过程
+        /// 执行存储过程 返回 DataTable
         /// </summary>
         /// <param name="databaseFacade">数据库操作对象</param>
         /// <param name="name">存储过程名</param>
@@ -39,9 +39,10 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region 执行存储过程 + public static DataSet SqlProcedureDataSetExecute(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+
+        #region 执行存储过程 返回 DataSet + public static DataSet SqlProcedureDataSetExecute(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         /// <summary>
-        /// 执行存储过程
+        /// 执行存储过程 返回 DataSet
         /// </summary>
         /// <param name="databaseFacade">数据库操作对象</param>
         /// <param name="name">存储过程名</param>
@@ -53,9 +54,9 @@ namespace Fur.DatabaseVisitor.Extensions
         }
         #endregion
 
-        #region 执行存储过程 + public static Task<DataSet> SqlProcedureDataSetExecuteAsync(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        #region 执行存储过程 返回 DataSet + public static Task<DataSet> SqlProcedureDataSetExecuteAsync(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         /// <summary>
-        /// 执行存储过程
+        /// 执行存储过程 返回 DataSet
         /// </summary>
         /// <param name="databaseFacade">数据库操作对象</param>
         /// <param name="name">存储过程名</param>
@@ -66,6 +67,7 @@ namespace Fur.DatabaseVisitor.Extensions
             return databaseFacade.SqlDataSetQueryAsync(name, CommandType.StoredProcedure, parameters);
         }
         #endregion
+
 
         #region 执行存储过程 + public static object SqlProcedureDataSetExecute(this DatabaseFacade databaseFacade, string name, Type[] returnTypes, params object[] parameters)
         /// <summary>
