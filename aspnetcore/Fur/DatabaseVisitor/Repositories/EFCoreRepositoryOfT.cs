@@ -4,7 +4,6 @@ using Fur.DatabaseVisitor.Contexts;
 using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Extensions;
 using Fur.DatabaseVisitor.Options;
-using Fur.DatabaseVisitor.Page;
 using Fur.DatabaseVisitor.Provider;
 using Fur.DatabaseVisitor.TenantSaaS;
 using Fur.DependencyInjection.Lifetimes;
@@ -50,12 +49,14 @@ namespace Fur.DatabaseVisitor.Repositories
 
         public virtual DbContext DbContext { get; }
         public virtual DbSet<TEntity> Entity { get; }
+
+        public virtual IQueryable<TEntity> DerailEntity => DerailEntity;
         public virtual DatabaseFacade Database => DbContext.Database;
         public virtual DbConnection DbConnection => DbContext.Database.GetDbConnection();
 
         public virtual int TenantId => _tenantProvider.GetTenantId();
 
-   
+
 
 
 
@@ -111,7 +112,7 @@ namespace Fur.DatabaseVisitor.Repositories
         }
 
         // 新增操作
-        
+
 
         // 更新操作
         public virtual EntityEntry<TEntity> Update(TEntity entity)
@@ -345,245 +346,12 @@ namespace Fur.DatabaseVisitor.Repositories
         }
 
         // 新增或更新
-       
+
 
         // 删除功能
 
 
         // 查询一条
-
-        public virtual TEntity Find(object id)
-        {
-            return Entity.Find(id);
-        }
-
-        public virtual ValueTask<TEntity> FindAsync(object id)
-        {
-            return Entity.FindAsync(id);
-        }
-
-        public virtual TEntity Single()
-        {
-            return Entity.Single();
-        }
-
-        public virtual Task<TEntity> SingleAsync()
-        {
-            return Entity.SingleAsync();
-        }
-
-        public virtual TEntity Single(Expression<Func<TEntity, bool>> expression)
-        {
-            return Entity.Single(expression);
-        }
-
-        public virtual Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> expression)
-        {
-            return Entity.SingleAsync(expression);
-        }
-
-        public virtual TEntity SingleOrDefault()
-        {
-            return Entity.SingleOrDefault();
-        }
-
-        public virtual Task<TEntity> SingleOrDefaultAsync()
-        {
-            return Entity.SingleOrDefaultAsync();
-        }
-
-        public virtual TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression)
-        {
-            return Entity.SingleOrDefault(expression);
-        }
-
-        public virtual Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> expression)
-        {
-            return Entity.SingleOrDefaultAsync(expression);
-        }
-
-        public virtual TEntity Single(bool noTracking)
-        {
-            if (noTracking) return Entity.AsNoTracking().Single();
-            else return Single();
-        }
-
-        public virtual Task<TEntity> SingleAsync(bool noTracking)
-        {
-            if (noTracking) return Entity.AsNoTracking().SingleAsync();
-            else return SingleAsync();
-        }
-
-        public virtual TEntity Single(Expression<Func<TEntity, bool>> expression, bool noTracking)
-        {
-            if (noTracking) return Entity.AsNoTracking().Single(expression);
-            else return Single(expression);
-        }
-
-        public virtual Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
-        {
-            if (noTracking) return Entity.AsNoTracking().SingleAsync(expression);
-            else return SingleAsync(expression);
-        }
-
-        public virtual TEntity SingleOrDefault(bool noTracking)
-        {
-            if (noTracking) return Entity.AsNoTracking().SingleOrDefault();
-            else return SingleOrDefault();
-        }
-
-        public virtual Task<TEntity> SingleOrDefaultAsync(bool noTracking)
-        {
-            if (noTracking) return Entity.AsNoTracking().SingleOrDefaultAsync();
-            else return SingleOrDefaultAsync();
-        }
-
-        public virtual TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression, bool noTracking)
-        {
-            if (noTracking) return Entity.AsNoTracking().SingleOrDefault(expression);
-            else return SingleOrDefault(expression);
-        }
-
-        public virtual Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
-        {
-            if (noTracking) return Entity.AsNoTracking().SingleOrDefaultAsync(expression);
-            else return SingleOrDefaultAsync(expression);
-        }
-
-        public virtual TEntity First()
-        {
-            return Entity.First();
-        }
-
-        public virtual Task<TEntity> FirstAsync()
-        {
-            return Entity.FirstAsync();
-        }
-
-        public virtual TEntity First(Expression<Func<TEntity, bool>> expression)
-        {
-            return Entity.First(expression);
-        }
-
-        public virtual Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> expression)
-        {
-            return Entity.FirstAsync(expression);
-        }
-
-        public virtual TEntity FirstOrDefault()
-        {
-            return Entity.FirstOrDefault();
-        }
-
-        public virtual Task<TEntity> FirstOrDefaultAsync()
-        {
-            return Entity.FirstOrDefaultAsync();
-        }
-
-        public virtual TEntity FirstOrDefault(Expression<Func<TEntity, bool>> expression)
-        {
-            return Entity.FirstOrDefault(expression);
-        }
-
-        public virtual Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression)
-        {
-            return Entity.FirstOrDefaultAsync(expression);
-        }
-
-        public virtual TEntity First(bool noTracking)
-        {
-            if (noTracking) return Entity.AsNoTracking().First();
-            else return First();
-        }
-
-        public virtual Task<TEntity> FirstAsync(bool noTracking)
-        {
-            if (noTracking) return Entity.AsNoTracking().FirstAsync();
-            else return FirstAsync();
-        }
-
-        public virtual TEntity First(Expression<Func<TEntity, bool>> expression, bool noTracking)
-        {
-            if (noTracking) return Entity.AsNoTracking().First(expression);
-            else return First(expression);
-        }
-
-        public virtual Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
-        {
-            if (noTracking) return Entity.AsNoTracking().FirstAsync(expression);
-            else return FirstAsync(expression);
-        }
-
-        public virtual TEntity FirstOrDefault(bool noTracking)
-        {
-            if (noTracking) return Entity.AsNoTracking().FirstOrDefault();
-            else return FirstOrDefault();
-        }
-
-        public virtual Task<TEntity> FirstOrDefaultAsync(bool noTracking)
-        {
-            if (noTracking) return Entity.AsNoTracking().FirstOrDefaultAsync();
-            else return FirstOrDefaultAsync();
-        }
-
-        public virtual TEntity FirstOrDefault(Expression<Func<TEntity, bool>> expression, bool noTracking)
-        {
-            if (noTracking) return Entity.AsNoTracking().FirstOrDefault(expression);
-            else return FirstOrDefault(expression);
-        }
-
-        public virtual Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
-        {
-            if (noTracking) return Entity.AsNoTracking().FirstOrDefaultAsync(expression);
-            else return FirstOrDefaultAsync(expression);
-        }
-
-        // 获取所有
-        public virtual IQueryable<TEntity> Get(bool noTracking = true, bool ignoreQueryFilters = false)
-        {
-            return GetQueryConditionCombine(null, noTracking, ignoreQueryFilters);
-        }
-
-        public virtual Task<List<TEntity>> GetAsync(bool noTracking = true, bool ignoreQueryFilters = false)
-        {
-            var query = GetQueryConditionCombine(null, noTracking, ignoreQueryFilters);
-            return query.ToListAsync();
-        }
-
-        public virtual IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false)
-        {
-            return GetQueryConditionCombine(expression, noTracking, ignoreQueryFilters);
-        }
-
-        public virtual Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false)
-        {
-            var query = GetQueryConditionCombine(expression, noTracking, ignoreQueryFilters);
-            return query.ToListAsync();
-        }
-
-        public virtual IPagedListOfT<TEntity> GetPage(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
-        {
-            var query = GetQueryConditionCombine(null, noTracking, ignoreQueryFilters);
-            return query.ToPagedList(pageIndex, pageSize);
-        }
-
-        public virtual Task<IPagedListOfT<TEntity>> GetPageAsync(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
-        {
-            var query = GetQueryConditionCombine(null, noTracking, ignoreQueryFilters);
-            return query.ToPagedListAsync(pageIndex, pageSize);
-        }
-
-        public virtual IPagedListOfT<TEntity> GetPage(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
-        {
-            var query = GetQueryConditionCombine(expression, noTracking, ignoreQueryFilters);
-            return query.ToPagedList(pageIndex, pageSize);
-        }
-
-        public virtual Task<IPagedListOfT<TEntity>> GetPageAsync(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
-        {
-            var query = GetQueryConditionCombine(expression, noTracking, ignoreQueryFilters);
-            return query.ToPagedListAsync(pageIndex, pageSize);
-        }
 
 
         public virtual IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters)
@@ -932,8 +700,7 @@ namespace Fur.DatabaseVisitor.Repositories
 
         private IQueryable<TEntity> GetQueryConditionCombine(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false)
         {
-            IQueryable<TEntity> entities = Entity;
-            if (noTracking) entities = entities.AsNoTracking();
+            IQueryable<TEntity> entities = noTracking ? DerailEntity : Entity;
             if (ignoreQueryFilters) entities = entities.IgnoreQueryFilters();
             if (expression != null) entities = entities.Where(expression);
 

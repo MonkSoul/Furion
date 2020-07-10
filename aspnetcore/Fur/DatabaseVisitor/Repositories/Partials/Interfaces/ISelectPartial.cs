@@ -9,46 +9,193 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseVisitor.Repositories
 {
     /// <summary>
-    /// 查询操作分部类
+    /// 泛型仓储 查询操作 分部类
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TEntity">实体类型</typeparam>
     public partial interface IRepositoryOfT<TEntity> where TEntity : class, IDbEntity, new()
     {
+        #region 查询单条 + TEntity Find(object id)
+        /// <summary>
+        /// 查询单条
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <returns>实体</returns>
         TEntity Find(object id);
+        #endregion
 
+        #region 查询单条 + ValueTask<TEntity> FindAsync(object id)
+        /// <summary>
+        /// 查询单条
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <returns><see cref="ValueTask{TResult}"/></returns>
         ValueTask<TEntity> FindAsync(object id);
+        #endregion
 
+
+        #region 查询单条 + TEntity Single()
+        /// <summary>
+        /// 查询单条
+        /// <para>如果结果集找不到或包含多条将抛异常</para>
+        /// </summary>
+        /// <returns>实体</returns>
         TEntity Single();
+        #endregion
 
-        TEntity Single(bool noTracking);
-
+        #region 查询单条 + Task<TEntity> SingleAsync()
+        /// <summary>
+        /// 查询单条
+        /// <para>如果结果集找不到或包含多条将抛异常</para>
+        /// </summary>
+        /// <returns>实体</returns>
         Task<TEntity> SingleAsync();
+        #endregion
 
-        Task<TEntity> SingleAsync(bool noTracking);
-
+        #region 查询单条 + TEntity Single(Expression<Func<TEntity, bool>> expression)
+        /// <summary>
+        /// 查询单条
+        /// <para>如果结果集找不到或包含多条将抛异常</para>
+        /// </summary>
+        /// <param name="expression">表达式</param>
+        /// <returns>实体</returns>
         TEntity Single(Expression<Func<TEntity, bool>> expression);
+        #endregion
 
-        TEntity Single(Expression<Func<TEntity, bool>> expression, bool noTracking);
-
+        #region 查询单条 + Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> expression)
+        /// <summary>
+        /// 查询单条
+        /// <para>如果结果集找不到或包含多条将抛异常</para>
+        /// </summary>
+        /// <param name="expression">表达式</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
         Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> expression);
+        #endregion
 
+
+        #region 查询单条 + TEntity Single(bool noTracking)
+        /// <summary>
+        /// 查询单条
+        /// <para>如果结果集找不到或包含多条将抛异常</para>
+        /// </summary>
+        /// <param name="noTracking">不跟踪实体</param>
+        /// <returns>实体</returns>
+        TEntity Single(bool noTracking);
+        #endregion
+
+        #region 查询单条 + Task<TEntity> SingleAsync(bool noTracking)
+        /// <summary>
+        /// 查询单条
+        /// <para>如果结果集找不到或包含多条将抛异常</para>
+        /// </summary>
+        /// <param name="noTracking">不跟踪实体</param>
+        /// <returns>实体</returns>
+        Task<TEntity> SingleAsync(bool noTracking);
+        #endregion
+
+        #region 查询单条 + TEntity Single(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        /// <summary>
+        /// 查询单条
+        /// <para>如果结果集找不到或包含多条将抛异常</para>
+        /// </summary>
+        /// <param name="expression">表达式</param>
+        /// <param name="noTracking">不跟踪实体</param>
+        /// <returns>实体</returns>
+        TEntity Single(Expression<Func<TEntity, bool>> expression, bool noTracking);
+        #endregion
+
+        #region 查询单条 + Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        /// <summary>
+        /// 查询单条
+        /// <para>如果结果集找不到或包含多条将抛异常</para>
+        /// </summary>
+        /// <param name="expression">表达式</param>
+        /// <param name="noTracking">不跟踪实体</param>
+        /// <returns>实体</returns>
         Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> expression, bool noTracking);
+        #endregion
 
+
+        #region 查询单条 + TEntity SingleOrDefault()
+        /// <summary>
+        /// 查询单条
+        /// <para>如果包含多条将抛异常</para>
+        /// </summary>
+        /// <returns>实体</returns>
         TEntity SingleOrDefault();
+        #endregion
 
-        TEntity SingleOrDefault(bool noTracking);
-
+        #region 查询单条 + Task<TEntity> SingleOrDefaultAsync()
+        /// <summary>
+        /// 查询单条
+        /// <para>如果包含多条将抛异常</para>
+        /// </summary>
+        /// <returns>实体</returns>
         Task<TEntity> SingleOrDefaultAsync();
+        #endregion
 
-        Task<TEntity> SingleOrDefaultAsync(bool noTracking);
-
+        #region 查询单条 + TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression)
+        /// <summary>
+        /// 查询单条
+        /// <para>如果包含多条将抛异常</para>
+        /// </summary>
+        /// <param name="expression">表达式</param>
+        /// <returns>实体</returns>
         TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression);
+        #endregion
 
-        TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression, bool noTracking);
-
+        #region 查询单条 + Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> expression)
+        /// <summary>
+        /// 查询单条
+        /// <para>如果包含多条将抛异常</para>
+        /// </summary>
+        /// <param name="expression">表达式</param>
+        /// <returns>实体</returns>
         Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> expression);
+        #endregion
 
+
+        #region 查询单条 + TEntity SingleOrDefault(bool noTracking)
+        /// <summary>
+        /// 查询单条
+        /// <para>如果包含多条将抛异常</para>
+        /// </summary>
+        /// <param name="noTracking">不跟踪实体</param>
+        /// <returns>实体</returns>
+        TEntity SingleOrDefault(bool noTracking);
+        #endregion
+
+        #region 查询单条 + Task<TEntity> SingleOrDefaultAsync(bool noTracking)
+        /// <summary>
+        /// 查询单条
+        /// <para>如果包含多条将抛异常</para>
+        /// </summary>
+        /// <param name="noTracking">不跟踪实体</param>
+        /// <returns></returns>
+        Task<TEntity> SingleOrDefaultAsync(bool noTracking);
+        #endregion
+
+        #region 查询单条 + TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        /// <summary>
+        /// 查询单条
+        /// <para>如果包含多条将抛异常</para>
+        /// </summary>
+        /// <param name="expression">表达式</param>
+        /// <param name="noTracking">不跟踪实体</param>
+        /// <returns>实体</returns>
+        TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression, bool noTracking);
+        #endregion
+
+        #region 查询单条 + Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        /// <summary>
+        /// 查询单条
+        /// <para>如果包含多条将抛异常</para>
+        /// </summary>
+        /// <param name="expression">表达式</param>
+        /// <param name="noTracking">不跟踪实体</param>
+        /// <returns></returns>
         Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> expression, bool noTracking);
+        #endregion
+
 
         TEntity First();
 

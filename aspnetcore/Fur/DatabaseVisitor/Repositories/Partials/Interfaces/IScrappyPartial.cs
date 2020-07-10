@@ -9,7 +9,7 @@ namespace Fur.DatabaseVisitor.Repositories
     /// <summary>
     /// 泛型仓储 零碎操作 分部类
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TEntity">实体类型</typeparam>
     public partial interface IRepositoryOfT<TEntity> where TEntity : class, IDbEntity, new()
     {
         #region 判断实体是否设置了主键 + bool IsKeySet(TEntity entity)
@@ -20,7 +20,6 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>是或否</returns>
         bool IsKeySet(TEntity entity);
         #endregion
-
 
         #region 获取实体变更信息 + EntityEntry<TEntity> EntityEntry(TEntity entity)
         /// <summary>

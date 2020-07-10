@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.Data.Common;
+using System.Linq;
 
 namespace Fur.DatabaseVisitor.Repositories
 {
@@ -20,6 +21,11 @@ namespace Fur.DatabaseVisitor.Repositories
         /// 实体对象
         /// </summary>
         DbSet<TEntity> Entity { get; }
+
+        /// <summary>
+        /// 不跟踪的（脱轨）实体
+        /// </summary>
+        IQueryable<TEntity> DerailEntity { get; }
 
         /// <summary>
         /// 数据库操作对象
