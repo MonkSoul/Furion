@@ -196,8 +196,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         public virtual EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
-            var entityEntry = EntityEntry(entity);
-            Attach(entity);
+            var entityEntry = Attach(entity);
 
             foreach (var expression in propertyExpressions)
             {
@@ -218,8 +217,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
-            var entityEntry = EntityEntry(entity);
-            Attach(entity);
+            var entityEntry = Attach(entity);
 
             foreach (var expression in propertyExpressions)
             {
@@ -332,8 +330,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         public virtual EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, params string[] propertyNames)
         {
-            var entityEntry = EntityEntry(entity);
-            Attach(entity);
+            var entityEntry = Attach(entity);
 
             foreach (var propertyName in propertyNames)
             {
@@ -354,8 +351,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, params string[] propertyNames)
         {
-            var entityEntry = EntityEntry(entity);
-            Attach(entity);
+            var entityEntry = Attach(entity);
             foreach (var propertyName in propertyNames)
             {
                 EntityEntryProperty(entityEntry, propertyName).IsModified = true;
@@ -466,8 +462,8 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         public virtual EntityEntry<TEntity> UpdateExcludeProperties(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
-            var entityEntry = EntityEntry(entity);
-            Attach(entity);
+            var entityEntry = Attach(entity);
+
             entityEntry.State = EntityState.Modified;
             foreach (var expression in propertyExpressions)
             {
@@ -488,8 +484,8 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<EntityEntry<TEntity>> UpdateExcludePropertiesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
-            var entityEntry = EntityEntry(entity);
-            Attach(entity);
+            var entityEntry = Attach(entity);
+
             entityEntry.State = EntityState.Modified;
             foreach (var expression in propertyExpressions)
             {
@@ -594,11 +590,17 @@ namespace Fur.DatabaseVisitor.Repositories
 
 
 
-
+        #region 排除特定列更新 + public virtual EntityEntry<TEntity> UpdateExcludeProperties(TEntity entity, params string[] propertyNames)
+        /// <summary>
+        /// 排除特定列更新
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         public virtual EntityEntry<TEntity> UpdateExcludeProperties(TEntity entity, params string[] propertyNames)
         {
-            var entityEntry = EntityEntry(entity);
-            Attach(entity);
+            var entityEntry = Attach(entity);
+
             entityEntry.State = EntityState.Modified;
             foreach (var propertyName in propertyNames)
             {
@@ -608,11 +610,19 @@ namespace Fur.DatabaseVisitor.Repositories
             SetUpdateMaintenanceFields(null, entity);
             return entityEntry;
         }
+        #endregion
 
+        #region 排除特定列更新 + public virtual Task<EntityEntry<TEntity>> UpdateExcludePropertiesAsync(TEntity entity, params string[] propertyNames)
+        /// <summary>
+        /// 排除特定列更新
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<EntityEntry<TEntity>> UpdateExcludePropertiesAsync(TEntity entity, params string[] propertyNames)
         {
-            var entityEntry = EntityEntry(entity);
-            Attach(entity);
+            var entityEntry = Attach(entity);
+
             entityEntry.State = EntityState.Modified;
             foreach (var propertyName in propertyNames)
             {
@@ -622,7 +632,14 @@ namespace Fur.DatabaseVisitor.Repositories
             SetUpdateMaintenanceFields(null, entity);
             return Task.FromResult(entityEntry);
         }
+        #endregion
 
+        #region 排除特定列更新 + public virtual void UpdateExcludeProperties(IEnumerable<TEntity> entities, params string[] propertyNames)
+        /// <summary>
+        /// 排除特定列更新
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyNames">属性</param>
         public virtual void UpdateExcludeProperties(IEnumerable<TEntity> entities, params string[] propertyNames)
         {
             foreach (var entity in entities)
@@ -630,7 +647,15 @@ namespace Fur.DatabaseVisitor.Repositories
                 UpdateExcludeProperties(entity, propertyNames);
             }
         }
+        #endregion
 
+        #region 排除特定列更新 + public virtual Task UpdateExcludePropertiesAsync(IEnumerable<TEntity> entities, params string[] propertyNames)
+        /// <summary>
+        /// 排除特定列更新
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="Task"/></returns>
         public virtual Task UpdateExcludePropertiesAsync(IEnumerable<TEntity> entities, params string[] propertyNames)
         {
             foreach (var entity in entities)
@@ -640,33 +665,64 @@ namespace Fur.DatabaseVisitor.Repositories
 
             return Task.CompletedTask;
         }
+        #endregion
 
 
+        #region 排除特定列更新并立即保存 + public virtual EntityEntry<TEntity> UpdateExcludePropertiesSaveChanges(TEntity entity, params string[] propertyNames)
+        /// <summary>
+        /// 排除特定列更新并立即保存
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         public virtual EntityEntry<TEntity> UpdateExcludePropertiesSaveChanges(TEntity entity, params string[] propertyNames)
         {
             var entityEntry = UpdateExcludeProperties(entity, propertyNames);
             SaveChanges();
             return entityEntry;
         }
+        #endregion
 
+        #region 排除特定列更新并立即保存 + public virtual async Task<EntityEntry<TEntity>> UpdateExcludePropertiesSaveChangesAsync(TEntity entity, params string[] propertyNames)
+        /// <summary>
+        /// 排除特定列更新并立即保存
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
         public virtual async Task<EntityEntry<TEntity>> UpdateExcludePropertiesSaveChangesAsync(TEntity entity, params string[] propertyNames)
         {
             var entityEntry = await UpdateExcludePropertiesAsync(entity, propertyNames);
             await SaveChangesAsync();
             return entityEntry;
         }
+        #endregion
 
-
+        #region 排除特定列更新并立即保存 + public virtual void UpdateExcludePropertiesSaveChanges(IEnumerable<TEntity> entities, params string[] propertyNames)
+        /// <summary>
+        /// 排除特定列更新并立即保存
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyNames">属性</param>
         public virtual void UpdateExcludePropertiesSaveChanges(IEnumerable<TEntity> entities, params string[] propertyNames)
         {
             UpdateExcludeProperties(entities, propertyNames);
             SaveChanges();
         }
+        #endregion
 
+        #region 排除特定列更新并立即保存 + public virtual async Task UpdateExcludePropertiesSaveChangesAsync(IEnumerable<TEntity> entities, params string[] propertyNames)
+        /// <summary>
+        /// 排除特定列更新并立即保存
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="Task"/></returns>
         public virtual async Task UpdateExcludePropertiesSaveChangesAsync(IEnumerable<TEntity> entities, params string[] propertyNames)
         {
             await UpdateExcludePropertiesAsync(entities, propertyNames);
             await SaveChangesAsync();
         }
+        #endregion
     }
 }

@@ -138,18 +138,21 @@ namespace Fur.DatabaseVisitor.Repositories
         #endregion
 
 
-        #region 附加实体到上下文中 + public virtual void Attach(TEntity entity)
+        #region 附加实体到上下文中 + public virtual EntityEntry<TEntity> Attach(TEntity entity)
         /// <summary>
         /// 附加实体到上下文中
         /// <para>此时实体状态为 <c>Unchanged</c> 状态</para>
         /// </summary>
         /// <param name="entity">实体</param>
-        public virtual void Attach(TEntity entity)
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
+        public virtual EntityEntry<TEntity> Attach(TEntity entity)
         {
-            if (EntityEntry(entity).State == EntityState.Detached)
+            var entityEntry = EntityEntry(entity);
+            if (entityEntry.State == EntityState.Detached)
             {
                 DbContext.Attach(entity);
             }
+            return entityEntry;
         }
         #endregion
 

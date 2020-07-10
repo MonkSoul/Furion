@@ -108,13 +108,14 @@ namespace Fur.DatabaseVisitor.Repositories
         #endregion
 
 
-        #region 附加实体到上下文中 + void Attach(TEntity entity)
+        #region 附加实体到上下文中 + EntityEntry<TEntity> Attach(TEntity entity)
         /// <summary>
         /// 附加实体到上下文中
         /// <para>此时实体状态为 <c>Unchanged</c> 状态</para>
         /// </summary>
         /// <param name="entity">实体</param>
-        void Attach(TEntity entity);
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
+        EntityEntry<TEntity> Attach(TEntity entity);
         #endregion
 
         #region 附加实体到上下文中 + void AttachRange(IEnumerable<TEntity> entites)
@@ -125,6 +126,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <param name="entities">多个实体</param>
         void AttachRange(IEnumerable<TEntity> entites);
         #endregion
+
 
         #region 判断记录是否存在 + bool Any(Expression<Func<TEntity, bool>> expression = null)
         /// <summary>

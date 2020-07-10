@@ -236,8 +236,8 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="EntityEntry(TEntity)"/></returns>
         public virtual EntityEntry<TEntity> FakeDelete(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
         {
-            Attach(entity);
-            EntityEntryProperty(entity, flagProperty).CurrentValue = flagValue;
+            var entityEntry = Attach(entity);
+            EntityEntryProperty(entityEntry, flagProperty).CurrentValue = flagValue;
             return UpdateIncludeProperties(entity, flagProperty);
         }
         #endregion
@@ -268,8 +268,8 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
         {
-            Attach(entity);
-            EntityEntryProperty(entity, flagProperty).CurrentValue = flagValue;
+            var entityEntry = Attach(entity);
+            EntityEntryProperty(entityEntry, flagProperty).CurrentValue = flagValue;
 
             return UpdateIncludePropertiesAsync(entity, flagProperty);
         }
@@ -432,10 +432,10 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="EntityEntry(TEntity)"/></returns>
         public virtual EntityEntry<TEntity> FakeDelete(TEntity entity)
         {
-            Attach(entity);
             var (flagPropertyName, flagValue) = _maintenanceProvider.GetFakeDeletePropertyInfo();
 
-            EntityEntryProperty(entity, flagPropertyName).CurrentValue = flagValue;
+            var entityEntry = Attach(entity);
+            EntityEntryProperty(entityEntry, flagPropertyName).CurrentValue = flagValue;
             return UpdateIncludeProperties(entity, flagPropertyName);
         }
         #endregion
@@ -462,10 +462,10 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity)
         {
-            Attach(entity);
             var (flagPropertyName, flagValue) = _maintenanceProvider.GetFakeDeletePropertyInfo();
 
-            EntityEntryProperty(entity, flagPropertyName).CurrentValue = flagValue;
+            var entityEntry = Attach(entity);
+            EntityEntryProperty(entityEntry, flagPropertyName).CurrentValue = flagValue;
 
             return UpdateIncludePropertiesAsync(entity, flagPropertyName);
         }

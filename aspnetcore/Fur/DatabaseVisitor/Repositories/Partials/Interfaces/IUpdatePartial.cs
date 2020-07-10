@@ -360,21 +360,83 @@ namespace Fur.DatabaseVisitor.Repositories
         #endregion
 
 
+        #region 排除特定列更新 + EntityEntry<TEntity> UpdateExcludeProperties(TEntity entity, params string[] propertyNames)
+        /// <summary>
+        /// 排除特定列更新
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         EntityEntry<TEntity> UpdateExcludeProperties(TEntity entity, params string[] propertyNames);
+        #endregion
 
+        #region 排除特定列更新 + Task<EntityEntry<TEntity>> UpdateExcludePropertiesAsync(TEntity entity, params string[] propertyNames)
+        /// <summary>
+        /// 排除特定列更新
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
         Task<EntityEntry<TEntity>> UpdateExcludePropertiesAsync(TEntity entity, params string[] propertyNames);
+        #endregion
 
+        #region 排除特定列更新 + void UpdateExcludeProperties(IEnumerable<TEntity> entities, params string[] propertyNames)
+        /// <summary>
+        /// 排除特定列更新
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyNames">属性</param>
         void UpdateExcludeProperties(IEnumerable<TEntity> entities, params string[] propertyNames);
+        #endregion
 
+        #region 排除特定列更新 + Task UpdateExcludePropertiesAsync(IEnumerable<TEntity> entities, params string[] propertyNames)
+        /// <summary>
+        /// 排除特定列更新
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="Task"/></returns>
         Task UpdateExcludePropertiesAsync(IEnumerable<TEntity> entities, params string[] propertyNames);
+        #endregion
 
 
+        #region 排除特定列更新并立即保存 + EntityEntry<TEntity> UpdateExcludePropertiesSaveChanges(TEntity entity, params string[] propertyNames)
+        /// <summary>
+        /// 排除特定列更新并立即保存
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         EntityEntry<TEntity> UpdateExcludePropertiesSaveChanges(TEntity entity, params string[] propertyNames);
+        #endregion
 
+        #region 排除特定列更新并立即保存 + Task<EntityEntry<TEntity>> UpdateExcludePropertiesSaveChangesAsync(TEntity entity, params string[] propertyNames)
+        /// <summary>
+        /// 排除特定列更新并立即保存
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
         Task<EntityEntry<TEntity>> UpdateExcludePropertiesSaveChangesAsync(TEntity entity, params string[] propertyNames);
+        #endregion
 
+        #region 排除特定列更新并立即保存 + void UpdateExcludePropertiesSaveChanges(IEnumerable<TEntity> entities, params string[] propertyNames)
+        /// <summary>
+        /// 排除特定列更新并立即保存
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyNames">属性</param>
         void UpdateExcludePropertiesSaveChanges(IEnumerable<TEntity> entities, params string[] propertyNames);
+        #endregion
 
+        #region 排除特定列更新并立即保存 + Task UpdateExcludePropertiesSaveChangesAsync(IEnumerable<TEntity> entities, params string[] propertyNames)
+        /// <summary>
+        /// 排除特定列更新并立即保存
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyNames">属性</param>
+        /// <returns><see cref="Task"/></returns>
         Task UpdateExcludePropertiesSaveChangesAsync(IEnumerable<TEntity> entities, params string[] propertyNames);
+        #endregion
     }
 }
