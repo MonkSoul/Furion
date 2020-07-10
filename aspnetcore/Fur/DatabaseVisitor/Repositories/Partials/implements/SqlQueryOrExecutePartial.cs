@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseVisitor.Repositories
 {
     /// <summary>
-    /// 泛型仓储 执行sql语句 分部类
+    /// 泛型仓储 查询或执行sql语句 分部类
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity>, IScopedLifetimeOfT<TEntity> where TEntity : class, IDbEntity, new()

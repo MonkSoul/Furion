@@ -16,7 +16,7 @@ namespace Fur.DatabaseVisitor.Extensions
     /// <summary>
     /// Sql 查询或执行拓展类
     /// </summary>
-    public static class SqlExecuteExtensions
+    public static class SqlQueryOrExecuteExtensions
     {
         #region Sql 查询 + public static DataTable SqlQuery(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         /// <summary>

@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DatabaseVisitor\Extensions\StartupExtensions\" />
+    <Folder Include="DatabaseVisitor\StartupExtensions\" />
     <Folder Include="Mvc\Extensions\" />
   </ItemGroup>
 
