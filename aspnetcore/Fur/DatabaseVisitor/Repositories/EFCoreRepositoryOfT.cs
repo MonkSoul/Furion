@@ -15,10 +15,29 @@ namespace Fur.DatabaseVisitor.Repositories
 {
     public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity>, IScopedLifetimeOfT<TEntity> where TEntity : class, IDbEntity, new()
     {
+        /// <summary>
+        /// 维护字段提供器
+        /// </summary>
         private readonly IMaintenanceProvider _maintenanceProvider;
+
+        /// <summary>
+        /// 租户提供器
+        /// </summary>
         private readonly ITenantProvider _tenantProvider;
+
+        /// <summary>
+        /// 数据库上下文池
+        /// </summary>
         private readonly IDbContextPool _dbContextPool;
 
+        #region 构造函数 + public EFCoreRepositoryOfT(DbContext dbContext , IServiceProvider serviceProvider, ITenantProvider tenantProvider, IDbContextPool dbContextPool)
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="dbContext">数据库操作上下文</param>
+        /// <param name="serviceProvider">服务提供器</param>
+        /// <param name="tenantProvider">租户提供器</param>
+        /// <param name="dbContextPool">数据库上下文池</param>
         public EFCoreRepositoryOfT(DbContext dbContext
             , IServiceProvider serviceProvider
             , ITenantProvider tenantProvider
@@ -37,6 +56,7 @@ namespace Fur.DatabaseVisitor.Repositories
                 _maintenanceProvider = autofacContainer.Resolve<IMaintenanceProvider>();
             }
         }
+        #endregion
 
         /// <summary>
         /// 数据库操作上下文

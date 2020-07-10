@@ -1,7 +1,7 @@
 ﻿using Fur.DatabaseVisitor.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -238,6 +238,31 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <param name="expression">表达式</param>
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression);
+        #endregion
+
+
+        #region 获取所有的数据库上下文 + IEnumerable<DbContext> GetDbContexts()
+        /// <summary>
+        /// 获取所有的数据库上下文
+        /// </summary>
+        /// <returns><see cref="IEnumerable{T}"/></returns>
+        IEnumerable<DbContext> GetDbContexts();
+        #endregion
+
+        #region 提交所有已更改的数据库上下文 +  int SavePoolChanges()
+        /// <summary>
+        /// 提交所有已更改的数据库上下文
+        /// </summary>
+        /// <returns>受影响行数</returns>
+        int SavePoolChanges();
+        #endregion
+
+        #region 异步提交所有已更改的数据库上下文 + Task<int> SavePoolChangesAsync()
+        /// <summary>
+        /// 异步提交所有已更改的数据库上下文
+        /// </summary>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        Task<int> SavePoolChangesAsync();
         #endregion
     }
 }

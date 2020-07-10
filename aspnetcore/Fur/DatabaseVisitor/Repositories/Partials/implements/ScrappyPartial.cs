@@ -316,5 +316,39 @@ namespace Fur.DatabaseVisitor.Repositories
             return Entity.MinAsync(expression);
         }
         #endregion
+
+
+        #region 获取所有的数据库上下文 + public virtual IEnumerable<DbContext> GetDbContexts()
+        /// <summary>
+        /// 获取所有的数据库上下文
+        /// </summary>
+        /// <returns><see cref="IEnumerable{T}"/></returns>
+        public virtual IEnumerable<DbContext> GetDbContexts()
+        {
+            return _dbContextPool.GetDbContexts();
+        }
+        #endregion
+
+        #region 提交所有已更改的数据库上下文 +  public virtual int SavePoolChanges()
+        /// <summary>
+        /// 提交所有已更改的数据库上下文
+        /// </summary>
+        /// <returns>受影响行数</returns>
+        public virtual int SavePoolChanges()
+        {
+            return _dbContextPool.SavePoolChanges();
+        }
+        #endregion
+
+        #region 异步提交所有已更改的数据库上下文 + public virtual Task<int> SavePoolChangesAsync()
+        /// <summary>
+        /// 异步提交所有已更改的数据库上下文
+        /// </summary>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual Task<int> SavePoolChangesAsync()
+        {
+            return _dbContextPool.SavePoolChangesAsync();
+        }
+        #endregion
     }
 }
