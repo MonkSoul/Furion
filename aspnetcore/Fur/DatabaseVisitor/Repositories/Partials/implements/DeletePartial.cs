@@ -275,7 +275,7 @@ namespace Fur.DatabaseVisitor.Repositories
         }
         #endregion
 
-        #region 假删除操作 + public virtual async Task FakeDeleteAsync(IAsyncEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #region 假删除操作 + public virtual Task FakeDeleteAsync(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
         /// <summary>
         /// 假删除操作
         /// </summary>
@@ -283,12 +283,13 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <param name="flagProperty">标识属性</param>
         /// <param name="flagValue">标识值</param>
         /// <returns><<see cref="Task"/>/returns>
-        public virtual async Task FakeDeleteAsync(IAsyncEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        public virtual Task FakeDeleteAsync(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
         {
-            await foreach (var entity in entities)
+            foreach (var entity in entities)
             {
                 FakeDelete(entity, flagProperty, flagValue);
             }
+            return Task.CompletedTask;
         }
         #endregion
 
@@ -372,7 +373,7 @@ namespace Fur.DatabaseVisitor.Repositories
         }
         #endregion
 
-        #region 假删除操作并立即保存 + public virtual async Task FakeDeleteSaveChangesAsync(IAsyncEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #region 假删除操作并立即保存 + public virtual async Task FakeDeleteSaveChangesAsync(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
         /// <summary>
         /// 假删除操作并立即保存
         /// </summary>
@@ -380,9 +381,9 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <param name="flagProperty">标识属性</param>
         /// <param name="flagValue">标识值</param>
         /// <returns><see cref="Task"/></returns>
-        public virtual async Task FakeDeleteSaveChangesAsync(IAsyncEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        public virtual async Task FakeDeleteSaveChangesAsync(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
         {
-            await foreach (var entity in entities)
+            foreach (var entity in entities)
             {
                 FakeDelete(entity, flagProperty, flagValue);
             }
@@ -471,18 +472,20 @@ namespace Fur.DatabaseVisitor.Repositories
         }
         #endregion
 
-        #region 假删除操作 + public virtual async Task FakeDeleteAsync(IAsyncEnumerable<TEntity> entities)
+        #region 假删除操作 + public virtual Task FakeDeleteAsync(IEnumerable<TEntity> entities)
         /// <summary>
         /// 假删除操作
         /// </summary>
         /// <param name="entities">多个实体</param>
         /// <returns><see cref="Task"/></returns>
-        public virtual async Task FakeDeleteAsync(IAsyncEnumerable<TEntity> entities)
+        public virtual Task FakeDeleteAsync(IEnumerable<TEntity> entities)
         {
-            await foreach (var entity in entities)
+            foreach (var entity in entities)
             {
                 FakeDelete(entity);
             }
+
+            return Task.CompletedTask;
         }
         #endregion
 
@@ -556,13 +559,13 @@ namespace Fur.DatabaseVisitor.Repositories
         }
         #endregion
 
-        #region 假删除操作并立即保存 + public virtual Task FakeDeleteSaveChangesAsync(IAsyncEnumerable<TEntity> entities)
+        #region 假删除操作并立即保存 + public virtual Task FakeDeleteSaveChangesAsync(IEnumerable<TEntity> entities)
         /// <summary>
         /// 假删除操作并立即保存
         /// </summary>
         /// <param name="entities">多个实体</param>
         /// <returns><see cref="Task"/></returns>
-        public virtual Task FakeDeleteSaveChangesAsync(IAsyncEnumerable<TEntity> entities)
+        public virtual Task FakeDeleteSaveChangesAsync(IEnumerable<TEntity> entities)
         {
             throw new NotImplementedException();
         }

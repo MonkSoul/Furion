@@ -187,7 +187,7 @@ namespace Fur.DatabaseVisitor.Repositories
         Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue);
         #endregion
 
-        #region 假删除操作 + Task FakeDeleteAsync(IAsyncEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #region 假删除操作 + Task FakeDeleteAsync(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
         /// <summary>
         /// 假删除操作
         /// </summary>
@@ -195,7 +195,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <param name="flagProperty">标识属性</param>
         /// <param name="flagValue">标识值</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        Task FakeDeleteAsync(IAsyncEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue);
+        Task FakeDeleteAsync(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue);
         #endregion
 
         #region 假删除操作 + EntityEntry<TEntity> FakeDelete(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue)
@@ -253,7 +253,7 @@ namespace Fur.DatabaseVisitor.Repositories
         Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue);
         #endregion
 
-        #region 假删除操作并立即保存 + Task FakeDeleteSaveChangesAsync(IAsyncEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #region 假删除操作并立即保存 + Task FakeDeleteSaveChangesAsync(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
         /// <summary>
         /// 假删除操作并立即保存
         /// </summary>
@@ -261,7 +261,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <param name="flagProperty">标记属性</param>
         /// <param name="flagValue">标记值</param>
         /// <returns><see cref="Task"/></returns>
-        Task FakeDeleteSaveChangesAsync(IAsyncEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue);
+        Task FakeDeleteSaveChangesAsync(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue);
         #endregion
 
         #region 假删除操作并立即保存 + EntityEntry<TEntity> FakeDeleteSaveChanges(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue)
@@ -313,13 +313,13 @@ namespace Fur.DatabaseVisitor.Repositories
         Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity);
         #endregion
 
-        #region 假删除操作 + Task FakeDeleteAsync(IAsyncEnumerable<TEntity> entities)
+        #region 假删除操作 + Task FakeDeleteAsync(IEnumerable<TEntity> entities)
         /// <summary>
         /// 假删除操作
         /// </summary>
         /// <param name="entities">多个实体</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        Task FakeDeleteAsync(IAsyncEnumerable<TEntity> entities);
+        Task FakeDeleteAsync(IEnumerable<TEntity> entities);
         #endregion
 
         #region 假删除操作 + EntityEntry<TEntity> FakeDelete(object id)
@@ -367,13 +367,13 @@ namespace Fur.DatabaseVisitor.Repositories
         Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(TEntity entity);
         #endregion
 
-        #region 假删除操作并立即保存 + Task FakeDeleteSaveChangesAsync(IAsyncEnumerable<TEntity> entities)
+        #region 假删除操作并立即保存 + Task FakeDeleteSaveChangesAsync(IEnumerable<TEntity> entities)
         /// <summary>
         /// 假删除操作并立即保存
         /// </summary>
         /// <param name="entities">多个实体</param>
         /// <returns><see cref="Task"/></returns>
-        Task FakeDeleteSaveChangesAsync(IAsyncEnumerable<TEntity> entities);
+        Task FakeDeleteSaveChangesAsync(IEnumerable<TEntity> entities);
         #endregion
 
         #region 假删除操作并立即保存 + EntityEntry<TEntity> FakeDeleteSaveChanges(object id)
