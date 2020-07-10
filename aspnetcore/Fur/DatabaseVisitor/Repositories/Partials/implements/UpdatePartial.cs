@@ -535,32 +535,62 @@ namespace Fur.DatabaseVisitor.Repositories
         #endregion
 
 
+        #region 排除特定列更新并立即保存 + public virtual EntityEntry<TEntity> UpdateExcludePropertiesSaveChanges(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        /// <summary>
+        /// 排除特定列更新并立即保存
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyExpressions">属性</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         public virtual EntityEntry<TEntity> UpdateExcludePropertiesSaveChanges(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
             var entityEntry = UpdateExcludeProperties(entity, propertyExpressions);
             SaveChanges();
             return entityEntry;
         }
+        #endregion
 
+        #region 排除特定列更新并立即保存 + public virtual async Task<EntityEntry<TEntity>> UpdateExcludePropertiesSaveChangesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        /// <summary>
+        /// 排除特定列更新并立即保存
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyExpressions">属性</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
         public virtual async Task<EntityEntry<TEntity>> UpdateExcludePropertiesSaveChangesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
             var entityEntry = await UpdateExcludePropertiesAsync(entity, propertyExpressions);
             await SaveChangesAsync();
             return entityEntry;
         }
+        #endregion
 
-
+        #region 排除特定列更新并立即保存 + public virtual void UpdateExcludePropertiesSaveChanges(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        /// <summary>
+        /// 排除特定列更新并立即保存
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyExpressions">属性</param>
         public virtual void UpdateExcludePropertiesSaveChanges(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
             UpdateExcludeProperties(entities, propertyExpressions);
             SaveChanges();
         }
+        #endregion
 
+        #region 排除特定列更新并立即保存 + public virtual async Task UpdateExcludePropertiesSaveChangesAsync(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        /// <summary>
+        /// 排除特定列更新并立即保存
+        /// </summary>
+        /// <param name="entities">多个实体</param>
+        /// <param name="propertyExpressions">属性</param>
+        /// <returns><see cref="Task"/></returns>
         public virtual async Task UpdateExcludePropertiesSaveChangesAsync(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
             await UpdateExcludePropertiesAsync(entities, propertyExpressions);
             await SaveChangesAsync();
         }
+        #endregion
 
 
 

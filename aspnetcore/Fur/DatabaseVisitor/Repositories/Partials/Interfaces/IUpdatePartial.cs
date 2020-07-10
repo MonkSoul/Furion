@@ -355,7 +355,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// </summary>
         /// <param name="entities">多个实体</param>
         /// <param name="propertyExpressions">属性</param>
-        /// <returns></returns>
+        /// <returns><see cref="Task"/></returns>
         Task UpdateExcludePropertiesSaveChangesAsync(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions);
         #endregion
 
