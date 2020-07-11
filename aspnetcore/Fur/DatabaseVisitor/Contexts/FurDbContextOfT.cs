@@ -61,9 +61,9 @@ namespace Fur.DatabaseVisitor.Contexts
         }
         #endregion
 
-        #region DbContext 上下文扫描配置数据库编译实体调用方法 + protected virtual void OnScanToModelCreating(ModelBuilder modelBuilder)
+        #region 扫描并配置视图/函数 + protected virtual void OnScanToModelCreating(ModelBuilder modelBuilder)
         /// <summary>
-        /// DbContext 上下文扫描配置数据库编译实体调用方法
+        /// 扫描并配置视图/函数
         /// <para>该方法在 <see cref="OnModelCreating(ModelBuilder)"/> 中调用</para>
         /// </summary>
         /// <param name="modelBuilder">模型构建器</param>
