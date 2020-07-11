@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Fur.DatabaseVisitor.Extensions
+namespace Fur.DatabaseVisitor.Extensions.Sql
 {
     /// <summary>
     /// Sql 存储过程 拓展类

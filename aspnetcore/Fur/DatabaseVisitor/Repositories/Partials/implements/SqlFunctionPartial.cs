@@ -1,5 +1,5 @@
 ﻿using Fur.DatabaseVisitor.Entities;
-using Fur.DatabaseVisitor.Extensions;
+using Fur.DatabaseVisitor.Extensions.Sql;
 using Fur.DependencyInjection.Lifetimes;
 using System.Collections.Generic;
 using System.Data;

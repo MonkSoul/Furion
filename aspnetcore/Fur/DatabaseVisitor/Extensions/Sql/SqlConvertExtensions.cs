@@ -10,7 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Fur.DatabaseVisitor.Extensions
+namespace Fur.DatabaseVisitor.Extensions.Sql
 {
     /// <summary>
     /// Sql 参数及返回值 拓展类

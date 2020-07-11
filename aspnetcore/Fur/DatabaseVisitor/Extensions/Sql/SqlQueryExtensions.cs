@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace Fur.DatabaseVisitor.Extensions
+namespace Fur.DatabaseVisitor.Extensions.Sql
 {
     /// <summary>
     /// Sql 查询 拓展类

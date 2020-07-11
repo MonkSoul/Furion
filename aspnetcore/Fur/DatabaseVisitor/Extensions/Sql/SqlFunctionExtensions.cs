@@ -10,7 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fur.DatabaseVisitor.Extensions
+namespace Fur.DatabaseVisitor.Extensions.Sql
 {
     /// <summary>
     /// Sql 函数 拓展类

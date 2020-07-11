@@ -9,7 +9,7 @@ using System.Data;
 using System.Data.Common;
 using System.Threading.Tasks;
 
-namespace Fur.DatabaseVisitor.Extensions
+namespace Fur.DatabaseVisitor.Extensions.Sql
 {
     /// <summary>
     /// ADO.NET 拓展类
