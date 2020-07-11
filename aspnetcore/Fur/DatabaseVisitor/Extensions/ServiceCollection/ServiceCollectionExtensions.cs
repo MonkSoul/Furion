@@ -8,7 +8,7 @@ namespace Fur.DatabaseVisitor.Extensions.ServiceCollection
     /// <summary>
     /// 数据库操作上下文服务拓展类
     /// </summary>
-    public static class DbContextServiceCollectionExtensions
+    public static class ServiceCollectionExtensions
     {
         #region 配置数据库上下文池信息 + public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 128) where TDbContext : DbContext
         /// <summary>

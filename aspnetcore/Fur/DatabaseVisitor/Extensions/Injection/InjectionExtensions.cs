@@ -10,7 +10,7 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
     /// <summary>
     /// 数据库访问注册拓展类
     /// </summary>
-    public static class DatabaseVisitorExtensions
+    public static class InjectionExtensions
     {
         #region 注册默认数据库操作上下文 + public static ContainerBuilder RegisterDefaultDbContext<TDbContext>(this ContainerBuilder builder) where TDbContext : DbContext
         /// <summary>
