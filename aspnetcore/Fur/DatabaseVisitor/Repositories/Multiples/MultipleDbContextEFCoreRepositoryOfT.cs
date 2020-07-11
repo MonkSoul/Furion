@@ -3,7 +3,7 @@ using Autofac.Extensions.DependencyInjection;
 using Fur.DatabaseVisitor.Contexts;
 using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Identifiers;
-using Fur.DatabaseVisitor.TenantSaaS;
+using Fur.DatabaseVisitor.Providers;
 using Microsoft.EntityFrameworkCore;
 using System;
 

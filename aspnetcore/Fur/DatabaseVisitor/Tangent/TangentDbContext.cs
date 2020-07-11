@@ -1,6 +1,6 @@
 ﻿using Castle.DynamicProxy;
 using Fur.DatabaseVisitor.Contexts;
-using Fur.DatabaseVisitor.TenantSaaS;
+using Fur.DatabaseVisitor.Providers;
 using Fur.DependencyInjection.Lifetimes;
 using Microsoft.EntityFrameworkCore;
 using System;

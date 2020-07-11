@@ -1,4 +1,4 @@
-﻿namespace Fur.DatabaseVisitor.TenantSaaS
+﻿namespace Fur.DatabaseVisitor.Providers
 {
     public interface ITenantProvider
     {

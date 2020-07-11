@@ -1,8 +1,8 @@
 ﻿using Autofac;
+using Fur.DatabaseVisitor.Contexts;
 using Fur.DatabaseVisitor.Identifiers;
 using Fur.DatabaseVisitor.Repositories;
 using Fur.DatabaseVisitor.Repositories.Multiples;
-using Fur.DatabaseVisitor.TenantSaaS;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fur.DatabaseVisitor.Extensions.Injection

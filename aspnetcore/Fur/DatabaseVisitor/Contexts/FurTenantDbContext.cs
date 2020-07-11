@@ -1,7 +1,6 @@
-﻿using Fur.DatabaseVisitor.Contexts;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace Fur.DatabaseVisitor.TenantSaaS
+namespace Fur.DatabaseVisitor.Contexts
 {
     /// <summary>
     /// 租户数据库操作上下文

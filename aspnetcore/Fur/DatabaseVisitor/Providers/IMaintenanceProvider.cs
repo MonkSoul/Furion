@@ -1,6 +1,6 @@
 ﻿using Fur.DatabaseVisitor.Entities;
 
-namespace Fur.DatabaseVisitor.Provider
+namespace Fur.DatabaseVisitor.Providers
 {
     public interface IMaintenanceProvider
     {

@@ -1,6 +1,4 @@
-﻿using Fur.DatabaseVisitor.Identifiers;
-
-namespace Fur.DatabaseVisitor.TenantSaaS
+﻿namespace Fur.DatabaseVisitor.Identifiers
 {
     public class FurTenantDbContextIdentifier : IDbContextIdentifier
     {

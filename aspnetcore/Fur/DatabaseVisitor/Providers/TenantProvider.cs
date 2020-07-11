@@ -1,9 +1,10 @@
-﻿using Fur.DependencyInjection.Lifetimes;
+﻿using Fur.DatabaseVisitor.Contexts;
+using Fur.DependencyInjection.Lifetimes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 
-namespace Fur.DatabaseVisitor.TenantSaaS
+namespace Fur.DatabaseVisitor.Providers
 {
     public class TenantProvider : ITenantProvider, IScopedLifetime
     {

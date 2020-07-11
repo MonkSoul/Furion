@@ -1,4 +1,5 @@
-﻿using Fur.DatabaseVisitor.TenantSaaS;
+﻿using Fur.DatabaseVisitor.Entities;
+using Fur.DatabaseVisitor.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.Linq;

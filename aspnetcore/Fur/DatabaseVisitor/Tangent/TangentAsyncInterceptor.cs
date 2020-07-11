@@ -1,5 +1,5 @@
 ﻿using Castle.DynamicProxy;
-using Fur.DatabaseVisitor.TenantSaaS;
+using Fur.DatabaseVisitor.Providers;
 using Microsoft.EntityFrameworkCore;
 using System;
 
