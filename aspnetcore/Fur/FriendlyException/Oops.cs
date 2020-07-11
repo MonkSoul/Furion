@@ -4,10 +4,11 @@ namespace Fur.FriendlyException
 {
     public class Oops
     {
-        public static Exception Set(string code)
-            => new Exception($"##{code}##");
+        // [2000,false] 格式
+        public static Exception Set(string code, bool upToHandle = false)
+            => new Exception($"##{code}##" + (upToHandle ? $"**{upToHandle}**" : ""));
 
-        public static Exception Set(int code)
-           => new Exception($"##{code}##");
+        public static Exception Set(int code, bool upToHandle = false)
+           => new Exception($"##{code}##" + (upToHandle ? $"**{upToHandle}**" : ""));
     }
 }
