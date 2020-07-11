@@ -16,10 +16,18 @@ namespace Fur.DatabaseVisitor.Contexts
     public abstract class FurDbContextOfT<TDbContext> : DbContext where TDbContext : DbContext
     {
         /// <summary>
-        /// 租户实体表
-        /// <para>框架默认启用了租户模式。参见：<see cref="Tenant"/></para>
+        /// 是否注册了租户提供器
         /// </summary>
-        public virtual DbSet<Tenant> Tenants { get; set; }
+        protected bool IsRegisteredTenantProvider
+        {
+            get
+            {
+                if (TenantProvider != null) return true;
+
+                TenantProvider = this.GetService<ITenantProvider>();
+                return TenantProvider != null;
+            }
+        }
 
         /// <summary>
         /// 租户提供器
@@ -34,10 +42,15 @@ namespace Fur.DatabaseVisitor.Contexts
         {
             get
             {
-                TenantProvider ??= this.GetService<ITenantProvider>();
                 return TenantProvider.GetTenantId();
             }
         }
+
+        /// <summary>
+        /// 租户实体表
+        /// <para>框架默认启用了租户模式。参见：<see cref="Tenant"/></para>
+        /// </summary>
+        public virtual DbSet<Tenant> Tenants { get; set; }
 
         #region 默认构造函数 + public FurDbContextOfT(DbContextOptions<TDbContext> options) : base(options)
         /// <summary>

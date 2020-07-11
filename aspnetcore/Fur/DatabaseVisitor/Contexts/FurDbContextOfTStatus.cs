@@ -99,7 +99,7 @@ namespace Fur.DatabaseVisitor.Contexts
             {
                 if (_hasNoKeyDelegate == null)
                 {
-                    var hasNoKeyMethod = typeof(EntityTypeBuilder).GetMethod("HasNoKey");
+                    var hasNoKeyMethod = typeof(EntityTypeBuilder).GetMethod(nameof(EntityTypeBuilder.HasNoKey));
 
                     _hasNoKeyDelegate = (Func<EntityTypeBuilder, EntityTypeBuilder>)Delegate.CreateDelegate(typeof(Func<EntityTypeBuilder, EntityTypeBuilder>), hasNoKeyMethod);
                 }
@@ -152,7 +152,7 @@ namespace Fur.DatabaseVisitor.Contexts
             {
                 if (_hasQueryFilterDelegate == null)
                 {
-                    var hasQueryFilterMethod = typeof(EntityTypeBuilder).GetMethod("HasQueryFilter");
+                    var hasQueryFilterMethod = typeof(EntityTypeBuilder).GetMethod(nameof(EntityTypeBuilder.HasQueryFilter));
 
                     _hasQueryFilterDelegate = (Func<EntityTypeBuilder, LambdaExpression, EntityTypeBuilder>)Delegate.CreateDelegate(typeof(Func<EntityTypeBuilder, LambdaExpression, EntityTypeBuilder>), hasQueryFilterMethod);
                 }
@@ -166,7 +166,7 @@ namespace Fur.DatabaseVisitor.Contexts
         /// <para>主要用来反射调用 <c>Property</c> 委托，用于 <c>Int32</c></para>
         /// <para>参见：<see cref="EF.Property"/></para>
         /// </summary>
-        internal static MethodInfo EFPropertyGenericInt32Method = typeof(EF).GetMethod("Property").MakeGenericMethod(typeof(int));
+        internal static MethodInfo EFPropertyGenericInt32Method = typeof(EF).GetMethod(nameof(EF.Property)).MakeGenericMethod(typeof(int));
 
         #region 检查 OnConfiguring 调用情况 + internal static bool CallOnConfiguringed()
         /// <summary>
@@ -219,6 +219,20 @@ namespace Fur.DatabaseVisitor.Contexts
         }
         #endregion
 
+        #region 创建 HasQueryFilter 表达式参数 + internal static LambdaExpression CreateHasQueryFilterExpression<TEntity>(string propertyName, int propertyValue) where TEntity : class, IDbEntity, new()
+        /// <summary>
+        ///  创建 <c>HasQueryFilter</c> 表达式参数
+        /// </summary>
+        /// <typeparam name="TEntity">类型</typeparam>
+        /// <param name="propertyName">属性名</param>
+        /// <param name="propertyValue">属性值</param>
+        /// <returns><see cref="LabelExpression"/></returns>
+        internal static LambdaExpression CreateHasQueryFilterExpression<TEntity>(string propertyName, int propertyValue) where TEntity : class, IDbEntity, new()
+        {
+            return CreateHasQueryFilterExpression(typeof(TEntity), propertyName, propertyValue);
+        }
+        #endregion
+
         #region 扫描数据库编译实体并创建模型实体 + internal static void ScanDbCompileEntityToCreateModelEntity(ModelBuilder modelBuilder, string tenantIdKey, int tenantId)
         /// <summary>
         /// 扫描数据库编译实体并创建模型实体
@@ -243,6 +257,7 @@ namespace Fur.DatabaseVisitor.Contexts
                 var viewInstance = ExpressionCreateObject.CreateInstance<IDbView>(viewType.Type);
                 entityTypeBuilder = FurDbContextOfTStatus.ToViewDelegate(entityTypeBuilder, viewInstance.ViewName);
 
+                // 租户过滤器
                 var lambdaExpression = FurDbContextOfTStatus.CreateHasQueryFilterExpression(viewType.Type, tenantIdKey, tenantId);
                 entityTypeBuilder = FurDbContextOfTStatus.HasQueryFilterDelegate(entityTypeBuilder, lambdaExpression);
             }
