@@ -28,9 +28,9 @@ namespace Fur.EntityFramework.Core.Extensions
             var furConnectionString = configuration.GetConnectionString("FurConnectionString");
             var furMultipleConnectionString = configuration.GetConnectionString("FurMultipleConnectionString");
 
-            services.AddFurDbContextPool<FurTenantDbContext>(furConnectionString, env)
-                        .AddFurDbContextPool<FurSqlServerDbContext>(furConnectionString, env)
-                        .AddFurDbContextPool<FurMultipleSqlServerDbContext>(furMultipleConnectionString, env);
+            services.AddFurSqlServerDbContextPool<FurTenantDbContext>(furConnectionString, env)
+                        .AddFurSqlServerDbContextPool<FurSqlServerDbContext>(furConnectionString, env)
+                        .AddFurSqlServerDbContextPool<FurMultipleSqlServerDbContext>(furMultipleConnectionString, env);
 
             services.Configure<MvcOptions>(options =>
             {

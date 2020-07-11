@@ -10,7 +10,7 @@ namespace Fur.DatabaseVisitor.Extensions.ServiceCollection
     /// </summary>
     public static class DbContextServiceCollectionExtensions
     {
-        #region 配置数据库上下文池信息 + public static IServiceCollection AddFurDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env) where TDbContext : DbContext
+        #region 配置数据库上下文池信息 + public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 128) where TDbContext : DbContext
         /// <summary>
         /// 配置数据库上下文池信息
         /// </summary>
@@ -18,8 +18,9 @@ namespace Fur.DatabaseVisitor.Extensions.ServiceCollection
         /// <param name="services">服务集合</param>
         /// <param name="connectionString">数据库连接字符串</param>
         /// <param name="env">web环境</param>
+        /// <param name="poolSize">数据库上下文池最大存放数量</param>
         /// <returns><see cref="IServiceCollection"/></returns>
-        public static IServiceCollection AddFurDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env)
+        public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 128)
             where TDbContext : DbContext
         {
             //services.AddEntityFrameworkSqlServer();
@@ -33,23 +34,23 @@ namespace Fur.DatabaseVisitor.Extensions.ServiceCollection
                 }
                 options.UseSqlServer(connectionString);
             }
-            , poolSize: 128);
+            , poolSize: poolSize);
 
             return services;
         }
         #endregion
 
-        #region 配置数据库上下文池信息 + public static IServiceCollection AddFurDbContext<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env) where TDbContext : DbContext
+        #region 配置数据库上下文池信息 + public static IServiceCollection AddFurSqlServerDbContext<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env) where TDbContext : DbContext
         /// <summary>
         /// 配置数据库上下文信息
-        /// <para>推荐使用 <see cref="AddFurDbContextPool{TDbContext}(IServiceCollection, string, IWebHostEnvironment)"/></para>
+        /// <para>推荐使用 <see cref="AddFurSqlServerDbContextPool{TDbContext}(IServiceCollection, string, IWebHostEnvironment, int)"/></para>
         /// </summary>
         /// <typeparam name="TDbContext">数据库操作上下文</typeparam>
         /// <param name="services">服务集合</param>
         /// <param name="connectionString">数据库连接字符串</param>
         /// <param name="env">web环境</param>
         /// <returns><see cref="IServiceCollection"/></returns>
-        public static IServiceCollection AddFurDbContext<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env)
+        public static IServiceCollection AddFurSqlServerDbContext<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env)
             where TDbContext : DbContext
         {
             //services.AddEntityFrameworkSqlServer();
