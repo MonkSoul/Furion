@@ -741,25 +741,34 @@ namespace Fur.DatabaseVisitor.Repositories
                 var entityEntry = EntityEntry(entity);
                 entityEntries.Add(entityEntry);
 
-                var (updateTimePropertyName, updateTimePropertyValue) = _maintenanceProvider?.GetUpdatedTimeFieldInfo() ?? (nameof(DbEntityBase.UpdatedTime), DateTime.Now);
+                var (updateTimePropertyName, updateTimePropertyValue) = _maintenanceProvider?.GetUpdatedTimeFieldInfo()
+                    ?? (nameof(DbEntityBase.UpdatedTime), DateTime.Now);
+
                 var updatedTimeProperty = EntityEntryProperty(entityEntry, updateTimePropertyName);
                 if (updatedTimeProperty != null && !updatedTimeProperty.IsModified)
                 {
                     updatedTimeProperty.CurrentValue = updateTimePropertyValue;
                     updatedTimeProperty.IsModified = true;
                 }
+
                 updateHandle?.Invoke();
-                var (createdTimePropertyName, _) = _maintenanceProvider?.GetCreatedTimeFieldInfo() ?? (nameof(DbEntityBase.UpdatedTime), DateTime.Now);
+
+                var (createdTimePropertyName, _) = _maintenanceProvider?.GetCreatedTimeFieldInfo()
+                    ?? (nameof(DbEntityBase.UpdatedTime), DateTime.Now);
+
                 var createdTimeProperty = EntityEntryProperty(entityEntry, createdTimePropertyName);
                 if (createdTimeProperty != null)
                 {
                     createdTimeProperty.IsModified = false;
                 }
 
-                var tenantIdProperty = EntityEntryProperty(entityEntry, nameof(DbEntity.TenantId));
-                if (tenantIdProperty != null)
+                if (TenantId.HasValue)
                 {
-                    tenantIdProperty.IsModified = false;
+                    var tenantIdProperty = EntityEntryProperty(entityEntry, nameof(DbEntity.TenantId));
+                    if (tenantIdProperty != null)
+                    {
+                        tenantIdProperty.IsModified = false;
+                    }
                 }
             }
             return entityEntries.ToArray();

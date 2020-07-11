@@ -183,7 +183,9 @@ namespace Fur.DatabaseVisitor.Repositories
             {
                 var entityEntry = EntityEntry(entity);
 
-                var (createdTimePropertyName, createdTimePropertyValue) = _maintenanceProvider?.GetCreatedTimeFieldInfo() ?? (nameof(DbEntityBase.CreatedTime), DateTime.Now);
+                var (createdTimePropertyName, createdTimePropertyValue) = _maintenanceProvider?.GetCreatedTimeFieldInfo()
+                    ?? (nameof(DbEntityBase.CreatedTime), DateTime.Now);
+
                 var createdTimeProperty = EntityEntryProperty(entityEntry, createdTimePropertyName);
                 if (createdTimeProperty != null)
                 {
