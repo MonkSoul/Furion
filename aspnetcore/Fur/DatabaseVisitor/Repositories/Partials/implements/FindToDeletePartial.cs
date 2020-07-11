@@ -1,5 +1,4 @@
 ﻿using Fur.DatabaseVisitor.Entities;
-using Fur.DependencyInjection.Lifetimes;
 using Fur.FriendlyException;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
@@ -12,7 +11,7 @@ namespace Fur.DatabaseVisitor.Repositories
     /// 泛型仓储 查找并删除操作 分部类
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity>, IScopedLifetimeOfT<TEntity> where TEntity : class, IDbEntity, new()
+    public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity> where TEntity : class, IDbEntity, new()
     {
         #region 查找并真删除操作 + public virtual EntityEntry<TEntity> FindToDelete(object id)
         /// <summary>

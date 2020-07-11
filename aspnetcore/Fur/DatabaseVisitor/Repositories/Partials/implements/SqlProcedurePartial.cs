@@ -1,6 +1,5 @@
 ﻿using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Extensions.Sql;
-using Fur.DependencyInjection.Lifetimes;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,7 +11,7 @@ namespace Fur.DatabaseVisitor.Repositories
     /// 泛型仓储 存储过程操作 分部类
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity>, IScopedLifetimeOfT<TEntity> where TEntity : class, IDbEntity, new()
+    public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity> where TEntity : class, IDbEntity, new()
     {
         #region 执行存储过程返回 DataTable + public virtual DataTable SqlProcedure(string name, params object[] parameters)
         /// <summary>

@@ -1,5 +1,4 @@
-﻿using Fur.DependencyInjection.Lifetimes;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +10,7 @@ namespace Fur.DatabaseVisitor.Contexts
     /// 数据库上下文线程池
     /// <para>管理所有 DbContext 上下文，提供统一提交</para>
     /// </summary>
-    public class DbContextPool : IDbContextPool, IScopedLifetime
+    public class DbContextPool : IDbContextPool
     {
         /// <summary>
         /// 线程安全的数据库上下文集合

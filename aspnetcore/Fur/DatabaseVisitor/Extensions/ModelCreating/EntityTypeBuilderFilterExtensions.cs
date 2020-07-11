@@ -7,9 +7,9 @@ using System.Linq.Expressions;
 namespace Fur.DatabaseVisitor.Extensions.ModelCreating
 {
     /// <summary>
-    /// DbContext 拓展类
+    /// 实体构建器过滤器拓展
     /// </summary>
-    public static class ModelCreatingExtensions
+    public static class EntityTypeBuilderFilterExtensions
     {
         #region 注册租户Id过滤器 + public static EntityTypeBuilder<TEntity> HasTenantIdQueryFilter<TEntity>(this EntityTypeBuilder<TEntity> entityTypeBuilder, ITenantProvider tenantProvider) where TEntity : class, IDbEntity, new()
         /// <summary>

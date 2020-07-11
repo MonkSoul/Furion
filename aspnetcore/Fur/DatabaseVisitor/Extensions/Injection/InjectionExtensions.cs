@@ -23,6 +23,9 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
         public static ContainerBuilder RegisterDefaultDbContext<TDbContext>(this ContainerBuilder builder)
            where TDbContext : DbContext
         {
+            builder.RegisterType<DbContextPool>()
+                .As<IDbContextPool>();
+
             builder.RegisterType<TDbContext>()
                 .As<DbContext>()
                 .InstancePerLifetimeScope();

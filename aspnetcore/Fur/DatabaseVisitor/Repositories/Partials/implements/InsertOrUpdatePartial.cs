@@ -1,6 +1,5 @@
 ﻿using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Options;
-using Fur.DependencyInjection.Lifetimes;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Linq.Expressions;
@@ -12,7 +11,7 @@ namespace Fur.DatabaseVisitor.Repositories
     /// 泛型仓储 新增或更新操作 分部类
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity>, IScopedLifetimeOfT<TEntity> where TEntity : class, IDbEntity, new()
+    public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity> where TEntity : class, IDbEntity, new()
     {
         #region 新增或更新操作 + public virtual EntityEntry<TEntity> InsertOrUpdate(TEntity entity)
         /// <summary>
