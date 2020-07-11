@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Fur.DatabaseVisitor.Contexts;
 using Fur.DatabaseVisitor.Identifiers;
+using Fur.DatabaseVisitor.Providers;
 using Fur.DatabaseVisitor.Repositories;
 using Fur.DatabaseVisitor.Repositories.Multiples;
 using Microsoft.EntityFrameworkCore;
@@ -84,6 +85,23 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
                     .InstancePerLifetimeScope();
             }
 
+            return builder;
+        }
+        #endregion
+
+        #region 注册租户提供器 + public static ContainerBuilder RegisterTenantProvider<TTenantProvider>(this ContainerBuilder builder) where TTenantProvider : ITenantProvider
+        /// <summary>
+        /// 注册租户提供器
+        /// </summary>
+        /// <typeparam name="TTenantProvider">租户提供器</typeparam>
+        /// <param name="builder">容器构建器</param>
+        /// <returns><see cref="ContainerBuilder"/></returns>
+        public static ContainerBuilder RegisterTenantProvider<TTenantProvider>(this ContainerBuilder builder)
+            where TTenantProvider : ITenantProvider
+        {
+            builder.RegisterType<TTenantProvider>()
+                .As<ITenantProvider>()
+                .InstancePerLifetimeScope();
             return builder;
         }
         #endregion

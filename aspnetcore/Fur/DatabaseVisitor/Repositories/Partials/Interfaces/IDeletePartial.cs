@@ -119,9 +119,9 @@ namespace Fur.DatabaseVisitor.Repositories
         #endregion
 
 
-        #region 假删除操作 + EntityEntry<TEntity> FakeDelete(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #region 软删除操作 + EntityEntry<TEntity> FakeDelete(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
         /// <summary>
-        /// 假删除操作
+        /// 软删除操作
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="flagProperty">标记属性</param>
@@ -130,9 +130,9 @@ namespace Fur.DatabaseVisitor.Repositories
         EntityEntry<TEntity> FakeDelete(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue);
         #endregion
 
-        #region 假删除操作 + void FakeDelete(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #region 软删除操作 + void FakeDelete(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
         /// <summary>
-        /// 假删除操作
+        /// 软删除操作
         /// </summary>
         /// <param name="entities">多个实体</param>
         /// <param name="flagProperty">标记属性</param>
@@ -140,9 +140,9 @@ namespace Fur.DatabaseVisitor.Repositories
         void FakeDelete(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue);
         #endregion
 
-        #region 假删除操作 + Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #region 软删除操作 + Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
         /// <summary>
-        /// 假删除操作
+        /// 软删除操作
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="flagProperty">标识属性</param>
@@ -151,9 +151,9 @@ namespace Fur.DatabaseVisitor.Repositories
         Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue);
         #endregion
 
-        #region 假删除操作 + Task FakeDeleteAsync(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #region 软删除操作 + Task FakeDeleteAsync(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
         /// <summary>
-        /// 假删除操作
+        /// 软删除操作
         /// </summary>
         /// <param name="entities">多个实体</param>
         /// <param name="flagProperty">标识属性</param>
@@ -163,9 +163,9 @@ namespace Fur.DatabaseVisitor.Repositories
         #endregion
 
 
-        #region 假删除操作并立即保存 + EntityEntry<TEntity> FakeDeleteSaveChanges(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #region 软删除操作并立即保存 + EntityEntry<TEntity> FakeDeleteSaveChanges(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
         /// <summary>
-        /// 假删除操作并立即保存
+        /// 软删除操作并立即保存
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="flagProperty">标记属性</param>
@@ -174,9 +174,9 @@ namespace Fur.DatabaseVisitor.Repositories
         EntityEntry<TEntity> FakeDeleteSaveChanges(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue);
         #endregion
 
-        #region 假删除操作并立即保存 + void FakeDeleteSaveChanges(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #region 软删除操作并立即保存 + void FakeDeleteSaveChanges(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
         /// <summary>
-        /// 假删除操作并立即保存
+        /// 软删除操作并立即保存
         /// </summary>
         /// <param name="entities">多个实体</param>
         /// <param name="flagProperty">标记属性</param>
@@ -184,9 +184,9 @@ namespace Fur.DatabaseVisitor.Repositories
         void FakeDeleteSaveChanges(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue);
         #endregion
 
-        #region 假删除操作并立即保存 + Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #region 软删除操作并立即保存 + Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
         /// <summary>
-        /// 假删除操作并立即保存
+        /// 软删除操作并立即保存
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="flagProperty">标记属性</param>
@@ -195,9 +195,9 @@ namespace Fur.DatabaseVisitor.Repositories
         Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue);
         #endregion
 
-        #region 假删除操作并立即保存 + Task FakeDeleteSaveChangesAsync(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #region 软删除操作并立即保存 + Task FakeDeleteSaveChangesAsync(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
         /// <summary>
-        /// 假删除操作并立即保存
+        /// 软删除操作并立即保存
         /// </summary>
         /// <param name="entities">多个实体</param>
         /// <param name="flagProperty">标记属性</param>
@@ -207,35 +207,35 @@ namespace Fur.DatabaseVisitor.Repositories
         #endregion
 
 
-        #region 假删除操作 + EntityEntry<TEntity> EntityEntry<TEntity> FakeDelete(TEntity entity)
+        #region 软删除操作 + EntityEntry<TEntity> EntityEntry<TEntity> FakeDelete(TEntity entity)
         /// <summary>
-        /// 假删除操作
+        /// 软删除操作
         /// </summary>
         /// <param name="entity">实体</param>
         /// <returns><see cref="EntityEntry(TEntity)"/></returns>
         EntityEntry<TEntity> FakeDelete(TEntity entity);
         #endregion
 
-        #region 假删除操作 + void FakeDelete(IEnumerable<TEntity> entities)
+        #region 软删除操作 + void FakeDelete(IEnumerable<TEntity> entities)
         /// <summary>
-        /// 假删除操作
+        /// 软删除操作
         /// </summary>
         /// <param name="entities">多个实体</param>
         void FakeDelete(IEnumerable<TEntity> entities);
         #endregion
 
-        #region 假删除操作 + Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity)
+        #region 软删除操作 + Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity)
         /// <summary>
-        /// 假删除操作
+        /// 软删除操作
         /// </summary>
         /// <param name="entity">实体</param>
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity);
         #endregion
 
-        #region 假删除操作 + Task FakeDeleteAsync(IEnumerable<TEntity> entities)
+        #region 软删除操作 + Task FakeDeleteAsync(IEnumerable<TEntity> entities)
         /// <summary>
-        /// 假删除操作
+        /// 软删除操作
         /// </summary>
         /// <param name="entities">多个实体</param>
         /// <returns><see cref="Task{TResult}"/></returns>
@@ -243,35 +243,35 @@ namespace Fur.DatabaseVisitor.Repositories
         #endregion
 
 
-        #region 假删除操作并立即保存 + EntityEntry<TEntity> EntityEntry<TEntity> FakeDeleteSaveChanges(TEntity entity)
+        #region 软删除操作并立即保存 + EntityEntry<TEntity> EntityEntry<TEntity> FakeDeleteSaveChanges(TEntity entity)
         /// <summary>
-        /// 假删除操作并立即保存
+        /// 软删除操作并立即保存
         /// </summary>
         /// <param name="entity">实体</param>
         /// <returns><see cref="EntityEntry(TEntity)"/></returns>
         EntityEntry<TEntity> FakeDeleteSaveChanges(TEntity entity);
         #endregion
 
-        #region 假删除操作并立即保存 + void FakeDeleteSaveChanges(IEnumerable<TEntity> entities)
+        #region 软删除操作并立即保存 + void FakeDeleteSaveChanges(IEnumerable<TEntity> entities)
         /// <summary>
-        /// 假删除操作并立即保存
+        /// 软删除操作并立即保存
         /// </summary>
         /// <param name="entities">多个实体</param>
         void FakeDeleteSaveChanges(IEnumerable<TEntity> entities);
         #endregion
 
-        #region 假删除操作并立即保存 + Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(TEntity entity)
+        #region 软删除操作并立即保存 + Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(TEntity entity)
         /// <summary>
-        /// 假删除操作并立即保存
+        /// 软删除操作并立即保存
         /// </summary>
         /// <param name="entity">实体</param>
         /// <returns></returns>
         Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(TEntity entity);
         #endregion
 
-        #region 假删除操作并立即保存 + Task FakeDeleteSaveChangesAsync(IEnumerable<TEntity> entities)
+        #region 软删除操作并立即保存 + Task FakeDeleteSaveChangesAsync(IEnumerable<TEntity> entities)
         /// <summary>
-        /// 假删除操作并立即保存
+        /// 软删除操作并立即保存
         /// </summary>
         /// <param name="entities">多个实体</param>
         /// <returns><see cref="Task"/></returns>

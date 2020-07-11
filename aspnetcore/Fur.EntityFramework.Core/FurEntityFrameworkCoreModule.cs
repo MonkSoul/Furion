@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Fur.DatabaseVisitor.Extensions.Injection;
+using Fur.DatabaseVisitor.Providers;
 using Fur.EntityFramework.Core.DbContexts;
 using Fur.Record.Identifiers;
 
@@ -11,6 +12,7 @@ namespace Fur.EntityFramework.Core
         {
             builder.RegisterDefaultDbContext<FurSqlServerDbContext>()
                        .RegisterMultipleDbContext<FurMultipleSqlServerDbContext, FurMultipleDbContextIdentifier>()
+                       .RegisterTenantProvider<TenantProvider>()
                        .RegisterRepositories();
         }
     }

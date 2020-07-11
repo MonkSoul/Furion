@@ -183,10 +183,11 @@ namespace Fur.DatabaseVisitor.Repositories
             {
                 var entityEntry = EntityEntry(entity);
 
-                var createdTimeProperty = EntityEntryProperty(entityEntry, _maintenanceProvider?.GetCreatedTimePropertyName() ?? nameof(DbEntityBase.CreatedTime));
+                var (createdTimePropertyName, createdTimePropertyValue) = _maintenanceProvider?.GetCreatedTimeFieldInfo() ?? (nameof(DbEntityBase.CreatedTime), DateTime.Now);
+                var createdTimeProperty = EntityEntryProperty(entityEntry, createdTimePropertyName);
                 if (createdTimeProperty != null)
                 {
-                    createdTimeProperty.CurrentValue = DateTime.Now;
+                    createdTimeProperty.CurrentValue = createdTimePropertyValue;
                 }
 
                 var tenantIdProperty = EntityEntryProperty(entityEntry, nameof(DbEntity.TenantId));

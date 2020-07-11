@@ -741,14 +741,16 @@ namespace Fur.DatabaseVisitor.Repositories
                 var entityEntry = EntityEntry(entity);
                 entityEntries.Add(entityEntry);
 
-                var updatedTimeProperty = EntityEntryProperty(entityEntry, _maintenanceProvider?.GetUpdatedTimePropertyName() ?? nameof(DbEntityBase.UpdatedTime));
+                var (updateTimePropertyName, updateTimePropertyValue) = _maintenanceProvider?.GetUpdatedTimeFieldInfo() ?? (nameof(DbEntityBase.UpdatedTime), DateTime.Now);
+                var updatedTimeProperty = EntityEntryProperty(entityEntry, updateTimePropertyName);
                 if (updatedTimeProperty != null && !updatedTimeProperty.IsModified)
                 {
-                    updatedTimeProperty.CurrentValue = DateTime.Now;
+                    updatedTimeProperty.CurrentValue = updateTimePropertyValue;
                     updatedTimeProperty.IsModified = true;
                 }
                 updateHandle?.Invoke();
-                var createdTimeProperty = EntityEntryProperty(entityEntry, _maintenanceProvider?.GetCreatedTimePropertyName() ?? nameof(DbEntityBase.CreatedTime));
+                var (createdTimePropertyName, _) = _maintenanceProvider?.GetCreatedTimeFieldInfo() ?? (nameof(DbEntityBase.UpdatedTime), DateTime.Now);
+                var createdTimeProperty = EntityEntryProperty(entityEntry, createdTimePropertyName);
                 if (createdTimeProperty != null)
                 {
                     createdTimeProperty.IsModified = false;

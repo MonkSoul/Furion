@@ -16,7 +16,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <summary>
         /// 维护字段提供器
         /// </summary>
-        private readonly IMaintenanceProvider _maintenanceProvider;
+        private readonly IMaintenanceFieldsProvider _maintenanceProvider;
 
         /// <summary>
         /// 租户提供器
@@ -49,9 +49,9 @@ namespace Fur.DatabaseVisitor.Repositories
             _dbContextPool.SaveDbContext(DbContext);
 
             var autofacContainer = serviceProvider.GetAutofacRoot();
-            if (autofacContainer.IsRegistered<IMaintenanceProvider>())
+            if (autofacContainer.IsRegistered<IMaintenanceFieldsProvider>())
             {
-                _maintenanceProvider = autofacContainer.Resolve<IMaintenanceProvider>();
+                _maintenanceProvider = autofacContainer.Resolve<IMaintenanceFieldsProvider>();
             }
         }
         #endregion

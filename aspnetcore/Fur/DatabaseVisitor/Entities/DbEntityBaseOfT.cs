@@ -26,7 +26,7 @@ namespace Fur.DatabaseVisitor.Entities
         public DateTime? UpdatedTime { get; set; }
 
         /// <summary>
-        /// 假删除
+        /// 软删除
         /// </summary>
         public bool IsDeleted { get; set; }
     }

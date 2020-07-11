@@ -209,7 +209,7 @@ namespace Fur.Application.Functions
         }
 
         /// <summary>
-        /// 假删除数据
+        /// 软删除数据
         /// </summary>
         /// <param name="id">主键Id</param>
         /// <returns></returns>
