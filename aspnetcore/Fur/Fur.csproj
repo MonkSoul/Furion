@@ -9,6 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DatabaseVisitor\StartupExtensions\**" />
+    <EmbeddedResource Remove="DatabaseVisitor\StartupExtensions\**" />
+    <None Remove="DatabaseVisitor\StartupExtensions\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="SwaggerGen\Assets\MiniProfilerIndex.html" />
   </ItemGroup>
 
@@ -39,7 +45,6 @@
 
   <ItemGroup>
     <Folder Include="DatabaseVisitor\Extensions\Startup\" />
-    <Folder Include="DatabaseVisitor\StartupExtensions\" />
     <Folder Include="Mvc\Extensions\" />
   </ItemGroup>
 

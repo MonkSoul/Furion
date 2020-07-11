@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Fur.DatabaseVisitor.Entities;
-using Fur.DependencyInjection.Lifetimes;
 using System;
 
 namespace Fur.DatabaseVisitor.Repositories
@@ -9,7 +8,7 @@ namespace Fur.DatabaseVisitor.Repositories
     /// <summary>
     /// 非泛型仓储实现类
     /// </summary>
-    public partial class EFCoreRepository : IRepository, IScopedLifetime
+    public partial class EFCoreRepository : IRepository
     {
         /// <summary>
         /// 注入服务提供器

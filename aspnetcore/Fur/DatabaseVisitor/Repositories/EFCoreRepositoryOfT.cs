@@ -4,7 +4,6 @@ using Fur.DatabaseVisitor.Contexts;
 using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Provider;
 using Fur.DatabaseVisitor.TenantSaaS;
-using Fur.DependencyInjection.Lifetimes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
@@ -13,7 +12,7 @@ using System.Linq;
 
 namespace Fur.DatabaseVisitor.Repositories
 {
-    public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity>, IScopedLifetimeOfT<TEntity> where TEntity : class, IDbEntity, new()
+    public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity> where TEntity : class, IDbEntity, new()
     {
         /// <summary>
         /// 维护字段提供器

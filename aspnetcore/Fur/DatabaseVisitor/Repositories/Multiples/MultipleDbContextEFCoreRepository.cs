@@ -2,7 +2,6 @@
 using Autofac.Extensions.DependencyInjection;
 using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Identifiers;
-using Fur.DependencyInjection.Lifetimes;
 using System;
 
 namespace Fur.DatabaseVisitor.Repositories.Multiples
@@ -10,7 +9,7 @@ namespace Fur.DatabaseVisitor.Repositories.Multiples
     /// <summary>
     /// 非泛型多上下文的仓储实现类
     /// </summary>
-    public partial class MultipleDbContextEFCoreRepository : IMultipleDbContextRepository, IScopedLifetime
+    public partial class MultipleDbContextEFCoreRepository : IMultipleDbContextRepository
     {
         /// <summary>
         /// 注入服务提供器
