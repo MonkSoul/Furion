@@ -16,7 +16,7 @@ namespace Fur.EntityFramework.Core
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<FurSqlServerDbContext>()
-                .Named<DbContext>(nameof(DbContextIdentifier))
+                .Named<DbContext>(nameof(FurDbContextIdentifier))
                 .InstancePerLifetimeScope();
 
             builder.RegisterGeneric(typeof(MultipleDbContextEFCoreRepositoryOfT<,>))
