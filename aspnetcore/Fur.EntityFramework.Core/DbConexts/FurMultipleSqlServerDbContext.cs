@@ -19,9 +19,9 @@ namespace Fur.EntityFramework.Core.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Test>();
-
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Test>();
         }
     }
 }

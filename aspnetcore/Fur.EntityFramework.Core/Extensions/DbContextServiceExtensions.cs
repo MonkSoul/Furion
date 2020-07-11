@@ -1,4 +1,5 @@
-﻿using Fur.DatabaseVisitor.Interceptors;
+﻿using Fur.DatabaseVisitor.Extensions.ServiceCollection;
+using Fur.DatabaseVisitor.Interceptors;
 using Fur.DatabaseVisitor.TenantSaaS;
 using Fur.EntityFramework.Core.DbContexts;
 using Microsoft.AspNetCore.Hosting;
@@ -6,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace Fur.EntityFramework.Core.Extensions
 {
@@ -16,7 +16,6 @@ namespace Fur.EntityFramework.Core.Extensions
     public static class DbContextServiceExtensions
     {
         #region 数据库上下文服务拓展方法 +/* public static IServiceCollection AddFurDbContextPool(this IServiceCollection services, IWebHostEnvironment env, IConfiguration configuration)
-
         /// <summary>
         /// 数据库上下文服务拓展方法
         /// </summary>
@@ -26,42 +25,12 @@ namespace Fur.EntityFramework.Core.Extensions
         /// <returns>新的服务集合对象</returns>
         public static IServiceCollection AddFurDbContextPool(this IServiceCollection services, IWebHostEnvironment env, IConfiguration configuration)
         {
-            //services.AddEntityFrameworkSqlServer();
-            services.AddDbContextPool<FurTenantDbContext>(options =>
-            {
-                if (env.IsDevelopment())
-                {
-                    options/*.UseLazyLoadingProxies()*/
-                                .EnableDetailedErrors()
-                                .EnableSensitiveDataLogging();
-                }
-                options.UseSqlServer(configuration.GetConnectionString("FurConnectionString"));
-            }
-        , poolSize: 128);
-            services.AddDbContextPool<FurSqlServerDbContext>(options =>
-            {
-                if (env.IsDevelopment())
-                {
-                    options/*.UseLazyLoadingProxies()*/
-                                .EnableDetailedErrors()
-                                .EnableSensitiveDataLogging();
-                }
-                options.UseSqlServer(configuration.GetConnectionString("FurConnectionString"));
-            }
-            , poolSize: 128);
+            var furConnectionString = configuration.GetConnectionString("FurConnectionString");
+            var furMultipleConnectionString = configuration.GetConnectionString("FurMultipleConnectionString");
 
-            services.AddDbContextPool<FurMultipleSqlServerDbContext>(options =>
-            {
-                if (env.IsDevelopment())
-                {
-                    options/*.UseLazyLoadingProxies()*/
-                                .EnableDetailedErrors()
-                                .EnableSensitiveDataLogging();
-                }
-                options.UseSqlServer(configuration.GetConnectionString("FurMultipleConnectionString"));
-            }
-            , poolSize: 128);
-
+            services.AddFurDbContextPool<FurTenantDbContext>(furConnectionString, env)
+                        .AddFurDbContextPool<FurSqlServerDbContext>(furConnectionString, env)
+                        .AddFurDbContextPool<FurMultipleSqlServerDbContext>(furMultipleConnectionString, env);
 
             services.Configure<MvcOptions>(options =>
             {
