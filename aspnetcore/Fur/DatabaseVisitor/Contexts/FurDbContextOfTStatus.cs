@@ -1,5 +1,6 @@
 ﻿using Fur.ApplicationBase;
 using Fur.DatabaseVisitor.Entities;
+using Fur.DatabaseVisitor.Extensions.ModelCreating;
 using Fur.DatabaseVisitor.Providers;
 using Fur.EmitReflection;
 using Microsoft.EntityFrameworkCore;
@@ -102,7 +103,7 @@ namespace Fur.DatabaseVisitor.Contexts
                 if (tenantProvider != null)
                 {
                     var lambdaExpression = FurDbContextOfTStatus.CreateHasQueryFilterExpression(viewType.Type, nameof(DbEntityBase.TenantId), tenantProvider.GetTenantId());
-                    entityTypeBuilder.HasQueryFilter(lambdaExpression);
+                    entityTypeBuilder.HasTenantIdQueryFilter(lambdaExpression);
                 }
             }
 

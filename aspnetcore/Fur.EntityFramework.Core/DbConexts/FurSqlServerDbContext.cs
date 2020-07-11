@@ -22,7 +22,7 @@ namespace Fur.EntityFramework.Core.DbContexts
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Test>().HasTenantQueryFilter(TenantProvider);
+            modelBuilder.Entity<Test>().HasTenantIdQueryFilter(TenantProvider);
         }
     }
 }
