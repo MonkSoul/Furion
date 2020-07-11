@@ -1,34 +1,32 @@
-﻿using Castle.DynamicProxy;
+﻿using Autofac;
+using Castle.DynamicProxy;
 using Fur.DatabaseVisitor.Contexts;
-using Fur.DatabaseVisitor.Providers;
-using Fur.DependencyInjection.Lifetimes;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace Fur.DatabaseVisitor.Tangent
 {
-    public class TangentDbContext : ITangentDbContext, IScopedLifetime
+    public class TangentDbContext : ITangentDbContext/*, IScopedLifetime*/
     {
-        private readonly IServiceProvider _serviceProvider;
+        private readonly ILifetimeScope _lifetimeScope;
         private readonly DbContext _dbContext;
-        private readonly ITenantProvider _tenantProvider;
+        //private readonly ITenantProvider _tenantProvider;
 
         public TangentDbContext(
-            IServiceProvider serviceProvider
+            ILifetimeScope lifetimeScope
             , DbContext dbContext
-            , ITenantProvider tenantProvider
+            //, ITenantProvider tenantProvider
             , IDbContextPool dbContextPool)
         {
-            _serviceProvider = serviceProvider;
+            _lifetimeScope = lifetimeScope;
             _dbContext = dbContext;
             dbContextPool.SaveDbContext(dbContext);
 
-            _tenantProvider = tenantProvider;
+            //_tenantProvider = tenantProvider;
         }
 
         public TTangent For<TTangent>() where TTangent : class, ITangentQueryDependency
         {
-            return new ProxyGenerator().CreateInterfaceProxyWithoutTarget<TTangent>(new TangentInterceptor(new TangentAsyncInterceptor(_serviceProvider, _dbContext, _tenantProvider)));
+            return new ProxyGenerator().CreateInterfaceProxyWithoutTarget<TTangent>(new TangentInterceptor(new TangentAsyncInterceptor(_lifetimeScope, _dbContext/*, _tenantProvider*/)));
         }
     }
 }

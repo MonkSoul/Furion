@@ -1,5 +1,6 @@
 ﻿using Fur.ApplicationBase;
 using Fur.DatabaseVisitor.Entities;
+using Fur.DatabaseVisitor.Providers;
 using Fur.EmitReflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -16,6 +17,12 @@ namespace Fur.DatabaseVisitor.Contexts
     /// </summary>
     internal static class FurDbContextOfTStatus
     {
+        /// <summary>
+        /// 是否检查过租户提供器状态
+        /// <para>避免重复检查</para>
+        /// </summary>
+        internal static bool IsCheckedTenantProviderStatus = false;
+
         /// <summary>
         /// 是否已经调用过 <c>OnConfiguring</c>
         /// <para>默认：<c>false</c></para>
@@ -233,7 +240,7 @@ namespace Fur.DatabaseVisitor.Contexts
         }
         #endregion
 
-        #region 扫描数据库编译实体并创建模型实体 + internal static void ScanDbCompileEntityToCreateModelEntity(ModelBuilder modelBuilder, string tenantIdKey, int tenantId)
+        #region 扫描数据库编译实体并创建模型实体 + internal static void ScanToModelCreating(ModelBuilder modelBuilder, ITenantProvider tenantProvider)
         /// <summary>
         /// 扫描数据库编译实体并创建模型实体
         /// <para>数据库编译实体包括：视图、函数、存储过程</para>
@@ -241,7 +248,7 @@ namespace Fur.DatabaseVisitor.Contexts
         /// <param name="modelBuilder">模型构建器</param>
         /// <param name="tenantIdKey">租户Id的键</param>
         /// <param name="tenantId">租户Id</param>
-        internal static void ScanDbCompileEntityToCreateModelEntity(ModelBuilder modelBuilder, string tenantIdKey, int tenantId)
+        internal static void ScanToModelCreating(ModelBuilder modelBuilder, ITenantProvider tenantProvider)
         {
             var viewTypes = ApplicationCore.ApplicationWrapper.PublicClassTypeWrappers
                 .Where(u => typeof(DbView).IsAssignableFrom(u.Type) && u.CanBeNew);
@@ -258,8 +265,11 @@ namespace Fur.DatabaseVisitor.Contexts
                 entityTypeBuilder = FurDbContextOfTStatus.ToViewDelegate(entityTypeBuilder, viewInstance.ViewName);
 
                 // 租户过滤器
-                var lambdaExpression = FurDbContextOfTStatus.CreateHasQueryFilterExpression(viewType.Type, tenantIdKey, tenantId);
-                entityTypeBuilder = FurDbContextOfTStatus.HasQueryFilterDelegate(entityTypeBuilder, lambdaExpression);
+                if (tenantProvider != null)
+                {
+                    var lambdaExpression = FurDbContextOfTStatus.CreateHasQueryFilterExpression(viewType.Type, nameof(DbEntityBase.TenantId), tenantProvider.GetTenantId());
+                    entityTypeBuilder = FurDbContextOfTStatus.HasQueryFilterDelegate(entityTypeBuilder, lambdaExpression);
+                }
             }
 
             foreach (var dbFunction in dbFunctionMethods)

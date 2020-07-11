@@ -24,7 +24,7 @@ namespace Fur.DatabaseVisitor.Extensions.ServiceCollection
             where TDbContext : DbContext
         {
             //services.AddEntityFrameworkSqlServer();
-            services.AddDbContextPool<TDbContext>(options =>
+            services.AddDbContextPool<TDbContext>((serviceProvider, options) =>
             {
                 if (env.IsDevelopment())
                 {
@@ -33,6 +33,7 @@ namespace Fur.DatabaseVisitor.Extensions.ServiceCollection
                                 .EnableSensitiveDataLogging();
                 }
                 options.UseSqlServer(connectionString);
+                //options.UseInternalServiceProvider(serviceProvider);
             }
             , poolSize: poolSize);
 
@@ -54,7 +55,7 @@ namespace Fur.DatabaseVisitor.Extensions.ServiceCollection
             where TDbContext : DbContext
         {
             //services.AddEntityFrameworkSqlServer();
-            services.AddDbContext<TDbContext>(options =>
+            services.AddDbContext<TDbContext>((serviceProvider, options) =>
             {
                 if (env.IsDevelopment())
                 {
@@ -63,6 +64,7 @@ namespace Fur.DatabaseVisitor.Extensions.ServiceCollection
                                 .EnableSensitiveDataLogging();
                 }
                 options.UseSqlServer(connectionString);
+                //options.UseInternalServiceProvider(serviceProvider);
             });
 
             return services;

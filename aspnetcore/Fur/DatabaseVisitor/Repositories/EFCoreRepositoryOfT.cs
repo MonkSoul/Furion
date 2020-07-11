@@ -1,11 +1,9 @@
 ﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using Fur.DatabaseVisitor.Contexts;
 using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using System;
 using System.Data.Common;
 using System.Linq;
 
@@ -28,30 +26,30 @@ namespace Fur.DatabaseVisitor.Repositories
         /// </summary>
         private readonly IDbContextPool _dbContextPool;
 
-        #region 构造函数 + public EFCoreRepositoryOfT(DbContext dbContext , IServiceProvider serviceProvider, ITenantProvider tenantProvider, IDbContextPool dbContextPool)
+        #region 构造函数 + public EFCoreRepositoryOfT(DbContext dbContext , ILifetimeScope lifetimeScope, IDbContextPool dbContextPool)
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="dbContext">数据库操作上下文</param>
-        /// <param name="serviceProvider">服务提供器</param>
-        /// <param name="tenantProvider">租户提供器</param>
+        /// <param name="ILifetimeScope">Autofac生命周期对象</param>
         /// <param name="dbContextPool">数据库上下文池</param>
         public EFCoreRepositoryOfT(DbContext dbContext
-            , IServiceProvider serviceProvider
-            , ITenantProvider tenantProvider
+            , ILifetimeScope lifetimeScope
             , IDbContextPool dbContextPool)
         {
-            _tenantProvider = tenantProvider;
             _dbContextPool = dbContextPool;
 
             DbContext = dbContext;
             Entity = DbContext.Set<TEntity>();
             _dbContextPool.SaveDbContext(DbContext);
 
-            var autofacContainer = serviceProvider.GetAutofacRoot();
-            if (autofacContainer.IsRegistered<IMaintenanceFieldsProvider>())
+            if (lifetimeScope.IsRegistered<IMaintenanceFieldsProvider>())
             {
-                _maintenanceProvider = autofacContainer.Resolve<IMaintenanceFieldsProvider>();
+                _maintenanceProvider = lifetimeScope.Resolve<IMaintenanceFieldsProvider>();
+            }
+            if (lifetimeScope.IsRegistered<ITenantProvider>())
+            {
+                _tenantProvider = lifetimeScope.Resolve<ITenantProvider>();
             }
         }
         #endregion
@@ -84,6 +82,6 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <summary>
         /// 租户Id
         /// </summary>
-        public virtual int TenantId => _tenantProvider.GetTenantId();
+        public virtual int? TenantId => _tenantProvider?.GetTenantId();
     }
 }

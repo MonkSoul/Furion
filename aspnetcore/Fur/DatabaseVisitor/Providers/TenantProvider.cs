@@ -22,8 +22,7 @@ namespace Fur.DatabaseVisitor.Providers
 
         public int GetTenantId()
         {
-            // 处理 ef 迁移命令错误问题
-            if (_httpContextAccessor?.HttpContext == null) return 0;
+            if (_httpContextAccessor?.HttpContext == null) return default;
 
             var host = _httpContextAccessor.HttpContext.Request.Host.Value;
 

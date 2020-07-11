@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Fur.DatabaseVisitor.Entities;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Fur.DatabaseVisitor.Contexts
 {
@@ -7,6 +9,12 @@ namespace Fur.DatabaseVisitor.Contexts
     /// </summary>
     public class FurTenantDbContext : FurDbContextOfT<FurTenantDbContext>
     {
+        /// <summary>
+        /// 租户实体表
+        /// <para>框架默认启用了租户模式。参见：<see cref="Tenant"/></para>
+        /// </summary>
+        public virtual DbSet<Tenant> Tenants { get; set; }
+
         #region 构造函数 + public FurTenantDbContext(DbContextOptions<FurTenantDbContext> options) : base(options)
         /// <summary>
         /// 构造函数
@@ -37,6 +45,19 @@ namespace Fur.DatabaseVisitor.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+        }
+        #endregion
+
+        #region DbContext 上下文获取租户Id + public virtual int GetTenantId(string host)
+        /// <summary>
+        /// DbContext 上下文获取租户Id
+        /// </summary>
+        /// <param name="host">主机地址</param>
+        /// <returns>int</returns>
+        public virtual int GetTenantId(string host)
+        {
+            var tenant = Tenants.FirstOrDefault(t => t.Host == host);
+            return tenant?.Id ?? 0;
         }
         #endregion
     }

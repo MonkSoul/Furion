@@ -27,11 +27,7 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
                 .As<DbContext>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<TDbContext>()
-                .Named<DbContext>(nameof(FurDbContextIdentifier))
-                .InstancePerLifetimeScope();
-
-            builder.RegisterMultipleDbContext<FurTenantDbContext, FurTenantDbContextIdentifier>();
+            builder.RegisterMultipleDbContext<TDbContext, FurDbContextIdentifier>();
 
             return builder;
         }
@@ -89,16 +85,18 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
         }
         #endregion
 
-        #region 注册租户提供器 + public static ContainerBuilder RegisterTenantProvider<TTenantProvider>(this ContainerBuilder builder) where TTenantProvider : ITenantProvider
+        #region 注册租户提供器 + public static ContainerBuilder RegisterTenant<TTenantProvider>(this ContainerBuilder builder) where TTenantProvider : ITenantProvider
         /// <summary>
         /// 注册租户提供器
         /// </summary>
         /// <typeparam name="TTenantProvider">租户提供器</typeparam>
         /// <param name="builder">容器构建器</param>
         /// <returns><see cref="ContainerBuilder"/></returns>
-        public static ContainerBuilder RegisterTenantProvider<TTenantProvider>(this ContainerBuilder builder)
+        public static ContainerBuilder RegisterTenant<TTenantProvider>(this ContainerBuilder builder)
             where TTenantProvider : ITenantProvider
         {
+            builder.RegisterMultipleDbContext<FurTenantDbContext, FurTenantDbContextIdentifier>();
+
             builder.RegisterType<TTenantProvider>()
                 .As<ITenantProvider>()
                 .InstancePerLifetimeScope();

@@ -190,10 +190,13 @@ namespace Fur.DatabaseVisitor.Repositories
                     createdTimeProperty.CurrentValue = createdTimePropertyValue;
                 }
 
-                var tenantIdProperty = EntityEntryProperty(entityEntry, nameof(DbEntity.TenantId));
-                if (tenantIdProperty != null)
+                if (TenantId.HasValue)
                 {
-                    tenantIdProperty.CurrentValue = _tenantProvider.GetTenantId();
+                    var tenantIdProperty = EntityEntryProperty(entityEntry, nameof(DbEntity.TenantId));
+                    if (tenantIdProperty != null)
+                    {
+                        tenantIdProperty.CurrentValue = TenantId;
+                    }
                 }
             }
         }

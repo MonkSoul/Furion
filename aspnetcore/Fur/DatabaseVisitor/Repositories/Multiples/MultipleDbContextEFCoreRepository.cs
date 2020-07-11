@@ -1,8 +1,6 @@
 ﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Identifiers;
-using System;
 
 namespace Fur.DatabaseVisitor.Repositories.Multiples
 {
@@ -12,18 +10,18 @@ namespace Fur.DatabaseVisitor.Repositories.Multiples
     public partial class MultipleDbContextEFCoreRepository : IMultipleDbContextRepository
     {
         /// <summary>
-        /// 注入服务提供器
+        /// Autofac生命周期对象
         /// </summary>
-        private readonly IServiceProvider _serviceProvider;
+        private readonly ILifetimeScope _lifetimeScope;
 
-        #region 构造函数 + public MultipleDbContextEFCoreRepository(IServiceProvider serviceProvider)
+        #region 构造函数 + public MultipleDbContextEFCoreRepository(ILifetimeScope lifetimeScope)
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="serviceProvider">服务提供器</param>
-        public MultipleDbContextEFCoreRepository(IServiceProvider serviceProvider)
+        /// <param name="serviceProvider">Autofac生命周期对象</param>
+        public MultipleDbContextEFCoreRepository(ILifetimeScope lifetimeScope)
         {
-            _serviceProvider = serviceProvider;
+            _lifetimeScope = lifetimeScope;
         }
         #endregion
 
@@ -41,9 +39,9 @@ namespace Fur.DatabaseVisitor.Repositories.Multiples
         {
             if (newScope)
             {
-                return _serviceProvider.GetAutofacRoot().BeginLifetimeScope().Resolve<IMultipleDbContextRepositoryOfT<TEntity, TDbContextIdentifier>>();
+                return _lifetimeScope.BeginLifetimeScope().Resolve<IMultipleDbContextRepositoryOfT<TEntity, TDbContextIdentifier>>();
             }
-            return _serviceProvider.GetAutofacRoot().Resolve<IMultipleDbContextRepositoryOfT<TEntity, TDbContextIdentifier>>();
+            return _lifetimeScope.Resolve<IMultipleDbContextRepositoryOfT<TEntity, TDbContextIdentifier>>();
         }
         #endregion
     }

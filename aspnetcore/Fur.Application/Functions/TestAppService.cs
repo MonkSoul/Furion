@@ -41,14 +41,14 @@ namespace Fur.Application.Functions
         public TestAppService(IRepository repository
             , IRepositoryOfT<Test> testRepository
             , IRepositoryOfT<V_Test> vTestRepository
-            , ITangentDbContext tangentDbContext
+            //, ITangentDbContext tangentDbContext
             , IMultipleDbContextRepositoryOfT<Test, FurMultipleDbContextIdentifier> multipleRepository
             , IMultipleDbContextRepositoryOfT<V_Test, FurMultipleDbContextIdentifier> vTestMultipleRepository)
         {
             _repository = repository;
             _testRepository = testRepository;
             _vTestRepository = vTestRepository;
-            _nonDbSetQuery = tangentDbContext.For<INonDbSetQuery>();
+            //_nonDbSetQuery = tangentDbContext.For<INonDbSetQuery>();
             _multipleRepository = multipleRepository;
             _vTestMultipleRepository = vTestMultipleRepository;
         }

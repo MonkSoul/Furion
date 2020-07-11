@@ -1,7 +1,5 @@
 ﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using Fur.DatabaseVisitor.Entities;
-using System;
 
 namespace Fur.DatabaseVisitor.Repositories
 {
@@ -11,18 +9,18 @@ namespace Fur.DatabaseVisitor.Repositories
     public partial class EFCoreRepository : IRepository
     {
         /// <summary>
-        /// 注入服务提供器
+        /// Autofac生命周期对象
         /// </summary>
-        private readonly IServiceProvider _serviceProvider;
+        private readonly ILifetimeScope _lifetimeScope;
 
-        #region 构造函数 + public EFCoreRepository(IServiceProvider serviceProvider)
+        #region 构造函数 + public EFCoreRepository(ILifetimeScope lifetimeScope)
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="serviceProvider">服务提供器</param>
-        public EFCoreRepository(IServiceProvider serviceProvider)
+        /// <param name="ILifetimeScope">Autofac生命周期实例</param>
+        public EFCoreRepository(ILifetimeScope lifetimeScope)
         {
-            _serviceProvider = serviceProvider;
+            _lifetimeScope = lifetimeScope;
         }
         #endregion
 
@@ -37,9 +35,9 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             if (newScope)
             {
-                return _serviceProvider.GetAutofacRoot().BeginLifetimeScope().Resolve<IRepositoryOfT<TEntity>>();
+                return _lifetimeScope.BeginLifetimeScope().Resolve<IRepositoryOfT<TEntity>>();
             }
-            return _serviceProvider.GetAutofacRoot().Resolve<IRepositoryOfT<TEntity>>();
+            return _lifetimeScope.Resolve<IRepositoryOfT<TEntity>>();
         }
         #endregion
     }

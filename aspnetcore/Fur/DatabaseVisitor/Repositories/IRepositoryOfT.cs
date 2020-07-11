@@ -40,6 +40,6 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <summary>
         /// 租户Id
         /// </summary>
-        int TenantId { get; }
+        int? TenantId { get; }
     }
 }

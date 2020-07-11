@@ -1,8 +1,9 @@
-﻿using Fur.DatabaseVisitor.Entities;
+﻿using Autofac;
+using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Fur.DatabaseVisitor.Contexts
 {
@@ -17,14 +18,21 @@ namespace Fur.DatabaseVisitor.Contexts
     {
         /// <summary>
         /// 是否注册了租户提供器
+        /// <para>如果注册了租户提供器，才启用租户模式</para>
         /// </summary>
         protected bool IsRegisteredTenantProvider
         {
             get
             {
-                if (TenantProvider != null) return true;
+                if (!FurDbContextOfTStatus.IsCheckedTenantProviderStatus)
+                {
+                    FurDbContextOfTStatus.IsCheckedTenantProviderStatus = true;
 
-                TenantProvider = this.GetService<ITenantProvider>();
+                    var lifetimeScope = this.GetService<ILifetimeScope>();
+                    if (!lifetimeScope.IsRegistered<ITenantProvider>()) return false;
+
+                    TenantProvider = lifetimeScope.Resolve<ITenantProvider>();
+                }
                 return TenantProvider != null;
             }
         }
@@ -32,25 +40,7 @@ namespace Fur.DatabaseVisitor.Contexts
         /// <summary>
         /// 租户提供器
         /// </summary>
-        private ITenantProvider TenantProvider;
-
-        /// <summary>
-        /// 租户Id属性
-        /// <para>支持子类重写</para>
-        /// </summary>
-        protected virtual int TenantId
-        {
-            get
-            {
-                return TenantProvider.GetTenantId();
-            }
-        }
-
-        /// <summary>
-        /// 租户实体表
-        /// <para>框架默认启用了租户模式。参见：<see cref="Tenant"/></para>
-        /// </summary>
-        public virtual DbSet<Tenant> Tenants { get; set; }
+        protected ITenantProvider TenantProvider;
 
         #region 默认构造函数 + public FurDbContextOfT(DbContextOptions<TDbContext> options) : base(options)
         /// <summary>
@@ -87,15 +77,12 @@ namespace Fur.DatabaseVisitor.Contexts
 
             if (FurDbContextOfTStatus.CallOnModelCreatinged()) return;
 
-            // 初始化租户实例表
-            // 备注：后续 HasData迁移单独抽离出来，避免影响正常运行的代码
-            //           只存在于数据库迁移命令中有效
-            modelBuilder.Entity<Tenant>().HasData(
-                new Tenant() { Id = 1, Name = "默认租户", Host = "localhost:44307" },
-                new Tenant() { Id = 2, Name = "默认租户", Host = "localhost:41529" }
-             );
+            if (IsRegisteredTenantProvider)
+            {
+                ConfigureTenant(modelBuilder);
+            }
 
-            // 扫描数据库编译实体
+            // 扫描并配置视图/函数
             OnScanToModelCreating(modelBuilder);
         }
         #endregion
@@ -108,20 +95,24 @@ namespace Fur.DatabaseVisitor.Contexts
         /// <param name="modelBuilder">模型构建器</param>
         protected virtual void OnScanToModelCreating(ModelBuilder modelBuilder)
         {
-            FurDbContextOfTStatus.ScanDbCompileEntityToCreateModelEntity(modelBuilder, nameof(TenantId), TenantId);
+            FurDbContextOfTStatus.ScanToModelCreating(modelBuilder, TenantProvider);
         }
         #endregion
 
-        #region DbContext 上下文获取租户Id + public virtual int GetTenantId(string host)
+        #region 配置租户模式 + private void ConfigureTenant(ModelBuilder modelBuilder)
         /// <summary>
-        /// DbContext 上下文获取租户Id
+        /// 配置租户模式
         /// </summary>
-        /// <param name="host">主机地址</param>
-        /// <returns>int</returns>
-        public virtual int GetTenantId(string host)
+        /// <param name="modelBuilder">模型构建器</param>
+        private void ConfigureTenant(ModelBuilder modelBuilder)
         {
-            var tenant = Tenants.FirstOrDefault(t => t.Host == host);
-            return tenant?.Id ?? 0;
+            // 初始化租户实例表
+            // 备注：后续 HasData迁移单独抽离出来，避免影响正常运行的代码
+            //           只存在于数据库迁移命令中有效
+            modelBuilder.Entity<Tenant>().HasData(
+                new Tenant() { Id = 1, Name = "默认租户", Host = "localhost:44307" },
+                new Tenant() { Id = 2, Name = "默认租户", Host = "localhost:41529" }
+             );
         }
         #endregion
     }

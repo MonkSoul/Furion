@@ -1,11 +1,8 @@
 ﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using Fur.DatabaseVisitor.Contexts;
 using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Identifiers;
-using Fur.DatabaseVisitor.Providers;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace Fur.DatabaseVisitor.Repositories.Multiples
 {
@@ -18,18 +15,16 @@ namespace Fur.DatabaseVisitor.Repositories.Multiples
         where TEntity : class, IDbEntity, new()
         where TDbContextIdentifier : IDbContextIdentifier
     {
-        #region 构造函数 + public MultipleDbContextEFCoreRepositoryOfT(IServiceProvider serviceProvider, ITenantProvider tenantProvider, IDbContextPool dbContextPool)
+        #region 构造函数 + public MultipleDbContextEFCoreRepositoryOfT(ILifetimeScope lifetimeScope,IDbContextPool dbContextPool)
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="serviceProvider">服务提供器</param>
-        /// <param name="tenantProvider">租户提供器</param>
         /// <param name="dbContextPool">数据库上下文池</param>
         public MultipleDbContextEFCoreRepositoryOfT(
-            IServiceProvider serviceProvider
-            , ITenantProvider tenantProvider
+            ILifetimeScope lifetimeScope
             , IDbContextPool dbContextPool)
-            : base(serviceProvider.GetAutofacRoot().ResolveNamed<DbContext>(typeof(TDbContextIdentifier).Name), serviceProvider, tenantProvider, dbContextPool)
+            : base(lifetimeScope.ResolveNamed<DbContext>(typeof(TDbContextIdentifier).Name), lifetimeScope, dbContextPool)
         {
         }
         #endregion
