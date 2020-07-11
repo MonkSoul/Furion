@@ -589,7 +589,6 @@ namespace Fur.DatabaseVisitor.Repositories
         #endregion
 
 
-
         #region 排除特定列更新 + public virtual EntityEntry<TEntity> UpdateExcludeProperties(TEntity entity, params string[] propertyNames)
         /// <summary>
         /// 排除特定列更新

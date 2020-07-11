@@ -16,32 +16,6 @@ namespace Fur.DatabaseVisitor.Contexts
     /// <typeparam name="TDbContext"><see cref="DbContext"/> 类型</typeparam>
     public abstract class FurDbContextOfT<TDbContext> : DbContext where TDbContext : DbContext
     {
-        /// <summary>
-        /// 是否注册了租户提供器
-        /// <para>如果注册了租户提供器，才启用租户模式</para>
-        /// </summary>
-        protected bool IsRegisteredTenantProvider
-        {
-            get
-            {
-                if (!FurDbContextOfTStatus.IsCheckedTenantProviderStatus)
-                {
-                    FurDbContextOfTStatus.IsCheckedTenantProviderStatus = true;
-
-                    var lifetimeScope = this.GetService<ILifetimeScope>();
-                    if (!lifetimeScope.IsRegistered<ITenantProvider>()) return false;
-
-                    TenantProvider = lifetimeScope.Resolve<ITenantProvider>();
-                }
-                return TenantProvider != null;
-            }
-        }
-
-        /// <summary>
-        /// 租户提供器
-        /// </summary>
-        protected ITenantProvider TenantProvider;
-
         #region 默认构造函数 + public FurDbContextOfT(DbContextOptions<TDbContext> options) : base(options)
         /// <summary>
         /// 默认构造函数
@@ -98,6 +72,32 @@ namespace Fur.DatabaseVisitor.Contexts
             FurDbContextOfTStatus.ScanToModelCreating(modelBuilder, TenantProvider);
         }
         #endregion
+
+        /// <summary>
+        /// 是否注册了租户提供器
+        /// <para>如果注册了租户提供器，才启用租户模式</para>
+        /// </summary>
+        protected bool IsRegisteredTenantProvider
+        {
+            get
+            {
+                if (!FurDbContextOfTStatus.IsCheckedTenantProviderStatus)
+                {
+                    FurDbContextOfTStatus.IsCheckedTenantProviderStatus = true;
+
+                    var lifetimeScope = this.GetService<ILifetimeScope>();
+                    if (!lifetimeScope.IsRegistered<ITenantProvider>()) return false;
+
+                    TenantProvider = lifetimeScope.Resolve<ITenantProvider>();
+                }
+                return TenantProvider != null;
+            }
+        }
+
+        /// <summary>
+        /// 租户提供器
+        /// </summary>
+        protected ITenantProvider TenantProvider;
 
         #region 配置租户模式 + private void ConfigureTenant(ModelBuilder modelBuilder)
         /// <summary>
