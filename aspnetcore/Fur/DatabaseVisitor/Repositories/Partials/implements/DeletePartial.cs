@@ -92,32 +92,6 @@ namespace Fur.DatabaseVisitor.Repositories
         }
         #endregion
 
-        #region 真删除操作 + public virtual EntityEntry<TEntity> Delete(object id)
-        /// <summary>
-        /// 真删除操作
-        /// </summary>
-        /// <param name="id">主键</param>
-        /// <returns><see cref="EntityEntry(TEntity)"/></returns>
-        public virtual EntityEntry<TEntity> Delete(object id)
-        {
-            var entity = Entity.Find(id);
-            return Delete(entity);
-        }
-        #endregion
-
-        #region 真删除操作 + public virtual async Task<EntityEntry<TEntity>> DeleteAsync(object id)
-        /// <summary>
-        /// 真删除操作
-        /// </summary>
-        /// <param name="id">主键</param>
-        /// <returns><see cref="Task{TResult}"/></returns>
-        public virtual async Task<EntityEntry<TEntity>> DeleteAsync(object id)
-        {
-            var entity = await Entity.FindAsync(id);
-            return await DeleteAsync(entity);
-        }
-        #endregion
-
 
         #region 真删除操作并立即保存 + public virtual EntityEntry<TEntity> DeleteSaveChanges(TEntity entity)
         /// <summary>
@@ -197,34 +171,6 @@ namespace Fur.DatabaseVisitor.Repositories
         }
         #endregion
 
-        #region 真删除操作并立即保存 + public virtual EntityEntry<TEntity> DeleteSaveChanges(object id)
-        /// <summary>
-        /// 真删除操作并立即保存
-        /// </summary>
-        /// <param name="id">主键</param>
-        /// <returns><see cref="EntityEntry(TEntity)"/></returns>
-        public virtual EntityEntry<TEntity> DeleteSaveChanges(object id)
-        {
-            var trackEntity = Delete(id);
-            SaveChanges();
-            return trackEntity;
-        }
-        #endregion
-
-        #region 真删除操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> DeleteSaveChangesAsync(object id)
-        /// <summary>
-        /// 真删除操作并立即保存
-        /// </summary>
-        /// <param name="id">主键</param>
-        /// <returns><see cref="Task{TResult}"/></returns>
-        public virtual async Task<EntityEntry<TEntity>> DeleteSaveChangesAsync(object id)
-        {
-            var trackEntity = await DeleteAsync(id);
-            await SaveChangesAsync();
-            return trackEntity;
-        }
-        #endregion
-
 
         #region 假删除操作 + public virtual EntityEntry<TEntity> FakeDelete(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
         /// <summary>
@@ -290,36 +236,6 @@ namespace Fur.DatabaseVisitor.Repositories
                 FakeDelete(entity, flagProperty, flagValue);
             }
             return Task.CompletedTask;
-        }
-        #endregion
-
-        #region 假删除操作 + public virtual EntityEntry<TEntity> FakeDelete(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue)
-        /// <summary>
-        /// 假删除操作
-        /// </summary>
-        /// <param name="id">主键</param>
-        /// <param name="flagProperty">标识属性</param>
-        /// <param name="flagValue">标识值</param>
-        /// <returns><see cref="EntityEntry(TEntity)"/></returns>
-        public virtual EntityEntry<TEntity> FakeDelete(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue)
-        {
-            var entity = Find(id);
-            return FakeDelete(entity, flagProperty, flagValue);
-        }
-        #endregion
-
-        #region 假删除操作 + public virtual async Task<EntityEntry<TEntity>> FakeDeleteAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue)
-        /// <summary>
-        /// 假删除操作
-        /// </summary>
-        /// <param name="id">主键</param>
-        /// <param name="flagProperty">标识属性</param>
-        /// <param name="flagValue">标识值</param>
-        /// <returns><see cref="Task{TResult}"/></returns>
-        public virtual async Task<EntityEntry<TEntity>> FakeDeleteAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue)
-        {
-            var entity = await FindAsync(id);
-            return await FakeDeleteAsync(entity, flagProperty, flagValue);
         }
         #endregion
 
@@ -391,38 +307,6 @@ namespace Fur.DatabaseVisitor.Repositories
         }
         #endregion
 
-        #region 假删除操作并立即保存 + public virtual EntityEntry<TEntity> FakeDeleteSaveChanges(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue)
-        /// <summary>
-        /// 假删除操作并立即保存
-        /// </summary>
-        /// <param name="id">主键</param>
-        /// <param name="flagProperty">标识属性</param>
-        /// <param name="flagValue">标识值</param>
-        /// <returns></returns>
-        public virtual EntityEntry<TEntity> FakeDeleteSaveChanges(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue)
-        {
-            var entityEntry = FakeDelete(id, flagProperty, flagValue);
-            SaveChanges();
-            return entityEntry;
-        }
-        #endregion
-
-        #region 假删除操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue)
-        /// <summary>
-        /// 假删除操作并立即保存
-        /// </summary>
-        /// <param name="id">主键</param>
-        /// <param name="flagProperty">标识属性</param>
-        /// <param name="flagValue">标识值</param>
-        /// <returns><see cref="Task{TResult}"/></returns>
-        public virtual async Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue)
-        {
-            var entityEntry = await FakeDeleteAsync(id, flagProperty, flagValue);
-            await SaveChangesAsync();
-            return entityEntry;
-        }
-        #endregion
-
 
         #region 假删除操作 + public virtual EntityEntry<TEntity> FakeDelete(TEntity entity)
         /// <summary>
@@ -488,32 +372,6 @@ namespace Fur.DatabaseVisitor.Repositories
         }
         #endregion
 
-        #region 假删除操作 + public virtual EntityEntry<TEntity> FakeDelete(object id)
-        /// <summary>
-        /// 假删除操作
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
-        public virtual EntityEntry<TEntity> FakeDelete(object id)
-        {
-            var entity = Find(id);
-            return FakeDelete(entity);
-        }
-        #endregion
-
-        #region 假删除操作 + public virtual async Task<EntityEntry<TEntity>> FakeDeleteAsync(object id)
-        /// <summary>
-        /// 假删除操作
-        /// </summary>
-        /// <param name="id">主键</param>
-        /// <returns><see cref="Task{TResult}"/></returns>
-        public virtual async Task<EntityEntry<TEntity>> FakeDeleteAsync(object id)
-        {
-            var entity = await FindAsync(id);
-            return await FakeDeleteAsync(entity);
-        }
-        #endregion
-
 
         #region 假删除操作并立即保存 + public virtual EntityEntry<TEntity> FakeDeleteSaveChanges(TEntity entity)
         /// <summary>
@@ -571,34 +429,6 @@ namespace Fur.DatabaseVisitor.Repositories
                 FakeDelete(entity);
             }
             await SaveChangesAsync();
-        }
-        #endregion
-
-        #region 假删除操作并立即保存 + public virtual EntityEntry<TEntity> FakeDeleteSaveChanges(object id)
-        /// <summary>
-        /// 假删除操作并立即保存
-        /// </summary>
-        /// <param name="id">主键</param>
-        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
-        public virtual EntityEntry<TEntity> FakeDeleteSaveChanges(object id)
-        {
-            var entityEntry = FakeDelete(id);
-            SaveChanges();
-            return entityEntry;
-        }
-        #endregion
-
-        #region 假删除操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(object id)
-        /// <summary>
-        /// 假删除操作并立即保存
-        /// </summary>
-        /// <param name="id">主键</param>
-        /// <returns><see cref="Task{TResult}"/></returns>
-        public virtual async Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(object id)
-        {
-            var entityEntry = await FakeDeleteAsync(id);
-            await SaveChangesAsync();
-            return entityEntry;
         }
         #endregion
     }

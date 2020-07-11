@@ -216,7 +216,7 @@ namespace Fur.Application.Functions
         [AttachAction(EveryWordToRoutePath = true)]
         public Task FakeDeleteAsync(int id)
         {
-            return _testRepository.FakeDeleteAsync(id, u => u.IsDeleted, true);
+            return _testRepository.FindToFakeDeleteAsync(id, u => u.IsDeleted, true);
         }
 
         /// <summary>
