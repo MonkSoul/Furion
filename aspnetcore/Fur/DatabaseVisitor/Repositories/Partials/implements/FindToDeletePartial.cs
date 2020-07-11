@@ -77,7 +77,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// 查找并真删除操作（抛异常）
         /// </summary>
         /// <param name="id">主键</param>
-        /// <param name="oopsCode">错误状态码</param>
+        /// <param name="oopsCode">异常状态码</param>
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         public virtual EntityEntry<TEntity> FindToDelete(object id, int oopsCode)
         {
@@ -91,7 +91,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// 查找并真删除操作（抛异常）
         /// </summary>
         /// <param name="id">主键</param>
-        /// <param name="oopsCode">错误状态码</param>
+        /// <param name="oopsCode">异常状态码</param>
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         public virtual EntityEntry<TEntity> FindToDelete(object id, string oopsCode)
         {
@@ -105,7 +105,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// 查找并真删除操作（抛异常）
         /// </summary>
         /// <param name="id">主键</param>
-        /// <param name="oopsCode">错误状态码</param>
+        /// <param name="oopsCode">异常状态码</param>
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual async Task<EntityEntry<TEntity>> FindToDeleteAsync(object id, int oopsCode)
         {
@@ -120,7 +120,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// 查找并真删除操作（抛异常）
         /// </summary>
         /// <param name="id">主键</param>
-        /// <param name="oopsCode">错误状态码</param>
+        /// <param name="oopsCode">异常状态码</param>
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual async Task<EntityEntry<TEntity>> FindToDeleteAsync(object id, string oopsCode)
         {
@@ -164,7 +164,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// 查找并真删除操作并立即保存（抛异常）
         /// </summary>
         /// <param name="id">主键</param>
-        /// <param name="oopsCode">错误状态码</param>
+        /// <param name="oopsCode">异常状态码</param>
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         public virtual EntityEntry<TEntity> FindToDeleteSaveChanges(object id, int oopsCode)
         {
@@ -179,7 +179,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// 查找并真删除操作并立即保存（抛异常）
         /// </summary>
         /// <param name="id">主键</param>
-        /// <param name="oopsCode">错误状态码</param>
+        /// <param name="oopsCode">异常状态码</param>
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         public virtual EntityEntry<TEntity> FindToDeleteSaveChanges(object id, string oopsCode)
         {
@@ -194,7 +194,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// 查找并真删除操作并立即保存（抛异常）
         /// </summary>
         /// <param name="id">主键</param>
-        /// <param name="oopsCode">错误状态码</param>
+        /// <param name="oopsCode">异常状态码</param>
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual async Task<EntityEntry<TEntity>> FindToDeleteSaveChangesAsync(object id, int oopsCode)
         {
@@ -209,7 +209,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// 查找并真删除操作并立即保存（抛异常）
         /// </summary>
         /// <param name="id">主键</param>
-        /// <param name="oopsCode">错误状态码</param>
+        /// <param name="oopsCode">异常状态码</param>
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual async Task<EntityEntry<TEntity>> FindToDeleteSaveChangesAsync(object id, string oopsCode)
         {
@@ -282,6 +282,103 @@ namespace Fur.DatabaseVisitor.Repositories
         #endregion
 
 
+        #region 查找并假删除操作（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDelete(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, Exception notFoundException)
+        /// <summary>
+        /// 查找并假删除操作（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="flagProperty">标识属性</param>
+        /// <param name="flagValue">标识值</param>
+        /// <param name="notFoundException">没找到异常</param>
+        /// <returns><see cref="EntityEntry(TEntity)"/></returns>
+        public virtual EntityEntry<TEntity> FindToFakeDelete(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, Exception notFoundException)
+        {
+            var entity = Find(id) ?? throw notFoundException;
+            return FakeDelete(entity, flagProperty, flagValue);
+        }
+        #endregion
+
+        #region 查找并假删除操作（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, Exception notFoundException)
+        /// <summary>
+        /// 查找并假删除操作（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="flagProperty">标识属性</param>
+        /// <param name="flagValue">标识值</param>
+        /// <param name="notFoundException">没找到异常</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, Exception notFoundException)
+        {
+            var entity = await FindAsync(id) ?? throw notFoundException;
+            return await FakeDeleteAsync(entity, flagProperty, flagValue);
+        }
+        #endregion
+
+        #region 查找并假删除操作（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDelete(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, int oopsCode)
+        /// <summary>
+        /// 查找并假删除操作（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="flagProperty">标识属性</param>
+        /// <param name="flagValue">标识值</param>
+        /// <param name="oopsCode">异常状态码</param>
+        /// <returns><see cref="EntityEntry(TEntity)"/></returns>
+        public virtual EntityEntry<TEntity> FindToFakeDelete(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, int oopsCode)
+        {
+            var entity = Find(id) ?? throw Oops.Set(oopsCode, true);
+            return FakeDelete(entity, flagProperty, flagValue);
+        }
+        #endregion
+
+        #region 查找并假删除操作（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, int oopsCode)
+        /// <summary>
+        /// 查找并假删除操作（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="flagProperty">标识属性</param>
+        /// <param name="flagValue">标识值</param>
+        /// <param name="oopsCode">异常状态码</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, int oopsCode)
+        {
+            var entity = await FindAsync(id) ?? throw Oops.Set(oopsCode, true);
+            return await FakeDeleteAsync(entity, flagProperty, flagValue);
+        }
+        #endregion
+
+        #region 查找并假删除操作（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDelete(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, string oopsCode)
+        /// <summary>
+        /// 查找并假删除操作（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="flagProperty">标识属性</param>
+        /// <param name="flagValue">标识值</param>
+        /// <param name="oopsCode">异常状态码</param>
+        /// <returns><see cref="EntityEntry(TEntity)"/></returns>
+        public virtual EntityEntry<TEntity> FindToFakeDelete(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, string oopsCode)
+        {
+            var entity = Find(id) ?? throw Oops.Set(oopsCode, true);
+            return FakeDelete(entity, flagProperty, flagValue);
+        }
+        #endregion
+
+        #region 查找并假删除操作（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, string oopsCode)
+        /// <summary>
+        /// 查找并假删除操作（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="flagProperty">标识属性</param>
+        /// <param name="flagValue">标识值</param>
+        /// <param name="oopsCode">异常状态码</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, string oopsCode)
+        {
+            var entity = await FindAsync(id) ?? throw Oops.Set(oopsCode, true);
+            return await FakeDeleteAsync(entity, flagProperty, flagValue);
+        }
+        #endregion
+
+
         #region 查找并假删除操作 + public virtual EntityEntry<TEntity> FindToFakeDelete(object id)
         /// <summary>
         /// 查找并假删除操作
@@ -304,6 +401,91 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id)
         {
             var entity = await FindAsync(id);
+            return await FakeDeleteAsync(entity);
+        }
+        #endregion
+
+
+        #region 查找并假删除操作（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDelete(object id, Exception notFoundException)
+        /// <summary>
+        /// 查找并假删除操作（抛异常）
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="notFoundException">没找到异常</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
+        public virtual EntityEntry<TEntity> FindToFakeDelete(object id, Exception notFoundException)
+        {
+            var entity = Find(id) ?? throw notFoundException;
+            return FakeDelete(entity);
+        }
+        #endregion
+
+        #region 查找并假删除操作（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, Exception notFoundException)
+        /// <summary>
+        /// 查找并假删除操作（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="notFoundException">没找到异常</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, Exception notFoundException)
+        {
+            var entity = await FindAsync(id) ?? throw notFoundException;
+            return await FakeDeleteAsync(entity);
+        }
+        #endregion
+
+        #region 查找并假删除操作（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDelete(object id, int oopsCode)
+        /// <summary>
+        /// 查找并假删除操作（抛异常）
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="oopsCode">异常状态码</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
+        public virtual EntityEntry<TEntity> FindToFakeDelete(object id, int oopsCode)
+        {
+            var entity = Find(id) ?? throw Oops.Set(oopsCode);
+            return FakeDelete(entity);
+        }
+        #endregion
+
+        #region 查找并假删除操作（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, int oopsCode)
+        /// <summary>
+        /// 查找并假删除操作（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="oopsCode">异常状态码</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, int oopsCode)
+        {
+            var entity = await FindAsync(id) ?? throw Oops.Set(oopsCode);
+            return await FakeDeleteAsync(entity);
+        }
+        #endregion
+
+        #region 查找并假删除操作（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDelete(object id, string oopsCode)
+        /// <summary>
+        /// 查找并假删除操作（抛异常）
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="oopsCode">异常状态码</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
+        public virtual EntityEntry<TEntity> FindToFakeDelete(object id, string oopsCode)
+        {
+            var entity = Find(id) ?? throw Oops.Set(oopsCode);
+            return FakeDelete(entity);
+        }
+        #endregion
+
+        #region 查找并假删除操作（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, string oopsCode)
+        /// <summary>
+        /// 查找并假删除操作（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="oopsCode">异常状态码</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, string oopsCode)
+        {
+            var entity = await FindAsync(id) ?? throw Oops.Set(oopsCode);
             return await FakeDeleteAsync(entity);
         }
         #endregion
@@ -341,6 +523,110 @@ namespace Fur.DatabaseVisitor.Repositories
         }
         #endregion
 
+
+        #region 查找并假删除操作并立即保存（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, Exception notFoundException)
+        /// <summary>
+        /// 查找并假删除操作并立即保存（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="flagProperty">标识属性</param>
+        /// <param name="flagValue">标识值</param>
+        /// <param name="notFoundException">没找到异常</param>
+        /// <returns></returns>
+        public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, Exception notFoundException)
+        {
+            var entityEntry = FindToFakeDelete(id, flagProperty, flagValue, notFoundException);
+            SaveChanges();
+            return entityEntry;
+        }
+        #endregion
+
+        #region 查找并假删除操作并立即保存（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, Exception notFoundException)
+        /// <summary>
+        /// 查找并假删除操作并立即保存（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="flagProperty">标识属性</param>
+        /// <param name="flagValue">标识值</param>
+        /// <param name="notFoundException">没找到异常</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, Exception notFoundException)
+        {
+            var entityEntry = await FindToFakeDeleteAsync(id, flagProperty, flagValue, notFoundException);
+            await SaveChangesAsync();
+            return entityEntry;
+        }
+        #endregion
+
+        #region 查找并假删除操作并立即保存（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, int oopsCode)
+        /// <summary>
+        /// 查找并假删除操作并立即保存（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="flagProperty">标识属性</param>
+        /// <param name="flagValue">标识值</param>
+        /// <param name="oopsCode">异常状态码</param>
+        /// <returns></returns>
+        public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, int oopsCode)
+        {
+            var entityEntry = FindToFakeDelete(id, flagProperty, flagValue, oopsCode);
+            SaveChanges();
+            return entityEntry;
+        }
+        #endregion
+
+        #region 查找并假删除操作并立即保存（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, int oopsCode)
+        /// <summary>
+        /// 查找并假删除操作并立即保存（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="flagProperty">标识属性</param>
+        /// <param name="flagValue">标识值</param>
+        /// <param name="oopsCode">异常状态码</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, int oopsCode)
+        {
+            var entityEntry = await FindToFakeDeleteAsync(id, flagProperty, flagValue, oopsCode);
+            await SaveChangesAsync();
+            return entityEntry;
+        }
+        #endregion
+
+        #region 查找并假删除操作并立即保存（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, string oopsCode)
+        /// <summary>
+        /// 查找并假删除操作并立即保存（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="flagProperty">标识属性</param>
+        /// <param name="flagValue">标识值</param>
+        /// <param name="oopsCode">异常状态码</param>
+        /// <returns></returns>
+        public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, string oopsCode)
+        {
+            var entityEntry = FindToFakeDelete(id, flagProperty, flagValue, oopsCode);
+            SaveChanges();
+            return entityEntry;
+        }
+        #endregion
+
+        #region 查找并假删除操作并立即保存（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, string oopsCode)
+        /// <summary>
+        /// 查找并假删除操作并立即保存（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="flagProperty">标识属性</param>
+        /// <param name="flagValue">标识值</param>
+        /// <param name="oopsCode">异常状态码</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, string oopsCode)
+        {
+            var entityEntry = await FindToFakeDeleteAsync(id, flagProperty, flagValue, oopsCode);
+            await SaveChangesAsync();
+            return entityEntry;
+        }
+        #endregion
+
+
         #region 查找并假删除操作并立即保存 + public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id)
         /// <summary>
         /// 查找并假删除操作并立即保存
@@ -364,6 +650,96 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id)
         {
             var entityEntry = await FindToFakeDeleteAsync(id);
+            await SaveChangesAsync();
+            return entityEntry;
+        }
+        #endregion
+
+        #region 查找并假删除操作并立即保存（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, Exception notFoundException)
+        /// <summary>
+        /// 查找并假删除操作并立即保存（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="notFoundException">没找到异常</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
+        public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, Exception notFoundException)
+        {
+            var entityEntry = FindToFakeDelete(id, notFoundException);
+            SaveChanges();
+            return entityEntry;
+        }
+        #endregion
+
+        #region 查找并假删除操作并立即保存（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, Exception notFoundException)
+        /// <summary>
+        /// 查找并假删除操作并立即保存（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="notFoundException">没找到异常</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, Exception notFoundException)
+        {
+            var entityEntry = await FindToFakeDeleteAsync(id, notFoundException);
+            await SaveChangesAsync();
+            return entityEntry;
+        }
+        #endregion
+
+        #region 查找并假删除操作并立即保存（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, int oopsCode)
+        /// <summary>
+        /// 查找并假删除操作并立即保存（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="oopsCode">异常状态码</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
+        public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, int oopsCode)
+        {
+            var entityEntry = FindToFakeDelete(id, oopsCode);
+            SaveChanges();
+            return entityEntry;
+        }
+        #endregion
+
+        #region 查找并假删除操作并立即保存（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, int oopsCode)
+        /// <summary>
+        /// 查找并假删除操作并立即保存（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="oopsCode">异常状态码</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, int oopsCode)
+        {
+            var entityEntry = await FindToFakeDeleteAsync(id, oopsCode);
+            await SaveChangesAsync();
+            return entityEntry;
+        }
+        #endregion
+
+        #region 查找并假删除操作并立即保存（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, string oopsCode)
+        /// <summary>
+        /// 查找并假删除操作并立即保存（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="oopsCode">异常状态码</param>
+        /// <returns><see cref="EntityEntry{TEntity}"/></returns>
+        public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, string oopsCode)
+        {
+            var entityEntry = FindToFakeDelete(id, oopsCode);
+            SaveChanges();
+            return entityEntry;
+        }
+        #endregion
+
+        #region 查找并假删除操作并立即保存（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, string oopsCode)
+        /// <summary>
+        /// 查找并假删除操作并立即保存（抛异常）
+        /// </summary>
+        /// <param name="id">主键</param>
+        /// <param name="oopsCode">异常状态码</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, string oopsCode)
+        {
+            var entityEntry = await FindToFakeDeleteAsync(id, oopsCode);
             await SaveChangesAsync();
             return entityEntry;
         }
