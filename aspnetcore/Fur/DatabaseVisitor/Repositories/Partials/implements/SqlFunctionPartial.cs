@@ -13,7 +13,7 @@ namespace Fur.DatabaseVisitor.Repositories
     /// <typeparam name="TEntity">实体类型</typeparam>
     public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity>, IScopedLifetimeOfT<TEntity> where TEntity : class, IDbEntity, new()
     {
-        #region 执行标量函数 + public virtual TResult SqlScalarFunctionQuery<TResult>(string name, params object[] parameters)
+        #region 执行标量函数 + public virtual TResult SqlScalarFunction<TResult>(string name, params object[] parameters)
         /// <summary>
         /// 执行标量函数
         /// </summary>
@@ -21,13 +21,13 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <param name="name">函数名称</param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns>结果类型值</returns>
-        public virtual TResult SqlScalarFunctionQuery<TResult>(string name, params object[] parameters)
+        public virtual TResult SqlScalarFunction<TResult>(string name, params object[] parameters)
         {
-            return Database.SqlScalarFunctionExecute<TResult>(name, parameters);
+            return Database.SqlScalarFunction<TResult>(name, parameters);
         }
         #endregion
 
-        #region 执行标量函数 + public virtual Task<TResult> SqlScalarFunctionQueryAsync<TResult>(string name, params object[] parameters)
+        #region 执行标量函数 + public virtual Task<TResult> SqlScalarFunctionAsync<TResult>(string name, params object[] parameters)
         /// <summary>
         /// 执行标量函数
         /// </summary>
@@ -35,13 +35,13 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <param name="name">函数名称</param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public virtual Task<TResult> SqlScalarFunctionQueryAsync<TResult>(string name, params object[] parameters)
+        public virtual Task<TResult> SqlScalarFunctionAsync<TResult>(string name, params object[] parameters)
         {
-            return Database.SqlScalarFunctionExecuteAsync<TResult>(name, parameters);
+            return Database.SqlScalarFunctionAsync<TResult>(name, parameters);
         }
         #endregion
 
-        #region 执行标量函数 + public virtual TResult SqlScalarFunctionQuery<TResult>(string name, object parameterModel)
+        #region 执行标量函数 + public virtual TResult SqlScalarFunction<TResult>(string name, object parameterModel)
         /// <summary>
         /// 执行标量函数
         /// </summary>
@@ -49,13 +49,13 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <param name="name">函数名称</param>
         /// <param name="parameterModel">参数模型</param>
         /// <returns>结果类型值</returns>
-        public virtual TResult SqlScalarFunctionQuery<TResult>(string name, object parameterModel)
+        public virtual TResult SqlScalarFunction<TResult>(string name, object parameterModel)
         {
-            return Database.SqlScalarFunctionExecute<TResult>(name, parameterModel);
+            return Database.SqlScalarFunction<TResult>(name, parameterModel);
         }
         #endregion
 
-        #region 执行标量函数 + public virtual Task<TResult> SqlScalarFunctionQueryAsync<TResult>(string name, object parameterModel)
+        #region 执行标量函数 + public virtual Task<TResult> SqlScalarFunctionAsync<TResult>(string name, object parameterModel)
         /// <summary>
         /// 执行标量函数
         /// </summary>
@@ -63,67 +63,67 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <param name="name">函数名称</param>
         /// <param name="parameterModel">参数模型</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public virtual Task<TResult> SqlScalarFunctionQueryAsync<TResult>(string name, object parameterModel)
+        public virtual Task<TResult> SqlScalarFunctionAsync<TResult>(string name, object parameterModel)
         {
-            return Database.SqlScalarFunctionExecuteAsync<TResult>(name, parameterModel);
+            return Database.SqlScalarFunctionAsync<TResult>(name, parameterModel);
         }
         #endregion
 
 
-        #region 执行表值函数 返回 DataTable + public virtual DataTable SqlTableFunctionQuery(string name, params object[] parameters)
+        #region 执行表值函数 返回 DataTable + public virtual DataTable SqlTableFunction(string name, params object[] parameters)
         /// <summary>
         /// 执行表值函数 返回 DataTable
         /// </summary>
         /// <param name="name">函数名称</param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="DataTable"/></returns>
-        public virtual DataTable SqlTableFunctionQuery(string name, params object[] parameters)
+        public virtual DataTable SqlTableFunction(string name, params object[] parameters)
         {
-            return Database.SqlTableFunctionExecute(name, parameters);
+            return Database.SqlTableFunction(name, parameters);
         }
         #endregion
 
-        #region 执行表值函数 返回 DataTable + public virtual Task<DataTable> SqlTableFunctionQueryAsync(string name, params object[] parameters)
+        #region 执行表值函数 返回 DataTable + public virtual Task<DataTable> SqlTableFunctionAsync(string name, params object[] parameters)
         /// <summary>
         /// 执行表值函数 返回 DataTable
         /// </summary>
         /// <param name="name">函数名称</param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public virtual Task<DataTable> SqlTableFunctionQueryAsync(string name, params object[] parameters)
+        public virtual Task<DataTable> SqlTableFunctionAsync(string name, params object[] parameters)
         {
-            return Database.SqlTableFunctionExecuteAsync(name, parameters);
+            return Database.SqlTableFunctionAsync(name, parameters);
         }
         #endregion
 
-        #region 执行表值函数 返回 DataTable + public virtual DataTable SqlTableFunctionQuery(string name, object parameterModel)
+        #region 执行表值函数 返回 DataTable + public virtual DataTable SqlTableFunction(string name, object parameterModel)
         /// <summary>
         /// 执行表值函数 返回 DataTable
         /// </summary>
         /// <param name="name">函数名称</param>
         /// <param name="parameterModel">函数模型</param>
         /// <returns><see cref="DataTable"/></returns>
-        public virtual DataTable SqlTableFunctionQuery(string name, object parameterModel)
+        public virtual DataTable SqlTableFunction(string name, object parameterModel)
         {
-            return Database.SqlTableFunctionExecute(name, parameterModel);
+            return Database.SqlTableFunction(name, parameterModel);
         }
         #endregion
 
-        #region 执行表值函数 返回 DataTable + public virtual Task<DataTable> SqlTableFunctionQueryAsync(string name, object parameterModel)
+        #region 执行表值函数 返回 DataTable + public virtual Task<DataTable> SqlTableFunctionAsync(string name, object parameterModel)
         /// <summary>
         /// 执行表值函数 返回 DataTable
         /// </summary>
         /// <param name="name">函数名称</param>
         /// <param name="parameterModel">参数模型</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public virtual Task<DataTable> SqlTableFunctionQueryAsync(string name, object parameterModel)
+        public virtual Task<DataTable> SqlTableFunctionAsync(string name, object parameterModel)
         {
-            return Database.SqlTableFunctionExecuteAsync(name, parameterModel);
+            return Database.SqlTableFunctionAsync(name, parameterModel);
         }
         #endregion
 
 
-        #region 执行表值函数 + public virtual IEnumerable<T> SqlTableFunctionQuery<T>(string name, params object[] parameters)
+        #region 执行表值函数 + public virtual IEnumerable<T> SqlTableFunction<T>(string name, params object[] parameters)
         /// <summary>
         /// 执行表值函数
         /// </summary>
@@ -131,13 +131,13 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <param name="name">函数名称</param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="IEnumerable{T}"/></returns>
-        public virtual IEnumerable<T> SqlTableFunctionQuery<T>(string name, params object[] parameters)
+        public virtual IEnumerable<T> SqlTableFunction<T>(string name, params object[] parameters)
         {
-            return Database.SqlTableFunctionExecute<T>(name, parameters);
+            return Database.SqlTableFunction<T>(name, parameters);
         }
         #endregion
 
-        #region 执行表值函数 + public virtual Task<IEnumerable<T>> SqlTableFunctionQueryAsync<T>(string name, params object[] parameters)
+        #region 执行表值函数 + public virtual Task<IEnumerable<T>> SqlTableFunctionAsync<T>(string name, params object[] parameters)
         /// <summary>
         /// 执行表值函数
         /// </summary>
@@ -145,13 +145,13 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <param name="name">函数名称</param>
         /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public virtual Task<IEnumerable<T>> SqlTableFunctionQueryAsync<T>(string name, params object[] parameters)
+        public virtual Task<IEnumerable<T>> SqlTableFunctionAsync<T>(string name, params object[] parameters)
         {
-            return Database.SqlTableFunctionExecuteAsync<T>(name, parameters);
+            return Database.SqlTableFunctionAsync<T>(name, parameters);
         }
         #endregion
 
-        #region 执行表值函数 + public virtual IEnumerable<T> SqlTableFunctionQuery<T>(string name, object parameterModel)
+        #region 执行表值函数 + public virtual IEnumerable<T> SqlTableFunction<T>(string name, object parameterModel)
         /// <summary>
         /// 执行表值函数
         /// </summary>
@@ -159,13 +159,13 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <param name="name">函数名称</param>
         /// <param name="parameterModel">参数模型</param>
         /// <returns><see cref="IEnumerable{T}"/></returns>
-        public virtual IEnumerable<T> SqlTableFunctionQuery<T>(string name, object parameterModel)
+        public virtual IEnumerable<T> SqlTableFunction<T>(string name, object parameterModel)
         {
-            return Database.SqlTableFunctionExecute<T>(name, parameterModel);
+            return Database.SqlTableFunction<T>(name, parameterModel);
         }
         #endregion
 
-        #region 执行表值函数 + public virtual Task<IEnumerable<T>> SqlTableFunctionQueryAsync<T>(string name, object parameterModel)
+        #region 执行表值函数 + public virtual Task<IEnumerable<T>> SqlTableFunctionAsync<T>(string name, object parameterModel)
         /// <summary>
         /// 执行表值函数
         /// </summary>
@@ -173,9 +173,9 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <param name="name">函数名称</param>
         /// <param name="parameterModel">参数模型</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        public virtual Task<IEnumerable<T>> SqlTableFunctionQueryAsync<T>(string name, object parameterModel)
+        public virtual Task<IEnumerable<T>> SqlTableFunctionAsync<T>(string name, object parameterModel)
         {
-            return Database.SqlTableFunctionExecuteAsync<T>(name, parameterModel);
+            return Database.SqlTableFunctionAsync<T>(name, parameterModel);
         }
         #endregion
     }

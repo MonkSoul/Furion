@@ -238,7 +238,7 @@ namespace Fur.Application.Functions
         [AttachAction(EveryWordToRoutePath = true)]
         public Task<(IEnumerable<TestOutput>, IEnumerable<TestOutput>)> SqlDatasetQueryAsync(TestSqlInput input)
         {
-            return _testRepository.SqlDataSetQueryAsync<TestOutput, TestOutput>(input.Sql);
+            return _testRepository.SqlDataSetAsync<TestOutput, TestOutput>(input.Sql);
         }
 
         /// <summary>
@@ -258,9 +258,9 @@ namespace Fur.Application.Functions
         //    END;
         // ================================
         [AttachAction(EveryWordToRoutePath = true)]
-        public Task<IEnumerable<TestOutput>> SqlProcedureQueryAsync(string name)
+        public Task<IEnumerable<TestOutput>> SqlProcedureAsync(string name)
         {
-            return _testRepository.SqlProcedureQueryAsync<TestOutput>(name, new { Name = "string" });
+            return _testRepository.SqlProcedureAsync<TestOutput>(name, new { Name = "string" });
         }
 
         /// <summary>
@@ -279,9 +279,9 @@ namespace Fur.Application.Functions
         //  END;
         // ================================
         [AttachAction(EveryWordToRoutePath = true)]
-        public Task<int> SqlScalarFunctionQueryAsync()
+        public Task<int> SqlScalarFunctionAsync()
         {
-            return _testRepository.SqlScalarFunctionQueryAsync<int>("dbo.FN_GetId", new { Id = 1 });
+            return _testRepository.SqlScalarFunctionAsync<int>("dbo.FN_GetId", new { Id = 1 });
         }
 
         /// <summary>
@@ -305,9 +305,9 @@ namespace Fur.Application.Functions
         //  );
         // ================================
         [AttachAction(EveryWordToRoutePath = true)]
-        public Task<IEnumerable<TestOutput>> SqlTableFunctionQueryAsync()
+        public Task<IEnumerable<TestOutput>> SqlTableFunctionAsync()
         {
-            return _testRepository.SqlTableFunctionQueryAsync<TestOutput>("dbo.FN_GetTable", new { Id = 5 });
+            return _testRepository.SqlTableFunctionAsync<TestOutput>("dbo.FN_GetTable", new { Id = 5 });
         }
 
         /// <summary>

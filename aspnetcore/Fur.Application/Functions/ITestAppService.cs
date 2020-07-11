@@ -113,19 +113,19 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        Task<IEnumerable<TestOutput>> SqlProcedureQueryAsync(string name);
+        Task<IEnumerable<TestOutput>> SqlProcedureAsync(string name);
 
         /// <summary>
         /// 调用数据库标量函数
         /// </summary>
         /// <returns></returns>
-        Task<int> SqlScalarFunctionQueryAsync();
+        Task<int> SqlScalarFunctionAsync();
 
         /// <summary>
         /// 调用数据库表值函数
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<TestOutput>> SqlTableFunctionQueryAsync();
+        Task<IEnumerable<TestOutput>> SqlTableFunctionAsync();
 
         /// <summary>
         /// 查询视图
