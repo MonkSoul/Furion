@@ -82,17 +82,17 @@ namespace Fur.DatabaseVisitor.Contexts
              );
 
             // 扫描数据库编译实体
-            ScanDbCompileEntityToCreateModelEntity(modelBuilder);
+            OnScanToModelCreating(modelBuilder);
         }
         #endregion
 
-        #region DbContext 上下文扫描配置数据库编译实体调用方法 + protected virtual void ScanDbCompileEntityToCreateModelEntity(ModelBuilder modelBuilder)
+        #region DbContext 上下文扫描配置数据库编译实体调用方法 + protected virtual void OnScanToModelCreating(ModelBuilder modelBuilder)
         /// <summary>
         /// DbContext 上下文扫描配置数据库编译实体调用方法
         /// <para>该方法在 <see cref="OnModelCreating(ModelBuilder)"/> 中调用</para>
         /// </summary>
         /// <param name="modelBuilder">模型构建器</param>
-        protected virtual void ScanDbCompileEntityToCreateModelEntity(ModelBuilder modelBuilder)
+        protected virtual void OnScanToModelCreating(ModelBuilder modelBuilder)
         {
             FurDbContextOfTStatus.ScanDbCompileEntityToCreateModelEntity(modelBuilder, nameof(TenantId), TenantId);
         }
