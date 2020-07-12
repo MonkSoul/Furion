@@ -1,4 +1,6 @@
-﻿namespace Fur.DatabaseVisitor.Tangent
+﻿using Fur.DatabaseVisitor.Tangent.Entities;
+
+namespace Fur.DatabaseVisitor.Tangent
 {
     /// <summary>
     /// 泛型切面数据库操作上下文

@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Castle.DynamicProxy;
-using Fur.DatabaseVisitor.Tangent.Attributes;
-using System;
+using Fur.DatabaseVisitor.Tangent.Entities;
+using System.Threading.Tasks;
 
 namespace Fur.DatabaseVisitor.Tangent.Interceptors
 {
@@ -10,63 +10,54 @@ namespace Fur.DatabaseVisitor.Tangent.Interceptors
     /// </summary>
     public class TangentProxyAsyncInterceptor : IAsyncInterceptor
     {
+        /// <summary>
+        /// autofac 生命周期对象
+        /// </summary>
         private readonly ILifetimeScope _lifetimeScope;
 
+        #region 构造函数 + public TangentProxyAsyncInterceptor(ILifetimeScope lifetimeScope)
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="lifetimeScope">autofac 生命周期对象</param>
         public TangentProxyAsyncInterceptor(ILifetimeScope lifetimeScope)
         {
             _lifetimeScope = lifetimeScope;
         }
+        #endregion
 
+
+        #region 同步拦截器 + public void InterceptSynchronous(IInvocation invocation)
         /// <summary>
         /// 同步拦截器
         /// </summary>
         /// <param name="invocation">拦截器对象</param>
         public void InterceptSynchronous(IInvocation invocation)
         {
-            invocation.ReturnValue = SynchronousInvoke(invocation);
+            invocation.ReturnValue = TangentDbContextUtilities.SynchronousInvoke(invocation, _lifetimeScope);
         }
+        #endregion
 
-        public void InterceptAsynchronous(IInvocation invocation)
-        {
-            //invocation.ReturnValue = AsynchronousInvoke(invocation);
-        }
-
-        public void InterceptAsynchronous<TResult>(IInvocation invocation)
-        {
-            //var result = AsynchronousOfTInvoke<TResult>(invocation);
-            //invocation.ReturnValue = result;
-        }
-
-        #region 同步执行 + private object SynchronousInvoke(IInvocation invocation)
+        #region 异步无返回值拦截器 + public void InterceptAsynchronous(IInvocation invocation)
         /// <summary>
-        /// 同步执行
+        /// 异步无返回值拦截器
         /// </summary>
         /// <param name="invocation">拦截器对象</param>
-        /// <returns>object</returns>
-        private object SynchronousInvoke(IInvocation invocation)
+        public void InterceptAsynchronous(IInvocation invocation)
         {
-            var (tangentMethod, tangentAttribute) = TangentDbContextUtilities.GetTangentMethodInfo(invocation, _lifetimeScope);
+            invocation.ReturnValue = Task.FromResult(TangentDbContextUtilities.AsynchronousOfTInvoke<object>(invocation, _lifetimeScope).Result);
+        }
+        #endregion
 
-            if (tangentAttribute is DbQueryAttribute dbQueryAttribute)
-            {
-                return TangentDbContextUtilities.DbQueryExecute(tangentMethod, dbQueryAttribute);
-            }
-            else if (tangentAttribute is DbNonQueryAttribute dbNonQueryAttribute)
-            {
-                return TangentDbContextUtilities.DbNonQueryExecute(tangentMethod, dbNonQueryAttribute);
-            }
-            else if (tangentAttribute is DbFunctionAttribute dbFunctionAttribute)
-            {
-                return TangentDbContextUtilities.DbFunctionExecute(tangentMethod, dbFunctionAttribute);
-            }
-            else if (tangentAttribute is DbProcedureAttribute dbProcedureAttribute)
-            {
-                return TangentDbContextUtilities.DbProcedureExecute(tangentMethod, dbProcedureAttribute);
-            }
-            else
-            {
-                throw new NotSupportedException($"{tangentAttribute.GetType().Name}");
-            }
+        #region 异步有返回值拦截器 + public void InterceptAsynchronous<TResult>(IInvocation invocation)
+        /// <summary>
+        /// 异步有返回值拦截器
+        /// </summary>
+        /// <typeparam name="TResult">返回值类型</typeparam>
+        /// <param name="invocation">拦截器对象</param>
+        public void InterceptAsynchronous<TResult>(IInvocation invocation)
+        {
+            invocation.ReturnValue = Task.FromResult(TangentDbContextUtilities.AsynchronousOfTInvoke<TResult>(invocation, _lifetimeScope).Result);
         }
         #endregion
     }

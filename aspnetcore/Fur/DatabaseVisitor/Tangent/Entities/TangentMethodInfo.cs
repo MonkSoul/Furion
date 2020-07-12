@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Reflection;
 
-namespace Fur.DatabaseVisitor.Tangent
+namespace Fur.DatabaseVisitor.Tangent.Entities
 {
     /// <summary>
     /// 切面方法信息类

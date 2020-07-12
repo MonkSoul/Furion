@@ -365,7 +365,7 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <returns></returns>
         [AttachAction(KeepOriginalName = true)]
-        public object GetDataTable()
+        public Task GetDataTable()
         {
             return _tangent.Proxy.Execute("小僧");
         }
