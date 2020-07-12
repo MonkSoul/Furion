@@ -18,7 +18,7 @@ namespace Fur.Mvc.Filters
             var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
             var methodInfo = controllerActionDescriptor.MethodInfo;
 
-            if (methodInfo.IsDefined(typeof(NotVaildateAttribute)) || methodInfo.DeclaringType.IsDefined(typeof(NotVaildateAttribute)))
+            if (methodInfo.GetParameters().Length == 0 || methodInfo.IsDefined(typeof(NotVaildateAttribute)) || methodInfo.DeclaringType.IsDefined(typeof(NotVaildateAttribute)))
             {
                 MiniProfiler.Current.CustomTiming("validation", "Validation Disable", "Disable !");
                 await next();
