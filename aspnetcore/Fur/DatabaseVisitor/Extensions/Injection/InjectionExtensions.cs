@@ -25,7 +25,8 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
            where TDbContext : DbContext
         {
             builder.RegisterType<DbContextPool>()
-                .As<IDbContextPool>();
+                .As<IDbContextPool>()
+                .InstancePerLifetimeScope();
 
             builder.RegisterType<TDbContext>()
                 .As<DbContext>()

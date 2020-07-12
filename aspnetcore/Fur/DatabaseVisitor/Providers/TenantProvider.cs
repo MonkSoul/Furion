@@ -10,14 +10,20 @@ namespace Fur.DatabaseVisitor.Providers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly FurTenantDbContext _tenantDbContext;
         private readonly IMemoryCache _memoryCache;
+        private readonly IDbContextPool _dbContextPool;
 
         public TenantProvider(IHttpContextAccessor httpContextAccessor
             , FurTenantDbContext tenantDbContext
-            , IMemoryCache memoryCache)
+            , IMemoryCache memoryCache
+            , IDbContextPool dbContextPool)
         {
             _httpContextAccessor = httpContextAccessor;
             _tenantDbContext = tenantDbContext;
             _memoryCache = memoryCache;
+            _dbContextPool = dbContextPool;
+
+            // 自定义提供器必须实现
+            _dbContextPool.SaveDbContext(_tenantDbContext);
         }
 
         public int GetTenantId()

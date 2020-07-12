@@ -50,6 +50,33 @@ namespace Fur.DatabaseVisitor.Extensions.Sql
         }
         #endregion
 
+        #region 将方法参数转为 SqlParameter 数组 + public static SqlParameter[] ToSqlParameters(this ParameterInfo[] parameterInfos, object[] arguments)
+        /// <summary>
+        /// 将方法参数转为 SqlParameter 数组
+        /// </summary>
+        /// <param name="parameterInfos">参数集合</param>
+        /// <param name="arguments">参数值集合</param>
+        /// <returns><see cref="SqlParameterCollection"/></returns>
+        public static SqlParameter[] ToSqlParameters(this ParameterInfo[] parameterInfos, object[] arguments)
+        {
+            var paramValues = new List<SqlParameter>();
+            var parameterLength = parameterInfos.Length;
+            if (parameterLength == 0) return paramValues.ToArray();
+
+            if (parameterLength > 1 || parameterInfos.First().ParameterType.IsPrimitivePlusIncludeNullable())
+            {
+
+                for (int i = 0; i < parameterLength; i++)
+                {
+                    paramValues.Add(new SqlParameter(parameterInfos[i].Name, arguments[i] ?? DBNull.Value));
+                }
+
+                return paramValues.ToArray();
+            }
+            else return arguments.FirstOrDefault().ToSqlParameters();
+        }
+        #endregion
+
 
         #region 将 DataTable 转 IEnumerable{T} + public static IEnumerable<T> ToList<T>(this DataTable dataTable)
         /// <summary>

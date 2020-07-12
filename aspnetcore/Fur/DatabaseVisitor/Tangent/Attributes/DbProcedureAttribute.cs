@@ -9,5 +9,7 @@ namespace Fur.DatabaseVisitor.Tangent.Attributes
         public DbProcedureAttribute(string name) : base(name)
         {
         }
+
+        public bool WithOutputOrReturn { get; set; } = false;
     }
 }

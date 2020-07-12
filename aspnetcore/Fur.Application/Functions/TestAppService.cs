@@ -5,6 +5,7 @@ using Fur.DatabaseVisitor.Attributes;
 using Fur.DatabaseVisitor.Page;
 using Fur.DatabaseVisitor.Repositories;
 using Fur.DatabaseVisitor.Repositories.Multiples;
+using Fur.DatabaseVisitor.Tangent;
 using Fur.Extensions;
 using Fur.Linq.Extensions;
 using Fur.Mvc.Attributes;
@@ -19,6 +20,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,23 +35,30 @@ namespace Fur.Application.Functions
         private readonly IRepository _repository;
         private readonly IRepositoryOfT<Test> _testRepository;
         private readonly IRepositoryOfT<V_Test> _vTestRepository;
-        private readonly INonDbSetQuery _nonDbSetQuery;
+
         private readonly IMultipleDbContextRepositoryOfT<Test, FurMultipleDbContextIdentifier> _multipleRepository;
         private readonly IMultipleDbContextRepositoryOfT<V_Test, FurMultipleDbContextIdentifier> _vTestMultipleRepository;
+
+        private readonly ITangentDbContextOfT<INonDbSetQuery> _tangent;
 
         public TestAppService(IRepository repository
             , IRepositoryOfT<Test> testRepository
             , IRepositoryOfT<V_Test> vTestRepository
-            //, ITangentDbContext tangentDbContext
+
             , IMultipleDbContextRepositoryOfT<Test, FurMultipleDbContextIdentifier> multipleRepository
-            , IMultipleDbContextRepositoryOfT<V_Test, FurMultipleDbContextIdentifier> vTestMultipleRepository)
+            , IMultipleDbContextRepositoryOfT<V_Test, FurMultipleDbContextIdentifier> vTestMultipleRepository
+
+            , ITangentDbContextOfT<INonDbSetQuery> tangent
+            )
         {
             _repository = repository;
             _testRepository = testRepository;
             _vTestRepository = vTestRepository;
-            //_nonDbSetQuery = tangentDbContext.For<INonDbSetQuery>();
+
             _multipleRepository = multipleRepository;
             _vTestMultipleRepository = vTestMultipleRepository;
+
+            _tangent = tangent;
         }
 
         /// <summary>
@@ -349,6 +358,16 @@ namespace Fur.Application.Functions
             var testRepository = _repository.GetRepository<Test>();
 
             return Task.FromResult(testRepository == _testRepository);
+        }
+
+        /// <summary>
+        /// 无参数获取DataTable
+        /// </summary>
+        /// <returns></returns>
+        [AttachAction(KeepOriginalName = true)]
+        public object GetDataTable()
+        {
+            return _tangent.Proxy.Execute("小僧");
         }
     }
 }
