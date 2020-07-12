@@ -1,24 +1,18 @@
 ﻿using Autofac;
 using Castle.DynamicProxy;
-using Microsoft.EntityFrameworkCore;
 
-namespace Fur.DatabaseVisitor.Tangent
+namespace Fur.DatabaseVisitor.Tangent.Interceptors
 {
-    public class TangentAsyncInterceptor : IAsyncInterceptor
+    /// <summary>
+    /// 切面代理异步拦截器
+    /// </summary>
+    public class TangentProxyAsyncInterceptor : IAsyncInterceptor
     {
         private readonly ILifetimeScope _lifetimeScope;
-        private readonly DbContext _dbContext;
-        //private readonly ITenantProvider _tenantProvider;
 
-        public TangentAsyncInterceptor(
-            ILifetimeScope lifetimeScope
-            , DbContext dbContext
-            //, ITenantProvider tenantProvider
-            )
+        public TangentProxyAsyncInterceptor(ILifetimeScope lifetimeScope)
         {
             _lifetimeScope = lifetimeScope;
-            _dbContext = dbContext;
-            //_tenantProvider = tenantProvider;
         }
 
         public void InterceptAsynchronous(IInvocation invocation)

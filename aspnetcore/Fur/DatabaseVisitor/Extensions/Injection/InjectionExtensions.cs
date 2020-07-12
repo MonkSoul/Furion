@@ -4,6 +4,7 @@ using Fur.DatabaseVisitor.Identifiers;
 using Fur.DatabaseVisitor.Providers;
 using Fur.DatabaseVisitor.Repositories;
 using Fur.DatabaseVisitor.Repositories.Multiples;
+using Fur.DatabaseVisitor.Tangent;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fur.DatabaseVisitor.Extensions.Injection
@@ -103,6 +104,22 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
             builder.RegisterType<TTenantProvider>()
                 .As<ITenantProvider>()
                 .InstancePerLifetimeScope();
+            return builder;
+        }
+        #endregion
+
+        #region 注册切面上下文 + public static ContainerBuilder RegisterTangentDbContext(this ContainerBuilder builder)
+        /// <summary>
+        /// 注册切面上下文
+        /// </summary>
+        /// <param name="builder">容器构建器</param>
+        /// <returns>容器构建器</returns>
+        public static ContainerBuilder RegisterTangentDbContext(this ContainerBuilder builder)
+        {
+            builder.RegisterGeneric(typeof(TangentDbContextOfT<>))
+                .As(typeof(ITangentDbContextOfT<>))
+                .InstancePerLifetimeScope();
+
             return builder;
         }
         #endregion

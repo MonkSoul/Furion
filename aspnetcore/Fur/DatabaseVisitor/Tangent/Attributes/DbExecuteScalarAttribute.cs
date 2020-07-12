@@ -3,9 +3,9 @@
 namespace Fur.DatabaseVisitor.Tangent.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class DbProcedureAttribute : TangentCompileTypeAttribute
+    public class DbExecuteScalarAttribute : TangentAdoNetAttribute
     {
-        public DbProcedureAttribute(string name) : base(name)
+        public DbExecuteScalarAttribute(string sql) : base(sql)
         {
         }
     }

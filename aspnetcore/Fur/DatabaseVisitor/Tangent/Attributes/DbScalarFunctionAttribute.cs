@@ -3,7 +3,7 @@
 namespace Fur.DatabaseVisitor.Tangent.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class DbScalarFunctionAttribute : DbCompileTypeAttribute
+    public class DbScalarFunctionAttribute : TangentCompileTypeAttribute
     {
         public DbScalarFunctionAttribute(string name) : base(name)
         {

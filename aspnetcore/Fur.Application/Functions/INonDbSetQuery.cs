@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Fur.Application.Functions
 {
-    public interface INonDbSetQuery : ITangentQueryDependency
+    public interface INonDbSetQuery : ITangentProxyDependency
     {
-        [DbQuery("select * from tests", SourceType = typeof(IEnumerable<Test>))]
+        [DbExecuteReader("select * from tests", SourceType = typeof(IEnumerable<Test>))]
         IEnumerable<TestOutput> GetTests();
 
         [DbProcedure("dbo.PR_GetTest")]
@@ -21,7 +21,7 @@ namespace Fur.Application.Functions
         [DbTableFunction("dbo.FN_GetTable")]
         IEnumerable<TestOutput> GetFNTests(int id);
 
-        [DbQuery("select * from tests", SourceType = typeof(Task<IEnumerable<Test>>))]
+        [DbExecuteReader("select * from tests", SourceType = typeof(Task<IEnumerable<Test>>))]
         Task<IEnumerable<TestOutput>> GetTestsAsync();
 
         [DbProcedure("dbo.PR_GetTest")]
