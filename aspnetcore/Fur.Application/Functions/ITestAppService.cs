@@ -144,29 +144,5 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <returns></returns>
         Task<bool> TestRepositoryScopeLifetime();
-
-        /// <summary>
-        /// 切面上下文读取
-        /// </summary>
-        /// <returns></returns>
-        Task<IEnumerable<TestOutput>> GetTestsByTangent();
-
-        /// <summary>
-        /// 切面执行存储过程
-        /// </summary>
-        /// <returns></returns>
-        Task<IEnumerable<TestOutput>> GetTestsByTangentPR();
-
-        /// <summary>
-        /// 切面执行标量函数
-        /// </summary>
-        /// <returns></returns>
-        Task<int> GetIdTangentSF();
-
-        /// <summary>
-        /// 切面执行表值函数
-        /// </summary>
-        /// <returns></returns>
-        Task<IEnumerable<TestOutput>> GetTestsByTangentTR();
     }
 }

@@ -3,9 +3,9 @@
 namespace Fur.DatabaseVisitor.Tangent.Attributes.Basics
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class TangentAdoNetAttribute : TangentAttribute
+    public class TangentSqlAttribute : TangentAttribute
     {
-        public TangentAdoNetAttribute(string sql) => Sql = sql;
+        public TangentSqlAttribute(string sql) => Sql = sql;
 
         public string Sql { get; set; }
     }

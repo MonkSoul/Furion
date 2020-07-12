@@ -5,7 +5,6 @@ using Fur.DatabaseVisitor.Attributes;
 using Fur.DatabaseVisitor.Page;
 using Fur.DatabaseVisitor.Repositories;
 using Fur.DatabaseVisitor.Repositories.Multiples;
-using Fur.DatabaseVisitor.Tangent;
 using Fur.Extensions;
 using Fur.Linq.Extensions;
 using Fur.Mvc.Attributes;
@@ -351,58 +350,5 @@ namespace Fur.Application.Functions
 
             return Task.FromResult(testRepository == _testRepository);
         }
-
-        /// <summary>
-        /// 切面上下文读取
-        /// </summary>
-        /// <returns></returns>
-        [AttachAction(KeepOriginalName = true)]
-        public Task<IEnumerable<TestOutput>> GetTestsByTangent()
-        {
-            return _nonDbSetQuery.GetTestsAsync();
-        }
-
-        /// <summary>
-        /// 切面执行存储过程
-        /// </summary>
-        /// <returns></returns>
-        [AttachAction(KeepOriginalName = true)]
-        public Task<IEnumerable<TestOutput>> GetTestsByTangentPR()
-        {
-            //var result = _nonDbSetQuery.GetPRTests("小僧");
-            //return Task.FromResult(result);
-
-            return _nonDbSetQuery.GetPRTestsAsync("小僧");
-        }
-
-        /// <summary>
-        /// 切面执行标量函数
-        /// </summary>
-        /// <returns></returns>
-        [AttachAction(KeepOriginalName = true)]
-        public Task<int> GetIdTangentSF()
-        {
-            return _nonDbSetQuery.GetSFByIdAsync(0);
-        }
-
-        /// <summary>
-        /// 切面执行表值函数
-        /// </summary>
-        /// <returns></returns>
-        [AttachAction(KeepOriginalName = true)]
-        public Task<IEnumerable<TestOutput>> GetTestsByTangentTR()
-        {
-            return _nonDbSetQuery.GetFNTestsAsync(1);
-        }
-
-        //[AttachAction(KeepOriginalName = true)]
-        //public async Task<string> GetsDataSet()
-        //{
-        //    var dataset = await _nonDbSetQuery.GetTestsDataSetAsync();
-
-        //    return JsonConvert.SerializeObject(dataset);
-
-        //    //return _nonDbSetQuery.GetTestsDataSetAsync();
-        //}
     }
 }

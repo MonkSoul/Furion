@@ -4,9 +4,9 @@ using System;
 namespace Fur.DatabaseVisitor.Tangent.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class DbExecuteScalarAttribute : TangentAdoNetAttribute
+    public class DbQueryAttribute : TangentSqlAttribute
     {
-        public DbExecuteScalarAttribute(string sql) : base(sql)
+        public DbQueryAttribute(string sql) : base(sql)
         {
         }
     }
