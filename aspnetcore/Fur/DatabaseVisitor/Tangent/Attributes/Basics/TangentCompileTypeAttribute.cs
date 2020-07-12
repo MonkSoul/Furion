@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Fur.DatabaseVisitor.Tangent.Attributes
+namespace Fur.DatabaseVisitor.Tangent.Attributes.Basics
 {
     [AttributeUsage(AttributeTargets.Method)]
     public class TangentCompileTypeAttribute : TangentAttribute

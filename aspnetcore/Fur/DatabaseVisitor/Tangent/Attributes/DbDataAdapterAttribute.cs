@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fur.DatabaseVisitor.Tangent.Attributes.Basics;
+using System;
 
 namespace Fur.DatabaseVisitor.Tangent.Attributes
 {
