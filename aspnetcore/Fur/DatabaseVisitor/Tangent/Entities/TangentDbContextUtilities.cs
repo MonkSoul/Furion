@@ -234,7 +234,7 @@ namespace Fur.DatabaseVisitor.Tangent.Entities
             var name = dbFunctionAttribute.Name;
             if (tangentMethod.ActReturnType.IsPrimitivePlusIncludeNullable())
             {
-                return tangentMethod.DbContext.Database.SqlScalarFunction<object>(name, tangentMethod.SqlParameters);
+                return tangentMethod.DbContext.Database.SqlScalarFunction(name, tangentMethod.SqlParameters);
             }
             else
             {
@@ -262,7 +262,7 @@ namespace Fur.DatabaseVisitor.Tangent.Entities
             var name = dbFunctionAttribute.Name;
             if (tangentMethod.ActReturnType.IsPrimitivePlusIncludeNullable())
             {
-                var result = await tangentMethod.DbContext.Database.SqlScalarFunctionAsync<object>(name, tangentMethod.SqlParameters);
+                var result = await tangentMethod.DbContext.Database.SqlScalarFunctionAsync(name, tangentMethod.SqlParameters);
                 return result;
             }
             else

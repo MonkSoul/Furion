@@ -17,6 +17,69 @@ namespace Fur.DatabaseVisitor.Extensions.Sql
     /// </summary>
     internal static class SqlFunctionExtensions
     {
+        #region 执行标量函数 + internal static object SqlScalarFunction(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        /// <summary>
+        /// 执行标量函数
+        /// </summary>
+        /// <param name="databaseFacade">数据库操作对象</param>
+        /// <param name="name">函数名称</param>
+        /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
+        /// <returns>object</returns>
+        internal static object SqlScalarFunction(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        {
+            var sql = CombineSql(DbFunctionTypeOptions.Scalar, name, parameters);
+            return databaseFacade.SqlExecuteScalar(sql, CommandType.Text, parameters);
+        }
+        #endregion
+
+        #region 执行标量函数 + internal static async Task<object> SqlScalarFunctionAsync(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        /// <summary>
+        /// 执行标量函数
+        /// </summary>
+        /// <param name="databaseFacade">数据库操作对象</param>
+        /// <param name="name">函数名称</param>
+        /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        internal static async Task<object> SqlScalarFunctionAsync(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+        {
+            var sql = CombineSql(DbFunctionTypeOptions.Scalar, name, parameters);
+            var result = await databaseFacade.SqlExecuteScalarAsync(sql, CommandType.Text, parameters);
+            return result;
+        }
+        #endregion
+
+        #region 执行标量函数 + internal static object SqlScalarFunction(this DatabaseFacade databaseFacade, string name, object parameterModel)
+        /// <summary>
+        /// 执行标量函数
+        /// </summary>
+        /// <param name="databaseFacade">数据库操作对象</param>
+        /// <param name="name">函数名称</param>
+        /// <param name="parameterModel">参数模型</param>
+        /// <returns>object</returns>
+        internal static object SqlScalarFunction(this DatabaseFacade databaseFacade, string name, object parameterModel)
+        {
+            var (sql, parameters) = CombineSql(DbFunctionTypeOptions.Scalar, name, parameterModel);
+            return databaseFacade.SqlExecuteScalar(sql, CommandType.Text, parameters);
+        }
+        #endregion
+
+        #region 执行标量函数 + internal static async Task<object> SqlScalarFunctionAsync(this DatabaseFacade databaseFacade, string name, object parameterModel)
+        /// <summary>
+        /// 执行标量函数
+        /// </summary>
+        /// <param name="databaseFacade">数据库操作对象</param>
+        /// <param name="name">函数名称</param>
+        /// <param name="parameters"><see cref="SqlParameter"/> 参数</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        internal static async Task<object> SqlScalarFunctionAsync(this DatabaseFacade databaseFacade, string name, object parameterModel)
+        {
+            var (sql, parameters) = CombineSql(DbFunctionTypeOptions.Scalar, name, parameterModel);
+            var result = await databaseFacade.SqlExecuteScalarAsync(sql, CommandType.Text, parameters);
+            return result;
+        }
+        #endregion
+
+
         #region 执行标量函数 返回 TResult + internal static TResult SqlScalarFunction<TResult>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         /// <summary>
         /// 执行标量函数 返回 TResult
@@ -27,8 +90,7 @@ namespace Fur.DatabaseVisitor.Extensions.Sql
         /// <returns>TResult</returns>
         internal static TResult SqlScalarFunction<TResult>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            var sql = CombineSql(DbFunctionTypeOptions.Scalar, name, parameters);
-            return databaseFacade.SqlExecuteScalar(sql, CommandType.Text, parameters).Adapt<TResult>();
+            return SqlScalarFunction(databaseFacade, name, parameters).Adapt<TResult>();
         }
         #endregion
 
@@ -42,8 +104,7 @@ namespace Fur.DatabaseVisitor.Extensions.Sql
         /// <returns><see cref="Task{TResult}"/></returns>
         internal static async Task<TResult> SqlScalarFunctionAsync<TResult>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
         {
-            var sql = CombineSql(DbFunctionTypeOptions.Scalar, name, parameters);
-            var result = await databaseFacade.SqlExecuteScalarAsync(sql, CommandType.Text, parameters);
+            var result = await SqlScalarFunctionAsync(databaseFacade, name, parameters);
             return result.Adapt<TResult>();
         }
         #endregion
@@ -58,8 +119,7 @@ namespace Fur.DatabaseVisitor.Extensions.Sql
         /// <returns>TResult</returns>
         internal static TResult SqlScalarFunction<TResult>(this DatabaseFacade databaseFacade, string name, object parameterModel)
         {
-            var (sql, parameters) = CombineSql(DbFunctionTypeOptions.Scalar, name, parameterModel);
-            return databaseFacade.SqlExecuteScalar(sql, CommandType.Text, parameters).Adapt<TResult>();
+            return SqlScalarFunction(databaseFacade, name, parameterModel).Adapt<TResult>();
         }
         #endregion
 
@@ -73,8 +133,7 @@ namespace Fur.DatabaseVisitor.Extensions.Sql
         /// <returns><see cref="Task{TResult}"/></returns>
         internal static async Task<TResult> SqlScalarFunctionAsync<TResult>(this DatabaseFacade databaseFacade, string name, object parameterModel)
         {
-            var (sql, parameters) = CombineSql(DbFunctionTypeOptions.Scalar, name, parameterModel);
-            var result = await databaseFacade.SqlExecuteScalarAsync(sql, CommandType.Text, parameters);
+            var result = await SqlScalarFunctionAsync(databaseFacade, name, parameterModel);
             return result.Adapt<TResult>();
         }
         #endregion
