@@ -1,7 +1,7 @@
 ﻿using Fur.ObjectMapper.Helpers;
 using Mapster;
 
-namespace Fur.ObjectMapper.Extensions
+namespace Fur.ObjectMapper.Extensions.Adapter
 {
     public static class MapsterExtensions
     {

@@ -3,7 +3,7 @@ using Fur.AttachController.Extensions;
 using Fur.DependencyInjection;
 using Fur.EntityFramework.Core.Extensions;
 using Fur.Mvc.Filters;
-using Fur.ObjectMapper.Extensions;
+using Fur.ObjectMapper.Extensions.ServiceCollection;
 using Fur.SwaggerGen.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

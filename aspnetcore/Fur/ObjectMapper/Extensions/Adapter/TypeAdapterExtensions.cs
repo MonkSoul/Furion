@@ -3,7 +3,7 @@ using Mapster;
 using System;
 using System.Collections.Generic;
 
-namespace Fur.ObjectMapper.Extensions
+namespace Fur.ObjectMapper.Extensions.Adapter
 {
     public static class TypeAdapterExtensions
     {
