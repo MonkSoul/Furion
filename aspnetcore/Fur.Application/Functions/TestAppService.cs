@@ -78,10 +78,10 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <returns></returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<PagedListOfT<TestOutput>> GetAsync(int page = 1, int page_size = 20)
+        public async Task<PagedList> GetAsync(int page = 1, int page_size = 20)
         {
             var pageList = await _testRepository.PagedAllAsync(page, page_size);
-            return pageList.Adapt<PagedListOfT<TestOutput>>();
+            return pageList.Adapt<PagedList>();
         }
 
         /// <summary>

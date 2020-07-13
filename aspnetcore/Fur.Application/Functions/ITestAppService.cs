@@ -19,7 +19,7 @@ namespace Fur.Application.Functions
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<PagedListOfT<TestOutput>> GetAsync(int pageIndex = 1, int pageSize = 20);
+        Task<PagedList> GetAsync(int pageIndex = 1, int pageSize = 20);
 
         /// <summary>
         /// 搜索数据
