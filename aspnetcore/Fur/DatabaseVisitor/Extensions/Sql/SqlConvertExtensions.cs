@@ -192,6 +192,7 @@ namespace Fur.DatabaseVisitor.Extensions.Sql
                 dataTableRows.ForEach(row =>
                 {
                     var rowValue = row[0];
+                    // 可能可空类型有问题
                     addMethod.Invoke(list, new object[] { rowValue.Adapt(rowValue.GetType(), genericType) });
                 });
             }
