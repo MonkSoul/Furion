@@ -2,7 +2,7 @@
 using Fur.AttachController.Attributes;
 using Fur.AttachController.Dependencies;
 using Fur.DatabaseVisitor.Attributes;
-using Fur.DatabaseVisitor.Page;
+using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Repositories;
 using Fur.DatabaseVisitor.Repositories.Multiples;
 using Fur.DatabaseVisitor.Tangent;
@@ -78,10 +78,10 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <returns></returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IPagedListOfT<TestOutput>> GetAsync(int page = 0, int page_size = 20)
+        public async Task<PagedListOfT<TestOutput>> GetAsync(int page = 1, int page_size = 20)
         {
-            var pageList = await _testRepository.PageAllAsync(page, page_size);
-            return pageList.Adapt<IPagedListOfT<TestOutput>>();
+            var pageList = await _testRepository.PagedAllAsync(page, page_size);
+            return pageList.Adapt<PagedListOfT<TestOutput>>();
         }
 
         /// <summary>

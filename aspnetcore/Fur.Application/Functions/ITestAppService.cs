@@ -1,5 +1,5 @@
 ﻿using Fur.Application.Functions.Dtos;
-using Fur.DatabaseVisitor.Page;
+using Fur.DatabaseVisitor.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -19,7 +19,7 @@ namespace Fur.Application.Functions
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<IPagedListOfT<TestOutput>> GetAsync(int pageIndex = 0, int pageSize = 20);
+        Task<PagedListOfT<TestOutput>> GetAsync(int pageIndex = 1, int pageSize = 20);
 
         /// <summary>
         /// 搜索数据
