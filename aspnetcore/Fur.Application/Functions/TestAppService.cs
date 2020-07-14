@@ -355,7 +355,7 @@ namespace Fur.Application.Functions
         [AttachAction(KeepOriginalName = true)]
         public Task<bool> TestRepositoryScopeLifetime()
         {
-            var testRepository = _repository.GetRepository<Test>();
+            var testRepository = _repository.Set<Test>();
 
             return Task.FromResult(testRepository == _testRepository);
         }
