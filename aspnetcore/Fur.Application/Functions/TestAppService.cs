@@ -151,7 +151,7 @@ namespace Fur.Application.Functions
         /// <returns></returns>
         public async Task UpdateAsync(int id, TestInput input)
         {
-            var entity = await _testRepository.FindAsync(id) ?? throw new InvalidOperationException("非法操作：没找到数据。");
+            var entity = await _testRepository.FindAsync(id) ?? throw Oops.Set(ExceptionCodes.DataNotFound1000);
             input.Adapt(entity);
 
             await _testRepository.UpdateAsync(entity);
@@ -167,7 +167,7 @@ namespace Fur.Application.Functions
         public async Task UpdateIncludeProperties(int id, TestInput input)
         {
             var entity = await _testRepository.FindAsync(id)
-                ?? throw Oops.Set(ExceptionCodes.DataNotFound1000, typeof(InvalidOperationException));
+                ?? throw Oops.Set(ExceptionCodes.DataNotFound1000);
 
             input.Adapt(entity);
 
@@ -185,7 +185,7 @@ namespace Fur.Application.Functions
         [AttachAction(EveryWordToRoutePath = true)]
         public async Task UpdateExcludeProperties(int id, TestInput input)
         {
-            var entity = await _testRepository.FindAsync(id) ?? throw new InvalidOperationException("非法操作：没找到数据。");
+            var entity = await _testRepository.FindAsync(id) ?? throw Oops.Set(ExceptionCodes.DataNotFound1000);
             input.Adapt(entity);
 
             entity.CreatedTime = DateTime.Now; // 测试代码，不会更新
