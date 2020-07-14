@@ -4,6 +4,7 @@ using Fur.DatabaseVisitor.Identifiers;
 using Fur.DatabaseVisitor.Providers;
 using Fur.DatabaseVisitor.Repositories;
 using Fur.DatabaseVisitor.Repositories.Multiples;
+using Fur.DatabaseVisitor.Repositories.ReadAndWrite;
 using Fur.DatabaseVisitor.Tangent;
 using Microsoft.EntityFrameworkCore;
 
@@ -65,7 +66,7 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
         /// <param name="builder">容器构建器</param>
         /// <param name="includeMultiple">包含多上下文仓储</param>
         /// <returns><see cref="ContainerBuilder"/></returns>
-        public static ContainerBuilder RegisterRepositories(this ContainerBuilder builder, bool includeMultiple = true)
+        public static ContainerBuilder RegisterRepositories(this ContainerBuilder builder, bool includeMultiple = true, bool includeReadOrWrite = true)
         {
             builder.RegisterGeneric(typeof(EFCoreRepositoryOfT<>))
                 .As(typeof(IRepositoryOfT<>))
@@ -83,6 +84,13 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
 
                 builder.RegisterType<MultipleEFCoreRepository>()
                     .As<IMultipleRepository>()
+                    .InstancePerLifetimeScope();
+            }
+
+            if (includeReadOrWrite)
+            {
+                builder.RegisterGeneric(typeof(ReadAndWriteEFCoreRepositoryOfT<,,>))
+                    .As(typeof(IReadAndWriteRepositoryOfT<,,>))
                     .InstancePerLifetimeScope();
             }
 

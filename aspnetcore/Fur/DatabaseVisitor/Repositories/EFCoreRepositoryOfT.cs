@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Fur.DatabaseVisitor.Repositories
 {
-    public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity>, IReadRepositoryOfT<TEntity>, IWriteRepositoryOfT<TEntity>, ISqlRepositoryOfT<TEntity>
+    public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity>
         where TEntity : class, IDbEntity, new()
     {
         /// <summary>
