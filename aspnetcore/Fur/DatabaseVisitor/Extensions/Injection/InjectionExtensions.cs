@@ -3,8 +3,8 @@ using Fur.DatabaseVisitor.Contexts;
 using Fur.DatabaseVisitor.Identifiers;
 using Fur.DatabaseVisitor.Providers;
 using Fur.DatabaseVisitor.Repositories;
+using Fur.DatabaseVisitor.Repositories.MasterSlave;
 using Fur.DatabaseVisitor.Repositories.Multiples;
-using Fur.DatabaseVisitor.Repositories.ReadAndWrite;
 using Fur.DatabaseVisitor.Tangent;
 using Microsoft.EntityFrameworkCore;
 
@@ -59,7 +59,8 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
         }
         #endregion
 
-        #region 注册仓储 + public static ContainerBuilder RegisterRepositories(this ContainerBuilder builder, bool includeMultiple = true)
+
+        #region 注册仓储 + public static ContainerBuilder RegisterRepositories(this ContainerBuilder builder, bool includeMultiple = true, bool includeReadOrWrite = true)
         /// <summary>
         /// 注册仓储
         /// </summary>
@@ -89,14 +90,19 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
 
             if (includeReadOrWrite)
             {
-                builder.RegisterGeneric(typeof(ReadAndWriteEFCoreRepositoryOfT<,,>))
-                    .As(typeof(IReadAndWriteRepositoryOfT<,,>))
+                builder.RegisterGeneric(typeof(MasterSlaveEFCoreRepositoryOfT<,,>))
+                    .As(typeof(IMasterSlaveRepositoryOfT<,,>))
                     .InstancePerLifetimeScope();
+
+                builder.RegisterType<MasterSlaveEFCoreRepository>()
+                   .As<IMasterSlaveRepository>()
+                   .InstancePerLifetimeScope();
             }
 
             return builder;
         }
         #endregion
+
 
         #region 注册租户提供器 + public static ContainerBuilder RegisterTenant<TTenantProvider>(this ContainerBuilder builder) where TTenantProvider : ITenantProvider
         /// <summary>
@@ -116,6 +122,7 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
             return builder;
         }
         #endregion
+
 
         #region 注册切面上下文 + public static ContainerBuilder RegisterTangentDbContext(this ContainerBuilder builder)
         /// <summary>

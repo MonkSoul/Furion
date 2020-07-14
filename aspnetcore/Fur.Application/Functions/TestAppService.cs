@@ -5,8 +5,8 @@ using Fur.DatabaseVisitor.Attributes;
 using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Identifiers;
 using Fur.DatabaseVisitor.Repositories;
+using Fur.DatabaseVisitor.Repositories.MasterSlave;
 using Fur.DatabaseVisitor.Repositories.Multiples;
-using Fur.DatabaseVisitor.Repositories.ReadAndWrite;
 using Fur.DatabaseVisitor.Tangent;
 using Fur.Extensions;
 using Fur.FriendlyException;
@@ -38,7 +38,7 @@ namespace Fur.Application.Functions
         private readonly IRepository _repository;
         private readonly IRepositoryOfT<Test> _testRepository;
         private readonly IRepositoryOfT<V_Test> _vTestRepository;
-        private readonly IReadAndWriteRepositoryOfT<Test, FurDbContextIdentifier, FurMultipleDbContextIdentifier> _readAndWriteRepository;
+        private readonly IMasterSlaveRepositoryOfT<Test, FurDbContextIdentifier, FurMultipleDbContextIdentifier> _masterSlaveRepository;
 
         private readonly IMultipleRepositoryOfT<Test, FurMultipleDbContextIdentifier> _multipleRepository;
         private readonly IMultipleRepositoryOfT<V_Test, FurMultipleDbContextIdentifier> _vTestMultipleRepository;
@@ -52,7 +52,7 @@ namespace Fur.Application.Functions
             , IMultipleRepositoryOfT<Test, FurMultipleDbContextIdentifier> multipleRepository
             , IMultipleRepositoryOfT<V_Test, FurMultipleDbContextIdentifier> vTestMultipleRepository
 
-            , IReadAndWriteRepositoryOfT<Test, FurDbContextIdentifier, FurMultipleDbContextIdentifier> readAndWriteRepository
+            , IMasterSlaveRepositoryOfT<Test, FurDbContextIdentifier, FurMultipleDbContextIdentifier> masterSlaveRepository
 
             , ITangentDbContextOfT<INonDbSetQuery> tangent
             )
@@ -64,7 +64,7 @@ namespace Fur.Application.Functions
             _multipleRepository = multipleRepository;
             _vTestMultipleRepository = vTestMultipleRepository;
 
-            _readAndWriteRepository = readAndWriteRepository;
+            _masterSlaveRepository = masterSlaveRepository;
 
             _tangent = tangent;
         }
