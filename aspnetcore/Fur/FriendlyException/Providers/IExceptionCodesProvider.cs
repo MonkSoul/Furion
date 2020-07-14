@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace Fur.FriendlyException
 {
@@ -11,6 +11,6 @@ namespace Fur.FriendlyException
         /// 设置异常状态码
         /// </summary>
         /// <returns></returns>
-        Dictionary<int, string> GetExceptionCodes();
+        Type ExceptionCodesType();
     }
 }

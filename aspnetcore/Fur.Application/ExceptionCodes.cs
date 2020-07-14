@@ -1,6 +1,7 @@
 ﻿using Fur.DependencyInjection.Lifetimes;
 using Fur.FriendlyException;
-using System.Collections.Generic;
+using Fur.FriendlyException.Attributes;
+using System;
 
 namespace Fur.Application
 {
@@ -9,8 +10,17 @@ namespace Fur.Application
     /// </summary>
     public static class ExceptionCodes
     {
+        /// <summary>
+        /// 数据没找到
+        /// </summary>
+        [ExceptionMeta("Data not found.")]
         public const int DataNotFound1000 = 1000;
-        public const int InvalidData1001 = 1000;
+
+        /// <summary>
+        /// 无效数据
+        /// </summary>
+        [ExceptionMeta("Invalid data.")]
+        public const int InvalidData1001 = 1001;
     }
 
     /// <summary>
@@ -18,13 +28,6 @@ namespace Fur.Application
     /// </summary>
     public class ExceptionCodesProvider : IExceptionCodesProvider, ISingletonLifetime
     {
-        public Dictionary<int, string> GetExceptionCodes()
-        {
-            return new Dictionary<int, string>
-            {
-                [ExceptionCodes.DataNotFound1000] = "Data not found.",
-                [ExceptionCodes.InvalidData1001] = "Invalid data."
-            };
-        }
+        public Type ExceptionCodesType() => typeof(ExceptionCodes);
     }
 }
