@@ -7,24 +7,15 @@ namespace Fur.FriendlyException
     /// </summary>
     public static class Oops
     {
-        #region 有bug + public static Exception Bug(string exceptionCode)
+        #region 有bug + public static Exception Set(int exceptionCode, Type exception = null)
         /// <summary>
         /// 有bug
         /// </summary>
         /// <param name="exceptionCode">异常编码</param>
-        /// <returns><see cref="Exception"/></returns>
-        public static Exception Bug(string exceptionCode)
-            => new Exception($"##{exceptionCode}##");
-        #endregion
-
-        #region 有bug + public static Exception Bug(int exceptionCode)
-        /// <summary>
-        /// 有bug
-        /// </summary>
-        /// <param name="exceptionCode">异常编码</param>
+        /// <param name="exception">异常类型</param>
         /// <returns></returns>
-        public static Exception Bug(int exceptionCode)
-           => new Exception($"##{exceptionCode}##");
+        public static Exception Set(int exceptionCode, Type exception = null)
+           => new Exception($"##{exceptionCode};{((exception ?? typeof(Exception)).FullName)}##");
         #endregion
     }
 }

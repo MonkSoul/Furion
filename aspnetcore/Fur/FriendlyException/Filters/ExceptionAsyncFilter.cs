@@ -1,17 +1,37 @@
-﻿using Fur.FriendlyException.Attributes;
+﻿using Autofac;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using StackExchange.Profiling;
-using System.Linq;
-using System.Reflection;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Fur.FriendlyException.Filters
 {
     public class ExceptionAsyncFilter : IAsyncExceptionFilter
     {
+        /// <summary>
+        /// autofac 生命周期对象
+        /// </summary>
+        ILifetimeScope _lifetimeScope;
+
+        /// <summary>
+        /// 异常提供器
+        /// </summary>
+        IExceptionCodesProvider _exceptionCodesProvider;
+
+        #region 构造函数 + public ExceptionAsyncFilter(ILifetimeScope lifetimeScope)
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="lifetimeScope">autofac 生命周期对象</param>
+        public ExceptionAsyncFilter(ILifetimeScope lifetimeScope)
+        {
+            _lifetimeScope = lifetimeScope;
+        }
+        #endregion
+
         #region 异常异步拦截器 + public Task OnExceptionAsync(ExceptionContext context)
         /// <summary>
         /// 异常异步拦截器
@@ -40,7 +60,7 @@ namespace Fur.FriendlyException.Filters
         /// <param name="descriptor">控制器描述器</param>
         /// <param name="exceptionMessage">异常信息</param>
         /// <param name="exceptionErrorString">异常堆栈</param>
-        private static void ConvertExceptionInfo(ExceptionContext context, ControllerActionDescriptor descriptor, out string exceptionMessage, out string exceptionErrorString)
+        private void ConvertExceptionInfo(ExceptionContext context, ControllerActionDescriptor descriptor, out string exceptionMessage, out string exceptionErrorString)
         {
             var exception = context.Exception;
             var method = descriptor.MethodInfo;
@@ -48,22 +68,26 @@ namespace Fur.FriendlyException.Filters
             exceptionMessage = exception.Message;
             exceptionErrorString = exception.ToString();
 
-            if (method.IsDefined(typeof(IfExceptionAttribute), false))
+            if (exceptionMessage.StartsWith("##") && exceptionMessage.EndsWith("##"))
             {
-                var ifExceptionAttributes = method.GetCustomAttributes<IfExceptionAttribute>(false);
-                if (exceptionMessage.StartsWith("##") && exceptionMessage.EndsWith("##"))
-                {
-                    var code = exceptionMessage[2..^2];
+                var customExceptionContent = exceptionMessage[2..^2];
+                var codeAndType = customExceptionContent.Split(';', System.StringSplitOptions.RemoveEmptyEntries);
 
-                    var exceptionConvert = ifExceptionAttributes.FirstOrDefault(u => u.ExceptionCode.ToString() == code);
-                    if (exceptionConvert != null)
-                    {
-                        exceptionMessage = exceptionMessage.Replace($"##{code}##", $"[{code}] {exceptionConvert.ExceptionMessage}");
-                        exceptionErrorString = exceptionErrorString
-                            .Replace($"System.Exception: {exception.Message}", $"{exceptionConvert.Exception.FullName}: {exception.Message}")
-                            .Replace($"##{code}##", $"[{code}] {exceptionConvert.ExceptionMessage}");
-                    }
+                var code = int.Parse(codeAndType[0]);
+                var exceptionType = codeAndType[1];
+
+                if (_lifetimeScope.IsRegistered<IExceptionCodesProvider>())
+                {
+                    _exceptionCodesProvider = _lifetimeScope.Resolve<IExceptionCodesProvider>();
                 }
+
+                var exceptionCodes = _exceptionCodesProvider?.GetExceptionCodes() ?? new Dictionary<int, string>();
+                var exceptionMsg = exceptionCodes.ContainsKey(code) ? exceptionCodes[code] : "Internal Server Error.";
+
+                exceptionMessage = exceptionMessage.Replace($"##{customExceptionContent}##", $"[{code}] {exceptionMsg}");
+                exceptionErrorString = exceptionErrorString
+                    .Replace($"System.Exception: {exception.Message}", $"{exceptionType}: {exception.Message}")
+                    .Replace($"##{customExceptionContent}##", $"[{code}] {exceptionMsg}");
             }
         }
         #endregion
