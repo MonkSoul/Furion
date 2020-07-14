@@ -2,6 +2,7 @@ using Autofac;
 using Fur.AttachController.Extensions;
 using Fur.DependencyInjection;
 using Fur.EntityFramework.Core.Extensions;
+using Fur.FriendlyException.Filters;
 using Fur.Mvc.Filters;
 using Fur.ObjectMapper.Extensions.ServiceCollection;
 using Fur.SwaggerGen.Extensions;

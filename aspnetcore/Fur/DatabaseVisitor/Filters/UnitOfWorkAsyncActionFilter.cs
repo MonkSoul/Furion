@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace Fur.DatabaseVisitor.Interceptors
+namespace Fur.DatabaseVisitor.Filters
 {
     /// <summary>
     /// 工作单元异步筛选器

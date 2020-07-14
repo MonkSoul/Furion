@@ -7,6 +7,7 @@ using Fur.DatabaseVisitor.Repositories;
 using Fur.DatabaseVisitor.Repositories.Multiples;
 using Fur.DatabaseVisitor.Tangent;
 using Fur.Extensions;
+using Fur.FriendlyException.Attributes;
 using Fur.Linq.Extensions;
 using Fur.Mvc.Attributes;
 using Fur.Record;
@@ -21,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -209,11 +211,10 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <param name="id">主键Id</param>
         /// <returns></returns>
+        [IfException(1000, "Value Not Found")]
         public async Task DeleteAsync(int id)
         {
-            var entity = await _testRepository.FindAsync(id) ?? throw new InvalidOperationException("非法操作：没找到数据。");
-
-            await _testRepository.DeleteAsync(entity);
+            await _testRepository.FindToDeleteAsync(id, 1000);
         }
 
         /// <summary>
