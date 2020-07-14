@@ -32,13 +32,13 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
                 .As<DbContext>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterMultipleDbContext<TDbContext, FurDbContextIdentifier>();
+            builder.RegisterMultipleRepository<TDbContext, FurDbContextIdentifier>();
 
             return builder;
         }
         #endregion
 
-        #region 注册多个数据库操作上下文 + public static ContainerBuilder RegisterMultipleDbContext<TDbContext, TDbContextIdentifier>(this ContainerBuilder builder) where TDbContext : DbContext where TDbContextIdentifier : IDbContextIdentifier
+        #region 注册多个数据库操作上下文 + public static ContainerBuilder RegisterMultipleRepository<TDbContext, TDbContextIdentifier>(this ContainerBuilder builder) where TDbContext : DbContext where TDbContextIdentifier : IDbContextIdentifier
         /// <summary>
         /// 注册多个数据库操作上下文
         /// </summary>
@@ -46,7 +46,7 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
         /// <typeparam name="TDbContextIdentifier">数据库上下文标识类</typeparam>
         /// <param name="builder">容器构建器</param>
         /// <returns><see cref="ContainerBuilder"/></returns>
-        public static ContainerBuilder RegisterMultipleDbContext<TDbContext, TDbContextIdentifier>(this ContainerBuilder builder)
+        public static ContainerBuilder RegisterMultipleRepository<TDbContext, TDbContextIdentifier>(this ContainerBuilder builder)
             where TDbContext : DbContext
             where TDbContextIdentifier : IDbContextIdentifier
         {
@@ -77,12 +77,12 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
 
             if (includeMultiple)
             {
-                builder.RegisterGeneric(typeof(MultipleDbContextEFCoreRepositoryOfT<,>))
-                    .As(typeof(IMultipleDbContextRepositoryOfT<,>))
+                builder.RegisterGeneric(typeof(MultipleEFCoreRepositoryOfT<,>))
+                    .As(typeof(IMultipleRepositoryOfT<,>))
                     .InstancePerLifetimeScope();
 
-                builder.RegisterType<MultipleDbContextEFCoreRepository>()
-                    .As<IMultipleDbContextRepository>()
+                builder.RegisterType<MultipleEFCoreRepository>()
+                    .As<IMultipleRepository>()
                     .InstancePerLifetimeScope();
             }
 
@@ -100,7 +100,7 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
         public static ContainerBuilder RegisterTenant<TTenantProvider>(this ContainerBuilder builder)
             where TTenantProvider : ITenantProvider
         {
-            builder.RegisterMultipleDbContext<FurTenantDbContext, FurTenantDbContextIdentifier>();
+            builder.RegisterMultipleRepository<FurTenantDbContext, FurTenantDbContextIdentifier>();
 
             builder.RegisterType<TTenantProvider>()
                 .As<ITenantProvider>()

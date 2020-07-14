@@ -11,7 +11,7 @@ namespace Fur.DatabaseVisitor.Repositories.Multiples
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TDbContextIdentifier"></typeparam>
-    public partial class MultipleDbContextEFCoreRepositoryOfT<TEntity, TDbContextIdentifier> : EFCoreRepositoryOfT<TEntity>, IMultipleDbContextRepositoryOfT<TEntity, TDbContextIdentifier>
+    public partial class MultipleEFCoreRepositoryOfT<TEntity, TDbContextIdentifier> : EFCoreRepositoryOfT<TEntity>, IMultipleRepositoryOfT<TEntity, TDbContextIdentifier>
         where TEntity : class, IDbEntity, new()
         where TDbContextIdentifier : IDbContextIdentifier
     {
@@ -21,7 +21,7 @@ namespace Fur.DatabaseVisitor.Repositories.Multiples
         /// </summary>
         /// <param name="serviceProvider">服务提供器</param>
         /// <param name="dbContextPool">数据库上下文池</param>
-        public MultipleDbContextEFCoreRepositoryOfT(
+        public MultipleEFCoreRepositoryOfT(
             ILifetimeScope lifetimeScope
             , IDbContextPool dbContextPool)
             : base(lifetimeScope.ResolveNamed<DbContext>(typeof(TDbContextIdentifier).Name), lifetimeScope, dbContextPool)

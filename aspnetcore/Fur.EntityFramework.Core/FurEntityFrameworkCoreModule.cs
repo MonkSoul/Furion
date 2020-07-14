@@ -11,7 +11,7 @@ namespace Fur.EntityFramework.Core
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterDefaultDbContext<FurSqlServerDbContext>()
-                       .RegisterMultipleDbContext<FurMultipleSqlServerDbContext, FurMultipleDbContextIdentifier>()
+                       .RegisterMultipleRepository<FurMultipleSqlServerDbContext, FurMultipleDbContextIdentifier>()
                        .RegisterTenant<TenantProvider>()
                        .RegisterRepositories()
                        .RegisterTangentDbContext();

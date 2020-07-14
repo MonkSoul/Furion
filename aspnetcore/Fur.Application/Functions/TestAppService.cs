@@ -37,8 +37,8 @@ namespace Fur.Application.Functions
         private readonly IRepositoryOfT<Test> _testRepository;
         private readonly IRepositoryOfT<V_Test> _vTestRepository;
 
-        private readonly IMultipleDbContextRepositoryOfT<Test, FurMultipleDbContextIdentifier> _multipleRepository;
-        private readonly IMultipleDbContextRepositoryOfT<V_Test, FurMultipleDbContextIdentifier> _vTestMultipleRepository;
+        private readonly IMultipleRepositoryOfT<Test, FurMultipleDbContextIdentifier> _multipleRepository;
+        private readonly IMultipleRepositoryOfT<V_Test, FurMultipleDbContextIdentifier> _vTestMultipleRepository;
 
         private readonly ITangentDbContextOfT<INonDbSetQuery> _tangent;
 
@@ -46,8 +46,8 @@ namespace Fur.Application.Functions
             , IRepositoryOfT<Test> testRepository
             , IRepositoryOfT<V_Test> vTestRepository
 
-            , IMultipleDbContextRepositoryOfT<Test, FurMultipleDbContextIdentifier> multipleRepository
-            , IMultipleDbContextRepositoryOfT<V_Test, FurMultipleDbContextIdentifier> vTestMultipleRepository
+            , IMultipleRepositoryOfT<Test, FurMultipleDbContextIdentifier> multipleRepository
+            , IMultipleRepositoryOfT<V_Test, FurMultipleDbContextIdentifier> vTestMultipleRepository
 
             , ITangentDbContextOfT<INonDbSetQuery> tangent
             )

@@ -605,6 +605,154 @@ namespace Fur.DatabaseVisitor.Repositories
         #endregion
 
 
+        #region 判断记录是否存在 + public virtual bool Any(Expression<Func<TEntity, bool>> expression = null)
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="expression">表达式</param>
+        /// <returns>存在与否</returns>
+        public virtual bool Any(Expression<Func<TEntity, bool>> expression = null)
+        {
+            return expression == null ? Entity.Any() : Entity.Any(expression);
+        }
+        #endregion
+
+        #region 判断记录是否存在 + public virtual Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression = null)
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="expression">表达式</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression = null)
+        {
+            return expression == null ? Entity.AnyAsync() : Entity.AnyAsync(expression);
+        }
+        #endregion
+
+
+        #region 获取记录条数 + public virtual int Count(Expression<Func<TEntity, bool>> expression = null)
+        /// <summary>
+        /// 获取记录条数
+        /// </summary>
+        /// <param name="expression">表达式</param>
+        /// <returns>int</returns>
+        public virtual int Count(Expression<Func<TEntity, bool>> expression = null)
+        {
+            return expression == null ? Entity.Count() : Entity.Count(expression);
+        }
+        #endregion
+
+        #region 获取记录条数 + public virtual Task<int> CountAsync(Expression<Func<TEntity, bool>> expression = null)
+        /// <summary>
+        /// 获取记录条数
+        /// </summary>
+        /// <param name="expression">表达式</param>
+        /// <returns>int</returns>
+        public virtual Task<int> CountAsync(Expression<Func<TEntity, bool>> expression = null)
+        {
+            return expression == null ? Entity.CountAsync() : Entity.CountAsync(expression);
+        }
+        #endregion
+
+
+        #region 获取实体队列中最大实体 + public virtual TEntity Max()
+        /// <summary>
+        /// 获取实体队列中最大实体
+        /// </summary>
+        /// <returns><see cref="TEntity"/></returns>
+        public virtual TEntity Max()
+        {
+            return Entity.Max();
+        }
+        #endregion
+
+        #region 获取实体队列中最大实体 + public virtual Task<TEntity> MaxAsync()
+        /// <summary>
+        /// 获取实体队列中最大实体
+        /// </summary>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual Task<TEntity> MaxAsync()
+        {
+            return Entity.MaxAsync();
+        }
+        #endregion
+
+        #region 获取最大值 + public virtual TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression)
+        /// <summary>
+        /// 获取最大值
+        /// </summary>
+        /// <typeparam name="TResult">值类型</typeparam>
+        /// <param name="expression">表达式</param>
+        /// <returns>最大值</returns>
+        public virtual TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression)
+        {
+            return Entity.Max(expression);
+        }
+        #endregion
+
+        #region 获取最大值 + public virtual Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
+        /// <summary>
+        /// 获取最大值
+        /// </summary>
+        /// <typeparam name="TResult">值类型</typeparam>
+        /// <param name="expression">表达式</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
+        {
+            return Entity.MaxAsync(expression);
+        }
+        #endregion
+
+
+        #region 获取实体队列中最小实体 + public virtual TEntity Min()
+        /// <summary>
+        /// 获取实体队列中最小实体
+        /// </summary>
+        /// <returns>实体</returns>
+        public virtual TEntity Min()
+        {
+            return Entity.Min();
+        }
+        #endregion
+
+        #region 获取实体队列中最小实体 + public virtual Task<TEntity> MinAsync()
+        /// <summary>
+        /// 获取实体队列中最小实体
+        /// </summary>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual Task<TEntity> MinAsync()
+        {
+            return Entity.MinAsync();
+        }
+        #endregion
+
+        #region 获取最小值 + public virtual TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression)
+        /// <summary>
+        /// 获取最小值
+        /// </summary>
+        /// <typeparam name="TResult">值类型</typeparam>
+        /// <param name="expression">表达式</param>
+        /// <returns>最大值</returns>
+        public virtual TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression)
+        {
+            return Entity.Min(expression);
+        }
+        #endregion
+
+        #region 获取最小值 + public virtual Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
+        /// <summary>
+        /// 获取最小值
+        /// </summary>
+        /// <typeparam name="TResult">值类型</typeparam>
+        /// <param name="expression">表达式</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        public virtual Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
+        {
+            return Entity.MinAsync(expression);
+        }
+        #endregion
+
+
         #region 组合查询条件 + private IQueryable<TEntity> CombineIQueryable(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false)
         /// <summary>
         /// 组合查询条件

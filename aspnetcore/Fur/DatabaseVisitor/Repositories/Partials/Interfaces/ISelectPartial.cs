@@ -452,5 +452,118 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>多个实体</returns>
         Task<PagedListOfT<TEntity>> PagedAllAsync(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false);
         #endregion
+
+
+        #region 判断记录是否存在 + bool Any(Expression<Func<TEntity, bool>> expression = null)
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="expression">表达式</param>
+        /// <returns>存在与否</returns>
+        bool Any(Expression<Func<TEntity, bool>> expression = null);
+        #endregion
+
+        #region 判断记录是否存在 + Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression = null)
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="expression">表达式</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression = null);
+        #endregion
+
+
+        #region 获取记录条数 + int Count(Expression<Func<TEntity, bool>> expression = null)
+        /// <summary>
+        /// 获取记录条数
+        /// </summary>
+        /// <param name="expression">表达式</param>
+        /// <returns>int</returns>
+
+        int Count(Expression<Func<TEntity, bool>> expression = null);
+        #endregion
+
+        #region 获取记录条数 + Task<int> CountAsync(Expression<Func<TEntity, bool>> expression = null)
+        /// <summary>
+        /// 获取记录条数
+        /// </summary>
+        /// <param name="expression">表达式</param>
+        /// <returns>int</returns>
+        Task<int> CountAsync(Expression<Func<TEntity, bool>> expression = null);
+        #endregion
+
+
+        #region 获取实体队列中最大实体 + TEntity Max()
+        /// <summary>
+        /// 获取实体队列中最大实体
+        /// </summary>
+        /// <returns><see cref="TEntity"/></returns>
+        TEntity Max();
+        #endregion
+
+        #region 获取实体队列中最大实体 + Task<TEntity> MaxAsync()
+        /// <summary>
+        /// 获取实体队列中最大实体
+        /// </summary>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        Task<TEntity> MaxAsync();
+        #endregion
+
+        #region 获取最大值 + TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression)
+        /// <summary>
+        /// 获取最大值
+        /// </summary>
+        /// <typeparam name="TResult">值类型</typeparam>
+        /// <param name="expression">表达式</param>
+        /// <returns>最大值</returns>
+        TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression);
+        #endregion
+
+        #region 获取最大值 + Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
+        /// <summary>
+        /// 获取最大值
+        /// </summary>
+        /// <typeparam name="TResult">值类型</typeparam>
+        /// <param name="expression">表达式</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression);
+        #endregion
+
+
+        #region 获取实体队列中最小实体 + TEntity Min()
+        /// <summary>
+        /// 获取实体队列中最小实体
+        /// </summary>
+        /// <returns>实体</returns>
+        TEntity Min();
+        #endregion
+
+        #region 获取实体队列中最小实体 + Task<TEntity> MinAsync()
+        /// <summary>
+        /// 获取实体队列中最小实体
+        /// </summary>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        Task<TEntity> MinAsync();
+        #endregion
+
+        #region 获取最小值 + TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression)
+        /// <summary>
+        /// 获取最小值
+        /// </summary>
+        /// <typeparam name="TResult">值类型</typeparam>
+        /// <param name="expression">表达式</param>
+        /// <returns>最大值</returns>
+        TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression);
+        #endregion
+
+        #region 获取最小值 + Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
+        /// <summary>
+        /// 获取最小值
+        /// </summary>
+        /// <typeparam name="TResult">值类型</typeparam>
+        /// <param name="expression">表达式</param>
+        /// <returns><see cref="Task{TResult}"/></returns>
+        Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression);
+        #endregion
     }
 }
