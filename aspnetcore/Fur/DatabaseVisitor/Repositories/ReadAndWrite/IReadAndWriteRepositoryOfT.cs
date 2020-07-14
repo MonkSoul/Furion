@@ -9,7 +9,7 @@ namespace Fur.DatabaseVisitor.Repositories.ReadAndWrite
         where TReadDbContextIdentifier : IDbContextIdentifier
         where TWriteDbContextIdentifier : IDbContextIdentifier
     {
-        IMultipleRepositoryOfT<TEntity, TReadDbContextIdentifier> Read { get; }
-        IMultipleRepositoryOfT<TEntity, TWriteDbContextIdentifier> Write { get; }
+        IMultipleRepositoryOfT<TEntity, TReadDbContextIdentifier> DbRead { get; }
+        IMultipleRepositoryOfT<TEntity, TWriteDbContextIdentifier> DbWrite { get; }
     }
 }

@@ -13,12 +13,12 @@ namespace Fur.DatabaseVisitor.Repositories.ReadAndWrite
             IMultipleRepositoryOfT<TEntity, TReadDbContextIdentifier> readRepository
             , IMultipleRepositoryOfT<TEntity, TWriteDbContextIdentifier> writeRepository)
         {
-            Read = readRepository;
-            Write = writeRepository;
+            DbRead = readRepository;
+            DbWrite = writeRepository;
         }
 
-        public IMultipleRepositoryOfT<TEntity, TReadDbContextIdentifier> Read { get; }
+        public IMultipleRepositoryOfT<TEntity, TReadDbContextIdentifier> DbRead { get; }
 
-        public IMultipleRepositoryOfT<TEntity, TWriteDbContextIdentifier> Write { get; }
+        public IMultipleRepositoryOfT<TEntity, TWriteDbContextIdentifier> DbWrite { get; }
     }
 }
