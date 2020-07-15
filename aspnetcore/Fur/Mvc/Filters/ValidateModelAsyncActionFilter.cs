@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Fur.Mvc.Filters
 {
-    public class ValidateModelAsyncFilter : IAsyncActionFilter
+    public class ValidateModelAsyncActionFilter : IAsyncActionFilter
     {
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {

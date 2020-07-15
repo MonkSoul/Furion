@@ -35,7 +35,7 @@ namespace Fur.Web.Host
             services.Configure<MvcOptions>(options =>
             {
                 options.Filters.Add<ExceptionAsyncFilter>();
-                options.Filters.Add<ValidateModelAsyncFilter>();
+                options.Filters.Add<ValidateModelAsyncActionFilter>();
             });
             services.AddFurObjectMapper();
             services.AddFurDbContextPool(Environment, Configuration);
