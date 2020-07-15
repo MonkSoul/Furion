@@ -9,7 +9,7 @@ namespace Fur.Extensions
     /// </summary>
     public static class TypeExtensions
     {
-        #region 递归获取特性 +/* public static TAttribute GetDeepAttribute<TAttribute>(this TypeInfo typeInfo) where TAttribute : Attribute
+        #region 递归获取特性 + public static TAttribute GetDeepAttribute<TAttribute>(this TypeInfo typeInfo) where TAttribute : Attribute
 
         /// <summary>
         /// 递归获取特性
@@ -34,9 +34,9 @@ namespace Fur.Extensions
             return null;
         }
 
-        #endregion 递归获取特性 +/* public static TAttribute GetDeepAttribute<TAttribute>(this TypeInfo typeInfo) where TAttribute : Attribute
+        #endregion 递归获取特性 + public static TAttribute GetDeepAttribute<TAttribute>(this TypeInfo typeInfo) where TAttribute : Attribute
 
-        #region 递归获取特性 +/* public static TAttribute GetDeepAttribute<TAttribute>(this Type type) where TAttribute : Attribute
+        #region 递归获取特性 + public static TAttribute GetDeepAttribute<TAttribute>(this Type type) where TAttribute : Attribute
 
         /// <summary>
         /// 递归获取特性
@@ -71,9 +71,9 @@ namespace Fur.Extensions
             return false;
         }
 
-        #endregion 递归获取特性 +/* public static TAttribute GetDeepAttribute<TAttribute>(this Type type) where TAttribute : Attribute
+        #endregion 递归获取特性 + public static TAttribute GetDeepAttribute<TAttribute>(this Type type) where TAttribute : Attribute
 
-        #region 是否是可空类型 +/* public static bool IsNullable(this Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
+        #region 是否是可空类型 + public static bool IsNullable(this Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
 
         /// <summary>
         /// 是否是可空类型
@@ -82,7 +82,7 @@ namespace Fur.Extensions
         /// <returns>是/否</returns>
         public static bool IsNullable(this Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
 
-        #endregion 是否是可空类型 +/* public static bool IsNullable(this Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
+        #endregion 是否是可空类型 + public static bool IsNullable(this Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
 
         public static void SetPropertyValue(this PropertyInfo property, object obj, object value)
             => property.SetValue(obj, SetPropertyValue(value, property.PropertyType));

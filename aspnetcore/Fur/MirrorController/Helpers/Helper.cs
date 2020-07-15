@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Fur.AttachController.Helpers
+namespace Fur.MirrorController.Helpers
 {
     internal class Helper
     {
-        #region 移除字符串前后缀 +/* internal static string ClearStringAffix(string str, params string[] affixs)
+        #region 移除字符串前后缀 + internal static string ClearStringAffix(string str, params string[] affixs)
 
         /// <summary>
         /// 移除字符串前后缀
@@ -47,9 +47,9 @@ namespace Fur.AttachController.Helpers
             return newStr.HasValue() ? newStr : str;
         }
 
-        #endregion 移除字符串前后缀 +/* internal static string ClearStringAffix(string str, params string[] affixs)
+        #endregion 移除字符串前后缀 + internal static string ClearStringAffix(string str, params string[] affixs)
 
-        #region 将字符串按照骆驼命名反射切割 +/* internal string[] CamelCaseSplitString(string str)
+        #region 将字符串按照骆驼命名反射切割 + internal string[] CamelCaseSplitString(string str)
 
         /// <summary>
         /// 将字符串按照骆驼命名反射切割
@@ -64,9 +64,9 @@ namespace Fur.AttachController.Helpers
             return Regex.Split(str, @"(?=\p{Lu}\p{Ll})|(?<=\p{Ll})(?=\p{Lu})").Where(u => u.HasValue()).ToArray();
         }
 
-        #endregion 将字符串按照骆驼命名反射切割 +/* internal string[] CamelCaseSplitString(string str)
+        #endregion 将字符串按照骆驼命名反射切割 + internal string[] CamelCaseSplitString(string str)
 
-        #region 获取骆驼命名第一个单词 +/* internal static string GetCamelCaseFirstWord(string str)
+        #region 获取骆驼命名第一个单词 + internal static string GetCamelCaseFirstWord(string str)
 
         /// <summary>
         /// 获取骆驼命名第一个单词
@@ -76,6 +76,6 @@ namespace Fur.AttachController.Helpers
         internal static string GetCamelCaseFirstWord(string str)
             => CamelCaseSplitString(str).FirstOrDefault();
 
-        #endregion 获取骆驼命名第一个单词 +/* internal static string GetCamelCaseFirstWord(string str)
+        #endregion 获取骆驼命名第一个单词 + internal static string GetCamelCaseFirstWord(string str)
     }
 }

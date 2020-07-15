@@ -45,7 +45,7 @@ namespace Fur.ApplicationBase.Wrappers
         /// <summary>
         /// Swagger 接口文档 分组名
         /// <para>生成 Swagger 接口文档时，用于匹配特定组信息。</para>
-        /// <para>参见：<see cref="Fur.AttachController.Attributes.AttachControllerAttribute.SwaggerGroups"/></para>
+        /// <para>参见：<see cref="Fur.MirrorController.Attributes.MirrorControllerAttribute.SwaggerGroups"/></para>
         /// </summary>
         public string[] SwaggerGroups { get; set; }
 

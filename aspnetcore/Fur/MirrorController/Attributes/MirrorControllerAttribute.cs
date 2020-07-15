@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace Fur.AttachController.Attributes
+namespace Fur.MirrorController.Attributes
 {
     /// <summary>
-    /// 附加控制器Action特性
+    /// 镜面控制器特性类
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method)]
-    public class AttachActionAttribute : ApiExplorerSettingsAttribute
+    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class)]
+    public class MirrorControllerAttribute : ApiExplorerSettingsAttribute
     {
         /// <summary>
         /// 默认构造函数
         /// </summary>
-        public AttachActionAttribute()
+        public MirrorControllerAttribute()
         {
             base.IgnoreApi = this.IgnoreApi = false;
         }
@@ -21,7 +21,7 @@ namespace Fur.AttachController.Attributes
         /// 构造函数
         /// </summary>
         /// <param name="attach">是否附加</param>
-        public AttachActionAttribute(bool attach)
+        public MirrorControllerAttribute(bool attach)
         {
             Attach = attach;
             base.IgnoreApi = this.IgnoreApi = !attach;
@@ -31,7 +31,7 @@ namespace Fur.AttachController.Attributes
         /// 构造函数
         /// </summary>
         /// <param name="swaggerGroups">swagger分组名称列表</param>
-        public AttachActionAttribute(params string[] swaggerGroups)
+        public MirrorControllerAttribute(params string[] swaggerGroups)
         {
             SwaggerGroups = swaggerGroups;
             base.GroupName = this.GroupName = string.Join(Consts.GroupNameSeparator, swaggerGroups);
@@ -41,8 +41,8 @@ namespace Fur.AttachController.Attributes
         /// 构造函数
         /// </summary>
         /// <param name="attach">是否附加</param>
-        /// <param name="swaggerGroups">swagger分组名称列表</param>
-        public AttachActionAttribute(bool attach, params string[] swaggerGroups)
+        /// <param name="groups">swagger分组名称列表</param>
+        public MirrorControllerAttribute(bool attach, params string[] swaggerGroups)
         {
             Attach = attach;
             SwaggerGroups = swaggerGroups;
@@ -50,6 +50,9 @@ namespace Fur.AttachController.Attributes
             base.GroupName = this.GroupName = string.Join(Consts.GroupNameSeparator, swaggerGroups);
         }
 
+        /// <summary>
+        /// 接口版本
+        /// </summary>
         public string ApiVersion { get; set; }
 
         /// <summary>
@@ -63,21 +66,6 @@ namespace Fur.AttachController.Attributes
         public string[] SwaggerGroups { get; set; }
 
         /// <summary>
-        /// 保持原始名称
-        /// </summary>
-        public bool KeepOriginalName { get; set; } = false;
-
-        /// <summary>
-        /// 保留路由谓词
-        /// </summary>
-        public bool KeepRouteVerb { get; set; } = false;
-
-        /// <summary>
-        /// 每个单词都生成路由路径（如果全局启用名词前后缀处理，还是会去掉前后占位符）
-        /// </summary>
-        public bool EveryWordToRoutePath { get; set; } = false;
-
-        /// <summary>
         /// 接口授权标识名称列表
         /// </summary>
         public string[] AuthorizeTo { get; set; }
@@ -85,11 +73,11 @@ namespace Fur.AttachController.Attributes
         /// <summary>
         /// 分组名
         /// </summary>
-        internal new string GroupName { get; set; }
+        private new string GroupName { get; set; }
 
         /// <summary>
         /// 是否忽略Api
         /// </summary>
-        internal new bool IgnoreApi { get; set; }
+        private new bool IgnoreApi { get; set; }
     }
 }

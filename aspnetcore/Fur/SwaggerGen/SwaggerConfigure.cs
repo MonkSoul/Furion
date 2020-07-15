@@ -28,7 +28,7 @@ namespace Fur.SwaggerGen
         /// </summary>
         private static SwaggerOptions swaggerOptions;
 
-        #region 设置Swagger选项配置 +/* public static void SetSwaggerOptions(SwaggerOptions swaggerOptions)
+        #region 设置Swagger选项配置 + public static void SetSwaggerOptions(SwaggerOptions swaggerOptions)
 
         /// <summary>
         /// 设置Swagger选项配置
@@ -36,7 +36,7 @@ namespace Fur.SwaggerGen
         /// <param name="swaggerOptions">Swagger选项配置</param>
         public static void SetSwaggerOptions(SwaggerOptions swaggerOptions) => SwaggerConfigure.swaggerOptions = swaggerOptions;
 
-        #endregion 设置Swagger选项配置 +/* public static void SetSwaggerOptions(SwaggerOptions swaggerOptions)
+        #endregion 设置Swagger选项配置 + public static void SetSwaggerOptions(SwaggerOptions swaggerOptions)
 
         #region 初始化Swagger服务 -/* public static void Initialize(SwaggerGenOptions swaggerGenOptions)
 
@@ -65,7 +65,7 @@ namespace Fur.SwaggerGen
 
         #endregion 初始化Swagger路由 -  public static void Initialize(SwaggerUIOptions swaggerUIOptions)
 
-        #region 扫描程序集中所有的Swagger分组 +/* private static string[] ScanAssemblyGroups()
+        #region 扫描程序集中所有的Swagger分组 + private static string[] ScanAssemblyGroups()
 
         /// <summary>
         /// 扫描程序集中所有的Swagger分组
@@ -90,7 +90,7 @@ namespace Fur.SwaggerGen
             return swaggerGroups.ToArray();
         }
 
-        #endregion 扫描程序集中所有的Swagger分组 +/* private static string[] ScanAssemblyGroups()
+        #endregion 扫描程序集中所有的Swagger分组 + private static string[] ScanAssemblyGroups()
 
         #region 生成分组文档 -/* private static void CreateSwaggerDocs(SwaggerGenOptions swaggerGenOptions)
 

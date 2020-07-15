@@ -1,7 +1,7 @@
 ﻿using Fur.ApplicationBase;
-using Fur.AttachController.Attributes;
-using Fur.AttachController.Helpers;
-using Fur.AttachController.Options;
+using Fur.MirrorController.Attributes;
+using Fur.MirrorController.Helpers;
+using Fur.MirrorController.Options;
 using Fur.Extensions;
 using Fur.Linq.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -13,21 +13,21 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Fur.AttachController.Conventions
+namespace Fur.MirrorController.Conventions
 {
-    internal sealed class AttachControllerModelConvention : IApplicationModelConvention
+    internal sealed class MirrorControllerModelConvention : IApplicationModelConvention
     {
-        private readonly AttactControllerOptions _attactControllerOptions;
+        private readonly MirrorControllerOptions _attactControllerOptions;
 
-        public AttachControllerModelConvention(AttactControllerOptions attactControllerOptions)
+        public MirrorControllerModelConvention(MirrorControllerOptions attactControllerOptions)
         {
             _attactControllerOptions = attactControllerOptions;
         }
 
-        #region 解析附加控制器 + public void Apply(ApplicationModel application)
+        #region 解析镜面控制器 + public void Apply(ApplicationModel application)
 
         /// <summary>
-        /// 解析附加控制器
+        /// 解析镜面控制器
         /// </summary>
         /// <param name="application">应用模型</param>
         public void Apply(ApplicationModel application)
@@ -56,7 +56,7 @@ namespace Fur.AttachController.Conventions
             }
         }
 
-        #endregion 解析附加控制器 + public void Apply(ApplicationModel application)
+        #endregion 解析镜面控制器 + public void Apply(ApplicationModel application)
 
         #region 配置控制器模型信息 - private void ConfigureController(ControllerModel controllerModel, TypeInfo controllerTypeInfo)
 
@@ -67,7 +67,7 @@ namespace Fur.AttachController.Conventions
         /// <param name="controllerTypeInfo">控制器类型</param>
         private void ConfigureController(ControllerModel controllerModel, TypeInfo controllerTypeInfo)
         {
-            var attactControllerAttribute = ApplicationCore.GetPublicClassTypeCustomAttribute<AttachControllerAttribute>(controllerTypeInfo.AsType());
+            var attactControllerAttribute = ApplicationCore.GetPublicClassTypeCustomAttribute<MirrorControllerAttribute>(controllerTypeInfo.AsType());
 
             ConfigureAreaName(controllerModel, attactControllerAttribute);
             ConfigureControllerName(controllerModel);
@@ -82,8 +82,8 @@ namespace Fur.AttachController.Conventions
         /// 配置区域/ApiVersion名称
         /// </summary>
         /// <param name="controllerModel">控制器模型</param>
-        /// <param name="attactControllerAttribute">附加控制器特性</param>
-        private void ConfigureAreaName(ControllerModel controllerModel, AttachControllerAttribute attactControllerAttribute)
+        /// <param name="attactControllerAttribute">镜面控制器特性</param>
+        private void ConfigureAreaName(ControllerModel controllerModel, MirrorControllerAttribute attactControllerAttribute)
         {
             if (!controllerModel.RouteValues.ContainsKey("area"))
             {
@@ -139,7 +139,7 @@ namespace Fur.AttachController.Conventions
         {
             foreach (var actionModel in controllerModel.Actions)
             {
-                var attachActionAttribute = ApplicationCore.GetPublicMethodCustomAttribute<AttachActionAttribute>(actionModel.ActionMethod);
+                var attachActionAttribute = ApplicationCore.GetPublicMethodCustomAttribute<MirrorActionAttribute>(actionModel.ActionMethod);
 
                 ConfigureActionApiExplorerAndParameters(actionModel);
                 ConfigureActionName(actionModel, attachActionAttribute);
@@ -189,7 +189,7 @@ namespace Fur.AttachController.Conventions
         /// 配置Action名称
         /// </summary>
         /// <param name="actionModel"></param>
-        private void ConfigureActionName(ActionModel actionModel, AttachActionAttribute attachActionAttribute)
+        private void ConfigureActionName(ActionModel actionModel, MirrorActionAttribute attachActionAttribute)
         {
             // 保留原始名称
             if (attachActionAttribute?.KeepOriginalName ?? false) return;
@@ -215,8 +215,8 @@ namespace Fur.AttachController.Conventions
         /// </summary>
         /// <param name="controllerModel">控制器模型</param>
         /// <param name="actionModel">Action模型</param>
-        /// <param name="attachActionAttribute">附加控制器模型</param>
-        private void ConfigureActionRouteAndHttpMethod(ControllerModel controllerModel, ActionModel actionModel, AttachActionAttribute attachActionAttribute)
+        /// <param name="attachActionAttribute">镜面控制器模型</param>
+        private void ConfigureActionRouteAndHttpMethod(ControllerModel controllerModel, ActionModel actionModel, MirrorActionAttribute attachActionAttribute)
         {
             var verbKey = Helper.GetCamelCaseFirstWord(actionModel.ActionMethod.Name).ToLower();
             var verb = Consts.HttpVerbSetter.ContainsKey(verbKey) ? Consts.HttpVerbSetter[verbKey] : _attactControllerOptions.DefaultHttpMethod.ToUpper();
@@ -265,7 +265,7 @@ namespace Fur.AttachController.Conventions
         /// <param name="actionModel">Acton模型</param>
         /// <param name="attachActionAttribute">附加Action特性</param>
         /// <returns>路由模型</returns>
-        private AttributeRouteModel ConfigureActionRoute(ControllerModel controllerModel, ActionModel actionModel, AttachActionAttribute attachActionAttribute)
+        private AttributeRouteModel ConfigureActionRoute(ControllerModel controllerModel, ActionModel actionModel, MirrorActionAttribute attachActionAttribute)
         {
             var stringBuilder = new StringBuilder();
             var areaName = controllerModel.RouteValues.ContainsKey("area") ? controllerModel.RouteValues["area"] : null;

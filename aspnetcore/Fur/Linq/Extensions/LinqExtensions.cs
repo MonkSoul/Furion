@@ -10,7 +10,7 @@ namespace Fur.Linq.Extensions
     /// </summary>
     public static class LinqExtensions
     {
-        #region 根据条件成立再构建 Where 查询 +/* public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> sources, bool condition, Func<TSource, bool> expression)
+        #region 根据条件成立再构建 Where 查询 + public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> sources, bool condition, Func<TSource, bool> expression)
 
         /// <summary>
         /// 根据条件成立再构建 Where 查询
@@ -23,9 +23,9 @@ namespace Fur.Linq.Extensions
         public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> sources, bool condition, Func<TSource, bool> expression)
             => condition ? sources.Where(expression) : sources;
 
-        #endregion 根据条件成立再构建 Where 查询 +/* public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> sources, bool condition, Func<TSource, bool> expression)
+        #endregion 根据条件成立再构建 Where 查询 + public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> sources, bool condition, Func<TSource, bool> expression)
 
-        #region 根据条件成立再构建 Where 查询，支持索引器 +/* public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> sources, bool condition, Func<TSource, int, bool> expression)
+        #region 根据条件成立再构建 Where 查询，支持索引器 + public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> sources, bool condition, Func<TSource, int, bool> expression)
 
         /// <summary>
         /// 根据条件成立再构建 Where 查询，支持索引器
@@ -38,9 +38,9 @@ namespace Fur.Linq.Extensions
         public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> sources, bool condition, Func<TSource, int, bool> expression)
             => condition ? sources.Where(expression) : sources;
 
-        #endregion 根据条件成立再构建 Where 查询，支持索引器 +/* public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> sources, bool condition, Func<TSource, int, bool> expression)
+        #endregion 根据条件成立再构建 Where 查询，支持索引器 + public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> sources, bool condition, Func<TSource, int, bool> expression)
 
-        #region 获取Lambda表达式属性名，只限 u=>u.Property 表达式 +/* public static string GetExpressionPropertyName<TSource>(this Expression<Func<TSource, object>> expression)
+        #region 获取Lambda表达式属性名，只限 u=>u.Property 表达式 + public static string GetExpressionPropertyName<TSource>(this Expression<Func<TSource, object>> expression)
 
         /// <summary>
         /// 获取Lambda表达式属性名，只限 u=>u.Property 表达式
@@ -66,9 +66,9 @@ namespace Fur.Linq.Extensions
             throw new InvalidCastException(nameof(expression));
         }
 
-        #endregion 获取Lambda表达式属性名，只限 u=>u.Property 表达式 +/* public static string GetExpressionPropertyName<TSource>(this Expression<Func<TSource, object>> expression)
+        #endregion 获取Lambda表达式属性名，只限 u=>u.Property 表达式 + public static string GetExpressionPropertyName<TSource>(this Expression<Func<TSource, object>> expression)
 
-        #region 是否是空集合 +/* public static bool IsNullOrEmpty<TSource>(this IEnumerable<TSource> sources)
+        #region 是否是空集合 + public static bool IsNullOrEmpty<TSource>(this IEnumerable<TSource> sources)
 
         /// <summary>
         /// 是否是空集合
@@ -79,6 +79,6 @@ namespace Fur.Linq.Extensions
         public static bool IsNullOrEmpty<TSource>(this IEnumerable<TSource> sources)
             => sources == null || sources.Count() == 0;
 
-        #endregion 是否是空集合 +/* public static bool IsNullOrEmpty<TSource>(this IEnumerable<TSource> sources)
+        #endregion 是否是空集合 + public static bool IsNullOrEmpty<TSource>(this IEnumerable<TSource> sources)
     }
 }

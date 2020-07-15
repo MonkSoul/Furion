@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Fur.AttachController.Options
+namespace Fur.MirrorController.Options
 {
     /// <summary>
-    /// 附加控制器配置选项
+    /// 镜面控制器配置选项
     /// </summary>
-    public class AttactControllerOptions
+    public class MirrorControllerOptions
     {
         /// <summary>
         /// 默认Api路由统一前缀

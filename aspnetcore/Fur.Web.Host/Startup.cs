@@ -1,5 +1,5 @@
 using Autofac;
-using Fur.AttachController.Extensions;
+using Fur.MirrorController.Extensions;
 using Fur.DependencyInjection;
 using Fur.EntityFramework.Core.Extensions;
 using Fur.FriendlyException.Filters;
@@ -30,7 +30,7 @@ namespace Fur.Web.Host
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
-            services.AddControllers().AddFurAttachControllers(Configuration);
+            services.AddControllers().AddFurMirrorControllers(Configuration);
             services.AddFurSwaggerGen(Configuration);
             services.Configure<MvcOptions>(options =>
             {

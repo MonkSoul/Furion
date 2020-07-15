@@ -26,7 +26,7 @@ namespace Fur.Linq.Visitors
 
         #endregion 构造函数 + public ParameterExpressionVisitor(Dictionary<ParameterExpression, ParameterExpression> parameterExpressionSetter)
 
-        #region 替换表达式参数 +/* public static Expression ReplaceParameters(Dictionary<ParameterExpression, ParameterExpression> parameterExpressionSetter, Expression expression)
+        #region 替换表达式参数 + public static Expression ReplaceParameters(Dictionary<ParameterExpression, ParameterExpression> parameterExpressionSetter, Expression expression)
 
         /// <summary>
         /// 替换表达式参数
@@ -37,7 +37,7 @@ namespace Fur.Linq.Visitors
         public static Expression ReplaceParameters(Dictionary<ParameterExpression, ParameterExpression> parameterExpressionSetter, Expression expression)
             => new ParameterExpressionVisitor(parameterExpressionSetter).Visit(expression);
 
-        #endregion 替换表达式参数 +/* public static Expression ReplaceParameters(Dictionary<ParameterExpression, ParameterExpression> parameterExpressionSetter, Expression expression)
+        #endregion 替换表达式参数 + public static Expression ReplaceParameters(Dictionary<ParameterExpression, ParameterExpression> parameterExpressionSetter, Expression expression)
 
         #region 重写基类参数访问器 +- protected override Expression VisitParameter(ParameterExpression parameterExpression)
 

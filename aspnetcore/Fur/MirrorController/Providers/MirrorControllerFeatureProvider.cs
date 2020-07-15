@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc.Controllers;
 using System.Reflection;
 
-namespace Fur.AttachController.Providers
+namespace Fur.MirrorController.Providers
 {
-    internal sealed class AttachControllerFeatureProvider : ControllerFeatureProvider
+    internal sealed class MirrorControllerFeatureProvider : ControllerFeatureProvider
     {
         protected override bool IsController(TypeInfo typeInfo)
             => ApplicationCore.IsControllerType(typeInfo, true);

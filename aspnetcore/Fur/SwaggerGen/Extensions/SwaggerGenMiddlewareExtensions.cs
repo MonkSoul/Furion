@@ -10,7 +10,7 @@ namespace Fur.SwaggerGen.Extensions
     /// </summary>
     public static class SwaggerGenMiddlewareExtensions
     {
-        #region Swagger UI 中间件拓展 +/* public static IApplicationBuilder AddFurSwaggerUI(this IApplicationBuilder app)
+        #region Swagger UI 中间件拓展 + public static IApplicationBuilder AddFurSwaggerUI(this IApplicationBuilder app)
 
         /// <summary>
         /// Swagger UI 中间件拓展
@@ -30,6 +30,6 @@ namespace Fur.SwaggerGen.Extensions
             return app;
         }
 
-        #endregion Swagger UI 中间件拓展 +/* public static IApplicationBuilder AddFurSwaggerUI(this IApplicationBuilder app)
+        #endregion Swagger UI 中间件拓展 + public static IApplicationBuilder AddFurSwaggerUI(this IApplicationBuilder app)
     }
 }

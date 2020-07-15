@@ -9,7 +9,7 @@ namespace Fur.DependencyInjection
     /// </summary>
     public sealed class Injection
     {
-        #region 初始化程序集模块注册 +/* public static void Initialize(ContainerBuilder builder)
+        #region 初始化程序集模块注册 + public static void Initialize(ContainerBuilder builder)
 
         /// <summary>
         /// 初始化程序集模块注册
@@ -18,6 +18,6 @@ namespace Fur.DependencyInjection
         public static void Initialize(ContainerBuilder builder)
             => builder.RegisterAssemblyModules(ApplicationCore.ApplicationWrapper.AssemblyWrappers.Select(a => a.Assembly).ToArray());
 
-        #endregion 初始化程序集模块注册 +/* public static void Initialize(ContainerBuilder builder)
+        #endregion 初始化程序集模块注册 + public static void Initialize(ContainerBuilder builder)
     }
 }

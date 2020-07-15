@@ -1,7 +1,7 @@
 ﻿using Fur.ApplicationBase.Attributes;
 using Fur.ApplicationBase.Wrappers;
-using Fur.AttachController.Attributes;
-using Fur.AttachController.Dependencies;
+using Fur.MirrorController.Attributes;
+using Fur.MirrorController.Dependencies;
 using Fur.Extensions;
 using Fur.Linq.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -109,9 +109,9 @@ namespace Fur.ApplicationBase
             // 定义了 [ApiExplorerSettings] 特性，但特性 IgnoreApi 为 false
             if (typeInfo.IsDefined(typeof(ApiExplorerSettingsAttribute), true) && typeInfo.GetCustomAttribute<ApiExplorerSettingsAttribute>(true).IgnoreApi) return false;
 
-            // 是否是附加控制器类型，且 [AttachController].Attach!=false，且继承 IAttachControllerDependency 接口
-            var attachControllerAttribute = typeInfo.GetDeepAttribute<AttachControllerAttribute>();
-            if (attachControllerAttribute != null && attachControllerAttribute.Attach != false && typeof(IAttachControllerDependency).IsAssignableFrom(typeInfo)) return true;
+            // 是否是镜面控制器类型，且 [AttachController].Attach!=false，且继承 IAttachControllerDependency 接口
+            var mirrorControllerAttribute = typeInfo.GetDeepAttribute<MirrorControllerAttribute>();
+            if (mirrorControllerAttribute != null && mirrorControllerAttribute.Attach != false && typeof(IMirrorControllerDependency).IsAssignableFrom(typeInfo)) return true;
 
             return false;
         }
@@ -273,12 +273,12 @@ namespace Fur.ApplicationBase
 
             var defaultSwaggerGroups = new string[] { "Default" };
 
-            if (!controllerType.IsDefined(typeof(AttachControllerAttribute), true)) return defaultSwaggerGroups;
+            if (!controllerType.IsDefined(typeof(MirrorControllerAttribute), true)) return defaultSwaggerGroups;
 
-            var attachControllerAttribute = controllerType.GetDeepAttribute<AttachControllerAttribute>();
-            if (attachControllerAttribute.SwaggerGroups == null || !attachControllerAttribute.SwaggerGroups.Any()) return defaultSwaggerGroups;
+            var mirrorControllerAttribute = controllerType.GetDeepAttribute<MirrorControllerAttribute>();
+            if (mirrorControllerAttribute.SwaggerGroups == null || !mirrorControllerAttribute.SwaggerGroups.Any()) return defaultSwaggerGroups;
 
-            return attachControllerAttribute.SwaggerGroups;
+            return mirrorControllerAttribute.SwaggerGroups;
         }
         #endregion
 
@@ -293,9 +293,9 @@ namespace Fur.ApplicationBase
             // 如果不是控制器Action类型，返回 null
             if (!IsControllerActionType(controllerAction)) return null;
 
-            if (!controllerAction.IsDefined(typeof(AttachActionAttribute), true)) return GetControllerTypeSwaggerGroups(controllerAction.DeclaringType);
+            if (!controllerAction.IsDefined(typeof(MirrorActionAttribute), true)) return GetControllerTypeSwaggerGroups(controllerAction.DeclaringType);
 
-            var attachActionAttribute = controllerAction.GetCustomAttribute<AttachActionAttribute>();
+            var attachActionAttribute = controllerAction.GetCustomAttribute<MirrorActionAttribute>();
             if (attachActionAttribute.SwaggerGroups == null || !attachActionAttribute.SwaggerGroups.Any()) return GetControllerTypeSwaggerGroups(controllerAction.DeclaringType);
 
             return attachActionAttribute.SwaggerGroups;

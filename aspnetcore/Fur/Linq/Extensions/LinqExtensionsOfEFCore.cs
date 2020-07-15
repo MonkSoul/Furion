@@ -12,7 +12,7 @@ namespace Fur.Linq.Extensions
     /// </summary>
     public static class LinqExtensionsOfEFCore
     {
-        #region [EF Core] 根据条件成立再构建 Where 查询 +/* public static IQueryable<TSource> WhereIf<TSource>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, bool>> expression)
+        #region [EF Core] 根据条件成立再构建 Where 查询 + public static IQueryable<TSource> WhereIf<TSource>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, bool>> expression)
 
         /// <summary>
         /// [EF Core] 根据条件成立再构建 Where 查询
@@ -25,9 +25,9 @@ namespace Fur.Linq.Extensions
         public static IQueryable<TSource> WhereIf<TSource>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, bool>> expression)
             => condition ? sources.Where(expression) : sources;
 
-        #endregion [EF Core] 根据条件成立再构建 Where 查询 +/* public static IQueryable<TSource> WhereIf<TSource>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, bool>> expression)
+        #endregion [EF Core] 根据条件成立再构建 Where 查询 + public static IQueryable<TSource> WhereIf<TSource>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, bool>> expression)
 
-        #region [EF Core] 根据条件成立再构建 Where 查询，支持索引器 +/* public static IQueryable<TSource> WhereIf<TSource>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, int, bool>> expression)
+        #region [EF Core] 根据条件成立再构建 Where 查询，支持索引器 + public static IQueryable<TSource> WhereIf<TSource>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, int, bool>> expression)
 
         /// <summary>
         /// [EF Core] 根据条件成立再构建 Where 查询，支持索引器
@@ -40,9 +40,9 @@ namespace Fur.Linq.Extensions
         public static IQueryable<TSource> WhereIf<TSource>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, int, bool>> expression)
             => condition ? sources.Where(expression) : sources;
 
-        #endregion [EF Core] 根据条件成立再构建 Where 查询，支持索引器 +/* public static IQueryable<TSource> WhereIf<TSource>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, int, bool>> expression)
+        #endregion [EF Core] 根据条件成立再构建 Where 查询，支持索引器 + public static IQueryable<TSource> WhereIf<TSource>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, int, bool>> expression)
 
-        #region [EF Core] 根据条件成立再构建 Include 查询 +/* public static IQueryable<TSource> IncludeIf<TSource, TProperty>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, TProperty>> expression) where TSource : class
+        #region [EF Core] 根据条件成立再构建 Include 查询 + public static IQueryable<TSource> IncludeIf<TSource, TProperty>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, TProperty>> expression) where TSource : class
 
         /// <summary>
         /// [EF Core] 根据条件成立再构建 Include 查询
@@ -56,9 +56,9 @@ namespace Fur.Linq.Extensions
         public static IQueryable<TSource> IncludeIf<TSource, TProperty>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, TProperty>> expression) where TSource : class
            => condition ? sources.Include(expression) : sources;
 
-        #endregion [EF Core] 根据条件成立再构建 Include 查询 +/* public static IQueryable<TSource> IncludeIf<TSource, TProperty>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, TProperty>> expression) where TSource : class
+        #endregion [EF Core] 根据条件成立再构建 Include 查询 + public static IQueryable<TSource> IncludeIf<TSource, TProperty>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, TProperty>> expression) where TSource : class
 
-        #region [EF Core] 与操作合并多个表达式 +/* public static IQueryable<TSource> WhereOr<TSource>(this IQueryable<TSource> sources, params Expression<Func<TSource, bool>>[] expressions)
+        #region [EF Core] 与操作合并多个表达式 + public static IQueryable<TSource> WhereOr<TSource>(this IQueryable<TSource> sources, params Expression<Func<TSource, bool>>[] expressions)
 
         /// <summary>
         /// [EF Core] 与操作合并多个表达式
@@ -80,9 +80,9 @@ namespace Fur.Linq.Extensions
             return sources.Where(expression);
         }
 
-        #endregion [EF Core] 与操作合并多个表达式 +/* public static IQueryable<TSource> WhereOr<TSource>(this IQueryable<TSource> sources, params Expression<Func<TSource, bool>>[] expressions)
+        #endregion [EF Core] 与操作合并多个表达式 + public static IQueryable<TSource> WhereOr<TSource>(this IQueryable<TSource> sources, params Expression<Func<TSource, bool>>[] expressions)
 
-        #region [EF Core] 与操作合并多个表达式，支持索引器 +/* public static IQueryable<TSource> WhereOr<TSource>(this IQueryable<TSource> sources, params Expression<Func<TSource, int, bool>>[] expressions)
+        #region [EF Core] 与操作合并多个表达式，支持索引器 + public static IQueryable<TSource> WhereOr<TSource>(this IQueryable<TSource> sources, params Expression<Func<TSource, int, bool>>[] expressions)
 
         /// <summary>
         /// [EF Core] 与操作合并多个表达式，支持索引器
@@ -104,9 +104,9 @@ namespace Fur.Linq.Extensions
             return sources.Where(expression);
         }
 
-        #endregion [EF Core] 与操作合并多个表达式，支持索引器 +/* public static IQueryable<TSource> WhereOr<TSource>(this IQueryable<TSource> sources, params Expression<Func<TSource, int, bool>>[] expressions)
+        #endregion [EF Core] 与操作合并多个表达式，支持索引器 + public static IQueryable<TSource> WhereOr<TSource>(this IQueryable<TSource> sources, params Expression<Func<TSource, int, bool>>[] expressions)
 
-        #region [EF Core] 根据条件成立再构建 WhereOr 查询 +/* public static IQueryable<TSource> WhereOrIf<TSource>(this IQueryable<TSource> sources, params (bool condition, Expression<Func<TSource, bool>> expression)[] conditionExpressions)
+        #region [EF Core] 根据条件成立再构建 WhereOr 查询 + public static IQueryable<TSource> WhereOrIf<TSource>(this IQueryable<TSource> sources, params (bool condition, Expression<Func<TSource, bool>> expression)[] conditionExpressions)
 
         /// <summary>
         /// [EF Core] 根据条件成立再构建 WhereOr 查询
@@ -125,9 +125,9 @@ namespace Fur.Linq.Extensions
             return WhereOr(sources, expressions.ToArray());
         }
 
-        #endregion [EF Core] 根据条件成立再构建 WhereOr 查询 +/* public static IQueryable<TSource> WhereOrIf<TSource>(this IQueryable<TSource> sources, params (bool condition, Expression<Func<TSource, bool>> expression)[] conditionExpressions)
+        #endregion [EF Core] 根据条件成立再构建 WhereOr 查询 + public static IQueryable<TSource> WhereOrIf<TSource>(this IQueryable<TSource> sources, params (bool condition, Expression<Func<TSource, bool>> expression)[] conditionExpressions)
 
-        #region [EF Core] 根据条件成立再构建 WhereOr 查询，支持索引器 +/* public static IQueryable<TSource> WhereOrIf<TSource>(this IQueryable<TSource> sources, params (bool condition, Expression<Func<TSource, bool>> expression)[] conditionExpressions)
+        #region [EF Core] 根据条件成立再构建 WhereOr 查询，支持索引器 + public static IQueryable<TSource> WhereOrIf<TSource>(this IQueryable<TSource> sources, params (bool condition, Expression<Func<TSource, bool>> expression)[] conditionExpressions)
 
         /// <summary>
         /// [EF Core] 根据条件成立再构建 WhereOr 查询，支持索引器
@@ -146,6 +146,6 @@ namespace Fur.Linq.Extensions
             return WhereOr(sources, expressions.ToArray());
         }
 
-        #endregion [EF Core] 根据条件成立再构建 WhereOr 查询，支持索引器 +/* public static IQueryable<TSource> WhereOrIf<TSource>(this IQueryable<TSource> sources, params (bool condition, Expression<Func<TSource, bool>> expression)[] conditionExpressions)
+        #endregion [EF Core] 根据条件成立再构建 WhereOr 查询，支持索引器 + public static IQueryable<TSource> WhereOrIf<TSource>(this IQueryable<TSource> sources, params (bool condition, Expression<Func<TSource, bool>> expression)[] conditionExpressions)
     }
 }

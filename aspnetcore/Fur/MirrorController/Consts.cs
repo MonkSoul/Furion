@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Fur.AttachController
+namespace Fur.MirrorController
 {
     /// <summary>
     /// 模块常量配置
