@@ -20,11 +20,11 @@ namespace Fur.MirrorController.Attributes
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="attach">是否附加</param>
-        public MirrorControllerAttribute(bool attach)
+        /// <param name="enabled">是否启用镜像控制器</param>
+        public MirrorControllerAttribute(bool enabled)
         {
-            Attach = attach;
-            base.IgnoreApi = this.IgnoreApi = !attach;
+            Enabled = enabled;
+            base.IgnoreApi = this.IgnoreApi = !enabled;
         }
 
         /// <summary>
@@ -40,13 +40,13 @@ namespace Fur.MirrorController.Attributes
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="attach">是否附加</param>
+        /// <param name="enabled">是否启用镜像控制器</param>
         /// <param name="groups">swagger分组名称列表</param>
-        public MirrorControllerAttribute(bool attach, params string[] swaggerGroups)
+        public MirrorControllerAttribute(bool enabled, params string[] swaggerGroups)
         {
-            Attach = attach;
+            Enabled = enabled;
             SwaggerGroups = swaggerGroups;
-            base.IgnoreApi = this.IgnoreApi = !attach;
+            base.IgnoreApi = this.IgnoreApi = !enabled;
             base.GroupName = this.GroupName = string.Join(Consts.GroupNameSeparator, swaggerGroups);
         }
 
@@ -56,9 +56,9 @@ namespace Fur.MirrorController.Attributes
         public string ApiVersion { get; set; }
 
         /// <summary>
-        /// 是否附加到控制器，默认true（附加）
+        /// 是否启用镜像控制器，默认true
         /// </summary>
-        public bool Attach { get; set; } = true;
+        public bool Enabled { get; set; } = true;
 
         /// <summary>
         /// 附加到swagger分组名称列表
@@ -69,6 +69,7 @@ namespace Fur.MirrorController.Attributes
         /// 接口授权标识名称列表
         /// </summary>
         public string[] AuthorizeTo { get; set; }
+
 
         /// <summary>
         /// 分组名

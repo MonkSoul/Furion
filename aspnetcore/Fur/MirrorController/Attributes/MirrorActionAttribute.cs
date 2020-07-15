@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Fur.MirrorController.Options;
+using Microsoft.AspNetCore.Mvc;
 using System;
 
 namespace Fur.MirrorController.Attributes
@@ -20,11 +21,11 @@ namespace Fur.MirrorController.Attributes
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="attach">是否附加</param>
-        public MirrorActionAttribute(bool attach)
+        /// <param name="enabled">是否附加</param>
+        public MirrorActionAttribute(bool enabled)
         {
-            Attach = attach;
-            base.IgnoreApi = this.IgnoreApi = !attach;
+            Enabled = enabled;
+            base.IgnoreApi = this.IgnoreApi = !enabled;
         }
 
         /// <summary>
@@ -40,22 +41,25 @@ namespace Fur.MirrorController.Attributes
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="attach">是否附加</param>
+        /// <param name="enabled">是否启用镜像Action</param>
         /// <param name="swaggerGroups">swagger分组名称列表</param>
-        public MirrorActionAttribute(bool attach, params string[] swaggerGroups)
+        public MirrorActionAttribute(bool enabled, params string[] swaggerGroups)
         {
-            Attach = attach;
+            Enabled = enabled;
             SwaggerGroups = swaggerGroups;
-            base.IgnoreApi = this.IgnoreApi = !attach;
+            base.IgnoreApi = this.IgnoreApi = !enabled;
             base.GroupName = this.GroupName = string.Join(Consts.GroupNameSeparator, swaggerGroups);
         }
 
+        /// <summary>
+        /// 接口版本号
+        /// </summary>
         public string ApiVersion { get; set; }
 
         /// <summary>
-        /// 是否附加到控制器，默认true（附加）
+        /// 是否启用镜像Action，默认true
         /// </summary>
-        public bool Attach { get; set; } = true;
+        public bool Enabled { get; set; } = true;
 
         /// <summary>
         /// 附加到swagger分组名称列表
@@ -73,9 +77,14 @@ namespace Fur.MirrorController.Attributes
         public bool KeepRouteVerb { get; set; } = false;
 
         /// <summary>
-        /// 每个单词都生成路由路径（如果全局启用名词前后缀处理，还是会去掉前后占位符）
+        /// 每个单词都生成路由路径
         /// </summary>
-        public bool EveryWordToRoutePath { get; set; } = false;
+        public bool SplitWordToRoutePath { get; set; } = false;
+
+        /// <summary>
+        /// 参数路由位置
+        /// </summary>
+        public ParameterRoutePosition[] ParameterRoutePositions { get; set; }
 
         /// <summary>
         /// 接口授权标识名称列表

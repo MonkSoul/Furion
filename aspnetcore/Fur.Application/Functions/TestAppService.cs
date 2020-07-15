@@ -170,7 +170,7 @@ namespace Fur.Application.Functions
         /// <param name="id"></param>
         /// <param name="input"></param>
         /// <returns></returns>
-        [MirrorAction(EveryWordToRoutePath = true)]
+        [MirrorAction(SplitWordToRoutePath = true)]
         public async Task UpdateIncludeProperties(int id, TestInput input)
         {
             var entity = await _testRepository.FindAsync(id)
@@ -189,7 +189,7 @@ namespace Fur.Application.Functions
         /// <param name="id"></param>
         /// <param name="input"></param>
         /// <returns></returns>
-        [MirrorAction(EveryWordToRoutePath = true)]
+        [MirrorAction(SplitWordToRoutePath = true)]
         public async Task UpdateExcludeProperties(int id, TestInput input)
         {
             var entity = await _testRepository.FindAsync(id) ?? throw Oops.Set(ExceptionCodes.DataNotFound1000);
@@ -228,7 +228,7 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <param name="id">主键Id</param>
         /// <returns></returns>
-        [MirrorAction(EveryWordToRoutePath = true)]
+        [MirrorAction(SplitWordToRoutePath = true)]
         public Task FakeDeleteAsync(int id)
         {
             return _testRepository.FindToFakeDeleteAsync(id, u => u.IsDeleted, true);
@@ -239,7 +239,7 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [MirrorAction(EveryWordToRoutePath = true)]
+        [MirrorAction(SplitWordToRoutePath = true)]
         public Task<IEnumerable<TestOutput>> SqlQueryAsync(TestSqlInput input)
         {
             return _testRepository.SqlQueryAsync<TestOutput>(input.Sql);
@@ -250,7 +250,7 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [MirrorAction(EveryWordToRoutePath = true)]
+        [MirrorAction(SplitWordToRoutePath = true)]
         public Task<(IEnumerable<TestOutput>, IEnumerable<TestOutput>)> SqlDatasetQueryAsync(TestSqlInput input)
         {
             return _testRepository.SqlDataSetAsync<TestOutput, TestOutput>(input.Sql);
@@ -272,7 +272,7 @@ namespace Fur.Application.Functions
         //        WHERE Name LIKE '%' + @Name + '%';
         //    END;
         // ================================
-        [MirrorAction(EveryWordToRoutePath = true)]
+        [MirrorAction(SplitWordToRoutePath = true)]
         public Task<IEnumerable<TestOutput>> SqlProcedureAsync(string name)
         {
             return _testRepository.SqlProcedureAsync<TestOutput>(name, new { Name = "string" });
@@ -293,7 +293,7 @@ namespace Fur.Application.Functions
         //      RETURN @id + 1;
         //  END;
         // ================================
-        [MirrorAction(EveryWordToRoutePath = true)]
+        [MirrorAction(SplitWordToRoutePath = true)]
         public Task<int> SqlScalarFunctionAsync()
         {
             return _testRepository.SqlScalarFunctionAsync<int>("dbo.FN_GetId", new { Id = 1 });
@@ -319,7 +319,7 @@ namespace Fur.Application.Functions
         //      WHERE Id > @id
         //  );
         // ================================
-        [MirrorAction(EveryWordToRoutePath = true)]
+        [MirrorAction(SplitWordToRoutePath = true)]
         public Task<IEnumerable<TestOutput>> SqlTableFunctionAsync()
         {
             return _testRepository.SqlTableFunctionAsync<TestOutput>("dbo.FN_GetTable", new { Id = 5 });
@@ -334,7 +334,7 @@ namespace Fur.Application.Functions
         // AS
         // SELECT Id,Name,Age,TenantId FROM Tests;
         // ================================
-        [MirrorAction(EveryWordToRoutePath = true)]
+        [MirrorAction(SplitWordToRoutePath = true)]
         public async Task<IEnumerable<TestOutput>> SqlViewQueryAsync()
         {
             return await _vTestRepository.Entity
@@ -346,7 +346,7 @@ namespace Fur.Application.Functions
         /// Linq中调用函数
         /// </summary>
         /// <returns></returns>
-        [MirrorAction(EveryWordToRoutePath = true)]
+        [MirrorAction(SplitWordToRoutePath = true)]
         public async Task<IEnumerable<TestOutput>> GetLinqFunctionAsync()
         {
             return await _testRepository.All()

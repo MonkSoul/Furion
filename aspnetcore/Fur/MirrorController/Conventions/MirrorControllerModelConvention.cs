@@ -275,7 +275,7 @@ namespace Fur.MirrorController.Conventions
             var actionName = actionModel.ActionName;
             if (!(_attactControllerOptions.RemoveActionRouteVerb && !actionModel.ActionName.HasValue()))
             {
-                if (attachActionAttribute?.EveryWordToRoutePath ?? false)
+                if (attachActionAttribute?.SplitWordToRoutePath ?? false)
                 {
                     var everyWords = Helper.CamelCaseSplitString(actionModel.ActionName);
                     actionName = string.Join("/", everyWords);

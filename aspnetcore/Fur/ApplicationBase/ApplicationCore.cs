@@ -111,7 +111,7 @@ namespace Fur.ApplicationBase
 
             // 是否是镜面控制器类型，且 [AttachController].Attach!=false，且继承 IAttachControllerDependency 接口
             var mirrorControllerAttribute = typeInfo.GetDeepAttribute<MirrorControllerAttribute>();
-            if (mirrorControllerAttribute != null && mirrorControllerAttribute.Attach != false && typeof(IMirrorControllerDependency).IsAssignableFrom(typeInfo)) return true;
+            if (mirrorControllerAttribute != null && mirrorControllerAttribute.Enabled != false && typeof(IMirrorControllerDependency).IsAssignableFrom(typeInfo)) return true;
 
             return false;
         }
