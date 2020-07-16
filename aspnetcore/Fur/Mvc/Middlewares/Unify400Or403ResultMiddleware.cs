@@ -1,7 +1,9 @@
 ﻿using Fur.Mvc.Results;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using StackExchange.Profiling;
+using System.Net.Mime;
 using System.Threading.Tasks;
 
 namespace Fur.Mvc.Middlewares
@@ -45,9 +47,9 @@ namespace Fur.Mvc.Middlewares
                 Successed = false,
                 Errors = responseMessage,
                 UnAuthorizedRequest = false
-            });
+            }, new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
 
-            context.Response.ContentType = "application/json;charset=utf-8";
+            context.Response.ContentType = MediaTypeNames.Application.Json;
 
             return context.Response.WriteAsync(responseMessage);
         }
