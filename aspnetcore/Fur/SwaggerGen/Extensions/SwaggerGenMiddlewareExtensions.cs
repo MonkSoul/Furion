@@ -22,7 +22,7 @@ namespace Fur.SwaggerGen.Extensions
             var swaggerOptions = app.ApplicationServices.GetService<IOptionsMonitor<SwaggerOptions>>().CurrentValue;
             if (swaggerOptions.EnableMiniProfiler)
             {
-                app.UseMiniProfiler();
+                //app.UseMiniProfiler();
             }
             app.UseSwagger();
             app.UseSwaggerUI(options => SwaggerConfigure.Initialize(options));

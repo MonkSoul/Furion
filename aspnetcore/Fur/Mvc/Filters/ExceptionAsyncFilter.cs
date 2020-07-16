@@ -1,5 +1,8 @@
 ﻿using Autofac;
+using Fur.FriendlyException;
 using Fur.FriendlyException.Attributes;
+using Fur.Mvc.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -11,7 +14,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Fur.FriendlyException.Filters
+namespace Fur.Mvc.Filters
 {
     public class ExceptionAsyncFilter : IAsyncExceptionFilter
     {
@@ -51,10 +54,18 @@ namespace Fur.FriendlyException.Filters
             context.ExceptionHandled = true;
 
             var descriptor = context.ActionDescriptor as ControllerActionDescriptor;
+            var isAnonymouseRequest = descriptor.MethodInfo.IsDefined(typeof(AllowAnonymousAttribute), false) || descriptor.ControllerTypeInfo.IsDefined(typeof(AllowAnonymousAttribute), false);
 
             ConvertExceptionInfo(context, descriptor, out string exceptionMessage, out string exceptionErrorString);
 
-            context.Result = new ContentResult() { Content = exceptionMessage, StatusCode = StatusCodes.Status500InternalServerError };
+            context.Result = new JsonResult(new UnifyResult()
+            {
+                StatusCode = StatusCodes.Status500InternalServerError,
+                Errors = exceptionMessage,
+                Successed = false,
+                Results = null,
+                UnAuthorizedRequest = isAnonymouseRequest || Convert.ToBoolean(context.HttpContext.Response.Headers["UnAuthorizedRequest"])
+            });
 
             MiniProfiler.Current.CustomTiming("errors", exceptionErrorString, "Throw").Errored = true;
             return Task.CompletedTask;

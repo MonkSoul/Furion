@@ -1,6 +1,4 @@
 ﻿using Fur.Application.Functions.Dtos;
-using Fur.MirrorController.Attributes;
-using Fur.MirrorController.Dependencies;
 using Fur.DatabaseVisitor.Attributes;
 using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Identifiers;
@@ -11,11 +9,14 @@ using Fur.DatabaseVisitor.Tangent;
 using Fur.Extensions;
 using Fur.FriendlyException;
 using Fur.Linq.Extensions;
+using Fur.MirrorController.Attributes;
+using Fur.MirrorController.Dependencies;
 using Fur.Mvc.Attributes;
 using Fur.Record;
 using Fur.Record.Entities;
 using Fur.Record.Identifiers;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -140,6 +141,7 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [Authorize]
         public async Task<int> InsertAsync(TestInput input)
         {
             var entity = input.Adapt<Test>();

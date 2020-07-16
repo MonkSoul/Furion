@@ -8,12 +8,12 @@
         /// <summary>
         /// 状态码
         /// </summary>
-        public int StatusCodes { get; set; }
+        public int? StatusCode { get; set; }
 
         /// <summary>
-        /// 内容
+        /// 结果
         /// </summary>
-        public int Content { get; set; }
+        public object Results { get; set; }
 
         /// <summary>
         /// 执行成功
@@ -26,8 +26,8 @@
         public object Errors { get; set; }
 
         /// <summary>
-        /// 批准
+        /// 是否未授权请求
         /// </summary>
-        public bool Authorized { get; set; }
+        public bool UnAuthorizedRequest { get; set; }
     }
 }

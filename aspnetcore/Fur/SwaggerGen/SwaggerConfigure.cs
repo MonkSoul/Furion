@@ -148,6 +148,8 @@ namespace Fur.SwaggerGen
         /// <param name="swaggerGenOptions">Swagger生成器选项</param>
         private static void SetSwaggerBaseConfigure(SwaggerGenOptions swaggerGenOptions)
         {
+            AddSecurityAuthorization(swaggerGenOptions);
+
             swaggerGenOptions.DocInclusionPredicate((currentGroup, apiDesc) => SwaggerGroupSwitchPredicate(currentGroup, apiDesc));
             swaggerGenOptions.CustomSchemaIds(x => x.FullName);
             //options.AddFluentValidationRules();
@@ -210,5 +212,26 @@ namespace Fur.SwaggerGen
         }
 
         #endregion 创建Swagger终点路由配置 -/* private static void CreateSwaggerEndpointsAndBaseConfigure(SwaggerUIOptions swaggerUIOptions)
+
+        private static void AddSecurityAuthorization(SwaggerGenOptions swaggerGenOptions)
+        {
+            swaggerGenOptions.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Description = "JWT Authorization header using the Bearer scheme.",
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Scheme = "bearer",
+                Type = SecuritySchemeType.Http,
+                BearerFormat = "JWT"
+            });
+
+            swaggerGenOptions.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme{Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id ="Bearer" } },
+                       new string[]{ }
+                    }
+                });
+        }
     }
 }
