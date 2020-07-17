@@ -1,11 +1,12 @@
 ﻿using Fur.ApplicationBase.Options;
+using Fur.SwaggerGen;
 using Fur.SwaggerGen.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Profiling.Storage;
 using System;
 
-namespace Fur.SwaggerGen.Extensions
+namespace Fur.Mvc.Extensions.Services
 {
     /// <summary>
     /// Swagger 服务拓展类

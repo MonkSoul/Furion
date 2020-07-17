@@ -1,9 +1,10 @@
-﻿using Fur.SwaggerGen.Options;
+﻿using Fur.SwaggerGen;
+using Fur.SwaggerGen.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace Fur.SwaggerGen.Extensions
+namespace Fur.Mvc.Extensions.Middlewares
 {
     /// <summary>
     /// Swagger 中间件拓展

@@ -1,7 +1,7 @@
 ﻿using Fur.Mvc.Middlewares;
 using Microsoft.AspNetCore.Builder;
 
-namespace Fur.Mvc.Extensions
+namespace Fur.Mvc.Extensions.Middlewares
 {
     public static class UnifyResultMiddlewareExtensions
     {

@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Fur.DatabaseVisitor.Extensions.ServiceCollection
+namespace Fur.Mvc.Extensions.Services
 {
     /// <summary>
     /// 数据库操作上下文服务拓展类
     /// </summary>
-    public static class ServiceCollectionExtensions
+    public static class DatabaseVisitorServiceCollectionExtensions
     {
         #region 配置数据库上下文池信息 + public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 128) where TDbContext : DbContext
         /// <summary>

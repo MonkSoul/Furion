@@ -1,11 +1,10 @@
 using Autofac;
 using Fur.DependencyInjection;
 using Fur.EntityFramework.Core.Extensions;
-using Fur.MirrorController.Extensions;
-using Fur.Mvc.Extensions;
+using Fur.Mvc.Extensions.Middlewares;
+using Fur.Mvc.Extensions.MvcBuilders;
+using Fur.Mvc.Extensions.Services;
 using Fur.Mvc.Filters;
-using Fur.ObjectMapper.Extensions.ServiceCollection;
-using Fur.SwaggerGen.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

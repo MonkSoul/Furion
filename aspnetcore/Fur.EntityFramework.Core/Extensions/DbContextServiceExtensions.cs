@@ -1,6 +1,6 @@
 ﻿using Fur.DatabaseVisitor.Contexts;
-using Fur.DatabaseVisitor.Extensions.ServiceCollection;
 using Fur.EntityFramework.Core.DbContexts;
+using Fur.Mvc.Extensions.Services;
 using Fur.Mvc.Filters;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;

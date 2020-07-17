@@ -5,7 +5,7 @@ using MapsterMapper;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 
-namespace Fur.ObjectMapper.Extensions.ServiceCollection
+namespace Fur.Mvc.Extensions.Services
 {
     /// <summary>
     /// 对象映射拓展类

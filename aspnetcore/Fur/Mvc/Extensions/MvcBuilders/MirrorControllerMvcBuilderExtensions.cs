@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 
-namespace Fur.MirrorController.Extensions
+namespace Fur.Mvc.Extensions.MvcBuilders
 {
     /// <summary>
     /// 镜面控制器Mvc构建器拓展
