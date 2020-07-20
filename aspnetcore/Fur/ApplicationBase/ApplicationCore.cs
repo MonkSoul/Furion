@@ -142,8 +142,8 @@ namespace Fur.ApplicationBase
             // 方法所在类必须是一个控制器类型
             if (!IsControllerType(method.DeclaringType)) return false;
 
-            // 必须是公开的，非抽象类，非静态方法
-            if (!method.IsPublic || method.IsAbstract || method.IsStatic) return false;
+            // 必须是公开的，非抽象类，非静态方法，非泛型方法
+            if (!method.IsPublic || method.IsAbstract || method.IsStatic || method.IsGenericMethod) return false;
 
             // 定义了 [ApiExplorerSettings] 特性，但特性 IgnoreApi 为 false
             if (method.IsDefined(typeof(ApiExplorerSettingsAttribute), true) && method.GetCustomAttribute<ApiExplorerSettingsAttribute>(true).IgnoreApi) return false;
