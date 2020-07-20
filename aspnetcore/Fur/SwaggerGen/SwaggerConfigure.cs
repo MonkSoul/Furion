@@ -18,6 +18,10 @@ namespace Fur.SwaggerGen
     /// </summary>
     internal sealed class SwaggerConfigure
     {
+        static SwaggerConfigure()
+        {
+            swaggerOptions = ApplicationCore.GlobalSettings.SwaggerOptions;
+        }
         /// <summary>
         /// Swagger分组
         /// </summary>
@@ -27,16 +31,6 @@ namespace Fur.SwaggerGen
         /// Swagger选项
         /// </summary>
         private static SwaggerOptions swaggerOptions;
-
-        #region 设置Swagger选项配置 + public static void SetSwaggerOptions(SwaggerOptions swaggerOptions)
-
-        /// <summary>
-        /// 设置Swagger选项配置
-        /// </summary>
-        /// <param name="swaggerOptions">Swagger选项配置</param>
-        public static void SetSwaggerOptions(SwaggerOptions swaggerOptions) => SwaggerConfigure.swaggerOptions = swaggerOptions;
-
-        #endregion 设置Swagger选项配置 + public static void SetSwaggerOptions(SwaggerOptions swaggerOptions)
 
         #region 初始化Swagger服务 -/* public static void Initialize(SwaggerGenOptions swaggerGenOptions)
 

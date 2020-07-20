@@ -1,6 +1,5 @@
-﻿using Fur.ApplicationBase.Options;
+﻿using Fur.ApplicationBase;
 using Fur.SwaggerGen;
-using Fur.SwaggerGen.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Profiling.Storage;
@@ -23,14 +22,9 @@ namespace Fur.Mvc.Extensions.Services
         /// <returns>新的服务集合</returns>
         public static IServiceCollection AddFurSwaggerGen(this IServiceCollection services, IConfiguration configuration)
         {
-            var swaggerOptionsConfiguration = configuration.GetSection($"{nameof(FurOptions)}:{nameof(SwaggerOptions)}");
-            services.AddOptions<SwaggerOptions>().Bind(swaggerOptionsConfiguration).ValidateDataAnnotations();
-
-            var swaggerOptions = swaggerOptionsConfiguration.Get<SwaggerOptions>();
-            SwaggerConfigure.SetSwaggerOptions(swaggerOptions);
             services.AddSwaggerGen(options => SwaggerConfigure.Initialize(options));
 
-            if (swaggerOptions.EnableMiniProfiler)
+            if (ApplicationCore.GlobalSettings.SwaggerOptions.EnableMiniProfiler)
             {
                 services.AddMiniProfiler(options =>
                 {

@@ -1,4 +1,6 @@
 using Autofac;
+using Fur.ApplicationBase;
+using Fur.ApplicationBase.Options;
 using Fur.DependencyInjection;
 using Fur.EntityFramework.Core.Extensions;
 using Fur.Mvc.Extensions.Middlewares;
@@ -31,6 +33,11 @@ namespace Fur.Web.Host
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // ◊∞≈‰»´æ÷≈‰÷√
+            var globalSettings = Configuration.GetSection($"{nameof(FurOptions)}");
+            services.AddOptions<FurOptions>().Bind(globalSettings).ValidateDataAnnotations();
+            ApplicationCore.GlobalSettings = globalSettings.Get<FurOptions>();
+
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

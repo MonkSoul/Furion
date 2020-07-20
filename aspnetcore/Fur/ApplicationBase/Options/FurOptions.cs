@@ -9,6 +9,6 @@ namespace Fur.ApplicationBase.Options
     public sealed class FurOptions
     {
         public MirrorControllerOptions MirrorControllerOptions { get; set; }
-        public SwaggerOptions swaggerOptions { get; set; }
+        public SwaggerOptions SwaggerOptions { get; set; }
     }
 }

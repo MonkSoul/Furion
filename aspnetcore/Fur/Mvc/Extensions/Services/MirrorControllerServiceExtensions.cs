@@ -1,6 +1,5 @@
-﻿using Fur.ApplicationBase.Options;
+﻿using Fur.ApplicationBase;
 using Fur.MirrorController.Conventions;
-using Fur.MirrorController.Options;
 using Fur.MirrorController.Providers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
@@ -29,13 +28,10 @@ namespace Fur.Mvc.Extensions.Services
             var partManager = services.FirstOrDefault(s => s.ServiceType == typeof(ApplicationPartManager)).ImplementationInstance as ApplicationPartManager
                 ?? throw new InvalidOperationException($"`{nameof(AddFurMirrorControllers)}` must be invoked after `{nameof(MvcServiceCollectionExtensions.AddControllers)}`.");
 
-            var attactControllerOptions = configuration.GetSection($"{nameof(FurOptions)}:{nameof(MirrorControllerOptions)}");
-            services.AddOptions<MirrorControllerOptions>().Bind(attactControllerOptions).ValidateDataAnnotations();
-
             partManager.FeatureProviders.Add(new MirrorControllerFeatureProvider());
             services.Configure<MvcOptions>(options =>
             {
-                options.Conventions.Add(new MirrorControllerModelConvention(attactControllerOptions.Get<MirrorControllerOptions>()));
+                options.Conventions.Add(new MirrorControllerModelConvention(ApplicationCore.GlobalSettings.MirrorControllerOptions));
             });
 
             return services;

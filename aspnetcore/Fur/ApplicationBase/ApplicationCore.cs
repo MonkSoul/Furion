@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
+using Fur.ApplicationBase.Options;
 
 namespace Fur.ApplicationBase
 {
@@ -33,6 +34,8 @@ namespace Fur.ApplicationBase
         /// 应用包装器
         /// </summary>
         public static ApplicationWrapper ApplicationWrapper = null;
+
+        public static FurOptions GlobalSettings = null;
 
         #region 静态构造函数 + static ApplicationCore()
         /// <summary>
