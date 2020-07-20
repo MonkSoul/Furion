@@ -94,6 +94,17 @@ namespace Fur.Application.Functions
         }
 
         /// <summary>
+        /// 分页查询所有
+        /// </summary>
+        /// <returns></returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<PagedList> GetAsync(int page = 1, int page_size = 20, string _ = "3.0")
+        {
+            var pageList = await _testRepository.PagedAllAsync(page, page_size);
+            return pageList.Adapt<PagedList>();
+        }
+
+        /// <summary>
         /// 搜索数据
         /// </summary>
         /// <param name="input"></param>

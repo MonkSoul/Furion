@@ -52,11 +52,6 @@ namespace Fur.MirrorController.Attributes
         }
 
         /// <summary>
-        /// 接口版本号
-        /// </summary>
-        public string ApiVersion { get; set; }
-
-        /// <summary>
         /// 是否启用镜像Action，默认true
         /// </summary>
         public bool Enabled { get; set; } = true;

@@ -1,9 +1,9 @@
 ﻿using Fur.ApplicationBase;
+using Fur.Extensions;
+using Fur.Linq.Extensions;
 using Fur.MirrorController.Attributes;
 using Fur.MirrorController.Helpers;
 using Fur.MirrorController.Options;
-using Fur.Extensions;
-using Fur.Linq.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
@@ -270,7 +270,9 @@ namespace Fur.MirrorController.Conventions
             var stringBuilder = new StringBuilder();
             var areaName = controllerModel.RouteValues.ContainsKey("area") ? controllerModel.RouteValues["area"] : null;
 
-            stringBuilder.Append($"{_attactControllerOptions.DefaultStartRoutePrefix}/{areaName}/{controllerModel.ControllerName}/{attachActionAttribute?.ApiVersion}");
+            // 后续用string.format
+            stringBuilder.Append($"{_attactControllerOptions.DefaultStartRoutePrefix}/{areaName}/{controllerModel.ControllerName}");
+            stringBuilder.Append("/##api_version##");
 
             var actionName = actionModel.ActionName;
             if (!(_attactControllerOptions.RemoveActionRouteVerb && !actionModel.ActionName.HasValue()))
@@ -290,12 +292,15 @@ namespace Fur.MirrorController.Conventions
 
             stringBuilder.Append($"##parameter_name##");
             var parameterNames = string.Empty;
+            var apiVersion = string.Empty;
             // 读取参数信息
             var parameters = ApplicationCore.ApplicationWrapper.PublicMethodWrappers.FirstOrDefault(u => u.Method == actionModel.ActionMethod).Parameters;
+            var i = 0;
             foreach (var parameterInfo in parameters)
             {
                 var parameterType = parameterInfo.Type;
-                if (parameterType.IsPrimitivePlusIncludeNullable() && !parameterType.IsNullable())
+                var isContainUnderline = parameterInfo.Name.Equals("_");
+                if (parameterType.IsPrimitivePlusIncludeNullable() && !parameterType.IsNullable() && !isContainUnderline)
                 {
                     var parameterAttributes = parameterInfo.CustomAttributes;
                     var hasFromAttribute = parameterAttributes.Count() == 0 ||
@@ -306,11 +311,18 @@ namespace Fur.MirrorController.Conventions
 
                     parameterNames += $"/{{{parameterInfo.Name}}}";
                 }
+                if (isContainUnderline)
+                {
+                    apiVersion = parameterInfo.Parameter.DefaultValue?.ToString();
+                    actionModel.Parameters.RemoveAt(i);
+                }
+                i++;
             }
 
             var route = stringBuilder.ToString();
             route = _attactControllerOptions.LowerCaseUri ? route.ToLower() : route;
             route = route
+                .Replace("##api_version##", apiVersion)
                 .Replace("##action_name##", ((attachActionAttribute?.KeepOriginalName ?? false) ? actionName : actionName.ToLower()))
                 .Replace("##parameter_name##", parameterNames)
                 .Replace("//", "/");

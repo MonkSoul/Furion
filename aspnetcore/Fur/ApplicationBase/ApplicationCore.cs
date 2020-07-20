@@ -1,9 +1,10 @@
 ﻿using Fur.ApplicationBase.Attributes;
+using Fur.ApplicationBase.Options;
 using Fur.ApplicationBase.Wrappers;
-using Fur.MirrorController.Attributes;
-using Fur.MirrorController.Dependencies;
 using Fur.Extensions;
 using Fur.Linq.Extensions;
+using Fur.MirrorController.Attributes;
+using Fur.MirrorController.Dependencies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyModel;
 using System;
@@ -11,7 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
-using Fur.ApplicationBase.Options;
 
 namespace Fur.ApplicationBase
 {
@@ -244,8 +244,9 @@ namespace Fur.ApplicationBase
                                 ThisDeclareType = t,
                                 ThisMethod = m,
                                 Name = p.Name,
+                                Parameter = p,
                                 Type = p.ParameterType,
-                                CustomAttributes = p.GetCustomAttributes()
+                                CustomAttributes = p.GetCustomAttributes(),
                             }),
                             IsStaticMethod = m.IsStatic,
                         })

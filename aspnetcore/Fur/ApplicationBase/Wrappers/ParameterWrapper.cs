@@ -27,6 +27,11 @@ namespace Fur.ApplicationBase.Wrappers
         public MethodInfo ThisMethod { get; set; }
 
         /// <summary>
+        /// 参数类型
+        /// </summary>
+        public ParameterInfo Parameter { get; set; }
+
+        /// <summary>
         /// 参数名称
         /// </summary>
         public string Name { get; set; }
