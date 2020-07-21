@@ -3,7 +3,7 @@
     /// <summary>
     /// 参数路由位置
     /// </summary>
-    public enum ParameterRoutePosition
+    public enum RouteSeat
     {
         /// <summary>
         /// Action名字之前

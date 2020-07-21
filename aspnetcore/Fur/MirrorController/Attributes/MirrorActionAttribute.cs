@@ -1,5 +1,4 @@
-﻿using Fur.MirrorController.Options;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 
 namespace Fur.MirrorController.Attributes
@@ -75,11 +74,6 @@ namespace Fur.MirrorController.Attributes
         /// 每个单词都生成路由路径
         /// </summary>
         public bool SplitWordToRoutePath { get; set; } = false;
-
-        /// <summary>
-        /// 参数路由位置
-        /// </summary>
-        public ParameterRoutePosition[] ParameterRoutePositions { get; set; }
 
         /// <summary>
         /// 接口授权标识名称列表
