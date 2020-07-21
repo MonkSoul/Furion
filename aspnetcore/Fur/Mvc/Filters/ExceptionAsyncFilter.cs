@@ -1,10 +1,8 @@
 ﻿using Autofac;
 using Fur.FriendlyException;
 using Fur.FriendlyException.Attributes;
-using Fur.Mvc.Results;
+using Fur.UnifyResult.Providers;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Caching.Memory;
@@ -21,8 +19,9 @@ namespace Fur.Mvc.Filters
         /// <summary>
         /// autofac 生命周期对象
         /// </summary>
-        ILifetimeScope _lifetimeScope;
-        IMemoryCache _memoryCache;
+        private readonly ILifetimeScope _lifetimeScope;
+        private readonly IMemoryCache _memoryCache;
+        private readonly IUnifyResultProvider _unifyResultProvider;
 
         /// <summary>
         /// 异常提供器
@@ -36,10 +35,12 @@ namespace Fur.Mvc.Filters
         /// <param name="lifetimeScope">autofac 生命周期对象</param>
         /// <param name="memoryCache">内存缓存</param>
         public ExceptionAsyncFilter(ILifetimeScope lifetimeScope
-            , IMemoryCache memoryCache)
+            , IMemoryCache memoryCache
+            , IUnifyResultProvider unifyResultProvider)
         {
             _lifetimeScope = lifetimeScope;
             _memoryCache = memoryCache;
+            _unifyResultProvider = unifyResultProvider;
         }
         #endregion
 
@@ -55,17 +56,11 @@ namespace Fur.Mvc.Filters
 
             var descriptor = context.ActionDescriptor as ControllerActionDescriptor;
             var isAnonymouseRequest = descriptor.MethodInfo.IsDefined(typeof(AllowAnonymousAttribute), false) || descriptor.ControllerTypeInfo.IsDefined(typeof(AllowAnonymousAttribute), false);
+            var unAuthorizedRequest = isAnonymouseRequest || Convert.ToBoolean(context.HttpContext.Response.Headers["UnAuthorizedRequest"]);
 
-            ConvertExceptionInfo(context, descriptor, out string exceptionMessage, out string exceptionErrorString);
+            int statusCode = ConvertExceptionInfo(context, descriptor, out string exceptionMessage, out string exceptionErrorString);
 
-            context.Result = new JsonResult(new UnifyResult()
-            {
-                StatusCode = StatusCodes.Status500InternalServerError,
-                Errors = exceptionMessage,
-                Successed = false,
-                Results = null,
-                UnAuthorizedRequest = isAnonymouseRequest || Convert.ToBoolean(context.HttpContext.Response.Headers["UnAuthorizedRequest"])
-            });
+            context.Result = _unifyResultProvider.UnifyExceptionResult(context, exceptionMessage, exceptionErrorString, unAuthorizedRequest, statusCode);
 
             MiniProfiler.Current.CustomTiming("errors", exceptionErrorString, "Throw").Errored = true;
             return Task.CompletedTask;
@@ -73,7 +68,7 @@ namespace Fur.Mvc.Filters
         #endregion
 
 
-        #region 转换异常信息 + private static void ConvertExceptionInfo(ExceptionContext context, ControllerActionDescriptor descriptor, out string exceptionMessage, out string exceptionErrorString)
+        #region 转换异常信息 + private int ConvertExceptionInfo(ExceptionContext context, ControllerActionDescriptor descriptor, out string exceptionMessage, out string exceptionErrorString)
         /// <summary>
         /// 转换异常信息
         /// </summary>
@@ -81,7 +76,8 @@ namespace Fur.Mvc.Filters
         /// <param name="descriptor">控制器描述器</param>
         /// <param name="exceptionMessage">异常信息</param>
         /// <param name="exceptionErrorString">异常堆栈</param>
-        private void ConvertExceptionInfo(ExceptionContext context, ControllerActionDescriptor descriptor, out string exceptionMessage, out string exceptionErrorString)
+        /// <returns>状态码</returns>
+        private int ConvertExceptionInfo(ExceptionContext context, ControllerActionDescriptor descriptor, out string exceptionMessage, out string exceptionErrorString)
         {
             var exception = context.Exception;
             var method = descriptor.MethodInfo;
@@ -89,14 +85,15 @@ namespace Fur.Mvc.Filters
             exceptionMessage = exception.Message;
             exceptionErrorString = exception.ToString();
 
+            var statusCode = 500;
             if (exceptionMessage.StartsWith("##") && exceptionMessage.EndsWith("##"))
             {
                 var customExceptionContent = exceptionMessage[2..^2];
-                var codeAndType = customExceptionContent.Split(';', System.StringSplitOptions.RemoveEmptyEntries);
+                var customExceptionInfos = customExceptionContent.Split(';', System.StringSplitOptions.RemoveEmptyEntries);
 
-                var code = int.Parse(codeAndType[0]);
-                var exceptionType = codeAndType[1];
-
+                var code = int.Parse(customExceptionInfos[0]);
+                var exceptionType = customExceptionInfos[1];
+                statusCode = Convert.ToInt32(customExceptionInfos[2]);
 
                 var defaultExceptionMsg = "Internal Server Error.";
                 var exceptionCodes = LoadExceptionCodes(defaultExceptionMsg);
@@ -108,6 +105,8 @@ namespace Fur.Mvc.Filters
                     .Replace($"System.Exception: {exception.Message}", $"{exceptionType}: {exception.Message}")
                     .Replace($"##{customExceptionContent}##", $"[{code}] {exceptionMsg}");
             }
+
+            return statusCode;
         }
         #endregion
 

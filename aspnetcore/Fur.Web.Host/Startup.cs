@@ -64,8 +64,7 @@ namespace Fur.Web.Host
             {
                 options.Filters.Add<ExceptionAsyncFilter>();
                 options.Filters.Add<ValidateModelAsyncActionFilter>();
-
-                //options.Filters.Add<UnifyResultAsyncResultFilter>();
+                options.Filters.Add<UnifyResultAsyncResultFilter>();
             });
             services.AddFurObjectMapper();
             services.AddFurDbContextPool(Environment, Configuration);

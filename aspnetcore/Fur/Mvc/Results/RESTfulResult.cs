@@ -3,7 +3,7 @@
     /// <summary>
     /// 统一返回值
     /// </summary>
-    public sealed class UnifyResult
+    public sealed class RESTfulResult
     {
         /// <summary>
         /// 状态码

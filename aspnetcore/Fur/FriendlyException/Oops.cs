@@ -14,8 +14,8 @@ namespace Fur.FriendlyException
         /// <param name="exceptionCode">异常编码</param>
         /// <param name="exception">异常类型</param>
         /// <returns></returns>
-        public static Exception Set(int exceptionCode, Type exception = null)
-           => new Exception($"##{exceptionCode};{((exception ?? typeof(Exception)).FullName)}##");
+        public static Exception Set(int exceptionCode, Type exception = null, int statusCode = 500)
+           => new Exception($"##{exceptionCode};{((exception ?? typeof(Exception)).FullName)};{statusCode}##");
         #endregion
     }
 }

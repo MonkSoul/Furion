@@ -1,9 +1,5 @@
-﻿using Fur.Mvc.Results;
+﻿using Fur.UnifyResult.Providers;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using StackExchange.Profiling;
-using System.Net.Mime;
 using System.Threading.Tasks;
 
 namespace Fur.Mvc.Middlewares
@@ -11,47 +7,17 @@ namespace Fur.Mvc.Middlewares
     public class Unify400Or403ResultMiddleware
     {
         private readonly RequestDelegate _next;
+
         public Unify400Or403ResultMiddleware(RequestDelegate next)
         {
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context)
+        public async Task InvokeAsync(HttpContext context, IUnifyResultProvider unifyResultProvider)
         {
             await _next(context);
             var statusCode = context.Response.StatusCode;
-            if (statusCode == StatusCodes.Status401Unauthorized)
-            {
-                var errorMsg = "401 Unauthorized";
-                MiniProfiler.Current.CustomTiming("authorize", errorMsg, "Unauthorized").Errored = true;
-
-                await HandleInvaildStatusCode(context, statusCode, errorMsg);
-
-            }
-            else if (context.Response.StatusCode == StatusCodes.Status403Forbidden)
-            {
-                var errorMsg = "403 Forbidden";
-                MiniProfiler.Current.CustomTiming("authorize", errorMsg, "Forbidden").Errored = true;
-
-                await HandleInvaildStatusCode(context, statusCode, errorMsg);
-            }
-
-        }
-
-        private Task HandleInvaildStatusCode(HttpContext context, int statusCode, string responseMessage)
-        {
-            responseMessage = JsonConvert.SerializeObject(new UnifyResult()
-            {
-                StatusCode = statusCode,
-                Results = null,
-                Successed = false,
-                Errors = responseMessage,
-                UnAuthorizedRequest = false
-            }, new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
-
-            context.Response.ContentType = MediaTypeNames.Application.Json;
-
-            return context.Response.WriteAsync(responseMessage);
+            await unifyResultProvider.UnifyStatusCodeResult(context, statusCode);
         }
     }
 }
