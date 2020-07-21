@@ -11,7 +11,8 @@ namespace Fur.UnifyResult.Extensions.Injection
         public static ContainerBuilder RegisterUnifyProvider<TUnifyProvider>(this ContainerBuilder builder)
         {
             builder.RegisterType<TUnifyProvider>()
-                .As<IUnifyResultProvider>();
+                .As<IUnifyResultProvider>()
+                .InstancePerLifetimeScope();
             return builder;
         }
     }
