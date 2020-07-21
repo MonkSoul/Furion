@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 namespace Fur.Mvc.Middlewares
 {
-    public class Unify400Or403ResultMiddleware
+    public class UnifyStatusCodesResultMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public Unify400Or403ResultMiddleware(RequestDelegate next)
+        public UnifyStatusCodesResultMiddleware(RequestDelegate next)
         {
             _next = next;
         }

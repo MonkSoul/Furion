@@ -84,7 +84,7 @@ namespace Fur.Web.Host
             app.UseHttpsRedirection();
 
             // 规范化结果
-            app.UseFurUnifyResult();
+            app.UseFurUnifyStatusCodesResult();
 
             app.UseRouting();
 
