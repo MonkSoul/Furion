@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace Fur.Mvc.Attributes
+namespace Fur.Validation.Attributes
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
-    public class NotVaildateAttribute : Attribute
+    public class NonVaildateAttribute : Attribute
     {
     }
 }

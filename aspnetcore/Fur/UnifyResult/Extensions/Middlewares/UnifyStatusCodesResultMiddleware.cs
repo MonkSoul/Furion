@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
-namespace Fur.Mvc.Middlewares
+namespace Fur.UnifyResult.Middlewares
 {
     public class UnifyStatusCodesResultMiddleware
     {

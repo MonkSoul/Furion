@@ -2,7 +2,7 @@
 using Fur.SwaggerGen;
 using Microsoft.AspNetCore.Builder;
 
-namespace Fur.Mvc.Extensions.Middlewares
+namespace Fur.SwaggerGen.Extensions.Middlewares
 {
     /// <summary>
     /// Swagger 中间件拓展

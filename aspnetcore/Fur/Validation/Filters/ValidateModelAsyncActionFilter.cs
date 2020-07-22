@@ -1,5 +1,5 @@
-﻿using Fur.Mvc.Attributes;
-using Fur.UnifyResult.Providers;
+﻿using Fur.UnifyResult.Providers;
+using Fur.Validation.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Fur.Mvc.Filters
+namespace Fur.Validation.Filters
 {
     public class ValidateModelAsyncActionFilter : IAsyncActionFilter
     {
@@ -25,7 +25,7 @@ namespace Fur.Mvc.Filters
             var descriptor = context.ActionDescriptor as ControllerActionDescriptor;
             var methodInfo = descriptor.MethodInfo;
 
-            if (methodInfo.GetParameters().Length == 0 || methodInfo.IsDefined(typeof(NotVaildateAttribute)) || methodInfo.DeclaringType.IsDefined(typeof(NotVaildateAttribute)))
+            if (methodInfo.GetParameters().Length == 0 || methodInfo.IsDefined(typeof(NonVaildateAttribute)) || methodInfo.DeclaringType.IsDefined(typeof(NonVaildateAttribute)))
             {
                 MiniProfiler.Current.CustomTiming("validation", "Validation Disable", "Disable !");
                 await next();

@@ -1,4 +1,4 @@
-﻿using Fur.Mvc.Results;
+﻿using Fur.UnifyResult.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

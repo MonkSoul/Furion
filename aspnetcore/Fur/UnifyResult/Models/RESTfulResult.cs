@@ -1,4 +1,4 @@
-﻿namespace Fur.Mvc.Results
+﻿namespace Fur.UnifyResult.Models
 {
     /// <summary>
     /// 统一返回值

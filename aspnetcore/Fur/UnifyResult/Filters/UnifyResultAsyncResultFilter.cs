@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Threading.Tasks;
 
-namespace Fur.Mvc.Filters
+namespace Fur.UnifyResult.Filters
 {
     public class UnifyResultAsyncResultFilter : IAsyncResultFilter
     {

@@ -1,7 +1,7 @@
-﻿using Fur.Mvc.Middlewares;
+﻿using Fur.UnifyResult.Middlewares;
 using Microsoft.AspNetCore.Builder;
 
-namespace Fur.Mvc.Extensions.Middlewares
+namespace Fur.UnifyResult.Extensions.Middlewares
 {
     public static class StatusCodesResultMiddlewareExtensions
     {

@@ -11,10 +11,10 @@ using Fur.FriendlyException;
 using Fur.Linq.Extensions;
 using Fur.MirrorController.Attributes;
 using Fur.MirrorController.Dependencies;
-using Fur.Mvc.Attributes;
 using Fur.Record;
 using Fur.Record.Entities;
 using Fur.Record.Identifiers;
+using Fur.Validation.Attributes;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -74,7 +74,7 @@ namespace Fur.Application.Functions
         /// 查询所有
         /// </summary>
         /// <returns></returns>
-        [NotVaildate, NonTransaction, ProducesResponseType(StatusCodes.Status200OK)]
+        [NonVaildate, NonTransaction, ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<TestOutput>> GetAsync()
         {
             return await _testRepository.Entities
