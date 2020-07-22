@@ -1,8 +1,8 @@
 ﻿using Autofac;
+using Fur.Core.DbContextIdentifiers;
 using Fur.DatabaseVisitor.Extensions.Injection;
 using Fur.DatabaseVisitor.Providers;
 using Fur.EntityFramework.Core.DbContexts;
-using Fur.Record.Identifiers;
 
 namespace Fur.EntityFramework.Core
 {

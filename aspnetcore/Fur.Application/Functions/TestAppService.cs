@@ -1,4 +1,7 @@
 ﻿using Fur.Application.Functions.Dtos;
+using Fur.Core;
+using Fur.Core.DbContextIdentifiers;
+using Fur.Core.DbEntities;
 using Fur.DatabaseVisitor.Attributes;
 using Fur.DatabaseVisitor.Entities;
 using Fur.DatabaseVisitor.Identifiers;
@@ -10,9 +13,6 @@ using Fur.FriendlyException;
 using Fur.Linq.Extensions;
 using Fur.MirrorController.Attributes;
 using Fur.MirrorController.Dependencies;
-using Fur.Record;
-using Fur.Record.Entities;
-using Fur.Record.Identifiers;
 using Fur.TypeExtensions;
 using Fur.Validation.Attributes;
 using Mapster;
@@ -363,7 +363,7 @@ namespace Fur.Application.Functions
         public async Task<IEnumerable<TestOutput>> GetLinqFunctionAsync()
         {
             return await _testRepository.All()
-                .Where(u => u.Id >= LinqDbFunctions.GetId(0))
+                .Where(u => u.Id >= DbStaticFunctions.GetId(0))
                 .ProjectToType<TestOutput>()
                 .ToListAsync();
         }

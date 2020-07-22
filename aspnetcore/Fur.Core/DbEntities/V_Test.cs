@@ -1,6 +1,6 @@
 ﻿using Fur.DatabaseVisitor.Entities;
 
-namespace Fur.Record.Entities
+namespace Fur.Core.DbEntities
 {
     public class V_Test : DbView
     {

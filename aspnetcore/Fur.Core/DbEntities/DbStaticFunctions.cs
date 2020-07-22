@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace Fur.Record
+namespace Fur.Core.DbEntities
 {
-    public static class LinqDbFunctions
+    public static class DbStaticFunctions
     {
         /// <summary>
         /// Linq中使用函数

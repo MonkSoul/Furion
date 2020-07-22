@@ -1,6 +1,6 @@
 ﻿using Fur.DatabaseVisitor.Identifiers;
 
-namespace Fur.Record.Identifiers
+namespace Fur.Core.DbContextIdentifiers
 {
     public class FurMultipleDbContextIdentifier : IDbContextIdentifier
     {
