@@ -1,5 +1,4 @@
 ﻿using Fur.Application.Functions.Dtos;
-using Fur.Core;
 using Fur.Core.DbContextIdentifiers;
 using Fur.Core.DbEntities;
 using Fur.DatabaseVisitor.Attributes;
