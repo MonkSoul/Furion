@@ -14,6 +14,7 @@ namespace Fur.DatabaseVisitor.Repositories
     public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity> where TEntity : class, IDbEntity, new()
     {
         #region 新增或更新操作 + public virtual EntityEntry<TEntity> InsertOrUpdate(TEntity entity)
+
         /// <summary>
         /// 新增或更新操作
         /// </summary>
@@ -30,9 +31,11 @@ namespace Fur.DatabaseVisitor.Repositories
                 return Update(entity);
             }
         }
-        #endregion
+
+        #endregion 新增或更新操作 + public virtual EntityEntry<TEntity> InsertOrUpdate(TEntity entity)
 
         #region 新增或更新操作 + public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity)
+
         /// <summary>
         /// 新增或更新操作
         /// </summary>
@@ -50,9 +53,11 @@ namespace Fur.DatabaseVisitor.Repositories
                 return await UpdateAsync(entity);
             }
         }
-        #endregion
+
+        #endregion 新增或更新操作 + public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity)
 
         #region 新增或更新操作 + public virtual EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
+
         /// <summary>
         /// 新增或更新操作
         /// </summary>
@@ -82,9 +87,11 @@ namespace Fur.DatabaseVisitor.Repositories
                 }
             }
         }
-        #endregion
+
+        #endregion 新增或更新操作 + public virtual EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
 
         #region 新增或更新操作 + public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
+
         /// <summary>
         /// 新增或更新操作
         /// </summary>
@@ -115,9 +122,11 @@ namespace Fur.DatabaseVisitor.Repositories
                 }
             }
         }
-        #endregion
+
+        #endregion 新增或更新操作 + public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
 
         #region 新增或更新操作 + public virtual EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyNames)
+
         /// <summary>
         /// 新增或更新操作
         /// </summary>
@@ -147,9 +156,11 @@ namespace Fur.DatabaseVisitor.Repositories
                 }
             }
         }
-        #endregion
+
+        #endregion 新增或更新操作 + public virtual EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyNames)
 
         #region 新增或更新操作 + public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyNames)
+
         /// <summary>
         /// 新增或更新操作
         /// </summary>
@@ -180,10 +191,11 @@ namespace Fur.DatabaseVisitor.Repositories
                 }
             }
         }
-        #endregion
 
+        #endregion 新增或更新操作 + public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyNames)
 
         #region 新增或更新操作并立即保存 + public virtual EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity)
+
         /// <summary>
         /// 新增或更新操作并立即保存
         /// </summary>
@@ -195,9 +207,11 @@ namespace Fur.DatabaseVisitor.Repositories
             SaveChanges();
             return entityEntry;
         }
-        #endregion
+
+        #endregion 新增或更新操作并立即保存 + public virtual EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity)
 
         #region 新增或更新操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity)
+
         /// <summary>
         /// 新增或更新操作并立即保存
         /// </summary>
@@ -209,9 +223,11 @@ namespace Fur.DatabaseVisitor.Repositories
             await SaveChangesAsync();
             return entityEntry;
         }
-        #endregion
+
+        #endregion 新增或更新操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity)
 
         #region 新增或更新操作并立即保存 + public virtual EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
+
         /// <summary>
         /// 新增或更新操作并立即保存
         /// </summary>
@@ -225,9 +241,11 @@ namespace Fur.DatabaseVisitor.Repositories
             SaveChanges();
             return entityEntry;
         }
-        #endregion
+
+        #endregion 新增或更新操作并立即保存 + public virtual EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
 
         #region 新增或更新操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
+
         /// <summary>
         /// 新增或更新操作并立即保存
         /// </summary>
@@ -241,9 +259,11 @@ namespace Fur.DatabaseVisitor.Repositories
             await SaveChangesAsync();
             return entityEntry;
         }
-        #endregion
+
+        #endregion 新增或更新操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
 
         #region 新增或更新操作并立即保存 + public virtual EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyNames)
+
         /// <summary>
         /// 新增或更新操作并立即保存
         /// </summary>
@@ -257,9 +277,11 @@ namespace Fur.DatabaseVisitor.Repositories
             SaveChanges();
             return entityEntry;
         }
-        #endregion
+
+        #endregion 新增或更新操作并立即保存 + public virtual EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyNames)
 
         #region 新增或更新操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyNames)
+
         /// <summary>
         /// 新增或更新操作并立即保存
         /// </summary>
@@ -273,6 +295,7 @@ namespace Fur.DatabaseVisitor.Repositories
             await SaveChangesAsync();
             return entityEntry;
         }
-        #endregion
+
+        #endregion 新增或更新操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyNames)
     }
 }

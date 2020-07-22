@@ -38,6 +38,7 @@ namespace Fur.ApplicationBase
         public static FurOptions GlobalSettings = null;
 
         #region 静态构造函数 + static ApplicationCore()
+
         /// <summary>
         /// 静态构造函数
         /// </summary>
@@ -45,9 +46,11 @@ namespace Fur.ApplicationBase
         {
             ApplicationWrapper ??= GetApplicationWrappers();
         }
-        #endregion
+
+        #endregion 静态构造函数 + static ApplicationCore()
 
         #region 获取类型的包装类型 + public static TypeWrapper GetTypeWrapper(Type type)
+
         /// <summary>
         /// 获取类型的包装类型
         /// </summary>
@@ -55,9 +58,11 @@ namespace Fur.ApplicationBase
         /// <returns><see cref="TypeWrapper"/></returns>
         public static TypeWrapper GetTypeWrapper(Type type)
             => ApplicationWrapper.PublicClassTypeWrappers.FirstOrDefault(u => u.Type == type);
-        #endregion
+
+        #endregion 获取类型的包装类型 + public static TypeWrapper GetTypeWrapper(Type type)
 
         #region 获取方法的包装类型 + public static MethodWrapper GetMethodWrapper(MethodInfo method)
+
         /// <summary>
         /// 获取方法的包装类型
         /// </summary>
@@ -65,9 +70,11 @@ namespace Fur.ApplicationBase
         /// <returns><see cref="MethodWrapper"/></returns>
         public static MethodWrapper GetMethodWrapper(MethodInfo method)
             => ApplicationWrapper.PublicMethodWrappers.FirstOrDefault(u => u.Method == method);
-        #endregion
+
+        #endregion 获取方法的包装类型 + public static MethodWrapper GetMethodWrapper(MethodInfo method)
 
         #region 获取公开类型自定义特性 + public static TAttribute GetPublicClassTypeCustomAttribute<TAttribute>(Type type) where TAttribute : Attribute
+
         /// <summary>
         /// 获取公开类型自定义特性
         /// </summary>
@@ -76,9 +83,11 @@ namespace Fur.ApplicationBase
         /// <returns>{TAttribute}</returns>
         public static TAttribute GetPublicClassTypeCustomAttribute<TAttribute>(Type type) where TAttribute : Attribute
             => GetTypeWrapper(type).CustomAttributes.FirstOrDefault(u => u is TAttribute) as TAttribute;
-        #endregion
+
+        #endregion 获取公开类型自定义特性 + public static TAttribute GetPublicClassTypeCustomAttribute<TAttribute>(Type type) where TAttribute : Attribute
 
         #region 获取公开方法自定义特性 + public static TAttribute GetPublicMethodCustomAttribute<TAttribute>(MethodInfo method) where TAttribute : Attribute
+
         /// <summary>
         /// 获取公开方法自定义特性
         /// </summary>
@@ -87,10 +96,11 @@ namespace Fur.ApplicationBase
         /// <returns>{TAttribute}</returns>
         public static TAttribute GetPublicMethodCustomAttribute<TAttribute>(MethodInfo method) where TAttribute : Attribute
             => GetMethodWrapper(method).CustomAttributes.FirstOrDefault(u => u is TAttribute) as TAttribute;
-        #endregion
 
+        #endregion 获取公开方法自定义特性 + public static TAttribute GetPublicMethodCustomAttribute<TAttribute>(MethodInfo method) where TAttribute : Attribute
 
         #region 判断是否是控制器类型 + internal static bool IsControllerType(TypeInfo typeInfo, bool exceptControllerBase = false)
+
         /// <summary>
         /// 判断是否是控制器类型
         /// </summary>
@@ -118,9 +128,11 @@ namespace Fur.ApplicationBase
 
             return false;
         }
-        #endregion
+
+        #endregion 判断是否是控制器类型 + internal static bool IsControllerType(TypeInfo typeInfo, bool exceptControllerBase = false)
 
         #region 判断是否是控制器类型 + internal static bool IsControllerType(Type type, bool exceptControllerBase = false)
+
         /// <summary>
         /// 判断是否是控制器类型
         /// </summary>
@@ -129,9 +141,11 @@ namespace Fur.ApplicationBase
         /// <returns>bool</returns>
         internal static bool IsControllerType(Type type, bool exceptControllerBase = false)
             => IsControllerType(type.GetTypeInfo(), exceptControllerBase);
-        #endregion
+
+        #endregion 判断是否是控制器类型 + internal static bool IsControllerType(Type type, bool exceptControllerBase = false)
 
         #region 判断是否是控制器 Action 类型 + internal static bool IsControllerActionType(MethodInfo method)
+
         /// <summary>
         /// 判断是否是控制器 Action 类型
         /// </summary>
@@ -150,10 +164,11 @@ namespace Fur.ApplicationBase
 
             return true;
         }
-        #endregion
 
+        #endregion 判断是否是控制器 Action 类型 + internal static bool IsControllerActionType(MethodInfo method)
 
         #region 获取应用所有程序集 + private static IEnumerable<Assembly> GetApplicationAssembliesWithoutNuget(string namespacePrefix = nameof(Fur))
+
         /// <summary>
         /// 获取应用所有程序集
         /// <para>不包括Nuget/MyGet等第三方安装的包</para>
@@ -169,9 +184,11 @@ namespace Fur.ApplicationBase
                 .WhereIf(namespacePrefix.HasValue(), u => u.Name.StartsWith(namespacePrefix))
                 .Select(u => AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(u.Name)));
         }
-        #endregion
+
+        #endregion 获取应用所有程序集 + private static IEnumerable<Assembly> GetApplicationAssembliesWithoutNuget(string namespacePrefix = nameof(Fur))
 
         #region 获取应用解决方案中所有的包装器集合 + private static ApplicationWrapper GetApplicationWrappers()
+
         /// <summary>
         /// 获取应用解决方案中所有的包装器集合
         /// </summary>
@@ -262,9 +279,11 @@ namespace Fur.ApplicationBase
 
             return applicationWrapper;
         }
-        #endregion
+
+        #endregion 获取应用解决方案中所有的包装器集合 + private static ApplicationWrapper GetApplicationWrappers()
 
         #region 获取控制器类型 Swagger 接口文档分组 + private static string[] GetControllerTypeSwaggerGroups(Type controllerType)
+
         /// <summary>
         /// 获取控制器类型 Swagger 接口文档分组
         /// </summary>
@@ -284,9 +303,11 @@ namespace Fur.ApplicationBase
 
             return mirrorControllerAttribute.SwaggerGroups;
         }
-        #endregion
+
+        #endregion 获取控制器类型 Swagger 接口文档分组 + private static string[] GetControllerTypeSwaggerGroups(Type controllerType)
 
         #region 获取控制器 Action Swagger 接口文档分组 + private static string[] GetControllerActionSwaggerGroups(MethodInfo controllerAction)
+
         /// <summary>
         /// 获取控制器 Action Swagger 接口文档分组
         /// </summary>
@@ -304,6 +325,7 @@ namespace Fur.ApplicationBase
 
             return attachActionAttribute.SwaggerGroups;
         }
-        #endregion
+
+        #endregion 获取控制器 Action Swagger 接口文档分组 + private static string[] GetControllerActionSwaggerGroups(MethodInfo controllerAction)
     }
 }

@@ -6,6 +6,7 @@ namespace Fur.EmitReflection
     public class ExpressionCreateObject
     {
         private static Func<object> func;
+
         public static T CreateInstance<T>() where T : class
         {
             if (func == null)

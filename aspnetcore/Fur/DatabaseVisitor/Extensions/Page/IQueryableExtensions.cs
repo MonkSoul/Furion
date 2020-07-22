@@ -12,6 +12,7 @@ namespace Fur.DatabaseVisitor.Extensions.Page
     public static class IQueryableExtensions
     {
         #region 分页拓展 + public static PagedListOfT<TEntity> ToPagedList<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
+
         /// <summary>
         /// 分页拓展
         /// </summary>
@@ -37,9 +38,11 @@ namespace Fur.DatabaseVisitor.Extensions.Page
                 HasPrevPages = pageIndex - 1 > 0
             };
         }
-        #endregion
+
+        #endregion 分页拓展 + public static PagedListOfT<TEntity> ToPagedList<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
 
         #region 分页拓展 + public static async Task<PagedListOfT<TEntity>> ToPagedListAsync<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
+
         /// <summary>
         /// 分页拓展
         /// </summary>
@@ -65,6 +68,7 @@ namespace Fur.DatabaseVisitor.Extensions.Page
                 HasPrevPages = pageIndex - 1 > 0
             };
         }
-        #endregion
+
+        #endregion 分页拓展 + public static async Task<PagedListOfT<TEntity>> ToPagedListAsync<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
     }
 }

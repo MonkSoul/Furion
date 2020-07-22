@@ -1,5 +1,4 @@
 ﻿using Fur.ApplicationBase;
-using Fur.SwaggerDoc;
 using Microsoft.AspNetCore.Builder;
 
 namespace Fur.SwaggerDoc.Extensions.Middlewares

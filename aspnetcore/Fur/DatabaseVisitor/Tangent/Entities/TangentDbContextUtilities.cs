@@ -21,6 +21,7 @@ namespace Fur.DatabaseVisitor.Tangent.Entities
     internal static class TangentDbContextUtilities
     {
         #region 处理同步 + internal static object SynchronousInvoke(IInvocation invocation, ILifetimeScope lifetimeScope)
+
         /// <summary>
         /// 处理同步
         /// </summary>
@@ -52,9 +53,11 @@ namespace Fur.DatabaseVisitor.Tangent.Entities
                 throw new NotSupportedException($"{tangentAttribute.GetType().Name}");
             }
         }
-        #endregion
+
+        #endregion 处理同步 + internal static object SynchronousInvoke(IInvocation invocation, ILifetimeScope lifetimeScope)
 
         #region 处理异步 + internal static async Task<TResult> AsynchronousOfTInvoke<TResult>(IInvocation invocation, ILifetimeScope lifetimeScope)
+
         /// <summary>
         /// 处理异步
         /// </summary>
@@ -89,10 +92,11 @@ namespace Fur.DatabaseVisitor.Tangent.Entities
 
             return (TResult)result;
         }
-        #endregion
 
+        #endregion 处理异步 + internal static async Task<TResult> AsynchronousOfTInvoke<TResult>(IInvocation invocation, ILifetimeScope lifetimeScope)
 
         #region 数据库查询 + internal static object DbQueryExecute(TangentMethodInfo tangentMethod, DbQueryAttribute dbQueryAttribute)
+
         /// <summary>
         /// 数据库查询
         /// </summary>
@@ -139,9 +143,11 @@ namespace Fur.DatabaseVisitor.Tangent.Entities
                 }
             }
         }
-        #endregion
+
+        #endregion 数据库查询 + internal static object DbQueryExecute(TangentMethodInfo tangentMethod, DbQueryAttribute dbQueryAttribute)
 
         #region 数据库查询 + internal static async Task<object> DbQueryExecuteAsync(TangentMethodInfo tangentMethod, DbQueryAttribute dbQueryAttribute)
+
         /// <summary>
         /// 数据库查询
         /// </summary>
@@ -189,10 +195,11 @@ namespace Fur.DatabaseVisitor.Tangent.Entities
                 }
             }
         }
-        #endregion
 
+        #endregion 数据库查询 + internal static async Task<object> DbQueryExecuteAsync(TangentMethodInfo tangentMethod, DbQueryAttribute dbQueryAttribute)
 
         #region 数据库非查询（增删改） + internal static int DbNonQueryExecute(TangentMethodInfo tangentMethod, DbNonQueryAttribute dbNonQueryAttribute)
+
         /// <summary>
         /// 数据库非查询（增删改）
         /// </summary>
@@ -204,9 +211,11 @@ namespace Fur.DatabaseVisitor.Tangent.Entities
             var sql = dbNonQueryAttribute.Sql;
             return tangentMethod.DbContext.Database.SqlExecuteNonQuery(sql, CommandType.Text, tangentMethod.SqlParameters);
         }
-        #endregion
+
+        #endregion 数据库非查询（增删改） + internal static int DbNonQueryExecute(TangentMethodInfo tangentMethod, DbNonQueryAttribute dbNonQueryAttribute)
 
         #region 数据库非查询（增删改） + internal static async Task<int> DbNonQueryExecuteAsync(TangentMethodInfo tangentMethod, DbNonQueryAttribute dbNonQueryAttribute)
+
         /// <summary>
         /// 数据库非查询（增删改）
         /// </summary>
@@ -219,10 +228,11 @@ namespace Fur.DatabaseVisitor.Tangent.Entities
             var result = await tangentMethod.DbContext.Database.SqlExecuteNonQueryAsync(sql, CommandType.Text, tangentMethod.SqlParameters);
             return result;
         }
-        #endregion
 
+        #endregion 数据库非查询（增删改） + internal static async Task<int> DbNonQueryExecuteAsync(TangentMethodInfo tangentMethod, DbNonQueryAttribute dbNonQueryAttribute)
 
         #region 数据库函数 + internal static object DbFunctionExecute(TangentMethodInfo tangentMethod, Attributes.DbFunctionAttribute dbFunctionAttribute)
+
         /// <summary>
         /// 数据库函数
         /// </summary>
@@ -248,9 +258,11 @@ namespace Fur.DatabaseVisitor.Tangent.Entities
                 }
             }
         }
-        #endregion
+
+        #endregion 数据库函数 + internal static object DbFunctionExecute(TangentMethodInfo tangentMethod, Attributes.DbFunctionAttribute dbFunctionAttribute)
 
         #region 数据库函数 + internal static async Task<object> DbFunctionExecuteAsync(TangentMethodInfo tangentMethod, Attributes.DbFunctionAttribute dbFunctionAttribute)
+
         /// <summary>
         /// 数据库函数
         /// </summary>
@@ -277,10 +289,11 @@ namespace Fur.DatabaseVisitor.Tangent.Entities
                 }
             }
         }
-        #endregion
 
+        #endregion 数据库函数 + internal static async Task<object> DbFunctionExecuteAsync(TangentMethodInfo tangentMethod, Attributes.DbFunctionAttribute dbFunctionAttribute)
 
         #region 数据库存储过程 + internal static object DbProcedureExecute(TangentMethodInfo tangentMethod, DbProcedureAttribute dbProcedureAttribute)
+
         /// <summary>
         /// 存储过程
         /// </summary>
@@ -328,9 +341,11 @@ namespace Fur.DatabaseVisitor.Tangent.Entities
                 }
             }
         }
-        #endregion
+
+        #endregion 数据库存储过程 + internal static object DbProcedureExecute(TangentMethodInfo tangentMethod, DbProcedureAttribute dbProcedureAttribute)
 
         #region 数据库存储过程 + internal static async Task<object> DbProcedureExecuteAsync(TangentMethodInfo tangentMethod, DbProcedureAttribute dbProcedureAttribute)
+
         /// <summary>
         /// 存储过程
         /// </summary>
@@ -380,10 +395,11 @@ namespace Fur.DatabaseVisitor.Tangent.Entities
                 }
             }
         }
-        #endregion
 
+        #endregion 数据库存储过程 + internal static async Task<object> DbProcedureExecuteAsync(TangentMethodInfo tangentMethod, DbProcedureAttribute dbProcedureAttribute)
 
         #region 获取切面方法信息类 + internal static (TangentMethodInfo tangentMethod, TangentAttribute tangentAttribute) GetTangentMethodInfo(IInvocation invocation, ILifetimeScope lifetimeScope)
+
         /// <summary>
         /// 获取切面方法信息类
         /// </summary>
@@ -446,6 +462,7 @@ namespace Fur.DatabaseVisitor.Tangent.Entities
             }
             , tangentAttribute);
         }
-        #endregion
+
+        #endregion 获取切面方法信息类 + internal static (TangentMethodInfo tangentMethod, TangentAttribute tangentAttribute) GetTangentMethodInfo(IInvocation invocation, ILifetimeScope lifetimeScope)
     }
 }

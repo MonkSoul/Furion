@@ -52,7 +52,6 @@ namespace Fur.UnifyResult.Providers
             }
         }
 
-
         public IActionResult UnifyValidateFailResult(ActionExecutingContext context, object errorInfo, bool unAuthorizedRequest)
         {
             return new JsonResult(new RESTfulResult()
@@ -77,7 +76,6 @@ namespace Fur.UnifyResult.Providers
                 MiniProfiler.Current.CustomTiming("authorize", errorMsg, "Unauthorized").Errored = true;
 
                 await HandleInvaildStatusCode(context, statusCode, errorMsg);
-
             }
             else if (context.Response.StatusCode == StatusCodes.Status403Forbidden)
             {
@@ -87,7 +85,6 @@ namespace Fur.UnifyResult.Providers
                 await HandleInvaildStatusCode(context, statusCode, errorMsg);
             }
         }
-
 
         private Task HandleInvaildStatusCode(HttpContext context, int statusCode, string responseMessage)
         {

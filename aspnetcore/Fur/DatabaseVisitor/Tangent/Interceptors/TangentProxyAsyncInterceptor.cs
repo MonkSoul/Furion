@@ -16,6 +16,7 @@ namespace Fur.DatabaseVisitor.Tangent.Interceptors
         private readonly ILifetimeScope _lifetimeScope;
 
         #region 构造函数 + public TangentProxyAsyncInterceptor(ILifetimeScope lifetimeScope)
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -24,10 +25,11 @@ namespace Fur.DatabaseVisitor.Tangent.Interceptors
         {
             _lifetimeScope = lifetimeScope;
         }
-        #endregion
 
+        #endregion 构造函数 + public TangentProxyAsyncInterceptor(ILifetimeScope lifetimeScope)
 
         #region 同步拦截器 + public void InterceptSynchronous(IInvocation invocation)
+
         /// <summary>
         /// 同步拦截器
         /// </summary>
@@ -36,9 +38,11 @@ namespace Fur.DatabaseVisitor.Tangent.Interceptors
         {
             invocation.ReturnValue = TangentDbContextUtilities.SynchronousInvoke(invocation, _lifetimeScope);
         }
-        #endregion
+
+        #endregion 同步拦截器 + public void InterceptSynchronous(IInvocation invocation)
 
         #region 异步无返回值拦截器 + public void InterceptAsynchronous(IInvocation invocation)
+
         /// <summary>
         /// 异步无返回值拦截器
         /// </summary>
@@ -47,9 +51,11 @@ namespace Fur.DatabaseVisitor.Tangent.Interceptors
         {
             invocation.ReturnValue = Task.FromResult(TangentDbContextUtilities.AsynchronousOfTInvoke<object>(invocation, _lifetimeScope).Result);
         }
-        #endregion
+
+        #endregion 异步无返回值拦截器 + public void InterceptAsynchronous(IInvocation invocation)
 
         #region 异步有返回值拦截器 + public void InterceptAsynchronous<TResult>(IInvocation invocation)
+
         /// <summary>
         /// 异步有返回值拦截器
         /// </summary>
@@ -59,6 +65,7 @@ namespace Fur.DatabaseVisitor.Tangent.Interceptors
         {
             invocation.ReturnValue = Task.FromResult(TangentDbContextUtilities.AsynchronousOfTInvoke<TResult>(invocation, _lifetimeScope).Result);
         }
-        #endregion
+
+        #endregion 异步有返回值拦截器 + public void InterceptAsynchronous<TResult>(IInvocation invocation)
     }
 }

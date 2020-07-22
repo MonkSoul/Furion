@@ -70,7 +70,6 @@ namespace Fur.MirrorController.Attributes
         /// </summary>
         public string[] AuthorizeTo { get; set; }
 
-
         /// <summary>
         /// 分组名
         /// </summary>

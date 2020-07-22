@@ -12,12 +12,14 @@ namespace Fur.DatabaseVisitor.Attributes
     public class DbProcedureParameterAttribute : Attribute
     {
         #region 构造函数 +  public DbParameterAttribute(ParameterDirection direction)
+
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="direction">参数方向 <see cref="ParameterDirection"/></param>
         public DbProcedureParameterAttribute(ParameterDirection direction) => Direction = direction;
-        #endregion
+
+        #endregion 构造函数 +  public DbParameterAttribute(ParameterDirection direction)
 
         /// <summary>
         /// 参数方向

@@ -16,6 +16,7 @@ namespace Fur.DatabaseVisitor.Contexts
         public virtual DbSet<Tenant> Tenants { get; set; }
 
         #region 构造函数 + public FurTenantDbContext(DbContextOptions<FurTenantDbContext> options) : base(options)
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -23,9 +24,11 @@ namespace Fur.DatabaseVisitor.Contexts
         public FurTenantDbContext(DbContextOptions<FurTenantDbContext> options) : base(options)
         {
         }
-        #endregion
+
+        #endregion 构造函数 + public FurTenantDbContext(DbContextOptions<FurTenantDbContext> options) : base(options)
 
         #region DbContext上下文初始化配置时调用的方法 + protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
         /// <summary>
         /// DbContext上下文初始化配置时调用的方法
         /// <para>可在这里配置数据库连接字符串，数据库提供器等</para>
@@ -35,9 +38,11 @@ namespace Fur.DatabaseVisitor.Contexts
         {
             base.OnConfiguring(optionsBuilder);
         }
-        #endregion
+
+        #endregion DbContext上下文初始化配置时调用的方法 + protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 
         #region DbContext 上下文初始化模型时调用的方法 + protected override void OnModelCreating(ModelBuilder modelBuilder)
+
         /// <summary>
         /// DbContext 上下文初始化模型时调用的方法
         /// </summary>
@@ -46,9 +51,11 @@ namespace Fur.DatabaseVisitor.Contexts
         {
             base.OnModelCreating(modelBuilder);
         }
-        #endregion
+
+        #endregion DbContext 上下文初始化模型时调用的方法 + protected override void OnModelCreating(ModelBuilder modelBuilder)
 
         #region DbContext 上下文获取租户Id + public virtual int GetTenantId(string host)
+
         /// <summary>
         /// DbContext 上下文获取租户Id
         /// </summary>
@@ -59,6 +66,7 @@ namespace Fur.DatabaseVisitor.Contexts
             var tenant = Tenants.FirstOrDefault(t => t.Host == host);
             return tenant?.Id ?? 0;
         }
-        #endregion
+
+        #endregion DbContext 上下文获取租户Id + public virtual int GetTenantId(string host)
     }
 }

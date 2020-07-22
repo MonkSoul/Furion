@@ -13,6 +13,7 @@ namespace Fur.DatabaseVisitor.Repositories
     public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity> where TEntity : class, IDbEntity, new()
     {
         #region 执行标量函数 + public virtual TResult SqlScalarFunction<TResult>(string name, params object[] parameters)
+
         /// <summary>
         /// 执行标量函数
         /// </summary>
@@ -24,9 +25,11 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             return Database.SqlScalarFunction<TResult>(name, parameters);
         }
-        #endregion
+
+        #endregion 执行标量函数 + public virtual TResult SqlScalarFunction<TResult>(string name, params object[] parameters)
 
         #region 执行标量函数 + public virtual Task<TResult> SqlScalarFunctionAsync<TResult>(string name, params object[] parameters)
+
         /// <summary>
         /// 执行标量函数
         /// </summary>
@@ -38,9 +41,11 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             return Database.SqlScalarFunctionAsync<TResult>(name, parameters);
         }
-        #endregion
+
+        #endregion 执行标量函数 + public virtual Task<TResult> SqlScalarFunctionAsync<TResult>(string name, params object[] parameters)
 
         #region 执行标量函数 + public virtual TResult SqlScalarFunction<TResult>(string name, object parameterModel)
+
         /// <summary>
         /// 执行标量函数
         /// </summary>
@@ -52,9 +57,11 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             return Database.SqlScalarFunction<TResult>(name, parameterModel);
         }
-        #endregion
+
+        #endregion 执行标量函数 + public virtual TResult SqlScalarFunction<TResult>(string name, object parameterModel)
 
         #region 执行标量函数 + public virtual Task<TResult> SqlScalarFunctionAsync<TResult>(string name, object parameterModel)
+
         /// <summary>
         /// 执行标量函数
         /// </summary>
@@ -66,10 +73,11 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             return Database.SqlScalarFunctionAsync<TResult>(name, parameterModel);
         }
-        #endregion
 
+        #endregion 执行标量函数 + public virtual Task<TResult> SqlScalarFunctionAsync<TResult>(string name, object parameterModel)
 
         #region 执行表值函数 返回 DataTable + public virtual DataTable SqlTableFunction(string name, params object[] parameters)
+
         /// <summary>
         /// 执行表值函数 返回 DataTable
         /// </summary>
@@ -80,9 +88,11 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             return Database.SqlTableFunction(name, parameters);
         }
-        #endregion
+
+        #endregion 执行表值函数 返回 DataTable + public virtual DataTable SqlTableFunction(string name, params object[] parameters)
 
         #region 执行表值函数 返回 DataTable + public virtual Task<DataTable> SqlTableFunctionAsync(string name, params object[] parameters)
+
         /// <summary>
         /// 执行表值函数 返回 DataTable
         /// </summary>
@@ -93,9 +103,11 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             return Database.SqlTableFunctionAsync(name, parameters);
         }
-        #endregion
+
+        #endregion 执行表值函数 返回 DataTable + public virtual Task<DataTable> SqlTableFunctionAsync(string name, params object[] parameters)
 
         #region 执行表值函数 返回 DataTable + public virtual DataTable SqlTableFunction(string name, object parameterModel)
+
         /// <summary>
         /// 执行表值函数 返回 DataTable
         /// </summary>
@@ -106,9 +118,11 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             return Database.SqlTableFunction(name, parameterModel);
         }
-        #endregion
+
+        #endregion 执行表值函数 返回 DataTable + public virtual DataTable SqlTableFunction(string name, object parameterModel)
 
         #region 执行表值函数 返回 DataTable + public virtual Task<DataTable> SqlTableFunctionAsync(string name, object parameterModel)
+
         /// <summary>
         /// 执行表值函数 返回 DataTable
         /// </summary>
@@ -119,10 +133,11 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             return Database.SqlTableFunctionAsync(name, parameterModel);
         }
-        #endregion
 
+        #endregion 执行表值函数 返回 DataTable + public virtual Task<DataTable> SqlTableFunctionAsync(string name, object parameterModel)
 
         #region 执行表值函数 + public virtual IEnumerable<T> SqlTableFunction<T>(string name, params object[] parameters)
+
         /// <summary>
         /// 执行表值函数
         /// </summary>
@@ -134,9 +149,11 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             return Database.SqlTableFunction<T>(name, parameters);
         }
-        #endregion
+
+        #endregion 执行表值函数 + public virtual IEnumerable<T> SqlTableFunction<T>(string name, params object[] parameters)
 
         #region 执行表值函数 + public virtual Task<IEnumerable<T>> SqlTableFunctionAsync<T>(string name, params object[] parameters)
+
         /// <summary>
         /// 执行表值函数
         /// </summary>
@@ -148,9 +165,11 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             return Database.SqlTableFunctionAsync<T>(name, parameters);
         }
-        #endregion
+
+        #endregion 执行表值函数 + public virtual Task<IEnumerable<T>> SqlTableFunctionAsync<T>(string name, params object[] parameters)
 
         #region 执行表值函数 + public virtual IEnumerable<T> SqlTableFunction<T>(string name, object parameterModel)
+
         /// <summary>
         /// 执行表值函数
         /// </summary>
@@ -162,9 +181,11 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             return Database.SqlTableFunction<T>(name, parameterModel);
         }
-        #endregion
+
+        #endregion 执行表值函数 + public virtual IEnumerable<T> SqlTableFunction<T>(string name, object parameterModel)
 
         #region 执行表值函数 + public virtual Task<IEnumerable<T>> SqlTableFunctionAsync<T>(string name, object parameterModel)
+
         /// <summary>
         /// 执行表值函数
         /// </summary>
@@ -176,6 +197,7 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             return Database.SqlTableFunctionAsync<T>(name, parameterModel);
         }
-        #endregion
+
+        #endregion 执行表值函数 + public virtual Task<IEnumerable<T>> SqlTableFunctionAsync<T>(string name, object parameterModel)
     }
 }

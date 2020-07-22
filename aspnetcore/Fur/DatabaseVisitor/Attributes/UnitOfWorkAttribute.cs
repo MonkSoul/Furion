@@ -11,13 +11,16 @@ namespace Fur.DatabaseVisitor.Attributes
     public class UnitOfWorkAttribute : Attribute
     {
         #region 默认无参构造函数 + public UnitOfWorkAttribute()
+
         /// <summary>
         /// 默认无参构造函数
         /// </summary>
         public UnitOfWorkAttribute() { }
-        #endregion
+
+        #endregion 默认无参构造函数 + public UnitOfWorkAttribute()
 
         #region 带事务隔离级别的构造函数 + public UnitOfWorkAttribute(IsolationLevel isolationLevel)
+
         /// <summary>
         /// 带事务隔离级别的构造函数
         /// </summary>
@@ -26,9 +29,11 @@ namespace Fur.DatabaseVisitor.Attributes
         {
             this.IsolationLevel = isolationLevel;
         }
-        #endregion
+
+        #endregion 带事务隔离级别的构造函数 + public UnitOfWorkAttribute(IsolationLevel isolationLevel)
 
         #region 带事务范围，事务隔离级别的构造函数 + public UnitOfWorkAttribute(TransactionScopeOption transactionScopeOption, IsolationLevel isolationLevel)
+
         /// <summary>
         /// 带事务范围，事务隔离级别的构造函数
         /// </summary>
@@ -39,7 +44,8 @@ namespace Fur.DatabaseVisitor.Attributes
             this.TransactionScopeOption = transactionScopeOption;
             this.IsolationLevel = isolationLevel;
         }
-        #endregion
+
+        #endregion 带事务范围，事务隔离级别的构造函数 + public UnitOfWorkAttribute(TransactionScopeOption transactionScopeOption, IsolationLevel isolationLevel)
 
         /// <summary>
         /// 事务范围

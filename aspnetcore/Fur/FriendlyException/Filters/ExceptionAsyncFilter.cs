@@ -19,15 +19,17 @@ namespace Fur.FriendlyException.Filters
         /// autofac 生命周期对象
         /// </summary>
         private readonly ILifetimeScope _lifetimeScope;
+
         private readonly IMemoryCache _memoryCache;
         private readonly IUnifyResultProvider _unifyResultProvider;
 
         /// <summary>
         /// 异常提供器
         /// </summary>
-        IExceptionCodesProvider _exceptionCodesProvider;
+        private IExceptionCodesProvider _exceptionCodesProvider;
 
         #region 构造函数 + public ExceptionAsyncFilter(ILifetimeScope lifetimeScope)
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -41,9 +43,11 @@ namespace Fur.FriendlyException.Filters
             _memoryCache = memoryCache;
             _unifyResultProvider = unifyResultProvider;
         }
-        #endregion
+
+        #endregion 构造函数 + public ExceptionAsyncFilter(ILifetimeScope lifetimeScope)
 
         #region 异常异步拦截器 + public Task OnExceptionAsync(ExceptionContext context)
+
         /// <summary>
         /// 异常异步拦截器
         /// </summary>
@@ -64,10 +68,11 @@ namespace Fur.FriendlyException.Filters
             MiniProfiler.Current.CustomTiming("errors", exceptionErrorString, "Throw").Errored = true;
             return Task.CompletedTask;
         }
-        #endregion
 
+        #endregion 异常异步拦截器 + public Task OnExceptionAsync(ExceptionContext context)
 
         #region 转换异常信息 + private int ConvertExceptionInfo(ExceptionContext context, ControllerActionDescriptor descriptor, out string exceptionMessage, out string exceptionErrorString)
+
         /// <summary>
         /// 转换异常信息
         /// </summary>
@@ -107,9 +112,11 @@ namespace Fur.FriendlyException.Filters
 
             return statusCode;
         }
-        #endregion
+
+        #endregion 转换异常信息 + private int ConvertExceptionInfo(ExceptionContext context, ControllerActionDescriptor descriptor, out string exceptionMessage, out string exceptionErrorString)
 
         #region 加载异常状态码 + private Dictionary<int, string> LoadExceptionCodes(string defaultExceptionMsg)
+
         /// <summary>
         /// 加载异常状态码
         /// </summary>
@@ -146,6 +153,7 @@ namespace Fur.FriendlyException.Filters
             }
             return exceptionCodes;
         }
-        #endregion
+
+        #endregion 加载异常状态码 + private Dictionary<int, string> LoadExceptionCodes(string defaultExceptionMsg)
     }
 }

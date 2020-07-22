@@ -12,6 +12,7 @@ namespace Fur.DatabaseVisitor.Extensions.ModelCreating
     public static class EntityTypeBuilderFilterExtensions
     {
         #region 注册租户Id过滤器 + public static EntityTypeBuilder<TEntity> HasTenantIdQueryFilter<TEntity>(this EntityTypeBuilder<TEntity> entityTypeBuilder, ITenantProvider tenantProvider) where TEntity : class, IDbEntity, new()
+
         /// <summary>
         /// 注册租户过滤器
         /// </summary>
@@ -28,9 +29,11 @@ namespace Fur.DatabaseVisitor.Extensions.ModelCreating
             }
             return entityTypeBuilder;
         }
-        #endregion
+
+        #endregion 注册租户Id过滤器 + public static EntityTypeBuilder<TEntity> HasTenantIdQueryFilter<TEntity>(this EntityTypeBuilder<TEntity> entityTypeBuilder, ITenantProvider tenantProvider) where TEntity : class, IDbEntity, new()
 
         #region 注册租户Id过滤器 + public static EntityTypeBuilder HasTenantIdQueryFilter(this EntityTypeBuilder entityTypeBuilder, LambdaExpression lambdaExpression)
+
         /// <summary>
         /// 注册租户Id过滤器
         /// </summary>
@@ -42,6 +45,7 @@ namespace Fur.DatabaseVisitor.Extensions.ModelCreating
             entityTypeBuilder.HasQueryFilter(lambdaExpression);
             return entityTypeBuilder;
         }
-        #endregion
+
+        #endregion 注册租户Id过滤器 + public static EntityTypeBuilder HasTenantIdQueryFilter(this EntityTypeBuilder entityTypeBuilder, LambdaExpression lambdaExpression)
     }
 }

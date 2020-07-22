@@ -16,6 +16,7 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
     public static class InjectionExtensions
     {
         #region 注册默认数据库操作上下文 + public static ContainerBuilder RegisterDefaultDbContext<TDbContext>(this ContainerBuilder builder) where TDbContext : DbContext
+
         /// <summary>
         /// 注册默认数据库操作上下文
         /// </summary>
@@ -37,9 +38,11 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
 
             return builder;
         }
-        #endregion
+
+        #endregion 注册默认数据库操作上下文 + public static ContainerBuilder RegisterDefaultDbContext<TDbContext>(this ContainerBuilder builder) where TDbContext : DbContext
 
         #region 注册多个数据库操作上下文 + public static ContainerBuilder RegisterMultipleRepository<TDbContext, TDbContextIdentifier>(this ContainerBuilder builder) where TDbContext : DbContext where TDbContextIdentifier : IDbContextIdentifier
+
         /// <summary>
         /// 注册多个数据库操作上下文
         /// </summary>
@@ -57,10 +60,11 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
 
             return builder;
         }
-        #endregion
 
+        #endregion 注册多个数据库操作上下文 + public static ContainerBuilder RegisterMultipleRepository<TDbContext, TDbContextIdentifier>(this ContainerBuilder builder) where TDbContext : DbContext where TDbContextIdentifier : IDbContextIdentifier
 
         #region 注册仓储 + public static ContainerBuilder RegisterRepositories(this ContainerBuilder builder, bool includeMultiple = true, bool includeReadOrWrite = true)
+
         /// <summary>
         /// 注册仓储
         /// </summary>
@@ -101,10 +105,11 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
 
             return builder;
         }
-        #endregion
 
+        #endregion 注册仓储 + public static ContainerBuilder RegisterRepositories(this ContainerBuilder builder, bool includeMultiple = true, bool includeReadOrWrite = true)
 
         #region 注册租户提供器 + public static ContainerBuilder RegisterTenant<TTenantProvider>(this ContainerBuilder builder) where TTenantProvider : ITenantProvider
+
         /// <summary>
         /// 注册租户提供器
         /// </summary>
@@ -121,10 +126,11 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
                 .InstancePerLifetimeScope();
             return builder;
         }
-        #endregion
 
+        #endregion 注册租户提供器 + public static ContainerBuilder RegisterTenant<TTenantProvider>(this ContainerBuilder builder) where TTenantProvider : ITenantProvider
 
         #region 注册切面上下文 + public static ContainerBuilder RegisterTangentDbContext(this ContainerBuilder builder)
+
         /// <summary>
         /// 注册切面上下文
         /// </summary>
@@ -138,6 +144,7 @@ namespace Fur.DatabaseVisitor.Extensions.Injection
 
             return builder;
         }
-        #endregion
+
+        #endregion 注册切面上下文 + public static ContainerBuilder RegisterTangentDbContext(this ContainerBuilder builder)
     }
 }

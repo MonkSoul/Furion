@@ -28,6 +28,7 @@ namespace Fur.DatabaseVisitor.Repositories
         private readonly IDbContextPool _dbContextPool;
 
         #region 构造函数 + public EFCoreRepositoryOfT(DbContext dbContext , ILifetimeScope lifetimeScope, IDbContextPool dbContextPool)
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -53,7 +54,8 @@ namespace Fur.DatabaseVisitor.Repositories
                 _tenantProvider = lifetimeScope.Resolve<ITenantProvider>();
             }
         }
-        #endregion
+
+        #endregion 构造函数 + public EFCoreRepositoryOfT(DbContext dbContext , ILifetimeScope lifetimeScope, IDbContextPool dbContextPool)
 
         /// <summary>
         /// 数据库操作上下文

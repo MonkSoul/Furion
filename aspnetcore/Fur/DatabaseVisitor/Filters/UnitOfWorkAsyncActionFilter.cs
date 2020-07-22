@@ -23,6 +23,7 @@ namespace Fur.DatabaseVisitor.Filters
         private readonly IDbContextPool _dbContextPool;
 
         #region 构造函数 + public UnitOfWorkAsyncActionFilter(IDbContextPool dbContextPool)
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -31,9 +32,11 @@ namespace Fur.DatabaseVisitor.Filters
         {
             _dbContextPool = dbContextPool;
         }
-        #endregion
+
+        #endregion 构造函数 + public UnitOfWorkAsyncActionFilter(IDbContextPool dbContextPool)
 
         #region Action执行拦截方法 + public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+
         /// <summary>
         /// Action执行拦截方法
         /// </summary>
@@ -86,6 +89,7 @@ namespace Fur.DatabaseVisitor.Filters
                 MiniProfiler.Current.CustomTiming(miniProfilerName, "TransactionScope Rollback", "Rollback !");
             }
         }
-        #endregion
+
+        #endregion Action执行拦截方法 + public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     }
 }

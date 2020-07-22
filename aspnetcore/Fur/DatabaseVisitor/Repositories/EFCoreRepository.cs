@@ -14,6 +14,7 @@ namespace Fur.DatabaseVisitor.Repositories
         private readonly ILifetimeScope _lifetimeScope;
 
         #region 构造函数 + public EFCoreRepository(ILifetimeScope lifetimeScope)
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -22,9 +23,11 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             _lifetimeScope = lifetimeScope;
         }
-        #endregion
+
+        #endregion 构造函数 + public EFCoreRepository(ILifetimeScope lifetimeScope)
 
         #region 获取泛型仓储接口 + public IRepositoryOfT<TEntity> Set<TEntity>(bool newScope = false) where TEntity : class, IDbEntity, new()
+
         /// <summary>
         /// 获取泛型仓储接口
         /// </summary>
@@ -39,6 +42,7 @@ namespace Fur.DatabaseVisitor.Repositories
             }
             return _lifetimeScope.Resolve<IRepositoryOfT<TEntity>>();
         }
-        #endregion
+
+        #endregion 获取泛型仓储接口 + public IRepositoryOfT<TEntity> Set<TEntity>(bool newScope = false) where TEntity : class, IDbEntity, new()
     }
 }

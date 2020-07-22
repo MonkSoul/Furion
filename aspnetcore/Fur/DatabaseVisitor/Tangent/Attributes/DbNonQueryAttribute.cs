@@ -10,6 +10,7 @@ namespace Fur.DatabaseVisitor.Tangent.Attributes
     public class DbNonQueryAttribute : TangentSqlAttribute
     {
         #region 构造函数 + public DbNonQueryAttribute(string sql) : base(sql)
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -17,6 +18,7 @@ namespace Fur.DatabaseVisitor.Tangent.Attributes
         public DbNonQueryAttribute(string sql) : base(sql)
         {
         }
-        #endregion
+
+        #endregion 构造函数 + public DbNonQueryAttribute(string sql) : base(sql)
     }
 }

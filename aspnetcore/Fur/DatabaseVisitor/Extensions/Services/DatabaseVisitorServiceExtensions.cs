@@ -11,6 +11,7 @@ namespace Fur.DatabaseVisitor.Extensions.Services
     public static class DatabaseVisitorServiceCollectionExtensions
     {
         #region 配置数据库上下文池信息 + public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 100) where TDbContext : DbContext
+
         /// <summary>
         /// 配置数据库上下文池信息
         /// </summary>
@@ -40,9 +41,11 @@ namespace Fur.DatabaseVisitor.Extensions.Services
 
             return services;
         }
-        #endregion
+
+        #endregion 配置数据库上下文池信息 + public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 100) where TDbContext : DbContext
 
         #region 配置数据库上下文池信息 + public static IServiceCollection AddFurSqlServerDbContext<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env) where TDbContext : DbContext
+
         /// <summary>
         /// 配置数据库上下文信息
         /// <para>推荐使用 <see cref="AddFurSqlServerDbContextPool{TDbContext}(IServiceCollection, string, IWebHostEnvironment, int)"/></para>
@@ -71,6 +74,7 @@ namespace Fur.DatabaseVisitor.Extensions.Services
 
             return services;
         }
-        #endregion
+
+        #endregion 配置数据库上下文池信息 + public static IServiceCollection AddFurSqlServerDbContext<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env) where TDbContext : DbContext
     }
 }

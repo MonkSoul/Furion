@@ -4,7 +4,7 @@ using System.Reflection;
 namespace Fur.ApplicationBase.Wrappers
 {
     /// <summary>
-    /// 程序集包装类 
+    /// 程序集包装类
     /// <code>sealed</code>
     /// <para>主要用来装载解决方案项目中程序集常用属性及附加属性， 避免重复反射读取</para>
     /// </summary>

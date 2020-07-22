@@ -22,6 +22,7 @@ namespace Fur.SwaggerDoc
         {
             swaggerOptions = ApplicationCore.GlobalSettings.SwaggerDocOptions;
         }
+
         /// <summary>
         /// Swagger分组
         /// </summary>

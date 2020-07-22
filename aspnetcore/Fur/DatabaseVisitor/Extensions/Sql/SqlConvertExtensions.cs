@@ -18,6 +18,7 @@ namespace Fur.DatabaseVisitor.Extensions.Sql
     public static class SqlConvertExtensions
     {
         #region 将模型转换为 SqlParameter 数组 + public static SqlParameter[] ToSqlParameters(this object parameterModel)
+
         /// <summary>
         /// 将模型转换为 <see cref="SqlParameter"/> 数组
         /// </summary>
@@ -48,9 +49,11 @@ namespace Fur.DatabaseVisitor.Extensions.Sql
             }
             return paramValues.ToArray();
         }
-        #endregion
+
+        #endregion 将模型转换为 SqlParameter 数组 + public static SqlParameter[] ToSqlParameters(this object parameterModel)
 
         #region 将方法参数转为 SqlParameter 数组 + public static SqlParameter[] ToSqlParameters(this ParameterInfo[] parameterInfos, object[] arguments)
+
         /// <summary>
         /// 将方法参数转为 SqlParameter 数组
         /// </summary>
@@ -65,7 +68,6 @@ namespace Fur.DatabaseVisitor.Extensions.Sql
 
             if (parameterLength > 1 || parameterInfos.First().ParameterType.IsPrimitivePlusIncludeNullable())
             {
-
                 for (int i = 0; i < parameterLength; i++)
                 {
                     paramValues.Add(new SqlParameter(parameterInfos[i].Name, arguments[i] ?? DBNull.Value));
@@ -75,10 +77,11 @@ namespace Fur.DatabaseVisitor.Extensions.Sql
             }
             else return arguments.FirstOrDefault().ToSqlParameters();
         }
-        #endregion
 
+        #endregion 将方法参数转为 SqlParameter 数组 + public static SqlParameter[] ToSqlParameters(this ParameterInfo[] parameterInfos, object[] arguments)
 
         #region 将 DataTable 转 IEnumerable{T} + public static IEnumerable<T> ToList<T>(this DataTable dataTable)
+
         /// <summary>
         /// 将 DataTable 转 <see cref="IEnumerable{T}"/>
         /// </summary>
@@ -114,9 +117,11 @@ namespace Fur.DatabaseVisitor.Extensions.Sql
             }
             return list;
         }
-        #endregion
+
+        #endregion 将 DataTable 转 IEnumerable{T} + public static IEnumerable<T> ToList<T>(this DataTable dataTable)
 
         #region 将 DataTable 转 IEnumerable{T} + public static Task<IEnumerable<T>> ToListAsync<T>(this DataTable dataTable)
+
         /// <summary>
         /// 将 DataTable 转 <see cref="IEnumerable{T}"/>
         /// </summary>
@@ -127,9 +132,11 @@ namespace Fur.DatabaseVisitor.Extensions.Sql
         {
             return Task.FromResult(dataTable.ToList<T>());
         }
-        #endregion
 
-        #region  将 DataTable 转 IEnumerable{T} + public static async Task<IEnumerable<T>> ToListAsync<T>(this Task<DataTable> dataTable)
+        #endregion 将 DataTable 转 IEnumerable{T} + public static Task<IEnumerable<T>> ToListAsync<T>(this DataTable dataTable)
+
+        #region 将 DataTable 转 IEnumerable{T} + public static async Task<IEnumerable<T>> ToListAsync<T>(this Task<DataTable> dataTable)
+
         /// <summary>
         /// 将 DataTable 转 <see cref="IEnumerable{T}"/>
         /// </summary>
@@ -141,10 +148,11 @@ namespace Fur.DatabaseVisitor.Extensions.Sql
             var dataTableNoTask = await dataTable;
             return await dataTableNoTask.ToListAsync<T>();
         }
-        #endregion
 
+        #endregion 将 DataTable 转 IEnumerable{T} + public static async Task<IEnumerable<T>> ToListAsync<T>(this Task<DataTable> dataTable)
 
         #region 将 DataTable 转 特定类型 + public static Task<object> ToListAsync(this DataTable dataTable, Type returnType)
+
         /// <summary>
         /// 将 DataTable 转 特定类型
         /// </summary>
@@ -155,9 +163,11 @@ namespace Fur.DatabaseVisitor.Extensions.Sql
         {
             return Task.FromResult(dataTable.ToList(returnType));
         }
-        #endregion
+
+        #endregion 将 DataTable 转 特定类型 + public static Task<object> ToListAsync(this DataTable dataTable, Type returnType)
 
         #region 将 DataTable 转 特定类型 + public static async Task<object> ToListAsync(this Task<DataTable> dataTable, Type returnType)
+
         /// <summary>
         /// 将 DataTable 转 特定类型
         /// </summary>
@@ -169,9 +179,11 @@ namespace Fur.DatabaseVisitor.Extensions.Sql
             var dataTableNoTask = await dataTable;
             return await dataTableNoTask.ToListAsync(returnType);
         }
-        #endregion
+
+        #endregion 将 DataTable 转 特定类型 + public static async Task<object> ToListAsync(this Task<DataTable> dataTable, Type returnType)
 
         #region 将 DataTable 转 特定类型 + public static object ToList(this DataTable dataTable, Type returnType)
+
         /// <summary>
         /// 将 DataTable 转 特定类型
         /// </summary>
@@ -223,6 +235,7 @@ namespace Fur.DatabaseVisitor.Extensions.Sql
 
             return returnType.IsGenericType ? results : results.FirstOrDefault();
         }
-        #endregion
+
+        #endregion 将 DataTable 转 特定类型 + public static object ToList(this DataTable dataTable, Type returnType)
     }
 }

@@ -9,6 +9,7 @@ namespace Fur.DatabaseVisitor.Repositories.MasterSlave
     public interface IMasterSlaveRepository
     {
         #region 获取主从同步/读写分离仓储接口 + IMasterSlaveRepositoryOfT<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier> Set<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier>(bool newScope = false) where TEntity : class, IDbEntity, new() where TMasterDbContextIdentifier : IDbContextIdentifier where TSlaveDbContextIdentifier : IDbContextIdentifier
+
         /// <summary>
         /// 获取主从同步/读写分离仓储接口
         /// </summary>
@@ -21,6 +22,7 @@ namespace Fur.DatabaseVisitor.Repositories.MasterSlave
             where TEntity : class, IDbEntity, new()
             where TMasterDbContextIdentifier : IDbContextIdentifier
             where TSlaveDbContextIdentifier : IDbContextIdentifier;
-        #endregion
+
+        #endregion 获取主从同步/读写分离仓储接口 + IMasterSlaveRepositoryOfT<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier> Set<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier>(bool newScope = false) where TEntity : class, IDbEntity, new() where TMasterDbContextIdentifier : IDbContextIdentifier where TSlaveDbContextIdentifier : IDbContextIdentifier
     }
 }

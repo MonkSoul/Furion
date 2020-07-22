@@ -15,6 +15,7 @@ namespace Fur.DatabaseVisitor.Repositories.Multiples
         private readonly ILifetimeScope _lifetimeScope;
 
         #region 构造函数 + public MultipleDbContextEFCoreRepository(ILifetimeScope lifetimeScope)
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -23,9 +24,11 @@ namespace Fur.DatabaseVisitor.Repositories.Multiples
         {
             _lifetimeScope = lifetimeScope;
         }
-        #endregion
+
+        #endregion 构造函数 + public MultipleDbContextEFCoreRepository(ILifetimeScope lifetimeScope)
 
         #region 获取泛型多上下文仓储接口 +  public IMultipleDbContextRepositoryOfT<TEntity, TDbContextIdentifier> Set<TEntity, TDbContextIdentifier>(bool newScope = false) where TEntity : class, IDbEntity, new() where TDbContextIdentifier : IDbContextIdentifier
+
         /// <summary>
         /// 获取泛型多上下文仓储接口
         /// </summary>
@@ -43,6 +46,7 @@ namespace Fur.DatabaseVisitor.Repositories.Multiples
             }
             return _lifetimeScope.Resolve<IMultipleRepositoryOfT<TEntity, TDbContextIdentifier>>();
         }
-        #endregion
+
+        #endregion 获取泛型多上下文仓储接口 +  public IMultipleDbContextRepositoryOfT<TEntity, TDbContextIdentifier> Set<TEntity, TDbContextIdentifier>(bool newScope = false) where TEntity : class, IDbEntity, new() where TDbContextIdentifier : IDbContextIdentifier
     }
 }

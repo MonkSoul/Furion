@@ -10,6 +10,7 @@ namespace Fur.DatabaseVisitor.Tangent.Attributes
     public class DbFunctionAttribute : TangentCompileTypeAttribute
     {
         #region 构造函数 + public DbFunctionAttribute(string name) : base(name)
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -17,6 +18,7 @@ namespace Fur.DatabaseVisitor.Tangent.Attributes
         public DbFunctionAttribute(string name) : base(name)
         {
         }
-        #endregion
+
+        #endregion 构造函数 + public DbFunctionAttribute(string name) : base(name)
     }
 }

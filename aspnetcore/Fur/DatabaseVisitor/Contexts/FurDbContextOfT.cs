@@ -17,6 +17,7 @@ namespace Fur.DatabaseVisitor.Contexts
     public abstract class FurDbContextOfT<TDbContext> : DbContext where TDbContext : DbContext
     {
         #region 默认构造函数 + public FurDbContextOfT(DbContextOptions<TDbContext> options) : base(options)
+
         /// <summary>
         /// 默认构造函数
         /// </summary>
@@ -24,9 +25,11 @@ namespace Fur.DatabaseVisitor.Contexts
         public FurDbContextOfT(DbContextOptions<TDbContext> options) : base(options)
         {
         }
-        #endregion
+
+        #endregion 默认构造函数 + public FurDbContextOfT(DbContextOptions<TDbContext> options) : base(options)
 
         #region DbContext上下文初始化配置时调用的方法 + protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
         /// <summary>
         /// DbContext上下文初始化配置时调用的方法
         /// <para>可在这里配置数据库连接字符串，数据库提供器等</para>
@@ -38,9 +41,11 @@ namespace Fur.DatabaseVisitor.Contexts
 
             if (FurDbContextOfTStatus.CallOnConfiguringed()) return;
         }
-        #endregion
+
+        #endregion DbContext上下文初始化配置时调用的方法 + protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 
         #region DbContext 上下文初始化模型时调用的方法 + protected override void OnModelCreating(ModelBuilder modelBuilder)
+
         /// <summary>
         /// DbContext 上下文初始化模型时调用的方法
         /// </summary>
@@ -59,9 +64,11 @@ namespace Fur.DatabaseVisitor.Contexts
             // 扫描并配置视图/函数
             OnScanToModelCreating(modelBuilder);
         }
-        #endregion
+
+        #endregion DbContext 上下文初始化模型时调用的方法 + protected override void OnModelCreating(ModelBuilder modelBuilder)
 
         #region 扫描并配置视图/函数 + protected virtual void OnScanToModelCreating(ModelBuilder modelBuilder)
+
         /// <summary>
         /// 扫描并配置视图/函数
         /// <para>该方法在 <see cref="OnModelCreating(ModelBuilder)"/> 中调用</para>
@@ -71,7 +78,8 @@ namespace Fur.DatabaseVisitor.Contexts
         {
             FurDbContextOfTStatus.ScanToModelCreating(modelBuilder, TenantProvider);
         }
-        #endregion
+
+        #endregion 扫描并配置视图/函数 + protected virtual void OnScanToModelCreating(ModelBuilder modelBuilder)
 
         /// <summary>
         /// 是否注册了租户提供器
@@ -100,6 +108,7 @@ namespace Fur.DatabaseVisitor.Contexts
         protected ITenantProvider TenantProvider;
 
         #region 配置租户模式 + private void ConfigureTenant(ModelBuilder modelBuilder)
+
         /// <summary>
         /// 配置租户模式
         /// </summary>
@@ -114,6 +123,7 @@ namespace Fur.DatabaseVisitor.Contexts
                 new Tenant() { Id = 2, Name = "默认租户", Host = "localhost:41529" }
              );
         }
-        #endregion
+
+        #endregion 配置租户模式 + private void ConfigureTenant(ModelBuilder modelBuilder)
     }
 }

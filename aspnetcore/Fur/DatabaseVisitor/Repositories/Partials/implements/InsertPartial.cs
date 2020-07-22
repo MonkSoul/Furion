@@ -14,6 +14,7 @@ namespace Fur.DatabaseVisitor.Repositories
     public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity> where TEntity : class, IDbEntity, new()
     {
         #region 新增操作 + public virtual EntityEntry<TEntity> Insert(TEntity entity)
+
         /// <summary>
         /// 新增操作
         /// </summary>
@@ -24,9 +25,11 @@ namespace Fur.DatabaseVisitor.Repositories
             SetInsertMaintenanceFields(entity);
             return Entities.Add(entity);
         }
-        #endregion
+
+        #endregion 新增操作 + public virtual EntityEntry<TEntity> Insert(TEntity entity)
 
         #region 新增操作 + public virtual void Insert(params TEntity[] entities)
+
         /// <summary>
         /// 新增操作
         /// </summary>
@@ -36,9 +39,11 @@ namespace Fur.DatabaseVisitor.Repositories
             SetInsertMaintenanceFields(entities);
             Entities.AddRange(entities);
         }
-        #endregion
+
+        #endregion 新增操作 + public virtual void Insert(params TEntity[] entities)
 
         #region 新增操作 + public virtual void Insert(IEnumerable<TEntity> entities)
+
         /// <summary>
         /// 新增操作
         /// </summary>
@@ -48,9 +53,11 @@ namespace Fur.DatabaseVisitor.Repositories
             SetInsertMaintenanceFields(entities.ToArray());
             Entities.AddRange(entities);
         }
-        #endregion
+
+        #endregion 新增操作 + public virtual void Insert(IEnumerable<TEntity> entities)
 
         #region 新增操作 + public virtual ValueTask<EntityEntry<TEntity>> InsertAsync(TEntity entity)
+
         /// <summary>
         /// 新增操作
         /// </summary>
@@ -61,9 +68,11 @@ namespace Fur.DatabaseVisitor.Repositories
             SetInsertMaintenanceFields(entity);
             return Entities.AddAsync(entity);
         }
-        #endregion
+
+        #endregion 新增操作 + public virtual ValueTask<EntityEntry<TEntity>> InsertAsync(TEntity entity)
 
         #region 新增操作 + public virtual Task InsertAsync(params TEntity[] entities)
+
         /// <summary>
         /// 新增操作
         /// </summary>
@@ -74,9 +83,11 @@ namespace Fur.DatabaseVisitor.Repositories
             SetInsertMaintenanceFields(entities);
             return Entities.AddRangeAsync();
         }
-        #endregion
+
+        #endregion 新增操作 + public virtual Task InsertAsync(params TEntity[] entities)
 
         #region 新增操作 + public virtual Task InsertAsync(IEnumerable<TEntity> entities)
+
         /// <summary>
         /// 新增操作
         /// </summary>
@@ -87,10 +98,11 @@ namespace Fur.DatabaseVisitor.Repositories
             SetInsertMaintenanceFields(entities.ToArray());
             return Entities.AddRangeAsync();
         }
-        #endregion
 
+        #endregion 新增操作 + public virtual Task InsertAsync(IEnumerable<TEntity> entities)
 
         #region 新增操作并立即保存 + public virtual EntityEntry<TEntity> InsertSaveChanges(TEntity entity)
+
         /// <summary>
         /// 新增操作并立即保存
         /// </summary>
@@ -102,9 +114,11 @@ namespace Fur.DatabaseVisitor.Repositories
             SaveChanges();
             return trackEntity;
         }
-        #endregion
+
+        #endregion 新增操作并立即保存 + public virtual EntityEntry<TEntity> InsertSaveChanges(TEntity entity)
 
         #region 新增操作并立即保存 + public virtual void InsertSaveChanges(params TEntity[] entities)
+
         /// <summary>
         /// 新增操作并立即保存
         /// </summary>
@@ -114,9 +128,11 @@ namespace Fur.DatabaseVisitor.Repositories
             Insert(entities);
             SaveChanges();
         }
-        #endregion
+
+        #endregion 新增操作并立即保存 + public virtual void InsertSaveChanges(params TEntity[] entities)
 
         #region 新增操作并立即保存 + public virtual void InsertSaveChanges(IEnumerable<TEntity> entities)
+
         /// <summary>
         /// 新增操作并立即保存
         /// </summary>
@@ -126,9 +142,11 @@ namespace Fur.DatabaseVisitor.Repositories
             Insert(entities);
             SaveChanges();
         }
-        #endregion
+
+        #endregion 新增操作并立即保存 + public virtual void InsertSaveChanges(IEnumerable<TEntity> entities)
 
         #region 新增操作并立即保存 + public virtual async ValueTask<EntityEntry<TEntity>> InsertSaveChangesAsync(TEntity entity)
+
         /// <summary>
         /// 新增操作并立即保存
         /// </summary>
@@ -140,9 +158,11 @@ namespace Fur.DatabaseVisitor.Repositories
             await SaveChangesAsync();
             return trackEntity;
         }
-        #endregion
+
+        #endregion 新增操作并立即保存 + public virtual async ValueTask<EntityEntry<TEntity>> InsertSaveChangesAsync(TEntity entity)
 
         #region 新增操作并立即保存 + public virtual async Task InsertSaveChangesAsync(params TEntity[] entities)
+
         /// <summary>
         /// 新增操作并立即保存
         /// </summary>
@@ -154,9 +174,11 @@ namespace Fur.DatabaseVisitor.Repositories
             await SaveChangesAsync();
             await Task.CompletedTask;
         }
-        #endregion
+
+        #endregion 新增操作并立即保存 + public virtual async Task InsertSaveChangesAsync(params TEntity[] entities)
 
         #region 新增操作并立即保存 + public virtual async Task InsertSaveChangesAsync(IEnumerable<TEntity> entities)
+
         /// <summary>
         /// 新增操作并立即保存
         /// </summary>
@@ -168,10 +190,11 @@ namespace Fur.DatabaseVisitor.Repositories
             await SaveChangesAsync();
             await Task.CompletedTask;
         }
-        #endregion
 
+        #endregion 新增操作并立即保存 + public virtual async Task InsertSaveChangesAsync(IEnumerable<TEntity> entities)
 
         #region 设置新增时维护字段 + private void SetInsertMaintenanceFields(params TEntity[] entities)
+
         /// <summary>
         /// 设置新增时维护字段
         /// </summary>
@@ -201,6 +224,7 @@ namespace Fur.DatabaseVisitor.Repositories
                 }
             }
         }
-        #endregion
+
+        #endregion 设置新增时维护字段 + private void SetInsertMaintenanceFields(params TEntity[] entities)
     }
 }

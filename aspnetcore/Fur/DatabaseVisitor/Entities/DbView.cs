@@ -11,12 +11,14 @@
         /// </summary>
         public string ViewName { get; set; }
 
-        #region 默认构造函数 + public View(string viewName) => ViewName = viewName; 
+        #region 默认构造函数 + public View(string viewName) => ViewName = viewName;
+
         /// <summary>
         /// 默认构造函数
         /// </summary>
         /// <param name="viewName">视图名称</param>
         public DbView(string viewName) => ViewName = viewName;
-        #endregion
+
+        #endregion 默认构造函数 + public View(string viewName) => ViewName = viewName;
     }
 }

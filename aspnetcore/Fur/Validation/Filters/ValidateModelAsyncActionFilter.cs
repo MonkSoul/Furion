@@ -15,6 +15,7 @@ namespace Fur.Validation.Filters
     public class ValidateModelAsyncActionFilter : IAsyncActionFilter
     {
         private readonly IUnifyResultProvider _unifyResultProvider;
+
         public ValidateModelAsyncActionFilter(IUnifyResultProvider unifyResultProvider)
         {
             _unifyResultProvider = unifyResultProvider;

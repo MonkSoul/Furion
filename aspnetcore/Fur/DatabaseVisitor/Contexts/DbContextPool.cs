@@ -18,6 +18,7 @@ namespace Fur.DatabaseVisitor.Contexts
         private readonly ConcurrentBag<DbContext> dbContexts;
 
         #region 默认构造函数 + public DbContextPool()
+
         /// <summary>
         /// 默认构造函数
         /// </summary>
@@ -25,9 +26,11 @@ namespace Fur.DatabaseVisitor.Contexts
         {
             dbContexts ??= new ConcurrentBag<DbContext>();
         }
-        #endregion
+
+        #endregion 默认构造函数 + public DbContextPool()
 
         #region 保存 DbContext 上下文 + public void SaveDbContext(DbContext dbContext)
+
         /// <summary>
         /// 保存 DbContext 上下文
         /// </summary>
@@ -39,9 +42,11 @@ namespace Fur.DatabaseVisitor.Contexts
                 dbContexts.Add(dbContext);
             }
         }
-        #endregion
+
+        #endregion 保存 DbContext 上下文 + public void SaveDbContext(DbContext dbContext)
 
         #region 异步保存 DbContext 上下文 + public Task SaveDbContextAsync(DbContext dbContext)
+
         /// <summary>
         /// 异步保存 DbContext 上下文
         /// </summary>
@@ -55,9 +60,11 @@ namespace Fur.DatabaseVisitor.Contexts
             }
             return Task.CompletedTask;
         }
-        #endregion
+
+        #endregion 异步保存 DbContext 上下文 + public Task SaveDbContextAsync(DbContext dbContext)
 
         #region 获取所有的数据库上下文 + public IEnumerable<DbContext> GetDbContexts()
+
         /// <summary>
         /// 获取所有的数据库上下文
         /// </summary>
@@ -66,9 +73,11 @@ namespace Fur.DatabaseVisitor.Contexts
         {
             return dbContexts.ToList();
         }
-        #endregion
+
+        #endregion 获取所有的数据库上下文 + public IEnumerable<DbContext> GetDbContexts()
 
         #region 提交所有已更改的数据库上下文 + public int SavePoolChanges()
+
         /// <summary>
         /// 提交所有已更改的数据库上下文
         /// </summary>
@@ -86,9 +95,11 @@ namespace Fur.DatabaseVisitor.Contexts
             }
             return hasChangeCount;
         }
-        #endregion
+
+        #endregion 提交所有已更改的数据库上下文 + public int SavePoolChanges()
 
         #region 异步提交所有已更改的数据库上下文 + public async Task<int> SavePoolChangesAsync()
+
         /// <summary>
         /// 异步提交所有已更改的数据库上下文
         /// </summary>
@@ -106,6 +117,7 @@ namespace Fur.DatabaseVisitor.Contexts
             }
             return hasChangeCount;
         }
-        #endregion
+
+        #endregion 异步提交所有已更改的数据库上下文 + public async Task<int> SavePoolChangesAsync()
     }
 }

@@ -16,6 +16,7 @@ namespace Fur.DatabaseVisitor.Repositories.Multiples
         where TDbContextIdentifier : IDbContextIdentifier
     {
         #region 构造函数 + public MultipleDbContextEFCoreRepositoryOfT(ILifetimeScope lifetimeScope,IDbContextPool dbContextPool)
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -27,6 +28,7 @@ namespace Fur.DatabaseVisitor.Repositories.Multiples
             : base(lifetimeScope.ResolveNamed<DbContext>(typeof(TDbContextIdentifier).Name), lifetimeScope, dbContextPool)
         {
         }
-        #endregion
+
+        #endregion 构造函数 + public MultipleDbContextEFCoreRepositoryOfT(ILifetimeScope lifetimeScope,IDbContextPool dbContextPool)
     }
 }

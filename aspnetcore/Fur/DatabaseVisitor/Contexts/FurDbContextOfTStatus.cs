@@ -42,8 +42,8 @@ namespace Fur.DatabaseVisitor.Contexts
         /// </summary>
         internal static MethodInfo EFPropertyGenericInt32Method = typeof(EF).GetMethod(nameof(EF.Property)).MakeGenericMethod(typeof(int));
 
-
         #region 检查 OnConfiguring 调用情况 + internal static bool CallOnConfiguringed()
+
         /// <summary>
         /// 检查 <c>OnConfiguring</c> 调用情况
         /// </summary>
@@ -57,9 +57,11 @@ namespace Fur.DatabaseVisitor.Contexts
             }
             return true;
         }
-        #endregion
+
+        #endregion 检查 OnConfiguring 调用情况 + internal static bool CallOnConfiguringed()
 
         #region 检查 OnModelCreating 调用情况 + internal static bool CallOnModelCreatinged()
+
         /// <summary>
         /// 检查 <c>OnModelCreating</c> 调用情况
         /// </summary>
@@ -73,9 +75,11 @@ namespace Fur.DatabaseVisitor.Contexts
             }
             return true;
         }
-        #endregion
+
+        #endregion 检查 OnModelCreating 调用情况 + internal static bool CallOnModelCreatinged()
 
         #region 扫描并配置视图/函数 + internal static void ScanToModelCreating(ModelBuilder modelBuilder, ITenantProvider tenantProvider)
+
         /// <summary>
         /// 扫描并配置视图/函数
         /// <para>数据库编译实体包括：视图、函数、存储过程</para>
@@ -112,10 +116,11 @@ namespace Fur.DatabaseVisitor.Contexts
                 modelBuilder.HasDbFunction(dbFunction.Method);
             }
         }
-        #endregion
 
+        #endregion 扫描并配置视图/函数 + internal static void ScanToModelCreating(ModelBuilder modelBuilder, ITenantProvider tenantProvider)
 
         #region 创建 HasQueryFilter 表达式参数 + internal static LambdaExpression CreateHasQueryFilterExpression(Type entityType, string propertyName, int propertyValue)
+
         /// <summary>
         /// 创建 <c>HasQueryFilter</c> 表达式参数
         /// </summary>
@@ -132,6 +137,7 @@ namespace Fur.DatabaseVisitor.Contexts
             var expressionBody = Expression.Equal(Expression.Call(EFPropertyGenericInt32Method, leftParameter, constantKey), constantValue);
             return Expression.Lambda(expressionBody, leftParameter);
         }
-        #endregion
+
+        #endregion 创建 HasQueryFilter 表达式参数 + internal static LambdaExpression CreateHasQueryFilterExpression(Type entityType, string propertyName, int propertyValue)
     }
 }
