@@ -1,9 +1,9 @@
-﻿namespace Fur.SwaggerGen.Options
+﻿namespace Fur.SwaggerDoc.Options
 {
     /// <summary>
     /// Swagger 联系分组联系信息配置选项
     /// </summary>
-    public class SwaggerContactOptions
+    public class SwaggerDocContactOptions
     {
         /// <summary>
         /// 名称

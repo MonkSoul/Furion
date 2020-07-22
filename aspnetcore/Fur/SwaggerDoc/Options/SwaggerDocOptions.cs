@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Fur.SwaggerGen.Options
+namespace Fur.SwaggerDoc.Options
 {
     /// <summary>
     /// Swagger 文档配置选项
     /// </summary>
-    public class SwaggerOptions
+    public class SwaggerDocOptions
     {
         /// <summary>
         /// 文档标题
@@ -20,7 +20,7 @@ namespace Fur.SwaggerGen.Options
         /// <summary>
         /// 所有分组配置选项
         /// </summary>
-        public SwaggerGroupOptions[] Groups { get; set; }
+        public SwaggerDocGroupOptions[] Groups { get; set; }
 
         /// <summary>
         /// 启用MiniProfiler监听组件

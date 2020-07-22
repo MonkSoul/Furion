@@ -1,9 +1,9 @@
-﻿namespace Fur.SwaggerGen.Options
+﻿namespace Fur.SwaggerDoc.Options
 {
     /// <summary>
     /// Swagger 分组协议配置选项
     /// </summary>
-    public class SwaggerLicenseOptions
+    public class SwaggerDocLicenseOptions
     {
         /// <summary>
         /// 名称

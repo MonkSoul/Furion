@@ -9,11 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="SwaggerGen\Assets\MiniProfilerIndex.html" />
+    <None Remove="SwaggerDoc\Assets\MiniProfilerIndex.html" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="SwaggerGen\Assets\MiniProfilerIndex.html" />
+    <EmbeddedResource Include="SwaggerDoc\Assets\MiniProfilerIndex.html" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,5 @@
 ﻿using Fur.MirrorController.Options;
-using Fur.SwaggerGen.Options;
+using Fur.SwaggerDoc.Options;
 
 namespace Fur.ApplicationBase.Options
 {
@@ -9,6 +9,6 @@ namespace Fur.ApplicationBase.Options
     public sealed class FurOptions
     {
         public MirrorControllerOptions MirrorControllerOptions { get; set; }
-        public SwaggerOptions SwaggerOptions { get; set; }
+        public SwaggerDocOptions SwaggerDocOptions { get; set; }
     }
 }

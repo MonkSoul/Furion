@@ -4,12 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Profiling.Storage;
 using System;
 
-namespace Fur.SwaggerGen.Extensions.Services
+namespace Fur.SwaggerDoc.Extensions.Services
 {
     /// <summary>
     /// Swagger 服务拓展类
     /// </summary>
-    public static class SwaggerGenServiceExtensions
+    public static class SwaggerDocServiceExtensions
     {
         #region Swagger 服务拓展方法 + public static IServiceCollection AddFurSwaggerGen(this IServiceCollection services, IConfiguration configuration)
 
@@ -21,9 +21,9 @@ namespace Fur.SwaggerGen.Extensions.Services
         /// <returns>新的服务集合</returns>
         public static IServiceCollection AddFurSwaggerGen(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSwaggerGen(options => SwaggerConfigure.Initialize(options));
+            services.AddSwaggerGen(options => SwaggerDocConfigure.Initialize(options));
 
-            if (ApplicationCore.GlobalSettings.SwaggerOptions.EnableMiniProfiler)
+            if (ApplicationCore.GlobalSettings.SwaggerDocOptions.EnableMiniProfiler)
             {
                 services.AddMiniProfiler(options =>
                 {

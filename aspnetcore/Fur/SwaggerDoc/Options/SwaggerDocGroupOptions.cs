@@ -1,9 +1,9 @@
-﻿namespace Fur.SwaggerGen.Options
+﻿namespace Fur.SwaggerDoc.Options
 {
     /// <summary>
     /// Swagger 分组配置选项
     /// </summary>
-    public class SwaggerGroupOptions
+    public class SwaggerDocGroupOptions
     {
         /// <summary>
         /// 分组名
@@ -33,11 +33,11 @@
         /// <summary>
         /// 联系信息
         /// </summary>
-        public SwaggerContactOptions Contact { get; set; }
+        public SwaggerDocContactOptions Contact { get; set; }
 
         /// <summary>
         /// 协议
         /// </summary>
-        public SwaggerLicenseOptions License { get; set; }
+        public SwaggerDocLicenseOptions License { get; set; }
     }
 }

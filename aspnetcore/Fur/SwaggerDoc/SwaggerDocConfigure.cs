@@ -1,5 +1,5 @@
 ﻿using Fur.ApplicationBase;
-using Fur.SwaggerGen.Options;
+using Fur.SwaggerDoc.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,16 +11,16 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace Fur.SwaggerGen
+namespace Fur.SwaggerDoc
 {
     /// <summary>
     /// Swagger 配置
     /// </summary>
-    internal sealed class SwaggerConfigure
+    internal sealed class SwaggerDocConfigure
     {
-        static SwaggerConfigure()
+        static SwaggerDocConfigure()
         {
-            swaggerOptions = ApplicationCore.GlobalSettings.SwaggerOptions;
+            swaggerOptions = ApplicationCore.GlobalSettings.SwaggerDocOptions;
         }
         /// <summary>
         /// Swagger分组
@@ -30,7 +30,7 @@ namespace Fur.SwaggerGen
         /// <summary>
         /// Swagger选项
         /// </summary>
-        private static SwaggerOptions swaggerOptions;
+        private static SwaggerDocOptions swaggerOptions;
 
         #region 初始化Swagger服务 + public static void Initialize(SwaggerGenOptions swaggerGenOptions)
 
@@ -199,7 +199,7 @@ namespace Fur.SwaggerGen
 
             if (swaggerOptions.EnableMiniProfiler)
             {
-                var thisType = typeof(SwaggerConfigure);
+                var thisType = typeof(SwaggerDocConfigure);
                 var thisAssembly = thisType.Assembly;
                 swaggerUIOptions.IndexStream = () => thisAssembly.GetManifestResourceStream($"{thisType.Namespace}.Assets.MiniProfilerIndex.html");
             }
