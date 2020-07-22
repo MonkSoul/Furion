@@ -10,7 +10,7 @@ namespace Fur.Mvc.Extensions.Services
     /// </summary>
     public static class DatabaseVisitorServiceCollectionExtensions
     {
-        #region 配置数据库上下文池信息 + public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 128) where TDbContext : DbContext
+        #region 配置数据库上下文池信息 + public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 100) where TDbContext : DbContext
         /// <summary>
         /// 配置数据库上下文池信息
         /// </summary>
@@ -20,7 +20,7 @@ namespace Fur.Mvc.Extensions.Services
         /// <param name="env">web环境</param>
         /// <param name="poolSize">数据库上下文池最大存放数量</param>
         /// <returns><see cref="IServiceCollection"/></returns>
-        public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 128)
+        public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 100)
             where TDbContext : DbContext
         {
             //services.AddEntityFrameworkSqlServer();
@@ -32,7 +32,7 @@ namespace Fur.Mvc.Extensions.Services
                                 .EnableDetailedErrors()
                                 .EnableSensitiveDataLogging();
                 }
-                options.UseSqlServer(connectionString);
+                options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
                 //options.UseInternalServiceProvider(serviceProvider);
             }
             , poolSize: poolSize);
@@ -63,7 +63,7 @@ namespace Fur.Mvc.Extensions.Services
                                 .EnableDetailedErrors()
                                 .EnableSensitiveDataLogging();
                 }
-                options.UseSqlServer(connectionString);
+                options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
                 //options.UseInternalServiceProvider(serviceProvider);
             });
 
