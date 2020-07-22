@@ -3,6 +3,7 @@ using Fur.ApplicationBase;
 using Fur.ApplicationBase.Options;
 using Fur.DependencyInjection;
 using Fur.EntityFramework.Core.Extensions;
+using Fur.FriendlyException.Filters;
 using Fur.Mvc.Extensions.Middlewares;
 using Fur.Mvc.Extensions.MvcBuilders;
 using Fur.Mvc.Extensions.Services;

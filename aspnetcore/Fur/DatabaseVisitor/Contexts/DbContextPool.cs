@@ -106,6 +106,31 @@ namespace Fur.DatabaseVisitor.Contexts
             }
             return hasChangeCount;
         }
+
+        void IDbContextPool.SaveDbContext(DbContext dbContext)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        Task IDbContextPool.SaveDbContextAsync(DbContext dbContext)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        IEnumerable<DbContext> IDbContextPool.GetDbContexts()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        int IDbContextPool.SavePoolChanges()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        Task<int> IDbContextPool.SavePoolChangesAsync()
+        {
+            throw new System.NotImplementedException();
+        }
         #endregion
     }
 }

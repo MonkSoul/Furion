@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Fur.FriendlyException;
 using Fur.FriendlyException.Attributes;
 using Fur.UnifyResult.Providers;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +11,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Fur.Mvc.Filters
+namespace Fur.FriendlyException.Filters
 {
     public class ExceptionAsyncFilter : IAsyncExceptionFilter
     {

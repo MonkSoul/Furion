@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Fur.Mvc.Extensions.Services
+namespace Fur.DatabaseVisitor.Extensions.Services
 {
     /// <summary>
     /// 数据库操作上下文服务拓展类
