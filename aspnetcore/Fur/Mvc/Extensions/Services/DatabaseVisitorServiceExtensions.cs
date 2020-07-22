@@ -32,7 +32,8 @@ namespace Fur.Mvc.Extensions.Services
                                 .EnableDetailedErrors()
                                 .EnableSensitiveDataLogging();
                 }
-                options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
+                options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure())
+                            /*.AddInterceptors()*/;
                 //options.UseInternalServiceProvider(serviceProvider);
             }
             , poolSize: poolSize);
@@ -63,7 +64,8 @@ namespace Fur.Mvc.Extensions.Services
                                 .EnableDetailedErrors()
                                 .EnableSensitiveDataLogging();
                 }
-                options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
+                options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure())
+                            /*.AddInterceptors()*/;
                 //options.UseInternalServiceProvider(serviceProvider);
             });
 
