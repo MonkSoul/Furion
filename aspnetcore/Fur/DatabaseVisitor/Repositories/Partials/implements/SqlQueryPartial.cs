@@ -24,7 +24,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="IQueryable{T}"/></returns>
         public virtual IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters)
         {
-            return Entity.FromSqlRaw(sql, parameters);
+            return Entities.FromSqlRaw(sql, parameters);
         }
         #endregion
 
@@ -37,7 +37,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="IQueryable{T}"/></returns>
         public virtual IQueryable<TEntity> FromSqlRaw(string sql, object parameterModel)
         {
-            return Entity.FromSqlRaw(sql, parameterModel.ToSqlParameters());
+            return Entities.FromSqlRaw(sql, parameterModel.ToSqlParameters());
         }
         #endregion
 

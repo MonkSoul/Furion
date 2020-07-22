@@ -22,7 +22,7 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual EntityEntry<TEntity> Delete(TEntity entity)
         {
             Attach(entity);
-            return Entity.Remove(entity);
+            return Entities.Remove(entity);
         }
         #endregion
 
@@ -34,7 +34,7 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual void Delete(params TEntity[] entities)
         {
             AttachRange(entities);
-            Entity.RemoveRange(entities);
+            Entities.RemoveRange(entities);
         }
         #endregion
 
@@ -46,7 +46,7 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual void Delete(IEnumerable<TEntity> entities)
         {
             AttachRange(entities);
-            Entity.RemoveRange(entities);
+            Entities.RemoveRange(entities);
         }
         #endregion
 
@@ -59,7 +59,7 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual Task<EntityEntry<TEntity>> DeleteAsync(TEntity entity)
         {
             Attach(entity);
-            return Task.FromResult(Entity.Remove(entity));
+            return Task.FromResult(Entities.Remove(entity));
         }
         #endregion
 
@@ -72,7 +72,7 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual Task DeleteAsync(params TEntity[] entities)
         {
             AttachRange(entities);
-            Entity.RemoveRange(entities);
+            Entities.RemoveRange(entities);
             return Task.CompletedTask;
         }
         #endregion
@@ -86,7 +86,7 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual Task DeleteAsync(IEnumerable<TEntity> entities)
         {
             AttachRange(entities);
-            Entity.RemoveRange(entities);
+            Entities.RemoveRange(entities);
             return Task.CompletedTask;
         }
         #endregion

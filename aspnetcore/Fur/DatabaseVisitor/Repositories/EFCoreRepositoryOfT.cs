@@ -41,7 +41,7 @@ namespace Fur.DatabaseVisitor.Repositories
             _dbContextPool = dbContextPool;
 
             DbContext = dbContext;
-            Entity = DbContext.Set<TEntity>();
+            Entities = DbContext.Set<TEntity>();
             _dbContextPool.SaveDbContext(DbContext);
 
             if (lifetimeScope.IsRegistered<IMaintenanceFieldsProvider>())
@@ -63,12 +63,12 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <summary>
         /// 实体对象
         /// </summary>
-        public virtual DbSet<TEntity> Entity { get; }
+        public virtual DbSet<TEntity> Entities { get; }
 
         /// <summary>
         /// 不跟踪的（脱轨）实体
         /// </summary>
-        public virtual IQueryable<TEntity> DerailEntity => Entity.AsNoTracking();
+        public virtual IQueryable<TEntity> DerailEntities => Entities.AsNoTracking();
 
         /// <summary>
         /// 数据库操作对象

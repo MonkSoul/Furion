@@ -23,7 +23,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual TEntity Find(object id)
         {
-            return Entity.Find(id);
+            return Entities.Find(id);
         }
         #endregion
 
@@ -35,7 +35,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="ValueTask{TResult}"/></returns>
         public virtual ValueTask<TEntity> FindAsync(object id)
         {
-            return Entity.FindAsync(id);
+            return Entities.FindAsync(id);
         }
         #endregion
 
@@ -48,7 +48,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual TEntity Single()
         {
-            return Entity.Single();
+            return Entities.Single();
         }
         #endregion
 
@@ -60,7 +60,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual Task<TEntity> SingleAsync()
         {
-            return Entity.SingleAsync();
+            return Entities.SingleAsync();
         }
         #endregion
 
@@ -73,7 +73,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual TEntity Single(Expression<Func<TEntity, bool>> expression)
         {
-            return Entity.Single(expression);
+            return Entities.Single(expression);
         }
         #endregion
 
@@ -86,7 +86,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> expression)
         {
-            return Entity.SingleAsync(expression);
+            return Entities.SingleAsync(expression);
         }
         #endregion
 
@@ -100,7 +100,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual TEntity Single(bool noTracking)
         {
-            if (noTracking) return DerailEntity.Single();
+            if (noTracking) return DerailEntities.Single();
             else return Single();
         }
         #endregion
@@ -114,7 +114,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual Task<TEntity> SingleAsync(bool noTracking)
         {
-            if (noTracking) return DerailEntity.SingleAsync();
+            if (noTracking) return DerailEntities.SingleAsync();
             else return SingleAsync();
         }
         #endregion
@@ -129,7 +129,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual TEntity Single(Expression<Func<TEntity, bool>> expression, bool noTracking)
         {
-            if (noTracking) return DerailEntity.Single(expression);
+            if (noTracking) return DerailEntities.Single(expression);
             else return Single(expression);
         }
         #endregion
@@ -144,7 +144,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
         {
-            if (noTracking) return DerailEntity.SingleAsync(expression);
+            if (noTracking) return DerailEntities.SingleAsync(expression);
             else return SingleAsync(expression);
         }
         #endregion
@@ -158,7 +158,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual TEntity SingleOrDefault()
         {
-            return Entity.SingleOrDefault();
+            return Entities.SingleOrDefault();
         }
         #endregion
 
@@ -170,7 +170,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual Task<TEntity> SingleOrDefaultAsync()
         {
-            return Entity.SingleOrDefaultAsync();
+            return Entities.SingleOrDefaultAsync();
         }
         #endregion
 
@@ -183,7 +183,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression)
         {
-            return Entity.SingleOrDefault(expression);
+            return Entities.SingleOrDefault(expression);
         }
         #endregion
 
@@ -196,7 +196,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> expression)
         {
-            return Entity.SingleOrDefaultAsync(expression);
+            return Entities.SingleOrDefaultAsync(expression);
         }
         #endregion
 
@@ -210,7 +210,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual TEntity SingleOrDefault(bool noTracking)
         {
-            if (noTracking) return DerailEntity.SingleOrDefault();
+            if (noTracking) return DerailEntities.SingleOrDefault();
             else return SingleOrDefault();
         }
         #endregion
@@ -224,7 +224,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual Task<TEntity> SingleOrDefaultAsync(bool noTracking)
         {
-            if (noTracking) return DerailEntity.SingleOrDefaultAsync();
+            if (noTracking) return DerailEntities.SingleOrDefaultAsync();
             else return SingleOrDefaultAsync();
         }
         #endregion
@@ -239,7 +239,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression, bool noTracking)
         {
-            if (noTracking) return DerailEntity.SingleOrDefault(expression);
+            if (noTracking) return DerailEntities.SingleOrDefault(expression);
             else return SingleOrDefault(expression);
         }
         #endregion
@@ -254,7 +254,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
         {
-            if (noTracking) return DerailEntity.SingleOrDefaultAsync(expression);
+            if (noTracking) return DerailEntities.SingleOrDefaultAsync(expression);
             else return SingleOrDefaultAsync(expression);
         }
         #endregion
@@ -268,7 +268,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual TEntity First()
         {
-            return Entity.First();
+            return Entities.First();
         }
         #endregion
 
@@ -280,7 +280,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual Task<TEntity> FirstAsync()
         {
-            return Entity.FirstAsync();
+            return Entities.FirstAsync();
         }
         #endregion
 
@@ -293,7 +293,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual TEntity First(Expression<Func<TEntity, bool>> expression)
         {
-            return Entity.First(expression);
+            return Entities.First(expression);
         }
         #endregion
 
@@ -307,7 +307,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> expression)
         {
-            return Entity.FirstAsync(expression);
+            return Entities.FirstAsync(expression);
         }
         #endregion
 
@@ -321,7 +321,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual TEntity First(bool noTracking)
         {
-            if (noTracking) return DerailEntity.First();
+            if (noTracking) return DerailEntities.First();
             else return First();
         }
         #endregion
@@ -335,7 +335,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual Task<TEntity> FirstAsync(bool noTracking)
         {
-            if (noTracking) return DerailEntity.FirstAsync();
+            if (noTracking) return DerailEntities.FirstAsync();
             else return FirstAsync();
         }
         #endregion
@@ -350,7 +350,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns></returns>
         public virtual TEntity First(Expression<Func<TEntity, bool>> expression, bool noTracking)
         {
-            if (noTracking) return DerailEntity.First(expression);
+            if (noTracking) return DerailEntities.First(expression);
             else return First(expression);
         }
         #endregion
@@ -365,7 +365,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
         {
-            if (noTracking) return DerailEntity.FirstAsync(expression);
+            if (noTracking) return DerailEntities.FirstAsync(expression);
             else return FirstAsync(expression);
         }
         #endregion
@@ -379,7 +379,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual TEntity FirstOrDefault()
         {
-            return Entity.FirstOrDefault();
+            return Entities.FirstOrDefault();
         }
         #endregion
 
@@ -391,7 +391,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual Task<TEntity> FirstOrDefaultAsync()
         {
-            return Entity.FirstOrDefaultAsync();
+            return Entities.FirstOrDefaultAsync();
         }
         #endregion
 
@@ -404,7 +404,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual TEntity FirstOrDefault(Expression<Func<TEntity, bool>> expression)
         {
-            return Entity.FirstOrDefault(expression);
+            return Entities.FirstOrDefault(expression);
         }
         #endregion
 
@@ -417,7 +417,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression)
         {
-            return Entity.FirstOrDefaultAsync(expression);
+            return Entities.FirstOrDefaultAsync(expression);
         }
         #endregion
 
@@ -431,7 +431,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual TEntity FirstOrDefault(bool noTracking)
         {
-            if (noTracking) return DerailEntity.FirstOrDefault();
+            if (noTracking) return DerailEntities.FirstOrDefault();
             else return FirstOrDefault();
         }
         #endregion
@@ -445,7 +445,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual Task<TEntity> FirstOrDefaultAsync(bool noTracking)
         {
-            if (noTracking) return DerailEntity.FirstOrDefaultAsync();
+            if (noTracking) return DerailEntities.FirstOrDefaultAsync();
             else return FirstOrDefaultAsync();
         }
         #endregion
@@ -460,7 +460,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual TEntity FirstOrDefault(Expression<Func<TEntity, bool>> expression, bool noTracking)
         {
-            if (noTracking) return DerailEntity.FirstOrDefault(expression);
+            if (noTracking) return DerailEntities.FirstOrDefault(expression);
             else return FirstOrDefault(expression);
         }
         #endregion
@@ -475,7 +475,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
         {
-            if (noTracking) return DerailEntity.FirstOrDefaultAsync(expression);
+            if (noTracking) return DerailEntities.FirstOrDefaultAsync(expression);
             else return FirstOrDefaultAsync(expression);
         }
         #endregion
@@ -613,7 +613,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>存在与否</returns>
         public virtual bool Any(Expression<Func<TEntity, bool>> expression = null)
         {
-            return expression == null ? Entity.Any() : Entity.Any(expression);
+            return expression == null ? Entities.Any() : Entities.Any(expression);
         }
         #endregion
 
@@ -625,7 +625,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression = null)
         {
-            return expression == null ? Entity.AnyAsync() : Entity.AnyAsync(expression);
+            return expression == null ? Entities.AnyAsync() : Entities.AnyAsync(expression);
         }
         #endregion
 
@@ -638,7 +638,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>int</returns>
         public virtual int Count(Expression<Func<TEntity, bool>> expression = null)
         {
-            return expression == null ? Entity.Count() : Entity.Count(expression);
+            return expression == null ? Entities.Count() : Entities.Count(expression);
         }
         #endregion
 
@@ -650,7 +650,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>int</returns>
         public virtual Task<int> CountAsync(Expression<Func<TEntity, bool>> expression = null)
         {
-            return expression == null ? Entity.CountAsync() : Entity.CountAsync(expression);
+            return expression == null ? Entities.CountAsync() : Entities.CountAsync(expression);
         }
         #endregion
 
@@ -662,7 +662,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="TEntity"/></returns>
         public virtual TEntity Max()
         {
-            return Entity.Max();
+            return Entities.Max();
         }
         #endregion
 
@@ -673,7 +673,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<TEntity> MaxAsync()
         {
-            return Entity.MaxAsync();
+            return Entities.MaxAsync();
         }
         #endregion
 
@@ -686,7 +686,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>最大值</returns>
         public virtual TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
-            return Entity.Max(expression);
+            return Entities.Max(expression);
         }
         #endregion
 
@@ -699,7 +699,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
-            return Entity.MaxAsync(expression);
+            return Entities.MaxAsync(expression);
         }
         #endregion
 
@@ -711,7 +711,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>实体</returns>
         public virtual TEntity Min()
         {
-            return Entity.Min();
+            return Entities.Min();
         }
         #endregion
 
@@ -722,7 +722,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<TEntity> MinAsync()
         {
-            return Entity.MinAsync();
+            return Entities.MinAsync();
         }
         #endregion
 
@@ -735,7 +735,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns>最大值</returns>
         public virtual TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
-            return Entity.Min(expression);
+            return Entities.Min(expression);
         }
         #endregion
 
@@ -748,7 +748,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
-            return Entity.MinAsync(expression);
+            return Entities.MinAsync(expression);
         }
         #endregion
 
@@ -763,7 +763,7 @@ namespace Fur.DatabaseVisitor.Repositories
         /// <returns><see cref="IQueryable{T}"/></returns>
         private IQueryable<TEntity> CombineIQueryable(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false)
         {
-            IQueryable<TEntity> entities = noTracking ? DerailEntity : Entity;
+            IQueryable<TEntity> entities = noTracking ? DerailEntities : Entities;
             if (ignoreQueryFilters) entities = entities.IgnoreQueryFilters();
             if (expression != null) entities = entities.Where(expression);
 

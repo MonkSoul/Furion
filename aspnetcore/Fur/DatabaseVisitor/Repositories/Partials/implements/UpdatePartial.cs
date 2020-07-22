@@ -25,7 +25,7 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             return SetUpdateMaintenanceFields(() =>
             {
-                Entity.Update(entity);
+                Entities.Update(entity);
             }, entity).First();
         }
         #endregion
@@ -39,7 +39,7 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             SetUpdateMaintenanceFields(() =>
             {
-                Entity.UpdateRange(entities);
+                Entities.UpdateRange(entities);
             }, entities);
         }
         #endregion
@@ -53,7 +53,7 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             SetUpdateMaintenanceFields(() =>
             {
-                Entity.UpdateRange(entities);
+                Entities.UpdateRange(entities);
             }, entities.ToArray());
         }
         #endregion
@@ -68,7 +68,7 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             var entityEntry = SetUpdateMaintenanceFields(() =>
             {
-                Entity.Update(entity);
+                Entities.Update(entity);
             }, entity).First();
             return Task.FromResult(entityEntry);
         }
@@ -84,7 +84,7 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             SetUpdateMaintenanceFields(() =>
             {
-                Entity.UpdateRange(entities);
+                Entities.UpdateRange(entities);
             }, entities);
             return Task.CompletedTask;
         }
@@ -100,7 +100,7 @@ namespace Fur.DatabaseVisitor.Repositories
         {
             SetUpdateMaintenanceFields(() =>
             {
-                Entity.UpdateRange(entities);
+                Entities.UpdateRange(entities);
             }, entities.ToArray());
             return Task.CompletedTask;
         }

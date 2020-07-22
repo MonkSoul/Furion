@@ -22,7 +22,7 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual EntityEntry<TEntity> Insert(TEntity entity)
         {
             SetInsertMaintenanceFields(entity);
-            return Entity.Add(entity);
+            return Entities.Add(entity);
         }
         #endregion
 
@@ -34,7 +34,7 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual void Insert(params TEntity[] entities)
         {
             SetInsertMaintenanceFields(entities);
-            Entity.AddRange(entities);
+            Entities.AddRange(entities);
         }
         #endregion
 
@@ -46,7 +46,7 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual void Insert(IEnumerable<TEntity> entities)
         {
             SetInsertMaintenanceFields(entities.ToArray());
-            Entity.AddRange(entities);
+            Entities.AddRange(entities);
         }
         #endregion
 
@@ -59,7 +59,7 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual ValueTask<EntityEntry<TEntity>> InsertAsync(TEntity entity)
         {
             SetInsertMaintenanceFields(entity);
-            return Entity.AddAsync(entity);
+            return Entities.AddAsync(entity);
         }
         #endregion
 
@@ -72,7 +72,7 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual Task InsertAsync(params TEntity[] entities)
         {
             SetInsertMaintenanceFields(entities);
-            return Entity.AddRangeAsync();
+            return Entities.AddRangeAsync();
         }
         #endregion
 
@@ -85,7 +85,7 @@ namespace Fur.DatabaseVisitor.Repositories
         public virtual Task InsertAsync(IEnumerable<TEntity> entities)
         {
             SetInsertMaintenanceFields(entities.ToArray());
-            return Entity.AddRangeAsync();
+            return Entities.AddRangeAsync();
         }
         #endregion
 

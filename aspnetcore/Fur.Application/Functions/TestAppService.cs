@@ -77,7 +77,7 @@ namespace Fur.Application.Functions
         [NotVaildate, NonTransaction, ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<TestOutput>> GetAsync()
         {
-            return await _testRepository.Entity
+            return await _testRepository.Entities
                 .ProjectToType<TestOutput>()
                 .ToListAsync();
         }
@@ -350,7 +350,7 @@ namespace Fur.Application.Functions
         [MirrorAction(SplitWordToRoutePath = true)]
         public async Task<IEnumerable<TestOutput>> SqlViewQueryAsync()
         {
-            return await _vTestRepository.Entity
+            return await _vTestRepository.Entities
                 .ProjectToType<TestOutput>()
                 .ToListAsync();
         }
