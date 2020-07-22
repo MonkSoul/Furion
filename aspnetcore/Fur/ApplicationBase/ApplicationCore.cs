@@ -1,10 +1,10 @@
 ﻿using Fur.ApplicationBase.Attributes;
 using Fur.ApplicationBase.Options;
 using Fur.ApplicationBase.Wrappers;
-using Fur.Extensions;
 using Fur.Linq.Extensions;
 using Fur.MirrorController.Attributes;
 using Fur.MirrorController.Dependencies;
+using Fur.TypeExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyModel;
 using System;

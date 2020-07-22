@@ -4,7 +4,7 @@ using Fur.DatabaseVisitor.Contexts;
 using Fur.DatabaseVisitor.Extensions.Sql;
 using Fur.DatabaseVisitor.Tangent.Attributes;
 using Fur.DatabaseVisitor.Tangent.Attributes.Basics;
-using Fur.Extensions;
+using Fur.TypeExtensions;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using System;

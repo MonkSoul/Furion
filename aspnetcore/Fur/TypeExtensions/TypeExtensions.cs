@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Reflection;
 
-namespace Fur.Extensions
+namespace Fur.TypeExtensions
 {
     /// <summary>
     /// 类型拓展类
@@ -100,6 +100,5 @@ namespace Fur.Extensions
 
             return Convert.ChangeType(value, conversionType);
         }
-
     }
 }

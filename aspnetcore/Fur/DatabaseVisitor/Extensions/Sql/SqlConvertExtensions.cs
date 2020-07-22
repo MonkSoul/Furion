@@ -1,5 +1,5 @@
 ﻿using Fur.DatabaseVisitor.Attributes;
-using Fur.Extensions;
+using Fur.TypeExtensions;
 using Mapster;
 using Microsoft.Data.SqlClient;
 using System;

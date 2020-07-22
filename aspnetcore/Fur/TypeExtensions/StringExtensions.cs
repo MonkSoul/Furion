@@ -1,4 +1,4 @@
-﻿namespace Fur.Extensions
+﻿namespace Fur.TypeExtensions
 {
     public static class StringExtensions
     {

@@ -1,9 +1,9 @@
 ﻿using Fur.ApplicationBase;
-using Fur.Extensions;
 using Fur.Linq.Extensions;
 using Fur.MirrorController.Attributes;
 using Fur.MirrorController.Helpers;
 using Fur.MirrorController.Options;
+using Fur.TypeExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;

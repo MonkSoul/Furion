@@ -1,4 +1,4 @@
-﻿using Fur.Extensions;
+﻿using Fur.TypeExtensions;
 using System;
 using System.Linq;
 using System.Text;
