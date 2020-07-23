@@ -1,13 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Fur.DatabaseAccessor.Entities
+namespace Fur.DatabaseAccessor.Models.Entities
 {
     /// <summary>
     /// 数据库实体抽象类
     /// <para>简化 <see cref="IDbEntity"/> 手动实现</para>
     /// </summary>
-    public abstract class DbEntity : IDbEntity
+    /// <typeparam name="TKey">
+    /// 主键类型
+    /// <code>struct</code>
+    /// </typeparam>
+    public abstract class DbEntityOfT<TKey> : IDbEntity where TKey : struct
     {
         /// <summary>
         /// 主键Id
@@ -16,7 +20,7 @@ namespace Fur.DatabaseAccessor.Entities
         [Key]
         [ScaffoldColumn(false)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public TKey Id { get; set; }
 
         /// <summary>
         /// 租户Id

@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Fur.EntityFramework.Core.Migrations.FurMultipleSqlServerDb
+namespace Fur.EntityFramework.Core.Migrations
 {
-    public partial class v006 : Migration
+    public partial class v001 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,6 +48,11 @@ namespace Fur.EntityFramework.Core.Migrations.FurMultipleSqlServerDb
                 table: "Tenants",
                 columns: new[] { "Id", "Host", "Name" },
                 values: new object[] { 2, "localhost:41529", "默认租户" });
+
+            migrationBuilder.InsertData(
+                table: "Tenants",
+                columns: new[] { "Id", "Host", "Name" },
+                values: new object[] { 3, "localhost:41530", "默认租户" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

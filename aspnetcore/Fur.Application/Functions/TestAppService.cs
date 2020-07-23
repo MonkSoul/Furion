@@ -2,8 +2,8 @@
 using Fur.Core.DbContextIdentifiers;
 using Fur.Core.DbEntities;
 using Fur.DatabaseAccessor.Attributes;
-using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.Identifiers;
+using Fur.DatabaseAccessor.Models.Pages;
 using Fur.DatabaseAccessor.Repositories;
 using Fur.DatabaseAccessor.Repositories.MasterSlave;
 using Fur.DatabaseAccessor.Repositories.Multiples;

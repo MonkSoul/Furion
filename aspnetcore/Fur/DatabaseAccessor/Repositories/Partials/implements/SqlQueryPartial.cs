@@ -1,5 +1,5 @@
-﻿using Fur.DatabaseAccessor.Entities;
-using Fur.DatabaseAccessor.Extensions.Sql;
+﻿using Fur.DatabaseAccessor.Extensions.Sql;
+using Fur.DatabaseAccessor.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

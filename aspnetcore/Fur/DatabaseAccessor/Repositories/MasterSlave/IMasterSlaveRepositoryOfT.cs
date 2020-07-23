@@ -1,5 +1,5 @@
-﻿using Fur.DatabaseAccessor.Entities;
-using Fur.DatabaseAccessor.Identifiers;
+﻿using Fur.DatabaseAccessor.Identifiers;
+using Fur.DatabaseAccessor.Models.Entities;
 using Fur.DatabaseAccessor.Repositories.Multiples;
 
 namespace Fur.DatabaseAccessor.Repositories.MasterSlave

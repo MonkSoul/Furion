@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace Fur.DatabaseAccessor.Entities
+namespace Fur.DatabaseAccessor.Models.Pages
 {
     /// <summary>
     /// 泛型分页集合
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    public sealed class PagedListOfT<TEntity>
+    public sealed class PagedList
     {
         /// <summary>
         /// 页码
@@ -31,7 +30,7 @@ namespace Fur.DatabaseAccessor.Entities
         /// <summary>
         /// 当前页集合
         /// </summary>
-        public IEnumerable<TEntity> Items { get; set; }
+        public IEnumerable<object> Items { get; set; }
 
         /// <summary>
         /// 是否有上一页

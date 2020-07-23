@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Fur.DatabaseAccessor.Contexts.Pool;
-using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.Identifiers;
+using Fur.DatabaseAccessor.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fur.DatabaseAccessor.Repositories.Multiples

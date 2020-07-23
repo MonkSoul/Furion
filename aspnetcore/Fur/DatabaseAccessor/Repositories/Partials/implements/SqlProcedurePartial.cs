@@ -1,9 +1,10 @@
-﻿using Fur.DatabaseAccessor.Entities;
+﻿using Fur.DatabaseAccessor.Models;
 using Fur.DatabaseAccessor.Extensions.Sql;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using Fur.DatabaseAccessor.Models.Entities;
 
 namespace Fur.DatabaseAccessor.Repositories
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Fur.DatabaseAccessor.Entities
+namespace Fur.DatabaseAccessor.Models.Entities
 {
     /// <summary>
     /// 数据库实体基础抽象类
@@ -10,7 +10,10 @@ namespace Fur.DatabaseAccessor.Entities
     /// <see cref="IsDeleted"/>
     /// </para>
     /// </summary>
-    public abstract class DbEntityBase : DbEntity
+    /// <typeparam name="TKey">
+    /// 主键类型
+    /// <code>struct</code></typeparam>
+    public abstract class DbEntityBaseOfT<TKey> : DbEntityOfT<TKey> where TKey : struct
     {
         /// <summary>
         /// 创建时间

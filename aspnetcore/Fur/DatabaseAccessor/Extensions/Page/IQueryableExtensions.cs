@@ -1,4 +1,4 @@
-﻿using Fur.DatabaseAccessor.Entities;
+﻿using Fur.DatabaseAccessor.Models.Pages;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;

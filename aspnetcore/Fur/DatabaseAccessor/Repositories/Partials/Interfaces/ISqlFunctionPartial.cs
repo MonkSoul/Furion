@@ -1,4 +1,4 @@
-﻿using Fur.DatabaseAccessor.Entities;
+﻿using Fur.DatabaseAccessor.Models.Entities;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;

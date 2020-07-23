@@ -1,10 +1,10 @@
-﻿using Fur.DatabaseAccessor.Entities;
+﻿using Fur.DatabaseAccessor.Models.Entities;
 
 namespace Fur.Core.DbEntities
 {
-    public class V_Test : DbView
+    public class V_Test : DbNoKeyEntity
     {
-        public V_Test() : base("V_Test")
+        public V_Test() : base("V_Test", true)
         {
         }
 

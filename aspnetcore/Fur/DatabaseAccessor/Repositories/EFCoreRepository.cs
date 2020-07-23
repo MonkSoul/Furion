@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Fur.DatabaseAccessor.Entities;
+using Fur.DatabaseAccessor.Models.Entities;
 
 namespace Fur.DatabaseAccessor.Repositories
 {

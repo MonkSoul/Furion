@@ -1,15 +1,20 @@
-﻿using Fur.ApplicationBase;
-using Fur.DatabaseAccessor.Entities;
+﻿using Autofac;
+using Fur.ApplicationBase;
 using Fur.DatabaseAccessor.Extensions.ModelCreating;
+using Fur.DatabaseAccessor.Models.Entities;
+using Fur.DatabaseAccessor.Models.Filters;
+using Fur.DatabaseAccessor.Models.Seed;
+using Fur.DatabaseAccessor.Models.Tenants;
 using Fur.DatabaseAccessor.Providers;
-using Fur.EmitReflection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Fur.DatabaseAccessor.Contexts
+namespace Fur.DatabaseAccessor.Contexts.Status
 {
     /// <summary>
     /// 框架自定义DbContext 状态器
@@ -21,7 +26,7 @@ namespace Fur.DatabaseAccessor.Contexts
         /// 是否检查过租户提供器状态
         /// <para>避免重复检查</para>
         /// </summary>
-        internal static bool IsCheckedTenantProviderStatus = false;
+        internal static bool IsResolvedTenantProvider = false;
 
         /// <summary>
         /// 是否已经调用过 <c>OnConfiguring</c>
@@ -87,30 +92,65 @@ namespace Fur.DatabaseAccessor.Contexts
         /// <param name="modelBuilder">模型构建器</param>
         /// <param name="tenantIdKey">租户Id的键</param>
         /// <param name="tenantId">租户Id</param>
-        internal static void ScanToModelCreating(ModelBuilder modelBuilder, ITenantProvider tenantProvider)
+        internal static void ScanDbObjectsToBuilding(ModelBuilder modelBuilder, ITenantProvider tenantProvider, DbContext dbContext)
         {
-            var viewTypes = ApplicationCore.ApplicationWrapper.PublicClassTypeWrappers
-                .Where(u => typeof(DbView).IsAssignableFrom(u.Type) && u.CanBeNew);
+            var publicClassType = ApplicationCore.ApplicationWrapper.PublicClassTypeWrappers;
 
-            var dbFunctionMethods = ApplicationCore.ApplicationWrapper.PublicMethodWrappers
-                .Where(u => u.IsStaticMethod && u.Method.IsDefined(typeof(DbFunctionAttribute)) && u.ThisDeclareType.IsAbstract && u.ThisDeclareType.IsSealed);
-
-            foreach (var viewType in viewTypes)
+            // 配置种子数据
+            var dataSeedTypes = publicClassType.Where(u => u.CanBeNew &&
+                                                                                            typeof(IDbEntity).IsAssignableFrom(u.Type) &&
+                                                                                            !typeof(DbNoKeyEntity).IsAssignableFrom(u.Type) &&
+                                                                                            typeof(IDbDataSeedOfT<>).MakeGenericType(u.Type).IsAssignableFrom(u.Type));
+            foreach (var seedType in dataSeedTypes)
             {
-                var entityTypeBuilder = modelBuilder.Entity(viewType.Type);
+                var type = seedType.Type;
+                if (type == typeof(Tenant) && tenantProvider == null) continue;
+
+                var entityTypeBuilder = modelBuilder.Entity(type);
+
+                var seedTypeInstance = Activator.CreateInstance(type);
+                var hasDataMethod = type.GetMethod(nameof(IDbDataSeedOfT<DbEntity>.HasData));
+                var seedData = hasDataMethod.Invoke(seedTypeInstance, null) as IEnumerable<object>;
+
+                entityTypeBuilder.HasData(seedData);
+            }
+
+            // 配置无键实体
+            var noKeyEntityTypes = publicClassType.Where(u => u.CanBeNew && typeof(DbNoKeyEntity).IsAssignableFrom(u.Type));
+            foreach (var noKeyEntityType in noKeyEntityTypes)
+            {
+                var entityTypeBuilder = modelBuilder.Entity(noKeyEntityType.Type);
                 entityTypeBuilder.HasNoKey();
 
-                var viewInstance = ExpressionCreateObject.CreateInstance<IDbView>(viewType.Type);
-                entityTypeBuilder.ToView(viewInstance.ViewName);
+                var noKeyEntityInstance = Activator.CreateInstance(noKeyEntityType.Type) as IDbNoKeyEntity;
+                entityTypeBuilder.ToView(noKeyEntityInstance.ObjectName);
 
                 // 租户过滤器
-                if (tenantProvider != null)
+                if (noKeyEntityInstance.HasTenantIdFilter && tenantProvider != null)
                 {
-                    var lambdaExpression = FurDbContextOfTStatus.CreateHasQueryFilterExpression(viewType.Type, nameof(DbEntityBase.TenantId), tenantProvider.GetTenantId());
+                    var lambdaExpression = FurDbContextOfTStatus.CreateHasQueryFilterExpression(noKeyEntityType.Type, nameof(DbEntityBase.TenantId), tenantProvider.GetTenantId());
                     entityTypeBuilder.HasTenantIdQueryFilter(lambdaExpression);
                 }
             }
 
+            //配置数据过滤器
+            var queryFilterTypes = publicClassType.Where(u => u.CanBeNew &&
+                                                                                            typeof(IDbEntity).IsAssignableFrom(u.Type) &&
+                                                                                            typeof(IDbQueryFilterOfT<>).MakeGenericType(u.Type).IsAssignableFrom(u.Type));
+            var lifetimeScope = dbContext.GetService<ILifetimeScope>();
+            foreach (var queryFilterType in queryFilterTypes)
+            {
+                var type = queryFilterType.Type;
+                var entityTypeBuilder = modelBuilder.Entity(type);
+
+                var queryFilterTypeInstance = Activator.CreateInstance(type);
+                var hasQueryFilterMethod = type.GetMethod(nameof(IDbQueryFilterOfT<object>.HasQueryFilter));
+                var queryFilters = hasQueryFilterMethod.Invoke(queryFilterTypeInstance, new object[] { tenantProvider });
+            }
+
+            // 配置数据库函数
+            var dbFunctionMethods = ApplicationCore.ApplicationWrapper.PublicMethodWrappers
+                .Where(u => u.IsStaticMethod && u.Method.IsDefined(typeof(DbFunctionAttribute)) && u.ThisDeclareType.IsAbstract && u.ThisDeclareType.IsSealed);
             foreach (var dbFunction in dbFunctionMethods)
             {
                 modelBuilder.HasDbFunction(dbFunction.Method);

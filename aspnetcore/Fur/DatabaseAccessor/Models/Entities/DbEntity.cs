@@ -1,15 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Fur.DatabaseAccessor.Entities
+namespace Fur.DatabaseAccessor.Models.Entities
 {
     /// <summary>
-    /// 租户实体
+    /// 数据库实体抽象类
+    /// <para>简化 <see cref="IDbEntity"/> 手动实现</para>
     /// </summary>
-    public class Tenant : IDbEntity
+    public abstract class DbEntity : IDbEntity
     {
         /// <summary>
         /// 主键Id
+        /// <para>默认自增</para>
         /// </summary>
         [Key]
         [ScaffoldColumn(false)]
@@ -17,15 +19,9 @@ namespace Fur.DatabaseAccessor.Entities
         public int Id { get; set; }
 
         /// <summary>
-        /// 租户名
+        /// 租户Id
+        /// <para>参见：<see cref="Fur.DatabaseAccessor.TenantSaaS.Tenant"/></para>
         /// </summary>
-        [Required]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// 主机地址
-        /// </summary>
-        [Required]
-        public string Host { get; set; }
+        public int TenantId { get; set; }
     }
 }
