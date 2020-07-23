@@ -1,4 +1,4 @@
-﻿using Fur.DatabaseVisitor.Attributes;
+﻿using Fur.DatabaseAccessor.Attributes;
 using System.Data;
 
 namespace Fur.Application.Functions.Dtos

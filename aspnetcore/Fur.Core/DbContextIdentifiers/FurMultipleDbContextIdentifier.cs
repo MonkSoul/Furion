@@ -1,4 +1,4 @@
-﻿using Fur.DatabaseVisitor.Identifiers;
+﻿using Fur.DatabaseAccessor.Identifiers;
 
 namespace Fur.Core.DbContextIdentifiers
 {

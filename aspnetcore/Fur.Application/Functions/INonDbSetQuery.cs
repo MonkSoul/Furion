@@ -1,7 +1,7 @@
 ﻿using Fur.Application.Functions.Dtos;
 using Fur.Core.DbEntities;
-using Fur.DatabaseVisitor.Tangent.Attributes;
-using Fur.DatabaseVisitor.Tangent.Entities;
+using Fur.DatabaseAccessor.Tangent.Attributes;
+using Fur.DatabaseAccessor.Tangent.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

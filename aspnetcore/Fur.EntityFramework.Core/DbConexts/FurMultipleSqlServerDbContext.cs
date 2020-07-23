@@ -1,5 +1,5 @@
 ﻿using Fur.Core.DbEntities;
-using Fur.DatabaseVisitor.Contexts;
+using Fur.DatabaseAccessor.Contexts;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fur.EntityFramework.Core.DbContexts

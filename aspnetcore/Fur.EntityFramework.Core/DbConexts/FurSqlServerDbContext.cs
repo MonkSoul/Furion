@@ -1,6 +1,6 @@
 ﻿using Fur.Core.DbEntities;
-using Fur.DatabaseVisitor.Contexts;
-using Fur.DatabaseVisitor.Extensions.ModelCreating;
+using Fur.DatabaseAccessor.Contexts;
+using Fur.DatabaseAccessor.Extensions.ModelCreating;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fur.EntityFramework.Core.DbContexts

@@ -1,4 +1,4 @@
-﻿using Fur.DatabaseVisitor.Entities;
+﻿using Fur.DatabaseAccessor.Entities;
 
 namespace Fur.Core.DbEntities
 {
