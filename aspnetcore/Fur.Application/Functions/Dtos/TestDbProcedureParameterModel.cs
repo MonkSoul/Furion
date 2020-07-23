@@ -7,10 +7,10 @@ namespace Fur.Application.Functions.Dtos
     {
         public string Name { get; set; }
 
-        [DbProcedureParameter(ParameterDirection.Output)]
+        [DbParameter(ParameterDirection.Output)]
         public int OutputValue { get; set; }
 
-        [DbProcedureParameter(ParameterDirection.ReturnValue)]
+        [DbParameter(ParameterDirection.ReturnValue)]
         public int ReturnValue { get; set; }
     }
 }

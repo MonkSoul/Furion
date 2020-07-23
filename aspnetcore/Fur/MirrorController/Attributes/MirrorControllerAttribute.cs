@@ -51,6 +51,11 @@ namespace Fur.MirrorController.Attributes
         }
 
         /// <summary>
+        /// 控制器名称
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// 接口版本
         /// </summary>
         public string ApiVersion { get; set; }

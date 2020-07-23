@@ -51,6 +51,11 @@ namespace Fur.MirrorController.Attributes
         }
 
         /// <summary>
+        /// Action 名称
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// 是否启用镜像Action，默认true
         /// </summary>
         public bool Enabled { get; set; } = true;

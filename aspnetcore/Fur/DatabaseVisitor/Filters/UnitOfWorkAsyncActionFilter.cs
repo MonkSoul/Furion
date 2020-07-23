@@ -69,7 +69,7 @@ namespace Fur.DatabaseVisitor.Filters
                 unitOfWorkAttribute = methodInfo.GetCustomAttribute<UnitOfWorkAttribute>();
             }
 
-            using var transaction = new TransactionScope(unitOfWorkAttribute.TransactionScopeOption
+            using var transaction = new TransactionScope(unitOfWorkAttribute.ScopeOption
                 , new TransactionOptions { IsolationLevel = unitOfWorkAttribute.IsolationLevel }
                 , unitOfWorkAttribute.AsyncFlowOption);
 
