@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Castle.DynamicProxy;
-using Fur.DatabaseAccessor.Contexts;
+using Fur.DatabaseAccessor.Contexts.Pool;
 using Fur.DatabaseAccessor.Extensions.Sql;
 using Fur.DatabaseAccessor.Tangent.Attributes;
 using Fur.DatabaseAccessor.Tangent.Attributes.Basics;

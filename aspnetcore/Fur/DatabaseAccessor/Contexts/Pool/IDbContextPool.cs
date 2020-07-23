@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Fur.DatabaseAccessor.Contexts
+namespace Fur.DatabaseAccessor.Contexts.Pool
 {
     /// <summary>
     /// 数据库上下文池

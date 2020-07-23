@@ -1,4 +1,5 @@
 ﻿using Fur.DatabaseAccessor.Contexts;
+using Fur.DatabaseAccessor.Contexts.Pool;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using System;
