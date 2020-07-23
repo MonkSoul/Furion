@@ -5,60 +5,52 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseAccessor.Contexts
 {
     /// <summary>
-    /// 数据库上下文线程池接口
-    /// <para>管理所有 DbContext 上下文，提供统一提交</para>
+    /// 数据库上下文池
+    /// <para>用来管理请求中所有创建的 <see cref="DbContext"/> 对象</para>
+    /// <para>说明：非依赖注入方式创建的 <see cref="DbContext"/> 需手动调用 <see cref="SaveDbContext(DbContext)"/> 或 <see cref="SaveDbContextAsync(DbContext)"/> 保存到数据库上下文池中</para>
+    /// <para>数据库上下文池必须注册为 <c>Scope</c> 范围实例，保证单次请求唯一，参见：依赖注入章节：<see cref="https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-3.1"/></para>
     /// </summary>
     public interface IDbContextPool
     {
-        #region 保存 DbContext 上下文 + void SaveDbContext(DbContext dbContext)
-
+        #region 保存数据库上下文 + void SaveDbContext(DbContext dbContext)
         /// <summary>
-        /// 保存 DbContext 上下文
+        /// 保存数据库上下文
         /// </summary>
         /// <param name="dbContext">数据库上下文</param>
         void SaveDbContext(DbContext dbContext);
+        #endregion
 
-        #endregion 保存 DbContext 上下文 + void SaveDbContext(DbContext dbContext)
-
-        #region 异步保存 DbContext 上下文 + void SaveDbContextAsync(DbContext dbContext)
-
+        #region 保存数据库上下文（异步） + Task SaveDbContextAsync(DbContext dbContext)
         /// <summary>
-        /// 异步保存 DbContext 上下文
+        /// 保存数据库上下文（异步）
         /// </summary>
         /// <param name="dbContext">数据库上下文</param>
-        /// <returns>任务</returns>
+        /// <returns><see cref="Task"/></returns>
         Task SaveDbContextAsync(DbContext dbContext);
+        #endregion
 
-        #endregion 异步保存 DbContext 上下文 + void SaveDbContextAsync(DbContext dbContext)
-
-        #region 获取所有的数据库上下文 + IEnumerable<DbContext> GetDbContexts()
-
+        #region 获取数据库上下文池中所有数据库上下文 + IEnumerable<DbContext> GetDbContexts()
         /// <summary>
-        /// 获取所有的数据库上下文
+        /// 获取数据库上下文池中所有数据库上下文
         /// </summary>
         /// <returns><see cref="IEnumerable{T}"/></returns>
         IEnumerable<DbContext> GetDbContexts();
+        #endregion
 
-        #endregion 获取所有的数据库上下文 + IEnumerable<DbContext> GetDbContexts()
-
-        #region 提交所有已更改的数据库上下文 +  int SavePoolChanges()
-
+        #region 提交数据库上下文池中所有已更改的数据库上下文 + int SavePoolChanges()
         /// <summary>
-        /// 提交所有已更改的数据库上下文
+        /// 提交数据库上下文池中所有已更改的数据库上下文
         /// </summary>
-        /// <returns>受影响行数</returns>
+        /// <returns>已更改的数据库上下文个数</returns>
         int SavePoolChanges();
+        #endregion
 
-        #endregion 提交所有已更改的数据库上下文 +  int SavePoolChanges()
-
-        #region 异步提交所有已更改的数据库上下文 + Task<int> SavePoolChangesAsync()
-
+        #region 提交数据库上下文池中所有已更改的数据库上下文（异步） + Task<int> SavePoolChangesAsync()
         /// <summary>
-        /// 异步提交所有已更改的数据库上下文
+        /// 提交数据库上下文池中所有已更改的数据库上下文（异步）
         /// </summary>
-        /// <returns><see cref="Task{TResult}"/></returns>
+        /// <returns>已更改的数据库上下文个数</returns>
         Task<int> SavePoolChangesAsync();
-
-        #endregion 异步提交所有已更改的数据库上下文 + Task<int> SavePoolChangesAsync()
+        #endregion
     }
 }

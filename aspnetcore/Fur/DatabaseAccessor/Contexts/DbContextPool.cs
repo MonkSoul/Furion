@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseAccessor.Contexts
 {
     /// <summary>
-    /// 数据库上下文线程池
-    /// <para>管理所有 DbContext 上下文，提供统一提交</para>
+    /// 数据库上下文池
+    /// <para>用来管理请求中所有创建的 <see cref="DbContext"/> 对象</para>
+    /// <para>说明：非依赖注入方式创建的 <see cref="DbContext"/> 需手动调用 <see cref="SaveDbContext(DbContext)"/> 或 <see cref="SaveDbContextAsync(DbContext)"/> 保存到数据库上下文池中</para>
+    /// <para>数据库上下文池必须注册为 <c>Scope</c> 范围实例，保证单次请求唯一，参见：依赖注入章节：<see cref="https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-3.1"/></para>
     /// </summary>
     public class DbContextPool : IDbContextPool
     {
@@ -17,22 +19,20 @@ namespace Fur.DatabaseAccessor.Contexts
         /// </summary>
         private readonly ConcurrentBag<DbContext> dbContexts;
 
-        #region 默认构造函数 + public DbContextPool()
-
+        #region 构造函数 + public DbContextPool()
         /// <summary>
-        /// 默认构造函数
+        /// 构造函数
+        /// <para>首次初始化时，会检查数据库上下文集合是否为空，如果为空，则自动创建</para>
         /// </summary>
         public DbContextPool()
         {
             dbContexts ??= new ConcurrentBag<DbContext>();
         }
+        #endregion
 
-        #endregion 默认构造函数 + public DbContextPool()
-
-        #region 保存 DbContext 上下文 + public void SaveDbContext(DbContext dbContext)
-
+        #region 保存数据库上下文 + public void SaveDbContext(DbContext dbContext)
         /// <summary>
-        /// 保存 DbContext 上下文
+        /// 保存数据库上下文
         /// </summary>
         /// <param name="dbContext">数据库上下文</param>
         public void SaveDbContext(DbContext dbContext)
@@ -42,16 +42,14 @@ namespace Fur.DatabaseAccessor.Contexts
                 dbContexts.Add(dbContext);
             }
         }
+        #endregion
 
-        #endregion 保存 DbContext 上下文 + public void SaveDbContext(DbContext dbContext)
-
-        #region 异步保存 DbContext 上下文 + public Task SaveDbContextAsync(DbContext dbContext)
-
+        #region 保存数据库上下文（异步） + public Task SaveDbContextAsync(DbContext dbContext)
         /// <summary>
-        /// 异步保存 DbContext 上下文
+        /// 保存数据库上下文（异步）
         /// </summary>
         /// <param name="dbContext">数据库上下文</param>
-        /// <returns>任务</returns>
+        /// <returns><see cref="Task"/></returns>
         public Task SaveDbContextAsync(DbContext dbContext)
         {
             if (!dbContexts.Contains(dbContext))
@@ -60,28 +58,24 @@ namespace Fur.DatabaseAccessor.Contexts
             }
             return Task.CompletedTask;
         }
+        #endregion
 
-        #endregion 异步保存 DbContext 上下文 + public Task SaveDbContextAsync(DbContext dbContext)
-
-        #region 获取所有的数据库上下文 + public IEnumerable<DbContext> GetDbContexts()
-
+        #region 获取数据库上下文池中所有数据库上下文 + public IEnumerable<DbContext> GetDbContexts()
         /// <summary>
-        /// 获取所有的数据库上下文
+        /// 获取数据库上下文池中所有数据库上下文
         /// </summary>
         /// <returns><see cref="IEnumerable{T}"/></returns>
         public IEnumerable<DbContext> GetDbContexts()
         {
-            return dbContexts.ToList();
+            return dbContexts;
         }
+        #endregion
 
-        #endregion 获取所有的数据库上下文 + public IEnumerable<DbContext> GetDbContexts()
-
-        #region 提交所有已更改的数据库上下文 + public int SavePoolChanges()
-
+        #region 提交数据库上下文池中所有已更改的数据库上下文 + public int SavePoolChanges()
         /// <summary>
-        /// 提交所有已更改的数据库上下文
+        /// 提交数据库上下文池中所有已更改的数据库上下文
         /// </summary>
-        /// <returns>受影响行数</returns>
+        /// <returns>已更改的数据库上下文个数</returns>
         public int SavePoolChanges()
         {
             var hasChangeCount = 0;
@@ -95,15 +89,13 @@ namespace Fur.DatabaseAccessor.Contexts
             }
             return hasChangeCount;
         }
+        #endregion
 
-        #endregion 提交所有已更改的数据库上下文 + public int SavePoolChanges()
-
-        #region 异步提交所有已更改的数据库上下文 + public async Task<int> SavePoolChangesAsync()
-
+        #region 提交数据库上下文池中所有已更改的数据库上下文（异步） + public async Task<int> SavePoolChangesAsync()
         /// <summary>
-        /// 异步提交所有已更改的数据库上下文
+        /// 提交数据库上下文池中所有已更改的数据库上下文（异步）
         /// </summary>
-        /// <returns><see cref="Task{TResult}"/></returns>
+        /// <returns>已更改的数据库上下文个数</returns>
         public async Task<int> SavePoolChangesAsync()
         {
             var hasChangeCount = 0;
@@ -117,7 +109,6 @@ namespace Fur.DatabaseAccessor.Contexts
             }
             return hasChangeCount;
         }
-
-        #endregion 异步提交所有已更改的数据库上下文 + public async Task<int> SavePoolChangesAsync()
+        #endregion
     }
 }
