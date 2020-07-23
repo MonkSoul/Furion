@@ -23,6 +23,10 @@ module.exports = {
         link: "/handbook/",
       },
       {
+        text: "任务看板",
+        link: "https://gitee.com/monksoul/Fur/board",
+      },
+      {
         text: "工具",
         items: [{ text: "代码生成器", link: "/tools/code-generate" }],
       },
