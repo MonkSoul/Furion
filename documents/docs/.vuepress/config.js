@@ -15,11 +15,11 @@ module.exports = {
     smoothScroll: true,
     nav: [
       {
-        text: "指南",
+        text: "入门指南",
         link: "/guide/",
       },
       {
-        text: "手册",
+        text: "开发手册",
         link: "/handbook/",
       },
       {
@@ -27,8 +27,15 @@ module.exports = {
         link: "https://gitee.com/monksoul/Fur/board",
       },
       {
-        text: "工具",
+        text: "便捷工具",
         items: [{ text: "代码生成器", link: "/tools/code-generate" }],
+      },
+      {
+        text: "开源地址",
+        items: [
+          { text: "Gitee", link: "https://gitee.com/monksoul/Fur" },
+          { text: "Github", link: "https://github.com/MonkSoul/Fur" },
+        ],
       },
     ],
     sidebar: {
