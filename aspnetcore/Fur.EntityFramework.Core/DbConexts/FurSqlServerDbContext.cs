@@ -1,6 +1,5 @@
 ﻿using Fur.Core.DbEntities;
 using Fur.DatabaseAccessor.Contexts;
-using Fur.DatabaseAccessor.Extensions.ModelCreating;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fur.EntityFramework.Core.DbContexts
@@ -21,8 +20,6 @@ namespace Fur.EntityFramework.Core.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<Test>().HasTenantIdQueryFilter(TenantProvider);
         }
     }
 }

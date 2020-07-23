@@ -16,14 +16,17 @@ namespace Fur.Core.DbEntities
         public string Name { get; set; }
         public int Age { get; set; }
 
-        public Dictionary<Expression<Func<Test, bool>>, List<object>> HasQueryFilter(ITenantProvider tenantProvider)
+        public Dictionary<Expression<Func<Test, bool>>, IEnumerable<Type>> HasQueryFilter(ITenantProvider tenantProvider)
         {
-            return new Dictionary<Expression<Func<Test, bool>>, List<object>>
+            if (tenantProvider == null) return null;
+
+            return new Dictionary<Expression<Func<Test, bool>>, IEnumerable<Type>>
             {
                 {
                     b => EF.Property<int>(b, nameof(DbEntityBase.TenantId)) == tenantProvider.GetTenantId(),
-                    new List<object>{
-                        new FurDbContextIdentifier()
+                    new List<Type>
+                    {
+                        typeof(FurDbContextIdentifier)
                     }
                 }
             };

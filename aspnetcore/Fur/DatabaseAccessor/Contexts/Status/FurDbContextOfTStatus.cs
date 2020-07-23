@@ -1,11 +1,11 @@
 ﻿using Autofac;
 using Fur.ApplicationBase;
-using Fur.DatabaseAccessor.Extensions.ModelCreating;
 using Fur.DatabaseAccessor.Models.Entities;
 using Fur.DatabaseAccessor.Models.Filters;
 using Fur.DatabaseAccessor.Models.Seed;
 using Fur.DatabaseAccessor.Models.Tenants;
 using Fur.DatabaseAccessor.Providers;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
@@ -83,7 +83,7 @@ namespace Fur.DatabaseAccessor.Contexts.Status
 
         #endregion 检查 OnModelCreating 调用情况 + internal static bool CallOnModelCreatinged()
 
-        #region 扫描并配置视图/函数 + internal static void ScanToModelCreating(ModelBuilder modelBuilder, ITenantProvider tenantProvider)
+        #region 扫描并配置视图/函数 + internal static void ScanDbObjectsToBuilding(ModelBuilder modelBuilder, ITenantProvider tenantProvider, DbContext dbContext)
 
         /// <summary>
         /// 扫描并配置视图/函数
@@ -110,7 +110,8 @@ namespace Fur.DatabaseAccessor.Contexts.Status
 
                 var seedTypeInstance = Activator.CreateInstance(type);
                 var hasDataMethod = type.GetMethod(nameof(IDbDataSeedOfT<DbEntity>.HasData));
-                var seedData = hasDataMethod.Invoke(seedTypeInstance, null) as IEnumerable<object>;
+
+                if (!(hasDataMethod.Invoke(seedTypeInstance, null) is IEnumerable<object> seedData)) continue;
 
                 entityTypeBuilder.HasData(seedData);
             }
@@ -123,20 +124,14 @@ namespace Fur.DatabaseAccessor.Contexts.Status
                 entityTypeBuilder.HasNoKey();
 
                 var noKeyEntityInstance = Activator.CreateInstance(noKeyEntityType.Type) as IDbNoKeyEntity;
-                entityTypeBuilder.ToView(noKeyEntityInstance.ObjectName);
-
-                // 租户过滤器
-                if (noKeyEntityInstance.HasTenantIdFilter && tenantProvider != null)
-                {
-                    var lambdaExpression = FurDbContextOfTStatus.CreateHasQueryFilterExpression(noKeyEntityType.Type, nameof(DbEntityBase.TenantId), tenantProvider.GetTenantId());
-                    entityTypeBuilder.HasTenantIdQueryFilter(lambdaExpression);
-                }
+                entityTypeBuilder.ToView(noKeyEntityInstance.__NAME__);
             }
 
             //配置数据过滤器
             var queryFilterTypes = publicClassType.Where(u => u.CanBeNew &&
                                                                                             typeof(IDbEntity).IsAssignableFrom(u.Type) &&
                                                                                             typeof(IDbQueryFilterOfT<>).MakeGenericType(u.Type).IsAssignableFrom(u.Type));
+
             var lifetimeScope = dbContext.GetService<ILifetimeScope>();
             foreach (var queryFilterType in queryFilterTypes)
             {
@@ -144,8 +139,18 @@ namespace Fur.DatabaseAccessor.Contexts.Status
                 var entityTypeBuilder = modelBuilder.Entity(type);
 
                 var queryFilterTypeInstance = Activator.CreateInstance(type);
-                var hasQueryFilterMethod = type.GetMethod(nameof(IDbQueryFilterOfT<object>.HasQueryFilter));
-                var queryFilters = hasQueryFilterMethod.Invoke(queryFilterTypeInstance, new object[] { tenantProvider });
+                var hasQueryFilterMethod = type.GetMethod(nameof(IDbQueryFilterOfT<IDbEntity>.HasQueryFilter));
+                var queryFilters = hasQueryFilterMethod.Invoke(queryFilterTypeInstance, new object[] { tenantProvider }).Adapt<Dictionary<LambdaExpression, IEnumerable<Type>>>();
+
+                if (queryFilters == null || queryFilters.Count == 0) continue;
+
+                foreach (var queryFilter in queryFilters.Keys)
+                {
+                    if (queryFilters[queryFilter].Any(u => lifetimeScope.ResolveNamed<DbContext>(u.Name).GetType().Name == dbContext.GetType().Name))
+                    {
+                        entityTypeBuilder.HasQueryFilter(queryFilter);
+                    }
+                }
             }
 
             // 配置数据库函数
@@ -158,26 +163,5 @@ namespace Fur.DatabaseAccessor.Contexts.Status
         }
 
         #endregion 扫描并配置视图/函数 + internal static void ScanToModelCreating(ModelBuilder modelBuilder, ITenantProvider tenantProvider)
-
-        #region 创建 HasQueryFilter 表达式参数 + internal static LambdaExpression CreateHasQueryFilterExpression(Type entityType, string propertyName, int propertyValue)
-
-        /// <summary>
-        /// 创建 <c>HasQueryFilter</c> 表达式参数
-        /// </summary>
-        /// <param name="entityType">实体类型</param>
-        /// <param name="propertyName">属性名称</param>
-        /// <param name="propertyValue">属性值</param>
-        /// <returns><see cref="LambdaExpression"/></returns>
-        internal static LambdaExpression CreateHasQueryFilterExpression(Type entityType, string propertyName, int propertyValue)
-        {
-            var leftParameter = Expression.Parameter(entityType, "e");
-            var constantKey = Expression.Constant(propertyName);
-            var constantValue = Expression.Constant(propertyValue);
-
-            var expressionBody = Expression.Equal(Expression.Call(EFPropertyGenericInt32Method, leftParameter, constantKey), constantValue);
-            return Expression.Lambda(expressionBody, leftParameter);
-        }
-
-        #endregion 创建 HasQueryFilter 表达式参数 + internal static LambdaExpression CreateHasQueryFilterExpression(Type entityType, string propertyName, int propertyValue)
     }
 }

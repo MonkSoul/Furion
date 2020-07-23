@@ -1,4 +1,5 @@
-﻿using Fur.DatabaseAccessor.Providers;
+﻿using Fur.DatabaseAccessor.Models.Entities;
+using Fur.DatabaseAccessor.Providers;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -12,14 +13,15 @@ namespace Fur.DatabaseAccessor.Models.Filters
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     public interface IDbQueryFilterOfT<TEntity>
+        where TEntity : IDbEntity
     {
-        #region 配置查询过滤器 + IEnumerable<Expression<Func<TEntity, bool>>> HasQueryFilter(ITenantProvider tenantProvider)
+        #region 配置查询过滤器 + Dictionary<Expression<Func<TEntity, bool>>, IEnumerable<Type>> HasQueryFilter(ITenantProvider tenantProvider)
         /// <summary>
         /// 配置查询过滤器
         /// </summary>
         /// <param name="tenantProvider">租户提供器</param>
         /// <returns><see cref="Dictionary{TKey, TValue}"/></returns>
-        Dictionary<Expression<Func<TEntity, bool>>, List<object>> HasQueryFilter(ITenantProvider tenantProvider);
+        Dictionary<Expression<Func<TEntity, bool>>, IEnumerable<Type>> HasQueryFilter(ITenantProvider tenantProvider);
         #endregion
     }
 }

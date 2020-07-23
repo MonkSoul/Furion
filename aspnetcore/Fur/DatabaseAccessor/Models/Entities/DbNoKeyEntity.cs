@@ -2,14 +2,8 @@
 {
     public abstract class DbNoKeyEntity : IDbNoKeyEntity, IDbEntity
     {
-        public DbNoKeyEntity(string name, bool hasTenantIdFilter = false)
-        {
-            ObjectName = name;
-            HasTenantIdFilter = hasTenantIdFilter;
-        }
+        public DbNoKeyEntity(string name) => __NAME__ = name;
 
-        public string ObjectName { get; set; }
-
-        public bool HasTenantIdFilter { get; set; }
+        public string __NAME__ { get; set; }
     }
 }

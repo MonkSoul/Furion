@@ -9,8 +9,6 @@
         /// <summary>
         /// 对象名称
         /// </summary>
-        string ObjectName { get; set; }
-
-        bool HasTenantIdFilter { get; set; }
+        string __NAME__ { get; set; }
     }
 }
