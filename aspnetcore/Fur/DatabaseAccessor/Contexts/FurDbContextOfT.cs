@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using Fur.DatabaseAccessor.Contexts.Status;
 using Fur.DatabaseAccessor.Providers;
-using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
