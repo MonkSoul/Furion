@@ -1,5 +1,8 @@
-﻿using Fur.DatabaseAccessor.Models.Entities;
+﻿using Autofac;
+using Fur.DatabaseAccessor.Models.Entities;
 using Fur.DatabaseAccessor.Models.Seed;
+using Fur.DatabaseAccessor.Providers;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -32,13 +35,10 @@ namespace Fur.DatabaseAccessor.Models.Tenants
         [Required]
         public string Host { get; set; }
 
-        #region 配置初始化数据 + public IEnumerable<Tenant> HasData()
-        /// <summary>
-        /// 配置初始化数据
-        /// </summary>
-        /// <returns><see cref="IEnumerable{T}"/></returns>
-        public IEnumerable<Tenant> HasData()
+        public IEnumerable<Tenant> HasData(DbContext dbContext, ILifetimeScope lifetimeScope)
         {
+            if (!lifetimeScope.IsRegistered<ITenantProvider>()) return default;
+
             return new List<Tenant>()
             {
                 new Tenant() { Id = 1, Name = "默认租户", Host = "localhost:44307" },
@@ -46,6 +46,5 @@ namespace Fur.DatabaseAccessor.Models.Tenants
                 new Tenant() { Id = 3, Name = "默认租户", Host = "localhost:41530" }
             };
         }
-        #endregion
     }
 }

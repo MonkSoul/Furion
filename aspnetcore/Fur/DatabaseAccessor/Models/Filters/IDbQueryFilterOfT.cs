@@ -1,5 +1,6 @@
-﻿using Fur.DatabaseAccessor.Models.Entities;
-using Fur.DatabaseAccessor.Providers;
+﻿using Autofac;
+using Fur.DatabaseAccessor.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -15,13 +16,14 @@ namespace Fur.DatabaseAccessor.Models.Filters
     public interface IDbQueryFilterOfT<TEntity>
         where TEntity : IDbEntity
     {
-        #region 配置查询过滤器 + Dictionary<Expression<Func<TEntity, bool>>, IEnumerable<Type>> HasQueryFilter(ITenantProvider tenantProvider)
+        #region 配置查询过滤器 + Dictionary<Expression<Func<TEntity, bool>>, IEnumerable<Type>> HasQueryFilter(DbContext dbContext, ILifetimeScope lifetimeScope)
         /// <summary>
         /// 配置查询过滤器
         /// </summary>
-        /// <param name="tenantProvider">租户提供器</param>
+        /// <param name="dbContext">数据库上下文</param>
+        /// <param name="lifetimeScope">生命周期对象</param>
         /// <returns><see cref="Dictionary{TKey, TValue}"/></returns>
-        Dictionary<Expression<Func<TEntity, bool>>, IEnumerable<Type>> HasQueryFilter(ITenantProvider tenantProvider);
+        Dictionary<Expression<Func<TEntity, bool>>, IEnumerable<Type>> HasQueryFilter(DbContext dbContext, ILifetimeScope lifetimeScope);
         #endregion
     }
 }

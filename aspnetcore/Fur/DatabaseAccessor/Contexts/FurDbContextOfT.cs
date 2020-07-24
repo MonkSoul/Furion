@@ -1,9 +1,5 @@
-﻿using Autofac;
-using Fur.DatabaseAccessor.Contexts.Status;
-using Fur.DatabaseAccessor.Providers;
+﻿using Fur.DatabaseAccessor.Contexts.Stater;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Fur.DatabaseAccessor.Contexts
 {
@@ -38,7 +34,7 @@ namespace Fur.DatabaseAccessor.Contexts
         {
             base.OnConfiguring(optionsBuilder);
             // 数据库上下文状态器用来避免子类多次调用该方法进行初始化
-            if (FurDbContextOfTStatus.CallOnConfiguringed()) return;
+            if (FurDbContextOfTStater.OnConfiguringStater()) return;
 
             // 如需添加其他配置，应写在以下位置
         }
@@ -53,35 +49,13 @@ namespace Fur.DatabaseAccessor.Contexts
         {
             base.OnModelCreating(modelBuilder);
             // 数据库上下文状态器用来避免子类多次调用该方法进行初始化
-            if (FurDbContextOfTStatus.CallOnModelCreatinged()) return;
+            if (FurDbContextOfTStater.OnModelCreatingStater()) return;
 
-            // 扫描数据库对象类型加入模型构建器中，其中包括视图、存储过程、函数（标量函数/表值函数）
-            FurDbContextOfTStatus.ScanDbObjectsToBuilding(modelBuilder, TenantProvider, this);
+            // 扫描数据库对象类型加入模型构建器中，包括视图、存储过程、函数（标量函数/表值函数）初始化、及种子数据、查询筛选器配置
+            FurDbContextOfTStater.ScanDbObjectsToBuilding(modelBuilder, this);
 
             // 如需添加其他配置，应写在以下位置
         }
         #endregion
-
-        /// <summary>
-        /// 租户提供器
-        /// </summary>
-        private ITenantProvider _tenantProvider;
-        public ITenantProvider TenantProvider
-        {
-            get
-            {
-                // 判断是否解析过租户提供器，如果解析过，则跳过，主要是避免子类重复解析
-                if (!FurDbContextOfTStatus.IsResolvedTenantProvider)
-                {
-                    FurDbContextOfTStatus.IsResolvedTenantProvider = true;
-
-                    var lifetimeScope = this.GetService<ILifetimeScope>();
-                    if (!lifetimeScope.IsRegistered<ITenantProvider>()) return _tenantProvider = null;
-
-                    _tenantProvider = lifetimeScope.Resolve<ITenantProvider>();
-                }
-                return _tenantProvider;
-            }
-        }
     }
 }

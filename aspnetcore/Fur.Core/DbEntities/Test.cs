@@ -1,4 +1,5 @@
-﻿using Fur.DatabaseAccessor.Identifiers;
+﻿using Autofac;
+using Fur.DatabaseAccessor.Identifiers;
 using Fur.DatabaseAccessor.Models.Entities;
 using Fur.DatabaseAccessor.Models.Filters;
 using Fur.DatabaseAccessor.Providers;
@@ -16,10 +17,11 @@ namespace Fur.Core.DbEntities
         public string Name { get; set; }
         public int Age { get; set; }
 
-        public Dictionary<Expression<Func<Test, bool>>, IEnumerable<Type>> HasQueryFilter(ITenantProvider tenantProvider)
+        public Dictionary<Expression<Func<Test, bool>>, IEnumerable<Type>> HasQueryFilter(DbContext dbContext, ILifetimeScope lifetimeScope)
         {
-            if (tenantProvider == null) return null;
+            if (!lifetimeScope.IsRegistered<ITenantProvider>()) return default;
 
+            var tenantProvider = lifetimeScope.Resolve<ITenantProvider>();
             return new Dictionary<Expression<Func<Test, bool>>, IEnumerable<Type>>
             {
                 {

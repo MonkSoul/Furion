@@ -1,4 +1,5 @@
-﻿using Fur.DatabaseAccessor.Identifiers;
+﻿using Autofac;
+using Fur.DatabaseAccessor.Identifiers;
 using Fur.DatabaseAccessor.Models.Entities;
 using Fur.DatabaseAccessor.Models.Filters;
 using Fur.DatabaseAccessor.Providers;
@@ -20,10 +21,9 @@ namespace Fur.Core.DbEntities
         public int Age { get; set; }
         public int TenantId { get; set; }
 
-        public Dictionary<Expression<Func<V_Test, bool>>, IEnumerable<Type>> HasQueryFilter(ITenantProvider tenantProvider)
+        public Dictionary<Expression<Func<V_Test, bool>>, IEnumerable<Type>> HasQueryFilter(DbContext dbContext, ILifetimeScope lifetimeScope)
         {
-            if (tenantProvider == null) return null;
-
+            var tenantProvider = lifetimeScope.Resolve<ITenantProvider>();
             return new Dictionary<Expression<Func<V_Test, bool>>, IEnumerable<Type>>
             {
                 {
