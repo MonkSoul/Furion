@@ -31,7 +31,7 @@ namespace Fur.EntityFramework.Core.Extensions
 
             services.AddFurSqlServerDbContextPool<FurSqlServerDbContext>(furConnectionString, env)
                         .AddFurSqlServerDbContextPool<FurMultipleSqlServerDbContext>(furMultipleConnectionString, env)
-                        .AddFurSqlServerDbContextPool<FurTenantDbContext>(furConnectionString, env);
+                        .AddFurSqlServerDbContextPool<FurMultiTenantDbContext>(furConnectionString, env);
 
             services.Configure<MvcOptions>(options =>
             {

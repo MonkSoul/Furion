@@ -1,6 +1,6 @@
 ﻿namespace Fur.DatabaseAccessor.Providers
 {
-    public interface ITenantProvider
+    public interface IMultiTenantProvider
     {
         int GetTenantId();
     }

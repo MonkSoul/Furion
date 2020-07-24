@@ -6,15 +6,15 @@ using System;
 
 namespace Fur.DatabaseAccessor.Providers
 {
-    public class TenantProvider : ITenantProvider
+    public class MultiTenantProvider : IMultiTenantProvider
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly FurTenantDbContext _tenantDbContext;
+        private readonly FurMultiTenantDbContext _tenantDbContext;
         private readonly IMemoryCache _memoryCache;
         private readonly IDbContextPool _dbContextPool;
 
-        public TenantProvider(IHttpContextAccessor httpContextAccessor
-            , FurTenantDbContext tenantDbContext
+        public MultiTenantProvider(IHttpContextAccessor httpContextAccessor
+            , FurMultiTenantDbContext tenantDbContext
             , IMemoryCache memoryCache
             , IDbContextPool dbContextPool)
         {

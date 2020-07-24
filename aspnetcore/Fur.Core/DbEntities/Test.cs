@@ -19,9 +19,9 @@ namespace Fur.Core.DbEntities
 
         public Dictionary<Expression<Func<Test, bool>>, IEnumerable<Type>> HasQueryFilter(DbContext dbContext, ILifetimeScope lifetimeScope)
         {
-            if (!lifetimeScope.IsRegistered<ITenantProvider>()) return default;
+            if (!lifetimeScope.IsRegistered<IMultiTenantProvider>()) return default;
 
-            var tenantProvider = lifetimeScope.Resolve<ITenantProvider>();
+            var tenantProvider = lifetimeScope.Resolve<IMultiTenantProvider>();
             return new Dictionary<Expression<Func<Test, bool>>, IEnumerable<Type>>
             {
                 {

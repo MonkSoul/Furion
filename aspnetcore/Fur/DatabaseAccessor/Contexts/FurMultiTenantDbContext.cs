@@ -8,7 +8,7 @@ namespace Fur.DatabaseAccessor.Contexts
     /// 租户数据库上下文
     /// <para>管理租户相关的表及信息</para>
     /// </summary>
-    public class FurTenantDbContext : FurDbContextOfT<FurTenantDbContext>
+    public class FurMultiTenantDbContext : FurDbContextOfT<FurMultiTenantDbContext>
     {
         /// <summary>
         /// 租户实体表
@@ -22,7 +22,7 @@ namespace Fur.DatabaseAccessor.Contexts
         /// 构造函数
         /// </summary>
         /// <param name="options">数据库上下文配置选项</param>
-        public FurTenantDbContext(DbContextOptions<FurTenantDbContext> options) : base(options)
+        public FurMultiTenantDbContext(DbContextOptions<FurMultiTenantDbContext> options) : base(options)
         {
         }
 

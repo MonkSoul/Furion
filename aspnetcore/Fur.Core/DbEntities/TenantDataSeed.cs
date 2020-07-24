@@ -11,7 +11,7 @@ namespace Fur.Core.DbEntities
     {
         public IEnumerable<Tenant> HasData(DbContext dbContext, ILifetimeScope lifetimeScope)
         {
-            if (!lifetimeScope.IsRegistered<ITenantProvider>()) return default;
+            if (!lifetimeScope.IsRegistered<IMultiTenantProvider>()) return default;
 
             return new List<Tenant>()
             {

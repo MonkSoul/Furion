@@ -12,7 +12,7 @@ namespace Fur.EntityFramework.Core
         {
             builder.RegisterDefaultDbContext<FurSqlServerDbContext>()
                        .RegisterMultipleRepository<FurMultipleSqlServerDbContext, FurMultipleDbContextIdentifier>()
-                       .RegisterTenant<TenantProvider>()
+                       .RegisterMultiTenant<MultiTenantProvider>()
                        .RegisterRepositories()
                        .RegisterTangentDbContext();
         }

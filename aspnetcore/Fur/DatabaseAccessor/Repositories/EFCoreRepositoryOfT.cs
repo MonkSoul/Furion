@@ -20,7 +20,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <summary>
         /// 租户提供器
         /// </summary>
-        private readonly ITenantProvider _tenantProvider;
+        private readonly IMultiTenantProvider _tenantProvider;
 
         /// <summary>
         /// 数据库上下文池
@@ -49,9 +49,9 @@ namespace Fur.DatabaseAccessor.Repositories
             {
                 _maintenanceProvider = lifetimeScope.Resolve<IMaintenanceFieldsProvider>();
             }
-            if (lifetimeScope.IsRegistered<ITenantProvider>())
+            if (lifetimeScope.IsRegistered<IMultiTenantProvider>())
             {
-                _tenantProvider = lifetimeScope.Resolve<ITenantProvider>();
+                _tenantProvider = lifetimeScope.Resolve<IMultiTenantProvider>();
             }
         }
 

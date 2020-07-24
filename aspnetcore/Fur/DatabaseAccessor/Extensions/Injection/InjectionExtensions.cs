@@ -117,13 +117,13 @@ namespace Fur.DatabaseAccessor.Extensions.Injection
         /// <typeparam name="TTenantProvider">租户提供器</typeparam>
         /// <param name="builder">容器构建器</param>
         /// <returns><see cref="ContainerBuilder"/></returns>
-        public static ContainerBuilder RegisterTenant<TTenantProvider>(this ContainerBuilder builder)
-            where TTenantProvider : ITenantProvider
+        public static ContainerBuilder RegisterMultiTenant<TMultiTenantProvider>(this ContainerBuilder builder)
+            where TMultiTenantProvider : IMultiTenantProvider
         {
-            builder.RegisterMultipleRepository<FurTenantDbContext, FurTenantDbContextIdentifier>();
+            builder.RegisterMultipleRepository<FurMultiTenantDbContext, FurMultiTenantDbContextIdentifier>();
 
-            builder.RegisterType<TTenantProvider>()
-                .As<ITenantProvider>()
+            builder.RegisterType<TMultiTenantProvider>()
+                .As<IMultiTenantProvider>()
                 .InstancePerLifetimeScope();
             return builder;
         }
