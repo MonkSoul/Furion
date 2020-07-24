@@ -1,6 +1,6 @@
-﻿using Autofac;
-using Fur.DatabaseAccessor.Identifiers;
+﻿using Fur.DatabaseAccessor.Identifiers;
 using Fur.DatabaseAccessor.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace Fur.DatabaseAccessor.Models.Seed
@@ -14,13 +14,13 @@ namespace Fur.DatabaseAccessor.Models.Seed
     public interface IDbDataSeedOfT<TEntity> : IDbDataSeed
         where TEntity : IDbEntity
     {
-        #region 配置初始化数据 + IEnumerable<TEntity> HasData(ILifetimeScope lifetimeScope)
+        #region 配置初始化数据 + IEnumerable<TEntity> HasData(DbContext dbContext)
         /// <summary>
         /// 配置初始化数据
         /// </summary>
-        /// <param name="lifetimeScope">Autofac 生命周期对象</param>
+        /// <param name="dbContext">数据库上下文</param>
         /// <returns><see cref="IEnumerable{T}"/></returns>
-        IEnumerable<TEntity> HasData(ILifetimeScope lifetimeScope);
+        IEnumerable<TEntity> HasData(DbContext dbContext);
         #endregion
     }
 

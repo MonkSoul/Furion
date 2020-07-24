@@ -4,6 +4,7 @@ using Fur.DatabaseAccessor.Models.Entities;
 using Fur.DatabaseAccessor.Models.Filters;
 using Fur.DatabaseAccessor.Providers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -21,8 +22,9 @@ namespace Fur.Core.DbEntities
         public int Age { get; set; }
         public int TenantId { get; set; }
 
-        public IEnumerable<Expression<Func<V_Test, bool>>> HasQueryFilter(ILifetimeScope lifetimeScope)
+        public IEnumerable<Expression<Func<V_Test, bool>>> HasQueryFilter(DbContext dbContext)
         {
+            var lifetimeScope = dbContext.GetService<ILifetimeScope>();
             if (!lifetimeScope.IsRegistered<IMultiTenantProvider>()) return default;
 
             var tenantProvider = lifetimeScope.Resolve<IMultiTenantProvider>();

@@ -24,15 +24,15 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
     [NonWrapper]
     internal static class FurDbContextOfTStater
     {
-        #region 扫描数据库对象类型加入模型构建器中 + internal static void ScanDbObjectsToBuilding(ModelBuilder modelBuilder, Type dbContextIdentifierType, ILifetimeScope lifetimeScope)
+        #region 扫描数据库对象类型加入模型构建器中 +internal static void ScanDbObjectsToBuilding(ModelBuilder modelBuilder, Type dbContextIdentifierType, DbContext dbContext)
         /// <summary>
         /// 扫描数据库对象类型加入模型构建器中
         /// <para>包括视图、存储过程、函数（标量函数/表值函数）初始化、及种子数据、查询筛选器配置</para>
         /// </summary>
         /// <param name="modelBuilder">模型上下文</param>
         /// <param name="dbContextIdentifierType">数据库上下文标识器</param>
-        /// <param name="lifetimeScope">Autofac 生命周期对象</param>
-        internal static void ScanDbObjectsToBuilding(ModelBuilder modelBuilder, Type dbContextIdentifierType, ILifetimeScope lifetimeScope)
+        /// <param name="dbContext">数据库上下文</param>
+        internal static void ScanDbObjectsToBuilding(ModelBuilder modelBuilder, Type dbContextIdentifierType, DbContext dbContext)
         {
             // 配置无键实体
             ConfigureNoKeyEntity(modelBuilder, dbContextIdentifierType);
@@ -41,10 +41,10 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
             ConfigureDbFunction(modelBuilder, dbContextIdentifierType);
 
             // 配置种子数据
-            ConfigureSeedData(modelBuilder, lifetimeScope, dbContextIdentifierType);
+            ConfigureSeedData(modelBuilder, dbContext, dbContextIdentifierType);
 
             //配置数据过滤器
-            ConfigureQueryFilter(modelBuilder, lifetimeScope, dbContextIdentifierType);
+            ConfigureQueryFilter(modelBuilder, dbContext, dbContextIdentifierType);
         }
         #endregion
 
@@ -125,9 +125,9 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// 配置种子数据
         /// </summary>
         /// <param name="modelBuilder">模型构建器</param>
-        /// <param name="lifetimeScope">Autofac 生命周期对象</param>
+        /// <param name="dbContext">数据库上下文</param>
         /// <param name="dbContextIdentifierType">数据库上下文标识器</param>
-        private static void ConfigureSeedData(ModelBuilder modelBuilder, ILifetimeScope lifetimeScope, Type dbContextIdentifierType)
+        private static void ConfigureSeedData(ModelBuilder modelBuilder, DbContext dbContext, Type dbContextIdentifierType)
         {
             foreach (var seedType in _dataSeedTypes)
             {
@@ -148,7 +148,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                         var seedDataTypeInstance = Activator.CreateInstance(seedDataType);
                         var hasDataMethod = seedDataType.GetMethod(nameof(IDbDataSeedOfT<IDbEntity>.HasData));
 
-                        _dbSeedDataStater.SeedDatas = hasDataMethod.Invoke(seedDataTypeInstance, new object[] { lifetimeScope }).Adapt<IEnumerable<object>>();
+                        _dbSeedDataStater.SeedDatas = hasDataMethod.Invoke(seedDataTypeInstance, new object[] { dbContext }).Adapt<IEnumerable<object>>();
                     }
 
                     _dbSeedDataStateres.TryAdd(seedDataType, _dbSeedDataStater);
@@ -173,9 +173,9 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// 配置查询筛选器
         /// </summary>
         /// <param name="modelBuilder">模型构建器</param>
-        /// <param name="lifetimeScope">Autofac 生命周期对象</param>
+        /// <param name="dbContext">数据库上下文</param>
         /// <param name="dbContextIdentifierType">数据库上下文标识器</param>
-        private static void ConfigureQueryFilter(ModelBuilder modelBuilder, ILifetimeScope lifetimeScope, Type dbContextIdentifierType)
+        private static void ConfigureQueryFilter(ModelBuilder modelBuilder, DbContext dbContext, Type dbContextIdentifierType)
         {
             foreach (var queryFilterType in _queryFilterTypes)
             {
@@ -196,7 +196,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                         var queryFilterTypeInstance = Activator.CreateInstance(filterType);
                         var hasQueryFilterMethod = filterType.GetMethod(nameof(IDbQueryFilterOfT<IDbEntity>.HasQueryFilter));
 
-                        _dbQueryFilterStater.QueryFilters = hasQueryFilterMethod.Invoke(queryFilterTypeInstance, new object[] { lifetimeScope }).Adapt<IEnumerable<LambdaExpression>>();
+                        _dbQueryFilterStater.QueryFilters = hasQueryFilterMethod.Invoke(queryFilterTypeInstance, new object[] { dbContext }).Adapt<IEnumerable<LambdaExpression>>();
                     }
 
                     _dbQueryFilterStateres.TryAdd(filterType, _dbQueryFilterStater);

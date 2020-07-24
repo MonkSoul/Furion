@@ -1,14 +1,14 @@
-﻿using Autofac;
-using Fur.DatabaseAccessor.Identifiers;
+﻿using Fur.DatabaseAccessor.Identifiers;
 using Fur.DatabaseAccessor.Models.Seed;
 using Fur.DatabaseAccessor.Models.Tenants;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace Fur.Core.DbEntities
 {
     public class TenantDataSeed : IDbDataSeedOfT<Tenant, FurDbContextIdentifier>
     {
-        public IEnumerable<Tenant> HasData(ILifetimeScope lifetimeScope)
+        public IEnumerable<Tenant> HasData(DbContext dbContext)
         {
             return new List<Tenant>()
             {
