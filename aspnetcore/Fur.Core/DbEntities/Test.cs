@@ -1,10 +1,8 @@
-﻿using Autofac;
-using Fur.DatabaseAccessor.Identifiers;
+﻿using Fur.DatabaseAccessor.Identifiers;
 using Fur.DatabaseAccessor.Models.Entities;
 using Fur.DatabaseAccessor.Models.Filters;
-using Fur.DatabaseAccessor.Providers;
+using Fur.DatabaseAccessor.MultiTenants;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,13 +18,9 @@ namespace Fur.Core.DbEntities
 
         public IEnumerable<Expression<Func<Test, bool>>> HasQueryFilter(DbContext dbContext)
         {
-            var lifetimeScope = dbContext.GetService<ILifetimeScope>();
-            if (!lifetimeScope.IsRegistered<IMultiTenantProvider>()) return default;
-
-            var tenantProvider = lifetimeScope.Resolve<IMultiTenantProvider>();
             return new List<Expression<Func<Test, bool>>>
             {
-                b => EF.Property<int>(b, nameof(DbEntityBase.TenantId)) == tenantProvider.GetTenantId()
+               MultiTenantHelper.TenantQueryFilter<Test>(dbContext)
             };
         }
     }

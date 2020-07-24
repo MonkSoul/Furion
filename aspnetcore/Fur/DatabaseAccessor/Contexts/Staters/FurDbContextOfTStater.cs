@@ -213,7 +213,10 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 var entityTypeBuilder = modelBuilder.Entity(dbQueryFilterStater.DbEntityType);
                 foreach (var queryFilter in queryFilters)
                 {
-                    entityTypeBuilder.HasQueryFilter(queryFilter);
+                    if (queryFilter != null)
+                    {
+                        entityTypeBuilder.HasQueryFilter(queryFilter);
+                    }
                 }
             }
         }
