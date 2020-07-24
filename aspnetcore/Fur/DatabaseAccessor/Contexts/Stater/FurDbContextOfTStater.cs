@@ -103,19 +103,22 @@ namespace Fur.DatabaseAccessor.Contexts.Stater
         private static void ConfigureSeedData(IEnumerable<TypeWrapper> publicClassTypes, ModelBuilder modelBuilder, DbContext dbContext, ILifetimeScope lifetimeScope)
         {
             var dataSeedTypes = publicClassTypes.Where(u => u.CanBeNew &&
-                                                                                            typeof(IDbEntity).IsAssignableFrom(u.Type) &&
-                                                                                            !typeof(DbNoKeyEntity).IsAssignableFrom(u.Type) &&
-                                                                                            typeof(IDbDataSeedOfT<>).MakeGenericType(u.Type).IsAssignableFrom(u.Type));
+                                                                                                u.Type.GetInterfaces().Any(c => c.IsGenericType && c.GetGenericTypeDefinition() == typeof(IDbDataSeedOfT<>)));
             foreach (var seedType in dataSeedTypes)
             {
-                var type = seedType.Type;
-                var seedTypeInstance = Activator.CreateInstance(type);
+                var seedDataType = seedType.Type;
 
-                var hasDataMethod = type.GetMethod(nameof(IDbDataSeedOfT<IDbEntity>.HasData));
+                var dbEntityType = seedDataType.GetInterfaces()
+                    .FirstOrDefault(c => c.IsGenericType && c.GetGenericTypeDefinition() == typeof(IDbDataSeedOfT<>))
+                    .GetGenericArguments().FirstOrDefault();
+
+                var seedTypeInstance = Activator.CreateInstance(seedDataType);
+
+                var hasDataMethod = seedDataType.GetMethod(nameof(IDbDataSeedOfT<IDbEntity>.HasData));
 
                 if (!(hasDataMethod.Invoke(seedTypeInstance, new object[] { dbContext, lifetimeScope }) is IEnumerable<object> seedData) || seedData.Count() == 0) continue;
 
-                var entityTypeBuilder = modelBuilder.Entity(type);
+                var entityTypeBuilder = modelBuilder.Entity(dbEntityType);
                 entityTypeBuilder.HasData(seedData);
             }
         }
@@ -129,7 +132,7 @@ namespace Fur.DatabaseAccessor.Contexts.Stater
         /// <param name="modelBuilder">模型构建器</param>
         private static void ConfigureNoKeyEntity(IEnumerable<TypeWrapper> publicClassTypes, ModelBuilder modelBuilder)
         {
-            var noKeyEntityTypes = publicClassTypes.Where(u => u.CanBeNew && typeof(DbNoKeyEntity).IsAssignableFrom(u.Type));
+            var noKeyEntityTypes = publicClassTypes.Where(u => u.CanBeNew && typeof(IDbNoKeyEntity).IsAssignableFrom(u.Type));
             foreach (var noKeyEntityType in noKeyEntityTypes)
             {
                 var entityTypeBuilder = modelBuilder.Entity(noKeyEntityType.Type);
@@ -152,20 +155,24 @@ namespace Fur.DatabaseAccessor.Contexts.Stater
         private static void ConfigureQueryFilter(IEnumerable<TypeWrapper> publicClassTypes, ModelBuilder modelBuilder, DbContext dbContext, ILifetimeScope lifetimeScope)
         {
             var queryFilterTypes = publicClassTypes.Where(u => u.CanBeNew &&
-                                                                                            typeof(IDbEntity).IsAssignableFrom(u.Type) &&
-                                                                                            typeof(IDbQueryFilterOfT<>).MakeGenericType(u.Type).IsAssignableFrom(u.Type));
+                                                                                            u.Type.GetInterfaces().Any(c => c.IsGenericType && c.GetGenericTypeDefinition() == typeof(IDbQueryFilterOfT<>)));
 
             foreach (var queryFilterType in queryFilterTypes)
             {
-                var type = queryFilterType.Type;
-                var queryFilterTypeInstance = Activator.CreateInstance(type);
+                var filterType = queryFilterType.Type;
 
-                var hasQueryFilterMethod = type.GetMethod(nameof(IDbQueryFilterOfT<IDbEntity>.HasQueryFilter));
+                var dbEntityType = filterType.GetInterfaces()
+                     .FirstOrDefault(c => c.IsGenericType && c.GetGenericTypeDefinition() == typeof(IDbQueryFilterOfT<>))
+                     .GetGenericArguments().FirstOrDefault();
+
+                var queryFilterTypeInstance = Activator.CreateInstance(filterType);
+
+                var hasQueryFilterMethod = filterType.GetMethod(nameof(IDbQueryFilterOfT<IDbEntity>.HasQueryFilter));
                 var queryFilters = hasQueryFilterMethod.Invoke(queryFilterTypeInstance, new object[] { dbContext, lifetimeScope }).Adapt<Dictionary<LambdaExpression, IEnumerable<Type>>>();
 
                 if (queryFilters == null || queryFilters.Count == 0) continue;
 
-                var entityTypeBuilder = modelBuilder.Entity(type);
+                var entityTypeBuilder = modelBuilder.Entity(dbEntityType);
                 foreach (var queryFilter in queryFilters.Keys)
                 {
                     if (queryFilters[queryFilter].Any(u => lifetimeScope.ResolveNamed<DbContext>(u.Name).GetType().Name == dbContext.GetType().Name))

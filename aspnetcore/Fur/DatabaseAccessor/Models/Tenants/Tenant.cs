@@ -1,9 +1,4 @@
-﻿using Autofac;
-using Fur.DatabaseAccessor.Models.Entities;
-using Fur.DatabaseAccessor.Models.Seed;
-using Fur.DatabaseAccessor.Providers;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using Fur.DatabaseAccessor.Models.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,7 +8,7 @@ namespace Fur.DatabaseAccessor.Models.Tenants
     /// 租户实体
     /// </summary>
     [Table("Tenants")]
-    public class Tenant : IDbEntity, IDbDataSeedOfT<Tenant>
+    public class Tenant : IDbEntity
     {
         /// <summary>
         /// 主键Id
@@ -34,17 +29,5 @@ namespace Fur.DatabaseAccessor.Models.Tenants
         /// </summary>
         [Required]
         public string Host { get; set; }
-
-        public IEnumerable<Tenant> HasData(DbContext dbContext, ILifetimeScope lifetimeScope)
-        {
-            if (!lifetimeScope.IsRegistered<ITenantProvider>()) return default;
-
-            return new List<Tenant>()
-            {
-                new Tenant() { Id = 1, Name = "默认租户", Host = "localhost:44307" },
-                new Tenant() { Id = 2, Name = "默认租户", Host = "localhost:41529" },
-                new Tenant() { Id = 3, Name = "默认租户", Host = "localhost:41530" }
-            };
-        }
     }
 }

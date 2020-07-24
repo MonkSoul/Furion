@@ -5,7 +5,8 @@ using System.Linq;
 namespace Fur.DatabaseAccessor.Contexts
 {
     /// <summary>
-    /// 租户数据库操作上下文
+    /// 租户数据库上下文
+    /// <para>管理租户相关的表及信息</para>
     /// </summary>
     public class FurTenantDbContext : FurDbContextOfT<FurTenantDbContext>
     {
