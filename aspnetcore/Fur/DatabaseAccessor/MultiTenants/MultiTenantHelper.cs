@@ -10,7 +10,7 @@ namespace Fur.DatabaseAccessor.MultiTenants
 {
     public static class MultiTenantHelper
     {
-        public static Expression<Func<TEntity, bool>> TenantQueryFilter<TEntity>(DbContext dbContext) where TEntity : IDbEntity
+        public static Expression<Func<TEntity, bool>> MultiTenantQueryFilter<TEntity>(DbContext dbContext) where TEntity : IDbEntity
         {
             var lifetimeScope = dbContext.GetService<ILifetimeScope>();
             if (!lifetimeScope.IsRegistered<IMultiTenantProvider>()) return default;

@@ -24,7 +24,7 @@ namespace Fur.Core.DbEntities
         {
             return new List<Expression<Func<V_Test, bool>>>
             {
-               MultiTenantHelper.TenantQueryFilter<V_Test>(dbContext)
+               MultiTenantHelper.MultiTenantQueryFilter<V_Test>(dbContext)
             };
         }
     }

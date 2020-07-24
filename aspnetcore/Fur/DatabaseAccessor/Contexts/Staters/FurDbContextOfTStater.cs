@@ -211,6 +211,8 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 if (queryFilters == null || queryFilters.Count() == 0) continue;
 
                 var entityTypeBuilder = modelBuilder.Entity(dbQueryFilterStater.DbEntityType);
+
+                // 目前并不支持多个过滤器，只会应用最后一个：https://docs.microsoft.com/zh-cn/ef/core/querying/filters
                 foreach (var queryFilter in queryFilters)
                 {
                     if (queryFilter != null)

@@ -20,7 +20,7 @@ namespace Fur.Core.DbEntities
         {
             return new List<Expression<Func<Test, bool>>>
             {
-               MultiTenantHelper.TenantQueryFilter<Test>(dbContext)
+               MultiTenantHelper.MultiTenantQueryFilter<Test>(dbContext)
             };
         }
     }
