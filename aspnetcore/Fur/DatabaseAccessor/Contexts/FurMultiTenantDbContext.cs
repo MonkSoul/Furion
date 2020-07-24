@@ -1,4 +1,5 @@
-﻿using Fur.DatabaseAccessor.Models.Tenants;
+﻿using Fur.DatabaseAccessor.Identifiers;
+using Fur.DatabaseAccessor.Models.Tenants;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
@@ -8,7 +9,7 @@ namespace Fur.DatabaseAccessor.Contexts
     /// 租户数据库上下文
     /// <para>管理租户相关的表及信息</para>
     /// </summary>
-    public class FurMultiTenantDbContext : FurDbContextOfT<FurMultiTenantDbContext>
+    public class FurMultiTenantDbContext : FurDbContextOfT<FurMultiTenantDbContext, FurMultiTenantDbContextIdentifier>
     {
         /// <summary>
         /// 租户实体表

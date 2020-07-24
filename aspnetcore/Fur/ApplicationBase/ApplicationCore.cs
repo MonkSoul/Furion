@@ -28,6 +28,7 @@ namespace Fur.ApplicationBase
     /// </item>
     /// </list>
     /// </summary>
+    [NonWrapper]
     public static class ApplicationCore
     {
         /// <summary>

@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 
 namespace Fur.Core.DbEntities
 {
-    public class V_Test : DbNoKeyEntity, IDbQueryFilterOfT<V_Test>
+    public class V_Test : DbNoKeyEntityOfT<FurDbContextIdentifier>, IDbQueryFilterOfT<V_Test, FurDbContextIdentifier>
     {
         public V_Test() : base("V_Test")
         {
@@ -21,18 +21,14 @@ namespace Fur.Core.DbEntities
         public int Age { get; set; }
         public int TenantId { get; set; }
 
-        public Dictionary<Expression<Func<V_Test, bool>>, IEnumerable<Type>> HasQueryFilter(DbContext dbContext, ILifetimeScope lifetimeScope)
+        public IEnumerable<Expression<Func<V_Test, bool>>> HasQueryFilter(ILifetimeScope lifetimeScope)
         {
+            if (!lifetimeScope.IsRegistered<IMultiTenantProvider>()) return default;
+
             var tenantProvider = lifetimeScope.Resolve<IMultiTenantProvider>();
-            return new Dictionary<Expression<Func<V_Test, bool>>, IEnumerable<Type>>
+            return new List<Expression<Func<V_Test, bool>>>
             {
-                {
-                    b => EF.Property<int>(b, nameof(DbEntityBase.TenantId)) == tenantProvider.GetTenantId(),
-                    new List<Type>
-                    {
-                        typeof(FurDbContextIdentifier)
-                    }
-                }
+                b => EF.Property<int>(b, nameof(DbEntityBase.TenantId)) == tenantProvider.GetTenantId()
             };
         }
     }

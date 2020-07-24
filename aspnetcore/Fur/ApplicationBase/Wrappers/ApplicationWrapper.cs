@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Fur.ApplicationBase.Attributes;
+using System.Collections.Generic;
 
 namespace Fur.ApplicationBase.Wrappers
 {
@@ -6,6 +7,7 @@ namespace Fur.ApplicationBase.Wrappers
     /// 应用包装类
     /// <para>提供常用的程序集、公开类、公开方法属性</para>
     /// </summary>
+    [NonWrapper]
     public sealed class ApplicationWrapper
     {
         /// <summary>

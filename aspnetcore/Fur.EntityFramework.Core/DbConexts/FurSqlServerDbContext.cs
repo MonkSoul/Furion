@@ -1,10 +1,11 @@
 ﻿using Fur.Core.DbEntities;
 using Fur.DatabaseAccessor.Contexts;
+using Fur.DatabaseAccessor.Identifiers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fur.EntityFramework.Core.DbContexts
 {
-    public class FurSqlServerDbContext : FurDbContextOfT<FurSqlServerDbContext>
+    public class FurSqlServerDbContext : FurDbContextOfT<FurSqlServerDbContext, FurDbContextIdentifier>
     {
         public virtual DbSet<Test> Tests { get; set; }
 

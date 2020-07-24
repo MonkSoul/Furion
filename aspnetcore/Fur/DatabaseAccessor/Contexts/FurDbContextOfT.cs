@@ -1,17 +1,24 @@
-﻿using Fur.DatabaseAccessor.Contexts.Stater;
+﻿using Autofac;
+using Fur.ApplicationBase.Attributes;
+using Fur.DatabaseAccessor.Contexts.Staters;
+using Fur.DatabaseAccessor.Identifiers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Fur.DatabaseAccessor.Contexts
 {
     /// <summary>
     /// Fur 数据库上下文
     /// <para>抽象类，不能实例化</para>
-    /// <para>区别于 EF Core 提供的 <see cref="DbContext"/>，<see cref="FurDbContextOfT{TDbContext}"/> 数据库上下文默认继承 <see cref="DbContext"/>，但在此基础上拓展了租户模式，数据库视图自动注册 <see cref="DbSet{TEntity}"/>等功能</para>
+    /// <para>区别于 EF Core 提供的 <see cref="DbContext"/>，<see cref="FurDbContextOfT{TDbContext, TDbContextIdentifier}"/> 数据库上下文默认继承 <see cref="DbContext"/>，但在此基础上拓展了租户模式，数据库对象类型自动注册 <see cref="DbSet{TEntity}"/>等功能</para>
     /// <para>建议所有数据库上下文都应继承 <see cref="FurDbContextOfT{TDbContext}"/></para>
     /// </summary>
     /// <typeparam name="TDbContext"><see cref="DbContext"/> 衍生类</typeparam>
-    public abstract class FurDbContextOfT<TDbContext> : DbContext
+    /// <typeparam name="TDbContextIdentifier">数据库上下文标识器</typeparam>
+    [NonWrapper]
+    public abstract class FurDbContextOfT<TDbContext, TDbContextIdentifier> : DbContext
         where TDbContext : DbContext
+        where TDbContextIdentifier : IDbContextIdentifier
     {
         #region 构造函数 + public FurDbContextOfT(DbContextOptions<TDbContext> options)
         /// <summary>
@@ -33,10 +40,8 @@ namespace Fur.DatabaseAccessor.Contexts
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            // 数据库上下文状态器用来避免子类多次调用该方法进行初始化
-            if (FurDbContextOfTStater.OnConfiguringStater()) return;
 
-            // 如需添加其他配置，应写在以下位置
+            // 如需添加其他配置，应写在以下位置，但是要注意基类多次调用问题，建议通过 TDbContextIdentifier 来区分当前数据库上下文
         }
         #endregion
 
@@ -48,13 +53,11 @@ namespace Fur.DatabaseAccessor.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            // 数据库上下文状态器用来避免子类多次调用该方法进行初始化
-            if (FurDbContextOfTStater.OnModelCreatingStater()) return;
 
             // 扫描数据库对象类型加入模型构建器中，包括视图、存储过程、函数（标量函数/表值函数）初始化、及种子数据、查询筛选器配置
-            FurDbContextOfTStater.ScanDbObjectsToBuilding(modelBuilder, this);
+            FurDbContextOfTStater.ScanDbObjectsToBuilding(modelBuilder, typeof(TDbContextIdentifier), this.GetService<ILifetimeScope>());
 
-            // 如需添加其他配置，应写在以下位置
+            // 如需添加其他配置，应写在以下位置，但是要注意基类多次调用问题，建议通过 TDbContextIdentifier 来区分当前数据库上下文
         }
         #endregion
     }

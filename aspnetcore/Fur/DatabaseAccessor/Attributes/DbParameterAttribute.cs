@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fur.ApplicationBase.Attributes;
+using System;
 using System.Data;
 
 namespace Fur.DatabaseAccessor.Attributes
@@ -8,7 +9,7 @@ namespace Fur.DatabaseAccessor.Attributes
     /// <para>参见：<see cref="Microsoft.Data.SqlClient.SqlParameter"/></para>
     /// <para>说明：只能在类属性中贴此特性</para>
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property), NonWrapper]
     public class DbParameterAttribute : Attribute
     {
         #region 构造函数 + public DbParameterAttribute(ParameterDirection direction)

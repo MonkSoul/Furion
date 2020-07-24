@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fur.ApplicationBase.Attributes;
+using System;
 using System.Transactions;
 
 namespace Fur.DatabaseAccessor.Attributes
@@ -8,7 +9,7 @@ namespace Fur.DatabaseAccessor.Attributes
     /// <para>支持配置事务范围、隔离级别、跨线程异步流</para>
     /// <para>说明：只能在方法中贴此特性，通常贴在最外层的方法中，如果在子方法中贴该特性，将启用嵌套子事务</para>
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Method), NonWrapper]
     public class UnitOfWorkAttribute : Attribute
     {
         #region 构造函数 + public UnitOfWorkAttribute()

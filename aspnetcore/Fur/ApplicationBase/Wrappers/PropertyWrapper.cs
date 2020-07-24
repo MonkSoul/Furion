@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fur.ApplicationBase.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -9,6 +10,7 @@ namespace Fur.ApplicationBase.Wrappers
     /// <code>sealed</code>
     /// <para>主要用来装载解决方案项目中类型属性常用属性及附加属性， 避免重复反射读取</para>
     /// </summary>
+    [NonWrapper]
     public sealed class PropertyWrapper
     {
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Fur.DatabaseAccessor.Attributes;
+using Fur.DatabaseAccessor.Identifiers;
 using System;
 
 namespace Fur.Core.DbEntities
@@ -22,7 +23,7 @@ namespace Fur.Core.DbEntities
         //      RETURN @id + 1;
         //  END;
         // ================================
-        [DbFunction(Name = "FN_GetId", Schema = "dbo")]
+        [DbEFFunction("FN_GetId", "dbo", typeof(FurDbContextIdentifier))]
         public static int GetId(int id) => throw new NotSupportedException();
     }
 }

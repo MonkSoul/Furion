@@ -38,10 +38,9 @@ namespace Fur.Application.Functions
         private readonly IRepository _repository;
         private readonly IRepositoryOfT<Test> _testRepository;
         private readonly IRepositoryOfT<V_Test> _vTestRepository;
-        private readonly IMasterSlaveRepositoryOfT<Test, FurDbContextIdentifier, FurMultipleDbContextIdentifier> _masterSlaveRepository;
 
+        private readonly IMasterSlaveRepositoryOfT<Test, FurDbContextIdentifier, FurMultipleDbContextIdentifier> _masterSlaveRepository;
         private readonly IMultipleRepositoryOfT<Test, FurMultipleDbContextIdentifier> _multipleRepository;
-        private readonly IMultipleRepositoryOfT<V_Test, FurMultipleDbContextIdentifier> _vTestMultipleRepository;
 
         private readonly ITangentDbContextOfT<INonDbSetQuery> _tangent;
 
@@ -50,8 +49,6 @@ namespace Fur.Application.Functions
             , IRepositoryOfT<V_Test> vTestRepository
 
             , IMultipleRepositoryOfT<Test, FurMultipleDbContextIdentifier> multipleRepository
-            , IMultipleRepositoryOfT<V_Test, FurMultipleDbContextIdentifier> vTestMultipleRepository
-
             , IMasterSlaveRepositoryOfT<Test, FurDbContextIdentifier, FurMultipleDbContextIdentifier> masterSlaveRepository
 
             , ITangentDbContextOfT<INonDbSetQuery> tangent
@@ -62,8 +59,6 @@ namespace Fur.Application.Functions
             _vTestRepository = vTestRepository;
 
             _multipleRepository = multipleRepository;
-            _vTestMultipleRepository = vTestMultipleRepository;
-
             _masterSlaveRepository = masterSlaveRepository;
 
             _tangent = tangent;

@@ -12,25 +12,19 @@ using System.Linq.Expressions;
 namespace Fur.Core.DbEntities
 {
     [Table("Tests")]
-    public class Test : DbEntityBase, IDbQueryFilterOfT<Test>
+    public class Test : DbEntityBase, IDbQueryFilterOfT<Test, FurDbContextIdentifier>
     {
         public string Name { get; set; }
         public int Age { get; set; }
 
-        public Dictionary<Expression<Func<Test, bool>>, IEnumerable<Type>> HasQueryFilter(DbContext dbContext, ILifetimeScope lifetimeScope)
+        public IEnumerable<Expression<Func<Test, bool>>> HasQueryFilter(ILifetimeScope lifetimeScope)
         {
             if (!lifetimeScope.IsRegistered<IMultiTenantProvider>()) return default;
 
             var tenantProvider = lifetimeScope.Resolve<IMultiTenantProvider>();
-            return new Dictionary<Expression<Func<Test, bool>>, IEnumerable<Type>>
+            return new List<Expression<Func<Test, bool>>>
             {
-                {
-                    b => EF.Property<int>(b, nameof(DbEntityBase.TenantId)) == tenantProvider.GetTenantId(),
-                    new List<Type>
-                    {
-                        typeof(FurDbContextIdentifier)
-                    }
-                }
+                b => EF.Property<int>(b, nameof(DbEntityBase.TenantId)) == tenantProvider.GetTenantId()
             };
         }
     }
