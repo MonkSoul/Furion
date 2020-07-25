@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Fur.DatabaseAccessor.Interceptors;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,7 +12,6 @@ namespace Fur.DatabaseAccessor.Extensions.Services
     public static class ServiceCollectionExtensions
     {
         #region 配置数据库上下文池信息 + public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 100) where TDbContext : DbContext
-
         /// <summary>
         /// 配置数据库上下文池信息
         /// </summary>
@@ -34,7 +34,7 @@ namespace Fur.DatabaseAccessor.Extensions.Services
                                 .EnableSensitiveDataLogging();
                 }
                 options.UseSqlServer(connectionString/*, options => options.EnableRetryOnFailure()*/)
-                            /*.AddInterceptors()*/;
+                            .AddInterceptors(new SqlConnectionProfilerInterceptor());
                 //options.UseInternalServiceProvider(serviceProvider);
             }
             , poolSize: poolSize);
@@ -45,7 +45,6 @@ namespace Fur.DatabaseAccessor.Extensions.Services
         #endregion 配置数据库上下文池信息 + public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 100) where TDbContext : DbContext
 
         #region 配置数据库上下文池信息 + public static IServiceCollection AddFurSqlServerDbContext<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env) where TDbContext : DbContext
-
         /// <summary>
         /// 配置数据库上下文信息
         /// <para>推荐使用 <see cref="AddFurSqlServerDbContextPool{TDbContext}(IServiceCollection, string, IWebHostEnvironment, int)"/></para>
@@ -68,7 +67,7 @@ namespace Fur.DatabaseAccessor.Extensions.Services
                                 .EnableSensitiveDataLogging();
                 }
                 options.UseSqlServer(connectionString/*, options => options.EnableRetryOnFailure()*/)
-                            /*.AddInterceptors()*/;
+                            .AddInterceptors(new SqlConnectionProfilerInterceptor());
                 //options.UseInternalServiceProvider(serviceProvider);
             });
 
