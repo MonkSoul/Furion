@@ -77,6 +77,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
 
         #endregion 执行存储过程 返回 DataSet + internal static Task<DataSet> SqlProcedureDataSetAsync(this DatabaseFacade databaseFacade, string name, params object[] parameters)
 
+
         #region 执行存储过程 + internal static object SqlProcedureDataSet(this DatabaseFacade databaseFacade, string name, Type[] returnTypes, params object[] parameters)
 
         /// <summary>
@@ -111,6 +112,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
 
         #endregion 执行存储过程 + internal static Task<object> SqlProcedureDataSetAsync(this DatabaseFacade databaseFacade, string name, Type[] returnTypes, params object[] parameters)
 
+
         #region 执行存储过程 返回单个结果集 + internal static IEnumerable<T> SqlProcedure<T>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
 
         /// <summary>
@@ -144,6 +146,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         }
 
         #endregion 执行存储过程 返回单个结果集 + internal static Task<IEnumerable<T>> SqlProcedureAsync<T>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+
 
         #region 执行存储过程返回一个结果集 + internal static IEnumerable<T1> SqlProcedureDataSet<T1>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
 
@@ -309,6 +312,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
 
         #endregion 执行存储过程返回八个结果集 + internal static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) SqlProcedureDataSet<T1, T2, T3, T4, T5, T6, T7, T8>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
 
+
         #region 执行存储过程返回一个结果集 + internal static Task<IEnumerable<T1>> SqlProcedureDataSetAsync<T1>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
 
         /// <summary>
@@ -472,6 +476,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         }
 
         #endregion 执行存储过程返回八个结果集 + internal static Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> SqlProcedureDataSetAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+
 
         #region 执行存储过程 + internal static (Dictionary<string, object> outputValues, object returnValue) SqlProcedureNonQuery(this DatabaseFacade databaseFacade, string name, params object[] parameters)
 

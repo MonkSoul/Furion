@@ -1,6 +1,6 @@
 ﻿using Fur.DatabaseAccessor.Extensions.Services;
 using Fur.DatabaseAccessor.Filters;
-using Fur.DatabaseAccessor.MultiTenants;
+using Fur.DatabaseAccessor.MultipleTenants;
 using Fur.EntityFramework.Core.DbContexts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +31,7 @@ namespace Fur.EntityFramework.Core.Extensions
 
             services.AddFurSqlServerDbContextPool<FurSqlServerDbContext>(furConnectionString, env)
                         .AddFurSqlServerDbContextPool<FurMultipleSqlServerDbContext>(furMultipleConnectionString, env)
-                        .AddFurSqlServerDbContextPool<FurMultiTenantDbContext>(furConnectionString, env);
+                        .AddFurSqlServerDbContextPool<FurMultipleTenantDbContext>(furConnectionString, env);
 
             services.Configure<MvcOptions>(options =>
             {

@@ -43,7 +43,10 @@ namespace Fur.DatabaseAccessor.Tangent
             {
                 if (_proxy == null)
                 {
-                    _proxy = new ProxyGenerator().CreateInterfaceProxyWithoutTarget<TTangent>(new TangentProxyInterceptor(new TangentProxyAsyncInterceptor(_lifetimeScope)));
+                    _proxy = new ProxyGenerator().CreateInterfaceProxyWithoutTarget<TTangent>(
+                        new TangentProxyInterceptor(
+                            new TangentProxyAsyncInterceptor(_lifetimeScope))
+                        );
                 }
 
                 return _proxy;

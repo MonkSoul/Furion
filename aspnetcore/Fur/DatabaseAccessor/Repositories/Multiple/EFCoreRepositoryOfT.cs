@@ -4,14 +4,14 @@ using Fur.DatabaseAccessor.Identifiers;
 using Fur.DatabaseAccessor.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fur.DatabaseAccessor.Repositories.Multiples
+namespace Fur.DatabaseAccessor.Repositories.Multiple
 {
     /// <summary>
     /// 泛型多上下文仓储实现类
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TDbContextIdentifier"></typeparam>
-    public partial class MultipleEFCoreRepositoryOfT<TEntity, TDbContextIdentifier> : EFCoreRepositoryOfT<TEntity>, IMultipleRepositoryOfT<TEntity, TDbContextIdentifier>
+    public partial class EFCoreRepositoryOfT<TEntity, TDbContextIdentifier> : EFCoreRepositoryOfT<TEntity>, IRepositoryOfT<TEntity, TDbContextIdentifier>
         where TEntity : class, IDbEntity, new()
         where TDbContextIdentifier : IDbContextIdentifier
     {
@@ -22,7 +22,7 @@ namespace Fur.DatabaseAccessor.Repositories.Multiples
         /// </summary>
         /// <param name="serviceProvider">服务提供器</param>
         /// <param name="dbContextPool">数据库上下文池</param>
-        public MultipleEFCoreRepositoryOfT(
+        public EFCoreRepositoryOfT(
             ILifetimeScope lifetimeScope
             , IDbContextPool dbContextPool)
             : base(lifetimeScope.ResolveNamed<DbContext>(typeof(TDbContextIdentifier).Name), lifetimeScope, dbContextPool)

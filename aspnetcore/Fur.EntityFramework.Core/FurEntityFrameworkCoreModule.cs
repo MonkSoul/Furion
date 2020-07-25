@@ -1,7 +1,6 @@
 ﻿using Autofac;
-using Fur.Core.DbContextIdentifiers;
-using Fur.DatabaseAccessor.Extensions.Injection;
-using Fur.DatabaseAccessor.Providers;
+using Fur.DatabaseAccessor.Extensions;
+using Fur.DatabaseAccessor.MultipleTenants.Provider;
 using Fur.EntityFramework.Core.DbContexts;
 
 namespace Fur.EntityFramework.Core
@@ -10,11 +9,10 @@ namespace Fur.EntityFramework.Core
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterDefaultDbContext<FurSqlServerDbContext>()
-                       .RegisterMultipleRepository<FurMultipleSqlServerDbContext, FurMultipleDbContextIdentifier>()
-                       .RegisterMultiTenant<MultiTenantProvider>()
-                       .RegisterRepositories()
-                       .RegisterTangentDbContext();
+            builder.RegisterDbContexts<FurSqlServerDbContext>(options =>
+            {
+                options.MultipleTenantProvider = typeof(MultipleTenantProvider);
+            }, typeof(FurMultipleSqlServerDbContext));
         }
     }
 }

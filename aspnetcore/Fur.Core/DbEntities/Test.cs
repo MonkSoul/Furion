@@ -1,7 +1,7 @@
-﻿using Fur.DatabaseAccessor.Identifiers;
+﻿using Fur.DatabaseAccessor.Extensions;
+using Fur.DatabaseAccessor.Identifiers;
 using Fur.DatabaseAccessor.Models.Entities;
 using Fur.DatabaseAccessor.Models.Filters;
-using Fur.DatabaseAccessor.MultiTenants;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,7 +20,7 @@ namespace Fur.Core.DbEntities
         {
             return new List<Expression<Func<Test, bool>>>
             {
-               MultiTenantHelper.MultiTenantQueryFilter<Test>(dbContext)
+               entity=>entity.TenantId==dbContext.GetTenantId()
             };
         }
     }

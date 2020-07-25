@@ -1,20 +1,21 @@
 ﻿using Fur.DatabaseAccessor.Contexts;
+using Fur.DatabaseAccessor.MultipleTenants.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace Fur.DatabaseAccessor.MultiTenants
+namespace Fur.DatabaseAccessor.MultipleTenants
 {
     /// <summary>
     /// 多租户数据库上下文
     /// </summary>
-    public class FurMultiTenantDbContext : FurDbContextOfT<FurMultiTenantDbContext, FurMultiTenantDbContextIdentifier>
+    public class FurMultipleTenantDbContext : FurDbContextOfT<FurMultipleTenantDbContext, FurMultipleTenantDbContextIdentifier>
     {
         #region 构造函数 + public FurMultiTenantDbContext(DbContextOptions<FurMultiTenantDbContext> options)
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="options">数据库上下文选项配置，<see cref="DbContextOptions{TContext}"/></param>
-        public FurMultiTenantDbContext(DbContextOptions<FurMultiTenantDbContext> options)
+        public FurMultipleTenantDbContext(DbContextOptions<FurMultipleTenantDbContext> options)
             : base(options)
         {
         }

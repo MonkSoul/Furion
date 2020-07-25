@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Fur.DatabaseAccessor.MultiTenants
+namespace Fur.DatabaseAccessor.MultipleTenants.Entities
 {
     /// <summary>
     /// 租户实体

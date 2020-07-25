@@ -1,20 +1,19 @@
 ﻿using Fur.DatabaseAccessor.Contexts.Pool;
-using Fur.DatabaseAccessor.MultiTenants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 
-namespace Fur.DatabaseAccessor.Providers
+namespace Fur.DatabaseAccessor.MultipleTenants.Provider
 {
-    public class MultiTenantProvider : IMultiTenantProvider
+    public class MultipleTenantProvider : IMultipleTenantProvider
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly FurMultiTenantDbContext _tenantDbContext;
+        private readonly FurMultipleTenantDbContext _tenantDbContext;
         private readonly IMemoryCache _memoryCache;
         private readonly IDbContextPool _dbContextPool;
 
-        public MultiTenantProvider(IHttpContextAccessor httpContextAccessor
-            , FurMultiTenantDbContext tenantDbContext
+        public MultipleTenantProvider(IHttpContextAccessor httpContextAccessor
+            , FurMultipleTenantDbContext tenantDbContext
             , IMemoryCache memoryCache
             , IDbContextPool dbContextPool)
         {

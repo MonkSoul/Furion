@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Fur.DatabaseAccessor.Contexts.Pool;
 using Fur.DatabaseAccessor.Models.Entities;
+using Fur.DatabaseAccessor.MultipleTenants.Provider;
 using Fur.DatabaseAccessor.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -20,7 +21,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <summary>
         /// 租户提供器
         /// </summary>
-        private readonly IMultiTenantProvider _tenantProvider;
+        private readonly IMultipleTenantProvider _tenantProvider;
 
         /// <summary>
         /// 数据库上下文池
@@ -49,9 +50,9 @@ namespace Fur.DatabaseAccessor.Repositories
             {
                 _maintenanceProvider = lifetimeScope.Resolve<IMaintenanceFieldsProvider>();
             }
-            if (lifetimeScope.IsRegistered<IMultiTenantProvider>())
+            if (lifetimeScope.IsRegistered<IMultipleTenantProvider>())
             {
-                _tenantProvider = lifetimeScope.Resolve<IMultiTenantProvider>();
+                _tenantProvider = lifetimeScope.Resolve<IMultipleTenantProvider>();
             }
         }
 

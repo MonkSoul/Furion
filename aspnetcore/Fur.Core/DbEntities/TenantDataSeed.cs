@@ -1,6 +1,6 @@
 ﻿using Fur.DatabaseAccessor.Identifiers;
 using Fur.DatabaseAccessor.Models.Seed;
-using Fur.DatabaseAccessor.MultiTenants;
+using Fur.DatabaseAccessor.MultipleTenants.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 

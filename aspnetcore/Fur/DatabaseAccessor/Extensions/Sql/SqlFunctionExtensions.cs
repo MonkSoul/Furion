@@ -87,6 +87,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
 
         #endregion 执行标量函数 + internal static async Task<object> SqlScalarFunctionAsync(this DatabaseFacade databaseFacade, string name, object parameterModel)
 
+
         #region 执行标量函数 返回 TResult + internal static TResult SqlScalarFunction<TResult>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
 
         /// <summary>
@@ -152,6 +153,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         }
 
         #endregion 执行标量函数 返回 TResult + internal static TResult SqlScalarFunction<TResult>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
+
 
         #region 执行表值函数 返回 DataTable + internal static DataTable SqlTableFunction(this DatabaseFacade databaseFacade, string name, params object[] parameters)
 
@@ -223,6 +225,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
 
         #endregion 执行表值函数 + internal static Task<IEnumerable<T>> SqlTableFunctionAsync<T>(this DatabaseFacade databaseFacade, string name, params object[] parameters)
 
+
         #region 执行表值函数 返回 DataTable + internal static DataTable SqlTableFunction(this DatabaseFacade databaseFacade, string name, object parameterModel)
 
         /// <summary>
@@ -256,6 +259,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         }
 
         #endregion 执行表值函数 返回 DataTable + internal static Task<DataTable> SqlTableFunctionAsync(this DatabaseFacade databaseFacade, string name, object parameterModel)
+
 
         #region 执行表值函数 + internal static IEnumerable<T> SqlTableFunction<T>(this DatabaseFacade databaseFacade, string name, object parameterModel)
 
@@ -292,6 +296,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         }
 
         #endregion 执行表值函数 + internal static Task<IEnumerable<T>> SqlTableFunctionAsync<T>(this DatabaseFacade databaseFacade, string name, object parameterModel)
+
 
         #region 组合Sql语句 + private static (string sql, SqlParameter[] parameters) CombineSql(DbFunctionTypeOptions dbFunctionTypeOptions, string name, object parameterModel = null)
 

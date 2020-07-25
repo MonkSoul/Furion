@@ -6,7 +6,7 @@ using Fur.DatabaseAccessor.Identifiers;
 using Fur.DatabaseAccessor.Models.Pages;
 using Fur.DatabaseAccessor.Repositories;
 using Fur.DatabaseAccessor.Repositories.MasterSlave;
-using Fur.DatabaseAccessor.Repositories.Multiples;
+using Fur.DatabaseAccessor.Repositories.Multiple;
 using Fur.DatabaseAccessor.Tangent;
 using Fur.FriendlyException;
 using Fur.Linq.Extensions;
@@ -15,7 +15,6 @@ using Fur.MirrorController.Dependencies;
 using Fur.TypeExtensions;
 using Fur.Validation.Attributes;
 using Mapster;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -35,21 +34,21 @@ namespace Fur.Application.Functions
     [MirrorController]
     public class TestAppService : ITestAppService, IMirrorControllerDependency
     {
-        private readonly IRepository _repository;
+        private readonly DatabaseAccessor.Repositories.IRepository _repository;
         private readonly IRepositoryOfT<Test> _testRepository;
         private readonly IRepositoryOfT<V_Test> _vTestRepository;
 
-        private readonly IMasterSlaveRepositoryOfT<Test, FurDbContextIdentifier, FurMultipleDbContextIdentifier> _masterSlaveRepository;
-        private readonly IMultipleRepositoryOfT<Test, FurMultipleDbContextIdentifier> _multipleRepository;
+        private readonly IRepositoryOfT<Test, FurDbContextIdentifier, FurMultipleDbContextIdentifier> _masterSlaveRepository;
+        private readonly IRepositoryOfT<Test, FurMultipleDbContextIdentifier> _multipleRepository;
 
         private readonly ITangentDbContextOfT<INonDbSetQuery> _tangent;
 
-        public TestAppService(IRepository repository
+        public TestAppService(DatabaseAccessor.Repositories.IRepository repository
             , IRepositoryOfT<Test> testRepository
             , IRepositoryOfT<V_Test> vTestRepository
 
-            , IMultipleRepositoryOfT<Test, FurMultipleDbContextIdentifier> multipleRepository
-            , IMasterSlaveRepositoryOfT<Test, FurDbContextIdentifier, FurMultipleDbContextIdentifier> masterSlaveRepository
+            , IRepositoryOfT<Test, FurMultipleDbContextIdentifier> multipleRepository
+            , IRepositoryOfT<Test, FurDbContextIdentifier, FurMultipleDbContextIdentifier> masterSlaveRepository
 
             , ITangentDbContextOfT<INonDbSetQuery> tangent
             )

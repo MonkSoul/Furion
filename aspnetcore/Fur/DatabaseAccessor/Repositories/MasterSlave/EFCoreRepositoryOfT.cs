@@ -1,6 +1,6 @@
 ﻿using Fur.DatabaseAccessor.Identifiers;
 using Fur.DatabaseAccessor.Models.Entities;
-using Fur.DatabaseAccessor.Repositories.Multiples;
+using Fur.DatabaseAccessor.Repositories.Multiple;
 
 namespace Fur.DatabaseAccessor.Repositories.MasterSlave
 {
@@ -10,14 +10,14 @@ namespace Fur.DatabaseAccessor.Repositories.MasterSlave
     /// <typeparam name="TEntity">实体</typeparam>
     /// <typeparam name="TMasterDbContextIdentifier">主库数据库上下文标识类</typeparam>
     /// <typeparam name="TSlaveDbContextIdentifier">从库数据库上下文标识类</typeparam>
-    public class MasterSlaveEFCoreRepositoryOfT<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier> : IMasterSlaveRepositoryOfT<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier>
+    public class EFCoreRepositoryOfT<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier> : IRepositoryOfT<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier>
         where TEntity : class, IDbEntity, new()
         where TMasterDbContextIdentifier : IDbContextIdentifier
         where TSlaveDbContextIdentifier : IDbContextIdentifier
     {
-        public MasterSlaveEFCoreRepositoryOfT(
-            IMultipleRepositoryOfT<TEntity, TMasterDbContextIdentifier> masterRepository
-            , IMultipleRepositoryOfT<TEntity, TSlaveDbContextIdentifier> slaveRepository)
+        public EFCoreRepositoryOfT(
+            IRepositoryOfT<TEntity, TMasterDbContextIdentifier> masterRepository
+            , IRepositoryOfT<TEntity, TSlaveDbContextIdentifier> slaveRepository)
         {
             Master = masterRepository;
             Slave = slaveRepository;
@@ -26,11 +26,11 @@ namespace Fur.DatabaseAccessor.Repositories.MasterSlave
         /// <summary>
         /// 主库
         /// </summary>
-        public IMultipleRepositoryOfT<TEntity, TMasterDbContextIdentifier> Master { get; }
+        public IRepositoryOfT<TEntity, TMasterDbContextIdentifier> Master { get; }
 
         /// <summary>
         /// 从库
         /// </summary>
-        public IMultipleRepositoryOfT<TEntity, TSlaveDbContextIdentifier> Slave { get; }
+        public IRepositoryOfT<TEntity, TSlaveDbContextIdentifier> Slave { get; }
     }
 }

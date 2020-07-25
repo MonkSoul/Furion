@@ -46,6 +46,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
 
         #endregion Sql 查询 返回 DataTable + internal static async Task<DataTable> SqlQueryAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
+
         #region Sql 查询 + internal static IEnumerable<T> SqlQuery<T>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
         /// <summary>

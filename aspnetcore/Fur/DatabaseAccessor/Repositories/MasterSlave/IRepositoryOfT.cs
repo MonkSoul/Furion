@@ -1,6 +1,6 @@
 ﻿using Fur.DatabaseAccessor.Identifiers;
 using Fur.DatabaseAccessor.Models.Entities;
-using Fur.DatabaseAccessor.Repositories.Multiples;
+using Fur.DatabaseAccessor.Repositories.Multiple;
 
 namespace Fur.DatabaseAccessor.Repositories.MasterSlave
 {
@@ -10,7 +10,7 @@ namespace Fur.DatabaseAccessor.Repositories.MasterSlave
     /// <typeparam name="TEntity">实体</typeparam>
     /// <typeparam name="TMasterDbContextIdentifier">主库数据库上下文标识类</typeparam>
     /// <typeparam name="TSlaveDbContextIdentifier">从库数据库上下文标识类</typeparam>
-    public interface IMasterSlaveRepositoryOfT<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier>
+    public interface IRepositoryOfT<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier>
         where TEntity : class, IDbEntity, new()
         where TMasterDbContextIdentifier : IDbContextIdentifier
         where TSlaveDbContextIdentifier : IDbContextIdentifier
@@ -18,11 +18,11 @@ namespace Fur.DatabaseAccessor.Repositories.MasterSlave
         /// <summary>
         /// 主库
         /// </summary>
-        IMultipleRepositoryOfT<TEntity, TMasterDbContextIdentifier> Master { get; }
+        IRepositoryOfT<TEntity, TMasterDbContextIdentifier> Master { get; }
 
         /// <summary>
         /// 从库
         /// </summary>
-        IMultipleRepositoryOfT<TEntity, TSlaveDbContextIdentifier> Slave { get; }
+        IRepositoryOfT<TEntity, TSlaveDbContextIdentifier> Slave { get; }
     }
 }

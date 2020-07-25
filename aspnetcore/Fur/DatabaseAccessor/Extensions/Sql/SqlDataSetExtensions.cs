@@ -46,6 +46,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
 
         #endregion Sql 查询返回 DataSet + internal static async Task<DataSet> SqlDataSetAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
+
         #region Sql 查询返回一个结果集 + internal static IEnumerable<T1> SqlDataSet<T1>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
         /// <summary>
@@ -368,6 +369,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
 
         #endregion Sql 查询返回八个结果集 + internal static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) SqlDataSet<T1, T2, T3, T4, T5, T6, T7, T8>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
+
         #region Sql 查询返回一个结果集 + internal static async Task<IEnumerable<T1>> SqlDataSetAsync<T1>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
         /// <summary>
@@ -688,6 +690,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         }
 
         #endregion Sql 查询返回八个结果集 + internal static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+
 
         #region Sql 查询返回特定个数结果集 + internal static object SqlDataSet(this DatabaseFacade databaseFacade, string sql, Type[] returnTypes, CommandType commandType = CommandType.Text, params object[] parameters)
 

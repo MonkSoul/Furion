@@ -74,6 +74,7 @@ namespace Fur.DatabaseAccessor.Repositories
 
         #endregion 执行存储过程返回 DataTable + public virtual Task<DataTable> SqlProcedureAsync(string name, object parameterModel)
 
+
         #region 执行存储过程返回单个结果集 + public virtual IEnumerable<T> SqlProcedure<T>(string name, params object[] parameters)
 
         /// <summary>
@@ -138,6 +139,7 @@ namespace Fur.DatabaseAccessor.Repositories
 
         #endregion 执行存储过程返回单个结果集 + public virtual Task<IEnumerable<T>> SqlProcedureAsync<T>(string name, object parameterModel)
 
+
         #region 执行存储过程返回 DataSet + public virtual DataSet SqlProcedureDataSet(string name, params object[] parameters)
 
         /// <summary>
@@ -197,6 +199,7 @@ namespace Fur.DatabaseAccessor.Repositories
         }
 
         #endregion 执行存储过程返回 DataSet + public virtual Task<DataSet> SqlProcedureDataSetAsync(string name, object parameterModel)
+
 
         #region 执行存储过程返回一个结果集 + public virtual IEnumerable<T1> SqlProcedureDataSet<T1>(string name, params object[] parameters)
 
@@ -354,6 +357,7 @@ namespace Fur.DatabaseAccessor.Repositories
 
         #endregion 执行存储过程返回八个结果集 + public virtual (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) SqlProcedureDataSet<T1, T2, T3, T4, T5, T6, T7, T8>(string name, params object[] parameters)
 
+
         #region 执行存储过程返回一个结果集 + public virtual Task<IEnumerable<T1>> SqlProcedureDataSetAsync<T1>(string name, params object[] parameters)
 
         /// <summary>
@@ -509,6 +513,7 @@ namespace Fur.DatabaseAccessor.Repositories
         }
 
         #endregion 执行存储过程返回八个结果集 + public virtual Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> SqlProcedureDataSetAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string name, params object[] parameters)
+
 
         #region 执行存储过程返回一个结果集 + public virtual IEnumerable<T1> SqlProcedureDataSet<T1>(string name, object parameterModel)
 
@@ -666,6 +671,7 @@ namespace Fur.DatabaseAccessor.Repositories
 
         #endregion 执行存储过程返回八个结果集 + public virtual (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) SqlProcedureDataSet<T1, T2, T3, T4, T5, T6, T7, T8>(string name, object parameterModel)
 
+
         #region 执行存储过程返回一个结果集 + public virtual Task<IEnumerable<T1>> SqlProcedureDataSetAsync<T1>(string name, object parameterModel)
 
         /// <summary>
@@ -821,6 +827,7 @@ namespace Fur.DatabaseAccessor.Repositories
 
         #endregion 执行存储过程返回八个结果集 + public virtual Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> SqlProcedureDataSetAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string name, object parameterModel)
 
+
         #region 执行存储过程 + public virtual object SqlProcedureDataSet(string name, Type[] returnTypes, params object[] parameters)
 
         /// <summary>
@@ -884,6 +891,7 @@ namespace Fur.DatabaseAccessor.Repositories
         }
 
         #endregion 执行存储过程 + public virtual Task<object> SqlProcedureDataSetAsync(string name, Type[] returnTypes, object parameterModel)
+
 
         #region 执行存储过程（带输出或返回值）+ public virtual (Dictionary<string, object> outputValues, object returnValue) SqlProcedureNonQuery(string name, params object[] parameters)
 
