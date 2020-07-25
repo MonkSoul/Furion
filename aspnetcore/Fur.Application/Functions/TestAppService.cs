@@ -146,7 +146,6 @@ namespace Fur.Application.Functions
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [Authorize]
         public async Task<int> InsertAsync(TestInput input)
         {
             var entity = input.Adapt<Test>();
