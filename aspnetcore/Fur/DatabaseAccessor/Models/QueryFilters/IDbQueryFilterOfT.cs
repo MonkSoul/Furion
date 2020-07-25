@@ -13,7 +13,7 @@ namespace Fur.DatabaseAccessor.Models.QueryFilters
     /// </summary>
     /// <typeparam name="TEntity">实体</typeparam>
     public interface IDbQueryFilterOfT<TEntity> : IDbQueryFilter
-        where TEntity : IDbEntity
+        where TEntity : IDbEntityBase
     {
         #region 配置查询过滤器 + IEnumerable<Expression<Func<TEntity, bool>>> HasQueryFilter(DbContext dbContext)
         /// <summary>
@@ -33,7 +33,7 @@ namespace Fur.DatabaseAccessor.Models.QueryFilters
     /// <typeparam name="TEntity">实体</typeparam>
     /// <typeparam name="TDbContextIdentifier1">数据库上下文标识器</typeparam>
     public interface IDbQueryFilterOfT<TEntity, TDbContextIdentifier1> : IDbQueryFilterOfT<TEntity>
-        where TEntity : IDbEntity
+        where TEntity : IDbEntityBase
         where TDbContextIdentifier1 : IDbContextIdentifier
     {
     }
@@ -47,7 +47,7 @@ namespace Fur.DatabaseAccessor.Models.QueryFilters
     /// <typeparam name="TDbContextIdentifier1">数据库上下文标识器</typeparam>
     /// <typeparam name="TDbContextIdentifier2">数据库上下文标识器</typeparam>
     public interface IDbQueryFilterOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2> : IDbQueryFilterOfT<TEntity>
-        where TEntity : IDbEntity
+        where TEntity : IDbEntityBase
         where TDbContextIdentifier1 : IDbContextIdentifier
         where TDbContextIdentifier2 : IDbContextIdentifier
     {
@@ -63,7 +63,7 @@ namespace Fur.DatabaseAccessor.Models.QueryFilters
     /// <typeparam name="TDbContextIdentifier2">数据库上下文标识器</typeparam>
     /// <typeparam name="TDbContextIdentifier3">数据库上下文标识器</typeparam>
     public interface IDbQueryFilterOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2, TDbContextIdentifier3> : IDbQueryFilterOfT<TEntity>
-        where TEntity : IDbEntity
+        where TEntity : IDbEntityBase
         where TDbContextIdentifier1 : IDbContextIdentifier
         where TDbContextIdentifier2 : IDbContextIdentifier
         where TDbContextIdentifier3 : IDbContextIdentifier
@@ -81,7 +81,7 @@ namespace Fur.DatabaseAccessor.Models.QueryFilters
     /// <typeparam name="TDbContextIdentifier3">数据库上下文标识器</typeparam>
     /// <typeparam name="TDbContextIdentifier4">数据库上下文标识器</typeparam>
     public interface IDbQueryFilterOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2, TDbContextIdentifier3, TDbContextIdentifier4> : IDbQueryFilterOfT<TEntity>
-        where TEntity : IDbEntity
+        where TEntity : IDbEntityBase
         where TDbContextIdentifier1 : IDbContextIdentifier
         where TDbContextIdentifier2 : IDbContextIdentifier
         where TDbContextIdentifier3 : IDbContextIdentifier
@@ -101,7 +101,7 @@ namespace Fur.DatabaseAccessor.Models.QueryFilters
     /// <typeparam name="TDbContextIdentifier4">数据库上下文标识器</typeparam>
     /// <typeparam name="TDbContextIdentifier5">数据库上下文标识器</typeparam>
     public interface IDbQueryFilterOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2, TDbContextIdentifier3, TDbContextIdentifier4, TDbContextIdentifier5> : IDbQueryFilterOfT<TEntity>
-        where TEntity : IDbEntity
+        where TEntity : IDbEntityBase
         where TDbContextIdentifier1 : IDbContextIdentifier
         where TDbContextIdentifier2 : IDbContextIdentifier
         where TDbContextIdentifier3 : IDbContextIdentifier
@@ -123,7 +123,7 @@ namespace Fur.DatabaseAccessor.Models.QueryFilters
     /// <typeparam name="TDbContextIdentifier5">数据库上下文标识器</typeparam>
     /// <typeparam name="TDbContextIdentifier6">数据库上下文标识器</typeparam>
     public interface IDbQueryFilterOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2, TDbContextIdentifier3, TDbContextIdentifier4, TDbContextIdentifier5, TDbContextIdentifier6> : IDbQueryFilterOfT<TEntity>
-        where TEntity : IDbEntity
+        where TEntity : IDbEntityBase
         where TDbContextIdentifier1 : IDbContextIdentifier
         where TDbContextIdentifier2 : IDbContextIdentifier
         where TDbContextIdentifier3 : IDbContextIdentifier
@@ -147,7 +147,7 @@ namespace Fur.DatabaseAccessor.Models.QueryFilters
     /// <typeparam name="TDbContextIdentifier6">数据库上下文标识器</typeparam>
     /// <typeparam name="TDbContextIdentifier7">数据库上下文标识器</typeparam>
     public interface IDbQueryFilterOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2, TDbContextIdentifier3, TDbContextIdentifier4, TDbContextIdentifier5, TDbContextIdentifier6, TDbContextIdentifier7> : IDbQueryFilterOfT<TEntity>
-        where TEntity : IDbEntity
+        where TEntity : IDbEntityBase
         where TDbContextIdentifier1 : IDbContextIdentifier
         where TDbContextIdentifier2 : IDbContextIdentifier
         where TDbContextIdentifier3 : IDbContextIdentifier
@@ -173,7 +173,7 @@ namespace Fur.DatabaseAccessor.Models.QueryFilters
     /// <typeparam name="TDbContextIdentifier7">数据库上下文标识器</typeparam>
     /// <typeparam name="TDbContextIdentifier8">数据库上下文标识器</typeparam>
     public interface IDbQueryFilterOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2, TDbContextIdentifier3, TDbContextIdentifier4, TDbContextIdentifier5, TDbContextIdentifier6, TDbContextIdentifier7, TDbContextIdentifier8> : IDbQueryFilterOfT<TEntity>
-        where TEntity : IDbEntity
+        where TEntity : IDbEntityBase
         where TDbContextIdentifier1 : IDbContextIdentifier
         where TDbContextIdentifier2 : IDbContextIdentifier
         where TDbContextIdentifier3 : IDbContextIdentifier

@@ -12,7 +12,7 @@ namespace Fur.DatabaseAccessor.Repositories.Multiple
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TDbContextIdentifier"></typeparam>
     public partial class EFCoreRepositoryOfT<TEntity, TDbContextIdentifier> : EFCoreRepositoryOfT<TEntity>, IRepositoryOfT<TEntity, TDbContextIdentifier>
-        where TEntity : class, IDbEntity, new()
+        where TEntity : class, IDbEntityBase, new()
         where TDbContextIdentifier : IDbContextIdentifier
     {
         #region 构造函数 + public MultipleDbContextEFCoreRepositoryOfT(ILifetimeScope lifetimeScope,IDbContextPool dbContextPool)

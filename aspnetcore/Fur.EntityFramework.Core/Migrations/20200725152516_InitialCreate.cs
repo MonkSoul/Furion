@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Fur.EntityFramework.Core.Migrations
 {
-    public partial class v001 : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,10 @@ namespace Fur.EntityFramework.Core.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Host = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Host = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,18 +44,13 @@ namespace Fur.EntityFramework.Core.Migrations
 
             migrationBuilder.InsertData(
                 table: "Tenants",
-                columns: new[] { "Id", "Host", "Name" },
-                values: new object[] { 1, "localhost:44307", "默认租户" });
+                columns: new[] { "Id", "CreatedTime", "Host", "IsDeleted", "Name", "UpdatedTime" },
+                values: new object[] { 1, new DateTime(2020, 7, 25, 23, 25, 16, 210, DateTimeKind.Local).AddTicks(9389), "localhost:44307", false, "默认租户", new DateTime(2020, 7, 25, 23, 25, 16, 211, DateTimeKind.Local).AddTicks(9552) });
 
             migrationBuilder.InsertData(
                 table: "Tenants",
-                columns: new[] { "Id", "Host", "Name" },
-                values: new object[] { 2, "localhost:41529", "默认租户" });
-
-            migrationBuilder.InsertData(
-                table: "Tenants",
-                columns: new[] { "Id", "Host", "Name" },
-                values: new object[] { 3, "localhost:41530", "默认租户" });
+                columns: new[] { "Id", "CreatedTime", "Host", "IsDeleted", "Name", "UpdatedTime" },
+                values: new object[] { 2, new DateTime(2020, 7, 25, 23, 25, 16, 212, DateTimeKind.Local).AddTicks(1713), "localhost:41529", false, "默认租户", new DateTime(2020, 7, 25, 23, 25, 16, 212, DateTimeKind.Local).AddTicks(1719) });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

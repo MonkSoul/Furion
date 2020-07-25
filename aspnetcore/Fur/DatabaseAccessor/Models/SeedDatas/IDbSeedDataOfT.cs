@@ -11,7 +11,7 @@ namespace Fur.DatabaseAccessor.Models.SeedDatas
     /// </summary>
     /// <typeparam name="TEntity">实体</typeparam>
     public interface IDbSeedDataOfT<TEntity> : IDbSeedData
-        where TEntity : IDbEntity
+        where TEntity : IDbEntityBase
     {
         #region 配置初始化数据 + IEnumerable<TEntity> HasData(DbContext dbContext)
         /// <summary>
@@ -31,7 +31,7 @@ namespace Fur.DatabaseAccessor.Models.SeedDatas
     /// <typeparam name="TEntity">实体</typeparam>
     /// <typeparam name="TDbContextIdentifier1">数据库上下文标识器</typeparam>
     public interface IDbDataSeedOfT<TEntity, TDbContextIdentifier1> : IDbSeedDataOfT<TEntity>
-        where TEntity : IDbEntity
+        where TEntity : IDbEntityBase
         where TDbContextIdentifier1 : IDbContextIdentifier
     {
     }
@@ -45,7 +45,7 @@ namespace Fur.DatabaseAccessor.Models.SeedDatas
     /// <typeparam name="TDbContextIdentifier1">数据库上下文标识器</typeparam>
     /// <typeparam name="TDbContextIdentifier2">数据库上下文标识器</typeparam>
     public interface IDbDataSeedOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2> : IDbSeedDataOfT<TEntity>
-        where TEntity : IDbEntity
+        where TEntity : IDbEntityBase
         where TDbContextIdentifier1 : IDbContextIdentifier
         where TDbContextIdentifier2 : IDbContextIdentifier
     {
@@ -61,7 +61,7 @@ namespace Fur.DatabaseAccessor.Models.SeedDatas
     /// <typeparam name="TDbContextIdentifier2">数据库上下文标识器</typeparam>
     /// <typeparam name="TDbContextIdentifier3">数据库上下文标识器</typeparam>
     public interface IDbDataSeedOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2, TDbContextIdentifier3> : IDbSeedDataOfT<TEntity>
-        where TEntity : IDbEntity
+        where TEntity : IDbEntityBase
         where TDbContextIdentifier1 : IDbContextIdentifier
         where TDbContextIdentifier2 : IDbContextIdentifier
         where TDbContextIdentifier3 : IDbContextIdentifier
@@ -79,7 +79,7 @@ namespace Fur.DatabaseAccessor.Models.SeedDatas
     /// <typeparam name="TDbContextIdentifier3">数据库上下文标识器</typeparam>
     /// <typeparam name="TDbContextIdentifier4">数据库上下文标识器</typeparam>
     public interface IDbDataSeedOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2, TDbContextIdentifier3, TDbContextIdentifier4> : IDbSeedDataOfT<TEntity>
-        where TEntity : IDbEntity
+        where TEntity : IDbEntityBase
         where TDbContextIdentifier1 : IDbContextIdentifier
         where TDbContextIdentifier2 : IDbContextIdentifier
         where TDbContextIdentifier3 : IDbContextIdentifier
@@ -99,7 +99,7 @@ namespace Fur.DatabaseAccessor.Models.SeedDatas
     /// <typeparam name="TDbContextIdentifier4">数据库上下文标识器</typeparam>
     /// <typeparam name="TDbContextIdentifier5">数据库上下文标识器</typeparam>
     public interface IDbDataSeedOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2, TDbContextIdentifier3, TDbContextIdentifier4, TDbContextIdentifier5> : IDbSeedDataOfT<TEntity>
-        where TEntity : IDbEntity
+        where TEntity : IDbEntityBase
         where TDbContextIdentifier1 : IDbContextIdentifier
         where TDbContextIdentifier2 : IDbContextIdentifier
         where TDbContextIdentifier3 : IDbContextIdentifier
@@ -121,7 +121,7 @@ namespace Fur.DatabaseAccessor.Models.SeedDatas
     /// <typeparam name="TDbContextIdentifier5">数据库上下文标识器</typeparam>
     /// <typeparam name="TDbContextIdentifier6">数据库上下文标识器</typeparam>
     public interface IDbDataSeedOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2, TDbContextIdentifier3, TDbContextIdentifier4, TDbContextIdentifier5, TDbContextIdentifier6> : IDbSeedDataOfT<TEntity>
-        where TEntity : IDbEntity
+        where TEntity : IDbEntityBase
         where TDbContextIdentifier1 : IDbContextIdentifier
         where TDbContextIdentifier2 : IDbContextIdentifier
         where TDbContextIdentifier3 : IDbContextIdentifier
@@ -145,7 +145,7 @@ namespace Fur.DatabaseAccessor.Models.SeedDatas
     /// <typeparam name="TDbContextIdentifier6">数据库上下文标识器</typeparam>
     /// <typeparam name="TDbContextIdentifier7">数据库上下文标识器</typeparam>
     public interface IDbDataSeedOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2, TDbContextIdentifier3, TDbContextIdentifier4, TDbContextIdentifier5, TDbContextIdentifier6, TDbContextIdentifier7> : IDbSeedDataOfT<TEntity>
-        where TEntity : IDbEntity
+        where TEntity : IDbEntityBase
         where TDbContextIdentifier1 : IDbContextIdentifier
         where TDbContextIdentifier2 : IDbContextIdentifier
         where TDbContextIdentifier3 : IDbContextIdentifier
@@ -171,7 +171,7 @@ namespace Fur.DatabaseAccessor.Models.SeedDatas
     /// <typeparam name="TDbContextIdentifier7">数据库上下文标识器</typeparam>
     /// <typeparam name="TDbContextIdentifier8">数据库上下文标识器</typeparam>
     public interface IDbDataSeedOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2, TDbContextIdentifier3, TDbContextIdentifier4, TDbContextIdentifier5, TDbContextIdentifier6, TDbContextIdentifier7, TDbContextIdentifier8> : IDbSeedDataOfT<TEntity>
-        where TEntity : IDbEntity
+        where TEntity : IDbEntityBase
         where TDbContextIdentifier1 : IDbContextIdentifier
         where TDbContextIdentifier2 : IDbContextIdentifier
         where TDbContextIdentifier3 : IDbContextIdentifier

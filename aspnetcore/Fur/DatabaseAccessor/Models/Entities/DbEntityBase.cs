@@ -8,7 +8,7 @@ namespace Fur.DatabaseAccessor.Models.Entities
     /// 数据库实体依赖抽象类
     /// </summary>
     [NonWrapper]
-    public abstract class DbEntityBase : IDbEntity
+    public abstract class DbEntityBase : IDbEntityBase
     {
         /// <summary>
         /// 主键Id

@@ -11,7 +11,7 @@ namespace Fur.DatabaseAccessor.Repositories.MasterSlave
     /// <typeparam name="TMasterDbContextIdentifier">主库数据库上下文标识类</typeparam>
     /// <typeparam name="TSlaveDbContextIdentifier">从库数据库上下文标识类</typeparam>
     public class EFCoreRepositoryOfT<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier> : IRepositoryOfT<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier>
-        where TEntity : class, IDbEntity, new()
+        where TEntity : class, IDbEntityBase, new()
         where TMasterDbContextIdentifier : IDbContextIdentifier
         where TSlaveDbContextIdentifier : IDbContextIdentifier
     {

@@ -4,7 +4,7 @@ using System;
 namespace Fur.DatabaseAccessor.Providers
 {
     /// <summary>
-    /// 维护字段提供器
+    /// 数据库维护字段提供器
     /// </summary>
     public interface IMaintenanceFieldsProvider
     {

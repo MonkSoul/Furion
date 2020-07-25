@@ -5,7 +5,7 @@
     /// <para>如果你需要通过仓储方式操作视图、函数、存储过程，就需要继承该类</para>
     /// <para>通常只需要配置视图即可，函数和存储过程建议用切面上下文方式</para>
     /// </summary>
-    public interface IDbNoKeyEntity : IDbEntity
+    public interface IDbNoKeyEntity : IDbEntityBase
     {
         /// <summary>
         /// 数据库定义名称

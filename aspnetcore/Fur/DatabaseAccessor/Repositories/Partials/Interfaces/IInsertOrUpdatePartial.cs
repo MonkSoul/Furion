@@ -11,7 +11,7 @@ namespace Fur.DatabaseAccessor.Repositories
     /// 泛型仓储 新增或更新操作 分部接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial interface IRepositoryOfT<TEntity> where TEntity : class, IDbEntity, new()
+    public partial interface IRepositoryOfT<TEntity> where TEntity : class, IDbEntityBase, new()
     {
         #region 新增或更新操作 + EntityEntry<TEntity> InsertOrUpdate(TEntity entity)
 

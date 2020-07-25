@@ -1,8 +1,22 @@
-﻿namespace Fur.DatabaseAccessor.Models.Entities
+﻿using System;
+
+namespace Fur.DatabaseAccessor.Models.Entities
 {
-    /// <summary>
-    /// 数据库实体依赖接口
-    /// <para>所有的数据库实体必须直接或间接继承 <see cref="IDbEntity"/>，否则数据库操作功能将受限</para>
-    /// </summary>
-    public interface IDbEntity { }
+    public interface IDbEntity : IDbEntityBase
+    {
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        DateTime CreatedTime { get; set; }
+
+        /// <summary>
+        /// 更新时间
+        /// </summary>
+        DateTime? UpdatedTime { get; set; }
+
+        /// <summary>
+        /// 软删除
+        /// </summary>
+        bool IsDeleted { get; set; }
+    }
 }

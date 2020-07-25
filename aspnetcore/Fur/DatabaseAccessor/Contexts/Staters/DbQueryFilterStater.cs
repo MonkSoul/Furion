@@ -83,7 +83,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                     if (!(_dbContextIdentifierTypes != null && _dbContextIdentifierTypes.Count() > 0 && !_dbContextIdentifierTypes.Any(u => u == dbContextIdentifierType)))
                     {
                         var queryFilterTypeInstance = Activator.CreateInstance(filterType);
-                        var hasQueryFilterMethod = filterType.GetMethod(nameof(IDbQueryFilterOfT<IDbEntity>.HasQueryFilter));
+                        var hasQueryFilterMethod = filterType.GetMethod(nameof(IDbQueryFilterOfT<IDbEntityBase>.HasQueryFilter));
 
                         _dbQueryFilterStater.QueryFilters = hasQueryFilterMethod.Invoke(queryFilterTypeInstance, new object[] { dbContext }).Adapt<IEnumerable<LambdaExpression>>();
                     }

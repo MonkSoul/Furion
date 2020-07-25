@@ -11,7 +11,7 @@ using System.Linq;
 namespace Fur.DatabaseAccessor.Repositories
 {
     public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity>
-        where TEntity : class, IDbEntity, new()
+        where TEntity : class, IDbEntityBase, new()
     {
         /// <summary>
         /// 维护字段提供器

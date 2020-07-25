@@ -10,7 +10,7 @@ namespace Fur.DatabaseAccessor.Models.Entities
     /// </summary>
     /// <typeparam name="TKey">支持指定主键类型</typeparam>
     [NonWrapper]
-    public abstract class DbEntityOfT<TKey> : DbEntityBaseOfT<TKey>
+    public abstract class DbEntityOfT<TKey> : DbEntityBaseOfT<TKey>, IDbEntity
         where TKey : struct
     {
         /// <summary>

@@ -13,7 +13,7 @@ namespace Fur.DatabaseAccessor.Repositories
     /// 泛型仓储 查询操作 分部类
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity> where TEntity : class, IDbEntity, new()
+    public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity> where TEntity : class, IDbEntityBase, new()
     {
         #region 查询单条 + public virtual TEntity Find(object id)
 

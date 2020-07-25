@@ -11,7 +11,7 @@ namespace Fur.EntityFramework.Core
         {
             builder.RegisterDbContexts<FurSqlServerDbContext>(options =>
             {
-                options.MultipleTenantProvider = typeof(MultipleTenantProvider);
+                options.MultipleTenantProvider = typeof(FurMultipleTenantProvider);
             }, typeof(FurMultipleSqlServerDbContext));
         }
     }

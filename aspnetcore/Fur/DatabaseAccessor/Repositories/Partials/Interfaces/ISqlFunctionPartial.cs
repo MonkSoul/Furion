@@ -9,7 +9,7 @@ namespace Fur.DatabaseAccessor.Repositories
     /// 泛型仓储 函数操作 分部接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial interface IRepositoryOfT<TEntity> where TEntity : class, IDbEntity, new()
+    public partial interface IRepositoryOfT<TEntity> where TEntity : class, IDbEntityBase, new()
     {
         #region 执行标量函数 + TResult SqlScalarFunction<TResult>(string name, params object[] parameters)
 

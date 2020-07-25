@@ -38,7 +38,7 @@ namespace Fur.DatabaseAccessor.Repositories.MasterSlave
         /// <param name="newScope">是否创建新实例</param>
         /// <returns><see cref="IRepositoryOfT{TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier}"/></returns>
         public IRepositoryOfT<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier> Set<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier>(bool newScope = false)
-              where TEntity : class, IDbEntity, new()
+              where TEntity : class, IDbEntityBase, new()
               where TMasterDbContextIdentifier : IDbContextIdentifier
               where TSlaveDbContextIdentifier : IDbContextIdentifier
         {

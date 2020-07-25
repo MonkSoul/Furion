@@ -82,7 +82,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                     if (!(_dbContextIdentifierTypes != null && _dbContextIdentifierTypes.Count() > 0 && !_dbContextIdentifierTypes.Any(u => u == dbContextIdentifierType)))
                     {
                         var seedDataTypeInstance = Activator.CreateInstance(seedDataType);
-                        var hasDataMethod = seedDataType.GetMethod(nameof(IDbSeedDataOfT<IDbEntity>.HasData));
+                        var hasDataMethod = seedDataType.GetMethod(nameof(IDbSeedDataOfT<IDbEntityBase>.HasData));
 
                         _dbSeedDataStater.SeedDatas = hasDataMethod.Invoke(seedDataTypeInstance, new object[] { dbContext }).Adapt<IEnumerable<object>>();
                     }

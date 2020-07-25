@@ -101,7 +101,6 @@ namespace Fur.ApplicationBase
         #endregion 获取公开方法自定义特性 + public static TAttribute GetPublicMethodCustomAttribute<TAttribute>(MethodInfo method) where TAttribute : Attribute
 
         #region 判断是否是控制器类型 + internal static bool IsControllerType(TypeInfo typeInfo, bool exceptControllerBase = false)
-
         /// <summary>
         /// 判断是否是控制器类型
         /// </summary>
@@ -189,7 +188,6 @@ namespace Fur.ApplicationBase
         #endregion 获取应用所有程序集 + private static IEnumerable<Assembly> GetApplicationAssembliesWithoutNuget(string namespacePrefix = nameof(Fur))
 
         #region 获取应用解决方案中所有的包装器集合 + private static ApplicationWrapper GetApplicationWrappers()
-
         /// <summary>
         /// 获取应用解决方案中所有的包装器集合
         /// </summary>
@@ -214,7 +212,7 @@ namespace Fur.ApplicationBase
 
                     // 创建类型包装器
                     PublicClassTypes = a.GetTypes()
-                    .Where(t => !t.IsInterface && t.IsPublic && !t.IsDefined(typeof(NonWrapperAttribute)))
+                    .Where(t => t.IsPublic && !t.IsInterface && !t.IsEnum && !t.IsDefined(typeof(NonWrapperAttribute), false))
                     .Select(t => new TypeWrapper()
                     {
                         ThisAssembly = a,
@@ -229,7 +227,7 @@ namespace Fur.ApplicationBase
 
                         // 创建包装属性器
                         PublicPropertis = t.GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
-                        .Where(p => p.DeclaringType == t && !p.IsDefined(typeof(NonWrapperAttribute)))
+                        .Where(p => p.DeclaringType == t && !p.IsDefined(typeof(NonWrapperAttribute), false))
                         .Select(p => new PropertyWrapper()
                         {
                             Name = p.Name,
@@ -241,7 +239,7 @@ namespace Fur.ApplicationBase
 
                         // 创建方法包装器
                         PublicMethods = t.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static)
-                        .Where(m => m.DeclaringType == t && !m.IsDefined(typeof(NonWrapperAttribute)))
+                        .Where(m => m.DeclaringType == t && !m.IsDefined(typeof(NonWrapperAttribute), false))
                         .Select(m => new MethodWrapper()
                         {
                             ThisAssembly = a,
@@ -255,7 +253,7 @@ namespace Fur.ApplicationBase
 
                             // 创建参数包装器
                             Parameters = m.GetParameters()
-                            .Where(p => !p.IsDefined(typeof(NonWrapperAttribute)))
+                            .Where(p => !p.IsDefined(typeof(NonWrapperAttribute), false))
                             .Select(p => new ParameterWrapper()
                             {
                                 ThisAssembly = a,

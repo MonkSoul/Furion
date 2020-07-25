@@ -11,7 +11,7 @@ namespace Fur.DatabaseAccessor.Repositories
     /// 泛型仓储 新增 分部类
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity> where TEntity : class, IDbEntity, new()
+    public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity> where TEntity : class, IDbEntityBase, new()
     {
         #region 新增操作 + public virtual EntityEntry<TEntity> Insert(TEntity entity)
 

@@ -10,7 +10,7 @@ namespace Fur.DatabaseAccessor.Repositories
     /// 泛型仓储接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial interface IRepositoryOfT<TEntity> where TEntity : class, IDbEntity, new()
+    public partial interface IRepositoryOfT<TEntity> where TEntity : class, IDbEntityBase, new()
     {
         /// <summary>
         /// 数据库操作上下文

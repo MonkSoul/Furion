@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fur.EntityFramework.Core.Migrations
 {
     [DbContext(typeof(FurSqlServerDbContext))]
-    [Migration("20200723104950_v0.0.1")]
-    partial class v001
+    [Migration("20200725152516_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,20 +51,29 @@ namespace Fur.EntityFramework.Core.Migrations
                     b.ToTable("Tests");
                 });
 
-            modelBuilder.Entity("Fur.DatabaseAccessor.Models.Tenants.Tenant", b =>
+            modelBuilder.Entity("Fur.DatabaseAccessor.MultipleTenants.Entities.Tenant", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Host")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -74,20 +83,20 @@ namespace Fur.EntityFramework.Core.Migrations
                         new
                         {
                             Id = 1,
+                            CreatedTime = new DateTime(2020, 7, 25, 23, 25, 16, 210, DateTimeKind.Local).AddTicks(9389),
                             Host = "localhost:44307",
-                            Name = "默认租户"
+                            IsDeleted = false,
+                            Name = "默认租户",
+                            UpdatedTime = new DateTime(2020, 7, 25, 23, 25, 16, 211, DateTimeKind.Local).AddTicks(9552)
                         },
                         new
                         {
                             Id = 2,
+                            CreatedTime = new DateTime(2020, 7, 25, 23, 25, 16, 212, DateTimeKind.Local).AddTicks(1713),
                             Host = "localhost:41529",
-                            Name = "默认租户"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Host = "localhost:41530",
-                            Name = "默认租户"
+                            IsDeleted = false,
+                            Name = "默认租户",
+                            UpdatedTime = new DateTime(2020, 7, 25, 23, 25, 16, 212, DateTimeKind.Local).AddTicks(1719)
                         });
                 });
 #pragma warning restore 612, 618
