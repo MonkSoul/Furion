@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Fur.ApplicationBase.Attributes;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
     /// <summary>
     /// Sql 查询 拓展类
     /// </summary>
+    [NonWrapper]
     internal static class SqlQueryExtensions
     {
         #region Sql 查询 返回 DataTable + internal static DataTable SqlQuery(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)

@@ -1,6 +1,6 @@
 ﻿using Autofac;
-using Fur.DatabaseAccessor.Contexts.Pool;
-using Fur.DatabaseAccessor.Identifiers;
+using Fur.DatabaseAccessor.Contexts.Identifiers;
+using Fur.DatabaseAccessor.Contexts.Pools;
 using Fur.DatabaseAccessor.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 

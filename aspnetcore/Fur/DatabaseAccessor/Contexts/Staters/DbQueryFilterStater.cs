@@ -24,7 +24,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// 数据库查询筛选器状态器集合
         /// <para>避免重复解析状态器</para>
         /// </summary>
-        private static readonly ConcurrentDictionary<Type, DbQueryFilterStater> _dbQueryFilterStateres;
+        private static readonly ConcurrentDictionary<Type, DbQueryFilterStater> _dbQueryFilterStaters;
 
         /// <summary>
         /// 应用所有标识为查询筛选器的类型
@@ -37,7 +37,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// </summary>
         static DbQueryFilterStater()
         {
-            _dbQueryFilterStateres ??= new ConcurrentDictionary<Type, DbQueryFilterStater>();
+            _dbQueryFilterStaters ??= new ConcurrentDictionary<Type, DbQueryFilterStater>();
             _queryFilterTypes = ApplicationCore.ApplicationWrapper.PublicClassTypeWrappers.Where(u => u.CanBeNew && u.Type.GetInterfaces().Any(c => c.IsGenericType && typeof(IDbQueryFilter).IsAssignableFrom(c.GetGenericTypeDefinition())));
         }
         #endregion
@@ -71,7 +71,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 var filterType = queryFilterType.Type;
 
                 // 缓存解析结果，避免重复解析
-                if (!_dbQueryFilterStateres.TryGetValue(filterType, out DbQueryFilterStater dbQueryFilterStater))
+                if (!_dbQueryFilterStaters.TryGetValue(filterType, out DbQueryFilterStater dbQueryFilterStater))
                 {
                     var _dbQueryFilterStater = new DbQueryFilterStater();
                     var queryFilterGenericArguments = filterType.GetInterfaces().FirstOrDefault(c => c.IsGenericType && typeof(IDbQueryFilter).IsAssignableFrom(c.GetGenericTypeDefinition())).GetGenericArguments();
@@ -88,7 +88,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                         _dbQueryFilterStater.QueryFilters = hasQueryFilterMethod.Invoke(queryFilterTypeInstance, new object[] { dbContext }).Adapt<IEnumerable<LambdaExpression>>();
                     }
 
-                    _dbQueryFilterStateres.TryAdd(filterType, _dbQueryFilterStater);
+                    _dbQueryFilterStaters.TryAdd(filterType, _dbQueryFilterStater);
                     dbQueryFilterStater = _dbQueryFilterStater;
                 }
 

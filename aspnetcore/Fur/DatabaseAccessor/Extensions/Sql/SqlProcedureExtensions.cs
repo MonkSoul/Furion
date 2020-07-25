@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Fur.ApplicationBase.Attributes;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
     /// <summary>
     /// Sql 存储过程 拓展类
     /// </summary>
+    [NonWrapper]
     internal static class SqlProcedureExtensions
     {
         #region 执行存储过程 返回 DataTable + internal static DataTable SqlProcedure(this DatabaseFacade databaseFacade, string name, params object[] parameters)

@@ -1,6 +1,6 @@
 ﻿using Fur.Core.DbEntities;
 using Fur.DatabaseAccessor.Contexts;
-using Fur.DatabaseAccessor.Identifiers;
+using Fur.DatabaseAccessor.Contexts.Identifiers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fur.EntityFramework.Core.DbContexts

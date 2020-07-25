@@ -1,9 +1,9 @@
-﻿using Fur.DatabaseAccessor.Contexts.Pool;
+﻿using Fur.DatabaseAccessor.Contexts.Pools;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 
-namespace Fur.DatabaseAccessor.MultipleTenants.Provider
+namespace Fur.DatabaseAccessor.MultipleTenants.Providers
 {
     public class MultipleTenantProvider : IMultipleTenantProvider
     {

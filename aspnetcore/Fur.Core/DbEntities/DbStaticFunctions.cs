@@ -1,5 +1,5 @@
 ﻿using Fur.DatabaseAccessor.Attributes;
-using Fur.DatabaseAccessor.Identifiers;
+using Fur.DatabaseAccessor.Contexts.Identifiers;
 using System;
 
 namespace Fur.Core.DbEntities

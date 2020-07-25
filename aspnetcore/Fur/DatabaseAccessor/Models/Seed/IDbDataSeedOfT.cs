@@ -1,4 +1,4 @@
-﻿using Fur.DatabaseAccessor.Identifiers;
+﻿using Fur.DatabaseAccessor.Contexts.Identifiers;
 using Fur.DatabaseAccessor.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;

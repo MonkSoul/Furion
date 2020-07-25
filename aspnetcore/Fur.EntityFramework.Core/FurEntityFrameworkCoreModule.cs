@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Fur.DatabaseAccessor.Extensions;
-using Fur.DatabaseAccessor.MultipleTenants.Provider;
+using Fur.DatabaseAccessor.MultipleTenants.Providers;
 using Fur.EntityFramework.Core.DbContexts;
 
 namespace Fur.EntityFramework.Core

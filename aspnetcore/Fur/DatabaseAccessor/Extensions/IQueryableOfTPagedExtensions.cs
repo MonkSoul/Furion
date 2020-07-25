@@ -1,4 +1,5 @@
-﻿using Fur.DatabaseAccessor.Models.Pages;
+﻿using Fur.ApplicationBase.Attributes;
+using Fur.DatabaseAccessor.Models.Pages;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -7,12 +8,12 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseAccessor.Extensions
 {
     /// <summary>
-    /// <see cref="IQueryable{T}"/> 拓展类
+    /// <see cref="IQueryable{T}"/> 分页拓展类
     /// </summary>
-    public static class IQueryableExtensions
+    [NonWrapper]
+    public static class IQueryableOfTPagedExtensions
     {
         #region 分页拓展 + public static PagedListOfT<TEntity> ToPagedList<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
-
         /// <summary>
         /// 分页拓展
         /// </summary>
@@ -42,7 +43,6 @@ namespace Fur.DatabaseAccessor.Extensions
         #endregion 分页拓展 + public static PagedListOfT<TEntity> ToPagedList<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
 
         #region 分页拓展 + public static async Task<PagedListOfT<TEntity>> ToPagedListAsync<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
-
         /// <summary>
         /// 分页拓展
         /// </summary>

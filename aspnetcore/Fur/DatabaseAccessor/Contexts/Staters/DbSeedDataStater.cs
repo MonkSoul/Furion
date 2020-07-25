@@ -23,7 +23,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// 数据库种子数据状态器集合
         /// <para>避免重复解析状态器</para>
         /// </summary>
-        private static readonly ConcurrentDictionary<Type, DbSeedDataStater> _dbSeedDataStateres;
+        private static readonly ConcurrentDictionary<Type, DbSeedDataStater> _dbSeedDataStaters;
 
         /// <summary>
         /// 应用所有标识为数据种子的类型
@@ -36,7 +36,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// </summary>
         static DbSeedDataStater()
         {
-            _dbSeedDataStateres ??= new ConcurrentDictionary<Type, DbSeedDataStater>();
+            _dbSeedDataStaters ??= new ConcurrentDictionary<Type, DbSeedDataStater>();
             _dataSeedTypes = ApplicationCore.ApplicationWrapper.PublicClassTypeWrappers.Where(u => u.CanBeNew && u.Type.GetInterfaces().Any(c => c.IsGenericType && typeof(IDbDataSeed).IsAssignableFrom(c.GetGenericTypeDefinition())));
         }
         #endregion
@@ -70,7 +70,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 var seedDataType = seedType.Type;
 
                 // 缓存解析结果，避免重复解析
-                if (!_dbSeedDataStateres.TryGetValue(seedDataType, out DbSeedDataStater dbSeedDataStater))
+                if (!_dbSeedDataStaters.TryGetValue(seedDataType, out DbSeedDataStater dbSeedDataStater))
                 {
                     var _dbSeedDataStater = new DbSeedDataStater();
                     var seedDataGenericArguments = seedDataType.GetInterfaces().FirstOrDefault(c => c.IsGenericType && typeof(IDbDataSeed).IsAssignableFrom(c.GetGenericTypeDefinition())).GetGenericArguments();
@@ -87,7 +87,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                         _dbSeedDataStater.SeedDatas = hasDataMethod.Invoke(seedDataTypeInstance, new object[] { dbContext }).Adapt<IEnumerable<object>>();
                     }
 
-                    _dbSeedDataStateres.TryAdd(seedDataType, _dbSeedDataStater);
+                    _dbSeedDataStaters.TryAdd(seedDataType, _dbSeedDataStater);
                     dbSeedDataStater = _dbSeedDataStater;
                 }
 

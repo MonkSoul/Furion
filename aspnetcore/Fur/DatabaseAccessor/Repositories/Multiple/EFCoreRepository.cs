@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Fur.DatabaseAccessor.Identifiers;
+using Fur.DatabaseAccessor.Contexts.Identifiers;
 using Fur.DatabaseAccessor.Models.Entities;
 
 namespace Fur.DatabaseAccessor.Repositories.Multiple

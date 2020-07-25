@@ -1,4 +1,5 @@
-﻿using Fur.Linq.Extensions;
+﻿using Fur.ApplicationBase.Attributes;
+using Fur.Linq.Extensions;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -14,6 +15,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
     /// <summary>
     /// ADO.NET 拓展类
     /// </summary>
+    [NonWrapper]
     internal static class SqlAdoNetExtensions
     {
         #region 执行 Sql 返回 DataTable + internal static DataTable SqlExecuteReader(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)

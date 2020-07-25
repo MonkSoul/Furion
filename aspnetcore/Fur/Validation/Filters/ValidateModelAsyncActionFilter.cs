@@ -28,19 +28,19 @@ namespace Fur.Validation.Filters
 
             if (methodInfo.GetParameters().Length == 0 || methodInfo.IsDefined(typeof(NonVaildateAttribute)) || methodInfo.DeclaringType.IsDefined(typeof(NonVaildateAttribute)))
             {
-                MiniProfiler.Current.CustomTiming("validation", "Validation Disable", "Disable !");
+                MiniProfiler.Current.CustomTiming("validation", "Validation Disabled", "Disabled !");
                 await next();
                 return;
             }
 
-            MiniProfiler.Current.CustomTiming("validation", "Validation Enable", "Enable");
+            MiniProfiler.Current.CustomTiming("validation", "Validation Enabled", "Enabled");
             if (!context.ModelState.IsValid)
             {
                 var isAnonymouseRequest = descriptor.MethodInfo.IsDefined(typeof(AllowAnonymousAttribute), false) || descriptor.ControllerTypeInfo.IsDefined(typeof(AllowAnonymousAttribute), false);
                 var unAuthorizedRequest = isAnonymouseRequest || Convert.ToBoolean(context.HttpContext.Response.Headers["UnAuthorizedRequest"]);
                 var errorInfo = context.ModelState.Keys.SelectMany(key => context.ModelState[key].Errors.Select(x => new { Field = key, x.ErrorMessage }));
 
-                MiniProfiler.Current.CustomTiming("validation", "Validation Fail:\r\n" + JsonConvert.SerializeObject(errorInfo, Formatting.Indented), "Fail !").Errored = true;
+                MiniProfiler.Current.CustomTiming("validation", "Validation Failed:\r\n" + JsonConvert.SerializeObject(errorInfo, Formatting.Indented), "Failed !").Errored = true;
 
                 context.Result = _unifyResultProvider.UnifyValidateFailResult(context, errorInfo, unAuthorizedRequest);
 
@@ -48,7 +48,7 @@ namespace Fur.Validation.Filters
                 return;
             }
 
-            MiniProfiler.Current.CustomTiming("validation", "Validation Success", "Success");
+            MiniProfiler.Current.CustomTiming("validation", "Validation Successed", "Successed");
             await next();
         }
     }

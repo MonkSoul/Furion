@@ -22,7 +22,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// 数据库函数状态器集合
         /// <para>避免重复解析状态器</para>
         /// </summary>
-        private static readonly ConcurrentDictionary<MethodWrapper, DbFunctionStater> _dbFunctionStateres;
+        private static readonly ConcurrentDictionary<MethodWrapper, DbFunctionStater> _dbFunctionStaters;
 
         /// <summary>
         /// 应用所有标识为数据库函数的方法
@@ -35,7 +35,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// </summary>
         static DbFunctionStater()
         {
-            _dbFunctionStateres ??= new ConcurrentDictionary<MethodWrapper, DbFunctionStater>();
+            _dbFunctionStaters ??= new ConcurrentDictionary<MethodWrapper, DbFunctionStater>();
             _dbFunctionMethods = ApplicationCore.ApplicationWrapper.PublicMethodWrappers.Where(u => u.IsStaticMethod && u.Method.IsDefined(typeof(DbEFFunctionAttribute)) && u.ThisDeclareType.IsAbstract && u.ThisDeclareType.IsSealed);
         }
         #endregion
@@ -56,14 +56,14 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
             foreach (var dbFunction in _dbFunctionMethods)
             {
                 // 缓存解析结果，避免重复解析
-                if (!_dbFunctionStateres.TryGetValue(dbFunction, out DbFunctionStater dbFunctionStater))
+                if (!_dbFunctionStaters.TryGetValue(dbFunction, out DbFunctionStater dbFunctionStater))
                 {
                     var _dbFunctionStater = new DbFunctionStater
                     {
                         DbEFFunctionAttribute = dbFunction.CustomAttributes.FirstOrDefault(u => u is DbEFFunctionAttribute) as DbEFFunctionAttribute
                     };
 
-                    _dbFunctionStateres.TryAdd(dbFunction, _dbFunctionStater);
+                    _dbFunctionStaters.TryAdd(dbFunction, _dbFunctionStater);
                     dbFunctionStater = _dbFunctionStater;
                 }
 

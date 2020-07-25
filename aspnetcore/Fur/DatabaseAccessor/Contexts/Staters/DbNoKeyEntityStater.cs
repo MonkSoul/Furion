@@ -21,7 +21,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// 无键实体状态器集合
         /// <para>避免重复解析状态器</para>
         /// </summary>
-        private static readonly ConcurrentDictionary<Type, DbNoKeyEntityStater> _dbNoKeyEntityStateres;
+        private static readonly ConcurrentDictionary<Type, DbNoKeyEntityStater> _dbNoKeyEntityStaters;
 
         /// <summary>
         /// 应用所有标识为无键实体的类型
@@ -34,7 +34,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// </summary>
         static DbNoKeyEntityStater()
         {
-            _dbNoKeyEntityStateres ??= new ConcurrentDictionary<Type, DbNoKeyEntityStater>();
+            _dbNoKeyEntityStaters ??= new ConcurrentDictionary<Type, DbNoKeyEntityStater>();
             _noKeyEntityTypes ??= ApplicationCore.ApplicationWrapper.PublicClassTypeWrappers.Where(u => u.CanBeNew && typeof(IDbNoKeyEntity).IsAssignableFrom(u.Type));
         }
         #endregion
@@ -62,7 +62,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 var dbEntityType = noKeyEntityType.Type;
 
                 // 缓存解析结果，避免重复解析
-                if (!_dbNoKeyEntityStateres.TryGetValue(dbEntityType, out DbNoKeyEntityStater dbNoKeyEntityStater))
+                if (!_dbNoKeyEntityStaters.TryGetValue(dbEntityType, out DbNoKeyEntityStater dbNoKeyEntityStater))
                 {
                     var _dbNoKeyEntityStater = new DbNoKeyEntityStater
                     {
@@ -75,7 +75,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                         _dbNoKeyEntityStater.DbContextIdentifierTypes = dbEntityBaseType.GetGenericArguments();
                     }
 
-                    _dbNoKeyEntityStateres.TryAdd(dbEntityType, _dbNoKeyEntityStater);
+                    _dbNoKeyEntityStaters.TryAdd(dbEntityType, _dbNoKeyEntityStater);
                     dbNoKeyEntityStater = _dbNoKeyEntityStater;
                 }
 

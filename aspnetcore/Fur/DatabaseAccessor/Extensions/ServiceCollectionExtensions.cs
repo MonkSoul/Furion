@@ -1,4 +1,5 @@
-﻿using Fur.DatabaseAccessor.Interceptors;
+﻿using Fur.ApplicationBase.Attributes;
+using Fur.DatabaseAccessor.Interceptors;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,11 +10,12 @@ namespace Fur.DatabaseAccessor.Extensions.Services
     /// <summary>
     /// 数据库操作上下文服务拓展类
     /// </summary>
+    [NonWrapper]
     public static class ServiceCollectionExtensions
     {
-        #region 配置数据库上下文池信息 + public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 100) where TDbContext : DbContext
+        #region 配置数据库上下文池 + public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 100)
         /// <summary>
-        /// 配置数据库上下文池信息
+        /// 配置数据库上下文池
         /// </summary>
         /// <typeparam name="TDbContext">数据库操作上下文</typeparam>
         /// <param name="services">服务集合</param>
@@ -44,9 +46,9 @@ namespace Fur.DatabaseAccessor.Extensions.Services
 
         #endregion 配置数据库上下文池信息 + public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 100) where TDbContext : DbContext
 
-        #region 配置数据库上下文池信息 + public static IServiceCollection AddFurSqlServerDbContext<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env) where TDbContext : DbContext
+        #region 配置数据库上下文 + public static IServiceCollection AddFurSqlServerDbContext<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env)
         /// <summary>
-        /// 配置数据库上下文信息
+        /// 配置数据库上下文
         /// <para>推荐使用 <see cref="AddFurSqlServerDbContextPool{TDbContext}(IServiceCollection, string, IWebHostEnvironment, int)"/></para>
         /// </summary>
         /// <typeparam name="TDbContext">数据库操作上下文</typeparam>

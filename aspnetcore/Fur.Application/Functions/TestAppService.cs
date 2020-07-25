@@ -2,7 +2,7 @@
 using Fur.Core.DbContextIdentifiers;
 using Fur.Core.DbEntities;
 using Fur.DatabaseAccessor.Attributes;
-using Fur.DatabaseAccessor.Identifiers;
+using Fur.DatabaseAccessor.Contexts.Identifiers;
 using Fur.DatabaseAccessor.Models.Pages;
 using Fur.DatabaseAccessor.Repositories;
 using Fur.DatabaseAccessor.Repositories.MasterSlave;
@@ -67,7 +67,7 @@ namespace Fur.Application.Functions
         /// 查询所有
         /// </summary>
         /// <returns></returns>
-        [NonVaildate, NonTransaction, ProducesResponseType(StatusCodes.Status200OK)]
+        [NonVaildate, NonUnitOfWork, ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IEnumerable<TestOutput>> GetAsync()
         {
             return await _testRepository.Entities

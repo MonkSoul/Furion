@@ -1,7 +1,7 @@
 ﻿using Autofac;
-using Fur.DatabaseAccessor.Contexts.Pool;
+using Fur.DatabaseAccessor.Contexts.Pools;
 using Fur.DatabaseAccessor.Models.Entities;
-using Fur.DatabaseAccessor.MultipleTenants.Provider;
+using Fur.DatabaseAccessor.MultipleTenants.Providers;
 using Fur.DatabaseAccessor.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;

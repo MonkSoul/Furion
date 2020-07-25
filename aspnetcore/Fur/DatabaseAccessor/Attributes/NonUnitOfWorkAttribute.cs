@@ -9,5 +9,5 @@ namespace Fur.DatabaseAccessor.Attributes
     /// <para>说明：支持方法、方法所在类中贴此特性</para>
     /// </summary>
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class), NonWrapper]
-    public class NonTransactionAttribute : Attribute { }
+    public class NonUnitOfWorkAttribute : Attribute { }
 }

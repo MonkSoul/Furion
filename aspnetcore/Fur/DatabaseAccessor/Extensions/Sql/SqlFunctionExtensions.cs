@@ -1,4 +1,5 @@
-﻿using Fur.DatabaseAccessor.Options;
+﻿using Fur.ApplicationBase.Attributes;
+using Fur.DatabaseAccessor.Options;
 using Mapster;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -15,6 +16,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
     /// <summary>
     /// Sql 函数 拓展类
     /// </summary>
+    [NonWrapper]
     internal static class SqlFunctionExtensions
     {
         #region 执行标量函数 + internal static object SqlScalarFunction(this DatabaseFacade databaseFacade, string name, params object[] parameters)

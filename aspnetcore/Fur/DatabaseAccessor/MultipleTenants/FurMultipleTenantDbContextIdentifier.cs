@@ -1,4 +1,4 @@
-﻿using Fur.DatabaseAccessor.Identifiers;
+﻿using Fur.DatabaseAccessor.Contexts.Identifiers;
 
 namespace Fur.DatabaseAccessor.MultipleTenants
 {

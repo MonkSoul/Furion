@@ -1,4 +1,5 @@
-﻿using Fur.DatabaseAccessor.Attributes;
+﻿using Fur.ApplicationBase.Attributes;
+using Fur.DatabaseAccessor.Attributes;
 using Fur.TypeExtensions;
 using Mapster;
 using Microsoft.Data.SqlClient;
@@ -15,6 +16,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
     /// <summary>
     /// Sql 参数及返回值 拓展类
     /// </summary>
+    [NonWrapper]
     public static class SqlConvertExtensions
     {
         #region 将模型转换为 SqlParameter 数组 + public static SqlParameter[] ToSqlParameters(this object parameterModel)

@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Fur.ApplicationBase.Attributes;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
     /// <summary>
     /// Sql DataSet 拓展类
     /// </summary>
+    [NonWrapper]
     internal static class SqlDataSetExtensions
     {
         #region Sql 查询返回 DataSet + internal static DataSet SqlDataSet(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)

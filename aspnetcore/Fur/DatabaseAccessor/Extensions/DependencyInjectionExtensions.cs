@@ -1,7 +1,8 @@
 ﻿using Autofac;
-using Fur.DatabaseAccessor.Contexts.Pool;
+using Fur.ApplicationBase.Attributes;
+using Fur.DatabaseAccessor.Contexts.Pools;
 using Fur.DatabaseAccessor.MultipleTenants;
-using Fur.DatabaseAccessor.MultipleTenants.Provider;
+using Fur.DatabaseAccessor.MultipleTenants.Providers;
 using Fur.DatabaseAccessor.Repositories;
 using Fur.DatabaseAccessor.Repositories.MasterSlave;
 using Fur.DatabaseAccessor.Repositories.Multiple;
@@ -15,6 +16,7 @@ namespace Fur.DatabaseAccessor.Extensions
     /// <summary>
     /// 数据库访问器依赖注入拓展类
     /// </summary>
+    [NonWrapper]
     public static class DependencyInjectionExtensions
     {
         #region 注册上下文 + public static ContainerBuilder RegisterDbContexts<TDefaultDbContext>(this ContainerBuilder builder, params Type[] dbContextTypes)
