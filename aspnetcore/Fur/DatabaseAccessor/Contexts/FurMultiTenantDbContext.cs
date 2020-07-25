@@ -6,69 +6,60 @@ using System.Linq;
 namespace Fur.DatabaseAccessor.Contexts
 {
     /// <summary>
-    /// 租户数据库上下文
-    /// <para>管理租户相关的表及信息</para>
+    /// 多租户数据库上下文
     /// </summary>
     public class FurMultiTenantDbContext : FurDbContextOfT<FurMultiTenantDbContext, FurMultiTenantDbContextIdentifier>
     {
-        /// <summary>
-        /// 租户实体表
-        /// <para>框架默认启用了租户模式。参见：<see cref="Tenant"/></para>
-        /// </summary>
-        public virtual DbSet<Tenant> Tenants { get; set; }
-
-        #region 构造函数 + public FurTenantDbContext(DbContextOptions<FurTenantDbContext> options) : base(options)
-
+        #region 构造函数 + public FurMultiTenantDbContext(DbContextOptions<FurMultiTenantDbContext> options)
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="options">数据库上下文配置选项</param>
-        public FurMultiTenantDbContext(DbContextOptions<FurMultiTenantDbContext> options) : base(options)
+        /// <param name="options">数据库上下文选项配置，<see cref="DbContextOptions{TContext}"/></param>
+        public FurMultiTenantDbContext(DbContextOptions<FurMultiTenantDbContext> options)
+            : base(options)
         {
         }
-
-        #endregion 构造函数 + public FurTenantDbContext(DbContextOptions<FurTenantDbContext> options) : base(options)
-
-        #region DbContext上下文初始化配置时调用的方法 + protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        #endregion
 
         /// <summary>
-        /// DbContext上下文初始化配置时调用的方法
-        /// <para>可在这里配置数据库连接字符串，数据库提供器等</para>
+        /// 租户实体信息
         /// </summary>
-        /// <param name="optionsBuilder">DbContext上下文配置选项构建器</param>
+        public virtual DbSet<Tenant> Tenants { get; set; }
+
+        #region 数据库上下文初始化调用方法 + protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        /// <summary>
+        /// 数据库上下文初始化调用方法
+        /// <para>通常配置数据库连接字符串，数据库类型等等</para>
+        /// </summary>
+        /// <param name="optionsBuilder">数据库上下文选项配置构建器，参见：<see cref="DbContextOptionsBuilder"/></param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
         }
+        #endregion
 
-        #endregion DbContext上下文初始化配置时调用的方法 + protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-
-        #region DbContext 上下文初始化模型时调用的方法 + protected override void OnModelCreating(ModelBuilder modelBuilder)
-
+        #region 数据库上下文创建模型调用方法 + protected override void OnModelCreating(ModelBuilder modelBuilder)
         /// <summary>
-        /// DbContext 上下文初始化模型时调用的方法
+        /// 数据库上下文创建模型调用方法
         /// </summary>
-        /// <param name="modelBuilder">DbContext 上下文模型构建器</param>
+        /// <param name="modelBuilder">模型构建器，参见：<see cref="ModelBuilder"/></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
         }
+        #endregion
 
-        #endregion DbContext 上下文初始化模型时调用的方法 + protected override void OnModelCreating(ModelBuilder modelBuilder)
-
-        #region DbContext 上下文获取租户Id + public virtual int GetTenantId(string host)
-
+        #region 获取租户Id + public virtual int GetTenantId(string host)
         /// <summary>
-        /// DbContext 上下文获取租户Id
+        /// 获取租户Id
         /// </summary>
-        /// <param name="host">主机地址</param>
-        /// <returns>int</returns>
+        /// <param name="host">请求来源主机地址</param>
+        /// <returns>租户Id</returns>
         public virtual int GetTenantId(string host)
         {
             var tenant = Tenants.FirstOrDefault(t => t.Host == host);
             return tenant?.Id ?? 0;
         }
-
-        #endregion DbContext 上下文获取租户Id + public virtual int GetTenantId(string host)
+        #endregion
     }
 }
