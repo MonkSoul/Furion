@@ -1,7 +1,7 @@
 ﻿using Autofac;
-using Fur.DatabaseAccessor.Contexts;
 using Fur.DatabaseAccessor.Contexts.Pool;
 using Fur.DatabaseAccessor.Identifiers;
+using Fur.DatabaseAccessor.MultiTenants;
 using Fur.DatabaseAccessor.Providers;
 using Fur.DatabaseAccessor.Repositories;
 using Fur.DatabaseAccessor.Repositories.MasterSlave;

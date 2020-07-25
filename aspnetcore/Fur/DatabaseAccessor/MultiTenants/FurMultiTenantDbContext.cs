@@ -1,9 +1,8 @@
-﻿using Fur.DatabaseAccessor.Identifiers;
-using Fur.DatabaseAccessor.Models.Tenants;
+﻿using Fur.DatabaseAccessor.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace Fur.DatabaseAccessor.Contexts
+namespace Fur.DatabaseAccessor.MultiTenants
 {
     /// <summary>
     /// 多租户数据库上下文

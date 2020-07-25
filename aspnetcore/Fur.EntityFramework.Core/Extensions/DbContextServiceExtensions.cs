@@ -1,6 +1,6 @@
-﻿using Fur.DatabaseAccessor.Contexts;
-using Fur.DatabaseAccessor.Extensions.Services;
+﻿using Fur.DatabaseAccessor.Extensions.Services;
 using Fur.DatabaseAccessor.Filters;
+using Fur.DatabaseAccessor.MultiTenants;
 using Fur.EntityFramework.Core.DbContexts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
