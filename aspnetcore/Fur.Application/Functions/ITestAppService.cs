@@ -1,5 +1,5 @@
 ﻿using Fur.Application.Functions.Dtos;
-using Fur.DatabaseAccessor.Models.Pages;
+using Fur.DatabaseAccessor.Extensions.Paged;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

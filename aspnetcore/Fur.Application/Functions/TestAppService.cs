@@ -3,7 +3,7 @@ using Fur.Core.DbContextIdentifiers;
 using Fur.Core.DbEntities;
 using Fur.DatabaseAccessor.Attributes;
 using Fur.DatabaseAccessor.Contexts.Identifiers;
-using Fur.DatabaseAccessor.Models.Pages;
+using Fur.DatabaseAccessor.Extensions.Paged;
 using Fur.DatabaseAccessor.Repositories;
 using Fur.DatabaseAccessor.Repositories.MasterSlave;
 using Fur.DatabaseAccessor.Repositories.Multiple;

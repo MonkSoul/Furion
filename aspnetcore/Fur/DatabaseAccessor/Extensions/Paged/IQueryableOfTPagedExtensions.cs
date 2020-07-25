@@ -1,11 +1,10 @@
 ﻿using Fur.ApplicationBase.Attributes;
-using Fur.DatabaseAccessor.Models.Pages;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Fur.DatabaseAccessor.Extensions
+namespace Fur.DatabaseAccessor.Extensions.Paged
 {
     /// <summary>
     /// <see cref="IQueryable{T}"/> 分页拓展类
