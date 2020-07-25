@@ -9,6 +9,7 @@ using Fur.DatabaseAccessor.Repositories.Multiple;
 using Fur.DatabaseAccessor.Tangent;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Fur.DatabaseAccessor.Extensions
@@ -75,7 +76,6 @@ namespace Fur.DatabaseAccessor.Extensions
             return builder;
         }
         #endregion
-
 
         #region 注册上下文 + private static ContainerBuilder RegisterDbContexts(this ContainerBuilder builder, params Type[] dbContextTypes)
         /// <summary>
