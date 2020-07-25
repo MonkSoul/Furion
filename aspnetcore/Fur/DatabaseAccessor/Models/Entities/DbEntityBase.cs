@@ -1,30 +1,27 @@
-﻿using System;
+﻿using Fur.ApplicationBase.Attributes;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Fur.DatabaseAccessor.Models.Entities
 {
     /// <summary>
-    /// 数据库实体基础抽象类
-    /// <para>包含常见的维护字段：
-    /// <see cref="CreatedTime"/>
-    /// <see cref="UpdatedTime"/>
-    /// <see cref="IsDeleted"/>
-    /// </para>
+    /// 数据库实体依赖抽象类
     /// </summary>
-    public abstract class DbEntityBase : DbEntity
+    [NonWrapper]
+    public abstract class DbEntityBase : IDbEntity
     {
         /// <summary>
-        /// 创建时间
+        /// 主键Id
+        /// <para>默认自增</para>
         /// </summary>
-        public DateTime CreatedTime { get; set; }
+        [Key]
+        [ScaffoldColumn(false)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
 
         /// <summary>
-        /// 更新时间
+        /// 租户Id
         /// </summary>
-        public DateTime? UpdatedTime { get; set; }
-
-        /// <summary>
-        /// 软删除
-        /// </summary>
-        public bool IsDeleted { get; set; }
+        public int TenantId { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 using Fur.ApplicationBase.Attributes;
 using Fur.ApplicationBase.Wrappers;
 using Fur.DatabaseAccessor.Models.Entities;
-using Fur.DatabaseAccessor.Models.Filters;
+using Fur.DatabaseAccessor.Models.QueryFilters;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using System;

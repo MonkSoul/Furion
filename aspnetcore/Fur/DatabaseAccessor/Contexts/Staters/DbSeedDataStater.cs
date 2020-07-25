@@ -2,7 +2,7 @@
 using Fur.ApplicationBase.Attributes;
 using Fur.ApplicationBase.Wrappers;
 using Fur.DatabaseAccessor.Models.Entities;
-using Fur.DatabaseAccessor.Models.Seed;
+using Fur.DatabaseAccessor.Models.SeedDatas;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -37,7 +37,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         static DbSeedDataStater()
         {
             _dbSeedDataStaters ??= new ConcurrentDictionary<Type, DbSeedDataStater>();
-            _dataSeedTypes = ApplicationCore.ApplicationWrapper.PublicClassTypeWrappers.Where(u => u.CanBeNew && u.Type.GetInterfaces().Any(c => c.IsGenericType && typeof(IDbDataSeed).IsAssignableFrom(c.GetGenericTypeDefinition())));
+            _dataSeedTypes = ApplicationCore.ApplicationWrapper.PublicClassTypeWrappers.Where(u => u.CanBeNew && u.Type.GetInterfaces().Any(c => c.IsGenericType && typeof(IDbSeedData).IsAssignableFrom(c.GetGenericTypeDefinition())));
         }
         #endregion
 
@@ -73,7 +73,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 if (!_dbSeedDataStaters.TryGetValue(seedDataType, out DbSeedDataStater dbSeedDataStater))
                 {
                     var _dbSeedDataStater = new DbSeedDataStater();
-                    var seedDataGenericArguments = seedDataType.GetInterfaces().FirstOrDefault(c => c.IsGenericType && typeof(IDbDataSeed).IsAssignableFrom(c.GetGenericTypeDefinition())).GetGenericArguments();
+                    var seedDataGenericArguments = seedDataType.GetInterfaces().FirstOrDefault(c => c.IsGenericType && typeof(IDbSeedData).IsAssignableFrom(c.GetGenericTypeDefinition())).GetGenericArguments();
 
                     _dbSeedDataStater.DbContextIdentifierTypes = seedDataGenericArguments.Skip(1);
                     _dbSeedDataStater.DbEntityType = seedDataGenericArguments.First();
@@ -82,7 +82,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                     if (!(_dbContextIdentifierTypes != null && _dbContextIdentifierTypes.Count() > 0 && !_dbContextIdentifierTypes.Any(u => u == dbContextIdentifierType)))
                     {
                         var seedDataTypeInstance = Activator.CreateInstance(seedDataType);
-                        var hasDataMethod = seedDataType.GetMethod(nameof(IDbDataSeedOfT<IDbEntity>.HasData));
+                        var hasDataMethod = seedDataType.GetMethod(nameof(IDbSeedDataOfT<IDbEntity>.HasData));
 
                         _dbSeedDataStater.SeedDatas = hasDataMethod.Invoke(seedDataTypeInstance, new object[] { dbContext }).Adapt<IEnumerable<object>>();
                     }

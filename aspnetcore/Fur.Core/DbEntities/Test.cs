@@ -1,7 +1,7 @@
 ﻿using Fur.DatabaseAccessor.Contexts.Identifiers;
 using Fur.DatabaseAccessor.Extensions;
 using Fur.DatabaseAccessor.Models.Entities;
-using Fur.DatabaseAccessor.Models.Filters;
+using Fur.DatabaseAccessor.Models.QueryFilters;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Linq.Expressions;
 namespace Fur.Core.DbEntities
 {
     [Table("Tests")]
-    public class Test : DbEntityBase, IDbQueryFilterOfT<Test, FurDbContextIdentifier>
+    public class Test : DbEntity, IDbQueryFilterOfT<Test, FurDbContextIdentifier>
     {
         public string Name { get; set; }
         public int Age { get; set; }

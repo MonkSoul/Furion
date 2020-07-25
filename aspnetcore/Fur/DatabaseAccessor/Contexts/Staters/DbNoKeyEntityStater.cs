@@ -66,7 +66,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 {
                     var _dbNoKeyEntityStater = new DbNoKeyEntityStater
                     {
-                        EntityName = (Activator.CreateInstance(dbEntityType) as IDbNoKeyEntity).ENTITY_NAME
+                        EntityName = (Activator.CreateInstance(dbEntityType) as IDbNoKeyEntity).DB_DEFINED_NAME
                     };
                     var dbEntityBaseType = dbEntityType.BaseType;
 

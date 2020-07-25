@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Fur.ApplicationBase.Attributes;
+using System.Collections.Generic;
 
 namespace Fur.DatabaseAccessor.Extensions.Paged
 {
     /// <summary>
-    /// 泛型分页集合
+    /// 分页集合
     /// </summary>
+    [NonWrapper]
     public sealed class PagedList
     {
         /// <summary>

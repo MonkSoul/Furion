@@ -1,7 +1,7 @@
 ﻿using Fur.DatabaseAccessor.Contexts.Identifiers;
 using Fur.DatabaseAccessor.Extensions;
 using Fur.DatabaseAccessor.Models.Entities;
-using Fur.DatabaseAccessor.Models.Filters;
+using Fur.DatabaseAccessor.Models.QueryFilters;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

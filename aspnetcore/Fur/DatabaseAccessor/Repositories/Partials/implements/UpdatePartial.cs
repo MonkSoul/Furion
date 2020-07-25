@@ -819,7 +819,7 @@ namespace Fur.DatabaseAccessor.Repositories
                 entityEntries.Add(entityEntry);
 
                 var (updateTimePropertyName, updateTimePropertyValue) = _maintenanceProvider?.GetUpdatedTimeFieldInfo()
-                    ?? (nameof(DbEntityBase.UpdatedTime), DateTime.Now);
+                    ?? (nameof(DbEntity.UpdatedTime), DateTime.Now);
 
                 var updatedTimeProperty = EntityEntryProperty(entityEntry, updateTimePropertyName);
                 if (updatedTimeProperty != null && !updatedTimeProperty.IsModified)
@@ -831,7 +831,7 @@ namespace Fur.DatabaseAccessor.Repositories
                 updateHandle?.Invoke();
 
                 var (createdTimePropertyName, _) = _maintenanceProvider?.GetCreatedTimeFieldInfo()
-                    ?? (nameof(DbEntityBase.UpdatedTime), DateTime.Now);
+                    ?? (nameof(DbEntity.UpdatedTime), DateTime.Now);
 
                 var createdTimeProperty = EntityEntryProperty(entityEntry, createdTimePropertyName);
                 if (createdTimeProperty != null)
@@ -841,7 +841,7 @@ namespace Fur.DatabaseAccessor.Repositories
 
                 if (TenantId.HasValue)
                 {
-                    var tenantIdProperty = EntityEntryProperty(entityEntry, nameof(DbEntity.TenantId));
+                    var tenantIdProperty = EntityEntryProperty(entityEntry, nameof(DbEntityBase.TenantId));
                     if (tenantIdProperty != null)
                     {
                         tenantIdProperty.IsModified = false;

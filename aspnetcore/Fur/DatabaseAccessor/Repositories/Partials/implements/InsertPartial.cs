@@ -206,7 +206,7 @@ namespace Fur.DatabaseAccessor.Repositories
                 var entityEntry = EntityEntry(entity);
 
                 var (createdTimePropertyName, createdTimePropertyValue) = _maintenanceProvider?.GetCreatedTimeFieldInfo()
-                    ?? (nameof(DbEntityBase.CreatedTime), DateTime.Now);
+                    ?? (nameof(DbEntity.CreatedTime), DateTime.Now);
 
                 var createdTimeProperty = EntityEntryProperty(entityEntry, createdTimePropertyName);
                 if (createdTimeProperty != null)
@@ -216,7 +216,7 @@ namespace Fur.DatabaseAccessor.Repositories
 
                 if (TenantId.HasValue)
                 {
-                    var tenantIdProperty = EntityEntryProperty(entityEntry, nameof(DbEntity.TenantId));
+                    var tenantIdProperty = EntityEntryProperty(entityEntry, nameof(DbEntityBase.TenantId));
                     if (tenantIdProperty != null)
                     {
                         tenantIdProperty.CurrentValue = TenantId;

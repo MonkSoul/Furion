@@ -1,31 +1,31 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Fur.ApplicationBase.Attributes;
+using System;
 
 namespace Fur.DatabaseAccessor.Models.Entities
 {
     /// <summary>
-    /// 数据库实体抽象类
-    /// <para>简化 <see cref="IDbEntity"/> 手动实现</para>
+    /// 数据库泛型实体抽象类
+    /// <para>支持指定主键类型</para>
+    /// <para>包含创建时间、更新时间、删除标识</para>
     /// </summary>
-    /// <typeparam name="TKey">
-    /// 主键类型
-    /// <code>struct</code>
-    /// </typeparam>
-    public abstract class DbEntityOfT<TKey> : IDbEntity where TKey : struct
+    /// <typeparam name="TKey">支持指定主键类型</typeparam>
+    [NonWrapper]
+    public abstract class DbEntityOfT<TKey> : DbEntityBaseOfT<TKey>
+        where TKey : struct
     {
         /// <summary>
-        /// 主键Id
-        /// <para>默认自增</para>
+        /// 创建时间
         /// </summary>
-        [Key]
-        [ScaffoldColumn(false)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public TKey Id { get; set; }
+        public DateTime CreatedTime { get; set; }
 
         /// <summary>
-        /// 租户Id
-        /// <para>参见：<see cref="Fur.DatabaseAccessor.TenantSaaS.Tenant"/></para>
+        /// 更新时间
         /// </summary>
-        public int TenantId { get; set; }
+        public DateTime? UpdatedTime { get; set; }
+
+        /// <summary>
+        /// 软删除
+        /// </summary>
+        public bool IsDeleted { get; set; }
     }
 }
