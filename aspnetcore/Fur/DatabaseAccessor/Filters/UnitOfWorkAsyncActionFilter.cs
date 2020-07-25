@@ -48,12 +48,14 @@ namespace Fur.DatabaseAccessor.Filters
             var miniProfilerName = "transaction";
             var controllerActionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
             var methodInfo = controllerActionDescriptor.MethodInfo;
+            var dbContextCount = _dbContextPool.GetDbContexts().Count();
 
             // 如果贴了 [NonTransaction] 特性，则不开启事务
             if (methodInfo.IsDefined(typeof(NonTransactionAttribute)) || methodInfo.DeclaringType.IsDefined(typeof(NonTransactionAttribute)))
             {
                 MiniProfiler.Current.CustomTiming(miniProfilerName, "TransactionScope Disable", "Disable !");
                 await next();
+                MiniProfiler.Current.CustomTiming(miniProfilerName, $"TransactionScope Complete - DbContexts: Count/{dbContextCount}", "Complete");
                 return;
             }
 
@@ -81,7 +83,7 @@ namespace Fur.DatabaseAccessor.Filters
                 var hasChangesCount = await _dbContextPool.SavePoolChangesAsync();
                 transaction.Complete();
 
-                MiniProfiler.Current.CustomTiming(miniProfilerName, $"TransactionScope Complete - DbContexts: Count/{ _dbContextPool.GetDbContexts().Count()}, Has Changes/{hasChangesCount}", "Complete");
+                MiniProfiler.Current.CustomTiming(miniProfilerName, $"TransactionScope Complete - DbContexts: Count/{ dbContextCount}, Has Changes/{hasChangesCount}", "Complete");
             }
             // 否则回滚
             else
