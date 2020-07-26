@@ -19,7 +19,7 @@ namespace Fur.DatabaseAccessor.Extensions
         /// </summary>
         /// <param name="dbContext">数据库上下文</param>
         /// <returns></returns>
-        public static int GetTenantId(this DbContext dbContext)
+        public static int? GetTenantId(this DbContext dbContext)
         {
             var lifetimeScope = dbContext.GetService<ILifetimeScope>();
             if (!lifetimeScope.IsRegistered<IMultipleTenantProvider>()) return default;

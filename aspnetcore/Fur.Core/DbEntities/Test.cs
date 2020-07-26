@@ -18,9 +18,12 @@ namespace Fur.Core.DbEntities
 
         public IEnumerable<Expression<Func<Test, bool>>> HasQueryFilter(DbContext dbContext)
         {
+            var tenantId = dbContext.GetTenantId();
+            if (!tenantId.HasValue) return default;
+
             return new List<Expression<Func<Test, bool>>>
             {
-               entity=>entity.TenantId==dbContext.GetTenantId()
+               entity=>entity.TenantId==tenantId.Value
             };
         }
     }

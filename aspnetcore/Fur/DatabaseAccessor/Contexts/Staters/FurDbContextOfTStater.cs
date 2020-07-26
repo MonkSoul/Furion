@@ -1,4 +1,5 @@
-﻿using Fur.ApplicationBase;
+﻿using Autofac;
+using Fur.ApplicationBase;
 using Fur.ApplicationBase.Attributes;
 using Fur.ApplicationBase.Wrappers;
 using Fur.DatabaseAccessor.Attributes;
@@ -6,8 +7,11 @@ using Fur.DatabaseAccessor.Models.Entities;
 using Fur.DatabaseAccessor.Models.EntityTypeBuilders;
 using Fur.DatabaseAccessor.Models.QueryFilters;
 using Fur.DatabaseAccessor.Models.SeedDatas;
+using Fur.DatabaseAccessor.MultipleTenants.Entities;
+using Fur.DatabaseAccessor.MultipleTenants.Providers;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Concurrent;
@@ -29,12 +33,12 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// 包含数据库实体的所有类型
         /// <para>包括本身继承 <see cref="IDbEntityBase"/> 或 继承的泛型接口中含 <see cref="IDbEntityBase"/> 类型</para>
         /// </summary>
-        private static readonly ConcurrentBag<Type> _includeDbEntityTypes;
+        private static ConcurrentBag<Type> _includeDbEntityTypes;
 
         /// <summary>
         /// 所有数据库实体类型
         /// </summary>
-        private static readonly ConcurrentBag<Type> _dbEntityTypes;
+        private static ConcurrentBag<Type> _dbEntityTypes;
 
         /// <summary>
         /// 应用所有标识为数据库函数的方法
@@ -111,6 +115,8 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="dbContext">数据库上下文</param>
         internal static void ScanDbObjectsToBuilding(ModelBuilder modelBuilder, Type dbContextIdentifierType, DbContext dbContext)
         {
+            var isRegisterTenant = dbContext.GetService<ILifetimeScope>().IsRegistered<IMultipleTenantProvider>();
+
             // 如果没有任何数据库实体类型，无需配置
             if (_includeDbEntityTypes.Count > 0)
             {
@@ -126,6 +132,12 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                         var values = _dbContextIdentifierTypesOfDbEntityType.GetValueOrDefault(dbEntityType);
                         if (values != null && values.Count > 0 && !values.Contains(dbContextIdentifierType)) break;
                     }
+
+                    if (!isRegisterTenant && dbEntityType == typeof(Tenant))
+                    {
+                        _dbEntityTypesLoopIndex++;
+                        continue;
+                    };
 
                     // 配置无键实体
                     DbNoKeyEntityConfigure(dbEntityType, modelBuilder, dbContextIdentifierType, ref entityTypeBuilder);
