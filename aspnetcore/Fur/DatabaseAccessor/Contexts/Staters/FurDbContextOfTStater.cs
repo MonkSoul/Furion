@@ -116,13 +116,16 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
             {
                 foreach (var dbEntityType in _dbEntityTypes)
                 {
+                    EntityTypeBuilder entityTypeBuilder = null;
+
+                    // 配置全局查询筛选器
+                    DbContextQueryFilterConfigure(dbContext, modelBuilder, dbEntityType, ref entityTypeBuilder);
+
                     if (_dbEntityTypesLoopIndex == _dbEntityTypes.Count)
                     {
                         var values = _dbContextIdentifierTypesOfDbEntityType.GetValueOrDefault(dbEntityType);
                         if (values != null && values.Count > 0 && !values.Contains(dbContextIdentifierType)) break;
                     }
-
-                    EntityTypeBuilder entityTypeBuilder = null;
 
                     // 配置无键实体
                     DbNoKeyEntityConfigure(dbEntityType, modelBuilder, dbContextIdentifierType, ref entityTypeBuilder);
@@ -317,6 +320,28 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 SaveDbContextIdentifiersOfDbFunctions(dbFunction, dbContextIdentifierTypes);
 
                 _dbFunctionsLoopIndex++;
+            }
+        }
+        #endregion
+
+        #region 配置全局查询筛选器 + private static void DbContextQueryFilterConfigure(DbContext dbContext, ModelBuilder modelBuilder, Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
+        /// <summary>
+        /// 配置全局查询筛选器
+        /// </summary>
+        /// <param name="dbContext">数据库上下文</param>
+        /// <param name="modelBuilder">模型构建器</param>
+        /// <param name="dbEntityType">数据库实体类型</param>
+        /// <param name="entityTypeBuilder">数据库实体类型构建器</param>
+        private static void DbContextQueryFilterConfigure(DbContext dbContext, ModelBuilder modelBuilder, Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
+        {
+            var dbContextType = dbContext.GetType();
+            if (typeof(IDbContextQueryFilter).IsAssignableFrom(dbContextType))
+            {
+                BuilderEntityType(modelBuilder, dbEntityType, ref entityTypeBuilder);
+
+                dbContextType
+                    .GetMethod(nameof(IDbContextQueryFilter.HasQueryFilter))
+                    .Invoke(dbContext, new object[] { dbContext, entityTypeBuilder });
             }
         }
         #endregion
