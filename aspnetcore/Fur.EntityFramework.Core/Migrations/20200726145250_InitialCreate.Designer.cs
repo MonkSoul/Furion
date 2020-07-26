@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fur.EntityFramework.Core.Migrations
 {
     [DbContext(typeof(FurSqlServerDbContext))]
-    [Migration("20200725152516_InitialCreate")]
+    [Migration("20200726145250_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -83,20 +83,20 @@ namespace Fur.EntityFramework.Core.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedTime = new DateTime(2020, 7, 25, 23, 25, 16, 210, DateTimeKind.Local).AddTicks(9389),
+                            CreatedTime = new DateTime(2020, 7, 26, 22, 52, 49, 980, DateTimeKind.Local).AddTicks(2037),
                             Host = "localhost:44307",
                             IsDeleted = false,
                             Name = "默认租户",
-                            UpdatedTime = new DateTime(2020, 7, 25, 23, 25, 16, 211, DateTimeKind.Local).AddTicks(9552)
+                            UpdatedTime = new DateTime(2020, 7, 26, 22, 52, 49, 981, DateTimeKind.Local).AddTicks(3768)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedTime = new DateTime(2020, 7, 25, 23, 25, 16, 212, DateTimeKind.Local).AddTicks(1713),
+                            CreatedTime = new DateTime(2020, 7, 26, 22, 52, 49, 981, DateTimeKind.Local).AddTicks(5592),
                             Host = "localhost:41529",
                             IsDeleted = false,
                             Name = "默认租户",
-                            UpdatedTime = new DateTime(2020, 7, 25, 23, 25, 16, 212, DateTimeKind.Local).AddTicks(1719)
+                            UpdatedTime = new DateTime(2020, 7, 26, 22, 52, 49, 981, DateTimeKind.Local).AddTicks(5600)
                         });
                 });
 #pragma warning restore 612, 618

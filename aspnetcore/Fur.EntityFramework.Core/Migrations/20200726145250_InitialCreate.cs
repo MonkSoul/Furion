@@ -45,12 +45,12 @@ namespace Fur.EntityFramework.Core.Migrations
             migrationBuilder.InsertData(
                 table: "Tenants",
                 columns: new[] { "Id", "CreatedTime", "Host", "IsDeleted", "Name", "UpdatedTime" },
-                values: new object[] { 1, new DateTime(2020, 7, 25, 23, 25, 16, 210, DateTimeKind.Local).AddTicks(9389), "localhost:44307", false, "默认租户", new DateTime(2020, 7, 25, 23, 25, 16, 211, DateTimeKind.Local).AddTicks(9552) });
+                values: new object[] { 1, new DateTime(2020, 7, 26, 22, 52, 49, 980, DateTimeKind.Local).AddTicks(2037), "localhost:44307", false, "默认租户", new DateTime(2020, 7, 26, 22, 52, 49, 981, DateTimeKind.Local).AddTicks(3768) });
 
             migrationBuilder.InsertData(
                 table: "Tenants",
                 columns: new[] { "Id", "CreatedTime", "Host", "IsDeleted", "Name", "UpdatedTime" },
-                values: new object[] { 2, new DateTime(2020, 7, 25, 23, 25, 16, 212, DateTimeKind.Local).AddTicks(1713), "localhost:41529", false, "默认租户", new DateTime(2020, 7, 25, 23, 25, 16, 212, DateTimeKind.Local).AddTicks(1719) });
+                values: new object[] { 2, new DateTime(2020, 7, 26, 22, 52, 49, 981, DateTimeKind.Local).AddTicks(5592), "localhost:41529", false, "默认租户", new DateTime(2020, 7, 26, 22, 52, 49, 981, DateTimeKind.Local).AddTicks(5600) });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

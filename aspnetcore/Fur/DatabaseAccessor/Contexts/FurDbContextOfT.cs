@@ -2,7 +2,6 @@
 using Fur.DatabaseAccessor.Contexts.Identifiers;
 using Fur.DatabaseAccessor.Contexts.Staters;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace Fur.DatabaseAccessor.Contexts
 {
@@ -54,33 +53,9 @@ namespace Fur.DatabaseAccessor.Contexts
             base.OnModelCreating(modelBuilder);
 
             // 扫描数据库对象类型加入模型构建器中，包括视图、存储过程、函数（标量函数/表值函数）初始化、及种子数据、查询筛选器配置
-            ScanDbObjectsToBuilding(modelBuilder, typeof(TDbContextIdentifier), this);
+            FurDbContextOfTStater.ScanDbObjectsToBuilding(modelBuilder, typeof(TDbContextIdentifier), this);
 
             // 如需添加其他配置，应写在以下位置，但是要注意基类多次调用问题，建议通过 TDbContextIdentifier 来区分当前数据库上下文
-        }
-        #endregion
-
-        #region 扫描数据库对象类型加入模型构建器中 +private static void ScanDbObjectsToBuilding(ModelBuilder modelBuilder, Type dbContextIdentifierType, DbContext dbContext)
-        /// <summary>
-        /// 扫描数据库对象类型加入模型构建器中
-        /// <para>包括视图、存储过程、函数（标量函数/表值函数）初始化、及种子数据、查询筛选器配置</para>
-        /// </summary>
-        /// <param name="modelBuilder">模型上下文</param>
-        /// <param name="dbContextIdentifierType">数据库上下文标识器</param>
-        /// <param name="dbContext">数据库上下文</param>
-        private static void ScanDbObjectsToBuilding(ModelBuilder modelBuilder, Type dbContextIdentifierType, DbContext dbContext)
-        {
-            // 配置无键实体
-            DbNoKeyEntityStater.Configure(modelBuilder, dbContextIdentifierType);
-
-            // 配置数据库函数
-            DbFunctionStater.Configure(modelBuilder, dbContextIdentifierType);
-
-            // 配置种子数据
-            DbSeedDataStater.Configure(modelBuilder, dbContext, dbContextIdentifierType);
-
-            //配置数据过滤器
-            DbQueryFilterStater.Configure(modelBuilder, dbContext, dbContextIdentifierType);
         }
         #endregion
     }
