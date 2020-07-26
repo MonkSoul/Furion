@@ -45,15 +45,5 @@ namespace Fur.DatabaseAccessor.Attributes
         /// 数据库上下文标识器类型
         /// </summary>
         public Type[] DbContextIdentifierTypes { get; set; }
-
-        /// <summary>
-        /// 私有化基类函数名
-        /// </summary>
-        private new string Name { get; set; }
-
-        /// <summary>
-        /// 私有化基类函数Schema
-        /// </summary>
-        private new string Schema { get; set; }
     }
 }

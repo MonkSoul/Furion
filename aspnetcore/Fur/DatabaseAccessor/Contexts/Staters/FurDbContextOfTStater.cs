@@ -146,12 +146,42 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                         DbQueryFilterConfigure(dbEntityType, modelBuilder, dbContext, dbContextIdentifierType, dbEntityConfigureType, ref entityTypeBuilder);
                     }
 
+                    // 配置模型
+                    DbModelEntityConfigure(modelBuilder, dbContextIdentifierType, dbEntityType, ref entityTypeBuilder);
+
                     _dbEntityTypesLoopIndex++;
                 }
             }
 
             // 配置数据库函数
             DbFunctionConfigure(modelBuilder, dbContextIdentifierType);
+        }
+        #endregion
+
+        #region 配置数据库模型实体 + private static void DbModelEntityConfigure(ModelBuilder modelBuilder, Type dbContextIdentifierType, Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
+        /// <summary>
+        /// 配置数据库模型实体
+        /// </summary>
+        /// <param name="modelBuilder">模型构建器</param>
+        /// <param name="dbContextIdentifierType">数据库上下文标识器</param>
+        /// <param name="dbEntityType">数据库实体类型</param>
+        /// <param name="entityTypeBuilder">实体类型构建器</param>
+        private static void DbModelEntityConfigure(ModelBuilder modelBuilder, Type dbContextIdentifierType, Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
+        {
+            if (entityTypeBuilder != null) return;
+
+            if (dbEntityType.IsDefined(typeof(DbTableAttribute), false))
+            {
+                var dbTableAttribute = dbEntityType.GetCustomAttribute<DbTableAttribute>();
+                if (IsAllowThisDbEntityToBuilder(dbTableAttribute.DbContextIdentifierTypes, dbContextIdentifierType))
+                {
+                    BuilderEntityType(modelBuilder, dbEntityType, ref entityTypeBuilder);
+                }
+            }
+            else
+            {
+                BuilderEntityType(modelBuilder, dbEntityType, ref entityTypeBuilder);
+            }
         }
         #endregion
 
