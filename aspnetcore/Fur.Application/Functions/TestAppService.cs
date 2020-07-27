@@ -1,5 +1,12 @@
-﻿using Fur.MirrorController.Attributes;
+﻿using Fur.Application.Functions.Dtos;
+using Fur.Core.DbEntities;
+using Fur.DatabaseAccessor.Repositories;
+using Fur.MirrorController.Attributes;
 using Fur.MirrorController.Dependencies;
+using Mapster;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Fur.Application.Functions
 {
@@ -9,5 +16,21 @@ namespace Fur.Application.Functions
     [MirrorController]
     public class TestAppService : ITestAppService, IMirrorControllerDependency
     {
+        private readonly IRepositoryOfT<Test> _repository;
+        public TestAppService(IRepositoryOfT<Test> repository)
+        {
+            _repository = repository;
+        }
+
+        public async Task<IEnumerable<TestDto>> Get()
+        {
+            return await _repository.Entities.ProjectToType<TestDto>().ToListAsync();
+        }
+
+        public async Task<TestDto> InsertAsync(TestDto test)
+        {
+            var entityEntry = await _repository.InsertAsync(test.Adapt<Test>());
+            return entityEntry.Entity.Adapt<TestDto>();
+        }
     }
 }

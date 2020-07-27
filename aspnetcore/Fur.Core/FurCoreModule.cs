@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Fur.DatabaseAccessor.Repositories.Interceptors;
 
 namespace Fur.Core
 {
@@ -6,6 +7,9 @@ namespace Fur.Core
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<FurDbEntityInterceptor>()
+                .As<IDbEntityInterceptor>()
+                .SingleInstance();
         }
     }
 }

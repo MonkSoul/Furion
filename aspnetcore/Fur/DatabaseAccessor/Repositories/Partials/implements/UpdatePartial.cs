@@ -24,10 +24,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         public virtual EntityEntry<TEntity> Update(TEntity entity)
         {
-            return SetUpdateMaintenanceFields(() =>
-            {
-                Entities.Update(entity);
-            }, entity).First();
+            return SetUpdateMaintenanceFields(() => Entities.Update(entity), entity).First();
         }
 
         #endregion 更新全部列操作 + public virtual EntityEntry<TEntity> Update(TEntity entity)
@@ -40,10 +37,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <param name="entities">多个实体</param>
         public virtual void Update(params TEntity[] entities)
         {
-            SetUpdateMaintenanceFields(() =>
-            {
-                Entities.UpdateRange(entities);
-            }, entities);
+            SetUpdateMaintenanceFields(() => Entities.UpdateRange(entities), entities);
         }
 
         #endregion 更新全部列操作 + public virtual void Update(params TEntity[] entities)
@@ -56,10 +50,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <param name="entities">多个实体</param>
         public virtual void Update(IEnumerable<TEntity> entities)
         {
-            SetUpdateMaintenanceFields(() =>
-            {
-                Entities.UpdateRange(entities);
-            }, entities.ToArray());
+            SetUpdateMaintenanceFields(() => Entities.UpdateRange(entities), entities.ToArray());
         }
 
         #endregion 更新全部列操作 + public virtual void Update(IEnumerable<TEntity> entities)
@@ -810,7 +801,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <param name="updateHandle">更新程序</param>
         /// <param name="entities">多个实体</param>
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
-        private EntityEntry<TEntity>[] SetUpdateMaintenanceFields(Action updateHandle, params TEntity[] entities)
+        private EntityEntry<TEntity>[] SetUpdateMaintenanceFields(Action handle, params TEntity[] entities)
         {
             var entityEntries = new List<EntityEntry<TEntity>>();
             foreach (var entity in entities)
@@ -818,34 +809,17 @@ namespace Fur.DatabaseAccessor.Repositories
                 var entityEntry = EntityEntry(entity);
                 entityEntries.Add(entityEntry);
 
-                var (updateTimePropertyName, updateTimePropertyValue) = _maintenanceProvider?.GetUpdatedTimeFieldInfo()
-                    ?? (nameof(DbEntity.UpdatedTime), DateTime.Now);
+                _maintenanceInterceptor?.Updating(entityEntry);
 
-                var updatedTimeProperty = EntityEntryProperty(entityEntry, updateTimePropertyName);
-                if (updatedTimeProperty != null && !updatedTimeProperty.IsModified)
-                {
-                    updatedTimeProperty.CurrentValue = updateTimePropertyValue;
-                    updatedTimeProperty.IsModified = true;
-                }
+                handle?.Invoke();
 
-                updateHandle?.Invoke();
+                _maintenanceInterceptor?.Updated(entityEntry);
 
-                var (createdTimePropertyName, _) = _maintenanceProvider?.GetCreatedTimeFieldInfo()
-                    ?? (nameof(DbEntity.UpdatedTime), DateTime.Now);
-
-                var createdTimeProperty = EntityEntryProperty(entityEntry, createdTimePropertyName);
-                if (createdTimeProperty != null)
-                {
-                    createdTimeProperty.IsModified = false;
-                }
-
-                if (TenantId.HasValue)
+                // 更新多租户信息
+                if (entityEntry.Metadata.FindProperty(nameof(DbEntityBase.TenantId)) != null && TenantId.HasValue)
                 {
                     var tenantIdProperty = EntityEntryProperty(entityEntry, nameof(DbEntityBase.TenantId));
-                    if (tenantIdProperty != null)
-                    {
-                        tenantIdProperty.IsModified = false;
-                    }
+                    tenantIdProperty.IsModified = false;
                 }
             }
             return entityEntries.ToArray();

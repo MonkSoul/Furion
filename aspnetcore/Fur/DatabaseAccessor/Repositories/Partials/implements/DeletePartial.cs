@@ -1,4 +1,5 @@
 ﻿using Fur.DatabaseAccessor.Models.Entities;
+using Fur.DatabaseAccessor.Repositories.Providers;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
@@ -352,11 +353,11 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="EntityEntry(TEntity)"/></returns>
         public virtual EntityEntry<TEntity> FakeDelete(TEntity entity)
         {
-            var (flagPropertyName, flagValue) = _maintenanceProvider.GetFakeDeleteFieldInfo();
+            if (_fakeDeleteProvider == null) throw new ArgumentNullException($"{nameof(IFakeDeleteProvider)} is not implemented.");
 
             var entityEntry = Attach(entity);
-            EntityEntryProperty(entityEntry, flagPropertyName).CurrentValue = flagValue;
-            return UpdateIncludeProperties(entity, flagPropertyName);
+            EntityEntryProperty(entityEntry, _fakeDeleteProvider.Property).CurrentValue = _fakeDeleteProvider.FlagValue;
+            return UpdateIncludeProperties(entity, _fakeDeleteProvider.Property);
         }
 
         #endregion 软删除操作 + public virtual EntityEntry<TEntity> FakeDelete(TEntity entity)
@@ -386,12 +387,12 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity)
         {
-            var (flagPropertyName, flagValue) = _maintenanceProvider.GetFakeDeleteFieldInfo();
+            if (_fakeDeleteProvider == null) throw new ArgumentNullException($"{nameof(IFakeDeleteProvider)} is not implemented.");
 
             var entityEntry = Attach(entity);
-            EntityEntryProperty(entityEntry, flagPropertyName).CurrentValue = flagValue;
+            EntityEntryProperty(entityEntry, _fakeDeleteProvider.Property).CurrentValue = _fakeDeleteProvider.FlagValue;
 
-            return UpdateIncludePropertiesAsync(entity, flagPropertyName);
+            return UpdateIncludePropertiesAsync(entity, _fakeDeleteProvider.Property);
         }
 
         #endregion 软删除操作 + public virtual Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity)

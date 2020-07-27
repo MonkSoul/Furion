@@ -22,8 +22,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         public virtual EntityEntry<TEntity> Insert(TEntity entity)
         {
-            SetInsertMaintenanceFields(entity);
-            return Entities.Add(entity);
+            return SetInsertMaintenanceFields(() => Entities.Add(entity), entity).First();
         }
 
         #endregion 新增操作 + public virtual EntityEntry<TEntity> Insert(TEntity entity)
@@ -36,13 +35,12 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <param name="entities">多个实体</param>
         public virtual void Insert(params TEntity[] entities)
         {
-            SetInsertMaintenanceFields(entities);
-            Entities.AddRange(entities);
+            SetInsertMaintenanceFields(() => Entities.AddRange(entities), entities);
         }
 
         #endregion 新增操作 + public virtual void Insert(params TEntity[] entities)
 
-        #region 新增操作 + public virtual void Insert(IEnumerable<TEntity> entities)
+        #region 新增操作 + public virtual void Insert(IEnumerable<TEntity> entities)#EW
 
         /// <summary>
         /// 新增操作
@@ -50,8 +48,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <param name="entities">多个实体</param>
         public virtual void Insert(IEnumerable<TEntity> entities)
         {
-            SetInsertMaintenanceFields(entities.ToArray());
-            Entities.AddRange(entities);
+            SetInsertMaintenanceFields(() => Entities.AddRange(entities), entities.ToArray());
         }
 
         #endregion 新增操作 + public virtual void Insert(IEnumerable<TEntity> entities)
@@ -65,8 +62,9 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="ValueTask{TResult}"/></returns>
         public virtual ValueTask<EntityEntry<TEntity>> InsertAsync(TEntity entity)
         {
-            SetInsertMaintenanceFields(entity);
-            return Entities.AddAsync(entity);
+            var entityEntry = SetInsertMaintenanceFields(async () => await Entities.AddAsync(entity), entity).First();
+
+            return ValueTask.FromResult(entityEntry);
         }
 
         #endregion 新增操作 + public virtual ValueTask<EntityEntry<TEntity>> InsertAsync(TEntity entity)
@@ -80,8 +78,8 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task InsertAsync(params TEntity[] entities)
         {
-            SetInsertMaintenanceFields(entities);
-            return Entities.AddRangeAsync();
+            SetInsertMaintenanceFields(async () => await Entities.AddRangeAsync(entities), entities);
+            return Task.CompletedTask;
         }
 
         #endregion 新增操作 + public virtual Task InsertAsync(params TEntity[] entities)
@@ -95,8 +93,8 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task InsertAsync(IEnumerable<TEntity> entities)
         {
-            SetInsertMaintenanceFields(entities.ToArray());
-            return Entities.AddRangeAsync();
+            SetInsertMaintenanceFields(async () => await Entities.AddRangeAsync(entities), entities.ToArray());
+            return Task.CompletedTask;
         }
 
         #endregion 新增操作 + public virtual Task InsertAsync(IEnumerable<TEntity> entities)
@@ -194,35 +192,32 @@ namespace Fur.DatabaseAccessor.Repositories
         #endregion 新增操作并立即保存 + public virtual async Task InsertSaveChangesAsync(IEnumerable<TEntity> entities)
 
         #region 设置新增时维护字段 + private void SetInsertMaintenanceFields(params TEntity[] entities)
-
         /// <summary>
         /// 设置新增时维护字段
         /// </summary>
         /// <param name="entities">多个实体</param>
-        private void SetInsertMaintenanceFields(params TEntity[] entities)
+        private EntityEntry<TEntity>[] SetInsertMaintenanceFields(Action handle, params TEntity[] entities)
         {
+            var entityEntries = new List<EntityEntry<TEntity>>();
             foreach (var entity in entities)
             {
                 var entityEntry = EntityEntry(entity);
+                entityEntries.Add(entityEntry);
 
-                var (createdTimePropertyName, createdTimePropertyValue) = _maintenanceProvider?.GetCreatedTimeFieldInfo()
-                    ?? (nameof(DbEntity.CreatedTime), DateTime.Now);
+                _maintenanceInterceptor?.Inserting(entityEntry);
 
-                var createdTimeProperty = EntityEntryProperty(entityEntry, createdTimePropertyName);
-                if (createdTimeProperty != null)
-                {
-                    createdTimeProperty.CurrentValue = createdTimePropertyValue;
-                }
+                handle?.Invoke();
 
-                if (TenantId.HasValue)
+                _maintenanceInterceptor?.Inserted(entityEntry);
+
+                // 更新多租户信息
+                if (entityEntry.Metadata.FindProperty(nameof(DbEntityBase.TenantId)) != null && TenantId.HasValue)
                 {
                     var tenantIdProperty = EntityEntryProperty(entityEntry, nameof(DbEntityBase.TenantId));
-                    if (tenantIdProperty != null)
-                    {
-                        tenantIdProperty.CurrentValue = TenantId.Value;
-                    }
+                    tenantIdProperty.CurrentValue = TenantId.Value;
                 }
             }
+            return entityEntries.ToArray();
         }
 
         #endregion 设置新增时维护字段 + private void SetInsertMaintenanceFields(params TEntity[] entities)

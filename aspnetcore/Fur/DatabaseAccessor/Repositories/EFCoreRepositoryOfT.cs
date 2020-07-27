@@ -3,7 +3,8 @@ using Fur.ApplicationBase;
 using Fur.DatabaseAccessor.Contexts.Pools;
 using Fur.DatabaseAccessor.Models.Entities;
 using Fur.DatabaseAccessor.MultipleTenants.Providers;
-using Fur.DatabaseAccessor.Providers;
+using Fur.DatabaseAccessor.Repositories.Interceptors;
+using Fur.DatabaseAccessor.Repositories.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.Data.Common;
@@ -15,9 +16,14 @@ namespace Fur.DatabaseAccessor.Repositories
         where TEntity : class, IDbEntityBase, new()
     {
         /// <summary>
-        /// 维护字段提供器
+        /// 操作拦截器
         /// </summary>
-        private readonly IMaintenanceFieldsProvider _maintenanceProvider;
+        private readonly IDbEntityInterceptor _maintenanceInterceptor;
+
+        /// <summary>
+        /// 假删除提供器
+        /// </summary>
+        private readonly IFakeDeleteProvider _fakeDeleteProvider;
 
         /// <summary>
         /// 租户提供器
@@ -46,14 +52,18 @@ namespace Fur.DatabaseAccessor.Repositories
             Entities = DbContext.Set<TEntity>();
             _dbContextPool.SaveDbContext(DbContext);
 
-            if (lifetimeScope.IsRegistered<IMaintenanceFieldsProvider>())
-            {
-                _maintenanceProvider = lifetimeScope.Resolve<IMaintenanceFieldsProvider>();
-            }
-
             if (AppGlobal.SupportedMultipleTenant)
             {
                 _tenantProvider = lifetimeScope.Resolve<IMultipleTenantProvider>();
+            }
+
+            if (lifetimeScope.IsRegistered<IDbEntityInterceptor>())
+            {
+                _maintenanceInterceptor = lifetimeScope.Resolve<IDbEntityInterceptor>();
+            }
+            if (lifetimeScope.IsRegistered<IFakeDeleteProvider>())
+            {
+                _fakeDeleteProvider = lifetimeScope.Resolve<IFakeDeleteProvider>();
             }
         }
 
