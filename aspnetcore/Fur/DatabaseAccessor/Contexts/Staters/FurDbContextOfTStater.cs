@@ -161,13 +161,10 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
             var dbEntityBuilderGenericArguments = dbEntityType.GetTypeGenericArguments(typeof(IDbEntityBuilder), GenericArgumentSourceOptions.Interface);
             if (dbEntityBuilderGenericArguments != null)
             {
-                var actDbEntityType = dbEntityBuilderGenericArguments.First();
-                if (!AppGlobal.SupportedMultipleTenant && dbEntityType == typeof(Tenant)) return;
-
                 var dbContextIdentifierTypes = dbEntityBuilderGenericArguments.Skip(1);
                 if (CheckIsInDbContextIdentifierTypes(dbContextIdentifierTypes, dbContextIdentifierType))
                 {
-                    CreateDbEntityTypeBuilderIfNull(modelBuilder, actDbEntityType, ref entityTypeBuilder);
+                    CreateDbEntityTypeBuilderIfNull(modelBuilder, dbEntityBuilderGenericArguments.First(), ref entityTypeBuilder);
 
                     entityTypeBuilder = dbEntityType.CallMethod(
                         nameof(IDbEntityBuilderOfT<IDbEntityBase>.HasEntityBuilder),
@@ -196,14 +193,11 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
 
             if (dbSeedDataGenericArguments != null)
             {
-                var actDbEntityType = dbSeedDataGenericArguments.First();
-                if (!AppGlobal.SupportedMultipleTenant && dbEntityType == typeof(Tenant)) return;
-
                 var dbContextIdentifierTypes = dbSeedDataGenericArguments.Skip(1);
 
                 if (CheckIsInDbContextIdentifierTypes(dbContextIdentifierTypes, dbContextIdentifierType))
                 {
-                    CreateDbEntityTypeBuilderIfNull(modelBuilder, actDbEntityType, ref entityTypeBuilder);
+                    CreateDbEntityTypeBuilderIfNull(modelBuilder, dbSeedDataGenericArguments.First(), ref entityTypeBuilder);
 
                     var seedDatas = dbEntityType.CallMethod(
                         nameof(IDbSeedDataOfT<IDbEntityBase>.HasData),
@@ -233,13 +227,10 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
             var dbQueryFilterGenericArguments = dbEntityType.GetTypeGenericArguments(typeof(IDbQueryFilter), GenericArgumentSourceOptions.Interface);
             if (dbQueryFilterGenericArguments != null)
             {
-                var actDbEntityType = dbQueryFilterGenericArguments.First();
-                if (!AppGlobal.SupportedMultipleTenant && dbEntityType == typeof(Tenant)) return;
-
                 var dbContextIdentifierTypes = dbQueryFilterGenericArguments.Skip(1);
                 if (CheckIsInDbContextIdentifierTypes(dbContextIdentifierTypes, dbContextIdentifierType))
                 {
-                    CreateDbEntityTypeBuilderIfNull(modelBuilder, actDbEntityType, ref entityTypeBuilder);
+                    CreateDbEntityTypeBuilderIfNull(modelBuilder, dbQueryFilterGenericArguments.First(), ref entityTypeBuilder);
 
                     var queryFilters = dbEntityType.CallMethod(
                         nameof(IDbQueryFilterOfT<IDbEntityBase>.HasQueryFilter),
@@ -312,7 +303,12 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         private static bool IsThisDbContextEntityType(Type dbEntityType, Type dbContextIdentifierType)
         {
             // 判断是否启用多租户，如果不启用，则默认不解析 Tenant 类型，返回 false
-            if (dbEntityType == typeof(Tenant) && !AppGlobal.SupportedMultipleTenant) return false;
+            if (!AppGlobal.SupportedMultipleTenant)
+            {
+                if (dbEntityType == typeof(Tenant)) return false;
+                var typeGenericArguments = dbEntityType.GetTypeGenericArguments(typeof(IDbEntityConfigure), GenericArgumentSourceOptions.Interface);
+                if (typeGenericArguments != null && typeGenericArguments.First() == typeof(Tenant)) return false;
+            }
 
             // 如果是实体类型
             if (typeof(IDbEntityBase).IsAssignableFrom(dbEntityType))
