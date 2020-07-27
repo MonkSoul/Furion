@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace Fur.DatabaseAccessor.Models.QueryFilters
 {
@@ -8,6 +9,6 @@ namespace Fur.DatabaseAccessor.Models.QueryFilters
     /// </summary>
     public interface IDbContextQueryFilter
     {
-        void HasQueryFilter(EntityTypeBuilder entityTypeBuilder);
+        void HasQueryFilter(Type dbEntityType, EntityTypeBuilder entityTypeBuilder);
     }
 }

@@ -94,7 +94,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 EntityTypeBuilder entityTypeBuilder = default;
 
                 // 配置数据库上下文查询筛选器
-                DbContextQueryFilterConfigure(dbContextType, modelBuilder, dbEntityType, hasDbContextQueryFilter, ref entityTypeBuilder);
+                DbContextQueryFilterConfigure(dbContext, dbContextType, modelBuilder, dbEntityType, hasDbContextQueryFilter, ref entityTypeBuilder);
 
                 // 配置数据库无键实体
                 DbNoKeyEntityConfigure(dbEntityType, modelBuilder, dbContextIdentifierType, ref entityTypeBuilder);
@@ -275,22 +275,26 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         }
         #endregion
 
-        #region 配置数据库上下文查询筛选器 + private static void DbContextQueryFilterConfigure(DbContext dbContext, ModelBuilder modelBuilder, Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
+        #region 配置数据库上下文查询筛选器 + private static void DbContextQueryFilterConfigure(DbContext dbContext, Type dbContextType, ModelBuilder modelBuilder, Type dbEntityType, bool hasDbContextQueryFilter, ref EntityTypeBuilder entityTypeBuilder)
         /// <summary>
         /// 配置数据库上下文查询筛选器
         /// <para>一旦数据库上下文继承该接口，那么该数据库上下文所有的实体都将应用该查询筛选器</para>
         /// </summary>
         /// <param name="dbContext">数据库上下文</param>
+        /// <param name="dbContextType">数据库上下文类型</param>
         /// <param name="modelBuilder">模型构建器</param>
         /// <param name="dbEntityType">数据库实体类型</param>
+        /// <param name="hasDbContextQueryFilter">是否有数据库上下文查询筛选器</param>
         /// <param name="entityTypeBuilder">数据库实体类型构建器</param>
-        private static void DbContextQueryFilterConfigure(Type dbContextType, ModelBuilder modelBuilder, Type dbEntityType, bool hasDbContextQueryFilter, ref EntityTypeBuilder entityTypeBuilder)
+        private static void DbContextQueryFilterConfigure(DbContext dbContext, Type dbContextType, ModelBuilder modelBuilder, Type dbEntityType, bool hasDbContextQueryFilter, ref EntityTypeBuilder entityTypeBuilder)
         {
             if (typeof(IDbEntityBase).IsAssignableFrom(dbEntityType) && hasDbContextQueryFilter)
             {
                 CreateDbEntityTypeBuilderIfNull(modelBuilder, dbEntityType, ref entityTypeBuilder);
 
                 dbContextType.CallMethod(nameof(IDbContextQueryFilter.HasQueryFilter)
+                    , dbContext
+                    , dbEntityType
                     , entityTypeBuilder
                  );
             }
