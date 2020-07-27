@@ -9,7 +9,7 @@ namespace Fur.DatabaseAccessor.Repositories.Multiple
     /// </summary>
     public partial interface IMultipleRepository
     {
-        #region 获取泛型多上下文仓储接口 +  IMultipleDbContextRepositoryOfT<TEntity, TDbContextIdentifier> Set<TEntity, TDbContextIdentifier>(bool newScope = false) where TEntity : class, IDbEntity, new() where TDbContextIdentifier : IDbContextIdentifier
+        #region 获取泛型多上下文仓储接口 +  IRepositoryOfT<TEntity, TDbContextIdentifier> Set<TEntity, TDbContextIdentifier>(bool newScope = false)
 
         /// <summary>
         /// 获取泛型多上下文仓储接口

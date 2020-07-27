@@ -27,8 +27,7 @@ namespace Fur.DatabaseAccessor.Repositories.MasterSlave
 
         #endregion 构造函数 + public MasterSlaveEFCoreRepository(ILifetimeScope lifetimeScope)
 
-        #region 获取主从同步/读写分离仓储接口 +public IMasterSlaveRepositoryOfT<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier> Set<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier>(bool newScope = false) where TEntity : class, IDbEntity, new() where TMasterDbContextIdentifier : IDbContextIdentifier where TSlaveDbContextIdentifier : IDbContextIdentifier
-
+        #region 获取主从同步/读写分离仓储接口 +public IRepositoryOfT<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier> Set<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier>(bool newScope = false)
         /// <summary>
         /// 获取主从同步/读写分离仓储接口
         /// </summary>
@@ -49,6 +48,6 @@ namespace Fur.DatabaseAccessor.Repositories.MasterSlave
             return _lifetimeScope.Resolve<IRepositoryOfT<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier>>();
         }
 
-        #endregion 获取主从同步/读写分离仓储接口 +public IMasterSlaveRepositoryOfT<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier> Set<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier>(bool newScope = false) where TEntity : class, IDbEntity, new() where TMasterDbContextIdentifier : IDbContextIdentifier where TSlaveDbContextIdentifier : IDbContextIdentifier
+        #endregion
     }
 }

@@ -27,7 +27,7 @@ namespace Fur.DatabaseAccessor.Repositories.Multiple
 
         #endregion 构造函数 + public MultipleDbContextEFCoreRepository(ILifetimeScope lifetimeScope)
 
-        #region 获取泛型多上下文仓储接口 +  public IMultipleDbContextRepositoryOfT<TEntity, TDbContextIdentifier> Set<TEntity, TDbContextIdentifier>(bool newScope = false) where TEntity : class, IDbEntity, new() where TDbContextIdentifier : IDbContextIdentifier
+        #region 获取泛型多上下文仓储接口 +  public IRepositoryOfT<TEntity, TDbContextIdentifier> Set<TEntity, TDbContextIdentifier>(bool newScope = false)
 
         /// <summary>
         /// 获取泛型多上下文仓储接口
