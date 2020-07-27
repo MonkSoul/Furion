@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Fur.ApplicationBase;
 using Fur.ApplicationBase.Attributes;
 using Fur.DatabaseAccessor.MultipleTenants.Providers;
 using Microsoft.EntityFrameworkCore;
@@ -19,11 +20,11 @@ namespace Fur.DatabaseAccessor.Extensions
         /// </summary>
         /// <param name="dbContext">数据库上下文</param>
         /// <returns></returns>
-        public static int? GetTenantId(this DbContext dbContext)
+        public static int GetTenantId(this DbContext dbContext)
         {
-            var lifetimeScope = dbContext.GetService<ILifetimeScope>();
-            if (!lifetimeScope.IsRegistered<IMultipleTenantProvider>()) return default;
+            if (!AppGlobal.IsSupportTenant) return default;
 
+            var lifetimeScope = dbContext.GetService<ILifetimeScope>();
             var tenantProvider = lifetimeScope.Resolve<IMultipleTenantProvider>();
 
             return tenantProvider.GetTenantId();

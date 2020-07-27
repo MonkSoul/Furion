@@ -1,4 +1,5 @@
-﻿using Fur.DatabaseAccessor.Contexts.Identifiers;
+﻿using Fur.ApplicationBase;
+using Fur.DatabaseAccessor.Contexts.Identifiers;
 using Fur.DatabaseAccessor.Extensions;
 using Fur.DatabaseAccessor.Models.Entities;
 using Fur.DatabaseAccessor.Models.QueryFilters;
@@ -22,9 +23,9 @@ namespace Fur.Core.DbEntities
 
         public IEnumerable<Expression<Func<V_Test, bool>>> HasQueryFilter(DbContext dbContext)
         {
-            var tenantId = dbContext.GetTenantId();
-            if (!tenantId.HasValue) return default;
+            if (!AppGlobal.IsSupportTenant) return default;
 
+            var tenantId = dbContext.GetTenantId();
             return new List<Expression<Func<V_Test, bool>>>
             {
                entity=>entity.TenantId==tenantId

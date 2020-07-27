@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Fur.ApplicationBase;
 using Fur.DatabaseAccessor.Contexts.Pools;
 using Fur.DatabaseAccessor.Models.Entities;
 using Fur.DatabaseAccessor.MultipleTenants.Providers;
@@ -29,7 +30,6 @@ namespace Fur.DatabaseAccessor.Repositories
         private readonly IDbContextPool _dbContextPool;
 
         #region 构造函数 + public EFCoreRepositoryOfT(DbContext dbContext , ILifetimeScope lifetimeScope, IDbContextPool dbContextPool)
-
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -50,7 +50,8 @@ namespace Fur.DatabaseAccessor.Repositories
             {
                 _maintenanceProvider = lifetimeScope.Resolve<IMaintenanceFieldsProvider>();
             }
-            if (lifetimeScope.IsRegistered<IMultipleTenantProvider>())
+
+            if (AppGlobal.IsSupportTenant)
             {
                 _tenantProvider = lifetimeScope.Resolve<IMultipleTenantProvider>();
             }
