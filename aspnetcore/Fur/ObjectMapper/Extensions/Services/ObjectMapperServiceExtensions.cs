@@ -23,7 +23,7 @@ namespace Fur.ObjectMapper.Extensions.Services
         {
             services.AddScoped<IMapper, ServiceMapper>();
 
-            TypeAdapterConfig.GlobalSettings.Scan(ApplicationCore.ApplicationWrapper.AssemblyWrappers.Select(a => a.Assembly).ToArray());
+            TypeAdapterConfig.GlobalSettings.Scan(AppGlobal.Application.AssemblyWrappers.Select(a => a.Assembly).ToArray());
             TypeAdapterConfig.GlobalSettings.Default
                 .NameMatchingStrategy(NameMatchingStrategy.IgnoreCase)
                 .PreserveReference(true);

@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Fur.ApplicationBase;
 using Fur.ApplicationBase.Attributes;
 using Fur.DatabaseAccessor.Contexts.Pools;
 using Fur.DatabaseAccessor.MultipleTenants;
@@ -60,6 +61,7 @@ namespace Fur.DatabaseAccessor.Extensions
             // 注册多租户
             if (furDbContextInjectionOptions.MultipleTenantProvider != null)
             {
+                AppGlobal.IsSupportTenant = true;
                 dbContextTypeList.Add(typeof(FurMultipleTenantDbContext));
 
                 builder.RegisterType(furDbContextInjectionOptions.MultipleTenantProvider)

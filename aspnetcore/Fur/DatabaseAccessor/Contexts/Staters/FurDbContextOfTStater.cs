@@ -81,7 +81,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         static FurDbContextOfTStater()
         {
             _includeDbEntityTypes ??= new ConcurrentBag<Type>(
-                ApplicationCore.ApplicationWrapper.PublicClassTypeWrappers
+                AppGlobal.Application.PublicClassTypeWrappers
                 .Where(u => u.CanBeNew && (typeof(IDbEntityBase).IsAssignableFrom(u.Type) || typeof(IDbEntityConfigure).IsAssignableFrom(u.Type)))
                 .Distinct()
                 .Select(u => u.Type));
@@ -98,7 +98,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
             }
 
             _dbFunctionMethods = new ConcurrentBag<MethodWrapper>(
-                ApplicationCore.ApplicationWrapper.PublicMethodWrappers
+                AppGlobal.Application.PublicMethodWrappers
                 .Where(u => u.IsStaticMethod && u.Method.IsDefined(typeof(DbEFFunctionAttribute)) && u.ThisDeclareType.IsAbstract && u.ThisDeclareType.IsSealed));
 
             _dbContextIdentifierTypesOfDbFunctions ??= new ConcurrentDictionary<MethodWrapper, List<Type>>();

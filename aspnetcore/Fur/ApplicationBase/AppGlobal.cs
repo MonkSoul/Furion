@@ -29,23 +29,25 @@ namespace Fur.ApplicationBase
     /// </list>
     /// </summary>
     [NonWrapper]
-    public static class ApplicationCore
+    public static class AppGlobal
     {
         /// <summary>
         /// 应用包装器
         /// </summary>
-        public static ApplicationWrapper ApplicationWrapper = null;
+        public static ApplicationWrapper Application = null;
 
         public static FurOptions GlobalSettings = null;
+
+        public static bool IsSupportTenant { get; internal set; } = false;
 
         #region 静态构造函数 + static ApplicationCore()
 
         /// <summary>
         /// 静态构造函数
         /// </summary>
-        static ApplicationCore()
+        static AppGlobal()
         {
-            ApplicationWrapper ??= GetApplicationWrappers();
+            Application ??= GetApplicationWrappers();
         }
 
         #endregion 静态构造函数 + static ApplicationCore()
@@ -58,7 +60,7 @@ namespace Fur.ApplicationBase
         /// <param name="type">类型</param>
         /// <returns><see cref="TypeWrapper"/></returns>
         public static TypeWrapper GetTypeWrapper(Type type)
-            => ApplicationWrapper.PublicClassTypeWrappers.FirstOrDefault(u => u.Type == type);
+            => Application.PublicClassTypeWrappers.FirstOrDefault(u => u.Type == type);
 
         #endregion 获取类型的包装类型 + public static TypeWrapper GetTypeWrapper(Type type)
 
@@ -70,7 +72,7 @@ namespace Fur.ApplicationBase
         /// <param name="method">方法</param>
         /// <returns><see cref="MethodWrapper"/></returns>
         public static MethodWrapper GetMethodWrapper(MethodInfo method)
-            => ApplicationWrapper.PublicMethodWrappers.FirstOrDefault(u => u.Method == method);
+            => Application.PublicMethodWrappers.FirstOrDefault(u => u.Method == method);
 
         #endregion 获取方法的包装类型 + public static MethodWrapper GetMethodWrapper(MethodInfo method)
 
@@ -191,11 +193,11 @@ namespace Fur.ApplicationBase
         /// <summary>
         /// 获取应用解决方案中所有的包装器集合
         /// </summary>
-        /// <returns><see cref="ApplicationWrapper"/></returns>
+        /// <returns><see cref="Application"/></returns>
         private static ApplicationWrapper GetApplicationWrappers()
         {
             // 避免重复读取
-            if (ApplicationWrapper != null) return ApplicationWrapper;
+            if (Application != null) return Application;
 
             var applicationAssemblies = GetApplicationAssembliesWithoutNuget();
 

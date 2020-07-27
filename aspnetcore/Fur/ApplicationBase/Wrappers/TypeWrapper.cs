@@ -29,7 +29,7 @@ namespace Fur.ApplicationBase.Wrappers
         public bool IsGenericType { get; set; }
 
         /// <summary>
-        /// 是否是控制器类型。参见：<see cref="Fur.ApplicationBase.ApplicationCore.IsControllerActionType(MethodInfo)"/>
+        /// 是否是控制器类型。参见：<see cref="Fur.ApplicationBase.AppGlobal.IsControllerActionType(MethodInfo)"/>
         /// </summary>
         public bool IsControllerType { get; set; }
 

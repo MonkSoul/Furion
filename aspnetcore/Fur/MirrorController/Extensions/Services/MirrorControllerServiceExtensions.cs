@@ -31,7 +31,7 @@ namespace Fur.MirrorController.Extensions.Services
             partManager.FeatureProviders.Add(new MirrorControllerFeatureProvider());
             services.Configure<MvcOptions>(options =>
             {
-                options.Conventions.Add(new MirrorControllerModelConvention(ApplicationCore.GlobalSettings.MirrorControllerOptions));
+                options.Conventions.Add(new MirrorControllerModelConvention(AppGlobal.GlobalSettings.MirrorControllerOptions));
             });
 
             return services;

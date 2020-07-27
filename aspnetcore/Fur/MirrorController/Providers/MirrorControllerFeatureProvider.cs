@@ -7,6 +7,6 @@ namespace Fur.MirrorController.Providers
     internal sealed class MirrorControllerFeatureProvider : ControllerFeatureProvider
     {
         protected override bool IsController(TypeInfo typeInfo)
-            => ApplicationCore.IsControllerType(typeInfo, true);
+            => AppGlobal.IsControllerType(typeInfo, true);
     }
 }

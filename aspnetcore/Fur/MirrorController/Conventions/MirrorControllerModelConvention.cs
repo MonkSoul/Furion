@@ -67,7 +67,7 @@ namespace Fur.MirrorController.Conventions
         /// <param name="controllerTypeInfo">控制器类型</param>
         private void ConfigureController(ControllerModel controllerModel, TypeInfo controllerTypeInfo)
         {
-            var attactControllerAttribute = ApplicationCore.GetPublicClassTypeCustomAttribute<MirrorControllerAttribute>(controllerTypeInfo.AsType());
+            var attactControllerAttribute = AppGlobal.GetPublicClassTypeCustomAttribute<MirrorControllerAttribute>(controllerTypeInfo.AsType());
 
             ConfigureAreaName(controllerModel, attactControllerAttribute);
             ConfigureControllerName(controllerModel);
@@ -139,7 +139,7 @@ namespace Fur.MirrorController.Conventions
         {
             foreach (var actionModel in controllerModel.Actions)
             {
-                var attachActionAttribute = ApplicationCore.GetPublicMethodCustomAttribute<MirrorActionAttribute>(actionModel.ActionMethod);
+                var attachActionAttribute = AppGlobal.GetPublicMethodCustomAttribute<MirrorActionAttribute>(actionModel.ActionMethod);
 
                 ConfigureActionApiExplorerAndParameters(actionModel);
                 ConfigureActionName(actionModel, attachActionAttribute);
@@ -294,7 +294,7 @@ namespace Fur.MirrorController.Conventions
             var parameterNames = string.Empty;
             var apiVersion = string.Empty;
             // 读取参数信息
-            var parameters = ApplicationCore.ApplicationWrapper.PublicMethodWrappers.FirstOrDefault(u => u.Method == actionModel.ActionMethod).Parameters;
+            var parameters = AppGlobal.Application.PublicMethodWrappers.FirstOrDefault(u => u.Method == actionModel.ActionMethod).Parameters;
             var i = 0;
             foreach (var parameterInfo in parameters)
             {
