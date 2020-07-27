@@ -38,7 +38,7 @@ namespace Fur.ApplicationBase
 
         public static FurOptions GlobalSettings = null;
 
-        public static bool IsSupportTenant { get; internal set; } = false;
+        public static bool SupportedMultipleTenant { get; internal set; } = false;
 
         #region 静态构造函数 + static ApplicationCore()
 

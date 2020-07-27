@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Reflection;
 
 namespace Fur.TypeExtensions
@@ -104,42 +101,7 @@ namespace Fur.TypeExtensions
             return Convert.ChangeType(value, conversionType);
         }
 
-        internal static Type[] GetTypeGenericArguments(this Type type, Type filterType, FromTypeOptions fromTypeOptions)
-        {
-            if (fromTypeOptions == FromTypeOptions.Interface)
-            {
-                return type.GetInterfaces()
-                    .FirstOrDefault(c => c.IsGenericType && filterType.IsAssignableFrom(c.GetGenericTypeDefinition()))
-                    ?.GetGenericArguments();
-            }
-            else
-            {
-                var baseType = type.BaseType;
-                if (baseType.IsGenericType && filterType.IsAssignableFrom(baseType.GetGenericTypeDefinition()))
-                {
-                    return baseType.GetGenericArguments();
-                }
-                return default;
-            }
-        }
-
-        internal enum FromTypeOptions
-        {
-            BaseType,
-            Interface
-        }
-
-        internal static void AddOrUpdate<TKey, TValue>(this ConcurrentDictionary<TKey, List<TValue>> keyValuePairs, TKey key, IEnumerable<TValue> newValues)
-        {
-            var values = keyValuePairs.GetValueOrDefault(key) ?? new List<TValue>();
-            if (newValues != null && newValues.Any())
-            {
-                values.AddRange(newValues);
-            }
-            keyValuePairs.AddOrUpdate(key, values, (key, values) => values);
-        }
-
-        internal static object? CallMethod(this Type type, string methodName, object instance, params object[] parameters)
+        internal static object CallMethod(this Type type, string methodName, object instance, params object[] parameters)
         {
             return type.GetMethod(methodName).Invoke(instance, parameters);
         }

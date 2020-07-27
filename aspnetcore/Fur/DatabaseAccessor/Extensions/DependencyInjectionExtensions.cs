@@ -61,7 +61,7 @@ namespace Fur.DatabaseAccessor.Extensions
             // 注册多租户
             if (furDbContextInjectionOptions.MultipleTenantProvider != null)
             {
-                AppGlobal.IsSupportTenant = true;
+                AppGlobal.SupportedMultipleTenant = true;
                 dbContextTypeList.Add(typeof(FurMultipleTenantDbContext));
 
                 builder.RegisterType(furDbContextInjectionOptions.MultipleTenantProvider)

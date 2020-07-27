@@ -1,5 +1,4 @@
 ﻿using Fur.ApplicationBase.Attributes;
-using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace Fur.DatabaseAccessor.Attributes
@@ -10,14 +9,14 @@ namespace Fur.DatabaseAccessor.Attributes
     /// <para>说明：只对静态类中的静态方法起作用</para>
     /// </summary>
     [AttributeUsage(AttributeTargets.Method), NonWrapper]
-    public class DbEFFunctionAttribute : DbFunctionAttribute
+    public class DbFunctionAttribute : Microsoft.EntityFrameworkCore.DbFunctionAttribute
     {
         #region 构造函数 + private DbFunctionAttribute()
         /// <summary>
         /// 构造函数
         /// <para>私有化，避免未指定名称和schema</para>
         /// </summary>
-        private DbEFFunctionAttribute() { }
+        private DbFunctionAttribute() { }
         #endregion
 
         #region 构造函数 + public DbFunctionAttribute(string name, string schema) : base(name, schema)
@@ -26,7 +25,7 @@ namespace Fur.DatabaseAccessor.Attributes
         /// </summary>
         /// <param name="name">函数名</param>
         /// <param name="schema">函数schema</param>
-        public DbEFFunctionAttribute(string name, string schema) : base(name, schema) { }
+        public DbFunctionAttribute(string name, string schema) : base(name, schema) { }
         #endregion
 
         #region 构造函数 + public DbFunctionAttribute(string name, string schema, params Type[] dbContextIdentifierTypes) : base(name, schema)
@@ -37,7 +36,7 @@ namespace Fur.DatabaseAccessor.Attributes
         /// <param name="name">函数名</param>
         /// <param name="schema">函数schema</param>
         /// <param name="dbContextIdentifierTypes">数据库上下文标识器类型</param>
-        public DbEFFunctionAttribute(string name, string schema, params Type[] dbContextIdentifierTypes) : base(name, schema)
+        public DbFunctionAttribute(string name, string schema, params Type[] dbContextIdentifierTypes) : base(name, schema)
             => DbContextIdentifierTypes = dbContextIdentifierTypes;
         #endregion
 

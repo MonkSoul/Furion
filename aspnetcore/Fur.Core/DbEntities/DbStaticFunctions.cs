@@ -23,7 +23,7 @@ namespace Fur.Core.DbEntities
         //      RETURN @id + 1;
         //  END;
         // ================================
-        [DbEFFunction("FN_GetId", "dbo", typeof(FurDbContextIdentifier))]
+        [DbFunction("FN_GetId", "dbo", typeof(FurDbContextIdentifier))]
         public static int GetId(int id) => throw new NotSupportedException();
     }
 }

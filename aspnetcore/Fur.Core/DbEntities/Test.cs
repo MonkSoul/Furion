@@ -19,7 +19,7 @@ namespace Fur.Core.DbEntities
 
         public IEnumerable<Expression<Func<Test, bool>>> HasQueryFilter(DbContext dbContext)
         {
-            if (!AppGlobal.IsSupportTenant) return default;
+            if (!AppGlobal.SupportedMultipleTenant) return default;
 
             var tenantId = dbContext.GetTenantId();
             return new List<Expression<Func<Test, bool>>>

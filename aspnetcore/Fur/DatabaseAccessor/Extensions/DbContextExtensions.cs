@@ -22,7 +22,7 @@ namespace Fur.DatabaseAccessor.Extensions
         /// <returns></returns>
         public static int GetTenantId(this DbContext dbContext)
         {
-            if (!AppGlobal.IsSupportTenant) return default;
+            if (!AppGlobal.SupportedMultipleTenant) return default;
 
             var lifetimeScope = dbContext.GetService<ILifetimeScope>();
             var tenantProvider = lifetimeScope.Resolve<IMultipleTenantProvider>();

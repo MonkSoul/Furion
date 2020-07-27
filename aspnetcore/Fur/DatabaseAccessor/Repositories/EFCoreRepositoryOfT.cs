@@ -51,7 +51,7 @@ namespace Fur.DatabaseAccessor.Repositories
                 _maintenanceProvider = lifetimeScope.Resolve<IMaintenanceFieldsProvider>();
             }
 
-            if (AppGlobal.IsSupportTenant)
+            if (AppGlobal.SupportedMultipleTenant)
             {
                 _tenantProvider = lifetimeScope.Resolve<IMultipleTenantProvider>();
             }

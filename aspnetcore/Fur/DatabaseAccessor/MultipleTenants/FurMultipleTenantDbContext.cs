@@ -21,11 +21,6 @@ namespace Fur.DatabaseAccessor.MultipleTenants
         }
         #endregion
 
-        /// <summary>
-        /// 租户实体信息
-        /// </summary>
-        public virtual DbSet<Tenant> Tenants { get; set; }
-
         #region 数据库上下文初始化调用方法 + protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         /// <summary>
         /// 数据库上下文初始化调用方法
@@ -57,7 +52,7 @@ namespace Fur.DatabaseAccessor.MultipleTenants
         /// <returns>租户Id</returns>
         public virtual int GetTenantId(string host)
         {
-            var tenant = Tenants.FirstOrDefault(t => t.Host == host);
+            var tenant = this.Set<Tenant>().FirstOrDefault(t => t.Host == host);
             return tenant?.Id ?? 0;
         }
         #endregion
