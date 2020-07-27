@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Fur.ApplicationBase.Attributes;
+using System;
 
 namespace Fur.DatabaseAccessor.Tangent.Attributes.Basics
 {
     /// <summary>
     /// 非编译类型特性，也就是select/delete/update/insert/drop/create/alter等
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Method), NonWrapper]
     public class TangentSqlAttribute : TangentAttribute
     {
         /// <summary>

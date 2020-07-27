@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fur.ApplicationBase.Attributes;
+using System;
 
 namespace Fur.DatabaseAccessor.Tangent.Attributes.Basics
 {
@@ -6,7 +7,7 @@ namespace Fur.DatabaseAccessor.Tangent.Attributes.Basics
     /// 切面编译类型
     /// <para>特指：函数和存储过程</para>
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Method), NonWrapper]
     public class TangentCompileTypeAttribute : TangentAttribute
     {
         #region 构造函数 + public TangentCompileTypeAttribute(string name) => Name = name

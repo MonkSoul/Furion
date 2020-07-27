@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Castle.DynamicProxy;
+using Fur.ApplicationBase.Attributes;
 using Fur.DatabaseAccessor.Tangent.Entities;
 using System.Threading.Tasks;
 
@@ -8,7 +9,8 @@ namespace Fur.DatabaseAccessor.Tangent.Interceptors
     /// <summary>
     /// 切面代理异步拦截器
     /// </summary>
-    public class TangentProxyAsyncInterceptor : IAsyncInterceptor
+    [NonWrapper]
+    internal class TangentProxyAsyncInterceptor : IAsyncInterceptor
     {
         /// <summary>
         /// autofac 生命周期对象

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Castle.DynamicProxy;
+using Fur.ApplicationBase.Attributes;
 using Fur.DatabaseAccessor.Contexts.Pools;
 using Fur.DatabaseAccessor.Extensions.Sql;
 using Fur.DatabaseAccessor.Tangent.Attributes;
@@ -18,6 +19,7 @@ namespace Fur.DatabaseAccessor.Tangent.Entities
     /// <summary>
     /// 切面上下文工具类
     /// </summary>
+    [NonWrapper]
     internal static class TangentDbContextUtilities
     {
         #region 处理同步 + internal static object SynchronousInvoke(IInvocation invocation, ILifetimeScope lifetimeScope)

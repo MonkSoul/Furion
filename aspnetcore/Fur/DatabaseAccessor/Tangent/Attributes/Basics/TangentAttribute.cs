@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Fur.ApplicationBase.Attributes;
+using System;
 
 namespace Fur.DatabaseAccessor.Tangent.Attributes.Basics
 {
     /// <summary>
     /// 切面基类特性
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Method), NonWrapper]
     public class TangentAttribute : Attribute
     {
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using Fur.DatabaseAccessor.Tangent.Attributes.Basics;
+﻿using Fur.ApplicationBase.Attributes;
+using Fur.DatabaseAccessor.Tangent.Attributes.Basics;
 using System;
 
 namespace Fur.DatabaseAccessor.Tangent.Attributes
@@ -6,7 +7,7 @@ namespace Fur.DatabaseAccessor.Tangent.Attributes
     /// <summary>
     /// 切面数据库函数特性
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Method), NonWrapper]
     public class DbFunctionAttribute : TangentCompileTypeAttribute
     {
         #region 构造函数 + public DbFunctionAttribute(string name) : base(name)
