@@ -5,6 +5,7 @@ using Fur.DatabaseAccessor.Contexts.Pools;
 using Fur.DatabaseAccessor.Extensions.Sql;
 using Fur.DatabaseAccessor.Tangent.Attributes;
 using Fur.DatabaseAccessor.Tangent.Attributes.Basics;
+using Fur.DatabaseAccessor.Tangent.Models;
 using Fur.TypeExtensions;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Fur.DatabaseAccessor.Tangent.Entities
+namespace Fur.DatabaseAccessor.Tangent.Utilities
 {
     /// <summary>
     /// 切面上下文工具类

@@ -1,4 +1,4 @@
-﻿using Fur.DatabaseAccessor.Tangent.Entities;
+﻿using Fur.DatabaseAccessor.Tangent.Dependencies;
 
 namespace Fur.DatabaseAccessor.Tangent
 {

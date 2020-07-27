@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Castle.DynamicProxy;
-using Fur.DatabaseAccessor.Tangent.Entities;
+using Fur.DatabaseAccessor.Tangent.Dependencies;
 using Fur.DatabaseAccessor.Tangent.Interceptors;
 
 namespace Fur.DatabaseAccessor.Tangent

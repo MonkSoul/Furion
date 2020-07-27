@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Reflection;
 
-namespace Fur.DatabaseAccessor.Tangent.Entities
+namespace Fur.DatabaseAccessor.Tangent.Models
 {
     /// <summary>
     /// 切面方法信息类

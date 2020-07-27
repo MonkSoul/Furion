@@ -219,7 +219,7 @@ namespace Fur.DatabaseAccessor.Repositories
                     var tenantIdProperty = EntityEntryProperty(entityEntry, nameof(DbEntityBase.TenantId));
                     if (tenantIdProperty != null)
                     {
-                        tenantIdProperty.CurrentValue = TenantId;
+                        tenantIdProperty.CurrentValue = TenantId.Value;
                     }
                 }
             }

@@ -1,4 +1,4 @@
-﻿namespace Fur.DatabaseAccessor.Tangent.Entities
+﻿namespace Fur.DatabaseAccessor.Tangent.Dependencies
 {
     /// <summary>
     /// 泛型切面代理依赖接口

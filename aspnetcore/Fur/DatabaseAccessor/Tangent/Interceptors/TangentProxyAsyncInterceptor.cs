@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Castle.DynamicProxy;
 using Fur.ApplicationBase.Attributes;
-using Fur.DatabaseAccessor.Tangent.Entities;
+using Fur.DatabaseAccessor.Tangent.Utilities;
 using System.Threading.Tasks;
 
 namespace Fur.DatabaseAccessor.Tangent.Interceptors
