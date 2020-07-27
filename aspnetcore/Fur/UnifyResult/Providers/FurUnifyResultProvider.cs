@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Fur.UnifyResult.Providers
 {
-    public class UnifyResultProvider : IUnifyResultProvider
+    public class FurUnifyResultProvider : IUnifyResultProvider
     {
         public IActionResult UnifyExceptionResult(ExceptionContext context, string exceptionMessage, string exceptionErrorString, bool unAuthorizedRequest, int statusCode)
         {

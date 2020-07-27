@@ -8,7 +8,7 @@ namespace Fur.Application
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterUnifyProvider<UnifyResultProvider>();
+            builder.RegisterUnifyProvider<FurUnifyResultProvider>();
         }
     }
 }
