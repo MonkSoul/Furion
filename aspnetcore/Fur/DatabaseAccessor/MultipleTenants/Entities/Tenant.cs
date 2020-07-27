@@ -8,7 +8,6 @@ namespace Fur.DatabaseAccessor.MultipleTenants.Entities
     /// <summary>
     /// 租户实体
     /// </summary>
-    [Table("Tenants")]
     public class Tenant : IDbEntity
     {
         /// <summary>

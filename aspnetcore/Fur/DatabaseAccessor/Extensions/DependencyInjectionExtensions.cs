@@ -21,7 +21,7 @@ namespace Fur.DatabaseAccessor.Extensions
     [NonWrapper]
     public static class DependencyInjectionExtensions
     {
-        #region 注册上下文 + public static ContainerBuilder RegisterDbContexts<TDefaultDbContext>(this ContainerBuilder builder, params Type[] dbContextTypes)
+        #region 注册上下文 + public static ContainerBuilder RegisterDbContexts<TDefaultDbContext>(this ContainerBuilder builder, Action<FurDbContextInjectionOptions> configureOptions = null, params Type[] dbContextTypes)
         /// <summary>
         /// 注册上下文
         /// <para>泛型参数为默认数据库上下文</para>
@@ -30,7 +30,7 @@ namespace Fur.DatabaseAccessor.Extensions
         /// <param name="builder">容器构建器</param>
         /// <param name="dbContextTypes">数据库上下文集合</param>
         /// <returns><see cref="ContainerBuilder"/></returns>
-        public static ContainerBuilder RegisterDbContexts<TDefaultDbContext>(this ContainerBuilder builder, Action<FurDbContextInjectionOptions> configureOptions, params Type[] dbContextTypes)
+        public static ContainerBuilder RegisterDbContexts<TDefaultDbContext>(this ContainerBuilder builder, Action<FurDbContextInjectionOptions> configureOptions = null, params Type[] dbContextTypes)
             where TDefaultDbContext : DbContext
         {
             // 注册数据库上下文池
@@ -45,7 +45,7 @@ namespace Fur.DatabaseAccessor.Extensions
 
             // 载入配置
             var furDbContextInjectionOptions = new FurDbContextInjectionOptions();
-            configureOptions(furDbContextInjectionOptions);
+            configureOptions?.Invoke(furDbContextInjectionOptions);
 
             var dbContextTypeList = dbContextTypes.Distinct().ToList();
             dbContextTypeList.Add(typeof(TDefaultDbContext));

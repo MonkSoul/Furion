@@ -16,7 +16,6 @@ namespace Fur.EntityFramework.Core.Extensions
     public static class DbContextServiceExtensions
     {
         #region 数据库上下文服务拓展方法 + public static IServiceCollection AddFurDbContextPool(this IServiceCollection services, IWebHostEnvironment env, IConfiguration configuration)
-
         /// <summary>
         /// 数据库上下文服务拓展方法
         /// </summary>
@@ -30,7 +29,6 @@ namespace Fur.EntityFramework.Core.Extensions
             var furMultipleConnectionString = configuration.GetConnectionString("FurMultipleConnectionString");
 
             services.AddFurSqlServerDbContextPool<FurSqlServerDbContext>(furConnectionString, env)
-                        .AddFurSqlServerDbContextPool<FurMultipleSqlServerDbContext>(furMultipleConnectionString, env)
                         .AddFurSqlServerDbContextPool<FurMultipleTenantDbContext>(furConnectionString, env);
 
             services.Configure<MvcOptions>(options =>
@@ -41,6 +39,6 @@ namespace Fur.EntityFramework.Core.Extensions
             return services;
         }
 
-        #endregion 数据库上下文服务拓展方法 + public static IServiceCollection AddFurDbContextPool(this IServiceCollection services, IWebHostEnvironment env, IConfiguration configuration)
+        #endregion
     }
 }

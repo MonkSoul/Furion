@@ -18,4 +18,8 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Functions\Dtos\" />
+  </ItemGroup>
+
 </Project>
