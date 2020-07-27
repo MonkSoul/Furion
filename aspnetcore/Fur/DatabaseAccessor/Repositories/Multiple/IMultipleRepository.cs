@@ -7,7 +7,7 @@ namespace Fur.DatabaseAccessor.Repositories.Multiple
     /// 非泛型多上下文的仓储接口
     /// <para>也就是可以支持多个 <see cref="Microsoft.EntityFrameworkCore.DbContext"/> 的仓储</para>
     /// </summary>
-    public partial interface IRepository
+    public partial interface IMultipleRepository
     {
         #region 获取泛型多上下文仓储接口 +  IMultipleDbContextRepositoryOfT<TEntity, TDbContextIdentifier> Set<TEntity, TDbContextIdentifier>(bool newScope = false) where TEntity : class, IDbEntity, new() where TDbContextIdentifier : IDbContextIdentifier
 

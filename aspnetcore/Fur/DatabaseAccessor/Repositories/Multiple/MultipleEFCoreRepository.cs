@@ -7,7 +7,7 @@ namespace Fur.DatabaseAccessor.Repositories.Multiple
     /// <summary>
     /// 非泛型多上下文的仓储实现类
     /// </summary>
-    public partial class EFCoreRepository : IRepository
+    public partial class MultipleEFCoreRepository : IMultipleRepository
     {
         /// <summary>
         /// Autofac生命周期对象
@@ -20,7 +20,7 @@ namespace Fur.DatabaseAccessor.Repositories.Multiple
         /// 构造函数
         /// </summary>
         /// <param name="serviceProvider">Autofac生命周期对象</param>
-        public EFCoreRepository(ILifetimeScope lifetimeScope)
+        public MultipleEFCoreRepository(ILifetimeScope lifetimeScope)
         {
             _lifetimeScope = lifetimeScope;
         }

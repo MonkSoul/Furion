@@ -6,7 +6,7 @@ namespace Fur.DatabaseAccessor.Repositories.MasterSlave
     /// <summary>
     /// 主从同步/读写分离仓储接口
     /// </summary>
-    public interface IRepository
+    public interface IMasterSlaveRepository
     {
         #region 获取主从同步/读写分离仓储接口 + IMasterSlaveRepositoryOfT<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier> Set<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier>(bool newScope = false) where TEntity : class, IDbEntity, new() where TMasterDbContextIdentifier : IDbContextIdentifier where TSlaveDbContextIdentifier : IDbContextIdentifier
 

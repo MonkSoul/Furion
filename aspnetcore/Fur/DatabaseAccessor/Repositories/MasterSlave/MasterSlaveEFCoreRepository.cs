@@ -7,7 +7,7 @@ namespace Fur.DatabaseAccessor.Repositories.MasterSlave
     /// <summary>
     /// 主从同步/读写分离仓储实例
     /// </summary>
-    public class EFCoreRepository : IRepository
+    public class MasterSlaveEFCoreRepository : IMasterSlaveRepository
     {
         /// <summary>
         /// Autofac生命周期对象
@@ -20,7 +20,7 @@ namespace Fur.DatabaseAccessor.Repositories.MasterSlave
         /// 构造函数
         /// </summary>
         /// <param name="serviceProvider">Autofac生命周期对象</param>
-        public EFCoreRepository(ILifetimeScope lifetimeScope)
+        public MasterSlaveEFCoreRepository(ILifetimeScope lifetimeScope)
         {
             _lifetimeScope = lifetimeScope;
         }

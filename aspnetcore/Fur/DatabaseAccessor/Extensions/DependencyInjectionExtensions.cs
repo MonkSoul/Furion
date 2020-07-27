@@ -114,7 +114,7 @@ namespace Fur.DatabaseAccessor.Extensions
                 .InstancePerLifetimeScope();
 
             // 注册非泛型仓储
-            builder.RegisterType<Repositories.EFCoreRepository>()
+            builder.RegisterType<EFCoreRepository>()
                 .As<Repositories.IRepository>()
                 .InstancePerLifetimeScope();
 
@@ -125,8 +125,8 @@ namespace Fur.DatabaseAccessor.Extensions
                     .As(typeof(IRepositoryOfT<,>))
                     .InstancePerLifetimeScope();
 
-                builder.RegisterType<Repositories.Multiple.EFCoreRepository>()
-                    .As<Repositories.Multiple.IRepository>()
+                builder.RegisterType<MultipleEFCoreRepository>()
+                    .As<Repositories.Multiple.IMultipleRepository>()
                     .InstancePerLifetimeScope();
             }
 
@@ -137,8 +137,8 @@ namespace Fur.DatabaseAccessor.Extensions
                     .As(typeof(IRepositoryOfT<,,>))
                     .InstancePerLifetimeScope();
 
-                builder.RegisterType<Repositories.MasterSlave.EFCoreRepository>()
-                   .As<Repositories.MasterSlave.IRepository>()
+                builder.RegisterType<MasterSlaveEFCoreRepository>()
+                   .As<Repositories.MasterSlave.IMasterSlaveRepository>()
                    .InstancePerLifetimeScope();
             }
 
