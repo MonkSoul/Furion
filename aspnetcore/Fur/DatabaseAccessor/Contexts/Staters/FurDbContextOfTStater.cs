@@ -2,7 +2,6 @@
 using Fur.ApplicationBase;
 using Fur.ApplicationBase.Attributes;
 using Fur.ApplicationBase.Wrappers;
-using Fur.DatabaseAccessor.Attributes;
 using Fur.DatabaseAccessor.Extensions;
 using Fur.DatabaseAccessor.Models.Entities;
 using Fur.DatabaseAccessor.Models.EntityTypeBuilders;
@@ -316,12 +315,14 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 // 有主键实体
                 if (!typeof(IDbNoKeyEntity).IsAssignableFrom(dbEntityType))
                 {
-                    // 如果没有贴 [DbTable] 特性，则返回 true
-                    if (!dbEntityType.IsDefined(typeof(DbTableAttribute), false)) return true;
-
-                    // 如果贴 [DbTable] 特性，但是 DbContextIdentifierTypes 属性为空或包含 dbContextIdentifierType，返回 true
-                    var dbContextIdentifierTypes = dbEntityType.GetCustomAttribute<DbTableAttribute>(false).DbContextIdentifierTypes;
-                    if (CheckIsInDbContextIdentifierTypes(dbContextIdentifierTypes, dbContextIdentifierType)) return true;
+                    // 如果父类不是泛型类型，则返回 true
+                    if (dbEntityType.BaseType == typeof(DbEntity) || dbEntityType.BaseType == typeof(DbEntityBase) || dbEntityType.BaseType == typeof(Object)) return true;
+                    // 如果是泛型类型，但数据库上下文标识器泛型参数未空或包含 dbContextIdentifierType，返回 true
+                    else
+                    {
+                        var typeGenericArguments = dbEntityType.GetTypeGenericArguments(typeof(IDbEntityBase), GenericArgumentSourceOptions.BaseType);
+                        if (CheckIsInDbContextIdentifierTypes(typeGenericArguments.Skip(1), dbContextIdentifierType)) return true;
+                    }
                 }
                 // 无键实体
                 else
