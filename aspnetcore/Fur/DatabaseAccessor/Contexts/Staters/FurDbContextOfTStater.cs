@@ -8,10 +8,9 @@ using Fur.DatabaseAccessor.Models.EntityTypeBuilders;
 using Fur.DatabaseAccessor.Models.QueryFilters;
 using Fur.DatabaseAccessor.Models.SeedDatas;
 using Fur.DatabaseAccessor.MultipleTenants.Entities;
-using Fur.DatabaseAccessor.MultipleTenants.Providers;
+using Fur.TypeExtensions;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Concurrent;
@@ -19,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using static Fur.TypeExtensions.TypeExtensions;
 
 namespace Fur.DatabaseAccessor.Contexts.Staters
 {
@@ -105,6 +105,44 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         }
         #endregion
 
+        private static bool IsDbContextType(Type type, Type dbContextIdentifierType)
+        {
+            // 1. 如果是实体类型，且不是无键实体
+            if (typeof(IDbEntityBase).IsAssignableFrom(type))
+            {
+                // 有键实体
+                if (!typeof(IDbNoKeyEntity).IsAssignableFrom(type))
+                {
+                    // 如果没有定义 [DbTable] 特性
+                    if (!type.IsDefined(typeof(DbTableAttribute), false)) return true;
+
+                    // 如果指定了，但是 DbContextIdentifierTypes为空或不为空且包含 dbContextIdentifierType
+                    var dbContextIdentifierTypes = type.GetCustomAttribute<DbTableAttribute>(false).DbContextIdentifierTypes;
+                    if (CheckIsInDbContextIdentifierTypes(dbContextIdentifierTypes, dbContextIdentifierType)) return true;
+                }
+                // 无键实体
+                else
+                {
+                    var baseType = type.BaseType;
+                    // 如果父类不是泛型
+                    if (baseType == typeof(DbNoKeyEntity)) return true;
+                    else
+                    {
+                        var typeGenericArguments = type.GetTypeGenericArguments(typeof(IDbNoKeyEntity), FromTypeOptions.BaseType);
+                        if (CheckIsInDbContextIdentifierTypes(typeGenericArguments, dbContextIdentifierType)) return true;
+                    }
+                }
+            }
+
+            if (typeof(IDbEntityConfigure).IsAssignableFrom(type))
+            {
+                var typeGenericArguments = type.GetTypeGenericArguments(typeof(IDbEntityConfigure), FromTypeOptions.Interface);
+                if (CheckIsInDbContextIdentifierTypes(typeGenericArguments.Skip(1), dbContextIdentifierType)) return true;
+            }
+
+            return false;
+        }
+
         #region 扫描数据库对象类型加入模型构建器中 +private static void ScanDbObjectsToBuilding(ModelBuilder modelBuilder, Type dbContextIdentifierType, DbContext dbContext)
         /// <summary>
         /// 扫描数据库对象类型加入模型构建器中
@@ -115,60 +153,41 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="dbContext">数据库上下文</param>
         internal static void ScanDbObjectsToBuilding(ModelBuilder modelBuilder, Type dbContextIdentifierType, DbContext dbContext)
         {
-            var isRegisterTenant = dbContext.GetService<ILifetimeScope>().IsRegistered<IMultipleTenantProvider>();
+            var dbContextEntityTypes = _includeDbEntityTypes.Where(u => IsDbContextType(u, dbContextIdentifierType));
 
-            // 如果没有任何数据库实体类型，无需配置
-            if (_includeDbEntityTypes.Count > 0)
+            if (!dbContextEntityTypes.Any()) return;
+
+            foreach (var dbEntityType in dbContextEntityTypes)
             {
-                foreach (var dbEntityType in _dbEntityTypes)
-                {
-                    EntityTypeBuilder entityTypeBuilder = null;
+                // 如果未启用多租户支持，则跳过解析
+                if (!AppGlobal.IsSupportTenant && dbEntityType == typeof(Tenant)) continue;
 
-                    // 配置全局查询筛选器
-                    DbContextQueryFilterConfigure(dbContext, modelBuilder, dbEntityType, ref entityTypeBuilder);
+                EntityTypeBuilder entityTypeBuilder = default;
 
-                    if (_dbEntityTypesLoopIndex == _dbEntityTypes.Count)
-                    {
-                        var values = _dbContextIdentifierTypesOfDbEntityType.GetValueOrDefault(dbEntityType);
-                        if (values != null && values.Count > 0 && !values.Contains(dbContextIdentifierType)) break;
-                    }
+                // 配置数据库上下文查询筛选器
+                DbContextQueryFilterConfigure(dbContext, modelBuilder, dbEntityType, ref entityTypeBuilder);
 
-                    if (!isRegisterTenant && dbEntityType == typeof(Tenant))
-                    {
-                        _dbEntityTypesLoopIndex++;
-                        continue;
-                    };
+                // 配置无键实体
+                DbNoKeyEntityConfigure(dbEntityType, modelBuilder, dbContextIdentifierType, ref entityTypeBuilder);
 
-                    // 配置无键实体
-                    DbNoKeyEntityConfigure(dbEntityType, modelBuilder, dbContextIdentifierType, ref entityTypeBuilder);
+                // 配置实体类型构建器信息
+                DbEntityBuilderConfigure(dbEntityType, modelBuilder, dbContextIdentifierType, ref entityTypeBuilder);
 
-                    // 查找数据库实体类型下的所有配置类型
-                    var dbEntityConfigureTypes = _includeDbEntityTypes
-                        .Where(t => typeof(IDbEntityConfigure).IsAssignableFrom(t) && t.GetInterfaces().Any(u => u.IsGenericType && u.GetGenericArguments().First() == dbEntityType));
+                // 配置种子数据
+                DbSeedDataConfigure(dbEntityType, modelBuilder, dbContext, dbContextIdentifierType, ref entityTypeBuilder);
 
-                    foreach (var dbEntityConfigureType in dbEntityConfigureTypes)
-                    {
-                        // 配置实体类型构建器信息
-                        DbEntityBuilderConfigure(dbEntityType, modelBuilder, dbContextIdentifierType, dbEntityConfigureType, ref entityTypeBuilder);
+                // 配置查询筛选器
+                DbQueryFilterConfigure(dbEntityType, modelBuilder, dbContext, dbContextIdentifierType, ref entityTypeBuilder);
 
-                        // 配置种子数据
-                        DbSeedDataConfigure(dbEntityType, modelBuilder, dbContext, dbContextIdentifierType, dbEntityConfigureType, ref entityTypeBuilder);
-
-                        // 配置查询筛选器
-                        DbQueryFilterConfigure(dbEntityType, modelBuilder, dbContext, dbContextIdentifierType, dbEntityConfigureType, ref entityTypeBuilder);
-                    }
-
-                    // 配置模型
-                    DbModelEntityConfigure(modelBuilder, dbContextIdentifierType, dbEntityType, ref entityTypeBuilder);
-
-                    _dbEntityTypesLoopIndex++;
-                }
+                // 配置模型
+                DbModelEntityConfigure(modelBuilder, dbContextIdentifierType, dbEntityType, ref entityTypeBuilder);
             }
 
             // 配置数据库函数
             DbFunctionConfigure(modelBuilder, dbContextIdentifierType);
         }
         #endregion
+
 
         #region 配置数据库模型实体 + private static void DbModelEntityConfigure(ModelBuilder modelBuilder, Type dbContextIdentifierType, Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
         /// <summary>
@@ -180,12 +199,12 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="entityTypeBuilder">实体类型构建器</param>
         private static void DbModelEntityConfigure(ModelBuilder modelBuilder, Type dbContextIdentifierType, Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
         {
-            if (entityTypeBuilder != null) return;
+            if (entityTypeBuilder != null || !typeof(IDbEntityBase).IsAssignableFrom(dbEntityType)) return;
 
             if (dbEntityType.IsDefined(typeof(DbTableAttribute), false))
             {
                 var dbTableAttribute = dbEntityType.GetCustomAttribute<DbTableAttribute>();
-                if (IsAllowThisDbEntityToBuilder(dbTableAttribute.DbContextIdentifierTypes, dbContextIdentifierType))
+                if (CheckIsInDbContextIdentifierTypes(dbTableAttribute.DbContextIdentifierTypes, dbContextIdentifierType))
                 {
                     BuilderEntityType(modelBuilder, dbEntityType, ref entityTypeBuilder);
                 }
@@ -207,24 +226,22 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="entityTypeBuilder">实体类型构建器</param>
         private static void DbNoKeyEntityConfigure(Type dbEntityType, ModelBuilder modelBuilder, Type dbContextIdentifierType, ref EntityTypeBuilder entityTypeBuilder)
         {
-            var dbEntityBaseType = dbEntityType.BaseType;
-            if (dbEntityBaseType.IsGenericType && typeof(IDbNoKeyEntity).IsAssignableFrom(dbEntityBaseType.GetGenericTypeDefinition()))
+            if (!typeof(IDbNoKeyEntity).IsAssignableFrom(dbEntityType)) return;
+
+            var dbNoKeyEntityGenericArguments = dbEntityType.GetTypeGenericArguments(typeof(IDbNoKeyEntity), FromTypeOptions.BaseType);
+            if (dbNoKeyEntityGenericArguments != null)
             {
-                var dbNoKeyEntityGenericArguments = dbEntityBaseType?.GetGenericArguments();
-                if (dbNoKeyEntityGenericArguments != null)
+                var dbContextIdentifierTypes = dbNoKeyEntityGenericArguments.Skip(1);
+
+                if (CheckIsInDbContextIdentifierTypes(dbContextIdentifierTypes, dbContextIdentifierType))
                 {
-                    var dbContextIdentifierTypes = dbNoKeyEntityGenericArguments.Skip(1);
+                    BuilderEntityType(modelBuilder, dbEntityType, ref entityTypeBuilder);
 
-                    if (IsAllowThisDbEntityToBuilder(dbContextIdentifierTypes, dbContextIdentifierType))
-                    {
-                        BuilderEntityType(modelBuilder, dbEntityType, ref entityTypeBuilder);
-
-                        entityTypeBuilder.HasNoKey();
-                        entityTypeBuilder.ToView((Activator.CreateInstance(dbEntityType) as IDbNoKeyEntity).DB_DEFINED_NAME);
-                    }
-
-                    SaveDbContextIdentifiersOfDbEntityType(dbEntityType, dbContextIdentifierTypes);
+                    entityTypeBuilder.HasNoKey();
+                    entityTypeBuilder.ToView((Activator.CreateInstance(dbEntityType) as IDbNoKeyEntity).DB_DEFINED_NAME);
                 }
+
+                _dbContextIdentifierTypesOfDbEntityType.AddOrUpdate(dbEntityType, dbContextIdentifierTypes);
             }
         }
         #endregion
@@ -238,23 +255,22 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="dbContextIdentifierType">数据库上下文标识器</param>
         /// <param name="dbEntityConfigureType">数据库实体配置类型，也就是所有继承了可配置接口的类型</param>
         /// <param name="entityTypeBuilder">实体类型构建器</param>
-        private static void DbEntityBuilderConfigure(Type dbEntityType, ModelBuilder modelBuilder, Type dbContextIdentifierType, Type dbEntityConfigureType, ref EntityTypeBuilder entityTypeBuilder)
+        private static void DbEntityBuilderConfigure(Type dbEntityType, ModelBuilder modelBuilder, Type dbContextIdentifierType, ref EntityTypeBuilder entityTypeBuilder)
         {
-            var dbEntityBuilderGenericArguments = GetDbEntityConfigureTypeGenericArguments(dbEntityConfigureType, typeof(IDbEntityBuilder));
+            var dbEntityBuilderGenericArguments = dbEntityType.GetTypeGenericArguments(typeof(IDbEntityBuilder), FromTypeOptions.Interface);
+
             if (dbEntityBuilderGenericArguments != null)
             {
                 var dbContextIdentifierTypes = dbEntityBuilderGenericArguments.Skip(1);
 
-                if (IsAllowThisDbEntityToBuilder(dbContextIdentifierTypes, dbContextIdentifierType))
+                if (CheckIsInDbContextIdentifierTypes(dbContextIdentifierTypes, dbContextIdentifierType))
                 {
-                    BuilderEntityType(modelBuilder, dbEntityType, ref entityTypeBuilder);
+                    BuilderEntityType(modelBuilder, dbEntityBuilderGenericArguments.First(), ref entityTypeBuilder);
 
-                    entityTypeBuilder = dbEntityConfigureType
-                        .GetMethod(nameof(IDbEntityBuilderOfT<IDbEntityBase>.HasEntityBuilder))
-                        .Invoke(Activator.CreateInstance(dbEntityConfigureType), new object[] { entityTypeBuilder }) as EntityTypeBuilder;
+                    entityTypeBuilder = dbEntityType.CallMethod(nameof(IDbEntityBuilderOfT<IDbEntityBase>.HasEntityBuilder), Activator.CreateInstance(dbEntityType), entityTypeBuilder) as EntityTypeBuilder;
                 }
 
-                SaveDbContextIdentifiersOfDbEntityType(dbEntityType, dbContextIdentifierTypes);
+                _dbContextIdentifierTypesOfDbEntityType.AddOrUpdate(dbEntityType, dbContextIdentifierTypes);
             }
         }
         #endregion
@@ -269,31 +285,30 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="dbContextIdentifierType">数据库上下文标识器</param>
         /// <param name="dbEntityConfigureType">数据库实体配置类型，也就是所有继承了可配置接口的类型</param>
         /// <param name="entityTypeBuilder">实体类型构建器</param>
-        private static void DbSeedDataConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextIdentifierType, Type dbEntityConfigureType, ref EntityTypeBuilder entityTypeBuilder)
+        private static void DbSeedDataConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextIdentifierType, ref EntityTypeBuilder entityTypeBuilder)
         {
-            var dbSeedDataGenericArguments = GetDbEntityConfigureTypeGenericArguments(dbEntityConfigureType, typeof(IDbSeedData));
+            if (typeof(IDbNoKeyEntity).IsAssignableFrom(dbEntityType)) return;
+
+            var dbSeedDataGenericArguments = dbEntityType.GetTypeGenericArguments(typeof(IDbSeedData), FromTypeOptions.Interface);
 
             if (dbSeedDataGenericArguments != null)
             {
                 var dbContextIdentifierTypes = dbSeedDataGenericArguments.Skip(1);
 
-                if (IsAllowThisDbEntityToBuilder(dbContextIdentifierTypes, dbContextIdentifierType))
+                if (CheckIsInDbContextIdentifierTypes(dbContextIdentifierTypes, dbContextIdentifierType))
                 {
-                    BuilderEntityType(modelBuilder, dbEntityType, ref entityTypeBuilder);
+                    BuilderEntityType(modelBuilder, dbSeedDataGenericArguments.First(), ref entityTypeBuilder);
 
-                    var seedDatas = dbEntityConfigureType
-                          .GetMethod(nameof(IDbSeedDataOfT<IDbEntityBase>.HasData))
-                          .Invoke(Activator.CreateInstance(dbEntityConfigureType), new object[] { dbContext }).Adapt<IEnumerable<object>>();
-
+                    var seedDatas = dbEntityType.CallMethod(nameof(IDbSeedDataOfT<IDbEntityBase>.HasData), Activator.CreateInstance(dbEntityType), dbContext).Adapt<IEnumerable<object>>();
                     if (seedDatas != null && seedDatas.Any()) entityTypeBuilder.HasData(seedDatas);
                 }
 
-                SaveDbContextIdentifiersOfDbEntityType(dbEntityType, dbContextIdentifierTypes);
+                _dbContextIdentifierTypesOfDbEntityType.AddOrUpdate(dbEntityType, dbContextIdentifierTypes);
             }
         }
         #endregion
 
-        #region 配置查询筛选器 + private static void DbQueryFilterConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextIdentifierType, Type dbEntityConfigureType, ref EntityTypeBuilder entityTypeBuilder)
+        #region 配置查询筛选器 + private static void DbQueryFilterConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext,  Type dbEntityConfigureType, ref EntityTypeBuilder entityTypeBuilder)
         /// <summary>
         /// 配置查询筛选器
         /// </summary>
@@ -303,20 +318,17 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="dbContextIdentifierType">数据库上下文标识器</param>
         /// <param name="dbEntityConfigureType">数据库实体配置类型，也就是所有继承了可配置接口的类型</param>
         /// <param name="entityTypeBuilder">实体类型构建器</param>
-        private static void DbQueryFilterConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextIdentifierType, Type dbEntityConfigureType, ref EntityTypeBuilder entityTypeBuilder)
+        private static void DbQueryFilterConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextIdentifierType, ref EntityTypeBuilder entityTypeBuilder)
         {
-            var dbQueryFilterGenericArguments = GetDbEntityConfigureTypeGenericArguments(dbEntityConfigureType, typeof(IDbQueryFilter));
-
+            var dbQueryFilterGenericArguments = dbEntityType.GetTypeGenericArguments(typeof(IDbQueryFilter), FromTypeOptions.Interface);
             if (dbQueryFilterGenericArguments != null)
             {
                 var dbContextIdentifierTypes = dbQueryFilterGenericArguments.Skip(1);
-                if (IsAllowThisDbEntityToBuilder(dbContextIdentifierTypes, dbContextIdentifierType))
+                if (CheckIsInDbContextIdentifierTypes(dbContextIdentifierTypes, dbContextIdentifierType))
                 {
-                    BuilderEntityType(modelBuilder, dbEntityType, ref entityTypeBuilder);
+                    BuilderEntityType(modelBuilder, dbQueryFilterGenericArguments.First(), ref entityTypeBuilder);
 
-                    var queryFilters = dbEntityConfigureType
-                          .GetMethod(nameof(IDbQueryFilterOfT<IDbEntityBase>.HasQueryFilter))
-                          .Invoke(Activator.CreateInstance(dbEntityConfigureType), new object[] { dbContext }).Adapt<IEnumerable<LambdaExpression>>();
+                    var queryFilters = dbEntityType.CallMethod(nameof(IDbQueryFilterOfT<IDbEntityBase>.HasQueryFilter), Activator.CreateInstance(dbEntityType), dbContext).Adapt<IEnumerable<LambdaExpression>>();
 
                     if (queryFilters != null && queryFilters.Any())
                     {
@@ -327,7 +339,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                     }
                 }
 
-                SaveDbContextIdentifiersOfDbEntityType(dbEntityType, dbContextIdentifierTypes);
+                _dbContextIdentifierTypesOfDbEntityType.AddOrUpdate(dbEntityType, dbContextIdentifierTypes);
             }
         }
         #endregion
@@ -354,21 +366,24 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
 
                 var dbContextIdentifierTypes = dbEFFunctionAttribute.DbContextIdentifierTypes;
 
-                if (IsAllowThisDbEntityToBuilder(dbContextIdentifierTypes, dbContextIdentifierType))
+                if (CheckIsInDbContextIdentifierTypes(dbContextIdentifierTypes, dbContextIdentifierType))
                 {
                     modelBuilder.HasDbFunction(dbFunction.Method);
                 }
 
-                SaveDbContextIdentifiersOfDbFunctions(dbFunction, dbContextIdentifierTypes);
+                _dbContextIdentifierTypesOfDbFunctions.AddOrUpdate(dbFunction, dbContextIdentifierTypes);
 
                 _dbFunctionsLoopIndex++;
             }
         }
         #endregion
 
-        #region 配置全局查询筛选器 + private static void DbContextQueryFilterConfigure(DbContext dbContext, ModelBuilder modelBuilder, Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
+
+
+        #region 配置数据库上下文查询筛选器 + private static void DbContextQueryFilterConfigure(DbContext dbContext, ModelBuilder modelBuilder, Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
         /// <summary>
-        /// 配置全局查询筛选器
+        /// 配置数据库上下文查询筛选器
+        /// <para>一旦数据库上下文继承该接口，那么该数据库上下文所有的实体都将应用该查询筛选器</para>
         /// </summary>
         /// <param name="dbContext">数据库上下文</param>
         /// <param name="modelBuilder">模型构建器</param>
@@ -377,16 +392,24 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         private static void DbContextQueryFilterConfigure(DbContext dbContext, ModelBuilder modelBuilder, Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
         {
             var dbContextType = dbContext.GetType();
-            if (typeof(IDbContextQueryFilter).IsAssignableFrom(dbContextType))
+            if (typeof(IDbContextQueryFilter).IsAssignableFrom(dbContextType) && typeof(IDbEntityBase).IsAssignableFrom(dbEntityType))
             {
                 BuilderEntityType(modelBuilder, dbEntityType, ref entityTypeBuilder);
 
-                dbContextType
-                    .GetMethod(nameof(IDbContextQueryFilter.HasQueryFilter))
-                    .Invoke(dbContext, new object[] { dbContext, entityTypeBuilder });
+                dbContextType.CallMethod(nameof(IDbContextQueryFilter.HasQueryFilter), dbContext, entityTypeBuilder);
             }
         }
         #endregion
+
+
+
+
+
+
+
+
+
+
 
 
         #region 是否允许当前数据库上下文标识器构建实体 + private static bool IsAllowThisDbEntityToBuilder(IEnumerable<Type> dbContextIdentifierTypes, Type dbContextIdentifierType)
@@ -396,7 +419,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="dbContextIdentifierTypes">当前类型数据库上下文标识器集合</param>
         /// <param name="dbContextIdentifierType">当前数据库上下文标识器</param>
         /// <returns></returns>
-        private static bool IsAllowThisDbEntityToBuilder(IEnumerable<Type> dbContextIdentifierTypes, Type dbContextIdentifierType)
+        private static bool CheckIsInDbContextIdentifierTypes(IEnumerable<Type> dbContextIdentifierTypes, Type dbContextIdentifierType)
         {
             return dbContextIdentifierTypes == null || dbContextIdentifierTypes.Count() == 0 || dbContextIdentifierTypes.Contains(dbContextIdentifierType);
         }
@@ -412,59 +435,6 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         private static void BuilderEntityType(ModelBuilder modelBuilder, Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
         {
             entityTypeBuilder ??= _modelBuilderEntityMethod.MakeGenericMethod(dbEntityType).Invoke(modelBuilder, null) as EntityTypeBuilder;
-        }
-        #endregion
-
-        #region 获取数据库实体配置类型接口泛型参数 + private static Type[] GetDbEntityConfigureTypeGenericArguments(Type dbEntityConfigureType, Type interfaceType)
-        /// <summary>
-        /// 获取数据库实体配置类型接口泛型参数
-        /// </summary>
-        /// <param name="dbEntityConfigureType">数据库实体配置类型，也就是所有继承了可配置接口的类型</param>
-        /// <param name="interfaceType">特定接口类型</param>
-        /// <returns><see cref="IEnumerable{T}"/></returns>
-        private static Type[] GetDbEntityConfigureTypeGenericArguments(Type dbEntityConfigureType, Type interfaceType)
-        {
-            return dbEntityConfigureType
-                        .GetInterfaces().FirstOrDefault(c => c.IsGenericType && interfaceType.IsAssignableFrom(c.GetGenericTypeDefinition()))
-                        ?.GetGenericArguments();
-        }
-        #endregion
-
-        #region 保存数据库实体类型的数据库上下文标识器集合 + private static void SaveDbContextIdentifiersOfDbEntityType(Type dbEntityType, IEnumerable<Type> dbContextIdentifierTypes)
-        /// <summary>
-        /// 保存数据库实体类型的数据库上下文标识器集合
-        /// </summary>
-        /// <param name="dbEntityType">数据库实体类型</param>
-        /// <param name="dbContextIdentifierTypes">数据库上下文标识器类型集合</param>
-        private static void SaveDbContextIdentifiersOfDbEntityType(Type dbEntityType, IEnumerable<Type> dbContextIdentifierTypes)
-        {
-            var values = _dbContextIdentifierTypesOfDbEntityType.GetValueOrDefault(dbEntityType) ?? new List<Type>();
-
-            if (dbContextIdentifierTypes != null && dbContextIdentifierTypes.Any())
-            {
-                values.AddRange(dbContextIdentifierTypes);
-            }
-
-            _dbContextIdentifierTypesOfDbEntityType.AddOrUpdate(dbEntityType, values, (key, oldValues) => oldValues);
-        }
-        #endregion
-
-        #region 保存数据库函数类型的数据库上下文标识器集合 + private static void SaveDbContextIdentifiersOfDbFunctions(MethodWrapper methodWrapper, IEnumerable<Type> dbContextIdentifierTypes)
-        /// <summary>
-        /// 保存数据库实体类型的数据库上下文标识器集合
-        /// </summary>
-        /// <param name="dbEntityType">数据库实体类型</param>
-        /// <param name="dbContextIdentifierTypes">数据库上下文标识器类型集合</param>
-        private static void SaveDbContextIdentifiersOfDbFunctions(MethodWrapper methodWrapper, IEnumerable<Type> dbContextIdentifierTypes)
-        {
-            var values = _dbContextIdentifierTypesOfDbFunctions.GetValueOrDefault(methodWrapper) ?? new List<Type>();
-
-            if (dbContextIdentifierTypes != null && dbContextIdentifierTypes.Any())
-            {
-                values.AddRange(dbContextIdentifierTypes);
-            }
-
-            _dbContextIdentifierTypesOfDbFunctions.AddOrUpdate(methodWrapper, values, (key, oldValues) => oldValues);
         }
         #endregion
     }

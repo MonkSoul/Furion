@@ -1,5 +1,4 @@
-﻿using Fur.DatabaseAccessor.Contexts.Identifiers;
-using Fur.DatabaseAccessor.Models.SeedDatas;
+﻿using Fur.DatabaseAccessor.Models.SeedDatas;
 using Fur.DatabaseAccessor.MultipleTenants.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -7,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Fur.Core.DbEntities
 {
-    public class TenantDataSeed : IDbSeedDataOfT<Tenant, FurDbContextIdentifier>
+    public class TenantDataSeed : IDbSeedDataOfT<Tenant>
     {
         public IEnumerable<Tenant> HasData(DbContext dbContext)
         {

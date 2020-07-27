@@ -35,6 +35,6 @@ namespace Fur.DatabaseAccessor.Attributes
         /// <summary>
         /// 数据库上下文标识器类型
         /// </summary>
-        public Type[] DbContextIdentifierTypes { get; set; }
+        public Type[] DbContextIdentifierTypes { get; set; } = new Type[] { };
     }
 }

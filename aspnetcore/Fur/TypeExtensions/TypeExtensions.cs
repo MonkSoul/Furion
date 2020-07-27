@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 
 namespace Fur.TypeExtensions
@@ -73,16 +76,16 @@ namespace Fur.TypeExtensions
 
         #endregion 递归获取特性 + public static TAttribute GetDeepAttribute<TAttribute>(this Type type) where TAttribute : Attribute
 
-        #region 是否是可空类型 + public static bool IsNullable(this Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
-
+        #region 是否是可空类型 + public static bool IsNullable(this Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>)
         /// <summary>
         /// 是否是可空类型
         /// </summary>
         /// <param name="type">类型</param>
         /// <returns>是/否</returns>
-        public static bool IsNullable(this Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
+        public static bool IsNullable(this Type type)
+            => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
 
-        #endregion 是否是可空类型 + public static bool IsNullable(this Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
+        #endregion
 
         public static void SetPropertyValue(this PropertyInfo property, object obj, object value)
             => property.SetValue(obj, SetPropertyValue(value, property.PropertyType));
@@ -99,6 +102,46 @@ namespace Fur.TypeExtensions
             if (typeof(System.Enum).IsAssignableFrom(conversionType)) return Enum.Parse(conversionType, value.ToString());
 
             return Convert.ChangeType(value, conversionType);
+        }
+
+        internal static Type[] GetTypeGenericArguments(this Type type, Type filterType, FromTypeOptions fromTypeOptions)
+        {
+            if (fromTypeOptions == FromTypeOptions.Interface)
+            {
+                return type.GetInterfaces()
+                    .FirstOrDefault(c => c.IsGenericType && filterType.IsAssignableFrom(c.GetGenericTypeDefinition()))
+                    ?.GetGenericArguments();
+            }
+            else
+            {
+                var baseType = type.BaseType;
+                if (baseType.IsGenericType && filterType.IsAssignableFrom(baseType.GetGenericTypeDefinition()))
+                {
+                    return baseType.GetGenericArguments();
+                }
+                return default;
+            }
+        }
+
+        internal enum FromTypeOptions
+        {
+            BaseType,
+            Interface
+        }
+
+        internal static void AddOrUpdate<TKey, TValue>(this ConcurrentDictionary<TKey, List<TValue>> keyValuePairs, TKey key, IEnumerable<TValue> newValues)
+        {
+            var values = keyValuePairs.GetValueOrDefault(key) ?? new List<TValue>();
+            if (newValues != null && newValues.Any())
+            {
+                values.AddRange(newValues);
+            }
+            keyValuePairs.AddOrUpdate(key, values, (key, values) => values);
+        }
+
+        internal static object? CallMethod(this Type type, string methodName, object instance, params object[] parameters)
+        {
+            return type.GetMethod(methodName).Invoke(instance, parameters);
         }
     }
 }
