@@ -1,8 +1,6 @@
 ﻿using Fur.ApplicationBase;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using StackExchange.Profiling.Storage;
-using System;
 
 namespace Fur.SwaggerDoc.Extensions.Services
 {
@@ -27,8 +25,8 @@ namespace Fur.SwaggerDoc.Extensions.Services
             {
                 services.AddMiniProfiler(options =>
                 {
-                    options.RouteBasePath = "/profiler";
-                    (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromMinutes(10);
+                    options.RouteBasePath = "/fur-swagger-profiler";
+                    // 这里需要配置权限
                 })
                     .AddEntityFramework();
             }
