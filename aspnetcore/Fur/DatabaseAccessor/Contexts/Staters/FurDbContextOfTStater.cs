@@ -92,9 +92,6 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
             {
                 EntityTypeBuilder entityTypeBuilder = default;
 
-                // 配置数据库上下文查询筛选器
-                DbContextQueryFilterConfigure(dbContext, dbContextType, modelBuilder, dbEntityType, hasDbContextQueryFilter, ref entityTypeBuilder);
-
                 // 配置数据库无键实体
                 DbNoKeyEntityConfigure(dbEntityType, modelBuilder, dbContextLocatorType, ref entityTypeBuilder);
 
@@ -104,10 +101,13 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 // 配置数据库种子数据
                 DbSeedDataConfigure(dbEntityType, modelBuilder, dbContext, dbContextLocatorType, ref entityTypeBuilder);
 
+                // 配置数据库上下文查询筛选器
+                DbContextQueryFilterConfigure(dbContext, dbContextType, modelBuilder, dbEntityType, hasDbContextQueryFilter, ref entityTypeBuilder);
+
                 // 配置数据库查询筛选器
                 DbQueryFilterConfigure(dbEntityType, modelBuilder, dbContext, dbContextLocatorType, ref entityTypeBuilder);
 
-                // 配置模型
+                // 配置模型类型构建器
                 CreateDbEntityTypeBuilderIfNull(modelBuilder, dbEntityType, ref entityTypeBuilder);
             }
 
