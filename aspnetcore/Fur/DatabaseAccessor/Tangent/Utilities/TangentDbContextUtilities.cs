@@ -307,7 +307,7 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
         {
             var name = dbProcedureAttribute.Name;
 
-            if (dbProcedureAttribute.WithOutputOrReturn)
+            if (dbProcedureAttribute.HasFeedback)
             {
                 if (tangentMethod.ActReturnType == typeof(void)) return tangentMethod.ReturnType;
                 {
@@ -359,7 +359,7 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
         {
             var name = dbProcedureAttribute.Name;
 
-            if (dbProcedureAttribute.WithOutputOrReturn)
+            if (dbProcedureAttribute.HasFeedback)
             {
                 if (tangentMethod.ActReturnType == typeof(void)) return tangentMethod.ReturnType;
                 {

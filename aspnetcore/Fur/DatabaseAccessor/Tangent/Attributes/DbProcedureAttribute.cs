@@ -23,8 +23,8 @@ namespace Fur.DatabaseAccessor.Tangent.Attributes
         #endregion
 
         /// <summary>
-        /// 是否带输入值或返回值
+        /// 是否带输入值或返回值（回馈值）
         /// </summary>
-        public bool WithOutputOrReturn { get; set; } = false;
+        public bool HasFeedback { get; set; } = false;
     }
 }
