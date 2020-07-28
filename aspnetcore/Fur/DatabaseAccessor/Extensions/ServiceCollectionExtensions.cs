@@ -2,8 +2,10 @@
 using Fur.DatabaseAccessor.Interceptors;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Linq;
 
 namespace Fur.DatabaseAccessor.Extensions.Services
 {
@@ -13,7 +15,7 @@ namespace Fur.DatabaseAccessor.Extensions.Services
     [NonWrapper]
     public static class ServiceCollectionExtensions
     {
-        #region 配置数据库上下文池 + public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 100)
+        #region 配置数据库上下文池 + public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 100, params IInterceptor[] interceptors)
         /// <summary>
         /// 配置数据库上下文池
         /// </summary>
@@ -22,8 +24,9 @@ namespace Fur.DatabaseAccessor.Extensions.Services
         /// <param name="connectionString">数据库连接字符串</param>
         /// <param name="env">web环境</param>
         /// <param name="poolSize">数据库上下文池最大存放数量</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns><see cref="IServiceCollection"/></returns>
-        public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 100)
+        public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 100, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             //services.AddEntityFrameworkSqlServer();
@@ -35,8 +38,14 @@ namespace Fur.DatabaseAccessor.Extensions.Services
                                 .EnableDetailedErrors()
                                 .EnableSensitiveDataLogging();
                 }
-                options.UseSqlServer(connectionString/*, options => options.EnableRetryOnFailure()*/)
-                            .AddInterceptors(new SqlConnectionProfilerInterceptor());
+                options.UseSqlServer(connectionString/*, options => options.EnableRetryOnFailure()*/);
+
+                if (interceptors == null || !interceptors.Any())
+                {
+                    interceptors = new IInterceptor[] { new SqlConnectionProfilerInterceptor() };
+                }
+                options.AddInterceptors(interceptors);
+
                 //options.UseInternalServiceProvider(serviceProvider);
             }
             , poolSize: poolSize);
@@ -55,8 +64,9 @@ namespace Fur.DatabaseAccessor.Extensions.Services
         /// <param name="services">服务集合</param>
         /// <param name="connectionString">数据库连接字符串</param>
         /// <param name="env">web环境</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns><see cref="IServiceCollection"/></returns>
-        public static IServiceCollection AddFurSqlServerDbContext<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env)
+        public static IServiceCollection AddFurSqlServerDbContext<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             //services.AddEntityFrameworkSqlServer();
@@ -68,8 +78,14 @@ namespace Fur.DatabaseAccessor.Extensions.Services
                                 .EnableDetailedErrors()
                                 .EnableSensitiveDataLogging();
                 }
-                options.UseSqlServer(connectionString/*, options => options.EnableRetryOnFailure()*/)
-                            .AddInterceptors(new SqlConnectionProfilerInterceptor());
+                options.UseSqlServer(connectionString/*, options => options.EnableRetryOnFailure()*/);
+
+                if (interceptors == null || !interceptors.Any())
+                {
+                    interceptors = new IInterceptor[] { new SqlConnectionProfilerInterceptor() };
+                }
+                options.AddInterceptors(interceptors);
+
                 //options.UseInternalServiceProvider(serviceProvider);
             });
 
