@@ -1,4 +1,5 @@
-﻿using Fur.DatabaseAccessor.Models.Entities;
+﻿using Fur.DatabaseAccessor.Extensions;
+using Fur.DatabaseAccessor.Models.Entities;
 using Fur.DatabaseAccessor.Repositories.Providers;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
@@ -353,11 +354,22 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="EntityEntry(TEntity)"/></returns>
         public virtual EntityEntry<TEntity> FakeDelete(TEntity entity)
         {
-            if (_fakeDeleteProvider == null) throw new ArgumentNullException($"{nameof(IFakeDeleteProvider)} is not implemented.");
+            PropertyEntry propertyEntry;
+            (string propertyName, object flagValue) propertyData;
+
+            if (_fakeDeleteProvider == null) propertyData = (nameof(DbEntity.IsDeleted), true);
+            else
+            {
+                propertyData = (_fakeDeleteProvider.Property, _fakeDeleteProvider.FlagValue);
+            }
 
             var entityEntry = Attach(entity);
-            EntityEntryProperty(entityEntry, _fakeDeleteProvider.Property).CurrentValue = _fakeDeleteProvider.FlagValue;
-            return UpdateIncludeProperties(entity, _fakeDeleteProvider.Property);
+            propertyEntry = entityEntry.GetProperty(propertyData.propertyName);
+
+            if (propertyEntry == null) throw new ArgumentNullException($"{nameof(IFakeDeleteProvider)} is not implemented.");
+
+            propertyEntry.CurrentValue = propertyData.flagValue;
+            return UpdateIncludeProperties(entity, propertyData.propertyName);
         }
 
         #endregion
@@ -387,12 +399,22 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity)
         {
-            if (_fakeDeleteProvider == null) throw new ArgumentNullException($"{nameof(IFakeDeleteProvider)} is not implemented.");
+            PropertyEntry propertyEntry;
+            (string propertyName, object flagValue) propertyData;
+
+            if (_fakeDeleteProvider == null) propertyData = (nameof(DbEntity.IsDeleted), true);
+            else
+            {
+                propertyData = (_fakeDeleteProvider.Property, _fakeDeleteProvider.FlagValue);
+            }
 
             var entityEntry = Attach(entity);
-            EntityEntryProperty(entityEntry, _fakeDeleteProvider.Property).CurrentValue = _fakeDeleteProvider.FlagValue;
+            propertyEntry = entityEntry.GetProperty(propertyData.propertyName);
 
-            return UpdateIncludePropertiesAsync(entity, _fakeDeleteProvider.Property);
+            if (propertyEntry == null) throw new ArgumentNullException($"{nameof(IFakeDeleteProvider)} is not implemented.");
+
+            propertyEntry.CurrentValue = propertyData.flagValue;
+            return UpdateIncludePropertiesAsync(entity, propertyData.propertyName);
         }
 
         #endregion

@@ -1,4 +1,5 @@
-﻿using Fur.DatabaseAccessor.Extensions;
+﻿using Fur.ApplicationBase;
+using Fur.DatabaseAccessor.Extensions;
 using Fur.DatabaseAccessor.Models.Entities;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
@@ -199,10 +200,11 @@ namespace Fur.DatabaseAccessor.Repositories
 
                 _maintenanceInterceptor?.Inserted(entityEntry);
 
-                // 更新多租户信息
-                var tenantIdProperty = entityEntry.GetProperty(nameof(DbEntityBase.TenantId));
-                if (tenantIdProperty != null && TenantId.HasValue)
+                if (AppGlobal.SupportedMultipleTenant)
                 {
+                    var tenantIdProperty = entityEntry.GetProperty(nameof(DbEntityBase.TenantId));
+                    if (tenantIdProperty == null) throw new ArgumentNullException($"Not found the {nameof(DbEntityBase.TenantId)} Column.");
+
                     tenantIdProperty.CurrentValue = TenantId.Value;
                 }
             }

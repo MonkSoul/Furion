@@ -6,6 +6,6 @@ namespace Fur.DatabaseAccessor.Repositories.Providers
     {
         public string Property => nameof(DbEntity.IsDeleted);
 
-        public object FlagValue => 1;
+        public object FlagValue => true;
     }
 }

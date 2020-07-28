@@ -33,7 +33,7 @@ namespace Fur.DatabaseAccessor.Repositories.Interceptors
         public void Updated(EntityEntry entityEntry)
         {
             var property = entityEntry.GetProperty(nameof(DbEntity.CreatedTime));
-            if (property != null)
+            if (property != null && property.IsModified)
             {
                 property.IsModified = false;
             }
