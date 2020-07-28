@@ -29,7 +29,7 @@ namespace Fur.DatabaseAccessor.Interceptors
         /// <returns><see cref="InterceptionResult"/></returns>
         public override InterceptionResult ConnectionOpening(DbConnection connection, ConnectionEventData eventData, InterceptionResult result)
         {
-            MiniProfiler.Current.CustomTiming(miniProfilerName, $"Connection: {eventData.ConnectionId}/{connection.ConnectionString}", "String");
+            MiniProfiler.Current.CustomTiming(miniProfilerName, $"Connection: [Id: {eventData.ConnectionId}] / [Database: {connection.Database}] / [Connection String: {connection.ConnectionString}]", "String");
             return base.ConnectionOpening(connection, eventData, result);
         }
         #endregion
@@ -45,7 +45,7 @@ namespace Fur.DatabaseAccessor.Interceptors
         /// <returns><see cref="ValueTask{TResult}"/></returns>
         public override ValueTask<InterceptionResult> ConnectionOpeningAsync(DbConnection connection, ConnectionEventData eventData, InterceptionResult result, CancellationToken cancellationToken = default)
         {
-            MiniProfiler.Current.CustomTiming(miniProfilerName, $"Connection: {eventData.ConnectionId}/{connection.ConnectionString}", "String (Async)");
+            MiniProfiler.Current.CustomTiming(miniProfilerName, $"Connection: [Id: {eventData.ConnectionId}] / [Database: {connection.Database}] / [Connection String: {connection.ConnectionString}]", "String (Async)");
             return base.ConnectionOpeningAsync(connection, eventData, result, cancellationToken);
         }
         #endregion
