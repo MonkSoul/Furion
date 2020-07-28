@@ -8,7 +8,7 @@ namespace Fur.DatabaseAccessor.MultipleTenants
     /// <summary>
     /// 多租户数据库上下文
     /// </summary>
-    public class FurMultipleTenantDbContext : FurDbContextOfT<FurMultipleTenantDbContext, FurMultipleTenantDbContextIdentifier>
+    public class FurMultipleTenantDbContext : FurDbContextOfT<FurMultipleTenantDbContext, FurMultipleTenanTDbContextLocator>
     {
         #region 构造函数 + public FurMultiTenantDbContext(DbContextOptions<FurMultiTenantDbContext> options)
         /// <summary>

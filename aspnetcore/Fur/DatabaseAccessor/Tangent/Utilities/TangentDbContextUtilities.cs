@@ -417,8 +417,8 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
 
             var tangentAttribute = method.GetCustomAttribute<TangentAttribute>(true);
 
-            var dbContextIdentifier = tangentAttribute.DbContextIdentifier;
-            var dbContext = dbContextIdentifier != null ? lifetimeScope.ResolveNamed<DbContext>(dbContextIdentifier.Name) : lifetimeScope.Resolve<DbContext>();
+            var dbContextLocator = tangentAttribute.DbContextLocator;
+            var dbContext = dbContextLocator != null ? lifetimeScope.ResolveNamed<DbContext>(dbContextLocator.Name) : lifetimeScope.Resolve<DbContext>();
 
             var dbContextPool = lifetimeScope.Resolve<IDbContextPool>();
             dbContextPool.SaveDbContext(dbContext);

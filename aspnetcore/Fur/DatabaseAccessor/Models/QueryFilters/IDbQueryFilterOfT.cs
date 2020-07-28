@@ -1,4 +1,4 @@
-﻿using Fur.DatabaseAccessor.Contexts.Identifiers;
+﻿using Fur.DatabaseAccessor.Contexts.Locators;
 using Fur.DatabaseAccessor.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -31,10 +31,10 @@ namespace Fur.DatabaseAccessor.Models.QueryFilters
     /// <para>支持多数据库上下文配置</para>
     /// </summary>
     /// <typeparam name="TEntity">实体</typeparam>
-    /// <typeparam name="TDbContextIdentifier1">数据库上下文标识器</typeparam>
-    public interface IDbQueryFilterOfT<TEntity, TDbContextIdentifier1> : IDbQueryFilterOfT<TEntity>
+    /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
+    public interface IDbQueryFilterOfT<TEntity, TDbContextLocator1> : IDbQueryFilterOfT<TEntity>
         where TEntity : IDbEntityBase
-        where TDbContextIdentifier1 : IDbContextIdentifier
+        where TDbContextLocator1 : IDbContextLocator
     {
     }
 
@@ -44,12 +44,12 @@ namespace Fur.DatabaseAccessor.Models.QueryFilters
     /// <para>支持多数据库上下文配置</para>
     /// </summary>
     /// <typeparam name="TEntity">实体</typeparam>
-    /// <typeparam name="TDbContextIdentifier1">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier2">数据库上下文标识器</typeparam>
-    public interface IDbQueryFilterOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2> : IDbQueryFilterOfT<TEntity>
+    /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
+    public interface IDbQueryFilterOfT<TEntity, TDbContextLocator1, TDbContextLocator2> : IDbQueryFilterOfT<TEntity>
         where TEntity : IDbEntityBase
-        where TDbContextIdentifier1 : IDbContextIdentifier
-        where TDbContextIdentifier2 : IDbContextIdentifier
+        where TDbContextLocator1 : IDbContextLocator
+        where TDbContextLocator2 : IDbContextLocator
     {
     }
 
@@ -59,14 +59,14 @@ namespace Fur.DatabaseAccessor.Models.QueryFilters
     /// <para>支持多数据库上下文配置</para>
     /// </summary>
     /// <typeparam name="TEntity">实体</typeparam>
-    /// <typeparam name="TDbContextIdentifier1">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier2">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier3">数据库上下文标识器</typeparam>
-    public interface IDbQueryFilterOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2, TDbContextIdentifier3> : IDbQueryFilterOfT<TEntity>
+    /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
+    public interface IDbQueryFilterOfT<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3> : IDbQueryFilterOfT<TEntity>
         where TEntity : IDbEntityBase
-        where TDbContextIdentifier1 : IDbContextIdentifier
-        where TDbContextIdentifier2 : IDbContextIdentifier
-        where TDbContextIdentifier3 : IDbContextIdentifier
+        where TDbContextLocator1 : IDbContextLocator
+        where TDbContextLocator2 : IDbContextLocator
+        where TDbContextLocator3 : IDbContextLocator
     {
     }
 
@@ -76,16 +76,16 @@ namespace Fur.DatabaseAccessor.Models.QueryFilters
     /// <para>支持多数据库上下文配置</para>
     /// </summary>
     /// <typeparam name="TEntity">实体</typeparam>
-    /// <typeparam name="TDbContextIdentifier1">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier2">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier3">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier4">数据库上下文标识器</typeparam>
-    public interface IDbQueryFilterOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2, TDbContextIdentifier3, TDbContextIdentifier4> : IDbQueryFilterOfT<TEntity>
+    /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
+    public interface IDbQueryFilterOfT<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4> : IDbQueryFilterOfT<TEntity>
         where TEntity : IDbEntityBase
-        where TDbContextIdentifier1 : IDbContextIdentifier
-        where TDbContextIdentifier2 : IDbContextIdentifier
-        where TDbContextIdentifier3 : IDbContextIdentifier
-        where TDbContextIdentifier4 : IDbContextIdentifier
+        where TDbContextLocator1 : IDbContextLocator
+        where TDbContextLocator2 : IDbContextLocator
+        where TDbContextLocator3 : IDbContextLocator
+        where TDbContextLocator4 : IDbContextLocator
     {
     }
 
@@ -95,18 +95,18 @@ namespace Fur.DatabaseAccessor.Models.QueryFilters
     /// <para>支持多数据库上下文配置</para>
     /// </summary>
     /// <typeparam name="TEntity">实体</typeparam>
-    /// <typeparam name="TDbContextIdentifier1">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier2">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier3">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier4">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier5">数据库上下文标识器</typeparam>
-    public interface IDbQueryFilterOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2, TDbContextIdentifier3, TDbContextIdentifier4, TDbContextIdentifier5> : IDbQueryFilterOfT<TEntity>
+    /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
+    public interface IDbQueryFilterOfT<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5> : IDbQueryFilterOfT<TEntity>
         where TEntity : IDbEntityBase
-        where TDbContextIdentifier1 : IDbContextIdentifier
-        where TDbContextIdentifier2 : IDbContextIdentifier
-        where TDbContextIdentifier3 : IDbContextIdentifier
-        where TDbContextIdentifier4 : IDbContextIdentifier
-        where TDbContextIdentifier5 : IDbContextIdentifier
+        where TDbContextLocator1 : IDbContextLocator
+        where TDbContextLocator2 : IDbContextLocator
+        where TDbContextLocator3 : IDbContextLocator
+        where TDbContextLocator4 : IDbContextLocator
+        where TDbContextLocator5 : IDbContextLocator
     {
     }
 
@@ -116,20 +116,20 @@ namespace Fur.DatabaseAccessor.Models.QueryFilters
     /// <para>支持多数据库上下文配置</para>
     /// </summary>
     /// <typeparam name="TEntity">实体</typeparam>
-    /// <typeparam name="TDbContextIdentifier1">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier2">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier3">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier4">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier5">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier6">数据库上下文标识器</typeparam>
-    public interface IDbQueryFilterOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2, TDbContextIdentifier3, TDbContextIdentifier4, TDbContextIdentifier5, TDbContextIdentifier6> : IDbQueryFilterOfT<TEntity>
+    /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
+    public interface IDbQueryFilterOfT<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6> : IDbQueryFilterOfT<TEntity>
         where TEntity : IDbEntityBase
-        where TDbContextIdentifier1 : IDbContextIdentifier
-        where TDbContextIdentifier2 : IDbContextIdentifier
-        where TDbContextIdentifier3 : IDbContextIdentifier
-        where TDbContextIdentifier4 : IDbContextIdentifier
-        where TDbContextIdentifier5 : IDbContextIdentifier
-        where TDbContextIdentifier6 : IDbContextIdentifier
+        where TDbContextLocator1 : IDbContextLocator
+        where TDbContextLocator2 : IDbContextLocator
+        where TDbContextLocator3 : IDbContextLocator
+        where TDbContextLocator4 : IDbContextLocator
+        where TDbContextLocator5 : IDbContextLocator
+        where TDbContextLocator6 : IDbContextLocator
     {
     }
 
@@ -139,22 +139,22 @@ namespace Fur.DatabaseAccessor.Models.QueryFilters
     /// <para>支持多数据库上下文配置</para>
     /// </summary>
     /// <typeparam name="TEntity">实体</typeparam>
-    /// <typeparam name="TDbContextIdentifier1">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier2">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier3">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier4">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier5">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier6">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier7">数据库上下文标识器</typeparam>
-    public interface IDbQueryFilterOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2, TDbContextIdentifier3, TDbContextIdentifier4, TDbContextIdentifier5, TDbContextIdentifier6, TDbContextIdentifier7> : IDbQueryFilterOfT<TEntity>
+    /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
+    public interface IDbQueryFilterOfT<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7> : IDbQueryFilterOfT<TEntity>
         where TEntity : IDbEntityBase
-        where TDbContextIdentifier1 : IDbContextIdentifier
-        where TDbContextIdentifier2 : IDbContextIdentifier
-        where TDbContextIdentifier3 : IDbContextIdentifier
-        where TDbContextIdentifier4 : IDbContextIdentifier
-        where TDbContextIdentifier5 : IDbContextIdentifier
-        where TDbContextIdentifier6 : IDbContextIdentifier
-        where TDbContextIdentifier7 : IDbContextIdentifier
+        where TDbContextLocator1 : IDbContextLocator
+        where TDbContextLocator2 : IDbContextLocator
+        where TDbContextLocator3 : IDbContextLocator
+        where TDbContextLocator4 : IDbContextLocator
+        where TDbContextLocator5 : IDbContextLocator
+        where TDbContextLocator6 : IDbContextLocator
+        where TDbContextLocator7 : IDbContextLocator
     {
     }
 
@@ -164,24 +164,24 @@ namespace Fur.DatabaseAccessor.Models.QueryFilters
     /// <para>支持多数据库上下文配置</para>
     /// </summary>
     /// <typeparam name="TEntity">实体</typeparam>
-    /// <typeparam name="TDbContextIdentifier1">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier2">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier3">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier4">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier5">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier6">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier7">数据库上下文标识器</typeparam>
-    /// <typeparam name="TDbContextIdentifier8">数据库上下文标识器</typeparam>
-    public interface IDbQueryFilterOfT<TEntity, TDbContextIdentifier1, TDbContextIdentifier2, TDbContextIdentifier3, TDbContextIdentifier4, TDbContextIdentifier5, TDbContextIdentifier6, TDbContextIdentifier7, TDbContextIdentifier8> : IDbQueryFilterOfT<TEntity>
+    /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
+    /// <typeparam name="TDbContextLocator8">数据库上下文定位器</typeparam>
+    public interface IDbQueryFilterOfT<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7, TDbContextLocator8> : IDbQueryFilterOfT<TEntity>
         where TEntity : IDbEntityBase
-        where TDbContextIdentifier1 : IDbContextIdentifier
-        where TDbContextIdentifier2 : IDbContextIdentifier
-        where TDbContextIdentifier3 : IDbContextIdentifier
-        where TDbContextIdentifier4 : IDbContextIdentifier
-        where TDbContextIdentifier5 : IDbContextIdentifier
-        where TDbContextIdentifier6 : IDbContextIdentifier
-        where TDbContextIdentifier7 : IDbContextIdentifier
-        where TDbContextIdentifier8 : IDbContextIdentifier
+        where TDbContextLocator1 : IDbContextLocator
+        where TDbContextLocator2 : IDbContextLocator
+        where TDbContextLocator3 : IDbContextLocator
+        where TDbContextLocator4 : IDbContextLocator
+        where TDbContextLocator5 : IDbContextLocator
+        where TDbContextLocator6 : IDbContextLocator
+        where TDbContextLocator7 : IDbContextLocator
+        where TDbContextLocator8 : IDbContextLocator
     {
     }
 }

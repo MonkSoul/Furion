@@ -1,4 +1,4 @@
-﻿using Fur.DatabaseAccessor.Contexts.Identifiers;
+﻿using Fur.DatabaseAccessor.Contexts.Locators;
 using Fur.DatabaseAccessor.Models.Entities;
 
 namespace Fur.DatabaseAccessor.Repositories.Multiple
@@ -7,10 +7,10 @@ namespace Fur.DatabaseAccessor.Repositories.Multiple
     /// 泛型多上下文仓储接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    /// <typeparam name="TDbContextIdentifier">数据库上下文标识</typeparam>
-    public partial interface IRepositoryOfT<TEntity, TDbContextIdentifier> : IRepositoryOfT<TEntity>
+    /// <typeparam name="TDbContextLocator">数据库上下文标识</typeparam>
+    public partial interface IRepositoryOfT<TEntity, TDbContextLocator> : IRepositoryOfT<TEntity>
         where TEntity : class, IDbEntityBase, new()
-        where TDbContextIdentifier : IDbContextIdentifier
+        where TDbContextLocator : IDbContextLocator
     {
     }
 }

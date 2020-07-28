@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Fur.DatabaseAccessor.Contexts.Identifiers;
+using Fur.DatabaseAccessor.Contexts.Locators;
 using Fur.DatabaseAccessor.Contexts.Pools;
 using Fur.DatabaseAccessor.Models.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +10,10 @@ namespace Fur.DatabaseAccessor.Repositories.Multiple
     /// 泛型多上下文仓储实现类
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TDbContextIdentifier"></typeparam>
-    public partial class EFCoreRepositoryOfT<TEntity, TDbContextIdentifier> : EFCoreRepositoryOfT<TEntity>, IRepositoryOfT<TEntity, TDbContextIdentifier>
+    /// <typeparam name="TDbContextLocator"></typeparam>
+    public partial class EFCoreRepositoryOfT<TEntity, TDbContextLocator> : EFCoreRepositoryOfT<TEntity>, IRepositoryOfT<TEntity, TDbContextLocator>
         where TEntity : class, IDbEntityBase, new()
-        where TDbContextIdentifier : IDbContextIdentifier
+        where TDbContextLocator : IDbContextLocator
     {
         #region 构造函数 + public MultipleDbContextEFCoreRepositoryOfT(ILifetimeScope lifetimeScope,IDbContextPool dbContextPool)
 
@@ -25,7 +25,7 @@ namespace Fur.DatabaseAccessor.Repositories.Multiple
         public EFCoreRepositoryOfT(
             ILifetimeScope lifetimeScope
             , IDbContextPool dbContextPool)
-            : base(lifetimeScope.ResolveNamed<DbContext>(typeof(TDbContextIdentifier).Name), lifetimeScope, dbContextPool)
+            : base(lifetimeScope.ResolveNamed<DbContext>(typeof(TDbContextLocator).Name), lifetimeScope, dbContextPool)
         {
         }
 

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Fur.DatabaseAccessor.Extensions
 {
@@ -56,9 +57,10 @@ namespace Fur.DatabaseAccessor.Extensions
             var constantKey = Expression.Constant(propertyName);
             var constantValue = Expression.Constant(propertyValue);
 
-            var expressionBody = Expression.Equal(Expression.Call(typeof(EF).GetMethod("Property").MakeGenericMethod(typeof(TProperty)), leftParameter, constantKey), constantValue);
+            var expressionBody = Expression.Equal(Expression.Call(EFPropertyMethod.MakeGenericMethod(typeof(TProperty)), leftParameter, constantKey), constantValue);
             return Expression.Lambda(expressionBody, leftParameter);
         }
+        private static readonly MethodInfo EFPropertyMethod = typeof(EF).GetMethod("Property");
         #endregion
     }
 }

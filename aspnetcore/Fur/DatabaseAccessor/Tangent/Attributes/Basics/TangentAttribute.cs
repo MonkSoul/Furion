@@ -10,9 +10,9 @@ namespace Fur.DatabaseAccessor.Tangent.Attributes.Basics
     public class TangentAttribute : Attribute
     {
         /// <summary>
-        /// 数据库上下文标识类
+        /// 数据库上下文定位器
         /// </summary>
-        public Type DbContextIdentifier { get; set; }
+        public Type DbContextLocator { get; set; }
 
         /// <summary>
         /// 数据库执行返回值原类型

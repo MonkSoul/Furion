@@ -25,7 +25,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
 {
     /// <summary>
     /// Fur 数据库上下文状态器
-    /// <para>解决 <see cref="FurDbContextOfT{TDbContext, TDbContextIdentifier}"/> 重复初始化问题</para>
+    /// <para>解决 <see cref="FurDbContextOfT{TDbContext, TDbContextLocator}"/> 重复初始化问题</para>
     /// </summary>
     [NonWrapper]
     internal static class FurDbContextOfTStater
@@ -71,18 +71,18 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         }
         #endregion
 
-        #region 扫描数据库对象类型加入模型构建器中 +private static void ScanDbObjectsToBuilding(ModelBuilder modelBuilder, Type dbContextIdentifierType, DbContext dbContext)
+        #region 扫描数据库对象类型加入模型构建器中 +private static void ScanDbObjectsToBuilding(ModelBuilder modelBuilder, Type dbContextLocatorType, DbContext dbContext)
         /// <summary>
         /// 扫描数据库对象类型加入模型构建器中
         /// <para>包括视图、存储过程、函数（标量函数/表值函数）初始化、及种子数据、查询筛选器配置</para>
         /// </summary>
         /// <param name="modelBuilder">模型上下文</param>
-        /// <param name="dbContextIdentifierType">数据库上下文标识器</param>
+        /// <param name="dbContextLocatorType">数据库上下文定位器</param>
         /// <param name="dbContext">数据库上下文</param>
-        internal static void ScanDbObjectsToBuilding(ModelBuilder modelBuilder, Type dbContextIdentifierType, DbContext dbContext)
+        internal static void ScanDbObjectsToBuilding(ModelBuilder modelBuilder, Type dbContextLocatorType, DbContext dbContext)
         {
             // 查找当前上下文相关联的类型
-            var dbContextEntityTypes = _includeDbEntityDefinedTypes.Where(u => IsThisDbContextEntityType(u, dbContextIdentifierType));
+            var dbContextEntityTypes = _includeDbEntityDefinedTypes.Where(u => IsThisDbContextEntityType(u, dbContextLocatorType));
             if (dbContextEntityTypes.Count() == 0) goto DbFunctionConfigure;
 
             var dbContextType = dbContext.GetType();
@@ -96,46 +96,46 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 DbContextQueryFilterConfigure(dbContext, dbContextType, modelBuilder, dbEntityType, hasDbContextQueryFilter, ref entityTypeBuilder);
 
                 // 配置数据库无键实体
-                DbNoKeyEntityConfigure(dbEntityType, modelBuilder, dbContextIdentifierType, ref entityTypeBuilder);
+                DbNoKeyEntityConfigure(dbEntityType, modelBuilder, dbContextLocatorType, ref entityTypeBuilder);
 
                 // 配置数据库实体类型构建器
-                DbEntityTypeBuilderConfigure(dbEntityType, modelBuilder, dbContextIdentifierType, ref entityTypeBuilder);
+                DbEntityTypeBuilderConfigure(dbEntityType, modelBuilder, dbContextLocatorType, ref entityTypeBuilder);
 
                 // 配置数据库种子数据
-                DbSeedDataConfigure(dbEntityType, modelBuilder, dbContext, dbContextIdentifierType, ref entityTypeBuilder);
+                DbSeedDataConfigure(dbEntityType, modelBuilder, dbContext, dbContextLocatorType, ref entityTypeBuilder);
 
                 // 配置数据库查询筛选器
-                DbQueryFilterConfigure(dbEntityType, modelBuilder, dbContext, dbContextIdentifierType, ref entityTypeBuilder);
+                DbQueryFilterConfigure(dbEntityType, modelBuilder, dbContext, dbContextLocatorType, ref entityTypeBuilder);
 
                 // 配置模型
                 CreateDbEntityTypeBuilderIfNull(modelBuilder, dbEntityType, ref entityTypeBuilder);
             }
 
             // 配置数据库函数
-            DbFunctionConfigure: DbFunctionConfigure(modelBuilder, dbContextIdentifierType);
+            DbFunctionConfigure: DbFunctionConfigure(modelBuilder, dbContextLocatorType);
         }
         #endregion
 
 
-        #region 配置数据库无键实体 + private static void DbNoKeyEntityConfigure(Type dbEntityType, ModelBuilder modelBuilder, Type dbContextIdentifierType, ref EntityTypeBuilder entityTypeBuilder)
+        #region 配置数据库无键实体 + private static void DbNoKeyEntityConfigure(Type dbEntityType, ModelBuilder modelBuilder, Type dbContextLocatorType, ref EntityTypeBuilder entityTypeBuilder)
         /// <summary>
         /// 配置数据库无键实体
         /// <para>只有继承 IDbNoKeyEntity 接口的类型才是数据库无键实体</para>
         /// </summary>
         /// <param name="dbEntityType">数据库实体类型</param>
         /// <param name="modelBuilder">模型构建器</param>
-        /// <param name="dbContextIdentifierType">数据库上下文标识器</param>
+        /// <param name="dbContextLocatorType">数据库上下文定位器</param>
         /// <param name="entityTypeBuilder">实体类型构建器</param>
-        private static void DbNoKeyEntityConfigure(Type dbEntityType, ModelBuilder modelBuilder, Type dbContextIdentifierType, ref EntityTypeBuilder entityTypeBuilder)
+        private static void DbNoKeyEntityConfigure(Type dbEntityType, ModelBuilder modelBuilder, Type dbContextLocatorType, ref EntityTypeBuilder entityTypeBuilder)
         {
             if (!typeof(IDbNoKeyEntity).IsAssignableFrom(dbEntityType)) return;
 
             var dbNoKeyEntityGenericArguments = dbEntityType.GetTypeGenericArguments(typeof(IDbNoKeyEntity), GenericArgumentSourceOptions.BaseType);
             if (dbNoKeyEntityGenericArguments != null)
             {
-                var dbContextIdentifierTypes = dbNoKeyEntityGenericArguments.Skip(1);
+                var dbContextLocators = dbNoKeyEntityGenericArguments.Skip(1);
 
-                if (CheckIsInDbContextIdentifierTypes(dbContextIdentifierTypes, dbContextIdentifierType))
+                if (CheckIsInDbContextLocators(dbContextLocators, dbContextLocatorType))
                 {
                     CreateDbEntityTypeBuilderIfNull(modelBuilder, dbEntityType, ref entityTypeBuilder);
 
@@ -146,22 +146,22 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         }
         #endregion
 
-        #region 配置数据库实体类型构建器 + private static void DbEntityTypeBuilderConfigure(Type dbEntityType, ModelBuilder modelBuilder, Type dbContextIdentifierType, ref EntityTypeBuilder entityTypeBuilder)
+        #region 配置数据库实体类型构建器 + private static void DbEntityTypeBuilderConfigure(Type dbEntityType, ModelBuilder modelBuilder, Type dbContextLocatorType, ref EntityTypeBuilder entityTypeBuilder)
         /// <summary>
         /// 配置数据库实体类型构建器
         /// <para>该配置会在所有配置接口之前运行，确保后续可复写</para>
         /// </summary>
         /// <param name="dbEntityType">数据库实体类型</param>
         /// <param name="modelBuilder">模型构建器</param>
-        /// <param name="dbContextIdentifierType">数据库上下文标识器</param>
+        /// <param name="dbContextLocatorType">数据库上下文定位器</param>
         /// <param name="entityTypeBuilder">实体类型构建器</param>
-        private static void DbEntityTypeBuilderConfigure(Type dbEntityType, ModelBuilder modelBuilder, Type dbContextIdentifierType, ref EntityTypeBuilder entityTypeBuilder)
+        private static void DbEntityTypeBuilderConfigure(Type dbEntityType, ModelBuilder modelBuilder, Type dbContextLocatorType, ref EntityTypeBuilder entityTypeBuilder)
         {
             var dbEntityBuilderGenericArguments = dbEntityType.GetTypeGenericArguments(typeof(IDbEntityBuilder), GenericArgumentSourceOptions.Interface);
             if (dbEntityBuilderGenericArguments != null)
             {
-                var dbContextIdentifierTypes = dbEntityBuilderGenericArguments.Skip(1);
-                if (CheckIsInDbContextIdentifierTypes(dbContextIdentifierTypes, dbContextIdentifierType))
+                var dbContextLocators = dbEntityBuilderGenericArguments.Skip(1);
+                if (CheckIsInDbContextLocators(dbContextLocators, dbContextLocatorType))
                 {
                     CreateDbEntityTypeBuilderIfNull(modelBuilder, dbEntityBuilderGenericArguments.First(), ref entityTypeBuilder);
 
@@ -175,16 +175,16 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         }
         #endregion
 
-        #region 配置数据库种子数据 + private static void DbSeedDataConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextIdentifierType, ref EntityTypeBuilder entityTypeBuilder)
+        #region 配置数据库种子数据 + private static void DbSeedDataConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextLocatorType, ref EntityTypeBuilder entityTypeBuilder)
         /// <summary>
         /// 配置数据库种子数据
         /// </summary>
         /// <param name="dbEntityType">数据库实体类型</param>
         /// <param name="modelBuilder">模型构建器</param>
         /// <param name="dbContext">数据库上下文</param>
-        /// <param name="dbContextIdentifierType">数据库上下文构建器</param>
+        /// <param name="dbContextLocatorType">数据库上下文构建器</param>
         /// <param name="entityTypeBuilder">实体类型构建器</param>
-        private static void DbSeedDataConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextIdentifierType, ref EntityTypeBuilder entityTypeBuilder)
+        private static void DbSeedDataConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextLocatorType, ref EntityTypeBuilder entityTypeBuilder)
         {
             if (typeof(IDbNoKeyEntity).IsAssignableFrom(dbEntityType)) return;
 
@@ -192,9 +192,9 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
 
             if (dbSeedDataGenericArguments != null)
             {
-                var dbContextIdentifierTypes = dbSeedDataGenericArguments.Skip(1);
+                var dbContextLocators = dbSeedDataGenericArguments.Skip(1);
 
-                if (CheckIsInDbContextIdentifierTypes(dbContextIdentifierTypes, dbContextIdentifierType))
+                if (CheckIsInDbContextLocators(dbContextLocators, dbContextLocatorType))
                 {
                     CreateDbEntityTypeBuilderIfNull(modelBuilder, dbSeedDataGenericArguments.First(), ref entityTypeBuilder);
 
@@ -212,22 +212,22 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         }
         #endregion
 
-        #region 配置数据库查询筛选器 + private static void DbQueryFilterConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextIdentifierType, ref EntityTypeBuilder entityTypeBuilder)
+        #region 配置数据库查询筛选器 + private static void DbQueryFilterConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextLocatorType, ref EntityTypeBuilder entityTypeBuilder)
         /// <summary>
         /// 配置数据库查询筛选器
         /// </summary>
         /// <param name="dbEntityType">数据库实体类型</param>
         /// <param name="modelBuilder">模型构建器</param>
         /// <param name="dbContext">数据库上下文</param>
-        /// <param name="dbContextIdentifierType">数据库上下文标识器</param>
+        /// <param name="dbContextLocatorType">数据库上下文定位器</param>
         /// <param name="entityTypeBuilder">实体类型构建器</param>
-        private static void DbQueryFilterConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextIdentifierType, ref EntityTypeBuilder entityTypeBuilder)
+        private static void DbQueryFilterConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextLocatorType, ref EntityTypeBuilder entityTypeBuilder)
         {
             var dbQueryFilterGenericArguments = dbEntityType.GetTypeGenericArguments(typeof(IDbQueryFilter), GenericArgumentSourceOptions.Interface);
             if (dbQueryFilterGenericArguments != null)
             {
-                var dbContextIdentifierTypes = dbQueryFilterGenericArguments.Skip(1);
-                if (CheckIsInDbContextIdentifierTypes(dbContextIdentifierTypes, dbContextIdentifierType))
+                var dbContextLocators = dbQueryFilterGenericArguments.Skip(1);
+                if (CheckIsInDbContextLocators(dbContextLocators, dbContextLocatorType))
                 {
                     CreateDbEntityTypeBuilderIfNull(modelBuilder, dbQueryFilterGenericArguments.First(), ref entityTypeBuilder);
 
@@ -248,15 +248,15 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         }
         #endregion
 
-        #region 配置数据库函数类型 + private static void DbFunctionConfigure(ModelBuilder modelBuilder, Type dbContextIdentifierType)
+        #region 配置数据库函数类型 + private static void DbFunctionConfigure(ModelBuilder modelBuilder, Type dbContextLocatorType)
         /// <summary>
         /// 配置数据库函数类型
         /// </summary>
         /// <param name="modelBuilder">模型构建器</param>
-        /// <param name="dbContextIdentifierType">数据库上下文标识器</param>
-        private static void DbFunctionConfigure(ModelBuilder modelBuilder, Type dbContextIdentifierType)
+        /// <param name="dbContextLocatorType">数据库上下文定位器</param>
+        private static void DbFunctionConfigure(ModelBuilder modelBuilder, Type dbContextLocatorType)
         {
-            var dbFunctionMethods = _dbFunctionMethods.Where(u => IsThisDbContextDbFunction(u, dbContextIdentifierType));
+            var dbFunctionMethods = _dbFunctionMethods.Where(u => IsThisDbContextDbFunction(u, dbContextLocatorType));
 
             foreach (var dbFunction in dbFunctionMethods)
             {
@@ -292,14 +292,14 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         #endregion
 
 
-        #region 判断该类型是否是当前数据库上下文的实体类型或包含实体的类型 + private static bool IsThisDbContextEntityType(Type dbEntityType, Type dbContextIdentifierType)
+        #region 判断该类型是否是当前数据库上下文的实体类型或包含实体的类型 + private static bool IsThisDbContextEntityType(Type dbEntityType, Type dbContextLocatorType)
         /// <summary>
         /// 判断该类型是否是当前数据库上下文的实体类型或包含实体的类型
         /// </summary>
         /// <param name="dbEntityType">数据库实体类型或包含实体的类型</param>
-        /// <param name="dbContextIdentifierType">数据库上下文标识器</param>
+        /// <param name="dbContextLocatorType">数据库上下文定位器</param>
         /// <returns>bool</returns>
-        private static bool IsThisDbContextEntityType(Type dbEntityType, Type dbContextIdentifierType)
+        private static bool IsThisDbContextEntityType(Type dbEntityType, Type dbContextLocatorType)
         {
             // 判断是否启用多租户，如果不启用，则默认不解析 Tenant 类型，返回 false
             if (!AppGlobal.SupportedMultipleTenant)
@@ -317,11 +317,11 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 {
                     // 如果父类不是泛型类型，则返回 true
                     if (dbEntityType.BaseType == typeof(DbEntity) || dbEntityType.BaseType == typeof(DbEntityBase) || dbEntityType.BaseType == typeof(Object)) return true;
-                    // 如果是泛型类型，但数据库上下文标识器泛型参数未空或包含 dbContextIdentifierType，返回 true
+                    // 如果是泛型类型，但数据库上下文定位器泛型参数未空或包含 dbContextLocatorType，返回 true
                     else
                     {
                         var typeGenericArguments = dbEntityType.GetTypeGenericArguments(typeof(IDbEntityBase), GenericArgumentSourceOptions.BaseType);
-                        if (CheckIsInDbContextIdentifierTypes(typeGenericArguments.Skip(1), dbContextIdentifierType)) return true;
+                        if (CheckIsInDbContextLocators(typeGenericArguments.Skip(1), dbContextLocatorType)) return true;
                     }
                 }
                 // 无键实体
@@ -329,52 +329,52 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 {
                     // 如果父类不是泛型类型，则返回 true
                     if (dbEntityType.BaseType == typeof(DbNoKeyEntity)) return true;
-                    // 如果是泛型类型，但数据库上下文标识器泛型参数未空或包含 dbContextIdentifierType，返回 true
+                    // 如果是泛型类型，但数据库上下文定位器泛型参数未空或包含 dbContextLocatorType，返回 true
                     else
                     {
                         var typeGenericArguments = dbEntityType.GetTypeGenericArguments(typeof(IDbNoKeyEntity), GenericArgumentSourceOptions.BaseType);
-                        if (CheckIsInDbContextIdentifierTypes(typeGenericArguments, dbContextIdentifierType)) return true;
+                        if (CheckIsInDbContextLocators(typeGenericArguments, dbContextLocatorType)) return true;
                     }
                 }
             }
 
-            // 如果继承 IDbEntityConfigure，但数据库上下文标识器泛型参数未空或包含 dbContextIdentifierType，返回 true
+            // 如果继承 IDbEntityConfigure，但数据库上下文定位器泛型参数未空或包含 dbContextLocatorType，返回 true
             if (typeof(IDbEntityConfigure).IsAssignableFrom(dbEntityType))
             {
                 var typeGenericArguments = dbEntityType.GetTypeGenericArguments(typeof(IDbEntityConfigure), GenericArgumentSourceOptions.Interface);
-                if (CheckIsInDbContextIdentifierTypes(typeGenericArguments.Skip(1), dbContextIdentifierType)) return true;
+                if (CheckIsInDbContextLocators(typeGenericArguments.Skip(1), dbContextLocatorType)) return true;
             }
 
             return false;
         }
         #endregion
 
-        #region 判断该方法是否是当前数据库上下文的函数类型 + private static bool IsThisDbContextDbFunction(MethodWrapper methodWrapper, Type dbContextIdentifierType)
+        #region 判断该方法是否是当前数据库上下文的函数类型 + private static bool IsThisDbContextDbFunction(MethodWrapper methodWrapper, Type dbContextLocatorType)
         /// <summary>
         /// 判断该方法是否是当前数据库上下文的函数类型
         /// </summary>
         /// <param name="methodWrapper"></param>
-        /// <param name="dbContextIdentifierType"></param>
+        /// <param name="dbContextLocatorType"></param>
         /// <returns></returns>
-        private static bool IsThisDbContextDbFunction(MethodWrapper methodWrapper, Type dbContextIdentifierType)
+        private static bool IsThisDbContextDbFunction(MethodWrapper methodWrapper, Type dbContextLocatorType)
         {
             var dbFunctionAttribute = methodWrapper.CustomAttributes.FirstOrDefault(u => u.GetType() == typeof(Attributes.DbFunctionAttribute)) as Attributes.DbFunctionAttribute;
-            if (CheckIsInDbContextIdentifierTypes(dbFunctionAttribute.DbContextIdentifierTypes, dbContextIdentifierType)) return true;
+            if (CheckIsInDbContextLocators(dbFunctionAttribute.DbContextLocators, dbContextLocatorType)) return true;
 
             return false;
         }
         #endregion
 
-        #region 检查当前数据库上下文标识器是否在指定的数据库上下文标识器集合中 + private static bool CheckIsInDbContextIdentifierTypes(IEnumerable<Type> dbContextIdentifierTypes, Type dbContextIdentifierType)
+        #region 检查当前数据库上下文定位器是否在指定的数据库上下文定位器集合中 + private static bool CheckIsInDbContextLocators(IEnumerable<Type> dbContextLocators, Type dbContextLocatorType)
         /// <summary>
-        /// 检查当前数据库上下文标识器是否在指定的数据库上下文标识器集合中
+        /// 检查当前数据库上下文定位器是否在指定的数据库上下文定位器集合中
         /// </summary>
-        /// <param name="dbContextIdentifierTypes">数据库上下文标识器集合</param>
-        /// <param name="dbContextIdentifierType">数据库上下文标识器</param>
+        /// <param name="dbContextLocators">数据库上下文定位器集合</param>
+        /// <param name="dbContextLocatorType">数据库上下文定位器</param>
         /// <returns>bool</returns>
-        private static bool CheckIsInDbContextIdentifierTypes(IEnumerable<Type> dbContextIdentifierTypes, Type dbContextIdentifierType)
+        private static bool CheckIsInDbContextLocators(IEnumerable<Type> dbContextLocators, Type dbContextLocatorType)
         {
-            return dbContextIdentifierTypes == null || dbContextIdentifierTypes.Count() == 0 || dbContextIdentifierTypes.Contains(dbContextIdentifierType);
+            return dbContextLocators == null || dbContextLocators.Count() == 0 || dbContextLocators.Contains(dbContextLocatorType);
         }
         #endregion
 
