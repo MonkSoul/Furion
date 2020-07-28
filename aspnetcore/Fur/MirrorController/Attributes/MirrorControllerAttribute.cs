@@ -74,15 +74,5 @@ namespace Fur.MirrorController.Attributes
         /// 接口授权标识名称列表
         /// </summary>
         public string[] AuthorizeTo { get; set; }
-
-        /// <summary>
-        /// 分组名
-        /// </summary>
-        private new string GroupName { get; set; }
-
-        /// <summary>
-        /// 是否忽略Api
-        /// </summary>
-        private new bool IgnoreApi { get; set; }
     }
 }

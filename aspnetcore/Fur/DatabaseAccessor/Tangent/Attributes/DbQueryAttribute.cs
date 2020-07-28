@@ -20,6 +20,6 @@ namespace Fur.DatabaseAccessor.Tangent.Attributes
         {
         }
 
-        #endregion 构造函数 + public DbQueryAttribute(string sql) : base(sql)
+        #endregion
     }
 }

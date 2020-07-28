@@ -22,6 +22,6 @@ namespace Fur.DatabaseAccessor.Repositories.Multiple
             where TEntity : class, IDbEntityBase, new()
             where TDbContextIdentifier : IDbContextIdentifier;
 
-        #endregion 获取泛型多上下文仓储接口 +  IMultipleDbContextRepositoryOfT<TEntity, TDbContextIdentifier> Set<TEntity, TDbContextIdentifier>(bool newScope = false) where TEntity : class, IDbEntity, new() where TDbContextIdentifier : IDbContextIdentifier
+        #endregion
     }
 }

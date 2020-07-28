@@ -27,6 +27,6 @@ namespace Fur.SwaggerDoc.Extensions.Middlewares
             return app;
         }
 
-        #endregion Swagger UI 中间件拓展 + public static IApplicationBuilder AddFurSwaggerUI(this IApplicationBuilder app)
+        #endregion
     }
 }

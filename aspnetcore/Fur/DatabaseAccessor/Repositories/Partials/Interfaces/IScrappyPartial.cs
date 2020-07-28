@@ -23,7 +23,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>是或否</returns>
         bool IsKeySet(TEntity entity);
 
-        #endregion 判断实体是否设置了主键 + bool IsKeySet(TEntity entity)
+        #endregion
 
         #region 获取实体变更信息 + EntityEntry<TEntity> EntityEntry(TEntity entity)
 
@@ -34,7 +34,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体变更包装对象</returns>
         EntityEntry<TEntity> EntityEntry(TEntity entity);
 
-        #endregion 获取实体变更信息 + EntityEntry<TEntity> EntityEntry(TEntity entity)
+        #endregion
 
         #region 获取实体属性变更信息 + PropertyEntry EntityEntryProperty(TEntity entity, Expression<Func<TEntity, object>> propertyExpression)
 
@@ -46,7 +46,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="PropertyEntry"/></returns>
         PropertyEntry EntityEntryProperty(TEntity entity, Expression<Func<TEntity, object>> propertyExpression);
 
-        #endregion 获取实体属性变更信息 + PropertyEntry EntityEntryProperty(TEntity entity, Expression<Func<TEntity, object>> propertyExpression)
+        #endregion
 
         #region 获取实体属性变更信息 + PropertyEntry EntityEntryProperty(TEntity entity, string propertyName)
 
@@ -58,7 +58,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="PropertyEntry"/></returns>
         PropertyEntry EntityEntryProperty(TEntity entity, string propertyName);
 
-        #endregion 获取实体属性变更信息 + PropertyEntry EntityEntryProperty(TEntity entity, string propertyName)
+        #endregion
 
         #region 获取实体属性变更信息 + PropertyEntry EntityEntryProperty(EntityEntry<TEntity> entityEntry, Expression<Func<TEntity, object>> propertyExpression)
 
@@ -70,7 +70,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="PropertyEntry"/></returns>
         PropertyEntry EntityEntryProperty(EntityEntry<TEntity> entityEntry, Expression<Func<TEntity, object>> propertyExpression);
 
-        #endregion 获取实体属性变更信息 + PropertyEntry EntityEntryProperty(EntityEntry<TEntity> entityEntry, Expression<Func<TEntity, object>> propertyExpression)
+        #endregion
 
         #region 获取实体属性变更信息 + PropertyEntry EntityEntryProperty(EntityEntry<TEntity> entityEntry, string propertyName)
 
@@ -82,7 +82,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="PropertyEntry"/></returns>
         PropertyEntry EntityEntryProperty(EntityEntry<TEntity> entityEntry, string propertyName);
 
-        #endregion 获取实体属性变更信息 + PropertyEntry EntityEntryProperty(EntityEntry<TEntity> entityEntry, string propertyName)
+        #endregion
 
         #region 提交更改操作 + int SaveChanges()
 
@@ -92,7 +92,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>int</returns>
         int SaveChanges();
 
-        #endregion 提交更改操作 + int SaveChanges()
+        #endregion
 
         #region 提交更改操作 + Task<int> SaveChangesAsync()
 
@@ -102,7 +102,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<int> SaveChangesAsync();
 
-        #endregion 提交更改操作 + Task<int> SaveChangesAsync()
+        #endregion
 
         #region 提交更改操作 + int SaveChanges(bool acceptAllChangesOnSuccess)
 
@@ -113,7 +113,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>int</returns>
         int SaveChanges(bool acceptAllChangesOnSuccess);
 
-        #endregion 提交更改操作 + int SaveChanges(bool acceptAllChangesOnSuccess)
+        #endregion
 
         #region 提交更改操作 + Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess)
 
@@ -124,7 +124,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns></returns>
         Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess);
 
-        #endregion 提交更改操作 + Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess)
+        #endregion
 
         #region 附加实体到上下文中 + EntityEntry<TEntity> Attach(TEntity entity)
 
@@ -136,7 +136,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         EntityEntry<TEntity> Attach(TEntity entity);
 
-        #endregion 附加实体到上下文中 + EntityEntry<TEntity> Attach(TEntity entity)
+        #endregion
 
         #region 附加实体到上下文中 + void AttachRange(IEnumerable<TEntity> entites)
 
@@ -147,7 +147,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <param name="entities">多个实体</param>
         void AttachRange(IEnumerable<TEntity> entites);
 
-        #endregion 附加实体到上下文中 + void AttachRange(IEnumerable<TEntity> entites)
+        #endregion
 
         #region 获取所有的数据库上下文 + IEnumerable<DbContext> GetDbContexts()
 
@@ -157,7 +157,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="IEnumerable{T}"/></returns>
         IEnumerable<DbContext> GetDbContexts();
 
-        #endregion 获取所有的数据库上下文 + IEnumerable<DbContext> GetDbContexts()
+        #endregion
 
         #region 提交所有已更改的数据库上下文 +  int SavePoolChanges()
 
@@ -167,7 +167,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>受影响行数</returns>
         int SavePoolChanges();
 
-        #endregion 提交所有已更改的数据库上下文 +  int SavePoolChanges()
+        #endregion
 
         #region 异步提交所有已更改的数据库上下文 + Task<int> SavePoolChangesAsync()
 
@@ -177,6 +177,6 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<int> SavePoolChangesAsync();
 
-        #endregion 异步提交所有已更改的数据库上下文 + Task<int> SavePoolChangesAsync()
+        #endregion
     }
 }

@@ -22,7 +22,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         EntityEntry<TEntity> InsertOrUpdate(TEntity entity);
 
-        #endregion 新增或更新操作 + EntityEntry<TEntity> InsertOrUpdate(TEntity entity)
+        #endregion
 
         #region 新增或更新操作 + Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity)
 
@@ -33,7 +33,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity);
 
-        #endregion 新增或更新操作 + Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity)
+        #endregion
 
         #region 新增或更新操作 + EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
 
@@ -46,7 +46,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
 
-        #endregion 新增或更新操作 + EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        #endregion
 
         #region 新增或更新操作 + Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
 
@@ -59,7 +59,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
 
-        #endregion 新增或更新操作 + Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        #endregion
 
         #region 新增或更新操作 + EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyNames)
 
@@ -72,7 +72,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyNames);
 
-        #endregion 新增或更新操作 + EntityEntry<TEntity> InsertOrUpdate(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyNames)
+        #endregion
 
         #region 新增或更新操作 + Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyNames)
 
@@ -85,7 +85,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyNames);
 
-        #endregion 新增或更新操作 + Task<EntityEntry<TEntity>> InsertOrUpdateAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyNames)
+        #endregion
 
         #region 新增或更新操作并立即保存 + EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity)
 
@@ -96,7 +96,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity);
 
-        #endregion 新增或更新操作并立即保存 + EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity)
+        #endregion
 
         #region 新增或更新操作并立即保存 + Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity)
 
@@ -107,7 +107,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity);
 
-        #endregion 新增或更新操作并立即保存 + Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity)
+        #endregion
 
         #region 新增或更新操作并立即保存 + EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
 
@@ -120,7 +120,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
 
-        #endregion 新增或更新操作并立即保存 + EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        #endregion
 
         #region 新增或更新操作并立即保存 + Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
 
@@ -133,7 +133,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions);
 
-        #endregion 新增或更新操作并立即保存 + Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        #endregion
 
         #region 新增或更新操作并立即保存 + EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyExpressions)
 
@@ -146,7 +146,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyExpressions);
 
-        #endregion 新增或更新操作并立即保存 + EntityEntry<TEntity> InsertOrUpdateSaveChanges(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyExpressions)
+        #endregion
 
         #region 新增或更新操作并立即保存 + Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyExpressions)
 
@@ -159,6 +159,6 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns></returns>
         Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyExpressions);
 
-        #endregion 新增或更新操作并立即保存 + Task<EntityEntry<TEntity>> InsertOrUpdateSaveChangesAsync(TEntity entity, DbTablePropertyUpdateOptions dbTablePropertyUpdateOptions, params string[] propertyExpressions)
+        #endregion
     }
 }

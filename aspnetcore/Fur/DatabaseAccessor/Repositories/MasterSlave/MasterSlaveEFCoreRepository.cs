@@ -25,7 +25,7 @@ namespace Fur.DatabaseAccessor.Repositories.MasterSlave
             _lifetimeScope = lifetimeScope;
         }
 
-        #endregion 构造函数 + public MasterSlaveEFCoreRepository(ILifetimeScope lifetimeScope)
+        #endregion
 
         #region 获取主从同步/读写分离仓储接口 +public IRepositoryOfT<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier> Set<TEntity, TMasterDbContextIdentifier, TSlaveDbContextIdentifier>(bool newScope = false)
         /// <summary>

@@ -18,6 +18,6 @@ namespace Fur.DependencyInjection
         public static void Initialize(ContainerBuilder builder)
             => builder.RegisterAssemblyModules(AppGlobal.Application.AssemblyWrappers.Select(a => a.Assembly).ToArray());
 
-        #endregion 初始化程序集模块注册 + public static void Initialize(ContainerBuilder builder)
+        #endregion
     }
 }

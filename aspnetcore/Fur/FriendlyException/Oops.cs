@@ -18,6 +18,6 @@ namespace Fur.FriendlyException
         public static Exception Set(int exceptionCode, Type exception = null, int statusCode = 500)
            => new Exception($"##{exceptionCode};{((exception ?? typeof(Exception)).FullName)};{statusCode}##");
 
-        #endregion 有bug + public static Exception Set(int exceptionCode, Type exception = null)
+        #endregion
     }
 }

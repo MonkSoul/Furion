@@ -15,7 +15,7 @@ namespace Fur.Linq.Builders
         /// <returns>新的表达式</returns>
         public static Expression<Func<TSource, bool>> Create<TSource>(Expression<Func<TSource, bool>> expression) => expression;
 
-        #endregion [EF Core] 创建 Linq/Lambda 表达式 + public static Expression<Func<TSource, bool>> Create<TSource>(Expression<Func<TSource, bool>> expression)
+        #endregion
 
         #region [EF Core] 创建 Linq/Lambda 表达式，支持索引器 + public static Expression<Func<TSource, int, bool>> Create<TSource>(Expression<Func<TSource, int, bool>> expression)
 
@@ -27,7 +27,7 @@ namespace Fur.Linq.Builders
         /// <returns>新的表达式</returns>
         public static Expression<Func<TSource, int, bool>> Create<TSource>(Expression<Func<TSource, int, bool>> expression) => expression;
 
-        #endregion [EF Core] 创建 Linq/Lambda 表达式，支持索引器 + public static Expression<Func<TSource, int, bool>> Create<TSource>(Expression<Func<TSource, int, bool>> expression)
+        #endregion
 
         #region [EF Core] 创建 And 表达式 +  public static Expression<Func<TSource, bool>> And<TSource>()
 
@@ -38,7 +38,7 @@ namespace Fur.Linq.Builders
         /// <returns>新的表达式</returns>
         public static Expression<Func<TSource, bool>> And<TSource>() => u => true;
 
-        #endregion [EF Core] 创建 And 表达式 +  public static Expression<Func<TSource, bool>> And<TSource>()
+        #endregion
 
         #region [EF Core] 创建 And 表达式，支持索引器 + public static Expression<Func<TSource, int, bool>> IndexAnd<TSource>()
 
@@ -49,7 +49,7 @@ namespace Fur.Linq.Builders
         /// <returns>新的表达式</returns>
         public static Expression<Func<TSource, int, bool>> IndexAnd<TSource>() => (u, i) => true;
 
-        #endregion [EF Core] 创建 And 表达式，支持索引器 + public static Expression<Func<TSource, int, bool>> IndexAnd<TSource>()
+        #endregion
 
         #region [EF Core] 创建 Or 表达式 + public static Expression<Func<TSource, bool>> Or<TSource>()
 
@@ -60,7 +60,7 @@ namespace Fur.Linq.Builders
         /// <returns>新的表达式</returns>
         public static Expression<Func<TSource, bool>> Or<TSource>() => u => false;
 
-        #endregion [EF Core] 创建 Or 表达式 + public static Expression<Func<TSource, bool>> Or<TSource>()
+        #endregion
 
         #region [EF Core] 创建 Or 表达式，支持索引器 +  public static Expression<Func<TSource, int, bool>> IndexOr<TSource>()
 
@@ -71,6 +71,6 @@ namespace Fur.Linq.Builders
         /// <returns>新的表达式</returns>
         public static Expression<Func<TSource, int, bool>> IndexOr<TSource>() => (u, i) => false;
 
-        #endregion [EF Core] 创建 Or 表达式，支持索引器 +  public static Expression<Func<TSource, int, bool>> IndexOr<TSource>()
+        #endregion
     }
 }

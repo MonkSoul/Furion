@@ -18,7 +18,7 @@ namespace Fur.DatabaseAccessor.Tangent.Attributes.Basics
         /// <param name="name">名称</param>
         public TangentCompileTypeAttribute(string name) => Name = name;
 
-        #endregion 构造函数 + public TangentCompileTypeAttribute(string name) => Name = name
+        #endregion
 
         /// <summary>
         /// 编译类型名称

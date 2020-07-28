@@ -29,6 +29,6 @@ namespace Fur.DatabaseAccessor.Repositories.Multiple
         {
         }
 
-        #endregion 构造函数 + public MultipleDbContextEFCoreRepositoryOfT(ILifetimeScope lifetimeScope,IDbContextPool dbContextPool)
+        #endregion
     }
 }

@@ -37,6 +37,6 @@ namespace Fur.MirrorController.Extensions.Services
             return services;
         }
 
-        #endregion 镜面控制器服务拓展方法 + public static IServiceCollection AddFurMirrorControllers(this IServiceCollection services, IConfiguration configuration)
+        #endregion
     }
 }

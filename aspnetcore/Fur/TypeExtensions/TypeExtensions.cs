@@ -34,7 +34,7 @@ namespace Fur.TypeExtensions
             return null;
         }
 
-        #endregion 递归获取特性 + public static TAttribute GetDeepAttribute<TAttribute>(this TypeInfo typeInfo) where TAttribute : Attribute
+        #endregion
 
         #region 递归获取特性 + public static TAttribute GetDeepAttribute<TAttribute>(this Type type) where TAttribute : Attribute
 
@@ -71,7 +71,7 @@ namespace Fur.TypeExtensions
             return false;
         }
 
-        #endregion 递归获取特性 + public static TAttribute GetDeepAttribute<TAttribute>(this Type type) where TAttribute : Attribute
+        #endregion
 
         #region 是否是可空类型 + public static bool IsNullable(this Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>)
         /// <summary>

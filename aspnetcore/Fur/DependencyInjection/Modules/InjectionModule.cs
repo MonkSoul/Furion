@@ -51,7 +51,7 @@ namespace Fur.DependencyInjection.Modules
                .SingleInstance();
         }
 
-        #endregion 注册基础类型（非泛型）- private void RegisterBaseTypes(ContainerBuilder builder, IEnumerable<ApplicationTypeInfo> applicationTypes)
+        #endregion
 
         #region 注册泛型类型 - private void RegisterGenericTypes(ContainerBuilder builder, IEnumerable<ApplicationTypeInfo> applicationTypes)
 
@@ -95,6 +95,6 @@ namespace Fur.DependencyInjection.Modules
             }
         }
 
-        #endregion 注册泛型类型 - private void RegisterGenericTypes(ContainerBuilder builder, IEnumerable<ApplicationTypeInfo> applicationTypes)
+        #endregion
     }
 }

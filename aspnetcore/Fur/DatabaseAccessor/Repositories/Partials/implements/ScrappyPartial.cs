@@ -27,7 +27,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return EntityEntry(entity).IsKeySet;
         }
 
-        #endregion 判断实体是否设置了主键 + public virtual bool IsKeySet(TEntity entity)
+        #endregion
 
         #region 获取实体变更信息 + public virtual EntityEntry<TEntity> EntityEntry(TEntity entity)
 
@@ -38,7 +38,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体变更包装对象</returns>
         public virtual EntityEntry<TEntity> EntityEntry(TEntity entity) => DbContext.Entry(entity);
 
-        #endregion 获取实体变更信息 + public virtual EntityEntry<TEntity> EntityEntry(TEntity entity)
+        #endregion
 
         #region 获取实体属性变更信息 + public virtual PropertyEntry EntityEntryProperty(TEntity entity, Expression<Func<TEntity, object>> propertyExpression)
 
@@ -53,7 +53,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return EntityEntry(entity).Property(propertyExpression);
         }
 
-        #endregion 获取实体属性变更信息 + public virtual PropertyEntry EntityEntryProperty(TEntity entity, Expression<Func<TEntity, object>> propertyExpression)
+        #endregion
 
         #region 获取实体属性变更信息 + public virtual PropertyEntry EntityEntryProperty(TEntity entity, string propertyName)
 
@@ -68,7 +68,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return EntityEntry(entity).Property(propertyName);
         }
 
-        #endregion 获取实体属性变更信息 + public virtual PropertyEntry EntityEntryProperty(TEntity entity, string propertyName)
+        #endregion
 
         #region 获取实体属性变更信息 +  public virtual PropertyEntry EntityEntryProperty(EntityEntry<TEntity> entityEntry, Expression<Func<TEntity, object>> propertyExpression)
 
@@ -83,7 +83,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry.Property(propertyExpression);
         }
 
-        #endregion 获取实体属性变更信息 +  public virtual PropertyEntry EntityEntryProperty(EntityEntry<TEntity> entityEntry, Expression<Func<TEntity, object>> propertyExpression)
+        #endregion
 
         #region 获取实体属性变更信息 + public virtual PropertyEntry EntityEntryProperty(EntityEntry<TEntity> entityEntry, string propertyName)
 
@@ -98,7 +98,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry.Property(propertyName);
         }
 
-        #endregion 获取实体属性变更信息 + public virtual PropertyEntry EntityEntryProperty(EntityEntry<TEntity> entityEntry, string propertyName)
+        #endregion
 
         #region 提交更改操作 + public virtual int SaveChanges()
 
@@ -111,7 +111,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return DbContext.SaveChanges();
         }
 
-        #endregion 提交更改操作 + public virtual int SaveChanges()
+        #endregion
 
         #region 提交更改操作 + public virtual Task<int> SaveChangesAsync()
 
@@ -124,7 +124,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return DbContext.SaveChangesAsync();
         }
 
-        #endregion 提交更改操作 + public virtual Task<int> SaveChangesAsync()
+        #endregion
 
         #region 提交更改操作 + public virtual int SaveChanges(bool acceptAllChangesOnSuccess)
 
@@ -138,7 +138,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return DbContext.SaveChanges(acceptAllChangesOnSuccess);
         }
 
-        #endregion 提交更改操作 + public virtual int SaveChanges(bool acceptAllChangesOnSuccess)
+        #endregion
 
         #region 提交更改操作 + public virtual Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess)
 
@@ -152,7 +152,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return DbContext.SaveChangesAsync(acceptAllChangesOnSuccess);
         }
 
-        #endregion 提交更改操作 + public virtual Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess)
+        #endregion
 
         #region 附加实体到上下文中 + public virtual EntityEntry<TEntity> Attach(TEntity entity)
 
@@ -172,7 +172,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 附加实体到上下文中 + public virtual EntityEntry<TEntity> Attach(TEntity entity)
+        #endregion
 
         #region 附加实体到上下文中 + public virtual void AttachRange(IEnumerable<TEntity> entities)
 
@@ -187,7 +187,7 @@ namespace Fur.DatabaseAccessor.Repositories
             DbContext.AttachRange(noTrackEntites);
         }
 
-        #endregion 附加实体到上下文中 + public virtual void AttachRange(IEnumerable<TEntity> entities)
+        #endregion
 
         #region 获取所有的数据库上下文 + public virtual IEnumerable<DbContext> GetDbContexts()
 
@@ -200,7 +200,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return _dbContextPool.GetDbContexts();
         }
 
-        #endregion 获取所有的数据库上下文 + public virtual IEnumerable<DbContext> GetDbContexts()
+        #endregion
 
         #region 提交所有已更改的数据库上下文 +  public virtual int SavePoolChanges()
 
@@ -213,7 +213,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return _dbContextPool.SavePoolChanges();
         }
 
-        #endregion 提交所有已更改的数据库上下文 +  public virtual int SavePoolChanges()
+        #endregion
 
         #region 异步提交所有已更改的数据库上下文 + public virtual Task<int> SavePoolChangesAsync()
 
@@ -226,6 +226,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return _dbContextPool.SavePoolChangesAsync();
         }
 
-        #endregion 异步提交所有已更改的数据库上下文 + public virtual Task<int> SavePoolChangesAsync()
+        #endregion
     }
 }

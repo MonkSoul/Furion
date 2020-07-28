@@ -39,7 +39,7 @@ namespace Fur.DatabaseAccessor.Filters
             _dbContextPool = dbContextPool;
         }
 
-        #endregion 构造函数 + public UnitOfWorkAsyncActionFilter(IDbContextPool dbContextPool)
+        #endregion
 
         #region Action执行拦截方法 + public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         /// <summary>

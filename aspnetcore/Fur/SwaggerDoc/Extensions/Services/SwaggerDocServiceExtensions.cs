@@ -36,6 +36,6 @@ namespace Fur.SwaggerDoc.Extensions.Services
             return services;
         }
 
-        #endregion Swagger 服务拓展方法 + public static IServiceCollection AddFurSwaggerGen(this IServiceCollection services, IConfiguration configuration)
+        #endregion
     }
 }

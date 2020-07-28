@@ -20,7 +20,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         EntityEntry<TEntity> Insert(TEntity entity);
 
-        #endregion 新增操作 + EntityEntry<TEntity> Insert(TEntity entity)
+        #endregion
 
         #region 新增操作 + void Insert(params TEntity[] entities)
 
@@ -30,7 +30,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <param name="entities">多个实体</param>
         void Insert(params TEntity[] entities);
 
-        #endregion 新增操作 + void Insert(params TEntity[] entities)
+        #endregion
 
         #region 新增操作 + void Insert(IEnumerable<TEntity> entities)
 
@@ -40,7 +40,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <param name="entities">多个实体</param>
         void Insert(IEnumerable<TEntity> entities);
 
-        #endregion 新增操作 + void Insert(IEnumerable<TEntity> entities)
+        #endregion
 
         #region 新增操作 + ValueTask<EntityEntry<TEntity>> InsertAsync(TEntity entity)
 
@@ -51,7 +51,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="ValueTask{TResult}"/></returns>
         ValueTask<EntityEntry<TEntity>> InsertAsync(TEntity entity);
 
-        #endregion 新增操作 + ValueTask<EntityEntry<TEntity>> InsertAsync(TEntity entity)
+        #endregion
 
         #region 新增操作 + Task InsertAsync(params TEntity[] entities)
 
@@ -62,7 +62,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task InsertAsync(params TEntity[] entities);
 
-        #endregion 新增操作 + Task InsertAsync(params TEntity[] entities)
+        #endregion
 
         #region 新增操作 + Task InsertAsync(IEnumerable<TEntity> entities)
 
@@ -73,7 +73,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task"/></returns>
         Task InsertAsync(IEnumerable<TEntity> entities);
 
-        #endregion 新增操作 + Task InsertAsync(IEnumerable<TEntity> entities)
+        #endregion
 
         #region 新增操作并立即保存 + EntityEntry<TEntity> InsertSaveChanges(TEntity entity)
 
@@ -84,7 +84,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         EntityEntry<TEntity> InsertSaveChanges(TEntity entity);
 
-        #endregion 新增操作并立即保存 + EntityEntry<TEntity> InsertSaveChanges(TEntity entity)
+        #endregion
 
         #region 新增操作并立即保存 + void InsertSaveChanges(params TEntity[] entities)
 
@@ -94,7 +94,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <param name="entities"></param>
         void InsertSaveChanges(params TEntity[] entities);
 
-        #endregion 新增操作并立即保存 + void InsertSaveChanges(params TEntity[] entities)
+        #endregion
 
         #region 新增操作并立即保存 + void InsertSaveChanges(IEnumerable<TEntity> entities)
 
@@ -104,7 +104,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <param name="entities">多个实体</param>
         void InsertSaveChanges(IEnumerable<TEntity> entities);
 
-        #endregion 新增操作并立即保存 + void InsertSaveChanges(IEnumerable<TEntity> entities)
+        #endregion
 
         #region 新增操作并立即保存 + ValueTask<EntityEntry<TEntity>> InsertSaveChangesAsync(TEntity entity)
 
@@ -115,7 +115,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="ValueTask{TResult}"/></returns>
         ValueTask<EntityEntry<TEntity>> InsertSaveChangesAsync(TEntity entity);
 
-        #endregion 新增操作并立即保存 + ValueTask<EntityEntry<TEntity>> InsertSaveChangesAsync(TEntity entity)
+        #endregion
 
         #region 新增操作并立即保存 + Task InsertSaveChangesAsync(params TEntity[] entities)
 
@@ -126,7 +126,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task InsertSaveChangesAsync(params TEntity[] entities);
 
-        #endregion 新增操作并立即保存 + Task InsertSaveChangesAsync(params TEntity[] entities)
+        #endregion
 
         #region 新增操作并立即保存 + Task InsertSaveChangesAsync(IEnumerable<TEntity> entities)
 
@@ -137,6 +137,6 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns></returns>
         Task InsertSaveChangesAsync(IEnumerable<TEntity> entities);
 
-        #endregion 新增操作并立即保存 + Task InsertSaveChangesAsync(IEnumerable<TEntity> entities)
+        #endregion
     }
 }

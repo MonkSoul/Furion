@@ -18,6 +18,6 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="IRepositoryOfT{TEntity}"/></returns>
         IRepositoryOfT<TEntity> Set<TEntity>(bool newScope = false) where TEntity : class, IDbEntityBase, new();
 
-        #endregion 获取泛型仓储接口 + IRepositoryOfT<TEntity> Set<TEntity>(bool newScope = false) where TEntity : class, IDbEntity, new()
+        #endregion
     }
 }

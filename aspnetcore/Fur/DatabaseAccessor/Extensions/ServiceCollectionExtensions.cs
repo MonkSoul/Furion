@@ -44,7 +44,7 @@ namespace Fur.DatabaseAccessor.Extensions.Services
             return services;
         }
 
-        #endregion 配置数据库上下文池信息 + public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 100) where TDbContext : DbContext
+        #endregion
 
         #region 配置数据库上下文 + public static IServiceCollection AddFurSqlServerDbContext<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env)
         /// <summary>
@@ -76,6 +76,6 @@ namespace Fur.DatabaseAccessor.Extensions.Services
             return services;
         }
 
-        #endregion 配置数据库上下文池信息 + public static IServiceCollection AddFurSqlServerDbContext<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env) where TDbContext : DbContext
+        #endregion
     }
 }

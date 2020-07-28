@@ -34,12 +34,12 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// 包含数据库实体定义类型
         /// <para>包含所有继承 <see cref="IDbEntityBase"/> 或 <see cref="IDbEntityConfigure"/> 类型</para>
         /// </summary>
-        private static ConcurrentBag<Type> _includeDbEntityDefinedTypes;
+        private static readonly ConcurrentBag<Type> _includeDbEntityDefinedTypes;
 
         /// <summary>
         /// 数据库函数定义方法集合
         /// </summary>
-        private static ConcurrentBag<MethodWrapper> _dbFunctionMethods;
+        private static readonly ConcurrentBag<MethodWrapper> _dbFunctionMethods;
 
         /// <summary>
         /// 模型构建器泛型 <see cref="ModelBuilder.Entity{TEntity}"/> 方法
@@ -256,7 +256,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="dbContextIdentifierType">数据库上下文标识器</param>
         private static void DbFunctionConfigure(ModelBuilder modelBuilder, Type dbContextIdentifierType)
         {
-            var dbFunctionMethods = _dbFunctionMethods.Where(u => isThisDbContextDbFunction(u, dbContextIdentifierType));
+            var dbFunctionMethods = _dbFunctionMethods.Where(u => IsThisDbContextDbFunction(u, dbContextIdentifierType));
 
             foreach (var dbFunction in dbFunctionMethods)
             {
@@ -349,14 +349,14 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         }
         #endregion
 
-        #region 判断该方法是否是当前数据库上下文的函数类型 + private static bool isThisDbContextDbFunction(MethodWrapper methodWrapper, Type dbContextIdentifierType)
+        #region 判断该方法是否是当前数据库上下文的函数类型 + private static bool IsThisDbContextDbFunction(MethodWrapper methodWrapper, Type dbContextIdentifierType)
         /// <summary>
         /// 判断该方法是否是当前数据库上下文的函数类型
         /// </summary>
         /// <param name="methodWrapper"></param>
         /// <param name="dbContextIdentifierType"></param>
         /// <returns></returns>
-        private static bool isThisDbContextDbFunction(MethodWrapper methodWrapper, Type dbContextIdentifierType)
+        private static bool IsThisDbContextDbFunction(MethodWrapper methodWrapper, Type dbContextIdentifierType)
         {
             var dbFunctionAttribute = methodWrapper.CustomAttributes.FirstOrDefault(u => u.GetType() == typeof(Attributes.DbFunctionAttribute)) as Attributes.DbFunctionAttribute;
             if (CheckIsInDbContextIdentifierTypes(dbFunctionAttribute.DbContextIdentifierTypes, dbContextIdentifierType)) return true;

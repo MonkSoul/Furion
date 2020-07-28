@@ -43,7 +43,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return dataTable;
         }
 
-        #endregion 执行 Sql 返回 DataTable + internal static DataTable SqlExecuteReader(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #endregion
 
         #region 执行 Sql 返回 DataTable + internal static async Task<DataTable> SqlExecuteReaderAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
@@ -70,7 +70,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return dataTable;
         }
 
-        #endregion 执行 Sql 返回 DataTable + internal static async Task<DataTable> SqlExecuteReaderAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #endregion
 
 
         #region 执行 Sql 返回受影响函数（无查询）+ internal static int SqlExecuteNonQuery(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
@@ -95,7 +95,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return rowEffects;
         }
 
-        #endregion 执行 Sql 返回受影响函数（无查询）+ internal static int SqlExecuteNonQuery(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #endregion
 
         #region 执行 Sql 返回受影响函数（无查询）+ internal static async Task<int> SqlExecuteNonQueryAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
@@ -119,7 +119,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return rowEffects;
         }
 
-        #endregion 执行 Sql 返回受影响函数（无查询）+ internal static async Task<int> SqlExecuteNonQueryAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #endregion
 
 
         #region 执行 Sql 返回单行单列 + internal static object SqlExecuteScalar(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
@@ -144,7 +144,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return result;
         }
 
-        #endregion 执行 Sql 返回单行单列 + internal static object SqlExecuteScalar(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #endregion
 
         #region 执行 Sql 返回单行单列 + internal static async Task<object> SqlExecuteScalarAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
@@ -168,7 +168,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return result;
         }
 
-        #endregion 执行 Sql 返回单行单列 + internal static async Task<object> SqlExecuteScalarAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #endregion
 
 
         #region 执行 Sql 返回 DataSet + internal static DataSet SqlDataAdapterFill(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
@@ -194,7 +194,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return dataSet;
         }
 
-        #endregion 执行 Sql 返回 DataSet + internal static DataSet SqlDataAdapterFill(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #endregion
 
         #region Sql 查询返回 DataSet + internal static async Task<DataSet> SqlDataAdapterFillAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
@@ -219,7 +219,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return dataSet;
         }
 
-        #endregion Sql 查询返回 DataSet + internal static async Task<DataSet> SqlDataAdapterFillAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #endregion
 
 
         #region 准备 DbCommand 对象 + private static (DbConnection, DbCommand) PrepareDbCommand(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
@@ -250,7 +250,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return (dbConnection, dbCommand);
         }
 
-        #endregion 准备 DbCommand 对象 + private static (DbConnection, DbCommand) PrepareDbCommand(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #endregion
 
         #region 准备 DbCommand 对象 + private async static Task<(DbConnection, DbCommand)> PrepareDbCommandAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
@@ -280,7 +280,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return (dbConnection, dbCommand);
         }
 
-        #endregion 准备 DbCommand 对象 + private async static Task<(DbConnection, DbCommand)> PrepareDbCommandAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #endregion
 
         #region 准备 DbDataAdapter 对象 + private static (DbConnection, DbCommand, DbDataAdapter) PrepareDbDataAdapter(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
@@ -315,7 +315,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return (dbConnection, dbCommand, dbDataAdapter);
         }
 
-        #endregion 准备 DbDataAdapter 对象 + private static (DbConnection, DbCommand, DbDataAdapter) PrepareDbDataAdapter(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #endregion
 
         #region 准备 DbDataAdapter 对象 + private static async Task<(DbConnection, DbCommand, DbDataAdapter)> PrepareDbDataAdapterAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
@@ -350,7 +350,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return await Task.FromResult((dbConnection, dbCommand, dbDataAdapter));
         }
 
-        #endregion 准备 DbDataAdapter 对象 + private static async Task<(DbConnection, DbCommand, DbDataAdapter)> PrepareDbDataAdapterAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        #endregion
 
         #region 纠正 SqlParameter 参数 + private static void RectifySqlParameters(ref DbCommand dbCommand, params object[] parameters)
 
@@ -373,6 +373,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             }
         }
 
-        #endregion 纠正 SqlParameter 参数 + private static void RectifySqlParameters(ref DbCommand dbCommand, params object[] parameters)
+        #endregion
     }
 }

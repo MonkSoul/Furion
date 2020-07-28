@@ -27,7 +27,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return Entities.Remove(entity);
         }
 
-        #endregion 真删除操作 + public virtual EntityEntry<TEntity> Delete(TEntity entity)
+        #endregion
 
         #region 真删除操作 + public virtual void Delete(params TEntity[] entities)
 
@@ -41,7 +41,7 @@ namespace Fur.DatabaseAccessor.Repositories
             Entities.RemoveRange(entities);
         }
 
-        #endregion 真删除操作 + public virtual void Delete(params TEntity[] entities)
+        #endregion
 
         #region 真删除操作 + public virtual void Delete(IEnumerable<TEntity> entities)
 
@@ -55,7 +55,7 @@ namespace Fur.DatabaseAccessor.Repositories
             Entities.RemoveRange(entities);
         }
 
-        #endregion 真删除操作 + public virtual void Delete(IEnumerable<TEntity> entities)
+        #endregion
 
         #region 真删除操作 + public virtual Task<EntityEntry<TEntity>> DeleteAsync(TEntity entity)
 
@@ -70,7 +70,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return Task.FromResult(Entities.Remove(entity));
         }
 
-        #endregion 真删除操作 + public virtual Task<EntityEntry<TEntity>> DeleteAsync(TEntity entity)
+        #endregion
 
         #region 真删除操作 + public virtual Task DeleteAsync(params TEntity[] entities)
 
@@ -86,7 +86,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return Task.CompletedTask;
         }
 
-        #endregion 真删除操作 + public virtual Task DeleteAsync(params TEntity[] entities)
+        #endregion
 
         #region 真删除操作 + public virtual Task DeleteAsync(IEnumerable<TEntity> entities)
 
@@ -102,7 +102,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return Task.CompletedTask;
         }
 
-        #endregion 真删除操作 + public virtual Task DeleteAsync(IEnumerable<TEntity> entities)
+        #endregion
 
         #region 真删除操作并立即保存 + public virtual EntityEntry<TEntity> DeleteSaveChanges(TEntity entity)
 
@@ -118,7 +118,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return trackEntity;
         }
 
-        #endregion 真删除操作并立即保存 + public virtual EntityEntry<TEntity> DeleteSaveChanges(TEntity entity)
+        #endregion
 
         #region 真删除操作并立即保存 + public virtual void DeleteSaveChanges(params TEntity[] entities)
 
@@ -132,7 +132,7 @@ namespace Fur.DatabaseAccessor.Repositories
             SaveChanges();
         }
 
-        #endregion 真删除操作并立即保存 + public virtual void DeleteSaveChanges(params TEntity[] entities)
+        #endregion
 
         #region 真删除操作并立即保存 + public virtual void DeleteSaveChanges(IEnumerable<TEntity> entities)
 
@@ -146,7 +146,7 @@ namespace Fur.DatabaseAccessor.Repositories
             SaveChanges();
         }
 
-        #endregion 真删除操作并立即保存 + public virtual void DeleteSaveChanges(IEnumerable<TEntity> entities)
+        #endregion
 
         #region 真删除操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> DeleteSaveChangesAsync(TEntity entity)
 
@@ -162,7 +162,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return trackEntity;
         }
 
-        #endregion 真删除操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> DeleteSaveChangesAsync(TEntity entity)
+        #endregion
 
         #region 真删除操作并立即保存 + public virtual async Task DeleteSaveChangesAsync(params TEntity[] entities)
 
@@ -177,7 +177,7 @@ namespace Fur.DatabaseAccessor.Repositories
             await SaveChangesAsync();
         }
 
-        #endregion 真删除操作并立即保存 + public virtual async Task DeleteSaveChangesAsync(params TEntity[] entities)
+        #endregion
 
         #region 真删除操作并立即保存 + public virtual async Task DeleteSaveChangesAsync(IEnumerable<TEntity> entities)
 
@@ -192,7 +192,7 @@ namespace Fur.DatabaseAccessor.Repositories
             await SaveChangesAsync();
         }
 
-        #endregion 真删除操作并立即保存 + public virtual async Task DeleteSaveChangesAsync(IEnumerable<TEntity> entities)
+        #endregion
 
         #region 软删除操作 + public virtual EntityEntry<TEntity> FakeDelete(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
 
@@ -210,7 +210,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return UpdateIncludeProperties(entity, flagProperty);
         }
 
-        #endregion 软删除操作 + public virtual EntityEntry<TEntity> FakeDelete(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #endregion
 
         #region 软删除操作 + public virtual void FakeDelete(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
 
@@ -228,7 +228,7 @@ namespace Fur.DatabaseAccessor.Repositories
             }
         }
 
-        #endregion 软删除操作 + public virtual void FakeDelete(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #endregion
 
         #region 软删除操作 + public virtual Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
 
@@ -247,7 +247,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return UpdateIncludePropertiesAsync(entity, flagProperty);
         }
 
-        #endregion 软删除操作 + public virtual Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #endregion
 
         #region 软删除操作 + public virtual Task FakeDeleteAsync(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
 
@@ -267,7 +267,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return Task.CompletedTask;
         }
 
-        #endregion 软删除操作 + public virtual Task FakeDeleteAsync(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #endregion
 
         #region 软删除操作并立即保存 + public virtual EntityEntry<TEntity> FakeDeleteSaveChanges(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
 
@@ -285,7 +285,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 软删除操作并立即保存 + public virtual EntityEntry<TEntity> FakeDeleteSaveChanges(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #endregion
 
         #region 软删除操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
 
@@ -303,7 +303,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 软删除操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(TEntity entity, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #endregion
 
         #region 软删除操作并立即保存 + public virtual void FakeDeleteSaveChanges(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
 
@@ -322,7 +322,7 @@ namespace Fur.DatabaseAccessor.Repositories
             SaveChanges();
         }
 
-        #endregion 软删除操作并立即保存 + public virtual void FakeDeleteSaveChanges(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #endregion
 
         #region 软删除操作并立即保存 + public virtual async Task FakeDeleteSaveChangesAsync(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
 
@@ -342,7 +342,7 @@ namespace Fur.DatabaseAccessor.Repositories
             await SaveChangesAsync();
         }
 
-        #endregion 软删除操作并立即保存 + public virtual async Task FakeDeleteSaveChangesAsync(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #endregion
 
         #region 软删除操作 + public virtual EntityEntry<TEntity> FakeDelete(TEntity entity)
 
@@ -360,7 +360,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return UpdateIncludeProperties(entity, _fakeDeleteProvider.Property);
         }
 
-        #endregion 软删除操作 + public virtual EntityEntry<TEntity> FakeDelete(TEntity entity)
+        #endregion
 
         #region 软删除操作 + public virtual void FakeDelete(IEnumerable<TEntity> entities)
 
@@ -376,7 +376,7 @@ namespace Fur.DatabaseAccessor.Repositories
             }
         }
 
-        #endregion 软删除操作 + public virtual void FakeDelete(IEnumerable<TEntity> entities)
+        #endregion
 
         #region 软删除操作 + public virtual Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity)
 
@@ -395,7 +395,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return UpdateIncludePropertiesAsync(entity, _fakeDeleteProvider.Property);
         }
 
-        #endregion 软删除操作 + public virtual Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity)
+        #endregion
 
         #region 软删除操作 + public virtual Task FakeDeleteAsync(IEnumerable<TEntity> entities)
 
@@ -414,7 +414,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return Task.CompletedTask;
         }
 
-        #endregion 软删除操作 + public virtual Task FakeDeleteAsync(IEnumerable<TEntity> entities)
+        #endregion
 
         #region 软删除操作并立即保存 + public virtual EntityEntry<TEntity> FakeDeleteSaveChanges(TEntity entity)
 
@@ -430,7 +430,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 软删除操作并立即保存 + public virtual EntityEntry<TEntity> FakeDeleteSaveChanges(TEntity entity)
+        #endregion
 
         #region 软删除操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(TEntity entity)
 
@@ -446,7 +446,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 软删除操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> FakeDeleteSaveChangesAsync(TEntity entity)
+        #endregion
 
         #region 软删除操作并立即保存 + public virtual void FakeDeleteSaveChanges(IEnumerable<TEntity> entities)
 
@@ -463,7 +463,7 @@ namespace Fur.DatabaseAccessor.Repositories
             SaveChanges();
         }
 
-        #endregion 软删除操作并立即保存 + public virtual void FakeDeleteSaveChanges(IEnumerable<TEntity> entities)
+        #endregion
 
         #region 软删除操作并立即保存 + public virtual Task FakeDeleteSaveChangesAsync(IEnumerable<TEntity> entities)
 
@@ -481,6 +481,6 @@ namespace Fur.DatabaseAccessor.Repositories
             await SaveChangesAsync();
         }
 
-        #endregion 软删除操作并立即保存 + public virtual Task FakeDeleteSaveChangesAsync(IEnumerable<TEntity> entities)
+        #endregion
     }
 }

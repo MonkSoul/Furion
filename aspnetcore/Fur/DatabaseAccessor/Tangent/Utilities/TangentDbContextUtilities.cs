@@ -57,7 +57,7 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
             }
         }
 
-        #endregion 处理同步 + internal static object SynchronousInvoke(IInvocation invocation, ILifetimeScope lifetimeScope)
+        #endregion
 
         #region 处理异步 + internal static async Task<TResult> AsynchronousOfTInvoke<TResult>(IInvocation invocation, ILifetimeScope lifetimeScope)
 
@@ -96,7 +96,7 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
             return (TResult)result;
         }
 
-        #endregion 处理异步 + internal static async Task<TResult> AsynchronousOfTInvoke<TResult>(IInvocation invocation, ILifetimeScope lifetimeScope)
+        #endregion
 
         #region 数据库查询 + internal static object DbQueryExecute(TangentMethodInfo tangentMethod, DbQueryAttribute dbQueryAttribute)
 
@@ -147,7 +147,7 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
             }
         }
 
-        #endregion 数据库查询 + internal static object DbQueryExecute(TangentMethodInfo tangentMethod, DbQueryAttribute dbQueryAttribute)
+        #endregion
 
         #region 数据库查询 + internal static async Task<object> DbQueryExecuteAsync(TangentMethodInfo tangentMethod, DbQueryAttribute dbQueryAttribute)
 
@@ -199,7 +199,7 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
             }
         }
 
-        #endregion 数据库查询 + internal static async Task<object> DbQueryExecuteAsync(TangentMethodInfo tangentMethod, DbQueryAttribute dbQueryAttribute)
+        #endregion
 
         #region 数据库非查询（增删改） + internal static int DbNonQueryExecute(TangentMethodInfo tangentMethod, DbNonQueryAttribute dbNonQueryAttribute)
 
@@ -215,7 +215,7 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
             return tangentMethod.DbContext.Database.SqlExecuteNonQuery(sql, CommandType.Text, tangentMethod.SqlParameters);
         }
 
-        #endregion 数据库非查询（增删改） + internal static int DbNonQueryExecute(TangentMethodInfo tangentMethod, DbNonQueryAttribute dbNonQueryAttribute)
+        #endregion
 
         #region 数据库非查询（增删改） + internal static async Task<int> DbNonQueryExecuteAsync(TangentMethodInfo tangentMethod, DbNonQueryAttribute dbNonQueryAttribute)
 
@@ -232,7 +232,7 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
             return result;
         }
 
-        #endregion 数据库非查询（增删改） + internal static async Task<int> DbNonQueryExecuteAsync(TangentMethodInfo tangentMethod, DbNonQueryAttribute dbNonQueryAttribute)
+        #endregion
 
         #region 数据库函数 + internal static object DbFunctionExecute(TangentMethodInfo tangentMethod, Attributes.DbFunctionAttribute dbFunctionAttribute)
 
@@ -262,7 +262,7 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
             }
         }
 
-        #endregion 数据库函数 + internal static object DbFunctionExecute(TangentMethodInfo tangentMethod, Attributes.DbFunctionAttribute dbFunctionAttribute)
+        #endregion
 
         #region 数据库函数 + internal static async Task<object> DbFunctionExecuteAsync(TangentMethodInfo tangentMethod, Attributes.DbFunctionAttribute dbFunctionAttribute)
 
@@ -293,7 +293,7 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
             }
         }
 
-        #endregion 数据库函数 + internal static async Task<object> DbFunctionExecuteAsync(TangentMethodInfo tangentMethod, Attributes.DbFunctionAttribute dbFunctionAttribute)
+        #endregion
 
         #region 数据库存储过程 + internal static object DbProcedureExecute(TangentMethodInfo tangentMethod, DbProcedureAttribute dbProcedureAttribute)
 
@@ -345,7 +345,7 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
             }
         }
 
-        #endregion 数据库存储过程 + internal static object DbProcedureExecute(TangentMethodInfo tangentMethod, DbProcedureAttribute dbProcedureAttribute)
+        #endregion
 
         #region 数据库存储过程 + internal static async Task<object> DbProcedureExecuteAsync(TangentMethodInfo tangentMethod, DbProcedureAttribute dbProcedureAttribute)
 
@@ -399,7 +399,7 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
             }
         }
 
-        #endregion 数据库存储过程 + internal static async Task<object> DbProcedureExecuteAsync(TangentMethodInfo tangentMethod, DbProcedureAttribute dbProcedureAttribute)
+        #endregion
 
         #region 获取切面方法信息类 + internal static (TangentMethodInfo tangentMethod, TangentAttribute tangentAttribute) GetTangentMethodInfo(IInvocation invocation, ILifetimeScope lifetimeScope)
 
@@ -466,6 +466,6 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
             , tangentAttribute);
         }
 
-        #endregion 获取切面方法信息类 + internal static (TangentMethodInfo tangentMethod, TangentAttribute tangentAttribute) GetTangentMethodInfo(IInvocation invocation, ILifetimeScope lifetimeScope)
+        #endregion
     }
 }

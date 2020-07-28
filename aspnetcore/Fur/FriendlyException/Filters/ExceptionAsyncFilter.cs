@@ -44,7 +44,7 @@ namespace Fur.FriendlyException.Filters
             _unifyResultProvider = unifyResultProvider;
         }
 
-        #endregion 构造函数 + public ExceptionAsyncFilter(ILifetimeScope lifetimeScope)
+        #endregion
 
         #region 异常异步拦截器 + public Task OnExceptionAsync(ExceptionContext context)
 
@@ -69,7 +69,7 @@ namespace Fur.FriendlyException.Filters
             return Task.CompletedTask;
         }
 
-        #endregion 异常异步拦截器 + public Task OnExceptionAsync(ExceptionContext context)
+        #endregion
 
         #region 转换异常信息 + private int ConvertExceptionInfo(ExceptionContext context, ControllerActionDescriptor descriptor, out string exceptionMessage, out string exceptionErrorString)
 
@@ -113,7 +113,7 @@ namespace Fur.FriendlyException.Filters
             return statusCode;
         }
 
-        #endregion 转换异常信息 + private int ConvertExceptionInfo(ExceptionContext context, ControllerActionDescriptor descriptor, out string exceptionMessage, out string exceptionErrorString)
+        #endregion
 
         #region 加载异常状态码 + private Dictionary<int, string> LoadExceptionCodes(string defaultExceptionMsg)
 
@@ -154,6 +154,6 @@ namespace Fur.FriendlyException.Filters
             return exceptionCodes;
         }
 
-        #endregion 加载异常状态码 + private Dictionary<int, string> LoadExceptionCodes(string defaultExceptionMsg)
+        #endregion
     }
 }

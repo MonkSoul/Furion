@@ -67,7 +67,7 @@ namespace Fur.DatabaseAccessor.Repositories
             }
         }
 
-        #endregion 构造函数 + public EFCoreRepositoryOfT(DbContext dbContext , ILifetimeScope lifetimeScope, IDbContextPool dbContextPool)
+        #endregion
 
         /// <summary>
         /// 数据库操作上下文

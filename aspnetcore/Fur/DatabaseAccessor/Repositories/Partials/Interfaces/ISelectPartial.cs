@@ -23,7 +23,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         TEntity Find(object id);
 
-        #endregion 查询单条 + TEntity Find(object id)
+        #endregion
 
         #region 查询单条 + ValueTask<TEntity> FindAsync(object id)
 
@@ -34,7 +34,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="ValueTask{TResult}"/></returns>
         ValueTask<TEntity> FindAsync(object id);
 
-        #endregion 查询单条 + ValueTask<TEntity> FindAsync(object id)
+        #endregion
 
         #region 查询单条 + TEntity Single()
 
@@ -45,7 +45,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         TEntity Single();
 
-        #endregion 查询单条 + TEntity Single()
+        #endregion
 
         #region 查询单条 + Task<TEntity> SingleAsync()
 
@@ -56,7 +56,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         Task<TEntity> SingleAsync();
 
-        #endregion 查询单条 + Task<TEntity> SingleAsync()
+        #endregion
 
         #region 查询单条 + TEntity Single(Expression<Func<TEntity, bool>> expression)
 
@@ -68,7 +68,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         TEntity Single(Expression<Func<TEntity, bool>> expression);
 
-        #endregion 查询单条 + TEntity Single(Expression<Func<TEntity, bool>> expression)
+        #endregion
 
         #region 查询单条 + Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> expression)
 
@@ -80,7 +80,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> expression);
 
-        #endregion 查询单条 + Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> expression)
+        #endregion
 
         #region 查询单条 + TEntity Single(bool noTracking)
 
@@ -92,7 +92,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         TEntity Single(bool noTracking);
 
-        #endregion 查询单条 + TEntity Single(bool noTracking)
+        #endregion
 
         #region 查询单条 + Task<TEntity> SingleAsync(bool noTracking)
 
@@ -104,7 +104,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         Task<TEntity> SingleAsync(bool noTracking);
 
-        #endregion 查询单条 + Task<TEntity> SingleAsync(bool noTracking)
+        #endregion
 
         #region 查询单条 + TEntity Single(Expression<Func<TEntity, bool>> expression, bool noTracking)
 
@@ -117,7 +117,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         TEntity Single(Expression<Func<TEntity, bool>> expression, bool noTracking);
 
-        #endregion 查询单条 + TEntity Single(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        #endregion
 
         #region 查询单条 + Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
 
@@ -130,7 +130,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> expression, bool noTracking);
 
-        #endregion 查询单条 + Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        #endregion
 
         #region 查询单条 + TEntity SingleOrDefault()
 
@@ -141,7 +141,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         TEntity SingleOrDefault();
 
-        #endregion 查询单条 + TEntity SingleOrDefault()
+        #endregion
 
         #region 查询单条 + Task<TEntity> SingleOrDefaultAsync()
 
@@ -152,7 +152,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         Task<TEntity> SingleOrDefaultAsync();
 
-        #endregion 查询单条 + Task<TEntity> SingleOrDefaultAsync()
+        #endregion
 
         #region 查询单条 + TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression)
 
@@ -164,7 +164,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression);
 
-        #endregion 查询单条 + TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression)
+        #endregion
 
         #region 查询单条 + Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> expression)
 
@@ -176,7 +176,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> expression);
 
-        #endregion 查询单条 + Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> expression)
+        #endregion
 
         #region 查询单条 + TEntity SingleOrDefault(bool noTracking)
 
@@ -188,7 +188,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         TEntity SingleOrDefault(bool noTracking);
 
-        #endregion 查询单条 + TEntity SingleOrDefault(bool noTracking)
+        #endregion
 
         #region 查询单条 + Task<TEntity> SingleOrDefaultAsync(bool noTracking)
 
@@ -200,7 +200,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         Task<TEntity> SingleOrDefaultAsync(bool noTracking);
 
-        #endregion 查询单条 + Task<TEntity> SingleOrDefaultAsync(bool noTracking)
+        #endregion
 
         #region 查询单条 + TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression, bool noTracking)
 
@@ -213,7 +213,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression, bool noTracking);
 
-        #endregion 查询单条 + TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        #endregion
 
         #region 查询单条 + Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
 
@@ -226,7 +226,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> expression, bool noTracking);
 
-        #endregion 查询单条 + Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        #endregion
 
         #region 查询一条 + TEntity First()
 
@@ -237,7 +237,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         TEntity First();
 
-        #endregion 查询一条 + TEntity First()
+        #endregion
 
         #region 查询一条 + Task<TEntity> FirstAsync()
 
@@ -248,7 +248,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         Task<TEntity> FirstAsync();
 
-        #endregion 查询一条 + Task<TEntity> FirstAsync()
+        #endregion
 
         #region 查询一条 + TEntity First(Expression<Func<TEntity, bool>> expression)
 
@@ -260,7 +260,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         TEntity First(Expression<Func<TEntity, bool>> expression);
 
-        #endregion 查询一条 + TEntity First(Expression<Func<TEntity, bool>> expression)
+        #endregion
 
         #region 查询一条 + Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> expression)
 
@@ -272,7 +272,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> expression);
 
-        #endregion 查询一条 + Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> expression)
+        #endregion
 
         #region 查询一条 + TEntity First(bool noTracking)
 
@@ -284,7 +284,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         TEntity First(bool noTracking);
 
-        #endregion 查询一条 + TEntity First(bool noTracking)
+        #endregion
 
         #region 查询一条 + Task<TEntity> FirstAsync(bool noTracking)
 
@@ -296,7 +296,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         Task<TEntity> FirstAsync(bool noTracking);
 
-        #endregion 查询一条 + Task<TEntity> FirstAsync(bool noTracking)
+        #endregion
 
         #region 查询一条 + TEntity First(Expression<Func<TEntity, bool>> expression, bool noTracking)
 
@@ -309,7 +309,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns></returns>
         TEntity First(Expression<Func<TEntity, bool>> expression, bool noTracking);
 
-        #endregion 查询一条 + TEntity First(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        #endregion
 
         #region 查询一条 + Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
 
@@ -322,7 +322,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> expression, bool noTracking);
 
-        #endregion 查询一条 + Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        #endregion
 
         #region 查询一条 + TEntity FirstOrDefault()
 
@@ -333,7 +333,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         TEntity FirstOrDefault();
 
-        #endregion 查询一条 + TEntity FirstOrDefault()
+        #endregion
 
         #region 查询一条 + Task<TEntity> FirstOrDefaultAsync()
 
@@ -344,7 +344,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         Task<TEntity> FirstOrDefaultAsync();
 
-        #endregion 查询一条 + Task<TEntity> FirstOrDefaultAsync()
+        #endregion
 
         #region 查询一条 + TEntity FirstOrDefault(Expression<Func<TEntity, bool>> expression)
 
@@ -356,7 +356,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         TEntity FirstOrDefault(Expression<Func<TEntity, bool>> expression);
 
-        #endregion 查询一条 + TEntity FirstOrDefault(Expression<Func<TEntity, bool>> expression)
+        #endregion
 
         #region 查询一条 + Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression)
 
@@ -368,7 +368,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression);
 
-        #endregion 查询一条 + Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression)
+        #endregion
 
         #region 查询一条 + TEntity FirstOrDefault(bool noTracking)
 
@@ -380,7 +380,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         TEntity FirstOrDefault(bool noTracking);
 
-        #endregion 查询一条 + TEntity FirstOrDefault(bool noTracking)
+        #endregion
 
         #region 查询一条 + Task<TEntity> FirstOrDefaultAsync(bool noTracking)
 
@@ -392,7 +392,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         Task<TEntity> FirstOrDefaultAsync(bool noTracking);
 
-        #endregion 查询一条 + Task<TEntity> FirstOrDefaultAsync(bool noTracking)
+        #endregion
 
         #region 查询一条 + TEntity FirstOrDefault(Expression<Func<TEntity, bool>> expression, bool noTracking)
 
@@ -405,7 +405,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         TEntity FirstOrDefault(Expression<Func<TEntity, bool>> expression, bool noTracking);
 
-        #endregion 查询一条 + TEntity FirstOrDefault(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        #endregion
 
         #region 查询一条 + Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
 
@@ -418,7 +418,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression, bool noTracking);
 
-        #endregion 查询一条 + Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        #endregion
 
         #region 查询多条 + IQueryable<TEntity> All(bool noTracking = true, bool ignoreQueryFilters = false)
 
@@ -430,7 +430,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>多个实体</returns>
         IQueryable<TEntity> All(bool noTracking = true, bool ignoreQueryFilters = false);
 
-        #endregion 查询多条 + IQueryable<TEntity> All(bool noTracking = true, bool ignoreQueryFilters = false)
+        #endregion
 
         #region 查询多条 + Task<List<TEntity>> AllAsync(bool noTracking = true, bool ignoreQueryFilters = false)
 
@@ -442,7 +442,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>多个实体</returns>
         Task<List<TEntity>> AllAsync(bool noTracking = true, bool ignoreQueryFilters = false);
 
-        #endregion 查询多条 + Task<List<TEntity>> AllAsync(bool noTracking = true, bool ignoreQueryFilters = false)
+        #endregion
 
         #region 查询多条 + IQueryable<TEntity> All(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false)
 
@@ -455,7 +455,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>多个实体</returns>
         IQueryable<TEntity> All(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false);
 
-        #endregion 查询多条 + IQueryable<TEntity> All(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false)
+        #endregion
 
         #region 查询多条 + Task<List<TEntity>> AllAsync(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false)
 
@@ -468,7 +468,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>多个实体</returns>
         Task<List<TEntity>> AllAsync(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false);
 
-        #endregion 查询多条 + Task<List<TEntity>> AllAsync(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false)
+        #endregion
 
         #region 分页查询多条 + PagedListOfT<TEntity> PagedAll(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
 
@@ -482,7 +482,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="PagedListOfT{T}"/></returns>
         PagedListOfT<TEntity> PagedAll(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false);
 
-        #endregion 分页查询多条 + PagedListOfT<TEntity> PagedAll(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
+        #endregion
 
         #region 分页查询多条 + Task<PagedListOfT<TEntity>> PagedAllAsync(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
 
@@ -496,7 +496,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>多个实体</returns>
         Task<PagedListOfT<TEntity>> PagedAllAsync(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false);
 
-        #endregion 分页查询多条 + Task<PagedListOfT<TEntity>> PagedAllAsync(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
+        #endregion
 
         #region 分页查询多条 + PagedListOfT<TEntity> PagedAll(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
 
@@ -511,7 +511,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>多个实体</returns>
         PagedListOfT<TEntity> PagedAll(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false);
 
-        #endregion 分页查询多条 + PagedListOfT<TEntity> PagedAll(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
+        #endregion
 
         #region 分页查询多条 + Task<PagedListOfT<TEntity>> PagedAllAsync(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
 
@@ -526,7 +526,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>多个实体</returns>
         Task<PagedListOfT<TEntity>> PagedAllAsync(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false);
 
-        #endregion 分页查询多条 + Task<PagedListOfT<TEntity>> PagedAllAsync(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
+        #endregion
 
         #region 判断记录是否存在 + bool Any(Expression<Func<TEntity, bool>> expression = null)
 
@@ -537,7 +537,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>存在与否</returns>
         bool Any(Expression<Func<TEntity, bool>> expression = null);
 
-        #endregion 判断记录是否存在 + bool Any(Expression<Func<TEntity, bool>> expression = null)
+        #endregion
 
         #region 判断记录是否存在 + Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression = null)
 
@@ -548,7 +548,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression = null);
 
-        #endregion 判断记录是否存在 + Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression = null)
+        #endregion
 
         #region 获取记录条数 + int Count(Expression<Func<TEntity, bool>> expression = null)
 
@@ -560,7 +560,7 @@ namespace Fur.DatabaseAccessor.Repositories
 
         int Count(Expression<Func<TEntity, bool>> expression = null);
 
-        #endregion 获取记录条数 + int Count(Expression<Func<TEntity, bool>> expression = null)
+        #endregion
 
         #region 获取记录条数 + Task<int> CountAsync(Expression<Func<TEntity, bool>> expression = null)
 
@@ -571,7 +571,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>int</returns>
         Task<int> CountAsync(Expression<Func<TEntity, bool>> expression = null);
 
-        #endregion 获取记录条数 + Task<int> CountAsync(Expression<Func<TEntity, bool>> expression = null)
+        #endregion
 
         #region 获取实体队列中最大实体 + TEntity Max()
 
@@ -581,7 +581,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="TEntity"/></returns>
         TEntity Max();
 
-        #endregion 获取实体队列中最大实体 + TEntity Max()
+        #endregion
 
         #region 获取实体队列中最大实体 + Task<TEntity> MaxAsync()
 
@@ -591,7 +591,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<TEntity> MaxAsync();
 
-        #endregion 获取实体队列中最大实体 + Task<TEntity> MaxAsync()
+        #endregion
 
         #region 获取最大值 + TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression)
 
@@ -603,7 +603,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>最大值</returns>
         TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression);
 
-        #endregion 获取最大值 + TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression)
+        #endregion
 
         #region 获取最大值 + Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
 
@@ -615,7 +615,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression);
 
-        #endregion 获取最大值 + Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
+        #endregion
 
         #region 获取实体队列中最小实体 + TEntity Min()
 
@@ -625,7 +625,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>实体</returns>
         TEntity Min();
 
-        #endregion 获取实体队列中最小实体 + TEntity Min()
+        #endregion
 
         #region 获取实体队列中最小实体 + Task<TEntity> MinAsync()
 
@@ -635,7 +635,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<TEntity> MinAsync();
 
-        #endregion 获取实体队列中最小实体 + Task<TEntity> MinAsync()
+        #endregion
 
         #region 获取最小值 + TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression)
 
@@ -647,7 +647,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>最大值</returns>
         TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression);
 
-        #endregion 获取最小值 + TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression)
+        #endregion
 
         #region 获取最小值 + Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
 
@@ -659,6 +659,6 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression);
 
-        #endregion 获取最小值 + Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
+        #endregion
     }
 }

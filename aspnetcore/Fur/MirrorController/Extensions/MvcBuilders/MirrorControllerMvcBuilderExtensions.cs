@@ -42,6 +42,6 @@ namespace Fur.MirrorController.Extensions.MvcBuilders
             return mvcBuilder;
         }
 
-        #endregion 镜面控制器Mvc构建器拓展方法 + public static IMvcBuilder AddFurMirrorControllers(this IMvcBuilder mvcBuilder, IConfiguration configuration)
+        #endregion
     }
 }

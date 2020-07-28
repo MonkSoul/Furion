@@ -39,7 +39,7 @@ namespace Fur.DatabaseAccessor.Extensions.Paged
             };
         }
 
-        #endregion 分页拓展 + public static PagedListOfT<TEntity> ToPagedList<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
+        #endregion
 
         #region 分页拓展 + public static async Task<PagedListOfT<TEntity>> ToPagedListAsync<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
         /// <summary>
@@ -68,6 +68,6 @@ namespace Fur.DatabaseAccessor.Extensions.Paged
             };
         }
 
-        #endregion 分页拓展 + public static async Task<PagedListOfT<TEntity>> ToPagedListAsync<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
+        #endregion
     }
 }

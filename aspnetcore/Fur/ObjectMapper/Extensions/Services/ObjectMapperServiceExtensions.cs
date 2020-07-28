@@ -31,6 +31,6 @@ namespace Fur.ObjectMapper.Extensions.Services
             return services;
         }
 
-        #endregion 对象映射拓展方法 + public static IServiceCollection AddFurObjectMapper(this IServiceCollection services)
+        #endregion
     }
 }

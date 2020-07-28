@@ -14,7 +14,6 @@ namespace Fur.DatabaseAccessor.Repositories
     public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity> where TEntity : class, IDbEntityBase, new()
     {
         #region 新增操作 + public virtual EntityEntry<TEntity> Insert(TEntity entity)
-
         /// <summary>
         /// 新增操作
         /// </summary>
@@ -24,11 +23,9 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return SetInsertMaintenanceFields(() => Entities.Add(entity), entity).First();
         }
-
-        #endregion 新增操作 + public virtual EntityEntry<TEntity> Insert(TEntity entity)
+        #endregion
 
         #region 新增操作 + public virtual void Insert(params TEntity[] entities)
-
         /// <summary>
         /// 新增操作
         /// </summary>
@@ -37,11 +34,9 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             SetInsertMaintenanceFields(() => Entities.AddRange(entities), entities);
         }
+        #endregion
 
-        #endregion 新增操作 + public virtual void Insert(params TEntity[] entities)
-
-        #region 新增操作 + public virtual void Insert(IEnumerable<TEntity> entities)#EW
-
+        #region 新增操作 + public virtual void Insert(IEnumerable<TEntity> entities)
         /// <summary>
         /// 新增操作
         /// </summary>
@@ -50,11 +45,9 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             SetInsertMaintenanceFields(() => Entities.AddRange(entities), entities.ToArray());
         }
-
-        #endregion 新增操作 + public virtual void Insert(IEnumerable<TEntity> entities)
+        #endregion
 
         #region 新增操作 + public virtual ValueTask<EntityEntry<TEntity>> InsertAsync(TEntity entity)
-
         /// <summary>
         /// 新增操作
         /// </summary>
@@ -66,11 +59,9 @@ namespace Fur.DatabaseAccessor.Repositories
 
             return ValueTask.FromResult(entityEntry);
         }
-
-        #endregion 新增操作 + public virtual ValueTask<EntityEntry<TEntity>> InsertAsync(TEntity entity)
+        #endregion
 
         #region 新增操作 + public virtual Task InsertAsync(params TEntity[] entities)
-
         /// <summary>
         /// 新增操作
         /// </summary>
@@ -82,10 +73,9 @@ namespace Fur.DatabaseAccessor.Repositories
             return Task.CompletedTask;
         }
 
-        #endregion 新增操作 + public virtual Task InsertAsync(params TEntity[] entities)
+        #endregion
 
         #region 新增操作 + public virtual Task InsertAsync(IEnumerable<TEntity> entities)
-
         /// <summary>
         /// 新增操作
         /// </summary>
@@ -96,11 +86,9 @@ namespace Fur.DatabaseAccessor.Repositories
             SetInsertMaintenanceFields(async () => await Entities.AddRangeAsync(entities), entities.ToArray());
             return Task.CompletedTask;
         }
-
-        #endregion 新增操作 + public virtual Task InsertAsync(IEnumerable<TEntity> entities)
+        #endregion
 
         #region 新增操作并立即保存 + public virtual EntityEntry<TEntity> InsertSaveChanges(TEntity entity)
-
         /// <summary>
         /// 新增操作并立即保存
         /// </summary>
@@ -113,7 +101,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return trackEntity;
         }
 
-        #endregion 新增操作并立即保存 + public virtual EntityEntry<TEntity> InsertSaveChanges(TEntity entity)
+        #endregion
 
         #region 新增操作并立即保存 + public virtual void InsertSaveChanges(params TEntity[] entities)
 
@@ -127,7 +115,7 @@ namespace Fur.DatabaseAccessor.Repositories
             SaveChanges();
         }
 
-        #endregion 新增操作并立即保存 + public virtual void InsertSaveChanges(params TEntity[] entities)
+        #endregion
 
         #region 新增操作并立即保存 + public virtual void InsertSaveChanges(IEnumerable<TEntity> entities)
 
@@ -141,7 +129,7 @@ namespace Fur.DatabaseAccessor.Repositories
             SaveChanges();
         }
 
-        #endregion 新增操作并立即保存 + public virtual void InsertSaveChanges(IEnumerable<TEntity> entities)
+        #endregion
 
         #region 新增操作并立即保存 + public virtual async ValueTask<EntityEntry<TEntity>> InsertSaveChangesAsync(TEntity entity)
 
@@ -157,7 +145,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return trackEntity;
         }
 
-        #endregion 新增操作并立即保存 + public virtual async ValueTask<EntityEntry<TEntity>> InsertSaveChangesAsync(TEntity entity)
+        #endregion
 
         #region 新增操作并立即保存 + public virtual async Task InsertSaveChangesAsync(params TEntity[] entities)
 
@@ -173,7 +161,7 @@ namespace Fur.DatabaseAccessor.Repositories
             await Task.CompletedTask;
         }
 
-        #endregion 新增操作并立即保存 + public virtual async Task InsertSaveChangesAsync(params TEntity[] entities)
+        #endregion
 
         #region 新增操作并立即保存 + public virtual async Task InsertSaveChangesAsync(IEnumerable<TEntity> entities)
 
@@ -189,7 +177,7 @@ namespace Fur.DatabaseAccessor.Repositories
             await Task.CompletedTask;
         }
 
-        #endregion 新增操作并立即保存 + public virtual async Task InsertSaveChangesAsync(IEnumerable<TEntity> entities)
+        #endregion
 
         #region 设置新增时维护字段 + private void SetInsertMaintenanceFields(params TEntity[] entities)
         /// <summary>
@@ -219,7 +207,6 @@ namespace Fur.DatabaseAccessor.Repositories
             }
             return entityEntries.ToArray();
         }
-
-        #endregion 设置新增时维护字段 + private void SetInsertMaintenanceFields(params TEntity[] entities)
+        #endregion
     }
 }

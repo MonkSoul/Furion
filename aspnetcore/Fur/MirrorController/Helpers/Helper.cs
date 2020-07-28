@@ -47,7 +47,7 @@ namespace Fur.MirrorController.Helpers
             return newStr.HasValue() ? newStr : str;
         }
 
-        #endregion 移除字符串前后缀 + internal static string ClearStringAffix(string str, params string[] affixs)
+        #endregion
 
         #region 将字符串按照骆驼命名反射切割 + internal string[] CamelCaseSplitString(string str)
 
@@ -64,7 +64,7 @@ namespace Fur.MirrorController.Helpers
             return Regex.Split(str, @"(?=\p{Lu}\p{Ll})|(?<=\p{Ll})(?=\p{Lu})").Where(u => u.HasValue()).ToArray();
         }
 
-        #endregion 将字符串按照骆驼命名反射切割 + internal string[] CamelCaseSplitString(string str)
+        #endregion
 
         #region 获取骆驼命名第一个单词 + internal static string GetCamelCaseFirstWord(string str)
 
@@ -76,6 +76,6 @@ namespace Fur.MirrorController.Helpers
         internal static string GetCamelCaseFirstWord(string str)
             => CamelCaseSplitString(str).FirstOrDefault();
 
-        #endregion 获取骆驼命名第一个单词 + internal static string GetCamelCaseFirstWord(string str)
+        #endregion
     }
 }

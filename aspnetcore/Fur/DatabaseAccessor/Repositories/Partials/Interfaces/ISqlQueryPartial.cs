@@ -23,7 +23,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="IQueryable{T}"/></returns>
         IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters);
 
-        #endregion 执行 Sql 返回 IQueryable{T} + IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters)
+        #endregion
 
         #region 执行 Sql 返回 IQueryable{T} + IQueryable<TEntity> FromSqlRaw(string sql, object parameterModel)
 
@@ -35,7 +35,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="IQueryable{T}"/></returns>
         IQueryable<TEntity> FromSqlRaw(string sql, object parameterModel);
 
-        #endregion 执行 Sql 返回 IQueryable{T} + IQueryable<TEntity> FromSqlRaw(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询 + DataTable SqlQuery(string sql, params object[] parameters)
 
@@ -47,7 +47,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="DataTable"/></returns>
         DataTable SqlQuery(string sql, params object[] parameters);
 
-        #endregion sql 查询 + DataTable SqlQuery(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 + Task<DataTable> SqlQueryAsync(string sql, params object[] parameters)
 
@@ -59,7 +59,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<DataTable> SqlQueryAsync(string sql, params object[] parameters);
 
-        #endregion sql 查询 + Task<DataTable> SqlQueryAsync(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 + DataTable SqlQuery(string sql, object parameterModel)
 
@@ -71,7 +71,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="DataTable"/></returns>
         DataTable SqlQuery(string sql, object parameterModel);
 
-        #endregion sql 查询 + DataTable SqlQuery(string sql, object parameterModel)
+        #endregion
 
         #region Sql 查询 + Task<DataTable> SqlQueryAsync(string sql, object parameterModel)
 
@@ -83,7 +83,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<DataTable> SqlQueryAsync(string sql, object parameterModel);
 
-        #endregion Sql 查询 + Task<DataTable> SqlQueryAsync(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询 + IEnumerable<T> SqlQuery<T>(string sql, params object[] parameters)
 
@@ -96,7 +96,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="IEnumerable{T}"/></returns>
         IEnumerable<T> SqlQuery<T>(string sql, params object[] parameters);
 
-        #endregion sql 查询 + IEnumerable<T> SqlQuery<T>(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 + Task<IEnumerable<T>> SqlQueryAsync<T>(string sql, params object[] parameters)
 
@@ -109,7 +109,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<IEnumerable<T>> SqlQueryAsync<T>(string sql, params object[] parameters);
 
-        #endregion sql 查询 + Task<IEnumerable<T>> SqlQueryAsync<T>(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 + IEnumerable<T> SqlQuery<T>(string sql, object parameterModel)
 
@@ -122,7 +122,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="IEnumerable{T}"/></returns>
         IEnumerable<T> SqlQuery<T>(string sql, object parameterModel);
 
-        #endregion sql 查询 + IEnumerable<T> SqlQuery<T>(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询 + Task<IEnumerable<T>> SqlQueryAsync<T>(string sql, object parameterModel)
 
@@ -135,7 +135,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<IEnumerable<T>> SqlQueryAsync<T>(string sql, object parameterModel);
 
-        #endregion sql 查询 + Task<IEnumerable<T>> SqlQueryAsync<T>(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询 + object SqlQuery(string sql, Type returnType, params object[] parameters)
 
@@ -148,7 +148,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>object</returns>
         object SqlQuery(string sql, Type returnType, params object[] parameters);
 
-        #endregion sql 查询 + object SqlQuery(string sql, Type returnType, params object[] parameters)
+        #endregion
 
         #region sql 查询 + Task<object> SqlQueryAsync(string sql, Type returnType, params object[] parameters)
 
@@ -161,7 +161,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<object> SqlQueryAsync(string sql, Type returnType, params object[] parameters);
 
-        #endregion sql 查询 + Task<object> SqlQueryAsync(string sql, Type returnType, params object[] parameters)
+        #endregion
 
         #region sql 查询 返回 DataSet + DataSet SqlDataSet(string sql, params object[] parameters)
 
@@ -173,7 +173,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="DataSet"/></returns>
         DataSet SqlDataSet(string sql, params object[] parameters);
 
-        #endregion sql 查询 返回 DataSet + DataSet SqlDataSet(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 返回 DataSet + Task<DataSet> SqlDataSetAsync(string sql, params object[] parameters)
 
@@ -185,7 +185,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<DataSet> SqlDataSetAsync(string sql, params object[] parameters);
 
-        #endregion sql 查询 返回 DataSet + Task<DataSet> SqlDataSetAsync(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 返回 DataSet + DataSet SqlDataSet(string sql, object parameterModel)
 
@@ -197,7 +197,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="DataSet"/></returns>
         DataSet SqlDataSet(string sql, object parameterModel);
 
-        #endregion sql 查询 返回 DataSet + DataSet SqlDataSet(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询 返回 DataSet + Task<DataSet> SqlDataSetAsync(string sql, object parameterModel)
 
@@ -209,7 +209,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="DataSet"/></returns>
         Task<DataSet> SqlDataSetAsync(string sql, object parameterModel);
 
-        #endregion sql 查询 返回 DataSet + Task<DataSet> SqlDataSetAsync(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询 返回一个结果集 + IEnumerable<T1> SqlDataSet<T1>(string sql, params object[] parameters)
 
@@ -222,7 +222,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="IEnumerable{T}"/></returns>
         IEnumerable<T1> SqlDataSet<T1>(string sql, params object[] parameters);
 
-        #endregion sql 查询 返回一个结果集 + IEnumerable<T1> SqlDataSet<T1>(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 返回两个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2) SqlDataSet<T1, T2>(string sql, params object[] parameters)
 
@@ -236,7 +236,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Tuple{T1, T2}"/></returns>
         (IEnumerable<T1> data1, IEnumerable<T2> data2) SqlDataSet<T1, T2>(string sql, params object[] parameters);
 
-        #endregion sql 查询 返回两个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2) SqlDataSet<T1, T2>(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 返回三个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3) SqlDataSet<T1, T2, T3>(string sql, params object[] parameters)
 
@@ -251,7 +251,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Tuple{T1, T2, T3}"/></returns>
         (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3) SqlDataSet<T1, T2, T3>(string sql, params object[] parameters);
 
-        #endregion sql 查询 返回三个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3) SqlDataSet<T1, T2, T3>(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 返回四个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4) SqlDataSet<T1, T2, T3, T4>(string sql, params object[] parameters)
 
@@ -267,7 +267,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Tuple{T1, T2, T3, T4}"/></returns>
         (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4) SqlDataSet<T1, T2, T3, T4>(string sql, params object[] parameters);
 
-        #endregion sql 查询 返回四个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4) SqlDataSet<T1, T2, T3, T4>(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 返回五个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5) SqlDataSet<T1, T2, T3, T4, T5>(string sql, params object[] parameters)
 
@@ -284,7 +284,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Tuple{T1, T2, T3, T4, T5}"/></returns>
         (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5) SqlDataSet<T1, T2, T3, T4, T5>(string sql, params object[] parameters);
 
-        #endregion sql 查询 返回五个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5) SqlDataSet<T1, T2, T3, T4, T5>(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 返回六个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6) SqlDataSet<T1, T2, T3, T4, T5, T6>(string sql, params object[] parameters)
 
@@ -302,7 +302,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Tuple{T1, T2, T3, T4, T5, T6}"/></returns>
         (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6) SqlDataSet<T1, T2, T3, T4, T5, T6>(string sql, params object[] parameters);
 
-        #endregion sql 查询 返回六个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6) SqlDataSet<T1, T2, T3, T4, T5, T6>(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 返回七个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7) SqlDataSet<T1, T2, T3, T4, T5, T6, T7>(string sql, params object[] parameters)
 
@@ -321,7 +321,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Tuple{T1, T2, T3, T4, T5, T6, T7}"/></returns>
         (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7) SqlDataSet<T1, T2, T3, T4, T5, T6, T7>(string sql, params object[] parameters);
 
-        #endregion sql 查询 返回七个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7) SqlDataSet<T1, T2, T3, T4, T5, T6, T7>(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 返回八个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) SqlDataSet<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, params object[] parameters)
 
@@ -341,7 +341,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/></returns>
         (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) SqlDataSet<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, params object[] parameters);
 
-        #endregion sql 查询 返回八个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) SqlDataSet<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 返回一个结果集 + Task<IEnumerable<T1>> SqlDataSetAsync<T1>(string sql, params object[] parameters)
 
@@ -354,7 +354,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<IEnumerable<T1>> SqlDataSetAsync<T1>(string sql, params object[] parameters);
 
-        #endregion sql 查询 返回一个结果集 + Task<IEnumerable<T1>> SqlDataSetAsync<T1>(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 返回两个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2)> SqlDataSetAsync<T1, T2>(string sql, params object[] parameters)
 
@@ -368,7 +368,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<(IEnumerable<T1> data1, IEnumerable<T2> data2)> SqlDataSetAsync<T1, T2>(string sql, params object[] parameters);
 
-        #endregion sql 查询 返回两个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2)> SqlDataSetAsync<T1, T2>(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 返回三个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3)> SqlDataSetAsync<T1, T2, T3>(string sql, params object[] parameters)
 
@@ -383,7 +383,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3)> SqlDataSetAsync<T1, T2, T3>(string sql, params object[] parameters);
 
-        #endregion sql 查询 返回三个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3)> SqlDataSetAsync<T1, T2, T3>(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 返回四个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4)> SqlDataSetAsync<T1, T2, T3, T4>(string sql, params object[] parameters)
 
@@ -399,7 +399,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4)> SqlDataSetAsync<T1, T2, T3, T4>(string sql, params object[] parameters);
 
-        #endregion sql 查询 返回四个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4)> SqlDataSetAsync<T1, T2, T3, T4>(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 返回五个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5)> SqlDataSetAsync<T1, T2, T3, T4, T5>(string sql, params object[] parameters)
 
@@ -416,7 +416,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5)> SqlDataSetAsync<T1, T2, T3, T4, T5>(string sql, params object[] parameters);
 
-        #endregion sql 查询 返回五个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5)> SqlDataSetAsync<T1, T2, T3, T4, T5>(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 返回六个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6>(string sql, params object[] parameters)
 
@@ -434,7 +434,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6>(string sql, params object[] parameters);
 
-        #endregion sql 查询 返回六个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6>(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 返回七个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6, T7>(string sql, params object[] parameters)
 
@@ -453,7 +453,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6, T7>(string sql, params object[] parameters);
 
-        #endregion sql 查询 返回七个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6, T7>(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询 返回八个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, params object[] parameters)
 
@@ -473,7 +473,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, params object[] parameters);
 
-        #endregion sql 查询 返回八个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, params object[] parameters)
+        #endregion
 
         #region sql 查询返回一个结果集 + IEnumerable<T1> SqlDataSet<T1>(string sql, object parameterModel)
 
@@ -486,7 +486,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="IEnumerable{T}"/></returns>
         IEnumerable<T1> SqlDataSet<T1>(string sql, object parameterModel);
 
-        #endregion sql 查询返回一个结果集 + IEnumerable<T1> SqlDataSet<T1>(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询返回两个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2) SqlDataSet<T1, T2>(string sql, object parameterModel)
 
@@ -500,7 +500,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Tuple{T1, T2}"/></returns>
         (IEnumerable<T1> data1, IEnumerable<T2> data2) SqlDataSet<T1, T2>(string sql, object parameterModel);
 
-        #endregion sql 查询返回两个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2) SqlDataSet<T1, T2>(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询返回三个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3) SqlDataSet<T1, T2, T3>(string sql, object parameterModel)
 
@@ -515,7 +515,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Tuple{T1, T2, T3}"/></returns>
         (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3) SqlDataSet<T1, T2, T3>(string sql, object parameterModel);
 
-        #endregion sql 查询返回三个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3) SqlDataSet<T1, T2, T3>(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询返回四个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4) SqlDataSet<T1, T2, T3, T4>(string sql, object parameterModel)
 
@@ -531,7 +531,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Tuple{T1, T2, T3, T4}"/></returns>
         (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4) SqlDataSet<T1, T2, T3, T4>(string sql, object parameterModel);
 
-        #endregion sql 查询返回四个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4) SqlDataSet<T1, T2, T3, T4>(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询返回五个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5) SqlDataSet<T1, T2, T3, T4, T5>(string sql, object parameterModel)
 
@@ -548,7 +548,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Tuple{T1, T2, T3, T4, T5}"/></returns>
         (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5) SqlDataSet<T1, T2, T3, T4, T5>(string sql, object parameterModel);
 
-        #endregion sql 查询返回五个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5) SqlDataSet<T1, T2, T3, T4, T5>(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询返回六个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6) SqlDataSet<T1, T2, T3, T4, T5, T6>(string sql, object parameterModel)
 
@@ -566,7 +566,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Tuple{T1, T2, T3, T4, T5, T6}"/></returns>
         (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6) SqlDataSet<T1, T2, T3, T4, T5, T6>(string sql, object parameterModel);
 
-        #endregion sql 查询返回六个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6) SqlDataSet<T1, T2, T3, T4, T5, T6>(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询返回七个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7) SqlDataSet<T1, T2, T3, T4, T5, T6, T7>(string sql, object parameterModel)
 
@@ -585,7 +585,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Tuple{T1, T2, T3, T4, T5, T6, T7}"/></returns>
         (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7) SqlDataSet<T1, T2, T3, T4, T5, T6, T7>(string sql, object parameterModel);
 
-        #endregion sql 查询返回七个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7) SqlDataSet<T1, T2, T3, T4, T5, T6, T7>(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询返回八个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) SqlDataSet<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, object parameterModel)
 
@@ -605,7 +605,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/></returns>
         (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) SqlDataSet<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, object parameterModel);
 
-        #endregion sql 查询返回八个结果集 + (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) SqlDataSet<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询返回一个结果集 + Task<IEnumerable<T1>> SqlDataSetAsync<T1>(string sql, object parameterModel)
 
@@ -618,7 +618,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<IEnumerable<T1>> SqlDataSetAsync<T1>(string sql, object parameterModel);
 
-        #endregion sql 查询返回一个结果集 + Task<IEnumerable<T1>> SqlDataSetAsync<T1>(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询返回两个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2)> SqlDataSetAsync<T1, T2>(string sql, object parameterModel)
 
@@ -632,7 +632,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<(IEnumerable<T1> data1, IEnumerable<T2> data2)> SqlDataSetAsync<T1, T2>(string sql, object parameterModel);
 
-        #endregion sql 查询返回两个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2)> SqlDataSetAsync<T1, T2>(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询返回三个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3)> SqlDataSetAsync<T1, T2, T3>(string sql, object parameterModel)
 
@@ -647,7 +647,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3)> SqlDataSetAsync<T1, T2, T3>(string sql, object parameterModel);
 
-        #endregion sql 查询返回三个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3)> SqlDataSetAsync<T1, T2, T3>(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询返回四个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4)> SqlDataSetAsync<T1, T2, T3, T4>(string sql, object parameterModel)
 
@@ -663,7 +663,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4)> SqlDataSetAsync<T1, T2, T3, T4>(string sql, object parameterModel);
 
-        #endregion sql 查询返回四个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4)> SqlDataSetAsync<T1, T2, T3, T4>(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询返回五个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5)> SqlDataSetAsync<T1, T2, T3, T4, T5>(string sql, object parameterModel)
 
@@ -680,7 +680,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5)> SqlDataSetAsync<T1, T2, T3, T4, T5>(string sql, object parameterModel);
 
-        #endregion sql 查询返回五个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5)> SqlDataSetAsync<T1, T2, T3, T4, T5>(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询返回六个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6>(string sql, object parameterModel)
 
@@ -698,7 +698,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6>(string sql, object parameterModel);
 
-        #endregion sql 查询返回六个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6>(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询返回七个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6, T7>(string sql, object parameterModel)
 
@@ -717,7 +717,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6, T7>(string sql, object parameterModel);
 
-        #endregion sql 查询返回七个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6, T7>(string sql, object parameterModel)
+        #endregion
 
         #region sql 查询返回八个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, object parameterModel)
 
@@ -737,7 +737,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, object parameterModel);
 
-        #endregion sql 查询返回八个结果集 + Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, object parameterModel)
+        #endregion
 
         #region sql 执行 + object SqlDataSet(string sql, Type[] returnTypes, params object[] parameters)
 
@@ -751,7 +751,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>object</returns>
         object SqlDataSet(string sql, Type[] returnTypes, params object[] parameters);
 
-        #endregion sql 执行 + object SqlDataSet(string sql, Type[] returnTypes, params object[] parameters)
+        #endregion
 
         #region sql 执行 + Task<object> SqlDataSetAsync(string sql, Type[] returnTypes, params object[] parameters)
 
@@ -765,7 +765,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         Task<object> SqlDataSetAsync(string sql, Type[] returnTypes, params object[] parameters);
 
-        #endregion sql 执行 + Task<object> SqlDataSetAsync(string sql, Type[] returnTypes, params object[] parameters)
+        #endregion
 
         #region sql 执行 + object SqlDataSet(string sql, Type[] returnTypes, object parameterModel)
 
@@ -779,7 +779,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>object</returns>
         object SqlDataSet(string sql, Type[] returnTypes, object parameterModel);
 
-        #endregion sql 执行 + object SqlDataSet(string sql, Type[] returnTypes, object parameterModel)
+        #endregion
 
         #region sql 执行 + Task<object> SqlDataSetAsync(string sql, Type[] returnTypes, object parameterModel)
 
@@ -793,6 +793,6 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns>object</returns>
         Task<object> SqlDataSetAsync(string sql, Type[] returnTypes, object parameterModel);
 
-        #endregion sql 执行 + Task<object> SqlDataSetAsync(string sql, Type[] returnTypes, object parameterModel)
+        #endregion
     }
 }

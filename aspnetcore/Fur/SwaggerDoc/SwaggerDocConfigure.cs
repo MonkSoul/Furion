@@ -31,7 +31,7 @@ namespace Fur.SwaggerDoc
         /// <summary>
         /// Swagger选项
         /// </summary>
-        private static SwaggerDocOptions swaggerOptions;
+        private static readonly SwaggerDocOptions swaggerOptions;
 
         #region 初始化Swagger服务 + public static void Initialize(SwaggerGenOptions swaggerGenOptions)
 
@@ -45,7 +45,7 @@ namespace Fur.SwaggerDoc
             SetSwaggerBaseConfigure(swaggerGenOptions);
         }
 
-        #endregion 初始化Swagger服务 + public static void Initialize(SwaggerGenOptions swaggerGenOptions)
+        #endregion
 
         #region 初始化Swagger路由 -  public static void Initialize(SwaggerUIOptions swaggerUIOptions)
 
@@ -58,7 +58,7 @@ namespace Fur.SwaggerDoc
             CreateSwaggerEndpointsAndBaseConfigure(swaggerUIOptions);
         }
 
-        #endregion 初始化Swagger路由 -  public static void Initialize(SwaggerUIOptions swaggerUIOptions)
+        #endregion
 
         #region 扫描程序集中所有的Swagger分组 + private static string[] ScanAssemblyGroups()
 
@@ -85,7 +85,7 @@ namespace Fur.SwaggerDoc
             return swaggerGroups.ToArray();
         }
 
-        #endregion 扫描程序集中所有的Swagger分组 + private static string[] ScanAssemblyGroups()
+        #endregion
 
         #region 生成分组文档 + private static void CreateSwaggerDocs(SwaggerGenOptions swaggerGenOptions)
 
@@ -101,7 +101,7 @@ namespace Fur.SwaggerDoc
             }
         }
 
-        #endregion 生成分组文档 + private static void CreateSwaggerDocs(SwaggerGenOptions swaggerGenOptions)
+        #endregion
 
         #region 加载分组配置信息 + private static OpenApiInfo LoadSwaggerGroupOptions(string group)
 
@@ -133,7 +133,7 @@ namespace Fur.SwaggerDoc
             };
         }
 
-        #endregion 加载分组配置信息 + private static OpenApiInfo LoadSwaggerGroupOptions(string group)
+        #endregion
 
         #region 设置Swagger基础配置 + private static void SetSwaggerBaseConfigure(SwaggerGenOptions swaggerGenOptions)
 
@@ -161,7 +161,7 @@ namespace Fur.SwaggerDoc
             }
         }
 
-        #endregion 设置Swagger基础配置 + private static void SetSwaggerBaseConfigure(SwaggerGenOptions swaggerGenOptions)
+        #endregion
 
         #region Swagger分组切换接口显示列表 - private static bool SwaggerGroupSwitchPredicate(string currentGroup, ApiDescription apiDescription)
 
@@ -179,7 +179,7 @@ namespace Fur.SwaggerDoc
             return methodSwaggerGroups.Contains(currentGroup);
         }
 
-        #endregion Swagger分组切换接口显示列表 - private static bool SwaggerGroupSwitchPredicate(string currentGroup, ApiDescription apiDescription)
+        #endregion
 
         #region 创建Swagger终点路由配置 + private static void CreateSwaggerEndpointsAndBaseConfigure(SwaggerUIOptions swaggerUIOptions)
 
@@ -206,7 +206,7 @@ namespace Fur.SwaggerDoc
             }
         }
 
-        #endregion 创建Swagger终点路由配置 + private static void CreateSwaggerEndpointsAndBaseConfigure(SwaggerUIOptions swaggerUIOptions)
+        #endregion
 
         private static void AddSecurityAuthorization(SwaggerGenOptions swaggerGenOptions)
         {

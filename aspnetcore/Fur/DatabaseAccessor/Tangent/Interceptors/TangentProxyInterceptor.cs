@@ -25,7 +25,7 @@ namespace Fur.DatabaseAccessor.Tangent.Interceptors
             _tangentProxyAsyncInterceptor = tangentProxyAsyncInterceptor;
         }
 
-        #endregion 构造函数 + public TangentProxyInterceptor(TangentProxyAsyncInterceptor tangentProxyAsyncInterceptor)
+        #endregion
 
         #region 拦截具体方法 + public void Intercept(IInvocation invocation)
 
@@ -38,6 +38,6 @@ namespace Fur.DatabaseAccessor.Tangent.Interceptors
             _tangentProxyAsyncInterceptor.ToInterceptor().Intercept(invocation);
         }
 
-        #endregion 拦截具体方法 + public void Intercept(IInvocation invocation)
+        #endregion
     }
 }

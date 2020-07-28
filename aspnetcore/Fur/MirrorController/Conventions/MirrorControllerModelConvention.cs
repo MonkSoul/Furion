@@ -56,7 +56,7 @@ namespace Fur.MirrorController.Conventions
             }
         }
 
-        #endregion 解析镜面控制器 + public void Apply(ApplicationModel application)
+        #endregion
 
         #region 配置控制器模型信息 - private void ConfigureController(ControllerModel controllerModel, TypeInfo controllerTypeInfo)
 
@@ -74,7 +74,7 @@ namespace Fur.MirrorController.Conventions
             ConfigureControllerApiExplorer(controllerModel);
         }
 
-        #endregion 配置控制器模型信息 - private void ConfigureController(ControllerModel controllerModel, TypeInfo controllerTypeInfo)
+        #endregion
 
         #region 配置区域/ApiVersion名称 - private void ConfigureAreaName(ControllerModel controllerModel, AttachControllerAttribute attactControllerAttribute)
 
@@ -98,7 +98,7 @@ namespace Fur.MirrorController.Conventions
             }
         }
 
-        #endregion 配置区域/ApiVersion名称 - private void ConfigureAreaName(ControllerModel controllerModel, AttachControllerAttribute attactControllerAttribute)
+        #endregion
 
         #region 配置控制器名称 - private void ConfigureControllerName(ControllerModel controllerModel)
 
@@ -111,7 +111,7 @@ namespace Fur.MirrorController.Conventions
             controllerModel.ControllerName = Helper.ClearStringAffix(controllerModel.ControllerName, _attactControllerOptions.ClearControllerRouteAffix);
         }
 
-        #endregion 配置控制器名称 - private void ConfigureControllerName(ControllerModel controllerModel)
+        #endregion
 
         #region 配置控制器导出可见情况 - private void ConfigureControllerApiExplorer(ControllerModel controllerModel)
 
@@ -127,7 +127,7 @@ namespace Fur.MirrorController.Conventions
             }
         }
 
-        #endregion 配置控制器导出可见情况 - private void ConfigureControllerApiExplorer(ControllerModel controllerModel)
+        #endregion
 
         #region 配置Action模型信息 - private void ConfigureAction(ControllerModel controllerModel)
 
@@ -162,7 +162,7 @@ namespace Fur.MirrorController.Conventions
             }
         }
 
-        #endregion 配置Action模型信息 - private void ConfigureAction(ControllerModel controllerModel)
+        #endregion
 
         #region 配置Action导出可见情况 - private void ConfigureActionApiExplorerAndParameters(ActionModel actionModel)
 
@@ -181,7 +181,7 @@ namespace Fur.MirrorController.Conventions
             ConfigureActionParameters(actionModel);
         }
 
-        #endregion 配置Action导出可见情况 - private void ConfigureActionApiExplorerAndParameters(ActionModel actionModel)
+        #endregion
 
         #region 配置Action名称 - private void ConfigureActionName(ActionModel actionModel)
 
@@ -206,7 +206,7 @@ namespace Fur.MirrorController.Conventions
             }
         }
 
-        #endregion 配置Action名称 - private void ConfigureActionName(ActionModel actionModel)
+        #endregion
 
         #region 配置Action路由和请求方式 - private void ConfigureActionRouteAndHttpMethod(ControllerModel controllerModel, ActionModel actionModel, AttachActionAttribute attachActionAttribute)
 
@@ -254,7 +254,7 @@ namespace Fur.MirrorController.Conventions
             }
         }
 
-        #endregion 配置Action路由和请求方式 - private void ConfigureActionRouteAndHttpMethod(ControllerModel controllerModel, ActionModel actionModel, AttachActionAttribute attachActionAttribute)
+        #endregion
 
         #region 配置Action路由信息 - private AttributeRouteModel ConfigureActionRoute(ControllerModel controllerModel, ActionModel actionModel, AttachActionAttribute attachActionAttribute)
 
@@ -329,7 +329,7 @@ namespace Fur.MirrorController.Conventions
             return new AttributeRouteModel(new RouteAttribute(route));
         }
 
-        #endregion 配置Action路由信息 - private AttributeRouteModel ConfigureActionRoute(ControllerModel controllerModel, ActionModel actionModel, AttachActionAttribute attachActionAttribute)
+        #endregion
 
         #region Action模型参数值绑定 - private void ConfigureActionParameters(ActionModel actionModel)
 
@@ -350,7 +350,7 @@ namespace Fur.MirrorController.Conventions
             }
         }
 
-        #endregion Action模型参数值绑定 - private void ConfigureActionParameters(ActionModel actionModel)
+        #endregion
 
         #region 检查是否能够通过Body绑定参数值 - private bool CanBindingFromBody(ActionModel actionModel, ParameterModel parameterModel)
 
@@ -381,6 +381,6 @@ namespace Fur.MirrorController.Conventions
             return true;
         }
 
-        #endregion 检查是否能够通过Body绑定参数值 - private bool CanBindingFromBody(ActionModel actionModel, ParameterModel parameterModel)
+        #endregion
     }
 }

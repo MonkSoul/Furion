@@ -20,7 +20,7 @@ namespace Fur.DatabaseAccessor.Tangent.Attributes
         {
         }
 
-        #endregion 构造函数 + public DbProcedureAttribute(string name) : base(name)
+        #endregion
 
         /// <summary>
         /// 是否带输入值或返回值

@@ -26,7 +26,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return Delete(entity);
         }
 
-        #endregion 查找并真删除操作 + public virtual EntityEntry<TEntity> FindToDelete(object id)
+        #endregion
 
         #region 查找并真删除操作 + public virtual async Task<EntityEntry<TEntity>> FindToDeleteAsync(object id)
 
@@ -42,7 +42,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并真删除操作 + public virtual async Task<EntityEntry<TEntity>> FindToDeleteAsync(object id)
+        #endregion
 
         #region 查找并真删除操作（抛异常） + public virtual EntityEntry<TEntity> FindToDelete(object id, Exception notFoundException)
 
@@ -58,7 +58,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return Delete(entity);
         }
 
-        #endregion 查找并真删除操作（抛异常） + public virtual EntityEntry<TEntity> FindToDelete(object id, Exception notFoundException)
+        #endregion
 
         #region 查找并真删除操作（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToDeleteAsync(object id, Exception notFoundException)
 
@@ -75,7 +75,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并真删除操作（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToDeleteAsync(object id, Exception notFoundException)
+        #endregion
 
         #region 查找并真删除操作（抛异常） + public virtual EntityEntry<TEntity> FindToDelete(object id, int oopsCode)
 
@@ -91,7 +91,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return Delete(entity);
         }
 
-        #endregion 查找并真删除操作（抛异常） + public virtual EntityEntry<TEntity> FindToDelete(object id, int oopsCode)
+        #endregion
 
         #region 查找并真删除操作（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToDeleteAsync(object id, int oopsCode)
 
@@ -108,7 +108,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并真删除操作（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToDeleteAsync(object id, int oopsCode)
+        #endregion
 
         #region 查找并真删除操作并立即保存 + public virtual EntityEntry<TEntity> FindToDeleteSaveChanges(object id)
 
@@ -124,7 +124,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并真删除操作并立即保存 + public virtual EntityEntry<TEntity> FindToDeleteSaveChanges(object id)
+        #endregion
 
         #region 查找并真删除操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> FindToDeleteSaveChangesAsync(object id)
 
@@ -140,7 +140,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并真删除操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> FindToDeleteSaveChangesAsync(object id)
+        #endregion
 
         #region 查找并真删除操作并立即保存（抛异常） + public virtual EntityEntry<TEntity> FindToDeleteSaveChanges(object id, int oopsCode)
 
@@ -157,7 +157,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并真删除操作并立即保存（抛异常） + public virtual EntityEntry<TEntity> FindToDeleteSaveChanges(object id, int oopsCode)
+        #endregion
 
         #region 查找并真删除操作并立即保存（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToDeleteSaveChangesAsync(object id, int oopsCode)
 
@@ -174,7 +174,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并真删除操作并立即保存（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToDeleteSaveChangesAsync(object id, int oopsCode)
+        #endregion
 
         #region 查找并真删除操作并立即保存（抛异常） + public virtual EntityEntry<TEntity> FindToDeleteSaveChanges(object id, Exception notFoundException)
 
@@ -191,7 +191,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并真删除操作并立即保存（抛异常） + public virtual EntityEntry<TEntity> FindToDeleteSaveChanges(object id, Exception notFoundException)
+        #endregion
 
         #region 查找并真删除操作并立即保存（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToDeleteSaveChangesAsync(object id, Exception notFoundException)
 
@@ -208,7 +208,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并真删除操作并立即保存（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToDeleteSaveChangesAsync(object id, Exception notFoundException)
+        #endregion
 
         #region 查找并软删除操作 + public virtual EntityEntry<TEntity> FindToFakeDelete(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue)
 
@@ -225,7 +225,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return FakeDelete(entity, flagProperty, flagValue);
         }
 
-        #endregion 查找并软删除操作 + public virtual EntityEntry<TEntity> FindToFakeDelete(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #endregion
 
         #region 查找并软删除操作 + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue)
 
@@ -242,7 +242,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return await FakeDeleteAsync(entity, flagProperty, flagValue);
         }
 
-        #endregion 查找并软删除操作 + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #endregion
 
         #region 查找并软删除操作（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDelete(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, Exception notFoundException)
 
@@ -260,7 +260,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return FakeDelete(entity, flagProperty, flagValue);
         }
 
-        #endregion 查找并软删除操作（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDelete(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, Exception notFoundException)
+        #endregion
 
         #region 查找并软删除操作（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, Exception notFoundException)
 
@@ -278,7 +278,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return await FakeDeleteAsync(entity, flagProperty, flagValue);
         }
 
-        #endregion 查找并软删除操作（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, Exception notFoundException)
+        #endregion
 
         #region 查找并软删除操作（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDelete(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, int oopsCode)
 
@@ -296,7 +296,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return FakeDelete(entity, flagProperty, flagValue);
         }
 
-        #endregion 查找并软删除操作（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDelete(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, int oopsCode)
+        #endregion
 
         #region 查找并软删除操作（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, int oopsCode)
 
@@ -314,7 +314,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return await FakeDeleteAsync(entity, flagProperty, flagValue);
         }
 
-        #endregion 查找并软删除操作（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, int oopsCode)
+        #endregion
 
         #region 查找并软删除操作 + public virtual EntityEntry<TEntity> FindToFakeDelete(object id)
 
@@ -329,7 +329,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return FakeDelete(entity);
         }
 
-        #endregion 查找并软删除操作 + public virtual EntityEntry<TEntity> FindToFakeDelete(object id)
+        #endregion
 
         #region 查找并软删除操作 + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id)
 
@@ -344,7 +344,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return await FakeDeleteAsync(entity);
         }
 
-        #endregion 查找并软删除操作 + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id)
+        #endregion
 
         #region 查找并软删除操作（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDelete(object id, Exception notFoundException)
 
@@ -360,7 +360,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return FakeDelete(entity);
         }
 
-        #endregion 查找并软删除操作（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDelete(object id, Exception notFoundException)
+        #endregion
 
         #region 查找并软删除操作（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, Exception notFoundException)
 
@@ -376,7 +376,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return await FakeDeleteAsync(entity);
         }
 
-        #endregion 查找并软删除操作（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, Exception notFoundException)
+        #endregion
 
         #region 查找并软删除操作（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDelete(object id, int oopsCode)
 
@@ -392,7 +392,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return FakeDelete(entity);
         }
 
-        #endregion 查找并软删除操作（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDelete(object id, int oopsCode)
+        #endregion
 
         #region 查找并软删除操作（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, int oopsCode)
 
@@ -408,7 +408,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return await FakeDeleteAsync(entity);
         }
 
-        #endregion 查找并软删除操作（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, int oopsCode)
+        #endregion
 
         #region 查找并软删除操作并立即保存 + public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue)
 
@@ -426,7 +426,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并软删除操作并立即保存 + public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #endregion
 
         #region 查找并软删除操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue)
 
@@ -444,7 +444,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并软删除操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue)
+        #endregion
 
         #region 查找并软删除操作并立即保存（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, Exception notFoundException)
 
@@ -463,7 +463,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并软删除操作并立即保存（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, Exception notFoundException)
+        #endregion
 
         #region 查找并软删除操作并立即保存（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, Exception notFoundException)
 
@@ -482,7 +482,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并软删除操作并立即保存（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, Exception notFoundException)
+        #endregion
 
         #region 查找并软删除操作并立即保存（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, int oopsCode)
 
@@ -501,7 +501,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并软删除操作并立即保存（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, int oopsCode)
+        #endregion
 
         #region 查找并软删除操作并立即保存（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, int oopsCode)
 
@@ -520,7 +520,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并软删除操作并立即保存（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, int oopsCode)
+        #endregion
 
         #region 查找并软删除操作并立即保存 + public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id)
 
@@ -536,7 +536,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并软删除操作并立即保存 + public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id)
+        #endregion
 
         #region 查找并软删除操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id)
 
@@ -552,7 +552,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并软删除操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id)
+        #endregion
 
         #region 查找并软删除操作并立即保存（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, Exception notFoundException)
 
@@ -569,7 +569,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并软删除操作并立即保存（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, Exception notFoundException)
+        #endregion
 
         #region 查找并软删除操作并立即保存（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, Exception notFoundException)
 
@@ -586,7 +586,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并软删除操作并立即保存（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, Exception notFoundException)
+        #endregion
 
         #region 查找并软删除操作并立即保存（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, int oopsCode)
 
@@ -603,7 +603,7 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并软删除操作并立即保存（抛异常） + public virtual EntityEntry<TEntity> FindToFakeDeleteSaveChanges(object id, int oopsCode)
+        #endregion
 
         #region 查找并软删除操作并立即保存（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, int oopsCode)
 
@@ -620,6 +620,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion 查找并软删除操作并立即保存（抛异常） + public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteSaveChangesAsync(object id, int oopsCode)
+        #endregion
     }
 }

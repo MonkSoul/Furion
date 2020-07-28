@@ -30,7 +30,7 @@ namespace Fur.Linq.Extensions
             return Expression.Lambda<TSource>(mergeWay(expression.Body, extendExpressionBody), expression.Parameters);
         }
 
-        #endregion 组合两个表达式 + public static Expression<TSource> Compose<TSource>(this Expression<TSource> expression, Expression<TSource> extendExpression, Func<Expression, Expression, Expression> mergeWay)
+        #endregion
 
         #region 与操作合并两个表达式 + public static Expression<Func<TSource, bool>> And<TSource>(this Expression<Func<TSource, bool>> expression, Expression<Func<TSource, bool>> extendExpression)
 
@@ -44,7 +44,7 @@ namespace Fur.Linq.Extensions
         public static Expression<Func<TSource, bool>> And<TSource>(this Expression<Func<TSource, bool>> expression, Expression<Func<TSource, bool>> extendExpression)
             => expression.Compose(extendExpression, Expression.AndAlso);
 
-        #endregion 与操作合并两个表达式 + public static Expression<Func<TSource, bool>> And<TSource>(this Expression<Func<TSource, bool>> expression, Expression<Func<TSource, bool>> extendExpression)
+        #endregion
 
         #region 与操作合并两个表达式，支持索引器 + public static Expression<Func<TSource, int, bool>> And<TSource>(this Expression<Func<TSource, int, bool>> expression, Expression<Func<TSource, int, bool>> extendExpression)
 
@@ -58,7 +58,7 @@ namespace Fur.Linq.Extensions
         public static Expression<Func<TSource, int, bool>> And<TSource>(this Expression<Func<TSource, int, bool>> expression, Expression<Func<TSource, int, bool>> extendExpression)
             => expression.Compose(extendExpression, Expression.AndAlso);
 
-        #endregion 与操作合并两个表达式，支持索引器 + public static Expression<Func<TSource, int, bool>> And<TSource>(this Expression<Func<TSource, int, bool>> expression, Expression<Func<TSource, int, bool>> extendExpression)
+        #endregion
 
         #region 根据条件成立再与操作合并两个表达式 + public static Expression<Func<TSource, bool>> AndIf<TSource>(this Expression<Func<TSource, bool>> expression, bool condition, Expression<Func<TSource, bool>> extendExpression)
 
@@ -73,7 +73,7 @@ namespace Fur.Linq.Extensions
         public static Expression<Func<TSource, bool>> AndIf<TSource>(this Expression<Func<TSource, bool>> expression, bool condition, Expression<Func<TSource, bool>> extendExpression)
             => condition ? expression.Compose(extendExpression, Expression.AndAlso) : expression;
 
-        #endregion 根据条件成立再与操作合并两个表达式 + public static Expression<Func<TSource, bool>> AndIf<TSource>(this Expression<Func<TSource, bool>> expression, bool condition, Expression<Func<TSource, bool>> extendExpression)
+        #endregion
 
         #region 根据条件成立再与操作合并两个表达式，支持索引器 + public static Expression<Func<TSource, int, bool>> AndIf<TSource>(this Expression<Func<TSource, int, bool>> expression, bool condition, Expression<Func<TSource, int, bool>> extendExpression)
 
@@ -88,7 +88,7 @@ namespace Fur.Linq.Extensions
         public static Expression<Func<TSource, int, bool>> AndIf<TSource>(this Expression<Func<TSource, int, bool>> expression, bool condition, Expression<Func<TSource, int, bool>> extendExpression)
             => condition ? expression.Compose(extendExpression, Expression.AndAlso) : expression;
 
-        #endregion 根据条件成立再与操作合并两个表达式，支持索引器 + public static Expression<Func<TSource, int, bool>> AndIf<TSource>(this Expression<Func<TSource, int, bool>> expression, bool condition, Expression<Func<TSource, int, bool>> extendExpression)
+        #endregion
 
         #region 或操作合并两个表达式 + public static Expression<Func<TSource, bool>> Or<TSource>(this Expression<Func<TSource, bool>> expression, Expression<Func<TSource, bool>> extendExpression)
 
@@ -102,7 +102,7 @@ namespace Fur.Linq.Extensions
         public static Expression<Func<TSource, bool>> Or<TSource>(this Expression<Func<TSource, bool>> expression, Expression<Func<TSource, bool>> extendExpression)
             => expression.Compose(extendExpression, Expression.OrElse);
 
-        #endregion 或操作合并两个表达式 + public static Expression<Func<TSource, bool>> Or<TSource>(this Expression<Func<TSource, bool>> expression, Expression<Func<TSource, bool>> extendExpression)
+        #endregion
 
         #region 或操作合并两个表达式，支持索引器 + public static Expression<Func<TSource, bool>> Or<TSource>(this Expression<Func<TSource, bool>> expression, Expression<Func<TSource, bool>> extendExpression)
 
@@ -116,7 +116,7 @@ namespace Fur.Linq.Extensions
         public static Expression<Func<TSource, int, bool>> Or<TSource>(this Expression<Func<TSource, int, bool>> expression, Expression<Func<TSource, int, bool>> extendExpression)
             => expression.Compose(extendExpression, Expression.OrElse);
 
-        #endregion 或操作合并两个表达式，支持索引器 + public static Expression<Func<TSource, bool>> Or<TSource>(this Expression<Func<TSource, bool>> expression, Expression<Func<TSource, bool>> extendExpression)
+        #endregion
 
         #region 根据条件成立再或操作合并两个表达式 + public static Expression<Func<TSource, bool>> OrIf<TSource>(this Expression<Func<TSource, bool>> expression, bool condition, Expression<Func<TSource, bool>> extendExpression)
 
@@ -131,7 +131,7 @@ namespace Fur.Linq.Extensions
         public static Expression<Func<TSource, bool>> OrIf<TSource>(this Expression<Func<TSource, bool>> expression, bool condition, Expression<Func<TSource, bool>> extendExpression)
             => condition ? expression.Compose(extendExpression, Expression.OrElse) : expression;
 
-        #endregion 根据条件成立再或操作合并两个表达式 + public static Expression<Func<TSource, bool>> OrIf<TSource>(this Expression<Func<TSource, bool>> expression, bool condition, Expression<Func<TSource, bool>> extendExpression)
+        #endregion
 
         #region 根据条件成立再或操作合并两个表达式，支持索引器 + public static Expression<Func<TSource, bool>> OrIf<TSource>(this Expression<Func<TSource, bool>> expression, bool condition, Expression<Func<TSource, bool>> extendExpression)
 
@@ -146,6 +146,6 @@ namespace Fur.Linq.Extensions
         public static Expression<Func<TSource, int, bool>> OrIf<TSource>(this Expression<Func<TSource, int, bool>> expression, bool condition, Expression<Func<TSource, int, bool>> extendExpression)
             => condition ? expression.Compose(extendExpression, Expression.OrElse) : expression;
 
-        #endregion 根据条件成立再或操作合并两个表达式，支持索引器 + public static Expression<Func<TSource, bool>> OrIf<TSource>(this Expression<Func<TSource, bool>> expression, bool condition, Expression<Func<TSource, bool>> extendExpression)
+        #endregion
     }
 }
