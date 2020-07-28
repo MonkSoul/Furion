@@ -1,4 +1,5 @@
-﻿using Fur.DatabaseAccessor.Models.Entities;
+﻿using Fur.DatabaseAccessor.Extensions;
+using Fur.DatabaseAccessor.Models.Entities;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         public virtual EntityEntry<TEntity> Insert(TEntity entity)
         {
-            return SetInsertMaintenanceFields(() => Entities.Add(entity), entity).First();
+            return LoadDbEntityInsertInterceptor(() => Entities.Add(entity), entity).First();
         }
         #endregion
 
@@ -32,7 +33,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <param name="entities">多个实体</param>
         public virtual void Insert(params TEntity[] entities)
         {
-            SetInsertMaintenanceFields(() => Entities.AddRange(entities), entities);
+            LoadDbEntityInsertInterceptor(() => Entities.AddRange(entities), entities);
         }
         #endregion
 
@@ -43,7 +44,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <param name="entities">多个实体</param>
         public virtual void Insert(IEnumerable<TEntity> entities)
         {
-            SetInsertMaintenanceFields(() => Entities.AddRange(entities), entities.ToArray());
+            LoadDbEntityInsertInterceptor(() => Entities.AddRange(entities), entities.ToArray());
         }
         #endregion
 
@@ -55,7 +56,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="ValueTask{TResult}"/></returns>
         public virtual ValueTask<EntityEntry<TEntity>> InsertAsync(TEntity entity)
         {
-            var entityEntry = SetInsertMaintenanceFields(async () => await Entities.AddAsync(entity), entity).First();
+            var entityEntry = LoadDbEntityInsertInterceptor(async () => await Entities.AddAsync(entity), entity).First();
 
             return ValueTask.FromResult(entityEntry);
         }
@@ -69,7 +70,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task InsertAsync(params TEntity[] entities)
         {
-            SetInsertMaintenanceFields(async () => await Entities.AddRangeAsync(entities), entities);
+            LoadDbEntityInsertInterceptor(async () => await Entities.AddRangeAsync(entities), entities);
             return Task.CompletedTask;
         }
 
@@ -83,7 +84,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task InsertAsync(IEnumerable<TEntity> entities)
         {
-            SetInsertMaintenanceFields(async () => await Entities.AddRangeAsync(entities), entities.ToArray());
+            LoadDbEntityInsertInterceptor(async () => await Entities.AddRangeAsync(entities), entities.ToArray());
             return Task.CompletedTask;
         }
         #endregion
@@ -179,12 +180,12 @@ namespace Fur.DatabaseAccessor.Repositories
 
         #endregion
 
-        #region 设置新增时维护字段 + private void SetInsertMaintenanceFields(params TEntity[] entities)
+        #region 加载实体拦截器 + private EntityEntry<TEntity>[] LoadDbEntityInterceptor(Action handle, params TEntity[] entities)
         /// <summary>
-        /// 设置新增时维护字段
+        /// 加载实体拦截器
         /// </summary>
         /// <param name="entities">多个实体</param>
-        private EntityEntry<TEntity>[] SetInsertMaintenanceFields(Action handle, params TEntity[] entities)
+        private EntityEntry<TEntity>[] LoadDbEntityInsertInterceptor(Action handle, params TEntity[] entities)
         {
             var entityEntries = new List<EntityEntry<TEntity>>();
             foreach (var entity in entities)
@@ -199,9 +200,9 @@ namespace Fur.DatabaseAccessor.Repositories
                 _maintenanceInterceptor?.Inserted(entityEntry);
 
                 // 更新多租户信息
-                if (entityEntry.Metadata.FindProperty(nameof(DbEntityBase.TenantId)) != null && TenantId.HasValue)
+                var tenantIdProperty = entityEntry.GetProperty(nameof(DbEntityBase.TenantId));
+                if (tenantIdProperty != null && TenantId.HasValue)
                 {
-                    var tenantIdProperty = EntityEntryProperty(entityEntry, nameof(DbEntityBase.TenantId));
                     tenantIdProperty.CurrentValue = TenantId.Value;
                 }
             }

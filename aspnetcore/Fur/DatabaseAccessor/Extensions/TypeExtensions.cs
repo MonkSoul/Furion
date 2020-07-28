@@ -1,7 +1,9 @@
 ﻿using Fur.ApplicationBase.Attributes;
 using Fur.DatabaseAccessor.Options;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -61,6 +63,36 @@ namespace Fur.DatabaseAccessor.Extensions
             return Expression.Lambda(expressionBody, leftParameter);
         }
         private static readonly MethodInfo EFPropertyMethod = typeof(EF).GetMethod("Property");
+        #endregion
+
+        #region 获取实体属性 + public static PropertyEntry Property(this EntityEntry entityEntry, string propertyName)
+        /// <summary>
+        /// 获取实体属性
+        /// </summary>
+        /// <param name="entityEntry">实体跟踪器</param>
+        /// <param name="propertyName">属性名称</param>
+        /// <returns><see cref="PropertyEntry"/></returns>
+        public static PropertyEntry GetProperty(this EntityEntry entityEntry, string propertyName)
+        {
+            var entityType = entityEntry.Entity.GetType();
+            var isSet = EntityEntryProperties.TryGetValue((entityType, propertyName), out PropertyEntry propertyEntry);
+            if (isSet) return propertyEntry;
+            else
+            {
+                if (entityEntry.Metadata.FindProperty(propertyName) != null)
+                {
+                    propertyEntry = entityEntry.Property(propertyName);
+                }
+
+                EntityEntryProperties.TryAdd((entityType, propertyName), propertyEntry);
+                return propertyEntry;
+            }
+        }
+        private static ConcurrentDictionary<(Type, string), PropertyEntry> EntityEntryProperties;
+        static TypeExtensions()
+        {
+            EntityEntryProperties = new ConcurrentDictionary<(Type, string), PropertyEntry>();
+        }
         #endregion
     }
 }

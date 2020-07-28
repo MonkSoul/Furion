@@ -1,4 +1,5 @@
-﻿using Fur.DatabaseAccessor.Models.Entities;
+﻿using Fur.DatabaseAccessor.Extensions;
+using Fur.DatabaseAccessor.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
@@ -24,7 +25,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         public virtual EntityEntry<TEntity> Update(TEntity entity)
         {
-            return SetUpdateMaintenanceFields(() => Entities.Update(entity), entity).First();
+            return LoadDbEntityUpdateInterceptor(() => Entities.Update(entity), entity).First();
         }
 
         #endregion
@@ -37,7 +38,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <param name="entities">多个实体</param>
         public virtual void Update(params TEntity[] entities)
         {
-            SetUpdateMaintenanceFields(() => Entities.UpdateRange(entities), entities);
+            LoadDbEntityUpdateInterceptor(() => Entities.UpdateRange(entities), entities);
         }
 
         #endregion
@@ -50,7 +51,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <param name="entities">多个实体</param>
         public virtual void Update(IEnumerable<TEntity> entities)
         {
-            SetUpdateMaintenanceFields(() => Entities.UpdateRange(entities), entities.ToArray());
+            LoadDbEntityUpdateInterceptor(() => Entities.UpdateRange(entities), entities.ToArray());
         }
 
         #endregion
@@ -64,7 +65,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual Task<EntityEntry<TEntity>> UpdateAsync(TEntity entity)
         {
-            var entityEntry = SetUpdateMaintenanceFields(() =>
+            var entityEntry = LoadDbEntityUpdateInterceptor(() =>
             {
                 Entities.Update(entity);
             }, entity).First();
@@ -82,7 +83,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task"/></returns>
         public virtual Task UpdateAsync(params TEntity[] entities)
         {
-            SetUpdateMaintenanceFields(() =>
+            LoadDbEntityUpdateInterceptor(() =>
             {
                 Entities.UpdateRange(entities);
             }, entities);
@@ -100,7 +101,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task"/></returns>
         public virtual Task UpdateAsync(IEnumerable<TEntity> entities)
         {
-            SetUpdateMaintenanceFields(() =>
+            LoadDbEntityUpdateInterceptor(() =>
             {
                 Entities.UpdateRange(entities);
             }, entities.ToArray());
@@ -216,7 +217,7 @@ namespace Fur.DatabaseAccessor.Repositories
                 EntityEntryProperty(entityEntry, expression).IsModified = true;
             }
 
-            SetUpdateMaintenanceFields(null, entity);
+            LoadDbEntityUpdateInterceptor(null, entity);
             return entityEntry;
         }
 
@@ -239,7 +240,7 @@ namespace Fur.DatabaseAccessor.Repositories
                 EntityEntryProperty(entityEntry, expression).IsModified = true;
             }
 
-            SetUpdateMaintenanceFields(null, entity);
+            LoadDbEntityUpdateInterceptor(null, entity);
             return Task.FromResult(entityEntry);
         }
 
@@ -364,7 +365,7 @@ namespace Fur.DatabaseAccessor.Repositories
                 EntityEntryProperty(entityEntry, propertyName).IsModified = true;
             }
 
-            SetUpdateMaintenanceFields(null, entity);
+            LoadDbEntityUpdateInterceptor(null, entity);
             return entityEntry;
         }
 
@@ -386,7 +387,7 @@ namespace Fur.DatabaseAccessor.Repositories
                 EntityEntryProperty(entityEntry, propertyName).IsModified = true;
             }
 
-            SetUpdateMaintenanceFields(null, entity);
+            LoadDbEntityUpdateInterceptor(null, entity);
             return Task.FromResult(entityEntry);
         }
 
@@ -511,7 +512,7 @@ namespace Fur.DatabaseAccessor.Repositories
                 EntityEntryProperty(entityEntry, expression).IsModified = false;
             }
 
-            SetUpdateMaintenanceFields(null, entity);
+            LoadDbEntityUpdateInterceptor(null, entity);
             return entityEntry;
         }
 
@@ -535,7 +536,7 @@ namespace Fur.DatabaseAccessor.Repositories
                 EntityEntryProperty(entityEntry, expression).IsModified = false;
             }
 
-            SetUpdateMaintenanceFields(null, entity);
+            LoadDbEntityUpdateInterceptor(null, entity);
             return Task.FromResult(entityEntry);
         }
 
@@ -661,7 +662,7 @@ namespace Fur.DatabaseAccessor.Repositories
                 EntityEntryProperty(entityEntry, propertyName).IsModified = false;
             }
 
-            SetUpdateMaintenanceFields(null, entity);
+            LoadDbEntityUpdateInterceptor(null, entity);
             return entityEntry;
         }
 
@@ -685,7 +686,7 @@ namespace Fur.DatabaseAccessor.Repositories
                 EntityEntryProperty(entityEntry, propertyName).IsModified = false;
             }
 
-            SetUpdateMaintenanceFields(null, entity);
+            LoadDbEntityUpdateInterceptor(null, entity);
             return Task.FromResult(entityEntry);
         }
 
@@ -793,15 +794,14 @@ namespace Fur.DatabaseAccessor.Repositories
 
         #endregion
 
-        #region 设置更新时维护字段 + private EntityEntry<TEntity>[] SetUpdateMaintenanceFields(Action updateHandle, params TEntity[] entities)
-
+        #region 加载实体拦截器 + private EntityEntry<TEntity>[] LoadDbEntityUpdateInterceptor(Action handle, params TEntity[] entities)
         /// <summary>
-        /// 设置更新时维护字段
+        /// 加载实体拦截器
         /// </summary>
         /// <param name="updateHandle">更新程序</param>
         /// <param name="entities">多个实体</param>
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
-        private EntityEntry<TEntity>[] SetUpdateMaintenanceFields(Action handle, params TEntity[] entities)
+        private EntityEntry<TEntity>[] LoadDbEntityUpdateInterceptor(Action handle, params TEntity[] entities)
         {
             var entityEntries = new List<EntityEntry<TEntity>>();
             foreach (var entity in entities)
@@ -816,9 +816,10 @@ namespace Fur.DatabaseAccessor.Repositories
                 _maintenanceInterceptor?.Updated(entityEntry);
 
                 // 更新多租户信息
-                if (entityEntry.Metadata.FindProperty(nameof(DbEntityBase.TenantId)) != null && TenantId.HasValue)
+                // 更新多租户信息
+                var tenantIdProperty = entityEntry.GetProperty(nameof(DbEntityBase.TenantId));
+                if (tenantIdProperty != null && tenantIdProperty.IsModified)
                 {
-                    var tenantIdProperty = EntityEntryProperty(entityEntry, nameof(DbEntityBase.TenantId));
                     tenantIdProperty.IsModified = false;
                 }
             }

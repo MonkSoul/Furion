@@ -26,9 +26,7 @@ namespace Fur.DatabaseAccessor.Attributes
         /// </summary>
         /// <param name="isolationLevel">事务隔离级别</param>
         public UnitOfWorkAttribute(IsolationLevel isolationLevel)
-        {
-            this.IsolationLevel = isolationLevel;
-        }
+            => IsolationLevel = isolationLevel;
         #endregion
 
         #region 构造函数 + public UnitOfWorkAttribute(TransactionScopeOption scopeOption, IsolationLevel isolationLevel)
@@ -40,8 +38,8 @@ namespace Fur.DatabaseAccessor.Attributes
         /// <param name="isolationLevel">事务隔离级别</param>
         public UnitOfWorkAttribute(TransactionScopeOption scopeOption, IsolationLevel isolationLevel)
         {
-            this.ScopeOption = scopeOption;
-            this.IsolationLevel = isolationLevel;
+            ScopeOption = scopeOption;
+            IsolationLevel = isolationLevel;
         }
         #endregion
 

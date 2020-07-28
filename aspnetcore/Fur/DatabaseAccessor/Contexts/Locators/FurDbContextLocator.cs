@@ -6,5 +6,5 @@ namespace Fur.DatabaseAccessor.Contexts.Locators
     /// 默认数据库上下文定位器
     /// </summary>
     [NonWrapper]
-    public class FurDbContextLocator : IDbContextLocator { }
+    public sealed class FurDbContextLocator : IDbContextLocator { }
 }

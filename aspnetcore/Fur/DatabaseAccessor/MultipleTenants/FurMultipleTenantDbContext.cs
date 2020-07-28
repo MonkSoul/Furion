@@ -44,6 +44,7 @@ namespace Fur.DatabaseAccessor.MultipleTenants
         }
         #endregion
 
+
         #region 获取租户Id + public virtual int GetTenantId(string host)
         /// <summary>
         /// 获取租户Id

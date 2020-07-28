@@ -388,7 +388,14 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="entityTypeBuilder"></param>
         private static void CreateDbEntityTypeBuilderIfNull(ModelBuilder modelBuilder, Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
         {
+            var isSetEntityType = entityTypeBuilder == null;
             entityTypeBuilder ??= _modelBuilderEntityMethod.MakeGenericMethod(dbEntityType).Invoke(modelBuilder, null) as EntityTypeBuilder;
+
+            // 忽略租户Id
+            if (!AppGlobal.SupportedMultipleTenant && isSetEntityType)
+            {
+                entityTypeBuilder.Ignore(nameof(DbEntityBase.TenantId));
+            }
         }
         #endregion
     }

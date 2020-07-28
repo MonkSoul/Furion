@@ -11,24 +11,17 @@ namespace Fur.DatabaseAccessor.Attributes
     [AttributeUsage(AttributeTargets.Method), NonWrapper]
     public class DbFunctionAttribute : Microsoft.EntityFrameworkCore.DbFunctionAttribute
     {
-        #region 构造函数 + private DbFunctionAttribute()
-        /// <summary>
-        /// 构造函数
-        /// <para>私有化，避免未指定名称和schema</para>
-        /// </summary>
-        private DbFunctionAttribute() { }
-        #endregion
-
-        #region 构造函数 + public DbFunctionAttribute(string name, string schema) : base(name, schema)
+        #region 构造函数 + public DbFunctionAttribute(string name, string schema)
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="name">函数名</param>
         /// <param name="schema">函数schema</param>
-        public DbFunctionAttribute(string name, string schema) : base(name, schema) { }
+        public DbFunctionAttribute(string name, string schema)
+            : base(name, schema) { }
         #endregion
 
-        #region 构造函数 + public DbFunctionAttribute(string name, string schema, params Type[] dbContextLocators) : base(name, schema)
+        #region 构造函数 + public DbFunctionAttribute(string name, string schema, params Type[] dbContextLocators)
         /// <summary>
         /// 构造函数
         /// <para>可以指定数据库上下文定位器类型</para>
@@ -36,13 +29,14 @@ namespace Fur.DatabaseAccessor.Attributes
         /// <param name="name">函数名</param>
         /// <param name="schema">函数schema</param>
         /// <param name="dbContextLocators">数据库上下文定位器类型</param>
-        public DbFunctionAttribute(string name, string schema, params Type[] dbContextLocators) : base(name, schema)
+        public DbFunctionAttribute(string name, string schema, params Type[] dbContextLocators)
+            : base(name, schema)
             => DbContextLocators = dbContextLocators;
         #endregion
 
         /// <summary>
         /// 数据库上下文定位器类型
         /// </summary>
-        public Type[] DbContextLocators { get; set; } = new Type[] { };
+        public Type[] DbContextLocators { get; set; }
     }
 }

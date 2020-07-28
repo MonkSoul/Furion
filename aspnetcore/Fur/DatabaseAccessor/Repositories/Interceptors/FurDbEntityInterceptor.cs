@@ -1,4 +1,5 @@
-﻿using Fur.DatabaseAccessor.Models.Entities;
+﻿using Fur.DatabaseAccessor.Extensions;
+using Fur.DatabaseAccessor.Models.Entities;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 
@@ -8,10 +9,10 @@ namespace Fur.DatabaseAccessor.Repositories.Interceptors
     {
         public void Inserting(EntityEntry entityEntry)
         {
-            if (entityEntry.Metadata.FindProperty(nameof(DbEntity.CreatedTime)) != null)
+            var property = entityEntry.GetProperty(nameof(DbEntity.CreatedTime));
+            if (property != null)
             {
-                var createdTimeProperty = entityEntry.Property(nameof(DbEntity.CreatedTime));
-                createdTimeProperty.CurrentValue = DateTime.Now;
+                property.CurrentValue = DateTime.Now;
             }
         }
 
@@ -21,20 +22,20 @@ namespace Fur.DatabaseAccessor.Repositories.Interceptors
 
         public void Updating(EntityEntry entityEntry)
         {
-            if (entityEntry.Metadata.FindProperty(nameof(DbEntity.UpdatedTime)) != null)
+            var property = entityEntry.GetProperty(nameof(DbEntity.UpdatedTime));
+            if (property != null)
             {
-                var updatedTimeProperty = entityEntry.Property(nameof(DbEntity.UpdatedTime));
-                updatedTimeProperty.CurrentValue = DateTime.Now;
-                updatedTimeProperty.IsModified = true;
+                property.CurrentValue = DateTime.Now;
+                property.IsModified = true;
             }
         }
 
         public void Updated(EntityEntry entityEntry)
         {
-            if (entityEntry.Metadata.FindProperty(nameof(DbEntity.CreatedTime)) != null)
+            var property = entityEntry.GetProperty(nameof(DbEntity.CreatedTime));
+            if (property != null)
             {
-                var createdTimeProperty = entityEntry.Property(nameof(DbEntity.CreatedTime));
-                createdTimeProperty.IsModified = false;
+                property.IsModified = false;
             }
         }
     }
