@@ -8,6 +8,7 @@ using Microsoft.Extensions.Caching.Memory;
 using StackExchange.Profiling;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -65,6 +66,11 @@ namespace Fur.FriendlyException.Filters
 
             context.Result = _unifyResultProvider.UnifyExceptionResult(context, exceptionMessage, exceptionErrorString, unAuthorizedRequest, statusCode);
 
+            var traceFrame = new StackTrace(context.Exception, true).GetFrame(0);
+            var exceptionFileName = traceFrame.GetFileName();
+            var exceptionFileLineNumber = traceFrame.GetFileLineNumber();
+
+            MiniProfiler.Current.CustomTiming("errors", $"{exceptionFileName}:line {exceptionFileLineNumber}", "FilePath").Errored = true;
             MiniProfiler.Current.CustomTiming("errors", exceptionErrorString, "Throw").Errored = true;
             return Task.CompletedTask;
         }
