@@ -9,7 +9,10 @@ namespace Fur.EntityFramework.Core
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterDbContexts<FurSqlServerDbContext>();
+            builder.RegisterDbContexts<FurSqlServerDbContext>(options =>
+            {
+                options.MultipleTenantProvider = typeof(FurMultipleTenantProvider);
+            });
         }
     }
 }
