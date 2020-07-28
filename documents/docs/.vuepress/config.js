@@ -23,6 +23,10 @@ module.exports = {
         link: "/handbook/",
       },
       {
+        text: "框架配置",
+        link: "/config/",
+      },
+      {
         text: "任务看板",
         link: "https://gitee.com/monksoul/Fur/board",
       },
