@@ -1,6 +1,7 @@
 ﻿using Fur.DatabaseAccessor.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using System;
 using System.Data.Common;
 using System.Linq;
 
@@ -37,9 +38,9 @@ namespace Fur.DatabaseAccessor.Repositories
         /// </summary>
         DbConnection DbConnection { get; }
 
-        ///// <summary>
-        ///// 租户Id
-        ///// </summary>
-        //int? TenantId { get; }
+        /// <summary>
+        /// 租户Id
+        /// </summary>
+        Guid? TenantId { get; }
     }
 }

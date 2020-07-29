@@ -1,36 +1,29 @@
-﻿using Fur.ApplicationBase;
+﻿using Autofac;
 using Fur.DatabaseAccessor.Contexts;
 using Fur.DatabaseAccessor.Contexts.Locators;
 using Fur.DatabaseAccessor.Extensions;
-using Fur.DatabaseAccessor.Models.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 
 namespace Fur.EntityFramework.Core.DbContexts
 {
-    public class FurSqlServerDbContext : FurDbContextOfT<FurSqlServerDbContext, FurDbContextLocator>/*, IDbContextQueryFilter*/
+    public class FurSqlServerDbContext : FurDbContextOfT<FurSqlServerDbContext, FurDbContextLocator>
     {
-        public FurSqlServerDbContext(DbContextOptions<FurSqlServerDbContext> options) : base(options)
+        private readonly ILifetimeScope _lifetimeScope;
+        public FurSqlServerDbContext(DbContextOptions<FurSqlServerDbContext> options
+            , ILifetimeScope lifetimeScope) : base(options)
         {
+            _lifetimeScope = lifetimeScope;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            optionsBuilder.UseSqlServerWithMultipleTenantOnDatabase(_lifetimeScope);
             base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-        }
-
-        public void HasQueryFilter(Type dbEntityType, EntityTypeBuilder entityTypeBuilder)
-        {
-            if (!AppGlobal.SupportedMultipleTenant) return;
-
-            var tenantId = this.GetTenantId();
-            entityTypeBuilder.HasQueryFilter(dbEntityType.QueryFilterExpression<int>(nameof(DbEntity.TenantId), tenantId));
         }
     }
 }

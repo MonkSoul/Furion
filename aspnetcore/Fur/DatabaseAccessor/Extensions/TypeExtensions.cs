@@ -44,7 +44,7 @@ namespace Fur.DatabaseAccessor.Extensions
         }
         #endregion
 
-        #region 创建查询筛选器表达式 + public static LambdaExpression QueryFilterExpression<TProperty>(this Type dbEntityType, string propertyName, int propertyValue)
+        #region 创建查询筛选器表达式 + public static LambdaExpression QueryFilterExpression<TProperty>(this Type dbEntityType, string propertyName, TProperty propertyValue)
         /// <summary>
         /// 创建查询筛选器表达式
         /// </summary>
@@ -53,7 +53,7 @@ namespace Fur.DatabaseAccessor.Extensions
         /// <param name="propertyName">属性名</param>
         /// <param name="propertyValue">属性值</param>
         /// <returns><see cref="LambdaExpression"/></returns>
-        public static LambdaExpression QueryFilterExpression<TProperty>(this Type dbEntityType, string propertyName, int propertyValue)
+        public static LambdaExpression QueryFilterExpression<TProperty>(this Type dbEntityType, string propertyName, TProperty propertyValue)
         {
             var leftParameter = Expression.Parameter(dbEntityType, "e");
             var constantKey = Expression.Constant(propertyName);
@@ -88,7 +88,7 @@ namespace Fur.DatabaseAccessor.Extensions
                 return propertyEntry;
             }
         }
-        private static ConcurrentDictionary<(Type, string), PropertyEntry> EntityEntryProperties;
+        private static readonly ConcurrentDictionary<(Type, string), PropertyEntry> EntityEntryProperties;
         static TypeExtensions()
         {
             EntityEntryProperties = new ConcurrentDictionary<(Type, string), PropertyEntry>();

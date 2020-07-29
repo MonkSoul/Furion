@@ -21,7 +21,7 @@ namespace Fur.EntityFramework.Core.MultipleTenantProviders
             _memoryCache = memoryCache;
         }
 
-        public Guid GetTenantId()
+        public Guid? GetTenantId()
         {
             // 解决非Web程序执行无法解析 HttpContext 问题
             if (_httpContextAccessor?.HttpContext == null) return default;

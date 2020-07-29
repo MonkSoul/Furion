@@ -1,6 +1,7 @@
 ﻿using Fur.ApplicationBase;
 using Fur.DatabaseAccessor.Extensions;
 using Fur.DatabaseAccessor.Models.Entities;
+using Fur.DatabaseAccessor.MultipleTenants.Options;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
@@ -200,12 +201,12 @@ namespace Fur.DatabaseAccessor.Repositories
 
                 _maintenanceInterceptor?.Inserted(entityEntry);
 
-                if (AppGlobal.SupportedMultipleTenant)
+                if (AppGlobal.SupportedMultipleTenant && AppGlobal.MultipleTenantConfigureOptions == FurMultipleTenantConfigureOptions.OnTable)
                 {
-                    //var tenantIdProperty = entityEntry.GetProperty(nameof(DbEntityBase.TenantId));
-                    //if (tenantIdProperty == null) throw new ArgumentNullException($"Not found the {nameof(DbEntityBase.TenantId)} Column.");
+                    var tenantIdProperty = entityEntry.GetProperty(nameof(DbEntityBase.TenantId));
+                    if (tenantIdProperty == null) throw new ArgumentNullException($"Not found the {nameof(DbEntityBase.TenantId)} Column.");
 
-                    //tenantIdProperty.CurrentValue = TenantId.Value;
+                    tenantIdProperty.CurrentValue = TenantId.Value;
                 }
             }
             return entityEntries.ToArray();

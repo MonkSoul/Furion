@@ -1,4 +1,5 @@
 ﻿using Fur.ApplicationBase.Attributes;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,6 +23,6 @@ namespace Fur.DatabaseAccessor.Models.Entities
         /// <summary>
         /// 租户Id
         /// </summary>
-        public int TenantId { get; set; }
+        public Guid? TenantId { get; set; }
     }
 }

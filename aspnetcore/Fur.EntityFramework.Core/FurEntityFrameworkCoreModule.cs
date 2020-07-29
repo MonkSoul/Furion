@@ -11,7 +11,7 @@ namespace Fur.EntityFramework.Core
         {
             builder.RegisterDbContexts<FurSqlServerDbContext>(options =>
             {
-                options.AddMultipleTenantConfigure<FurMultipleTenantDbContext, FurMultipleTenantOnSchemaProvider>();
+                options.AddMultipleTenantConfigure<FurMultipleTenantDbContext, FurMultipleTenantOnDatabaseProvider>();
             });
         }
     }

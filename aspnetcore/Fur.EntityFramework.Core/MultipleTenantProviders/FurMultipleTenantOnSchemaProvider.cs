@@ -5,6 +5,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Fur.EntityFramework.Core.MultipleTenantProviders
 {
+    // 目前基于Schema方式不支持code first 迁移
     public class FurMultipleTenantOnSchemaProvider : IMultipleTenantOnSchemaProvider
     {
         private readonly FurMultipleTenantDbContext _multipleTenantDbContext;

@@ -2,11 +2,13 @@
 using Fur.ApplicationBase;
 using Fur.DatabaseAccessor.Contexts.Pools;
 using Fur.DatabaseAccessor.Models.Entities;
+using Fur.DatabaseAccessor.MultipleTenants.Options;
 using Fur.DatabaseAccessor.MultipleTenants.Providers;
 using Fur.DatabaseAccessor.Repositories.Interceptors;
 using Fur.DatabaseAccessor.Repositories.Providers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using System;
 using System.Data.Common;
 using System.Linq;
 
@@ -28,7 +30,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <summary>
         /// 租户提供器
         /// </summary>
-        //private readonly IMultipleTenantProvider _tenantProvider;
+        private readonly IMultipleTenantOnTableProvider _multipleTenantOnTableProvider;
 
         /// <summary>
         /// 数据库上下文池
@@ -52,9 +54,9 @@ namespace Fur.DatabaseAccessor.Repositories
             Entities = DbContext.Set<TEntity>();
             _dbContextPool.SaveDbContext(DbContext);
 
-            if (AppGlobal.SupportedMultipleTenant)
+            if (AppGlobal.SupportedMultipleTenant && AppGlobal.MultipleTenantConfigureOptions == FurMultipleTenantConfigureOptions.OnTable)
             {
-                //_tenantProvider = lifetimeScope.Resolve<IMultipleTenantProvider>();
+                _multipleTenantOnTableProvider = lifetimeScope.Resolve<IMultipleTenantOnTableProvider>();
             }
 
             if (lifetimeScope.IsRegistered<IDbEntityInterceptor>())
@@ -94,9 +96,9 @@ namespace Fur.DatabaseAccessor.Repositories
         /// </summary>
         public virtual DbConnection DbConnection => DbContext.Database.GetDbConnection();
 
-        ///// <summary>
-        ///// 租户Id
-        ///// </summary>
-        //public virtual int? TenantId => _tenantProvider?.GetTenantId();
+        /// <summary>
+        /// 租户Id
+        /// </summary>
+        public virtual Guid? TenantId => _multipleTenantOnTableProvider?.GetTenantId();
     }
 }

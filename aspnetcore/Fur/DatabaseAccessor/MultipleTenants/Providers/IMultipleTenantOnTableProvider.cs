@@ -11,6 +11,6 @@ namespace Fur.DatabaseAccessor.MultipleTenants.Providers
         /// 获取多租户Id
         /// </summary>
         /// <returns>多租户Id</returns>
-        Guid GetTenantId();
+        Guid? GetTenantId();
     }
 }
