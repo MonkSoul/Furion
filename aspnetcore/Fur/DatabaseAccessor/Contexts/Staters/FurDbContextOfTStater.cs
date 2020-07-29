@@ -94,11 +94,11 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
             var hasDbContextQueryFilter = typeof(IDbContextQueryFilter).IsAssignableFrom(dbContextType);
 
             // 注册基于Schema架构的多租户模式
-            var lifetimeScope = dbContext.GetService<ILifetimeScope>();
-            IMultipleTenantOnSchemaProvider multipleTenantOnSchemaProvider = default;
 
+            IMultipleTenantOnSchemaProvider multipleTenantOnSchemaProvider = default;
             if (AppGlobal.SupportedMultipleTenant && dbContextLocatorType != typeof(FurMultipleTenanDbContextLocator) && AppGlobal.MultipleTenantConfigureOptions == FurMultipleTenantConfigureOptions.OnSchema)
             {
+                var lifetimeScope = dbContext.GetService<ILifetimeScope>();
                 multipleTenantOnSchemaProvider = lifetimeScope.Resolve<IMultipleTenantOnSchemaProvider>();
             }
 
