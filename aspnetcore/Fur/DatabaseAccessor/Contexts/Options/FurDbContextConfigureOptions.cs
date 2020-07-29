@@ -31,7 +31,7 @@ namespace Fur.DatabaseAccessor.Contexts.Options
         /// 是否支持切面上下文
         /// <para>默认true：支持</para>
         /// </summary>
-        public bool SupportTangent { get; set; } = true;
+        public bool SupportedTangent { get; set; } = true;
 
         #region 配置多租户 + public void AddMultipleTenantConfigure<TMultipleTenantDbContext, TMultipleTenantProvider>()
         /// <summary>
@@ -73,11 +73,11 @@ namespace Fur.DatabaseAccessor.Contexts.Options
         /// <summary>
         /// 支持多数据库上下文
         /// </summary>
-        public bool SupportMultipleDbContext { get; set; } = true;
+        public bool SupportedMultipleDbContext { get; set; } = true;
 
         /// <summary>
         /// 支持主从库数据库上下文
         /// </summary>
-        public bool SupportMasterSlaveDbContext { get; set; } = true;
+        public bool SupportedMasterSlaveDbContext { get; set; } = true;
     }
 }

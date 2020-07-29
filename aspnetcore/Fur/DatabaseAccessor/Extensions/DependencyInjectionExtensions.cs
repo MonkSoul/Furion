@@ -51,7 +51,7 @@ namespace Fur.DatabaseAccessor.Extensions
             dbContextTypeList.Add(typeof(TDefaultDbContext));
 
             // 支持切面上下文
-            if (furDbContextInjectionOptions.SupportTangent)
+            if (furDbContextInjectionOptions.SupportedTangent)
             {
                 builder.RegisterGeneric(typeof(TangentDbContext<>))
                     .As(typeof(ITangentDbContext<>))
@@ -77,7 +77,7 @@ namespace Fur.DatabaseAccessor.Extensions
             }
 
             // 注册仓储
-            builder.RegisterRepositories(furDbContextInjectionOptions.SupportMultipleDbContext, furDbContextInjectionOptions.SupportMasterSlaveDbContext);
+            builder.RegisterRepositories(furDbContextInjectionOptions.SupportedMultipleDbContext, furDbContextInjectionOptions.SupportedMasterSlaveDbContext);
 
             // 注册多数据库上下文
             builder.RegisterDbContexts(dbContextTypeList.ToArray());
