@@ -29,10 +29,7 @@ namespace Fur.EntityFramework.Core.Extensions
             services.AddFurSqlServerDbContextPool<FurSqlServerDbContext>(furConnectionString, env)
                         .AddFurSqlServerDbContextPool<FurMultipleTenantDbContext>(furConnectionString, env);
 
-            services.Configure<MvcOptions>(options =>
-            {
-                options.Filters.Add<UnitOfWorkAsyncActionFilter>();
-            });
+            services.Configure<MvcOptions>(options => options.Filters.Add<UnitOfWorkAsyncActionFilter>());
 
             return services;
         }
