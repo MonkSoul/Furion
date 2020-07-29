@@ -28,7 +28,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <summary>
         /// 租户提供器
         /// </summary>
-        private readonly IMultipleTenantProvider _tenantProvider;
+        //private readonly IMultipleTenantProvider _tenantProvider;
 
         /// <summary>
         /// 数据库上下文池
@@ -54,7 +54,7 @@ namespace Fur.DatabaseAccessor.Repositories
 
             if (AppGlobal.SupportedMultipleTenant)
             {
-                _tenantProvider = lifetimeScope.Resolve<IMultipleTenantProvider>();
+                //_tenantProvider = lifetimeScope.Resolve<IMultipleTenantProvider>();
             }
 
             if (lifetimeScope.IsRegistered<IDbEntityInterceptor>())
@@ -94,9 +94,9 @@ namespace Fur.DatabaseAccessor.Repositories
         /// </summary>
         public virtual DbConnection DbConnection => DbContext.Database.GetDbConnection();
 
-        /// <summary>
-        /// 租户Id
-        /// </summary>
-        public virtual int? TenantId => _tenantProvider?.GetTenantId();
+        ///// <summary>
+        ///// 租户Id
+        ///// </summary>
+        //public virtual int? TenantId => _tenantProvider?.GetTenantId();
     }
 }

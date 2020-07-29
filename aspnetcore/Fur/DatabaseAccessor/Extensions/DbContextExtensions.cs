@@ -25,9 +25,11 @@ namespace Fur.DatabaseAccessor.Extensions
             if (!AppGlobal.SupportedMultipleTenant) return default;
 
             var lifetimeScope = dbContext.GetService<ILifetimeScope>();
-            var tenantProvider = lifetimeScope.Resolve<IMultipleTenantProvider>();
+            //var tenantProvider = lifetimeScope.Resolve<IMultipleTenantProvider>();
 
-            return tenantProvider.GetTenantId();
+            //return tenantProvider.GetTenantId();
+
+            return default;
         }
         #endregion
     }

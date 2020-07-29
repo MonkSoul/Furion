@@ -37,9 +37,9 @@ namespace Fur.DatabaseAccessor.Repositories
         /// </summary>
         DbConnection DbConnection { get; }
 
-        /// <summary>
-        /// 租户Id
-        /// </summary>
-        int? TenantId { get; }
+        ///// <summary>
+        ///// 租户Id
+        ///// </summary>
+        //int? TenantId { get; }
     }
 }

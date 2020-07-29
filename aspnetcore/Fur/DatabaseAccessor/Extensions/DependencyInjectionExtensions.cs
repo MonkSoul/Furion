@@ -1,9 +1,9 @@
 ﻿using Autofac;
 using Fur.ApplicationBase;
 using Fur.ApplicationBase.Attributes;
+using Fur.DatabaseAccessor.Contexts.Options;
 using Fur.DatabaseAccessor.Contexts.Pools;
-using Fur.DatabaseAccessor.MultipleTenants;
-using Fur.DatabaseAccessor.MultipleTenants.Providers;
+using Fur.DatabaseAccessor.MultipleTenants.Options;
 using Fur.DatabaseAccessor.Repositories;
 using Fur.DatabaseAccessor.Repositories.MasterSlave;
 using Fur.DatabaseAccessor.Repositories.Multiple;
@@ -21,7 +21,7 @@ namespace Fur.DatabaseAccessor.Extensions
     [NonWrapper]
     public static class DependencyInjectionExtensions
     {
-        #region 注册上下文 + public static ContainerBuilder RegisterDbContexts<TDefaultDbContext>(this ContainerBuilder builder, Action<FurDbContextInjectionOptions> configureOptions = null, params Type[] dbContextTypes)
+        #region 注册上下文 + public static ContainerBuilder RegisterDbContexts<TDefaultDbContext>(this ContainerBuilder builder, Action<FurDbContextConfigureOptions> configureOptions = null, params Type[] dbContextTypes)
         /// <summary>
         /// 注册上下文
         /// <para>泛型参数为默认数据库上下文</para>
@@ -30,7 +30,7 @@ namespace Fur.DatabaseAccessor.Extensions
         /// <param name="builder">容器构建器</param>
         /// <param name="dbContextTypes">数据库上下文集合</param>
         /// <returns><see cref="ContainerBuilder"/></returns>
-        public static ContainerBuilder RegisterDbContexts<TDefaultDbContext>(this ContainerBuilder builder, Action<FurDbContextInjectionOptions> configureOptions = null, params Type[] dbContextTypes)
+        public static ContainerBuilder RegisterDbContexts<TDefaultDbContext>(this ContainerBuilder builder, Action<FurDbContextConfigureOptions> configureOptions = null, params Type[] dbContextTypes)
             where TDefaultDbContext : DbContext
         {
             // 注册数据库上下文池
@@ -44,7 +44,7 @@ namespace Fur.DatabaseAccessor.Extensions
                 .InstancePerLifetimeScope();
 
             // 载入配置
-            var furDbContextInjectionOptions = new FurDbContextInjectionOptions();
+            var furDbContextInjectionOptions = new FurDbContextConfigureOptions();
             configureOptions?.Invoke(furDbContextInjectionOptions);
 
             var dbContextTypeList = dbContextTypes.Distinct().ToList();
@@ -61,11 +61,18 @@ namespace Fur.DatabaseAccessor.Extensions
             // 注册多租户
             if (furDbContextInjectionOptions.MultipleTenantProvider != null)
             {
-                AppGlobal.SupportedMultipleTenant = true;
-                dbContextTypeList.Add(typeof(FurMultipleTenantDbContext));
+                var multipleTenantConfigureOptions = furDbContextInjectionOptions.MultipleTenantConfigureOptions;
 
+                // 记录租户注册状态
+                AppGlobal.MultipleTenantConfigureOptions = multipleTenantConfigureOptions;
+                AppGlobal.SupportedMultipleTenant = multipleTenantConfigureOptions != FurMultipleTenantConfigureOptions.None;
+
+                // 注册多租户数据库上下文
+                dbContextTypeList.Add(furDbContextInjectionOptions.MultipleTenantDbContext);
+
+                // 注册多租户提供器
                 builder.RegisterType(furDbContextInjectionOptions.MultipleTenantProvider)
-                    .As<IMultipleTenantProvider>()
+                    .AsImplementedInterfaces()
                     .InstancePerLifetimeScope();
             }
 
@@ -145,34 +152,5 @@ namespace Fur.DatabaseAccessor.Extensions
             return builder;
         }
         #endregion
-    }
-
-    /// <summary>
-    /// 数据库上下文注入配置选项
-    /// </summary>
-    public class FurDbContextInjectionOptions
-    {
-        /// <summary>
-        /// 是否支持切面上下文
-        /// <para>默认true：支持</para>
-        /// </summary>
-        public bool SupportTangent { get; set; } = true;
-
-        /// <summary>
-        /// 多租户提供器
-        /// <para>如果指定了，则自动启用多租户模式</para>
-        /// <para>默认true：支持</para>
-        /// </summary>
-        public Type MultipleTenantProvider { get; set; } = null;
-
-        /// <summary>
-        /// 支持多数据库上下文
-        /// </summary>
-        public bool SupportMultipleDbContext { get; set; } = true;
-
-        /// <summary>
-        /// 支持主从库数据库上下文
-        /// </summary>
-        public bool SupportMasterSlaveDbContext { get; set; } = true;
     }
 }

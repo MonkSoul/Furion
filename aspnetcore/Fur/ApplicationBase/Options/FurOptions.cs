@@ -10,7 +10,7 @@ namespace Fur.ApplicationBase.Options
     [NonWrapper]
     public sealed class FurOptions
     {
-        public MirrorControllerOptions MirrorControllerOptions { get; set; }
-        public SwaggerDocOptions SwaggerDocOptions { get; set; }
+        public FurMirrorControllerOptions MirrorControllerOptions { get; set; }
+        public FurSwaggerDocOptions SwaggerDocOptions { get; set; }
     }
 }

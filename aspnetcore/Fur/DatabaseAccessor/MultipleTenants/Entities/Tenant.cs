@@ -16,7 +16,7 @@ namespace Fur.DatabaseAccessor.MultipleTenants.Entities
         [Key]
         [ScaffoldColumn(false)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public Guid TenantId { get; set; }
 
         /// <summary>
         /// 租户名
@@ -29,6 +29,16 @@ namespace Fur.DatabaseAccessor.MultipleTenants.Entities
         /// </summary>
         [Required]
         public string Host { get; set; }
+
+        /// <summary>
+        /// 架构名
+        /// </summary>
+        public string Schema { get; set; }
+
+        /// <summary>
+        /// 数据库链接字符串
+        /// </summary>
+        public string ConnectionString { get; set; }
 
         /// <summary>
         /// 创建时间

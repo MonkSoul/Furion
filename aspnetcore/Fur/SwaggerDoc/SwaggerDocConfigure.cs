@@ -31,7 +31,7 @@ namespace Fur.SwaggerDoc
         /// <summary>
         /// Swagger选项
         /// </summary>
-        private static readonly SwaggerDocOptions swaggerOptions;
+        private static readonly FurSwaggerDocOptions swaggerOptions;
 
         #region 初始化Swagger服务 + public static void Initialize(SwaggerGenOptions swaggerGenOptions)
 

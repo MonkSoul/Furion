@@ -1,6 +1,5 @@
 ﻿using Fur.DatabaseAccessor.Extensions.Services;
 using Fur.DatabaseAccessor.Filters;
-using Fur.DatabaseAccessor.MultipleTenants;
 using Fur.EntityFramework.Core.DbContexts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;

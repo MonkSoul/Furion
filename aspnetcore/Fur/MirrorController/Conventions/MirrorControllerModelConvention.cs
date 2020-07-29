@@ -17,9 +17,9 @@ namespace Fur.MirrorController.Conventions
 {
     internal sealed class MirrorControllerModelConvention : IApplicationModelConvention
     {
-        private readonly MirrorControllerOptions _attactControllerOptions;
+        private readonly FurMirrorControllerOptions _attactControllerOptions;
 
-        public MirrorControllerModelConvention(MirrorControllerOptions attactControllerOptions)
+        public MirrorControllerModelConvention(FurMirrorControllerOptions attactControllerOptions)
         {
             _attactControllerOptions = attactControllerOptions;
         }

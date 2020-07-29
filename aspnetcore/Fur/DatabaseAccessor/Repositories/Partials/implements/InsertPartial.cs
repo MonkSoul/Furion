@@ -202,10 +202,10 @@ namespace Fur.DatabaseAccessor.Repositories
 
                 if (AppGlobal.SupportedMultipleTenant)
                 {
-                    var tenantIdProperty = entityEntry.GetProperty(nameof(DbEntityBase.TenantId));
-                    if (tenantIdProperty == null) throw new ArgumentNullException($"Not found the {nameof(DbEntityBase.TenantId)} Column.");
+                    //var tenantIdProperty = entityEntry.GetProperty(nameof(DbEntityBase.TenantId));
+                    //if (tenantIdProperty == null) throw new ArgumentNullException($"Not found the {nameof(DbEntityBase.TenantId)} Column.");
 
-                    tenantIdProperty.CurrentValue = TenantId.Value;
+                    //tenantIdProperty.CurrentValue = TenantId.Value;
                 }
             }
             return entityEntries.ToArray();

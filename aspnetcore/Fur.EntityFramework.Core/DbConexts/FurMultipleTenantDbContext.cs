@@ -1,9 +1,11 @@
 ﻿using Fur.DatabaseAccessor.Contexts;
+using Fur.DatabaseAccessor.MultipleTenants;
 using Fur.DatabaseAccessor.MultipleTenants.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 
-namespace Fur.DatabaseAccessor.MultipleTenants
+namespace Fur.EntityFramework.Core.DbContexts
 {
     /// <summary>
     /// 多租户数据库上下文
@@ -44,18 +46,22 @@ namespace Fur.DatabaseAccessor.MultipleTenants
         }
         #endregion
 
-
-        #region 获取租户Id + public virtual int GetTenantId(string host)
-        /// <summary>
-        /// 获取租户Id
-        /// </summary>
-        /// <param name="host">请求来源主机地址</param>
-        /// <returns>租户Id</returns>
-        public virtual int GetTenantId(string host)
+        public virtual Guid GetTenantId(string host)
         {
             var tenant = this.Set<Tenant>().FirstOrDefault(t => t.Host == host);
-            return tenant?.Id ?? 0;
+            return tenant?.TenantId ?? Guid.Empty;
         }
-        #endregion
+
+        public virtual string GetSchema(string host)
+        {
+            var tenant = this.Set<Tenant>().FirstOrDefault(t => t.Host == host);
+            return tenant?.Schema;
+        }
+
+        public virtual string GetConnectionString(string host)
+        {
+            var tenant = this.Set<Tenant>().FirstOrDefault(t => t.Host == host);
+            return tenant?.ConnectionString;
+        }
     }
 }

@@ -5,7 +5,7 @@ namespace Fur.MirrorController.Options
     /// <summary>
     /// 镜面控制器配置选项
     /// </summary>
-    public class MirrorControllerOptions
+    public class FurMirrorControllerOptions
     {
         /// <summary>
         /// 默认Api路由统一前缀

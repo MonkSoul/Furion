@@ -28,13 +28,13 @@ namespace Fur.MirrorController.Extensions.MvcBuilders
             var partManager = mvcBuilder.Services.FirstOrDefault(s => s.ServiceType == typeof(ApplicationPartManager)).ImplementationInstance as ApplicationPartManager
                 ?? throw new InvalidOperationException($"`{nameof(AddFurMirrorControllers)}` must be invoked after `{nameof(MvcServiceCollectionExtensions.AddControllers)}`.");
 
-            var attactControllerOptions = configuration.GetSection($"{nameof(FurOptions)}:{nameof(MirrorControllerOptions)}");
-            mvcBuilder.Services.AddOptions<MirrorControllerOptions>().Bind(attactControllerOptions).ValidateDataAnnotations();
+            var attactControllerOptions = configuration.GetSection($"{nameof(FurOptions)}:{nameof(FurMirrorControllerOptions)}");
+            mvcBuilder.Services.AddOptions<FurMirrorControllerOptions>().Bind(attactControllerOptions).ValidateDataAnnotations();
 
             partManager.FeatureProviders.Add(new MirrorControllerFeatureProvider());
             mvcBuilder.AddMvcOptions(options =>
             {
-                options.Conventions.Add(new MirrorControllerModelConvention(attactControllerOptions.Get<MirrorControllerOptions>()));
+                options.Conventions.Add(new MirrorControllerModelConvention(attactControllerOptions.Get<FurMirrorControllerOptions>()));
             });
 
             mvcBuilder.AddNewtonsoftJson();
