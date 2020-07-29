@@ -38,7 +38,11 @@ namespace Fur.DatabaseAccessor.Extensions.Services
                                 .EnableDetailedErrors()
                                 .EnableSensitiveDataLogging();
                 }
-                options.UseSqlServer(connectionString/*, options => options.EnableRetryOnFailure()*/);
+                options.UseSqlServer(connectionString, options =>
+                {
+                    //options.EnableRetryOnFailure();
+                    options.MigrationsAssembly("Fur.Database.Migrations");
+                });
 
                 if (interceptors == null || !interceptors.Any())
                 {
@@ -78,7 +82,11 @@ namespace Fur.DatabaseAccessor.Extensions.Services
                                 .EnableDetailedErrors()
                                 .EnableSensitiveDataLogging();
                 }
-                options.UseSqlServer(connectionString/*, options => options.EnableRetryOnFailure()*/);
+                options.UseSqlServer(connectionString, options =>
+                {
+                    //options.EnableRetryOnFailure();
+                    options.MigrationsAssembly("Fur.Database.Migrations");
+                });
 
                 if (interceptors == null || !interceptors.Any())
                 {
