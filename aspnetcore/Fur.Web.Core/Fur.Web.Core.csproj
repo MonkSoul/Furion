@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Fur.EntityFramework.Core\Fur.EntityFramework.Core.csproj" />
-    <ProjectReference Include="..\Fur\Fur.csproj" />
   </ItemGroup>
 
   <ItemGroup>

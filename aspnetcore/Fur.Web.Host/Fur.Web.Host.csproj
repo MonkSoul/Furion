@@ -12,7 +12,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Fur.Application\Fur.Application.csproj" />
     <ProjectReference Include="..\Fur.Web.Core\Fur.Web.Core.csproj" />
-    <ProjectReference Include="..\Fur\Fur.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -8,4 +8,8 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Fur.Core\Fur.Core.csproj" />
+  </ItemGroup>
+
 </Project>
