@@ -20,6 +20,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -91,13 +92,14 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
 
             var dbContextType = dbContext.GetType();
             var hasDbContextQueryFilter = typeof(IDbContextQueryFilter).IsAssignableFrom(dbContextType);
-            var lifetimeScope = dbContext.GetService<ILifetimeScope>();
 
             // 注册基于架构的多租户模式
+            var lifetimeScope = dbContext.GetService<ILifetimeScope>();
+            IMultipleTenantOnSchemaProvider multipleTenantOnSchemaProvider = default;
+
             if (AppGlobal.SupportedMultipleTenant && dbContextLocatorType != typeof(FurMultipleTenanDbContextLocator) && AppGlobal.MultipleTenantConfigureOptions == FurMultipleTenantConfigureOptions.OnSchema)
             {
-                var multipleTenantProvider = lifetimeScope.Resolve<IMultipleTenantOnSchemaProvider>();
-                modelBuilder.HasDefaultSchema(multipleTenantProvider.GetSchema());
+                multipleTenantOnSchemaProvider = lifetimeScope.Resolve<IMultipleTenantOnSchemaProvider>();
             }
 
             foreach (var dbEntityType in dbContextEntityTypes)
@@ -105,22 +107,22 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 EntityTypeBuilder entityTypeBuilder = default;
 
                 // 配置数据库无键实体
-                DbNoKeyEntityConfigure(dbEntityType, modelBuilder, dbContextLocatorType, ref entityTypeBuilder);
+                DbNoKeyEntityConfigure(dbEntityType, modelBuilder, dbContextLocatorType, multipleTenantOnSchemaProvider, ref entityTypeBuilder);
 
                 // 配置数据库实体类型构建器
-                DbEntityTypeBuilderConfigure(dbEntityType, modelBuilder, dbContextLocatorType, ref entityTypeBuilder);
+                DbEntityTypeBuilderConfigure(dbEntityType, modelBuilder, dbContextLocatorType, multipleTenantOnSchemaProvider, ref entityTypeBuilder);
 
                 // 配置数据库种子数据
-                DbSeedDataConfigure(dbEntityType, modelBuilder, dbContext, dbContextLocatorType, ref entityTypeBuilder);
+                DbSeedDataConfigure(dbEntityType, modelBuilder, dbContext, dbContextLocatorType, multipleTenantOnSchemaProvider, ref entityTypeBuilder);
 
                 // 配置数据库上下文查询筛选器
-                DbContextQueryFilterConfigure(dbContext, dbContextType, modelBuilder, dbEntityType, hasDbContextQueryFilter, ref entityTypeBuilder);
+                DbContextQueryFilterConfigure(dbContext, dbContextType, modelBuilder, dbEntityType, hasDbContextQueryFilter, multipleTenantOnSchemaProvider, ref entityTypeBuilder);
 
                 // 配置数据库查询筛选器
-                DbQueryFilterConfigure(dbEntityType, modelBuilder, dbContext, dbContextLocatorType, ref entityTypeBuilder);
+                DbQueryFilterConfigure(dbEntityType, modelBuilder, dbContext, dbContextLocatorType, multipleTenantOnSchemaProvider, ref entityTypeBuilder);
 
                 // 配置模型类型构建器
-                CreateDbEntityTypeBuilderIfNull(modelBuilder, dbEntityType, ref entityTypeBuilder);
+                CreateDbEntityTypeBuilderIfNull(modelBuilder, dbEntityType, multipleTenantOnSchemaProvider, ref entityTypeBuilder);
             }
 
             // 配置数据库函数
@@ -138,7 +140,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="modelBuilder">模型构建器</param>
         /// <param name="dbContextLocatorType">数据库上下文定位器</param>
         /// <param name="entityTypeBuilder">实体类型构建器</param>
-        private static void DbNoKeyEntityConfigure(Type dbEntityType, ModelBuilder modelBuilder, Type dbContextLocatorType, ref EntityTypeBuilder entityTypeBuilder)
+        private static void DbNoKeyEntityConfigure(Type dbEntityType, ModelBuilder modelBuilder, Type dbContextLocatorType, IMultipleTenantOnSchemaProvider multipleTenantOnSchemaProvider, ref EntityTypeBuilder entityTypeBuilder)
         {
             if (!typeof(IDbNoKeyEntity).IsAssignableFrom(dbEntityType)) return;
 
@@ -149,7 +151,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
 
                 if (CheckIsInDbContextLocators(dbContextLocators, dbContextLocatorType))
                 {
-                    CreateDbEntityTypeBuilderIfNull(modelBuilder, dbEntityType, ref entityTypeBuilder);
+                    CreateDbEntityTypeBuilderIfNull(modelBuilder, dbEntityType, multipleTenantOnSchemaProvider, ref entityTypeBuilder);
 
                     entityTypeBuilder.HasNoKey();
                     entityTypeBuilder.ToView((Activator.CreateInstance(dbEntityType) as IDbNoKeyEntity).DB_DEFINED_NAME);
@@ -167,7 +169,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="modelBuilder">模型构建器</param>
         /// <param name="dbContextLocatorType">数据库上下文定位器</param>
         /// <param name="entityTypeBuilder">实体类型构建器</param>
-        private static void DbEntityTypeBuilderConfigure(Type dbEntityType, ModelBuilder modelBuilder, Type dbContextLocatorType, ref EntityTypeBuilder entityTypeBuilder)
+        private static void DbEntityTypeBuilderConfigure(Type dbEntityType, ModelBuilder modelBuilder, Type dbContextLocatorType, IMultipleTenantOnSchemaProvider multipleTenantOnSchemaProvider, ref EntityTypeBuilder entityTypeBuilder)
         {
             var dbEntityBuilderGenericArguments = dbEntityType.GetTypeGenericArguments(typeof(IDbEntityBuilder), GenericArgumentSourceOptions.Interface);
             if (dbEntityBuilderGenericArguments != null)
@@ -175,7 +177,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 var dbContextLocators = dbEntityBuilderGenericArguments.Skip(1);
                 if (CheckIsInDbContextLocators(dbContextLocators, dbContextLocatorType))
                 {
-                    CreateDbEntityTypeBuilderIfNull(modelBuilder, dbEntityBuilderGenericArguments.First(), ref entityTypeBuilder);
+                    CreateDbEntityTypeBuilderIfNull(modelBuilder, dbEntityBuilderGenericArguments.First(), multipleTenantOnSchemaProvider, ref entityTypeBuilder);
 
                     entityTypeBuilder = dbEntityType.CallMethod(
                         nameof(IDbEntityBuilderOfT<IDbEntityBase>.HasEntityBuilder),
@@ -196,7 +198,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="dbContext">数据库上下文</param>
         /// <param name="dbContextLocatorType">数据库上下文构建器</param>
         /// <param name="entityTypeBuilder">实体类型构建器</param>
-        private static void DbSeedDataConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextLocatorType, ref EntityTypeBuilder entityTypeBuilder)
+        private static void DbSeedDataConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextLocatorType, IMultipleTenantOnSchemaProvider multipleTenantOnSchemaProvider, ref EntityTypeBuilder entityTypeBuilder)
         {
             if (typeof(IDbNoKeyEntity).IsAssignableFrom(dbEntityType)) return;
 
@@ -208,7 +210,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
 
                 if (CheckIsInDbContextLocators(dbContextLocators, dbContextLocatorType))
                 {
-                    CreateDbEntityTypeBuilderIfNull(modelBuilder, dbSeedDataGenericArguments.First(), ref entityTypeBuilder);
+                    CreateDbEntityTypeBuilderIfNull(modelBuilder, dbSeedDataGenericArguments.First(), multipleTenantOnSchemaProvider, ref entityTypeBuilder);
 
                     var seedDatas = dbEntityType.CallMethod(
                         nameof(IDbSeedDataOfT<IDbEntityBase>.HasData),
@@ -233,7 +235,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="dbContext">数据库上下文</param>
         /// <param name="dbContextLocatorType">数据库上下文定位器</param>
         /// <param name="entityTypeBuilder">实体类型构建器</param>
-        private static void DbQueryFilterConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextLocatorType, ref EntityTypeBuilder entityTypeBuilder)
+        private static void DbQueryFilterConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextLocatorType, IMultipleTenantOnSchemaProvider multipleTenantOnSchemaProvider, ref EntityTypeBuilder entityTypeBuilder)
         {
             // 租户表无需参与过滤器
             if (dbEntityType == typeof(Tenant)) return;
@@ -244,7 +246,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 var dbContextLocators = dbQueryFilterGenericArguments.Skip(1);
                 if (CheckIsInDbContextLocators(dbContextLocators, dbContextLocatorType))
                 {
-                    CreateDbEntityTypeBuilderIfNull(modelBuilder, dbQueryFilterGenericArguments.First(), ref entityTypeBuilder);
+                    CreateDbEntityTypeBuilderIfNull(modelBuilder, dbQueryFilterGenericArguments.First(), multipleTenantOnSchemaProvider, ref entityTypeBuilder);
 
                     var queryFilters = dbEntityType.CallMethod(
                         nameof(IDbQueryFilterOfT<IDbEntityBase>.HasQueryFilter),
@@ -291,20 +293,62 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="dbEntityType">数据库实体类型</param>
         /// <param name="hasDbContextQueryFilter">是否有数据库上下文查询筛选器</param>
         /// <param name="entityTypeBuilder">数据库实体类型构建器</param>
-        private static void DbContextQueryFilterConfigure(DbContext dbContext, Type dbContextType, ModelBuilder modelBuilder, Type dbEntityType, bool hasDbContextQueryFilter, ref EntityTypeBuilder entityTypeBuilder)
+        private static void DbContextQueryFilterConfigure(DbContext dbContext, Type dbContextType, ModelBuilder modelBuilder, Type dbEntityType, bool hasDbContextQueryFilter, IMultipleTenantOnSchemaProvider multipleTenantOnSchemaProvider, ref EntityTypeBuilder entityTypeBuilder)
         {
             // 租户表无需参与过滤器
             if (dbEntityType == typeof(Tenant)) return;
 
             if (typeof(IDbEntityBase).IsAssignableFrom(dbEntityType) && hasDbContextQueryFilter)
             {
-                CreateDbEntityTypeBuilderIfNull(modelBuilder, dbEntityType, ref entityTypeBuilder);
+                CreateDbEntityTypeBuilderIfNull(modelBuilder, dbEntityType, multipleTenantOnSchemaProvider, ref entityTypeBuilder);
 
                 dbContextType.CallMethod(nameof(IDbContextQueryFilter.HasQueryFilter)
                     , dbContext
                     , dbEntityType
                     , entityTypeBuilder
                  );
+            }
+        }
+        #endregion
+
+        #region 创建数据库实体类型构建器 + private static void CreateDbEntityTypeBuilderIfNull(ModelBuilder modelBuilder, Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
+        /// <summary>
+        /// 创建数据库实体类型构建器
+        /// <para>只有为 null 时才会执行</para>
+        /// </summary>
+        /// <param name="modelBuilder"></param>
+        /// <param name="dbEntityType"></param>
+        /// <param name="entityTypeBuilder"></param>
+        private static void CreateDbEntityTypeBuilderIfNull(ModelBuilder modelBuilder, Type dbEntityType, IMultipleTenantOnSchemaProvider multipleTenantOnSchemaProvider, ref EntityTypeBuilder entityTypeBuilder)
+        {
+            var isSetEntityType = entityTypeBuilder == null;
+            entityTypeBuilder ??= _modelBuilderEntityMethod.MakeGenericMethod(dbEntityType).Invoke(modelBuilder, null) as EntityTypeBuilder;
+
+            // 忽略租户Id
+            if (isSetEntityType)
+            {
+                if (!AppGlobal.SupportedMultipleTenant)
+                {
+                    entityTypeBuilder.Ignore(nameof(DbEntityBase.TenantId));
+                }
+                else
+                {
+                    if (multipleTenantOnSchemaProvider != null && dbEntityType != typeof(Tenant))
+                    {
+                        var tableName = dbEntityType.Name;
+                        var schema = multipleTenantOnSchemaProvider.GetSchema();
+                        if (dbEntityType.IsDefined(typeof(TableAttribute), false))
+                        {
+                            var tableAttribute = dbEntityType.GetCustomAttribute<TableAttribute>();
+                            tableName = tableAttribute.Name;
+                            if (tableAttribute.Schema.HasValue())
+                            {
+                                schema = tableAttribute.Schema;
+                            }
+                        }
+                        entityTypeBuilder.ToTable(tableName, schema);
+                    }
+                }
             }
         }
         #endregion
@@ -393,27 +437,6 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         private static bool CheckIsInDbContextLocators(IEnumerable<Type> dbContextLocators, Type dbContextLocatorType)
         {
             return dbContextLocators == null || dbContextLocators.Count() == 0 || dbContextLocators.Contains(dbContextLocatorType);
-        }
-        #endregion
-
-        #region 创建数据库实体类型构建器 + private static void CreateDbEntityTypeBuilderIfNull(ModelBuilder modelBuilder, Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
-        /// <summary>
-        /// 创建数据库实体类型构建器
-        /// <para>只有为 null 时才会执行</para>
-        /// </summary>
-        /// <param name="modelBuilder"></param>
-        /// <param name="dbEntityType"></param>
-        /// <param name="entityTypeBuilder"></param>
-        private static void CreateDbEntityTypeBuilderIfNull(ModelBuilder modelBuilder, Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
-        {
-            var isSetEntityType = entityTypeBuilder == null;
-            entityTypeBuilder ??= _modelBuilderEntityMethod.MakeGenericMethod(dbEntityType).Invoke(modelBuilder, null) as EntityTypeBuilder;
-
-            // 忽略租户Id
-            if (!AppGlobal.SupportedMultipleTenant && isSetEntityType)
-            {
-                entityTypeBuilder.Ignore(nameof(DbEntityBase.TenantId));
-            }
         }
         #endregion
     }

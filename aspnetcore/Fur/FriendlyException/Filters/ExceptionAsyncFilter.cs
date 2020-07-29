@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Fur.FriendlyException.Attributes;
+using Fur.TypeExtensions;
 using Fur.UnifyResult.Providers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -69,8 +70,11 @@ namespace Fur.FriendlyException.Filters
             var traceFrame = new StackTrace(context.Exception, true).GetFrame(0);
             var exceptionFileName = traceFrame.GetFileName();
             var exceptionFileLineNumber = traceFrame.GetFileLineNumber();
+            if (exceptionFileName.HasValue() && exceptionFileLineNumber > 0)
+            {
+                MiniProfiler.Current.CustomTiming("errors", $"{exceptionFileName}:line {exceptionFileLineNumber}", "Locator").Errored = true;
+            }
 
-            MiniProfiler.Current.CustomTiming("errors", $"{exceptionFileName}:line {exceptionFileLineNumber}", "Locator").Errored = true;
             MiniProfiler.Current.CustomTiming("errors", exceptionErrorString, "StackTrace").Errored = true;
             return Task.CompletedTask;
         }
