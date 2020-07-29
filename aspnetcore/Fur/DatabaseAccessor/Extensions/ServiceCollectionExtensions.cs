@@ -41,6 +41,7 @@ namespace Fur.DatabaseAccessor.Extensions.Services
                 options.UseSqlServer(connectionString, options =>
                 {
                     //options.EnableRetryOnFailure();
+                    //options.MigrationsHistoryTable("__EFMigrationsHistory", "fur");
                     options.MigrationsAssembly("Fur.Database.Migrations");
                 });
 
@@ -85,6 +86,7 @@ namespace Fur.DatabaseAccessor.Extensions.Services
                 options.UseSqlServer(connectionString, options =>
                 {
                     //options.EnableRetryOnFailure();
+                    //options.MigrationsHistoryTable("__EFMigrationsHistory", "fur");
                     options.MigrationsAssembly("Fur.Database.Migrations");
                 });
 
