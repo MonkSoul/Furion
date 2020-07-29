@@ -58,6 +58,10 @@ module.exports = {
               path: "/handbook/database-accessor/dbcontext-locator",
             },
             {
+              title: "数据库上下文池",
+              path: "/handbook/database-accessor/dbcontextpool",
+            },
+            {
               title: "实体配置",
               path: "/handbook/database-accessor/dbentity",
             },
