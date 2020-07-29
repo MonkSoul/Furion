@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Fur.Core\Fur.Core.csproj" />
+    <ProjectReference Include="..\Fur.Database.Migrations\Fur.Database.Migrations.csproj" />
     <ProjectReference Include="..\Fur\Fur.csproj" />
   </ItemGroup>
 
