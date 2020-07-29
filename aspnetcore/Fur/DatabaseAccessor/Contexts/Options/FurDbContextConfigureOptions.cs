@@ -57,7 +57,7 @@ namespace Fur.DatabaseAccessor.Contexts.Options
                 this.MultipleTenantConfigureOptions = FurMultipleTenantConfigureOptions.OnTable;
             }
             // 注册基于架构的多租户实现提供器
-            else if (typeof(IMultipleTenantOnDatabaseProvider).IsAssignableFrom(multipleTenantProvider))
+            else if (typeof(IMultipleTenantOnSchemaProvider).IsAssignableFrom(multipleTenantProvider))
             {
                 this.MultipleTenantConfigureOptions = FurMultipleTenantConfigureOptions.OnSchema;
             }

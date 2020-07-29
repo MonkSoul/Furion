@@ -12,8 +12,28 @@ namespace Fur.Core.DbEntities
         {
             return new List<Tenant>()
             {
-                new Tenant{ TenantId = Guid.NewGuid(), Name = "默认租户", Host = "localhost:44307", CreatedTime=DateTime.Now, UpdatedTime=DateTime.Now, IsDeleted=false },
-                new Tenant{ TenantId = Guid.NewGuid(), Name = "默认租户", Host = "localhost:41529", CreatedTime=DateTime.Now, UpdatedTime=DateTime.Now, IsDeleted=false }
+                new Tenant
+                {
+                    TenantId = Guid.NewGuid(),
+                    Name = "默认租户",
+                    Host = "localhost:44307",
+                    CreatedTime = DateTime.Now,
+                    UpdatedTime = DateTime.Now,
+                    IsDeleted = false,
+                    Schema = "fur",
+                    ConnectionString = "Server=localhost;Database=Fur;User=sa;Password=000000;MultipleActiveResultSets=True;"
+                },
+                new Tenant
+                {
+                    TenantId = Guid.NewGuid(),
+                    Name = "其他租户",
+                    Host = "localhost:41529",
+                    CreatedTime = DateTime.Now,
+                    UpdatedTime = DateTime.Now,
+                    IsDeleted = false,
+                    Schema = "other",
+                    ConnectionString = "Server=localhost;Database=Other;User=sa;Password=000000;MultipleActiveResultSets=True;"
+                }
             };
         }
     }

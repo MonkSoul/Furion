@@ -7,11 +7,15 @@ using Fur.DatabaseAccessor.Models.Entities;
 using Fur.DatabaseAccessor.Models.EntityTypeBuilders;
 using Fur.DatabaseAccessor.Models.QueryFilters;
 using Fur.DatabaseAccessor.Models.SeedDatas;
+using Fur.DatabaseAccessor.MultipleTenants;
 using Fur.DatabaseAccessor.MultipleTenants.Entities;
+using Fur.DatabaseAccessor.MultipleTenants.Options;
+using Fur.DatabaseAccessor.MultipleTenants.Providers;
 using Fur.DatabaseAccessor.Options;
 using Fur.TypeExtensions;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Concurrent;
@@ -87,6 +91,14 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
 
             var dbContextType = dbContext.GetType();
             var hasDbContextQueryFilter = typeof(IDbContextQueryFilter).IsAssignableFrom(dbContextType);
+            var lifetimeScope = dbContext.GetService<ILifetimeScope>();
+
+            // 注册基于架构的多租户模式
+            if (AppGlobal.SupportedMultipleTenant && dbContextLocatorType != typeof(FurMultipleTenanDbContextLocator) && AppGlobal.MultipleTenantConfigureOptions == FurMultipleTenantConfigureOptions.OnSchema)
+            {
+                var multipleTenantProvider = lifetimeScope.Resolve<IMultipleTenantOnSchemaProvider>();
+                modelBuilder.HasDefaultSchema(multipleTenantProvider.GetSchema());
+            }
 
             foreach (var dbEntityType in dbContextEntityTypes)
             {
@@ -223,6 +235,9 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="entityTypeBuilder">实体类型构建器</param>
         private static void DbQueryFilterConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextLocatorType, ref EntityTypeBuilder entityTypeBuilder)
         {
+            // 租户表无需参与过滤器
+            if (dbEntityType == typeof(Tenant)) return;
+
             var dbQueryFilterGenericArguments = dbEntityType.GetTypeGenericArguments(typeof(IDbQueryFilter), GenericArgumentSourceOptions.Interface);
             if (dbQueryFilterGenericArguments != null)
             {
@@ -278,6 +293,9 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="entityTypeBuilder">数据库实体类型构建器</param>
         private static void DbContextQueryFilterConfigure(DbContext dbContext, Type dbContextType, ModelBuilder modelBuilder, Type dbEntityType, bool hasDbContextQueryFilter, ref EntityTypeBuilder entityTypeBuilder)
         {
+            // 租户表无需参与过滤器
+            if (dbEntityType == typeof(Tenant)) return;
+
             if (typeof(IDbEntityBase).IsAssignableFrom(dbEntityType) && hasDbContextQueryFilter)
             {
                 CreateDbEntityTypeBuilderIfNull(modelBuilder, dbEntityType, ref entityTypeBuilder);

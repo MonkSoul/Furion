@@ -21,7 +21,7 @@ namespace Fur.SwaggerDoc.Extensions.Services
         {
             services.AddSwaggerGen(options => SwaggerDocConfigure.Initialize(options));
 
-            if (AppGlobal.GlobalSettings.SwaggerDocOptions.EnableMiniProfiler)
+            if (AppGlobal.GlobalSettings.FurSwaggerDocOptions.EnableMiniProfiler)
             {
                 services.AddMiniProfiler(options =>
                 {

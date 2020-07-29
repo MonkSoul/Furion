@@ -25,7 +25,6 @@ namespace Fur.EntityFramework.Core.Extensions
         public static IServiceCollection AddFurDbContextPool(this IServiceCollection services, IWebHostEnvironment env, IConfiguration configuration)
         {
             var furConnectionString = configuration.GetConnectionString("FurConnectionString");
-            var furMultipleConnectionString = configuration.GetConnectionString("FurMultipleConnectionString");
 
             services.AddFurSqlServerDbContextPool<FurSqlServerDbContext>(furConnectionString, env)
                         .AddFurSqlServerDbContextPool<FurMultipleTenantDbContext>(furConnectionString, env);
