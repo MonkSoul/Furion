@@ -10,7 +10,7 @@ namespace Fur.DatabaseAccessor.Repositories
     /// 泛型仓储 sql 执行 分部类
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity> where TEntity : class, IDbEntityBase, new()
+    public partial class EFCoreRepository<TEntity> : IRepository<TEntity> where TEntity : class, IDbEntityBase, new()
     {
         #region Sql 执行返回受影响函数 + public virtual int SqlExecuteNonQuery(string sql, params object[] parameters)
         /// <summary>

@@ -16,8 +16,8 @@ namespace Fur.Application.Functions
     [MirrorController]
     public class TestAppService : ITestAppService, IMirrorControllerDependency
     {
-        private readonly IRepositoryOfT<Test> _repository;
-        public TestAppService(IRepositoryOfT<Test> repository)
+        private readonly IRepository<Test> _repository;
+        public TestAppService(IRepository<Test> repository)
         {
             _repository = repository;
         }

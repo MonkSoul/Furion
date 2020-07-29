@@ -30,10 +30,10 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
 {
     /// <summary>
     /// Fur 数据库上下文状态器
-    /// <para>解决 <see cref="FurDbContextOfT{TDbContext, TDbContextLocator}"/> 重复初始化问题</para>
+    /// <para>解决 <see cref="FurDbContext{TDbContext, TDbContextLocator}"/> 重复初始化问题</para>
     /// </summary>
     [NonWrapper]
-    internal static class FurDbContextOfTStater
+    internal static class FurDbContextStater
     {
         /// <summary>
         /// 包含数据库实体定义类型
@@ -51,11 +51,11 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// </summary>
         private static readonly MethodInfo _modelBuilderEntityMethod;
 
-        #region 构造函数 + static FurDbContextOfTStater()
+        #region 构造函数 + static FurDbContextStater()
         /// <summary>
         /// 构造函数
         /// </summary>
-        static FurDbContextOfTStater()
+        static FurDbContextStater()
         {
             _includeDbEntityDefinedTypes ??= new ConcurrentBag<Type>(
                 AppGlobal.Application.PublicClassTypeWrappers
@@ -180,7 +180,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                     CreateDbEntityTypeBuilderIfNull(modelBuilder, dbEntityBuilderGenericArguments.First(), multipleTenantOnSchemaProvider, ref entityTypeBuilder);
 
                     entityTypeBuilder = dbEntityType.CallMethod(
-                        nameof(IDbEntityBuilderOfT<IDbEntityBase>.HasEntityBuilder),
+                        nameof(IDbEntityBuilder<IDbEntityBase>.HasEntityBuilder),
                         Activator.CreateInstance(dbEntityType),
                         entityTypeBuilder
                     ) as EntityTypeBuilder;
@@ -213,7 +213,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                     CreateDbEntityTypeBuilderIfNull(modelBuilder, dbSeedDataGenericArguments.First(), multipleTenantOnSchemaProvider, ref entityTypeBuilder);
 
                     var seedDatas = dbEntityType.CallMethod(
-                        nameof(IDbSeedDataOfT<IDbEntityBase>.HasData),
+                        nameof(IDbSeedData<IDbEntityBase>.HasData),
                         Activator.CreateInstance(dbEntityType),
                         dbContext
                     ).Adapt<IEnumerable<object>>();
@@ -249,7 +249,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                     CreateDbEntityTypeBuilderIfNull(modelBuilder, dbQueryFilterGenericArguments.First(), multipleTenantOnSchemaProvider, ref entityTypeBuilder);
 
                     var queryFilters = dbEntityType.CallMethod(
-                        nameof(IDbQueryFilterOfT<IDbEntityBase>.HasQueryFilter),
+                        nameof(IDbQueryFilter<IDbEntityBase>.HasQueryFilter),
                         Activator.CreateInstance(dbEntityType)
                         , dbContext
                      ).Adapt<IEnumerable<LambdaExpression>>();

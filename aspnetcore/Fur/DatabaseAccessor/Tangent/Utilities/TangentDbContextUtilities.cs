@@ -59,7 +59,7 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
 
         #endregion
 
-        #region 处理异步 + internal static async Task<TResult> AsynchronousOfTInvoke<TResult>(IInvocation invocation, ILifetimeScope lifetimeScope)
+        #region 处理异步 + internal static async Task<TResult> AsynchronousInvoke<TResult>(IInvocation invocation, ILifetimeScope lifetimeScope)
 
         /// <summary>
         /// 处理异步
@@ -67,7 +67,7 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
         /// <param name="invocation">拦截器对象</param>
         /// <param name="lifetimeScope">autofac 实例对象</param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        internal static async Task<TResult> AsynchronousOfTInvoke<TResult>(IInvocation invocation, ILifetimeScope lifetimeScope)
+        internal static async Task<TResult> AsynchronousInvoke<TResult>(IInvocation invocation, ILifetimeScope lifetimeScope)
         {
             var (tangentMethod, tangentAttribute) = TangentDbContextUtilities.GetTangentMethodInfo(invocation, lifetimeScope);
 

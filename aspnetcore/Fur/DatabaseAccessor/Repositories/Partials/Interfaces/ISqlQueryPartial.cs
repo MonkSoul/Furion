@@ -11,7 +11,7 @@ namespace Fur.DatabaseAccessor.Repositories
     /// 泛型仓储 sql 查询 分部接口
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public partial interface IRepositoryOfT<TEntity> where TEntity : class, IDbEntityBase, new()
+    public partial interface IRepository<TEntity> where TEntity : class, IDbEntityBase, new()
     {
         #region 执行 Sql 返回 IQueryable{T} + IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters)
 

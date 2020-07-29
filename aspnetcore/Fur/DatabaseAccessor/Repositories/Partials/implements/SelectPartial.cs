@@ -13,7 +13,7 @@ namespace Fur.DatabaseAccessor.Repositories
     /// 泛型仓储 查询操作 分部类
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity> where TEntity : class, IDbEntityBase, new()
+    public partial class EFCoreRepository<TEntity> : IRepository<TEntity> where TEntity : class, IDbEntityBase, new()
     {
         #region 查询单条 + public virtual TEntity Find(object id)
 
@@ -604,7 +604,7 @@ namespace Fur.DatabaseAccessor.Repositories
 
         #endregion
 
-        #region 分页查询多条 + public virtual PagedListOfT<TEntity> PagedAll(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
+        #region 分页查询多条 + public virtual PagedList<TEntity> PagedAll(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
 
         /// <summary>
         /// 分页查询多条
@@ -613,8 +613,8 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <param name="pageSize">页容量</param>
         /// <param name="noTracking">不跟踪实体</param>
         /// <param name="ignoreQueryFilters">忽略过滤器</param>
-        /// <returns><see cref="PagedListOfT{T}"/></returns>
-        public virtual PagedListOfT<TEntity> PagedAll(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
+        /// <returns><see cref="PagedList{T}"/></returns>
+        public virtual PagedList<TEntity> PagedAll(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
         {
             var query = CombineIQueryable(null, noTracking, ignoreQueryFilters);
             return query.ToPagedList(pageIndex, pageSize);
@@ -622,7 +622,7 @@ namespace Fur.DatabaseAccessor.Repositories
 
         #endregion
 
-        #region 分页查询多条 + public virtual Task<PagedListOfT<TEntity>> PagedAllAsync(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
+        #region 分页查询多条 + public virtual Task<PagedList<TEntity>> PagedAllAsync(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
 
         /// <summary>
         /// 分页查询多条
@@ -632,7 +632,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <param name="noTracking">不跟踪实体</param>
         /// <param name="ignoreQueryFilters">忽略过滤器</param>
         /// <returns>多个实体</returns>
-        public virtual Task<PagedListOfT<TEntity>> PagedAllAsync(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
+        public virtual Task<PagedList<TEntity>> PagedAllAsync(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
         {
             var query = CombineIQueryable(null, noTracking, ignoreQueryFilters);
             return query.ToPagedListAsync(pageIndex, pageSize);
@@ -640,7 +640,7 @@ namespace Fur.DatabaseAccessor.Repositories
 
         #endregion
 
-        #region 分页查询多条 + public virtual PagedListOfT<TEntity> PagedAll(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
+        #region 分页查询多条 + public virtual PagedList<TEntity> PagedAll(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
 
         /// <summary>
         /// 分页查询多条
@@ -651,7 +651,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <param name="noTracking">不跟踪实体</param>
         /// <param name="ignoreQueryFilters">忽略过滤器</param>
         /// <returns>多个实体</returns>
-        public virtual PagedListOfT<TEntity> PagedAll(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
+        public virtual PagedList<TEntity> PagedAll(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
         {
             var query = CombineIQueryable(expression, noTracking, ignoreQueryFilters);
             return query.ToPagedList(pageIndex, pageSize);
@@ -659,7 +659,7 @@ namespace Fur.DatabaseAccessor.Repositories
 
         #endregion
 
-        #region 分页查询多条 + public virtual Task<PagedListOfT<TEntity>> PagedAllAsync(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
+        #region 分页查询多条 + public virtual Task<PagedList<TEntity>> PagedAllAsync(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
 
         /// <summary>
         /// 分页查询多条
@@ -670,7 +670,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <param name="noTracking">不跟踪实体</param>
         /// <param name="ignoreQueryFilters">忽略过滤器</param>
         /// <returns>多个实体</returns>
-        public virtual Task<PagedListOfT<TEntity>> PagedAllAsync(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
+        public virtual Task<PagedList<TEntity>> PagedAllAsync(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
         {
             var query = CombineIQueryable(expression, noTracking, ignoreQueryFilters);
             return query.ToPagedListAsync(pageIndex, pageSize);

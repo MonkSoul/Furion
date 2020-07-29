@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Fur.Core.DbEntities
 {
-    public class TenantDbSeedData : IDbSeedDataOfT<Tenant>
+    public class TenantDbSeedData : IDbSeedData<Tenant>
     {
         public IEnumerable<Tenant> HasData(DbContext dbContext)
         {

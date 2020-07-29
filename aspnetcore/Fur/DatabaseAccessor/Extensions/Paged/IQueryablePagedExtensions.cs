@@ -10,9 +10,9 @@ namespace Fur.DatabaseAccessor.Extensions.Paged
     /// <see cref="IQueryable{T}"/> 分页拓展类
     /// </summary>
     [NonWrapper]
-    public static class IQueryableOfTPagedExtensions
+    public static class IQueryablePagedExtensions
     {
-        #region 分页拓展 + public static PagedListOfT<TEntity> ToPagedList<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
+        #region 分页拓展 + public static PagedList<TEntity> ToPagedList<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
         /// <summary>
         /// 分页拓展
         /// </summary>
@@ -20,14 +20,14 @@ namespace Fur.DatabaseAccessor.Extensions.Paged
         /// <param name="entities">实体集合</param>
         /// <param name="pageIndex">页码</param>
         /// <param name="pageSize">页容量</param>
-        /// <returns><see cref="PagedListOfT{TEntity}"/></returns>
-        public static PagedListOfT<TEntity> ToPagedList<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
+        /// <returns><see cref="PagedList{TEntity}"/></returns>
+        public static PagedList<TEntity> ToPagedList<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
         {
             var totalCount = entities.Count();
             var items = entities.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
             var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
 
-            return new PagedListOfT<TEntity>
+            return new PagedList<TEntity>
             {
                 PageIndex = pageIndex,
                 PageSize = pageSize,
@@ -41,7 +41,7 @@ namespace Fur.DatabaseAccessor.Extensions.Paged
 
         #endregion
 
-        #region 分页拓展 + public static async Task<PagedListOfT<TEntity>> ToPagedListAsync<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
+        #region 分页拓展 + public static async Task<PagedList<TEntity>> ToPagedListAsync<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
         /// <summary>
         /// 分页拓展
         /// </summary>
@@ -49,14 +49,14 @@ namespace Fur.DatabaseAccessor.Extensions.Paged
         /// <param name="entities">实体集合</param>
         /// <param name="pageIndex">页码</param>
         /// <param name="pageSize">页容量</param>
-        /// <returns><see cref="PagedListOfT{TEntity}"/></returns>
-        public static async Task<PagedListOfT<TEntity>> ToPagedListAsync<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
+        /// <returns><see cref="PagedList{TEntity}"/></returns>
+        public static async Task<PagedList<TEntity>> ToPagedListAsync<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
         {
             var totalCount = await entities.CountAsync();
             var items = await entities.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
             var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
 
-            return new PagedListOfT<TEntity>
+            return new PagedList<TEntity>
             {
                 PageIndex = pageIndex,
                 PageSize = pageSize,

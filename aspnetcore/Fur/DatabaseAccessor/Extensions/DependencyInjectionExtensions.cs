@@ -53,8 +53,8 @@ namespace Fur.DatabaseAccessor.Extensions
             // 支持切面上下文
             if (furDbContextInjectionOptions.SupportTangent)
             {
-                builder.RegisterGeneric(typeof(TangentDbContextOfT<>))
-                    .As(typeof(ITangentDbContextOfT<>))
+                builder.RegisterGeneric(typeof(TangentDbContext<>))
+                    .As(typeof(ITangentDbContext<>))
                     .InstancePerLifetimeScope();
             }
 
@@ -116,8 +116,8 @@ namespace Fur.DatabaseAccessor.Extensions
         private static ContainerBuilder RegisterRepositories(this ContainerBuilder builder, bool supportMultiple = true, bool supportMasterSlave = true)
         {
             // 注册泛型仓储
-            builder.RegisterGeneric(typeof(EFCoreRepositoryOfT<>))
-                .As(typeof(IRepositoryOfT<>))
+            builder.RegisterGeneric(typeof(Repositories.EFCoreRepository<>))
+                .As(typeof(Repositories.IRepository<>))
                 .InstancePerLifetimeScope();
 
             // 注册非泛型仓储
@@ -128,8 +128,8 @@ namespace Fur.DatabaseAccessor.Extensions
             // 支持多个数据库上下文
             if (supportMultiple)
             {
-                builder.RegisterGeneric(typeof(EFCoreRepositoryOfT<,>))
-                    .As(typeof(IRepositoryOfT<,>))
+                builder.RegisterGeneric(typeof(Repositories.Multiple.EFCoreRepository<,>))
+                    .As(typeof(Repositories.Multiple.IRepository<,>))
                     .InstancePerLifetimeScope();
 
                 builder.RegisterGeneric(typeof(Repositories.Multiple.EFCoreRepository<>))
@@ -140,8 +140,8 @@ namespace Fur.DatabaseAccessor.Extensions
             // 支持主从库数据库上下文
             if (supportMasterSlave)
             {
-                builder.RegisterGeneric(typeof(EFCoreRepositoryOfT<,,>))
-                    .As(typeof(IRepositoryOfT<,,>))
+                builder.RegisterGeneric(typeof(EFCoreRepository<,,>))
+                    .As(typeof(IRepository<,,>))
                     .InstancePerLifetimeScope();
 
                 builder.RegisterGeneric(typeof(Repositories.MasterSlave.EFCoreRepository<,>))

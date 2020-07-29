@@ -51,7 +51,7 @@ namespace Fur.DatabaseAccessor.Tangent.Interceptors
         /// <param name="invocation">拦截器对象</param>
         public void InterceptAsynchronous(IInvocation invocation)
         {
-            invocation.ReturnValue = Task.FromResult(TangentDbContextUtilities.AsynchronousOfTInvoke<object>(invocation, _lifetimeScope).Result);
+            invocation.ReturnValue = Task.FromResult(TangentDbContextUtilities.AsynchronousInvoke<object>(invocation, _lifetimeScope).Result);
         }
 
         #endregion
@@ -65,7 +65,7 @@ namespace Fur.DatabaseAccessor.Tangent.Interceptors
         /// <param name="invocation">拦截器对象</param>
         public void InterceptAsynchronous<TResult>(IInvocation invocation)
         {
-            invocation.ReturnValue = Task.FromResult(TangentDbContextUtilities.AsynchronousOfTInvoke<TResult>(invocation, _lifetimeScope).Result);
+            invocation.ReturnValue = Task.FromResult(TangentDbContextUtilities.AsynchronousInvoke<TResult>(invocation, _lifetimeScope).Result);
         }
 
         #endregion

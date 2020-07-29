@@ -7,7 +7,7 @@ namespace Fur.DatabaseAccessor.Repositories
     /// 泛型仓储 sql 执行 分部接口
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public partial interface IRepositoryOfT<TEntity> where TEntity : class, IDbEntityBase, new()
+    public partial interface IRepository<TEntity> where TEntity : class, IDbEntityBase, new()
     {
         #region Sql 执行返回受影响函数 + int SqlExecuteNonQuery(string sql, params object[] parameters)
         /// <summary>

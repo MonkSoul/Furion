@@ -10,7 +10,7 @@ namespace Fur.DatabaseAccessor.Repositories
     /// 泛型仓储 函数操作 分部类
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial class EFCoreRepositoryOfT<TEntity> : IRepositoryOfT<TEntity> where TEntity : class, IDbEntityBase, new()
+    public partial class EFCoreRepository<TEntity> : IRepository<TEntity> where TEntity : class, IDbEntityBase, new()
     {
         #region 执行标量函数 + public virtual TResult SqlScalarFunction<TResult>(string name, params object[] parameters)
 

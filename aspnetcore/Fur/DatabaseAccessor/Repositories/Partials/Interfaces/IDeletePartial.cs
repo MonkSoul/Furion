@@ -11,7 +11,7 @@ namespace Fur.DatabaseAccessor.Repositories
     /// 泛型仓储 删除操作 分部接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial interface IRepositoryOfT<TEntity> where TEntity : class, IDbEntityBase, new()
+    public partial interface IRepository<TEntity> where TEntity : class, IDbEntityBase, new()
     {
         #region 真删除操作 + EntityEntry<TEntity> Delete(TEntity entity)
 

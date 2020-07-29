@@ -10,7 +10,7 @@ namespace Fur.DatabaseAccessor.Repositories
     /// 泛型仓储 存储过程操作 分部接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial interface IRepositoryOfT<TEntity> where TEntity : class, IDbEntityBase, new()
+    public partial interface IRepository<TEntity> where TEntity : class, IDbEntityBase, new()
     {
         #region 执行存储过程返回 DataTable + DataTable SqlProcedure(string name, params object[] parameters)
 

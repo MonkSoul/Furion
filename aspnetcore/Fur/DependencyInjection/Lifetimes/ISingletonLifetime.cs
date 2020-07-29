@@ -4,4 +4,10 @@
     /// 单一实例生存期服务依赖接口
     /// </summary>
     public interface ISingletonLifetime { }
+
+    /// <summary>
+    /// 单一实例生存期服务依赖接口
+    /// </summary>
+    /// <typeparam name="T">泛型类型</typeparam>
+    public interface ISingletonLifetime<T> { }
 }

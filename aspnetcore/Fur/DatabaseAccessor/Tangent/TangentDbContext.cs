@@ -9,20 +9,20 @@ namespace Fur.DatabaseAccessor.Tangent
     /// 泛型切面数据库操作上下文
     /// </summary>
     /// <typeparam name="TTangent">切面上下文接口依赖</typeparam>
-    public class TangentDbContextOfT<TTangent> : ITangentDbContextOfT<TTangent> where TTangent : class, ITangentProxyDependency
+    public class TangentDbContext<TTangent> : ITangentDbContext<TTangent> where TTangent : class, ITangentProxyDependency
     {
         /// <summary>
         /// autofac 实例对象
         /// </summary>
         private readonly ILifetimeScope _lifetimeScope;
 
-        #region 构造函数 + public TangentDbContextOfT(ILifetimeScope lifetimeScope)
+        #region 构造函数 + public TangentDbContext(ILifetimeScope lifetimeScope)
 
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="lifetimeScope">autofac实例对象</param>
-        public TangentDbContextOfT(ILifetimeScope lifetimeScope)
+        public TangentDbContext(ILifetimeScope lifetimeScope)
         {
             _lifetimeScope = lifetimeScope;
         }
