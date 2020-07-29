@@ -27,6 +27,10 @@ module.exports = {
         link: "/config/",
       },
       {
+        text: "视频教程",
+        link: "https://gitee.com/monksoul/Fur",
+      },
+      {
         text: "任务看板",
         link: "https://gitee.com/monksoul/Fur/board",
       },
