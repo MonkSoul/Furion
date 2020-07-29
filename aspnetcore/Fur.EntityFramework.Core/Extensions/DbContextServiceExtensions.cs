@@ -24,11 +24,7 @@ namespace Fur.EntityFramework.Core.Extensions
         /// <returns>新的服务集合对象</returns>
         public static IServiceCollection AddFurDbContextPool(this IServiceCollection services, IWebHostEnvironment env, IConfiguration configuration)
         {
-            var furConnectionString = configuration.GetConnectionString("FurConnectionString");
-
-            services.AddFurSqlServerDbContextPool<FurSqlServerDbContext>(furConnectionString, env)
-                        .AddFurSqlServerDbContextPool<FurMultipleTenantDbContext>(furConnectionString, env);
-
+            services.AddFurSqlServerDbContextPool<FurSqlServerDbContext>(configuration.GetConnectionString("FurConnectionString"), env);
             services.Configure<MvcOptions>(options => options.Filters.Add<UnitOfWorkAsyncActionFilter>());
 
             return services;
