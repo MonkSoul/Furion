@@ -41,7 +41,12 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
                 if (property.IsDefined(typeof(DbParameterAttribute), false))
                 {
                     var parameterAttribute = property.GetCustomAttribute<DbParameterAttribute>();
-                    paramValues.Add(new SqlParameter(property.Name, value) { Direction = parameterAttribute.Direction });
+                    var sqlParameter = new SqlParameter(property.Name, value) { Direction = parameterAttribute.Direction };
+                    if (parameterAttribute.DbType.HasValue)
+                    {
+                        sqlParameter.SqlDbType = parameterAttribute.DbType.Value;
+                    }
+                    paramValues.Add(sqlParameter);
                     continue;
                 }
 
@@ -66,7 +71,22 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             {
                 for (int i = 0; i < parameterLength; i++)
                 {
-                    paramValues.Add(new SqlParameter(parameterInfos[i].Name, arguments[i] ?? DBNull.Value));
+                    var parameterInfo = parameterInfos[i];
+                    var value = arguments[i] ?? DBNull.Value;
+
+                    if (parameterInfo.IsDefined(typeof(DbParameterAttribute), false))
+                    {
+                        var parameterAttribute = parameterInfo.GetCustomAttribute<DbParameterAttribute>();
+                        var sqlParameter = new SqlParameter(parameterInfo.Name, value) { Direction = parameterAttribute.Direction };
+                        if (parameterAttribute.DbType.HasValue)
+                        {
+                            sqlParameter.SqlDbType = parameterAttribute.DbType.Value;
+                        }
+                        paramValues.Add(sqlParameter);
+                        continue;
+                    }
+
+                    paramValues.Add(new SqlParameter(parameterInfo.Name, value));
                 }
 
                 return paramValues.ToArray();
