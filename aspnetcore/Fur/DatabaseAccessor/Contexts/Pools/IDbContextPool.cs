@@ -12,47 +12,35 @@ namespace Fur.DatabaseAccessor.Contexts.Pools
     /// </summary>
     public interface IDbContextPool
     {
-        #region 保存数据库上下文 + void SaveDbContext(DbContext dbContext)
         /// <summary>
         /// 保存数据库上下文
         /// </summary>
         /// <param name="dbContext">数据库上下文</param>
         void SaveDbContext(DbContext dbContext);
-        #endregion
 
-        #region 保存数据库上下文（异步） + Task SaveDbContextAsync(DbContext dbContext)
         /// <summary>
         /// 保存数据库上下文（异步）
         /// </summary>
         /// <param name="dbContext">数据库上下文</param>
         /// <returns><see cref="Task"/></returns>
         Task SaveDbContextAsync(DbContext dbContext);
-        #endregion
 
-
-        #region 获取数据库上下文池中所有数据库上下文 + IEnumerable<DbContext> GetDbContexts()
         /// <summary>
         /// 获取数据库上下文池中所有数据库上下文
         /// </summary>
         /// <returns><see cref="IEnumerable{T}"/></returns>
         IEnumerable<DbContext> GetDbContexts();
-        #endregion
 
-
-        #region 提交数据库上下文池中所有已更改的数据库上下文 + int SavePoolChanges()
         /// <summary>
         /// 提交数据库上下文池中所有已更改的数据库上下文
         /// </summary>
         /// <returns>已更改的数据库上下文个数</returns>
         int SavePoolChanges();
-        #endregion
 
-        #region 提交数据库上下文池中所有已更改的数据库上下文（异步） + Task<int> SavePoolChangesAsync()
         /// <summary>
         /// 提交数据库上下文池中所有已更改的数据库上下文（异步）
         /// </summary>
         /// <returns>已更改的数据库上下文个数</returns>
         Task<int> SavePoolChangesAsync();
-        #endregion
     }
 }

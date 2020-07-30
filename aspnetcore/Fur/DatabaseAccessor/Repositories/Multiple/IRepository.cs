@@ -22,7 +22,6 @@ namespace Fur.DatabaseAccessor.Repositories.Multiple
     public partial interface IRepository<TDbContextLocator>
         where TDbContextLocator : IDbContextLocator
     {
-        #region 获取泛型多上下文仓储接口 +  IRepository<TEntity, TDbContextLocator> Set<TEntity>(bool newScope = false)
         /// <summary>
         /// 获取泛型多上下文仓储接口
         /// </summary>
@@ -31,6 +30,5 @@ namespace Fur.DatabaseAccessor.Repositories.Multiple
         /// <returns><see cref="IRepository{TEntity, TDbContextLocator}"/></returns>
         IRepository<TEntity, TDbContextLocator> Set<TEntity>(bool newScope = false)
             where TEntity : class, IDbEntityBase, new();
-        #endregion
     }
 }

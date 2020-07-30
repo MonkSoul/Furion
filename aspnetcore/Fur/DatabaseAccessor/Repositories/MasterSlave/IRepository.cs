@@ -1,6 +1,5 @@
 ﻿using Fur.DatabaseAccessor.Contexts.Locators;
 using Fur.DatabaseAccessor.Models.Entities;
-using Fur.DatabaseAccessor.Repositories.Multiple;
 
 namespace Fur.DatabaseAccessor.Repositories.MasterSlave
 {
@@ -35,7 +34,6 @@ namespace Fur.DatabaseAccessor.Repositories.MasterSlave
         where TMasterDbContextLocator : IDbContextLocator
         where TSlaveDbContextLocator : IDbContextLocator
     {
-        #region 获取主从同步/读写分离仓储接口 + IRepository<TEntity, TMasterDbContextLocator, TSlaveDbContextLocator> Set<TEntity>(bool newScope = false)
         /// <summary>
         /// 获取主从同步/读写分离仓储接口
         /// </summary>
@@ -44,6 +42,5 @@ namespace Fur.DatabaseAccessor.Repositories.MasterSlave
         /// <returns><see cref="IRepository{TEntity, TMasterDbContextLocator, TSlaveDbContextLocator}"/></returns>
         IRepository<TEntity, TMasterDbContextLocator, TSlaveDbContextLocator> Set<TEntity>(bool newScope = false)
             where TEntity : class, IDbEntityBase, new();
-        #endregion
     }
 }

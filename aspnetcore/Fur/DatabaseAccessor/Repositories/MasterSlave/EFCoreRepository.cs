@@ -46,8 +46,6 @@ namespace Fur.DatabaseAccessor.Repositories.MasterSlave
         /// </summary>
         private readonly ILifetimeScope _lifetimeScope;
 
-        #region 构造函数 + public MasterSlaveEFCoreRepository(ILifetimeScope lifetimeScope)
-
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -57,9 +55,6 @@ namespace Fur.DatabaseAccessor.Repositories.MasterSlave
             _lifetimeScope = lifetimeScope;
         }
 
-        #endregion
-
-        #region 获取主从同步/读写分离仓储接口 +public IRepository<TEntity, TMasterDbContextLocator, TSlaveDbContextLocator> Set<TEntity>(bool newScope = false)
         /// <summary>
         /// 获取主从同步/读写分离仓储接口
         /// </summary>
@@ -75,7 +70,5 @@ namespace Fur.DatabaseAccessor.Repositories.MasterSlave
             }
             return _lifetimeScope.Resolve<IRepository<TEntity, TMasterDbContextLocator, TSlaveDbContextLocator>>();
         }
-
-        #endregion
     }
 }

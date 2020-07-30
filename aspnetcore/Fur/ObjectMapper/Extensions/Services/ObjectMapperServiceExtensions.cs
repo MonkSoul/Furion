@@ -12,8 +12,6 @@ namespace Fur.ObjectMapper.Extensions.Services
     /// </summary>
     public static class ObjectMapperServiceExtensions
     {
-        #region 对象映射拓展方法 + public static IServiceCollection AddFurObjectMapper(this IServiceCollection services)
-
         /// <summary>
         /// 对象映射拓展方法
         /// </summary>
@@ -30,7 +28,5 @@ namespace Fur.ObjectMapper.Extensions.Services
 
             return services;
         }
-
-        #endregion
     }
 }

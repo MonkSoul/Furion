@@ -19,14 +19,12 @@ namespace Fur.DatabaseAccessor.Models.SeedDatas
     public interface IDbSeedData<TEntity> : IDbSeedData
         where TEntity : IDbEntityBase
     {
-        #region 配置初始化数据 + IEnumerable<TEntity> HasData(DbContext dbContext)
         /// <summary>
         /// 配置初始化数据
         /// </summary>
         /// <param name="dbContext">数据库上下文</param>
         /// <returns><see cref="IEnumerable{T}"/></returns>
         IEnumerable<TEntity> HasData(DbContext dbContext);
-        #endregion
     }
 
     /// <summary>

@@ -15,7 +15,6 @@ namespace Fur.DatabaseAccessor.Extensions.Services
     [NonWrapper]
     public static class ServiceCollectionExtensions
     {
-        #region 配置数据库上下文池 + public static IServiceCollection AddFurSqlServerDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env, int poolSize = 100, params IInterceptor[] interceptors)
         /// <summary>
         /// 配置数据库上下文池
         /// </summary>
@@ -58,9 +57,6 @@ namespace Fur.DatabaseAccessor.Extensions.Services
             return services;
         }
 
-        #endregion
-
-        #region 配置数据库上下文 + public static IServiceCollection AddFurSqlServerDbContext<TDbContext>(this IServiceCollection services, string connectionString, IWebHostEnvironment env)
         /// <summary>
         /// 配置数据库上下文
         /// <para>推荐使用 <see cref="AddFurSqlServerDbContextPool{TDbContext}(IServiceCollection, string, IWebHostEnvironment, int)"/></para>
@@ -101,7 +97,5 @@ namespace Fur.DatabaseAccessor.Extensions.Services
 
             return services;
         }
-
-        #endregion
     }
 }

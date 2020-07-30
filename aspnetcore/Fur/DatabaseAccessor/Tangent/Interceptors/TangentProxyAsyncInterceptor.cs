@@ -17,8 +17,6 @@ namespace Fur.DatabaseAccessor.Tangent.Interceptors
         /// </summary>
         private readonly ILifetimeScope _lifetimeScope;
 
-        #region 构造函数 + public TangentProxyAsyncInterceptor(ILifetimeScope lifetimeScope)
-
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -27,10 +25,6 @@ namespace Fur.DatabaseAccessor.Tangent.Interceptors
         {
             _lifetimeScope = lifetimeScope;
         }
-
-        #endregion
-
-        #region 同步拦截器 + public void InterceptSynchronous(IInvocation invocation)
 
         /// <summary>
         /// 同步拦截器
@@ -41,10 +35,6 @@ namespace Fur.DatabaseAccessor.Tangent.Interceptors
             invocation.ReturnValue = TangentDbContextUtilities.SynchronousInvoke(invocation, _lifetimeScope);
         }
 
-        #endregion
-
-        #region 异步无返回值拦截器 + public void InterceptAsynchronous(IInvocation invocation)
-
         /// <summary>
         /// 异步无返回值拦截器
         /// </summary>
@@ -53,10 +43,6 @@ namespace Fur.DatabaseAccessor.Tangent.Interceptors
         {
             invocation.ReturnValue = Task.FromResult(TangentDbContextUtilities.AsynchronousInvoke<object>(invocation, _lifetimeScope).Result);
         }
-
-        #endregion
-
-        #region 异步有返回值拦截器 + public void InterceptAsynchronous<TResult>(IInvocation invocation)
 
         /// <summary>
         /// 异步有返回值拦截器
@@ -67,7 +53,5 @@ namespace Fur.DatabaseAccessor.Tangent.Interceptors
         {
             invocation.ReturnValue = Task.FromResult(TangentDbContextUtilities.AsynchronousInvoke<TResult>(invocation, _lifetimeScope).Result);
         }
-
-        #endregion
     }
 }

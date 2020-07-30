@@ -51,7 +51,6 @@ namespace Fur.DatabaseAccessor.Models.Entities
         public int TenantId { get; set; }
     }
 
-
     /// <summary>
     /// 数据库泛型实体抽象类
     /// <para>支持多数据库上下文配置</para>

@@ -7,8 +7,6 @@ namespace Fur.FriendlyException
     /// </summary>
     public static class Oops
     {
-        #region 有bug + public static Exception Set(int exceptionCode, Type exception = null)
-
         /// <summary>
         /// 有bug
         /// </summary>
@@ -17,7 +15,5 @@ namespace Fur.FriendlyException
         /// <returns></returns>
         public static Exception Set(int exceptionCode, Type exception = null, int statusCode = 500)
            => new Exception($"##{exceptionCode};{((exception ?? typeof(Exception)).FullName)};{statusCode}##");
-
-        #endregion
     }
 }

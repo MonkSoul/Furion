@@ -12,7 +12,6 @@ namespace Fur.DatabaseAccessor.Extensions.Paged
     [NonWrapper]
     public static class IQueryablePagedExtensions
     {
-        #region 分页拓展 + public static PagedList<TEntity> ToPagedList<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
         /// <summary>
         /// 分页拓展
         /// </summary>
@@ -39,9 +38,6 @@ namespace Fur.DatabaseAccessor.Extensions.Paged
             };
         }
 
-        #endregion
-
-        #region 分页拓展 + public static async Task<PagedList<TEntity>> ToPagedListAsync<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
         /// <summary>
         /// 分页拓展
         /// </summary>
@@ -67,7 +63,5 @@ namespace Fur.DatabaseAccessor.Extensions.Paged
                 HasPrevPages = pageIndex - 1 > 0
             };
         }
-
-        #endregion
     }
 }

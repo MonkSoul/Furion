@@ -10,8 +10,6 @@ namespace Fur.DatabaseAccessor.Tangent.Attributes
     [AttributeUsage(AttributeTargets.Method), NonWrapper]
     public class DbProcedureAttribute : TangentCompileTypeAttribute
     {
-        #region 构造函数 + public DbProcedureAttribute(string name) : base(name)
-
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -19,8 +17,6 @@ namespace Fur.DatabaseAccessor.Tangent.Attributes
         public DbProcedureAttribute(string name) : base(name)
         {
         }
-
-        #endregion
 
         /// <summary>
         /// 是否带输入值或返回值（回馈值）

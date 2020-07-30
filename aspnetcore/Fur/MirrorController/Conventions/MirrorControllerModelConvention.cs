@@ -24,8 +24,6 @@ namespace Fur.MirrorController.Conventions
             _attactControllerOptions = attactControllerOptions;
         }
 
-        #region 解析镜面控制器 + public void Apply(ApplicationModel application)
-
         /// <summary>
         /// 解析镜面控制器
         /// </summary>
@@ -56,10 +54,6 @@ namespace Fur.MirrorController.Conventions
             }
         }
 
-        #endregion
-
-        #region 配置控制器模型信息 - private void ConfigureController(ControllerModel controllerModel, TypeInfo controllerTypeInfo)
-
         /// <summary>
         /// 配置控制器模型信息
         /// </summary>
@@ -73,10 +67,6 @@ namespace Fur.MirrorController.Conventions
             ConfigureControllerName(controllerModel);
             ConfigureControllerApiExplorer(controllerModel);
         }
-
-        #endregion
-
-        #region 配置区域/ApiVersion名称 - private void ConfigureAreaName(ControllerModel controllerModel, AttachControllerAttribute attactControllerAttribute)
 
         /// <summary>
         /// 配置区域/ApiVersion名称
@@ -98,10 +88,6 @@ namespace Fur.MirrorController.Conventions
             }
         }
 
-        #endregion
-
-        #region 配置控制器名称 - private void ConfigureControllerName(ControllerModel controllerModel)
-
         /// <summary>
         /// 配置控制器名称
         /// </summary>
@@ -110,10 +96,6 @@ namespace Fur.MirrorController.Conventions
         {
             controllerModel.ControllerName = Helper.ClearStringAffix(controllerModel.ControllerName, _attactControllerOptions.ClearControllerRouteAffix);
         }
-
-        #endregion
-
-        #region 配置控制器导出可见情况 - private void ConfigureControllerApiExplorer(ControllerModel controllerModel)
 
         /// <summary>
         /// 配置控制器导出可见情况
@@ -126,10 +108,6 @@ namespace Fur.MirrorController.Conventions
                 controllerModel.ApiExplorer.IsVisible = true;
             }
         }
-
-        #endregion
-
-        #region 配置Action模型信息 - private void ConfigureAction(ControllerModel controllerModel)
 
         /// <summary>
         /// 配置Action模型信息
@@ -162,10 +140,6 @@ namespace Fur.MirrorController.Conventions
             }
         }
 
-        #endregion
-
-        #region 配置Action导出可见情况 - private void ConfigureActionApiExplorerAndParameters(ActionModel actionModel)
-
         /// <summary>
         /// 配置Action导出可见情况及参数绑定
         /// </summary>
@@ -180,10 +154,6 @@ namespace Fur.MirrorController.Conventions
             // 参数值绑定
             ConfigureActionParameters(actionModel);
         }
-
-        #endregion
-
-        #region 配置Action名称 - private void ConfigureActionName(ActionModel actionModel)
 
         /// <summary>
         /// 配置Action名称
@@ -205,10 +175,6 @@ namespace Fur.MirrorController.Conventions
                 }
             }
         }
-
-        #endregion
-
-        #region 配置Action路由和请求方式 - private void ConfigureActionRouteAndHttpMethod(ControllerModel controllerModel, ActionModel actionModel, AttachActionAttribute attachActionAttribute)
 
         /// <summary>
         /// 配置Action路由和请求方式
@@ -253,10 +219,6 @@ namespace Fur.MirrorController.Conventions
                 }
             }
         }
-
-        #endregion
-
-        #region 配置Action路由信息 - private AttributeRouteModel ConfigureActionRoute(ControllerModel controllerModel, ActionModel actionModel, AttachActionAttribute attachActionAttribute)
 
         /// <summary>
         /// 配置Action路由信息
@@ -329,10 +291,6 @@ namespace Fur.MirrorController.Conventions
             return new AttributeRouteModel(new RouteAttribute(route));
         }
 
-        #endregion
-
-        #region Action模型参数值绑定 - private void ConfigureActionParameters(ActionModel actionModel)
-
         /// <summary>
         /// Action模型参数值绑定
         /// </summary>
@@ -349,10 +307,6 @@ namespace Fur.MirrorController.Conventions
                 }
             }
         }
-
-        #endregion
-
-        #region 检查是否能够通过Body绑定参数值 - private bool CanBindingFromBody(ActionModel actionModel, ParameterModel parameterModel)
 
         /// <summary>
         /// 检查是否能够通过Body绑定参数值
@@ -380,7 +334,5 @@ namespace Fur.MirrorController.Conventions
 
             return true;
         }
-
-        #endregion
     }
 }

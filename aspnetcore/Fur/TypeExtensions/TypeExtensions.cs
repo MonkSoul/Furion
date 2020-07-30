@@ -9,8 +9,6 @@ namespace Fur.TypeExtensions
     /// </summary>
     public static class TypeExtensions
     {
-        #region 递归获取特性 + public static TAttribute GetDeepAttribute<TAttribute>(this TypeInfo typeInfo) where TAttribute : Attribute
-
         /// <summary>
         /// 递归获取特性
         /// </summary>
@@ -33,10 +31,6 @@ namespace Fur.TypeExtensions
 
             return null;
         }
-
-        #endregion
-
-        #region 递归获取特性 + public static TAttribute GetDeepAttribute<TAttribute>(this Type type) where TAttribute : Attribute
 
         /// <summary>
         /// 递归获取特性
@@ -71,9 +65,6 @@ namespace Fur.TypeExtensions
             return false;
         }
 
-        #endregion
-
-        #region 是否是可空类型 + public static bool IsNullable(this Type type) => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>)
         /// <summary>
         /// 是否是可空类型
         /// </summary>
@@ -81,8 +72,6 @@ namespace Fur.TypeExtensions
         /// <returns>是/否</returns>
         public static bool IsNullable(this Type type)
             => type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
-
-        #endregion
 
         public static void SetPropertyValue(this PropertyInfo property, object obj, object value)
             => property.SetValue(obj, SetPropertyValue(value, property.PropertyType));

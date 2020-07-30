@@ -23,8 +23,6 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
     [NonWrapper]
     internal static class TangentDbContextUtilities
     {
-        #region 处理同步 + internal static object SynchronousInvoke(IInvocation invocation, ILifetimeScope lifetimeScope)
-
         /// <summary>
         /// 处理同步
         /// </summary>
@@ -56,10 +54,6 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
                 throw new NotSupportedException($"{tangentAttribute.GetType().Name}");
             }
         }
-
-        #endregion
-
-        #region 处理异步 + internal static async Task<TResult> AsynchronousInvoke<TResult>(IInvocation invocation, ILifetimeScope lifetimeScope)
 
         /// <summary>
         /// 处理异步
@@ -95,10 +89,6 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
 
             return (TResult)result;
         }
-
-        #endregion
-
-        #region 数据库查询 + internal static object DbQueryExecute(TangentMethodInfo tangentMethod, DbQueryAttribute dbQueryAttribute)
 
         /// <summary>
         /// 数据库查询
@@ -146,10 +136,6 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
                 }
             }
         }
-
-        #endregion
-
-        #region 数据库查询 + internal static async Task<object> DbQueryExecuteAsync(TangentMethodInfo tangentMethod, DbQueryAttribute dbQueryAttribute)
 
         /// <summary>
         /// 数据库查询
@@ -199,10 +185,6 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
             }
         }
 
-        #endregion
-
-        #region 数据库非查询（增删改） + internal static int DbNonQueryExecute(TangentMethodInfo tangentMethod, DbNonQueryAttribute dbNonQueryAttribute)
-
         /// <summary>
         /// 数据库非查询（增删改）
         /// </summary>
@@ -214,10 +196,6 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
             var sql = dbNonQueryAttribute.Sql;
             return tangentMethod.DbContext.Database.SqlExecuteNonQuery(sql, CommandType.Text, tangentMethod.SqlParameters);
         }
-
-        #endregion
-
-        #region 数据库非查询（增删改） + internal static async Task<int> DbNonQueryExecuteAsync(TangentMethodInfo tangentMethod, DbNonQueryAttribute dbNonQueryAttribute)
 
         /// <summary>
         /// 数据库非查询（增删改）
@@ -231,10 +209,6 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
             var result = await tangentMethod.DbContext.Database.SqlExecuteNonQueryAsync(sql, CommandType.Text, tangentMethod.SqlParameters);
             return result;
         }
-
-        #endregion
-
-        #region 数据库函数 + internal static object DbFunctionExecute(TangentMethodInfo tangentMethod, Attributes.DbFunctionAttribute dbFunctionAttribute)
 
         /// <summary>
         /// 数据库函数
@@ -262,10 +236,6 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
             }
         }
 
-        #endregion
-
-        #region 数据库函数 + internal static async Task<object> DbFunctionExecuteAsync(TangentMethodInfo tangentMethod, Attributes.DbFunctionAttribute dbFunctionAttribute)
-
         /// <summary>
         /// 数据库函数
         /// </summary>
@@ -292,10 +262,6 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
                 }
             }
         }
-
-        #endregion
-
-        #region 数据库存储过程 + internal static object DbProcedureExecute(TangentMethodInfo tangentMethod, DbProcedureAttribute dbProcedureAttribute)
 
         /// <summary>
         /// 存储过程
@@ -344,10 +310,6 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
                 }
             }
         }
-
-        #endregion
-
-        #region 数据库存储过程 + internal static async Task<object> DbProcedureExecuteAsync(TangentMethodInfo tangentMethod, DbProcedureAttribute dbProcedureAttribute)
 
         /// <summary>
         /// 存储过程
@@ -398,10 +360,6 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
                 }
             }
         }
-
-        #endregion
-
-        #region 获取切面方法信息类 + internal static (TangentMethodInfo tangentMethod, TangentAttribute tangentAttribute) GetTangentMethodInfo(IInvocation invocation, ILifetimeScope lifetimeScope)
 
         /// <summary>
         /// 获取切面方法信息类
@@ -465,7 +423,5 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
             }
             , tangentAttribute);
         }
-
-        #endregion
     }
 }

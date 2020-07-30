@@ -11,14 +11,12 @@ namespace Fur.DatabaseAccessor.Models.Entities
     [NonWrapper]
     public abstract class DbNoKeyEntity : IDbNoKeyEntity
     {
-        #region 构造函数 + public DbNoKeyEntity(string dbDefinedName)
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="entityName">数据库定义名称，需包含 schema</param>
         public DbNoKeyEntity(string dbDefinedName)
             => DB_DEFINED_NAME = dbDefinedName;
-        #endregion
 
         /// <summary>
         /// 数据库定义名称
@@ -39,14 +37,12 @@ namespace Fur.DatabaseAccessor.Models.Entities
     public abstract class DbNoKeyEntity<TDbContextLocator1> : DbNoKeyEntity
         where TDbContextLocator1 : IDbContextLocator
     {
-        #region 构造函数 + public DbNoKeyEntity(string dbDefinedName)
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="dbDefinedName">数据库定义名称，需包含 schema</param>
         public DbNoKeyEntity(string dbDefinedName)
             : base(dbDefinedName) { }
-        #endregion
     }
 
     /// <summary>
@@ -62,14 +58,12 @@ namespace Fur.DatabaseAccessor.Models.Entities
         where TDbContextLocator1 : IDbContextLocator
         where TDbContextLocator2 : IDbContextLocator
     {
-        #region 构造函数 + public DbNoKeyEntity(string dbDefinedName)
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="dbDefinedName">数据库定义名称，需包含 schema</param>
         public DbNoKeyEntity(string dbDefinedName)
             : base(dbDefinedName) { }
-        #endregion
     }
 
     /// <summary>
@@ -87,14 +81,12 @@ namespace Fur.DatabaseAccessor.Models.Entities
         where TDbContextLocator2 : IDbContextLocator
         where TDbContextLocator3 : IDbContextLocator
     {
-        #region 构造函数 + public DbNoKeyEntity(string dbDefinedName)
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="dbDefinedName">数据库定义名称，需包含 schema</param>
         public DbNoKeyEntity(string dbDefinedName)
             : base(dbDefinedName) { }
-        #endregion
     }
 
     /// <summary>
@@ -114,14 +106,12 @@ namespace Fur.DatabaseAccessor.Models.Entities
         where TDbContextLocator3 : IDbContextLocator
         where TDbContextLocator4 : IDbContextLocator
     {
-        #region 构造函数 + public DbNoKeyEntity(string dbDefinedName)
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="dbDefinedName">数据库定义名称，需包含 schema</param>
         public DbNoKeyEntity(string dbDefinedName)
             : base(dbDefinedName) { }
-        #endregion
     }
 
     /// <summary>
@@ -143,14 +133,12 @@ namespace Fur.DatabaseAccessor.Models.Entities
         where TDbContextLocator4 : IDbContextLocator
         where TDbContextLocator5 : IDbContextLocator
     {
-        #region 构造函数 + public DbNoKeyEntity(string dbDefinedName)
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="dbDefinedName">数据库定义名称，需包含 schema</param>
         public DbNoKeyEntity(string dbDefinedName)
             : base(dbDefinedName) { }
-        #endregion
     }
 
     /// <summary>
@@ -174,14 +162,12 @@ namespace Fur.DatabaseAccessor.Models.Entities
         where TDbContextLocator5 : IDbContextLocator
         where TDbContextLocator6 : IDbContextLocator
     {
-        #region 构造函数 + public DbNoKeyEntity(string dbDefinedName)
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="dbDefinedName">数据库定义名称，需包含 schema</param>
         public DbNoKeyEntity(string dbDefinedName)
             : base(dbDefinedName) { }
-        #endregion
     }
 
     /// <summary>
@@ -207,14 +193,12 @@ namespace Fur.DatabaseAccessor.Models.Entities
         where TDbContextLocator6 : IDbContextLocator
         where TDbContextLocator7 : IDbContextLocator
     {
-        #region 构造函数 + public DbNoKeyEntity(string dbDefinedName)
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="dbDefinedName">数据库定义名称，需包含 schema</param>
         public DbNoKeyEntity(string dbDefinedName)
             : base(dbDefinedName) { }
-        #endregion
     }
 
     /// <summary>
@@ -242,13 +226,11 @@ namespace Fur.DatabaseAccessor.Models.Entities
         where TDbContextLocator7 : IDbContextLocator
         where TDbContextLocator8 : IDbContextLocator
     {
-        #region 构造函数 + public DbNoKeyEntity(string dbDefinedName)
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="dbDefinedName">数据库定义名称，需包含 schema</param>
         public DbNoKeyEntity(string dbDefinedName)
             : base(dbDefinedName) { }
-        #endregion
     }
 }

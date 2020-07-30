@@ -8,8 +8,6 @@ namespace Fur.SwaggerDoc.Extensions.Middlewares
     /// </summary>
     public static class SwaggerDocMiddlewareExtensions
     {
-        #region Swagger UI 中间件拓展 + public static IApplicationBuilder AddFurSwaggerUI(this IApplicationBuilder app)
-
         /// <summary>
         /// Swagger UI 中间件拓展
         /// </summary>
@@ -26,7 +24,5 @@ namespace Fur.SwaggerDoc.Extensions.Middlewares
 
             return app;
         }
-
-        #endregion
     }
 }

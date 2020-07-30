@@ -12,7 +12,6 @@ namespace Fur.DatabaseAccessor.Attributes
     [AttributeUsage(AttributeTargets.Property), NonWrapper]
     public class DbParameterAttribute : Attribute
     {
-        #region 构造函数 + public DbParameterAttribute(ParameterDirection direction)
         /// <summary>
         /// 构造函数
         /// <para>支持传入 <see cref="ParameterDirection"/> 参数值</para>
@@ -20,7 +19,6 @@ namespace Fur.DatabaseAccessor.Attributes
         /// <param name="direction">参数方向，参见：<see cref="ParameterDirection"/></param>
         public DbParameterAttribute(ParameterDirection direction)
             => Direction = direction;
-        #endregion
 
         /// <summary>
         /// 参数方向

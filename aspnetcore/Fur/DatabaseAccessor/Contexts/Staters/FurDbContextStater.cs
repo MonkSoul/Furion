@@ -51,7 +51,6 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// </summary>
         private static readonly MethodInfo _modelBuilderEntityMethod;
 
-        #region 构造函数 + static FurDbContextStater()
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -74,9 +73,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 AppGlobal.Application.PublicMethodWrappers
                 .Where(u => u.IsStaticMethod && u.Method.IsDefined(typeof(Attributes.DbFunctionAttribute)) && u.ThisDeclareType.IsAbstract && u.ThisDeclareType.IsSealed));
         }
-        #endregion
 
-        #region 扫描数据库对象类型加入模型构建器中 +private static void ScanDbObjectsToBuilding(ModelBuilder modelBuilder, Type dbContextLocatorType, DbContext dbContext)
         /// <summary>
         /// 扫描数据库对象类型加入模型构建器中
         /// <para>包括视图、存储过程、函数（标量函数/表值函数）初始化、及种子数据、查询筛选器配置</para>
@@ -128,10 +125,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
             // 配置数据库函数
             DbFunctionConfigure: DbFunctionConfigure(modelBuilder, dbContextLocatorType);
         }
-        #endregion
 
-
-        #region 配置数据库无键实体 + private static void DbNoKeyEntityConfigure(Type dbEntityType, ModelBuilder modelBuilder, Type dbContextLocatorType, ref EntityTypeBuilder entityTypeBuilder)
         /// <summary>
         /// 配置数据库无键实体
         /// <para>只有继承 IDbNoKeyEntity 接口的类型才是数据库无键实体</para>
@@ -158,9 +152,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 }
             }
         }
-        #endregion
 
-        #region 配置数据库实体类型构建器 + private static void DbEntityTypeBuilderConfigure(Type dbEntityType, ModelBuilder modelBuilder, Type dbContextLocatorType, ref EntityTypeBuilder entityTypeBuilder)
         /// <summary>
         /// 配置数据库实体类型构建器
         /// <para>该配置会在所有配置接口之前运行，确保后续可复写</para>
@@ -187,9 +179,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 }
             }
         }
-        #endregion
 
-        #region 配置数据库种子数据 + private static void DbSeedDataConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextLocatorType, ref EntityTypeBuilder entityTypeBuilder)
         /// <summary>
         /// 配置数据库种子数据
         /// </summary>
@@ -224,9 +214,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 }
             }
         }
-        #endregion
 
-        #region 配置数据库查询筛选器 + private static void DbQueryFilterConfigure(Type dbEntityType, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextLocatorType, ref EntityTypeBuilder entityTypeBuilder)
         /// <summary>
         /// 配置数据库查询筛选器
         /// </summary>
@@ -263,9 +251,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 }
             }
         }
-        #endregion
 
-        #region 配置数据库函数类型 + private static void DbFunctionConfigure(ModelBuilder modelBuilder, Type dbContextLocatorType)
         /// <summary>
         /// 配置数据库函数类型
         /// </summary>
@@ -280,9 +266,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 modelBuilder.HasDbFunction(dbFunction.Method);
             }
         }
-        #endregion
 
-        #region 配置数据库上下文查询筛选器 + private static void DbContextQueryFilterConfigure(DbContext dbContext, Type dbContextType, ModelBuilder modelBuilder, Type dbEntityType, bool hasDbContextQueryFilter, ref EntityTypeBuilder entityTypeBuilder)
         /// <summary>
         /// 配置数据库上下文查询筛选器
         /// <para>一旦数据库上下文继承该接口，那么该数据库上下文所有的实体都将应用该查询筛选器</para>
@@ -309,9 +293,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                  );
             }
         }
-        #endregion
 
-        #region 创建数据库实体类型构建器 + private static void CreateDbEntityTypeBuilderIfNull(ModelBuilder modelBuilder, Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
         /// <summary>
         /// 创建数据库实体类型构建器
         /// <para>只有为 null 时才会执行</para>
@@ -351,10 +333,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 }
             }
         }
-        #endregion
 
-
-        #region 判断该类型是否是当前数据库上下文的实体类型或包含实体的类型 + private static bool IsThisDbContextEntityType(Type dbEntityType, Type dbContextLocatorType)
         /// <summary>
         /// 判断该类型是否是当前数据库上下文的实体类型或包含实体的类型
         /// </summary>
@@ -409,9 +388,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
 
             return false;
         }
-        #endregion
 
-        #region 判断该方法是否是当前数据库上下文的函数类型 + private static bool IsThisDbContextDbFunction(MethodWrapper methodWrapper, Type dbContextLocatorType)
         /// <summary>
         /// 判断该方法是否是当前数据库上下文的函数类型
         /// </summary>
@@ -425,9 +402,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
 
             return false;
         }
-        #endregion
 
-        #region 检查当前数据库上下文定位器是否在指定的数据库上下文定位器集合中 + private static bool CheckIsInDbContextLocators(IEnumerable<Type> dbContextLocators, Type dbContextLocatorType)
         /// <summary>
         /// 检查当前数据库上下文定位器是否在指定的数据库上下文定位器集合中
         /// </summary>
@@ -438,6 +413,5 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         {
             return dbContextLocators == null || dbContextLocators.Count() == 0 || dbContextLocators.Contains(dbContextLocatorType);
         }
-        #endregion
     }
 }

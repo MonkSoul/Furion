@@ -18,13 +18,11 @@ namespace Fur.DatabaseAccessor.Models.EntityTypeBuilders
     public interface IDbEntityBuilder<TEntity> : IDbEntityBuilder
         where TEntity : class, IDbEntityBase
     {
-        #region 配置实体信息 + EntityTypeBuilder HasEntityBuilder(EntityTypeBuilder entity);
         /// <summary>
         /// 配置实体信息
         /// </summary>
         /// <returns>实体类型构建器</returns>
         EntityTypeBuilder HasEntityBuilder(EntityTypeBuilder entity);
-        #endregion
     }
 
     /// <summary>

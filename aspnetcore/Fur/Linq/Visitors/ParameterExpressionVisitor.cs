@@ -13,8 +13,6 @@ namespace Fur.Linq.Visitors
         /// </summary>
         private readonly Dictionary<ParameterExpression, ParameterExpression> parameterExpressionSetter;
 
-        #region 构造函数 + public ParameterExpressionVisitor(Dictionary<ParameterExpression, ParameterExpression> parameterExpressionSetter)
-
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -24,10 +22,6 @@ namespace Fur.Linq.Visitors
             this.parameterExpressionSetter = parameterExpressionSetter ?? new Dictionary<ParameterExpression, ParameterExpression>();
         }
 
-        #endregion
-
-        #region 替换表达式参数 + public static Expression ReplaceParameters(Dictionary<ParameterExpression, ParameterExpression> parameterExpressionSetter, Expression expression)
-
         /// <summary>
         /// 替换表达式参数
         /// </summary>
@@ -36,10 +30,6 @@ namespace Fur.Linq.Visitors
         /// <returns>新的表达式</returns>
         public static Expression ReplaceParameters(Dictionary<ParameterExpression, ParameterExpression> parameterExpressionSetter, Expression expression)
             => new ParameterExpressionVisitor(parameterExpressionSetter).Visit(expression);
-
-        #endregion
-
-        #region 重写基类参数访问器 +- protected override Expression VisitParameter(ParameterExpression parameterExpression)
 
         /// <summary>
         /// 重写基类参数访问器
@@ -55,7 +45,5 @@ namespace Fur.Linq.Visitors
 
             return base.VisitParameter(parameterExpression);
         }
-
-        #endregion
     }
 }

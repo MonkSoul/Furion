@@ -12,14 +12,11 @@ namespace Fur.DatabaseAccessor.Attributes
     [AttributeUsage(AttributeTargets.Method), NonWrapper]
     public class UnitOfWorkAttribute : Attribute
     {
-        #region 构造函数 + public UnitOfWorkAttribute()
         /// <summary>
         /// 构造函数
         /// </summary>
         public UnitOfWorkAttribute() { }
-        #endregion
 
-        #region 构造函数 + public UnitOfWorkAttribute(IsolationLevel isolationLevel)
         /// <summary>
         /// 构造函数
         /// <para>支持传入事务隔离级别 <see cref="IsolationLevel"/> 参数值</para>
@@ -27,9 +24,7 @@ namespace Fur.DatabaseAccessor.Attributes
         /// <param name="isolationLevel">事务隔离级别</param>
         public UnitOfWorkAttribute(IsolationLevel isolationLevel)
             => IsolationLevel = isolationLevel;
-        #endregion
 
-        #region 构造函数 + public UnitOfWorkAttribute(TransactionScopeOption scopeOption, IsolationLevel isolationLevel)
         /// <summary>
         /// 构造函数
         /// <para>支持传入 事务范围 <see cref="TransactionScope"/>，事务级别 <see cref="IsolationLevel"/> 参数值</para>
@@ -41,7 +36,6 @@ namespace Fur.DatabaseAccessor.Attributes
             ScopeOption = scopeOption;
             IsolationLevel = isolationLevel;
         }
-        #endregion
 
         /// <summary>
         /// 事务范围

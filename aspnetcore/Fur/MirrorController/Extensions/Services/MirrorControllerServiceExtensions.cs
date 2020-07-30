@@ -15,8 +15,6 @@ namespace Fur.MirrorController.Extensions.Services
     /// </summary>
     public static class MirrorControllerServiceExtensions
     {
-        #region 镜面控制器服务拓展方法 + public static IServiceCollection AddFurMirrorControllers(this IServiceCollection services, IConfiguration configuration)
-
         /// <summary>
         /// 镜面控制器服务拓展方法
         /// </summary>
@@ -36,7 +34,5 @@ namespace Fur.MirrorController.Extensions.Services
 
             return services;
         }
-
-        #endregion
     }
 }

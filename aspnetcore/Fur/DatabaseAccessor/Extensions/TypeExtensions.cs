@@ -16,7 +16,6 @@ namespace Fur.DatabaseAccessor.Extensions
     [NonWrapper]
     public static class TypeExtensions
     {
-        #region 获取类型的父类型或接口类型泛型参数 + internal static Type[] GetTypeGenericArguments(this Type type, Type filterType, GenericArgumentSourceOptions genericArgumentSourceOptions)
         /// <summary>
         /// 获取类型的父类型或接口类型泛型参数
         /// </summary>
@@ -42,9 +41,7 @@ namespace Fur.DatabaseAccessor.Extensions
                 return default;
             }
         }
-        #endregion
 
-        #region 创建查询筛选器表达式 + public static LambdaExpression QueryFilterExpression<TProperty>(this Type dbEntityType, string propertyName, TProperty propertyValue)
         /// <summary>
         /// 创建查询筛选器表达式
         /// </summary>
@@ -62,10 +59,9 @@ namespace Fur.DatabaseAccessor.Extensions
             var expressionBody = Expression.Equal(Expression.Call(EFPropertyMethod.MakeGenericMethod(typeof(TProperty)), leftParameter, constantKey), constantValue);
             return Expression.Lambda(expressionBody, leftParameter);
         }
-        private static readonly MethodInfo EFPropertyMethod = typeof(EF).GetMethod("Property");
-        #endregion
 
-        #region 获取实体属性 + public static PropertyEntry Property(this EntityEntry entityEntry, string propertyName)
+        private static readonly MethodInfo EFPropertyMethod = typeof(EF).GetMethod("Property");
+
         /// <summary>
         /// 获取实体属性
         /// </summary>
@@ -88,11 +84,12 @@ namespace Fur.DatabaseAccessor.Extensions
                 return propertyEntry;
             }
         }
+
         private static readonly ConcurrentDictionary<(Type, string), PropertyEntry> EntityEntryProperties;
+
         static TypeExtensions()
         {
             EntityEntryProperties = new ConcurrentDictionary<(Type, string), PropertyEntry>();
         }
-        #endregion
     }
 }

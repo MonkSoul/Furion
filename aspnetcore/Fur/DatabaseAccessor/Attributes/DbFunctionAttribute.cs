@@ -11,7 +11,6 @@ namespace Fur.DatabaseAccessor.Attributes
     [AttributeUsage(AttributeTargets.Method), NonWrapper]
     public class DbFunctionAttribute : Microsoft.EntityFrameworkCore.DbFunctionAttribute
     {
-        #region 构造函数 + public DbFunctionAttribute(string name, string schema)
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -19,9 +18,7 @@ namespace Fur.DatabaseAccessor.Attributes
         /// <param name="schema">函数schema</param>
         public DbFunctionAttribute(string name, string schema)
             : base(name, schema) { }
-        #endregion
 
-        #region 构造函数 + public DbFunctionAttribute(string name, string schema, params Type[] dbContextLocators)
         /// <summary>
         /// 构造函数
         /// <para>可以指定数据库上下文定位器类型</para>
@@ -32,7 +29,6 @@ namespace Fur.DatabaseAccessor.Attributes
         public DbFunctionAttribute(string name, string schema, params Type[] dbContextLocators)
             : base(name, schema)
             => DbContextLocators = dbContextLocators;
-        #endregion
 
         /// <summary>
         /// 数据库上下文定位器类型

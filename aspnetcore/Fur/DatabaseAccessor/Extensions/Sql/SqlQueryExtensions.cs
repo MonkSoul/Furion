@@ -14,8 +14,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
     [NonWrapper]
     internal static class SqlQueryExtensions
     {
-        #region Sql 查询 返回 DataTable + internal static DataTable SqlQuery(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
-
         /// <summary>
         /// Sql 查询 返回 DataTable
         /// </summary>
@@ -29,10 +27,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return databaseFacade.SqlExecuteReader(sql, commandType, parameters);
         }
 
-        #endregion
-
-        #region Sql 查询 返回 DataTable + internal static async Task<DataTable> SqlQueryAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
-
         /// <summary>
         /// Sql 查询 返回 DataTable
         /// </summary>
@@ -45,11 +39,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         {
             return databaseFacade.SqlExecuteReaderAsync(sql, commandType, parameters);
         }
-
-        #endregion
-
-
-        #region Sql 查询 + internal static IEnumerable<T> SqlQuery<T>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
         /// <summary>
         /// Sql 查询
@@ -65,10 +54,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return SqlQuery(databaseFacade, sql, commandType, parameters).ToList<T>();
         }
 
-        #endregion
-
-        #region Sql 查询 + internal static Task<IEnumerable<T>> SqlQueryAsync<T>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
-
         /// <summary>
         /// Sql 查询
         /// </summary>
@@ -82,10 +67,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         {
             return SqlQueryAsync(databaseFacade, sql, commandType, parameters).ToListAsync<T>();
         }
-
-        #endregion
-
-        #region Sql 查询 + internal static object SqlQuery(this DatabaseFacade databaseFacade, string sql, Type returnType, CommandType commandType = CommandType.Text, params object[] parameters)
 
         /// <summary>
         /// Sql 查询
@@ -105,10 +86,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return SqlQuery(databaseFacade, sql, commandType, parameters).ToList(returnType);
         }
 
-        #endregion
-
-        #region Sql 查询 + internal static Task<object> SqlQueryAsync(this DatabaseFacade databaseFacade, string sql, Type returnType, CommandType commandType = CommandType.Text, params object[] parameters)
-
         /// Sql 查询
         /// </summary>
         /// <param name="databaseFacade">数据库操作对象</param>
@@ -126,7 +103,5 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             }
             return SqlQueryAsync(databaseFacade, sql, commandType, parameters).ToListAsync(returnType);
         }
-
-        #endregion
     }
 }

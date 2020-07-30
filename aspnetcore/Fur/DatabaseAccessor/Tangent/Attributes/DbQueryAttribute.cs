@@ -10,8 +10,6 @@ namespace Fur.DatabaseAccessor.Tangent.Attributes
     [AttributeUsage(AttributeTargets.Method), NonWrapper]
     public class DbQueryAttribute : TangentSqlAttribute
     {
-        #region 构造函数 + public DbQueryAttribute(string sql) : base(sql)
-
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -19,7 +17,5 @@ namespace Fur.DatabaseAccessor.Tangent.Attributes
         public DbQueryAttribute(string sql) : base(sql)
         {
         }
-
-        #endregion
     }
 }

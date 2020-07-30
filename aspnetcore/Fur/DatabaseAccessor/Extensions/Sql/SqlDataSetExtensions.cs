@@ -14,8 +14,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
     [NonWrapper]
     internal static class SqlDataSetExtensions
     {
-        #region Sql 查询返回 DataSet + internal static DataSet SqlDataSet(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
-
         /// <summary>
         /// Sql 查询返回 <see cref="DataSet"/>
         /// </summary>
@@ -28,10 +26,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         {
             return databaseFacade.SqlDataAdapterFill(sql, commandType, parameters);
         }
-
-        #endregion
-
-        #region Sql 查询返回 DataSet + internal static async Task<DataSet> SqlDataSetAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
         /// <summary>
         /// Sql 查询返回 <see cref="DataSet"/>
@@ -46,11 +40,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return databaseFacade.SqlDataAdapterFillAsync(sql, commandType, parameters);
         }
 
-        #endregion
-
-
-        #region Sql 查询返回一个结果集 + internal static IEnumerable<T1> SqlDataSet<T1>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
-
         /// <summary>
         /// Sql 查询返回一个结果集
         /// </summary>
@@ -64,10 +53,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         {
             return SqlDataSet(databaseFacade, sql, commandType, parameters).ToList<T1>();
         }
-
-        #endregion
-
-        #region Sql 查询返回两个结果集 + internal static (IEnumerable<T1> data1, IEnumerable<T2> data2) SqlDataSet<T1, T2>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
         /// <summary>
         /// Sql 查询返回两个结果集
@@ -84,10 +69,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return SqlDataSet(databaseFacade, sql, commandType, parameters).ToList<T1, T2>();
         }
 
-        #endregion
-
-        #region Sql 查询返回三个结果集 + internal static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3) SqlDataSet<T1, T2, T3>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
-
         /// <summary>
         /// Sql 查询返回三个结果集
         /// </summary>
@@ -103,10 +84,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         {
             return SqlDataSet(databaseFacade, sql, commandType, parameters).ToList<T1, T2, T3>();
         }
-
-        #endregion
-
-        #region Sql 查询返回四个结果集 + internal static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4) SqlDataSet<T1, T2, T3, T4>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
         /// <summary>
         /// Sql 查询返回四个结果集
@@ -125,10 +102,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return SqlDataSet(databaseFacade, sql, commandType, parameters).ToList<T1, T2, T3, T4>();
         }
 
-        #endregion
-
-        #region Sql 查询返回五个结果集 + internal static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5) SqlDataSet<T1, T2, T3, T4, T5>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
-
         /// <summary>
         /// Sql 查询返回五个结果集
         /// </summary>
@@ -146,10 +119,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         {
             return SqlDataSet(databaseFacade, sql, commandType, parameters).ToList<T1, T2, T3, T4, T5>();
         }
-
-        #endregion
-
-        #region Sql 查询返回六个结果集 + internal static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6) SqlDataSet<T1, T2, T3, T4, T5, T6>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
         /// <summary>
         /// Sql 查询返回六个结果集
@@ -170,10 +139,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return SqlDataSet(databaseFacade, sql, commandType, parameters).ToList<T1, T2, T3, T4, T5, T6>();
         }
 
-        #endregion
-
-        #region Sql 查询返回七个结果集 + internal static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7) SqlDataSet<T1, T2, T3, T4, T5, T6, T7>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
-
         /// <summary>
         /// Sql 查询返回七个结果集
         /// </summary>
@@ -193,10 +158,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         {
             return SqlDataSet(databaseFacade, sql, commandType, parameters).ToList<T1, T2, T3, T4, T5, T6, T7>();
         }
-
-        #endregion
-
-        #region Sql 查询返回八个结果集 + internal static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) SqlDataSet<T1, T2, T3, T4, T5, T6, T7, T8>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
         /// <summary>
         /// Sql 查询返回八个结果集
@@ -219,11 +180,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return SqlDataSet(databaseFacade, sql, commandType, parameters).ToList<T1, T2, T3, T4, T5, T6, T7, T8>();
         }
 
-        #endregion
-
-
-        #region Sql 查询返回一个结果集 + internal static Task<IEnumerable<T1>> SqlDataSetAsync<T1>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
-
         /// <summary>
         /// Sql 查询返回一个结果集
         /// </summary>
@@ -237,10 +193,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         {
             return SqlDataSetAsync(databaseFacade, sql, commandType, parameters).ToListAsync<T1>();
         }
-
-        #endregion
-
-        #region Sql 查询返回两个结果集 + internal static Task<(IEnumerable<T1> data1, IEnumerable<T2> data2)> SqlDataSetAsync<T1, T2>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
         /// <summary>
         /// Sql 查询返回两个结果集
@@ -257,10 +209,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return SqlDataSetAsync(databaseFacade, sql, commandType, parameters).ToListAsync<T1, T2>();
         }
 
-        #endregion
-
-        #region Sql 查询返回三个结果集 + internal static Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3)> SqlDataSetAsync<T1, T2, T3>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
-
         /// <summary>
         /// Sql 查询返回三个结果集
         /// </summary>
@@ -276,10 +224,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         {
             return SqlDataSetAsync(databaseFacade, sql, commandType, parameters).ToListAsync<T1, T2, T3>();
         }
-
-        #endregion
-
-        #region Sql 查询返回四个结果集 + internal static Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4)> SqlDataSetAsync<T1, T2, T3, T4>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
         /// <summary>
         /// Sql 查询返回四个结果集
@@ -298,10 +242,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return SqlDataSetAsync(databaseFacade, sql, commandType, parameters).ToListAsync<T1, T2, T3, T4>();
         }
 
-        #endregion
-
-        #region Sql 查询返回五个结果集 + internal static Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5)> SqlDataSetAsync<T1, T2, T3, T4, T5>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
-
         /// <summary>
         /// Sql 查询返回五个结果集
         /// </summary>
@@ -319,10 +259,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         {
             return SqlDataSetAsync(databaseFacade, sql, commandType, parameters).ToListAsync<T1, T2, T3, T4, T5>();
         }
-
-        #endregion
-
-        #region Sql 查询返回六个结果集 + internal static Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
         /// <summary>
         /// Sql 查询返回六个结果集
@@ -343,10 +279,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return SqlDataSetAsync(databaseFacade, sql, commandType, parameters).ToListAsync<T1, T2, T3, T4, T5, T6>();
         }
 
-        #endregion
-
-        #region Sql 查询返回七个结果集 + internal static Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6, T7>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
-
         /// <summary>
         /// Sql 查询返回七个结果集
         /// </summary>
@@ -366,10 +298,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         {
             return SqlDataSetAsync(databaseFacade, sql, commandType, parameters).ToListAsync<T1, T2, T3, T4, T5, T6, T7>();
         }
-
-        #endregion
-
-        #region Sql 查询返回八个结果集 + internal static Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> SqlDataSetAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
 
         /// <summary>
         /// Sql 查询返回八个结果集
@@ -392,11 +320,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return SqlDataSetAsync(databaseFacade, sql, commandType, parameters).ToListAsync<T1, T2, T3, T4, T5, T6, T7, T8>();
         }
 
-        #endregion
-
-
-        #region Sql 查询返回特定个数结果集 + internal static object SqlDataSet(this DatabaseFacade databaseFacade, string sql, Type[] returnTypes, CommandType commandType = CommandType.Text, params object[] parameters)
-
         /// <summary>
         /// Sql 查询返回特定个数结果集
         /// </summary>
@@ -411,10 +334,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return SqlDataSet(databaseFacade, sql, commandType, parameters).ToList(returnTypes);
         }
 
-        #endregion
-
-        #region Sql 查询返回特定个数结果集 + internal static Task<object> SqlDataSetAsync(this DatabaseFacade databaseFacade, string sql, Type[] returnTypes, CommandType commandType = CommandType.Text, params object[] parameters)
-
         /// <summary>
         /// Sql 查询返回特定个数结果集
         /// </summary>
@@ -428,6 +347,5 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         {
             return SqlDataSetAsync(databaseFacade, sql, commandType, parameters).ToListAsync(returnTypes);
         }
-        #endregion
     }
 }

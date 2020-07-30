@@ -15,8 +15,6 @@ namespace Fur.DatabaseAccessor.Repositories
     /// <typeparam name="TEntity">实体类型</typeparam>
     public partial class EFCoreRepository<TEntity> : IRepository<TEntity> where TEntity : class, IDbEntityBase, new()
     {
-        #region 查询单条 + public virtual TEntity Find(object id)
-
         /// <summary>
         /// 查询单条
         /// </summary>
@@ -26,10 +24,6 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return Entities.Find(id);
         }
-
-        #endregion
-
-        #region 查询单条 + public virtual ValueTask<TEntity> FindAsync(object id)
 
         /// <summary>
         /// 查询单条
@@ -41,10 +35,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Entities.FindAsync(id);
         }
 
-        #endregion
-
-        #region 查询单条 + public virtual TEntity Single()
-
         /// <summary>
         /// 查询单条
         /// <para>如果结果集找不到或包含多条将抛异常</para>
@@ -55,10 +45,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Entities.Single();
         }
 
-        #endregion
-
-        #region 查询单条 + public virtual Task<TEntity> SingleAsync()
-
         /// <summary>
         /// 查询单条
         /// <para>如果结果集找不到或包含多条将抛异常</para>
@@ -68,10 +54,6 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return Entities.SingleAsync();
         }
-
-        #endregion
-
-        #region 查询单条 + public virtual TEntity Single(Expression<Func<TEntity, bool>> expression)
 
         /// <summary>
         /// 查询单条
@@ -84,10 +66,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Entities.Single(expression);
         }
 
-        #endregion
-
-        #region 查询单条 + public virtual Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> expression)
-
         /// <summary>
         /// 查询单条
         /// <para>如果结果集找不到或包含多条将抛异常</para>
@@ -98,10 +76,6 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return Entities.SingleAsync(expression);
         }
-
-        #endregion
-
-        #region 查询单条 + public virtual TEntity Single(bool noTracking)
 
         /// <summary>
         /// 查询单条
@@ -115,10 +89,6 @@ namespace Fur.DatabaseAccessor.Repositories
             else return Single();
         }
 
-        #endregion
-
-        #region 查询单条 + public virtual Task<TEntity> SingleAsync(bool noTracking)
-
         /// <summary>
         /// 查询单条
         /// <para>如果结果集找不到或包含多条将抛异常</para>
@@ -130,10 +100,6 @@ namespace Fur.DatabaseAccessor.Repositories
             if (noTracking) return DerailEntities.SingleAsync();
             else return SingleAsync();
         }
-
-        #endregion
-
-        #region 查询单条 + public virtual TEntity Single(Expression<Func<TEntity, bool>> expression, bool noTracking)
 
         /// <summary>
         /// 查询单条
@@ -148,10 +114,6 @@ namespace Fur.DatabaseAccessor.Repositories
             else return Single(expression);
         }
 
-        #endregion
-
-        #region 查询单条 + public virtual Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
-
         /// <summary>
         /// 查询单条
         /// <para>如果结果集找不到或包含多条将抛异常</para>
@@ -165,10 +127,6 @@ namespace Fur.DatabaseAccessor.Repositories
             else return SingleAsync(expression);
         }
 
-        #endregion
-
-        #region 查询单条 + public virtual TEntity SingleOrDefault()
-
         /// <summary>
         /// 查询单条
         /// <para>如果包含多条将抛异常</para>
@@ -179,10 +137,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Entities.SingleOrDefault();
         }
 
-        #endregion
-
-        #region 查询单条 + public virtual Task<TEntity> SingleOrDefaultAsync()
-
         /// <summary>
         /// 查询单条
         /// <para>如果包含多条将抛异常</para>
@@ -192,10 +146,6 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return Entities.SingleOrDefaultAsync();
         }
-
-        #endregion
-
-        #region 查询单条 + public virtual TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression)
 
         /// <summary>
         /// 查询单条
@@ -208,10 +158,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Entities.SingleOrDefault(expression);
         }
 
-        #endregion
-
-        #region 查询单条 + public virtual Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> expression)
-
         /// <summary>
         /// 查询单条
         /// <para>如果包含多条将抛异常</para>
@@ -222,10 +168,6 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return Entities.SingleOrDefaultAsync(expression);
         }
-
-        #endregion
-
-        #region 查询单条 + public virtual TEntity SingleOrDefault(bool noTracking)
 
         /// <summary>
         /// 查询单条
@@ -239,10 +181,6 @@ namespace Fur.DatabaseAccessor.Repositories
             else return SingleOrDefault();
         }
 
-        #endregion
-
-        #region 查询单条 + public virtual Task<TEntity> SingleOrDefaultAsync(bool noTracking)
-
         /// <summary>
         /// 查询单条
         /// <para>如果包含多条将抛异常</para>
@@ -254,10 +192,6 @@ namespace Fur.DatabaseAccessor.Repositories
             if (noTracking) return DerailEntities.SingleOrDefaultAsync();
             else return SingleOrDefaultAsync();
         }
-
-        #endregion
-
-        #region 查询单条 + public virtual TEntity SingleOrDefault(Expression<Func<TEntity, bool>> expression, bool noTracking)
 
         /// <summary>
         /// 查询单条
@@ -272,10 +206,6 @@ namespace Fur.DatabaseAccessor.Repositories
             else return SingleOrDefault(expression);
         }
 
-        #endregion
-
-        #region 查询单条 + public virtual Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
-
         /// <summary>
         /// 查询单条
         /// <para>如果包含多条将抛异常</para>
@@ -289,10 +219,6 @@ namespace Fur.DatabaseAccessor.Repositories
             else return SingleOrDefaultAsync(expression);
         }
 
-        #endregion
-
-        #region 查询一条 + public virtual TEntity First()
-
         /// <summary>
         /// 查询一条
         /// <para>类似 <c>select top 1 * from table.</c></para>
@@ -302,10 +228,6 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return Entities.First();
         }
-
-        #endregion
-
-        #region 查询一条 + public virtual Task<TEntity> FirstAsync()
 
         /// <summary>
         /// 查询一条
@@ -317,10 +239,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Entities.FirstAsync();
         }
 
-        #endregion
-
-        #region 查询一条 + public virtual TEntity First(Expression<Func<TEntity, bool>> expression)
-
         /// <summary>
         /// 查询一条
         /// <para>类似 <c>select top 1 * from table.</c></para>
@@ -331,10 +249,6 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return Entities.First(expression);
         }
-
-        #endregion
-
-        #region 查询一条 + public virtual Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> expression)
 
         /// <summary>
         /// 查询一条
@@ -348,10 +262,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Entities.FirstAsync(expression);
         }
 
-        #endregion
-
-        #region 查询一条 + public virtual TEntity First(bool noTracking)
-
         /// <summary>
         /// 查询一条
         /// <para>类似 <c>select top 1 * from table.</c></para>
@@ -364,10 +274,6 @@ namespace Fur.DatabaseAccessor.Repositories
             else return First();
         }
 
-        #endregion
-
-        #region 查询一条 + public virtual Task<TEntity> FirstAsync(bool noTracking)
-
         /// <summary>
         /// 查询一条
         /// <para>类似 <c>select top 1 * from table.</c></para>
@@ -379,10 +285,6 @@ namespace Fur.DatabaseAccessor.Repositories
             if (noTracking) return DerailEntities.FirstAsync();
             else return FirstAsync();
         }
-
-        #endregion
-
-        #region 查询一条 + public virtual TEntity First(Expression<Func<TEntity, bool>> expression, bool noTracking)
 
         /// <summary>
         /// 查询一条
@@ -397,10 +299,6 @@ namespace Fur.DatabaseAccessor.Repositories
             else return First(expression);
         }
 
-        #endregion
-
-        #region 查询一条 + public virtual Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
-
         /// <summary>
         /// 查询一条
         /// <para>类似 <c>select top 1 * from table.</c></para>
@@ -414,10 +312,6 @@ namespace Fur.DatabaseAccessor.Repositories
             else return FirstAsync(expression);
         }
 
-        #endregion
-
-        #region 查询一条 + public virtual TEntity FirstOrDefault()
-
         /// <summary>
         /// 查询一条
         /// <para>类似 <c>select top 1 * from table.</c>，没找到会返回null</para>
@@ -428,10 +322,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Entities.FirstOrDefault();
         }
 
-        #endregion
-
-        #region 查询一条 + public virtual Task<TEntity> FirstOrDefaultAsync()
-
         /// <summary>
         /// 查询一条
         /// <para>类似 <c>select top 1 * from table.</c>，没找到会返回null</para>
@@ -441,10 +331,6 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return Entities.FirstOrDefaultAsync();
         }
-
-        #endregion
-
-        #region 查询一条 + public virtual TEntity FirstOrDefault(Expression<Func<TEntity, bool>> expression)
 
         /// <summary>
         /// 查询一条
@@ -457,10 +343,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Entities.FirstOrDefault(expression);
         }
 
-        #endregion
-
-        #region 查询一条 + public virtual Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression)
-
         /// <summary>
         /// 查询一条
         /// <para>类似 <c>select top 1 * from table.</c>，没找到会返回null</para>
@@ -471,10 +353,6 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return Entities.FirstOrDefaultAsync(expression);
         }
-
-        #endregion
-
-        #region 查询一条 + public virtual TEntity FirstOrDefault(bool noTracking)
 
         /// <summary>
         /// 查询一条
@@ -488,10 +366,6 @@ namespace Fur.DatabaseAccessor.Repositories
             else return FirstOrDefault();
         }
 
-        #endregion
-
-        #region 查询一条 + public virtual Task<TEntity> FirstOrDefaultAsync(bool noTracking)
-
         /// <summary>
         /// 查询一条
         /// <para>类似 <c>select top 1 * from table.</c>，没找到会返回null</para>
@@ -503,10 +377,6 @@ namespace Fur.DatabaseAccessor.Repositories
             if (noTracking) return DerailEntities.FirstOrDefaultAsync();
             else return FirstOrDefaultAsync();
         }
-
-        #endregion
-
-        #region 查询一条 + public virtual TEntity FirstOrDefault(Expression<Func<TEntity, bool>> expression, bool noTracking)
 
         /// <summary>
         /// 查询一条
@@ -521,10 +391,6 @@ namespace Fur.DatabaseAccessor.Repositories
             else return FirstOrDefault(expression);
         }
 
-        #endregion
-
-        #region 查询一条 + public virtual Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
-
         /// <summary>
         /// 查询一条
         /// <para>类似 <c>select top 1 * from table.</c>，没找到会返回null</para>
@@ -538,10 +404,6 @@ namespace Fur.DatabaseAccessor.Repositories
             else return FirstOrDefaultAsync(expression);
         }
 
-        #endregion
-
-        #region 查询多条 + public virtual IQueryable<TEntity> All(bool noTracking = true, bool ignoreQueryFilters = false)
-
         /// <summary>
         /// 查询多条
         /// </summary>
@@ -552,10 +414,6 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return CombineIQueryable(null, noTracking, ignoreQueryFilters);
         }
-
-        #endregion
-
-        #region 查询多条 + public virtual Task<List<TEntity>> AllAsync(bool noTracking = true, bool ignoreQueryFilters = false)
 
         /// <summary>
         /// 查询多条
@@ -569,10 +427,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return query.ToListAsync();
         }
 
-        #endregion
-
-        #region 查询多条 + public virtual IQueryable<TEntity> All(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false)
-
         /// <summary>
         /// 查询多条
         /// </summary>
@@ -584,10 +438,6 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return CombineIQueryable(expression, noTracking, ignoreQueryFilters);
         }
-
-        #endregion
-
-        #region 查询多条 + public virtual Task<List<TEntity>> AllAsync(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false)
 
         /// <summary>
         /// 查询多条
@@ -601,10 +451,6 @@ namespace Fur.DatabaseAccessor.Repositories
             var query = CombineIQueryable(expression, noTracking, ignoreQueryFilters);
             return query.ToListAsync();
         }
-
-        #endregion
-
-        #region 分页查询多条 + public virtual PagedList<TEntity> PagedAll(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
 
         /// <summary>
         /// 分页查询多条
@@ -620,10 +466,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return query.ToPagedList(pageIndex, pageSize);
         }
 
-        #endregion
-
-        #region 分页查询多条 + public virtual Task<PagedList<TEntity>> PagedAllAsync(int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
-
         /// <summary>
         /// 分页查询多条
         /// </summary>
@@ -637,10 +479,6 @@ namespace Fur.DatabaseAccessor.Repositories
             var query = CombineIQueryable(null, noTracking, ignoreQueryFilters);
             return query.ToPagedListAsync(pageIndex, pageSize);
         }
-
-        #endregion
-
-        #region 分页查询多条 + public virtual PagedList<TEntity> PagedAll(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
 
         /// <summary>
         /// 分页查询多条
@@ -657,10 +495,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return query.ToPagedList(pageIndex, pageSize);
         }
 
-        #endregion
-
-        #region 分页查询多条 + public virtual Task<PagedList<TEntity>> PagedAllAsync(Expression<Func<TEntity, bool>> expression, int pageIndex = 0, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false)
-
         /// <summary>
         /// 分页查询多条
         /// </summary>
@@ -676,10 +510,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return query.ToPagedListAsync(pageIndex, pageSize);
         }
 
-        #endregion
-
-        #region 判断记录是否存在 + public virtual bool Any(Expression<Func<TEntity, bool>> expression = null)
-
         /// <summary>
         /// 判断记录是否存在
         /// </summary>
@@ -689,10 +519,6 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return expression == null ? Entities.Any() : Entities.Any(expression);
         }
-
-        #endregion
-
-        #region 判断记录是否存在 + public virtual Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression = null)
 
         /// <summary>
         /// 判断记录是否存在
@@ -704,10 +530,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return expression == null ? Entities.AnyAsync() : Entities.AnyAsync(expression);
         }
 
-        #endregion
-
-        #region 获取记录条数 + public virtual int Count(Expression<Func<TEntity, bool>> expression = null)
-
         /// <summary>
         /// 获取记录条数
         /// </summary>
@@ -717,10 +539,6 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return expression == null ? Entities.Count() : Entities.Count(expression);
         }
-
-        #endregion
-
-        #region 获取记录条数 + public virtual Task<int> CountAsync(Expression<Func<TEntity, bool>> expression = null)
 
         /// <summary>
         /// 获取记录条数
@@ -732,10 +550,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return expression == null ? Entities.CountAsync() : Entities.CountAsync(expression);
         }
 
-        #endregion
-
-        #region 获取实体队列中最大实体 + public virtual TEntity Max()
-
         /// <summary>
         /// 获取实体队列中最大实体
         /// </summary>
@@ -745,10 +559,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Entities.Max();
         }
 
-        #endregion
-
-        #region 获取实体队列中最大实体 + public virtual Task<TEntity> MaxAsync()
-
         /// <summary>
         /// 获取实体队列中最大实体
         /// </summary>
@@ -757,10 +567,6 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return Entities.MaxAsync();
         }
-
-        #endregion
-
-        #region 获取最大值 + public virtual TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression)
 
         /// <summary>
         /// 获取最大值
@@ -773,10 +579,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Entities.Max(expression);
         }
 
-        #endregion
-
-        #region 获取最大值 + public virtual Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
-
         /// <summary>
         /// 获取最大值
         /// </summary>
@@ -788,10 +590,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Entities.MaxAsync(expression);
         }
 
-        #endregion
-
-        #region 获取实体队列中最小实体 + public virtual TEntity Min()
-
         /// <summary>
         /// 获取实体队列中最小实体
         /// </summary>
@@ -801,10 +599,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Entities.Min();
         }
 
-        #endregion
-
-        #region 获取实体队列中最小实体 + public virtual Task<TEntity> MinAsync()
-
         /// <summary>
         /// 获取实体队列中最小实体
         /// </summary>
@@ -813,10 +607,6 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return Entities.MinAsync();
         }
-
-        #endregion
-
-        #region 获取最小值 + public virtual TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression)
 
         /// <summary>
         /// 获取最小值
@@ -829,10 +619,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Entities.Min(expression);
         }
 
-        #endregion
-
-        #region 获取最小值 + public virtual Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression)
-
         /// <summary>
         /// 获取最小值
         /// </summary>
@@ -843,10 +629,6 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return Entities.MinAsync(expression);
         }
-
-        #endregion
-
-        #region 组合查询条件 + private IQueryable<TEntity> CombineIQueryable(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false)
 
         /// <summary>
         /// 组合查询条件
@@ -863,7 +645,5 @@ namespace Fur.DatabaseAccessor.Repositories
 
             return entities;
         }
-
-        #endregion
     }
 }

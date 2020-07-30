@@ -21,14 +21,12 @@ namespace Fur.DatabaseAccessor.Models.QueryFilters
     public interface IDbQueryFilter<TEntity> : IDbQueryFilter
         where TEntity : IDbEntityBase
     {
-        #region 配置查询过滤器 + IEnumerable<Expression<Func<TEntity, bool>>> HasQueryFilter(DbContext dbContext)
         /// <summary>
         /// 配置查询过滤器
         /// </summary>
         /// <param name="dbContext">数据库上下文</param>
         /// <returns><see cref="IEnumerable{T}"/></returns>
         IEnumerable<Expression<Func<TEntity, bool>>> HasQueryFilter(DbContext dbContext);
-        #endregion
     }
 
     /// <summary>

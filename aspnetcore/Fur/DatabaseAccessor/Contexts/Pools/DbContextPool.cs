@@ -19,7 +19,6 @@ namespace Fur.DatabaseAccessor.Contexts.Pools
         /// </summary>
         private readonly ConcurrentBag<DbContext> dbContexts;
 
-        #region 构造函数 + public DbContextPool()
         /// <summary>
         /// 构造函数
         /// <para>首次初始化时，会检查数据库上下文集合是否为空，如果为空，则自动创建</para>
@@ -28,10 +27,7 @@ namespace Fur.DatabaseAccessor.Contexts.Pools
         {
             dbContexts ??= new ConcurrentBag<DbContext>();
         }
-        #endregion
 
-
-        #region 保存数据库上下文 + public void SaveDbContext(DbContext dbContext)
         /// <summary>
         /// 保存数据库上下文
         /// </summary>
@@ -43,9 +39,7 @@ namespace Fur.DatabaseAccessor.Contexts.Pools
                 dbContexts.Add(dbContext);
             }
         }
-        #endregion
 
-        #region 保存数据库上下文（异步） + public Task SaveDbContextAsync(DbContext dbContext)
         /// <summary>
         /// 保存数据库上下文（异步）
         /// </summary>
@@ -59,10 +53,7 @@ namespace Fur.DatabaseAccessor.Contexts.Pools
             }
             return Task.CompletedTask;
         }
-        #endregion
 
-
-        #region 获取数据库上下文池中所有数据库上下文 + public IEnumerable<DbContext> GetDbContexts()
         /// <summary>
         /// 获取数据库上下文池中所有数据库上下文
         /// </summary>
@@ -71,10 +62,7 @@ namespace Fur.DatabaseAccessor.Contexts.Pools
         {
             return dbContexts;
         }
-        #endregion
 
-
-        #region 提交数据库上下文池中所有已更改的数据库上下文 + public int SavePoolChanges()
         /// <summary>
         /// 提交数据库上下文池中所有已更改的数据库上下文
         /// </summary>
@@ -92,9 +80,7 @@ namespace Fur.DatabaseAccessor.Contexts.Pools
             }
             return hasChangeCount;
         }
-        #endregion
 
-        #region 提交数据库上下文池中所有已更改的数据库上下文（异步） + public async Task<int> SavePoolChangesAsync()
         /// <summary>
         /// 提交数据库上下文池中所有已更改的数据库上下文（异步）
         /// </summary>
@@ -112,6 +98,5 @@ namespace Fur.DatabaseAccessor.Contexts.Pools
             }
             return hasChangeCount;
         }
-        #endregion
     }
 }

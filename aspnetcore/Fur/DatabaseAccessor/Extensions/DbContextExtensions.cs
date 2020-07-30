@@ -15,7 +15,6 @@ namespace Fur.DatabaseAccessor.Extensions
     [NonWrapper]
     public static class DbContextExtensions
     {
-        #region 获取租户Id + public static Guid GetTenantId(this DbContext dbContext)
         /// <summary>
         /// 获取租户Id
         /// <para>主要用于查询筛选器</para>
@@ -31,9 +30,7 @@ namespace Fur.DatabaseAccessor.Extensions
 
             return tenantProvider.GetTenantId();
         }
-        #endregion
 
-        #region 基于数据库的多租户配置 + public static void UseSqlServerWithMultipleTenantOnDatabase(this DbContextOptionsBuilder optionsBuilder, ILifetimeScope lifetimeScope)
         /// <summary>
         /// 基于数据库的多租户配置
         /// </summary>
@@ -50,6 +47,5 @@ namespace Fur.DatabaseAccessor.Extensions
                 });
             }
         }
-        #endregion
     }
 }

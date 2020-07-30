@@ -9,8 +9,6 @@ namespace Fur.SwaggerDoc.Extensions.Services
     /// </summary>
     public static class SwaggerDocServiceExtensions
     {
-        #region Swagger 服务拓展方法 + public static IServiceCollection AddFurSwaggerGen(this IServiceCollection services, IConfiguration configuration)
-
         /// <summary>
         /// Swagger 服务拓展方法
         /// </summary>
@@ -33,7 +31,5 @@ namespace Fur.SwaggerDoc.Extensions.Services
 
             return services;
         }
-
-        #endregion
     }
 }

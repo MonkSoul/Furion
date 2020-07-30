@@ -18,8 +18,6 @@ namespace Fur.DatabaseAccessor.Repositories
     /// <typeparam name="TEntity">实体类型</typeparam>
     public partial class EFCoreRepository<TEntity> : IRepository<TEntity> where TEntity : class, IDbEntityBase, new()
     {
-        #region 更新全部列操作 + public virtual EntityEntry<TEntity> Update(TEntity entity)
-
         /// <summary>
         /// 更新全部列操作
         /// </summary>
@@ -30,10 +28,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return LoadDbEntityUpdateInterceptor(() => Entities.Update(entity), entity).First();
         }
 
-        #endregion
-
-        #region 更新全部列操作 + public virtual void Update(params TEntity[] entities)
-
         /// <summary>
         /// 更新全部列操作
         /// </summary>
@@ -43,10 +37,6 @@ namespace Fur.DatabaseAccessor.Repositories
             LoadDbEntityUpdateInterceptor(() => Entities.UpdateRange(entities), entities);
         }
 
-        #endregion
-
-        #region 更新全部列操作 + public virtual void Update(IEnumerable<TEntity> entities)
-
         /// <summary>
         /// 更新全部列操作
         /// </summary>
@@ -55,10 +45,6 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             LoadDbEntityUpdateInterceptor(() => Entities.UpdateRange(entities), entities.ToArray());
         }
-
-        #endregion
-
-        #region 更新全部列操作 + public virtual Task<EntityEntry<TEntity>> UpdateAsync(TEntity entity)
 
         /// <summary>
         /// 更新全部列操作
@@ -74,10 +60,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Task.FromResult(entityEntry);
         }
 
-        #endregion
-
-        #region 更新全部列操作 + public virtual Task UpdateAsync(params TEntity[] entities)
-
         /// <summary>
         /// 更新全部列操作
         /// </summary>
@@ -91,10 +73,6 @@ namespace Fur.DatabaseAccessor.Repositories
             }, entities);
             return Task.CompletedTask;
         }
-
-        #endregion
-
-        #region 更新全部列操作 + public virtual Task UpdateAsync(IEnumerable<TEntity> entities)
 
         /// <summary>
         /// 更新全部列操作
@@ -110,10 +88,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Task.CompletedTask;
         }
 
-        #endregion
-
-        #region 更新全部列操作并立即保存 + public virtual EntityEntry<TEntity> UpdateSaveChanges(TEntity entity)
-
         /// <summary>
         /// 更新全部列操作并立即保存
         /// </summary>
@@ -126,10 +100,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return trackEntity;
         }
 
-        #endregion
-
-        #region 更新全部列操作并立即保存 + public virtual void UpdateSaveChanges(params TEntity[] entities)
-
         /// <summary>
         /// 更新全部列操作并立即保存
         /// </summary>
@@ -140,10 +110,6 @@ namespace Fur.DatabaseAccessor.Repositories
             SaveChanges();
         }
 
-        #endregion
-
-        #region 更新全部列操作并立即保存 + public virtual void UpdateSaveChanges(IEnumerable<TEntity> entities)
-
         /// <summary>
         /// 更新全部列操作并立即保存
         /// </summary>
@@ -153,10 +119,6 @@ namespace Fur.DatabaseAccessor.Repositories
             Update(entities);
             SaveChanges();
         }
-
-        #endregion
-
-        #region 更新全部列操作并立即保存 + public virtual async Task<EntityEntry<TEntity>> UpdateSaveChangesAsync(TEntity entity)
 
         /// <summary>
         /// 更新全部列操作并立即保存
@@ -170,10 +132,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return trackEntities;
         }
 
-        #endregion
-
-        #region 更新全部列操作并立即保存 + public virtual async Task UpdateSaveChangesAsync(params TEntity[] entities)
-
         /// <summary>
         /// 更新全部列操作并立即保存
         /// </summary>
@@ -185,10 +143,6 @@ namespace Fur.DatabaseAccessor.Repositories
             await SaveChangesAsync();
         }
 
-        #endregion
-
-        #region 更新全部列操作并立即保存 + public virtual async Task UpdateSaveChangesAsync(IEnumerable<TEntity> entities)
-
         /// <summary>
         /// 更新全部列操作并立即保存
         /// </summary>
@@ -199,10 +153,6 @@ namespace Fur.DatabaseAccessor.Repositories
             await UpdateAsync(entities);
             await SaveChangesAsync();
         }
-
-        #endregion
-
-        #region 更新指定列 + public virtual EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
 
         /// <summary>
         /// 更新指定列
@@ -223,10 +173,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion
-
-        #region 更新指定列 + public virtual Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
-
         /// <summary>
         /// 更新指定列
         /// </summary>
@@ -246,10 +192,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Task.FromResult(entityEntry);
         }
 
-        #endregion
-
-        #region 更新指定列 + public virtual void UpdateIncludeProperties(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
-
         /// <summary>
         /// 更新指定列
         /// </summary>
@@ -262,10 +204,6 @@ namespace Fur.DatabaseAccessor.Repositories
                 UpdateIncludeProperties(entity, propertyExpressions);
             }
         }
-
-        #endregion
-
-        #region 更新指定列 + public virtual Task UpdateIncludePropertiesAsync(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
 
         /// <summary>
         /// 更新指定列
@@ -283,10 +221,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Task.CompletedTask;
         }
 
-        #endregion
-
-        #region 更新指定列并立即保存 + public virtual EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
-
         /// <summary>
         /// 更新指定列并立即保存
         /// </summary>
@@ -299,10 +233,6 @@ namespace Fur.DatabaseAccessor.Repositories
             SaveChanges();
             return entityEntry;
         }
-
-        #endregion
-
-        #region 更新指定列并立即保存 + public virtual async Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
 
         /// <summary>
         /// 更新指定列并立即保存
@@ -317,10 +247,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion
-
-        #region 更新指定列并立即保存 + public virtual void UpdateIncludePropertiesSaveChanges(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
-
         /// <summary>
         /// 更新指定列并立即保存
         /// </summary>
@@ -331,10 +257,6 @@ namespace Fur.DatabaseAccessor.Repositories
             UpdateIncludeProperties(entities, propertyExpressions);
             SaveChanges();
         }
-
-        #endregion
-
-        #region 更新指定列并立即保存 + public virtual async Task UpdateIncludePropertiesSaveChangesAsync(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
 
         /// <summary>
         /// 更新指定列并立即保存
@@ -347,10 +269,6 @@ namespace Fur.DatabaseAccessor.Repositories
             await UpdateIncludePropertiesAsync(entities, propertyExpressions);
             await SaveChangesAsync();
         }
-
-        #endregion
-
-        #region 更新指定列 + public virtual EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, params string[] propertyNames)
 
         /// <summary>
         /// 更新指定列
@@ -371,10 +289,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion
-
-        #region 更新指定列 + public virtual Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, params string[] propertyNames)
-
         /// <summary>
         /// 更新指定列
         /// </summary>
@@ -393,10 +307,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Task.FromResult(entityEntry);
         }
 
-        #endregion
-
-        #region 更新指定列 + public virtual void UpdateIncludeProperties(IEnumerable<TEntity> entities, params string[] propertyNames)
-
         /// <summary>
         /// 更新指定列
         /// </summary>
@@ -409,10 +319,6 @@ namespace Fur.DatabaseAccessor.Repositories
                 UpdateIncludeProperties(entity, propertyNames);
             }
         }
-
-        #endregion
-
-        #region 更新指定列 + public virtual Task UpdateIncludePropertiesAsync(IEnumerable<TEntity> entities, params string[] propertyNames)
 
         /// <summary>
         /// 更新指定列
@@ -429,10 +335,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Task.CompletedTask;
         }
 
-        #endregion
-
-        #region 更新指定列并立即保存 + public virtual EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, params string[] propertyNames)
-
         /// <summary>
         /// 更新指定列并立即保存
         /// </summary>
@@ -445,10 +347,6 @@ namespace Fur.DatabaseAccessor.Repositories
             SaveChanges();
             return entityEntry;
         }
-
-        #endregion
-
-        #region 更新指定列并立即保存 + public virtual async Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params string[] propertyNames)
 
         /// <summary>
         /// 更新指定列并立即保存
@@ -463,10 +361,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion
-
-        #region 更新指定列并立即保存 + public virtual void UpdateIncludePropertiesSaveChanges(IEnumerable<TEntity> entities, params string[] propertyNames)
-
         /// <summary>
         /// 更新指定列并立即保存
         /// </summary>
@@ -477,10 +371,6 @@ namespace Fur.DatabaseAccessor.Repositories
             UpdateIncludeProperties(entities, propertyNames);
             SaveChanges();
         }
-
-        #endregion
-
-        #region 更新指定列并立即保存 + public virtual async Task UpdateIncludePropertiesSaveChangesAsync(IEnumerable<TEntity> entities, params string[] propertyNames)
 
         /// <summary>
         /// 更新指定列并立即保存
@@ -493,10 +383,6 @@ namespace Fur.DatabaseAccessor.Repositories
             await UpdateIncludePropertiesAsync(entities, propertyNames);
             await SaveChangesAsync();
         }
-
-        #endregion
-
-        #region 排除特定列更新 + public virtual EntityEntry<TEntity> UpdateExcludeProperties(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
 
         /// <summary>
         /// 排除特定列更新
@@ -518,10 +404,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion
-
-        #region 排除特定列更新 + public virtual Task<EntityEntry<TEntity>> UpdateExcludePropertiesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
-
         /// <summary>
         /// 排除特定列更新
         /// </summary>
@@ -542,10 +424,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Task.FromResult(entityEntry);
         }
 
-        #endregion
-
-        #region 排除特定列更新 + public virtual void UpdateExcludeProperties(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
-
         /// <summary>
         /// 排除特定列更新
         /// </summary>
@@ -558,10 +436,6 @@ namespace Fur.DatabaseAccessor.Repositories
                 UpdateExcludeProperties(entity, propertyExpressions);
             }
         }
-
-        #endregion
-
-        #region 排除特定列更新 + public virtual Task UpdateExcludePropertiesAsync(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
 
         /// <summary>
         /// 排除特定列更新
@@ -579,10 +453,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Task.CompletedTask;
         }
 
-        #endregion
-
-        #region 排除特定列更新并立即保存 + public virtual EntityEntry<TEntity> UpdateExcludePropertiesSaveChanges(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
-
         /// <summary>
         /// 排除特定列更新并立即保存
         /// </summary>
@@ -595,10 +465,6 @@ namespace Fur.DatabaseAccessor.Repositories
             SaveChanges();
             return entityEntry;
         }
-
-        #endregion
-
-        #region 排除特定列更新并立即保存 + public virtual async Task<EntityEntry<TEntity>> UpdateExcludePropertiesSaveChangesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
 
         /// <summary>
         /// 排除特定列更新并立即保存
@@ -613,10 +479,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion
-
-        #region 排除特定列更新并立即保存 + public virtual void UpdateExcludePropertiesSaveChanges(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
-
         /// <summary>
         /// 排除特定列更新并立即保存
         /// </summary>
@@ -627,10 +489,6 @@ namespace Fur.DatabaseAccessor.Repositories
             UpdateExcludeProperties(entities, propertyExpressions);
             SaveChanges();
         }
-
-        #endregion
-
-        #region 排除特定列更新并立即保存 + public virtual async Task UpdateExcludePropertiesSaveChangesAsync(IEnumerable<TEntity> entities, params Expression<Func<TEntity, object>>[] propertyExpressions)
 
         /// <summary>
         /// 排除特定列更新并立即保存
@@ -643,10 +501,6 @@ namespace Fur.DatabaseAccessor.Repositories
             await UpdateExcludePropertiesAsync(entities, propertyExpressions);
             await SaveChangesAsync();
         }
-
-        #endregion
-
-        #region 排除特定列更新 + public virtual EntityEntry<TEntity> UpdateExcludeProperties(TEntity entity, params string[] propertyNames)
 
         /// <summary>
         /// 排除特定列更新
@@ -668,10 +522,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion
-
-        #region 排除特定列更新 + public virtual Task<EntityEntry<TEntity>> UpdateExcludePropertiesAsync(TEntity entity, params string[] propertyNames)
-
         /// <summary>
         /// 排除特定列更新
         /// </summary>
@@ -692,10 +542,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Task.FromResult(entityEntry);
         }
 
-        #endregion
-
-        #region 排除特定列更新 + public virtual void UpdateExcludeProperties(IEnumerable<TEntity> entities, params string[] propertyNames)
-
         /// <summary>
         /// 排除特定列更新
         /// </summary>
@@ -708,10 +554,6 @@ namespace Fur.DatabaseAccessor.Repositories
                 UpdateExcludeProperties(entity, propertyNames);
             }
         }
-
-        #endregion
-
-        #region 排除特定列更新 + public virtual Task UpdateExcludePropertiesAsync(IEnumerable<TEntity> entities, params string[] propertyNames)
 
         /// <summary>
         /// 排除特定列更新
@@ -729,10 +571,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Task.CompletedTask;
         }
 
-        #endregion
-
-        #region 排除特定列更新并立即保存 + public virtual EntityEntry<TEntity> UpdateExcludePropertiesSaveChanges(TEntity entity, params string[] propertyNames)
-
         /// <summary>
         /// 排除特定列更新并立即保存
         /// </summary>
@@ -745,10 +583,6 @@ namespace Fur.DatabaseAccessor.Repositories
             SaveChanges();
             return entityEntry;
         }
-
-        #endregion
-
-        #region 排除特定列更新并立即保存 + public virtual async Task<EntityEntry<TEntity>> UpdateExcludePropertiesSaveChangesAsync(TEntity entity, params string[] propertyNames)
 
         /// <summary>
         /// 排除特定列更新并立即保存
@@ -763,10 +597,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return entityEntry;
         }
 
-        #endregion
-
-        #region 排除特定列更新并立即保存 + public virtual void UpdateExcludePropertiesSaveChanges(IEnumerable<TEntity> entities, params string[] propertyNames)
-
         /// <summary>
         /// 排除特定列更新并立即保存
         /// </summary>
@@ -777,10 +607,6 @@ namespace Fur.DatabaseAccessor.Repositories
             UpdateExcludeProperties(entities, propertyNames);
             SaveChanges();
         }
-
-        #endregion
-
-        #region 排除特定列更新并立即保存 + public virtual async Task UpdateExcludePropertiesSaveChangesAsync(IEnumerable<TEntity> entities, params string[] propertyNames)
 
         /// <summary>
         /// 排除特定列更新并立即保存
@@ -794,9 +620,6 @@ namespace Fur.DatabaseAccessor.Repositories
             await SaveChangesAsync();
         }
 
-        #endregion
-
-        #region 加载实体拦截器 + private EntityEntry<TEntity>[] LoadDbEntityUpdateInterceptor(Action handle, params TEntity[] entities)
         /// <summary>
         /// 加载实体拦截器
         /// </summary>
@@ -830,7 +653,5 @@ namespace Fur.DatabaseAccessor.Repositories
             }
             return entityEntries.ToArray();
         }
-
-        #endregion
     }
 }

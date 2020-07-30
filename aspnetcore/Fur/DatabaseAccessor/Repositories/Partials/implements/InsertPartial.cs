@@ -16,7 +16,6 @@ namespace Fur.DatabaseAccessor.Repositories
     /// <typeparam name="TEntity">实体类型</typeparam>
     public partial class EFCoreRepository<TEntity> : IRepository<TEntity> where TEntity : class, IDbEntityBase, new()
     {
-        #region 新增操作 + public virtual EntityEntry<TEntity> Insert(TEntity entity)
         /// <summary>
         /// 新增操作
         /// </summary>
@@ -26,9 +25,7 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return LoadDbEntityInsertInterceptor(() => Entities.Add(entity), entity).First();
         }
-        #endregion
 
-        #region 新增操作 + public virtual void Insert(params TEntity[] entities)
         /// <summary>
         /// 新增操作
         /// </summary>
@@ -37,9 +34,7 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             LoadDbEntityInsertInterceptor(() => Entities.AddRange(entities), entities);
         }
-        #endregion
 
-        #region 新增操作 + public virtual void Insert(IEnumerable<TEntity> entities)
         /// <summary>
         /// 新增操作
         /// </summary>
@@ -48,9 +43,7 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             LoadDbEntityInsertInterceptor(() => Entities.AddRange(entities), entities.ToArray());
         }
-        #endregion
 
-        #region 新增操作 + public virtual ValueTask<EntityEntry<TEntity>> InsertAsync(TEntity entity)
         /// <summary>
         /// 新增操作
         /// </summary>
@@ -62,9 +55,7 @@ namespace Fur.DatabaseAccessor.Repositories
 
             return ValueTask.FromResult(entityEntry);
         }
-        #endregion
 
-        #region 新增操作 + public virtual Task InsertAsync(params TEntity[] entities)
         /// <summary>
         /// 新增操作
         /// </summary>
@@ -76,9 +67,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return Task.CompletedTask;
         }
 
-        #endregion
-
-        #region 新增操作 + public virtual Task InsertAsync(IEnumerable<TEntity> entities)
         /// <summary>
         /// 新增操作
         /// </summary>
@@ -89,9 +77,7 @@ namespace Fur.DatabaseAccessor.Repositories
             LoadDbEntityInsertInterceptor(async () => await Entities.AddRangeAsync(entities), entities.ToArray());
             return Task.CompletedTask;
         }
-        #endregion
 
-        #region 新增操作并立即保存 + public virtual EntityEntry<TEntity> InsertSaveChanges(TEntity entity)
         /// <summary>
         /// 新增操作并立即保存
         /// </summary>
@@ -104,10 +90,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return trackEntity;
         }
 
-        #endregion
-
-        #region 新增操作并立即保存 + public virtual void InsertSaveChanges(params TEntity[] entities)
-
         /// <summary>
         /// 新增操作并立即保存
         /// </summary>
@@ -118,10 +100,6 @@ namespace Fur.DatabaseAccessor.Repositories
             SaveChanges();
         }
 
-        #endregion
-
-        #region 新增操作并立即保存 + public virtual void InsertSaveChanges(IEnumerable<TEntity> entities)
-
         /// <summary>
         /// 新增操作并立即保存
         /// </summary>
@@ -131,10 +109,6 @@ namespace Fur.DatabaseAccessor.Repositories
             Insert(entities);
             SaveChanges();
         }
-
-        #endregion
-
-        #region 新增操作并立即保存 + public virtual async ValueTask<EntityEntry<TEntity>> InsertSaveChangesAsync(TEntity entity)
 
         /// <summary>
         /// 新增操作并立即保存
@@ -148,10 +122,6 @@ namespace Fur.DatabaseAccessor.Repositories
             return trackEntity;
         }
 
-        #endregion
-
-        #region 新增操作并立即保存 + public virtual async Task InsertSaveChangesAsync(params TEntity[] entities)
-
         /// <summary>
         /// 新增操作并立即保存
         /// </summary>
@@ -163,10 +133,6 @@ namespace Fur.DatabaseAccessor.Repositories
             await SaveChangesAsync();
             await Task.CompletedTask;
         }
-
-        #endregion
-
-        #region 新增操作并立即保存 + public virtual async Task InsertSaveChangesAsync(IEnumerable<TEntity> entities)
 
         /// <summary>
         /// 新增操作并立即保存
@@ -180,9 +146,6 @@ namespace Fur.DatabaseAccessor.Repositories
             await Task.CompletedTask;
         }
 
-        #endregion
-
-        #region 加载实体拦截器 + private EntityEntry<TEntity>[] LoadDbEntityInterceptor(Action handle, params TEntity[] entities)
         /// <summary>
         /// 加载实体拦截器
         /// </summary>
@@ -211,6 +174,5 @@ namespace Fur.DatabaseAccessor.Repositories
             }
             return entityEntries.ToArray();
         }
-        #endregion
     }
 }

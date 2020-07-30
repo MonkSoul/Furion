@@ -18,7 +18,6 @@ namespace Fur.DatabaseAccessor.Contexts
         where TDbContext : DbContext
         where TDbContextLocator : IDbContextLocator
     {
-        #region 构造函数 + public FurDbContext(DbContextOptions<TDbContext> options)
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -27,9 +26,7 @@ namespace Fur.DatabaseAccessor.Contexts
             : base(options)
         {
         }
-        #endregion
 
-        #region 数据库上下文初始化调用方法 + protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         /// <summary>
         /// 数据库上下文初始化调用方法
         /// <para>通常配置数据库连接字符串，数据库类型等等</para>
@@ -41,9 +38,7 @@ namespace Fur.DatabaseAccessor.Contexts
 
             // 如需添加其他配置，应写在以下位置，但是要注意基类多次调用问题，建议通过 TDbContextLocator 来区分当前数据库上下文
         }
-        #endregion
 
-        #region 数据库上下文创建模型调用方法 + protected override void OnModelCreating(ModelBuilder modelBuilder)
         /// <summary>
         /// 数据库上下文创建模型调用方法
         /// </summary>
@@ -57,6 +52,5 @@ namespace Fur.DatabaseAccessor.Contexts
 
             // 如需添加其他配置，应写在以下位置，但是要注意基类多次调用问题，建议通过 TDbContextLocator 来区分当前数据库上下文
         }
-        #endregion
     }
 }

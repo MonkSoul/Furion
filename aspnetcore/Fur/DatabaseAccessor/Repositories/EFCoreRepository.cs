@@ -37,7 +37,6 @@ namespace Fur.DatabaseAccessor.Repositories
         /// </summary>
         private readonly IDbContextPool _dbContextPool;
 
-        #region 构造函数 + public EFCoreRepository(DbContext dbContext , ILifetimeScope lifetimeScope, IDbContextPool dbContextPool)
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -68,8 +67,6 @@ namespace Fur.DatabaseAccessor.Repositories
                 _fakeDeleteProvider = lifetimeScope.Resolve<IFakeDeleteProvider>();
             }
         }
-
-        #endregion
 
         /// <summary>
         /// 数据库操作上下文
@@ -112,8 +109,6 @@ namespace Fur.DatabaseAccessor.Repositories
         /// </summary>
         private readonly ILifetimeScope _lifetimeScope;
 
-        #region 构造函数 + public EFCoreRepository(ILifetimeScope lifetimeScope)
-
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -122,10 +117,6 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             _lifetimeScope = lifetimeScope;
         }
-
-        #endregion
-
-        #region 获取泛型仓储接口 + public IRepository<TEntity> Set<TEntity>(bool newScope = false) where TEntity : class, IDbEntity, new()
 
         /// <summary>
         /// 获取泛型仓储接口
@@ -141,7 +132,5 @@ namespace Fur.DatabaseAccessor.Repositories
             }
             return _lifetimeScope.Resolve<IRepository<TEntity>>();
         }
-
-        #endregion
     }
 }

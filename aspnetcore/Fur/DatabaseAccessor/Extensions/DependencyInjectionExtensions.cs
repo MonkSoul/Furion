@@ -4,9 +4,7 @@ using Fur.ApplicationBase.Attributes;
 using Fur.DatabaseAccessor.Contexts.Options;
 using Fur.DatabaseAccessor.Contexts.Pools;
 using Fur.DatabaseAccessor.MultipleTenants.Options;
-using Fur.DatabaseAccessor.Repositories;
 using Fur.DatabaseAccessor.Repositories.MasterSlave;
-using Fur.DatabaseAccessor.Repositories.Multiple;
 using Fur.DatabaseAccessor.Tangent;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -21,7 +19,6 @@ namespace Fur.DatabaseAccessor.Extensions
     [NonWrapper]
     public static class DependencyInjectionExtensions
     {
-        #region 注册上下文 + public static ContainerBuilder RegisterDbContexts<TDefaultDbContext>(this ContainerBuilder builder, Action<FurDbContextConfigureOptions> configureOptions = null, params Type[] dbContextTypes)
         /// <summary>
         /// 注册上下文
         /// <para>泛型参数为默认数据库上下文</para>
@@ -84,9 +81,7 @@ namespace Fur.DatabaseAccessor.Extensions
 
             return builder;
         }
-        #endregion
 
-        #region 注册上下文 + private static ContainerBuilder RegisterDbContexts(this ContainerBuilder builder, params Type[] dbContextTypes)
         /// <summary>
         /// 注册上下文
         /// </summary>
@@ -103,9 +98,7 @@ namespace Fur.DatabaseAccessor.Extensions
             }
             return builder;
         }
-        #endregion
 
-        #region 注册仓储 + public static ContainerBuilder RegisterRepositories(this ContainerBuilder builder, bool supportMultiple = true, bool supportMasterSlave = true)
         /// <summary>
         /// 注册仓储
         /// </summary>
@@ -151,6 +144,5 @@ namespace Fur.DatabaseAccessor.Extensions
 
             return builder;
         }
-        #endregion
     }
 }

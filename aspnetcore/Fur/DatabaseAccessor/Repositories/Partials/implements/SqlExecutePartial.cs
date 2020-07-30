@@ -12,7 +12,6 @@ namespace Fur.DatabaseAccessor.Repositories
     /// <typeparam name="TEntity">实体类型</typeparam>
     public partial class EFCoreRepository<TEntity> : IRepository<TEntity> where TEntity : class, IDbEntityBase, new()
     {
-        #region Sql 执行返回受影响函数 + public virtual int SqlExecuteNonQuery(string sql, params object[] parameters)
         /// <summary>
         /// Sql 执行返回受影响函数
         /// </summary>
@@ -23,9 +22,7 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return Database.SqlExecuteNonQuery(sql, CommandType.Text, parameters);
         }
-        #endregion
 
-        #region Sql 执行返回受影响函数 + public virtual int SqlExecuteNonQuery(string sql, object parameterModel)
         /// <summary>
         /// Sql 执行返回受影响函数
         /// </summary>
@@ -36,9 +33,7 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return Database.SqlExecuteNonQuery(sql, CommandType.Text, parameterModel.ToSqlParameters());
         }
-        #endregion
 
-        #region Sql 执行返回受影响函数 + public virtual Task<int> SqlExecuteNonQueryAsync(string sql, params object[] parameters)
         /// <summary>
         /// Sql 执行返回受影响函数
         /// </summary>
@@ -49,9 +44,7 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return Database.SqlExecuteNonQueryAsync(sql, CommandType.Text, parameters);
         }
-        #endregion
 
-        #region Sql 执行返回受影响函数 + public virtual Task<int> SqlExecuteNonQueryAsync(string sql, object parameterModel)
         /// <summary>
         /// Sql 执行返回受影响函数
         /// </summary>
@@ -62,10 +55,7 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return Database.SqlExecuteNonQueryAsync(sql, CommandType.Text, parameterModel.ToSqlParameters());
         }
-        #endregion
 
-
-        #region Sql 执行返回单行单列 + public virtual object SqlExecuteScalar(string sql, params object[] parameters)
         /// <summary>
         /// Sql 执行返回单行单列
         /// </summary>
@@ -76,9 +66,7 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return Database.SqlExecuteScalar(sql, CommandType.Text, parameters);
         }
-        #endregion
 
-        #region Sql 执行返回单行单列 + public virtual object SqlExecuteScalar(string sql, object parameterModel)
         /// <summary>
         /// Sql 执行返回单行单列
         /// </summary>
@@ -89,9 +77,7 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return Database.SqlExecuteScalar(sql, CommandType.Text, parameterModel.ToSqlParameters());
         }
-        #endregion
 
-        #region Sql 执行返回单行单列 + public virtual Task<object> SqlExecuteScalarAsync(string sql, params object[] parameters)
         /// <summary>
         /// Sql 执行返回单行单列
         /// </summary>
@@ -102,9 +88,7 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return Database.SqlExecuteScalarAsync(sql, CommandType.Text, parameters);
         }
-        #endregion
 
-        #region Sql 执行返回单行单列 + public virtual Task<object> SqlExecuteScalarAsync(string sql, object parameterModel)
         /// <summary>
         /// Sql 执行返回单行单列
         /// </summary>
@@ -115,10 +99,7 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return Database.SqlExecuteScalarAsync(sql, CommandType.Text, parameterModel.ToSqlParameters());
         }
-        #endregion
 
-
-        #region Sql 执行返回单行单列 + public virtual TResult SqlExecuteScalar<TResult>(string sql, params object[] parameters)
         /// <summary>
         /// Sql 执行返回单行单列
         /// </summary>
@@ -130,9 +111,7 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return SqlExecuteScalar(sql, parameters).Adapt<TResult>();
         }
-        #endregion
 
-        #region Sql 执行返回单行单列 + public virtual TResult SqlExecuteScalar<TResult>(string sql, object parameterModel)
         /// <summary>
         /// Sql 执行返回单行单列
         /// </summary>
@@ -144,9 +123,7 @@ namespace Fur.DatabaseAccessor.Repositories
         {
             return SqlExecuteScalar(sql, parameterModel).Adapt<TResult>();
         }
-        #endregion
 
-        #region Sql 执行返回单行单列 + public async Task<TResult> SqlExecuteScalarAsync<TResult>(string sql, params object[] parameters)
         /// <summary>
         /// Sql 执行返回单行单列
         /// </summary>
@@ -159,9 +136,7 @@ namespace Fur.DatabaseAccessor.Repositories
             var obj = await SqlExecuteScalarAsync(sql, parameters);
             return obj.Adapt<TResult>();
         }
-        #endregion
 
-        #region Sql 执行返回单行单列 + public virtual async Task<TResult> SqlExecuteScalarAsync<TResult>(string sql, object parameterModel)
         /// <summary>
         /// Sql 执行返回单行单列
         /// </summary>
@@ -174,6 +149,5 @@ namespace Fur.DatabaseAccessor.Repositories
             var obj = await SqlExecuteScalarAsync(sql, parameterModel);
             return obj.Adapt<TResult>();
         }
-        #endregion
     }
 }

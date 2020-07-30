@@ -19,8 +19,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
     [NonWrapper]
     public static class SqlConvertExtensions
     {
-        #region 将模型转换为 SqlParameter 数组 + public static SqlParameter[] ToSqlParameters(this object parameterModel)
-
         /// <summary>
         /// 将模型转换为 <see cref="SqlParameter"/> 数组
         /// </summary>
@@ -52,10 +50,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return paramValues.ToArray();
         }
 
-        #endregion
-
-        #region 将方法参数转为 SqlParameter 数组 + public static SqlParameter[] ToSqlParameters(this ParameterInfo[] parameterInfos, object[] arguments)
-
         /// <summary>
         /// 将方法参数转为 SqlParameter 数组
         /// </summary>
@@ -79,11 +73,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             }
             else return arguments.FirstOrDefault().ToSqlParameters();
         }
-
-        #endregion
-
-
-        #region 将 DataTable 转 IEnumerable{T} + public static IEnumerable<T> ToList<T>(this DataTable dataTable)
 
         /// <summary>
         /// 将 DataTable 转 <see cref="IEnumerable{T}"/>
@@ -128,10 +117,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return list;
         }
 
-        #endregion
-
-        #region 将 DataTable 转 IEnumerable{T} + public static Task<IEnumerable<T>> ToListAsync<T>(this DataTable dataTable)
-
         /// <summary>
         /// 将 DataTable 转 <see cref="IEnumerable{T}"/>
         /// </summary>
@@ -142,10 +127,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         {
             return Task.FromResult(dataTable.ToList<T>());
         }
-
-        #endregion
-
-        #region 将 DataTable 转 IEnumerable{T} + public static async Task<IEnumerable<T>> ToListAsync<T>(this Task<DataTable> dataTable)
 
         /// <summary>
         /// 将 DataTable 转 <see cref="IEnumerable{T}"/>
@@ -159,10 +140,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return await dataTableNoTask.ToListAsync<T>();
         }
 
-        #endregion
-
-        #region 将 DataTable 转 特定类型 + public static Task<object> ToListAsync(this DataTable dataTable, Type returnType)
-
         /// <summary>
         /// 将 DataTable 转 特定类型
         /// </summary>
@@ -173,10 +150,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         {
             return Task.FromResult(dataTable.ToList(returnType));
         }
-
-        #endregion
-
-        #region 将 DataTable 转 特定类型 + public static async Task<object> ToListAsync(this Task<DataTable> dataTable, Type returnType)
 
         /// <summary>
         /// 将 DataTable 转 特定类型
@@ -189,10 +162,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             var dataTableNoTask = await dataTable;
             return await dataTableNoTask.ToListAsync(returnType);
         }
-
-        #endregion
-
-        #region 将 DataTable 转 特定类型 + public static object ToList(this DataTable dataTable, Type returnType)
 
         /// <summary>
         /// 将 DataTable 转 特定类型
@@ -250,10 +219,6 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return returnType.IsGenericType ? results : results.FirstOrDefault();
         }
 
-        #endregion
-
-
-        #region 将 DataSet 转 IEnumerable{T} + public static IEnumerable<T1> ToList<T1>(this DataSet dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="IEnumerable{T}"/>
         /// </summary>
@@ -265,9 +230,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return dataSet.ToList(typeof(IEnumerable<T1>))
                 .Adapt<IEnumerable<T1>>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2} + public static (IEnumerable<T1> data1, IEnumerable<T2> data2) ToList<T1, T2>(this DataSet dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2}"/>
         /// </summary>
@@ -280,9 +243,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return dataSet.ToList(typeof(IEnumerable<T1>), typeof(IEnumerable<T2>))
                 .Adapt<(IEnumerable<T1>, IEnumerable<T2>)>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2, T3} + public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3) ToList<T1, T2, T3>(this DataSet dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2, T3}"/>
         /// </summary>
@@ -296,9 +257,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return dataSet.ToList(typeof(IEnumerable<T1>), typeof(IEnumerable<T2>), typeof(IEnumerable<T3>))
                  .Adapt<(IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>)>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2, T3, T4} + public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4) ToList<T1, T2, T3, T4>(this DataSet dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2, T3, T4}"/>
         /// </summary>
@@ -313,9 +272,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return dataSet.ToList(typeof(IEnumerable<T1>), typeof(IEnumerable<T2>), typeof(IEnumerable<T3>), typeof(IEnumerable<T4>))
                  .Adapt<(IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>)>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2, T3, T4, T5} + public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5) ToList<T1, T2, T3, T4, T5>(this DataSet dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2, T3, T4, T5}"/>
         /// </summary>
@@ -331,9 +288,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return dataSet.ToList(typeof(IEnumerable<T1>), typeof(IEnumerable<T2>), typeof(IEnumerable<T3>), typeof(IEnumerable<T4>), typeof(IEnumerable<T5>))
                  .Adapt<(IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>)>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2, T3, T4, T5, T6} + public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6) ToList<T1, T2, T3, T4, T5, T6>(this DataSet dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2, T3, T4, T5, T6}"/>
         /// </summary>
@@ -350,9 +305,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return dataSet.ToList(typeof(IEnumerable<T1>), typeof(IEnumerable<T2>), typeof(IEnumerable<T3>), typeof(IEnumerable<T4>), typeof(IEnumerable<T5>), typeof(IEnumerable<T6>))
                 .Adapt<(IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>)>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2, T3, T4, T5, T6, T7} + public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7) ToList<T1, T2, T3, T4, T5, T6, T7>(this DataSet dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7}"/>
         /// </summary>
@@ -370,9 +323,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return dataSet.ToList(typeof(IEnumerable<T1>), typeof(IEnumerable<T2>), typeof(IEnumerable<T3>), typeof(IEnumerable<T4>), typeof(IEnumerable<T5>), typeof(IEnumerable<T6>), typeof(IEnumerable<T7>))
                 .Adapt<(IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>, IEnumerable<T7>)>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2, T3, T4, T5, T6, T7, T8} + public static (IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8) ToList<T1, T2, T3, T4, T5, T6, T7, T8>(this DataSet dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8}"/>
         /// </summary>
@@ -391,10 +342,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             return dataSet.ToList(typeof(IEnumerable<T1>), typeof(IEnumerable<T2>), typeof(IEnumerable<T3>), typeof(IEnumerable<T4>), typeof(IEnumerable<T5>), typeof(IEnumerable<T6>), typeof(IEnumerable<T7>), typeof(IEnumerable<T8>))
                 .Adapt<(IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>, IEnumerable<T7>, IEnumerable<T8>)>();
         }
-        #endregion
 
-
-        #region 将 DataSet 转 IEnumerable{T} + public static async Task<IEnumerable<T1>> ToListAsync<T1>(this DataSet dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="IEnumerable{T}"/>
         /// </summary>
@@ -406,9 +354,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             var result = await dataSet.ToListAsync(typeof(IEnumerable<T1>));
             return result.Adapt<IEnumerable<T1>>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2} + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2)> ToListAsync<T1, T2>(this DataSet dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2}"/>
         /// </summary>
@@ -421,9 +367,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             var result = await dataSet.ToListAsync(typeof(IEnumerable<T1>), typeof(IEnumerable<T2>));
             return result.Adapt<(IEnumerable<T1>, IEnumerable<T2>)>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2, T3} + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3)> ToListAsync<T1, T2, T3>(this DataSet dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2, T3}"/>
         /// </summary>
@@ -437,9 +381,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             var result = await dataSet.ToListAsync(typeof(IEnumerable<T1>), typeof(IEnumerable<T2>), typeof(IEnumerable<T3>));
             return result.Adapt<(IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>)>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2, T3, T4} + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4)> ToListAsync<T1, T2, T3, T4>(this DataSet dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2, T3, T4}"/>
         /// </summary>
@@ -454,9 +396,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             var result = await dataSet.ToListAsync(typeof(IEnumerable<T1>), typeof(IEnumerable<T2>), typeof(IEnumerable<T3>), typeof(IEnumerable<T4>));
             return result.Adapt<(IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>)>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2, T3, T4, T5} + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5)> ToListAsync<T1, T2, T3, T4, T5>(this DataSet dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2, T3, T4, T5}"/>
         /// </summary>
@@ -472,9 +412,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             var result = await dataSet.ToListAsync(typeof(IEnumerable<T1>), typeof(IEnumerable<T2>), typeof(IEnumerable<T3>), typeof(IEnumerable<T4>), typeof(IEnumerable<T5>));
             return result.Adapt<(IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>)>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2, T3, T4, T5, T6} + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6)> ToListAsync<T1, T2, T3, T4, T5, T6>(this DataSet dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2, T3, T4, T5, T6}"/>
         /// </summary>
@@ -491,9 +429,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             var result = await dataSet.ToListAsync(typeof(IEnumerable<T1>), typeof(IEnumerable<T2>), typeof(IEnumerable<T3>), typeof(IEnumerable<T4>), typeof(IEnumerable<T5>), typeof(IEnumerable<T6>));
             return result.Adapt<(IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>)>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2, T3, T4, T5, T6, T7} + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7)> ToListAsync<T1, T2, T3, T4, T5, T6, T7>(this DataSet dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7}"/>
         /// </summary>
@@ -511,9 +447,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             var result = await dataSet.ToListAsync(typeof(IEnumerable<T1>), typeof(IEnumerable<T2>), typeof(IEnumerable<T3>), typeof(IEnumerable<T4>), typeof(IEnumerable<T5>), typeof(IEnumerable<T6>), typeof(IEnumerable<T7>));
             return result.Adapt<(IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>, IEnumerable<T7>)>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2, T3, T4, T5, T6, T7, T8} + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> ToListAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this DataSet dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8}"/>
         /// </summary>
@@ -532,10 +466,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             var result = await dataSet.ToListAsync(typeof(IEnumerable<T1>), typeof(IEnumerable<T2>), typeof(IEnumerable<T3>), typeof(IEnumerable<T4>), typeof(IEnumerable<T5>), typeof(IEnumerable<T6>), typeof(IEnumerable<T7>), typeof(IEnumerable<T8>));
             return result.Adapt<(IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>, IEnumerable<T7>, IEnumerable<T8>)>();
         }
-        #endregion
 
-
-        #region 将 DataSet 转 IEnumerable{T} + public static async Task<IEnumerable<T1>> ToListAsync<T1>(this Task<DataSet> dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="IEnumerable{T}"/>
         /// </summary>
@@ -547,9 +478,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             var dataSetNoTask = await dataSet;
             return await dataSetNoTask.ToListAsync<T1>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2} + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2)> ToListAsync<T1, T2>(this Task<DataSet> dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2}"/>
         /// </summary>
@@ -562,9 +491,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             var dataSetNoTask = await dataSet;
             return await dataSetNoTask.ToListAsync<T1, T2>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2, T3} + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3)> ToListAsync<T1, T2, T3>(this Task<DataSet> dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2, T3}"/>
         /// </summary>
@@ -578,9 +505,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             var dataSetNoTask = await dataSet;
             return await dataSetNoTask.ToListAsync<T1, T2, T3>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2, T3, T4} + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4)> ToListAsync<T1, T2, T3, T4>(this Task<DataSet> dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2, T3, T4}"/>
         /// </summary>
@@ -595,9 +520,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             var dataSetNoTask = await dataSet;
             return await dataSetNoTask.ToListAsync<T1, T2, T3, T4>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2, T3, T4, T5} + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5)> ToListAsync<T1, T2, T3, T4, T5>(this Task<DataSet> dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2, T3, T4, T5}"/>
         /// </summary>
@@ -613,9 +536,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             var dataSetNoTask = await dataSet;
             return await dataSetNoTask.ToListAsync<T1, T2, T3, T4, T5>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2, T3, T4, T5, T6} + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6)> ToListAsync<T1, T2, T3, T4, T5, T6>(this Task<DataSet> dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2, T3, T4, T5, T6}"/>
         /// </summary>
@@ -632,9 +553,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             var dataSetNoTask = await dataSet;
             return await dataSetNoTask.ToListAsync<T1, T2, T3, T4, T5, T6>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2, T3, T4, T5, T6, T7} + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7)> ToListAsync<T1, T2, T3, T4, T5, T6, T7>(this Task<DataSet> dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7}"/>
         /// </summary>
@@ -652,9 +571,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             var dataSetNoTask = await dataSet;
             return await dataSetNoTask.ToListAsync<T1, T2, T3, T4, T5, T6, T7>();
         }
-        #endregion
 
-        #region 将 DataSet 转 Tuple{T1, T2, T3, T4, T5, T6, T7, T8} + public static async Task<(IEnumerable<T1> data1, IEnumerable<T2> data2, IEnumerable<T3> data3, IEnumerable<T4> data4, IEnumerable<T5> data5, IEnumerable<T6> data6, IEnumerable<T7> data7, IEnumerable<T8> data8)> ToListAsync<T1, T2, T3, T4, T5, T6, T7, T8>(this DataSet dataSet)
         /// <summary>
         /// 将 DataSet 转 <see cref="Tuple{T1, T2, T3, T4, T5, T6, T7, T8}"/>
         /// </summary>
@@ -673,10 +590,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             var dataSetNoTask = await dataSet;
             return await dataSetNoTask.ToListAsync<T1, T2, T3, T4, T5, T6, T7, T8>();
         }
-        #endregion
 
-
-        #region 将 Dataset 数据集转元组对象 + public static object ToList(this DataSet dataset, params Type[] returnTypes)
         /// <summary>
         /// 将 Dataset 数据集转元组对象
         /// </summary>
@@ -719,9 +633,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             }
             return default;
         }
-        #endregion
 
-        #region 将 Dataset 数据集转元组对象 + public static Task<object> ToListAsync(this DataSet dataset, params Type[] returnTypes)
         /// <summary>
         /// 将 Dataset 数据集转元组对象
         /// </summary>
@@ -732,9 +644,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
         {
             return Task.FromResult(dataset.ToList(returnTypes));
         }
-        #endregion
 
-        #region 将 Dataset 数据集转元组对象 + public static async Task<object> ToListAsync(this Task<DataSet> dataset, params Type[] returnTypes)
         /// <summary>
         /// 将 Dataset 数据集转元组对象
         /// </summary>
@@ -746,6 +656,5 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
             var dataSetNoTask = await dataset;
             return await dataSetNoTask.ToListAsync(returnTypes);
         }
-        #endregion
     }
 }

@@ -15,8 +15,6 @@ namespace Fur.DatabaseAccessor.Repositories.Multiple
         where TEntity : class, IDbEntityBase, new()
         where TDbContextLocator : IDbContextLocator
     {
-        #region 构造函数 + public MultipleDbContextEFCoreRepository(ILifetimeScope lifetimeScope,IDbContextPool dbContextPool)
-
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -28,8 +26,6 @@ namespace Fur.DatabaseAccessor.Repositories.Multiple
             : base(lifetimeScope.ResolveNamed<DbContext>(typeof(TDbContextLocator).Name), lifetimeScope, dbContextPool)
         {
         }
-
-        #endregion
     }
 
     /// <summary>
@@ -45,8 +41,6 @@ namespace Fur.DatabaseAccessor.Repositories.Multiple
         /// </summary>
         private readonly ILifetimeScope _lifetimeScope;
 
-        #region 构造函数 + public MultipleDbContextEFCoreRepository(ILifetimeScope lifetimeScope)
-
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -55,10 +49,6 @@ namespace Fur.DatabaseAccessor.Repositories.Multiple
         {
             _lifetimeScope = lifetimeScope;
         }
-
-        #endregion
-
-        #region 获取泛型多上下文仓储接口 +  public IRepository<TEntity, TDbContextLocator> Set<TEntity>(bool newScope = false)
 
         /// <summary>
         /// 获取泛型多上下文仓储接口
@@ -75,7 +65,5 @@ namespace Fur.DatabaseAccessor.Repositories.Multiple
             }
             return _lifetimeScope.Resolve<IRepository<TEntity, TDbContextLocator>>();
         }
-
-        #endregion
     }
 }

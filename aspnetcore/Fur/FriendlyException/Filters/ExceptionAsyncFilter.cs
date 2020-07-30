@@ -30,8 +30,6 @@ namespace Fur.FriendlyException.Filters
         /// </summary>
         private IExceptionCodesProvider _exceptionCodesProvider;
 
-        #region 构造函数 + public ExceptionAsyncFilter(ILifetimeScope lifetimeScope)
-
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -45,10 +43,6 @@ namespace Fur.FriendlyException.Filters
             _memoryCache = memoryCache;
             _unifyResultProvider = unifyResultProvider;
         }
-
-        #endregion
-
-        #region 异常异步拦截器 + public Task OnExceptionAsync(ExceptionContext context)
 
         /// <summary>
         /// 异常异步拦截器
@@ -78,10 +72,6 @@ namespace Fur.FriendlyException.Filters
             MiniProfiler.Current.CustomTiming("errors", exceptionErrorString, "StackTrace").Errored = true;
             return Task.CompletedTask;
         }
-
-        #endregion
-
-        #region 转换异常信息 + private int ConvertExceptionInfo(ExceptionContext context, ControllerActionDescriptor descriptor, out string exceptionMessage, out string exceptionErrorString)
 
         /// <summary>
         /// 转换异常信息
@@ -123,10 +113,6 @@ namespace Fur.FriendlyException.Filters
             return statusCode;
         }
 
-        #endregion
-
-        #region 加载异常状态码 + private Dictionary<int, string> LoadExceptionCodes(string defaultExceptionMsg)
-
         /// <summary>
         /// 加载异常状态码
         /// </summary>
@@ -163,7 +149,5 @@ namespace Fur.FriendlyException.Filters
             }
             return exceptionCodes;
         }
-
-        #endregion
     }
 }

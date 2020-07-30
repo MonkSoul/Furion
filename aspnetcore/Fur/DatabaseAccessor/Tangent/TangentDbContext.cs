@@ -16,8 +16,6 @@ namespace Fur.DatabaseAccessor.Tangent
         /// </summary>
         private readonly ILifetimeScope _lifetimeScope;
 
-        #region 构造函数 + public TangentDbContext(ILifetimeScope lifetimeScope)
-
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -26,8 +24,6 @@ namespace Fur.DatabaseAccessor.Tangent
         {
             _lifetimeScope = lifetimeScope;
         }
-
-        #endregion
 
         /// <summary>
         /// 被代理的接口私有实例

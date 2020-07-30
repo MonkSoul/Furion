@@ -1,6 +1,4 @@
-﻿using Fur.ApplicationBase.Attributes;
-
-namespace Fur.DatabaseAccessor.Options
+﻿namespace Fur.DatabaseAccessor.Options
 {
     /// <summary>
     /// 数据库表更新选项

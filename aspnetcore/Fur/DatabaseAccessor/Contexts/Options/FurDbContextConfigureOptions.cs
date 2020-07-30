@@ -33,7 +33,6 @@ namespace Fur.DatabaseAccessor.Contexts.Options
         /// </summary>
         public bool SupportedTangent { get; set; } = true;
 
-        #region 配置多租户 + public void AddMultipleTenantConfigure<TMultipleTenantDbContext, TMultipleTenantProvider>()
         /// <summary>
         /// 配置多租户
         /// </summary>
@@ -68,7 +67,6 @@ namespace Fur.DatabaseAccessor.Contexts.Options
             }
             else throw new NotSupportedException($"{multipleTenantProvider}");
         }
-        #endregion
 
         /// <summary>
         /// 支持多数据库上下文

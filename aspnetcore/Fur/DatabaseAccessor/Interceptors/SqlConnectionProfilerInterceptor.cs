@@ -19,7 +19,6 @@ namespace Fur.DatabaseAccessor.Interceptors
         /// </summary>
         private static readonly string miniProfilerName = "connection";
 
-        #region 拦截数据库连接 + public override InterceptionResult ConnectionOpening(DbConnection connection, ConnectionEventData eventData, InterceptionResult result)
         /// <summary>
         /// 拦截数据库连接
         /// </summary>
@@ -32,9 +31,7 @@ namespace Fur.DatabaseAccessor.Interceptors
             MiniProfiler.Current.CustomTiming(miniProfilerName, $"Connection: [Id: {eventData.ConnectionId}] / [Database: {connection.Database}] / [Connection String: {connection.ConnectionString}]", "String");
             return base.ConnectionOpening(connection, eventData, result);
         }
-        #endregion
 
-        #region 拦截数据库连接（异步） + public override ValueTask<InterceptionResult> ConnectionOpeningAsync(DbConnection connection, ConnectionEventData eventData, InterceptionResult result, CancellationToken cancellationToken = default)
         /// <summary>
         /// 拦截数据库连接（异步）
         /// </summary>
@@ -48,6 +45,5 @@ namespace Fur.DatabaseAccessor.Interceptors
             MiniProfiler.Current.CustomTiming(miniProfilerName, $"Connection: [Id: {eventData.ConnectionId}] / [Database: {connection.Database}] / [Connection String: {connection.ConnectionString}]", "String (Async)");
             return base.ConnectionOpeningAsync(connection, eventData, result, cancellationToken);
         }
-        #endregion
     }
 }
