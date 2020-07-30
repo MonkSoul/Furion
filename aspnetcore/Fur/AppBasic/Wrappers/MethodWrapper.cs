@@ -49,6 +49,11 @@ namespace Fur.AppBasic.Wrappers
         public bool IsStaticMethod { get; set; }
 
         /// <summary>
+        /// 是否是数据库函数
+        /// </summary>
+        public bool IsDbFunction { get; set; }
+
+        /// <summary>
         /// Swagger 接口文档 分组名
         /// <para>生成 Swagger 接口文档时，用于匹配特定组信息。</para>
         /// <para>参见：<see cref="Fur.MirrorController.Attributes.MirrorActionAttribute.SwaggerGroups"/></para>

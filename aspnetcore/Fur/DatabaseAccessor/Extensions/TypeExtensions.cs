@@ -25,22 +25,33 @@ namespace Fur.DatabaseAccessor.Extensions
         /// <returns></returns>
         internal static Type[] GetTypeGenericArguments(this Type type, Type filterType, GenericArgumentSourceOptions genericArgumentSourceOptions)
         {
-            if (genericArgumentSourceOptions == GenericArgumentSourceOptions.Interface)
-            {
-                return type.GetInterfaces()
-                    .FirstOrDefault(c => c.IsGenericType && filterType.IsAssignableFrom(c.GetGenericTypeDefinition()))
-                    ?.GetGenericArguments();
-            }
+            var isSet = EntityRelevanceTypes.TryGetValue((type, filterType), out Type[] genericArguments);
+            if (isSet) return genericArguments;
             else
             {
-                var baseType = type.BaseType;
-                if (baseType.IsGenericType && filterType.IsAssignableFrom(baseType.GetGenericTypeDefinition()))
+                if (genericArgumentSourceOptions == GenericArgumentSourceOptions.Interface)
                 {
-                    return baseType.GetGenericArguments();
+                    // 这里的接口被重复扫描了
+                    genericArguments = type.GetInterfaces()
+                        .FirstOrDefault(c => c.IsGenericType && filterType.IsAssignableFrom(c.GetGenericTypeDefinition()))
+                        ?.GetGenericArguments();
                 }
-                return default;
+                else
+                {
+                    // 类型也是
+                    var baseType = type.BaseType;
+                    if (baseType.IsGenericType && filterType.IsAssignableFrom(baseType.GetGenericTypeDefinition()))
+                    {
+                        genericArguments = baseType.GetGenericArguments();
+                    }
+                }
+
+                EntityRelevanceTypes.TryAdd((type, filterType), genericArguments);
+                return genericArguments;
             }
         }
+
+        private static ConcurrentDictionary<(Type, Type), Type[]> EntityRelevanceTypes;
 
         /// <summary>
         /// 创建查询筛选器表达式
@@ -90,6 +101,7 @@ namespace Fur.DatabaseAccessor.Extensions
         static TypeExtensions()
         {
             EntityEntryProperties = new ConcurrentDictionary<(Type, string), PropertyEntry>();
+            EntityRelevanceTypes = new ConcurrentDictionary<(Type, Type), Type[]>();
         }
     }
 }

@@ -52,6 +52,11 @@ namespace Fur.AppBasic.Wrappers
         public string[] SwaggerGroups { get; set; }
 
         /// <summary>
+        /// 数据库是数据库实体类型
+        /// </summary>
+        public bool IsDbEntityType { get; set; }
+
+        /// <summary>
         /// 泛型类型中的泛型参数
         /// <para>只有 <see cref="IsGenericType"/> = <c>true</c> 有作用</para>
         /// </summary>

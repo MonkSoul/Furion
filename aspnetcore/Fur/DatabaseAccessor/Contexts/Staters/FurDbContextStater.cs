@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -67,27 +68,28 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                     .Resolve<IMultipleTenantOnSchemaProvider>();
             }
 
+            // 应该查找一次父接口父类就可以了
             foreach (var dbEntityType in dbContextEntityTypes)
             {
                 EntityTypeBuilder entityTypeBuilder = default;
 
                 // 配置数据库无键实体
-                DbNoKeyEntityConfigure(dbEntityType, entityTypeBuilder);
+                DbNoKeyEntityConfigure(dbEntityType, ref entityTypeBuilder);
 
                 // 配置数据库实体类型构建器
-                DbEntityTypeBuilderConfigure(dbEntityType, entityTypeBuilder);
+                DbEntityTypeBuilderConfigure(dbEntityType, ref entityTypeBuilder);
 
                 // 配置数据库种子数据
-                DbSeedDataConfigure(dbContext, dbEntityType, entityTypeBuilder);
+                DbSeedDataConfigure(dbContext, dbEntityType, ref entityTypeBuilder);
 
                 // 配置数据库上下文查询筛选器
-                DbContextQueryFilterConfigure(dbContext, dbContextType, dbEntityType, hasDbContextQueryFilter, entityTypeBuilder);
+                DbContextQueryFilterConfigure(dbContext, dbContextType, dbEntityType, hasDbContextQueryFilter, ref entityTypeBuilder);
 
                 // 配置数据库查询筛选器
-                DbQueryFilterConfigure(dbContext, dbEntityType, entityTypeBuilder);
+                DbQueryFilterConfigure(dbContext, dbEntityType, ref entityTypeBuilder);
 
                 // 配置模型类型构建器
-                CreateDbEntityTypeBuilderIfNull(dbEntityType, entityTypeBuilder);
+                CreateDbEntityTypeBuilderIfNull(dbEntityType, ref entityTypeBuilder);
             }
 
             // 配置数据库函数
@@ -99,10 +101,10 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// </summary>
         /// <param name="dbEntityType">数据库实体类型</param>
         /// <param name="entityTypeBuilder">实体类型构建器</param>
-        private static void DbNoKeyEntityConfigure(Type dbEntityType, EntityTypeBuilder entityTypeBuilder)
+        private static void DbNoKeyEntityConfigure(Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
         {
             if (!typeof(IDbNoKeyEntity).IsAssignableFrom(dbEntityType)) return;
-            if (!CheckInDbContextAndHandle(dbEntityType, typeof(IDbNoKeyEntity), entityTypeBuilder, GenericArgumentSourceOptions.BaseType)) return;
+            if (!CheckInDbContextAndHandle(dbEntityType, typeof(IDbNoKeyEntity), ref entityTypeBuilder, GenericArgumentSourceOptions.BaseType)) return;
 
             entityTypeBuilder.HasNoKey();
             entityTypeBuilder.ToView((Activator.CreateInstance(dbEntityType) as IDbNoKeyEntity).DB_DEFINED_NAME);
@@ -113,9 +115,9 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// </summary>
         /// <param name="dbEntityType">数据库实体类型</param>
         /// <param name="entityTypeBuilder">实体类型构建器</param>
-        private static void DbEntityTypeBuilderConfigure(Type dbEntityType, EntityTypeBuilder entityTypeBuilder)
+        private static void DbEntityTypeBuilderConfigure(Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
         {
-            if (!CheckInDbContextAndHandle(dbEntityType, typeof(IDbEntityBuilder), entityTypeBuilder)) return;
+            if (!CheckInDbContextAndHandle(dbEntityType, typeof(IDbEntityBuilder), ref entityTypeBuilder)) return;
 
             entityTypeBuilder = dbEntityType.CallMethod(
                       nameof(IDbEntityBuilder<IDbEntityBase>.HasEntityBuilder),
@@ -130,10 +132,10 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="dbContext">数据库上下文</param>
         /// <param name="dbEntityType">数据库实体类型</param>
         /// <param name="entityTypeBuilder">实体类型构建器</param>
-        private static void DbSeedDataConfigure(DbContext dbContext, Type dbEntityType, EntityTypeBuilder entityTypeBuilder)
+        private static void DbSeedDataConfigure(DbContext dbContext, Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
         {
             if (typeof(IDbNoKeyEntity).IsAssignableFrom(dbEntityType)) return;
-            if (!CheckInDbContextAndHandle(dbEntityType, typeof(IDbSeedData), entityTypeBuilder)) return;
+            if (!CheckInDbContextAndHandle(dbEntityType, typeof(IDbSeedData), ref entityTypeBuilder)) return;
 
             var seedDatas = dbEntityType.CallMethod(
                    nameof(IDbSeedData<IDbEntityBase>.HasData),
@@ -152,11 +154,11 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="dbContext">数据库上下文</param>
         /// <param name="dbEntityType">数据库实体类型</param>
         /// <param name="entityTypeBuilder">实体类型构建器</param>
-        private static void DbQueryFilterConfigure(DbContext dbContext, Type dbEntityType, EntityTypeBuilder entityTypeBuilder)
+        private static void DbQueryFilterConfigure(DbContext dbContext, Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
         {
             // 租户表无需参与过滤器
             if (dbEntityType == typeof(Tenant)) return;
-            if (!CheckInDbContextAndHandle(dbEntityType, typeof(IDbQueryFilter), entityTypeBuilder)) return;
+            if (!CheckInDbContextAndHandle(dbEntityType, typeof(IDbQueryFilter), ref entityTypeBuilder)) return;
 
             var queryFilters = dbEntityType.CallMethod(
                        nameof(IDbQueryFilter<IDbEntityBase>.HasQueryFilter),
@@ -198,14 +200,14 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="dbEntityType">数据库实体类型</param>
         /// <param name="hasDbContextQueryFilter">是否有数据库上下文查询筛选器</param>
         /// <param name="entityTypeBuilder">数据库实体类型构建器</param>
-        private static void DbContextQueryFilterConfigure(DbContext dbContext, Type dbContextType, Type dbEntityType, bool hasDbContextQueryFilter, EntityTypeBuilder entityTypeBuilder)
+        private static void DbContextQueryFilterConfigure(DbContext dbContext, Type dbContextType, Type dbEntityType, bool hasDbContextQueryFilter, ref EntityTypeBuilder entityTypeBuilder)
         {
             // 租户表无需参与过滤器
             if (dbEntityType == typeof(Tenant)) return;
 
             if (typeof(IDbEntityBase).IsAssignableFrom(dbEntityType) && hasDbContextQueryFilter)
             {
-                CreateDbEntityTypeBuilderIfNull(dbEntityType, entityTypeBuilder);
+                CreateDbEntityTypeBuilderIfNull(dbEntityType, ref entityTypeBuilder);
 
                 dbContextType.CallMethod(nameof(IDbContextQueryFilter.HasQueryFilter)
                     , dbContext
@@ -220,7 +222,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// </summary>
         /// <param name="dbEntityType"></param>
         /// <param name="entityTypeBuilder"></param>
-        private static void CreateDbEntityTypeBuilderIfNull(Type dbEntityType, EntityTypeBuilder entityTypeBuilder)
+        private static void CreateDbEntityTypeBuilderIfNull(Type dbEntityType, ref EntityTypeBuilder entityTypeBuilder)
         {
             var isSetEntityType = entityTypeBuilder == null;
             entityTypeBuilder ??= _modelBuilderEntityMethod.MakeGenericMethod(dbEntityType).Invoke(_modelBuilder, null) as EntityTypeBuilder;
@@ -342,7 +344,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="sourceOptions">泛型参数来源</param>
         private static bool CheckInDbContextAndHandle(Type dbEntityType,
             Type DependencyType,
-           EntityTypeBuilder entityTypeBuilder,
+            ref EntityTypeBuilder entityTypeBuilder,
             GenericArgumentSourceOptions sourceOptions = GenericArgumentSourceOptions.Interface)
         {
             var dbEntityGenericArguments = dbEntityType.GetTypeGenericArguments(DependencyType, sourceOptions);
@@ -351,7 +353,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                 var dbContextLocators = dbEntityGenericArguments.Skip(1);
                 if (CheckIsInDbContextLocators(dbContextLocators, _dbContextLocatorType))
                 {
-                    CreateDbEntityTypeBuilderIfNull(sourceOptions == GenericArgumentSourceOptions.BaseType ? dbEntityType : dbEntityGenericArguments.First(), entityTypeBuilder);
+                    CreateDbEntityTypeBuilderIfNull(sourceOptions == GenericArgumentSourceOptions.BaseType ? dbEntityType : dbEntityGenericArguments.First(), ref entityTypeBuilder);
                     return true;
                 }
             }
@@ -400,7 +402,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
             var application = App.Application;
 
             _dbEntityRelevanceTypes ??= application.PublicClassTypeWrappers
-                .Where(u => u.CanBeNew && (typeof(IDbEntityBase).IsAssignableFrom(u.Type) || typeof(IDbEntityConfigure).IsAssignableFrom(u.Type)))
+                .Where(u => u.IsDbEntityType)
                 .Distinct()
                 .Select(u => u.Type);
 
@@ -412,7 +414,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
             }
 
             _dbFunctionMethods = application.PublicMethodWrappers
-                .Where(u => u.IsStaticMethod && u.ThisDeclareType.IsAbstract && u.ThisDeclareType.IsSealed && u.Method.IsDefined(typeof(Attributes.DbFunctionAttribute), false));
+                .Where(u => u.IsDbFunction);
         }
     }
 }

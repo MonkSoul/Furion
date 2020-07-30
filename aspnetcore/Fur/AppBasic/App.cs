@@ -1,6 +1,9 @@
 ﻿using Fur.AppBasic.Attributes;
 using Fur.AppBasic.Options;
 using Fur.AppBasic.Wrappers;
+using Fur.DatabaseAccessor.Attributes;
+using Fur.DatabaseAccessor.Entities;
+using Fur.DatabaseAccessor.Entities.Configurations;
 using Fur.DatabaseAccessor.MultipleTenants.Options;
 using Fur.Linq.Extensions;
 using Fur.MirrorController.Attributes;
@@ -208,6 +211,7 @@ namespace Fur.AppBasic
                         SwaggerGroups = GetControllerTypeSwaggerGroups(t),
                         IsStaticType = (t.IsAbstract && t.IsSealed),
                         CanBeNew = !t.IsAbstract,
+                        IsDbEntityType = !t.IsAbstract && (typeof(IDbEntityBase).IsAssignableFrom(t) || typeof(IDbEntityConfigure).IsAssignableFrom(t)),
 
                         // 创建包装属性器
                         PublicPropertis = t.GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
@@ -249,6 +253,7 @@ namespace Fur.AppBasic
                                 CustomAttributes = p.GetCustomAttributes(),
                             }),
                             IsStaticMethod = m.IsStatic,
+                            IsDbFunction = m.IsStatic && t.IsAbstract && t.IsSealed && m.IsDefined(typeof(DbFunctionAttribute), false)
                         })
                     })
                 })
