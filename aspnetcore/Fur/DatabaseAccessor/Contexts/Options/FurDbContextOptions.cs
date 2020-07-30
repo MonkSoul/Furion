@@ -56,7 +56,7 @@ namespace Fur.DatabaseAccessor.Contexts.Options
         {
             var multipleTenantProvider = typeof(TMultipleTenantProvider);
 
-            // 不允许注册空多租户提供器
+            // 不允许默认多租户提供器
             if (multipleTenantProvider == typeof(IMultipleTenantProvider)) return;
 
             this.MultipleTenantProvider = multipleTenantProvider;
