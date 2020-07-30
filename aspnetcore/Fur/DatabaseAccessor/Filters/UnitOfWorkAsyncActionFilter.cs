@@ -51,7 +51,8 @@ namespace Fur.DatabaseAccessor.Filters
             var dbContextCount = _dbContextPool.GetDbContexts().Count();
 
             // 如果贴了 [NonUnitOfWork] 特性，则不开启事务
-            if (methodInfo.IsDefined(typeof(NonUnitOfWorkAttribute)) || methodInfo.DeclaringType.IsDefined(typeof(NonUnitOfWorkAttribute)))
+            if (methodInfo.IsDefined(typeof(NonUnitOfWorkAttribute), false) ||
+                (methodInfo.DeclaringType.IsDefined(typeof(NonUnitOfWorkAttribute)) && !methodInfo.IsDefined(typeof(UnitOfWorkAttribute), false)))
             {
                 MiniProfiler.Current.CustomTiming(miniProfilerName, "TransactionScope Disabled", "Disabled !");
                 await next();

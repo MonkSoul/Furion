@@ -8,7 +8,7 @@ namespace Fur.DatabaseAccessor.Attributes
     /// </summary>
     /// <remarks>
     /// <para>覆盖 <see cref="Microsoft.EntityFrameworkCore.DbFunctionAttribute"/>，提供数据库上下文定位器功能</para>
-    /// <para>说明：该特性只对静态类中的静态方法有效</para>
+    /// <para>该特性只对静态类中的静态方法有效</para>
     /// </remarks>
     [AttributeUsage(AttributeTargets.Method), NonWrapper]
     public class DbFunctionAttribute : Microsoft.EntityFrameworkCore.DbFunctionAttribute

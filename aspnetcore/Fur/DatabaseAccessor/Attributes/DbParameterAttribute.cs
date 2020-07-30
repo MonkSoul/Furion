@@ -8,7 +8,7 @@ namespace Fur.DatabaseAccessor.Attributes
     /// 标记类属性生成对应 <see cref="Microsoft.Data.SqlClient.SqlParameter"/> 参数
     /// </summary>
     /// <remarks>
-    /// <para>说明：支持类实例属性、方法参数中贴此特性</para>
+    /// <para>支持类实例属性、方法参数中贴此特性</para>
     /// </remarks>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter), NonWrapper]
     public class DbParameterAttribute : Attribute
