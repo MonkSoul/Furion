@@ -156,7 +156,6 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         {
             // 租户表无需参与过滤器
             if (dbEntityType == typeof(Tenant)) return;
-
             if (!CheckInDbContextAndHandle(dbEntityType, typeof(IDbQueryFilter), entityTypeBuilder)) return;
 
             var queryFilters = dbEntityType.CallMethod(
