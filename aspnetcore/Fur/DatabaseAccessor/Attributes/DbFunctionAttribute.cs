@@ -11,7 +11,7 @@ namespace Fur.DatabaseAccessor.Attributes
     /// <para>该特性只对静态类中的静态方法有效</para>
     /// </remarks>
     [AttributeUsage(AttributeTargets.Method), NonWrapper]
-    public class DbFunctionAttribute : Microsoft.EntityFrameworkCore.DbFunctionAttribute
+    public sealed class DbFunctionAttribute : Microsoft.EntityFrameworkCore.DbFunctionAttribute
     {
         /// <summary>
         /// 构造函数

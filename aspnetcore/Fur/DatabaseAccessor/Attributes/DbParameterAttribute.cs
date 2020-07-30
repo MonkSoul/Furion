@@ -11,7 +11,7 @@ namespace Fur.DatabaseAccessor.Attributes
     /// <para>支持类实例属性、方法参数中贴此特性</para>
     /// </remarks>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter), NonWrapper]
-    public class DbParameterAttribute : Attribute
+    public sealed class DbParameterAttribute : Attribute
     {
         /// <summary>
         /// 构造函数

@@ -12,5 +12,5 @@ namespace Fur.DatabaseAccessor.Attributes
     /// <para>注意：只对请求中的起始方法起作用</para>
     /// </remarks>
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class), NonWrapper]
-    public class NonUnitOfWorkAttribute : Attribute { }
+    public sealed class NonUnitOfWorkAttribute : Attribute { }
 }

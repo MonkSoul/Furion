@@ -8,7 +8,7 @@ namespace Fur.DatabaseAccessor.Interceptors
     /// <para>用来拦截数据库执行命令的每一个生命周期</para>
     /// </summary>
     [NonWrapper]
-    public class SqlCommandProfilerInterceptor : DbCommandInterceptor
+    public sealed class SqlCommandProfilerInterceptor : DbCommandInterceptor
     {
     }
 }

@@ -13,7 +13,7 @@ namespace Fur.DatabaseAccessor.Attributes
     /// <para>注意：只对请求中的起始方法起作用</para>
     /// </remarks>
     [AttributeUsage(AttributeTargets.Method), NonWrapper]
-    public class UnitOfWorkAttribute : Attribute
+    public sealed class UnitOfWorkAttribute : Attribute
     {
         /// <summary>
         /// 构造函数

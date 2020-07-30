@@ -12,7 +12,7 @@ namespace Fur.DatabaseAccessor.Interceptors
     /// <para>用来拦截数据库连接/关闭的每一个生命周期</para>
     /// </summary>
     [NonWrapper]
-    public class SqlConnectionProfilerInterceptor : DbConnectionInterceptor
+    public sealed class SqlConnectionProfilerInterceptor : DbConnectionInterceptor
     {
         /// <summary>
         /// 性能分析器类别
