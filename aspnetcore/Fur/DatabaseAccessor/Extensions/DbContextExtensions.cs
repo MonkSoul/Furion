@@ -23,7 +23,7 @@ namespace Fur.DatabaseAccessor.Extensions
         /// <returns></returns>
         public static Guid? GetTenantId(this DbContext dbContext)
         {
-            if (!AppGlobal.SupportedMultipleTenant || AppGlobal.MultipleTenantConfigureOptions != FurMultipleTenantConfigureOptions.OnTable) return default;
+            if (!AppGlobal.SupportedMultipleTenant || AppGlobal.MultipleTenantConfigureOptions != FurMultipleTenantOptions.OnTable) return default;
 
             var lifetimeScope = dbContext.GetService<ILifetimeScope>();
             var tenantProvider = lifetimeScope.Resolve<IMultipleTenantOnTableProvider>();
@@ -38,7 +38,7 @@ namespace Fur.DatabaseAccessor.Extensions
         /// <param name="lifetimeScope">autofac 生命周期对象</param>
         public static void UseSqlServerWithMultipleTenantOnDatabase(this DbContextOptionsBuilder optionsBuilder, ILifetimeScope lifetimeScope)
         {
-            if (AppGlobal.SupportedMultipleTenant && AppGlobal.MultipleTenantConfigureOptions == FurMultipleTenantConfigureOptions.OnDatabase)
+            if (AppGlobal.SupportedMultipleTenant && AppGlobal.MultipleTenantConfigureOptions == FurMultipleTenantOptions.OnDatabase)
             {
                 var multipleTenantOnDatabaseProvider = lifetimeScope.Resolve<IMultipleTenantOnDatabaseProvider>();
                 optionsBuilder.UseSqlServer(multipleTenantOnDatabaseProvider.GetConnectionString(), options =>

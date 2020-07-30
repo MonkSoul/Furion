@@ -27,7 +27,7 @@ namespace Fur.DatabaseAccessor.Extensions
         /// <param name="builder">容器构建器</param>
         /// <param name="dbContextTypes">数据库上下文集合</param>
         /// <returns><see cref="ContainerBuilder"/></returns>
-        public static ContainerBuilder RegisterDbContexts<TDefaultDbContext>(this ContainerBuilder builder, Action<FurDbContextConfigureOptions> configureOptions = null, params Type[] dbContextTypes)
+        public static ContainerBuilder RegisterDbContexts<TDefaultDbContext>(this ContainerBuilder builder, Action<FurDbContextOptions> configureOptions = null, params Type[] dbContextTypes)
             where TDefaultDbContext : DbContext
         {
             // 注册数据库上下文池
@@ -41,14 +41,14 @@ namespace Fur.DatabaseAccessor.Extensions
                 .InstancePerLifetimeScope();
 
             // 载入配置
-            var furDbContextInjectionOptions = new FurDbContextConfigureOptions();
-            configureOptions?.Invoke(furDbContextInjectionOptions);
+            var furDbContextOptions = new FurDbContextOptions();
+            configureOptions?.Invoke(furDbContextOptions);
 
             var dbContextTypeList = dbContextTypes.Distinct().ToList();
             dbContextTypeList.Add(typeof(TDefaultDbContext));
 
             // 支持切面上下文
-            if (furDbContextInjectionOptions.SupportedTangent)
+            if (furDbContextOptions.SupportedTangent)
             {
                 builder.RegisterGeneric(typeof(TangentDbContext<>))
                     .As(typeof(ITangentDbContext<>))
@@ -56,25 +56,25 @@ namespace Fur.DatabaseAccessor.Extensions
             }
 
             // 注册多租户
-            if (furDbContextInjectionOptions.MultipleTenantProvider != null)
+            if (furDbContextOptions.MultipleTenantProvider != null)
             {
-                var multipleTenantConfigureOptions = furDbContextInjectionOptions.MultipleTenantConfigureOptions;
+                var multipleTenantConfigureOptions = furDbContextOptions.MultipleTenantOptions;
 
                 // 记录租户注册状态
                 AppGlobal.MultipleTenantConfigureOptions = multipleTenantConfigureOptions;
-                AppGlobal.SupportedMultipleTenant = multipleTenantConfigureOptions != FurMultipleTenantConfigureOptions.None;
+                AppGlobal.SupportedMultipleTenant = multipleTenantConfigureOptions != FurMultipleTenantOptions.None;
 
                 // 注册多租户数据库上下文
-                dbContextTypeList.Add(furDbContextInjectionOptions.MultipleTenantDbContext);
+                dbContextTypeList.Add(furDbContextOptions.MultipleTenantDbContext);
 
                 // 注册多租户提供器
-                builder.RegisterType(furDbContextInjectionOptions.MultipleTenantProvider)
+                builder.RegisterType(furDbContextOptions.MultipleTenantProvider)
                     .AsImplementedInterfaces()
                     .InstancePerLifetimeScope();
             }
 
             // 注册仓储
-            builder.RegisterRepositories(furDbContextInjectionOptions.SupportedMultipleDbContext, furDbContextInjectionOptions.SupportedMasterSlaveDbContext);
+            builder.RegisterRepositories(furDbContextOptions.SupportedMultipleDbContext, furDbContextOptions.SupportedMasterSlaveDbContext);
 
             // 注册多数据库上下文
             builder.RegisterDbContexts(dbContextTypeList.ToArray());

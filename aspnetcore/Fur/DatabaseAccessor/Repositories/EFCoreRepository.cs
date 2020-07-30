@@ -54,7 +54,7 @@ namespace Fur.DatabaseAccessor.Repositories
             Entities = DbContext.Set<TEntity>();
             _dbContextPool.SaveDbContext(DbContext);
 
-            if (AppGlobal.SupportedMultipleTenant && AppGlobal.MultipleTenantConfigureOptions == FurMultipleTenantConfigureOptions.OnTable)
+            if (AppGlobal.SupportedMultipleTenant && AppGlobal.MultipleTenantConfigureOptions == FurMultipleTenantOptions.OnTable)
             {
                 _multipleTenantOnTableProvider = lifetimeScope.Resolve<IMultipleTenantOnTableProvider>();
             }

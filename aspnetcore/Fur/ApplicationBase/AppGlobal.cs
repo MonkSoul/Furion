@@ -45,7 +45,7 @@ namespace Fur.ApplicationBase
         /// <summary>
         /// 多租户配置选项
         /// </summary>
-        public static FurMultipleTenantConfigureOptions MultipleTenantConfigureOptions { get; internal set; } = FurMultipleTenantConfigureOptions.None;
+        public static FurMultipleTenantOptions MultipleTenantConfigureOptions { get; internal set; } = FurMultipleTenantOptions.None;
 
         /// <summary>
         /// 是否支持多租户

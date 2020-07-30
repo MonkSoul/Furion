@@ -93,7 +93,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
             // 注册基于Schema架构的多租户模式
 
             IMultipleTenantOnSchemaProvider multipleTenantOnSchemaProvider = default;
-            if (AppGlobal.SupportedMultipleTenant && dbContextLocatorType != typeof(FurMultipleTenanDbContextLocator) && AppGlobal.MultipleTenantConfigureOptions == FurMultipleTenantConfigureOptions.OnSchema)
+            if (AppGlobal.SupportedMultipleTenant && dbContextLocatorType != typeof(FurMultipleTenanDbContextLocator) && AppGlobal.MultipleTenantConfigureOptions == FurMultipleTenantOptions.OnSchema)
             {
                 var lifetimeScope = dbContext.GetService<ILifetimeScope>();
                 multipleTenantOnSchemaProvider = lifetimeScope.Resolve<IMultipleTenantOnSchemaProvider>();

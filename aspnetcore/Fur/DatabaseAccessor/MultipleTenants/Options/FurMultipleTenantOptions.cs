@@ -3,7 +3,7 @@
     /// <summary>
     /// 多租户配置选项
     /// </summary>
-    public enum FurMultipleTenantConfigureOptions
+    public enum FurMultipleTenantOptions
     {
         /// <summary>
         /// 默认选项

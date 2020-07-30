@@ -10,12 +10,12 @@ namespace Fur.DatabaseAccessor.Contexts.Options
     /// 数据库上下文配置选项
     /// </summary>
     [NonWrapper]
-    public sealed class FurDbContextConfigureOptions
+    public sealed class FurDbContextOptions
     {
         /// <summary>
-        /// 多租户配置选项
+        /// 实现多租户类型
         /// </summary>
-        internal FurMultipleTenantConfigureOptions MultipleTenantConfigureOptions { get; private set; } = FurMultipleTenantConfigureOptions.None;
+        internal FurMultipleTenantOptions MultipleTenantOptions { get; private set; } = FurMultipleTenantOptions.None;
 
         /// <summary>
         /// 多租户提供器
@@ -29,16 +29,28 @@ namespace Fur.DatabaseAccessor.Contexts.Options
 
         /// <summary>
         /// 是否支持切面上下文
-        /// <para>默认true：支持</para>
         /// </summary>
+        /// <remarks>
+        /// <para>默认true：支持</para>
+        /// </remarks>
         public bool SupportedTangent { get; set; } = true;
+
+        /// <summary>
+        /// 支持多数据库上下文
+        /// </summary>
+        public bool SupportedMultipleDbContext { get; set; } = true;
+
+        /// <summary>
+        /// 支持主从库数据库上下文
+        /// </summary>
+        public bool SupportedMasterSlaveDbContext { get; set; } = true;
 
         /// <summary>
         /// 配置多租户
         /// </summary>
         /// <typeparam name="TMultipleTenantDbContext">多租户数据库上下文</typeparam>
         /// <typeparam name="TMultipleTenantProvider">多租户提供器</typeparam>
-        public void AddMultipleTenantConfigure<TMultipleTenantDbContext, TMultipleTenantProvider>()
+        public void EnabledMultipleTenant<TMultipleTenantDbContext, TMultipleTenantProvider>()
             where TMultipleTenantDbContext : DbContext
             where TMultipleTenantProvider : IMultipleTenantProvider
         {
@@ -50,32 +62,23 @@ namespace Fur.DatabaseAccessor.Contexts.Options
             this.MultipleTenantProvider = multipleTenantProvider;
             this.MultipleTenantDbContext = typeof(TMultipleTenantDbContext);
 
-            // 注册基于表的多租户实现提供器
+            // 基于表的多租户实现提供器
             if (typeof(IMultipleTenantOnTableProvider).IsAssignableFrom(multipleTenantProvider))
             {
-                this.MultipleTenantConfigureOptions = FurMultipleTenantConfigureOptions.OnTable;
+                this.MultipleTenantOptions = FurMultipleTenantOptions.OnTable;
             }
-            // 注册基于架构的多租户实现提供器
+            // 基于架构的多租户实现提供器
             else if (typeof(IMultipleTenantOnSchemaProvider).IsAssignableFrom(multipleTenantProvider))
             {
-                this.MultipleTenantConfigureOptions = FurMultipleTenantConfigureOptions.OnSchema;
+                this.MultipleTenantOptions = FurMultipleTenantOptions.OnSchema;
             }
-            // 注册基于数据库的多租户实现提供器
+            // 基于数据库的多租户实现提供器
             else if (typeof(IMultipleTenantOnDatabaseProvider).IsAssignableFrom(multipleTenantProvider))
             {
-                this.MultipleTenantConfigureOptions = FurMultipleTenantConfigureOptions.OnDatabase;
+                this.MultipleTenantOptions = FurMultipleTenantOptions.OnDatabase;
             }
-            else throw new NotSupportedException($"{multipleTenantProvider}");
+            else
+                throw new NotSupportedException($"{multipleTenantProvider}");
         }
-
-        /// <summary>
-        /// 支持多数据库上下文
-        /// </summary>
-        public bool SupportedMultipleDbContext { get; set; } = true;
-
-        /// <summary>
-        /// 支持主从库数据库上下文
-        /// </summary>
-        public bool SupportedMasterSlaveDbContext { get; set; } = true;
     }
 }
