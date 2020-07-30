@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Fur.DependencyInjection.Extensions;
 using Fur.FriendlyException.Attributes;
 using Fur.TypeExtensions;
 using Fur.UnifyResult.Providers;
@@ -121,10 +122,9 @@ namespace Fur.FriendlyException.Filters
         private Dictionary<int, string> LoadExceptionCodes(string defaultExceptionMsg)
         {
             var exceptionCodes = new Dictionary<int, string>();
-            if (_lifetimeScope.IsRegistered<IExceptionCodesProvider>())
+            _exceptionCodesProvider = _lifetimeScope.GetService<IExceptionCodesProvider>();
+            if (_exceptionCodesProvider != null)
             {
-                _exceptionCodesProvider = _lifetimeScope.Resolve<IExceptionCodesProvider>();
-
                 var exceptionCodesType = _exceptionCodesProvider.ExceptionCodesType();
                 var isExistsKey = _memoryCache.TryGetValue(exceptionCodesType.FullName, out object codes);
 

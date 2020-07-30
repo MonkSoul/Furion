@@ -6,6 +6,7 @@ using Fur.DatabaseAccessor.MultipleTenants.Options;
 using Fur.DatabaseAccessor.MultipleTenants.Providers;
 using Fur.DatabaseAccessor.Repositories.Interceptors;
 using Fur.DatabaseAccessor.Repositories.Providers;
+using Fur.DependencyInjection.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
@@ -58,14 +59,8 @@ namespace Fur.DatabaseAccessor.Repositories
                 _multipleTenantOnTableProvider = lifetimeScope.Resolve<IMultipleTenantOnTableProvider>();
             }
 
-            if (lifetimeScope.IsRegistered<IDbEntityInterceptor>())
-            {
-                _maintenanceInterceptor = lifetimeScope.Resolve<IDbEntityInterceptor>();
-            }
-            if (lifetimeScope.IsRegistered<IFakeDeleteProvider>())
-            {
-                _fakeDeleteProvider = lifetimeScope.Resolve<IFakeDeleteProvider>();
-            }
+            _maintenanceInterceptor = lifetimeScope.GetService<IDbEntityInterceptor>();
+            _fakeDeleteProvider = lifetimeScope.GetService<IFakeDeleteProvider>();
         }
 
         /// <summary>
