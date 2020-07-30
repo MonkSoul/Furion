@@ -19,8 +19,10 @@ namespace Fur.SwaggerDoc.Extensions.Services
         {
             services.AddSwaggerGen(options => SwaggerDocConfigure.Initialize(options));
 
-            if (AppGlobal.GlobalSettings.FurSwaggerDocOptions.EnableMiniProfiler)
+            if (AppGlobal.FurOptions.FurSwaggerDocOptions.EnableMiniProfiler)
             {
+                AppGlobal.SupportedMiniProfiler = true;
+
                 services.AddMiniProfiler(options =>
                 {
                     options.RouteBasePath = "/fur-swagger-profiler";

@@ -40,7 +40,7 @@ namespace Fur.ApplicationBase
         /// <summary>
         /// Fur 框架配置选项
         /// </summary>
-        public static FurOptions GlobalSettings = null;
+        public static FurOptions FurOptions = null;
 
         /// <summary>
         /// 多租户配置选项
@@ -51,6 +51,11 @@ namespace Fur.ApplicationBase
         /// 是否支持多租户
         /// </summary>
         public static bool SupportedMultipleTenant { get; internal set; } = false;
+
+        /// <summary>
+        /// 是否支持性能分析
+        /// </summary>
+        public static bool SupportedMiniProfiler { get; internal set; } = false;
 
         /// <summary>
         /// 静态构造函数

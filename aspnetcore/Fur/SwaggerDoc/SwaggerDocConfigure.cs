@@ -20,7 +20,7 @@ namespace Fur.SwaggerDoc
     {
         static SwaggerDocConfigure()
         {
-            swaggerOptions = AppGlobal.GlobalSettings.FurSwaggerDocOptions;
+            swaggerOptions = AppGlobal.FurOptions.FurSwaggerDocOptions;
         }
 
         /// <summary>

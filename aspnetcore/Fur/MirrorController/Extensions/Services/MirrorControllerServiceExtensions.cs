@@ -29,7 +29,7 @@ namespace Fur.MirrorController.Extensions.Services
             partManager.FeatureProviders.Add(new MirrorControllerFeatureProvider());
             services.Configure<MvcOptions>(options =>
             {
-                options.Conventions.Add(new MirrorControllerModelConvention(AppGlobal.GlobalSettings.FurMirrorControllerOptions));
+                options.Conventions.Add(new MirrorControllerModelConvention(AppGlobal.FurOptions.FurMirrorControllerOptions));
             });
 
             return services;

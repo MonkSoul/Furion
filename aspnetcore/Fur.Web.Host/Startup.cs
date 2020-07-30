@@ -40,7 +40,7 @@ namespace Fur.Web.Host
             // ◊∞≈‰»´æ÷≈‰÷√
             var globalSettings = Configuration.GetSection($"{nameof(FurOptions)}");
             services.AddOptions<FurOptions>().Bind(globalSettings).ValidateDataAnnotations();
-            AppGlobal.GlobalSettings = globalSettings.Get<FurOptions>();
+            AppGlobal.FurOptions = globalSettings.Get<FurOptions>();
 
             services.AddAuthentication(x =>
             {

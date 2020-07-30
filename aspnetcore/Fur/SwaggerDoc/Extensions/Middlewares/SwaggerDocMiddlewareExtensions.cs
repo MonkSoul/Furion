@@ -15,7 +15,7 @@ namespace Fur.SwaggerDoc.Extensions.Middlewares
         /// <returns>新的应用构建器</returns>
         public static IApplicationBuilder AddFurSwaggerUI(this IApplicationBuilder app)
         {
-            if (AppGlobal.GlobalSettings.FurSwaggerDocOptions.EnableMiniProfiler)
+            if (AppGlobal.FurOptions.FurSwaggerDocOptions.EnableMiniProfiler)
             {
                 //app.UseMiniProfiler();
             }
