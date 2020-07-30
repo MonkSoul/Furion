@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Fur.ApplicationBase;
+using Fur.AppBasic;
 using System.Linq;
 
 namespace Fur.DependencyInjection
@@ -14,6 +14,6 @@ namespace Fur.DependencyInjection
         /// </summary>
         /// <param name="builder">容器构建器</param>
         public static void Initialize(ContainerBuilder builder)
-            => builder.RegisterAssemblyModules(AppGlobal.Application.AssemblyWrappers.Select(a => a.Assembly).ToArray());
+            => builder.RegisterAssemblyModules(App.Application.AssemblyWrappers.Select(a => a.Assembly).ToArray());
     }
 }

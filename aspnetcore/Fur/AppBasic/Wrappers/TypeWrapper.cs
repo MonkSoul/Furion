@@ -1,9 +1,9 @@
-﻿using Fur.ApplicationBase.Attributes;
+﻿using Fur.AppBasic.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Fur.ApplicationBase.Wrappers
+namespace Fur.AppBasic.Wrappers
 {
     /// <summary>
     /// 类型包装类
@@ -29,7 +29,7 @@ namespace Fur.ApplicationBase.Wrappers
         public bool IsGenericType { get; set; }
 
         /// <summary>
-        /// 是否是控制器类型。参见：<see cref="Fur.ApplicationBase.AppGlobal.IsControllerActionType(MethodInfo)"/>
+        /// 是否是控制器类型。参见：<see cref="Fur.AppBasic.AppGlobal.IsControllerActionType(MethodInfo)"/>
         /// </summary>
         public bool IsControllerType { get; set; }
 

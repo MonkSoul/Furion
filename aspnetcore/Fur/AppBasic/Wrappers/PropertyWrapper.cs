@@ -1,17 +1,17 @@
-﻿using Fur.ApplicationBase.Attributes;
+﻿using Fur.AppBasic.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Fur.ApplicationBase.Wrappers
+namespace Fur.AppBasic.Wrappers
 {
     /// <summary>
-    /// 方法参数包装类
+    /// 属性包装器
     /// <code>sealed</code>
-    /// <para>主要用来装载解决方案项目中方法参数常用属性及附加属性， 避免重复反射读取</para>
+    /// <para>主要用来装载解决方案项目中类型属性常用属性及附加属性， 避免重复反射读取</para>
     /// </summary>
     [NonWrapper]
-    public sealed class ParameterWrapper
+    public sealed class PropertyWrapper
     {
         /// <summary>
         /// 所在程序集
@@ -24,22 +24,12 @@ namespace Fur.ApplicationBase.Wrappers
         public Type ThisDeclareType { get; set; }
 
         /// <summary>
-        /// 所在方法
-        /// </summary>
-        public MethodInfo ThisMethod { get; set; }
-
-        /// <summary>
-        /// 参数类型
-        /// </summary>
-        public ParameterInfo Parameter { get; set; }
-
-        /// <summary>
-        /// 参数名称
+        /// 方法名称
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// 参数类型
+        /// 属性类型
         /// </summary>
         public Type Type { get; set; }
 

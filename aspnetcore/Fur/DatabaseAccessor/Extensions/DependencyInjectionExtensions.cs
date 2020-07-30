@@ -1,6 +1,6 @@
 ﻿using Autofac;
-using Fur.ApplicationBase;
-using Fur.ApplicationBase.Attributes;
+using Fur.AppBasic;
+using Fur.AppBasic.Attributes;
 using Fur.DatabaseAccessor.Contexts.Options;
 using Fur.DatabaseAccessor.Contexts.Pools;
 using Fur.DatabaseAccessor.MultipleTenants.Options;
@@ -58,11 +58,11 @@ namespace Fur.DatabaseAccessor.Extensions
             // 注册多租户
             if (furDbContextOptions.MultipleTenantProvider != null)
             {
-                var multipleTenantConfigureOptions = furDbContextOptions.MultipleTenantOptions;
+                var multipleTenantOptions = furDbContextOptions.MultipleTenantOptions;
 
                 // 记录租户注册状态
-                AppGlobal.MultipleTenantConfigureOptions = multipleTenantConfigureOptions;
-                AppGlobal.SupportedMultipleTenant = multipleTenantConfigureOptions != FurMultipleTenantOptions.None;
+                App.MultipleTenantOptions = multipleTenantOptions;
+                App.SupportedMultipleTenant = multipleTenantOptions != FurMultipleTenantOptions.None;
 
                 // 注册多租户数据库上下文
                 dbContextTypeList.Add(furDbContextOptions.MultipleTenantDbContext);

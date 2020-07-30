@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Fur.ApplicationBase.Attributes
+namespace Fur.AppBasic.Attributes
 {
     /// <summary>
     /// 禁止应用启动时被包装

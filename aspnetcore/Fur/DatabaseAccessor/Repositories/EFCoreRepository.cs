@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Fur.ApplicationBase;
+using Fur.AppBasic;
 using Fur.DatabaseAccessor.Contexts.Pools;
 using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.MultipleTenants.Options;
@@ -54,7 +54,7 @@ namespace Fur.DatabaseAccessor.Repositories
             Entities = DbContext.Set<TEntity>();
             _dbContextPool.SaveDbContext(DbContext);
 
-            if (AppGlobal.SupportedMultipleTenant && AppGlobal.MultipleTenantConfigureOptions == FurMultipleTenantOptions.OnTable)
+            if (App.SupportedMultipleTenant && App.MultipleTenantOptions == FurMultipleTenantOptions.OnTable)
             {
                 _multipleTenantOnTableProvider = lifetimeScope.Resolve<IMultipleTenantOnTableProvider>();
             }

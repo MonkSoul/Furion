@@ -1,4 +1,4 @@
-﻿using Fur.ApplicationBase.Attributes;
+﻿using Fur.AppBasic.Attributes;
 using Fur.DatabaseAccessor.Contexts.Locators;
 using Fur.DatabaseAccessor.Contexts.Staters;
 using Microsoft.EntityFrameworkCore;

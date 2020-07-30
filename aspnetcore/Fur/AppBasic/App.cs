@@ -1,6 +1,6 @@
-﻿using Fur.ApplicationBase.Attributes;
-using Fur.ApplicationBase.Options;
-using Fur.ApplicationBase.Wrappers;
+﻿using Fur.AppBasic.Attributes;
+using Fur.AppBasic.Options;
+using Fur.AppBasic.Wrappers;
 using Fur.DatabaseAccessor.MultipleTenants.Options;
 using Fur.Linq.Extensions;
 using Fur.MirrorController.Attributes;
@@ -14,7 +14,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 
-namespace Fur.ApplicationBase
+namespace Fur.AppBasic
 {
     /// <summary>
     /// 应用核心类
@@ -30,7 +30,7 @@ namespace Fur.ApplicationBase
     /// </list>
     /// </summary>
     [NonWrapper]
-    public static class AppGlobal
+    public static class App
     {
         /// <summary>
         /// 应用包装器
@@ -45,7 +45,7 @@ namespace Fur.ApplicationBase
         /// <summary>
         /// 多租户配置选项
         /// </summary>
-        public static FurMultipleTenantOptions MultipleTenantConfigureOptions { get; internal set; } = FurMultipleTenantOptions.None;
+        public static FurMultipleTenantOptions MultipleTenantOptions { get; internal set; } = FurMultipleTenantOptions.None;
 
         /// <summary>
         /// 是否支持多租户
@@ -60,7 +60,7 @@ namespace Fur.ApplicationBase
         /// <summary>
         /// 静态构造函数
         /// </summary>
-        static AppGlobal()
+        static App()
         {
             Application ??= GetApplicationWrappers();
         }

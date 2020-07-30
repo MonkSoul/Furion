@@ -1,6 +1,6 @@
 using Autofac;
-using Fur.ApplicationBase;
-using Fur.ApplicationBase.Options;
+using Fur.AppBasic;
+using Fur.AppBasic.Options;
 using Fur.DependencyInjection;
 using Fur.EntityFramework.Core.Extensions;
 using Fur.FriendlyException.Filters;
@@ -40,7 +40,7 @@ namespace Fur.Web.Host
             // ◊∞≈‰»´æ÷≈‰÷√
             var globalSettings = Configuration.GetSection($"{nameof(FurOptions)}");
             services.AddOptions<FurOptions>().Bind(globalSettings).ValidateDataAnnotations();
-            AppGlobal.FurOptions = globalSettings.Get<FurOptions>();
+            App.FurOptions = globalSettings.Get<FurOptions>();
 
             services.AddAuthentication(x =>
             {

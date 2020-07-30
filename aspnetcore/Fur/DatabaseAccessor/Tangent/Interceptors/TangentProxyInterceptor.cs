@@ -1,5 +1,5 @@
 ﻿using Castle.DynamicProxy;
-using Fur.ApplicationBase.Attributes;
+using Fur.AppBasic.Attributes;
 
 namespace Fur.DatabaseAccessor.Tangent.Interceptors
 {

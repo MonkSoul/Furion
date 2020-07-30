@@ -1,7 +1,7 @@
-﻿using Fur.ApplicationBase.Attributes;
+﻿using Fur.AppBasic.Attributes;
 using System.Collections.Generic;
 
-namespace Fur.ApplicationBase.Wrappers
+namespace Fur.AppBasic.Wrappers
 {
     /// <summary>
     /// 应用包装类

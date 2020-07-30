@@ -1,8 +1,8 @@
-﻿using Fur.ApplicationBase.Attributes;
+﻿using Fur.AppBasic.Attributes;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Fur.ApplicationBase.Wrappers
+namespace Fur.AppBasic.Wrappers
 {
     /// <summary>
     /// 程序集包装类
@@ -30,13 +30,13 @@ namespace Fur.ApplicationBase.Wrappers
         /// 程序集完整名称
         /// <example>
         /// <para>例如：</para>
-        /// <code>Fur.ApplicationBase.Wrappers.AssemblyWrapper</code>
+        /// <code>Fur.AppBasic.Wrappers.AssemblyWrapper</code>
         /// </example>
         /// </summary>
         public string FullName { get; set; }
 
         /// <summary>
-        /// 当前程序集下所有的公开类型包装类集合。参见：<see cref="Fur.ApplicationBase.Wrappers.TypeWrapper"/>
+        /// 当前程序集下所有的公开类型包装类集合。参见：<see cref="Fur.AppBasic.Wrappers.TypeWrapper"/>
         /// <para>包含：</para>
         /// <list type="bullet">
         /// <item>
@@ -46,7 +46,7 @@ namespace Fur.ApplicationBase.Wrappers
         /// <para>不包含：</para>
         /// <list type="bullet">
         /// <item>
-        /// <description>接口类、贴有 [<see cref="Fur.ApplicationBase.Attributes.NonWrapperAttribute"/>] 特性的类型。参见：<see cref="Fur.ApplicationBase.Attributes.NonWrapperAttribute"/></description>
+        /// <description>接口类、贴有 [<see cref="Fur.AppBasic.Attributes.NonWrapperAttribute"/>] 特性的类型。参见：<see cref="Fur.AppBasic.Attributes.NonWrapperAttribute"/></description>
         /// </item>
         /// </list>
         /// </summary>

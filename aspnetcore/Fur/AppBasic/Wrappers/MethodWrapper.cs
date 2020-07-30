@@ -1,9 +1,9 @@
-﻿using Fur.ApplicationBase.Attributes;
+﻿using Fur.AppBasic.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Fur.ApplicationBase.Wrappers
+namespace Fur.AppBasic.Wrappers
 {
     /// <summary>
     /// 方法包装类
@@ -39,7 +39,7 @@ namespace Fur.ApplicationBase.Wrappers
         public Type ReturnType { get; set; }
 
         /// <summary>
-        /// 是否是控制器Action类型。参见：<see cref="Fur.ApplicationBase.AppGlobal.IsControllerActionType(MethodInfo)"/>
+        /// 是否是控制器Action类型。参见：<see cref="Fur.AppBasic.AppGlobal.IsControllerActionType(MethodInfo)"/>
         /// </summary>
         public bool IsControllerActionType { get; set; }
 

@@ -1,7 +1,7 @@
 ﻿using Autofac;
-using Fur.ApplicationBase;
-using Fur.ApplicationBase.Attributes;
-using Fur.ApplicationBase.Wrappers;
+using Fur.AppBasic;
+using Fur.AppBasic.Attributes;
+using Fur.AppBasic.Wrappers;
 using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.Entities.Configurations;
 using Fur.DatabaseAccessor.Extensions;
@@ -60,7 +60,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
             var hasDbContextQueryFilter = typeof(IDbContextQueryFilter).IsAssignableFrom(dbContextType);
 
             // 注册基于Schema架构的多租户模式
-            if (AppGlobal.SupportedMultipleTenant && AppGlobal.MultipleTenantConfigureOptions == FurMultipleTenantOptions.OnSchema && dbContextLocatorType != typeof(FurMultipleTenanDbContextLocator))
+            if (App.SupportedMultipleTenant && App.MultipleTenantOptions == FurMultipleTenantOptions.OnSchema && dbContextLocatorType != typeof(FurMultipleTenanDbContextLocator))
             {
                 _multipleTenantOnSchemaProvider = dbContext
                     .GetService<ILifetimeScope>()
@@ -228,7 +228,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
             // 忽略租户Id
             if (isSetEntityType)
             {
-                if (!AppGlobal.SupportedMultipleTenant)
+                if (!App.SupportedMultipleTenant)
                 {
                     entityTypeBuilder.Ignore(nameof(DbEntityBase.TenantId));
                 }
@@ -262,7 +262,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         private static bool IsThisDbContextEntityType(Type dbEntityType)
         {
             // 判断是否启用多租户，如果不启用，则默认不解析 Tenant 类型，返回 false
-            if (!AppGlobal.SupportedMultipleTenant)
+            if (!App.SupportedMultipleTenant)
             {
                 if (dbEntityType == typeof(Tenant)) return false;
                 var typeGenericArguments = dbEntityType.GetTypeGenericArguments(typeof(IDbEntityConfigure), GenericArgumentSourceOptions.Interface);
@@ -397,7 +397,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// </summary>
         static FurDbContextStater()
         {
-            var application = AppGlobal.Application;
+            var application = App.Application;
 
             _dbEntityRelevanceTypes ??= application.PublicClassTypeWrappers
                 .Where(u => u.CanBeNew && (typeof(IDbEntityBase).IsAssignableFrom(u.Type) || typeof(IDbEntityConfigure).IsAssignableFrom(u.Type)))

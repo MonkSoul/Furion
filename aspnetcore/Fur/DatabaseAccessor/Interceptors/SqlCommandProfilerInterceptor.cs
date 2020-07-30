@@ -1,4 +1,4 @@
-﻿using Fur.ApplicationBase.Attributes;
+﻿using Fur.AppBasic.Attributes;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Fur.DatabaseAccessor.Interceptors

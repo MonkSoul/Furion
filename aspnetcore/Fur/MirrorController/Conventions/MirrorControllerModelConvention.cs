@@ -1,4 +1,4 @@
-﻿using Fur.ApplicationBase;
+﻿using Fur.AppBasic;
 using Fur.Linq.Extensions;
 using Fur.MirrorController.Attributes;
 using Fur.MirrorController.Helpers;
@@ -21,7 +21,7 @@ namespace Fur.MirrorController.Conventions
 
         public MirrorControllerModelConvention()
         {
-            _attactControllerOptions = AppGlobal.FurOptions.FurMirrorControllerOptions;
+            _attactControllerOptions = App.FurOptions.FurMirrorControllerOptions;
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Fur.MirrorController.Conventions
         /// <param name="controllerTypeInfo">控制器类型</param>
         private void ConfigureController(ControllerModel controllerModel, TypeInfo controllerTypeInfo)
         {
-            var attactControllerAttribute = AppGlobal.GetPublicClassTypeCustomAttribute<MirrorControllerAttribute>(controllerTypeInfo.AsType());
+            var attactControllerAttribute = App.GetPublicClassTypeCustomAttribute<MirrorControllerAttribute>(controllerTypeInfo.AsType());
 
             ConfigureAreaName(controllerModel, attactControllerAttribute);
             ConfigureControllerName(controllerModel);
@@ -117,7 +117,7 @@ namespace Fur.MirrorController.Conventions
         {
             foreach (var actionModel in controllerModel.Actions)
             {
-                var attachActionAttribute = AppGlobal.GetPublicMethodCustomAttribute<MirrorActionAttribute>(actionModel.ActionMethod);
+                var attachActionAttribute = App.GetPublicMethodCustomAttribute<MirrorActionAttribute>(actionModel.ActionMethod);
 
                 ConfigureActionApiExplorerAndParameters(actionModel);
                 ConfigureActionName(actionModel, attachActionAttribute);
@@ -256,7 +256,7 @@ namespace Fur.MirrorController.Conventions
             var parameterNames = string.Empty;
             var apiVersion = string.Empty;
             // 读取参数信息
-            var parameters = AppGlobal.Application.PublicMethodWrappers.FirstOrDefault(u => u.Method == actionModel.ActionMethod).Parameters;
+            var parameters = App.Application.PublicMethodWrappers.FirstOrDefault(u => u.Method == actionModel.ActionMethod).Parameters;
             var i = 0;
             foreach (var parameterInfo in parameters)
             {

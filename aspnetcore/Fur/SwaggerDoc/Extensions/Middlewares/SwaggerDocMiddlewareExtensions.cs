@@ -1,4 +1,4 @@
-﻿using Fur.ApplicationBase;
+﻿using Fur.AppBasic;
 using Microsoft.AspNetCore.Builder;
 
 namespace Fur.SwaggerDoc.Extensions.Middlewares
@@ -15,7 +15,7 @@ namespace Fur.SwaggerDoc.Extensions.Middlewares
         /// <returns>新的应用构建器</returns>
         public static IApplicationBuilder AddFurSwaggerUI(this IApplicationBuilder app)
         {
-            if (AppGlobal.FurOptions.FurSwaggerDocOptions.EnableMiniProfiler)
+            if (App.FurOptions.FurSwaggerDocOptions.EnableMiniProfiler)
             {
                 //app.UseMiniProfiler();
             }

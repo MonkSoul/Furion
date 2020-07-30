@@ -1,8 +1,8 @@
-﻿using Fur.ApplicationBase.Attributes;
+﻿using Fur.AppBasic.Attributes;
 using Fur.MirrorController.Options;
 using Fur.SwaggerDoc.Options;
 
-namespace Fur.ApplicationBase.Options
+namespace Fur.AppBasic.Options
 {
     /// <summary>
     /// 全局配置总选项

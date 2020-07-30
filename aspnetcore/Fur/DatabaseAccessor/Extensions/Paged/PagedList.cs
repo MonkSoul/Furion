@@ -1,4 +1,4 @@
-﻿using Fur.ApplicationBase.Attributes;
+﻿using Fur.AppBasic.Attributes;
 using System.Collections.Generic;
 
 namespace Fur.DatabaseAccessor.Extensions.Paged

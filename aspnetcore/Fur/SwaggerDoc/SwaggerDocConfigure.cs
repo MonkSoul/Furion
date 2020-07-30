@@ -1,4 +1,4 @@
-﻿using Fur.ApplicationBase;
+﻿using Fur.AppBasic;
 using Fur.SwaggerDoc.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -20,7 +20,7 @@ namespace Fur.SwaggerDoc
     {
         static SwaggerDocConfigure()
         {
-            swaggerOptions = AppGlobal.FurOptions.FurSwaggerDocOptions;
+            swaggerOptions = App.FurOptions.FurSwaggerDocOptions;
         }
 
         /// <summary>
@@ -58,8 +58,8 @@ namespace Fur.SwaggerDoc
         /// <returns>分组名</returns>
         private static string[] ScanAssemblyGroups()
         {
-            var controllerTypes = AppGlobal.Application.PublicClassTypeWrappers.Where(u => u.IsControllerType);
-            var controllerActionTypes = AppGlobal.Application.PublicMethodWrappers.Where(u => u.IsControllerActionType);
+            var controllerTypes = App.Application.PublicClassTypeWrappers.Where(u => u.IsControllerType);
+            var controllerActionTypes = App.Application.PublicMethodWrappers.Where(u => u.IsControllerActionType);
 
             var swaggerGroups = controllerTypes
                     .Where(u => u.SwaggerGroups != null)
@@ -148,7 +148,7 @@ namespace Fur.SwaggerDoc
         private static bool SwaggerGroupSwitchPredicate(string currentGroup, ApiDescription apiDescription)
         {
             if (!apiDescription.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
-            var methodSwaggerGroups = AppGlobal.GetMethodWrapper(methodInfo).SwaggerGroups;
+            var methodSwaggerGroups = App.GetMethodWrapper(methodInfo).SwaggerGroups;
 
             return methodSwaggerGroups.Contains(currentGroup);
         }

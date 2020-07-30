@@ -1,5 +1,4 @@
-﻿using Fur.ApplicationBase;
-using Microsoft.Extensions.Configuration;
+﻿using Fur.AppBasic;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Fur.SwaggerDoc.Extensions.Services
@@ -19,9 +18,9 @@ namespace Fur.SwaggerDoc.Extensions.Services
         {
             services.AddSwaggerGen(options => SwaggerDocConfigure.Initialize(options));
 
-            if (AppGlobal.FurOptions.FurSwaggerDocOptions.EnableMiniProfiler)
+            if (App.FurOptions.FurSwaggerDocOptions.EnableMiniProfiler)
             {
-                AppGlobal.SupportedMiniProfiler = true;
+                App.SupportedMiniProfiler = true;
 
                 services.AddMiniProfiler(options =>
                 {
