@@ -1,4 +1,4 @@
-﻿using Fur.DatabaseAccessor.Models.Entities;
+﻿using Fur.DatabaseAccessor.Entities;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Linq.Expressions;

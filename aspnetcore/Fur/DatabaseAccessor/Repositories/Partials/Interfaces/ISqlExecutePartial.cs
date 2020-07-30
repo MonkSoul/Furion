@@ -1,4 +1,4 @@
-﻿using Fur.DatabaseAccessor.Models.Entities;
+﻿using Fur.DatabaseAccessor.Entities;
 using System.Threading.Tasks;
 
 namespace Fur.DatabaseAccessor.Repositories

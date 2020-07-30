@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Fur.DatabaseAccessor.Contexts.Locators;
-using Fur.DatabaseAccessor.Models.Entities;
+using Fur.DatabaseAccessor.Entities;
 
 namespace Fur.DatabaseAccessor.Repositories.MasterSlave
 {

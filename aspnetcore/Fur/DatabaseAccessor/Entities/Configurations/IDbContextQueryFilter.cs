@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
-namespace Fur.DatabaseAccessor.Models.QueryFilters
+namespace Fur.DatabaseAccessor.Entities.Configurations
 {
     /// <summary>
     /// 数据库上下文查询筛选器

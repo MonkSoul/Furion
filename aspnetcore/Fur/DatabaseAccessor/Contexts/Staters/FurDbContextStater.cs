@@ -2,11 +2,9 @@
 using Fur.ApplicationBase;
 using Fur.ApplicationBase.Attributes;
 using Fur.ApplicationBase.Wrappers;
+using Fur.DatabaseAccessor.Entities;
+using Fur.DatabaseAccessor.Entities.Configurations;
 using Fur.DatabaseAccessor.Extensions;
-using Fur.DatabaseAccessor.Models.Entities;
-using Fur.DatabaseAccessor.Models.EntityTypeBuilders;
-using Fur.DatabaseAccessor.Models.QueryFilters;
-using Fur.DatabaseAccessor.Models.SeedDatas;
 using Fur.DatabaseAccessor.MultipleTenants;
 using Fur.DatabaseAccessor.MultipleTenants.Entities;
 using Fur.DatabaseAccessor.MultipleTenants.Options;

@@ -1,4 +1,4 @@
-﻿namespace Fur.DatabaseAccessor.Models.Entities
+﻿namespace Fur.DatabaseAccessor.Entities
 {
     /// <summary>
     /// 数据库实体依赖接口

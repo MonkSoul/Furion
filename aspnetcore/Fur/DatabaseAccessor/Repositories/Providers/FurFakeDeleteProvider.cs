@@ -1,4 +1,4 @@
-﻿using Fur.DatabaseAccessor.Models.Entities;
+﻿using Fur.DatabaseAccessor.Entities;
 
 namespace Fur.DatabaseAccessor.Repositories.Providers
 {

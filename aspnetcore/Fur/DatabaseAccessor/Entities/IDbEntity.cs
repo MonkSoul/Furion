@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Fur.DatabaseAccessor.Models.Entities
+namespace Fur.DatabaseAccessor.Entities
 {
     public interface IDbEntity : IDbEntityBase
     {

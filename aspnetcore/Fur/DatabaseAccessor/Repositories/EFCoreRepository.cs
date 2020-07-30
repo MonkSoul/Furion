@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Fur.ApplicationBase;
 using Fur.DatabaseAccessor.Contexts.Pools;
-using Fur.DatabaseAccessor.Models.Entities;
+using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.MultipleTenants.Options;
 using Fur.DatabaseAccessor.MultipleTenants.Providers;
 using Fur.DatabaseAccessor.Repositories.Interceptors;

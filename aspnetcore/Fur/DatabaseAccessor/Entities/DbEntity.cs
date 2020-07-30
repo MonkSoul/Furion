@@ -3,7 +3,7 @@ using Fur.DatabaseAccessor.Contexts.Locators;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Fur.DatabaseAccessor.Models.Entities
+namespace Fur.DatabaseAccessor.Entities
 {
     /// <summary>
     /// 数据库实体抽象类

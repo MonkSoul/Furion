@@ -165,8 +165,9 @@ namespace Fur.ApplicationBase
         {
             var dependencyConext = DependencyContext.Default;
 
+            // 只包含项目程序集或Fur官方发布的Nuget包
             return dependencyConext.CompileLibraries
-                .Where(u => !u.Serviceable && u.Type != "package")
+                .Where(u => !u.Serviceable && u.Name != "Fur.Database.Migrations" && (u.Type != "package" || u.Name.StartsWith(nameof(Fur))))
                 .WhereIf(namespacePrefix.HasValue(), u => u.Name.StartsWith(namespacePrefix))
                 .Select(u => AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(u.Name)));
         }

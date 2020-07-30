@@ -1,5 +1,5 @@
-﻿using Fur.DatabaseAccessor.Extensions.Sql;
-using Fur.DatabaseAccessor.Models.Entities;
+﻿using Fur.DatabaseAccessor.Entities;
+using Fur.DatabaseAccessor.Extensions.Sql;
 using Mapster;
 using System.Data;
 using System.Threading.Tasks;
