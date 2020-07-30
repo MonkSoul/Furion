@@ -19,9 +19,9 @@ namespace Fur.MirrorController.Conventions
     {
         private readonly FurMirrorControllerOptions _attactControllerOptions;
 
-        public MirrorControllerModelConvention(FurMirrorControllerOptions attactControllerOptions)
+        public MirrorControllerModelConvention()
         {
-            _attactControllerOptions = attactControllerOptions;
+            _attactControllerOptions = AppGlobal.FurOptions.FurMirrorControllerOptions;
         }
 
         /// <summary>

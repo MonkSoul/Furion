@@ -62,8 +62,8 @@ namespace Fur.Web.Host
             });
 
             services.AddHttpContextAccessor();
-            services.AddControllers().AddFurMirrorControllers(Configuration);
-            services.AddFurSwaggerGen(Configuration);
+            services.AddControllers().AddFurMirrorControllers();
+            services.AddFurSwaggerGen();
             services.Configure<MvcOptions>(options =>
             {
                 options.Filters.Add<ExceptionAsyncFilter>();

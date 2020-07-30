@@ -42,10 +42,7 @@ namespace Fur.DatabaseAccessor.Extensions
 
             // 载入配置
             var furDbContextOptions = new FurDbContextOptions();
-            if (configureOptions != null)
-            {
-                configureOptions(furDbContextOptions);
-            }
+            configureOptions?.Invoke(furDbContextOptions);
 
             var dbContextTypeList = dbContextTypes.Distinct().ToList();
             dbContextTypeList.Add(typeof(TDefaultDbContext));

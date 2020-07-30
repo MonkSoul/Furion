@@ -15,7 +15,7 @@ namespace Fur.SwaggerDoc.Extensions.Services
         /// <param name="services">服务集合</param>
         /// <param name="configuration">配置选项</param>
         /// <returns>新的服务集合</returns>
-        public static IServiceCollection AddFurSwaggerGen(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddFurSwaggerGen(this IServiceCollection services)
         {
             services.AddSwaggerGen(options => SwaggerDocConfigure.Initialize(options));
 
