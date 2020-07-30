@@ -7,10 +7,11 @@ namespace Fur.DatabaseAccessor.Contexts
 {
     /// <summary>
     /// Fur 数据库上下文
-    /// <para>抽象类，不能实例化</para>
+    /// </summary>
+    /// <remarks>
     /// <para>区别于 EF Core 提供的 <see cref="DbContext"/>，<see cref="FurDbContext{TDbContext, TDbContextLocator}"/> 数据库上下文默认继承 <see cref="DbContext"/>，但在此基础上拓展了租户模式，数据库对象类型自动注册 <see cref="DbSet{TEntity}"/>等功能</para>
     /// <para>建议所有数据库上下文都应继承 <see cref="FurDbContext{TDbContext}"/></para>
-    /// </summary>
+    /// </remarks>
     /// <typeparam name="TDbContext"><see cref="DbContext"/> 衍生类</typeparam>
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
     [NonWrapper]
@@ -29,8 +30,10 @@ namespace Fur.DatabaseAccessor.Contexts
 
         /// <summary>
         /// 数据库上下文初始化调用方法
-        /// <para>通常配置数据库连接字符串，数据库类型等等</para>
         /// </summary>
+        /// <remarks>
+        /// <para>通常配置数据库连接字符串，数据库类型等等</para>
+        /// </remarks>
         /// <param name="optionsBuilder">数据库上下文选项配置构建器，参见：<see cref="DbContextOptionsBuilder"/></param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
