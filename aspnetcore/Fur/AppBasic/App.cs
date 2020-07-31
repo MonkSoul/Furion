@@ -4,6 +4,7 @@ using Fur.AppBasic.Wrappers;
 using Fur.DatabaseAccessor.Attributes;
 using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.Entities.Configurations;
+using Fur.DatabaseAccessor.MultipleTenants.Entities;
 using Fur.DatabaseAccessor.MultipleTenants.Options;
 using Fur.Linq.Extensions;
 using Fur.MirrorController.Attributes;
@@ -212,6 +213,9 @@ namespace Fur.AppBasic
                         IsStaticType = (t.IsAbstract && t.IsSealed),
                         CanBeNew = !t.IsAbstract,
                         IsDbEntityType = !t.IsAbstract && (typeof(IDbEntityBase).IsAssignableFrom(t) || typeof(IDbEntityConfigure).IsAssignableFrom(t)),
+                        IsTenantType = t == typeof(Tenant),
+                        GenericInterfaceArgumentTypes = GetGenericInterfaceArgumentTypes(t),
+                        GenericBaseTypeArgumentTypes = GetGenericBaseTypeArgumentTypes(t),
 
                         // 创建包装属性器
                         PublicPropertis = t.GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
@@ -304,6 +308,29 @@ namespace Fur.AppBasic
             if (attachActionAttribute.SwaggerGroups == null || !attachActionAttribute.SwaggerGroups.Any()) return GetControllerTypeSwaggerGroups(controllerAction.DeclaringType);
 
             return attachActionAttribute.SwaggerGroups;
+        }
+
+        private static Dictionary<Type, Type[]> GetGenericInterfaceArgumentTypes(Type type)
+        {
+            var keyValues = new Dictionary<Type, Type[]>();
+            var interfaces = type.GetInterfaces().Where(u => u.IsGenericType);
+
+            foreach (var inter in interfaces)
+            {
+                keyValues.Add(inter, inter.GetGenericArguments());
+            }
+            return keyValues;
+        }
+
+        private static Dictionary<Type, Type[]> GetGenericBaseTypeArgumentTypes(Type type)
+        {
+            var keyValues = new Dictionary<Type, Type[]>();
+            var baseType = type.BaseType;
+            if (baseType.IsGenericType)
+            {
+                keyValues.Add(baseType, baseType.GetGenericArguments());
+            }
+            return keyValues;
         }
     }
 }

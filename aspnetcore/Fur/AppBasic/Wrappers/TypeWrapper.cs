@@ -57,10 +57,25 @@ namespace Fur.AppBasic.Wrappers
         public bool IsDbEntityType { get; set; }
 
         /// <summary>
+        /// 是否租户类型
+        /// </summary>
+        public bool IsTenantType { get; set; }
+
+        /// <summary>
         /// 泛型类型中的泛型参数
         /// <para>只有 <see cref="IsGenericType"/> = <c>true</c> 有作用</para>
         /// </summary>
         public IEnumerable<Type> GenericArgumentTypes { get; set; }
+
+        /// <summary>
+        /// 泛型接口参数类型
+        /// </summary>
+        public Dictionary<Type, Type[]> GenericInterfaceArgumentTypes { get; set; }
+
+        /// <summary>
+        /// 泛型父类参数类型
+        /// </summary>
+        public Dictionary<Type, Type[]> GenericBaseTypeArgumentTypes { get; set; }
 
         /// <summary>
         /// 当前类型下的所有公开属性包装类集合。参见：<see cref="PropertyWrapper"/>
