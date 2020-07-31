@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Fur.AppBasic.Attributes;
+using System;
 
 namespace Fur.Validation.Attributes
 {
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class), NonWrapper]
     public class NonVaildateAttribute : Attribute
     {
     }

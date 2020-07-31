@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Fur.AppBasic.Attributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace Fur.SwaggerDoc.Options
 {
     /// <summary>
     /// Swagger 文档配置选项
     /// </summary>
+    [NonWrapper]
     public class FurSwaggerDocOptions
     {
         /// <summary>

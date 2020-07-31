@@ -1,8 +1,11 @@
-﻿namespace Fur.SwaggerDoc.Options
+﻿using Fur.AppBasic.Attributes;
+
+namespace Fur.SwaggerDoc.Options
 {
     /// <summary>
     /// Swagger 分组配置选项
     /// </summary>
+    [NonWrapper]
     public class SwaggerDocGroupOptions
     {
         /// <summary>

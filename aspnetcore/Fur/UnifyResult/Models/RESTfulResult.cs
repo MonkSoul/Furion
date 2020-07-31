@@ -1,8 +1,11 @@
-﻿namespace Fur.UnifyResult.Models
+﻿using Fur.AppBasic.Attributes;
+
+namespace Fur.UnifyResult.Models
 {
     /// <summary>
     /// 统一返回值
     /// </summary>
+    [NonWrapper]
     public sealed class RESTfulResult
     {
         /// <summary>

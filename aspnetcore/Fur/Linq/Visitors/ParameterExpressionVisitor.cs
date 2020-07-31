@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Fur.AppBasic.Attributes;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Fur.Linq.Visitors
@@ -6,6 +7,7 @@ namespace Fur.Linq.Visitors
     /// <summary>
     /// 自定义参数表达式访问器
     /// </summary>
+    [NonWrapper]
     internal class ParameterExpressionVisitor : ExpressionVisitor
     {
         /// <summary>

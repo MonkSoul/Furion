@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fur.AppBasic.Attributes;
+using System;
 using System.ComponentModel;
 using System.Reflection;
 
@@ -7,6 +8,7 @@ namespace Fur.TypeExtensions
     /// <summary>
     /// 类型拓展类
     /// </summary>
+    [NonWrapper]
     public static class TypeExtensions
     {
         /// <summary>

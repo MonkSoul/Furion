@@ -1,8 +1,10 @@
-﻿using Fur.ObjectMapper.Helpers;
+﻿using Fur.AppBasic.Attributes;
+using Fur.ObjectMapper.Helpers;
 using Mapster;
 
-namespace Fur.ObjectMapper.Extensions.Adapter
+namespace Fur.ObjectMapper.Extensions
 {
+    [NonWrapper]
     public static class MapsterExtensions
     {
         public static TSetter ConvertUnderlineNamedToCamelCaseNamed<TSetter>(this TSetter setter, bool ignoreCase = true) where TSetter : TypeAdapterSetter

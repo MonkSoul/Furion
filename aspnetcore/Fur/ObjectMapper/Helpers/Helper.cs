@@ -1,8 +1,10 @@
-﻿using System.Text;
+﻿using Fur.AppBasic.Attributes;
+using System.Text;
 using System.Threading;
 
 namespace Fur.ObjectMapper.Helpers
 {
+    [NonWrapper]
     internal class Helper
     {
         internal static string ConvertUnderlineNamedToCamelCaseNamed(string propertyName)

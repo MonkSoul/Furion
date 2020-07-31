@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Fur.AppBasic.Attributes;
+using System;
 using System.Linq.Expressions;
 
 namespace Fur.Linq.Builders
 {
+    [NonWrapper]
     public class LinqBuilderOfEFCore
     {
         /// <summary>

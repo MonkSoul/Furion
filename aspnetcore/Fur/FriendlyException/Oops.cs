@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Fur.AppBasic.Attributes;
+using System;
 
 namespace Fur.FriendlyException
 {
     /// <summary>
     /// 抛异常设置类
     /// </summary>
+    [NonWrapper]
     public static class Oops
     {
         /// <summary>

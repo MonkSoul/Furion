@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Fur.AppBasic.Attributes;
 using Fur.DependencyInjection.Extensions;
 using Fur.FriendlyException.Attributes;
 using Fur.TypeExtensions;
@@ -16,6 +17,7 @@ using System.Threading.Tasks;
 
 namespace Fur.FriendlyException.Filters
 {
+    [NonWrapper]
     public class ExceptionAsyncFilter : IAsyncExceptionFilter
     {
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using Fur.AppBasic;
+using Fur.AppBasic.Attributes;
 using Fur.SwaggerDoc.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -16,6 +17,7 @@ namespace Fur.SwaggerDoc
     /// <summary>
     /// Swagger 配置
     /// </summary>
+    [NonWrapper]
     internal sealed class SwaggerDocConfigure
     {
         static SwaggerDocConfigure()

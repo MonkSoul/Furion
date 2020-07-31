@@ -1,9 +1,11 @@
-﻿using Fur.UnifyResult.Providers;
+﻿using Fur.AppBasic.Attributes;
+using Fur.UnifyResult.Providers;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
 namespace Fur.UnifyResult.Middlewares
 {
+    [NonWrapper]
     public class UnifyStatusCodesResultMiddleware
     {
         private readonly RequestDelegate _next;

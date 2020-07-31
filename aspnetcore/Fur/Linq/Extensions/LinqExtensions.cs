@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fur.AppBasic.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,6 +9,7 @@ namespace Fur.Linq.Extensions
     /// <summary>
     /// Linq/Lambda 拓展类
     /// </summary>
+    [NonWrapper]
     public static class LinqExtensions
     {
         /// <summary>

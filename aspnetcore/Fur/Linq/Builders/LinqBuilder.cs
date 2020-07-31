@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Fur.AppBasic.Attributes;
+using System;
 
 namespace Fur.Linq.Builders
 {
     /// <summary>
     /// Linq/Lambda 构建器
     /// </summary>
+    [NonWrapper]
     public class LinqBuilder
     {
         /// <summary>

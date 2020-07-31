@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Fur.AppBasic;
+using Fur.AppBasic.Attributes;
 using System.Linq;
 
 namespace Fur.DependencyInjection
@@ -7,6 +8,7 @@ namespace Fur.DependencyInjection
     /// <summary>
     /// 依赖注入初始化类
     /// </summary>
+    [NonWrapper]
     public sealed class Injection
     {
         /// <summary>

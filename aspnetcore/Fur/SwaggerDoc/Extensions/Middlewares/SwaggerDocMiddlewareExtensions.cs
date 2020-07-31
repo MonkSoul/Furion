@@ -1,4 +1,5 @@
 ﻿using Fur.AppBasic;
+using Fur.AppBasic.Attributes;
 using Microsoft.AspNetCore.Builder;
 
 namespace Fur.SwaggerDoc.Extensions.Middlewares
@@ -6,6 +7,7 @@ namespace Fur.SwaggerDoc.Extensions.Middlewares
     /// <summary>
     /// Swagger 中间件拓展
     /// </summary>
+    [NonWrapper]
     public static class SwaggerDocMiddlewareExtensions
     {
         /// <summary>

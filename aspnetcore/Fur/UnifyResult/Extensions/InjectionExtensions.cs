@@ -1,11 +1,13 @@
 ﻿using Autofac;
+using Fur.AppBasic.Attributes;
 using Fur.UnifyResult.Providers;
 
-namespace Fur.UnifyResult.Extensions.Injection
+namespace Fur.UnifyResult.Extensions
 {
     /// <summary>
     /// 数据库访问注册拓展类
     /// </summary>
+    [NonWrapper]
     public static class InjectionExtensions
     {
         public static ContainerBuilder RegisterUnifyProvider<TUnifyProvider>(this ContainerBuilder builder)
