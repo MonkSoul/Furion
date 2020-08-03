@@ -24,7 +24,7 @@ namespace Fur.MirrorController.Attributes
         public MirrorActionAttribute(bool enabled)
         {
             Enabled = enabled;
-            base.IgnoreApi = this.IgnoreApi = !enabled;
+            base.IgnoreApi = !enabled;
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Fur.MirrorController.Attributes
         public MirrorActionAttribute(params string[] swaggerGroups)
         {
             SwaggerGroups = swaggerGroups;
-            base.GroupName = this.GroupName = string.Join(Consts.GroupNameSeparator, swaggerGroups);
+            base.GroupName = string.Join(Consts.GroupNameSeparator, swaggerGroups);
         }
 
         /// <summary>
@@ -46,8 +46,8 @@ namespace Fur.MirrorController.Attributes
         {
             Enabled = enabled;
             SwaggerGroups = swaggerGroups;
-            base.IgnoreApi = this.IgnoreApi = !enabled;
-            base.GroupName = this.GroupName = string.Join(Consts.GroupNameSeparator, swaggerGroups);
+            base.IgnoreApi = !enabled;
+            base.GroupName = string.Join(Consts.GroupNameSeparator, swaggerGroups);
         }
 
         /// <summary>
@@ -84,15 +84,5 @@ namespace Fur.MirrorController.Attributes
         /// 接口授权标识名称列表
         /// </summary>
         public string[] AuthorizeTo { get; set; }
-
-        /// <summary>
-        /// 分组名
-        /// </summary>
-        internal new string GroupName { get; set; }
-
-        /// <summary>
-        /// 是否忽略Api
-        /// </summary>
-        internal new bool IgnoreApi { get; set; }
     }
 }

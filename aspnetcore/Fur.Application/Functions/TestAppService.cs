@@ -14,7 +14,7 @@ namespace Fur.Application.Functions
     /// 测试接口
     /// </summary>
     [MirrorController]
-    public class TestAppService : ITestAppService, IMirrorControllerDependency
+    public class TestAppService : ITestAppService, IMirrorController
     {
         private readonly IRepository<Test> _repository;
 

@@ -14,7 +14,7 @@ namespace Fur.MirrorController.Attributes
         /// </summary>
         public MirrorControllerAttribute()
         {
-            base.IgnoreApi = this.IgnoreApi = false;
+            base.IgnoreApi = false;
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Fur.MirrorController.Attributes
         public MirrorControllerAttribute(bool enabled)
         {
             Enabled = enabled;
-            base.IgnoreApi = this.IgnoreApi = !enabled;
+            base.IgnoreApi = !enabled;
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Fur.MirrorController.Attributes
         public MirrorControllerAttribute(params string[] swaggerGroups)
         {
             SwaggerGroups = swaggerGroups;
-            base.GroupName = this.GroupName = string.Join(Consts.GroupNameSeparator, swaggerGroups);
+            base.GroupName = string.Join(Consts.GroupNameSeparator, swaggerGroups);
         }
 
         /// <summary>
@@ -46,8 +46,8 @@ namespace Fur.MirrorController.Attributes
         {
             Enabled = enabled;
             SwaggerGroups = swaggerGroups;
-            base.IgnoreApi = this.IgnoreApi = !enabled;
-            base.GroupName = this.GroupName = string.Join(Consts.GroupNameSeparator, swaggerGroups);
+            base.IgnoreApi = !enabled;
+            base.GroupName = string.Join(Consts.GroupNameSeparator, swaggerGroups);
         }
 
         /// <summary>
