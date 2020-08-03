@@ -437,12 +437,12 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <summary>
         /// 数据库实体状态器
         /// </summary>
-        private static ConcurrentDictionary<Type, DbEntityStater> _dbEntityStaters;
+        private static readonly ConcurrentDictionary<Type, DbEntityStater> _dbEntityStaters;
 
         /// <summary>
         /// 租户类型
         /// </summary>
-        private static Type _tenantType = typeof(Tenant);
+        private static readonly Type _tenantType = typeof(Tenant);
 
         /// <summary>
         /// 构造函数
