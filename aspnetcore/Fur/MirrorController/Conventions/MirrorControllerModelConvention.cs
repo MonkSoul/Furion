@@ -21,7 +21,7 @@ namespace Fur.MirrorController.Conventions
 
         public MirrorControllerModelConvention()
         {
-            _attactControllerOptions = App.FurOptions.FurMirrorControllerOptions;
+            _attactControllerOptions = App.AppOptions.MirrorControllerOptions;
         }
 
         /// <summary>
@@ -61,7 +61,8 @@ namespace Fur.MirrorController.Conventions
         /// <param name="controllerTypeInfo">控制器类型</param>
         private void ConfigureController(ControllerModel controllerModel, TypeInfo controllerTypeInfo)
         {
-            var attactControllerAttribute = App.GetPublicClassTypeCustomAttribute<MirrorControllerAttribute>(controllerTypeInfo.AsType());
+            var attactControllerAttribute =
+                App.Inflations.ClassTypes.FirstOrDefault(u => u.ThisType == controllerTypeInfo.AsType()).CustomAttributes.FirstOrDefault(u => u is MirrorControllerAttribute) as MirrorControllerAttribute;
 
             ConfigureAreaName(controllerModel, attactControllerAttribute);
             ConfigureControllerName(controllerModel);
@@ -117,7 +118,7 @@ namespace Fur.MirrorController.Conventions
         {
             foreach (var actionModel in controllerModel.Actions)
             {
-                var attachActionAttribute = App.GetPublicMethodCustomAttribute<MirrorActionAttribute>(actionModel.ActionMethod);
+                var attachActionAttribute = App.Inflations.Methods.FirstOrDefault(u => u.ThisMethod == actionModel.ActionMethod).CustomAttributes.FirstOrDefault(u => u is MirrorActionAttribute) as MirrorActionAttribute;
 
                 ConfigureActionApiExplorerAndParameters(actionModel);
                 ConfigureActionName(actionModel, attachActionAttribute);

@@ -4,25 +4,33 @@ using System.Collections.Generic;
 namespace Fur.AppCore.Inflations
 {
     /// <summary>
-    /// 应用包装类
-    /// <para>提供常用的程序集、公开类、公开方法属性</para>
+    /// 应用包装器
     /// </summary>
     [NonInflated]
     public sealed class ApplicationInflation
     {
         /// <summary>
-        /// 所有程序集包装类集合
+        /// 应用程序集
         /// </summary>
-        public IEnumerable<AssemblyInflation> AssemblyWrappers { get; internal set; }
+        /// <remarks>
+        /// 排除第三方下载的Nuget Package包但不排除 Fur官方的Nuget Package包
+        /// </remarks>
+        public IEnumerable<AssemblyInflation> Assemblies { get; internal set; }
 
         /// <summary>
-        /// 所有公开类型包装类集合
+        /// 类型集合
         /// </summary>
-        public IEnumerable<TypeInflation> PublicClassTypeWrappers { get; internal set; }
+        /// <remarks>
+        /// <para>不包含：非公开、接口、枚举、或贴有 <see cref="NonInflatedAttribute"/> 特性的类型</para>
+        /// </remarks>
+        public IEnumerable<TypeInflation> ClassTypes { get; internal set; }
 
         /// <summary>
-        /// 所有公开方法包装类集合
+        /// 方法集合
         /// </summary>
-        public IEnumerable<MethodInflation> PublicMethodWrappers { get; internal set; }
+        /// <remarks>
+        /// <para>包含：公开实例方法、公开静态方法</para>
+        /// </remarks>
+        public IEnumerable<MethodInflation> Methods { get; internal set; }
     }
 }

@@ -398,9 +398,9 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// </summary>
         static FurDbContextStater()
         {
-            var application = App.Wrapper;
+            var application = App.Inflations;
 
-            _dbEntityRelevanceTypes ??= application.PublicClassTypeWrappers
+            _dbEntityRelevanceTypes ??= application.ClassTypes
                 .Where(u => u.IsDbEntityRelevanceType)
                 .Distinct()
                 .Select(u => u.ThisType);
@@ -412,7 +412,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                     .FirstOrDefault(u => u.Name == nameof(ModelBuilder.Entity) && u.IsGenericMethod && u.GetParameters().Length == 0);
             }
 
-            _dbFunctionMethods = application.PublicMethodWrappers
+            _dbFunctionMethods = application.Methods
                 .Where(u => u.IsDbFunctionMethod);
         }
     }

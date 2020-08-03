@@ -22,7 +22,7 @@ namespace Fur.SwaggerDoc
     {
         static SwaggerDocConfigure()
         {
-            swaggerOptions = App.FurOptions.FurSwaggerDocOptions;
+            swaggerOptions = App.AppOptions.SwaggerDocOptions;
         }
 
         /// <summary>
@@ -60,8 +60,8 @@ namespace Fur.SwaggerDoc
         /// <returns>分组名</returns>
         private static string[] ScanAssemblyGroups()
         {
-            var controllerTypes = App.Wrapper.PublicClassTypeWrappers.Where(u => u.IsControllerType);
-            var controllerActionTypes = App.Wrapper.PublicMethodWrappers.Where(u => u.IsControllerActionType);
+            var controllerTypes = App.Inflations.ClassTypes.Where(u => u.IsControllerType);
+            var controllerActionTypes = App.Inflations.Methods.Where(u => u.IsControllerActionMethod);
 
             var swaggerGroups = controllerTypes
                     .Where(u => u.SwaggerGroups != null)
@@ -150,7 +150,7 @@ namespace Fur.SwaggerDoc
         private static bool SwaggerGroupSwitchPredicate(string currentGroup, ApiDescription apiDescription)
         {
             if (!apiDescription.TryGetMethodInfo(out MethodInfo methodInfo)) return false;
-            var methodSwaggerGroups = App.GetMethodWrapper(methodInfo).SwaggerGroups;
+            var methodSwaggerGroups = App.Inflations.Methods.FirstOrDefault(u => u.ThisMethod == methodInfo).SwaggerGroups;
 
             return methodSwaggerGroups.Contains(currentGroup);
         }

@@ -12,7 +12,7 @@ namespace Fur.DependencyInjection.Modules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            var applicationTypes = App.Wrapper.PublicClassTypeWrappers.Where(u => u.CanBeNew);
+            var applicationTypes = App.Inflations.ClassTypes.Where(u => u.CanBeNew);
 
             RegisterBaseTypes(builder, applicationTypes);
             RegisterGenericTypes(builder, applicationTypes);

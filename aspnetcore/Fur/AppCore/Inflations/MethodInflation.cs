@@ -52,18 +52,18 @@ namespace Fur.AppCore.Inflations
         public IEnumerable<Attribute> CustomAttributes { get; set; }
 
         /// <summary>
-        /// 是否是控制器Action类型
+        /// 是否是控制器Action方法
         /// </summary>
         /// <remarks>
-        /// <para>参见：<see cref="Fur.AppCore.App.IsControllerActionType(MethodInfo)"/></para>
+        /// <para>参见：<see cref="Fur.AppCore.App.IsControllerActionMethod(MethodInfo)"/></para>
         /// </remarks>
-        public bool IsControllerActionType { get; set; }
+        public bool IsControllerActionMethod { get; set; }
 
         /// <summary>
         /// Swagger 接口文档 分组名
         /// </summary>
         /// <remarks>
-        /// <para>只有 <see cref="IsControllerActionType"/> = <c>true</c> 有作用</para>
+        /// <para>只有 <see cref="IsControllerActionMethod"/> = <c>true</c> 有作用</para>
         /// </remarks>
         public string[] SwaggerGroups { get; set; }
 

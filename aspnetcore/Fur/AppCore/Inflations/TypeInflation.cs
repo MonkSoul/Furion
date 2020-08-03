@@ -22,6 +22,16 @@ namespace Fur.AppCore.Inflations
         public Type ThisType { get; set; }
 
         /// <summary>
+        /// 类型名称
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 类型完整名称
+        /// </summary>
+        public string FullName { get; set; }
+
+        /// <summary>
         /// 是否是泛型类型
         /// </summary>
         public bool IsGenericType { get; set; }
