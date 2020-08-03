@@ -219,10 +219,12 @@ namespace Fur.AppCore
 
             var defaultSwaggerGroups = new string[] { "Default" };
 
-            if (!controllerType.IsDefined(typeof(MirrorControllerAttribute), true)) return defaultSwaggerGroups;
+            if (!controllerType.IsDefined(typeof(MirrorControllerAttribute), true))
+                return defaultSwaggerGroups;
 
             var mirrorControllerAttribute = controllerType.GetDeepAttribute<MirrorControllerAttribute>();
-            if (mirrorControllerAttribute.SwaggerGroups == null || !mirrorControllerAttribute.SwaggerGroups.Any()) return defaultSwaggerGroups;
+            if (mirrorControllerAttribute.SwaggerGroups == null || !mirrorControllerAttribute.SwaggerGroups.Any())
+                return defaultSwaggerGroups;
 
             return mirrorControllerAttribute.SwaggerGroups;
         }
@@ -235,12 +237,14 @@ namespace Fur.AppCore
         private static string[] GetControllerActionSwaggerGroups(MethodInfo controllerAction)
         {
             // 如果不是控制器Action类型，返回 null
-            if (!IsControllerActionMethod(controllerAction)) return null;
+            if (!IsControllerActionMethod(controllerAction)) return default;
 
-            if (!controllerAction.IsDefined(typeof(MirrorActionAttribute), true)) return GetControllerTypeSwaggerGroups(controllerAction.DeclaringType);
+            if (!controllerAction.IsDefined(typeof(MirrorActionAttribute), true))
+                return GetControllerTypeSwaggerGroups(controllerAction.DeclaringType);
 
             var attachActionAttribute = controllerAction.GetCustomAttribute<MirrorActionAttribute>();
-            if (attachActionAttribute.SwaggerGroups == null || !attachActionAttribute.SwaggerGroups.Any()) return GetControllerTypeSwaggerGroups(controllerAction.DeclaringType);
+            if (attachActionAttribute.SwaggerGroups == null || !attachActionAttribute.SwaggerGroups.Any())
+                return GetControllerTypeSwaggerGroups(controllerAction.DeclaringType);
 
             return attachActionAttribute.SwaggerGroups;
         }
