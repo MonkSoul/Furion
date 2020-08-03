@@ -38,7 +38,10 @@ namespace Fur.Web.Host
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddFurOptions<AppOptions>((options) => App.AppOptions = options as AppOptions, Configuration);
+            services.AddFurOptions<AppOptions>(options =>
+            {
+                App.AppOptions = options as AppOptions;
+            }, Configuration);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
