@@ -3,15 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Fur.AppCore.Wrappers
+namespace Fur.AppCore.Inflations
 {
     /// <summary>
     /// 属性包装器
-    /// <code>sealed</code>
-    /// <para>主要用来装载解决方案项目中类型属性常用属性及附加属性， 避免重复反射读取</para>
     /// </summary>
-    [NonWrapper]
-    public sealed class PropertyWrapper
+    [NonInflated]
+    public sealed class PropertyInflation
     {
         /// <summary>
         /// 所在程序集
@@ -31,10 +29,10 @@ namespace Fur.AppCore.Wrappers
         /// <summary>
         /// 属性类型
         /// </summary>
-        public Type Type { get; set; }
+        public Type PropertyType { get; set; }
 
         /// <summary>
-        /// 自定义特性集合
+        /// 属性特性集合
         /// </summary>
         public IEnumerable<Attribute> CustomAttributes { get; set; }
     }

@@ -256,15 +256,15 @@ namespace Fur.MirrorController.Conventions
             var parameterNames = string.Empty;
             var apiVersion = string.Empty;
             // 读取参数信息
-            var parameters = App.Application.PublicMethodWrappers.FirstOrDefault(u => u.Method == actionModel.ActionMethod).Parameters;
+            var parameters = actionModel.Parameters;
             var i = 0;
             foreach (var parameterInfo in parameters)
             {
-                var parameterType = parameterInfo.Type;
+                var parameterType = parameterInfo.ParameterType;
                 var isContainUnderline = parameterInfo.Name.Equals("_");
                 if (parameterType.IsPrimitivePlusIncludeNullable() && !parameterType.IsNullable() && !isContainUnderline)
                 {
-                    var parameterAttributes = parameterInfo.CustomAttributes;
+                    var parameterAttributes = parameterInfo.Attributes;
                     var hasFromAttribute = parameterAttributes.Count() == 0 ||
                                                            parameterAttributes.Any(u => u.GetType() == typeof(FromRouteAttribute)) ||
                                                            parameterAttributes.Count(u => typeof(IBindingSourceMetadata).IsAssignableFrom(u.GetType())) == 0;
@@ -275,7 +275,7 @@ namespace Fur.MirrorController.Conventions
                 }
                 if (isContainUnderline)
                 {
-                    apiVersion = parameterInfo.Parameter.DefaultValue?.ToString();
+                    apiVersion = parameterInfo.ParameterInfo.DefaultValue?.ToString();
                     actionModel.Parameters.RemoveAt(i);
                 }
                 i++;

@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Fur.FriendlyException.Filters
 {
-    [NonWrapper]
+    [NonInflated]
     public class ExceptionAsyncFilter : IAsyncExceptionFilter
     {
         /// <summary>

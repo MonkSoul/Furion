@@ -7,7 +7,7 @@ namespace Fur.DatabaseAccessor.Tangent.Attributes
     /// <summary>
     /// 切面增删改特性
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method), NonWrapper]
+    [AttributeUsage(AttributeTargets.Method), NonInflated]
     public class DbNonQueryAttribute : TangentSqlAttribute
     {
         /// <summary>

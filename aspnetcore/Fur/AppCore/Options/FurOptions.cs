@@ -7,7 +7,7 @@ namespace Fur.AppCore.Options
     /// <summary>
     /// 全局配置总选项
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public sealed class FurOptions
     {
         public FurMirrorControllerOptions FurMirrorControllerOptions { get; set; }

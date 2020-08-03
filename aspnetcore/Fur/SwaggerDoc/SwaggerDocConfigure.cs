@@ -17,7 +17,7 @@ namespace Fur.SwaggerDoc
     /// <summary>
     /// Swagger 配置
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     internal sealed class SwaggerDocConfigure
     {
         static SwaggerDocConfigure()
@@ -60,8 +60,8 @@ namespace Fur.SwaggerDoc
         /// <returns>分组名</returns>
         private static string[] ScanAssemblyGroups()
         {
-            var controllerTypes = App.Application.PublicClassTypeWrappers.Where(u => u.IsControllerType);
-            var controllerActionTypes = App.Application.PublicMethodWrappers.Where(u => u.IsControllerActionType);
+            var controllerTypes = App.Wrapper.PublicClassTypeWrappers.Where(u => u.IsControllerType);
+            var controllerActionTypes = App.Wrapper.PublicMethodWrappers.Where(u => u.IsControllerActionType);
 
             var swaggerGroups = controllerTypes
                     .Where(u => u.SwaggerGroups != null)

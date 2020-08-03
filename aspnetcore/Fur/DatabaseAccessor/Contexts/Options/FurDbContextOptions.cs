@@ -9,7 +9,7 @@ namespace Fur.DatabaseAccessor.Contexts.Options
     /// <summary>
     /// 数据库上下文配置选项
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public sealed class FurDbContextOptions
     {
         /// <summary>

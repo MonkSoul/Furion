@@ -16,7 +16,7 @@ namespace Fur.DatabaseAccessor.Filters
     /// <para>用来实现自动化事务管理</para>
     /// <para>说明：在 请求 Action 之前开启事务，Action执行完毕之后提交事务，如果执行过程中出错，自动回滚事务</para>
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public sealed class UnitOfWorkAsyncActionFilter : IAsyncActionFilter
     {
         /// <summary>

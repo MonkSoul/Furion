@@ -11,7 +11,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
     /// <summary>
     /// Sql DataSet 拓展类
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     internal static class SqlDataSetExtensions
     {
         /// <summary>

@@ -9,7 +9,7 @@ namespace Fur.ObjectMapper.Extensions
     /// <summary>
     /// 对象映射拓展类
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public static class MapsterServiceExtensions
     {
         /// <summary>
@@ -19,7 +19,7 @@ namespace Fur.ObjectMapper.Extensions
         /// <returns>新的服务集合</returns>
         public static IServiceCollection AddFurObjectMapper(this IServiceCollection services)
         {
-            TypeAdapterConfig.GlobalSettings.Scan(App.Application.AssemblyWrappers.Select(a => a.Assembly).ToArray());
+            TypeAdapterConfig.GlobalSettings.Scan(App.Wrapper.AssemblyWrappers.Select(a => a.ThisAssembly).ToArray());
             TypeAdapterConfig.GlobalSettings.Default
                 .NameMatchingStrategy(NameMatchingStrategy.IgnoreCase)
                 .PreserveReference(true);

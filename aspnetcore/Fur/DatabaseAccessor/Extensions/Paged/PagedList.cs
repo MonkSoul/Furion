@@ -7,7 +7,7 @@ namespace Fur.DatabaseAccessor.Extensions.Paged
     /// 泛型分页集合
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    [NonWrapper]
+    [NonInflated]
     public sealed class PagedList<TEntity>
     {
         /// <summary>
@@ -49,7 +49,7 @@ namespace Fur.DatabaseAccessor.Extensions.Paged
     /// <summary>
     /// 分页集合
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public sealed class PagedList
     {
         /// <summary>

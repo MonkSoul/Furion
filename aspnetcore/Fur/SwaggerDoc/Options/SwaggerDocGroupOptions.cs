@@ -5,7 +5,7 @@ namespace Fur.SwaggerDoc.Options
     /// <summary>
     /// Swagger 分组配置选项
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public class SwaggerDocGroupOptions
     {
         /// <summary>

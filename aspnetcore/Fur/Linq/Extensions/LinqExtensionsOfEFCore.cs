@@ -11,7 +11,7 @@ namespace Fur.Linq.Extensions
     /// <summary>
     /// [EF Core] Linq/Lambda 拓展类
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public static class LinqExtensionsOfEFCore
     {
         /// <summary>

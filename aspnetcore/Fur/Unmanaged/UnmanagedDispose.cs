@@ -6,7 +6,7 @@ namespace Fur.Unmanaged
     /// <summary>
     /// 非托管资源释放类
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public class UnmanagedDispose : IDisposable
     {
         /// <summary>

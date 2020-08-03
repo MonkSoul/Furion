@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Fur.Validation.Filters
 {
-    [NonWrapper]
+    [NonInflated]
     public class ValidateModelAsyncActionFilter : IAsyncActionFilter
     {
         private readonly IUnifyResultProvider _unifyResultProvider;

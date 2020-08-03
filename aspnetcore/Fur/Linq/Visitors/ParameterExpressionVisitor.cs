@@ -7,7 +7,7 @@ namespace Fur.Linq.Visitors
     /// <summary>
     /// 自定义参数表达式访问器
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     internal class ParameterExpressionVisitor : ExpressionVisitor
     {
         /// <summary>

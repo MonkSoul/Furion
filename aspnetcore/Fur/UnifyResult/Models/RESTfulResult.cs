@@ -5,7 +5,7 @@ namespace Fur.UnifyResult.Models
     /// <summary>
     /// 统一返回值
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public sealed class RESTfulResult
     {
         /// <summary>

@@ -7,7 +7,7 @@ namespace Fur.DatabaseAccessor.Tangent.Attributes.Basics
     /// 切面编译类型
     /// <para>特指：函数和存储过程</para>
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method), NonWrapper]
+    [AttributeUsage(AttributeTargets.Method), NonInflated]
     public class TangentCompileTypeAttribute : TangentAttribute
     {
         /// <summary>

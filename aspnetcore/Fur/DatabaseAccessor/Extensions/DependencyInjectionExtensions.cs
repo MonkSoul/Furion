@@ -16,7 +16,7 @@ namespace Fur.DatabaseAccessor.Extensions
     /// <summary>
     /// 数据库访问器依赖注入拓展类
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public static class DependencyInjectionExtensions
     {
         /// <summary>

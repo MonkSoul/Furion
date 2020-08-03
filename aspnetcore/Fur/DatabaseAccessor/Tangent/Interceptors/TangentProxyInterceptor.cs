@@ -6,7 +6,7 @@ namespace Fur.DatabaseAccessor.Tangent.Interceptors
     /// <summary>
     /// 切面代理同步拦截器
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     internal class TangentProxyInterceptor : IInterceptor
     {
         /// <summary>

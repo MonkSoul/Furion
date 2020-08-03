@@ -1,6 +1,6 @@
 ﻿using Fur.AppCore.Attributes;
+using Fur.AppCore.Inflations;
 using Fur.AppCore.Options;
-using Fur.AppCore.Wrappers;
 using Fur.DatabaseAccessor.Attributes;
 using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.Entities.Configurations;
@@ -23,13 +23,13 @@ namespace Fur.AppCore
     /// <summary>
     /// 应用核心类
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public static class App
     {
         /// <summary>
         /// 应用包装器
         /// </summary>
-        public static ApplicationWrapper Application = null;
+        public static ApplicationInflation Wrapper = null;
 
         /// <summary>
         /// Fur 框架配置选项
@@ -56,24 +56,24 @@ namespace Fur.AppCore
         /// </summary>
         static App()
         {
-            Application ??= GetApplicationWrappers();
+            Wrapper ??= GetApplicationWrappers();
         }
 
         /// <summary>
         /// 获取类型的包装类型
         /// </summary>
         /// <param name="type">类型</param>
-        /// <returns><see cref="TypeWrapper"/></returns>
-        public static TypeWrapper GetTypeWrapper(Type type)
-            => Application.PublicClassTypeWrappers.FirstOrDefault(u => u.Type == type);
+        /// <returns><see cref="TypeInflation"/></returns>
+        public static TypeInflation GetTypeWrapper(Type type)
+            => Wrapper.PublicClassTypeWrappers.FirstOrDefault(u => u.ThisType == type);
 
         /// <summary>
         /// 获取方法的包装类型
         /// </summary>
         /// <param name="method">方法</param>
-        /// <returns><see cref="MethodWrapper"/></returns>
-        public static MethodWrapper GetMethodWrapper(MethodInfo method)
-            => Application.PublicMethodWrappers.FirstOrDefault(u => u.Method == method);
+        /// <returns><see cref="MethodInflation"/></returns>
+        public static MethodInflation GetMethodWrapper(MethodInfo method)
+            => Wrapper.PublicMethodWrappers.FirstOrDefault(u => u.ThisMethod == method);
 
         /// <summary>
         /// 获取公开类型自定义特性
@@ -169,64 +169,62 @@ namespace Fur.AppCore
         /// <summary>
         /// 获取应用解决方案中所有的包装器集合
         /// </summary>
-        /// <returns><see cref="Application"/></returns>
-        private static ApplicationWrapper GetApplicationWrappers()
+        /// <returns><see cref="Wrapper"/></returns>
+        private static ApplicationInflation GetApplicationWrappers()
         {
             // 避免重复读取
-            if (Application != null) return Application;
+            if (Wrapper != null) return Wrapper;
 
             var applicationAssemblies = GetApplicationAssembliesWithoutNuget();
 
             // 组装应用包装器
-            var applicationWrapper = new ApplicationWrapper
+            var applicationWrapper = new ApplicationInflation
             {
                 // 创建程序集包装器
                 AssemblyWrappers = applicationAssemblies
-                .Select(a => new AssemblyWrapper()
+                .Select(a => new AssemblyInflation()
                 {
-                    Assembly = a,
+                    ThisAssembly = a,
                     Name = a.GetName().Name,
                     FullName = a.FullName,
 
                     // 创建类型包装器
-                    PublicClassTypes = a.GetTypes()
-                    .Where(t => t.IsPublic && !t.IsInterface && !t.IsEnum && !t.IsDefined(typeof(NonWrapperAttribute), false))
-                    .Select(t => new TypeWrapper()
+                    SubClassTypes = a.GetTypes()
+                    .Where(t => t.IsPublic && !t.IsInterface && !t.IsEnum && !t.IsDefined(typeof(NonInflatedAttribute), false))
+                    .Select(t => new TypeInflation()
                     {
                         ThisAssembly = a,
-                        Type = t,
+                        ThisType = t,
                         IsGenericType = t.IsGenericType,
                         IsControllerType = IsControllerType(t),
                         GenericArgumentTypes = t.IsGenericType ? t.GetGenericArguments() : null,
                         CustomAttributes = t.GetCustomAttributes(),
                         SwaggerGroups = GetControllerTypeSwaggerGroups(t),
-                        IsStaticType = (t.IsAbstract && t.IsSealed),
+                        IsStaticType = t.IsAbstract && t.IsSealed,
                         CanBeNew = !t.IsAbstract,
-                        IsDbEntityType = !t.IsAbstract && (typeof(IDbEntityBase).IsAssignableFrom(t) || typeof(IDbEntityConfigure).IsAssignableFrom(t)),
+                        IsDbEntityRelevanceType = !t.IsAbstract && (typeof(IDbEntityBase).IsAssignableFrom(t) || typeof(IDbEntityConfigure).IsAssignableFrom(t)),
                         IsTenantType = t == typeof(Tenant),
-                        GenericInterfaceArgumentTypes = GetGenericInterfaceArgumentTypes(t),
-                        GenericBaseTypeArgumentTypes = GetGenericBaseTypeArgumentTypes(t),
 
                         // 创建包装属性器
-                        PublicPropertis = t.GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
-                        .Where(p => p.DeclaringType == t && !p.IsDefined(typeof(NonWrapperAttribute), false))
-                        .Select(p => new PropertyWrapper()
+                        SubPropertis = t.GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
+                        .Where(p => p.DeclaringType == t && !p.IsDefined(typeof(NonInflatedAttribute), false))
+                        .Select(p => new PropertyInflation()
                         {
                             Name = p.Name,
                             ThisAssembly = a,
                             ThisDeclareType = t,
-                            Type = p.PropertyType,
+                            PropertyType = p.PropertyType,
                             CustomAttributes = p.GetCustomAttributes()
                         }),
 
                         // 创建方法包装器
-                        PublicMethods = t.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static)
-                        .Where(m => m.DeclaringType == t && !m.IsDefined(typeof(NonWrapperAttribute), false))
-                        .Select(m => new MethodWrapper()
+                        SubMethods = t.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static)
+                        .Where(m => m.DeclaringType == t && !m.IsDefined(typeof(NonInflatedAttribute), false))
+                        .Select(m => new MethodInflation()
                         {
                             ThisAssembly = a,
                             ThisDeclareType = t,
-                            Method = m,
+                            ThisMethod = m,
                             Name = m.Name,
                             CustomAttributes = m.GetCustomAttributes(),
                             ReturnType = m.ReturnType,
@@ -234,30 +232,19 @@ namespace Fur.AppCore
                             SwaggerGroups = GetControllerActionSwaggerGroups(m),
 
                             // 创建参数包装器
-                            Parameters = m.GetParameters()
-                            .Where(p => !p.IsDefined(typeof(NonWrapperAttribute), false))
-                            .Select(p => new ParameterWrapper()
-                            {
-                                ThisAssembly = a,
-                                ThisDeclareType = t,
-                                ThisMethod = m,
-                                Name = p.Name,
-                                Parameter = p,
-                                Type = p.ParameterType,
-                                CustomAttributes = p.GetCustomAttributes(),
-                            }),
+                            SubParameters = m.GetParameters(),
                             IsStaticMethod = m.IsStatic,
-                            IsDbFunction = m.IsStatic && t.IsAbstract && t.IsSealed && m.IsDefined(typeof(DbFunctionAttribute), false)
+                            IsDbFunctionMethod = t.IsAbstract && t.IsSealed && m.IsStatic && m.IsDefined(typeof(DbFunctionAttribute), false)
                         })
                     })
                 })
             };
 
             // 读取所有程序集下的公开类型包装器集合
-            applicationWrapper.PublicClassTypeWrappers = applicationWrapper.AssemblyWrappers.SelectMany(u => u.PublicClassTypes);
+            applicationWrapper.PublicClassTypeWrappers = applicationWrapper.AssemblyWrappers.SelectMany(u => u.SubClassTypes);
 
             // 读取所有程序集下的所有方法包装器集合
-            applicationWrapper.PublicMethodWrappers = applicationWrapper.PublicClassTypeWrappers.SelectMany(u => u.PublicMethods);
+            applicationWrapper.PublicMethodWrappers = applicationWrapper.PublicClassTypeWrappers.SelectMany(u => u.SubMethods);
 
             return applicationWrapper;
         }
@@ -270,7 +257,7 @@ namespace Fur.AppCore
         private static string[] GetControllerTypeSwaggerGroups(Type controllerType)
         {
             // 如果不是控制器类型，返回 null
-            if (!IsControllerType(controllerType)) return null;
+            if (!IsControllerType(controllerType)) return default;
 
             var defaultSwaggerGroups = new string[] { "Default" };
 
@@ -298,29 +285,6 @@ namespace Fur.AppCore
             if (attachActionAttribute.SwaggerGroups == null || !attachActionAttribute.SwaggerGroups.Any()) return GetControllerTypeSwaggerGroups(controllerAction.DeclaringType);
 
             return attachActionAttribute.SwaggerGroups;
-        }
-
-        private static Dictionary<Type, Type[]> GetGenericInterfaceArgumentTypes(Type type)
-        {
-            var keyValues = new Dictionary<Type, Type[]>();
-            var interfaces = type.GetInterfaces().Where(u => u.IsGenericType);
-
-            foreach (var inter in interfaces)
-            {
-                keyValues.Add(inter, inter.GetGenericArguments());
-            }
-            return keyValues;
-        }
-
-        private static Dictionary<Type, Type[]> GetGenericBaseTypeArgumentTypes(Type type)
-        {
-            var keyValues = new Dictionary<Type, Type[]>();
-            var baseType = type.BaseType;
-            if (baseType.IsGenericType)
-            {
-                keyValues.Add(baseType, baseType.GetGenericArguments());
-            }
-            return keyValues;
         }
     }
 }

@@ -3,7 +3,7 @@ using System;
 
 namespace Fur.FriendlyException.Attributes
 {
-    [AttributeUsage(AttributeTargets.Field), NonWrapper]
+    [AttributeUsage(AttributeTargets.Field), NonInflated]
     public sealed class ExceptionMetaAttribute : Attribute
     {
         public ExceptionMetaAttribute(string message) => Message = message;

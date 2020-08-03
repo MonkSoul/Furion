@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace Fur.Linq.Builders
 {
-    [NonWrapper]
+    [NonInflated]
     public class LinqBuilderOfEFCore
     {
         /// <summary>

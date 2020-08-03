@@ -8,7 +8,7 @@ namespace Fur.TypeExtensions
     /// <summary>
     /// 类型拓展类
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public static class TypeExtensions
     {
         /// <summary>

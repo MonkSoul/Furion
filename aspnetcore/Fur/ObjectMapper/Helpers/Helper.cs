@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace Fur.ObjectMapper.Helpers
 {
-    [NonWrapper]
+    [NonInflated]
     internal class Helper
     {
         internal static string ConvertUnderlineNamedToCamelCaseNamed(string propertyName)

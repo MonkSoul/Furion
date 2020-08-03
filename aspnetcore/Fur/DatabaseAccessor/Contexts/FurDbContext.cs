@@ -14,7 +14,7 @@ namespace Fur.DatabaseAccessor.Contexts
     /// </remarks>
     /// <typeparam name="TDbContext"><see cref="DbContext"/> 衍生类</typeparam>
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-    [NonWrapper]
+    [NonInflated]
     public abstract class FurDbContext<TDbContext, TDbContextLocator> : DbContext
         where TDbContext : DbContext
         where TDbContextLocator : IDbContextLocator

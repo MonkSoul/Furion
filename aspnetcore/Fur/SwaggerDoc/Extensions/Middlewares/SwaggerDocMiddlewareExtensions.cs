@@ -7,7 +7,7 @@ namespace Fur.SwaggerDoc.Extensions.Middlewares
     /// <summary>
     /// Swagger 中间件拓展
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public static class SwaggerDocMiddlewareExtensions
     {
         /// <summary>

@@ -9,7 +9,7 @@ namespace Fur.DatabaseAccessor.Tangent.Models
     /// <summary>
     /// 切面方法信息类
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     internal class TangentMethodInfo
     {
         /// <summary>

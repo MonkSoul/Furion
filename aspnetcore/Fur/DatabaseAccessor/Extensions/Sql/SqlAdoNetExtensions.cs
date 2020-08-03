@@ -15,7 +15,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
     /// <summary>
     /// ADO.NET 拓展类
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     internal static class SqlAdoNetExtensions
     {
         /// <summary>

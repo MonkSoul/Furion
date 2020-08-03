@@ -12,7 +12,7 @@ namespace Fur.DatabaseAccessor.Extensions
     /// <summary>
     /// 数据库上下文拓展类
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public static class DbContextExtensions
     {
         /// <summary>

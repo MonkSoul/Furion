@@ -6,7 +6,7 @@ namespace Fur.FriendlyException
     /// <summary>
     /// 抛异常设置类
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public static class Oops
     {
         /// <summary>

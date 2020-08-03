@@ -16,7 +16,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
     /// <summary>
     /// Sql 参数及返回值 拓展类
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public static class SqlConvertExtensions
     {
         /// <summary>

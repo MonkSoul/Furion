@@ -12,7 +12,7 @@ namespace Fur.DatabaseAccessor.Extensions.Sql
     /// <summary>
     /// Sql 存储过程 拓展类
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     internal static class SqlProcedureExtensions
     {
         /// <summary>

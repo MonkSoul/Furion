@@ -9,7 +9,7 @@ namespace Fur.Linq.Extensions
     /// <summary>
     /// linq/Lambda 表达式拓展
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public static class LinqExpressionExtensions
     {
         /// <summary>

@@ -3,7 +3,7 @@ using Fur.AppCore.Attributes;
 
 namespace Fur.DependencyInjection.Extensions
 {
-    [NonWrapper]
+    [NonInflated]
     internal static class LifetimeScopeExtensions
     {
         internal static TService GetService<TService>(this ILifetimeScope lifetimeScope)

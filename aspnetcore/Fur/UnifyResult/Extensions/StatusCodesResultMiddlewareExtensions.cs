@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Builder;
 
 namespace Fur.UnifyResult.Extensions
 {
-    [NonWrapper]
+    [NonInflated]
     public static class StatusCodesResultMiddlewareExtensions
     {
         public static IApplicationBuilder UseFurUnifyStatusCodesResult(this IApplicationBuilder applicationBuilder)

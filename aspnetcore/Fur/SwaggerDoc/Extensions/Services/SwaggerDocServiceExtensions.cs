@@ -7,7 +7,7 @@ namespace Fur.SwaggerDoc.Extensions.Services
     /// <summary>
     /// Swagger 服务拓展类
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public static class SwaggerDocServiceExtensions
     {
         /// <summary>

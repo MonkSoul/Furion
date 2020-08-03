@@ -6,7 +6,7 @@ namespace Fur.DatabaseAccessor.Tangent.Attributes.Basics
     /// <summary>
     /// 切面基类特性
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method), NonWrapper]
+    [AttributeUsage(AttributeTargets.Method), NonInflated]
     public class TangentAttribute : Attribute
     {
         /// <summary>

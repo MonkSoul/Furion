@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Fur.AppCore;
 using Fur.AppCore.Attributes;
-using Fur.AppCore.Wrappers;
+using Fur.AppCore.Inflations;
 using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.Entities.Configurations;
 using Fur.DatabaseAccessor.Extensions;
@@ -31,7 +31,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
     /// <remarks>
     /// <para>解决 <see cref="FurDbContext{TDbContext, TDbContextLocator}"/> 重复初始化问题</para>
     /// </remarks>
-    [NonWrapper]
+    [NonInflated]
     internal static class FurDbContextStater
     {
         /// <summary>
@@ -184,7 +184,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
 
             foreach (var dbFunction in dbFunctionMethods)
             {
-                _modelBuilder.HasDbFunction(dbFunction.Method);
+                _modelBuilder.HasDbFunction(dbFunction.ThisMethod);
             }
         }
 
@@ -315,7 +315,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="methodWrapper"></param>
         /// <param name="dbContextLocatorType"></param>
         /// <returns>bool</returns>
-        private static bool IsThisDbContextDbFunction(MethodWrapper methodWrapper, Type dbContextLocatorType)
+        private static bool IsThisDbContextDbFunction(MethodInflation methodWrapper, Type dbContextLocatorType)
         {
             var dbFunctionAttribute = methodWrapper.CustomAttributes.FirstOrDefault(u => u.GetType() == typeof(Attributes.DbFunctionAttribute)) as Attributes.DbFunctionAttribute;
             if (CheckIsInDbContextLocators(dbFunctionAttribute.DbContextLocators, dbContextLocatorType)) return true;
@@ -371,7 +371,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <summary>
         /// 数据库函数定义方法集合
         /// </summary>
-        private static readonly IEnumerable<MethodWrapper> _dbFunctionMethods;
+        private static readonly IEnumerable<MethodInflation> _dbFunctionMethods;
 
         /// <summary>
         /// 模型构建器 <see cref="ModelBuilder.Entity{TEntity}"/> 泛型方法
@@ -398,12 +398,12 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// </summary>
         static FurDbContextStater()
         {
-            var application = App.Application;
+            var application = App.Wrapper;
 
             _dbEntityRelevanceTypes ??= application.PublicClassTypeWrappers
-                .Where(u => u.IsDbEntityType)
+                .Where(u => u.IsDbEntityRelevanceType)
                 .Distinct()
-                .Select(u => u.Type);
+                .Select(u => u.ThisType);
 
             if (_dbEntityRelevanceTypes.Any())
             {
@@ -413,7 +413,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
             }
 
             _dbFunctionMethods = application.PublicMethodWrappers
-                .Where(u => u.IsDbFunction);
+                .Where(u => u.IsDbFunctionMethod);
         }
     }
 }

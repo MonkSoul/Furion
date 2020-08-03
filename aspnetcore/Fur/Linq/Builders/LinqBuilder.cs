@@ -6,7 +6,7 @@ namespace Fur.Linq.Builders
     /// <summary>
     /// Linq/Lambda 构建器
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public class LinqBuilder
     {
         /// <summary>

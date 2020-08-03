@@ -7,7 +7,7 @@ namespace Fur.UnifyResult.Extensions
     /// <summary>
     /// 数据库访问注册拓展类
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public static class InjectionExtensions
     {
         public static ContainerBuilder RegisterUnifyProvider<TUnifyProvider>(this ContainerBuilder builder)

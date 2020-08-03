@@ -20,7 +20,7 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
     /// <summary>
     /// 切面上下文工具类
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     internal static class TangentDbContextUtilities
     {
         /// <summary>

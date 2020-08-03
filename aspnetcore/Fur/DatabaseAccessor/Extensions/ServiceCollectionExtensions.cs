@@ -12,7 +12,7 @@ namespace Fur.DatabaseAccessor.Extensions.Services
     /// <summary>
     /// 数据库操作上下文服务拓展类
     /// </summary>
-    [NonWrapper]
+    [NonInflated]
     public static class ServiceCollectionExtensions
     {
         /// <summary>
