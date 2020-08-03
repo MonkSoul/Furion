@@ -9,7 +9,7 @@ namespace Fur.AppCore.Inflations
     /// 方法包装器
     /// </summary>
     [NonInflated]
-    public sealed class MethodInflation
+    internal sealed class MethodInflation
     {
         /// <summary>
         /// 所在程序集

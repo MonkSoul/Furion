@@ -7,7 +7,7 @@ namespace Fur.AppCore.Inflations
     /// 应用包装器
     /// </summary>
     [NonInflated]
-    public sealed class ApplicationInflation
+    internal sealed class ApplicationInflation
     {
         /// <summary>
         /// 应用程序集

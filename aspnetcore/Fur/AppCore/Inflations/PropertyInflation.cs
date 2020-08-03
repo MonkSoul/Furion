@@ -9,7 +9,7 @@ namespace Fur.AppCore.Inflations
     /// 属性包装器
     /// </summary>
     [NonInflated]
-    public sealed class PropertyInflation
+    internal sealed class PropertyInflation
     {
         /// <summary>
         /// 所在程序集
