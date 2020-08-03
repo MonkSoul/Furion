@@ -23,8 +23,7 @@ namespace Fur.AppCore.Extensions
         public static IServiceCollection AddFurOptions<TOptions>(this IServiceCollection services, Action<IFurOptions> success, IConfiguration configuration)
             where TOptions : class, IFurOptions
         {
-            var optionsType = typeof(TOptions);
-            var settings = configuration.GetSection(optionsType.Name);
+            var settings = configuration.GetSection(typeof(TOptions).Name);
             services.AddOptions<TOptions>().Bind(settings).ValidateDataAnnotations();
             success?.Invoke(settings.Get<AppOptions>());
             return services;
