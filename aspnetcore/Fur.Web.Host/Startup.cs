@@ -8,7 +8,6 @@ using Fur.FriendlyException.Filters;
 using Fur.MirrorController.Extensions;
 using Fur.ObjectMapper.Extensions;
 using Fur.SwaggerDoc.Extensions;
-using Fur.UnifyResult.Extensions;
 using Fur.UnifyResult.Filters;
 using Fur.Validation.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -85,9 +84,6 @@ namespace Fur.Web.Host
             }
 
             app.UseHttpsRedirection();
-
-            // 规范化结果
-            app.UseFurUnifyStatusCodesResult();
 
             app.UseRouting();
 

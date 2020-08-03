@@ -2,11 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using StackExchange.Profiling;
-using System.Net.Mime;
-using System.Threading.Tasks;
 
 namespace Fur.UnifyResult.Providers
 {
@@ -66,40 +61,6 @@ namespace Fur.UnifyResult.Providers
                 Results = null,
                 UnAuthorizedRequest = unAuthorizedRequest
             });
-        }
-
-        public async Task UnifyStatusCodeResult(HttpContext context, int statusCode)
-        {
-            if (statusCode == StatusCodes.Status401Unauthorized)
-            {
-                var errorMsg = "401 Unauthorized";
-                MiniProfiler.Current.CustomTiming("authorize", errorMsg, "Unauthorized").Errored = true;
-
-                await HandleInvaildStatusCode(context, statusCode, errorMsg);
-            }
-            else if (context.Response.StatusCode == StatusCodes.Status403Forbidden)
-            {
-                var errorMsg = "403 Forbidden";
-                MiniProfiler.Current.CustomTiming("authorize", errorMsg, "Forbidden").Errored = true;
-
-                await HandleInvaildStatusCode(context, statusCode, errorMsg);
-            }
-        }
-
-        private Task HandleInvaildStatusCode(HttpContext context, int statusCode, string responseMessage)
-        {
-            responseMessage = JsonConvert.SerializeObject(new RESTfulResult()
-            {
-                StatusCode = statusCode,
-                Results = null,
-                Successed = false,
-                Errors = responseMessage,
-                UnAuthorizedRequest = false
-            }, new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() });
-
-            context.Response.ContentType = MediaTypeNames.Application.Json;
-
-            return context.Response.WriteAsync(responseMessage);
         }
     }
 }
