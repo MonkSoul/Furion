@@ -169,7 +169,7 @@ namespace Fur.AppCore
         internal static bool IsControllerType(Type type, bool exceptControllerBase = false)
         {
             // 必须是公开非抽象类、非泛型类、非接口类型
-            if (!type.IsPublic || type.IsAbstract || type.IsGenericType || type.IsInterface) return false;
+            if (!type.IsPublic || type.IsAbstract || type.IsGenericType || type.IsInterface || type.IsEnum) return false;
 
             // 判断是否是控制器类型，且 [ApiExplorerSettings].IgnoreApi!=true
             if (!exceptControllerBase)

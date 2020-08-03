@@ -12,9 +12,7 @@ namespace Fur.MirrorController.Attributes
         /// <summary>
         /// 默认构造函数
         /// </summary>
-        public MirrorActionAttribute()
-        {
-        }
+        public MirrorActionAttribute() { }
 
         /// <summary>
         /// 构造函数
