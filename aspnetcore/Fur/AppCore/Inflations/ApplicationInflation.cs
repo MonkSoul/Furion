@@ -15,7 +15,7 @@ namespace Fur.AppCore.Inflations
         /// <remarks>
         /// 排除第三方下载的Nuget Package包但不排除 Fur官方的Nuget Package包
         /// </remarks>
-        public IEnumerable<AssemblyInflation> Assemblies { get; internal set; }
+        internal IEnumerable<AssemblyInflation> Assemblies { get; set; }
 
         /// <summary>
         /// 类型集合
@@ -23,7 +23,7 @@ namespace Fur.AppCore.Inflations
         /// <remarks>
         /// <para>不包含：非公开、接口、枚举、或贴有 <see cref="NonInflatedAttribute"/> 特性的类型</para>
         /// </remarks>
-        public IEnumerable<TypeInflation> ClassTypes { get; internal set; }
+        internal IEnumerable<TypeInflation> ClassTypes { get; set; }
 
         /// <summary>
         /// 方法集合
@@ -31,6 +31,6 @@ namespace Fur.AppCore.Inflations
         /// <remarks>
         /// <para>包含：公开实例方法、公开静态方法</para>
         /// </remarks>
-        public IEnumerable<MethodInflation> Methods { get; internal set; }
+        internal IEnumerable<MethodInflation> Methods { get; set; }
     }
 }

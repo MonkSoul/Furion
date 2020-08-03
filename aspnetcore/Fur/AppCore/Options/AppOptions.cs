@@ -16,5 +16,10 @@ namespace Fur.AppCore.Options
         /// Swagger配置选项
         /// </summary>
         public FurSwaggerDocOptions SwaggerDocOptions { get; set; }
+
+        /// <summary>
+        /// 是否启动扫描数据库对象
+        /// </summary>
+        public bool IsScanDbObjects { get; set; } = true;
     }
 }

@@ -1,4 +1,5 @@
-﻿using Fur.AppCore.Attributes;
+﻿using Fur.AppCore;
+using Fur.AppCore.Attributes;
 using Fur.DatabaseAccessor.Contexts.Locators;
 using Fur.DatabaseAccessor.Contexts.Staters;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +50,8 @@ namespace Fur.DatabaseAccessor.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            if (!App.AppOptions.IsScanDbObjects) return;
 
             // 扫描数据库对象类型加入模型构建器中，包括视图、存储过程、函数（标量函数/表值函数）初始化、及种子数据、查询筛选器配置
             FurDbContextStater.ScanDbObjectsToBuilding(modelBuilder, typeof(TDbContextLocator), this);

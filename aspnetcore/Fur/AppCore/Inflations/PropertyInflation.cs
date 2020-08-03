@@ -14,26 +14,26 @@ namespace Fur.AppCore.Inflations
         /// <summary>
         /// 所在程序集
         /// </summary>
-        public Assembly ThisAssembly { get; set; }
+        internal Assembly ThisAssembly { get; set; }
 
         /// <summary>
         /// 所在类型
         /// </summary>
-        public Type ThisDeclareType { get; set; }
+        internal Type ThisDeclareType { get; set; }
 
         /// <summary>
         /// 方法名称
         /// </summary>
-        public string Name { get; set; }
+        internal string Name { get; set; }
 
         /// <summary>
         /// 属性类型
         /// </summary>
-        public Type PropertyType { get; set; }
+        internal Type PropertyType { get; set; }
 
         /// <summary>
         /// 属性特性集合
         /// </summary>
-        public IEnumerable<Attribute> CustomAttributes { get; set; }
+        internal IEnumerable<Attribute> CustomAttributes { get; set; }
     }
 }

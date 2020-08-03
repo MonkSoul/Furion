@@ -14,37 +14,37 @@ namespace Fur.AppCore.Inflations
         /// <summary>
         /// 所在程序集
         /// </summary>
-        public Assembly ThisAssembly { get; set; }
+        internal Assembly ThisAssembly { get; set; }
 
         /// <summary>
         /// 当前类型
         /// </summary>
-        public Type ThisType { get; set; }
+        internal Type ThisType { get; set; }
 
         /// <summary>
         /// 类型名称
         /// </summary>
-        public string Name { get; set; }
+        internal string Name { get; set; }
 
         /// <summary>
         /// 类型完整名称
         /// </summary>
-        public string FullName { get; set; }
+        internal string FullName { get; set; }
 
         /// <summary>
         /// 是否是泛型类型
         /// </summary>
-        public bool IsGenericType { get; set; }
+        internal bool IsGenericType { get; set; }
 
         /// <summary>
         /// 是否是静态类型
         /// </summary>
-        public bool IsStaticType { get; set; }
+        internal bool IsStaticType { get; set; }
 
         /// <summary>
         /// 是否可以创建实例
         /// </summary>
-        public bool CanBeNew { get; set; }
+        internal bool CanBeNew { get; set; }
 
         /// <summary>
         /// 泛型参数
@@ -52,7 +52,7 @@ namespace Fur.AppCore.Inflations
         /// <remarks>
         /// <para>只有 <see cref="IsGenericType"/> = <c>true</c> 有作用</para>
         /// </remarks>
-        public IEnumerable<Type> GenericArgumentTypes { get; set; }
+        internal IEnumerable<Type> GenericArgumentTypes { get; set; }
 
         /// <summary>
         /// 子属性集合
@@ -60,7 +60,7 @@ namespace Fur.AppCore.Inflations
         /// <remarks>
         /// <para>包含：公开实例属性、公开静态属性</para>
         /// </remarks>
-        public IEnumerable<PropertyInflation> SubPropertis { get; set; }
+        internal IEnumerable<PropertyInflation> SubPropertis { get; set; }
 
         /// <summary>
         /// 子方法集合
@@ -68,12 +68,12 @@ namespace Fur.AppCore.Inflations
         /// <remarks>
         /// <para>包含：公开实例方法、公开静态方法</para>
         /// </remarks>
-        public IEnumerable<MethodInflation> SubMethods { get; set; }
+        internal IEnumerable<MethodInflation> SubMethods { get; set; }
 
         /// <summary>
         /// 类型特性集合
         /// </summary>
-        public IEnumerable<Attribute> CustomAttributes { get; set; }
+        internal IEnumerable<Attribute> CustomAttributes { get; set; }
 
         /// <summary>
         /// 是否是控制器类型
@@ -81,7 +81,7 @@ namespace Fur.AppCore.Inflations
         /// <remarks>
         /// 参见：<see cref="Fur.AppCore.App.IsControllerType(Type, bool)"/>
         /// </remarks>
-        public bool IsControllerType { get; set; }
+        internal bool IsControllerType { get; set; }
 
         /// <summary>
         /// Swagger 接口文档 分组名
@@ -89,16 +89,16 @@ namespace Fur.AppCore.Inflations
         /// <remarks>
         /// <para>只有 <see cref="IsControllerType"/> = <c>true</c> 有作用</para>
         /// </remarks>
-        public string[] SwaggerGroups { get; set; }
+        internal string[] SwaggerGroups { get; set; }
 
         /// <summary>
         /// 是否是数据库实体关联类型
         /// </summary>
-        public bool IsDbEntityRelevanceType { get; set; }
+        internal bool IsDbEntityRelevanceType { get; set; }
 
         /// <summary>
         /// 是否是租户类型
         /// </summary>
-        public bool IsTenantType { get; set; }
+        internal bool IsTenantType { get; set; }
     }
 }
