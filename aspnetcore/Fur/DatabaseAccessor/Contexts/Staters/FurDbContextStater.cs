@@ -123,12 +123,12 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <param name="entityTypeBuilder">实体类型构建器</param>
         private static void DbEntityTypeBuilderConfigure(DbEntityStater dbEntityStater, ref EntityTypeBuilder entityTypeBuilder)
         {
-            if (dbEntityStater.InterfaceGenericArgumentTypes == null) return;
+            if (dbEntityStater.DbEntityConfigureGenericArgumentTypes == null) return;
 
-            var key = dbEntityStater.InterfaceGenericArgumentTypes.Keys.FirstOrDefault(u => typeof(IDbEntityBuilder).IsAssignableFrom(u));
+            var key = dbEntityStater.DbEntityConfigureGenericArgumentTypes.Keys.FirstOrDefault(u => typeof(IDbEntityBuilder).IsAssignableFrom(u));
             if (key == null) return;
 
-            var dbEntityGenericArguments = dbEntityStater.InterfaceGenericArgumentTypes[key];
+            var dbEntityGenericArguments = dbEntityStater.DbEntityConfigureGenericArgumentTypes[key];
             var dbEntityRelevanceType = dbEntityStater.DbEntityRelevanceType;
 
             CreateDbEntityTypeBuilderIfNull(dbEntityGenericArguments.First(), ref entityTypeBuilder);
@@ -150,12 +150,12 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         private static void DbSeedDataConfigure(DbEntityStater dbEntityStater, DbContext dbContext, ref EntityTypeBuilder entityTypeBuilder)
         {
             var dbEntityRelevanceType = dbEntityStater.DbEntityRelevanceType;
-            if (typeof(IDbNoKeyEntity).IsAssignableFrom(dbEntityRelevanceType) || dbEntityStater.InterfaceGenericArgumentTypes == null) return;
+            if (typeof(IDbNoKeyEntity).IsAssignableFrom(dbEntityRelevanceType) || dbEntityStater.DbEntityConfigureGenericArgumentTypes == null) return;
 
-            var key = dbEntityStater.InterfaceGenericArgumentTypes.Keys.FirstOrDefault(u => typeof(IDbSeedData).IsAssignableFrom(u));
+            var key = dbEntityStater.DbEntityConfigureGenericArgumentTypes.Keys.FirstOrDefault(u => typeof(IDbSeedData).IsAssignableFrom(u));
             if (key == null) return;
 
-            var dbEntityGenericArguments = dbEntityStater.InterfaceGenericArgumentTypes[key];
+            var dbEntityGenericArguments = dbEntityStater.DbEntityConfigureGenericArgumentTypes[key];
 
             CreateDbEntityTypeBuilderIfNull(dbEntityGenericArguments.First(), ref entityTypeBuilder);
 
@@ -182,11 +182,11 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
             var dbEntityRelevanceType = dbEntityStater.DbEntityRelevanceType;
 
             // 租户表无需参与过滤器
-            if (dbEntityRelevanceType == _tenantType || dbEntityStater.InterfaceGenericArgumentTypes == null) return;
+            if (dbEntityRelevanceType == _tenantType || dbEntityStater.DbEntityConfigureGenericArgumentTypes == null) return;
 
-            var key = dbEntityStater.InterfaceGenericArgumentTypes.Keys.FirstOrDefault(u => typeof(IDbQueryFilter).IsAssignableFrom(u));
+            var key = dbEntityStater.DbEntityConfigureGenericArgumentTypes.Keys.FirstOrDefault(u => typeof(IDbQueryFilter).IsAssignableFrom(u));
             if (key == null) return;
-            var dbEntityGenericArguments = dbEntityStater.InterfaceGenericArgumentTypes[key];
+            var dbEntityGenericArguments = dbEntityStater.DbEntityConfigureGenericArgumentTypes[key];
 
             CreateDbEntityTypeBuilderIfNull(dbEntityGenericArguments.First(), ref entityTypeBuilder);
 
@@ -385,7 +385,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
                     {
                         interfaceGenericArgumentTypes.Add(inter, inter.GetGenericArguments());
                     }
-                    stater.InterfaceGenericArgumentTypes = interfaceGenericArgumentTypes;
+                    stater.DbEntityConfigureGenericArgumentTypes = interfaceGenericArgumentTypes;
                 }
 
                 dbEntityStater = stater;

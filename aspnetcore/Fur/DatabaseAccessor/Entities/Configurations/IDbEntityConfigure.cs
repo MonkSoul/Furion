@@ -1,6 +1,7 @@
 ﻿namespace Fur.DatabaseAccessor.Entities.Configurations
 {
-    public interface IDbEntityConfigure
-    {
-    }
+    /// <summary>
+    /// 实体配置依赖接口
+    /// </summary>
+    public interface IDbEntityConfigure { }
 }
