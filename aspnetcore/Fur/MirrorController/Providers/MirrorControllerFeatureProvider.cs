@@ -1,4 +1,4 @@
-﻿using Fur.AppBasic;
+﻿using Fur.AppCore;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using System.Reflection;
 

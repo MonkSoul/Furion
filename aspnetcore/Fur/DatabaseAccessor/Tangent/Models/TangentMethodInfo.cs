@@ -1,4 +1,4 @@
-﻿using Fur.AppBasic.Attributes;
+﻿using Fur.AppCore.Attributes;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;

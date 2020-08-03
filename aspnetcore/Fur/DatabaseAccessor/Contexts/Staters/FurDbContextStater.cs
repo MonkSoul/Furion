@@ -1,7 +1,7 @@
 ﻿using Autofac;
-using Fur.AppBasic;
-using Fur.AppBasic.Attributes;
-using Fur.AppBasic.Wrappers;
+using Fur.AppCore;
+using Fur.AppCore.Attributes;
+using Fur.AppCore.Wrappers;
 using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.Entities.Configurations;
 using Fur.DatabaseAccessor.Extensions;

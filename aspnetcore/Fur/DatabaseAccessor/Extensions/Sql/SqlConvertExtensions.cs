@@ -1,4 +1,4 @@
-﻿using Fur.AppBasic.Attributes;
+﻿using Fur.AppCore.Attributes;
 using Fur.DatabaseAccessor.Attributes;
 using Fur.TypeExtensions;
 using Mapster;

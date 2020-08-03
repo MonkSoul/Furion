@@ -1,9 +1,9 @@
-﻿using Fur.AppBasic.Attributes;
+﻿using Fur.AppCore.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Fur.AppBasic.Wrappers
+namespace Fur.AppCore.Wrappers
 {
     /// <summary>
     /// 方法参数包装类

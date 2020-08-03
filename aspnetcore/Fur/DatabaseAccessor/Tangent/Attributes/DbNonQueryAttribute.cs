@@ -1,4 +1,4 @@
-﻿using Fur.AppBasic.Attributes;
+﻿using Fur.AppCore.Attributes;
 using Fur.DatabaseAccessor.Tangent.Attributes.Basics;
 using System;
 

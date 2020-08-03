@@ -1,4 +1,4 @@
-﻿using Fur.AppBasic;
+﻿using Fur.AppCore;
 using Fur.Linq.Extensions;
 using Fur.MirrorController.Attributes;
 using Fur.MirrorController.Helpers;

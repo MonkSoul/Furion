@@ -1,6 +1,6 @@
 ﻿using Autofac;
-using Fur.AppBasic;
-using Fur.AppBasic.Wrappers;
+using Fur.AppCore;
+using Fur.AppCore.Wrappers;
 using Fur.DependencyInjection.Lifetimes;
 using Fur.DependencyInjection.Lifetimes.AsSelf;
 using System.Collections.Generic;

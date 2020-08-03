@@ -1,5 +1,5 @@
-﻿using Fur.AppBasic;
-using Fur.AppBasic.Attributes;
+﻿using Fur.AppCore;
+using Fur.AppCore.Attributes;
 using Fur.SwaggerDoc.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;

@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Fur.AppBasic;
+using Fur.AppCore;
 using Fur.DatabaseAccessor.Contexts.Pools;
 using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.MultipleTenants.Options;

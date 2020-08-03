@@ -1,6 +1,6 @@
 ﻿using Autofac;
-using Fur.AppBasic;
-using Fur.AppBasic.Attributes;
+using Fur.AppCore;
+using Fur.AppCore.Attributes;
 using Fur.DatabaseAccessor.MultipleTenants.Options;
 using Fur.DatabaseAccessor.MultipleTenants.Providers;
 using Microsoft.EntityFrameworkCore;

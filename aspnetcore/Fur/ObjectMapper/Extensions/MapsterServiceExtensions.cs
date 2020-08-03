@@ -1,5 +1,5 @@
-﻿using Fur.AppBasic;
-using Fur.AppBasic.Attributes;
+﻿using Fur.AppCore;
+using Fur.AppCore.Attributes;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿using Fur.AppBasic.Attributes;
+﻿using Fur.AppCore.Attributes;
 using Fur.DatabaseAccessor.Interceptors;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;

@@ -1,6 +1,6 @@
 using Autofac;
-using Fur.AppBasic;
-using Fur.AppBasic.Options;
+using Fur.AppCore;
+using Fur.AppCore.Options;
 using Fur.DependencyInjection;
 using Fur.EntityFramework.Core.Extensions;
 using Fur.FriendlyException.Filters;

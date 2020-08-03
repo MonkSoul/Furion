@@ -1,4 +1,4 @@
-﻿using Fur.AppBasic;
+﻿using Fur.AppCore;
 using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.Extensions;
 using Fur.DatabaseAccessor.MultipleTenants.Options;

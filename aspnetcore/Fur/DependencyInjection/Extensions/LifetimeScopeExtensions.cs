@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Fur.AppBasic.Attributes;
+using Fur.AppCore.Attributes;
 
 namespace Fur.DependencyInjection.Extensions
 {

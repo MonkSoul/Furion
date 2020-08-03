@@ -1,6 +1,6 @@
-﻿using Fur.AppBasic.Attributes;
-using Fur.AppBasic.Options;
-using Fur.AppBasic.Wrappers;
+﻿using Fur.AppCore.Attributes;
+using Fur.AppCore.Options;
+using Fur.AppCore.Wrappers;
 using Fur.DatabaseAccessor.Attributes;
 using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.Entities.Configurations;
@@ -18,20 +18,10 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 
-namespace Fur.AppBasic
+namespace Fur.AppCore
 {
     /// <summary>
     /// 应用核心类
-    /// <code>static</code>
-    /// <para>功能列表：</para>
-    /// <list type="number">
-    /// <item>
-    /// <description>启动时扫描解决方案中所有程序集并创建对应的包装类对象</description>
-    /// </item>
-    /// <item>
-    /// <description>定义解决方案全局可调用的公共属性或方法</description>
-    /// </item>
-    /// </list>
     /// </summary>
     [NonWrapper]
     public static class App

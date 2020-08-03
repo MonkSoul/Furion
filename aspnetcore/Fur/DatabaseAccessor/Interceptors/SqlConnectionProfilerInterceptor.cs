@@ -1,4 +1,4 @@
-﻿using Fur.AppBasic.Attributes;
+﻿using Fur.AppCore.Attributes;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using StackExchange.Profiling;
 using System.Data.Common;

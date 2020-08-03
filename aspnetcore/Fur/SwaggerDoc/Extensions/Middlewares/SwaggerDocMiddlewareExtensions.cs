@@ -1,5 +1,5 @@
-﻿using Fur.AppBasic;
-using Fur.AppBasic.Attributes;
+﻿using Fur.AppCore;
+using Fur.AppCore.Attributes;
 using Microsoft.AspNetCore.Builder;
 
 namespace Fur.SwaggerDoc.Extensions.Middlewares
