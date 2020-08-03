@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 namespace Fur.FriendlyException.Filters
 {
     [NonInflated]
-    public class ExceptionAsyncFilter : IAsyncExceptionFilter
+    public sealed class ExceptionAsyncFilter : IAsyncExceptionFilter
     {
         /// <summary>
         /// autofac 生命周期对象

@@ -2,7 +2,7 @@
 
 namespace Fur.Web.Core
 {
-    public class FurWebCoreModule : Module
+    public sealed class FurWebCoreModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

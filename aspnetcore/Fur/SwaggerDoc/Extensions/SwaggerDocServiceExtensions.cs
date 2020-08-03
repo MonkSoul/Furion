@@ -2,7 +2,7 @@
 using Fur.AppCore.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.SwaggerDoc.Extensions.Services
+namespace Fur.SwaggerDoc.Extensions
 {
     /// <summary>
     /// Swagger 服务拓展类

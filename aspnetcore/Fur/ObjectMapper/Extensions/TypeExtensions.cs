@@ -1,13 +1,11 @@
-﻿using Fur.AppCore.Attributes;
-using System.Text;
+﻿using System.Text;
 using System.Threading;
 
-namespace Fur.ObjectMapper.Helpers
+namespace Fur.ObjectMapper.Extensions
 {
-    [NonInflated]
-    internal class Helper
+    internal static class TypeExtensions
     {
-        internal static string ConvertUnderlineNamedToCamelCaseNamed(string propertyName)
+        internal static string ConvertUnderlineNamedToCamelCaseNamed(this string propertyName)
         {
             if (propertyName.IndexOf('_') == -1 || !propertyName.ToUpper().Equals(propertyName) || propertyName.StartsWith('_') || propertyName.EndsWith('_')) return propertyName;
 
@@ -21,7 +19,7 @@ namespace Fur.ObjectMapper.Helpers
             return stringBuilder.ToString();
         }
 
-        internal static string ConvertCamelCaseNamedToUnderlineNamed(string propertyName)
+        internal static string ConvertCamelCaseNamedToUnderlineNamed(this string propertyName)
         {
             var stringBuilder = new StringBuilder();
             foreach (var c in propertyName)

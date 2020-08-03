@@ -7,7 +7,7 @@ namespace Fur.Linq.Builders
     /// Linq/Lambda 构建器
     /// </summary>
     [NonInflated]
-    public class LinqBuilder
+    public static class LinqBuilder
     {
         /// <summary>
         /// 创建 Linq/Lambda 表达式

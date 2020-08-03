@@ -7,7 +7,7 @@ namespace Fur.SwaggerDoc.Options
     /// Swagger 文档配置选项
     /// </summary>
     [NonInflated]
-    public class FurSwaggerDocOptions
+    public sealed class FurSwaggerDocOptions
     {
         /// <summary>
         /// 文档标题

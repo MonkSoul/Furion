@@ -2,7 +2,7 @@
 
 namespace Fur
 {
-    public class FurModule : Module
+    public sealed class FurModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

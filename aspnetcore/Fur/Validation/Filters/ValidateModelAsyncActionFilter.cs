@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Fur.Validation.Filters
 {
     [NonInflated]
-    public class ValidateModelAsyncActionFilter : IAsyncActionFilter
+    public sealed class ValidateModelAsyncActionFilter : IAsyncActionFilter
     {
         private readonly IUnifyResultProvider _unifyResultProvider;
 

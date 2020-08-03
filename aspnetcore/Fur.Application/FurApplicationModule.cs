@@ -4,7 +4,7 @@ using Fur.UnifyResult.Providers;
 
 namespace Fur.Application
 {
-    public class FurApplicationModule : Module
+    public sealed class FurApplicationModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

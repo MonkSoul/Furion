@@ -6,7 +6,7 @@ namespace Fur.SwaggerDoc.Options
     /// Swagger 分组协议配置选项
     /// </summary>
     [NonInflated]
-    public class SwaggerDocLicenseOptions
+    public sealed class SwaggerDocLicenseOptions
     {
         /// <summary>
         /// 名称

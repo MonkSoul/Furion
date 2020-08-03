@@ -3,7 +3,7 @@ using Fur.DatabaseAccessor.Repositories.Interceptors;
 
 namespace Fur.Core
 {
-    public class FurCoreModule : Module
+    public sealed class FurCoreModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

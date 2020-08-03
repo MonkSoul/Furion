@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Fur.UnifyResult.Middlewares
 {
     [NonInflated]
-    public class UnifyStatusCodesResultMiddleware
+    public sealed class UnifyStatusCodesResultMiddleware
     {
         private readonly RequestDelegate _next;
 

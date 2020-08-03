@@ -1,7 +1,7 @@
 ﻿using Fur.AppCore;
 using Fur.Linq.Extensions;
 using Fur.MirrorController.Attributes;
-using Fur.MirrorController.Helpers;
+using Fur.MirrorController.Extensions;
 using Fur.MirrorController.Options;
 using Fur.TypeExtensions;
 using Microsoft.AspNetCore.Mvc;
@@ -95,7 +95,7 @@ namespace Fur.MirrorController.Conventions
         /// <param name="controllerModel">控制器模型</param>
         private void ConfigureControllerName(ControllerModel controllerModel)
         {
-            controllerModel.ControllerName = Helper.ClearStringAffix(controllerModel.ControllerName, _attactControllerOptions.ClearControllerRouteAffix);
+            controllerModel.ControllerName = controllerModel.ControllerName.ClearStringAffix(_attactControllerOptions.ClearControllerRouteAffix);
         }
 
         /// <summary>
@@ -165,11 +165,11 @@ namespace Fur.MirrorController.Conventions
             // 保留原始名称
             if (attachActionAttribute?.KeepOriginalName ?? false) return;
 
-            actionModel.ActionName = Helper.ClearStringAffix(actionModel.ActionName, _attactControllerOptions.ClearActionRouteAffix);
+            actionModel.ActionName = actionModel.ActionName.ClearStringAffix(_attactControllerOptions.ClearActionRouteAffix);
             // 判断是否保留谓词
             if (_attactControllerOptions.RemoveActionRouteVerb && !(attachActionAttribute?.KeepRouteVerb ?? false))
             {
-                var verbKey = Helper.GetCamelCaseFirstWord(actionModel.ActionName);
+                var verbKey = actionModel.ActionName.GetCamelCaseFirstWord();
                 if (Consts.HttpVerbSetter.ContainsKey(verbKey.ToLower()))
                 {
                     actionModel.ActionName = actionModel.ActionName.Substring(verbKey.Length);
@@ -185,7 +185,7 @@ namespace Fur.MirrorController.Conventions
         /// <param name="attachActionAttribute">镜面控制器模型</param>
         private void ConfigureActionRouteAndHttpMethod(ControllerModel controllerModel, ActionModel actionModel, MirrorActionAttribute attachActionAttribute)
         {
-            var verbKey = Helper.GetCamelCaseFirstWord(actionModel.ActionMethod.Name).ToLower();
+            var verbKey = actionModel.ActionMethod.Name.GetCamelCaseFirstWord().ToLower();
             var verb = Consts.HttpVerbSetter.ContainsKey(verbKey) ? Consts.HttpVerbSetter[verbKey] : _attactControllerOptions.DefaultHttpMethod.ToUpper();
 
             var actionModelSelector = actionModel.Selectors[0];
@@ -242,7 +242,7 @@ namespace Fur.MirrorController.Conventions
             {
                 if (attachActionAttribute?.SplitWordToRoutePath ?? false)
                 {
-                    var everyWords = Helper.CamelCaseSplitString(actionModel.ActionName);
+                    var everyWords = actionModel.ActionName.CamelCaseSplitString();
                     actionName = string.Join("/", everyWords);
                 }
             }

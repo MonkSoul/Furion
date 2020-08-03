@@ -6,7 +6,7 @@ namespace Fur.SwaggerDoc.Options
     /// Swagger 联系分组联系信息配置选项
     /// </summary>
     [NonInflated]
-    public class SwaggerDocContactOptions
+    public sealed class SwaggerDocContactOptions
     {
         /// <summary>
         /// 名称

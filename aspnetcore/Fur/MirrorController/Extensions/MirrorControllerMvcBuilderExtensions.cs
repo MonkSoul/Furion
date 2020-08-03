@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 
-namespace Fur.MirrorController.Extensions.MvcBuilders
+namespace Fur.MirrorController.Extensions
 {
     /// <summary>
     /// 镜面控制器Mvc构建器拓展

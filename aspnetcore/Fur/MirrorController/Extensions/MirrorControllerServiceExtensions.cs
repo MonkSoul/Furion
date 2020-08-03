@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 
-namespace Fur.MirrorController.Extensions.Services
+namespace Fur.MirrorController.Extensions
 {
     /// <summary>
     /// 镜面控制器服务拓展

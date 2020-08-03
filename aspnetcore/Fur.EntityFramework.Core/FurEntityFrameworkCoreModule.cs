@@ -4,7 +4,7 @@ using Fur.EntityFramework.Core.DbContexts;
 
 namespace Fur.EntityFramework.Core
 {
-    public class FurEntityFrameworkCoreModule : Module
+    public sealed class FurEntityFrameworkCoreModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Fur.MirrorController.Helpers
+namespace Fur.MirrorController.Extensions
 {
-    internal class Helper
+    internal static class TypeExtensions
     {
         /// <summary>
         /// 移除字符串前后缀
@@ -14,7 +14,7 @@ namespace Fur.MirrorController.Helpers
         /// <param name="str">字符串</param>
         /// <param name="affixs">前后缀</param>
         /// <returns>新的字符串</returns>
-        internal static string ClearStringAffix(string str, params string[] affixs)
+        internal static string ClearStringAffix(this string str, params string[] affixs)
         {
             if (!str.HasValue()) throw new ArgumentNullException(nameof(str));
 
@@ -50,7 +50,7 @@ namespace Fur.MirrorController.Helpers
         /// </summary>
         /// <param name="str">字符串</param>
         /// <returns>切换后数组</returns>
-        internal static string[] CamelCaseSplitString(string str)
+        internal static string[] CamelCaseSplitString(this string str)
         {
             if (!str.HasValue()) throw new ArgumentNullException(nameof(str));
             if (str.Length == 1) return new string[] { str };
@@ -63,7 +63,7 @@ namespace Fur.MirrorController.Helpers
         /// </summary>
         /// <param name="str">字符串</param>
         /// <returns>首个单词</returns>
-        internal static string GetCamelCaseFirstWord(string str)
+        internal static string GetCamelCaseFirstWord(this string str)
             => CamelCaseSplitString(str).FirstOrDefault();
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Fur.AppCore.Attributes;
-using Fur.ObjectMapper.Helpers;
 using Mapster;
 
 namespace Fur.ObjectMapper.Extensions
@@ -13,7 +12,7 @@ namespace Fur.ObjectMapper.Extensions
             {
                 SourceMemberNameConverter = (string name) =>
                 {
-                    var _name = Helper.ConvertUnderlineNamedToCamelCaseNamed(name);
+                    var _name = name.ConvertUnderlineNamedToCamelCaseNamed();
                     return ignoreCase ? _name.ToLower() : _name;
                 },
                 DestinationMemberNameConverter = (string name) => ignoreCase ? name.ToLower() : name
@@ -27,7 +26,7 @@ namespace Fur.ObjectMapper.Extensions
             {
                 SourceMemberNameConverter = (string name) =>
                 {
-                    var _name = Helper.ConvertCamelCaseNamedToUnderlineNamed(name);
+                    var _name = name.ConvertCamelCaseNamedToUnderlineNamed();
                     return ignoreCase ? _name.ToLower() : _name;
                 },
                 DestinationMemberNameConverter = (string name) => ignoreCase ? name.ToLower() : name,

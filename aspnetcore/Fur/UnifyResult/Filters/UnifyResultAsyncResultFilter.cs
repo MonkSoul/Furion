@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Fur.UnifyResult.Filters
 {
     [NonInflated]
-    public class UnifyResultAsyncResultFilter : IAsyncResultFilter
+    public sealed class UnifyResultAsyncResultFilter : IAsyncResultFilter
     {
         private readonly IUnifyResultProvider _unifyResultProvider;
 

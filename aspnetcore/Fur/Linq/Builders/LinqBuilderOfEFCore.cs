@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 namespace Fur.Linq.Builders
 {
     [NonInflated]
-    public class LinqBuilderOfEFCore
+    public static class LinqBuilderOfEFCore
     {
         /// <summary>
         /// [EF Core] 创建 Linq/Lambda 表达式
