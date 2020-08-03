@@ -10,7 +10,7 @@ namespace Fur.MirrorController.Options
         /// <summary>
         /// 默认Api路由统一前缀
         /// </summary>
-        public string DefaultStartRoutePrefix { get; set; }
+        public string DefaultRoutePrefix { get; set; }
 
         /// <summary>
         /// 生成路由时，自动去除控制器名称前后缀
@@ -39,7 +39,7 @@ namespace Fur.MirrorController.Options
         /// 小写Api地址
         /// </summary>
         [Required]
-        public bool LowerCaseUri { get; set; }
+        public bool LowerCasePath { get; set; }
 
         /// <summary>
         /// 移除Actoin路由名称请求动词

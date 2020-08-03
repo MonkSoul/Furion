@@ -10,7 +10,7 @@ namespace Fur.MirrorController.Attributes
     public sealed class MirrorActionAttribute : ApiExplorerSettingsAttribute
     {
         /// <summary>
-        /// 默认构造函数
+        /// 构造函数
         /// </summary>
         public MirrorActionAttribute() { }
 

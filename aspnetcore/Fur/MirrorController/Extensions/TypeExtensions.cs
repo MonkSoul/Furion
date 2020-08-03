@@ -46,7 +46,7 @@ namespace Fur.MirrorController.Extensions
         }
 
         /// <summary>
-        /// 将字符串按照骆驼命名反射切割
+        /// 将字符串按照骆驼命名切割
         /// </summary>
         /// <param name="str">字符串</param>
         /// <returns>切换后数组</returns>

@@ -26,7 +26,7 @@ namespace Fur.MirrorController.Extensions
             partManager.FeatureProviders.Add(new MirrorControllerFeatureProvider());
             mvcBuilder.AddMvcOptions(options =>
             {
-                options.Conventions.Add(new MirrorControllerModelConvention());
+                options.Conventions.Add(new MirrorApplicationModelConvention());
             });
 
             mvcBuilder.AddNewtonsoftJson();
