@@ -14,7 +14,6 @@ namespace Fur.MirrorController.Attributes
         /// </summary>
         public MirrorControllerAttribute()
         {
-            base.IgnoreApi = false;
         }
 
         /// <summary>
