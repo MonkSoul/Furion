@@ -1,7 +1,6 @@
 ﻿using Fur.Application.Functions.Dtos;
 using Fur.Core.DbEntities;
 using Fur.DatabaseAccessor.Repositories;
-using Fur.MirrorController.Attributes;
 using Fur.MirrorController.Dependencies;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
@@ -13,8 +12,7 @@ namespace Fur.Application.Functions
     /// <summary>
     /// 测试接口
     /// </summary>
-    [MirrorController]
-    public class TestAppService : ITestAppService, IMirrorController
+    public class TestAppService : ITestAppService, IMirrorControllerModel
     {
         private readonly IRepository<Test> _repository;
 

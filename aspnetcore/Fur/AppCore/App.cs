@@ -181,9 +181,8 @@ namespace Fur.AppCore
             // 定义了 [ApiExplorerSettings] 特性，但特性 IgnoreApi 为 false
             if (type.IsDefined(typeof(ApiExplorerSettingsAttribute), true) && type.GetCustomAttribute<ApiExplorerSettingsAttribute>(true).IgnoreApi) return false;
 
-            // 是否是镜面控制器类型，且 [AttachController].Attach!=false，且继承 IAttachControllerDependency 接口
-            var mirrorControllerAttribute = type.GetDeepAttribute<MirrorControllerAttribute>();
-            if (mirrorControllerAttribute != null && mirrorControllerAttribute.Enabled != false && typeof(IMirrorController).IsAssignableFrom(type)) return true;
+            // 是否是镜面控制器类型，继承 IAttachControllerDependency
+            if (typeof(IMirrorControllerModel).IsAssignableFrom(type) && (!type.IsDefined(typeof(MirrorControllerAttribute), true) || type.GetDeepAttribute<MirrorControllerAttribute>().Enabled != false)) return true;
 
             return false;
         }

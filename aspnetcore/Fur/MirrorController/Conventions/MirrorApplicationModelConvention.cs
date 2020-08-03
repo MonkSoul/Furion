@@ -157,9 +157,9 @@ namespace Fur.MirrorController.Conventions
             // 默认路由前置
             var apiPrefix = _mirrorControllerOptions.DefaultRoutePrefix;
             // 控制器版本号
-            var controllerApiVersion = mirrorControllerAttribute.ApiVersion ?? _mirrorControllerOptions.DefaultApiVersion;
+            var controllerApiVersion = mirrorControllerAttribute?.ApiVersion ?? _mirrorControllerOptions.DefaultApiVersion;
             // 控制器名称
-            var controllerName = mirrorControllerAttribute.Name ?? (controllerModel.ControllerName.ClearStringAffix(_mirrorControllerOptions.ClearControllerRouteAffix));
+            var controllerName = mirrorControllerAttribute?.Name ?? (controllerModel.ControllerName.ClearStringAffix(_mirrorControllerOptions.ClearControllerRouteAffix));
             // Action名称
             var actionName = actionModel.ActionName;
             if (mirrorActionAttribute != null)
