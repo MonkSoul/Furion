@@ -174,18 +174,14 @@ namespace Fur.AppCore
             // 必须是公开非抽象类、非泛型类、非接口类型
             if (!type.IsPublic || type.IsAbstract || type.IsGenericType || type.IsInterface || type.IsEnum) return false;
 
-            // 判断是否是控制器类型，且 [ApiExplorerSettings].IgnoreApi!=true
-            if (!exceptControllerBase)
-            {
-                var apiExplorerSettingsAttribute = type.GetDeepAttribute<ApiExplorerSettingsAttribute>();
-                if (typeof(ControllerBase).IsAssignableFrom(type) && (apiExplorerSettingsAttribute == null || apiExplorerSettingsAttribute.IgnoreApi != true)) return true;
-            }
-
             // 定义了 [ApiExplorerSettings] 特性，但特性 IgnoreApi 为 false
             if (type.IsDefined(typeof(ApiExplorerSettingsAttribute), true) && type.GetCustomAttribute<ApiExplorerSettingsAttribute>(true).IgnoreApi) return false;
 
+            // 判断是否是控制器类型，且 [ApiExplorerSettings].IgnoreApi!=true
+            if (!exceptControllerBase && typeof(ControllerBase).IsAssignableFrom(type)) return true;
+
             // 是否是镜面控制器类型，继承 IAttachControllerDependency
-            if (typeof(IMirrorControllerModel).IsAssignableFrom(type) && (!type.IsDefined(typeof(MirrorControllerAttribute), true) || type.GetDeepAttribute<MirrorControllerAttribute>().Enabled != false)) return true;
+            if (typeof(IMirrorControllerModel).IsAssignableFrom(type)) return true;
 
             return false;
         }
@@ -224,7 +220,7 @@ namespace Fur.AppCore
             if (!controllerType.IsDefined(typeof(MirrorControllerAttribute), true))
                 return defaultSwaggerGroups;
 
-            var mirrorControllerAttribute = controllerType.GetDeepAttribute<MirrorControllerAttribute>();
+            var mirrorControllerAttribute = controllerType.GetCustomAttribute<MirrorControllerAttribute>(true);
             if (mirrorControllerAttribute.SwaggerGroups == null || !mirrorControllerAttribute.SwaggerGroups.Any())
                 return defaultSwaggerGroups;
 
@@ -244,11 +240,11 @@ namespace Fur.AppCore
             if (!controllerAction.IsDefined(typeof(MirrorActionAttribute), true))
                 return GetControllerTypeSwaggerGroups(controllerAction.DeclaringType);
 
-            var attachActionAttribute = controllerAction.GetCustomAttribute<MirrorActionAttribute>();
-            if (attachActionAttribute.SwaggerGroups == null || !attachActionAttribute.SwaggerGroups.Any())
-                return GetControllerTypeSwaggerGroups(controllerAction.DeclaringType);
+            var mirrorActionAttribute = controllerAction.GetCustomAttribute<MirrorActionAttribute>();
 
-            return attachActionAttribute.SwaggerGroups;
+            return mirrorActionAttribute.SwaggerGroups == null || !mirrorActionAttribute.SwaggerGroups.Any()
+                ? GetControllerTypeSwaggerGroups(controllerAction.DeclaringType)
+                : mirrorActionAttribute.SwaggerGroups;
         }
     }
 }

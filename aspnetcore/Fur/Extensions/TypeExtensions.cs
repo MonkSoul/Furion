@@ -11,29 +11,6 @@ namespace Fur.Extensions
     [NonInflated]
     public static class TypeExtensions
     {
-        /// <summary>
-        /// 递归获取特性
-        /// </summary>
-        /// <typeparam name="TAttribute">特性泛型类型</typeparam>
-        /// <param name="typeInfo">类型对象</param>
-        /// <returns>特性对象</returns>
-        public static TAttribute GetDeepAttribute<TAttribute>(this Type type) where TAttribute : Attribute
-        {
-            var attributeType = typeof(TAttribute);
-            if (type.IsDefined(attributeType, true)) return type.GetCustomAttribute<TAttribute>(true);
-            else
-            {
-                var implementedInterfaces = type.GetTypeInfo().ImplementedInterfaces;
-                foreach (var impl in implementedInterfaces)
-                {
-                    var tAttribute = GetDeepAttribute<TAttribute>(impl);
-                    if (tAttribute != null) return tAttribute;
-                }
-            }
-
-            return null;
-        }
-
         internal static bool IsPrimitivePlus(this Type type, bool includeEnum = true)
         {
             if (type.IsPrimitive) return true;
