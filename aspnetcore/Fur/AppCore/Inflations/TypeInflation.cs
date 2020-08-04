@@ -94,11 +94,6 @@ namespace Fur.AppCore.Inflations
         /// <summary>
         /// 是否是数据库实体关联类型
         /// </summary>
-        internal bool IsDbEntityRelevanceType { get; set; }
-
-        /// <summary>
-        /// 是否是租户类型
-        /// </summary>
-        internal bool IsTenantType { get; set; }
+        internal bool IsDbRelevanceEntityType { get; set; }
     }
 }

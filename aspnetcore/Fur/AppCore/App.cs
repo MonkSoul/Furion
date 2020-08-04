@@ -116,8 +116,7 @@ namespace Fur
                         SwaggerGroups = GetControllerTypeSwaggerGroups(t),
                         IsStaticType = t.IsAbstract && t.IsSealed,
                         CanBeNew = !t.IsAbstract,
-                        IsDbEntityRelevanceType = !t.IsAbstract && (typeof(IDbEntityBase).IsAssignableFrom(t) || typeof(IDbEntityConfigure).IsAssignableFrom(t)),
-                        IsTenantType = t == typeof(Tenant),
+                        IsDbRelevanceEntityType = !t.IsAbstract && (typeof(IDbEntityBase).IsAssignableFrom(t) || typeof(IDbEntityConfigure).IsAssignableFrom(t)),
 
                         // 创建属性包装器
                         SubPropertis = t.GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
@@ -145,7 +144,7 @@ namespace Fur
                             IsControllerActionMethod = IsControllerActionMethod(m),
                             SwaggerGroups = GetControllerActionSwaggerGroups(m),
                             IsStaticMethod = m.IsStatic,
-                            IsDbFunctionMethod = t.IsAbstract && t.IsSealed && m.IsStatic && m.IsDefined(typeof(DbFunctionAttribute), false),
+                            IsDbRelevanceFunction = t.IsAbstract && t.IsSealed && m.IsStatic && m.IsDefined(typeof(DbFunctionAttribute), false),
                             SubParameters = m.GetParameters(),
                         })
                     })

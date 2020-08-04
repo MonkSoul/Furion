@@ -73,6 +73,6 @@ namespace Fur.AppCore.Inflations
         /// <remarks>
         /// <para>贴了 <see cref="Fur.DatabaseAccessor.Attributes.DbFunctionAttribute"/> 特性的静态方法，且所在的类型也必须是静态的</para>
         /// </remarks>
-        internal bool IsDbFunctionMethod { get; set; }
+        internal bool IsDbRelevanceFunction { get; set; }
     }
 }
