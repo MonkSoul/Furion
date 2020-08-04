@@ -1,7 +1,7 @@
 ﻿using Castle.DynamicProxy;
 using Fur.AppCore.Attributes;
 
-namespace Fur.DatabaseAccessor.Tangent.Interceptors
+namespace Fur.DatabaseAccessor.Interceptors
 {
     /// <summary>
     /// 切面代理同步拦截器

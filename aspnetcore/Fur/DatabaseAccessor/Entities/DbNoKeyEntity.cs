@@ -1,5 +1,5 @@
 ﻿using Fur.AppCore.Attributes;
-using Fur.DatabaseAccessor.Contexts.Locators;
+using Fur.DatabaseAccessor.Contexts;
 
 namespace Fur.DatabaseAccessor.Entities
 {

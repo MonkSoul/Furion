@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Fur.DatabaseAccessor.MultipleTenants.Providers
+namespace Fur.DatabaseAccessor.Providers
 {
     /// <summary>
     /// 基于表的多租户实现提供器

@@ -1,11 +1,9 @@
 ﻿using Autofac;
 using Fur.AppCore;
 using Fur.AppCore.Attributes;
-using Fur.DatabaseAccessor.Contexts.Options;
-using Fur.DatabaseAccessor.Contexts.Pools;
-using Fur.DatabaseAccessor.MultipleTenants.Options;
+using Fur.DatabaseAccessor.Contexts;
+using Fur.DatabaseAccessor.Options;
 using Fur.DatabaseAccessor.Repositories.MasterSlave;
-using Fur.DatabaseAccessor.Tangent;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

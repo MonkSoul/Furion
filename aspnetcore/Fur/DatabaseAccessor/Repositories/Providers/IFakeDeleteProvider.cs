@@ -1,4 +1,4 @@
-﻿namespace Fur.DatabaseAccessor.Repositories.Providers
+﻿namespace Fur.DatabaseAccessor.Providers
 {
     public interface IFakeDeleteProvider
     {

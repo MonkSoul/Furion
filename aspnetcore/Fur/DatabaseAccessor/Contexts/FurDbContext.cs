@@ -1,7 +1,6 @@
 ﻿using Fur.AppCore;
 using Fur.AppCore.Attributes;
 using Fur.DatabaseAccessor.Contexts.Builders;
-using Fur.DatabaseAccessor.Contexts.Locators;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fur.DatabaseAccessor.Contexts

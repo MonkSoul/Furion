@@ -1,4 +1,4 @@
-﻿namespace Fur.DatabaseAccessor.MultipleTenants.Options
+﻿namespace Fur.DatabaseAccessor.Options
 {
     /// <summary>
     /// 多租户配置选项

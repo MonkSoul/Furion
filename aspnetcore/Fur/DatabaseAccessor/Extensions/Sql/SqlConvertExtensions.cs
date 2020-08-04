@@ -11,7 +11,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Fur.DatabaseAccessor.Extensions.Sql
+namespace Fur.DatabaseAccessor.Extensions
 {
     /// <summary>
     /// Sql 参数及返回值 拓展类

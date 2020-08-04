@@ -1,6 +1,5 @@
 ﻿using Autofac;
-using Fur.DatabaseAccessor.Contexts.Locators;
-using Fur.DatabaseAccessor.Contexts.Pools;
+using Fur.DatabaseAccessor.Contexts;
 using Fur.DatabaseAccessor.Entities;
 using Microsoft.EntityFrameworkCore;
 

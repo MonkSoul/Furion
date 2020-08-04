@@ -3,7 +3,7 @@ using Fur.DatabaseAccessor.Extensions;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 
-namespace Fur.DatabaseAccessor.Repositories.Interceptors
+namespace Fur.DatabaseAccessor.Interceptors
 {
     public class FurDbEntityInterceptor : IDbEntityInterceptor
     {

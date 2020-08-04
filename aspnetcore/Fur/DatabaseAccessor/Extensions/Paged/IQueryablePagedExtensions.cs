@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Fur.DatabaseAccessor.Extensions.Paged
+namespace Fur.DatabaseAccessor.Extensions
 {
     /// <summary>
     /// <see cref="IQueryable{T}"/> 分页拓展类

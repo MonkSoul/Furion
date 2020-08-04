@@ -1,5 +1,5 @@
 ﻿using Fur.DatabaseAccessor.Entities;
-using Fur.DatabaseAccessor.Extensions.Paged;
+using Fur.DatabaseAccessor.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

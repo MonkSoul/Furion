@@ -1,9 +1,8 @@
-﻿using Fur.DatabaseAccessor.Entities;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Fur.DatabaseAccessor.MultipleTenants.Entities
+namespace Fur.DatabaseAccessor.Entities
 {
     /// <summary>
     /// 租户实体

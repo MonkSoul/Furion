@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Fur.DatabaseAccessor.Repositories.Interceptors;
+using Fur.DatabaseAccessor.Interceptors;
 
 namespace Fur.Core
 {

@@ -1,4 +1,4 @@
-﻿namespace Fur.DatabaseAccessor.MultipleTenants.Providers
+﻿namespace Fur.DatabaseAccessor.Providers
 {
     public interface IMultipleTenantOnDatabaseProvider : IMultipleTenantProvider
     {

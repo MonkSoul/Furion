@@ -1,10 +1,9 @@
 ﻿using Autofac;
 using Castle.DynamicProxy;
 using Fur.AppCore.Attributes;
-using Fur.DatabaseAccessor.Contexts.Pools;
-using Fur.DatabaseAccessor.Extensions.Sql;
-using Fur.DatabaseAccessor.Tangent.Attributes;
-using Fur.DatabaseAccessor.Tangent.Attributes.Basics;
+using Fur.DatabaseAccessor.Attributes;
+using Fur.DatabaseAccessor.Contexts;
+using Fur.DatabaseAccessor.Extensions;
 using Fur.DatabaseAccessor.Tangent.Models;
 using Fur.Extensions;
 using Mapster;
@@ -31,23 +30,23 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
         /// <returns>object</returns>
         internal static object SynchronousInvoke(IInvocation invocation, ILifetimeScope lifetimeScope)
         {
-            var (tangentMethod, tangentAttribute) = TangentDbContextUtilities.GetTangentMethodInfo(invocation, lifetimeScope);
+            var (tangentMethod, tangentAttribute) = GetTangentMethodInfo(invocation, lifetimeScope);
 
-            if (tangentAttribute is DbQueryAttribute dbQueryAttribute)
+            if (tangentAttribute is SqlQueryAttribute dbQueryAttribute)
             {
-                return TangentDbContextUtilities.DbQueryExecute(tangentMethod, dbQueryAttribute);
+                return DbQueryExecute(tangentMethod, dbQueryAttribute);
             }
-            else if (tangentAttribute is DbNonQueryAttribute dbNonQueryAttribute)
+            else if (tangentAttribute is SqlNonQueryAttribute dbNonQueryAttribute)
             {
-                return TangentDbContextUtilities.DbNonQueryExecute(tangentMethod, dbNonQueryAttribute);
+                return DbNonQueryExecute(tangentMethod, dbNonQueryAttribute);
             }
-            else if (tangentAttribute is Attributes.DbFunctionAttribute dbFunctionAttribute)
+            else if (tangentAttribute is Attributes.SqlFunctionAttribute dbFunctionAttribute)
             {
-                return TangentDbContextUtilities.DbFunctionExecute(tangentMethod, dbFunctionAttribute);
+                return DbFunctionExecute(tangentMethod, dbFunctionAttribute);
             }
-            else if (tangentAttribute is DbProcedureAttribute dbProcedureAttribute)
+            else if (tangentAttribute is SqlProcedureAttribute dbProcedureAttribute)
             {
-                return TangentDbContextUtilities.DbProcedureExecute(tangentMethod, dbProcedureAttribute);
+                return DbProcedureExecute(tangentMethod, dbProcedureAttribute);
             }
             else
             {
@@ -63,24 +62,24 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
         /// <returns><see cref="Task{TResult}"/></returns>
         internal static async Task<TResult> AsynchronousInvoke<TResult>(IInvocation invocation, ILifetimeScope lifetimeScope)
         {
-            var (tangentMethod, tangentAttribute) = TangentDbContextUtilities.GetTangentMethodInfo(invocation, lifetimeScope);
+            var (tangentMethod, tangentAttribute) = GetTangentMethodInfo(invocation, lifetimeScope);
 
             object result;
-            if (tangentAttribute is DbQueryAttribute dbQueryAttribute)
+            if (tangentAttribute is SqlQueryAttribute dbQueryAttribute)
             {
-                result = await TangentDbContextUtilities.DbQueryExecuteAsync(tangentMethod, dbQueryAttribute);
+                result = await DbQueryExecuteAsync(tangentMethod, dbQueryAttribute);
             }
-            else if (tangentAttribute is DbNonQueryAttribute dbNonQueryAttribute)
+            else if (tangentAttribute is SqlNonQueryAttribute dbNonQueryAttribute)
             {
-                result = await TangentDbContextUtilities.DbNonQueryExecuteAsync(tangentMethod, dbNonQueryAttribute);
+                result = await DbNonQueryExecuteAsync(tangentMethod, dbNonQueryAttribute);
             }
-            else if (tangentAttribute is Attributes.DbFunctionAttribute dbFunctionAttribute)
+            else if (tangentAttribute is SqlFunctionAttribute dbFunctionAttribute)
             {
-                result = await TangentDbContextUtilities.DbFunctionExecuteAsync(tangentMethod, dbFunctionAttribute);
+                result = await DbFunctionExecuteAsync(tangentMethod, dbFunctionAttribute);
             }
-            else if (tangentAttribute is DbProcedureAttribute dbProcedureAttribute)
+            else if (tangentAttribute is SqlProcedureAttribute dbProcedureAttribute)
             {
-                result = await TangentDbContextUtilities.DbProcedureExecuteAsync(tangentMethod, dbProcedureAttribute);
+                result = await DbProcedureExecuteAsync(tangentMethod, dbProcedureAttribute);
             }
             else
             {
@@ -94,9 +93,9 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
         /// 数据库查询
         /// </summary>
         /// <param name="tangentMethod">切面方法</param>
-        /// <param name="dbQueryAttribute"><see cref="DbQueryAttribute"/></param>
+        /// <param name="dbQueryAttribute"><see cref="SqlQueryAttribute"/></param>
         /// <returns>object</returns>
-        internal static object DbQueryExecute(TangentMethodInfo tangentMethod, DbQueryAttribute dbQueryAttribute)
+        internal static object DbQueryExecute(TangentMethodInfo tangentMethod, SqlQueryAttribute dbQueryAttribute)
         {
             var sql = dbQueryAttribute.Sql;
             if (tangentMethod.ActReturnType == typeof(DataSet))
@@ -141,9 +140,9 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
         /// 数据库查询
         /// </summary>
         /// <param name="tangentMethod">切面方法</param>
-        /// <param name="dbQueryAttribute"><see cref="DbQueryAttribute"/></param>
+        /// <param name="dbQueryAttribute"><see cref="SqlQueryAttribute"/></param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        internal static async Task<object> DbQueryExecuteAsync(TangentMethodInfo tangentMethod, DbQueryAttribute dbQueryAttribute)
+        internal static async Task<object> DbQueryExecuteAsync(TangentMethodInfo tangentMethod, SqlQueryAttribute dbQueryAttribute)
         {
             var sql = dbQueryAttribute.Sql;
             if (tangentMethod.ActReturnType == typeof(DataSet))
@@ -189,9 +188,9 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
         /// 数据库非查询（增删改）
         /// </summary>
         /// <param name="tangentMethod">切面方法</param>
-        /// <param name="dbNonQueryAttribute"><see cref="DbNonQueryAttribute"/></param>
+        /// <param name="dbNonQueryAttribute"><see cref="SqlNonQueryAttribute"/></param>
         /// <returns>int</returns>
-        internal static int DbNonQueryExecute(TangentMethodInfo tangentMethod, DbNonQueryAttribute dbNonQueryAttribute)
+        internal static int DbNonQueryExecute(TangentMethodInfo tangentMethod, SqlNonQueryAttribute dbNonQueryAttribute)
         {
             var sql = dbNonQueryAttribute.Sql;
             return tangentMethod.DbContext.Database.SqlExecuteNonQuery(sql, CommandType.Text, tangentMethod.SqlParameters);
@@ -201,9 +200,9 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
         /// 数据库非查询（增删改）
         /// </summary>
         /// <param name="tangentMethod">切面方法</param>
-        /// <param name="dbNonQueryAttribute"><see cref="DbNonQueryAttribute"/></param>
+        /// <param name="dbNonQueryAttribute"><see cref="SqlNonQueryAttribute"/></param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        internal static async Task<int> DbNonQueryExecuteAsync(TangentMethodInfo tangentMethod, DbNonQueryAttribute dbNonQueryAttribute)
+        internal static async Task<int> DbNonQueryExecuteAsync(TangentMethodInfo tangentMethod, SqlNonQueryAttribute dbNonQueryAttribute)
         {
             var sql = dbNonQueryAttribute.Sql;
             var result = await tangentMethod.DbContext.Database.SqlExecuteNonQueryAsync(sql, CommandType.Text, tangentMethod.SqlParameters);
@@ -214,9 +213,9 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
         /// 数据库函数
         /// </summary>
         /// <param name="tangentMethod">切面方法</param>
-        /// <param name="dbFunctionAttribute"><see cref="Attributes.DbFunctionAttribute"/></param>
+        /// <param name="dbFunctionAttribute"><see cref="Attributes.SqlFunctionAttribute"/></param>
         /// <returns>int</returns>
-        internal static object DbFunctionExecute(TangentMethodInfo tangentMethod, Attributes.DbFunctionAttribute dbFunctionAttribute)
+        internal static object DbFunctionExecute(TangentMethodInfo tangentMethod, Attributes.SqlFunctionAttribute dbFunctionAttribute)
         {
             var name = dbFunctionAttribute.Name;
             if (tangentMethod.ActReturnType.IsPrimitivePlusIncludeNullable())
@@ -240,9 +239,9 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
         /// 数据库函数
         /// </summary>
         /// <param name="tangentMethod">切面方法</param>
-        /// <param name="dbFunctionAttribute"><see cref="Attributes.DbFunctionAttribute"/></param>
+        /// <param name="dbFunctionAttribute"><see cref="Attributes.SqlFunctionAttribute"/></param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        internal static async Task<object> DbFunctionExecuteAsync(TangentMethodInfo tangentMethod, Attributes.DbFunctionAttribute dbFunctionAttribute)
+        internal static async Task<object> DbFunctionExecuteAsync(TangentMethodInfo tangentMethod, Attributes.SqlFunctionAttribute dbFunctionAttribute)
         {
             var name = dbFunctionAttribute.Name;
             if (tangentMethod.ActReturnType.IsPrimitivePlusIncludeNullable())
@@ -267,9 +266,9 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
         /// 存储过程
         /// </summary>
         /// <param name="tangentMethod">切面方法</param>
-        /// <param name="dbProcedureAttribute"><see cref="DbProcedureAttribute"/></param>
+        /// <param name="dbProcedureAttribute"><see cref="SqlProcedureAttribute"/></param>
         /// <returns>int</returns>
-        internal static object DbProcedureExecute(TangentMethodInfo tangentMethod, DbProcedureAttribute dbProcedureAttribute)
+        internal static object DbProcedureExecute(TangentMethodInfo tangentMethod, SqlProcedureAttribute dbProcedureAttribute)
         {
             var name = dbProcedureAttribute.Name;
 
@@ -315,9 +314,9 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
         /// 存储过程
         /// </summary>
         /// <param name="tangentMethod">切面方法</param>
-        /// <param name="dbProcedureAttribute"><see cref="DbProcedureAttribute"/></param>
+        /// <param name="dbProcedureAttribute"><see cref="SqlProcedureAttribute"/></param>
         /// <returns><see cref="Task{TResult}"/></returns>
-        internal static async Task<object> DbProcedureExecuteAsync(TangentMethodInfo tangentMethod, DbProcedureAttribute dbProcedureAttribute)
+        internal static async Task<object> DbProcedureExecuteAsync(TangentMethodInfo tangentMethod, SqlProcedureAttribute dbProcedureAttribute)
         {
             var name = dbProcedureAttribute.Name;
 

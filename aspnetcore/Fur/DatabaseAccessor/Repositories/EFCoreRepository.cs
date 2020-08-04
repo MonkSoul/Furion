@@ -1,11 +1,10 @@
 ﻿using Autofac;
 using Fur.AppCore;
-using Fur.DatabaseAccessor.Contexts.Pools;
+using Fur.DatabaseAccessor.Contexts;
 using Fur.DatabaseAccessor.Entities;
-using Fur.DatabaseAccessor.MultipleTenants.Options;
-using Fur.DatabaseAccessor.MultipleTenants.Providers;
-using Fur.DatabaseAccessor.Repositories.Interceptors;
-using Fur.DatabaseAccessor.Repositories.Providers;
+using Fur.DatabaseAccessor.Interceptors;
+using Fur.DatabaseAccessor.Options;
+using Fur.DatabaseAccessor.Providers;
 using Fur.DependencyInjection.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;

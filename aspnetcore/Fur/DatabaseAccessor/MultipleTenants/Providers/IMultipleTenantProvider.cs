@@ -1,4 +1,4 @@
-﻿namespace Fur.DatabaseAccessor.MultipleTenants.Providers
+﻿namespace Fur.DatabaseAccessor.Providers
 {
     /// <summary>
     /// 多租户提供器依赖接口

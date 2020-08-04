@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Fur.DatabaseAccessor.Repositories.Interceptors
+namespace Fur.DatabaseAccessor.Interceptors
 {
     public interface IDbEntityInterceptor
     {

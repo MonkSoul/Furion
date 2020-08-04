@@ -1,20 +1,19 @@
 ﻿using Fur.AppCore.Attributes;
-using Fur.DatabaseAccessor.Tangent.Attributes.Basics;
 using System;
 
-namespace Fur.DatabaseAccessor.Tangent.Attributes
+namespace Fur.DatabaseAccessor.Attributes
 {
     /// <summary>
     /// 切面存储过程特性
     /// </summary>
     [AttributeUsage(AttributeTargets.Method), NonInflated]
-    public class DbProcedureAttribute : TangentCompileTypeAttribute
+    public class SqlProcedureAttribute : TangentCompileTypeAttribute
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="name">存储过程名</param>
-        public DbProcedureAttribute(string name) : base(name)
+        public SqlProcedureAttribute(string name) : base(name)
         {
         }
 

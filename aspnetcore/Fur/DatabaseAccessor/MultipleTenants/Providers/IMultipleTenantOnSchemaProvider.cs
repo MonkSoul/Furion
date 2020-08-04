@@ -1,4 +1,4 @@
-﻿namespace Fur.DatabaseAccessor.MultipleTenants.Providers
+﻿namespace Fur.DatabaseAccessor.Providers
 {
     /// <summary>
     /// 基于架构的多租户实现提供器

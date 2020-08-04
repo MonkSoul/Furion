@@ -1,6 +1,6 @@
 ﻿using Fur.DatabaseAccessor.Entities;
 
-namespace Fur.DatabaseAccessor.Repositories.Providers
+namespace Fur.DatabaseAccessor.Providers
 {
     public class FurFakeDeleteProvider : IFakeDeleteProvider
     {

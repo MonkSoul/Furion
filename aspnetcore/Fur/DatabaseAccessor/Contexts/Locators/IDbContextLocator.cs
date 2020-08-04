@@ -1,4 +1,4 @@
-﻿namespace Fur.DatabaseAccessor.Contexts.Locators
+﻿namespace Fur.DatabaseAccessor.Contexts
 {
     /// <summary>
     /// 数据库上下文定位器

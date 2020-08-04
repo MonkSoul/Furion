@@ -1,9 +1,9 @@
 ﻿using Autofac;
 using Castle.DynamicProxy;
+using Fur.DatabaseAccessor.Interceptors;
 using Fur.DatabaseAccessor.Tangent.Dependencies;
-using Fur.DatabaseAccessor.Tangent.Interceptors;
 
-namespace Fur.DatabaseAccessor.Tangent
+namespace Fur.DatabaseAccessor.Contexts
 {
     /// <summary>
     /// 泛型切面数据库操作上下文

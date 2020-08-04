@@ -1,6 +1,6 @@
 ﻿using Fur.AppCore.Attributes;
 
-namespace Fur.DatabaseAccessor.Contexts.Locators
+namespace Fur.DatabaseAccessor.Contexts
 {
     /// <summary>
     /// 默认数据库上下文定位器

@@ -1,6 +1,6 @@
 ﻿using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.Extensions;
-using Fur.DatabaseAccessor.Repositories.Providers;
+using Fur.DatabaseAccessor.Providers;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;

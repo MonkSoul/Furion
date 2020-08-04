@@ -4,7 +4,7 @@ using Fur.AppCore.Attributes;
 using Fur.DatabaseAccessor.Tangent.Utilities;
 using System.Threading.Tasks;
 
-namespace Fur.DatabaseAccessor.Tangent.Interceptors
+namespace Fur.DatabaseAccessor.Interceptors
 {
     /// <summary>
     /// 切面代理异步拦截器

@@ -10,7 +10,7 @@ using System.Data;
 using System.Data.Common;
 using System.Threading.Tasks;
 
-namespace Fur.DatabaseAccessor.Extensions.Sql
+namespace Fur.DatabaseAccessor.Extensions
 {
     /// <summary>
     /// ADO.NET 拓展类

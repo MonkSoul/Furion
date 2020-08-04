@@ -1,6 +1,6 @@
 ﻿using Fur.DatabaseAccessor.Tangent.Dependencies;
 
-namespace Fur.DatabaseAccessor.Tangent
+namespace Fur.DatabaseAccessor.Contexts
 {
     /// <summary>
     /// 泛型切面数据库操作上下文

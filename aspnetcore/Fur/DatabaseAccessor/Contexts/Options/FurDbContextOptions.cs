@@ -1,10 +1,9 @@
 ﻿using Fur.AppCore.Attributes;
-using Fur.DatabaseAccessor.MultipleTenants.Options;
-using Fur.DatabaseAccessor.MultipleTenants.Providers;
+using Fur.DatabaseAccessor.Providers;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace Fur.DatabaseAccessor.Contexts.Options
+namespace Fur.DatabaseAccessor.Options
 {
     /// <summary>
     /// 数据库上下文配置选项

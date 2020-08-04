@@ -1,6 +1,6 @@
 ﻿using Fur.AppCore.Attributes;
 using Fur.DatabaseAccessor.Attributes;
-using Fur.DatabaseAccessor.Contexts.Pools;
+using Fur.DatabaseAccessor.Contexts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using StackExchange.Profiling;

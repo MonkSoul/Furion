@@ -1,7 +1,7 @@
 ﻿using Fur.AppCore.Attributes;
 using System.Collections.Generic;
 
-namespace Fur.DatabaseAccessor.Extensions.Paged
+namespace Fur.DatabaseAccessor.Extensions
 {
     /// <summary>
     /// 泛型分页集合
