@@ -4,7 +4,7 @@
 
 ---
 
-## 关于数据库上下文
+## 关于 DbContext
 
 简单来说，`DbContext` 是实体类和数据库之间的桥梁，`DbContext` 主要负责与数据交互。
 
@@ -20,14 +20,14 @@
 
 :::
 
-## 创建 DbContext 上下文
+### 创建 DbContext 上下文
 
 在 `EF Core` 中，所有自定义的数据库上下文都需要继承 `DbContext`，位于 `Microsoft.EntityFrameworkCore` 命名空间下，如：
 
 ```cs {3-4,7,12,18-19}
 public class FurBookContext : DbContext
 {
-    public FurSqlServerContext(DbContextOptions<BloggingContext> options)
+    public FurBookContext(DbContextOptions<BloggingContext> options)
         : base(options)
     { }
 
@@ -51,15 +51,15 @@ public class FurBookContext : DbContext
 ::: warning 特别注意
 `EF Core` 默认提供的 `DbContext` 在实现某些场景下实现极其复杂，如：**多租户，主从库/读写分离，多数据库上下文**。
 
-所以，**Fur 框架推荐使用 `FurDbContextOfT<TDbContext, TDbContextLocator>`**
+所以，**Fur 框架推荐使用 `FurDbContext<TDbContext, TDbContextLocator>`**
 :::
 
-## 关于 FurDbContextOfT<TDbContext, TDbContextLocator>
+## 关于 FurDbContext<TDbContext, TDbContextLocator>
 
-`FurDbContextOfT<TDbContext, TDbContextLocator>` 是 Fur 框架基于 `DbContext` 抽象出的子类并拥有前者全部功能的同时还支持**多租户，主从库/读写分离，多数据库上下文**等复杂操作。
+`FurDbContext<TDbContext, TDbContextLocator>` 是 Fur 框架基于 `DbContext` 抽象出的子类并拥有前者全部功能的同时还支持**多租户，主从库/读写分离，多数据库上下文**等复杂操作。
 
 ::: warning 读者说明
-为了便于属性，`FurDbContextOfT<TDbContext, TDbContextLocator>` 在后续章节中简称 **`FurDbContext`**。
+为了便于属性，`FurDbContext<TDbContext, TDbContextLocator>` 在后续章节中简称 **`FurDbContext`**。
 :::
 
 ::: details 查看两者的区别
@@ -80,7 +80,7 @@ public class FurBookContext : DbContext
 
 ### 创建 FurDbContext 上下文
 
-创建 FurDbContext 上下文需要继承 `FurDbContextOfT<TDbContext, TDbContextLocator>` 并提供 [数据库上下文定位器](/handbook/database-accessor/dbcontext-locator.html)。
+创建 FurDbContext 上下文需要继承 `FurDbContext<TDbContext, TDbContextLocator>` 并提供 [数据库上下文定位器](/handbook/database-accessor/dbcontext-locator.html)。
 
 ::: tip 主要作用
 在 Fur 框架中，已经提供了默认 [数据库上下文定位器](/handbook/database-accessor/dbcontext-locator.html)：**`FurDbContextLocator`**
@@ -88,25 +88,22 @@ public class FurBookContext : DbContext
 
 代码如下：
 
-```cs {7,9-10}
+```cs
 using Fur.DatabaseAccessor.Contexts;
-using Fur.DatabaseAccessor.Contexts.Locators;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fur.EntityFramework.Core.DbContexts
 {
-    public class FurSqlServerDbContext : FurDbContextOfT<FurSqlServerDbContext, FurDbContextLocator>
+    public class FurSqlServerDbContext : FurDbContext<FurSqlServerDbContext, FurDbContextLocator>
     {
-        // 无需配置 DbSet<TEntity>，无需重写 OnConfiguring，OnModelCreating
-        // 框架会自动在启动时配置好这一切！！！😂
-
-        public FurSqlServerDbContext(DbContextOptions<FurSqlServerDbContext> options)
-            : base(options)
+        public FurSqlServerDbContext(DbContextOptions<FurSqlServerDbContext> options): base(options)
         {
         }
     }
 }
 ```
+
+只需要寥寥几行代码，即可初始化数据库上下文，后期业务发展也无需修改该数据库上下文。😂 就是这么简单！
 
 ::: warning 存放位置
 数据库上下文建议放在 `Fur.Entityframework.Core` 层的 `DbContexts` 目录下。
@@ -143,30 +140,28 @@ namespace Fur.EntityFramework.Core.DbContexts
 }
 ```
 
-### 添加到数据库上下文池中
+### 注册数据库上下文
 
 打开 `Fur.EntityFramework.Core.DbContextServiceExtensions.cs` 文件，并写入如下代码：
 
-```cs {16-18}
-using Fur.DatabaseAccessor.Extensions.Services;
+```cs {15-16}
 using Fur.DatabaseAccessor.Filters;
 using Fur.EntityFramework.Core.DbContexts;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.EntityFramework.Core.Extensions
+namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class DbContextServiceExtensions
+    public static class DbContextServiceCollectionExtensions
     {
-        public static IServiceCollection AddFurDbContextPool(this IServiceCollection services, IWebHostEnvironment env, IConfiguration configuration)
+        public static IServiceCollection AddFurDbContextPool(this IServiceCollection services)
         {
-            // 添加到数据库连接池中，也可以不采用连接池，如：services.AddFurSqlServerDbContext<FurSqlServerDbContext>(...);
+            // Other codes
+
             services.AddFurSqlServerDbContextPool<FurSqlServerDbContext>(
-                configuration.GetConnectionString("FurConnectionString"), env); // 读取连接字符串
-            
+                configuration.GetConnectionString("FurConnectionString"), env);
+
             return services;
         }
     }
