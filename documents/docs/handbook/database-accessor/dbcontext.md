@@ -4,7 +4,7 @@
 
 ---
 
-## 关于 DbContext
+## 关于 DbContext <Badge text="不推荐"/>
 
 简单来说，`DbContext` 是实体类和数据库之间的桥梁，`DbContext` 主要负责与数据交互。
 
@@ -20,7 +20,7 @@
 
 :::
 
-### 创建 DbContext 上下文
+### 创建 DbContext 上下文 <Badge text="不推荐"/>
 
 在 `EF Core` 中，所有自定义的数据库上下文都需要继承 `DbContext`，位于 `Microsoft.EntityFrameworkCore` 命名空间下，如：
 
@@ -54,12 +54,12 @@ public class FurBookContext : DbContext
 所以，**Fur 框架推荐使用 `FurDbContext<TDbContext, TDbContextLocator>`**
 :::
 
-## 关于 FurDbContext<TDbContext, TDbContextLocator>
+## 关于 FurDbContext <Badge text="推荐" type="warning"/>
 
 `FurDbContext<TDbContext, TDbContextLocator>` 是 Fur 框架基于 `DbContext` 抽象出的子类并拥有前者全部功能的同时还支持**多租户，主从库/读写分离，多数据库上下文**等复杂操作。
 
 ::: warning 读者说明
-为了便于属性，`FurDbContext<TDbContext, TDbContextLocator>` 在后续章节中简称 **`FurDbContext`**。
+为了便于书写，`FurDbContext<TDbContext, TDbContextLocator>` 在后续章节中简称 **`FurDbContext`**。
 :::
 
 ::: details 查看两者的区别
@@ -78,7 +78,7 @@ public class FurBookContext : DbContext
 
 所以，在 Fur 框架中，**推荐使用 `FurDbContext`创建数据库上下文，而不是 `DbContext`**。
 
-### 创建 FurDbContext 上下文
+### 创建 FurDbContext 上下文 <Badge text="推荐" type="warning"/>
 
 创建 FurDbContext 上下文需要继承 `FurDbContext<TDbContext, TDbContextLocator>` 并提供 [数据库上下文定位器](/handbook/database-accessor/dbcontext-locator.html)。
 
