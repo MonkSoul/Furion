@@ -1,4 +1,4 @@
-﻿using Fur.AppCore;
+﻿using Fur;
 using Fur.Attributes;
 using Mapster;
 using System.Linq;

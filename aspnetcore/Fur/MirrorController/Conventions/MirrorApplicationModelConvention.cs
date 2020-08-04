@@ -1,5 +1,4 @@
-﻿using Fur.AppCore;
-using Fur.Extensions;
+﻿using Fur.Extensions;
 using Fur.Linq.Extensions;
 using Fur.MirrorController.Attributes;
 using Fur.MirrorController.Extensions;

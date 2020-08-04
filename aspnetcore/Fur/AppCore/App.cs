@@ -1,6 +1,5 @@
-﻿using Fur.Attributes;
-using Fur.AppCore.Inflations;
-using Fur.AppCore.Options;
+﻿using Fur.AppCore.Inflations;
+using Fur.Attributes;
 using Fur.DatabaseAccessor.Attributes;
 using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.Options;
@@ -8,6 +7,7 @@ using Fur.Extensions;
 using Fur.Linq.Extensions;
 using Fur.MirrorController.Attributes;
 using Fur.MirrorController.Dependencies;
+using Fur.Options;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyModel;
 using System;
@@ -16,7 +16,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 
-namespace Fur.AppCore
+namespace Fur
 {
     /// <summary>
     /// 应用核心类

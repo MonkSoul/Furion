@@ -1,5 +1,4 @@
-﻿using Fur.AppCore;
-using Microsoft.AspNetCore.Mvc.Controllers;
+﻿using Microsoft.AspNetCore.Mvc.Controllers;
 using System.Reflection;
 
 namespace Fur.MirrorController.Providers

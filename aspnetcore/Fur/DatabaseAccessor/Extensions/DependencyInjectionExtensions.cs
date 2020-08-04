@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Fur.AppCore;
 using Fur.Attributes;
 using Fur.DatabaseAccessor.Contexts;
 using Fur.DatabaseAccessor.Options;

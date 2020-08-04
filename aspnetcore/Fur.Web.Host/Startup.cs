@@ -1,8 +1,7 @@
 using Autofac;
-using Fur.AppCore;
-using Fur.AppCore.Options;
 using Fur.DependencyInjection;
 using Fur.FriendlyException.Filters;
+using Fur.Options;
 using Fur.UnifyResult.Filters;
 using Fur.Validation.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

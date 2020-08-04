@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Fur.AppCore;
 using Fur.AppCore.Inflations;
 using Fur.DependencyInjection.Lifetimes;
 using Fur.DependencyInjection.Lifetimes.AsSelf;

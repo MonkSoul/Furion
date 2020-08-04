@@ -1,5 +1,4 @@
-﻿using Fur.AppCore;
-using Fur.DatabaseAccessor.Entities;
+﻿using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.Extensions;
 using Fur.DatabaseAccessor.Options;
 using Microsoft.EntityFrameworkCore.ChangeTracking;

@@ -1,4 +1,4 @@
-﻿namespace Fur.AppCore.Options
+﻿namespace Fur.Options
 {
     /// <summary>
     /// 项目类型

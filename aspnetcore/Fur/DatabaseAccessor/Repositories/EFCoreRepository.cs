@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Fur.AppCore;
 using Fur.DatabaseAccessor.Contexts;
 using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.Interceptors;

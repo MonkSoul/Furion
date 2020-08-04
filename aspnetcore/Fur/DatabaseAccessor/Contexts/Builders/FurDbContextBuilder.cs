@@ -1,7 +1,6 @@
 ﻿using Autofac;
-using Fur.AppCore;
-using Fur.Attributes;
 using Fur.AppCore.Inflations;
+using Fur.Attributes;
 using Fur.DatabaseAccessor.Contexts.Staters;
 using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.Extensions;

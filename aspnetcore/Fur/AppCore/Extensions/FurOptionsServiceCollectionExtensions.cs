@@ -1,5 +1,5 @@
 ﻿using Fur.Attributes;
-using Fur.AppCore.Options;
+using Fur.Options;
 using Microsoft.Extensions.Configuration;
 using System;
 
