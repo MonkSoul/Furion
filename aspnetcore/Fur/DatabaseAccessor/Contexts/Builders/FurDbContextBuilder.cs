@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using Fur.AppCore.Inflations;
 using Fur.Attributes;
-using Fur.DatabaseAccessor.Contexts.Staters;
 using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.Extensions;
 using Fur.DatabaseAccessor.Options;
@@ -19,17 +18,70 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Fur.DatabaseAccessor.Contexts.Builders
+namespace Fur.DatabaseAccessor.Contexts
 {
     /// <summary>
-    /// Fur 数据库上下文状态器
+    /// Fur 数据库上下文构建器
     /// </summary>
-    /// <remarks>
-    /// <para>解决 <see cref="FurDbContext{TDbContext, TDbContextLocator}"/> 重复初始化问题</para>
-    /// </remarks>
     [NonInflated]
     internal static class FurDbContextBuilder
     {
+        /// <summary>
+        /// 数据库实体关联的所有类型
+        /// </summary>
+        /// <remarks>
+        /// <para>所有继承 <see cref="IDbEntityBase"/> 或 <see cref="IDbEntityConfigure"/> 的类型</para>
+        /// </remarks>
+        private static readonly IEnumerable<TypeInflation> _dbEntityRelevanceTypes;
+
+        /// <summary>
+        /// 数据库函数定义方法集合
+        /// </summary>
+        private static readonly IEnumerable<MethodInflation> _dbFunctionMethods;
+
+        /// <summary>
+        /// 模型构建器
+        /// </summary>
+        private static ModelBuilder _modelBuilder;
+
+        /// <summary>
+        /// 数据库上下文定位器类型
+        /// </summary>
+        private static Type _dbContextLocatorType;
+
+        /// <summary>
+        ///基于架构的 多租户提供器
+        /// </summary>
+        private static IMultipleTenantOnSchemaProvider _multipleTenantOnSchemaProvider;
+
+        /// <summary>
+        /// 数据库实体状态器
+        /// </summary>
+        private static readonly ConcurrentDictionary<Type, DbEntityStater> _dbEntityStaters;
+
+        /// <summary>
+        /// 租户类型
+        /// </summary>
+        private static readonly Type _tenantType = typeof(Tenant);
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        static FurDbContextBuilder()
+        {
+            var application = App.Inflations;
+
+            _dbEntityRelevanceTypes ??= application.ClassTypes.Where(u => u.IsDbEntityRelevanceType);
+
+            if (_dbEntityRelevanceTypes.Any())
+            {
+                _dbEntityStaters ??= new ConcurrentDictionary<Type, DbEntityStater>();
+            }
+
+            _dbFunctionMethods = application.Methods
+                .Where(u => u.IsDbFunctionMethod);
+        }
+
         /// <summary>
         /// 扫描数据库对象类型加入模型构建器中
         /// </summary>
@@ -45,8 +97,7 @@ namespace Fur.DatabaseAccessor.Contexts.Builders
             _dbContextLocatorType = dbContextLocatorType;
 
             // 查找当前数据库上下文相关联的类型
-            var dbContextRelevanceTypes = _dbEntityRelevanceTypes
-                .Where(u => IsThisDbContextEntityType(u));
+            var dbContextRelevanceTypes = _dbEntityRelevanceTypes.Where(u => IsThisDbContextEntityType(u.ThisType));
 
             // 如果没有找到则跳过
             if (!dbContextRelevanceTypes.Any())
@@ -64,8 +115,9 @@ namespace Fur.DatabaseAccessor.Contexts.Builders
             }
 
             // 应该查找一次父接口父类就可以了
-            foreach (var dbEntityRelevanceType in dbContextRelevanceTypes)
+            foreach (var typeInflation in dbContextRelevanceTypes)
             {
+                var dbEntityRelevanceType = typeInflation.ThisType;
                 // 获取实体状态器
                 var dbEntityStater = GetDbEntityStater(dbEntityRelevanceType);
 
@@ -290,49 +342,25 @@ namespace Fur.DatabaseAccessor.Contexts.Builders
         private static bool IsThisDbContextEntityType(Type dbEntityRelevanceType)
         {
             // 判断是否启用多租户，如果不启用，则默认不解析 Tenant 类型，返回 false
-            if (!App.SupportedMultipleTenant)
-            {
-                if (dbEntityRelevanceType == _tenantType) return false;
-                var typeGenericArguments = dbEntityRelevanceType.GetTypeGenericArguments(typeof(IDbEntityConfigure), GenericArgumentSourceOptions.Interface);
-                if (typeGenericArguments != null && typeGenericArguments.First() == _tenantType) return false;
-            }
-
-            // 如果是实体类型
-            if (typeof(IDbEntityBase).IsAssignableFrom(dbEntityRelevanceType))
-            {
-                // 有主键实体
-                if (!typeof(IDbNoKeyEntity).IsAssignableFrom(dbEntityRelevanceType))
-                {
-                    // 如果父类不是泛型类型，则返回 true
-                    if (dbEntityRelevanceType.BaseType == typeof(DbEntity) || dbEntityRelevanceType.BaseType == typeof(DbEntityBase) || dbEntityRelevanceType.BaseType == typeof(Object)) return true;
-                    // 如果是泛型类型，但数据库上下文定位器泛型参数未空或包含 dbContextLocatorType，返回 true
-                    else
-                    {
-                        var typeGenericArguments = dbEntityRelevanceType.GetTypeGenericArguments(typeof(IDbEntityBase), GenericArgumentSourceOptions.BaseType);
-                        if (CheckIsInDbContextLocators(typeGenericArguments.Skip(1), _dbContextLocatorType)) return true;
-                    }
-                }
-                // 无键实体
-                else
-                {
-                    // 如果父类不是泛型类型，则返回 true
-                    if (dbEntityRelevanceType.BaseType == typeof(DbNoKeyEntity)) return true;
-                    // 如果是泛型类型，但数据库上下文定位器泛型参数未空或包含 dbContextLocatorType，返回 true
-                    else
-                    {
-                        var typeGenericArguments = dbEntityRelevanceType.GetTypeGenericArguments(typeof(IDbNoKeyEntity), GenericArgumentSourceOptions.BaseType);
-                        if (CheckIsInDbContextLocators(typeGenericArguments, _dbContextLocatorType)) return true;
-                    }
-                }
-            }
+            if (!App.SupportedMultipleTenant && dbEntityRelevanceType == _tenantType) return false;
 
             // 如果继承 IDbEntityConfigure，但数据库上下文定位器泛型参数未空或包含 dbContextLocatorType，返回 true
             if (typeof(IDbEntityConfigure).IsAssignableFrom(dbEntityRelevanceType))
             {
                 var typeGenericArguments = dbEntityRelevanceType.GetTypeGenericArguments(typeof(IDbEntityConfigure), GenericArgumentSourceOptions.Interface);
+
+                if (!App.SupportedMultipleTenant && typeGenericArguments.First() == _tenantType) return false;
                 if (CheckIsInDbContextLocators(typeGenericArguments.Skip(1), _dbContextLocatorType)) return true;
             }
 
+            // 如果父类不是泛型类型，则返回 true
+            if (dbEntityRelevanceType.BaseType == typeof(DbEntity) || dbEntityRelevanceType.BaseType == typeof(DbEntityBase) || dbEntityRelevanceType.BaseType == typeof(DbNoKeyEntity) || dbEntityRelevanceType.BaseType == typeof(object)) return true;
+            // 如果是泛型类型，但数据库上下文定位器泛型参数未空或包含 dbContextLocatorType，返回 true
+            else
+            {
+                var typeGenericArguments = dbEntityRelevanceType.GetTypeGenericArguments(typeof(IDbEntityBase), GenericArgumentSourceOptions.BaseType);
+                if (CheckIsInDbContextLocators(typeof(IDbNoKeyEntity).IsAssignableFrom(dbEntityRelevanceType) ? typeGenericArguments : typeGenericArguments.Skip(1), _dbContextLocatorType)) return true;
+            }
             return false;
         }
 
@@ -399,65 +427,6 @@ namespace Fur.DatabaseAccessor.Contexts.Builders
         private static bool CheckIsInDbContextLocators(IEnumerable<Type> dbContextLocators, Type dbContextLocatorType)
         {
             return dbContextLocators == null || dbContextLocators.Count() == 0 || dbContextLocators.Contains(dbContextLocatorType);
-        }
-
-        /// <summary>
-        /// 数据库实体关联的所有类型
-        /// </summary>
-        /// <remarks>
-        /// <para>所有继承 <see cref="IDbEntityBase"/> 或 <see cref="IDbEntityConfigure"/> 的类型</para>
-        /// </remarks>
-        private static readonly IEnumerable<Type> _dbEntityRelevanceTypes;
-
-        /// <summary>
-        /// 数据库函数定义方法集合
-        /// </summary>
-        private static readonly IEnumerable<MethodInflation> _dbFunctionMethods;
-
-        /// <summary>
-        /// 模型构建器
-        /// </summary>
-        private static ModelBuilder _modelBuilder;
-
-        /// <summary>
-        /// 数据库上下文定位器类型
-        /// </summary>
-        private static Type _dbContextLocatorType;
-
-        /// <summary>
-        ///基于架构的 多租户提供器
-        /// </summary>
-        private static IMultipleTenantOnSchemaProvider _multipleTenantOnSchemaProvider;
-
-        /// <summary>
-        /// 数据库实体状态器
-        /// </summary>
-        private static readonly ConcurrentDictionary<Type, DbEntityStater> _dbEntityStaters;
-
-        /// <summary>
-        /// 租户类型
-        /// </summary>
-        private static readonly Type _tenantType = typeof(Tenant);
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        static FurDbContextBuilder()
-        {
-            var application = App.Inflations;
-
-            _dbEntityRelevanceTypes ??= application.ClassTypes
-                .Where(u => u.IsDbEntityRelevanceType)
-                .Distinct()
-                .Select(u => u.ThisType);
-
-            if (_dbEntityRelevanceTypes.Any())
-            {
-                _dbEntityStaters ??= new ConcurrentDictionary<Type, DbEntityStater>();
-            }
-
-            _dbFunctionMethods = application.Methods
-                .Where(u => u.IsDbFunctionMethod);
         }
     }
 }

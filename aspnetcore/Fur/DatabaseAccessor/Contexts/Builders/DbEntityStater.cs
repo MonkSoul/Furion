@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Fur.DatabaseAccessor.Contexts.Staters
+namespace Fur.DatabaseAccessor.Contexts
 {
     /// <summary>
     /// 数据库实体类型状态器
