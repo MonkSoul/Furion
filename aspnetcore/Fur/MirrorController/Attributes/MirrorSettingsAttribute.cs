@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace Fur.MirrorController.Attributes
 {
     [NonInflated]
-    public class MirrorBaseAttribute : ApiExplorerSettingsAttribute
+    public class MirrorSettingsAttribute : ApiExplorerSettingsAttribute
     {
-        public MirrorBaseAttribute(bool enabled)
+        public MirrorSettingsAttribute(bool enabled)
         {
             Enabled = enabled;
             base.IgnoreApi = !enabled;
@@ -16,7 +16,7 @@ namespace Fur.MirrorController.Attributes
         /// 构造函数
         /// </summary>
         /// <param name="swaggerGroups">swagger分组名称列表</param>
-        public MirrorBaseAttribute(params string[] swaggerGroups)
+        public MirrorSettingsAttribute(params string[] swaggerGroups)
         {
             SwaggerGroups = swaggerGroups;
             base.GroupName = string.Join(Consts.GroupNameSeparator, swaggerGroups);
@@ -27,7 +27,7 @@ namespace Fur.MirrorController.Attributes
         /// </summary>
         /// <param name="enabled">是否启用镜像Action</param>
         /// <param name="swaggerGroups">swagger分组名称列表</param>
-        public MirrorBaseAttribute(bool enabled, params string[] swaggerGroups)
+        public MirrorSettingsAttribute(bool enabled, params string[] swaggerGroups)
         {
             Enabled = enabled;
             SwaggerGroups = swaggerGroups;

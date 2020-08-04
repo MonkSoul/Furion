@@ -215,12 +215,12 @@ namespace Fur.AppCore
             // 如果不是控制器类型，返回 null
             if (!IsControllerType(controllerType)) return default;
 
-            var defaultSwaggerGroups = new string[] { App.Settings.SwaggerDocOptions.DefaultGroupName };
+            var defaultSwaggerGroups = new string[] { Settings.SwaggerDocOptions.DefaultGroupName };
 
-            if (!controllerType.IsDefined(typeof(MirrorControllerAttribute), true))
+            if (!controllerType.IsDefined(typeof(MirrorSettingsAttribute), true))
                 return defaultSwaggerGroups;
 
-            var mirrorControllerAttribute = controllerType.GetCustomAttribute<MirrorControllerAttribute>(true);
+            var mirrorControllerAttribute = controllerType.GetCustomAttribute<MirrorSettingsAttribute>(true);
 
             return mirrorControllerAttribute.SwaggerGroups == null || !mirrorControllerAttribute.SwaggerGroups.Any()
                 ? defaultSwaggerGroups
@@ -237,10 +237,10 @@ namespace Fur.AppCore
             // 如果不是控制器Action类型，返回 null
             if (!IsControllerActionMethod(controllerAction)) return default;
 
-            if (!controllerAction.IsDefined(typeof(MirrorActionAttribute), true))
+            if (!controllerAction.IsDefined(typeof(MirrorSettingsAttribute), true))
                 return GetControllerTypeSwaggerGroups(controllerAction.DeclaringType);
 
-            var mirrorActionAttribute = controllerAction.GetCustomAttribute<MirrorActionAttribute>(true);
+            var mirrorActionAttribute = controllerAction.GetCustomAttribute<MirrorSettingsAttribute>(true);
 
             return mirrorActionAttribute.SwaggerGroups == null || !mirrorActionAttribute.SwaggerGroups.Any()
                 ? GetControllerTypeSwaggerGroups(controllerAction.DeclaringType)

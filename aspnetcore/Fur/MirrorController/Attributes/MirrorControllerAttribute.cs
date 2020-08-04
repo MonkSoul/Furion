@@ -6,7 +6,7 @@ namespace Fur.MirrorController.Attributes
     /// 镜面控制器特性类
     /// </summary>
     [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class)]
-    public sealed class MirrorControllerAttribute : MirrorBaseAttribute
+    public sealed class MirrorControllerAttribute : MirrorSettingsAttribute
     {
         /// <summary>
         /// 构造函数
