@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Fur.DatabaseAccessor.Entities.Configurations
+namespace Fur.DatabaseAccessor.Entities
 {
     /// <summary>
     /// 数据库查询筛选器依赖接口

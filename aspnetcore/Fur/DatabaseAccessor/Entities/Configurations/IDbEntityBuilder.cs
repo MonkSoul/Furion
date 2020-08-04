@@ -1,7 +1,7 @@
 ﻿using Fur.DatabaseAccessor.Contexts.Locators;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Fur.DatabaseAccessor.Entities.Configurations
+namespace Fur.DatabaseAccessor.Entities
 {
     /// <summary>
     /// 数据库实体类型配置

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
-namespace Fur.DatabaseAccessor.Entities.Configurations
+namespace Fur.DatabaseAccessor.Entities
 {
     /// <summary>
     /// 数据库种子数据依赖接口

@@ -1,4 +1,4 @@
-﻿using Fur.DatabaseAccessor.Entities.Configurations;
+﻿using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.MultipleTenants.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;

@@ -3,7 +3,6 @@ using Fur.AppCore.Inflations;
 using Fur.AppCore.Options;
 using Fur.DatabaseAccessor.Attributes;
 using Fur.DatabaseAccessor.Entities;
-using Fur.DatabaseAccessor.Entities.Configurations;
 using Fur.DatabaseAccessor.MultipleTenants.Entities;
 using Fur.DatabaseAccessor.MultipleTenants.Options;
 using Fur.Extensions;

@@ -1,4 +1,4 @@
-﻿namespace Fur.DatabaseAccessor.Entities.Configurations
+﻿namespace Fur.DatabaseAccessor.Entities
 {
     /// <summary>
     /// 实体配置依赖接口
