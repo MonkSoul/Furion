@@ -1,9 +1,7 @@
 ﻿using Autofac;
-using Fur.Attributes;
 
 namespace Fur.DependencyInjection.Extensions
 {
-    [NonInflated]
     internal static class LifetimeScopeExtensions
     {
         internal static TService GetService<TService>(this ILifetimeScope lifetimeScope)

@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Reflection;
@@ -9,7 +8,7 @@ namespace Fur.DatabaseAccessor.Tangent.Models
     /// <summary>
     /// 切面方法信息类
     /// </summary>
-    [NonInflated]
+
     internal class TangentMethodInfo
     {
         /// <summary>

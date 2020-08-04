@@ -1,12 +1,11 @@
-﻿using Fur.Attributes;
-using System;
+﻿using System;
 
 namespace Fur.Unmanaged
 {
     /// <summary>
     /// 非托管资源释放类
     /// </summary>
-    [NonInflated]
+
     public class UnmanagedDispose : IDisposable
     {
         /// <summary>

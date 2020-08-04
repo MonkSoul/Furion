@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,7 +8,7 @@ namespace Fur.DatabaseAccessor.Extensions
     /// <summary>
     /// <see cref="IQueryable{T}"/> 分页拓展类
     /// </summary>
-    [NonInflated]
+
     public static class IQueryablePagedExtensions
     {
         /// <summary>

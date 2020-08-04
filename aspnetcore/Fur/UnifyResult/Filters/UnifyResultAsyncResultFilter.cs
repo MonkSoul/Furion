@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using Fur.UnifyResult.Providers;
+﻿using Fur.UnifyResult.Providers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -9,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace Fur.UnifyResult.Filters
 {
-    [NonInflated]
     public sealed class UnifyResultAsyncResultFilter : IAsyncResultFilter
     {
         private readonly IUnifyResultProvider _unifyResultProvider;

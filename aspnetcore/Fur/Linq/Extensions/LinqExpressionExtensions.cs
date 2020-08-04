@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using Fur.Linq.Visitors;
+﻿using Fur.Linq.Visitors;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -9,7 +8,7 @@ namespace Fur.Linq.Extensions
     /// <summary>
     /// linq/Lambda 表达式拓展
     /// </summary>
-    [NonInflated]
+
     public static class LinqExpressionExtensions
     {
         /// <summary>

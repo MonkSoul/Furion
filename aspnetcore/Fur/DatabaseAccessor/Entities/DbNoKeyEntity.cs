@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using Fur.DatabaseAccessor.Contexts;
+﻿using Fur.DatabaseAccessor.Contexts;
 
 namespace Fur.DatabaseAccessor.Entities
 {
@@ -8,7 +7,7 @@ namespace Fur.DatabaseAccessor.Entities
     /// <para>如果你需要通过仓储方式操作视图、函数、存储过程，就需要继承该类</para>
     /// <para>通常只需要配置视图即可，函数和存储过程建议用切面上下文方式</para>
     /// </summary>
-    [NonInflated]
+
     public abstract class DbNoKeyEntity : IDbNoKeyEntity
     {
         /// <summary>
@@ -33,7 +32,7 @@ namespace Fur.DatabaseAccessor.Entities
     /// <para>通常只需要配置视图即可，函数和存储过程建议用切面上下文方式</para>
     /// </summary>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
-    [NonInflated]
+
     public abstract class DbNoKeyEntity<TDbContextLocator1> : DbNoKeyEntity
         where TDbContextLocator1 : IDbContextLocator
     {
@@ -53,7 +52,7 @@ namespace Fur.DatabaseAccessor.Entities
     /// </summary>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
-    [NonInflated]
+
     public abstract class DbNoKeyEntity<TDbContextLocator1, TDbContextLocator2> : DbNoKeyEntity
         where TDbContextLocator1 : IDbContextLocator
         where TDbContextLocator2 : IDbContextLocator
@@ -75,7 +74,7 @@ namespace Fur.DatabaseAccessor.Entities
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
-    [NonInflated]
+
     public abstract class DbNoKeyEntity<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3> : DbNoKeyEntity
         where TDbContextLocator1 : IDbContextLocator
         where TDbContextLocator2 : IDbContextLocator
@@ -99,7 +98,7 @@ namespace Fur.DatabaseAccessor.Entities
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
-    [NonInflated]
+
     public abstract class DbNoKeyEntity<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4> : DbNoKeyEntity
         where TDbContextLocator1 : IDbContextLocator
         where TDbContextLocator2 : IDbContextLocator
@@ -125,7 +124,7 @@ namespace Fur.DatabaseAccessor.Entities
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
-    [NonInflated]
+
     public abstract class DbNoKeyEntity<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5> : DbNoKeyEntity
         where TDbContextLocator1 : IDbContextLocator
         where TDbContextLocator2 : IDbContextLocator
@@ -153,7 +152,7 @@ namespace Fur.DatabaseAccessor.Entities
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
-    [NonInflated]
+
     public abstract class DbNoKeyEntity<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6> : DbNoKeyEntity
         where TDbContextLocator1 : IDbContextLocator
         where TDbContextLocator2 : IDbContextLocator
@@ -183,7 +182,7 @@ namespace Fur.DatabaseAccessor.Entities
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
-    [NonInflated]
+
     public abstract class DbNoKeyEntity<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7> : DbNoKeyEntity
         where TDbContextLocator1 : IDbContextLocator
         where TDbContextLocator2 : IDbContextLocator
@@ -215,7 +214,7 @@ namespace Fur.DatabaseAccessor.Entities
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator8">数据库上下文定位器</typeparam>
-    [NonInflated]
+
     public abstract class DbNoKeyEntity<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7, TDbContextLocator8> : DbNoKeyEntity
         where TDbContextLocator1 : IDbContextLocator
         where TDbContextLocator2 : IDbContextLocator

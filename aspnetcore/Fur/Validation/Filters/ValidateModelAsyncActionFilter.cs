@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using Fur.UnifyResult.Providers;
+﻿using Fur.UnifyResult.Providers;
 using Fur.Validation.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -13,7 +12,6 @@ using System.Threading.Tasks;
 
 namespace Fur.Validation.Filters
 {
-    [NonInflated]
     public sealed class ValidateModelAsyncActionFilter : IAsyncActionFilter
     {
         private readonly IUnifyResultProvider _unifyResultProvider;

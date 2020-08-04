@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using Fur.DatabaseAccessor.Attributes;
+﻿using Fur.DatabaseAccessor.Attributes;
 using Fur.Extensions;
 using Mapster;
 using Microsoft.Data.SqlClient;
@@ -16,7 +15,7 @@ namespace Fur.DatabaseAccessor.Extensions
     /// <summary>
     /// Sql 参数及返回值 拓展类
     /// </summary>
-    [NonInflated]
+
     public static class SqlConvertExtensions
     {
         /// <summary>

@@ -1,9 +1,8 @@
-﻿using Fur.Attributes;
-using System;
+﻿using System;
 
 namespace Fur.FriendlyException.Attributes
 {
-    [AttributeUsage(AttributeTargets.Field), NonInflated]
+    [AttributeUsage(AttributeTargets.Field)]
     public sealed class ExceptionMetaAttribute : Attribute
     {
         public ExceptionMetaAttribute(string message) => Message = message;

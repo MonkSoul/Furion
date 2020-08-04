@@ -1,11 +1,9 @@
-﻿using Fur.Attributes;
-
-namespace Fur.DatabaseAccessor.Attributes
+﻿namespace Fur.DatabaseAccessor.Attributes
 {
     /// <summary>
     /// 非编译类型特性，也就是select/delete/update/insert/drop/create/alter等
     /// </summary>
-    [NonInflated]
+
     public class TangentSqlAttribute : TangentAttribute
     {
         /// <summary>

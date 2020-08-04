@@ -1,12 +1,11 @@
 ﻿using Castle.DynamicProxy;
-using Fur.Attributes;
 
 namespace Fur.DatabaseAccessor.Interceptors
 {
     /// <summary>
     /// 切面代理同步拦截器
     /// </summary>
-    [NonInflated]
+
     internal class TangentProxyInterceptor : IInterceptor
     {
         /// <summary>

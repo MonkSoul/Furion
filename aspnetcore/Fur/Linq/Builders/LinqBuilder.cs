@@ -1,12 +1,11 @@
-﻿using Fur.Attributes;
-using System;
+﻿using System;
 
 namespace Fur.Linq.Builders
 {
     /// <summary>
     /// Linq/Lambda 构建器
     /// </summary>
-    [NonInflated]
+
     public static class LinqBuilder
     {
         /// <summary>

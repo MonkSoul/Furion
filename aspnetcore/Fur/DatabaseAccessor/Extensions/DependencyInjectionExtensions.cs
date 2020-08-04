@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Fur.Attributes;
+
 using Fur.DatabaseAccessor.Contexts;
 using Fur.DatabaseAccessor.Options;
 using Fur.DatabaseAccessor.Repositories.MasterSlave;
@@ -13,7 +13,7 @@ namespace Fur.DatabaseAccessor.Extensions
     /// <summary>
     /// 数据库访问器依赖注入拓展类
     /// </summary>
-    [NonInflated]
+
     public static class DependencyInjectionExtensions
     {
         /// <summary>

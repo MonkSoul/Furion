@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using System;
+﻿using System;
 using System.Transactions;
 
 namespace Fur.DatabaseAccessor.Attributes
@@ -12,7 +11,7 @@ namespace Fur.DatabaseAccessor.Attributes
     /// <para>只能在方法中贴此特性，通常贴在最外层的方法中，如果在子方法中贴该特性，将启用嵌套子事务</para>
     /// <para>注意：只对请求中的起始方法起作用</para>
     /// </remarks>
-    [AttributeUsage(AttributeTargets.Method), NonInflated]
+    [AttributeUsage(AttributeTargets.Method)]
     public sealed class UnitOfWorkAttribute : Attribute
     {
         /// <summary>

@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using Fur.DatabaseAccessor.Options;
+﻿using Fur.DatabaseAccessor.Options;
 using Mapster;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -16,7 +15,7 @@ namespace Fur.DatabaseAccessor.Extensions
     /// <summary>
     /// Sql 函数 拓展类
     /// </summary>
-    [NonInflated]
+
     internal static class SqlFunctionExtensions
     {
         /// <summary>

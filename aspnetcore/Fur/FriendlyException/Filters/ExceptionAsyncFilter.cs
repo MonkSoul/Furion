@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Fur.Attributes;
+
 using Fur.DependencyInjection.Extensions;
 using Fur.Extensions;
 using Fur.FriendlyException.Attributes;
@@ -17,7 +17,6 @@ using System.Threading.Tasks;
 
 namespace Fur.FriendlyException.Filters
 {
-    [NonInflated]
     public sealed class ExceptionAsyncFilter : IAsyncExceptionFilter
     {
         /// <summary>

@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using Fur.DatabaseAccessor.Providers;
+﻿using Fur.DatabaseAccessor.Providers;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -8,7 +7,7 @@ namespace Fur.DatabaseAccessor.Options
     /// <summary>
     /// 数据库上下文配置选项
     /// </summary>
-    [NonInflated]
+
     public sealed class FurDbContextOptions
     {
         /// <summary>

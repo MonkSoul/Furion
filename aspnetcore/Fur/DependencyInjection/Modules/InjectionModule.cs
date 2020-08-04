@@ -1,7 +1,7 @@
 ﻿using Autofac;
-using Fur.AppCore.Inflations;
 using Fur.DependencyInjection.Lifetimes;
 using Fur.DependencyInjection.Lifetimes.AsSelf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,7 +11,7 @@ namespace Fur.DependencyInjection.Modules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            var applicationTypes = App.Inflations.ClassTypes.Where(u => u.CanBeNew);
+            var applicationTypes = App.Assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsPublic && t.IsClass && !t.IsAbstract && !t.IsInterface));
 
             RegisterBaseTypes(builder, applicationTypes);
             RegisterGenericTypes(builder, applicationTypes);
@@ -22,9 +22,9 @@ namespace Fur.DependencyInjection.Modules
         /// </summary>
         /// <param name="builder">容器构建器</param>
         /// <param name="applicationTypes">应用类型集合</param>
-        private void RegisterBaseTypes(ContainerBuilder builder, IEnumerable<TypeInflation> applicationTypes)
+        private void RegisterBaseTypes(ContainerBuilder builder, IEnumerable<Type> applicationTypes)
         {
-            var baseTypes = applicationTypes.Where(t => !t.IsGenericType).Select(u => u.ThisType);
+            var baseTypes = applicationTypes.Where(t => !t.IsGenericType).Select(u => u);
 
             builder.RegisterTypes(baseTypes.Where(t => typeof(ITransientLifetime).IsAssignableFrom(t)).ToArray())
                 .AsImplementedInterfaces()
@@ -53,36 +53,36 @@ namespace Fur.DependencyInjection.Modules
         /// </summary>
         /// <param name="builder">容器构建器</param>
         /// <param name="applicationTypes">应用类型集合</param>
-        private void RegisterGenericTypes(ContainerBuilder builder, IEnumerable<TypeInflation> applicationTypes)
+        private void RegisterGenericTypes(ContainerBuilder builder, IEnumerable<Type> applicationTypes)
         {
             var genericTypes = applicationTypes.Where(t => t.IsGenericType);
             foreach (var type in genericTypes)
             {
-                var genericType = type.GenericArgumentTypes.FirstOrDefault();
+                var genericType = type.GetGenericArguments().FirstOrDefault();
 
-                if (typeof(ITransientLifetime<>).MakeGenericType(genericType).IsAssignableFrom(type.ThisType))
+                if (typeof(ITransientLifetime<>).MakeGenericType(genericType).IsAssignableFrom(type))
                 {
-                    builder.RegisterGeneric(type.ThisType).AsImplementedInterfaces().InstancePerDependency();
+                    builder.RegisterGeneric(type).AsImplementedInterfaces().InstancePerDependency();
                 }
-                else if (typeof(ITransientAsSelfLifetime<>).MakeGenericType(genericType).IsAssignableFrom(type.ThisType))
+                else if (typeof(ITransientAsSelfLifetime<>).MakeGenericType(genericType).IsAssignableFrom(type))
                 {
-                    builder.RegisterGeneric(type.ThisType).AsSelf().InstancePerDependency();
+                    builder.RegisterGeneric(type).AsSelf().InstancePerDependency();
                 }
-                else if (typeof(IScopedLifetime<>).MakeGenericType(genericType).IsAssignableFrom(type.ThisType))
+                else if (typeof(IScopedLifetime<>).MakeGenericType(genericType).IsAssignableFrom(type))
                 {
-                    builder.RegisterGeneric(type.ThisType).AsImplementedInterfaces().InstancePerLifetimeScope();
+                    builder.RegisterGeneric(type).AsImplementedInterfaces().InstancePerLifetimeScope();
                 }
-                else if (typeof(IScopedAsSelfLifetime<>).MakeGenericType(genericType).IsAssignableFrom(type.ThisType))
+                else if (typeof(IScopedAsSelfLifetime<>).MakeGenericType(genericType).IsAssignableFrom(type))
                 {
-                    builder.RegisterGeneric(type.ThisType).AsSelf().InstancePerLifetimeScope();
+                    builder.RegisterGeneric(type).AsSelf().InstancePerLifetimeScope();
                 }
-                else if (typeof(IScopedLifetime<>).MakeGenericType(genericType).IsAssignableFrom(type.ThisType))
+                else if (typeof(IScopedLifetime<>).MakeGenericType(genericType).IsAssignableFrom(type))
                 {
-                    builder.RegisterGeneric(type.ThisType).AsImplementedInterfaces().SingleInstance();
+                    builder.RegisterGeneric(type).AsImplementedInterfaces().SingleInstance();
                 }
-                else if (typeof(IScopedAsSelfLifetime<>).MakeGenericType(genericType).IsAssignableFrom(type.ThisType))
+                else if (typeof(IScopedAsSelfLifetime<>).MakeGenericType(genericType).IsAssignableFrom(type))
                 {
-                    builder.RegisterGeneric(type.ThisType).AsSelf().SingleInstance();
+                    builder.RegisterGeneric(type).AsSelf().SingleInstance();
                 }
                 else { }
             }

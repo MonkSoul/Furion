@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Castle.DynamicProxy;
-using Fur.Attributes;
+
 using Fur.DatabaseAccessor.Attributes;
 using Fur.DatabaseAccessor.Contexts;
 using Fur.DatabaseAccessor.Extensions;
@@ -19,7 +19,7 @@ namespace Fur.DatabaseAccessor.Tangent.Utilities
     /// <summary>
     /// 切面上下文工具类
     /// </summary>
-    [NonInflated]
+
     internal static class TangentDbContextUtilities
     {
         /// <summary>

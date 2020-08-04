@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using Fur.Linq.Builders;
+﻿using Fur.Linq.Builders;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,7 @@ namespace Fur.Linq.Extensions
     /// <summary>
     /// [EF Core] Linq/Lambda 拓展类
     /// </summary>
-    [NonInflated]
+
     public static class LinqExtensionsOfEFCore
     {
         /// <summary>

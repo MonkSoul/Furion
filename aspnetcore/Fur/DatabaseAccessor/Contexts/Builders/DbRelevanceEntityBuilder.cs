@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Fur.DatabaseAccessor.Contexts
@@ -10,7 +9,7 @@ namespace Fur.DatabaseAccessor.Contexts
     /// <remarks>
     /// <para>主要用于解决自动配置数据库上下文实体重复扫描引擎的性能问题</para>
     /// </remarks>
-    [NonInflated]
+
     internal sealed class DbRelevanceEntityBuilder
     {
         /// <summary>

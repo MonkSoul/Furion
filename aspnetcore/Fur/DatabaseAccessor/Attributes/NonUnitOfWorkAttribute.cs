@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using System;
+﻿using System;
 
 namespace Fur.DatabaseAccessor.Attributes
 {
@@ -11,6 +10,6 @@ namespace Fur.DatabaseAccessor.Attributes
     /// <para>支持方法或所在类中贴此特性</para>
     /// <para>注意：只对请求中的起始方法起作用</para>
     /// </remarks>
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class), NonInflated]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
     public sealed class NonUnitOfWorkAttribute : Attribute { }
 }

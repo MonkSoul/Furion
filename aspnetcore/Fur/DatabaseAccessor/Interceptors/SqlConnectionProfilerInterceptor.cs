@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using Microsoft.EntityFrameworkCore.Diagnostics;
 using StackExchange.Profiling;
 using System.Data.Common;
 using System.Threading;
@@ -11,7 +10,7 @@ namespace Fur.DatabaseAccessor.Interceptors
     /// 数据库连接/关闭拦截器
     /// <para>用来拦截数据库连接/关闭的每一个生命周期</para>
     /// </summary>
-    [NonInflated]
+
     public sealed class SqlConnectionProfilerInterceptor : DbConnectionInterceptor
     {
         /// <summary>

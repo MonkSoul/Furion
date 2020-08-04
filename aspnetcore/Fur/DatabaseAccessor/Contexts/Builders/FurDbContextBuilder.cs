@@ -1,6 +1,4 @@
 ﻿using Autofac;
-using Fur.AppCore.Inflations;
-using Fur.Attributes;
 using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.Options;
 using Fur.DatabaseAccessor.Providers;
@@ -22,18 +20,18 @@ namespace Fur.DatabaseAccessor.Contexts
     /// <summary>
     /// Fur 数据库上下文构建器
     /// </summary>
-    [NonInflated]
+
     internal static class FurDbContextBuilder
     {
         /// <summary>
         /// 数据库关联实体类型集合
         /// </summary>
-        private static readonly IEnumerable<TypeInflation> _dbRelevanceEntityTypes;
+        private static readonly IEnumerable<Type> _dbRelevanceEntityTypes;
 
         /// <summary>
         /// 数据库关联函数集合
         /// </summary>
-        private static readonly IEnumerable<MethodInflation> _dbRelevanceFunctions;
+        private static readonly IEnumerable<MethodInfo> _dbRelevanceFunctions;
 
         /// <summary>
         /// 模型构建器
@@ -65,9 +63,9 @@ namespace Fur.DatabaseAccessor.Contexts
         /// </summary>
         static FurDbContextBuilder()
         {
-            var application = App.Inflations;
-
-            _dbRelevanceEntityTypes ??= application.ClassTypes.Where(u => u.IsDbRelevanceEntityType);
+            _dbRelevanceEntityTypes ??= App.Assemblies
+                .SelectMany(a => a.GetTypes()
+                    .Where(t => t.IsPublic && t.IsClass && !t.IsAbstract && !t.IsGenericType && !t.IsInterface && (typeof(IDbEntityBase).IsAssignableFrom(t) || typeof(IDbEntityConfigure).IsAssignableFrom(t))));
 
             if (_dbRelevanceEntityTypes.Any())
             {
@@ -75,7 +73,10 @@ namespace Fur.DatabaseAccessor.Contexts
                 _dbRelevanceEntityBasicGenericArgumentsCache ??= new ConcurrentDictionary<(Type, Type), Type[]>();
             }
 
-            _dbRelevanceFunctions = application.Methods.Where(u => u.IsDbRelevanceFunction);
+            _dbRelevanceFunctions = App.Assemblies
+                .SelectMany(a => a.GetTypes()
+                    .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Static)
+                        .Where(m => t.IsAbstract && t.IsSealed && m.IsDefined(typeof(Attributes.DbFunctionAttribute), false))));
         }
 
         /// <summary>
@@ -93,7 +94,7 @@ namespace Fur.DatabaseAccessor.Contexts
             _dbContextLocatorType = dbContextLocatorType;
 
             // 查找当前数据库上下文关联的实体类型
-            var dbContextRelevanceEntityTypes = _dbRelevanceEntityTypes.Where(u => IsThisDbContextRelevanceEntityType(u.ThisType));
+            var dbContextRelevanceEntityTypes = _dbRelevanceEntityTypes.Where(u => IsThisDbContextRelevanceEntityType(u));
 
             // 如果没找到，则跳过
             if (!dbContextRelevanceEntityTypes.Any())
@@ -110,9 +111,8 @@ namespace Fur.DatabaseAccessor.Contexts
             _dbContextType = dbContext.GetType();
             var hasDbContextQueryFilter = typeof(IDbContextQueryFilter).IsAssignableFrom(_dbContextType);
 
-            foreach (var typeInflation in dbContextRelevanceEntityTypes)
+            foreach (var dbRelevanceEntityType in dbContextRelevanceEntityTypes)
             {
-                var dbRelevanceEntityType = typeInflation.ThisType;
                 // 获取实体状态器
                 var dbRelevanceEntityBuilder = GetDbRelevanceEntityBuilder(dbRelevanceEntityType);
 
@@ -249,7 +249,7 @@ namespace Fur.DatabaseAccessor.Contexts
 
             foreach (var dbFunction in dbFunctionMethods)
             {
-                _modelBuilder.HasDbFunction(dbFunction.ThisMethod);
+                _modelBuilder.HasDbFunction(dbFunction);
             }
         }
 
@@ -354,12 +354,9 @@ namespace Fur.DatabaseAccessor.Contexts
         /// <param name="methodInflation">方法包装器</param>
         /// <param name="dbContextLocatorType">数据库上下文定位器</param>
         /// <returns></returns>
-        private static bool IsThisDbContextRelevanceFunction(MethodInflation methodInflation, Type dbContextLocatorType)
+        private static bool IsThisDbContextRelevanceFunction(MethodInfo method, Type dbContextLocatorType)
         {
-            var dbFunctionAttribute = methodInflation.CustomAttributes
-                .FirstOrDefault(u => u.GetType() == typeof(Attributes.DbFunctionAttribute))
-                as Attributes.DbFunctionAttribute;
-
+            var dbFunctionAttribute = method.GetCustomAttribute<Attributes.DbFunctionAttribute>();
             if (CheckIsInDbContextLocators(dbFunctionAttribute.DbContextLocators, dbContextLocatorType)) return true;
 
             return false;

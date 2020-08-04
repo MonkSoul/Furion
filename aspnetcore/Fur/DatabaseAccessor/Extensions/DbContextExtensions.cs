@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Fur.Attributes;
+
 using Fur.DatabaseAccessor.Options;
 using Fur.DatabaseAccessor.Providers;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +11,7 @@ namespace Fur.DatabaseAccessor.Extensions
     /// <summary>
     /// 数据库上下文拓展类
     /// </summary>
-    [NonInflated]
+
     public static class DbContextExtensions
     {
         /// <summary>

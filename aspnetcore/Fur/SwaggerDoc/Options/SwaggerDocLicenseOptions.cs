@@ -1,11 +1,9 @@
-﻿using Fur.Attributes;
-
-namespace Fur.SwaggerDoc.Options
+﻿namespace Fur.SwaggerDoc.Options
 {
     /// <summary>
     /// Swagger 分组协议配置选项
     /// </summary>
-    [NonInflated]
+
     public sealed class SwaggerDocLicenseOptions
     {
         /// <summary>

@@ -1,9 +1,8 @@
-﻿using Fur.Attributes;
-using System;
+﻿using System;
 
 namespace Fur.Validation.Attributes
 {
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class), NonInflated]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
     public sealed class NonVaildateAttribute : Attribute
     {
     }

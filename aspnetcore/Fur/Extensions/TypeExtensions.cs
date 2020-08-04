@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Reflection;
 
@@ -8,7 +7,7 @@ namespace Fur.Extensions
     /// <summary>
     /// 类型拓展类
     /// </summary>
-    [NonInflated]
+
     public static class TypeExtensions
     {
         internal static bool IsPrimitivePlus(this Type type, bool includeEnum = true)

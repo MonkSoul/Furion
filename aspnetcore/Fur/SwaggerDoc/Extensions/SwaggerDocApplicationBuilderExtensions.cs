@@ -1,5 +1,5 @@
 ﻿using Fur;
-using Fur.Attributes;
+
 using Fur.SwaggerDoc;
 
 namespace Microsoft.AspNetCore.Builder
@@ -7,7 +7,7 @@ namespace Microsoft.AspNetCore.Builder
     /// <summary>
     /// Swagger 中间件拓展
     /// </summary>
-    [NonInflated]
+
     public static class SwaggerDocApplicationBuilderExtensions
     {
         /// <summary>

@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using System;
+﻿using System;
 using System.Data;
 
 namespace Fur.DatabaseAccessor.Attributes
@@ -10,7 +9,7 @@ namespace Fur.DatabaseAccessor.Attributes
     /// <remarks>
     /// <para>支持类实例属性、方法参数中贴此特性</para>
     /// </remarks>
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter), NonInflated]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter)]
     public sealed class DbParameterAttribute : Attribute
     {
         /// <summary>

@@ -1,11 +1,9 @@
-﻿using Fur.Attributes;
-
-namespace Fur.UnifyResult.Models
+﻿namespace Fur.UnifyResult.Models
 {
     /// <summary>
     /// 统一返回值
     /// </summary>
-    [NonInflated]
+
     public sealed class RESTfulResult
     {
         /// <summary>

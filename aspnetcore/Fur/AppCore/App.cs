@@ -1,11 +1,6 @@
-﻿using Fur.AppCore.Inflations;
-using Fur.Attributes;
-using Fur.DatabaseAccessor.Attributes;
-using Fur.DatabaseAccessor.Entities;
-using Fur.DatabaseAccessor.Options;
+﻿using Fur.DatabaseAccessor.Options;
 using Fur.Extensions;
 using Fur.Linq.Extensions;
-using Fur.MirrorController.Attributes;
 using Fur.MirrorController.Dependencies;
 using Fur.Options;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +16,7 @@ namespace Fur
     /// <summary>
     /// 应用核心类
     /// </summary>
-    [NonInflated]
+
     public static class App
     {
         /// <summary>
@@ -32,7 +27,7 @@ namespace Fur
         /// <summary>
         /// 应用包装器
         /// </summary>
-        internal static ApplicationInflation Inflations;
+        internal static IEnumerable<Assembly> Assemblies;
 
         /// <summary>
         /// 多租户配置选项
@@ -54,7 +49,7 @@ namespace Fur
         /// </summary>
         static App()
         {
-            Inflations ??= GetApplicationInflations();
+            Assemblies ??= GetApplicationAssembliesWithoutNuget();
             MultipleTenantOptions = FurMultipleTenantOptions.None;
             SupportedMultipleTenant = false;
             SupportedMiniProfiler = false;
@@ -78,88 +73,7 @@ namespace Fur
                 .Select(u => AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(u.Name)));
         }
 
-        /// <summary>
-        /// 获取应用解决方案中所有的包装器集合
-        /// </summary>
-        /// <returns><see cref="Inflations"/></returns>
-        private static ApplicationInflation GetApplicationInflations()
-        {
-            // 避免重复读取
-            if (Inflations != null) return Inflations;
-
-            var applicationAssemblies = GetApplicationAssembliesWithoutNuget();
-
-            // 组装应用包装器
-            var applicationWrapper = new ApplicationInflation
-            {
-                // 创建程序集包装器
-                Assemblies = applicationAssemblies
-                .Select(a => new AssemblyInflation()
-                {
-                    ThisAssembly = a,
-                    Name = a.GetName().Name,
-                    FullName = a.FullName,
-
-                    // 创建类型包装器
-                    SubClassTypes = a.GetTypes()
-                    .Where(t => t.IsPublic && !t.IsInterface && !t.IsEnum && !t.IsDefined(typeof(NonInflatedAttribute), false))
-                    .Select(t => new TypeInflation()
-                    {
-                        ThisAssembly = a,
-                        ThisType = t,
-                        Name = t.Name,
-                        FullName = t.FullName,
-                        IsGenericType = t.IsGenericType,
-                        IsControllerType = IsControllerType(t),
-                        GenericArgumentTypes = t.IsGenericType ? t.GetGenericArguments() : null,
-                        CustomAttributes = t.GetCustomAttributes(),
-                        SwaggerGroups = GetControllerTypeSwaggerGroups(t),
-                        IsStaticType = t.IsAbstract && t.IsSealed,
-                        CanBeNew = !t.IsAbstract,
-                        IsDbRelevanceEntityType = !t.IsAbstract && (typeof(IDbEntityBase).IsAssignableFrom(t) || typeof(IDbEntityConfigure).IsAssignableFrom(t)),
-
-                        // 创建属性包装器
-                        SubPropertis = t.GetProperties(BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance)
-                        .Where(p => p.DeclaringType == t && !p.IsDefined(typeof(NonInflatedAttribute), false))
-                        .Select(p => new PropertyInflation()
-                        {
-                            Name = p.Name,
-                            ThisAssembly = a,
-                            ThisDeclareType = t,
-                            PropertyType = p.PropertyType,
-                            CustomAttributes = p.GetCustomAttributes()
-                        }),
-
-                        // 创建方法包装器
-                        SubMethods = t.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static)
-                        .Where(m => m.DeclaringType == t && !m.IsDefined(typeof(NonInflatedAttribute), false))
-                        .Select(m => new MethodInflation()
-                        {
-                            ThisAssembly = a,
-                            ThisDeclareType = t,
-                            ThisMethod = m,
-                            Name = m.Name,
-                            CustomAttributes = m.GetCustomAttributes(),
-                            ReturnType = m.ReturnType,
-                            IsControllerActionMethod = IsControllerActionMethod(m),
-                            SwaggerGroups = GetControllerActionSwaggerGroups(m),
-                            IsStaticMethod = m.IsStatic,
-                            IsDbRelevanceFunction = t.IsAbstract && t.IsSealed && m.IsStatic && m.IsDefined(typeof(DbFunctionAttribute), false),
-                            SubParameters = m.GetParameters(),
-                        })
-                    })
-                })
-            };
-
-            // 读取所有程序集下的公开类型包装器集合
-            applicationWrapper.ClassTypes = applicationWrapper.Assemblies.SelectMany(u => u.SubClassTypes);
-
-            // 读取所有程序集下的所有方法包装器集合
-            applicationWrapper.Methods = applicationWrapper.ClassTypes.SelectMany(u => u.SubMethods);
-
-            return applicationWrapper;
-        }
-
+        // 这里需要缓存============
         /// <summary>
         /// 判断是否是控制器类型
         /// </summary>
@@ -183,6 +97,7 @@ namespace Fur
             return false;
         }
 
+        // 这里需要缓存============
         /// <summary>
         /// 判断是否是控制器 Action 方法
         /// </summary>
@@ -200,48 +115,6 @@ namespace Fur
             if (method.IsDefined(typeof(ApiExplorerSettingsAttribute), true) && method.GetCustomAttribute<ApiExplorerSettingsAttribute>(true).IgnoreApi) return false;
 
             return true;
-        }
-
-        /// <summary>
-        /// 获取控制器类型 Swagger 接口文档分组
-        /// </summary>
-        /// <param name="controllerType">控制器类型</param>
-        /// <returns>string[]</returns>
-        private static string[] GetControllerTypeSwaggerGroups(Type controllerType)
-        {
-            // 如果不是控制器类型，返回 null
-            if (!IsControllerType(controllerType)) return default;
-
-            var defaultSwaggerGroups = new string[] { Settings.SwaggerDocOptions.DefaultGroupName };
-
-            if (!controllerType.IsDefined(typeof(MirrorSettingsAttribute), true))
-                return defaultSwaggerGroups;
-
-            var mirrorControllerAttribute = controllerType.GetCustomAttribute<MirrorSettingsAttribute>(true);
-
-            return mirrorControllerAttribute.SwaggerGroups == null || !mirrorControllerAttribute.SwaggerGroups.Any()
-                ? defaultSwaggerGroups
-                : mirrorControllerAttribute.SwaggerGroups;
-        }
-
-        /// <summary>
-        /// 获取控制器 Action Swagger 接口文档分组
-        /// </summary>
-        /// <param name="controllerAction">控制器Action</param>
-        /// <returns>string[]</returns>
-        private static string[] GetControllerActionSwaggerGroups(MethodInfo controllerAction)
-        {
-            // 如果不是控制器Action类型，返回 null
-            if (!IsControllerActionMethod(controllerAction)) return default;
-
-            if (!controllerAction.IsDefined(typeof(MirrorSettingsAttribute), true))
-                return GetControllerTypeSwaggerGroups(controllerAction.DeclaringType);
-
-            var mirrorActionAttribute = controllerAction.GetCustomAttribute<MirrorSettingsAttribute>(true);
-
-            return mirrorActionAttribute.SwaggerGroups == null || !mirrorActionAttribute.SwaggerGroups.Any()
-                ? GetControllerTypeSwaggerGroups(controllerAction.DeclaringType)
-                : mirrorActionAttribute.SwaggerGroups;
         }
     }
 }

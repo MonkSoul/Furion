@@ -1,10 +1,9 @@
-﻿using Fur.Attributes;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 
 namespace Fur.MirrorController.Attributes
 {
-    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Method), NonInflated]
+    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Method)]
     public class MirrorSettingsAttribute : ApiExplorerSettingsAttribute
     {
         public MirrorSettingsAttribute(bool enabled)

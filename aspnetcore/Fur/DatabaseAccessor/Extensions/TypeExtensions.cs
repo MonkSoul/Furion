@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Concurrent;
@@ -11,7 +10,7 @@ namespace Fur.DatabaseAccessor.Extensions
     /// <summary>
     /// 类型拓展类
     /// </summary>
-    [NonInflated]
+
     public static class TypeExtensions
     {
         /// <summary>

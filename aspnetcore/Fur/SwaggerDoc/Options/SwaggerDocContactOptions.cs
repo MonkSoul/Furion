@@ -1,11 +1,9 @@
-﻿using Fur.Attributes;
-
-namespace Fur.SwaggerDoc.Options
+﻿namespace Fur.SwaggerDoc.Options
 {
     /// <summary>
     /// Swagger 联系分组联系信息配置选项
     /// </summary>
-    [NonInflated]
+
     public sealed class SwaggerDocContactOptions
     {
         /// <summary>

@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -12,7 +11,7 @@ namespace Fur.DatabaseAccessor.Extensions
     /// <summary>
     /// Sql 存储过程 拓展类
     /// </summary>
-    [NonInflated]
+
     internal static class SqlProcedureExtensions
     {
         /// <summary>

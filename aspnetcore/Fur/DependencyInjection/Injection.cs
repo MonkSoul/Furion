@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Fur.Attributes;
+
 using System.Linq;
 
 namespace Fur.DependencyInjection
@@ -7,7 +7,7 @@ namespace Fur.DependencyInjection
     /// <summary>
     /// 依赖注入初始化类
     /// </summary>
-    [NonInflated]
+
     public sealed class Injection
     {
         /// <summary>
@@ -15,6 +15,6 @@ namespace Fur.DependencyInjection
         /// </summary>
         /// <param name="builder">容器构建器</param>
         public static void Initialize(ContainerBuilder builder)
-            => builder.RegisterAssemblyModules(App.Inflations.Assemblies.Select(a => a.ThisAssembly).ToArray());
+            => builder.RegisterAssemblyModules(App.Assemblies.ToArray());
     }
 }

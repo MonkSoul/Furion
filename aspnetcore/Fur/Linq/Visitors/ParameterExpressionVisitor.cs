@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Fur.Linq.Visitors
@@ -7,7 +6,7 @@ namespace Fur.Linq.Visitors
     /// <summary>
     /// 自定义参数表达式访问器
     /// </summary>
-    [NonInflated]
+
     internal sealed class ParameterExpressionVisitor : ExpressionVisitor
     {
         /// <summary>

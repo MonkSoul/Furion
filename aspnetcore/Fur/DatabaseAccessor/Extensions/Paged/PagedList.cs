@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Fur.DatabaseAccessor.Extensions
 {
@@ -7,7 +6,7 @@ namespace Fur.DatabaseAccessor.Extensions
     /// 泛型分页集合
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    [NonInflated]
+
     public sealed class PagedList<TEntity>
     {
         /// <summary>
@@ -49,7 +48,7 @@ namespace Fur.DatabaseAccessor.Extensions
     /// <summary>
     /// 分页集合
     /// </summary>
-    [NonInflated]
+
     public sealed class PagedList
     {
         /// <summary>

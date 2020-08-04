@@ -1,9 +1,8 @@
-﻿using Fur.Attributes;
-using System;
+﻿using System;
 
 namespace Fur.MirrorController.Attributes
 {
-    [AttributeUsage(AttributeTargets.Parameter), NonInflated]
+    [AttributeUsage(AttributeTargets.Parameter)]
     public sealed class RouteSeatAttribute : Attribute
     {
         public RouteSeatAttribute(RouteSeatOptions routeSeatOptions = RouteSeatOptions.ActionEnd)

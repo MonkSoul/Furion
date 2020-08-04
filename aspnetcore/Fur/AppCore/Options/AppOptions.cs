@@ -1,10 +1,8 @@
-﻿using Fur.Attributes;
-using Fur.MirrorController.Options;
+﻿using Fur.MirrorController.Options;
 using Fur.SwaggerDoc.Options;
 
 namespace Fur.Options
 {
-    [NonInflated]
     public sealed class AppOptions : IFurOptions
     {
         /// <summary>

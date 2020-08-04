@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using Fur.Linq.Extensions;
+﻿using Fur.Linq.Extensions;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -15,7 +14,7 @@ namespace Fur.DatabaseAccessor.Extensions
     /// <summary>
     /// ADO.NET 拓展类
     /// </summary>
-    [NonInflated]
+
     internal static class SqlAdoNetExtensions
     {
         /// <summary>

@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using Fur.DatabaseAccessor.Interceptors;
+﻿using Fur.DatabaseAccessor.Interceptors;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -11,7 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     /// 数据库操作上下文服务拓展类
     /// </summary>
-    [NonInflated]
+
     public static class DatabaseAccessorServiceCollectionExtensions
     {
         /// <summary>

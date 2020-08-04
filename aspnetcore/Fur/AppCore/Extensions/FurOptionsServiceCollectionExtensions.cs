@@ -1,5 +1,4 @@
-﻿using Fur.Attributes;
-using Fur.Options;
+﻿using Fur.Options;
 using Microsoft.Extensions.Configuration;
 using System;
 
@@ -11,7 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <remarks>
     /// <para>默认启用了选项验证</para>
     /// </remarks>
-    [NonInflated]
+
     public static class FurOptionsServiceCollectionExtensions
     {
         /// <summary>

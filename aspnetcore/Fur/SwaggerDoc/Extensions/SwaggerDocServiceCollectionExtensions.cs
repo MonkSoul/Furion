@@ -1,5 +1,5 @@
 ﻿using Fur;
-using Fur.Attributes;
+
 using Fur.SwaggerDoc;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -7,7 +7,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     /// Swagger 服务拓展类
     /// </summary>
-    [NonInflated]
+
     public static class SwaggerDocServiceCollectionExtensions
     {
         /// <summary>

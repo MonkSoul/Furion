@@ -1,12 +1,10 @@
-﻿using Fur.Attributes;
-
-namespace Fur.DatabaseAccessor.Attributes
+﻿namespace Fur.DatabaseAccessor.Attributes
 {
     /// <summary>
     /// 切面编译类型
     /// <para>特指：函数和存储过程</para>
     /// </summary>
-    [NonInflated]
+
     public class TangentCompileTypeAttribute : TangentAttribute
     {
         /// <summary>

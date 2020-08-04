@@ -1,12 +1,11 @@
-﻿using Fur.Attributes;
-using System;
+﻿using System;
 
 namespace Fur.MirrorController.Attributes
 {
     /// <summary>
     /// 镜面控制器特性类
     /// </summary>
-    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class), NonInflated]
+    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class)]
     public sealed class MirrorControllerAttribute : MirrorSettingsAttribute
     {
         /// <summary>

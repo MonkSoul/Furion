@@ -1,12 +1,11 @@
-﻿using Fur.Attributes;
-using System;
+﻿using System;
 
 namespace Fur.DatabaseAccessor.Attributes
 {
     /// <summary>
     /// 切面数据库函数特性
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method), NonInflated]
+    [AttributeUsage(AttributeTargets.Method)]
     public class SqlFunctionAttribute : TangentCompileTypeAttribute
     {
         /// <summary>
