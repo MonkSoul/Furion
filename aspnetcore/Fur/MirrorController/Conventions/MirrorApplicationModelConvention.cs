@@ -20,7 +20,7 @@ namespace Fur.MirrorController.Conventions
 
         public MirrorApplicationModelConvention()
         {
-            _mirrorControllerOptions = App.AppOptions.MirrorControllerOptions;
+            _mirrorControllerOptions = App.Settings.MirrorControllerOptions;
         }
 
         public void Apply(ApplicationModel application)

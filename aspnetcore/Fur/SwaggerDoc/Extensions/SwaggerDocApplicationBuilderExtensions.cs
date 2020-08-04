@@ -17,7 +17,7 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns>新的应用构建器</returns>
         public static IApplicationBuilder AddFurSwaggerUI(this IApplicationBuilder app)
         {
-            if (App.AppOptions.SwaggerDocOptions.EnableMiniProfiler)
+            if (App.Settings.SwaggerDocOptions.EnableMiniProfiler)
             {
                 //app.UseMiniProfiler();
             }

@@ -13,7 +13,7 @@ namespace Fur.AppCore.Inflations
         /// 应用程序集
         /// </summary>
         /// <remarks>
-        /// 排除第三方下载的Nuget Package包但不排除 Fur官方的Nuget Package包
+        /// <para>排除第三方下载的Nuget Package包但不排除 Fur官方的Nuget Package包</para>
         /// </remarks>
         internal IEnumerable<AssemblyInflation> Assemblies { get; set; }
 

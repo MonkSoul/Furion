@@ -33,7 +33,7 @@ namespace Fur.Web.Host
         {
             services.AddFurOptions<AppOptions>(options =>
             {
-                App.AppOptions = options as AppOptions;
+                App.Settings = options as AppOptions;
             });
             services.AddAuthentication(x =>
             {

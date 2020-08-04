@@ -29,7 +29,7 @@ namespace Fur.AppCore
         /// <summary>
         /// Fur 框架配置选项
         /// </summary>
-        public static AppOptions AppOptions;
+        public static AppOptions Settings;
 
         /// <summary>
         /// 应用包装器
@@ -39,24 +39,27 @@ namespace Fur.AppCore
         /// <summary>
         /// 多租户配置选项
         /// </summary>
-        internal static FurMultipleTenantOptions MultipleTenantOptions { get; set; } = FurMultipleTenantOptions.None;
+        internal static FurMultipleTenantOptions MultipleTenantOptions { get; set; }
 
         /// <summary>
         /// 是否支持多租户
         /// </summary>
-        internal static bool SupportedMultipleTenant { get; set; } = false;
+        internal static bool SupportedMultipleTenant { get; set; }
 
         /// <summary>
         /// 是否支持性能分析
         /// </summary>
-        internal static bool SupportedMiniProfiler { get; set; } = false;
+        internal static bool SupportedMiniProfiler { get; set; }
 
         /// <summary>
-        /// 静态构造函数
+        /// 构造函数
         /// </summary>
         static App()
         {
             Inflations ??= GetApplicationInflations();
+            MultipleTenantOptions = FurMultipleTenantOptions.None;
+            SupportedMultipleTenant = false;
+            SupportedMiniProfiler = false;
         }
 
         /// <summary>

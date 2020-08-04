@@ -20,7 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddSwaggerGen(options => SwaggerDocConfigure.Initialize(options));
 
-            if (App.AppOptions.SwaggerDocOptions.EnableMiniProfiler)
+            if (App.Settings.SwaggerDocOptions.EnableMiniProfiler)
             {
                 App.SupportedMiniProfiler = true;
 
