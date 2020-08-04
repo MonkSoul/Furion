@@ -17,31 +17,22 @@ namespace Fur.Extensions
         /// <typeparam name="TAttribute">特性泛型类型</typeparam>
         /// <param name="typeInfo">类型对象</param>
         /// <returns>特性对象</returns>
-        public static TAttribute GetDeepAttribute<TAttribute>(this TypeInfo typeInfo) where TAttribute : Attribute
+        public static TAttribute GetDeepAttribute<TAttribute>(this Type type) where TAttribute : Attribute
         {
             var attributeType = typeof(TAttribute);
-            if (typeInfo.IsDefined(attributeType, true)) return typeInfo.GetCustomAttribute<TAttribute>(true);
+            if (type.IsDefined(attributeType, true)) return type.GetCustomAttribute<TAttribute>(true);
             else
             {
-                var implementedInterfaces = typeInfo.ImplementedInterfaces;
+                var implementedInterfaces = type.GetTypeInfo().ImplementedInterfaces;
                 foreach (var impl in implementedInterfaces)
                 {
-                    var tAttribute = GetDeepAttribute<TAttribute>(impl.GetTypeInfo());
+                    var tAttribute = GetDeepAttribute<TAttribute>(impl);
                     if (tAttribute != null) return tAttribute;
                 }
             }
 
             return null;
         }
-
-        /// <summary>
-        /// 递归获取特性
-        /// </summary>
-        /// <typeparam name="TAttribute">特性泛型类型</typeparam>
-        /// <param name="type">类型对象</param>
-        /// <returns>特性对象</returns>
-        public static TAttribute GetDeepAttribute<TAttribute>(this Type type) where TAttribute : Attribute
-            => GetDeepAttribute<TAttribute>(type.GetTypeInfo());
 
         internal static bool IsPrimitivePlus(this Type type, bool includeEnum = true)
         {
