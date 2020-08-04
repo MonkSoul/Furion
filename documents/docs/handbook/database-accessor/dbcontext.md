@@ -88,7 +88,7 @@ public class FurBookContext : DbContext
 
 代码如下：
 
-```cs
+```cs {6,8}
 using Fur.DatabaseAccessor.Contexts;
 using Microsoft.EntityFrameworkCore;
 
