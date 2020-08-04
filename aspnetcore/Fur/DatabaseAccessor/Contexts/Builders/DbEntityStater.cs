@@ -28,11 +28,11 @@ namespace Fur.DatabaseAccessor.Contexts
         /// <summary>
         /// 数据库实体配置泛型参数集合
         /// </summary>
-        internal Dictionary<Type, IEnumerable<Type>> DbEntityConfigureGenericArgumentTypes { get; set; }
+        internal Dictionary<Type, IEnumerable<Type>> GenericArgumentTypesForInterfaces { get; set; }
 
         /// <summary>
         /// 基类泛型类型集合
         /// </summary>
-        internal IEnumerable<Type> BaseTypeGenericArgumentTypes { get; set; }
+        internal IEnumerable<Type> GenericArgumentTypesForBaseType { get; set; }
     }
 }
