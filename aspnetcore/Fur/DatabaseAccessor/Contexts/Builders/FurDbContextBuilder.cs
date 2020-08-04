@@ -2,7 +2,6 @@
 using Fur.AppCore.Inflations;
 using Fur.Attributes;
 using Fur.DatabaseAccessor.Entities;
-using Fur.DatabaseAccessor.Extensions;
 using Fur.DatabaseAccessor.Options;
 using Fur.DatabaseAccessor.Providers;
 using Fur.Extensions;
@@ -30,7 +29,7 @@ namespace Fur.DatabaseAccessor.Contexts
         /// 数据库实体关联的所有类型
         /// </summary>
         /// <remarks>
-        /// <para>所有继承 <see cref="IDbEntityBase"/> 或 <see cref="IDbEntityConfigure"/> 的类型</para>
+        /// <para>包含所有继承 <see cref="IDbEntityBase"/> 或 <see cref="IDbEntityConfigure"/> 的类型</para>
         /// </remarks>
         private static readonly IEnumerable<TypeInflation> _dbEntityRelevanceTypes;
 
@@ -38,6 +37,9 @@ namespace Fur.DatabaseAccessor.Contexts
         /// 数据库函数定义方法集合
         /// </summary>
         private static readonly IEnumerable<MethodInflation> _dbFunctionMethods;
+
+
+        private static readonly ConcurrentDictionary<(Type, Type), Type[]> _basicGenericArgumentsCache;
 
         /// <summary>
         /// 模型构建器
@@ -76,6 +78,7 @@ namespace Fur.DatabaseAccessor.Contexts
             if (_dbEntityRelevanceTypes.Any())
             {
                 _dbEntityStaters ??= new ConcurrentDictionary<Type, DbEntityStater>();
+                _basicGenericArgumentsCache = new ConcurrentDictionary<(Type, Type), Type[]>();
             }
 
             _dbFunctionMethods = application.Methods
@@ -347,7 +350,7 @@ namespace Fur.DatabaseAccessor.Contexts
             // 如果继承 IDbEntityConfigure，但数据库上下文定位器泛型参数未空或包含 dbContextLocatorType，返回 true
             if (typeof(IDbEntityConfigure).IsAssignableFrom(dbEntityRelevanceType))
             {
-                var typeGenericArguments = dbEntityRelevanceType.GetTypeGenericArguments(typeof(IDbEntityConfigure), GenericArgumentSourceOptions.Interface);
+                var typeGenericArguments = GetGenericArgumentsForInterface(dbEntityRelevanceType, typeof(IDbEntityConfigure));
 
                 if (!App.SupportedMultipleTenant && typeGenericArguments.First() == _tenantType) return false;
                 if (CheckIsInDbContextLocators(typeGenericArguments.Skip(1), _dbContextLocatorType)) return true;
@@ -358,7 +361,7 @@ namespace Fur.DatabaseAccessor.Contexts
             // 如果是泛型类型，但数据库上下文定位器泛型参数未空或包含 dbContextLocatorType，返回 true
             else
             {
-                var typeGenericArguments = dbEntityRelevanceType.GetTypeGenericArguments(typeof(IDbEntityBase), GenericArgumentSourceOptions.BaseType);
+                var typeGenericArguments = GetGenericArgumentsForBaseType(dbEntityRelevanceType, typeof(IDbEntityBase));
                 if (CheckIsInDbContextLocators(typeof(IDbNoKeyEntity).IsAssignableFrom(dbEntityRelevanceType) ? typeGenericArguments : typeGenericArguments.Skip(1), _dbContextLocatorType)) return true;
             }
             return false;
@@ -394,19 +397,19 @@ namespace Fur.DatabaseAccessor.Contexts
                     IsDbEntityType = typeof(IDbEntityBase).IsAssignableFrom(dbEntityRelevanceType),
                     IsDbNoKeyEntityType = typeof(IDbNoKeyEntity).IsAssignableFrom(dbEntityRelevanceType)
                 };
-                var baseType = dbEntityRelevanceType.BaseType;
-                // 目前只有无键实体基类是类类型
-                if (baseType.IsGenericType && typeof(IDbNoKeyEntity).IsAssignableFrom(baseType.GetGenericTypeDefinition()))
-                {
-                    stater.BaseTypeGenericArgumentTypes = baseType.GetGenericArguments();
-                }
+                stater.BaseTypeGenericArgumentTypes = GetGenericArgumentsForBaseType(dbEntityRelevanceType, typeof(IDbNoKeyEntity));
+
                 var interfaces = dbEntityRelevanceType.GetInterfaces().Where(u => u.IsGenericType && typeof(IDbEntityConfigure).IsAssignableFrom(u.GetGenericTypeDefinition()));
                 if (interfaces.Any())
                 {
                     var interfaceGenericArgumentTypes = new Dictionary<Type, IEnumerable<Type>>();
                     foreach (var inter in interfaces)
                     {
-                        interfaceGenericArgumentTypes.Add(inter, inter.GetGenericArguments());
+                        var genericArguments = inter.GetGenericArguments();
+                        interfaceGenericArgumentTypes.Add(inter, genericArguments);
+
+                        // 缓存
+                        _basicGenericArgumentsCache.TryAdd((dbEntityRelevanceType, inter), genericArguments);
                     }
                     stater.DbEntityConfigureGenericArgumentTypes = interfaceGenericArgumentTypes;
                 }
@@ -427,6 +430,33 @@ namespace Fur.DatabaseAccessor.Contexts
         private static bool CheckIsInDbContextLocators(IEnumerable<Type> dbContextLocators, Type dbContextLocatorType)
         {
             return dbContextLocators == null || dbContextLocators.Count() == 0 || dbContextLocators.Contains(dbContextLocatorType);
+        }
+
+        internal static Type[] GetGenericArgumentsForInterface(Type type, Type filterType)
+        {
+            var isCached = _basicGenericArgumentsCache.TryGetValue((type, filterType), out Type[] genericArguments);
+            if (isCached) return genericArguments;
+
+            genericArguments = type.GetInterfaces()
+                    .FirstOrDefault(c => c.IsGenericType && filterType.IsAssignableFrom(c.GetGenericTypeDefinition()))
+                    ?.GetGenericArguments();
+
+            _basicGenericArgumentsCache.TryAdd((type, filterType), genericArguments);
+            return genericArguments;
+        }
+
+        internal static Type[] GetGenericArgumentsForBaseType(Type type, Type filterType)
+        {
+            var isCached = _basicGenericArgumentsCache.TryGetValue((type, filterType), out Type[] genericArguments);
+            if (isCached) return genericArguments;
+
+            var baseType = type.BaseType;
+            if (baseType.IsGenericType && filterType.IsAssignableFrom(baseType.GetGenericTypeDefinition()))
+            {
+                genericArguments = baseType.GetGenericArguments();
+            }
+            _basicGenericArgumentsCache.TryAdd((type, filterType), genericArguments);
+            return genericArguments;
         }
     }
 }

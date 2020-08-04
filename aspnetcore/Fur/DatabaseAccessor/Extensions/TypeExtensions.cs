@@ -1,10 +1,8 @@
 ﻿using Fur.Attributes;
-using Fur.DatabaseAccessor.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Concurrent;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -16,43 +14,6 @@ namespace Fur.DatabaseAccessor.Extensions
     [NonInflated]
     public static class TypeExtensions
     {
-        /// <summary>
-        /// 获取类型的父类型或接口类型泛型参数
-        /// </summary>
-        /// <param name="type">类型</param>
-        /// <param name="filterType">特定类型</param>
-        /// <param name="genericArgumentSourceOptions">泛型参数来源，参见：<see cref="GenericArgumentSourceOptions"/></param>
-        /// <returns></returns>
-        internal static Type[] GetTypeGenericArguments(this Type type, Type filterType, GenericArgumentSourceOptions genericArgumentSourceOptions)
-        {
-            var isSet = EntityRelevanceTypes.TryGetValue((type, filterType), out Type[] genericArguments);
-            if (isSet) return genericArguments;
-            else
-            {
-                if (genericArgumentSourceOptions == GenericArgumentSourceOptions.Interface)
-                {
-                    // 这里的接口被重复扫描了
-                    genericArguments = type.GetInterfaces()
-                        .FirstOrDefault(c => c.IsGenericType && filterType.IsAssignableFrom(c.GetGenericTypeDefinition()))
-                        ?.GetGenericArguments();
-                }
-                else
-                {
-                    // 类型也是
-                    var baseType = type.BaseType;
-                    if (baseType.IsGenericType && filterType.IsAssignableFrom(baseType.GetGenericTypeDefinition()))
-                    {
-                        genericArguments = baseType.GetGenericArguments();
-                    }
-                }
-
-                EntityRelevanceTypes.TryAdd((type, filterType), genericArguments);
-                return genericArguments;
-            }
-        }
-
-        private static readonly ConcurrentDictionary<(Type, Type), Type[]> EntityRelevanceTypes;
-
         /// <summary>
         /// 创建查询筛选器表达式
         /// </summary>
@@ -101,7 +62,6 @@ namespace Fur.DatabaseAccessor.Extensions
         static TypeExtensions()
         {
             EntityEntryProperties = new ConcurrentDictionary<(Type, string), PropertyEntry>();
-            EntityRelevanceTypes = new ConcurrentDictionary<(Type, Type), Type[]>();
         }
     }
 }
