@@ -215,7 +215,7 @@ namespace Fur.AppCore
             // 如果不是控制器类型，返回 null
             if (!IsControllerType(controllerType)) return default;
 
-            var defaultSwaggerGroups = new string[] { "Default" };
+            var defaultSwaggerGroups = new string[] { App.Settings.SwaggerDocOptions.DefaultGroupName };
 
             if (!controllerType.IsDefined(typeof(MirrorControllerAttribute), true))
                 return defaultSwaggerGroups;

@@ -29,5 +29,11 @@ namespace Fur.SwaggerDoc.Options
         /// </summary>
         [Required]
         public bool EnableMiniProfiler { get; set; }
+
+        /// <summary>
+        /// 默认分组名
+        /// </summary>
+        [Required]
+        public string DefaultGroupName { get; set; }
     }
 }
