@@ -45,7 +45,7 @@ namespace Fur.DatabaseAccessor.Extensions
             dbContextTypeList.Add(typeof(TDefaultDbContext));
 
             // 支持切面上下文
-            if (furDbContextOptions.SupportedTangent)
+            if (furDbContextOptions.SupportedTangentDbContext)
             {
                 builder.RegisterGeneric(typeof(TangentDbContext<>))
                     .As(typeof(ITangentDbContext<>))

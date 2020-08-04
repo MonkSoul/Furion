@@ -18,8 +18,7 @@ namespace Fur.DatabaseAccessor.Attributes
         /// </summary>
         /// <param name="name">函数名</param>
         /// <param name="schema">数据库架构名</param>
-        public DbFunctionAttribute(string name, string schema)
-            : base(name, schema) { }
+        public DbFunctionAttribute(string name, string schema) : base(name, schema) { }
 
         /// <summary>
         /// 构造函数
@@ -30,8 +29,7 @@ namespace Fur.DatabaseAccessor.Attributes
         /// <param name="name">函数名</param>
         /// <param name="schema">数据库架构名</param>
         /// <param name="dbContextLocators">数据库上下文定位器</param>
-        public DbFunctionAttribute(string name, string schema, params Type[] dbContextLocators)
-            : base(name, schema)
+        public DbFunctionAttribute(string name, string schema, params Type[] dbContextLocators) : base(name, schema)
             => DbContextLocators = dbContextLocators;
 
         /// <summary>

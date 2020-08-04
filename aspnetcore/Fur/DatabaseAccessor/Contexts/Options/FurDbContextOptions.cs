@@ -32,7 +32,7 @@ namespace Fur.DatabaseAccessor.Options
         /// <remarks>
         /// <para>默认true：支持</para>
         /// </remarks>
-        public bool SupportedTangent { get; set; } = true;
+        public bool SupportedTangentDbContext { get; set; } = true;
 
         /// <summary>
         /// 支持多数据库上下文
@@ -58,23 +58,23 @@ namespace Fur.DatabaseAccessor.Options
             // 不允许默认多租户提供器
             if (multipleTenantProvider == typeof(IMultipleTenantProvider)) return;
 
-            this.MultipleTenantProvider = multipleTenantProvider;
-            this.MultipleTenantDbContext = typeof(TMultipleTenantDbContext);
+            MultipleTenantProvider = multipleTenantProvider;
+            MultipleTenantDbContext = typeof(TMultipleTenantDbContext);
 
             // 基于表的多租户实现提供器
             if (typeof(IMultipleTenantOnTableProvider).IsAssignableFrom(multipleTenantProvider))
             {
-                this.MultipleTenantOptions = FurMultipleTenantOptions.OnTable;
+                MultipleTenantOptions = FurMultipleTenantOptions.OnTable;
             }
             // 基于架构的多租户实现提供器
             else if (typeof(IMultipleTenantOnSchemaProvider).IsAssignableFrom(multipleTenantProvider))
             {
-                this.MultipleTenantOptions = FurMultipleTenantOptions.OnSchema;
+                MultipleTenantOptions = FurMultipleTenantOptions.OnSchema;
             }
             // 基于数据库的多租户实现提供器
             else if (typeof(IMultipleTenantOnDatabaseProvider).IsAssignableFrom(multipleTenantProvider))
             {
-                this.MultipleTenantOptions = FurMultipleTenantOptions.OnDatabase;
+                MultipleTenantOptions = FurMultipleTenantOptions.OnDatabase;
             }
             else
                 throw new NotSupportedException($"{multipleTenantProvider}");
