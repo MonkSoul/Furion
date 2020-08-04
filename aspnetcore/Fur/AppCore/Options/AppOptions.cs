@@ -1,4 +1,4 @@
-﻿using Fur.AppCore.Attributes;
+﻿using Fur.Attributes;
 using Fur.MirrorController.Options;
 using Fur.SwaggerDoc.Options;
 

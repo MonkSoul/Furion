@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Fur.AppCore.Attributes;
+using Fur.Attributes;
 using Fur.DependencyInjection.Extensions;
 using Fur.Extensions;
 using Fur.FriendlyException.Attributes;

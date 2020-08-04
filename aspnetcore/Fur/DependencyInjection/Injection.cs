@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Fur.AppCore;
-using Fur.AppCore.Attributes;
+using Fur.Attributes;
 using System.Linq;
 
 namespace Fur.DependencyInjection

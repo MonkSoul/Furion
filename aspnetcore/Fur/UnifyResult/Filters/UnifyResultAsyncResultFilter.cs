@@ -1,4 +1,4 @@
-﻿using Fur.AppCore.Attributes;
+﻿using Fur.Attributes;
 using Fur.UnifyResult.Providers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

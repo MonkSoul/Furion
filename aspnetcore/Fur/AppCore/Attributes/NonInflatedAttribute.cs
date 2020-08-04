@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Fur.AppCore.Attributes
+namespace Fur.Attributes
 {
     /// <summary>
     /// 被贴此特性的类型、属性、方法都将在应用启动时被忽略装载包装

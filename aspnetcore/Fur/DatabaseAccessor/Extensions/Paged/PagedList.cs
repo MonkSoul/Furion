@@ -1,4 +1,4 @@
-﻿using Fur.AppCore.Attributes;
+﻿using Fur.Attributes;
 using System.Collections.Generic;
 
 namespace Fur.DatabaseAccessor.Extensions

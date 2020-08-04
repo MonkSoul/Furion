@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Castle.DynamicProxy;
-using Fur.AppCore.Attributes;
+using Fur.Attributes;
 using Fur.DatabaseAccessor.Tangent.Utilities;
 using System.Threading.Tasks;
 

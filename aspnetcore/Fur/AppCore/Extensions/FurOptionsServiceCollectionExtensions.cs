@@ -1,4 +1,4 @@
-﻿using Fur.AppCore.Attributes;
+﻿using Fur.Attributes;
 using Fur.AppCore.Options;
 using Microsoft.Extensions.Configuration;
 using System;

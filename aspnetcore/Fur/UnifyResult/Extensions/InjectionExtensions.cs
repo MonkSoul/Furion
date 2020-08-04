@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Fur.AppCore.Attributes;
+using Fur.Attributes;
 using Fur.UnifyResult.Providers;
 
 namespace Fur.UnifyResult.Extensions

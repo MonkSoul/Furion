@@ -1,5 +1,5 @@
 ﻿using Castle.DynamicProxy;
-using Fur.AppCore.Attributes;
+using Fur.Attributes;
 
 namespace Fur.DatabaseAccessor.Interceptors
 {

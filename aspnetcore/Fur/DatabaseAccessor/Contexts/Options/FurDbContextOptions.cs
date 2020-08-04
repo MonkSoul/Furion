@@ -1,4 +1,4 @@
-﻿using Fur.AppCore.Attributes;
+﻿using Fur.Attributes;
 using Fur.DatabaseAccessor.Providers;
 using Microsoft.EntityFrameworkCore;
 using System;

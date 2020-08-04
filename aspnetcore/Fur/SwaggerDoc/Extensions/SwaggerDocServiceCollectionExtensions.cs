@@ -1,5 +1,5 @@
 ﻿using Fur.AppCore;
-using Fur.AppCore.Attributes;
+using Fur.Attributes;
 using Fur.SwaggerDoc;
 
 namespace Microsoft.Extensions.DependencyInjection

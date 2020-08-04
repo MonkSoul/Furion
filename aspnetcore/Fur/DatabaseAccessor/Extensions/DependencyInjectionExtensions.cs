@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using Fur.AppCore;
-using Fur.AppCore.Attributes;
+using Fur.Attributes;
 using Fur.DatabaseAccessor.Contexts;
 using Fur.DatabaseAccessor.Options;
 using Fur.DatabaseAccessor.Repositories.MasterSlave;

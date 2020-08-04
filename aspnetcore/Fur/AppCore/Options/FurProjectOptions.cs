@@ -4,7 +4,7 @@
     /// 项目类型
     /// </summary>
     /// <remarks>
-    /// <para>不同的项目类型添加的服务不一致</para>
+    /// <para>不同的项目类型添加的服务有差异</para>
     /// </remarks>
     public enum FurProjectOptions
     {

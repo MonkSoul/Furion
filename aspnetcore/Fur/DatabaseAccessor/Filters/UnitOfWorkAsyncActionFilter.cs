@@ -1,4 +1,4 @@
-﻿using Fur.AppCore.Attributes;
+﻿using Fur.Attributes;
 using Fur.DatabaseAccessor.Attributes;
 using Fur.DatabaseAccessor.Contexts;
 using Microsoft.AspNetCore.Mvc.Controllers;

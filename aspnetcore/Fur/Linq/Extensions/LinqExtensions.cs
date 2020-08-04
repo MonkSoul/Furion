@@ -1,4 +1,4 @@
-﻿using Fur.AppCore.Attributes;
+﻿using Fur.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,5 @@
 ﻿using Fur.AppCore;
-using Fur.AppCore.Attributes;
+using Fur.Attributes;
 using Mapster;
 using System.Linq;
 

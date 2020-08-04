@@ -1,4 +1,4 @@
-﻿using Fur.AppCore.Attributes;
+﻿using Fur.Attributes;
 using Fur.Linq.Builders;
 using Microsoft.EntityFrameworkCore;
 using System;

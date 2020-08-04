@@ -1,4 +1,4 @@
-﻿using Fur.AppCore.Attributes;
+﻿using Fur.Attributes;
 using Mapster;
 
 namespace Fur.ObjectMapper.Extensions
