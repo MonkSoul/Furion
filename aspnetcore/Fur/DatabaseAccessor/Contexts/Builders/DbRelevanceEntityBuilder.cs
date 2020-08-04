@@ -5,15 +5,18 @@ using System.Collections.Generic;
 namespace Fur.DatabaseAccessor.Contexts
 {
     /// <summary>
-    /// 数据库实体类型状态器
+    /// 数据库关联实体构建器
     /// </summary>
+    /// <remarks>
+    /// <para>主要用于解决自动配置数据库上下文实体重复扫描引擎的性能问题</para>
+    /// </remarks>
     [NonInflated]
-    internal sealed class DbEntityStater
+    internal sealed class DbRelevanceEntityBuilder
     {
         /// <summary>
-        /// 数据库实体关联类型
+        /// 关联实体类型
         /// </summary>
-        internal Type DbEntityRelevanceType { get; set; }
+        internal Type DbRelevanceEntityType { get; set; }
 
         /// <summary>
         /// 是否是数据库实体类型
@@ -26,12 +29,12 @@ namespace Fur.DatabaseAccessor.Contexts
         internal bool IsDbNoKeyEntityType { get; set; }
 
         /// <summary>
-        /// 数据库实体配置泛型参数集合
+        /// 接口泛型参数集合
         /// </summary>
         internal Dictionary<Type, IEnumerable<Type>> GenericArgumentTypesForInterfaces { get; set; }
 
         /// <summary>
-        /// 基类泛型类型集合
+        /// 基类泛型参数集合
         /// </summary>
         internal IEnumerable<Type> GenericArgumentTypesForBaseType { get; set; }
     }
