@@ -8,12 +8,21 @@ namespace Microsoft.Extensions.DependencyInjection
     [NonInflated]
     public static class FurOptionsServiceCollectionExtensions
     {
-        public static IServiceCollection AddFurOptions<TOptions>(this IServiceCollection services, Action<IFurOptions> callback, IConfiguration configuration)
+        public static IServiceCollection AddFurOptions<TOptions>(this IServiceCollection services, Action<IFurOptions> callback)
             where TOptions : class, IFurOptions
         {
-            var settings = configuration.GetSection(typeof(TOptions).Name);
-            services.AddOptions<TOptions>().Bind(settings).ValidateDataAnnotations();
-            callback?.Invoke(settings.Get<AppOptions>());
+            var serviceProvider = services.BuildServiceProvider();
+            var configuration = serviceProvider.GetService<IConfiguration>();
+            var optionType = typeof(TOptions);
+
+            var settings = configuration.GetSection(optionType.Name);
+            services.AddOptions<TOptions>()
+                .Bind(settings)
+                .ValidateDataAnnotations();
+
+            var optionInstance = settings.Get<AppOptions>();
+            callback?.Invoke(optionInstance);
+
             return services;
         }
     }

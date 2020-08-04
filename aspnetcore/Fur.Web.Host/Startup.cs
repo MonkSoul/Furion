@@ -34,7 +34,7 @@ namespace Fur.Web.Host
             services.AddFurOptions<AppOptions>(options =>
             {
                 App.AppOptions = options as AppOptions;
-            }, Configuration);
+            });
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -64,7 +64,7 @@ namespace Fur.Web.Host
                 options.Filters.Add<UnifyResultAsyncResultFilter>();
             });
             services.AddFurObjectMapper();
-            services.AddFurDbContextPool(Environment, Configuration);
+            services.AddFurDbContextPool();
         }
 
         public void ConfigureContainer(ContainerBuilder builder) => Injection.Initialize(builder);

@@ -19,8 +19,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="env">环境对象</param>
         /// <param name="configuration">配置选项</param>
         /// <returns>新的服务集合对象</returns>
-        public static IServiceCollection AddFurDbContextPool(this IServiceCollection services, IWebHostEnvironment env, IConfiguration configuration)
+        public static IServiceCollection AddFurDbContextPool(this IServiceCollection services)
         {
+            var serviceProvider = services.BuildServiceProvider();
+            var configuration = serviceProvider.GetService<IConfiguration>();
+            var env = serviceProvider.GetService<IWebHostEnvironment>();
+
             services.AddFurSqlServerDbContextPool<FurSqlServerDbContext>(configuration.GetConnectionString("FurConnectionString"), env);
             services.Configure<MvcOptions>(options => options.Filters.Add<UnitOfWorkAsyncActionFilter>());
 
