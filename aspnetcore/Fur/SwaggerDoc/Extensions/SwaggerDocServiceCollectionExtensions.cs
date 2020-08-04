@@ -1,14 +1,14 @@
 ﻿using Fur.AppCore;
 using Fur.AppCore.Attributes;
-using Microsoft.Extensions.DependencyInjection;
+using Fur.SwaggerDoc;
 
-namespace Fur.SwaggerDoc.Extensions
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// Swagger 服务拓展类
     /// </summary>
     [NonInflated]
-    public static class SwaggerDocServiceExtensions
+    public static class SwaggerDocServiceCollectionExtensions
     {
         /// <summary>
         /// Swagger 服务拓展方法

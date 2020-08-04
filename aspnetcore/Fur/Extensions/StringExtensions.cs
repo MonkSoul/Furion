@@ -1,6 +1,6 @@
 ﻿using Fur.AppCore.Attributes;
 
-namespace Fur.TypeExtensions
+namespace Fur.Extensions
 {
     [NonInflated]
     public static class StringExtensions

@@ -1,7 +1,7 @@
 ﻿using Fur.AppCore;
 using Fur.AppCore.Attributes;
+using Fur.DatabaseAccessor.Contexts.Builders;
 using Fur.DatabaseAccessor.Contexts.Locators;
-using Fur.DatabaseAccessor.Contexts.Staters;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fur.DatabaseAccessor.Contexts
@@ -54,7 +54,7 @@ namespace Fur.DatabaseAccessor.Contexts
             if (!App.AppOptions.AutoConfigureDbObjects) return;
 
             // 扫描数据库对象类型加入模型构建器中，包括视图、存储过程、函数（标量函数/表值函数）初始化、及种子数据、查询筛选器配置
-            FurDbContextStater.ScanDbObjectsToBuilding(modelBuilder, typeof(TDbContextLocator), this);
+            FurDbContextBuilder.ScanDbObjectsToBuilding(modelBuilder, typeof(TDbContextLocator), this);
 
             // 如需添加其他配置，应写在以下位置，但是要注意基类多次调用问题，建议通过 TDbContextLocator 来区分当前数据库上下文
         }

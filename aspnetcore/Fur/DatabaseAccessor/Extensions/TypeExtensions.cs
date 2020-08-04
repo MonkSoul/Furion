@@ -51,7 +51,7 @@ namespace Fur.DatabaseAccessor.Extensions
             }
         }
 
-        private static ConcurrentDictionary<(Type, Type), Type[]> EntityRelevanceTypes;
+        private static readonly ConcurrentDictionary<(Type, Type), Type[]> EntityRelevanceTypes;
 
         /// <summary>
         /// 创建查询筛选器表达式

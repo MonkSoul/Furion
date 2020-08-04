@@ -1,14 +1,14 @@
 ﻿using Fur.AppCore;
 using Fur.AppCore.Attributes;
-using Microsoft.AspNetCore.Builder;
+using Fur.SwaggerDoc;
 
-namespace Fur.SwaggerDoc.Extensions
+namespace Microsoft.AspNetCore.Builder
 {
     /// <summary>
     /// Swagger 中间件拓展
     /// </summary>
     [NonInflated]
-    public static class SwaggerDocMiddlewareExtensions
+    public static class SwaggerDocApplicationBuilderExtensions
     {
         /// <summary>
         /// Swagger UI 中间件拓展

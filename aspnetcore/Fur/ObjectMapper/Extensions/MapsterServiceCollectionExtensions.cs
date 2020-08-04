@@ -1,16 +1,15 @@
 ﻿using Fur.AppCore;
 using Fur.AppCore.Attributes;
 using Mapster;
-using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 
-namespace Fur.ObjectMapper.Extensions
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// 对象映射拓展类
     /// </summary>
     [NonInflated]
-    public static class MapsterServiceExtensions
+    public static class MapsterServiceCollectionExtensions
     {
         /// <summary>
         /// 对象映射拓展方法

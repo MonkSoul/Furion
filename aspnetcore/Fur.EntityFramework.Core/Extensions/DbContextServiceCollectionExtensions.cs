@@ -1,18 +1,16 @@
-﻿using Fur.DatabaseAccessor.Extensions.Services;
-using Fur.DatabaseAccessor.Filters;
+﻿using Fur.DatabaseAccessor.Filters;
 using Fur.EntityFramework.Core.DbContexts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.EntityFramework.Core.Extensions
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// 数据库操作上下文服务拓展类
     /// </summary>
-    public static class DbContextServiceExtensions
+    public static class DbContextServiceCollectionExtensions
     {
         /// <summary>
         /// 数据库上下文服务拓展方法

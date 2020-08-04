@@ -1,8 +1,8 @@
 ﻿using Autofac;
 using Fur.AppCore.Attributes;
 using Fur.DependencyInjection.Extensions;
+using Fur.Extensions;
 using Fur.FriendlyException.Attributes;
-using Fur.TypeExtensions;
 using Fur.UnifyResult.Providers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Controllers;

@@ -1,13 +1,8 @@
 using Autofac;
 using Fur.AppCore;
-using Fur.AppCore.Extensions;
 using Fur.AppCore.Options;
 using Fur.DependencyInjection;
-using Fur.EntityFramework.Core.Extensions;
 using Fur.FriendlyException.Filters;
-using Fur.MirrorController.Extensions;
-using Fur.ObjectMapper.Extensions;
-using Fur.SwaggerDoc.Extensions;
 using Fur.UnifyResult.Filters;
 using Fur.Validation.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

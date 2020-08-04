@@ -2,6 +2,7 @@
 using Fur.AppCore;
 using Fur.AppCore.Attributes;
 using Fur.AppCore.Inflations;
+using Fur.DatabaseAccessor.Contexts.Staters;
 using Fur.DatabaseAccessor.Entities;
 using Fur.DatabaseAccessor.Entities.Configurations;
 using Fur.DatabaseAccessor.Extensions;
@@ -10,7 +11,7 @@ using Fur.DatabaseAccessor.MultipleTenants.Entities;
 using Fur.DatabaseAccessor.MultipleTenants.Options;
 using Fur.DatabaseAccessor.MultipleTenants.Providers;
 using Fur.DatabaseAccessor.Options;
-using Fur.TypeExtensions;
+using Fur.Extensions;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -22,9 +23,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using static Fur.TypeExtensions.TypeExtensions;
 
-namespace Fur.DatabaseAccessor.Contexts.Staters
+namespace Fur.DatabaseAccessor.Contexts.Builders
 {
     /// <summary>
     /// Fur 数据库上下文状态器
@@ -33,7 +33,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
     /// <para>解决 <see cref="FurDbContext{TDbContext, TDbContextLocator}"/> 重复初始化问题</para>
     /// </remarks>
     [NonInflated]
-    internal static class FurDbContextStater
+    internal static class FurDbContextBuilder
     {
         /// <summary>
         /// 扫描数据库对象类型加入模型构建器中
@@ -447,7 +447,7 @@ namespace Fur.DatabaseAccessor.Contexts.Staters
         /// <summary>
         /// 构造函数
         /// </summary>
-        static FurDbContextStater()
+        static FurDbContextBuilder()
         {
             var application = App.Inflations;
 

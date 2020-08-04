@@ -6,7 +6,7 @@ using Fur.DatabaseAccessor.Extensions.Sql;
 using Fur.DatabaseAccessor.Tangent.Attributes;
 using Fur.DatabaseAccessor.Tangent.Attributes.Basics;
 using Fur.DatabaseAccessor.Tangent.Models;
-using Fur.TypeExtensions;
+using Fur.Extensions;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using System;

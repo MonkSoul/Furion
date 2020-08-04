@@ -3,17 +3,16 @@ using Fur.DatabaseAccessor.Interceptors;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
 
-namespace Fur.DatabaseAccessor.Extensions.Services
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// 数据库操作上下文服务拓展类
     /// </summary>
     [NonInflated]
-    public static class ServiceCollectionExtensions
+    public static class DatabaseAccessorServiceCollectionExtensions
     {
         /// <summary>
         /// 配置数据库上下文池

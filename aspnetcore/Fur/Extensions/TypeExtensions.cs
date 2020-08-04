@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Reflection;
 
-namespace Fur.TypeExtensions
+namespace Fur.Extensions
 {
     /// <summary>
     /// 类型拓展类

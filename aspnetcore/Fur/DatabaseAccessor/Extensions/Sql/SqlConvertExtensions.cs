@@ -1,6 +1,6 @@
 ﻿using Fur.AppCore.Attributes;
 using Fur.DatabaseAccessor.Attributes;
-using Fur.TypeExtensions;
+using Fur.Extensions;
 using Mapster;
 using Microsoft.Data.SqlClient;
 using System;
