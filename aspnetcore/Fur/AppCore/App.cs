@@ -221,10 +221,10 @@ namespace Fur.AppCore
                 return defaultSwaggerGroups;
 
             var mirrorControllerAttribute = controllerType.GetCustomAttribute<MirrorControllerAttribute>(true);
-            if (mirrorControllerAttribute.SwaggerGroups == null || !mirrorControllerAttribute.SwaggerGroups.Any())
-                return defaultSwaggerGroups;
 
-            return mirrorControllerAttribute.SwaggerGroups;
+            return mirrorControllerAttribute.SwaggerGroups == null || !mirrorControllerAttribute.SwaggerGroups.Any()
+                ? defaultSwaggerGroups
+                : mirrorControllerAttribute.SwaggerGroups;
         }
 
         /// <summary>
@@ -240,7 +240,7 @@ namespace Fur.AppCore
             if (!controllerAction.IsDefined(typeof(MirrorActionAttribute), true))
                 return GetControllerTypeSwaggerGroups(controllerAction.DeclaringType);
 
-            var mirrorActionAttribute = controllerAction.GetCustomAttribute<MirrorActionAttribute>();
+            var mirrorActionAttribute = controllerAction.GetCustomAttribute<MirrorActionAttribute>(true);
 
             return mirrorActionAttribute.SwaggerGroups == null || !mirrorActionAttribute.SwaggerGroups.Any()
                 ? GetControllerTypeSwaggerGroups(controllerAction.DeclaringType)
