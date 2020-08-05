@@ -6,6 +6,7 @@ using Fur.Options;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyModel;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -16,7 +17,6 @@ namespace Fur
     /// <summary>
     /// 应用核心类
     /// </summary>
-
     public static class App
     {
         /// <summary>
@@ -50,6 +50,8 @@ namespace Fur
         static App()
         {
             Assemblies ??= GetApplicationAssembliesWithoutNuget();
+            _controllerTypeCache ??= new ConcurrentDictionary<Type, bool>();
+            _controllerActionCache ??= new ConcurrentDictionary<MethodInfo, bool>();
             MultipleTenantOptions = FurMultipleTenantOptions.None;
             SupportedMultipleTenant = false;
             SupportedMiniProfiler = false;
@@ -73,7 +75,6 @@ namespace Fur
                 .Select(u => AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(u.Name)));
         }
 
-        // 这里需要缓存============
         /// <summary>
         /// 判断是否是控制器类型
         /// </summary>
@@ -81,6 +82,27 @@ namespace Fur
         /// <param name="exceptControllerBase">是否排除 MVC <see cref="ControllerBase"/> 类型</param>
         /// <returns>bool</returns>
         internal static bool IsControllerType(Type type, bool exceptControllerBase = false)
+        {
+            var isCached = _controllerTypeCache.TryGetValue(type, out bool isControllerType);
+            if (isCached) return isControllerType;
+
+            isControllerType = IsControllerTypeCore(type, exceptControllerBase);
+            _controllerTypeCache.TryAdd(type, isControllerType);
+            return isControllerType;
+        }
+
+        /// <summary>
+        /// 控制器类型缓存集合
+        /// </summary>
+        private static readonly ConcurrentDictionary<Type, bool> _controllerTypeCache;
+
+        /// <summary>
+        /// 判断是否是控制器类型核心代码
+        /// </summary>
+        /// <param name="type">类型</param>
+        /// <param name="exceptControllerBase">是否排除 MVC <see cref="ControllerBase"/> 类型</param>
+        /// <returns>bool</returns>
+        private static bool IsControllerTypeCore(Type type, bool exceptControllerBase = false)
         {
             // 必须是公开非抽象类、非泛型类、非接口类型
             if (!type.IsPublic || type.IsAbstract || type.IsGenericType || type.IsInterface || type.IsEnum) return false;
@@ -97,13 +119,32 @@ namespace Fur
             return false;
         }
 
-        // 这里需要缓存============
         /// <summary>
         /// 判断是否是控制器 Action 方法
         /// </summary>
         /// <param name="method">方法</param>
         /// <returns>bool</returns>
         internal static bool IsControllerActionMethod(MethodInfo method)
+        {
+            var isCached = _controllerActionCache.TryGetValue(method, out bool isControllerAction);
+            if (isCached) return isControllerAction;
+
+            isControllerAction = IsControllerActionMethodCore(method);
+            _controllerActionCache.TryAdd(method, isControllerAction);
+            return isControllerAction;
+        }
+
+        /// <summary>
+        /// 控制器Action缓存集合
+        /// </summary>
+        private static readonly ConcurrentDictionary<MethodInfo, bool> _controllerActionCache;
+
+        /// <summary>
+        /// 判断是否是控制器 Action 方法核心代码
+        /// </summary>
+        /// <param name="method">方法</param>
+        /// <returns>bool</returns>
+        private static bool IsControllerActionMethodCore(MethodInfo method)
         {
             // 方法所在类必须是一个控制器类型
             if (!IsControllerType(method.DeclaringType)) return false;
