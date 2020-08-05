@@ -197,7 +197,7 @@ namespace Fur.MirrorController.Conventions
                     }
                 }
             }
-            stringBuilder.Append($"{apiPrefix}/{controllerModel.ControllerName}");
+            stringBuilder.Append($"{apiPrefix}/{mirrorControllerAttribute?.Module}/{controllerModel.ControllerName}");
 
             // Action 版本号
             string actionApiVersion = null;
