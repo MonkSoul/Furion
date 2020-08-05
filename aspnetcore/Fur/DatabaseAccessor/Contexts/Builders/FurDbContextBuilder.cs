@@ -51,7 +51,7 @@ namespace Fur.DatabaseAccessor.Contexts
         /// <summary>
         /// 租户类型
         /// </summary>
-        private static readonly Type _tenantType = typeof(Tenant);
+        private static readonly Type _tenantType;
 
         /// <summary>
         /// 基于架构的 多租户提供器
@@ -63,14 +63,15 @@ namespace Fur.DatabaseAccessor.Contexts
         /// </summary>
         static FurDbContextBuilder()
         {
-            _dbRelevanceEntityTypes ??= App.Assemblies
+            _dbRelevanceEntityTypes = App.Assemblies
                 .SelectMany(a => a.GetTypes()
                     .Where(t => t.IsPublic && t.IsClass && !t.IsAbstract && !t.IsGenericType && !t.IsInterface && (typeof(IDbEntityBase).IsAssignableFrom(t) || typeof(IDbEntityConfigure).IsAssignableFrom(t))));
 
             if (_dbRelevanceEntityTypes.Any())
             {
-                _dbRelevanceEntityCache ??= new ConcurrentDictionary<Type, DbRelevanceEntityBuilder>();
-                _dbRelevanceEntityBasicGenericArgumentsCache ??= new ConcurrentDictionary<(Type, Type), Type[]>();
+                _tenantType = typeof(Tenant);
+                _dbRelevanceEntityCache = new ConcurrentDictionary<Type, DbRelevanceEntityBuilder>();
+                _dbRelevanceEntityBasicGenericArgumentsCache = new ConcurrentDictionary<(Type, Type), Type[]>();
             }
 
             _dbRelevanceFunctions = App.Assemblies
@@ -374,35 +375,36 @@ namespace Fur.DatabaseAccessor.Contexts
         /// <returns></returns>
         private static DbRelevanceEntityBuilder GetDbRelevanceEntityBuilder(Type dbRelevanceEntityType)
         {
-            var isSet = _dbRelevanceEntityCache.TryGetValue(dbRelevanceEntityType, out DbRelevanceEntityBuilder dbRelevanceEntityBuilder);
-            if (!isSet)
+            var isCached = _dbRelevanceEntityCache.TryGetValue(dbRelevanceEntityType, out DbRelevanceEntityBuilder dbRelevanceEntityBuilder);
+            if (isCached) return dbRelevanceEntityBuilder;
+
+            var stater = new DbRelevanceEntityBuilder
             {
-                var stater = new DbRelevanceEntityBuilder
-                {
-                    DbRelevanceEntityType = dbRelevanceEntityType,
-                    IsDbEntityType = typeof(IDbEntityBase).IsAssignableFrom(dbRelevanceEntityType),
-                    IsDbNoKeyEntityType = typeof(IDbNoKeyEntity).IsAssignableFrom(dbRelevanceEntityType)
-                };
-                stater.GenericArgumentTypesForBaseType = GetGenericArgumentsForBaseType(dbRelevanceEntityType, typeof(IDbNoKeyEntity));
+                DbRelevanceEntityType = dbRelevanceEntityType,
+                IsDbEntityType = typeof(IDbEntityBase).IsAssignableFrom(dbRelevanceEntityType),
+                IsDbNoKeyEntityType = typeof(IDbNoKeyEntity).IsAssignableFrom(dbRelevanceEntityType)
+            };
+            stater.GenericArgumentTypesForBaseType = GetGenericArgumentsForBaseType(dbRelevanceEntityType, typeof(IDbNoKeyEntity));
 
-                var interfaces = dbRelevanceEntityType.GetInterfaces().Where(u => u.IsGenericType && typeof(IDbEntityConfigure).IsAssignableFrom(u.GetGenericTypeDefinition()));
-                if (interfaces.Any())
-                {
-                    var interfaceGenericArgumentTypes = new Dictionary<Type, IEnumerable<Type>>();
-                    foreach (var inter in interfaces)
-                    {
-                        var genericArguments = inter.GetGenericArguments();
-                        interfaceGenericArgumentTypes.Add(inter, genericArguments);
+            var interfaces = dbRelevanceEntityType.GetInterfaces()
+                .Where(u => u.IsGenericType && typeof(IDbEntityConfigure).IsAssignableFrom(u.GetGenericTypeDefinition()));
 
-                        // 缓存
-                        _dbRelevanceEntityBasicGenericArgumentsCache.TryAdd((dbRelevanceEntityType, inter), genericArguments);
-                    }
-                    stater.GenericArgumentTypesForInterfaces = interfaceGenericArgumentTypes;
+            if (interfaces.Any())
+            {
+                var interfaceGenericArgumentTypes = new Dictionary<Type, IEnumerable<Type>>();
+                foreach (var inter in interfaces)
+                {
+                    var genericArguments = inter.GetGenericArguments();
+                    interfaceGenericArgumentTypes.Add(inter, genericArguments);
+
+                    // 缓存
+                    _dbRelevanceEntityBasicGenericArgumentsCache.TryAdd((dbRelevanceEntityType, inter), genericArguments);
                 }
-
-                dbRelevanceEntityBuilder = stater;
-                _dbRelevanceEntityCache.TryAdd(dbRelevanceEntityType, stater);
+                stater.GenericArgumentTypesForInterfaces = interfaceGenericArgumentTypes;
             }
+
+            dbRelevanceEntityBuilder = stater;
+            _dbRelevanceEntityCache.TryAdd(dbRelevanceEntityType, stater);
 
             return dbRelevanceEntityBuilder;
         }
@@ -429,7 +431,7 @@ namespace Fur.DatabaseAccessor.Contexts
         /// <param name="type">类型</param>
         /// <param name="filterType">过滤类型</param>
         /// <returns><see cref="IEnumerable{T}"/></returns>
-        internal static Type[] GetGenericArgumentsForInterface(Type type, Type filterType)
+        private static Type[] GetGenericArgumentsForInterface(Type type, Type filterType)
         {
             var isCached = _dbRelevanceEntityBasicGenericArgumentsCache.TryGetValue((type, filterType), out Type[] genericArguments);
             if (isCached) return genericArguments;
@@ -448,7 +450,7 @@ namespace Fur.DatabaseAccessor.Contexts
         /// <param name="type">类型</param>
         /// <param name="filterType">过滤类型</param>
         /// <returns><see cref="IEnumerable{T}"/></returns>
-        internal static Type[] GetGenericArgumentsForBaseType(Type type, Type filterType)
+        private static Type[] GetGenericArgumentsForBaseType(Type type, Type filterType)
         {
             var isCached = _dbRelevanceEntityBasicGenericArgumentsCache.TryGetValue((type, filterType), out Type[] genericArguments);
             if (isCached) return genericArguments;

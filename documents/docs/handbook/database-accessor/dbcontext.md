@@ -142,7 +142,7 @@ namespace Fur.EntityFramework.Core.DbContexts
 
 ### 注册数据库上下文
 
-打开 `Fur.EntityFramework.Core.DbContextServiceExtensions.cs` 文件，并写入如下代码：
+打开 `Fur.EntityFramework.Core.DbContextServiceCollectionExtensions.cs` 文件，并写入如下代码：
 
 ```cs {15-16}
 using Fur.DatabaseAccessor.Filters;

@@ -49,12 +49,13 @@ namespace Fur
         /// </summary>
         static App()
         {
-            Assemblies ??= GetApplicationAssembliesWithoutNuget();
-            _controllerTypeCache ??= new ConcurrentDictionary<Type, bool>();
-            _controllerActionCache ??= new ConcurrentDictionary<MethodInfo, bool>();
+            Assemblies = GetApplicationAssembliesWithoutNuget();
             MultipleTenantOptions = FurMultipleTenantOptions.None;
             SupportedMultipleTenant = false;
             SupportedMiniProfiler = false;
+
+            _controllerTypeCache = new ConcurrentDictionary<Type, bool>();
+            _controllerActionCache = new ConcurrentDictionary<MethodInfo, bool>();
         }
 
         /// <summary>

@@ -18,20 +18,20 @@ namespace Fur.SwaggerDoc
     /// <summary>
     /// Swagger 配置
     /// </summary>
-
-    internal static class SwaggerDocConfigure
+    internal static class SwaggerDocBuilder
     {
-        static SwaggerDocConfigure()
+        static SwaggerDocBuilder()
         {
-            swaggerOptions ??= App.Settings.SwaggerDocOptions;
-            _controllerTypeSwaggerGroupsCache ??= new ConcurrentDictionary<Type, IEnumerable<string>>();
-            _controllerActionSwaggerGroupsCache ??= new ConcurrentDictionary<MethodInfo, IEnumerable<string>>();
+            swaggerOptions = App.Settings.SwaggerDocOptions;
+            _controllerTypeSwaggerGroupsCache = new ConcurrentDictionary<Type, IEnumerable<string>>();
+            _controllerActionSwaggerGroupsCache = new ConcurrentDictionary<MethodInfo, IEnumerable<string>>();
+            SwaggerGroups = ScanAssemblyGroups();
         }
 
         /// <summary>
         /// Swagger分组
         /// </summary>
-        private static readonly string[] SwaggerGroups = ScanAssemblyGroups();
+        private static readonly string[] SwaggerGroups;
 
         /// <summary>
         /// Swagger选项
@@ -42,7 +42,7 @@ namespace Fur.SwaggerDoc
         /// 初始化Swagger服务
         /// </summary>
         /// <param name="swaggerGenOptions">Swagger生成器选项</param>
-        public static void Initialize(SwaggerGenOptions swaggerGenOptions)
+        internal static void Initialize(SwaggerGenOptions swaggerGenOptions)
         {
             CreateSwaggerDocs(swaggerGenOptions);
             SetSwaggerBaseConfigure(swaggerGenOptions);
@@ -52,7 +52,7 @@ namespace Fur.SwaggerDoc
         /// 初始化Swagger路由
         /// </summary>
         /// <param name="swaggerUIOptions">Swagger UI选项</param>
-        public static void Initialize(SwaggerUIOptions swaggerUIOptions)
+        internal static void Initialize(SwaggerUIOptions swaggerUIOptions)
         {
             CreateSwaggerEndpointsAndBaseConfigure(swaggerUIOptions);
         }
@@ -174,7 +174,7 @@ namespace Fur.SwaggerDoc
 
             if (swaggerOptions.EnableMiniProfiler)
             {
-                var thisType = typeof(SwaggerDocConfigure);
+                var thisType = typeof(SwaggerDocBuilder);
                 var thisAssembly = thisType.Assembly;
                 swaggerUIOptions.IndexStream = () => thisAssembly.GetManifestResourceStream($"{thisType.Namespace}.Assets.MiniProfilerIndex.html");
             }
@@ -201,7 +201,7 @@ namespace Fur.SwaggerDoc
                 });
         }
 
-        private static ConcurrentDictionary<Type, IEnumerable<string>> _controllerTypeSwaggerGroupsCache;
+        private static readonly ConcurrentDictionary<Type, IEnumerable<string>> _controllerTypeSwaggerGroupsCache;
 
         /// <summary>
         /// 获取控制器类型 Swagger 接口文档分组
@@ -210,67 +210,62 @@ namespace Fur.SwaggerDoc
         /// <returns>string[]</returns>
         private static string[] GetControllerTypeSwaggerGroups(Type controllerType)
         {
-            _controllerTypeSwaggerGroupsCache ??= new ConcurrentDictionary<Type, IEnumerable<string>>();
-            var isCache = _controllerTypeSwaggerGroupsCache.TryGetValue(controllerType, out IEnumerable<string> swaggerGroups);
-            if (isCache) return swaggerGroups.ToArray();
+            var isCached = _controllerTypeSwaggerGroupsCache.TryGetValue(controllerType, out IEnumerable<string> swaggerGroups);
+            if (isCached) return swaggerGroups.ToArray();
 
-            // 如果不是控制器类型，返回 null
-            if (!App.IsControllerType(controllerType)) swaggerGroups = default;
-            else
-            {
-                var defaultSwaggerGroups = new string[] { App.Settings.SwaggerDocOptions.DefaultGroupName };
-
-                if (!controllerType.IsDefined(typeof(MirrorSettingsAttribute), true))
-                {
-                    swaggerGroups = defaultSwaggerGroups;
-                }
-                else
-                {
-                    var mirrorControllerAttribute = controllerType.GetCustomAttribute<MirrorSettingsAttribute>(true);
-
-                    swaggerGroups = mirrorControllerAttribute.SwaggerGroups == null || !mirrorControllerAttribute.SwaggerGroups.Any()
-                        ? defaultSwaggerGroups
-                        : mirrorControllerAttribute.SwaggerGroups;
-                }
-            }
+            swaggerGroups = GetControllerTypeSwaggerGroupsCore(controllerType);
 
             _controllerTypeSwaggerGroupsCache.TryAdd(controllerType, swaggerGroups);
             return swaggerGroups?.ToArray();
         }
 
-        private static ConcurrentDictionary<MethodInfo, IEnumerable<string>> _controllerActionSwaggerGroupsCache;
+        private static string[] GetControllerTypeSwaggerGroupsCore(Type controllerType)
+        {
+            // 如果不是控制器类型，返回 null
+            if (!App.IsControllerType(controllerType)) return default;
+
+            var defaultSwaggerGroups = new string[] { App.Settings.SwaggerDocOptions.DefaultGroupName };
+
+            if (!controllerType.IsDefined(typeof(MirrorSettingsAttribute), true))
+                return defaultSwaggerGroups;
+
+            var mirrorControllerAttribute = controllerType.GetCustomAttribute<MirrorSettingsAttribute>(true);
+
+            return mirrorControllerAttribute.SwaggerGroups == null || !mirrorControllerAttribute.SwaggerGroups.Any()
+                ? defaultSwaggerGroups
+                : mirrorControllerAttribute.SwaggerGroups;
+        }
+
+        private static readonly ConcurrentDictionary<MethodInfo, IEnumerable<string>> _controllerActionSwaggerGroupsCache;
 
         /// <summary>
         /// 获取控制器 Action Swagger 接口文档分组
         /// </summary>
-        /// <param name="controllerAction">控制器Action</param>
+        /// <param name="method">控制器Action</param>
         /// <returns>string[]</returns>
-        private static string[] GetControllerActionSwaggerGroups(MethodInfo controllerAction)
+        private static string[] GetControllerActionSwaggerGroups(MethodInfo method)
         {
-            _controllerActionSwaggerGroupsCache ??= new ConcurrentDictionary<MethodInfo, IEnumerable<string>>();
-            var isCache = _controllerActionSwaggerGroupsCache.TryGetValue(controllerAction, out IEnumerable<string> swaggerGroups);
-            if (isCache) return swaggerGroups.ToArray();
+            var isCached = _controllerActionSwaggerGroupsCache.TryGetValue(method, out IEnumerable<string> swaggerGroups);
+            if (isCached) return swaggerGroups.ToArray();
 
-            // 如果不是控制器Action类型，返回 null
-            if (!App.IsControllerActionMethod(controllerAction)) swaggerGroups = default;
-            else
-            {
-                if (!controllerAction.IsDefined(typeof(MirrorSettingsAttribute), true))
-                {
-                    swaggerGroups = GetControllerTypeSwaggerGroups(controllerAction.DeclaringType);
-                }
-                else
-                {
-                    var mirrorActionAttribute = controllerAction.GetCustomAttribute<MirrorSettingsAttribute>(true);
-
-                    swaggerGroups = mirrorActionAttribute.SwaggerGroups == null || !mirrorActionAttribute.SwaggerGroups.Any()
-                        ? GetControllerTypeSwaggerGroups(controllerAction.DeclaringType)
-                        : mirrorActionAttribute.SwaggerGroups;
-                }
-            }
-
-            _controllerActionSwaggerGroupsCache.TryAdd(controllerAction, swaggerGroups);
+            swaggerGroups = GetControllerActionSwaggerGroupsCore(method);
+            _controllerActionSwaggerGroupsCache.TryAdd(method, swaggerGroups);
             return swaggerGroups?.ToArray();
+        }
+
+        private static string[] GetControllerActionSwaggerGroupsCore(MethodInfo controllerAction)
+        {
+            // 如果不是控制器Action类型，返回 null
+            if (!App.IsControllerActionMethod(controllerAction)) return default;
+
+            if (!controllerAction.IsDefined(typeof(MirrorSettingsAttribute), true))
+                return GetControllerTypeSwaggerGroups(controllerAction.DeclaringType);
+
+            var mirrorActionAttribute = controllerAction.GetCustomAttribute<MirrorSettingsAttribute>(true);
+
+            return mirrorActionAttribute.SwaggerGroups == null || !mirrorActionAttribute.SwaggerGroups.Any()
+                ? GetControllerTypeSwaggerGroups(controllerAction.DeclaringType)
+                : mirrorActionAttribute.SwaggerGroups;
         }
     }
 }

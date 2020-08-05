@@ -18,7 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>新的服务集合</returns>
         public static IServiceCollection AddFurSwaggerGen(this IServiceCollection services)
         {
-            services.AddSwaggerGen(options => SwaggerDocConfigure.Initialize(options));
+            services.AddSwaggerGen(options => SwaggerDocBuilder.Initialize(options));
 
             if (App.Settings.SwaggerDocOptions.EnableMiniProfiler)
             {
