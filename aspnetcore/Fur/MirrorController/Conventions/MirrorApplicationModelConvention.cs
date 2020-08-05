@@ -28,9 +28,10 @@ namespace Fur.MirrorController.Conventions
             {
                 // 无需配置 ControllerBase 衍生类
                 if (typeof(ControllerBase).IsAssignableFrom(controllerModel.ControllerType)) continue;
+                var mirrorControllerAttribute = controllerModel.ControllerType.GetCustomAttribute<MirrorControllerAttribute>();
 
-                ConfigureController(controllerModel);
-                ConfigureActions(controllerModel);
+                ConfigureController(controllerModel, mirrorControllerAttribute);
+                ConfigureActions(controllerModel, mirrorControllerAttribute);
             }
         }
 
@@ -38,21 +39,28 @@ namespace Fur.MirrorController.Conventions
         /// 配置控制器
         /// </summary>
         /// <param name="controllerModel">控制器模型</param>
-        private void ConfigureController(ControllerModel controllerModel)
+        private void ConfigureController(ControllerModel controllerModel, MirrorControllerAttribute mirrorControllerAttribute)
         {
             // 配置控制器可见性
             if (controllerModel.ApiExplorer.IsVisible == null) controllerModel.ApiExplorer.IsVisible = true;
+
+            // 配置控制器名称
+            // 控制器版本号
+            var controllerApiVersion = mirrorControllerAttribute?.ApiVersion ?? _mirrorControllerOptions.DefaultApiVersion;
+            // 控制器名称
+            var controllerName = mirrorControllerAttribute?.Name ?? (controllerModel.ControllerName.ClearStringAffix(_mirrorControllerOptions.ClearControllerRouteAffix));
+            var controllerFullName = $"{controllerName}" + (!string.IsNullOrEmpty(controllerApiVersion) ? $"@{controllerApiVersion}" : string.Empty);
+            controllerModel.ControllerName = _mirrorControllerOptions.LowerCasePath ? controllerFullName.ToLower() : controllerFullName;
         }
 
         /// <summary>
         /// 配置控制器Action
         /// </summary>
         /// <param name="controllerModel"></param>
-        private void ConfigureActions(ControllerModel controllerModel)
+        private void ConfigureActions(ControllerModel controllerModel, MirrorControllerAttribute mirrorControllerAttribute)
         {
             if (!controllerModel.ApiExplorer.IsVisible.Value) return;
 
-            var mirrorControllerAttribute = controllerModel.ControllerType.GetCustomAttribute<MirrorControllerAttribute>();
             foreach (var actionModel in controllerModel.Actions)
             {
                 // 配置Action可见性
@@ -155,10 +163,6 @@ namespace Fur.MirrorController.Conventions
 
             // 默认路由前置
             var apiPrefix = _mirrorControllerOptions.DefaultRoutePrefix;
-            // 控制器版本号
-            var controllerApiVersion = mirrorControllerAttribute?.ApiVersion ?? _mirrorControllerOptions.DefaultApiVersion;
-            // 控制器名称
-            var controllerName = mirrorControllerAttribute?.Name ?? (controllerModel.ControllerName.ClearStringAffix(_mirrorControllerOptions.ClearControllerRouteAffix));
             // Action名称
             var actionName = actionModel.ActionName;
             if (mirrorActionAttribute != null)
@@ -193,7 +197,7 @@ namespace Fur.MirrorController.Conventions
                     }
                 }
             }
-            stringBuilder.Append($"{apiPrefix}/{controllerApiVersion}/{controllerName}");
+            stringBuilder.Append($"{apiPrefix}/{controllerModel.ControllerName}");
 
             // Action 版本号
             string actionApiVersion = null;
@@ -243,9 +247,9 @@ namespace Fur.MirrorController.Conventions
                 actionModel.Parameters.RemoveAt(versionIndex);
             }
 
-            if (!string.IsNullOrEmpty(actionApiVersion)) stringBuilder.Append($"/{actionApiVersion}");
             if (!string.IsNullOrEmpty(actionStartParameters)) stringBuilder.Append($"{actionStartParameters}");
             stringBuilder.Append($"/{actionName}");
+            if (!string.IsNullOrEmpty(actionApiVersion)) stringBuilder.Append($"@{actionApiVersion}");
             if (!string.IsNullOrEmpty(actionEndParameters)) stringBuilder.Append($"{actionEndParameters}");
 
             var route = stringBuilder.ToString().Replace("//", "/");
