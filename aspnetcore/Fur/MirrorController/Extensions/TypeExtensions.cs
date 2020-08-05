@@ -2,7 +2,6 @@
 using System;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Fur.MirrorController.Extensions
 {
@@ -44,26 +43,5 @@ namespace Fur.MirrorController.Extensions
             var newStr = stringBuilder.ToString();
             return newStr.HasValue() ? newStr : str;
         }
-
-        /// <summary>
-        /// 将字符串按照骆驼命名切割
-        /// </summary>
-        /// <param name="str">字符串</param>
-        /// <returns>切换后数组</returns>
-        internal static string[] CamelCaseSplitString(this string str)
-        {
-            if (!str.HasValue()) throw new ArgumentNullException(nameof(str));
-            if (str.Length == 1) return new string[] { str };
-
-            return Regex.Split(str, @"(?=\p{Lu}\p{Ll})|(?<=\p{Ll})(?=\p{Lu})").Where(u => u.HasValue()).ToArray();
-        }
-
-        /// <summary>
-        /// 获取骆驼命名第一个单词
-        /// </summary>
-        /// <param name="str">字符串</param>
-        /// <returns>首个单词</returns>
-        internal static string GetCamelCaseFirstWord(this string str)
-            => CamelCaseSplitString(str).FirstOrDefault();
     }
 }

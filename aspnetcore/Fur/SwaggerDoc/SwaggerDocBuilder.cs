@@ -1,4 +1,5 @@
-﻿using Fur.MirrorController.Attributes;
+﻿using Fur.Extensions;
+using Fur.MirrorController.Attributes;
 using Fur.SwaggerDoc.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -101,7 +102,7 @@ namespace Fur.SwaggerDoc
             var groupOptions = swaggerOptions?.Groups?.FirstOrDefault(u => u.Name == group);
             return new OpenApiInfo
             {
-                Title = groupOptions?.Title ?? group,
+                Title = groupOptions?.Title ?? string.Join(' ', group.CamelCaseSplitString()),
                 Description = groupOptions?.Description,
                 Version = groupOptions?.Version,
                 TermsOfService = string.IsNullOrEmpty(groupOptions?.TermsOfService) ? null : new Uri(groupOptions?.TermsOfService),

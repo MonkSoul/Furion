@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Fur.Extensions
 {
@@ -63,5 +65,27 @@ namespace Fur.Extensions
         {
             return type.GetMethod(methodName).Invoke(instance, parameters);
         }
+
+
+        /// <summary>
+        /// 将字符串按照骆驼命名切割
+        /// </summary>
+        /// <param name="str">字符串</param>
+        /// <returns>切换后数组</returns>
+        internal static string[] CamelCaseSplitString(this string str)
+        {
+            if (!str.HasValue()) throw new ArgumentNullException(nameof(str));
+            if (str.Length == 1) return new string[] { str };
+
+            return Regex.Split(str, @"(?=\p{Lu}\p{Ll})|(?<=\p{Ll})(?=\p{Lu})").Where(u => u.HasValue()).ToArray();
+        }
+
+        /// <summary>
+        /// 获取骆驼命名第一个单词
+        /// </summary>
+        /// <param name="str">字符串</param>
+        /// <returns>首个单词</returns>
+        internal static string GetCamelCaseFirstWord(this string str)
+            => CamelCaseSplitString(str).FirstOrDefault();
     }
 }
