@@ -21,7 +21,7 @@ namespace Fur.DatabaseAccessor.Entities
         /// 配置实体信息
         /// </summary>
         /// <returns>实体类型构建器</returns>
-        EntityTypeBuilder HasEntityBuilder(EntityTypeBuilder entity);
+        EntityTypeBuilder HasEntityBuilder(EntityTypeBuilder entityTypeBuilder);
     }
 
     /// <summary>
