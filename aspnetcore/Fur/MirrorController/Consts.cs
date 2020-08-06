@@ -35,8 +35,6 @@ namespace Fur.MirrorController
                 ["add"] = "POST",
                 ["create"] = "POST",
                 ["insert"] = "POST",
-                ["append"] = "POST",
-                ["save"] = "POST",
                 ["submit"] = "POST",
 
                 ["get"] = "GET",
@@ -47,8 +45,6 @@ namespace Fur.MirrorController
 
                 ["put"] = "PUT",
                 ["update"] = "PUT",
-                ["modify"] = "PUT",
-                ["change"] = "PUT",
 
                 ["delete"] = "DELETE",
                 ["remove"] = "DELETE",

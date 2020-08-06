@@ -221,6 +221,12 @@ namespace Fur.MirrorController.Conventions
                     continue;
                 }
 
+                // 小写参数
+                if (_mirrorControllerOptions.LowerCasePath)
+                {
+                    parameterModel.ParameterName = parameterModel.ParameterName.ToLower();
+                }
+
                 if (parameterType.IsPrimitivePlusIncludeNullable() && !parameterType.IsNullable() && !isContainUnderline)
                 {
                     var parameterAttributes = parameterModel.Attributes;
