@@ -120,6 +120,17 @@ namespace Fur.SwaggerDoc
             };
         }
 
+        private static string DefaultSchemaIdSelector(Type modelType)
+        {
+            if (!modelType.IsConstructedGenericType) return modelType.Name;
+
+            var prefix = modelType.GetGenericArguments()
+                .Select(genericArg => DefaultSchemaIdSelector(genericArg))
+                .Aggregate((previous, current) => previous + current);
+
+            return modelType.Name.Split('`').First() + "Of" + prefix;
+        }
+
         /// <summary>
         /// 设置Swagger基础配置
         /// </summary>
@@ -129,7 +140,9 @@ namespace Fur.SwaggerDoc
             AddSecurityAuthorization(swaggerGenOptions);
 
             swaggerGenOptions.DocInclusionPredicate((currentGroup, apiDesc) => SwaggerGroupSwitchPredicate(currentGroup, apiDesc));
-            swaggerGenOptions.CustomSchemaIds(x => x.FullName);
+            swaggerGenOptions.CustomSchemaIds(x => DefaultSchemaIdSelector(x));
+            swaggerGenOptions.UseInlineDefinitionsForEnums();
+            swaggerGenOptions.UseAllOfToExtendReferenceSchemas();
             //options.AddFluentValidationRules();
 
             var loadCommentsAssemblies = swaggerOptions.LoadCommentsAssemblies;

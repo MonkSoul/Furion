@@ -15,7 +15,10 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns>新的应用构建器</returns>
         public static IApplicationBuilder AddFurSwaggerUI(this IApplicationBuilder app)
         {
-            app.UseSwagger();
+            app.UseSwagger(options =>
+            {
+                //options.SerializeAsV2 = true;
+            });
             app.UseSwaggerUI(options => SwaggerDocBuilder.Initialize(options));
 
             return app;
