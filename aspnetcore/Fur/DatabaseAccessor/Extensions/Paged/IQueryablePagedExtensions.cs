@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ namespace Fur.DatabaseAccessor.Extensions
         /// <param name="pageIndex">页码</param>
         /// <param name="pageSize">页容量</param>
         /// <returns><see cref="PagedList{TEntity}"/></returns>
-        public static PagedList<TEntity> ToPagedList<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
+        public static PagedList<TEntity> ToPagedList<TEntity>(this IEnumerable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
         {
             var totalCount = entities.Count();
             var items = entities.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
