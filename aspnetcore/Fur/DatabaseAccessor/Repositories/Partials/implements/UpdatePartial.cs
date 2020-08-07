@@ -635,7 +635,7 @@ namespace Fur.DatabaseAccessor.Repositories
 
                 _maintenanceInterceptor?.Updating(entityEntry);
 
-                handle();
+                handle?.Invoke();
 
                 _maintenanceInterceptor?.Updated(entityEntry);
 

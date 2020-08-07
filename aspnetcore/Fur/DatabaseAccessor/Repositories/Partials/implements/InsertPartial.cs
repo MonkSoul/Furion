@@ -159,7 +159,7 @@ namespace Fur.DatabaseAccessor.Repositories
 
                 _maintenanceInterceptor?.Inserting(entityEntry);
 
-                handle();
+                handle?.Invoke();
 
                 _maintenanceInterceptor?.Inserted(entityEntry);
 
