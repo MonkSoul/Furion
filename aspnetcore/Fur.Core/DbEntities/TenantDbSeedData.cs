@@ -7,7 +7,7 @@ namespace Fur.Core.DbEntities
 {
     public class TenantDbSeedData : IDbSeedData<Tenant>
     {
-        public IEnumerable<Tenant> HasData(DbContext dbContext)
+        public IEnumerable<object> HasData(DbContext dbContext)
         {
             return new List<Tenant>()
             {

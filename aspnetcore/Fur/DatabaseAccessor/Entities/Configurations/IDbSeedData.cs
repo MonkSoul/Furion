@@ -23,7 +23,7 @@ namespace Fur.DatabaseAccessor.Entities
         /// </summary>
         /// <param name="dbContext">数据库上下文</param>
         /// <returns><see cref="IEnumerable{T}"/></returns>
-        IEnumerable<TEntity> HasData(DbContext dbContext);
+        IEnumerable<object> HasData(DbContext dbContext);
     }
 
     /// <summary>
