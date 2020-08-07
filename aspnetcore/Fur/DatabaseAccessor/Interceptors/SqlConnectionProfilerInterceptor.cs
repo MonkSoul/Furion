@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Hosting;
 using StackExchange.Profiling;
 using System.Data.Common;
 using System.Threading;
@@ -27,7 +28,10 @@ namespace Fur.DatabaseAccessor.Interceptors
         /// <returns><see cref="InterceptionResult"/></returns>
         public override InterceptionResult ConnectionOpening(DbConnection connection, ConnectionEventData eventData, InterceptionResult result)
         {
-            MiniProfiler.Current.CustomTiming(miniProfilerName, $"Connection: [Id: {eventData.ConnectionId}] / [Database: {connection.Database}] / [Connection String: {connection.ConnectionString}]", "String");
+            if (App.WebHostEnvironment.IsDevelopment())
+            {
+                MiniProfiler.Current.CustomTiming(miniProfilerName, $"Connection: [Id: {eventData.ConnectionId}] / [Database: {connection.Database}] / [Connection String: {connection.ConnectionString}]", "String");
+            }
             return base.ConnectionOpening(connection, eventData, result);
         }
 
@@ -41,7 +45,10 @@ namespace Fur.DatabaseAccessor.Interceptors
         /// <returns><see cref="ValueTask{TResult}"/></returns>
         public override ValueTask<InterceptionResult> ConnectionOpeningAsync(DbConnection connection, ConnectionEventData eventData, InterceptionResult result, CancellationToken cancellationToken = default)
         {
-            MiniProfiler.Current.CustomTiming(miniProfilerName, $"Connection: [Id: {eventData.ConnectionId}] / [Database: {connection.Database}] / [Connection String: {connection.ConnectionString}]", "String (Async)");
+            if (App.WebHostEnvironment.IsDevelopment())
+            {
+                MiniProfiler.Current.CustomTiming(miniProfilerName, $"Connection: [Id: {eventData.ConnectionId}] / [Database: {connection.Database}] / [Connection String: {connection.ConnectionString}]", "String (Async)");
+            }
             return base.ConnectionOpeningAsync(connection, eventData, result, cancellationToken);
         }
     }

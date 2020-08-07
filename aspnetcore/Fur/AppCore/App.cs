@@ -3,7 +3,9 @@ using Fur.Extensions;
 using Fur.Linq.Extensions;
 using Fur.MirrorController.Dependencies;
 using Fur.Options;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyModel;
 using System;
 using System.Collections.Concurrent;
@@ -23,6 +25,16 @@ namespace Fur
         /// Fur 框架配置选项
         /// </summary>
         public static AppOptions Settings;
+
+        /// <summary>
+        /// 配置
+        /// </summary>
+        public static IConfiguration Configuration;
+
+        /// <summary>
+        /// 环境
+        /// </summary>
+        public static IWebHostEnvironment WebHostEnvironment;
 
         /// <summary>
         /// 应用包装器

@@ -24,6 +24,8 @@ namespace Fur.Web.Host
         {
             Configuration = configuration;
             Environment = webHostEnvironment;
+            App.Configuration = configuration;
+            App.WebHostEnvironment = Environment;
         }
 
         public IConfiguration Configuration { get; }
