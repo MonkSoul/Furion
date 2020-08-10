@@ -1,6 +1,4 @@
 ﻿using Autofac;
-using Fur.UnifyResult.Extensions;
-using Fur.UnifyResult.Providers;
 
 namespace Fur.Application
 {
@@ -8,7 +6,6 @@ namespace Fur.Application
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterUnifyProvider<FurUnifyResultProvider>();
         }
     }
 }

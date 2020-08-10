@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fur.Application\Fur.Application.csproj" />
+    <ProjectReference Include="..\Fur.Database.Migrations\Fur.Database.Migrations.csproj" />
+    <ProjectReference Include="..\Fur.Web.Core\Fur.Web.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
+
+</Project>
