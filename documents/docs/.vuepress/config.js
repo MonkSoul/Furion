@@ -15,23 +15,23 @@ module.exports = {
     smoothScroll: true,
     nav: [
       {
-        text: "入门指南",
+        text: "入门",
         link: "/guide/",
       },
       {
-        text: "开发手册",
+        text: "手册",
         link: "/handbook/",
       },
       {
-        text: "框架配置",
+        text: "配置",
         link: "/config/",
       },
       {
-        text: "视频教程",
+        text: "视频",
         link: "https://gitee.com/monksoul/Fur",
       },
       {
-        text: "任务看板",
+        text: "看板",
         link: "https://gitee.com/monksoul/Fur/board",
       },
       {
@@ -39,7 +39,7 @@ module.exports = {
         items: [{ text: "代码生成器", link: "/tools/code-generate" }],
       },
       {
-        text: "开源地址",
+        text: "仓库",
         items: [
           { text: "Gitee", link: "https://gitee.com/monksoul/Fur" },
           { text: "Github", link: "https://github.com/MonkSoul/Fur" },
