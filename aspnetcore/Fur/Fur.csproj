@@ -6,6 +6,9 @@
     <Company>Baiqian</Company>
     <Copyright>Baiqian</Copyright>
     <Description>小僧不才，略懂皮毛（Fur）。</Description>
+    <PackageProjectUrl>https://www.furos.cn</PackageProjectUrl>
+    <RepositoryUrl>https://gitee.com/monksoul/Fur</RepositoryUrl>
+    <RepositoryType>Gitee</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
