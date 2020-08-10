@@ -251,7 +251,7 @@ namespace Fur.Application
 
         public void PostConfigure(AppInfoOptions options)
         {
-            Name = "默认名称";
+            options.Name = "默认名称";
         }
     }
 }
