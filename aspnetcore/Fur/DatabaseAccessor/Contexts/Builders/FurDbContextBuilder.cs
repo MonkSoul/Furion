@@ -58,7 +58,7 @@ namespace Fur.DatabaseAccessor.Contexts
         /// </summary>
         private static IMultipleTenantOnSchemaProvider _multipleTenantOnSchemaProvider;
 
-        private static MethodInfo _entityDelegate;
+        private static readonly MethodInfo _entityDelegate;
 
         /// <summary>
         /// 构造函数
