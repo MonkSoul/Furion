@@ -9,7 +9,7 @@
 简单来说，配置就是将系统应用可动态调配的选项放在统一地方管理。在 `ASP.NET Core` 应用程序中，配置通常存放在启动项目 `appsetting.json` 文件中。
 
 ::: warning 推荐说明
-推荐使用 **《[选项](/handbook/configuration-options/options)》** 方式配置系统可配置项。
+推荐使用 **《[选项](/handbook/configuration-options/options)》** 方式替代当前配置。
 :::
 
 ## 如何使用
