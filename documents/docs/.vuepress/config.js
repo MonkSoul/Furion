@@ -35,7 +35,7 @@ module.exports = {
         link: "https://gitee.com/monksoul/Fur/board",
       },
       {
-        text: "便捷工具",
+        text: "工具",
         items: [{ text: "代码生成器", link: "/tools/code-generate" }],
       },
       {
