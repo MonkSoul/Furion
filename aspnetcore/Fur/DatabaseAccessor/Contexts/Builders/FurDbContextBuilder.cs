@@ -58,6 +58,8 @@ namespace Fur.DatabaseAccessor.Contexts
         /// </summary>
         private static IMultipleTenantOnSchemaProvider _multipleTenantOnSchemaProvider;
 
+        private static MethodInfo _entityDelegate;
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -72,6 +74,7 @@ namespace Fur.DatabaseAccessor.Contexts
                 _tenantType = typeof(Tenant);
                 _dbRelevanceEntityCache = new ConcurrentDictionary<Type, DbRelevanceEntityBuilder>();
                 _dbRelevanceEntityBasicGenericArgumentsCache = new ConcurrentDictionary<(Type, Type), Type[]>();
+                _entityDelegate = typeof(ModelBuilder).GetMethods().FirstOrDefault(u => u.Name == nameof(ModelBuilder.Entity) && u.GetParameters().Length == 0);
             }
 
             _dbRelevanceFunctions = App.Assemblies
@@ -289,7 +292,8 @@ namespace Fur.DatabaseAccessor.Contexts
         private static void CreateDbEntityTypeBuilderIfNull(Type dbRelevanceEntityType, ref EntityTypeBuilder entityTypeBuilder)
         {
             var isNoSetEntityType = entityTypeBuilder == null;
-            entityTypeBuilder ??= _modelBuilder.Entity(dbRelevanceEntityType);
+            var modelBuilderEntity = (Func<EntityTypeBuilder>)Delegate.CreateDelegate(typeof(Func<EntityTypeBuilder>), _modelBuilder, _entityDelegate.MakeGenericMethod(dbRelevanceEntityType));
+            entityTypeBuilder ??= modelBuilderEntity();
 
             // 忽略租户Id
             if (!isNoSetEntityType ||
