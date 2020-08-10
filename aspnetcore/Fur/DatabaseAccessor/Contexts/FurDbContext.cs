@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Fur.DatabaseAccessor.Attributes;
+using Microsoft.EntityFrameworkCore;
 
 namespace Fur.DatabaseAccessor.Contexts
 {
@@ -47,7 +48,7 @@ namespace Fur.DatabaseAccessor.Contexts
         {
             base.OnModelCreating(modelBuilder);
 
-            if (!App.Settings.AutoConfigureDbObjects) return;
+            if (!App.Settings.AutoConfigureDbObjects || this.GetType().IsDefined(typeof(ManualDbContextAttribute), false)) return;
 
             // 扫描数据库对象类型加入模型构建器中，包括视图、存储过程、函数（标量函数/表值函数）初始化、及种子数据、查询筛选器配置
             FurDbContextBuilder.ScanDbObjectsToBuilding(modelBuilder, typeof(TDbContextLocator), this);
