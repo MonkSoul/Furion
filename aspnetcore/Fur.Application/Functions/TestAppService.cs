@@ -1,6 +1,7 @@
 ﻿using Fur.Application.Functions.Dtos;
 using Fur.Core.DbEntities;
 using Fur.DatabaseAccessor.Repositories;
+using Fur.FriendlyException.Attributes;
 using Fur.MirrorController.Dependencies;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ namespace Fur.Application.Functions
     /// <summary>
     /// 测试接口
     /// </summary>
-    public class TestAppService : ITestAppService, IMirrorControllerModel
+    public class TestAppService : IMirrorControllerModel
     {
         private readonly IRepository<Test> _repository;
 
@@ -21,6 +22,7 @@ namespace Fur.Application.Functions
             _repository = repository;
         }
 
+        [IfException(1000, "The {0} Data is {1} Not Found")]
         public async Task<IEnumerable<TestDto>> Get()
         {
             return await _repository.Entities.ProjectToType<TestDto>().ToListAsync();

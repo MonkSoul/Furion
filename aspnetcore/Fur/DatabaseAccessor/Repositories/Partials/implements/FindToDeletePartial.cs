@@ -69,7 +69,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         public virtual EntityEntry<TEntity> FindToDelete(object id, int oopsCode)
         {
-            var entity = Find(id) ?? throw Oops.Set(oopsCode);
+            var entity = Find(id) ?? throw Oops.To(oopsCode);
             return Delete(entity);
         }
 
@@ -81,7 +81,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual async Task<EntityEntry<TEntity>> FindToDeleteAsync(object id, int oopsCode)
         {
-            var entity = (await FindAsync(id)) ?? throw Oops.Set(oopsCode);
+            var entity = (await FindAsync(id)) ?? throw Oops.To(oopsCode);
             var entityEntry = await DeleteAsync(entity);
             return entityEntry;
         }
@@ -226,7 +226,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="EntityEntry(TEntity)"/></returns>
         public virtual EntityEntry<TEntity> FindToFakeDelete(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, int oopsCode)
         {
-            var entity = Find(id) ?? throw Oops.Set(oopsCode);
+            var entity = Find(id) ?? throw Oops.To(oopsCode);
             return FakeDelete(entity, flagProperty, flagValue);
         }
 
@@ -240,7 +240,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, Expression<Func<TEntity, object>> flagProperty, object flagValue, int oopsCode)
         {
-            var entity = await FindAsync(id) ?? throw Oops.Set(oopsCode);
+            var entity = await FindAsync(id) ?? throw Oops.To(oopsCode);
             return await FakeDeleteAsync(entity, flagProperty, flagValue);
         }
 
@@ -298,7 +298,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="EntityEntry{TEntity}"/></returns>
         public virtual EntityEntry<TEntity> FindToFakeDelete(object id, int oopsCode)
         {
-            var entity = Find(id) ?? throw Oops.Set(oopsCode);
+            var entity = Find(id) ?? throw Oops.To(oopsCode);
             return FakeDelete(entity);
         }
 
@@ -310,7 +310,7 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns><see cref="Task{TResult}"/></returns>
         public virtual async Task<EntityEntry<TEntity>> FindToFakeDeleteAsync(object id, int oopsCode)
         {
-            var entity = await FindAsync(id) ?? throw Oops.Set(oopsCode);
+            var entity = await FindAsync(id) ?? throw Oops.To(oopsCode);
             return await FakeDeleteAsync(entity);
         }
 

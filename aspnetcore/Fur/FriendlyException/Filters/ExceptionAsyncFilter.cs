@@ -1,10 +1,10 @@
 ﻿using Autofac;
-
 using Fur.DependencyInjection.Extensions;
 using Fur.Extensions;
 using Fur.FriendlyException.Attributes;
 using Fur.UnifyResult.Providers;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Caching.Memory;
@@ -30,7 +30,7 @@ namespace Fur.FriendlyException.Filters
         /// <summary>
         /// 异常提供器
         /// </summary>
-        private IExceptionCodesProvider _exceptionCodesProvider;
+        private IExceptionProvider _exceptionCodesProvider;
 
         /// <summary>
         /// 构造函数
@@ -59,7 +59,7 @@ namespace Fur.FriendlyException.Filters
             var isAnonymouseRequest = descriptor.MethodInfo.IsDefined(typeof(AllowAnonymousAttribute), false) || descriptor.ControllerTypeInfo.IsDefined(typeof(AllowAnonymousAttribute), false);
             var unAuthorizedRequest = isAnonymouseRequest || Convert.ToBoolean(context.HttpContext.Response.Headers["UnAuthorizedRequest"]);
 
-            int statusCode = ConvertExceptionInfo(context, descriptor, out string exceptionMessage, out string exceptionErrorString);
+            int statusCode = CombineExceptionInfo(context.Exception, descriptor.MethodInfo, out string exceptionMessage, out string exceptionErrorString);
 
             context.Result = _unifyResultProvider.UnifyExceptionResult(context, exceptionMessage, exceptionErrorString, unAuthorizedRequest, statusCode);
 
@@ -72,44 +72,45 @@ namespace Fur.FriendlyException.Filters
             }
 
             MiniProfiler.Current.CustomTiming("errors", exceptionErrorString, "StackTrace").Errored = true;
+
             return Task.CompletedTask;
         }
 
-        /// <summary>
-        /// 转换异常信息
-        /// </summary>
-        /// <param name="context">异常上下文</param>
-        /// <param name="descriptor">控制器描述器</param>
-        /// <param name="exceptionMessage">异常信息</param>
-        /// <param name="exceptionErrorString">异常堆栈</param>
-        /// <returns>状态码</returns>
-        private int ConvertExceptionInfo(ExceptionContext context, ControllerActionDescriptor descriptor, out string exceptionMessage, out string exceptionErrorString)
+        private int CombineExceptionInfo(Exception exception, MethodInfo method, out string exceptionMessage, out string exceptionString)
         {
-            var exception = context.Exception;
-            var method = descriptor.MethodInfo;
-
+            var statusCode = StatusCodes.Status500InternalServerError;
             exceptionMessage = exception.Message;
-            exceptionErrorString = exception.ToString();
+            exceptionString = exception.ToString();
 
-            var statusCode = 500;
-            if (exceptionMessage.StartsWith("##") && exceptionMessage.EndsWith("##"))
+            if (exceptionMessage.StartsWith("[[") && exceptionMessage.EndsWith("]]"))
             {
-                var customExceptionContent = exceptionMessage[2..^2];
-                var customExceptionInfos = customExceptionContent.Split(';', System.StringSplitOptions.RemoveEmptyEntries);
+                var exceptionCode = int.Parse(exceptionMessage[2..^2]);
+                var oopsModel = Oops.ExceptionOopsModels.GetValueOrDefault((method, exceptionCode));
+                statusCode = oopsModel.StatusCode;
 
-                var code = int.Parse(customExceptionInfos[0]);
-                var exceptionType = customExceptionInfos[1];
-                statusCode = Convert.ToInt32(customExceptionInfos[2]);
+                var expMessage = "Internal Server Error.";
+                if (oopsModel.IfException != null)
+                {
+                    expMessage = string.Format($"[{exceptionCode}] {oopsModel.IfException.Message}", oopsModel.Args);
+                }
+                else
+                {
+                    var exceptionCodes = LoadExceptionCodes(expMessage);
+                    if (exceptionCodes.ContainsKey(exceptionCode))
+                    {
+                        expMessage = string.Format($"[{exceptionCode}] {exceptionCodes[exceptionCode]}", oopsModel.Args);
+                    }
+                }
 
-                var defaultExceptionMsg = "Internal Server Error.";
-                var exceptionCodes = LoadExceptionCodes(defaultExceptionMsg);
-
-                var exceptionMsg = exceptionCodes.ContainsKey(code) ? exceptionCodes[code] : defaultExceptionMsg;
-
-                exceptionMessage = exceptionMessage.Replace($"##{customExceptionContent}##", $"[{code}] {exceptionMsg}");
-                exceptionErrorString = exceptionErrorString
-                    .Replace($"System.Exception: {exception.Message}", $"{exceptionType}: {exception.Message}")
-                    .Replace($"##{customExceptionContent}##", $"[{code}] {exceptionMsg}");
+                if (oopsModel.ExceptionType != null)
+                {
+                    exceptionString = exceptionString.Replace($"System.Exception: {exceptionMessage}", $"{oopsModel.ExceptionType}: {expMessage}");
+                }
+                else
+                {
+                    exceptionString = exceptionString.Replace($"{exceptionMessage}", $"{expMessage}");
+                }
+                exceptionMessage = expMessage;
             }
 
             return statusCode;
@@ -120,34 +121,33 @@ namespace Fur.FriendlyException.Filters
         /// </summary>
         /// <param name="defaultExceptionMsg">默认异常</param>
         /// <returns><see cref="Dictionary{TKey, TValue}"/></returns>
-        private Dictionary<int, string> LoadExceptionCodes(string defaultExceptionMsg)
+        private Dictionary<int, string> LoadExceptionCodes(string defaultExceptionMsg = "Internal Server Error.")
         {
             var exceptionCodes = new Dictionary<int, string>();
-            _exceptionCodesProvider = _lifetimeScope.GetService<IExceptionCodesProvider>();
-            if (_exceptionCodesProvider != null)
+            _exceptionCodesProvider = _lifetimeScope.GetService<IExceptionProvider>();
+            if (_exceptionCodesProvider == null) return exceptionCodes;
+
+            var exceptionCodesType = _exceptionCodesProvider.ExceptionCodesType();
+            var isExistsKey = _memoryCache.TryGetValue(exceptionCodesType.FullName, out object codes);
+
+            if (isExistsKey) return codes as Dictionary<int, string>;
+
+            var fields = _exceptionCodesProvider.ExceptionCodesType().GetFields(BindingFlags.Public | BindingFlags.Static);
+            if (fields.Length == 0) return exceptionCodes;
+
+            foreach (var field in fields)
             {
-                var exceptionCodesType = _exceptionCodesProvider.ExceptionCodesType();
-                var isExistsKey = _memoryCache.TryGetValue(exceptionCodesType.FullName, out object codes);
-
-                if (isExistsKey) return codes as Dictionary<int, string>;
-
-                var fields = _exceptionCodesProvider.ExceptionCodesType().GetFields(BindingFlags.Public | BindingFlags.Static);
-                foreach (var field in fields)
+                int fieldValue = Convert.ToInt32(field.GetRawConstantValue());
+                string metaMessage = null;
+                if (field.IsDefined(typeof(ExceptionMetaAttribute)))
                 {
-                    int fieldValue = Convert.ToInt32(field.GetRawConstantValue());
-                    string metaMessage = null;
-                    if (field.IsDefined(typeof(ExceptionMetaAttribute)))
-                    {
-                        metaMessage = field.GetCustomAttribute<ExceptionMetaAttribute>().Message;
-                    }
-                    exceptionCodes.Add(fieldValue, metaMessage ?? defaultExceptionMsg);
+                    metaMessage = field.GetCustomAttribute<ExceptionMetaAttribute>().Message;
                 }
-
-                if (exceptionCodes.Count > 0)
-                {
-                    _memoryCache.Set(exceptionCodesType.FullName, exceptionCodes);
-                }
+                exceptionCodes.Add(fieldValue, metaMessage ?? defaultExceptionMsg);
             }
+
+            _memoryCache.Set(exceptionCodesType.FullName, exceptionCodes);
+
             return exceptionCodes;
         }
     }

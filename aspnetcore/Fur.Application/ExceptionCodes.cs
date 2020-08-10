@@ -26,7 +26,7 @@ namespace Fur.Application
     /// <summary>
     /// 异常提供器
     /// </summary>
-    public class ExceptionCodesProvider : IExceptionCodesProvider, ISingletonLifetime
+    public class ExceptionCodesProvider : IExceptionProvider, ISingletonLifetime
     {
         public Type ExceptionCodesType() => typeof(ExceptionCodes);
     }
