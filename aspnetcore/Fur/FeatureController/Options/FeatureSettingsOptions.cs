@@ -38,6 +38,10 @@ namespace Fur.FeatureController
         /// </summary>
         public string[] ActionNameAffixes { get; set; }
 
+        /// <summary>
+        /// 默认配置
+        /// </summary>
+        /// <param name="options"></param>
         public void PostConfigure(FeatureSettingsOptions options)
         {
             options.DefaultRoutePrefix = "api";
