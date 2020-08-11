@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Fur.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Fur.Options
 {

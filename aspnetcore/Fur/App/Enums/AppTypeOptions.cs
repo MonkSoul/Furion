@@ -1,4 +1,4 @@
-﻿namespace Fur.Options
+﻿namespace Fur.Enums
 {
     /// <summary>
     /// 应用类型
