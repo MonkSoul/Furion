@@ -42,9 +42,10 @@ namespace Microsoft.Extensions.DependencyInjection
             var optionsType = typeof(TOptions);
             string jsonKey = null;
 
-            if (optionsType.IsDefined(typeof(OptionsAttribute), false))
+            if (optionsType.IsDefined(typeof(OptionsSettingsAttribute), false))
             {
-                jsonKey = optionsType.GetCustomAttribute<OptionsAttribute>(false).JsonKey;
+                var optionsSettings = optionsType.GetCustomAttribute<OptionsSettingsAttribute>(false);
+                jsonKey = optionsSettings.JsonKey;
             }
 
             jsonKey ??= optionsType.Name;

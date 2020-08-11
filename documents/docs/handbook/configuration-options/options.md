@@ -36,7 +36,7 @@ using Fur.Options;
 namespace Fur.Application
 {
     // 配置 `appsetting.json` 中对应的键名
-    [Options("AppInfo")]
+    [OptionsSettings("AppInfo")]
     public class AppInfoOptions : IAppOptions
     {
         public string Name { get; set; }
@@ -49,7 +49,7 @@ namespace Fur.Application
 ::: warning 选项说明
 在 `Fur` 框架中，选项需继承 `IAppOptions` 接口，该接口在 `Fur.Options` 命名空间下。
 
-默认情况下，Fur 会根据**类名**查找 `appsetting.json` 对应的键，若类型和配置不一样，需通过 `[Options(jsonKey)]` 特性指定。
+默认情况下，Fur 会根据**类名**查找 `appsetting.json` 对应的键，若类型和配置不一样，需通过 `[OptionsSettings(jsonKey)]` 特性指定。
 :::
 
 ### 读取选项
@@ -129,7 +129,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Fur.Application
 {
     // 配置 `appsetting.json` 中对应的键名
-    [Options("AppInfo")]
+    [OptionsSettings("AppInfo")]
     public class AppInfoOptions : IAppOptions
     {
         [Required]
@@ -177,7 +177,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Fur.Application
 {
     // 配置 `appsetting.json` 中对应的键名
-    [Options("AppInfo")]
+    [OptionsSettings("AppInfo")]
     public class AppInfoOptions : IAppOptions<AppInfoOptions, AppInfoOptionsValidation>
     {
         [Required]
@@ -200,7 +200,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Fur.Application
 {
     // 配置 `appsetting.json` 中对应的键名
-    [Options("AppInfo")]
+    [OptionsSettings("AppInfo")]
     public class AppInfoOptions : IAppOptions<AppInfoOptions, AppInfoOptionsValidation>
     {
         [Required]
@@ -236,7 +236,7 @@ using Fur.Options;
 namespace Fur.Application
 {
     // 配置 `appsetting.json` 中对应的键名
-    [Options("AppInfo")]
+    [OptionsSettings("AppInfo")]
     public class AppInfoOptions : IAppOptions<AppInfoOptions>
     {
         public string Name { get; set; }
@@ -279,7 +279,7 @@ namespace Fur.Options
 
 ## 自定义查找键
 
-默认情况下，Fur 会根据**类名**查找 `appsetting.json` 对应的键，若类型和配置不一样，需通过 `[Options(jsonKey)]` 特性指定。
+默认情况下，Fur 会根据**类名**查找 `appsetting.json` 对应的键，若类型和配置不一样，需通过 `[OptionsSettings(string)]` 特性指定。
 
 ```cs {6}
 using Fur.Options;
@@ -287,7 +287,7 @@ using Fur.Options;
 namespace Fur.Application
 {
     // 配置 `appsetting.json` 中对应的键名
-    [Options("AppInfo")]
+    [OptionsSettings("AppInfo")]
     public class AppInfoOptions : IAppOptions
     {
         public string Name { get; set; }

@@ -5,7 +5,7 @@ namespace Fur.FeatureController
     /// <summary>
     /// 特性控制器配置
     /// </summary>
-    [Options("AppSettings:FeatureSettings")]
+    [OptionsSettings("AppSettings:FeatureSettings")]
     public sealed class FeatureSettingsOptions : IAppOptions<FeatureSettingsOptions>
     {
         /// <summary>

@@ -6,13 +6,13 @@ namespace Fur.Options
     /// 选项配置特性
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
-    public sealed class OptionsAttribute : Attribute
+    public sealed class OptionsSettingsAttribute : Attribute
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="jsonKey">appsetting.json 对应键</param>
-        public OptionsAttribute(string jsonKey)
+        public OptionsSettingsAttribute(string jsonKey)
             => JsonKey = jsonKey;
 
         /// <summary>

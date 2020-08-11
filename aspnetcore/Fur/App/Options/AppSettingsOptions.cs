@@ -6,7 +6,7 @@ namespace Fur.Options
     /// <summary>
     /// 应用全局配置
     /// </summary>
-    [Options("AppSettings")]
+    [OptionsSettings("AppSettings")]
     public sealed class AppSettingsOptions : IAppOptions
     {
         /// <summary>
