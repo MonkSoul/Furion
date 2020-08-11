@@ -1,5 +1,4 @@
 ﻿using Fur;
-using Fur.Attributes;
 using Fur.Options;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;

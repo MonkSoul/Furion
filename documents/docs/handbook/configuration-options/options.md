@@ -30,8 +30,7 @@
 
 ### 创建强类型类
 
-```cs {1-2,6-8}
-using Fur.Attributes;
+```cs {1,5-7}
 using Fur.Options;
 
 namespace Fur.Application
@@ -123,8 +122,7 @@ Fur 支持特性方式和自定义复杂验证方式验证选项值。
 
 ### 特性方式
 
-```cs {3,11,13,15}
-using Fur.Attributes;
+```cs {2,10,12,14}
 using Fur.Options;
 using System.ComponentModel.DataAnnotations;
 
@@ -148,8 +146,7 @@ namespace Fur.Application
 
 #### 🥒 创建自定义验证类，需继承 `IValidateOptions<TOptions>`接口，如：`AppInfoOptionsValidation`：
 
-```cs {2,6-15}
-using Fur.Attributes;
+```cs {1,5-14}
 using Microsoft.Extensions.Options;
 
 namespace Fur.Application
@@ -173,8 +170,7 @@ namespace Fur.Application
 
 只需要继承 `IFurOptions<TOptions, IValidateOptions<TOptions>>` 接口即可。
 
-```cs {9}
-using Fur.Attributes;
+```cs {8}
 using Fur.Options;
 using System.ComponentModel.DataAnnotations;
 
@@ -197,7 +193,6 @@ namespace Fur.Application
 #### 🥒 完整代码
 
 ```cs
-using Fur.Attributes;
 using Fur.Options;
 using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
@@ -235,8 +230,7 @@ namespace Fur.Application
 
 后期配置选项也就是当配置不存在时默认配置。
 
-```cs {8,14-16}
-using Fur.Attributes;
+```cs {7,13-15}
 using Fur.Options;
 
 namespace Fur.Application
@@ -257,7 +251,7 @@ namespace Fur.Application
 }
 ```
 
-::: tip 特别说明 
+::: tip 特别说明
 选项验证默认继承了后期配置接口，接口定义源码为：
 
 ```cs
@@ -280,14 +274,14 @@ namespace Fur.Options
     }
 }
 ```
+
 :::
 
 ## 自定义查找键
 
 默认情况下，Fur 会根据**类名**查找 `appsetting.json` 对应的键，若类型和配置不一样，需通过 `[Options(jsonKey)]` 特性指定。
 
-```cs {1,7}
-using Fur.Attributes;
+```cs {6}
 using Fur.Options;
 
 namespace Fur.Application
