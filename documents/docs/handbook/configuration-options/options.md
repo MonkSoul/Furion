@@ -146,7 +146,7 @@ namespace Fur.Application
 
 ### 自定义验证
 
-#### 🥒 创建自定义验证类，如：`AppInfoOptionsValidation`：
+#### 🥒 创建自定义验证类，需继承 `IValidateOptions<TOptions>`接口，如：`AppInfoOptionsValidation`：
 
 ```cs {2,6-15}
 using Fur.Attributes;
