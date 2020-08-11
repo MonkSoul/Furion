@@ -19,7 +19,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务集合</param>
         /// <param name="configure">服务配置</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddFur(this IServiceCollection services, Action<IServiceCollection> configure = null)
+        public static IServiceCollection AddApp(this IServiceCollection services, Action<IServiceCollection> configure = null)
         {
             App.Services = services;
             var serviceProvider = App.ServiceProvider;

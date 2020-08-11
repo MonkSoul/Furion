@@ -17,7 +17,7 @@ namespace Fur.Web.Entry
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddFur();
+            services.AddApp();
             services.AddControllers().AddFeatureControllers();
         }
 

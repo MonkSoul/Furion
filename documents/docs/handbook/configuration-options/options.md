@@ -49,7 +49,7 @@ namespace Fur.Application
 ::: warning 选项说明
 在 `Fur` 框架中，选项需继承 `IAppOptions` 接口，该接口在 `Fur.Options` 命名空间下。
 
-默认情况下，Fur 会根据**类名**查找 `appsetting.json` 对应的键，若类型和配置不一样，需通过 `[OptionsSettings(jsonKey)]` 特性指定。
+默认情况下，Fur 会根据**类名**查找 `appsetting.json` 对应的键，若类型和配置不一样，需通过 `[OptionsSettings(string)]` 特性指定。
 :::
 
 ### 读取选项
@@ -78,7 +78,7 @@ namespace Fur.Web.Entry
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddFur(options =>
+            services.AddApp(options =>
             {
                 options.AddAppOptions<AppInfoOptions>();
             });
@@ -306,18 +306,18 @@ services.AddAppOptions<AppInfoOptions>();
 ```
 
 ::: warning 特别注意
-`services.AddAppOptions<TOptions>()` 拓展需在 `services.AddFur()` 调用之后注册或通过委托在里面注册。
+`services.AddAppOptions<TOptions>()` 拓展需在 `services.AddApp()` 调用之后注册或通过委托在里面注册。
 
 以下两个代码都是有效的：
 
 ```cs
-services.AddFur();
+services.AddApp();
 services.AddAppOptions<AppInfoOptions>();
 ```
 
 ```cs
 // 推荐使用此方式
-services.AddFur(options =>
+services.AddApp(options =>
 {
     options.AddAppOptions<AppInfoOptions>();
 });
