@@ -30,7 +30,7 @@
 
 ### 读取配置
 
-🥒 通过依赖注入方式读取
+#### 🥒 通过依赖注入方式读取
 
 ```cs {2,11-13}
 using Microsoft.AspNetCore.Mvc;
@@ -51,7 +51,7 @@ namespace Fur.Web.Entry.Controllers
 }
 ```
 
-🥒 通过 `App.Configuration` 读取
+#### 🥒 通过 `App.Configuration` 读取
 
 ```cs {10-12}
 using Microsoft.AspNetCore.Mvc;

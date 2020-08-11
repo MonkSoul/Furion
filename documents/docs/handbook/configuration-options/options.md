@@ -55,7 +55,7 @@ namespace Fur.Application
 
 ### 读取选项
 
-- 直接读取 <Badge text="不推荐" type="error" />
+#### 🥒 直接读取 <Badge text="不推荐" type="error" />
 
 ```cs
 var appInfo = App.Configuration.GetSection("AppInfo").Get<AppInfoOptions>();
@@ -65,9 +65,9 @@ var appInfo = App.Configuration.GetSection("AppInfo").Get<AppInfoOptions>();
 直接读取的方式无法应用于选项验证和后期配置功能。
 :::
 
-- 使用依赖注入配置选项 <Badge text="推荐" type="warning" />
+#### 🥒 使用依赖注入配置选项 <Badge text="推荐" type="warning" />
 
-🥒 在 `Fur.Web.Entry` 项目 `Startup.cs` 中 `ConfigureServices` 添加如下配置：
+- 在 `Fur.Web.Entry` 项目 `Startup.cs` 中 `ConfigureServices` 添加如下配置：
 
 ```cs {2,8,10,12}
 using Fur.Application;
@@ -90,7 +90,7 @@ namespace Fur.Web.Entry
 }
 ```
 
-🥒 在**可依赖注入类**中使用
+- 在**可依赖注入类**中使用
 
 ```cs {3,10-13}
 using Fur.Application;
@@ -111,7 +111,7 @@ namespace Fur.Web.Entry.Controllers
 }
 ```
 
-🥒 在**静态类**中使用
+- 在**静态类**中使用
 
 ```cs
 var appInfoOptions = App.ServiceProvider.GetService<IOptionsMonitor<AppInfoOptions>>();
@@ -146,7 +146,7 @@ namespace Fur.Application
 
 ### 自定义验证
 
-🥒 创建自定义验证类，如：`AppInfoOptionsValidation`：
+#### 🥒 创建自定义验证类，如：`AppInfoOptionsValidation`：
 
 ```cs {2,6-15}
 using Fur.Attributes;
@@ -169,7 +169,7 @@ namespace Fur.Application
 }
 ```
 
-🥒 关联选项验证
+#### 🥒 关联选项验证
 
 只需要继承 `IFurOptions<TOptions, IValidateOptions<TOptions>>` 接口即可。
 
@@ -194,7 +194,7 @@ namespace Fur.Application
 }
 ```
 
-**完整代码如下**：
+#### 🥒 完整代码
 
 ```cs
 using Fur.Attributes;
@@ -302,6 +302,34 @@ namespace Fur.Application
     }
 }
 ```
+
+## 注册选项
+
+`Fur` 框架提供了便捷的选项注入拓展方法，如：
+
+```cs
+services.AddFurOptions<AppInfoOptions>();
+```
+
+::: warning 特别注意
+`services.AddFurOptions<TOptions>()` 拓展需在 `services.AddFur()` 调用之后注册或通过委托在里面注册。
+
+以下两个代码都是有效的：
+
+```cs
+services.AddFur();
+services.AddFurOptions<AppInfoOptions>();
+```
+
+```cs
+// 推荐使用此方式
+services.AddFur(options =>
+{
+    options.AddFurOptions<AppInfoOptions>();
+});
+```
+
+:::
 
 ---
 
