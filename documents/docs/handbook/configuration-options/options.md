@@ -28,7 +28,7 @@
 }
 ```
 
-### 创建强类型类 `AppInfoOptions`
+### 创建强类型类
 
 ```cs {1-2,6-8}
 using Fur.Attributes;
