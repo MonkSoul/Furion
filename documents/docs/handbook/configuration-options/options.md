@@ -37,7 +37,7 @@ namespace Fur.Application
 {
     // 配置 `appsetting.json` 中对应的键名
     [Options("AppInfo")]
-    public class AppInfoOptions : IFurOptions
+    public class AppInfoOptions : IAppOptions
     {
         public string Name { get; set; }
         public string Version { get; set; }
@@ -47,7 +47,7 @@ namespace Fur.Application
 ```
 
 ::: warning 选项说明
-在 `Fur` 框架中，选项需继承 `IFurOptions` 接口，该接口在 `Fur.Options` 命名空间下。
+在 `Fur` 框架中，选项需继承 `IAppOptions` 接口，该接口在 `Fur.Options` 命名空间下。
 
 默认情况下，Fur 会根据**类名**查找 `appsetting.json` 对应的键，若类型和配置不一样，需通过 `[Options(jsonKey)]` 特性指定。
 :::
@@ -80,7 +80,7 @@ namespace Fur.Web.Entry
         {
             services.AddFur(options =>
             {
-                options.AddFurOptions<AppInfoOptions>();
+                options.AddAppOptions<AppInfoOptions>();
             });
 
             services.AddControllers();
@@ -113,7 +113,7 @@ namespace Fur.Web.Entry.Controllers
 - 在**静态类**中使用
 
 ```cs
-var appInfoOptions = App.ServiceProvider.GetService<IOptionsMonitor<AppInfoOptions>>();
+var appInfoOptions = App.GetOptions<AppInfoOptions>();
 ```
 
 ## 选项验证
@@ -130,7 +130,7 @@ namespace Fur.Application
 {
     // 配置 `appsetting.json` 中对应的键名
     [Options("AppInfo")]
-    public class AppInfoOptions : IFurOptions
+    public class AppInfoOptions : IAppOptions
     {
         [Required]
         public string Name { get; set; }
@@ -168,7 +168,7 @@ namespace Fur.Application
 
 #### 🥒 关联选项验证
 
-只需要继承 `IFurOptions<TOptions, IValidateOptions<TOptions>>` 接口即可。
+只需要继承 `IAppOptions<TOptions, IValidateOptions<TOptions>>` 接口即可。
 
 ```cs {8}
 using Fur.Options;
@@ -178,7 +178,7 @@ namespace Fur.Application
 {
     // 配置 `appsetting.json` 中对应的键名
     [Options("AppInfo")]
-    public class AppInfoOptions : IFurOptions<AppInfoOptions, AppInfoOptionsValidation>
+    public class AppInfoOptions : IAppOptions<AppInfoOptions, AppInfoOptionsValidation>
     {
         [Required]
         public string Name { get; set; }
@@ -201,7 +201,7 @@ namespace Fur.Application
 {
     // 配置 `appsetting.json` 中对应的键名
     [Options("AppInfo")]
-    public class AppInfoOptions : IFurOptions<AppInfoOptions, AppInfoOptionsValidation>
+    public class AppInfoOptions : IAppOptions<AppInfoOptions, AppInfoOptionsValidation>
     {
         [Required]
         public string Name { get; set; }
@@ -237,7 +237,7 @@ namespace Fur.Application
 {
     // 配置 `appsetting.json` 中对应的键名
     [Options("AppInfo")]
-    public class AppInfoOptions : IFurOptions<AppInfoOptions>
+    public class AppInfoOptions : IAppOptions<AppInfoOptions>
     {
         public string Name { get; set; }
         public string Version { get; set; }
@@ -259,16 +259,16 @@ using Microsoft.Extensions.Options;
 
 namespace Fur.Options
 {
-    public partial interface IFurOptions { }
+    public partial interface IAppOptions { }
 
-    public partial interface IFurOptions<TOptions> : IFurOptions
-        where TOptions : class, IFurOptions
+    public partial interface IAppOptions<TOptions> : IAppOptions
+        where TOptions : class, IAppOptions
     {
         void PostConfigure(TOptions options) { }
     }
 
-    public partial interface IFurOptions<TOptions, TOptionsValidation> : IFurOptions<TOptions>
-        where TOptions : class, IFurOptions
+    public partial interface IAppOptions<TOptions, TOptionsValidation> : IAppOptions<TOptions>
+        where TOptions : class, IAppOptions
         where TOptionsValidation : class, IValidateOptions<TOptions>
     {
     }
@@ -288,7 +288,7 @@ namespace Fur.Application
 {
     // 配置 `appsetting.json` 中对应的键名
     [Options("AppInfo")]
-    public class AppInfoOptions : IFurOptions
+    public class AppInfoOptions : IAppOptions
     {
         public string Name { get; set; }
         public string Version { get; set; }
@@ -302,24 +302,24 @@ namespace Fur.Application
 `Fur` 框架提供了便捷的选项注入拓展方法，如：
 
 ```cs
-services.AddFurOptions<AppInfoOptions>();
+services.AddAppOptions<AppInfoOptions>();
 ```
 
 ::: warning 特别注意
-`services.AddFurOptions<TOptions>()` 拓展需在 `services.AddFur()` 调用之后注册或通过委托在里面注册。
+`services.AddAppOptions<TOptions>()` 拓展需在 `services.AddFur()` 调用之后注册或通过委托在里面注册。
 
 以下两个代码都是有效的：
 
 ```cs
 services.AddFur();
-services.AddFurOptions<AppInfoOptions>();
+services.AddAppOptions<AppInfoOptions>();
 ```
 
 ```cs
 // 推荐使用此方式
 services.AddFur(options =>
 {
-    options.AddFurOptions<AppInfoOptions>();
+    options.AddAppOptions<AppInfoOptions>();
 });
 ```
 

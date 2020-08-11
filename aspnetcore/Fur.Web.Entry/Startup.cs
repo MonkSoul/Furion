@@ -18,8 +18,7 @@ namespace Fur.Web.Entry
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddFur();
-
-            services.AddControllers();
+            services.AddControllers().AddFeatureControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

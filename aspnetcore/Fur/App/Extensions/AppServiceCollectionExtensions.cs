@@ -11,7 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     /// 配置选项拓展类
     /// </summary>
-    public static class FurServiceCollectionExtensions
+    public static class AppServiceCollectionExtensions
     {
         /// <summary>
         /// 添加应用配置
@@ -23,7 +23,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             App.Services = services;
             var serviceProvider = App.ServiceProvider;
-            services.AddFurOptions<AppOptions>();
+            services.AddAppOptions<AppSettingsOptions>();
 
             configure?.Invoke(services);
             return services;
@@ -36,8 +36,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务集合</param>
         /// <param name="options">选项实例</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddFurOptions<TOptions>(this IServiceCollection services)
-            where TOptions : class, IFurOptions
+        public static IServiceCollection AddAppOptions<TOptions>(this IServiceCollection services)
+            where TOptions : class, IAppOptions
         {
             var optionsType = typeof(TOptions);
             string jsonKey = null;
@@ -56,7 +56,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             // 配置复杂验证后后期配置
             var validateInterface = optionsType.GetInterfaces()
-                .FirstOrDefault(u => u.IsGenericType && typeof(IFurOptions).IsAssignableFrom(u.GetGenericTypeDefinition()));
+                .FirstOrDefault(u => u.IsGenericType && typeof(IAppOptions).IsAssignableFrom(u.GetGenericTypeDefinition()));
             if (validateInterface != null)
             {
                 var genericArguments = validateInterface.GetGenericArguments();
@@ -68,7 +68,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 }
 
                 // 配置后期配置
-                var postConfigureMethod = optionsType.GetMethod(nameof(IFurOptions<TOptions>.PostConfigure));
+                var postConfigureMethod = optionsType.GetMethod(nameof(IAppOptions<TOptions>.PostConfigure));
                 if (postConfigureMethod != null)
                 {
                     services.PostConfigure<TOptions>(options =>

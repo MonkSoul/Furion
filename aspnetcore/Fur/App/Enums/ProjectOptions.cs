@@ -3,7 +3,7 @@
     /// <summary>
     /// 应用类型
     /// </summary>
-    public enum AppTypeOptions
+    public enum ProjectOptions
     {
         /// <summary>
         /// RESTful API

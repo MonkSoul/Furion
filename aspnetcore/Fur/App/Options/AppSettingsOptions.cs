@@ -6,7 +6,8 @@ namespace Fur.Options
     /// <summary>
     /// 应用全局配置
     /// </summary>
-    public sealed class AppOptions : IFurOptions
+    [Options("AppSettings")]
+    public sealed class AppSettingsOptions : IAppOptions
     {
         /// <summary>
         /// 框架版本
@@ -17,6 +18,6 @@ namespace Fur.Options
         /// 应用类型
         /// </summary>
         [Required]
-        public AppTypeOptions AppType { get; set; }
+        public ProjectOptions Project { get; set; }
     }
 }

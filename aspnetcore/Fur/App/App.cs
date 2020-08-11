@@ -19,7 +19,7 @@ namespace Fur
         /// <summary>
         /// 应用全局配置
         /// </summary>
-        public static AppOptions Settings { get => ServiceProvider.GetService<IOptions<AppOptions>>().Value; }
+        public static AppSettingsOptions Settings { get => ServiceProvider.GetService<IOptions<AppSettingsOptions>>().Value; }
 
         /// <summary>
         /// 服务提供器
@@ -50,6 +50,33 @@ namespace Fur
         {
             Assemblies = GetAssemblies();
         }
+
+        /// <summary>
+        /// 获取选项
+        /// </summary>
+        /// <typeparam name="TOptions"></typeparam>
+        /// <returns></returns>
+        public static TOptions GetOptions<TOptions>()
+            where TOptions : class
+            => ServiceProvider.GetService<IOptions<TOptions>>().Value;
+
+        /// <summary>
+        /// 获取选项
+        /// </summary>
+        /// <typeparam name="TOptions"></typeparam>
+        /// <returns></returns>
+        public static TOptions GetMonitorOptions<TOptions>()
+            where TOptions : class
+            => ServiceProvider.GetService<IOptionsMonitor<TOptions>>().CurrentValue;
+
+        /// <summary>
+        /// 获取选项
+        /// </summary>
+        /// <typeparam name="TOptions"></typeparam>
+        /// <returns></returns>
+        public static TOptions GetSnapshotOptions<TOptions>()
+            where TOptions : class
+            => ServiceProvider.GetService<IOptionsSnapshot<TOptions>>().Value;
 
         /// <summary>
         /// 获取应用有效程序集
