@@ -231,7 +231,7 @@ namespace Fur.Application
 }
 ```
 
-## 后期配置（默认选项）
+## 后期配置
 
 后期配置选项也就是当配置不存在时默认配置。
 
@@ -281,6 +281,27 @@ namespace Fur.Options
 }
 ```
 :::
+
+## 自定义查找键
+
+默认情况下，Fur 会根据**类名**查找 `appsetting.json` 对应的键，若类型和配置不一样，需通过 `[Options(jsonKey)]` 特性指定。
+
+```cs {1,7}
+using Fur.Attributes;
+using Fur.Options;
+
+namespace Fur.Application
+{
+    // 配置 `appsetting.json` 中对应的键名
+    [Options("AppInfo")]
+    public class AppInfoOptions : IFurOptions
+    {
+        public string Name { get; set; }
+        public string Version { get; set; }
+        public string Company { get; set; }
+    }
+}
+```
 
 ---
 
