@@ -112,7 +112,10 @@ namespace Fur.FeatureApiController
             {
                 controllerModel.RouteValues[areaName] = area;
             }
-            featureApiSettingsAttribute.Module = area;
+            if (featureApiSettingsAttribute != null)
+            {
+                featureApiSettingsAttribute.Module = area;
+            }
         }
 
         /// <summary>
