@@ -14,6 +14,7 @@ namespace Fur.Web.Entry.Controllers
     {
         [HttpGet]
         [HttpGet("dfd")]
+        [AcceptVerbs("POST")]
         public string Get()
         {
             return "1";
