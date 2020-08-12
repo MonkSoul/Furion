@@ -58,8 +58,8 @@ namespace Fur.FeatureController
             // 不能是定义了 [ApiExplorerSettings] 特性且 IgnoreApi 为 true
             if (type.IsDefined(typeof(ApiExplorerSettingsAttribute), true) && type.GetCustomAttribute<ApiExplorerSettingsAttribute>(true).IgnoreApi) return false;
 
-            // 是 ControllerBase 子类型
-            if (typeof(ControllerBase).IsAssignableFrom(type)) return true;
+            // 是 ControllerBase 子类型，且贴有 [Route] 特性
+            if (typeof(ControllerBase).IsAssignableFrom(type) && type.IsDefined(typeof(RouteAttribute), true)) return true;
 
             // 实现了 IFeatureController 子类型
             if (typeof(IFeatureController).IsAssignableFrom(type)) return true;
