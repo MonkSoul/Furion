@@ -1,5 +1,4 @@
-﻿using Fur.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Fur.Options
 {
@@ -10,14 +9,9 @@ namespace Fur.Options
     public sealed class AppSettingsOptions : IAppOptions
     {
         /// <summary>
-        /// 框架版本
-        /// </summary>
-        public const string Version = "1.0.0";
-
-        /// <summary>
         /// 应用类型
         /// </summary>
         [Required]
-        public ProjectOptions Project { get; set; }
+        public ProjectType Project { get; set; }
     }
 }

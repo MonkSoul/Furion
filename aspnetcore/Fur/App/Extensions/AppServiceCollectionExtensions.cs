@@ -60,12 +60,12 @@ namespace Microsoft.Extensions.DependencyInjection
                 .FirstOrDefault(u => u.IsGenericType && typeof(IAppOptions).IsAssignableFrom(u.GetGenericTypeDefinition()));
             if (validateInterface != null)
             {
-                var genericArguments = validateInterface.GetGenericArguments();
+                var genericArguments = validateInterface.GenericTypeArguments;
 
                 // 配置复杂验证
                 if (genericArguments.Length > 1)
                 {
-                    services.TryAddEnumerable(ServiceDescriptor.Singleton(typeof(IValidateOptions<TOptions>), validateInterface.GetGenericArguments().Last()));
+                    services.TryAddEnumerable(ServiceDescriptor.Singleton(typeof(IValidateOptions<TOptions>), genericArguments.Last()));
                 }
 
                 // 配置后期配置

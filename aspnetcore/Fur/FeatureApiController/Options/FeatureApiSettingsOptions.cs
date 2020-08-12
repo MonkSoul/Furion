@@ -1,12 +1,12 @@
 ﻿using Fur.Options;
 
-namespace Fur.FeatureController
+namespace Fur.FeatureApiController
 {
     /// <summary>
     /// 特性控制器配置
     /// </summary>
     [OptionsSettings("AppSettings:FeatureSettings")]
-    public sealed class FeatureSettingsOptions : IAppOptions<FeatureSettingsOptions>
+    public sealed class FeatureApiSettingsOptions : IAppOptions<FeatureApiSettingsOptions>
     {
         /// <summary>
         /// 默认路由前缀
@@ -17,6 +17,11 @@ namespace Fur.FeatureController
         /// 默认请求谓词
         /// </summary>
         public string DefaultHttpMethod { get; set; }
+
+        /// <summary>
+        /// 默认区域（模块）名称
+        /// </summary>
+        public string DefaultAreaName { get; set; }
 
         /// <summary>
         /// 小写路由
@@ -42,7 +47,7 @@ namespace Fur.FeatureController
         /// 默认配置
         /// </summary>
         /// <param name="options"></param>
-        public void PostConfigure(FeatureSettingsOptions options)
+        public void PostConfigure(FeatureApiSettingsOptions options)
         {
             options.DefaultRoutePrefix = "api";
             options.DefaultHttpMethod = "POST";

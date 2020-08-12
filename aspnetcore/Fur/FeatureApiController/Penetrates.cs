@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
-namespace Fur.FeatureController
+namespace Fur.FeatureApiController
 {
     /// <summary>
     /// 常量、公共方法配置类
@@ -17,10 +20,44 @@ namespace Fur.FeatureController
         internal const string GroupSeparator = "@";
 
         /// <summary>
+        /// 不能被FromBody绑定的请求动词
+        /// </summary>
+        internal static string[] HttpMethodOfCanNotBindFromBody;
+
+        /// <summary>
+        /// 请求动词映射字典
+        /// </summary>
+        internal static Dictionary<string, string> HttpVerbSetters { get; private set; }
+
+        /// <summary>
         /// 静态构造函数
         /// </summary>
         static Penetrates()
         {
+            HttpMethodOfCanNotBindFromBody = new string[] { "GET", "DELETE", "TRACE", "HEAD" };
+
+            HttpVerbSetters = new Dictionary<string, string>
+            {
+                ["post"] = "POST",
+                ["add"] = "POST",
+                ["create"] = "POST",
+                ["insert"] = "POST",
+                ["submit"] = "POST",
+
+                ["get"] = "GET",
+                ["find"] = "GET",
+                ["fetch"] = "GET",
+                ["query"] = "GET",
+                ["search"] = "GET",
+
+                ["put"] = "PUT",
+                ["update"] = "PUT",
+
+                ["delete"] = "DELETE",
+                ["remove"] = "DELETE",
+                ["clear"] = "DELETE"
+            };
+
             IsControllerCached = new ConcurrentDictionary<Type, bool>();
             IsActionCached = new ConcurrentDictionary<MethodInfo, bool>();
         }
@@ -52,8 +89,8 @@ namespace Fur.FeatureController
         /// <returns>bool</returns>
         private static bool IsControllerType(Type type)
         {
-            // 不能是非公开、抽象类、接口、泛型类、值类型、枚举类型
-            if (!type.IsPublic || type.IsAbstract || type.IsInterface || type.IsGenericType || type.IsValueType || type.IsEnum) return false;
+            // 不能是非公开、基元类型、值类型、抽象类、接口、泛型类
+            if (!type.IsPublic || type.IsPrimitive || type.IsValueType || type.IsAbstract || type.IsInterface || type.IsGenericType) return false;
 
             // 不能是定义了 [ApiExplorerSettings] 特性且 IgnoreApi 为 true
             if (type.IsDefined(typeof(ApiExplorerSettingsAttribute), true) && type.GetCustomAttribute<ApiExplorerSettingsAttribute>(true).IgnoreApi) return false;
@@ -61,8 +98,8 @@ namespace Fur.FeatureController
             // 是 ControllerBase 子类型，且贴有 [Route] 特性
             if (typeof(ControllerBase).IsAssignableFrom(type) && type.IsDefined(typeof(RouteAttribute), true)) return true;
 
-            // 实现了 IFeatureController 子类型
-            if (typeof(IFeatureController).IsAssignableFrom(type)) return true;
+            // 实现了 IFeatureApiController 子类型
+            if (typeof(IFeatureApiController).IsAssignableFrom(type)) return true;
 
             return false;
         }
@@ -124,25 +161,39 @@ namespace Fur.FeatureController
             bool startCleared = false;
             bool endCleared = false;
 
-            var stringBuilder = new StringBuilder();
+            string tempStr = null;
             foreach (var affix in affixes)
             {
                 if (pos != 1 && !startCleared && str.StartsWith(affix))
                 {
-                    stringBuilder.Insert(0, str[affix.Length..]);
+                    tempStr = str[affix.Length..];
                     startCleared = true;
                 }
                 if (pos != -1 && !endCleared && str.EndsWith(affix))
                 {
-                    var _tempStr = stringBuilder.Length > 0 ? stringBuilder.ToString() : str;
-                    stringBuilder.Append(_tempStr.Substring(0, _tempStr.Length - affix.Length));
+                    var _tempStr = !string.IsNullOrEmpty(tempStr) ? tempStr : str;
+                    tempStr = _tempStr.Substring(0, _tempStr.Length - affix.Length);
                     endCleared = true;
                 }
                 if (startCleared && endCleared) break;
             }
 
-            var newStr = stringBuilder.ToString();
-            return newStr.Length > 0 ? newStr : str;
+            return !string.IsNullOrEmpty(tempStr) ? tempStr : str;
+        }
+
+        /// <summary>
+        /// 切割骆驼命名式字符串
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        internal static string[] SplitToWords(string str)
+        {
+            if (string.IsNullOrEmpty(str)) throw new ArgumentNullException(nameof(str));
+            if (str.Length == 1) return new string[] { str };
+
+            return Regex.Split(str, @"(?=\p{Lu}\p{Ll})|(?<=\p{Ll})(?=\p{Lu})")
+                .Where(u => u.Length > 0)
+                .ToArray();
         }
     }
 }

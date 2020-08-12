@@ -1,9 +1,9 @@
-﻿namespace Fur.Enums
+﻿namespace Fur
 {
     /// <summary>
     /// 应用类型
     /// </summary>
-    public enum ProjectOptions
+    public enum ProjectType
     {
         /// <summary>
         /// RESTful API

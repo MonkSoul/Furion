@@ -1,4 +1,4 @@
-﻿using Fur.FeatureController;
+﻿using Fur.FeatureApiController;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using System;
@@ -9,7 +9,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     /// 特性控制器拓展类
     /// </summary>
-    public static class FeatureControllerServiceCollectionExtensions
+    public static class FeatureApiControllerServiceCollectionExtensions
     {
         /// <summary>
         /// 添加特性控制器
@@ -17,18 +17,18 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="mvcBuilder">Mvc构建器</param>
         /// <param name="providersOrConventions">提供器或转换器集合</param>
         /// <returns>Mvc构建器</returns>
-        public static IMvcBuilder AddFeatureControllers(this IMvcBuilder mvcBuilder, params object[] providersOrConventions)
+        public static IMvcBuilder AddFeatureApiControllers(this IMvcBuilder mvcBuilder, params object[] providersOrConventions)
         {
             var services = mvcBuilder.Services;
             // 添加配置
-            services.AddAppOptions<FeatureSettingsOptions>();
+            services.AddAppOptions<FeatureApiSettingsOptions>();
 
             var partManager = services.FirstOrDefault(s => s.ServiceType == typeof(ApplicationPartManager)).ImplementationInstance as ApplicationPartManager
-                ?? throw new InvalidOperationException($"`{nameof(AddFeatureControllers)}` must be invoked after `{nameof(MvcServiceCollectionExtensions.AddControllers)}`.");
+                ?? throw new InvalidOperationException($"`{nameof(AddFeatureApiControllers)}` must be invoked after `{nameof(MvcServiceCollectionExtensions.AddControllers)}`.");
 
             // 添加特性提供器
             var providers = providersOrConventions.Where(u => typeof(IApplicationFeatureProvider).IsAssignableFrom(u.GetType()));
-            if (!providers.Any()) partManager.FeatureProviders.Add(new FeatureControllerProvider());
+            if (!providers.Any()) partManager.FeatureProviders.Add(new FeatureApiControllerProvider());
             else
             {
                 foreach (var provider in providers)
@@ -41,7 +41,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var conventions = providersOrConventions.Where(u => typeof(IApplicationModelConvention).IsAssignableFrom(u.GetType()));
             mvcBuilder.AddMvcOptions(options =>
             {
-                if (!providers.Any()) options.Conventions.Add(new FeatureApplicationModelConvention());
+                if (!providers.Any()) options.Conventions.Add(new FeatureApiApplicationModelConvention());
                 else
                 {
                     foreach (var convention in conventions)

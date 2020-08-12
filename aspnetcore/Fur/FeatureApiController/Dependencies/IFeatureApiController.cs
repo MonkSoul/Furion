@@ -1,9 +1,9 @@
-﻿namespace Fur.FeatureController
+﻿namespace Fur.FeatureApiController
 {
     /// <summary>
     /// 集线控制器依赖接口
     /// </summary>
-    public interface IFeatureController
+    public interface IFeatureApiController
     {
     }
 }

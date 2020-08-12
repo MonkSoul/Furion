@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc.Controllers;
 using System.Reflection;
 
-namespace Fur.FeatureController
+namespace Fur.FeatureApiController
 {
     /// <summary>
     /// 自定义控制器特性提供器
     /// </summary>
-    public sealed class FeatureControllerProvider : ControllerFeatureProvider
+    public sealed class FeatureApiControllerProvider : ControllerFeatureProvider
     {
         /// <summary>
         /// 扫描控制器
