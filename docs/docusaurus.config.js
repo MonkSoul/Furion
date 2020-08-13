@@ -2,7 +2,7 @@ module.exports = {
   title: "Fur",
   tagline: "小僧不才，略懂皮毛（Fur）。",
   url: "https://your-docusaurus-test-site.com",
-  baseUrl: "/",
+  baseUrl: "/fur/",
   onBrokenLinks: "throw",
   favicon: "img/favicon.ico",
   organizationName: "facebook", // Usually your GitHub org/user name.
