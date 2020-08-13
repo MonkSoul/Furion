@@ -149,15 +149,14 @@ namespace Fur.FeatureApiController
 
             if (selectorModels.Count == 0 || selectorModels.Any(a => a.ActionConstraints.Count == 0))
             {
-                var selectorModel = actionModel.Selectors[0];
-                if (selectorModel.AttributeRouteModel == null)
+                foreach (var selectorModel in actionModel.Selectors)
                 {
-                    // 绑定路由
-                    selectorModel.AttributeRouteModel = ConfigureCompleteRoute(controllerModel, actionModel, controllerFeatureApiSettingsAttribute, featureApiSettingsAttribute, actionNameWords);
+                    if (selectorModel.AttributeRouteModel == null)
+                    {
+                        // 绑定路由
+                        selectorModel.AttributeRouteModel = ConfigureCompleteRoute(controllerModel, actionModel, controllerFeatureApiSettingsAttribute, featureApiSettingsAttribute, actionNameWords);
+                    }
                 }
-
-                // 绑定请求谓词
-                ConfigureActionHttpMethod(selectorModel, actionNameWords);
             }
             else
             {

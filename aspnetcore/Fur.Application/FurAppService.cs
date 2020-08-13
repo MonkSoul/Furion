@@ -12,7 +12,7 @@ namespace Fur.Application
         [HttpGet]
         [HttpGet("dfd")]
         [AcceptVerbs("POST")]
-        public string GetVersion()
+        public string Get()
         {
             return "v1.0.0";
         }
