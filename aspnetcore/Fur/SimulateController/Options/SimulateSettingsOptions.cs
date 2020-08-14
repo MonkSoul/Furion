@@ -1,12 +1,12 @@
 ﻿using Fur.Options;
 
-namespace Fur.FeatureApiController
+namespace Fur.SimulateController
 {
     /// <summary>
-    /// 特性控制器配置
+    /// 模刻控制器配置
     /// </summary>
-    [OptionsSettings("AppSettings:FeatureSettings")]
-    public sealed class FeatureApiSettingsOptions : IAppOptions<FeatureApiSettingsOptions>
+    [OptionsSettings("AppSettings:SimulateSettings")]
+    public sealed class SimulateSettingsOptions : IAppOptions<SimulateSettingsOptions>
     {
         /// <summary>
         /// 默认路由前缀
@@ -47,7 +47,7 @@ namespace Fur.FeatureApiController
         /// 默认配置
         /// </summary>
         /// <param name="options"></param>
-        public void PostConfigure(FeatureApiSettingsOptions options)
+        public void PostConfigure(SimulateSettingsOptions options)
         {
             options.DefaultRoutePrefix = "api";
             options.DefaultHttpMethod = "POST";

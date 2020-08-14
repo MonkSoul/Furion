@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Fur.FeatureApiController
+namespace Fur.SimulateController
 {
     /// <summary>
     /// 参数位置

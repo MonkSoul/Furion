@@ -4,10 +4,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Fur.FeatureApiController
+namespace Fur.SimulateController
 {
     /// <summary>
     /// 常量、公共方法配置类
@@ -98,8 +97,8 @@ namespace Fur.FeatureApiController
             // 是 ControllerBase 子类型，且贴有 [Route] 特性
             if (typeof(ControllerBase).IsAssignableFrom(type) && type.IsDefined(typeof(RouteAttribute), true)) return true;
 
-            // 实现了 IFeatureApiController 子类型
-            if (typeof(IFeatureApiController).IsAssignableFrom(type)) return true;
+            // 实现了 ISimulateController 子类型
+            if (typeof(ISimulateController).IsAssignableFrom(type)) return true;
 
             return false;
         }

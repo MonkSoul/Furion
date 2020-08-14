@@ -1,4 +1,4 @@
-﻿namespace Fur.FeatureApiController
+﻿namespace Fur.SimulateController
 {
     /// <summary>
     /// 位置

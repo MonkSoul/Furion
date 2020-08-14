@@ -1,14 +1,14 @@
-﻿using Fur.FeatureApiController;
+﻿using Fur.SimulateController;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fur.Application
 {
     [Route("api/[controller]")]
     [Route("api/[controller]/22")]
-    //[FeatureApiSettings(Module = "mobile", ApiVersion = "2.0")]
-    public class FurAppService : IFeatureApiController
+    //[SimulateSettings(Module = "mobile", ApiVersion = "2.0")]
+    public class FurAppService : ISimulateController
     {
-        //[FeatureApiSettings(ApiVersion = "2.0")]
+        //[SimulateSettings(ApiVersion = "2.0")]
         [HttpGet]
         [HttpGet("dfd")]
         [AcceptVerbs("POST")]
@@ -19,7 +19,7 @@ namespace Fur.Application
 
         ////[HttpGet("[action]")]
         ////[Route("/[action]")]
-        //[FeatureApiSettings(SplitName = true, ApiVersion = "1.0")]
+        //[SimulateSettings(SplitName = true, ApiVersion = "1.0")]
         //public string GetFrameworkName(string name)
         //{
         //    return nameof(Fur) + name;

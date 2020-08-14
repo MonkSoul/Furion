@@ -8,21 +8,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Fur.FeatureApiController
+namespace Fur.SimulateController
 {
-    public sealed class FeatureApiApplicationModelConvention : IApplicationModelConvention
+    public sealed class SimulateApplicationModelConvention : IApplicationModelConvention
     {
         /// <summary>
-        /// 特性配置选项
+        /// 模刻配置选项
         /// </summary>
-        private readonly FeatureApiSettingsOptions _featureApiSettings;
+        private readonly SimulateSettingsOptions _simulateSettings;
 
         /// <summary>
         /// 构造函数
         /// </summary>
-        public FeatureApiApplicationModelConvention()
+        public SimulateApplicationModelConvention()
         {
-            _featureApiSettings = App.GetOptions<FeatureApiSettingsOptions>();
+            _simulateSettings = App.GetOptions<SimulateSettingsOptions>();
         }
 
         /// <summary>
@@ -47,22 +47,22 @@ namespace Fur.FeatureApiController
         /// <param name="controllerModel"></param>
         private void ConfigureController(ControllerModel controllerModel)
         {
-            var featureApiSettingsAttribute = controllerModel.Attributes.FirstOrDefault(u => u is FeatureApiSettingsAttribute) as FeatureApiSettingsAttribute;
+            var simulateSettingsAttribute = controllerModel.Attributes.FirstOrDefault(u => u is SimulateSettingsAttribute) as SimulateSettingsAttribute;
             // 配置控制器可见性
             ConfigureControllerApiExplorer(controllerModel);
             // 配置控制器名称
-            ConfigureControllerName(controllerModel, featureApiSettingsAttribute);
+            ConfigureControllerName(controllerModel, simulateSettingsAttribute);
             // 配置控制器区域
-            ConfigureControllerArea(controllerModel, featureApiSettingsAttribute);
+            ConfigureControllerArea(controllerModel, simulateSettingsAttribute);
             // 配置行为信息
             foreach (var actionModel in controllerModel.Actions)
             {
-                ConfigureAction(controllerModel, actionModel, featureApiSettingsAttribute);
+                ConfigureAction(controllerModel, actionModel, simulateSettingsAttribute);
 
-                if (_featureApiSettings.LowerCaseRoute) actionModel.ActionName = actionModel.ActionName.ToLower();
+                if (_simulateSettings.LowerCaseRoute) actionModel.ActionName = actionModel.ActionName.ToLower();
             }
 
-            if (_featureApiSettings.LowerCaseRoute) controllerModel.ControllerName = controllerModel.ControllerName.ToLower();
+            if (_simulateSettings.LowerCaseRoute) controllerModel.ControllerName = controllerModel.ControllerName.ToLower();
         }
 
         /// <summary>
@@ -78,19 +78,19 @@ namespace Fur.FeatureApiController
         /// 配置控制器名称
         /// </summary>
         /// <param name="controllerModel">控制器模型</param>
-        /// <param name="featureApiSettings">特性接口配置</param>
-        private void ConfigureControllerName(ControllerModel controllerModel, FeatureApiSettingsAttribute featureApiSettingsAttribute)
+        /// <param name="simulateSettings">模刻配置</param>
+        private void ConfigureControllerName(ControllerModel controllerModel, SimulateSettingsAttribute simulateSettingsAttribute)
         {
             // 读取版本号
-            var apiVersion = featureApiSettingsAttribute?.ApiVersion;
+            var apiVersion = simulateSettingsAttribute?.ApiVersion;
 
             // 解析控制器名称
-            string tempName = featureApiSettingsAttribute?.Name;
+            string tempName = simulateSettingsAttribute?.Name;
             if (string.IsNullOrEmpty(tempName))
             {
-                tempName = featureApiSettingsAttribute?.KeepName != true
+                tempName = simulateSettingsAttribute?.KeepName != true
                       // 移除前后缀
-                      ? Penetrates.ClearStringAffixes(controllerModel.ControllerName, affixes: _featureApiSettings.ControllerNameAffixes)
+                      ? Penetrates.ClearStringAffixes(controllerModel.ControllerName, affixes: _simulateSettings.ControllerNameAffixes)
                       : controllerModel.ControllerName;
             }
 
@@ -101,20 +101,20 @@ namespace Fur.FeatureApiController
         /// 配置控制器区域
         /// </summary>
         /// <param name="controllerModel">控制器模型</param>
-        /// <param name="featureApiSettingsAttribute">特性接口配置</param>
-        private void ConfigureControllerArea(ControllerModel controllerModel, FeatureApiSettingsAttribute featureApiSettingsAttribute)
+        /// <param name="simulateSettingsAttribute">模刻配置</param>
+        private void ConfigureControllerArea(ControllerModel controllerModel, SimulateSettingsAttribute simulateSettingsAttribute)
         {
             var areaName = "area";
             if (controllerModel.RouteValues.ContainsKey(areaName)) return;
 
-            string area = featureApiSettingsAttribute?.Module ?? _featureApiSettings.DefaultAreaName;
+            string area = simulateSettingsAttribute?.Module ?? _simulateSettings.DefaultAreaName;
             if (!string.IsNullOrEmpty(area))
             {
                 controllerModel.RouteValues[areaName] = area;
             }
-            if (featureApiSettingsAttribute != null)
+            if (simulateSettingsAttribute != null)
             {
-                featureApiSettingsAttribute.Module = area;
+                simulateSettingsAttribute.Module = area;
             }
         }
 
@@ -123,17 +123,17 @@ namespace Fur.FeatureApiController
         /// </summary>
         /// <param name="controllerModel">控制器模型</param>
         /// <param name="actionModel">行为模型</param>
-        /// <param name="controllerFeatureApiSettingsAttribute">控制器特性接口配置</param>
-        private void ConfigureAction(ControllerModel controllerModel, ActionModel actionModel, FeatureApiSettingsAttribute controllerFeatureApiSettingsAttribute)
+        /// <param name="controllerSimulateSettingsAttribute">控制器模刻配置</param>
+        private void ConfigureAction(ControllerModel controllerModel, ActionModel actionModel, SimulateSettingsAttribute controllerSimulateSettingsAttribute)
         {
-            var featureApiSettingsAttribute = actionModel.Attributes.FirstOrDefault(u => u is FeatureApiSettingsAttribute) as FeatureApiSettingsAttribute;
+            var simulateSettingsAttribute = actionModel.Attributes.FirstOrDefault(u => u is SimulateSettingsAttribute) as SimulateSettingsAttribute;
             var actionNameWords = Penetrates.SplitToWords(actionModel.ActionName);
             var selectorModels = actionModel.Selectors;
 
             // 配置行为可见性
             ConfigureActionApiExplorer(actionModel);
             // 配置行为名称
-            ConfigureActionName(actionModel, featureApiSettingsAttribute, controllerFeatureApiSettingsAttribute, actionNameWords);
+            ConfigureActionName(actionModel, simulateSettingsAttribute, controllerSimulateSettingsAttribute, actionNameWords);
             // 绑定参数
             foreach (var selectorModel in selectorModels)
             {
@@ -143,7 +143,7 @@ namespace Fur.FeatureApiController
             // 如果行为贴了[Route] 特性和 控制器贴了 [Route] 特性，以及 [HttpXXX("")]
             if (controllerModel.Selectors.Any(u => u.AttributeRouteModel != null) && actionModel.Selectors[0].ActionConstraints.Count == 0 && actionModel.Selectors[0].AttributeRouteModel == null)
             {
-                CombineControllerRouteAttribute(controllerModel, actionModel, controllerFeatureApiSettingsAttribute, featureApiSettingsAttribute, actionNameWords);
+                CombineControllerRouteAttribute(controllerModel, actionModel, controllerSimulateSettingsAttribute, simulateSettingsAttribute, actionNameWords);
                 return;
             }
 
@@ -154,7 +154,7 @@ namespace Fur.FeatureApiController
                     if (selectorModel.AttributeRouteModel == null)
                     {
                         // 绑定路由
-                        selectorModel.AttributeRouteModel = ConfigureCompleteRoute(controllerModel, actionModel, controllerFeatureApiSettingsAttribute, featureApiSettingsAttribute, actionNameWords);
+                        selectorModel.AttributeRouteModel = ConfigureCompleteRoute(controllerModel, actionModel, controllerSimulateSettingsAttribute, simulateSettingsAttribute, actionNameWords);
                     }
                 }
             }
@@ -162,7 +162,7 @@ namespace Fur.FeatureApiController
             {
                 foreach (var selectorModel in selectorModels)
                 {
-                    selectorModel.AttributeRouteModel ??= ConfigureCompleteRoute(controllerModel, actionModel, controllerFeatureApiSettingsAttribute, featureApiSettingsAttribute, actionNameWords);
+                    selectorModel.AttributeRouteModel ??= ConfigureCompleteRoute(controllerModel, actionModel, controllerSimulateSettingsAttribute, simulateSettingsAttribute, actionNameWords);
                 }
             }
         }
@@ -180,25 +180,25 @@ namespace Fur.FeatureApiController
         /// 配置行为名称
         /// </summary>
         /// <param name="actionModel">行为模型</param>
-        /// <param name="featureApiSettingsAttribute">特性接口配置</param>
-        /// <param name="controllerFeatureApiSettingsAttribute">控制器特性接口配置</param>
+        /// <param name="simulateSettingsAttribute">模刻配置</param>
+        /// <param name="controllerSimulateSettingsAttribute">控制器模刻配置</param>
         /// <param name="actionNameWords">行为名称中每一个单词</param>
-        private void ConfigureActionName(ActionModel actionModel, FeatureApiSettingsAttribute featureApiSettingsAttribute, FeatureApiSettingsAttribute controllerFeatureApiSettingsAttribute, string[] actionNameWords)
+        private void ConfigureActionName(ActionModel actionModel, SimulateSettingsAttribute simulateSettingsAttribute, SimulateSettingsAttribute controllerSimulateSettingsAttribute, string[] actionNameWords)
         {
             // 读取版本号
-            var apiVersion = featureApiSettingsAttribute?.ApiVersion;
+            var apiVersion = simulateSettingsAttribute?.ApiVersion;
 
             // 解析行为名称
-            string tempName = featureApiSettingsAttribute?.Name;
+            string tempName = simulateSettingsAttribute?.Name;
             if (string.IsNullOrEmpty(tempName))
             {
-                if (featureApiSettingsAttribute?.KeepName != true)
+                if (simulateSettingsAttribute?.KeepName != true)
                 {
                     // 移除前后缀
-                    tempName = Penetrates.ClearStringAffixes(actionModel.ActionName, affixes: _featureApiSettings.ActionNameAffixes);
+                    tempName = Penetrates.ClearStringAffixes(actionModel.ActionName, affixes: _simulateSettings.ActionNameAffixes);
 
                     // 移除请求谓词
-                    if (featureApiSettingsAttribute?.KeepVerb != true || (featureApiSettingsAttribute?.KeepVerb == null && controllerFeatureApiSettingsAttribute?.KeepVerb != true) || (featureApiSettingsAttribute?.KeepVerb == null && controllerFeatureApiSettingsAttribute?.KeepVerb == null && !_featureApiSettings.KeepVerb))
+                    if (simulateSettingsAttribute?.KeepVerb != true || (simulateSettingsAttribute?.KeepVerb == null && controllerSimulateSettingsAttribute?.KeepVerb != true) || (simulateSettingsAttribute?.KeepVerb == null && controllerSimulateSettingsAttribute?.KeepVerb == null && !_simulateSettings.KeepVerb))
                     {
                         var verbKey = actionNameWords[0].ToLower();
                         if (Penetrates.HttpVerbSetters.ContainsKey(verbKey.ToLower())) tempName = tempName[verbKey.Length..];
@@ -222,7 +222,7 @@ namespace Fur.FeatureApiController
             var verbKey = actionNameWords[0].ToLower();
             var verb = Penetrates.HttpVerbSetters.ContainsKey(verbKey)
                 ? Penetrates.HttpVerbSetters[verbKey]
-                : _featureApiSettings.DefaultHttpMethod.ToUpper();
+                : _simulateSettings.DefaultHttpMethod.ToUpper();
 
             selectorModel.ActionConstraints.Add(new HttpMethodActionConstraint(new[] { verb }));
 
@@ -253,12 +253,12 @@ namespace Fur.FeatureApiController
         /// </summary>
         /// <param name="controllerModel">控制器模型</param>
         /// <param name="actionModel">行为模型</param>
-        /// <param name="controllerFeatureApiSettingsAttribute">控制器特性接口配置</param>
-        /// <param name="featureApiSettingsAttribute">特性接口配置</param>
+        /// <param name="controllerSimulateSettingsAttribute">控制器模刻配置</param>
+        /// <param name="simulateSettingsAttribute">模刻配置</param>
         /// <param name="actionNameWords">行为名称中每一个单词</param>
-        private void CombineControllerRouteAttribute(ControllerModel controllerModel, ActionModel actionModel, FeatureApiSettingsAttribute controllerFeatureApiSettingsAttribute, FeatureApiSettingsAttribute featureApiSettingsAttribute, string[] actionNameWords)
+        private void CombineControllerRouteAttribute(ControllerModel controllerModel, ActionModel actionModel, SimulateSettingsAttribute controllerSimulateSettingsAttribute, SimulateSettingsAttribute simulateSettingsAttribute, string[] actionNameWords)
         {
-            var (controllerStartParameters, controllerEndParameters, actionTemplate) = GenerateActoinRouteTemplate(actionModel, featureApiSettingsAttribute, actionNameWords);
+            var (controllerStartParameters, controllerEndParameters, actionTemplate) = GenerateActoinRouteTemplate(actionModel, simulateSettingsAttribute, actionNameWords);
 
             foreach (var controllerSelectorModel in controllerModel.Selectors)
             {
@@ -266,19 +266,19 @@ namespace Fur.FeatureApiController
                 // 处理控制器模板占位符
                 if (controllerAttributeRouteModel.Template.Contains("[controller]"))
                 {
-                    var controllerName = controllerFeatureApiSettingsAttribute?.SplitName == true
+                    var controllerName = controllerSimulateSettingsAttribute?.SplitName == true
                         ? string.Join('/', Penetrates.SplitToWords(controllerModel.ControllerName))
                         : controllerModel.ControllerName;
 
                     // 追加模块，控制器参数
-                    var controllerTemplate = $"{controllerFeatureApiSettingsAttribute?.Module}/{string.Join("/", controllerStartParameters)}/{controllerName}/{string.Join("/", controllerEndParameters)}";
+                    var controllerTemplate = $"{controllerSimulateSettingsAttribute?.Module}/{string.Join("/", controllerStartParameters)}/{controllerName}/{string.Join("/", controllerEndParameters)}";
                     controllerTemplate = Regex.Replace(controllerTemplate, @"\/{2,}", "/");
                     controllerTemplate = Penetrates.ClearStringAffixes(controllerTemplate, 1, "/");
 
                     var template = controllerAttributeRouteModel.Template.Replace("[controller]", controllerTemplate);
                     template = Regex.Replace(template, @"\/{2,}", "/");
 
-                    controllerAttributeRouteModel.Template = _featureApiSettings.LowerCaseRoute ? template.ToLower() : template;
+                    controllerAttributeRouteModel.Template = _simulateSettings.LowerCaseRoute ? template.ToLower() : template;
                 }
 
                 foreach (var actionSelectorModel in actionModel.Selectors)
@@ -287,7 +287,7 @@ namespace Fur.FeatureApiController
                     actionTemplate = Penetrates.ClearStringAffixes(actionTemplate, 0, "/");
                     var completeRouteTemplate = $"{controllerAttributeRouteModel.Template}/{actionTemplate}";
                     completeRouteTemplate = Regex.Replace(completeRouteTemplate, @"\/{2,}", "/");
-                    completeRouteTemplate = _featureApiSettings.LowerCaseRoute ? completeRouteTemplate.ToLower() : completeRouteTemplate;
+                    completeRouteTemplate = _simulateSettings.LowerCaseRoute ? completeRouteTemplate.ToLower() : completeRouteTemplate;
                     actionSelectorModel.AttributeRouteModel = new AttributeRouteModel(new RouteAttribute(completeRouteTemplate));
 
                     ConfigureActionHttpMethod(actionSelectorModel, actionNameWords);
@@ -300,24 +300,24 @@ namespace Fur.FeatureApiController
         /// </summary>
         /// <param name="controllerModel">控制器模型</param>
         /// <param name="actionModel">行为模型</param>
-        /// <param name="controllerFeatureApiSettingsAttribute">控制器特性接口配置</param>
-        /// <param name="featureApiSettingsAttribute">特性接口配置</param>
+        /// <param name="controllerSimulateSettingsAttribute">控制器模刻配置</param>
+        /// <param name="simulateSettingsAttribute">模刻配置</param>
         /// <param name="actionNameWords">行为名称中每一个单词</param>
         /// <returns></returns>
-        private AttributeRouteModel ConfigureCompleteRoute(ControllerModel controllerModel, ActionModel actionModel, FeatureApiSettingsAttribute controllerFeatureApiSettingsAttribute, FeatureApiSettingsAttribute featureApiSettingsAttribute, string[] actionNameWords)
+        private AttributeRouteModel ConfigureCompleteRoute(ControllerModel controllerModel, ActionModel actionModel, SimulateSettingsAttribute controllerSimulateSettingsAttribute, SimulateSettingsAttribute simulateSettingsAttribute, string[] actionNameWords)
         {
             // 路由前缀
-            var routePrefix = _featureApiSettings.DefaultRoutePrefix;
+            var routePrefix = _simulateSettings.DefaultRoutePrefix;
 
             // 控制器名称
-            var controllerName = controllerFeatureApiSettingsAttribute?.SplitName == true
+            var controllerName = controllerSimulateSettingsAttribute?.SplitName == true
                 ? string.Join('/', Penetrates.SplitToWords(controllerModel.ControllerName))
                 : controllerModel.ControllerName;
 
             // 行为完整路由
-            var (controllerStartParameters, controllerEndParameters, actionRoute) = GenerateActoinRouteTemplate(actionModel, featureApiSettingsAttribute, actionNameWords);
-            var route = $"/{routePrefix}/{controllerFeatureApiSettingsAttribute?.Module}/{string.Join("/", controllerStartParameters)}/{controllerName}/{string.Join("/", controllerEndParameters)}/{featureApiSettingsAttribute?.Module}/{actionRoute}";
-            route = _featureApiSettings.LowerCaseRoute ? route.ToLower() : route;
+            var (controllerStartParameters, controllerEndParameters, actionRoute) = GenerateActoinRouteTemplate(actionModel, simulateSettingsAttribute, actionNameWords);
+            var route = $"/{routePrefix}/{controllerSimulateSettingsAttribute?.Module}/{string.Join("/", controllerStartParameters)}/{controllerName}/{string.Join("/", controllerEndParameters)}/{simulateSettingsAttribute?.Module}/{actionRoute}";
+            route = _simulateSettings.LowerCaseRoute ? route.ToLower() : route;
 
             return new AttributeRouteModel(new RouteAttribute(Regex.Replace(route, @"\/{2,}", "/"))); ;
         }
@@ -327,20 +327,20 @@ namespace Fur.FeatureApiController
         /// </summary>
         /// <param name="controllerModel">控制器模型</param>
         /// <param name="actionModel">行为模型</param>
-        /// <param name="controllerFeatureApiSettingsAttribute">控制器特性接口配置</param>
-        /// <param name="featureApiSettingsAttribute">特性接口配置</param>
+        /// <param name="controllerSimulateSettingsAttribute">控制器模刻配置</param>
+        /// <param name="simulateSettingsAttribute">模刻配置</param>
         /// <param name="actionNameWords">行为名称中每一个单词</param>
         /// <returns></returns>
-        private (string, string) ConvertPlaceholder(ControllerModel controllerModel, ActionModel actionModel, FeatureApiSettingsAttribute controllerFeatureApiSettingsAttribute, FeatureApiSettingsAttribute featureApiSettingsAttribute, string[] actionNameWords)
+        private (string, string) ConvertPlaceholder(ControllerModel controllerModel, ActionModel actionModel, SimulateSettingsAttribute controllerSimulateSettingsAttribute, SimulateSettingsAttribute simulateSettingsAttribute, string[] actionNameWords)
         {
-            var (controllerStartParameters, controllerEndParameters, actionTemplate) = GenerateActoinRouteTemplate(actionModel, featureApiSettingsAttribute, actionNameWords);
+            var (controllerStartParameters, controllerEndParameters, actionTemplate) = GenerateActoinRouteTemplate(actionModel, simulateSettingsAttribute, actionNameWords);
 
-            var controllerName = controllerFeatureApiSettingsAttribute?.SplitName == true
+            var controllerName = controllerSimulateSettingsAttribute?.SplitName == true
                     ? string.Join('/', Penetrates.SplitToWords(controllerModel.ControllerName))
                     : controllerModel.ControllerName;
 
             // 追加模块，控制器参数
-            var controllerTemplate = $"{controllerFeatureApiSettingsAttribute?.Module}/{string.Join("/", controllerStartParameters)}/{controllerName}/{string.Join("/", controllerEndParameters)}";
+            var controllerTemplate = $"{controllerSimulateSettingsAttribute?.Module}/{string.Join("/", controllerStartParameters)}/{controllerName}/{string.Join("/", controllerEndParameters)}";
             controllerTemplate = Regex.Replace(controllerTemplate, @"\/{2,}", "/");
             controllerTemplate = Penetrates.ClearStringAffixes(controllerTemplate, 1, "/");
 
@@ -354,19 +354,19 @@ namespace Fur.FeatureApiController
         /// 生成行为路由模板
         /// </summary>
         /// <param name="actionModel">行为模型</param>
-        /// <param name="featureApiSettingsAttribute">特性接口配置</param>
+        /// <param name="simulateSettingsAttribute">模刻配置</param>
         /// <param name="actionNameWords">行为名称中每一个单词</param>
         /// <returns></returns>
-        private (string[], string[], string) GenerateActoinRouteTemplate(ActionModel actionModel, FeatureApiSettingsAttribute featureApiSettingsAttribute, string[] actionNameWords)
+        private (string[], string[], string) GenerateActoinRouteTemplate(ActionModel actionModel, SimulateSettingsAttribute simulateSettingsAttribute, string[] actionNameWords)
         {
             // 解析行为名称
-            var actionName = featureApiSettingsAttribute?.SplitName == true
+            var actionName = simulateSettingsAttribute?.SplitName == true
                 ? string.Join('/', Penetrates.SplitToWords(actionModel.ActionName))
                 : actionModel.ActionName;
 
             // 解析参数路由
             var (controllerStartParameters, controllerEndParameters, actionStartParameters, actionEndParameters) = ResolveParameterRoute(actionModel);
-            var template = $"{featureApiSettingsAttribute?.Module}/{string.Join("/", actionStartParameters)}/{actionName}/{string.Join("/", actionEndParameters)}";
+            var template = $"{simulateSettingsAttribute?.Module}/{string.Join("/", actionStartParameters)}/{actionName}/{string.Join("/", actionEndParameters)}";
             return (controllerStartParameters, controllerEndParameters, template);
         }
 
@@ -390,7 +390,7 @@ namespace Fur.FeatureApiController
                 var parameterType = parameterModel.ParameterType;
 
                 // 处理小写路由参数问题
-                if (_featureApiSettings.LowerCaseRoute) parameterModel.ParameterName = parameterModel.ParameterName.ToLower();
+                if (_simulateSettings.LowerCaseRoute) parameterModel.ParameterName = parameterModel.ParameterName.ToLower();
 
                 // 只有贴了 [FromRoute] 特性，或者没有贴任何 [FromXXXX] 特性的基元类型
                 var parameterAttributes = parameterModel.Attributes;

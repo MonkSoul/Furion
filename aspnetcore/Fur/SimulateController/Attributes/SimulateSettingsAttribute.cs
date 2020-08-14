@@ -1,19 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace Fur.FeatureApiController
+namespace Fur.SimulateController
 {
     /// <summary>
-    /// 特性接口控制器配置
+    /// 模刻控制器配置
     /// </summary>
     [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Method)]
-    public sealed class FeatureApiSettingsAttribute : ApiExplorerSettingsAttribute
+    public sealed class SimulateSettingsAttribute : ApiExplorerSettingsAttribute
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="enabled">是否启用</param>
-        public FeatureApiSettingsAttribute(bool enabled)
+        public SimulateSettingsAttribute(bool enabled)
         {
             base.IgnoreApi = !enabled;
             Enabled = enabled;
@@ -23,7 +23,7 @@ namespace Fur.FeatureApiController
         /// 构造函数
         /// </summary>
         /// <param name="groups">分组列表</param>
-        public FeatureApiSettingsAttribute(params string[] groups)
+        public SimulateSettingsAttribute(params string[] groups)
         {
             base.GroupName = string.Join(Penetrates.GroupSeparator, groups);
             Groups = groups;
