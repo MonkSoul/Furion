@@ -4,7 +4,7 @@ using System;
 namespace Fur.SimulateController
 {
     /// <summary>
-    /// 模刻控制器配置
+    /// 模刻配置
     /// </summary>
     [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Method)]
     public sealed class SimulateSettingsAttribute : ApiExplorerSettingsAttribute
@@ -40,14 +40,11 @@ namespace Fur.SimulateController
         public bool KeepName { get; set; }
 
         /// <summary>
-        /// 切割名称（只对行为有效）
+        /// 切割名称
         /// </summary>
         /// <remarks>
-        /// <para>切割后将生成路由路径</para>
+        /// <para>如：FurAppUser -> fur/app/user</para>
         /// </remarks>
-        /// <example>
-        /// <para>FurConfigure -> fur/configure</para>
-        /// </example>
         public bool SplitName { get; set; }
 
         /// <summary>
