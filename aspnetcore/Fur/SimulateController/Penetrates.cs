@@ -89,7 +89,7 @@ namespace Fur.SimulateController
         private static bool IsControllerType(Type type)
         {
             // 不能是非公开、基元类型、值类型、抽象类、接口、泛型类
-            if (!type.IsPublic || type.IsPrimitive || type.IsValueType || type.IsAbstract || type.IsInterface || type.IsGenericType) return false;
+            if (!type.IsPublic || type.IsPrimitive || type.IsValueType || type.IsAbstract || type.IsInterface || type.IsGenericType || typeof(ControllerBase).IsAssignableFrom(type)) return false;
 
             // 是 ControllerBase 子类型，且贴有 [Route] 特性
             if (typeof(ISimulateController).IsAssignableFrom(type)) return true;
