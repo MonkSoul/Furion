@@ -21,14 +21,5 @@ namespace Fur.Extensions
 
             return false;
         }
-
-        /// <summary>
-        /// 根据条件
-        /// </summary>
-        /// <param name="str">字符串</param>
-        /// <param name="condition">条件</param>
-        /// <returns></returns>
-        internal static string ToLower(this string str, bool condition)
-            => condition ? str.ToLower() : str;
     }
 }
