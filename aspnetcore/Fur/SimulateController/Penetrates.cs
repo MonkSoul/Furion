@@ -92,7 +92,7 @@ namespace Fur.SimulateController
             if (!type.IsPublic || type.IsPrimitive || type.IsValueType || type.IsAbstract || type.IsInterface || type.IsGenericType) return false;
 
             // 是 ControllerBase 子类型，且贴有 [Route] 特性
-            if (typeof(ControllerBase).IsAssignableFrom(type) || typeof(ISimulateController).IsAssignableFrom(type)) return true;
+            if (typeof(ISimulateController).IsAssignableFrom(type)) return true;
 
             return false;
         }
