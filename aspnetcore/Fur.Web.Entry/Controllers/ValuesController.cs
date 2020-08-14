@@ -9,6 +9,7 @@ namespace Fur.Web.Entry.Controllers
     {
         [HttpGet]
         [HttpGet("dfd")]
+        [HttpGet("dfd222")]
         [AcceptVerbs("POST")]
         public string Get()
         {

@@ -37,7 +37,7 @@ namespace Fur.SimulateController
                 if (typeof(ControllerBase).IsAssignableFrom(controllerModel.ControllerType)) continue;
 
                 // 配置控制器
-                ConfigureController(controllerModel);
+                //ConfigureController(controllerModel);
             }
         }
 
@@ -141,9 +141,9 @@ namespace Fur.SimulateController
             }
 
             // 如果行为贴了[Route] 特性和 控制器贴了 [Route] 特性，以及 [HttpXXX("")]
-            if (controllerModel.Selectors.Any(u => u.AttributeRouteModel != null) && actionModel.Selectors[0].ActionConstraints.Count == 0 && actionModel.Selectors[0].AttributeRouteModel == null)
+            if (controllerModel.Selectors.Any(u => u.AttributeRouteModel != null) /*&& actionModel.Selectors[0].ActionConstraints.Count == 0 && actionModel.Selectors[0].AttributeRouteModel == null*/)
             {
-                CombineControllerRouteAttribute(controllerModel, actionModel, controllerSimulateSettingsAttribute, simulateSettingsAttribute, actionNameWords);
+                //CombineControllerRouteAttribute(controllerModel, actionModel, controllerSimulateSettingsAttribute, simulateSettingsAttribute, actionNameWords);
                 return;
             }
 
@@ -162,7 +162,7 @@ namespace Fur.SimulateController
             {
                 foreach (var selectorModel in selectorModels)
                 {
-                    selectorModel.AttributeRouteModel ??= ConfigureCompleteRoute(controllerModel, actionModel, controllerSimulateSettingsAttribute, simulateSettingsAttribute, actionNameWords);
+                    //selectorModel.AttributeRouteModel ??= ConfigureCompleteRoute(controllerModel, actionModel, controllerSimulateSettingsAttribute, simulateSettingsAttribute, actionNameWords);
                 }
             }
         }
@@ -263,32 +263,32 @@ namespace Fur.SimulateController
             foreach (var controllerSelectorModel in controllerModel.Selectors)
             {
                 var controllerAttributeRouteModel = controllerSelectorModel.AttributeRouteModel;
-                // 处理控制器模板占位符
-                if (controllerAttributeRouteModel.Template.Contains("[controller]"))
-                {
-                    var controllerName = controllerSimulateSettingsAttribute?.SplitName == true
-                        ? string.Join('/', Penetrates.SplitToWords(controllerModel.ControllerName))
-                        : controllerModel.ControllerName;
+                //// 处理控制器模板占位符
+                //if (controllerAttributeRouteModel.Template.Contains("[controller]"))
+                //{
+                //    var controllerName = controllerSimulateSettingsAttribute?.SplitName == true
+                //        ? string.Join('/', Penetrates.SplitToWords(controllerModel.ControllerName))
+                //        : controllerModel.ControllerName;
 
-                    // 追加模块，控制器参数
-                    var controllerTemplate = $"{controllerSimulateSettingsAttribute?.Module}/{string.Join("/", controllerStartParameters)}/{controllerName}/{string.Join("/", controllerEndParameters)}";
-                    controllerTemplate = Regex.Replace(controllerTemplate, @"\/{2,}", "/");
-                    controllerTemplate = Penetrates.ClearStringAffixes(controllerTemplate, 1, "/");
+                //    // 追加模块，控制器参数
+                //    var controllerTemplate = $"{controllerSimulateSettingsAttribute?.Module}/{string.Join("/", controllerStartParameters)}/{controllerName}/{string.Join("/", controllerEndParameters)}";
+                //    controllerTemplate = Regex.Replace(controllerTemplate, @"\/{2,}", "/");
+                //    controllerTemplate = Penetrates.ClearStringAffixes(controllerTemplate, 1, "/");
 
-                    var template = controllerAttributeRouteModel.Template.Replace("[controller]", controllerTemplate);
-                    template = Regex.Replace(template, @"\/{2,}", "/");
+                //    var template = controllerAttributeRouteModel.Template.Replace("[controller]", controllerTemplate);
+                //    template = Regex.Replace(template, @"\/{2,}", "/");
 
-                    controllerAttributeRouteModel.Template = _simulateSettings.LowerCaseRoute ? template.ToLower() : template;
-                }
+                //    controllerAttributeRouteModel.Template = _simulateSettings.LowerCaseRoute ? template.ToLower() : template;
+                //}
 
                 foreach (var actionSelectorModel in actionModel.Selectors)
                 {
-                    actionTemplate = Regex.Replace(actionTemplate, @"\/{2,}", "/");
-                    actionTemplate = Penetrates.ClearStringAffixes(actionTemplate, 0, "/");
-                    var completeRouteTemplate = $"{controllerAttributeRouteModel.Template}/{actionTemplate}";
-                    completeRouteTemplate = Regex.Replace(completeRouteTemplate, @"\/{2,}", "/");
-                    completeRouteTemplate = _simulateSettings.LowerCaseRoute ? completeRouteTemplate.ToLower() : completeRouteTemplate;
-                    actionSelectorModel.AttributeRouteModel = new AttributeRouteModel(new RouteAttribute(completeRouteTemplate));
+                    //actionTemplate = Regex.Replace(actionTemplate, @"\/{2,}", "/");
+                    //actionTemplate = Penetrates.ClearStringAffixes(actionTemplate, 0, "/");
+                    //var completeRouteTemplate = $"{controllerAttributeRouteModel.Template}/{actionTemplate}";
+                    //completeRouteTemplate = Regex.Replace(completeRouteTemplate, @"\/{2,}", "/");
+                    //completeRouteTemplate = _simulateSettings.LowerCaseRoute ? completeRouteTemplate.ToLower() : completeRouteTemplate;
+                    //actionSelectorModel.AttributeRouteModel = new AttributeRouteModel(new RouteAttribute(completeRouteTemplate));
 
                     ConfigureActionHttpMethod(actionSelectorModel, actionNameWords);
                 }

@@ -8,9 +8,11 @@ namespace Fur.Application
     //[SimulateSettings(Module = "mobile", ApiVersion = "2.0")]
     public class FurAppService : ISimulateController
     {
+        //[SimulateSettings(false)]
         //[SimulateSettings(ApiVersion = "2.0")]
         [HttpGet]
         [HttpGet("dfd")]
+        [HttpGet("dfd222")]
         [AcceptVerbs("POST")]
         public string Get()
         {
@@ -24,5 +26,12 @@ namespace Fur.Application
         //{
         //    return nameof(Fur) + name;
         //}
+
+        //[SimulateSettings(false)]
+        [HttpPost("dfdfd")]
+        public string Post([FromBody] TestDto dto)
+        {
+            return dto.name;
+        }
     }
 }
