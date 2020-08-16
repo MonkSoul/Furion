@@ -1,19 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace Fur.SimulateController
+namespace Fur.LazyController
 {
     /// <summary>
-    /// 模刻配置
+    /// 接口描述设置
     /// </summary>
     [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Method)]
-    public sealed class SimulateSettingsAttribute : ApiExplorerSettingsAttribute
+    public sealed class ApiDescriptionSettingsAttribute : ApiExplorerSettingsAttribute
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="enabled">是否启用</param>
-        public SimulateSettingsAttribute(bool enabled)
+        public ApiDescriptionSettingsAttribute(bool enabled)
         {
             base.IgnoreApi = !enabled;
             Enabled = enabled;
@@ -23,7 +23,7 @@ namespace Fur.SimulateController
         /// 构造函数
         /// </summary>
         /// <param name="groups">分组列表</param>
-        public SimulateSettingsAttribute(params string[] groups)
+        public ApiDescriptionSettingsAttribute(params string[] groups)
         {
             base.GroupName = string.Join(Penetrates.GroupSeparator, groups);
             Groups = groups;
@@ -40,12 +40,9 @@ namespace Fur.SimulateController
         public bool KeepName { get; set; }
 
         /// <summary>
-        /// 切割名称
+        /// 切割骆驼命名
         /// </summary>
-        /// <remarks>
-        /// <para>如：FurAppUser -> fur/app/user</para>
-        /// </remarks>
-        public bool SplitName { get; set; }
+        public bool SplitCamelCase { get; set; }
 
         /// <summary>
         /// 保留路由谓词
@@ -73,8 +70,8 @@ namespace Fur.SimulateController
         public string Module { get; set; }
 
         /// <summary>
-        /// 接口版本号
+        /// 版本号
         /// </summary>
-        public string ApiVersion { get; set; }
+        public string Version { get; set; }
     }
 }

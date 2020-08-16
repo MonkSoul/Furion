@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc.Controllers;
 using System.Reflection;
 
-namespace Fur.SimulateController
+namespace Fur.LazyController
 {
     /// <summary>
-    /// 自定义模刻控制器提供器
+    /// 惰性控制器特性提供器
     /// </summary>
-    public sealed class SimulateControllerFeatureProvider : ControllerFeatureProvider
+    public sealed class LazyControllerFeatureProvider : ControllerFeatureProvider
     {
         /// <summary>
         /// 扫描控制器

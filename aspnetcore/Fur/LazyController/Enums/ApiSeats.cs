@@ -1,9 +1,9 @@
-﻿namespace Fur.SimulateController
+﻿namespace Fur.LazyController
 {
     /// <summary>
-    /// 位置
+    /// 接口参数位置
     /// </summary>
-    public enum Seat
+    public enum ApiSeats
     {
         /// <summary>
         /// 控制器之前

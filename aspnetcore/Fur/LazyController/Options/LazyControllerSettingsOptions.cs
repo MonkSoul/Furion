@@ -1,12 +1,12 @@
 ﻿using Fur.Options;
 
-namespace Fur.SimulateController
+namespace Fur.LazyController
 {
     /// <summary>
-    /// 模刻控制器配置
+    /// 惰性控制器配置
     /// </summary>
-    [OptionsSettings("AppSettings:SimulateSettings")]
-    public sealed class SimulateSettingsOptions : IAppOptions<SimulateSettingsOptions>
+    [OptionsSettings("AppSettings:LazyControllerSettings")]
+    public sealed class LazyControllerSettingsOptions : IAppOptions<LazyControllerSettingsOptions>
     {
         /// <summary>
         /// 默认路由前缀
@@ -34,26 +34,38 @@ namespace Fur.SimulateController
         public bool KeepVerb { get; set; }
 
         /// <summary>
-        /// 移除控制器名前后缀
+        /// 支持Mvc控制器类型
         /// </summary>
-        public string[] ControllerNameAffixes { get; set; }
+        public bool SupportedControllerBase { get; set; }
 
         /// <summary>
-        /// 移除行为名前后缀
+        /// 骆驼命名分隔符
         /// </summary>
-        public string[] ActionNameAffixes { get; set; }
+        public string CamelCaseSeparator { get; set; }
+
+        /// <summary>
+        /// 被舍弃的控制器名称前后缀
+        /// </summary>
+        public string[] AbandonControllerAffixes { get; set; }
+
+        /// <summary>
+        /// 被舍弃的行为名称前后缀
+        /// </summary>
+        public string[] AbandonActionAffixes { get; set; }
 
         /// <summary>
         /// 默认配置
         /// </summary>
         /// <param name="options"></param>
-        public void PostConfigure(SimulateSettingsOptions options)
+        public void PostConfigure(LazyControllerSettingsOptions options)
         {
             options.DefaultRoutePrefix = "api";
             options.DefaultHttpMethod = "POST";
             options.LowerCaseRoute = true;
             options.KeepVerb = false;
-            options.ControllerNameAffixes = new string[]
+            options.SupportedControllerBase = false;
+            options.CamelCaseSeparator = "-";
+            options.AbandonControllerAffixes = new string[]
             {
                 "AppServices",
                 "AppService",
@@ -62,7 +74,7 @@ namespace Fur.SimulateController
                 "Services",
                 "Service"
             };
-            options.ActionNameAffixes = new string[]
+            options.AbandonActionAffixes = new string[]
             {
                 "Async"
             };

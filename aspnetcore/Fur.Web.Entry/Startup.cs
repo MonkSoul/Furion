@@ -19,7 +19,7 @@ namespace Fur.Web.Entry
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApp();
-            services.AddControllers().AddSimulateControllers();
+            services.AddControllers().AddLazyControllers();
 
             services.AddSwaggerGen(options =>
             {

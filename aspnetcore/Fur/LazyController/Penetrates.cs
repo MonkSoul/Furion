@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace Fur.SimulateController
+namespace Fur.LazyController
 {
     /// <summary>
     /// 常量、公共方法配置类
@@ -91,8 +91,8 @@ namespace Fur.SimulateController
             // 不能是非公开、基元类型、值类型、抽象类、接口、泛型类
             if (!type.IsPublic || type.IsPrimitive || type.IsValueType || type.IsAbstract || type.IsInterface || type.IsGenericType) return false;
 
-            // 继承 ControllerBase 或 实现 ISimulateController 的类型
-            if (typeof(ISimulateController).IsAssignableFrom(type) || typeof(ControllerBase).IsAssignableFrom(type)) return true;
+            // 继承 ControllerBase 或 实现 ILazyController 的类型
+            if (typeof(ILazyController).IsAssignableFrom(type) || typeof(ControllerBase).IsAssignableFrom(type)) return true;
 
             return false;
         }

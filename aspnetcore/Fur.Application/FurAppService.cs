@@ -1,15 +1,15 @@
-﻿using Fur.SimulateController;
+﻿using Fur.LazyController;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Fur.Application
 {
     [Route("api/[controller]")]
     [Route("api/[controller]/22")]
-    //[SimulateSettings(Module = "mobile", ApiVersion = "2.0")]
-    public class FurAppService : ISimulateController
+    //[ApiDescriptionSettings(Module = "mobile", ApiVersion = "2.0")]
+    public class FurAppService : ILazyController
     {
-        //[SimulateSettings(false)]
-        //[SimulateSettings(ApiVersion = "2.0")]
+        //[ApiDescriptionSettings(false)]
+        //[ApiDescriptionSettings(ApiVersion = "2.0")]
         [HttpGet]
         [HttpGet("dfd")]
         [HttpGet("dfd222")]
@@ -21,13 +21,13 @@ namespace Fur.Application
 
         ////[HttpGet("[action]")]
         ////[Route("/[action]")]
-        //[SimulateSettings(SplitName = true, ApiVersion = "1.0")]
+        //[ApiDescriptionSettings(SplitName = true, ApiVersion = "1.0")]
         //public string GetFrameworkName(string name)
         //{
         //    return nameof(Fur) + name;
         //}
 
-        //[SimulateSettings(false)]
+        //[ApiDescriptionSettings(false)]
         [HttpPost("dfdfd")]
         public string Post([FromBody] TestDto dto)
         {

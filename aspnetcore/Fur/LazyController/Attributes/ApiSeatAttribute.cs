@@ -1,23 +1,23 @@
 ﻿using System;
 
-namespace Fur.SimulateController
+namespace Fur.LazyController
 {
     /// <summary>
-    /// 参数位置
+    /// 接口参数位置设置
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter)]
-    public class SeatAttribute : Attribute
+    public class ApiSeatAttribute : Attribute
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="seat"></param>
-        public SeatAttribute(Seat seat = Seat.ActionEnd)
+        public ApiSeatAttribute(ApiSeats seat = ApiSeats.ActionEnd)
             => Seat = seat;
 
         /// <summary>
         /// 参数位置
         /// </summary>
-        public Seat Seat { get; set; }
+        public ApiSeats Seat { get; set; }
     }
 }
