@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace Fur.LazyController
+namespace Fur.DynamicApiController
 {
     /// <summary>
     /// 常量、公共方法配置类
@@ -19,23 +19,16 @@ namespace Fur.LazyController
         internal const string GroupSeparator = "@";
 
         /// <summary>
-        /// 不能被FromBody绑定的请求动词
-        /// </summary>
-        internal static string[] HttpMethodOfCanNotBindFromBody;
-
-        /// <summary>
         /// 请求动词映射字典
         /// </summary>
-        internal static Dictionary<string, string> HttpVerbSetters { get; private set; }
+        internal static Dictionary<string, string> VerbToHttpMethods { get; private set; }
 
         /// <summary>
         /// 静态构造函数
         /// </summary>
         static Penetrates()
         {
-            HttpMethodOfCanNotBindFromBody = new string[] { "GET", "DELETE", "TRACE", "HEAD" };
-
-            HttpVerbSetters = new Dictionary<string, string>
+            VerbToHttpMethods = new Dictionary<string, string>
             {
                 ["post"] = "POST",
                 ["add"] = "POST",
@@ -91,8 +84,8 @@ namespace Fur.LazyController
             // 不能是非公开、基元类型、值类型、抽象类、接口、泛型类
             if (!type.IsPublic || type.IsPrimitive || type.IsValueType || type.IsAbstract || type.IsInterface || type.IsGenericType) return false;
 
-            // 继承 ControllerBase 或 实现 ILazyController 的类型
-            if (typeof(ILazyController).IsAssignableFrom(type) || typeof(ControllerBase).IsAssignableFrom(type)) return true;
+            // 继承 ControllerBase 或 实现 IDynamicApiController 的类型
+            if (typeof(IDynamicApiController).IsAssignableFrom(type) || typeof(ControllerBase).IsAssignableFrom(type)) return true;
 
             return false;
         }
@@ -179,7 +172,7 @@ namespace Fur.LazyController
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        internal static string[] SplitToWords(string str)
+        internal static string[] SplitCamelCase(string str)
         {
             if (string.IsNullOrEmpty(str)) throw new ArgumentNullException(nameof(str));
             if (str.Length == 1) return new string[] { str };
@@ -188,5 +181,13 @@ namespace Fur.LazyController
                 .Where(u => u.Length > 0)
                 .ToArray();
         }
+
+        /// <summary>
+        /// 获取骆驼命名第一个单词
+        /// </summary>
+        /// <param name="str">字符串</param>
+        /// <returns>首单词</returns>
+        internal static string GetCamelCaseFirstWord(string str)
+            => SplitCamelCase(str).First();
     }
 }

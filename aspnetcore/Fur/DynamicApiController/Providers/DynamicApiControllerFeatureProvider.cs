@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc.Controllers;
 using System.Reflection;
 
-namespace Fur.LazyController
+namespace Fur.DynamicApiController
 {
     /// <summary>
-    /// 惰性控制器特性提供器
+    /// 动态接口控制器特性提供器
     /// </summary>
-    public sealed class LazyControllerFeatureProvider : ControllerFeatureProvider
+    public sealed class DynamicApiControllerFeatureProvider : ControllerFeatureProvider
     {
         /// <summary>
         /// 扫描控制器

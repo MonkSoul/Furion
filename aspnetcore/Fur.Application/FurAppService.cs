@@ -1,23 +1,23 @@
-﻿using Fur.LazyController;
-using Microsoft.AspNetCore.Mvc;
+﻿using Fur.DynamicApiController;
 
 namespace Fur.Application
 {
-    [Route("api/[controller]")]
-    [Route("api/[controller]/22")]
-    //[ApiDescriptionSettings(Module = "mobile", ApiVersion = "2.0")]
-    public class FurAppService : ILazyController
+    //[Route("api/[controller]")]
+    //[Route("api/[controller]/22")]
+    //[ApiController]
+    //[ApiDescriptionSettings(Module = "mobile", Version = "2.0")]
+    public class FurAppService : IDynamicApiController
     {
-        //[ApiDescriptionSettings(false)]
-        //[ApiDescriptionSettings(ApiVersion = "2.0")]
-        [HttpGet]
-        [HttpGet("dfd")]
-        [HttpGet("dfd222")]
-        [AcceptVerbs("POST")]
-        public string Get()
-        {
-            return "v1.0.0";
-        }
+        ////[ApiDescriptionSettings(false)]
+        //[ApiDescriptionSettings(Version = "2.0", KeepVerb = true)]
+        ////[HttpGet]
+        ////[HttpGet("dfd")]
+        ////[HttpGet("dfd222")]
+        ////[AcceptVerbs("POST")]
+        //public string Get()
+        //{
+        //    return "v1.0.0";
+        //}
 
         ////[HttpGet("[action]")]
         ////[Route("/[action]")]
@@ -27,11 +27,15 @@ namespace Fur.Application
         //    return nameof(Fur) + name;
         //}
 
-        //[ApiDescriptionSettings(false)]
-        [HttpPost("dfdfd")]
-        public string Post([FromBody] TestDto dto)
+        ////[HttpGet]
+        ////[AcceptVerbs("POST")]
+        //[ApiDescriptionSettings(KeepVerb = true, Version = "2.0", SplitCamelCase = true)]
+        //[HttpPost]
+        //[HttpGet]
+        //[HttpGet("dfdfd")]
+        public string PostName([ApiSeat(ApiSeats.ControllerStart)] int id, string myName, TestDto dto)
         {
-            return dto.name;
+            return dto.name + myName;
         }
     }
 }

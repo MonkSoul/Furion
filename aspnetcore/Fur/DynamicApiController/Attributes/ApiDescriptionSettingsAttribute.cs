@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace Fur.LazyController
+namespace Fur.DynamicApiController
 {
     /// <summary>
     /// 接口描述设置
@@ -55,16 +55,6 @@ namespace Fur.LazyController
         public bool Enabled { get; set; }
 
         /// <summary>
-        /// 分组
-        /// </summary>
-        public string[] Groups { get; set; }
-
-        /// <summary>
-        /// 标签
-        /// </summary>
-        public string Tags { get; set; }
-
-        /// <summary>
         /// 模块名
         /// </summary>
         public string Module { get; set; }
@@ -73,5 +63,15 @@ namespace Fur.LazyController
         /// 版本号
         /// </summary>
         public string Version { get; set; }
+
+        /// <summary>
+        /// 分组
+        /// </summary>
+        public string[] Groups { get; set; }
+
+        /// <summary>
+        /// 标签
+        /// </summary>
+        public string Tags { get; set; }
     }
 }

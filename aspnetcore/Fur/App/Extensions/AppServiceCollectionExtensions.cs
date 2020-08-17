@@ -42,13 +42,8 @@ namespace Microsoft.Extensions.DependencyInjection
             var optionsType = typeof(TOptions);
             string jsonKey = null;
 
-            if (optionsType.IsDefined(typeof(OptionsSettingsAttribute), false))
-            {
-                var optionsSettings = optionsType.GetCustomAttribute<OptionsSettingsAttribute>(false);
-                jsonKey = optionsSettings.JsonKey;
-            }
-
-            jsonKey ??= optionsType.Name;
+            var optionsSettings = optionsType.GetCustomAttribute<OptionsSettingsAttribute>(false);
+            jsonKey = optionsSettings?.JsonKey ?? optionsType.Name;
 
             var optionsConfiguration = App.Configuration.GetSection(jsonKey);
             services.AddOptions<TOptions>()
@@ -72,10 +67,20 @@ namespace Microsoft.Extensions.DependencyInjection
                 var postConfigureMethod = optionsType.GetMethod(nameof(IAppOptions<TOptions>.PostConfigure));
                 if (postConfigureMethod != null)
                 {
-                    services.PostConfigure<TOptions>(options =>
+                    if (!optionsSettings.PostConfigureAll)
                     {
-                        postConfigureMethod.Invoke(options, new object[] { options });
-                    });
+                        services.PostConfigure<TOptions>(options =>
+                        {
+                            postConfigureMethod.Invoke(options, new object[] { options });
+                        });
+                    }
+                    else
+                    {
+                        services.PostConfigureAll<TOptions>(options =>
+                        {
+                            postConfigureMethod.Invoke(options, new object[] { options });
+                        });
+                    }
                 }
             }
 

@@ -1,4 +1,4 @@
-﻿namespace Fur.LazyController
+﻿namespace Fur.DynamicApiController
 {
     /// <summary>
     /// 接口参数位置

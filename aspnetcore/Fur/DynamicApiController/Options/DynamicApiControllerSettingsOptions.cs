@@ -1,12 +1,12 @@
 ﻿using Fur.Options;
 
-namespace Fur.LazyController
+namespace Fur.DynamicApiController
 {
     /// <summary>
-    /// 惰性控制器配置
+    /// 动态接口控制器配置
     /// </summary>
-    [OptionsSettings("AppSettings:LazyControllerSettings")]
-    public sealed class LazyControllerSettingsOptions : IAppOptions<LazyControllerSettingsOptions>
+    [OptionsSettings("AppSettings:DynamicApiControllerSettings")]
+    public sealed class DynamicApiControllerSettingsOptions : IAppOptions<DynamicApiControllerSettingsOptions>
     {
         /// <summary>
         /// 默认路由前缀
@@ -34,14 +34,19 @@ namespace Fur.LazyController
         public bool KeepVerb { get; set; }
 
         /// <summary>
-        /// 支持Mvc控制器类型
-        /// </summary>
-        public bool SupportedControllerBase { get; set; }
-
-        /// <summary>
         /// 骆驼命名分隔符
         /// </summary>
         public string CamelCaseSeparator { get; set; }
+
+        /// <summary>
+        /// 模型转查询参数（只有GET、HEAD请求有效）
+        /// </summary>
+        public bool ModelToQuery { get; set; }
+
+        /// <summary>
+        /// 支持Mvc控制器处理
+        /// </summary>
+        public bool SupportedMvcController { get; set; }
 
         /// <summary>
         /// 被舍弃的控制器名称前后缀
@@ -57,14 +62,15 @@ namespace Fur.LazyController
         /// 默认配置
         /// </summary>
         /// <param name="options"></param>
-        public void PostConfigure(LazyControllerSettingsOptions options)
+        public void PostConfigure(DynamicApiControllerSettingsOptions options)
         {
             options.DefaultRoutePrefix = "api";
             options.DefaultHttpMethod = "POST";
             options.LowerCaseRoute = true;
             options.KeepVerb = false;
-            options.SupportedControllerBase = false;
             options.CamelCaseSeparator = "-";
+            options.ModelToQuery = false;
+            options.SupportedMvcController = false;
             options.AbandonControllerAffixes = new string[]
             {
                 "AppServices",
