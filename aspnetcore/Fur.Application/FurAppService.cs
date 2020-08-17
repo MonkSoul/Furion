@@ -37,5 +37,21 @@ namespace Fur.Application
         {
             return dto.name + myName;
         }
+
+        public string PostNameV2([ApiSeat(ApiSeats.ControllerStart)] int id, string myName, TestDto dto)
+        {
+            return dto.name + myName;
+        }
+
+        public string PostNameV2_1_2([ApiSeat(ApiSeats.ControllerStart)] int id, string myName, TestDto dto)
+        {
+            return dto.name + myName;
+        }
+
+        [ApiDescriptionSettings(Version = "3.0")]
+        public string PostNameV2_1_3([ApiSeat(ApiSeats.ControllerStart)] int id, string myName, TestDto dto)
+        {
+            return dto.name + myName;
+        }
     }
 }

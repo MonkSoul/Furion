@@ -94,8 +94,13 @@ namespace Fur.DynamicApiController
                 else tempName = controller.ControllerName;
             }
 
+            // 处理版本号
+            var (name, version) = ResolveNameVersion(tempName);
+            tempName = name;
+            apiVersion ??= version;
+
             // 拼接名称和版本号
-            var controllerName = $"{tempName}{(string.IsNullOrEmpty(apiVersion) ? null : $"@{apiVersion}")}";
+            var controllerName = $"{tempName}{(string.IsNullOrEmpty(apiVersion) ? null : $"{_lazyControllerSettings.VersionSeparator}{apiVersion}")}";
             controller.ControllerName = _lazyControllerSettings.LowerCaseRoute ? controllerName.ToLower() : controllerName;
         }
 
@@ -169,8 +174,13 @@ namespace Fur.DynamicApiController
                 else tempName = action.ActionName;
             }
 
+            // 处理版本号
+            var (name, version) = ResolveNameVersion(tempName);
+            tempName = name;
+            apiVersion ??= version;
+
             // 拼接名称和版本号
-            var actionName = $"{tempName}{(string.IsNullOrEmpty(apiVersion) ? null : $"@{apiVersion}")}";
+            var actionName = $"{tempName}{(string.IsNullOrEmpty(apiVersion) ? null : $"{_lazyControllerSettings.VersionSeparator}{apiVersion}")}";
             action.ActionName = _lazyControllerSettings.LowerCaseRoute ? actionName.ToLower() : actionName;
         }
 
@@ -373,6 +383,20 @@ namespace Fur.DynamicApiController
             }
 
             return parameterRouteTemplate;
+        }
+
+        /// <summary>
+        /// 解析名称中的版本号
+        /// </summary>
+        /// <param name="name">名称</param>
+        /// <returns>名称和版本号</returns>
+        private (string name, string version) ResolveNameVersion(string name)
+        {
+            var regex = new Regex(@"V(?<version>[0-9_]+$)");
+            if (!regex.IsMatch(name)) return (name, default);
+
+            var version = regex.Match(name).Groups["version"].Value.Replace("_", ".");
+            return ($"{regex.Replace(name, "")}", version);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Fur.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace Fur.DynamicApiController
 {
@@ -16,6 +17,7 @@ namespace Fur.DynamicApiController
         /// <summary>
         /// 默认请求谓词
         /// </summary>
+        [Required]
         public string DefaultHttpMethod { get; set; }
 
         /// <summary>
@@ -37,6 +39,12 @@ namespace Fur.DynamicApiController
         /// 骆驼命名分隔符
         /// </summary>
         public string CamelCaseSeparator { get; set; }
+
+        /// <summary>
+        /// 版本号分隔符
+        /// </summary>
+        [Required]
+        public string VersionSeparator { get; set; }
 
         /// <summary>
         /// 模型转查询参数（只有GET、HEAD请求有效）
@@ -69,6 +77,7 @@ namespace Fur.DynamicApiController
             options.LowerCaseRoute = true;
             options.KeepVerb = false;
             options.CamelCaseSeparator = "-";
+            options.VersionSeparator = "@";
             options.ModelToQuery = false;
             options.SupportedMvcController = false;
             options.AbandonControllerAffixes = new string[]
