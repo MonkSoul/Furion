@@ -258,7 +258,7 @@ namespace Fur.DynamicApiController
             if (selectorModel.AttributeRouteModel != null) return;
 
             // 读取模块
-            var module = apiDescriptionSettings?.Module ?? _lazyControllerSettings.DefaultAreaName;
+            var module = apiDescriptionSettings?.Module;
 
             // 生成参数路由模板
             var parameterRouteTemplate = GenerateParameterRouteTemplates(action);
