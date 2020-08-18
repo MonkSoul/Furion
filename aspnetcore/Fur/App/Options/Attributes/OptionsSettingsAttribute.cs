@@ -11,6 +11,13 @@ namespace Fur.Options
         /// <summary>
         /// 构造函数
         /// </summary>
+        public OptionsSettingsAttribute()
+        {
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         /// <param name="jsonKey">appsetting.json 对应键</param>
         public OptionsSettingsAttribute(string jsonKey)
             => JsonKey = jsonKey;

@@ -4,6 +4,9 @@ title: 2.1 配置
 sidebar_label: 2.1 配置
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 :::important 温馨提示
 
 推荐使用 《[2.2 选项](./options.mdx)》代替本章节功能。（[为什么](#216-配置的优缺点)）？
@@ -22,7 +25,7 @@ sidebar_label: 2.1 配置
 
 ## 2.1.2 配置的使用
 
-假设我们需要在系统运行时获取**系统名称、版本号及版权信息 或 根据不同条件动态配置服务**，而且这些信息可能随时变化。这时就需要将这些信息配置起来。具体步骤如下：
+假设我们需要在系统运行时获取**系统名称、版本号及版权信息**，这些信息可能随时变化而且需要在多个地方使用。这时就需要将这些信息配置起来。具体步骤如下：
 
 ### 配置 `appsettings.json` 信息
 
@@ -40,38 +43,20 @@ sidebar_label: 2.1 配置
 
 在 `Fur` 框架中，提供了两种读取方式：
 
-- 构造函数中注入 `IConfiguration` 对象读取
-- 通过 `App.Configuration[key]` 读取
+- 依赖注入 `IConfiguration` 对象读取
+- 通过 `App.Configuration[jsonKey]` 读取
 
-#### 依赖注入方式读取
-
-```cs {2,9-13,18-20}
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-
-namespace Fur.Web.Entry.Controllers
-{
-    [Route("api/[controller]")]
-    public class FurController : ControllerBase
+<Tabs
+  defaultValue="App.Configuration[jsonKey]"
+  values={[
     {
-        private readonly IConfiguration _configuration;
-        public FurController(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
-        [HttpGet]
-        public string Get()
-        {
-            return $@"名称：{_configuration["AppInfo:Name"]}，
-                      版本：{_configuration["AppInfo:Version"]}，
-                      公司：{_configuration["AppInfo:Company"]}";
-        }
-    }
-}
-```
-
-#### 通过 `App.Configuration[key]` 读取
+      label: "App.Configuration[jsonKey]",
+      value: "App.Configuration[jsonKey]",
+    },
+    { label: "依赖注入方式", value: "依赖注入方式" }
+  ]}
+>
+  <TabItem value="App.Configuration[jsonKey]">
 
 ```cs {11-13}
 using Microsoft.AspNetCore.Mvc;
@@ -79,7 +64,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Fur.Web.Entry.Controllers
 {
     [Route("api/[controller]")]
-    public class FurController : ControllerBase
+    public class DefaultController : ControllerBase
     {
         [HttpGet]
         public string Get()
@@ -92,12 +77,68 @@ namespace Fur.Web.Entry.Controllers
 }
 ```
 
-:::tip 如何选择读取方式
+  </TabItem>
+  <TabItem value="依赖注入方式">
 
-- 在可依赖注入类中，选择构造函数注入 `IConfiguration` 读取
-- 在静态类/非依赖注入类中，选择 `App.Configuration[key]` 读取
+```cs {2,10-15}
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+
+namespace Fur.Web.Entry.Controllers
+{
+    [Route("api/[controller]")]
+    public class DefaultController : ControllerBase
+    {
+        [HttpGet]
+        public string Get([FromServices] IConfiguration configuration)
+        {
+            return $@"名称：{configuration["AppInfo:Name"]}，
+                      版本：{configuration["AppInfo:Version"]}，
+                      公司：{configuration["AppInfo:Company"]}";
+        }
+    }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+:::tip 依赖注入的方式
+
+通过依赖注入注入实例有几种方式：
+
+- 构造函数注入方式
+
+```cs {2}
+private readonly IConfiguration _configuration;
+public DefaultController(IConfiguration configuration)
+{
+    _configuration = configuration;
+}
+```
+
+- 参数注入方式 `[FromServices]`
+
+```cs {1}
+public string Get([FromServices] IConfiguration configuration)
+{
+}
+```
+
+- 属性注入方式
+
+```cs {1}
+public IConfiguration Configuration { get; set; }
+```
+
+想了解更多关于《[ASP.NET Core - 依赖注入](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-3.1)》 知识
 
 :::
+
+### 如何选择读取方式
+
+- 在可依赖注入类中，依赖注入 `IConfiguration` 读取
+- 在静态类/非依赖注入类中，选择 `App.Configuration[jsonKey]` 读取
 
 ## 2.1.3 分层读取数据
 
@@ -122,29 +163,44 @@ namespace Fur.Web.Entry.Controllers
 }
 ```
 
-### 读取第二层数据
+<Tabs
+  defaultValue="two"
+  values={[
+    { label: "读取第二层", value: "two" },
+    { label: "读取第三层", value: "three" },
+    { label: "读取第四层", value: "four" },
+    { label: "读取第N层", value: "n" },
+  ]}
+>
+  <TabItem value="two">
 
 ```cs
 var companyName = App.Configuration["AppInfo:Name"]; // => Fur
 ```
 
-### 读取第三层数据
+  </TabItem>
+  <TabItem value="three">
 
 ```cs
 var companyName = App.Configuration["AppInfo:Company:Name"]; // => Baiqian
 ```
 
-### 读取第四层数据
+  </TabItem>
+  <TabItem value="four">
 
 ```cs
 var companyName = App.Configuration["AppInfo:Company:Address:Detail"]; // => 中山市东区紫马公园西门
 ```
 
-### 读取第N层数据
+  </TabItem>
+  <TabItem value="n">
 
 ```cs
 var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern2..."]; // => 中山市东区紫马公园西门
 ```
+
+  </TabItem>
+</Tabs>
 
 ## 2.1.4 自定义配置文件
 
@@ -203,17 +259,27 @@ namespace Fur.Web.Entry
 
 读取自定义配置文件和读取 `appsettings.json` 一致，系统会自动从多个配置文件中读取输入，如：
 
-#### 依赖注入方式读取
+<Tabs
+  defaultValue="jtl"
+  values={[
+    {label: 'App.Configuration[jsonKey]', value: 'jtl'},
+    {label: '依赖注入方式', value: 'ylzr'}
+  ]}>
+  <TabItem value="jtl">
+
+```cs
+var smtpServer = App.Configuration["outlook:smtp:server"]; // => smtp.office365.com
+```
+
+  </TabItem>
+  <TabItem value="ylzr">
 
 ```cs
 var smtpServer = _configuration["outlook:smtp:server"]; // => smtp.office365.com
 ```
 
-#### 通过 `App.Configuration[key]` 读取
-
-```cs
-var smtpServer = App.Configuration["outlook:smtp:server"]; // => smtp.office365.com
-```
+  </TabItem>
+</Tabs>
 
 ## 2.1.5 不同环境读取
 
@@ -244,6 +310,7 @@ var smtpServer = App.Configuration["outlook:smtp:server"]; // => smtp.office365.
 - 不能设置默认值
 - 不能在运行环境中动态配置
 - 不能验证配置有效性
+- 不支持更改通知
 
 ## 2.1.7 配置使用场景
 
@@ -251,7 +318,7 @@ var smtpServer = App.Configuration["outlook:smtp:server"]; // => smtp.office365.
 
 ## 2.1.8 反馈与建议
 
-:::caution 与我们交流
+:::note 与我们交流
 
 给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
 

@@ -40,11 +40,12 @@ namespace Microsoft.Extensions.DependencyInjection
             where TOptions : class, IAppOptions
         {
             var optionsType = typeof(TOptions);
-            string jsonKey = null;
-
             var optionsSettings = optionsType.GetCustomAttribute<OptionsSettingsAttribute>(false);
-            jsonKey = optionsSettings?.JsonKey ?? optionsType.Name;
 
+            // 获取键名
+            string jsonKey = GetOptionsJsonKey(optionsSettings, optionsType);
+
+            // 配置选项（含验证信息）
             var optionsConfiguration = App.Configuration.GetSection(jsonKey);
             services.AddOptions<TOptions>()
                 .Bind(optionsConfiguration)
@@ -67,24 +68,34 @@ namespace Microsoft.Extensions.DependencyInjection
                 var postConfigureMethod = optionsType.GetMethod(nameof(IAppOptions<TOptions>.PostConfigure));
                 if (postConfigureMethod != null)
                 {
-                    if (!optionsSettings.PostConfigureAll)
-                    {
-                        services.PostConfigure<TOptions>(options =>
-                        {
-                            postConfigureMethod.Invoke(options, new object[] { options });
-                        });
-                    }
+                    if (optionsSettings?.PostConfigureAll != true)
+                        services.PostConfigure<TOptions>(options => postConfigureMethod.Invoke(options, new object[] { options }));
                     else
-                    {
-                        services.PostConfigureAll<TOptions>(options =>
-                        {
-                            postConfigureMethod.Invoke(options, new object[] { options });
-                        });
-                    }
+                        services.PostConfigureAll<TOptions>(options => postConfigureMethod.Invoke(options, new object[] { options }));
                 }
             }
 
             return services;
+        }
+
+        /// <summary>
+        /// 获取选项键
+        /// </summary>
+        /// <param name="optionsSettings">选项配置特性</param>
+        /// <param name="optionsType">选项类型</param>
+        /// <returns></returns>
+        private static string GetOptionsJsonKey(OptionsSettingsAttribute optionsSettings, Type optionsType)
+        {
+            // 默认后缀
+            var defaultStuffx = nameof(Options);
+
+            return optionsSettings switch
+            {
+                // // 没有贴 [OptionsSettings]，如果选项类以 `Options` 结尾，则移除，否则返回类名称
+                null => optionsType.Name.EndsWith(defaultStuffx) ? optionsType.Name[0..^defaultStuffx.Length] : optionsType.Name,
+                // 如果贴有 [OptionsSettings] 特性，但未指定 JsonKey 参数，则直接返回类名，否则返回 JsonKey
+                _ => optionsSettings != null && string.IsNullOrEmpty(optionsSettings.JsonKey) ? optionsType.Name : optionsSettings.JsonKey,
+            };
         }
     }
 }

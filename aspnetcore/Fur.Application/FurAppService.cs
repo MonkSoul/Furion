@@ -14,10 +14,10 @@ namespace Fur.Application
         ////[HttpGet("dfd")]
         ////[HttpGet("dfd222")]
         ////[AcceptVerbs("POST")]
-        //public string Get()
-        //{
-        //    return "v1.0.0";
-        //}
+        public string Get()
+        {
+            return $"Hello {nameof(Fur)}";
+        }
 
         ////[HttpGet("[action]")]
         ////[Route("/[action]")]
@@ -35,23 +35,23 @@ namespace Fur.Application
         //[HttpGet("dfdfd")]
         public string PostName([ApiSeat(ApiSeats.ControllerStart)] int id, string myName, TestDto dto)
         {
-            return dto.name + myName;
+            return dto.Name + myName;
         }
 
         public string PostNameV2([ApiSeat(ApiSeats.ControllerStart)] int id, string myName, TestDto dto)
         {
-            return dto.name + myName;
+            return dto.Name + myName;
         }
 
         public string PostNameV2_1_2([ApiSeat(ApiSeats.ControllerStart)] int id, string myName, TestDto dto)
         {
-            return dto.name + myName;
+            return dto.Name + myName;
         }
 
         [ApiDescriptionSettings(Version = "3.0")]
         public string PostNameV2_1_3([ApiSeat(ApiSeats.ControllerStart)] int id, string myName, TestDto dto)
         {
-            return dto.name + myName;
+            return dto.Name + myName;
         }
     }
 }

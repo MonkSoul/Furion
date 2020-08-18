@@ -4,23 +4,30 @@ title: 2.2 选项
 sidebar_label: 2.2 选项
 ---
 
-提供强类型对象读取配置方式。
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
----
+## 2.2.1 什么是选项
 
-## 关于选项
+选项是 `ASP.NET Core` 推荐的动态读取配置的方式，这种方式将配置文件数据用一个**强类型**来托管，能够实现配置验证、默认值配置、实时读取等功能。
 
-选项模式是 `ASP.NET Core` 推荐的动态读取配置的方式，这种方式将配置文件数据用一个强类型来托管，能够实现默认值设置，动态热加载等等功能。
+## 2.2.2 与配置的区别
 
-## 两者区别
+选项实际上也是配置，但在后者的基础上添加了配置验证、默认值设定及提供了多种接口读取配置信息，同时还支持供配置更改通知等强大灵活功能。
 
-选项和配置最大的区别就是前者通过强类型封装配置节点，可通过面向对象的方式读取配置。
+所以，除了一次性读取使用的配置以外，都应该选用**选项**替换**配置**。
 
-## 如何使用
+:::tip 知识导航
 
-例如，我们需要动态配置应用的名称、版本号及版权信息。
+有关配置说明可查看《[2.1 配置](./configuration.mdx)》 章节。
 
-### 配置 `appsetting.json`
+:::
+
+## 2.2.3 选项的使用
+
+假设我们需要在系统运行时获取**系统名称、版本号及版权信息**，这些信息可能随时变化而且需要在多个地方使用。这时就需要将这些信息配置起来。具体步骤如下：
+
+### 配置 `appsettings.json` 信息
 
 ```json {2-6}
 {
@@ -32,15 +39,13 @@ sidebar_label: 2.2 选项
 }
 ```
 
-### 创建强类型类
+### 创建 `AppInfoOptions` 强类型类
 
-```cs {1,5-7}
+```cs {1,5}
 using Fur.Options;
 
 namespace Fur.Application
 {
-    // 配置 `appsetting.json` 中对应的键名
-    [OptionsSettings("AppInfo")]
     public class AppInfoOptions : IAppOptions
     {
         public string Name { get; set; }
@@ -50,52 +55,127 @@ namespace Fur.Application
 }
 ```
 
-:::tip 选项说明
-在 `Fur` 框架中，选项需继承 `IAppOptions` 接口，该接口在 `Fur.Options` 命名空间下。
+:::note 温馨提示
 
-默认情况下，Fur 会根据**类名**查找 `appsetting.json` 对应的键，若类型和配置不一样，需通过 `[OptionsSettings(string)]` 特性指定。
+建议所有选项类都应该以 **`Options`** 命名结尾。
+
+另外，`Fur` 框架提供了非常灵活的注册选项服务的方法，只需要继承 **`IAppOptions`** 接口即可，该接口位于 **`Fur.Options`** 命名空间下。
+
 :::
 
-### 读取选项
+### 注册 `AppInfoOptions` 服务
 
-#### 🥒 直接读取
+选项不同于配置，需在应用启动时注册：
 
-```cs
-var appInfo = App.Configuration.GetSection("AppInfo").Get<AppInfoOptions>();
-```
-
-:::caution 不推荐理由
-直接读取的方式无法应用于选项验证和后期配置功能。
-:::
-
-#### 🥒 使用依赖注入配置选项
-
-- 在 `Fur.Web.Entry` 项目 `Startup.cs` 中 `ConfigureServices` 添加如下配置：
-
-```cs {2,8,10,12}
+```cs {5,20-23} title="Fur.Web.Entry/Startup.cs"
 using Fur.Application;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Fur.Web.Entry
 {
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApp(options =>
             {
                 options.AddAppOptions<AppInfoOptions>();
             });
+            // Other Codes...
+        }
 
-            services.AddControllers();
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            // Other Codes...
         }
     }
 }
 ```
 
-- 在**可依赖注入类**中使用
+:::caution 特别注意
 
-```cs {3,10-13}
+`services.AddAppOptions<AppInfoOptions>()` 只能在 `services.AddApp()` **之后或参数内**注册。
+
+**下面代码是无效的**：
+
+```cs
+services.AddAppOptions<AppInfoOptions>();
+services.AddApp();
+```
+
+:::
+
+:::note 应用注册说明
+
+在 `ASP.NET Core` 应用程序中，**注册服务** 指的是在 `启用项目` 中 `Startup.cs` 类 `ConfigureServices` 方法中注册。
+
+在 `Fur` 框架中，`Startup.cs` 路径为：**`Fur.Web.Entry/Startup.cs`**
+
+:::
+
+### 读取 `AppInfoOptions` 信息
+
+在 `Fur` 框架中，提供了多种读取方式：
+
+- 通过 `App.GetOptions<TOptions>(jsonKey)` 读取（**不推荐**）
+- 通过依赖注入以下实例读取：
+  - `IOptions<TOptions>`
+  - `IOptionsSnapshot<TOptions>`
+  - `IOptionsMonitor<TOptions>`
+- 通过 `App` 静态类提供的静态方法获取：
+  - `App.GetOptions<TOptions>()`
+  - `App.GetOptionsMonitor<TOptions>()`
+  - `App.GetOptionsSnapshot<TOptions>()`
+
+<Tabs
+  defaultValue="App.GetOptions<TOptions>(jsonKey)"
+  values={[
+    {
+      label: "App.GetOptions<TOptions>(jsonKey)",
+      value: "App.GetOptions<TOptions>(jsonKey)",
+    },
+    { label: "依赖注入方式", value: "依赖注入方式" },
+    { label: "App.GetOptions<TOptions>()", value: "App.GetOptions<TOptions>()" }
+  ]}
+>
+  <TabItem value="App.GetOptions<TOptions>(jsonKey)">
+
+```cs {13-16}
+using Fur.Application;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Fur.Web.Entry.Controllers
+{
+    [Route("api/[controller]")]
+    public class DefaultController : ControllerBase
+    {
+        [HttpGet]
+        public string Get()
+        {
+            // 不推荐采用此方式读取
+            var appInfo = App.GetOptions<AppInfoOptions>("AppInfo");
+            return $@"名称：{appInfo.Name}，
+                      版本：{appInfo.Version}，
+                      公司：{appInfo.Company}";
+        }
+    }
+}
+```
+
+  </TabItem>
+  <TabItem value="依赖注入方式">
+
+```cs {3,15-17,27-29,31-33,35-37}
 using Fur.Application;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -105,63 +185,299 @@ namespace Fur.Web.Entry.Controllers
     [Route("api/[controller]")]
     public class DefaultController : ControllerBase
     {
-        private readonly AppInfoOptions _appInfoOptions;
-        public DefaultController(IOptionsMonitor<AppInfoOptions> optionsMonitor)
+        private readonly AppInfoOptions options1;
+        private readonly AppInfoOptions options2;
+        private readonly AppInfoOptions options3;
+
+        public DefaultController(
+            IOptions<AppInfoOptions> options
+            , IOptionsSnapshot<AppInfoOptions> optionsSnapshot
+            , IOptionsMonitor<AppInfoOptions> optionsMonitor)
         {
-            _appInfoOptions = optionsMonitor.CurrentValue;
+            options1 = options.Value;
+            options2 = optionsSnapshot.Value;
+            options3 = optionsMonitor.CurrentValue;
+        }
+
+        [HttpGet]
+        public string Get()
+        {
+            var info1 = $@"名称：{options1.Name}，
+                      版本：{options1.Version}，
+                      公司：{options1.Company}";
+
+            var info2 = $@"名称：{options2.Name}，
+                      版本：{options2.Version}，
+                      公司：{options2.Company}";
+
+            var info3 = $@"名称：{options3.Name}，
+                      版本：{options3.Version}，
+                      公司：{options3.Company}";
+
+            return $"{info1}-{info2}-{info3}";
         }
     }
 }
 ```
 
-- 在**静态类**中使用
+  </TabItem>
+  
+  <TabItem value="App.GetOptions<TOptions>()">
 
-```cs
-var appInfoOptions = App.GetOptions<AppInfoOptions>();
+```cs {12-15,17-20,22-25}
+using Fur.Application;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Fur.Web.Entry.Controllers
+{
+    [Route("api/[controller]")]
+    public class DefaultController : ControllerBase
+    {
+        [HttpGet]
+        public string Get()
+        {
+            var options1 = App.GetOptions<AppInfoOptions>();
+            var info1 = $@"名称：{options1.Name}，
+                      版本：{options1.Version}，
+                      公司：{options1.Company}";
+
+            var options2 = App.GetOptionsSnapshot<AppInfoOptions>();
+            var info2 = $@"名称：{options2.Name}，
+                      版本：{options2.Version}，
+                      公司：{options2.Company}";
+
+            var options3 = App.GetOptionsMonitor<AppInfoOptions>();
+            var info3 = $@"名称：{options3.Name}，
+                      版本：{options3.Version}，
+                      公司：{options3.Company}";
+
+            return $"{info1}-{info2}-{info3}";
+        }
+    }
+}
 ```
 
-## 选项验证
+  </TabItem>
+</Tabs>
 
-Fur 支持特性方式和自定义复杂验证方式验证选项值。
+:::caution 特别注意
 
-### 特性方式
+`App.GetOptions<TOptions>(jsonKey)` 静态方法 区别于没有参数的 `App.GetOptions<TOptions>()` 静态方法，前者实际上还是 **配置**，只不过做了强类型解析，后者则通过 `IOptions<TOptions>` 解析。
 
-```cs {2,10,12,14}
+两者源码如下：
+
+```cs {18-20,27-29} title="Fur/App/App.cs"
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+
+namespace Fur
+{
+    /// <summary>
+    /// 全局应用类
+    /// </summary>
+    public static class App
+    {
+        /// <summary>
+        /// 获取选项
+        /// </summary>
+        /// <typeparam name="TOptions">强类型选项类</typeparam>
+        /// <param name="jsonKey">配置中对应的Key</param>
+        /// <returns></returns>
+        public static TOptions GetOptions<TOptions>(string jsonKey)
+            where TOptions : class
+            => Configuration.GetSection(jsonKey).Get<TOptions>();
+
+        /// <summary>
+        /// 获取选项
+        /// </summary>
+        /// <typeparam name="TOptions">强类型选项类</typeparam>
+        /// <returns></returns>
+        public static TOptions GetOptions<TOptions>()
+            where TOptions : class
+            => ServiceProvider.GetService<IOptions<TOptions>>().Value;
+
+        // Other Codes...
+    }
+}
+```
+
+通过上述代码得知，为什么不推荐使用 `App.GetOptions<TOptions>(jsonKey)` 读取，因为这种方式无法应用选项验证、默认配置、更改通知等功能。
+
+:::
+
+### 如何选择读取方式
+
+- 如果选项需要在多个地方使用，则无论任何时候都不推荐使用 `App.GetOptions<TOptions>(jsonKey)`
+- 在可依赖注入类中，依赖注入 `IOptions[Snapshot|Monitor]<TOptions>` 读取
+- 在静态类/非依赖注入类中，选择 `App.GetOptions[Snapshot|Monitor]<TOptions>()` 读取
+
+## 2.2.4 选项接口说明
+
+`ASP.NET Core` 应用提供了多种读取选项的接口：
+
+### 接口说明
+
+- `IOptions<TOptions>`：
+  - 不支持：
+    - 在应用启动后读取配置数据
+    - 命名选项
+  - 注册为单一实例且可以注入到任何服务生存期
+- `IOptionsSnapshot<TOptions>`：
+  - 在每次请求时应重新计算选项的方案中有用
+  - 注册为范围内，因此无法注入到单一实例服务
+  - 支持命名选项
+- `IOptionsMonitor<TOptions>`：
+  - 用于检索选项并管理 TOptions 实例的选项通知。
+  - 注册为单一实例且可以注入到任何服务生存期。
+  - 支持：
+    - 更改通知
+    - 命名选项
+    - 可重载配置
+    - 选择性选项失效 `(IOptionsMonitorCache<TOptions>)`
+
+### 了解更多
+
+:::note 了解更多
+
+想了解更多 `选项接口` 知识可查阅 [ASP.NET Core - 选项 - 选项接口](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/configuration/options?view=aspnetcore-5.0#options-interfaces) 小节。
+
+:::
+
+## 2.2.5 选项自定义配置
+
+我们知道，选项实际上需要和配置文件特定键值挂钩，那 `Fur` 是如何准确的找到配置文件中的键值的呢？
+
+### 选项查找键流程
+
+- **没有贴 `[OptionsSettings]` 特性**
+  - 以 `Options` 结尾，则去除 `Options` 字符串
+  - 否则返回 `类名称`
+- **贴了 `[OptionsSettings]` 特性**
+  - 如果配置了 `JsonKey` 属性，则返回 `JsonKey` 的值
+  - 否则返回 `类名称`
+
+<Tabs
+  defaultValue="non-optionsettings"
+  values={[
+    { label: "无[OptionsSettings]", value: "non-optionsettings" },
+    { label: "有[OptionsSettings]", value: "has-optionsettings" },
+  ]}
+>
+  <TabItem value="non-optionsettings">
+
+- 以 `Options` 结尾，则键名为：`AppInfo`
+
+```cs {1}
+public class AppInfoOptions : IAppOptions
+{
+    public string Name { get; set; }
+    public string Version { get; set; }
+    public string Company { get; set; }
+}
+```
+
+- 不以 `Options` 结尾，则键名为：`AppInfoSettings`
+
+```cs {1}
+public class AppInfoSettings : IAppOptions
+{
+    public string Name { get; set; }
+    public string Version { get; set; }
+    public string Company { get; set; }
+}
+```
+
+  </TabItem>
+
+  <TabItem value="has-optionsettings">
+
+- 配置了 `JsonKey` 属性，，则键名为：`AppSettings:AppInfo`
+
+```cs {1}
+[OptionsSettings("AppSettings:AppInfo")]
+public class AppInfoOptions : IAppOptions
+{
+    public string Name { get; set; }
+    public string Version { get; set; }
+    public string Company { get; set; }
+}
+```
+
+- 没有配置 `JsonKey` 属性，，则键名为：`AppInfoSettings`
+
+```cs {1}
+[OptionsSettings]
+public class AppInfoSettings : IAppOptions
+{
+    public string Name { get; set; }
+    public string Version { get; set; }
+    public string Company { get; set; }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+### `[OptionsSettings]` 配置说明
+
+- `JsonKey`：对应配置文件中的键，支持 **分层键** 字符串，参见：《[2.2 配置 - 2.1.3 分层读取数据](./configuration#如何选择读取方式)》
+- `PostConfigureAll`：选项后期配置，默认 `false`。[ASP.NET Core - 选项 - 选项后期配置](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/configuration/options?view=aspnetcore-3.1#options-post-configuration)
+
+## 2.2.6 选项验证
+
+选项支持验证配置有效性，在 `Fur` 框架中，通过 `services.AddAppOptions<TOptions>()` 注册选项默认启用了验证支持。
+
+包括：
+
+- 特性方式 `DataAnnotations`
+- 自定义复杂验证 `IValidateOptions<TOptions>`
+
+<Tabs
+  defaultValue="texin"
+  values={[
+    { label: "特性方式", value: "texin" },
+    { label: "复杂验证", value: "fuza" },
+  ]}
+>
+  <TabItem value="texin">
+
+```cs {2,8,10,12}
 using Fur.Options;
 using System.ComponentModel.DataAnnotations;
 
 namespace Fur.Application
 {
-    // 配置 `appsetting.json` 中对应的键名
-    [OptionsSettings("AppInfo")]
     public class AppInfoOptions : IAppOptions
     {
-        [Required]
+        [Required(ErrorMessage = "名称不能为空")]
         public string Name { get; set; }
-        [Required]
+        [Required, RegularExpression(@"^[0-9][0-9\.]+[0-9]$", ErrorMessage = "不是有效的版本号")]
         public string Version { get; set; }
-        [MinLength(20)]
+        [Required, MaxLength(100)]
         public string Company { get; set; }
     }
 }
 ```
 
-### 自定义验证
+  </TabItem>
+  <TabItem value="fuza">
 
-#### 🥒 创建自定义验证类，需继承 `IValidateOptions<TOptions>`接口，如：`AppInfoOptionsValidation`：
+- 自定义验证类 `AppInfoValidation` 并继承 `IValidateOptions<TOptions>` 接口，同时实现 `Validate` 方法。
 
-```cs {1,5-14}
+```cs {1,6,8,12,15}
 using Microsoft.Extensions.Options;
+using System.Text.RegularExpressions;
 
 namespace Fur.Application
 {
-    public class AppInfoOptionsValidation : IValidateOptions<AppInfoOptions>
+    public class AppInfoValidation : IValidateOptions<AppInfoOptions>
     {
         public ValidateOptionsResult Validate(string name, AppInfoOptions options)
         {
-            if (options.Company.Length <= 20)
+            if (!Regex.IsMatch(options.Version, @"^[0-9][0-9\.]+[0-9]$"))
             {
-                return ValidateOptionsResult.Fail("公司名称不能少于20个字符");
+                return ValidateOptionsResult.Fail("不是有效的版本号");
             }
 
             return ValidateOptionsResult.Success;
@@ -170,58 +486,65 @@ namespace Fur.Application
 }
 ```
 
-#### 🥒 关联选项验证
+- 选项类继承 `IAppOptions<TOptions, TOptionsValidation>` 接口，并实现该接口。
 
-只需要继承 `IAppOptions<TOptions, IValidateOptions<TOptions>>` 接口即可。
-
-```cs {8}
+```cs {6,16-18}
 using Fur.Options;
 using System.ComponentModel.DataAnnotations;
 
 namespace Fur.Application
 {
-    // 配置 `appsetting.json` 中对应的键名
-    [OptionsSettings("AppInfo")]
-    public class AppInfoOptions : IAppOptions<AppInfoOptions, AppInfoOptionsValidation>
+    public class AppInfoOptions : IAppOptions<AppInfoOptions, AppInfoValidation>
     {
-        [Required]
+        [Required(ErrorMessage = "名称不能为空")]
         public string Name { get; set; }
         [Required]
         public string Version { get; set; }
-        [Required]
+        [Required, MaxLength(100)]
         public string Company { get; set; }
+
+        // 选项后期配置
+        public void PostConfigure(AppInfoOptions options)
+        {
+        }
     }
 }
 ```
 
-#### 🥒 完整代码
+- 完整代码如下：
 
-```cs
+```cs {4,9,19,25,27,31,34}
 using Fur.Options;
 using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace Fur.Application
 {
-    // 配置 `appsetting.json` 中对应的键名
-    [OptionsSettings("AppInfo")]
-    public class AppInfoOptions : IAppOptions<AppInfoOptions, AppInfoOptionsValidation>
+    // 继承 IAppOptions<TOptions, TOptionsValidation> 接口
+    public class AppInfoOptions : IAppOptions<AppInfoOptions, AppInfoValidation>
     {
-        [Required]
+        [Required(ErrorMessage = "名称不能为空")]
         public string Name { get; set; }
         [Required]
         public string Version { get; set; }
-        [Required]
+        [Required, MaxLength(100)]
         public string Company { get; set; }
+
+        // 选项后期配置
+        public void PostConfigure(AppInfoOptions options)
+        {
+        }
     }
 
-    public class AppInfoOptionsValidation : IValidateOptions<AppInfoOptions>
+    // 创建自定义验证类
+    public class AppInfoValidation : IValidateOptions<AppInfoOptions>
     {
         public ValidateOptionsResult Validate(string name, AppInfoOptions options)
         {
-            if (options.Company.Length <= 20)
+            if (!Regex.IsMatch(options.Version, @"^[0-9][0-9\.]+[0-9]$"))
             {
-                return ValidateOptionsResult.Fail("公司名称不能少于20个字符");
+                return ValidateOptionsResult.Fail("不是有效的版本号");
             }
 
             return ValidateOptionsResult.Success;
@@ -230,109 +553,81 @@ namespace Fur.Application
 }
 ```
 
-## 后期配置
+  </TabItem>
+</Tabs>
 
-后期配置选项也就是当配置不存在时默认配置。
+:::note 特别说明
 
-```cs {7,13-15}
+**`IAppOptions<TOptions, TOptionsValidation>`** 继承自 **`IAppOptions<TOptions>`**，也就是自定义复杂验证默认具有 **`PostConfigure(TOptions options)`** 选项后期配置方法。关于《[2.2.7 选项后期配置](#227-选项后期配置)》将在下一小节说明。
+
+:::
+
+## 2.2.7 选项后期配置
+
+选项后期配置通俗一点来说，就是当配置不存在时给定默认值。
+
+在 `Fur` 框架中，配置选项后期配置很简单，只需要继承 `IAppOptions<TOptions` 接口并实现 `PostConfigure(TOptions options)` 方法。
+
+```cs {6,15-20}
 using Fur.Options;
+using System.ComponentModel.DataAnnotations;
 
 namespace Fur.Application
 {
-    // 配置 `appsetting.json` 中对应的键名
-    [OptionsSettings("AppInfo")]
     public class AppInfoOptions : IAppOptions<AppInfoOptions>
     {
+        [Required(ErrorMessage = "名称不能为空")]
         public string Name { get; set; }
+        [Required]
         public string Version { get; set; }
+        [Required, MaxLength(100)]
         public string Company { get; set; }
 
         public void PostConfigure(AppInfoOptions options)
         {
-            options.Name = "默认名称";
+            options.Name = "Fur";
+            options.Version = "1.0.0";
+            options.Version = "Baiqian";
         }
     }
 }
 ```
 
-:::note 关于 选项接口
+:::note 特别说明
 
-```cs title="Fur/App/Options/Dependencies/IAppOptions.cs"
-using Microsoft.Extensions.Options;
-
-namespace Fur.Options
-{
-    public partial interface IAppOptions { }
-
-    public partial interface IAppOptions<TOptions> : IAppOptions
-        where TOptions : class, IAppOptions
-    {
-        void PostConfigure(TOptions options) { }
-    }
-
-    public partial interface IAppOptions<TOptions, TOptionsValidation> : IAppOptions<TOptions>
-        where TOptions : class, IAppOptions
-        where TOptionsValidation : class, IValidateOptions<TOptions>
-    {
-    }
-}
-```
+**`IAppOptions<TOptions, TOptionsValidation>`** 继承自 **`IAppOptions<TOptions>`**，也就是自定义复杂验证默认具有 **`PostConfigure(TOptions options)`** 选项后期配置方法。
 
 :::
 
-## 自定义查找键
+## 2.2.8 选项的优缺点
 
-默认情况下，Fur 会根据**类名**查找 `appsetting.json` 对应的键，若类型和配置不一样，需通过 `[OptionsSettings(string)]` 特性指定。
+### 优点
 
-```cs {6}
-using Fur.Options;
+- 强类型配置
+- 提供多种读取方式
+- 支持热加载
+- 支持设置默认值
+- 支持在运行环境中动态配置
+- 支持验证配置有效性
+- 支持更改通知
+- 支持命名选项
 
-namespace Fur.Application
-{
-    // 配置 `appsetting.json` 中对应的键名
-    [OptionsSettings("AppInfo")]
-    public class AppInfoOptions : IAppOptions
-    {
-        public string Name { get; set; }
-        public string Version { get; set; }
-        public string Company { get; set; }
-    }
-}
-```
+### 缺点
 
-## 注册选项
+- 需要定义对应类型
+- 需要在启动时注册
 
-`Fur` 框架提供了便捷的选项注入拓展方法，如：
+## 2.2.9 反馈与建议
 
-```cs
-services.AddAppOptions<AppInfoOptions>();
-```
+:::note 与我们交流
 
-:::important 特别注意
-`services.AddAppOptions<TOptions>()` 拓展需在 `services.AddApp()` 调用之后注册或通过委托在里面注册。
-
-以下两个代码都是有效的：
-
-```cs
-services.AddApp();
-services.AddAppOptions<AppInfoOptions>();
-```
-
-```cs
-// 推荐使用此方式
-services.AddApp(options =>
-{
-    options.AddAppOptions<AppInfoOptions>();
-});
-```
+给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
 
 :::
 
 ---
 
-😀😁😂🤣😃😄😍😎
-
-:::tip 了解更多
+:::note 了解更多
 
 想了解更多 `选项` 知识可查阅 [ASP.NET Core - 选项](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/configuration/options?view=aspnetcore-5.0) 章节。
 

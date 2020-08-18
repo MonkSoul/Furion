@@ -54,7 +54,17 @@ namespace Fur
         /// <summary>
         /// 获取选项
         /// </summary>
-        /// <typeparam name="TOptions"></typeparam>
+        /// <typeparam name="TOptions">强类型选项类</typeparam>
+        /// <param name="jsonKey">配置中对应的Key</param>
+        /// <returns></returns>
+        public static TOptions GetOptions<TOptions>(string jsonKey)
+            where TOptions : class
+            => Configuration.GetSection(jsonKey).Get<TOptions>();
+
+        /// <summary>
+        /// 获取选项
+        /// </summary>
+        /// <typeparam name="TOptions">强类型选项类</typeparam>
         /// <returns></returns>
         public static TOptions GetOptions<TOptions>()
             where TOptions : class
@@ -63,18 +73,18 @@ namespace Fur
         /// <summary>
         /// 获取选项
         /// </summary>
-        /// <typeparam name="TOptions"></typeparam>
+        /// <typeparam name="TOptions">强类型选项类</typeparam>
         /// <returns></returns>
-        public static TOptions GetMonitorOptions<TOptions>()
+        public static TOptions GetOptionsMonitor<TOptions>()
             where TOptions : class
             => ServiceProvider.GetService<IOptionsMonitor<TOptions>>().CurrentValue;
 
         /// <summary>
         /// 获取选项
         /// </summary>
-        /// <typeparam name="TOptions"></typeparam>
+        /// <typeparam name="TOptions">强类型选项类</typeparam>
         /// <returns></returns>
-        public static TOptions GetSnapshotOptions<TOptions>()
+        public static TOptions GetOptionsSnapshot<TOptions>()
             where TOptions : class
             => ServiceProvider.GetService<IOptionsSnapshot<TOptions>>().Value;
 
