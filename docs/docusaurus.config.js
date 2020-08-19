@@ -9,13 +9,13 @@ module.exports = {
   projectName: "docusaurus", // Usually your repo name.
   themeConfig: {
     prism: {
-      additionalLanguages: ["powershell","csharp"],
+      additionalLanguages: ["powershell", "csharp"],
     },
     navbar: {
       title: "Fur",
       logo: {
         alt: "Fur Logo",
-        src: "img/logo.svg",
+        src: "img/logo.png",
       },
       hideOnScroll: true,
       items: [
@@ -117,14 +117,12 @@ module.exports = {
           homePageId: "introduce",
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
-          editUrl:
-            "https://gitee.com/monksoul/Fur/tree/alpha/docs/",
+          editUrl: "https://gitee.com/monksoul/Fur/tree/alpha/docs/",
         },
         blog: {
           showReadingTime: true,
           // Please change this to your repo.
-          editUrl:
-            "https://gitee.com/monksoul/Fur/tree/alpha/docs/",
+          editUrl: "https://gitee.com/monksoul/Fur/tree/alpha/docs/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
