@@ -1,19 +1,13 @@
 <p align="center">
-
 <img src="./docs/static/img/furlogo.png" height="80"/>
-
 </p>
 
-<div style="text-align:center;margin-top:25px">
-
+<p align="center">
 [![star](https://gitee.com/monksoul/Fur/badge/star.svg?theme=dark)](https://gitee.com/monksoul/Fur/stargazers) [![fork](https://gitee.com/monksoul/Fur/badge/fork.svg?theme=dark)](https://gitee.com/monksoul/Fur/members) ![MIT](https://img.shields.io/badge/license-MIT-3963bc.svg)
-
-</div>
+</p>
 
 <p align="center">
-
 `Fur` 是基于 `.NET 5` 开发的极易入门、极速开发的 `Web` 应用框架。
-
 </p>
 
 ## 文档地址
