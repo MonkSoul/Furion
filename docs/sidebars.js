@@ -1,8 +1,9 @@
 module.exports = {
   docs: [
     {
-      type: "doc",
-      id: "introduce",
+      type: "category",
+      label: "1. 框架介绍",
+      items: ["introduce", "author"],
     },
     {
       type: "category",
