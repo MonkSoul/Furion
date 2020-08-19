@@ -9,6 +9,10 @@ module.exports = {
       type: "category",
       label: "2. 配置与选项",
       items: ["configuration", "options"],
-    }
+    },
+    {
+      type: "doc",
+      id: "dynamic-api-controller",
+    },
   ],
 };

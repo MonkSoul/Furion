@@ -74,7 +74,7 @@ module.exports = {
             },
             {
               label: "文档指南",
-              to: "docs/doc2/",
+              to: "docs/",
             },
           ],
         },
