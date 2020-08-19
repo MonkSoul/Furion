@@ -23,7 +23,7 @@ namespace Fur.Web.Entry
 
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Fur API", Version = "v1" });
                 options.DocInclusionPredicate((currentGroup, apiDesc) => true);
             });
         }
@@ -45,7 +45,7 @@ namespace Fur.Web.Entry
             });
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Fur API V1");
                 options.RoutePrefix = string.Empty;
             });
 

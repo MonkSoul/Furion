@@ -73,10 +73,118 @@ namespace Fur.Web.Entry.Controllers
 
 ## 3.2 什么是动态 API 控制器
 
-在学习动态 API 控制器之前，首先了解 `WebAPI` 的一些约定和注意事项。
+在学习动态 API 控制器之前，首先了解 `ASP.NET COre` 中 `WebAPI` 的一些约定和注意事项。
 
 ### 3.2.1 `WebAPI` 约定
 
-在 `ASP.NET Core` 应用中，一个 `WebAPI` 控制器需遵循以下几种约定
+在 `ASP.NET Core` 应用中，一个 `WebAPI` 控制器需遵循以下几种约定：
 
-- 控制器类必须继承 `ControllerBase` 或间接继承
+- 控制器类**必须继承 `ControllerBase` 或间接继承**
+- 动作方法**必须贴有 `[HttpMethod]` 特性，如：`[HttpGet]`**
+- 控制器或动作方法**至少有一个配置 `[Route]` 特性**
+- 生成 `WebAPI` 地址时会自动去掉控制器名称 `Controller` 后缀，同时也会去掉动作方法匹配的 `HttbVerb` 谓词，如 `GET，POST，DELETE，PUT` 等
+- **不支持返回非 `IEnumerable<T>` 泛型对象**
+- **不支持引用类型参数在 `GET，HEAD` 请求下生成 `Query` 参数**
+
+除了上述约定外，`WebAPI` 路由地址**基本靠手工完成**，不利于书写，不利于维护，再者，在移动应用对接中难以进行多版本控制。
+
+### 3.2.2 创建传统 `WebAPI` 缺点
+
+通过上一章节可以看出，`ASP.NET Core` 应用实现 `WebAPI` 需要遵循很多约定，而且容易出错。
+
+除了这些以外，创建传统 `WebAPI` 有以下缺点：
+
+- 路由地址基本靠手工完成
+- 在现在移动为王的时代，不利于进行多版本控制
+- 对接 `Swagger` 文档分组比较复杂
+- 实现 `Policy` 策略授权也比较复杂
+- 不支持控制器热拔插插件化
+- 难以实现复杂自定义的 `RESTful API` 风格
+
+## 3.3 动态 `WebAPI` 控制器
+
+针对以上 `ASP.NET Core` 提供的 `WebAPI` 必须遵循的约定和不可避免的缺点，`Fur` 框架创造出一种更加灵活创建 `WebAPI` 的方式。
+
+这个方式在继承了 `ASP.NET Core WebAPI` 所有优点，同时进行了大量拓展和优化。优化后的 `WebAPI` 具有以下优点：
+
+- 具备原有的 `ControllerBase` 所有功能
+- 支持**任意公开 非静态 非抽象 非泛型类**转控制器
+- 提供更加灵活方便的 `IDynamicApiController` 空接口替代 `ControllerBase` 抽象类
+- 无需手动配置 `[HttpMethod]` 特性，同时支持一个动作方法多个 `HttpVerb`
+- 无需手动配置 `[Route]` 特性，支持更加灵活的配置及自动路由生成
+- 支持返回泛型接口，泛型类
+- 和 `Swagger` 深度结合，提供极其方便的创建 `Swagger` 分组配置
+- 支持 `Basic Auth，Jwt，ApiKey` 等多种权限灵活配置
+- 支持控制器、动作方法**版本控制**功能
+- 支持 `GET、HEAD` 请求自动转换引用类型参数
+- 支持生成 `OAS3` 接口规范
+
+## 3.4 动态 `WebAPI` 使用
+
+### 3.4.1 注册动态 `WebAPI` 服务
+
+在 `Fur` 框架中，默认未注册动态 `WebAPI` 服务，我们只需要在 `Fur.Web.Entry/Startup.cs` 中注册即可。如：
+
+```cs {4,20-21} title="Fur.Web.Entry/Startup.cs"
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Fur.Web.Entry
+{
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddApp();
+            services.AddControllers()
+                    .AddDynamicApiControllers();
+            // Other Codes...
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            // Other Codes...
+        }
+    }
+}
+```
+
+:::caution 特别注意
+
+`.AddDynamicApiControllers()` 必须在 `services.AddControllers()` 之后注册。
+
+:::
+
+### 3.4.2 第一个例子
+
+上述的例子非常简单，创建一个 `FurAppService` 类继承 `IDynamicApiController` 接口，并在这个类中编写一个 `Get` 方法。
+
+```cs {1,5,7}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        public string Get()
+        {
+            return $"Hello {nameof(Fur)}";
+        }
+    }
+}
+```
+
+如下图所示，一个 `WebAPI` 接口就这么生成了。
+
+import dyglzUrl from "../static/img/dyglz.gif";
+
+<img src={dyglzUrl} />
