@@ -26,7 +26,7 @@ module.exports = {
         {
           to: "docs/",
           activeBasePath: "docs",
-          label: "手册",
+          label: "文档",
           position: "left",
         },
         { to: "blog", label: "博客", position: "left" },
@@ -66,7 +66,7 @@ module.exports = {
       style: "dark",
       links: [
         {
-          title: "手册",
+          title: "文档",
           items: [
             {
               label: "快速入门",
