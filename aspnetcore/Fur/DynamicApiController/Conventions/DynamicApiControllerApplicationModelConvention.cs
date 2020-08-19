@@ -260,9 +260,6 @@ namespace Fur.DynamicApiController
         /// <param name="controllerApiDescriptionSettingsAttribute">控制器接口描述配置</param>
         private void ConfigureActionRouteAttribute(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettingsAttribute)
         {
-            // 如果行为名称为空、参数值为空，且无需保留谓词，则跳过路由配置
-            if (action.ActionName.Length == 0 && apiDescriptionSettings?.KeepVerb != true && action.Parameters.Count == 0) return;
-
             var selectorModel = action.Selectors[0];
             // 跳过已配置路由特性的配置
             if (selectorModel.AttributeRouteModel != null) return;
@@ -270,28 +267,44 @@ namespace Fur.DynamicApiController
             // 读取模块
             var module = apiDescriptionSettings?.Module;
 
-            // 生成参数路由模板
-            var parameterRouteTemplate = GenerateParameterRouteTemplates(action);
+            string template;
+            string controllerRouteTemplate = null;
+            // 如果行为名称为空、参数值为空，且无需保留谓词，则只生成控制器路由模板
+            if (action.ActionName.Length == 0 && apiDescriptionSettings?.KeepVerb != true && action.Parameters.Count == 0)
+            {
+                template = GenerateControllerRouteTemplate(action.Controller, controllerApiDescriptionSettingsAttribute);
+            }
+            else
+            {
+                // 生成参数路由模板
+                var parameterRouteTemplate = GenerateParameterRouteTemplates(action);
 
-            // 拼接行为路由模板
-            var ActionStartTemplate = parameterRouteTemplate.ActionStartTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionStartTemplates);
-            var ActionEndTemplate = parameterRouteTemplate.ActionEndTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionEndTemplates);
+                // 拼接行为路由模板
+                var ActionStartTemplate = parameterRouteTemplate.ActionStartTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionStartTemplates);
+                var ActionEndTemplate = parameterRouteTemplate.ActionEndTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionEndTemplates);
 
-            // 生成控制器模板
-            var controllerRouteTemplate = GenerateControllerRouteTemplate(action.Controller, controllerApiDescriptionSettingsAttribute, parameterRouteTemplate);
+                // 生成控制器模板
+                controllerRouteTemplate = GenerateControllerRouteTemplate(action.Controller, controllerApiDescriptionSettingsAttribute, parameterRouteTemplate);
 
-            // 判断是否定义了控制器路由，如果定义，则不拼接控制器路由
-            string template = string.IsNullOrEmpty(controllerRouteTemplate)
-                ? $"{(string.IsNullOrEmpty(module) ? null : $"{module}/")}{ActionStartTemplate}/{(string.IsNullOrEmpty(action.ActionName) ? null : "[action]")}/{ActionEndTemplate}"
-                : $"{controllerRouteTemplate}/{(string.IsNullOrEmpty(module) ? null : $"{module}/")}{ActionStartTemplate}/{(string.IsNullOrEmpty(action.ActionName) ? null : "[action]")}/{ActionEndTemplate}";
+                // 判断是否定义了控制器路由，如果定义，则不拼接控制器路由
+                template = string.IsNullOrEmpty(controllerRouteTemplate)
+                     ? $"{(string.IsNullOrEmpty(module) ? null : $"{module}/")}{ActionStartTemplate}/{(string.IsNullOrEmpty(action.ActionName) ? null : "[action]")}/{ActionEndTemplate}"
+                     : $"{controllerRouteTemplate}/{(string.IsNullOrEmpty(module) ? null : $"{module}/")}{ActionStartTemplate}/{(string.IsNullOrEmpty(action.ActionName) ? null : "[action]")}/{ActionEndTemplate}";
+            }
 
-            // 处理多个斜杆问题
-            template = Regex.Replace(_lazyControllerSettings.LowerCaseRoute ? template.ToLower() : template, @"\/{2,}", "/");
+            AttributeRouteModel actionAttributeRouteModel = null;
+            if (!string.IsNullOrEmpty(template))
+            {
+                // 处理多个斜杆问题
+                template = Regex.Replace(_lazyControllerSettings.LowerCaseRoute ? template.ToLower() : template, @"\/{2,}", "/");
 
-            // 生成路由特性
-            var actionAttributeRouteModel = new AttributeRouteModel(new RouteAttribute(template));
+                // 生成路由
+                actionAttributeRouteModel = string.IsNullOrEmpty(template) ? null : new AttributeRouteModel(new RouteAttribute(template));
+            }
+
+            // 拼接路由
             selectorModel.AttributeRouteModel = string.IsNullOrEmpty(controllerRouteTemplate)
-                ? AttributeRouteModel.CombineAttributeRouteModel(action.Controller.Selectors[0].AttributeRouteModel, actionAttributeRouteModel)
+                ? (actionAttributeRouteModel == null ? null : AttributeRouteModel.CombineAttributeRouteModel(action.Controller.Selectors[0].AttributeRouteModel, actionAttributeRouteModel))
                 : actionAttributeRouteModel;
         }
 
@@ -301,7 +314,7 @@ namespace Fur.DynamicApiController
         /// <param name="controller"></param>
         /// <param name="apiDescriptionSettings"></param>
         /// <returns></returns>
-        private string GenerateControllerRouteTemplate(ControllerModel controller, ApiDescriptionSettingsAttribute apiDescriptionSettings, ParameterRouteTemplate parameterRouteTemplate)
+        private string GenerateControllerRouteTemplate(ControllerModel controller, ApiDescriptionSettingsAttribute apiDescriptionSettings, ParameterRouteTemplate parameterRouteTemplate = default)
         {
             var selectorModel = controller.Selectors[0];
             // 跳过已配置路由特性的配置

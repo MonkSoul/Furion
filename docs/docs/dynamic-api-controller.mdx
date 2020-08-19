@@ -70,3 +70,13 @@ namespace Fur.Web.Entry.Controllers
 </Tabs>
 
 `Mvc` 控制器和 `WebAPI` 控制器最大的区别是 `WebAPI` 控制器不带 **视图** 和通过 **请求谓词和路由地址响应行为**。
+
+## 3.2 什么是动态 API 控制器
+
+在学习动态 API 控制器之前，首先了解 `WebAPI` 的一些约定和注意事项。
+
+### 3.2.1 `WebAPI` 约定
+
+在 `ASP.NET Core` 应用中，一个 `WebAPI` 控制器需遵循以下几种约定
+
+- 控制器类必须继承 `ControllerBase` 或间接继承

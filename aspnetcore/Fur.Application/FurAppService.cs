@@ -10,10 +10,10 @@ namespace Fur.Application
     {
         ////[ApiDescriptionSettings(false)]
         //[ApiDescriptionSettings(Version = "2.0", KeepVerb = true)]
-        ////[HttpGet]
-        ////[HttpGet("dfd")]
+        //[HttpGet]
+        //[HttpGet("dfd")]
         ////[HttpGet("dfd222")]
-        ////[AcceptVerbs("POST")]
+        //[AcceptVerbs("POST")]
         public string Get()
         {
             return $"Hello {nameof(Fur)}";
