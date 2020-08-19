@@ -279,12 +279,12 @@ namespace Fur.DynamicApiController
                 // 生成参数路由模板
                 var parameterRouteTemplate = GenerateParameterRouteTemplates(action);
 
-                // 拼接行为路由模板
-                var ActionStartTemplate = parameterRouteTemplate.ActionStartTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionStartTemplates);
-                var ActionEndTemplate = parameterRouteTemplate.ActionEndTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionEndTemplates);
-
                 // 生成控制器模板
                 controllerRouteTemplate = GenerateControllerRouteTemplate(action.Controller, controllerApiDescriptionSettingsAttribute, parameterRouteTemplate);
+
+                // 拼接行为路由模板
+                var ActionStartTemplate = parameterRouteTemplate != null ? (parameterRouteTemplate.ActionStartTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionStartTemplates)) : null;
+                var ActionEndTemplate = parameterRouteTemplate != null ? (parameterRouteTemplate.ActionEndTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionEndTemplates)) : null;
 
                 // 判断是否定义了控制器路由，如果定义，则不拼接控制器路由
                 template = string.IsNullOrEmpty(controllerRouteTemplate)

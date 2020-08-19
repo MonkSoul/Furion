@@ -189,4 +189,121 @@ import dyglzUrl from "../static/img/dyglz.gif";
 
 <img src={dyglzUrl} />
 
-### 3.5.1 原理解析
+## 3.6 动态 `WebAPI` 原理解析
+
+### 3.6.1 控制器特性提供器
+
+`Fur` 框架会在应用启动时注册 `DynamicApiControllerFeatureProvider` 控制器特性提供器，该提供器继承自 `ControllerFeatureProvider` 类。
+
+接着重写 `bool IsController(TypeInfo typeInfo)` 方法，用来标识控制器类型。在 `Fur` 框架中，**继承自 `ControllerBase` 类或 `IDynamicApiController` 接口都会被标记为控制器类型。**
+
+### 3.6.2 应用模型转换器
+
+`Fur` 框架同时在应用启动时注册 `DynamicApiControllerApplicationModelConvention` 应用模型转换器，该转换器继承自 `IApplicationModelConvention` 接口。
+
+接着实现 `void Apply(ApplicationModel application)` 接口方法。在该方法中配置控制器名称、路由、导出可见性及动作方法名称、路由、导出可见性等。
+
+实际上该方法做的就是按照 **[WebAPI 约定](#321-webapi-约定)** 提前帮我们配置好路由、请求谓词等信息。避免了手动配置的同时还增加了许多新特性，如**版本控制。**
+
+## 3.7 动态 `WebAPI` 配置约定
+
+### 3.7.1 控制器默认约定
+
+- 生成控制器名称默认去除以 `AppServices，AppService，ApiController，Controller，Services，Service` 作为前后缀的字符串。见第一个例子中的 `FurAppService -> Fur` **支持自定义配置**
+- 控制器名称带 `V[0-9_]` 结尾的，会自动生成控制器版本号，如 `FurAppServiceV2 -> Fur@2`，`FurAppServiceV1_1_0 -> Fur@1.1.0`。**支持版本分隔符配置**
+
+### 3.7.2 动作方法默认约定
+
+- 生成的动作方法名称默认去除以 `Post/Add/Create/Insert/Submit，Get/Find/Fetch/Query/Search，Put/Update，Delete/Remove/Clear` 开头的字符串。**支持自定义配置**
+- 生成的动作方法名称默认去除以 `Async` 作为前后缀的字符串。**支持自定义配置**
+- 动作方法名称带 `V[0-9_]` 结尾的，会自动生成动作方法版本号，如 `ChangePasswordV2 -> ChangePassword@2`，`ChangePasswordV1_1_0 -> ChangePassword@1_1_0`。**支持版本分隔符配置**
+
+### 3.7.3 请求谓词默认约定
+
+- 动作方法名以 `Post/Add/Create/Insert/Submit` 开头，则添加 `[HttpPost]` 特性。以 `Get/Find/Fetch/Query/Search` 开头，则添加 `[HttpPost]` 特性。以 `Put/Update` 开头，则添加 `[HttpPut]` 特性。以 `Delete/Remove/Clear` 开头，则添加 `[HttpDelete]` 特性。 **支持自定义配置**
+- 如果不在上面约定外，则默认添加 `[HttpPost]` 特性。**支持自定义配置**
+
+### 3.7.4 路由地址默认约定
+
+- 默认以 `api` 开头。**支持自定义配置**
+- 默认转换为小写路由地址。**支持自定义配置**
+- 生成控制器路由模板格式为：`api/前置参数列表/模块名或默认区域名/[controller@版本号]/后置参数列表`
+- 生成动作方法路由模板格式为：`前置参数列表/模块名/[action@版本号]/后置参数列表`
+
+### 3.7.5 其他约定
+
+- 默认不处理 `ControllerBase` 控制器类型。**支持自定义配置**
+- 默认不处理 `GET，HEAD` 请求的引用类型参数。**支持自定义配置**
+
+## 3.8 更多例子
+
+### 3.8.1 多种请求谓词方法
+
+```cs {7,12,17,22}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        public string Get()
+        {
+            return $"GET 请求";
+        }
+
+        public string Post()
+        {
+            return $"POST 请求";
+        }
+
+        public string Delete()
+        {
+            return $"DELETE 请求";
+        }
+
+        public string Put()
+        {
+            return $"PUT 请求";
+        }
+    }
+}
+```
+
+如下图所示：
+
+import dgqqwcUrl from "../static/img/dgqqwc.gif";
+
+<img src={dgqqwcUrl} />
+
+### 3.8.2 多种动作方法命名
+
+```cs {7,12,17}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        public string GetVersion()
+        {
+            return $"v1.0.0";
+        }
+
+        public string ChangeProfile()
+        {
+            return "修改成功";
+        }
+
+        public string DeleteUser()
+        {
+            return "删除成功";
+        }
+    }
+}
+```
+
+如下图所示：
+
+import dzmcUrl from "../static/img/dzmc.png";
+
+<img src={dzmcUrl} />
