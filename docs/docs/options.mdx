@@ -599,7 +599,33 @@ namespace Fur.Application
 
 :::
 
-## 2.2.8 选项的优缺点
+## 2.2.8 选项更改通知（`热更新`）
+
+`Fur` 框架提供了非常简单且灵活的方式监听选项更改，也就是 **`appsettings.json` 或 自定义配置文件发生任何更改都会触发处理方法**。
+
+使用非常简单，只需要继承 `IAppOptionsListener<TOptions>` 接口并实现 `void OnListener(TOptions options, IConfiguration configuration)` 方法即可。
+
+```cs {5,12-16}
+using Fur.Options;
+
+namespace Fur.Application
+{
+    public class AppInfoOptions : IAppOptions, IAppOptionsListener<AppInfoOptions>
+    {
+        public string Name { get; set; }
+        public string Version { get; set; }
+        public string Company { get; set; }
+    }
+
+    public void OnListener(AppInfoOptions options, IConfiguration configuration)
+    {
+        var name = options.Name;  // 实时的最新值
+        var version = options.Version;  // 实时的最新值
+    }
+}
+```
+
+## 2.2.9 选项的优缺点
 
 ### 优点
 
@@ -617,7 +643,7 @@ namespace Fur.Application
 - 需要定义对应类型
 - 需要在启动时注册
 
-## 2.2.9 反馈与建议
+## 2.2.10 反馈与建议
 
 :::note 与我们交流
 

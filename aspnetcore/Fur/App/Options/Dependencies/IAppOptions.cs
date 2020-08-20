@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Fur.Options
 {
@@ -26,5 +27,15 @@ namespace Fur.Options
         where TOptions : class, IAppOptions
         where TOptionsValidation : class, IValidateOptions<TOptions>
     {
+    }
+
+    /// <summary>
+    ///带监听的应用选项依赖接口
+    /// </summary>
+    /// <typeparam name="TOptions"></typeparam>
+    public partial interface IAppOptionsListener<TOptions>
+        where TOptions : class, IAppOptions
+    {
+        void OnListener(TOptions options, IConfiguration configuration);
     }
 }

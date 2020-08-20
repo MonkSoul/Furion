@@ -296,7 +296,20 @@ var smtpServer = _configuration["outlook:smtp:server"]; // => smtp.office365.com
 
 这时，`ASP.NET Core` 会在应用启动时自动加载不同环境的配置文件。
 
-## 2.1.6 配置的优缺点
+## 2.1.6 配置更改通知（`热更新`）
+
+在 `.NET Core` 应用程序中，配置支持更改通知，也就是热更新操作。**一旦监听到 `appsetting.json` 或自定义配置文件发生变动，就会触发 `OnChange` 方法**。代码如下：
+
+```cs {2,4-5}
+var appInfoConfiguration = App.Configuration["AppInfo"];
+ChangeToken.OnChange(() => appInfoConfiguration.GetReloadToken(), () =>
+{
+  var name = appInfoConfiguration["Name"];  // 实时的最新值
+  var version = appInfoConfiguration["Version"];  // 实时的最新值
+});
+```
+
+## 2.1.7 配置的优缺点
 
 ### 优点
 
@@ -312,11 +325,11 @@ var smtpServer = _configuration["outlook:smtp:server"]; // => smtp.office365.com
 - 不能验证配置有效性
 - 不支持更改通知
 
-## 2.1.7 配置使用场景
+## 2.1.8 配置使用场景
 
 如果只需要**一次性读取**配置信息，则使用配置，否则应该使用 《[2.2 选项](./options.mdx)》代替。
 
-## 2.1.8 反馈与建议
+## 2.1.9 反馈与建议
 
 :::note 与我们交流
 

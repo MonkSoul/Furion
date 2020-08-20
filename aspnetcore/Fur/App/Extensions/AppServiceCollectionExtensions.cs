@@ -1,7 +1,9 @@
 ﻿using Fur;
 using Fur.Options;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -47,6 +49,21 @@ namespace Microsoft.Extensions.DependencyInjection
 
             // 配置选项（含验证信息）
             var optionsConfiguration = App.Configuration.GetSection(jsonKey);
+
+            // 配置选项监听
+            if (typeof(IAppOptionsListener<TOptions>).IsAssignableFrom(optionsType))
+            {
+                var onListenerMethod = optionsType.GetMethod(nameof(IAppOptionsListener<TOptions>.OnListener));
+                if (onListenerMethod != null)
+                {
+                    ChangeToken.OnChange(() => optionsConfiguration.GetReloadToken(), () =>
+                    {
+                        var options = optionsConfiguration.Get<TOptions>();
+                        onListenerMethod.Invoke(options, new object[] { options, optionsConfiguration });
+                    });
+                }
+            }
+
             services.AddOptions<TOptions>()
                 .Bind(optionsConfiguration)
                 .ValidateDataAnnotations();
