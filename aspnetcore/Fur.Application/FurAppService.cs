@@ -4,19 +4,19 @@ namespace Fur.Application
 {
     public class FurAppService : IDynamicApiController
     {
-        public string GetVersion()
+        public string GetUser(int id)
         {
-            return $"v1.0.0";
+            return $"{id}";
         }
 
-        public string ChangeProfile()
+        public string GetUser(int id, string name)
         {
-            return "修改成功";
+            return $"{id} {name}";
         }
 
-        public string DeleteUser()
+        public TestDto Add(TestDto testDto)
         {
-            return "删除成功";
+            return testDto;
         }
     }
 }

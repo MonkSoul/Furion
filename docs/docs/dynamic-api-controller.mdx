@@ -221,11 +221,11 @@ import dyglzUrl from "../static/img/dyglz.gif";
 ### 3.7.3 请求谓词默认约定
 
 - 动作方法名
-    - 以 `Post/Add/Create/Insert/Submit` 开头，则添加 `[HttpPost]` 特性。
-    - 以 `Get/Find/Fetch/Query/Search` 开头，则添加 `[HttpPost]` 特性。
-    - 以 `Put/Update` 开头，则添加 `[HttpPut]` 特性。
-    - 以 `Delete/Remove/Clear` 开头，则添加 `[HttpDelete]` 特性。
-    - **支持自定义配置**
+  - 以 `Post/Add/Create/Insert/Submit` 开头，则添加 `[HttpPost]` 特性。
+  - 以 `Get/Find/Fetch/Query/Search` 开头，则添加 `[HttpPost]` 特性。
+  - 以 `Put/Update` 开头，则添加 `[HttpPut]` 特性。
+  - 以 `Delete/Remove/Clear` 开头，则添加 `[HttpDelete]` 特性。
+  - **支持自定义配置**
 - 如果不在上面约定中，则默认添加 `[HttpPost]` 特性。**支持自定义配置**
 
 ### 3.7.4 路由地址默认约定
@@ -280,7 +280,7 @@ import dgqqwcUrl from "../static/img/dgqqwc.gif";
 
 <img src={dgqqwcUrl} />
 
-### 3.8.2 多种动作方法命名
+### 3.8.2 多个动作方法
 
 ```cs {7,12,17}
 using Fur.DynamicApiController;
@@ -312,3 +312,36 @@ namespace Fur.Application
 import dzmcUrl from "../static/img/dzmc.png";
 
 <img src={dzmcUrl} />
+
+### 3.8.3 带参数动作方法
+
+```cs {7,12,17}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        public string GetUser(int id)
+        {
+            return $"{id}";
+        }
+
+        public string GetUser(int id, string name)
+        {
+            return $"{id} {name}";
+        }
+
+        public TestDto Add(TestDto testDto)
+        {
+            return testDto;
+        }
+    }
+}
+```
+
+如下图所示：
+
+import dcsffUrl from "../static/img/dcsff.gif";
+
+<img src={dcsffUrl} />
