@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fur.Application
 {
+    [Route("customapi/mobile/[controller]")]
     public class FurAppService : IDynamicApiController
     {
-        [HttpPost, HttpGet, AcceptVerbs("PUT", "DELETE")]
+        [Route("get/[action]")]
         public string GetVersion()
         {
             return "1.0.0";

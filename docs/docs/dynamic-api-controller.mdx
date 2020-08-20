@@ -536,3 +536,100 @@ import dgwcUrl from "../static/img/dgwc.png";
 如果动作方法中含有 `类类型参数`，且含有 `POST/PUT/DELETE` 任意请求谓词，那么该参数会自动添加 `[FromBody]` 参数，即使在 `GET/HEAD` 请求中不支持。
 
 :::
+
+### 3.8.9 支持自定义路由
+
+支持控制器和动作方法自定义路由：
+
+import kzqrlUrl from "../static/img/kzqrl.png";
+import dzffrlUrl from "../static/img/dzffrl.png";
+import allrlUrl from "../static/img/allrl.png";
+
+<Tabs
+  defaultValue="kzqrl"
+  values={[
+    { label: "自定义控制器路由", value: "kzqrl" },
+    { label: "自定义动作方法路由", value: "dzffrl" },
+    { label: "同时自定义路由", value: "allrl" },
+  ]}
+>
+  <TabItem value="kzqrl">
+
+```cs {2,6}
+using Fur.DynamicApiController;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Fur.Application
+{
+    [Route("customapi/mobile/[controller]")]
+    public class FurAppService : IDynamicApiController
+    {
+        public string GetVersion()
+        {
+            return "1.0.0";
+        }
+    }
+}
+```
+
+如下图所示：
+
+<img src={kzqrlUrl} />
+
+  </TabItem>
+  <TabItem value="dzffrl">
+
+```cs {2,8}
+using Fur.DynamicApiController;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        [Route("customapi/[action]")]
+        public string GetVersion()
+        {
+            return "1.0.0";
+        }
+    }
+}
+```
+
+如下图所示：
+
+<img src={dzffrlUrl} />
+
+  </TabItem>
+  <TabItem value="allrl">
+
+```cs {2,6,9}
+using Fur.DynamicApiController;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Fur.Application
+{
+    [Route("customapi/mobile/[controller]")]
+    public class FurAppService : IDynamicApiController
+    {
+        [Route("get/[action]")]
+        public string GetVersion()
+        {
+            return "1.0.0";
+        }
+    }
+}
+```
+
+如下图所示：
+
+<img src={allrlUrl} />
+
+  </TabItem>
+</Tabs>
+
+:::tip 推荐配置
+
+自定义路由如果需要用到 **控制器/动作方法名称**，推荐使用 `[controller]` 或 `[action]` 占位符，因为该占位符已经自动处理了 **前后缀、版本号、模块名称**等。
+
+:::
