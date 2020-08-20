@@ -71,9 +71,9 @@ namespace Fur.Web.Entry.Controllers
 
 `Mvc` 控制器和 `WebAPI` 控制器最大的区别是 `WebAPI` 控制器不带 **视图** 和通过 **请求谓词和路由地址响应行为**。
 
-## 3.2 什么是动态 API 控制器
+## 3.2 什么是动态 `WebAPI` 控制器
 
-在学习动态 API 控制器之前，首先了解 `ASP.NET COre` 中 `WebAPI` 的一些约定和注意事项。
+在学习动态 API 控制器之前，首先了解 `ASP.NET Core` 中 `WebAPI` 的一些约定和注意事项。
 
 ### 3.2.1 `WebAPI` 约定
 
@@ -166,7 +166,7 @@ namespace Fur.Web.Entry
 
 ## 3.5 第一个例子
 
-上述的例子非常简单，创建一个 `FurAppService` 类继承 `IDynamicApiController` 接口，并在这个类中编写一个 `Get` 方法。
+创建一个 `FurAppService` 类继承 `IDynamicApiController` 接口，并在这个类中编写一个 `Get` 方法。
 
 ```cs {1,5,7}
 using Fur.DynamicApiController;
@@ -220,8 +220,13 @@ import dyglzUrl from "../static/img/dyglz.gif";
 
 ### 3.7.3 请求谓词默认约定
 
-- 动作方法名以 `Post/Add/Create/Insert/Submit` 开头，则添加 `[HttpPost]` 特性。以 `Get/Find/Fetch/Query/Search` 开头，则添加 `[HttpPost]` 特性。以 `Put/Update` 开头，则添加 `[HttpPut]` 特性。以 `Delete/Remove/Clear` 开头，则添加 `[HttpDelete]` 特性。 **支持自定义配置**
-- 如果不在上面约定外，则默认添加 `[HttpPost]` 特性。**支持自定义配置**
+- 动作方法名
+    - 以 `Post/Add/Create/Insert/Submit` 开头，则添加 `[HttpPost]` 特性。
+    - 以 `Get/Find/Fetch/Query/Search` 开头，则添加 `[HttpPost]` 特性。
+    - 以 `Put/Update` 开头，则添加 `[HttpPut]` 特性。
+    - 以 `Delete/Remove/Clear` 开头，则添加 `[HttpDelete]` 特性。
+    - **支持自定义配置**
+- 如果不在上面约定中，则默认添加 `[HttpPost]` 特性。**支持自定义配置**
 
 ### 3.7.4 路由地址默认约定
 
