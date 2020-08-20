@@ -789,6 +789,12 @@ namespace Fur.Application
   </TabItem>
 </Tabs>
 
+:::note 版本生成原理
+
+**`V[0-9_]`** 结尾的命名自动解析成版本号，如 **`FurAppServiceV2 -> Fur@2`**。
+
+:::
+
 :::tip 版本复写
 
 除了通过特定后缀方式以外，版本还直接通过 `[ApiDescriptionSettings]` 进行复写。如：
