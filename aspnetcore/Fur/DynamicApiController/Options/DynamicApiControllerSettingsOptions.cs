@@ -28,12 +28,12 @@ namespace Fur.DynamicApiController
         /// <summary>
         /// 小写路由
         /// </summary>
-        public bool LowerCaseRoute { get; set; }
+        public bool? LowerCaseRoute { get; set; }
 
         /// <summary>
         /// 保留行为名称谓词
         /// </summary>
-        public bool KeepVerb { get; set; }
+        public bool? KeepVerb { get; set; }
 
         /// <summary>
         /// 骆驼命名分隔符
@@ -49,12 +49,12 @@ namespace Fur.DynamicApiController
         /// <summary>
         /// 模型转查询参数（只有GET、HEAD请求有效）
         /// </summary>
-        public bool ModelToQuery { get; set; }
+        public bool? ModelToQuery { get; set; }
 
         /// <summary>
         /// 支持Mvc控制器处理
         /// </summary>
-        public bool SupportedMvcController { get; set; }
+        public bool? SupportedMvcController { get; set; }
 
         /// <summary>
         /// 被舍弃的控制器名称前后缀
@@ -72,15 +72,15 @@ namespace Fur.DynamicApiController
         /// <param name="options"></param>
         public void PostConfigure(DynamicApiControllerSettingsOptions options)
         {
-            options.DefaultRoutePrefix = "api";
-            options.DefaultHttpMethod = "POST";
-            options.LowerCaseRoute = true;
-            options.KeepVerb = false;
-            options.CamelCaseSeparator = "-";
-            options.VersionSeparator = "@";
-            options.ModelToQuery = false;
-            options.SupportedMvcController = false;
-            options.AbandonControllerAffixes = new string[]
+            options.DefaultRoutePrefix ??= "api";
+            options.DefaultHttpMethod ??= "POST";
+            options.LowerCaseRoute ??= true;
+            options.KeepVerb ??= false;
+            options.CamelCaseSeparator ??= "-";
+            options.VersionSeparator ??= "@";
+            options.ModelToQuery ??= false;
+            options.SupportedMvcController ??= false;
+            options.AbandonControllerAffixes ??= new string[]
             {
                 "AppServices",
                 "AppService",
@@ -89,7 +89,7 @@ namespace Fur.DynamicApiController
                 "Services",
                 "Service"
             };
-            options.AbandonActionAffixes = new string[]
+            options.AbandonActionAffixes ??= new string[]
             {
                 "Async"
             };

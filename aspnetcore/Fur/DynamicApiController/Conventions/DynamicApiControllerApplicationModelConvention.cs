@@ -39,7 +39,7 @@ namespace Fur.DynamicApiController
             foreach (var controller in controllers)
             {
                 // 跳过Mvc控制器处理
-                if (!_lazyControllerSettings.SupportedMvcController && typeof(ControllerBase).IsAssignableFrom(controller.ControllerType)) continue;
+                if (!_lazyControllerSettings.SupportedMvcController.Value && typeof(ControllerBase).IsAssignableFrom(controller.ControllerType)) continue;
 
                 var apiDescriptionSettings = controller.Attributes.FirstOrDefault(u => u is ApiDescriptionSettingsAttribute) as ApiDescriptionSettingsAttribute;
                 ConfigureController(controller, apiDescriptionSettings);
@@ -86,7 +86,7 @@ namespace Fur.DynamicApiController
                     tempName = Penetrates.ClearStringAffixes(controller.ControllerName, affixes: _lazyControllerSettings.AbandonControllerAffixes);
 
                     // 处理骆驼命名
-                    if (apiDescriptionSettings?.SplitCamelCase == true)
+                    if (apiDescriptionSettings?.SplitCamelCase != false)
                     {
                         tempName = string.Join(_lazyControllerSettings.CamelCaseSeparator, Penetrates.SplitCamelCase(tempName));
                     }
@@ -101,7 +101,7 @@ namespace Fur.DynamicApiController
 
             // 拼接名称和版本号
             var controllerName = $"{tempName}{(string.IsNullOrEmpty(apiVersion) ? null : $"{_lazyControllerSettings.VersionSeparator}{apiVersion}")}";
-            controller.ControllerName = _lazyControllerSettings.LowerCaseRoute ? controllerName.ToLower() : controllerName;
+            controller.ControllerName = _lazyControllerSettings.LowerCaseRoute.Value ? controllerName.ToLower() : controllerName;
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace Fur.DynamicApiController
                     }
 
                     // 处理骆驼命名
-                    if (apiDescriptionSettings?.SplitCamelCase == true)
+                    if (apiDescriptionSettings?.SplitCamelCase != false)
                     {
                         tempName = string.Join(_lazyControllerSettings.CamelCaseSeparator, Penetrates.SplitCamelCase(tempName));
                     }
@@ -181,7 +181,7 @@ namespace Fur.DynamicApiController
 
             // 拼接名称和版本号
             var actionName = $"{tempName}{(string.IsNullOrEmpty(apiVersion) ? null : $"{_lazyControllerSettings.VersionSeparator}{apiVersion}")}";
-            action.ActionName = _lazyControllerSettings.LowerCaseRoute ? actionName.ToLower() : actionName;
+            action.ActionName = _lazyControllerSettings.LowerCaseRoute.Value ? actionName.ToLower() : actionName;
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace Fur.DynamicApiController
             if (action.Parameters.Count == 0) return;
 
             // 如果行为请求谓词只有GET和HEAD，则将类转查询参数
-            if (_lazyControllerSettings.ModelToQuery)
+            if (_lazyControllerSettings.ModelToQuery.Value)
             {
                 var httpMethods = action.Selectors
                     .SelectMany(u => u.ActionConstraints
@@ -296,7 +296,7 @@ namespace Fur.DynamicApiController
             if (!string.IsNullOrEmpty(template))
             {
                 // 处理多个斜杆问题
-                template = Regex.Replace(_lazyControllerSettings.LowerCaseRoute ? template.ToLower() : template, @"\/{2,}", "/");
+                template = Regex.Replace(_lazyControllerSettings.LowerCaseRoute.Value ? template.ToLower() : template, @"\/{2,}", "/");
 
                 // 生成路由
                 actionAttributeRouteModel = string.IsNullOrEmpty(template) ? null : new AttributeRouteModel(new RouteAttribute(template));
@@ -357,7 +357,7 @@ namespace Fur.DynamicApiController
                 var parameterAttributes = parameterModel.Attributes;
 
                 // 处理小写参数路由匹配问题
-                if (_lazyControllerSettings.LowerCaseRoute) parameterModel.ParameterName = parameterModel.ParameterName.ToLower();
+                if (_lazyControllerSettings.LowerCaseRoute.Value) parameterModel.ParameterName = parameterModel.ParameterName.ToLower();
 
                 // 如果没有贴 [FromRoute] 特性且不是基元类型，则跳过
                 // 如果没有贴 [FromRoute] 特性且有任何绑定特性，则跳过

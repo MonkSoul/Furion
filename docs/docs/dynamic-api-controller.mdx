@@ -84,7 +84,7 @@ namespace Fur.Web.Entry.Controllers
 - 控制器或动作方法**至少有一个配置 `[Route]` 特性**
 - 生成 `WebAPI` 地址时会自动去掉控制器名称 `Controller` 后缀，同时也会去掉动作方法匹配的 `HttbVerb` 谓词，如 `GET，POST，DELETE，PUT` 等
 - **不支持返回非 `IEnumerable<T>` 泛型对象**
-- **不支持引用类型参数在 `GET，HEAD` 请求下生成 `Query` 参数**
+- **不支持类类型参数在 `GET，HEAD` 请求下生成 `Query` 参数**
 
 除了上述约定外，`WebAPI` 路由地址**基本靠手工完成**，不利于书写，不利于维护，再者，在移动应用对接中难以进行多版本控制。
 
@@ -116,7 +116,7 @@ namespace Fur.Web.Entry.Controllers
 - 和 `Swagger` 深度结合，提供极其方便的创建 `Swagger` 分组配置
 - 支持 `Basic Auth，Jwt，ApiKey` 等多种权限灵活配置
 - 支持控制器、动作方法**版本控制**功能
-- 支持 `GET、HEAD` 请求自动转换引用类型参数
+- 支持 `GET、HEAD` 请求自动转换 `类类型参数`
 - 支持生成 `OAS3` 接口规范
 
 ## 3.4 动态 `WebAPI` 使用
@@ -211,12 +211,14 @@ import dyglzUrl from "../static/img/dyglz.gif";
 
 - 生成控制器名称默认去除以 `AppServices，AppService，ApiController，Controller，Services，Service` 作为前后缀的字符串。见第一个例子中的 `FurAppService -> Fur` **支持自定义配置**
 - 控制器名称带 `V[0-9_]` 结尾的，会自动生成控制器版本号，如 `FurAppServiceV2 -> Fur@2`，`FurAppServiceV1_1_0 -> Fur@1.1.0`。**支持版本分隔符配置**
+- 控制名称以 `骆驼命名（CamelCase）` 会自动切割成多个单词 `-` 连接。**支持版本分隔符配置**
 
 ### 3.7.2 动作方法默认约定
 
 - 生成的动作方法名称默认去除以 `Post/Add/Create/Insert/Submit，Get/Find/Fetch/Query/Search，Put/Update，Delete/Remove/Clear` 开头的字符串。**支持自定义配置**
 - 生成的动作方法名称默认去除以 `Async` 作为前后缀的字符串。**支持自定义配置**
 - 动作方法名称带 `V[0-9_]` 结尾的，会自动生成动作方法版本号，如 `ChangePasswordV2 -> ChangePassword@2`，`ChangePasswordV1_1_0 -> ChangePassword@1_1_0`。**支持版本分隔符配置**
+- 动作方法名称以 `骆驼命名（CamelCase）` 会自动切割成多个单词 `-` 连接。**支持版本分隔符配置**
 
 ### 3.7.3 请求谓词默认约定
 
@@ -345,3 +347,80 @@ namespace Fur.Application
 import dcsffUrl from "../static/img/dcsff.gif";
 
 <img src={dcsffUrl} />
+
+### 3.8.5 `GET/HEAD` 请求引用参数
+
+默认情况下，`ASP.NET Core` 会将 `GET/HEAD` 请求中的 `类类型参数` 设置为 `[FromBody]` 绑定，如：
+
+```cs {7}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        public TestDto GetTest(TestDto testDto)
+        {
+            return testDto;
+        }
+    }
+}
+```
+
+如下图所示：
+
+import getyycsUrl from "../static/img/getyycs.png";
+
+<img src={getyycsUrl} />
+
+这时如果我们需要转换为 `Query` 查询参数，有以下两种方式：
+
+<Tabs
+  defaultValue="fromquery"
+  values={[
+    { label: "[FromQuery] 特性", value: "fromquery" },
+    {
+      label: "配置 DynamicApiControllerSettings",
+      value: "DynamicApiControllerSettings",
+    },
+  ]}
+>
+  <TabItem value="fromquery">
+
+```cs {2,8}
+using Fur.DynamicApiController;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        public TestDto GetTest([FromQuery] TestDto testDto)
+        {
+            return testDto;
+        }
+    }
+}
+```
+
+  </TabItem>
+  <TabItem value="DynamicApiControllerSettings">
+
+```json {2-4}
+{
+  "AppSettings": {
+    "DynamicApiControllerSettings": {
+      "ModelToQuery": true
+    }
+  }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+如下图所示：
+
+import modeltoqueryUrl from "../static/img/modeltoquery.png";
+
+<img src={modeltoqueryUrl} />

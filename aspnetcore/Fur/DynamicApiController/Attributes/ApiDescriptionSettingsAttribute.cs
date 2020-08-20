@@ -12,8 +12,15 @@ namespace Fur.DynamicApiController
         /// <summary>
         /// 构造函数
         /// </summary>
+        public ApiDescriptionSettingsAttribute() : base()
+        {
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         /// <param name="enabled">是否启用</param>
-        public ApiDescriptionSettingsAttribute(bool enabled)
+        public ApiDescriptionSettingsAttribute(bool enabled) : base()
         {
             base.IgnoreApi = !enabled;
             Enabled = enabled;
@@ -23,7 +30,7 @@ namespace Fur.DynamicApiController
         /// 构造函数
         /// </summary>
         /// <param name="groups">分组列表</param>
-        public ApiDescriptionSettingsAttribute(params string[] groups)
+        public ApiDescriptionSettingsAttribute(params string[] groups) : base()
         {
             base.GroupName = string.Join(Penetrates.GroupSeparator, groups);
             Groups = groups;

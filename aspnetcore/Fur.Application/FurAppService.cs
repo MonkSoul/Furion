@@ -4,17 +4,7 @@ namespace Fur.Application
 {
     public class FurAppService : IDynamicApiController
     {
-        public string GetUser(int id)
-        {
-            return $"{id}";
-        }
-
-        public string GetUser(int id, string name)
-        {
-            return $"{id} {name}";
-        }
-
-        public TestDto Add(TestDto testDto)
+        public TestDto GetTest(TestDto testDto)
         {
             return testDto;
         }

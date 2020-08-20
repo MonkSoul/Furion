@@ -13,7 +13,7 @@ import TabItem from "@theme/TabItem";
 
 ## 2.2.2 与配置的区别
 
-选项实际上也是配置，但在后者的基础上添加了配置验证、默认值设定及提供了多种接口读取配置信息，同时还支持供配置更改通知等强大灵活功能。
+选项实际上也是配置，但在后者的基础上添加了配置验证、默认值/后期配置设定及提供了多种接口读取配置信息，同时还支持供配置更改通知等强大灵活功能。
 
 所以，除了一次性读取使用的配置以外，都应该选用 **选项** 替换 **配置**。
 
@@ -564,7 +564,7 @@ namespace Fur.Application
 
 ## 2.2.7 选项后期配置
 
-选项后期配置通俗一点来说，就是当配置不存在时给定默认值。
+选项后期配置通俗一点来说，可以在运行时解析值或设定默认值/后期配置等。
 
 在 `Fur` 框架中，配置选项后期配置很简单，只需要继承 `IAppOptions<TOptions` 接口并实现 `PostConfigure(TOptions options)` 方法。
 
@@ -585,9 +585,9 @@ namespace Fur.Application
 
         public void PostConfigure(AppInfoOptions options)
         {
-            options.Name = "Fur";
-            options.Version = "1.0.0";
-            options.Version = "Baiqian";
+            options.Name ??= "Fur";
+            options.Version ??= "1.0.0";
+            options.Version ??= "Baiqian";
         }
     }
 }
@@ -606,7 +606,7 @@ namespace Fur.Application
 - 强类型配置
 - 提供多种读取方式
 - 支持热加载
-- 支持设置默认值
+- 支持设置默认值/后期配置
 - 支持在运行环境中动态配置
 - 支持验证配置有效性
 - 支持更改通知
