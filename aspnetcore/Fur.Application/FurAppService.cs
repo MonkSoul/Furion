@@ -8,15 +8,5 @@ namespace Fur.Application
         {
             return nameof(Fur);
         }
-
-        public string GetV1()
-        {
-            return nameof(Fur);
-        }
-
-        public string GetV2_1()
-        {
-            return nameof(Fur);
-        }
     }
 }

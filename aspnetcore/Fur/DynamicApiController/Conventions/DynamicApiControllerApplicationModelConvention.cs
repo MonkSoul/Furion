@@ -38,8 +38,11 @@ namespace Fur.DynamicApiController
             var controllers = application.Controllers;
             foreach (var controller in controllers)
             {
-                // 跳过Mvc控制器处理
-                if (!_lazyControllerSettings.SupportedMvcController.Value && typeof(ControllerBase).IsAssignableFrom(controller.ControllerType)) continue;
+                // 判断是否处理 Mvc控制器
+                if (typeof(ControllerBase).IsAssignableFrom(controller.ControllerType))
+                {
+                    if (!_lazyControllerSettings.SupportedMvcController.Value || controller.ApiExplorer?.IsVisible == false) continue;
+                }
 
                 var apiDescriptionSettings = controller.Attributes.FirstOrDefault(u => u is ApiDescriptionSettingsAttribute) as ApiDescriptionSettingsAttribute;
                 ConfigureController(controller, apiDescriptionSettings);
@@ -91,7 +94,7 @@ namespace Fur.DynamicApiController
                     tempName = Penetrates.ClearStringAffixes(tempName, affixes: _lazyControllerSettings.AbandonControllerAffixes);
 
                     // 处理骆驼命名
-                    if (apiDescriptionSettings?.SplitCamelCase != false)
+                    if ((apiDescriptionSettings?.SplitCamelCase ?? true) != false)
                     {
                         tempName = string.Join(_lazyControllerSettings.CamelCaseSeparator, Penetrates.SplitCamelCase(tempName));
                     }
@@ -170,7 +173,7 @@ namespace Fur.DynamicApiController
                     }
 
                     // 处理骆驼命名
-                    if (apiDescriptionSettings?.SplitCamelCase != false)
+                    if ((apiDescriptionSettings?.SplitCamelCase ?? true) != false)
                     {
                         tempName = string.Join(_lazyControllerSettings.CamelCaseSeparator, Penetrates.SplitCamelCase(tempName));
                     }
@@ -196,7 +199,7 @@ namespace Fur.DynamicApiController
             var verbKey = Penetrates.GetCamelCaseFirstWord(action.ActionMethod.Name).ToLower();
             var verb = Penetrates.VerbToHttpMethods.ContainsKey(verbKey)
                 ? Penetrates.VerbToHttpMethods[verbKey]
-                : _lazyControllerSettings.DefaultHttpMethod;
+                : _lazyControllerSettings.DefaultHttpMethod.ToLower();
 
             // 添加请求约束
             selectorModel.ActionConstraints.Add(new HttpMethodActionConstraint(new[] { verb }));

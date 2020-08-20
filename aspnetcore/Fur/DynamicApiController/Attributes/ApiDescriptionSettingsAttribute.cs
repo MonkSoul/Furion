@@ -14,6 +14,7 @@ namespace Fur.DynamicApiController
         /// </summary>
         public ApiDescriptionSettingsAttribute() : base()
         {
+            SplitCamelCase = true;
         }
 
         /// <summary>
@@ -24,6 +25,7 @@ namespace Fur.DynamicApiController
         {
             base.IgnoreApi = !enabled;
             Enabled = enabled;
+            SplitCamelCase = true;
         }
 
         /// <summary>
@@ -34,6 +36,7 @@ namespace Fur.DynamicApiController
         {
             base.GroupName = string.Join(Penetrates.GroupSeparator, groups);
             Groups = groups;
+            SplitCamelCase = true;
         }
 
         /// <summary>

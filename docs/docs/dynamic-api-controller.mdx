@@ -829,13 +829,295 @@ public string GetV1()
 
 ### 3.9.1 内置配置
 
-- `Name`：自定义控制器/动作方法名称，`string`
-- `KeepName`：是否保持原有名称不处理，`bool`
-- `SplitCamelCase`：切割骆驼命名，`bool`
-- `KeepVerb`：是否保留动作方法请求谓词，`bool`
-- `Enabled`：是否导出接口，`bool`
-- `Module`：模块名，`string`
-- `Version`：版本号，`string`
-- `Groups`：接口分组，可结合 `Swagger` 一起使用，`string[]`
-- `Tags`：接口标签，可结合 `Swagger` 一起使用，`string[]`
-- `AuthPolicies`：授权策略，可结合 `授权，JWT` 一起使用，`string[]`
+- `Name`：自定义控制器/动作方法名称，`string`，默认 `null`
+- `KeepName`：是否保持原有名称不处理，`bool`，默认 `false`
+- `SplitCamelCase`：切割骆驼命名，`bool`，默认 `true`
+- `KeepVerb`：是否保留动作方法请求谓词，`bool`，默认 `false`
+- `Enabled`：是否导出接口，`bool`，默认 `true`
+- `Module`：模块名，`string`，默认 `null`
+- `Version`：版本号，`string`，默认 `null`
+- `Groups`：接口分组，可结合 `Swagger` 一起使用，`string[]`，默认 `null`
+- `Tags`：接口标签，可结合 `Swagger` 一起使用，`string[]`，默认 `null`
+- `AuthPolicies`：授权策略，可结合 `授权，JWT` 一起使用，`string[]`，默认 `null`
+
+### 3.9.2 `Name` 配置
+
+`Name` 参数可以覆盖动态 `WebAPI` 自动生成的控制器或动作方法名称。如：
+
+```cs {5,8}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    [ApiDescriptionSettings(Name = "MyFur")]
+    public class FurAppService : IDynamicApiController
+    {
+        [ApiDescriptionSettings(Name = "MyGet")]
+        public string Get()
+        {
+            return nameof(Fur);
+        }
+    }
+}
+```
+
+如下图所示：
+
+import namepzUrl from "../static/img/namepz.png";
+
+<img src={namepzUrl} />
+
+### 3.9.3 `KeepName` 配置
+
+`KeepName` 参数可以保留原有的控制器或动作方法名称。如：
+
+```cs {5,8}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    [ApiDescriptionSettings(KeepName = true)]
+    public class FurAppService : IDynamicApiController
+    {
+        [ApiDescriptionSettings(KeepName = true)]
+        public string Get()
+        {
+            return nameof(Fur);
+        }
+    }
+}
+```
+
+如下图所示：
+
+import keepnamepzUrl from "../static/img/keepnamepz.png";
+
+<img src={keepnamepzUrl} />
+
+### 3.9.4 `SplitCamelCase` 配置
+
+`SplitCamelCase` 参数默认将骆驼命名切割成多个单词并通过指定 `占位符` 连接起来。默认 `占位符` 为 `-`。默认为 `true`。如：
+
+```cs {5,8}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    [ApiDescriptionSettings(SplitCamelCase = false)]
+    public class MyFurAppService : IDynamicApiController
+    {
+        [ApiDescriptionSettings(SplitCamelCase = true)]
+        public string ChangeUserName()
+        {
+            return nameof(Fur);
+        }
+    }
+}
+```
+
+如下图所示：
+
+import splitnamepzUrl from "../static/img/splitnamepz.png";
+
+<img src={splitnamepzUrl} />
+
+:::important 特别注意
+
+`KeepName` 优先级高于 `SplitCamelCase`，也即是 `KeepName` 设置为 `true`，则不会处理 `SplitCamelCase` 参数。
+
+:::
+
+### 3.9.5 `KeepVerb` 配置
+
+`KeepVerb` 参数作用于动作方法，标识是否保留动作谓词。如：
+
+```cs {7}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        [ApiDescriptionSettings(KeepVerb = true)]
+        public string GetVersion()
+        {
+            return nameof(Fur);
+        }
+    }
+}
+```
+
+如下图所示：
+
+import keepverbpzUrl from "../static/img/keepverbpz.png";
+
+<img src={keepverbpzUrl} />
+
+### 3.9.6 `Enabled` 配置
+
+`Enabled` 参数配置接口是否导出。通常用于动作方法，如果用于控制器实际作用不大。
+
+```cs {12}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        public string GetVersion()
+        {
+            return nameof(Fur);
+        }
+
+        [ApiDescriptionSettings(false)]
+        public string NoExport()
+        {
+            return nameof(Fur);
+        }
+    }
+}
+```
+
+如下图所示：
+
+import enablepzUrl from "../static/img/enablepz.png";
+
+<img src={enablepzUrl} />
+
+### 3.9.7 `Module` 配置
+
+`Module` 参数可以配置路由分离，类似于 `Mvc 区域` 的作用。
+
+```cs {5,8}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    [ApiDescriptionSettings(Module = "mobile")]
+    public class FurAppService : IDynamicApiController
+    {
+        [ApiDescriptionSettings(Module = "user")]
+        public string GetVersion()
+        {
+            return nameof(Fur);
+        }
+    }
+}
+```
+
+如下图所示：
+
+import modulepzUrl from "../static/img/modulepz.png";
+
+<img src={modulepzUrl} />
+
+### 3.9.8 `Version` 配置
+
+`Version` 参数可以配置接口版本，同时又可以复写特殊版本命名配置。默认版本号分隔符为 `@`。如：
+
+```cs {5,9-10}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    [ApiDescriptionSettings(Version = "1.0")]
+    public class FurAppService : IDynamicApiController
+    {
+        // V2.0.0 被复写成 V2.1.1
+        [ApiDescriptionSettings(Version = "2.1.1")]
+        public string GetVersionV2_0_0()
+        {
+            return nameof(Fur);
+        }
+    }
+}
+```
+
+如下图所示：
+
+import versionpzUrl from "../static/img/versionpz.png";
+
+<img src={versionpzUrl} />
+
+### 3.9.9 `Groups` 配置
+
+`Groups` 配置主要用于配置 `Swagger` 分组信息。
+
+### 3.9.10 `Tags` 配置
+
+`Tags` 配置主要用于配置 `Swagger` 标签分组信息。
+
+### 3.9.11 `AuthPolicies` 配置
+
+`AuthPolicies` 配置主要用于接口授权信息。
+
+## 3.10 `DynamicApiControllerSettings` 配置
+
+`Fur` 还提供动态 `WebAPI` 接口一些全局配置选项，如：
+
+- `DefaultRoutePrefix`：默认路由前缀，`string`，默认 `api`
+- `DefaultHttpMethod`：默认请求谓词，`string`，默认：`POST`
+- `DefaultAreaName`：默认区域名称（默认控制器模块），`string`，默认：`null`
+- `LowerCaseRoute`：小写路由格式，`bool`，默认：`true`
+- `KeepVerb`：是否保留动作谓词，`bool`，默认：`false`
+- `CamelCaseSeparator`：骆驼命名分隔符，`string`，默认：`-`
+- `VersionSeparator`：版本分隔符，`string`，默认：`@`
+- `ModelToQuery`：`GET/HEAD` 请求将 `类类型参数转查询参数`，`bool`，默认 `false`
+- `SupportedMvcController`：是否支持 `Mvc Controller` 动态配置，`bool`，默认 `false`
+- `AbandonControllerAffixes`：默认去除控制器名称前后缀列表名，`string[]`，默认：
+    - `AppServices`
+    - `AppService`
+    - `ApiController`
+    - `Controller`
+    - `Services`
+    - `Service`
+- `AbandonActionAffixes`：默认去除动作方法名称前后缀列表名，`string[]`，默认：
+    - `Async`
+
+### 3.10.1 支持 `Mvc 控制器` 动态配置
+
+默认情况下，`Fur` 动态 `WebAPI` 接口不对 `ControllerBase` 类型进行任何处理。当然，我们也可以手动启用 `ControllerBase` 支持。
+
+```json {2-4} title="Fur.Web.Entry/appsettings.json"
+{
+  "AppSettings": {
+    "DynamicApiControllerSettings": {
+      "SupportedMvcController": true
+    }
+  }
+}
+```
+
+设置 `SupportedMvcController: true` 后，`Mvc ControllerBase` 类型也能和动态 `WebAPI` 一样的灵活了。代码如下：
+
+```cs {5}
+using Microsoft.AspNetCore.Mvc;
+
+namespace Fur.Web.Entry.Controllers
+{
+    public class MvcController : ControllerBase
+    {
+        public string Get()
+        {
+            return nameof(Fur);
+        }
+    }
+}
+
+```
+
+:::warning 注意事项
+
+启用该配置后，如果 `Mvc 控制器` 没有任何 `[Route]` 特性，但是贴了 `[ApiController]` 特性将会报错。原因是 `[ApiController]` 特性内部做了路由特性检测。所以建议使用 `[ApiDataValidation]` 代替。
+
+查看 [ASP.NET Core - ApiBehaviorApplicationModelProvider 源码](https://github.com/dotnet/aspnetcore/blob/c565386a3ed135560bc2e9017aa54a950b4e35dd/src/Mvc/Mvc.Core/src/ApplicationModels/ApiBehaviorApplicationModelProvider.cs#L90) 
+
+:::
+
+## 3.11 反馈与建议
+
+:::note 与我们交流
+
+给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+
+:::

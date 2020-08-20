@@ -17,7 +17,7 @@ module.exports = {
         alt: "Fur Logo",
         src: "img/logo.png",
       },
-      hideOnScroll: true,
+      hideOnScroll: false,
       items: [
         {
           type: "docsVersionDropdown",
