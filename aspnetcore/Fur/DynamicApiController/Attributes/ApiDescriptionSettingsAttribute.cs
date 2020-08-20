@@ -79,6 +79,11 @@ namespace Fur.DynamicApiController
         /// <summary>
         /// 标签
         /// </summary>
-        public string Tags { get; set; }
+        public string[] Tags { get; set; }
+
+        /// <summary>
+        /// 授权策略
+        /// </summary>
+        public string[] AuthPolicies { get; set; }
     }
 }

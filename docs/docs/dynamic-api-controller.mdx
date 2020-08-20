@@ -810,3 +810,32 @@ public string GetV1()
 这时，生成版本将采用 `3.0` 替代 `1`
 
 :::
+
+### 3.8.12 不公开控制器或动作方法
+
+有些时候，我们无需导出某个动作方法或控制器，只需要添加 `[ApiDescriptionSettings(false)]` 或 `[ApiExplorerSettings(IgnoreApi = true)]`即可。
+
+另外动作方法还支持 `[NonAction]` 标记。
+
+:::tip 推荐使用
+
+推荐控制器或动作方法设置不导出使用 `[ApiDescriptionSettings(false)]` 特性。该特性默认继承自 `ApiExplorerSettingsAttribute` 类。
+
+:::
+
+## 3.9 `[ApiDescriptionSettings]`
+
+除了上述 `ASP.NET Core` 提供的配置外，`Fur` 框架还提供了非常强大且灵活的 `[ApiDescriptionSettings]` 特性。
+
+### 3.9.1 内置配置
+
+- `Name`：自定义控制器/动作方法名称，`string`
+- `KeepName`：是否保持原有名称不处理，`bool`
+- `SplitCamelCase`：切割骆驼命名，`bool`
+- `KeepVerb`：是否保留动作方法请求谓词，`bool`
+- `Enabled`：是否导出接口，`bool`
+- `Module`：模块名，`string`
+- `Version`：版本号，`string`
+- `Groups`：接口分组，可结合 `Swagger` 一起使用，`string[]`
+- `Tags`：接口标签，可结合 `Swagger` 一起使用，`string[]`
+- `AuthPolicies`：授权策略，可结合 `授权，JWT` 一起使用，`string[]`
