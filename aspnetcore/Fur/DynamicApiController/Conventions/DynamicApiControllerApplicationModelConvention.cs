@@ -79,11 +79,16 @@ namespace Fur.DynamicApiController
             string tempName = apiDescriptionSettings?.Name;
             if (string.IsNullOrEmpty(tempName))
             {
+                // 处理版本号
+                var (name, version) = ResolveNameVersion(controller.ControllerName);
+                tempName = name;
+                apiVersion ??= version;
+
                 // 判断是否保留原有名称
                 if (apiDescriptionSettings?.KeepName != true)
                 {
                     // 清除指定前后缀
-                    tempName = Penetrates.ClearStringAffixes(controller.ControllerName, affixes: _lazyControllerSettings.AbandonControllerAffixes);
+                    tempName = Penetrates.ClearStringAffixes(tempName, affixes: _lazyControllerSettings.AbandonControllerAffixes);
 
                     // 处理骆驼命名
                     if (apiDescriptionSettings?.SplitCamelCase != false)
@@ -91,13 +96,7 @@ namespace Fur.DynamicApiController
                         tempName = string.Join(_lazyControllerSettings.CamelCaseSeparator, Penetrates.SplitCamelCase(tempName));
                     }
                 }
-                else tempName = controller.ControllerName;
             }
-
-            // 处理版本号
-            var (name, version) = ResolveNameVersion(tempName);
-            tempName = name;
-            apiVersion ??= version;
 
             // 拼接名称和版本号
             var controllerName = $"{tempName}{(string.IsNullOrEmpty(apiVersion) ? null : $"{_lazyControllerSettings.VersionSeparator}{apiVersion}")}";
@@ -152,11 +151,16 @@ namespace Fur.DynamicApiController
             string tempName = apiDescriptionSettings?.Name;
             if (string.IsNullOrEmpty(tempName))
             {
+                // 处理版本号
+                var (name, version) = ResolveNameVersion(action.ActionName);
+                tempName = name;
+                apiVersion ??= version;
+
                 // 判断是否保留原有名称
                 if (apiDescriptionSettings?.KeepName != true)
                 {
                     // 清除指定前后缀
-                    tempName = Penetrates.ClearStringAffixes(action.ActionName, affixes: _lazyControllerSettings.AbandonActionAffixes);
+                    tempName = Penetrates.ClearStringAffixes(tempName, affixes: _lazyControllerSettings.AbandonActionAffixes);
 
                     // 处理动作方法名称谓词
                     if (apiDescriptionSettings?.KeepVerb != true)
@@ -171,13 +175,7 @@ namespace Fur.DynamicApiController
                         tempName = string.Join(_lazyControllerSettings.CamelCaseSeparator, Penetrates.SplitCamelCase(tempName));
                     }
                 }
-                else tempName = action.ActionName;
             }
-
-            // 处理版本号
-            var (name, version) = ResolveNameVersion(tempName);
-            tempName = name;
-            apiVersion ??= version;
 
             // 拼接名称和版本号
             var actionName = $"{tempName}{(string.IsNullOrEmpty(apiVersion) ? null : $"{_lazyControllerSettings.VersionSeparator}{apiVersion}")}";

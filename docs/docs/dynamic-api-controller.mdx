@@ -705,3 +705,102 @@ import dlrzhUrl from "../static/img/dlrzh.gif";
 动作方法不能同时贴 `[Route]` 和 `[HttpMethod]` 特性，只能二取一。
 
 :::
+
+### 3.8.11 支持版本控制
+
+import kzqbbUrl from "../static/img/kzqbb.png";
+import dzffbbUrl from "../static/img/dzffbb.png";
+
+<Tabs
+  defaultValue="kzqbb"
+  values={[
+    { label: "控制器版本", value: "kzqbb" },
+    { label: "动作方法版本", value: "dzffbb" },
+  ]}
+>
+  <TabItem value="kzqbb">
+
+```cs {5,13,21}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    public class FurAppServiceV1 : IDynamicApiController
+    {
+        public string Get()
+        {
+            return nameof(Fur);
+        }
+    }
+
+    public class FurAppServiceV1_2 : IDynamicApiController
+    {
+        public string Get()
+        {
+            return nameof(Fur);
+        }
+    }
+
+    public class FurAppServiceV1_2_1 : IDynamicApiController
+    {
+        public string Get()
+        {
+            return nameof(Fur);
+        }
+    }
+}
+```
+
+如下图所示：
+
+<img src={kzqbbUrl} />
+
+  </TabItem>
+  <TabItem value="dzffbb">
+
+```cs {7,12,16}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        public string Get()
+        {
+            return nameof(Fur);
+        }
+
+        public string GetV1()
+        {
+            return nameof(Fur);
+        }
+        public string GetV2_1()
+        {
+            return nameof(Fur);
+        }
+    }
+}
+```
+
+如下图所示：
+
+<img src={dzffbbUrl} />
+
+  </TabItem>
+</Tabs>
+
+:::tip 版本复写
+
+除了通过特定后缀方式以外，版本还直接通过 `[ApiDescriptionSettings]` 进行复写。如：
+
+```cs {1,2}
+[ApiDescriptionSettings(Version = "3.0")]
+public string GetV1()
+{
+    return nameof(Fur);
+}
+```
+
+这时，生成版本将采用 `3.0` 替代 `1`
+
+:::

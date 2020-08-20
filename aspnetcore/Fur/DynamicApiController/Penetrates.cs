@@ -174,7 +174,7 @@ namespace Fur.DynamicApiController
         /// <returns></returns>
         internal static string[] SplitCamelCase(string str)
         {
-            if (string.IsNullOrEmpty(str)) throw new ArgumentNullException(nameof(str));
+            if (string.IsNullOrEmpty(str)) return new string[] { str };
             if (str.Length == 1) return new string[] { str };
 
             return Regex.Split(str, @"(?=\p{Lu}\p{Ll})|(?<=\p{Ll})(?=\p{Lu})")
