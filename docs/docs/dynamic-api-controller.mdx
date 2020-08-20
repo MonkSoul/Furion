@@ -544,6 +544,7 @@ import dgwcUrl from "../static/img/dgwc.png";
 import kzqrlUrl from "../static/img/kzqrl.png";
 import dzffrlUrl from "../static/img/dzffrl.png";
 import allrlUrl from "../static/img/allrl.png";
+import wcrlUrl from "../static/img/wcrl.png";
 
 <Tabs
   defaultValue="kzqrl"
@@ -551,6 +552,7 @@ import allrlUrl from "../static/img/allrl.png";
     { label: "自定义控制器路由", value: "kzqrl" },
     { label: "自定义动作方法路由", value: "dzffrl" },
     { label: "同时自定义路由", value: "allrl" },
+    { label: "谓词自定义路由", value: "vcrl" },
   ]}
 >
   <TabItem value="kzqrl">
@@ -626,10 +628,80 @@ namespace Fur.Application
 <img src={allrlUrl} />
 
   </TabItem>
+  <TabItem value="vcrl">
+
+```cs {9}
+using Fur.DynamicApiController;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Fur.Application
+{
+    [Route("api/[controller]")]
+    public class FurAppService : IDynamicApiController
+    {
+        [HttpGet("get/[action]")]
+        public string GetVersion()
+        {
+            return "1.0.0";
+        }
+    }
+}
+```
+
+如下图所示：
+
+<img src={wcrlUrl} />
+
+  </TabItem>
 </Tabs>
+
+:::important 小提示
+
+动态方法自定义路由如果以 **`/`** 开头，则不会合并控制器路由。
+
+:::
 
 :::tip 推荐配置
 
 自定义路由如果需要用到 **控制器/动作方法名称**，推荐使用 `[controller]` 或 `[action]` 占位符，因为该占位符已经自动处理了 **前后缀、版本号、模块名称**等。
+
+:::
+
+### 3.8.10 多路由随意组合
+
+`Fur` 框架提供了非常灵活的各种路由组合方式，支持一对多，多对多路由组合：
+
+```cs {6-8,11-14}
+using Fur.DynamicApiController;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Fur.Application
+{
+    [Route("api/[controller]")]
+    [Route("api/[controller]/second")]
+    [Route("api/[controller]/three")]
+    public class FurAppService : IDynamicApiController
+    {
+        [HttpGet]
+        [HttpGet("get/[action]")]
+        [HttpPost]
+        [HttpPost("post/cus-version")]
+        public string GetVersion()
+        {
+            return "1.0.0";
+        }
+    }
+}
+```
+
+如下图所示：
+
+import dlrzhUrl from "../static/img/dlrzh.gif";
+
+<img src={dlrzhUrl} />
+
+:::caution 特别注意
+
+动作方法不能同时贴 `[Route]` 和 `[HttpMethod]` 特性，只能二取一。
 
 :::
