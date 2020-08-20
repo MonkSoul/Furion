@@ -480,3 +480,59 @@ import cswzUrl from "../static/img/cswz.png";
 `[ApiSeat]` 只能引用于提了 `[FromRoute]` 特性的参数或 `基元类型、值类型、可空基元类型和可空值类型`。
 
 :::
+
+### 3.8.7 自定义请求谓词
+
+```cs {2,8}
+using Fur.DynamicApiController;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        [HttpPost]
+        public string GetVersion()
+        {
+            return "1.0.0";
+        }
+    }
+}
+```
+
+如下图所示：
+
+import zdywcUrl from "../static/img/zdywc.png";
+
+<img src={zdywcUrl} />
+
+### 3.8.8 支持多个谓词
+
+```cs {2,8}
+using Fur.DynamicApiController;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        [HttpPost, HttpGet, AcceptVerbs("PUT", "DELETE")]
+        public string GetVersion()
+        {
+            return "1.0.0";
+        }
+    }
+}
+```
+
+如下图所示：
+
+import dgwcUrl from "../static/img/dgwc.png";
+
+<img src={dgwcUrl} />
+
+:::caution 特别注意
+
+如果动作方法中含有 `类类型参数`，且含有 `POST/PUT/DELETE` 任意请求谓词，那么该参数会自动添加 `[FromBody]` 参数，即使在 `GET/HEAD` 请求中不支持。
+
+:::
