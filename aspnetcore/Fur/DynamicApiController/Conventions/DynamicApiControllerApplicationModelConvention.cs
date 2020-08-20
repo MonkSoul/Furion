@@ -376,18 +376,19 @@ namespace Fur.DynamicApiController
                 // 生成路由参数位置
                 switch (apiSeat.Seat)
                 {
+                    // 控制器名之前
                     case ApiSeats.ControllerStart:
                         parameterRouteTemplate.ControllerStartTemplates.Add(template);
                         break;
-
+                    // 控制器名之后
                     case ApiSeats.ControllerEnd:
                         parameterRouteTemplate.ControllerEndTemplates.Add(template);
                         break;
-
+                    // 动作方法名之前
                     case ApiSeats.ActionStart:
                         parameterRouteTemplate.ActionStartTemplates.Add(template);
                         break;
-
+                    // 动作方法名之后
                     case ApiSeats.ActionEnd:
                         parameterRouteTemplate.ActionEndTemplates.Add(template);
                         break;
