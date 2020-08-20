@@ -105,42 +105,42 @@ namespace Fur.DynamicApiController
         }
 
         /// <summary>
-        /// 配置行为
+        /// 配置动作方法
         /// </summary>
         /// <param name="action">控制器模型</param>
         /// <param name="apiDescriptionSettings">接口描述配置</param>
         /// <param name="controllerApiDescriptionSettings">控制器接口描述配置</param>
         private void ConfigureAction(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
         {
-            // 配置行为接口可见性
+            // 配置动作方法接口可见性
             ConfigureActionApiExplorer(action);
 
-            // 配置行为名称
+            // 配置动作方法名称
             ConfigureActionName(action, apiDescriptionSettings);
 
-            // 配置行为请求谓词特性
+            // 配置动作方法请求谓词特性
             ConfigureActionHttpMethodAttribute(action);
 
             // 配置引用类型参数
             ConfigureClassTypeParameter(action);
 
-            // 配置行为路由特性
+            // 配置动作方法路由特性
             ConfigureActionRouteAttribute(action, apiDescriptionSettings, controllerApiDescriptionSettings);
         }
 
         /// <summary>
-        /// 配置行为接口可见性
+        /// 配置动作方法接口可见性
         /// </summary>
-        /// <param name="action">行为模型</param>
+        /// <param name="action">动作方法模型</param>
         private void ConfigureActionApiExplorer(ActionModel action)
         {
             if (!action.ApiExplorer.IsVisible.HasValue) action.ApiExplorer.IsVisible = true;
         }
 
         /// <summary>
-        /// 配置行为名称
+        /// 配置动作方法名称
         /// </summary>
-        /// <param name="action">行为模型</param>
+        /// <param name="action">动作方法模型</param>
         /// <param name="apiDescriptionSettings">接口描述配置</param>
         private void ConfigureActionName(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings)
         {
@@ -158,7 +158,7 @@ namespace Fur.DynamicApiController
                     // 清除指定前后缀
                     tempName = Penetrates.ClearStringAffixes(action.ActionName, affixes: _lazyControllerSettings.AbandonActionAffixes);
 
-                    // 处理行为名称谓词
+                    // 处理动作方法名称谓词
                     if (apiDescriptionSettings?.KeepVerb != true)
                     {
                         var verbKey = Penetrates.GetCamelCaseFirstWord(tempName).ToLower();
@@ -185,9 +185,9 @@ namespace Fur.DynamicApiController
         }
 
         /// <summary>
-        /// 配置行为请求谓词特性
+        /// 配置动作方法请求谓词特性
         /// </summary>
-        /// <param name="action">行为模型</param>
+        /// <param name="action">动作方法模型</param>
         private void ConfigureActionHttpMethodAttribute(ActionModel action)
         {
             var selectorModel = action.Selectors[0];
@@ -225,7 +225,7 @@ namespace Fur.DynamicApiController
             // 没有参数无需处理
             if (action.Parameters.Count == 0) return;
 
-            // 如果行为请求谓词只有GET和HEAD，则将类转查询参数
+            // 如果动作方法请求谓词只有GET和HEAD，则将类转查询参数
             if (_lazyControllerSettings.ModelToQuery.Value)
             {
                 var httpMethods = action.Selectors
@@ -253,9 +253,9 @@ namespace Fur.DynamicApiController
         }
 
         /// <summary>
-        /// 配置行为路由特性
+        /// 配置动作方法路由特性
         /// </summary>
-        /// <param name="action">行为模型</param>
+        /// <param name="action">动作方法模型</param>
         /// <param name="apiDescriptionSettings">接口描述配置</param>
         /// <param name="controllerApiDescriptionSettingsAttribute">控制器接口描述配置</param>
         private void ConfigureActionRouteAttribute(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettingsAttribute)
@@ -269,7 +269,7 @@ namespace Fur.DynamicApiController
 
             string template;
             string controllerRouteTemplate = null;
-            // 如果行为名称为空、参数值为空，且无需保留谓词，则只生成控制器路由模板
+            // 如果动作方法名称为空、参数值为空，且无需保留谓词，则只生成控制器路由模板
             if (action.ActionName.Length == 0 && apiDescriptionSettings?.KeepVerb != true && action.Parameters.Count == 0)
             {
                 template = GenerateControllerRouteTemplate(action.Controller, controllerApiDescriptionSettingsAttribute);
@@ -282,7 +282,7 @@ namespace Fur.DynamicApiController
                 // 生成控制器模板
                 controllerRouteTemplate = GenerateControllerRouteTemplate(action.Controller, controllerApiDescriptionSettingsAttribute, parameterRouteTemplate);
 
-                // 拼接行为路由模板
+                // 拼接动作方法路由模板
                 var ActionStartTemplate = parameterRouteTemplate != null ? (parameterRouteTemplate.ActionStartTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionStartTemplates)) : null;
                 var ActionEndTemplate = parameterRouteTemplate != null ? (parameterRouteTemplate.ActionEndTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionEndTemplates)) : null;
 
@@ -342,7 +342,7 @@ namespace Fur.DynamicApiController
         /// <summary>
         /// 生成参数路由模板（非引用类型）
         /// </summary>
-        /// <param name="action">行为模型</param>
+        /// <param name="action">动作方法模型</param>
         private ParameterRouteTemplate GenerateParameterRouteTemplates(ActionModel action)
         {
             // 如果没有参数，则跳过
@@ -365,7 +365,7 @@ namespace Fur.DynamicApiController
                     && (!parameterType.IsRichPrimitive() || parameterAttributes.Any(u => typeof(IBindingSourceMetadata).IsAssignableFrom(u.GetType())))) continue;
 
                 var template = $"{{{parameterModel.ParameterName}}}";
-                // 如果没有贴路由位置特性，则默认添加到行为后面
+                // 如果没有贴路由位置特性，则默认添加到动作方法后面
                 if (!(parameterAttributes.FirstOrDefault(u => u is ApiSeatAttribute) is ApiSeatAttribute apiSeat))
                 {
                     parameterRouteTemplate.ActionEndTemplates.Add(template);

@@ -111,7 +111,7 @@ namespace Fur.DynamicApiController
         }
 
         /// <summary>
-        /// 是否是行为方法
+        /// 是否是动作方法
         /// </summary>
         /// <param name="methodInfo"></param>
         /// <returns></returns>

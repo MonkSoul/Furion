@@ -67,7 +67,7 @@ namespace Fur.DynamicApiController
         public string[] AbandonActionAffixes { get; set; }
 
         /// <summary>
-        /// 默认配置
+        /// 选项后期配置
         /// </summary>
         /// <param name="options"></param>
         public void PostConfigure(DynamicApiControllerSettingsOptions options)

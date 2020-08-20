@@ -219,6 +219,7 @@ import dyglzUrl from "../static/img/dyglz.gif";
 - 生成的动作方法名称默认去除以 `Async` 作为前后缀的字符串。**支持自定义配置**
 - 动作方法名称带 `V[0-9_]` 结尾的，会自动生成动作方法版本号，如 `ChangePasswordV2 -> ChangePassword@2`，`ChangePasswordV1_1_0 -> ChangePassword@1_1_0`。**支持版本分隔符配置**
 - 动作方法名称以 `骆驼命名（CamelCase）` 会自动切割成多个单词 `-` 连接。**支持版本分隔符配置**
+- 动作方法参数将自动转为小写。**支持版本分隔符配置**
 
 ### 3.7.3 请求谓词默认约定
 
@@ -282,7 +283,7 @@ import dgqqwcUrl from "../static/img/dgqqwc.gif";
 
 <img src={dgqqwcUrl} />
 
-### 3.8.2 多个动作方法
+### 3.8.2 多个自定义动作方法
 
 ```cs {7,12,17}
 using Fur.DynamicApiController;
@@ -348,7 +349,7 @@ import dcsffUrl from "../static/img/dcsff.gif";
 
 <img src={dcsffUrl} />
 
-### 3.8.5 `GET/HEAD` 请求引用参数
+### 3.8.5 `GET/HEAD` 类类型参数
 
 默认情况下，`ASP.NET Core` 会将 `GET/HEAD` 请求中的 `类类型参数` 设置为 `[FromBody]` 绑定，如：
 
@@ -424,3 +425,58 @@ namespace Fur.Application
 import modeltoqueryUrl from "../static/img/modeltoquery.png";
 
 <img src={modeltoqueryUrl} />
+
+### 3.8.6 自定义参数位置
+
+`Fur` 框架提供了非常方便的自定义参数位置的特性 `[ApiSeat]`，通过 `[ApiSeat]` 可配置参数位置，支持以下四种位置：
+
+- `ApiSeats.ControllerStart`：控制器之前
+- `ApiSeats.ControllerEnd`：控制器之后
+- `ApiSeats.ActionStart`：动作方法之前
+- `ApiSeats.ActionEnd`：动作方法之后。**默认值**
+
+```cs {8-9,15-20}
+using Fur.DynamicApiController;
+using System;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        // 参数默认为 ApiSeats.ActionEnd
+        public string RouteSeat(int id, string name)
+        {
+            return "配置路由参数位置";
+        }
+
+        public string RouteSeat(
+            [ApiSeat(ApiSeats.ControllerStart)] int id, // 控制器名称之前
+            [ApiSeat(ApiSeats.ControllerEnd)] string name, // 控制器名称之后
+            [ApiSeat(ApiSeats.ControllerEnd)] int age, // 控制器名称之后
+            [ApiSeat(ApiSeats.ActionStart)] decimal weight, // 动作方法名称之前
+            [ApiSeat(ApiSeats.ActionStart)] float height, // 动作方法名称之前
+            [ApiSeat(ApiSeats.ActionEnd)] DateTime birthday) // 动作方法名称之后（默认值）
+        {
+            return "配置路由参数位置";
+        }
+    }
+}
+```
+
+如下图所示：
+
+import cswzUrl from "../static/img/cswz.png";
+
+<img src={cswzUrl} />
+
+:::note 温馨提示
+
+多个 `同位置` 配置的参数将按照 `定义参数顺序` 进行排序。
+
+:::
+
+:::caution 特别注意
+
+`[ApiSeat]` 只能引用于提了 `[FromRoute]` 特性的参数或 `基元类型、值类型、可空基元类型和可空值类型`。
+
+:::
