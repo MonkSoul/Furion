@@ -62,7 +62,7 @@ namespace Fur.SpecificationDocument
         {
             // 获取所有的控制器和动作方法
             var controllers = App.Assemblies.SelectMany(a => a.GetTypes().Where(u => Penetrates.IsController(u)));
-            var actions = controllers.SelectMany(c => c.GetMethods().Where(u => IsAction(u)));
+            var actions = controllers.SelectMany(c => c.GetMethods().Where(u => IsAction(u, false)));
 
             // 合并所有分组
             var groupOrders = controllers.SelectMany(u => GetControllerGroups(u))
