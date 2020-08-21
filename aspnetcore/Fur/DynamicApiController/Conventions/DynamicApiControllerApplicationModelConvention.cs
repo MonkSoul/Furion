@@ -168,8 +168,14 @@ namespace Fur.DynamicApiController
                     // 处理动作方法名称谓词
                     if (apiDescriptionSettings?.KeepVerb != true)
                     {
-                        var verbKey = Penetrates.GetCamelCaseFirstWord(tempName).ToLower();
-                        if (Penetrates.VerbToHttpMethods.ContainsKey(verbKey)) tempName = tempName[verbKey.Length..];
+                        var words = Penetrates.SplitCamelCase(tempName);
+                        var verbKey = words.First().ToLower();
+                        // 处理类似 getlist,getall 多个单词
+                        if (words.Length > 1 && Penetrates.VerbToHttpMethods.ContainsKey((words[0] + words[1]).ToLower()))
+                        {
+                            tempName = tempName[(words[0] + words[1]).Length..];
+                        }
+                        else if (Penetrates.VerbToHttpMethods.ContainsKey(verbKey)) tempName = tempName[verbKey.Length..];
                     }
 
                     // 处理骆驼命名
@@ -211,6 +217,7 @@ namespace Fur.DynamicApiController
                 "POST" => new HttpPostAttribute(),
                 "PUT" => new HttpPutAttribute(),
                 "DELETE" => new HttpDeleteAttribute(),
+                "PATCH" => new HttpPatchAttribute(),
                 _ => throw new NotSupportedException($"{verb}")
             };
 

@@ -215,7 +215,7 @@ import dyglzUrl from "../static/img/dyglz.gif";
 
 ### 3.7.2 动作方法默认约定
 
-- 生成的动作方法名称默认去除以 `Post/Add/Create/Insert/Submit，Get/Find/Fetch/Query/Search，Put/Update，Delete/Remove/Clear` 开头的字符串。**支持自定义配置**
+- 生成的动作方法名称默认去除以 `Post/Add/Create/Insert/Submit，GetAll/GetList/Get/Find/Fetch/Query/Search，Put/Update，Delete/Remove/Clear，Patch` 开头的字符串。**支持自定义配置**
 - 生成的动作方法名称默认去除以 `Async` 作为前后缀的字符串。**支持自定义配置**
 - 动作方法名称带 `V[0-9_]` 结尾的，会自动生成动作方法版本号，如 `ChangePasswordV2 -> ChangePassword@2`，`ChangePasswordV1_1_0 -> ChangePassword@1.1.0`。**支持版本分隔符配置**
 - 动作方法名称以 `骆驼命名（CamelCase）` 会自动切割成多个单词 `-` 连接。**支持自定义配置**
@@ -225,9 +225,10 @@ import dyglzUrl from "../static/img/dyglz.gif";
 
 - 动作方法名
   - 以 `Post/Add/Create/Insert/Submit` 开头，则添加 `[HttpPost]` 特性。
-  - 以 `Get/Find/Fetch/Query/Search` 开头，则添加 `[HttpGet]` 特性。
+  - 以 `GetAll/GetList/Get/Find/Fetch/Query/Search` 开头，则添加 `[HttpGet]` 特性。
   - 以 `Put/Update` 开头，则添加 `[HttpPut]` 特性。
   - 以 `Delete/Remove/Clear` 开头，则添加 `[HttpDelete]` 特性。
+  - 以 `Patch` 开头，则添加 `[HttpPatch]` 特性
   - **支持自定义配置**
 - 如果不在上面约定中，则默认添加 `[HttpPost]` 特性。**支持自定义配置**
 
@@ -247,7 +248,7 @@ import dyglzUrl from "../static/img/dyglz.gif";
 
 ### 3.8.1 多种请求谓词方法
 
-```cs {7,12,17,22}
+```cs {7,12,17,22,27}
 using Fur.DynamicApiController;
 
 namespace Fur.Application
@@ -273,13 +274,18 @@ namespace Fur.Application
         {
             return $"PUT 请求";
         }
+
+        public string Patch()
+        {
+            return $"PATCH 请求";
+        }
     }
 }
 ```
 
 如下图所示：
 
-import dgqqwcUrl from "../static/img/dgqqwc.gif";
+import dgqqwcUrl from "../static/img/dgqqwc.png";
 
 <img src={dgqqwcUrl} />
 
@@ -1067,14 +1073,14 @@ import versionpzUrl from "../static/img/versionpz.png";
 - `ModelToQuery`：`GET/HEAD` 请求将 `类类型参数转查询参数`，`bool`，默认 `false`
 - `SupportedMvcController`：是否支持 `Mvc Controller` 动态配置，`bool`，默认 `false`
 - `AbandonControllerAffixes`：默认去除控制器名称前后缀列表名，`string[]`，默认：
-    - `AppServices`
-    - `AppService`
-    - `ApiController`
-    - `Controller`
-    - `Services`
-    - `Service`
+  - `AppServices`
+  - `AppService`
+  - `ApiController`
+  - `Controller`
+  - `Services`
+  - `Service`
 - `AbandonActionAffixes`：默认去除动作方法名称前后缀列表名，`string[]`，默认：
-    - `Async`
+  - `Async`
 
 ### 3.10.1 支持 `Mvc 控制器` 动态配置
 
@@ -1112,7 +1118,7 @@ namespace Fur.Web.Entry.Controllers
 
 启用该配置后，如果 `Mvc 控制器` 没有任何 `[Route]` 特性，但是贴了 `[ApiController]` 特性将会报错。原因是 `[ApiController]` 特性内部做了路由特性检测。所以建议使用 `[ApiDataValidation]` 代替。
 
-查看 [ASP.NET Core - ApiBehaviorApplicationModelProvider 源码](https://github.com/dotnet/aspnetcore/blob/c565386a3ed135560bc2e9017aa54a950b4e35dd/src/Mvc/Mvc.Core/src/ApplicationModels/ApiBehaviorApplicationModelProvider.cs#L90) 
+查看 [ASP.NET Core - ApiBehaviorApplicationModelProvider 源码](https://github.com/dotnet/aspnetcore/blob/c565386a3ed135560bc2e9017aa54a950b4e35dd/src/Mvc/Mvc.Core/src/ApplicationModels/ApiBehaviorApplicationModelProvider.cs#L90)
 
 :::
 

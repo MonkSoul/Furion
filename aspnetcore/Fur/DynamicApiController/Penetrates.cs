@@ -41,13 +41,17 @@ namespace Fur.DynamicApiController
                 ["fetch"] = "GET",
                 ["query"] = "GET",
                 ["search"] = "GET",
+                ["getlist"] = "GET",
+                ["getall"] = "GET",
 
                 ["put"] = "PUT",
                 ["update"] = "PUT",
 
                 ["delete"] = "DELETE",
                 ["remove"] = "DELETE",
-                ["clear"] = "DELETE"
+                ["clear"] = "DELETE",
+
+                ["patch"] = "PATCH"
             };
 
             IsControllerCached = new ConcurrentDictionary<Type, bool>();
