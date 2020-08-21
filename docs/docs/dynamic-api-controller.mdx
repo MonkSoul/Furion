@@ -77,12 +77,12 @@ namespace Fur.Web.Entry.Controllers
 
 ### 3.2.1 `WebAPI` 约定
 
-在 `ASP.NET Core` 应用中，一个 `WebAPI` 控制器需遵循以下几种约定：
+在 `ASP.NET Core` 应用中，一个 `WebAPI` 控制器需遵循以下约定：
 
 - 控制器类**必须继承 `ControllerBase` 或间接继承**
 - 动作方法**必须贴有 `[HttpMethod]` 特性，如：`[HttpGet]`**
 - 控制器或动作方法**至少有一个配置 `[Route]` 特性**
-- 生成 `WebAPI` 地址时会自动去掉控制器名称 `Controller` 后缀，同时也会去掉动作方法匹配的 `HttbVerb` 谓词，如 `GET，POST，DELETE，PUT` 等
+- 生成 `WebAPI` 路由地址时会自动去掉控制器名称 `Controller` 后缀，同时也会去掉动作方法匹配的 `HttpVerb` 谓词，如 `GET，POST，DELETE，PUT` 等
 - **不支持返回非 `IEnumerable<T>` 泛型对象**
 - **不支持类类型参数在 `GET，HEAD` 请求下生成 `Query` 参数**
 
@@ -90,9 +90,9 @@ namespace Fur.Web.Entry.Controllers
 
 ### 3.2.2 `.NET Core WebAPI` 缺点
 
-通过上一章节可以看出，`ASP.NET Core` 应用实现 `WebAPI` 需要遵循很多约定，而且容易出错。
+通过上一章节可以看出，`ASP.NET Core` 应用实现 `WebAPI` 需要遵循种种约定，而且容易出错。
 
-除了这些以外，`.NET Core WebAPI` 有以下缺点：
+除了这些约定，`.NET Core WebAPI` 有以下缺点：
 
 - 路由地址基本靠手工完成
 - 在现在移动为王的时代，不利于进行多版本控制
@@ -123,7 +123,7 @@ namespace Fur.Web.Entry.Controllers
 
 ### 3.4.1 注册动态 `WebAPI` 服务
 
-在 `Fur` 框架中，默认未注册动态 `WebAPI` 服务，我们只需要在 `Fur.Web.Entry/Startup.cs` 中注册即可。如：
+在 `Fur` 框架中，动态 `WebAPI` 服务需要在 `Fur.Web.Entry/Startup.cs` 中注册。如：
 
 ```cs {4,20-21} title="Fur.Web.Entry/Startup.cs"
 using Microsoft.AspNetCore.Builder;
@@ -211,21 +211,21 @@ import dyglzUrl from "../static/img/dyglz.gif";
 
 - 生成控制器名称默认去除以 `AppServices，AppService，ApiController，Controller，Services，Service` 作为前后缀的字符串。见第一个例子中的 `FurAppService -> Fur` **支持自定义配置**
 - 控制器名称带 `V[0-9_]` 结尾的，会自动生成控制器版本号，如 `FurAppServiceV2 -> Fur@2`，`FurAppServiceV1_1_0 -> Fur@1.1.0`。**支持版本分隔符配置**
-- 控制名称以 `骆驼命名（CamelCase）` 会自动切割成多个单词 `-` 连接。**支持版本分隔符配置**
+- 控制名称以 `骆驼命名（CamelCase）` 会自动切割成多个单词 `-` 连接。**支持自定义配置**
 
 ### 3.7.2 动作方法默认约定
 
 - 生成的动作方法名称默认去除以 `Post/Add/Create/Insert/Submit，Get/Find/Fetch/Query/Search，Put/Update，Delete/Remove/Clear` 开头的字符串。**支持自定义配置**
 - 生成的动作方法名称默认去除以 `Async` 作为前后缀的字符串。**支持自定义配置**
-- 动作方法名称带 `V[0-9_]` 结尾的，会自动生成动作方法版本号，如 `ChangePasswordV2 -> ChangePassword@2`，`ChangePasswordV1_1_0 -> ChangePassword@1_1_0`。**支持版本分隔符配置**
-- 动作方法名称以 `骆驼命名（CamelCase）` 会自动切割成多个单词 `-` 连接。**支持版本分隔符配置**
-- 动作方法参数将自动转为小写。**支持版本分隔符配置**
+- 动作方法名称带 `V[0-9_]` 结尾的，会自动生成动作方法版本号，如 `ChangePasswordV2 -> ChangePassword@2`，`ChangePasswordV1_1_0 -> ChangePassword@1.1.0`。**支持版本分隔符配置**
+- 动作方法名称以 `骆驼命名（CamelCase）` 会自动切割成多个单词 `-` 连接。**支持自定义配置**
+- 动作方法参数将自动转为小写。**支持自定义配置**
 
 ### 3.7.3 请求谓词默认约定
 
 - 动作方法名
   - 以 `Post/Add/Create/Insert/Submit` 开头，则添加 `[HttpPost]` 特性。
-  - 以 `Get/Find/Fetch/Query/Search` 开头，则添加 `[HttpPost]` 特性。
+  - 以 `Get/Find/Fetch/Query/Search` 开头，则添加 `[HttpGet]` 特性。
   - 以 `Put/Update` 开头，则添加 `[HttpPut]` 特性。
   - 以 `Delete/Remove/Clear` 开头，则添加 `[HttpDelete]` 特性。
   - **支持自定义配置**
@@ -374,7 +374,9 @@ import getyycsUrl from "../static/img/getyycs.png";
 
 <img src={getyycsUrl} />
 
-这时如果我们需要转换为 `Query` 查询参数，有以下两种方式：
+但是，`GET、HEAD` 请求不支持 `From Body` 绑定。所以我们需要转换为 `Query` 查询参数。
+
+`Fur` 框架支持以下两种方式配置：
 
 <Tabs
   defaultValue="fromquery"
@@ -923,7 +925,7 @@ import splitnamepzUrl from "../static/img/splitnamepz.png";
 
 :::important 特别注意
 
-`KeepName` 优先级高于 `SplitCamelCase`，也即是 `KeepName` 设置为 `true`，则不会处理 `SplitCamelCase` 参数。
+`KeepName` 优先级高于 `SplitCamelCase`，也就是 `KeepName` 设置为 `true`，则不会处理 `SplitCamelCase` 参数。
 
 :::
 
@@ -1058,7 +1060,7 @@ import versionpzUrl from "../static/img/versionpz.png";
 - `DefaultRoutePrefix`：默认路由前缀，`string`，默认 `api`
 - `DefaultHttpMethod`：默认请求谓词，`string`，默认：`POST`
 - `DefaultAreaName`：默认区域名称（默认控制器模块），`string`，默认：`null`
-- `LowerCaseRoute`：小写路由格式，`bool`，默认：`true`
+- `LowercaseRoute`：小写路由格式，`bool`，默认：`true`
 - `KeepVerb`：是否保留动作谓词，`bool`，默认：`false`
 - `CamelCaseSeparator`：骆驼命名分隔符，`string`，默认：`-`
 - `VersionSeparator`：版本分隔符，`string`，默认：`@`

@@ -103,7 +103,7 @@ namespace Fur.DynamicApiController
 
             // 拼接名称和版本号
             var controllerName = $"{tempName}{(string.IsNullOrEmpty(apiVersion) ? null : $"{_lazyControllerSettings.VersionSeparator}{apiVersion}")}";
-            controller.ControllerName = _lazyControllerSettings.LowerCaseRoute.Value ? controllerName.ToLower() : controllerName;
+            controller.ControllerName = _lazyControllerSettings.LowercaseRoute.Value ? controllerName.ToLower() : controllerName;
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace Fur.DynamicApiController
 
             // 拼接名称和版本号
             var actionName = $"{tempName}{(string.IsNullOrEmpty(apiVersion) ? null : $"{_lazyControllerSettings.VersionSeparator}{apiVersion}")}";
-            action.ActionName = _lazyControllerSettings.LowerCaseRoute.Value ? actionName.ToLower() : actionName;
+            action.ActionName = _lazyControllerSettings.LowercaseRoute.Value ? actionName.ToLower() : actionName;
         }
 
         /// <summary>
@@ -297,7 +297,7 @@ namespace Fur.DynamicApiController
             if (!string.IsNullOrEmpty(template))
             {
                 // 处理多个斜杆问题
-                template = Regex.Replace(_lazyControllerSettings.LowerCaseRoute.Value ? template.ToLower() : template, @"\/{2,}", "/");
+                template = Regex.Replace(_lazyControllerSettings.LowercaseRoute.Value ? template.ToLower() : template, @"\/{2,}", "/");
 
                 // 生成路由
                 actionAttributeRouteModel = string.IsNullOrEmpty(template) ? null : new AttributeRouteModel(new RouteAttribute(template));
@@ -358,7 +358,7 @@ namespace Fur.DynamicApiController
                 var parameterAttributes = parameterModel.Attributes;
 
                 // 处理小写参数路由匹配问题
-                if (_lazyControllerSettings.LowerCaseRoute.Value) parameterModel.ParameterName = parameterModel.ParameterName.ToLower();
+                if (_lazyControllerSettings.LowercaseRoute.Value) parameterModel.ParameterName = parameterModel.ParameterName.ToLower();
 
                 // 如果没有贴 [FromRoute] 特性且不是基元类型，则跳过
                 // 如果没有贴 [FromRoute] 特性且有任何绑定特性，则跳过

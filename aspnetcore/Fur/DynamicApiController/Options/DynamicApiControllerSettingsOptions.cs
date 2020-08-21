@@ -28,7 +28,7 @@ namespace Fur.DynamicApiController
         /// <summary>
         /// 小写路由
         /// </summary>
-        public bool? LowerCaseRoute { get; set; }
+        public bool? LowercaseRoute { get; set; }
 
         /// <summary>
         /// 保留行为名称谓词
@@ -74,7 +74,7 @@ namespace Fur.DynamicApiController
         {
             options.DefaultRoutePrefix ??= "api";
             options.DefaultHttpMethod ??= "POST";
-            options.LowerCaseRoute ??= true;
+            options.LowercaseRoute ??= true;
             options.KeepVerb ??= false;
             options.CamelCaseSeparator ??= "-";
             options.VersionSeparator ??= "@";
