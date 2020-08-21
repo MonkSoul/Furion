@@ -1,7 +1,7 @@
 module.exports = {
   title: "Fur",
   tagline: "小僧不才，略懂皮毛（Fur）。",
-  url: "https://your-docusaurus-test-site.com",
+  url: "https://furos.cn",
   baseUrl: "/fur/",
   onBrokenLinks: "throw",
   favicon: "img/favicon.ico",
