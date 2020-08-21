@@ -55,7 +55,6 @@ namespace Fur.DynamicApiController
             };
 
             IsControllerCached = new ConcurrentDictionary<Type, bool>();
-            IsActionCached = new ConcurrentDictionary<MethodInfo, bool>();
         }
 
         /// <summary>
@@ -73,70 +72,27 @@ namespace Fur.DynamicApiController
             var isCached = IsControllerCached.TryGetValue(type, out bool isControllerType);
             if (isCached) return isControllerType;
 
-            isControllerType = IsControllerType(type);
-            IsControllerCached.TryAdd(type, isControllerType);
-            return isControllerType;
-        }
-
-        /// <summary>
-        /// 是否是控制器类型
-        /// </summary>
-        /// <param name="type">类型</param>
-        /// <returns>bool</returns>
-        private static bool IsControllerType(Type type)
-        {
-            // 不能是非公开、基元类型、值类型、抽象类、接口、泛型类
-            if (!type.IsPublic || type.IsPrimitive || type.IsValueType || type.IsAbstract || type.IsInterface || type.IsGenericType) return false;
-
-            // 继承 ControllerBase 或 实现 IDynamicApiController 的类型
-            if (typeof(IDynamicApiController).IsAssignableFrom(type) || typeof(ControllerBase).IsAssignableFrom(type))
+            // 本地静态方法
+            static bool Function(Type type)
             {
-                // 不是能被导出忽略的接口
-                if (type.IsDefined(typeof(ApiExplorerSettingsAttribute), true) && type.GetCustomAttribute<ApiExplorerSettingsAttribute>(true).IgnoreApi) return false;
+                // 不能是非公开、基元类型、值类型、抽象类、接口、泛型类
+                if (!type.IsPublic || type.IsPrimitive || type.IsValueType || type.IsAbstract || type.IsInterface || type.IsGenericType) return false;
 
-                return true;
+                // 继承 ControllerBase 或 实现 IDynamicApiController 的类型
+                if (typeof(IDynamicApiController).IsAssignableFrom(type) || typeof(ControllerBase).IsAssignableFrom(type))
+                {
+                    // 不是能被导出忽略的接口
+                    if (type.IsDefined(typeof(ApiExplorerSettingsAttribute), true) && type.GetCustomAttribute<ApiExplorerSettingsAttribute>(true).IgnoreApi) return false;
+
+                    return true;
+                }
+                return false;
             }
 
-            return false;
-        }
-
-        /// <summary>
-        /// <see cref="IsAction(MethodInfo)"/> 缓存集合
-        /// </summary>
-        private static readonly ConcurrentDictionary<MethodInfo, bool> IsActionCached;
-
-        /// <summary>
-        /// 是否是行为
-        /// </summary>
-        /// <param name="method"></param>
-        /// <returns></returns>
-        internal static bool IsAction(MethodInfo method)
-        {
-            var isCached = IsActionCached.TryGetValue(method, out bool isActionMethod);
-            if (isCached) return isActionMethod;
-
-            isActionMethod = IsActionMethod(method);
-            IsActionCached.TryAdd(method, isActionMethod);
-            return isActionMethod;
-        }
-
-        /// <summary>
-        /// 是否是动作方法
-        /// </summary>
-        /// <param name="methodInfo"></param>
-        /// <returns></returns>
-        private static bool IsActionMethod(MethodInfo method)
-        {
-            // 如果所在类型不是控制器，则该行为也被忽略
-            if (!IsController(method.DeclaringType)) return false;
-
-            // 不是是非公开、抽象、静态、泛型方法
-            if (!method.IsPublic || method.IsAbstract || method.IsStatic || method.IsGenericMethod) return false;
-
-            // 不能是定义了 [ApiExplorerSettings] 特性且 IgnoreApi 为 true
-            if (method.IsDefined(typeof(ApiExplorerSettingsAttribute), true) && method.GetCustomAttribute<ApiExplorerSettingsAttribute>(true).IgnoreApi) return false;
-
-            return true;
+            // 调用本地静态方法
+            isControllerType = Function(type);
+            IsControllerCached.TryAdd(type, isControllerType);
+            return isControllerType;
         }
 
         /// <summary>

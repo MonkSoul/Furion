@@ -22,11 +22,17 @@ namespace Fur.DynamicApiController
         private readonly DynamicApiControllerSettingsOptions _lazyControllerSettings;
 
         /// <summary>
+        /// 带版本的名称正则表达式
+        /// </summary>
+        private readonly Regex _nameVersionRegex;
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         public DynamicApiControllerApplicationModelConvention()
         {
             _lazyControllerSettings = App.GetOptions<DynamicApiControllerSettingsOptions>();
+            _nameVersionRegex = new Regex(@"V(?<version>[0-9_]+$)");
         }
 
         /// <summary>
@@ -414,11 +420,10 @@ namespace Fur.DynamicApiController
         /// <returns>名称和版本号</returns>
         private (string name, string version) ResolveNameVersion(string name)
         {
-            var regex = new Regex(@"V(?<version>[0-9_]+$)");
-            if (!regex.IsMatch(name)) return (name, default);
+            if (!_nameVersionRegex.IsMatch(name)) return (name, default);
 
-            var version = regex.Match(name).Groups["version"].Value.Replace("_", ".");
-            return ($"{regex.Replace(name, "")}", version);
+            var version = _nameVersionRegex.Match(name).Groups["version"].Value.Replace("_", ".");
+            return (_nameVersionRegex.Replace(name, ""), version);
         }
     }
 }

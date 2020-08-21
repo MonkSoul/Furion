@@ -12,6 +12,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="SpecificationDocument\Assets\index-mini-profiler.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="SpecificationDocument\Assets\index-mini-profiler.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
@@ -31,10 +39,6 @@
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.1" />
     <PackageReference Include="MiniProfiler.EntityFrameworkCore" Version="4.2.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="SpecificationDocument\" />
   </ItemGroup>
 
 </Project>

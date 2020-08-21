@@ -99,9 +99,11 @@ namespace Fur
                 "Fur.Database.Migrations"
             };
 
-            // 过滤第三方提供的包
-            return DependencyContext.Default.CompileLibraries
-                .Where(u => (u.Name.StartsWith(nameof(Fur)) || u.Type != "package") && !u.Serviceable && !excludeAssemblyNames.Contains(u.Name))
+            var dependencyConext = DependencyContext.Default;
+
+            // 读取项目程序集或Fur官方发布的包
+            return dependencyConext.CompileLibraries
+                .Where(u => (u.Type == "project" && !excludeAssemblyNames.Contains(u.Name)) || (u.Type == "package" && u.Name.StartsWith(nameof(Fur))))
                 .Select(u => AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(u.Name)));
         }
     }

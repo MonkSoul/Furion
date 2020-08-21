@@ -11,7 +11,7 @@ using System.Reflection;
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
-    /// 配置选项拓展类
+    /// 应用服务集合拓展类
     /// </summary>
     public static class AppServiceCollectionExtensions
     {
