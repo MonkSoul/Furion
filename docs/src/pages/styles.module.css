@@ -10,6 +10,7 @@
   text-align: center;
   position: relative;
   overflow: hidden;
+  background-color: #003f57;
 }
 
 @media screen and (max-width: 966px) {
@@ -34,4 +35,16 @@
 .featureImage {
   height: 200px;
   width: 200px;
+}
+
+.cus-buttom {
+  color: "#ffd75a" !important;
+}
+
+.getStarted {
+  color: #ffd75a !important;
+}
+
+.getStarted:hover {
+  color: #003f57 !important;
 }
