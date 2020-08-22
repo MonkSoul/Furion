@@ -87,9 +87,6 @@ namespace Fur.SpecificationDocument
         /// <returns></returns>
         private static IEnumerable<GroupOrder> GetControllerGroups(Type type)
         {
-            // 如果不是控制器类型，则返回null
-            if (!Penetrates.IsController(type)) return default;
-
             // 如果控制器没有定义 [ApiDescriptionSettings] 特性，则返回默认分组
             if (!type.IsDefined(typeof(ApiDescriptionSettingsAttribute), true)) return _defaultGroups;
 
@@ -125,9 +122,6 @@ namespace Fur.SpecificationDocument
             // 本地静态方法
             static IEnumerable<GroupOrder> Function(MethodInfo method)
             {
-                /// 检测是否是动作方法类型
-                if (!IsAction(method, false)) return default;
-
                 // 如果动作方法没有定义 [ApiDescriptionSettings] 特性，则返回所在控制器分组
                 if (!method.IsDefined(typeof(ApiDescriptionSettingsAttribute), true)) return GetControllerGroups(method.DeclaringType);
 
