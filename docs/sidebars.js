@@ -14,5 +14,9 @@ module.exports = {
       type: "doc",
       id: "dynamic-api-controller",
     },
+    {
+      type: "doc",
+      id: "specification-document",
+    },
   ],
 };

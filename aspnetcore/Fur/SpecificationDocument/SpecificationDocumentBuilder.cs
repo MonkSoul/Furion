@@ -2,6 +2,8 @@
 using Mapster;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
@@ -55,6 +57,8 @@ namespace Fur.SpecificationDocument
             GetActionGroupsCached = new ConcurrentDictionary<MethodInfo, IEnumerable<GroupOrder>>();
             GetControllerGroupsCached = new ConcurrentDictionary<Type, IEnumerable<GroupOrder>>();
             GetGroupOpenApiInfoCached = new ConcurrentDictionary<string, SpecificationOpenApiInfo>();
+            GetControllerTagCached = new ConcurrentDictionary<ControllerActionDescriptor, string>();
+            GetActionTagCached = new ConcurrentDictionary<ApiDescription, string>();
 
             // 默认分组，支持多个逗号分割
             _defaultGroups = new List<GroupOrder> { ResolveGroupOrder(_specificationDocumentSettings.DefaultGroupName) };
@@ -90,6 +94,9 @@ namespace Fur.SpecificationDocument
 
             // 使用内部枚举定义模型，无需创建 SchemaId
             swaggerGenOptions.UseInlineDefinitionsForEnums();
+
+            // 配置动作方法标签
+            ConfigureTagsAction(swaggerGenOptions);
 
             // 加载注释描述文件
             LoadXmlComments(swaggerGenOptions);
@@ -138,6 +145,18 @@ namespace Fur.SpecificationDocument
                 if (!apiDescription.TryGetMethodInfo(out MethodInfo method)) return false;
 
                 return GetActionGroups(method).Any(u => u.Group == currentGroup);
+            });
+        }
+
+        /// <summary>
+        ///  配置标签
+        /// </summary>
+        /// <param name="swaggerGenOptions"></param>
+        private static void ConfigureTagsAction(SwaggerGenOptions swaggerGenOptions)
+        {
+            swaggerGenOptions.TagActionsBy(apiDescription =>
+            {
+                return new[] { GetActionTag(apiDescription) };
             });
         }
 
@@ -314,7 +333,7 @@ namespace Fur.SpecificationDocument
         /// </summary>
         /// <param name="method">方法</param>
         /// <returns></returns>
-        internal static IEnumerable<GroupOrder> GetActionGroups(MethodInfo method)
+        private static IEnumerable<GroupOrder> GetActionGroups(MethodInfo method)
         {
             var isCached = GetActionGroupsCached.TryGetValue(method, out IEnumerable<GroupOrder> groups);
             if (isCached) return groups;
@@ -343,6 +362,76 @@ namespace Fur.SpecificationDocument
             groups = Function(method);
             GetActionGroupsCached.TryAdd(method, groups);
             return groups;
+        }
+
+        /// <summary>
+        /// <see cref="GetActionTag(ApiDescription)"/> 缓存集合
+        /// </summary>
+        private static readonly ConcurrentDictionary<ControllerActionDescriptor, string> GetControllerTagCached;
+
+        /// <summary>
+        /// 获取控制器标签
+        /// </summary>
+        /// <param name="apiDescription">控制器接口描述器</param>
+        /// <returns></returns>
+        private static string GetControllerTag(ControllerActionDescriptor controllerActionDescriptor)
+        {
+            var isCached = GetControllerTagCached.TryGetValue(controllerActionDescriptor, out string tag);
+            if (isCached) return tag;
+
+            // 本地静态方法
+            static string Function(ControllerActionDescriptor controllerActionDescriptor)
+            {
+                var type = controllerActionDescriptor.ControllerTypeInfo;
+                // 如果动作方法没有定义 [ApiDescriptionSettings] 特性，则返回所在控制器名
+                if (!type.IsDefined(typeof(ApiDescriptionSettingsAttribute), true)) return controllerActionDescriptor.ControllerName;
+
+                // 读取标签
+                var apiDescriptionSettings = type.GetCustomAttribute<ApiDescriptionSettingsAttribute>(true);
+                return string.IsNullOrEmpty(apiDescriptionSettings.Tag) ? controllerActionDescriptor.ControllerName : apiDescriptionSettings.Tag;
+            }
+
+            // 调用本地静态方法
+            tag = Function(controllerActionDescriptor);
+            GetControllerTagCached.TryAdd(controllerActionDescriptor, tag);
+            return tag;
+        }
+
+        /// <summary>
+        /// <see cref="GetActionTag(ApiDescription)"/> 缓存集合
+        /// </summary>
+        private static readonly ConcurrentDictionary<ApiDescription, string> GetActionTagCached;
+
+        /// <summary>
+        /// 获取动作方法标签
+        /// </summary>
+        /// <param name="apiDescription">接口描述器</param>
+        /// <returns></returns>
+        private static string GetActionTag(ApiDescription apiDescription)
+        {
+            var isCached = GetActionTagCached.TryGetValue(apiDescription, out string tag);
+            if (isCached) return tag;
+
+            // 本地静态方法
+            static string Function(ApiDescription apiDescription)
+            {
+                if (!apiDescription.TryGetMethodInfo(out MethodInfo method)) return "unknown";
+
+                // 获取控制器描述器
+                var controllerActionDescriptor = apiDescription.ActionDescriptor as ControllerActionDescriptor;
+
+                // 如果动作方法没有定义 [ApiDescriptionSettings] 特性，则返回所在控制器名
+                if (!method.IsDefined(typeof(ApiDescriptionSettingsAttribute), true)) return GetControllerTag(controllerActionDescriptor);
+
+                // 读取标签
+                var apiDescriptionSettings = method.GetCustomAttribute<ApiDescriptionSettingsAttribute>(true);
+                return string.IsNullOrEmpty(apiDescriptionSettings.Tag) ? GetControllerTag(controllerActionDescriptor) : apiDescriptionSettings.Tag;
+            }
+
+            // 调用本地静态方法
+            tag = Function(apiDescription);
+            GetActionTagCached.TryAdd(apiDescription, tag);
+            return tag;
         }
 
         /// <summary>

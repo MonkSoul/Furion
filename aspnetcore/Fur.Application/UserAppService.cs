@@ -3,10 +3,10 @@
 namespace Fur.Application
 {
     /// <summary>
-    /// 控制器注释
+    /// 用户接口
     /// </summary>
     [ApiDescriptionSettings(Tag = "All Apis")]
-    public class FurAppService : IDynamicApiController
+    public class UserAppService : IDynamicApiController
     {
         /// <summary>
         /// 动作方法注释
@@ -18,13 +18,12 @@ namespace Fur.Application
         }
 
         /// <summary>
-        /// 通过Id获取
+        /// 动作方法注释
         /// </summary>
-        /// <param name="id"></param>
         /// <returns></returns>
-        public int Get(int id)
+        public string Get(int id)
         {
-            return id;
+            return nameof(Fur);
         }
     }
 }
