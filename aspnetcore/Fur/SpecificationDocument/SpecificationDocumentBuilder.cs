@@ -46,6 +46,7 @@ namespace Fur.SpecificationDocument
             _defaultGroups = new List<GroupOrder> { ResolveGroupOrder(_specificationDocumentSettings.DefaultGroupName) };
 
             GetActionGroupsCached = new ConcurrentDictionary<MethodInfo, IEnumerable<GroupOrder>>();
+            GetControllerGroupsCached = new ConcurrentDictionary<Type, IEnumerable<GroupOrder>>();
             // 加载所有分组
             _groups = ReadGroups();
         }
@@ -81,27 +82,44 @@ namespace Fur.SpecificationDocument
         }
 
         /// <summary>
+        /// <see cref="GetControllerGroups(MethodInfo)"/> 缓存集合
+        /// </summary>
+        private static readonly ConcurrentDictionary<Type, IEnumerable<GroupOrder>> GetControllerGroupsCached;
+
+        /// <summary>
         /// 获取控制器分组列表
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
         private static IEnumerable<GroupOrder> GetControllerGroups(Type type)
         {
-            // 如果控制器没有定义 [ApiDescriptionSettings] 特性，则返回默认分组
-            if (!type.IsDefined(typeof(ApiDescriptionSettingsAttribute), true)) return _defaultGroups;
+            var isCached = GetControllerGroupsCached.TryGetValue(type, out IEnumerable<GroupOrder> groups);
+            if (isCached) return groups;
 
-            // 读取分组
-            var apiDescriptionSettings = type.GetCustomAttribute<ApiDescriptionSettingsAttribute>(true);
-            if (apiDescriptionSettings.Groups == null || apiDescriptionSettings.Groups.Length == 0) return _defaultGroups;
-
-            // 处理排序
-            var groupOrders = new List<GroupOrder>();
-            foreach (var group in apiDescriptionSettings.Groups)
+            // 本地静态方法
+            static IEnumerable<GroupOrder> Function(Type type)
             {
-                groupOrders.Add(ResolveGroupOrder(group));
+                // 如果控制器没有定义 [ApiDescriptionSettings] 特性，则返回默认分组
+                if (!type.IsDefined(typeof(ApiDescriptionSettingsAttribute), true)) return _defaultGroups;
+
+                // 读取分组
+                var apiDescriptionSettings = type.GetCustomAttribute<ApiDescriptionSettingsAttribute>(true);
+                if (apiDescriptionSettings.Groups == null || apiDescriptionSettings.Groups.Length == 0) return _defaultGroups;
+
+                // 处理排序
+                var groupOrders = new List<GroupOrder>();
+                foreach (var group in apiDescriptionSettings.Groups)
+                {
+                    groupOrders.Add(ResolveGroupOrder(group));
+                }
+
+                return groupOrders;
             }
 
-            return groupOrders;
+            // 调用本地静态方法
+            groups = Function(type);
+            GetControllerGroupsCached.TryAdd(type, groups);
+            return groups;
         }
 
         /// <summary>
