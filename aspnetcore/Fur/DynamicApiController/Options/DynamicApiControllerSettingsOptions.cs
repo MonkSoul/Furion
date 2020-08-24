@@ -21,9 +21,9 @@ namespace Fur.DynamicApiController
         public string DefaultHttpMethod { get; set; }
 
         /// <summary>
-        /// 默认区域（模块）名称
+        /// 默认模块（区域）名称
         /// </summary>
-        public string DefaultAreaName { get; set; }
+        public string DefaultModule { get; set; }
 
         /// <summary>
         /// 小写路由

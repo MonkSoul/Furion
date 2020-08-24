@@ -335,7 +335,7 @@ namespace Fur.DynamicApiController
             if (selectorModel.AttributeRouteModel != null) return default;
 
             // 读取模块
-            var module = apiDescriptionSettings?.Module ?? _lazyControllerSettings.DefaultAreaName;
+            var module = apiDescriptionSettings?.Module ?? _lazyControllerSettings.DefaultModule;
 
             // 路由默认前缀
             var routePrefix = _lazyControllerSettings.DefaultRoutePrefix;
