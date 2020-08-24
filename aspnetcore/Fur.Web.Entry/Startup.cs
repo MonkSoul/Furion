@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 
 namespace Fur.Web.Entry
 {
@@ -23,12 +22,6 @@ namespace Fur.Web.Entry
                 options.AddSpecificationDocuments();
             });
             services.AddControllers().AddDynamicApiControllers();
-
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Fur API", Version = "v1" });
-                options.DocInclusionPredicate((currentGroup, apiDesc) => true);
-            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -38,19 +31,14 @@ namespace Fur.Web.Entry
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseApp(options =>
+            {
+                options.UseSpecificationDocuments();
+            });
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseSwagger(options =>
-            {
-                //options.SerializeAsV2 = true;
-            });
-            app.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Fur API V1");
-                options.RoutePrefix = string.Empty;
-            });
 
             app.UseAuthorization();
 

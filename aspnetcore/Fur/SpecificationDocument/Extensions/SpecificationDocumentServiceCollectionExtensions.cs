@@ -1,4 +1,5 @@
 ﻿using Fur.SpecificationDocument;
+using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -12,7 +13,10 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddSpecificationDocuments(this IServiceCollection services)
         {
             // 添加配置
-            services.AddAppOptions<SpecificationDocumentSettingsOptions>();
+            services.AddAppOptions<SpecificationDocumentSettingsOptions>(out IConfiguration _);
+
+            // 添加Swagger生成器服务
+            services.AddSwaggerGen(options => SpecificationDocumentBuilder.BuildGen(options));
 
             return services;
         }

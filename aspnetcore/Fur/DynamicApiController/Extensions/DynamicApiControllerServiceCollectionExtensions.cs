@@ -1,6 +1,7 @@
 ﻿using Fur.DynamicApiController;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
 
@@ -21,7 +22,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             var services = mvcBuilder.Services;
             // 添加配置
-            services.AddAppOptions<DynamicApiControllerSettingsOptions>();
+            services.AddAppOptions<DynamicApiControllerSettingsOptions>(out IConfiguration _);
 
             var partManager = services.FirstOrDefault(s => s.ServiceType == typeof(ApplicationPartManager)).ImplementationInstance as ApplicationPartManager
                 ?? throw new InvalidOperationException($"`{nameof(AddDynamicApiControllers)}` must be invoked after `{nameof(MvcServiceCollectionExtensions.AddControllers)}`.");

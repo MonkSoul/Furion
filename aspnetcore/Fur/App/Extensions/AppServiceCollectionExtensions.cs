@@ -25,7 +25,16 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             App.Services = services;
             var serviceProvider = App.ServiceProvider;
-            services.AddAppOptions<AppSettingsOptions>();
+            services.AddAppOptions<AppSettingsOptions>(out IConfiguration _);
+
+            // 注册MiniProfiler 组件
+            if (App.Settings.InjectMiniProfiler == true)
+            {
+                services.AddMiniProfiler(options =>
+                {
+                    options.RouteBasePath = AppSettingsOptions.MiniProfilerRouteBasePath;
+                }).AddEntityFramework();
+            }
 
             configure?.Invoke(services);
             return services;
@@ -37,8 +46,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <typeparam name="TOptions">选项类型</typeparam>
         /// <param name="services">服务集合</param>
         /// <param name="options">选项实例</param>
+        /// <param name="configuration">选项配置信息</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddAppOptions<TOptions>(this IServiceCollection services)
+        public static IServiceCollection AddAppOptions<TOptions>(this IServiceCollection services, out IConfiguration configuration)
             where TOptions : class, IAppOptions
         {
             var optionsType = typeof(TOptions);
@@ -48,7 +58,7 @@ namespace Microsoft.Extensions.DependencyInjection
             string jsonKey = GetOptionsJsonKey(optionsSettings, optionsType);
 
             // 配置选项（含验证信息）
-            var optionsConfiguration = App.Configuration.GetSection(jsonKey);
+            var optionsConfiguration = configuration = App.Configuration.GetSection(jsonKey);
 
             // 配置选项监听
             if (typeof(IAppOptionsListener<TOptions>).IsAssignableFrom(optionsType))

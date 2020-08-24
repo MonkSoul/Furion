@@ -1,8 +1,16 @@
 ﻿using Fur.DynamicApiController;
+using Mapster;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -47,12 +55,183 @@ namespace Fur.SpecificationDocument
 
             GetActionGroupsCached = new ConcurrentDictionary<MethodInfo, IEnumerable<GroupOrder>>();
             GetControllerGroupsCached = new ConcurrentDictionary<Type, IEnumerable<GroupOrder>>();
+            GetGroupOpenApiInfoCached = new ConcurrentDictionary<string, SpecificationOpenApiInfo>();
             // 加载所有分组
             _groups = ReadGroups();
         }
 
-        internal static void Build()
+        /// <summary>
+        /// 构建Swagger全局配置
+        /// </summary>
+        /// <param name="swaggerOptions">Swagger 全局配置</param>
+        internal static void Build(SwaggerOptions swaggerOptions)
         {
+            // 生成V2版本
+            swaggerOptions.SerializeAsV2 = _specificationDocumentSettings.FormatAsV2 == true;
+        }
+
+        /// <summary>
+        /// Swagger 生成器构建
+        /// </summary>
+        /// <param name="swaggerGenOptions">Swagger 生成器配置</param>
+        internal static void BuildGen(SwaggerGenOptions swaggerGenOptions)
+        {
+            // 创建分组文档
+            CreateSwaggerDocs(swaggerGenOptions);
+
+            // 加载分组控制器和动作方法列表
+            LoadGroupControllerWithActions(swaggerGenOptions);
+
+            // 配置 Swagger SchemaId
+            ConfigureSchemaId(swaggerGenOptions);
+
+            // 使用内部枚举定义模型，无需创建 SchemaId
+            swaggerGenOptions.UseInlineDefinitionsForEnums();
+
+            // 加载注释描述文件
+            LoadXmlComments(swaggerGenOptions);
+        }
+
+        /// <summary>
+        /// Swagger UI 构建
+        /// </summary>
+        /// <param name="swaggerUIOptions"></param>
+        internal static void BuildUI(SwaggerUIOptions swaggerUIOptions)
+        {
+            // 配置分组终点路由
+            CreateGroupEndpoint(swaggerUIOptions);
+
+            // 配置文档标题
+            swaggerUIOptions.DocumentTitle = _specificationDocumentSettings.DocumentTitle;
+
+            // 配置UI地址
+            swaggerUIOptions.RoutePrefix = _specificationDocumentSettings.RoutePrefix;
+
+            // 注入 Mini-Profiler 组件
+            InjectMiniProfilerPlugin(swaggerUIOptions);
+        }
+
+        /// <summary>
+        /// 创建分组文档
+        /// </summary>
+        /// <param name="swaggerGenOptions">Swagger生成器对象</param>
+        private static void CreateSwaggerDocs(SwaggerGenOptions swaggerGenOptions)
+        {
+            foreach (var group in _groups)
+            {
+                var groupOpenApiInfo = GetGroupOpenApiInfo(group) as OpenApiInfo;
+                swaggerGenOptions.SwaggerDoc(group, groupOpenApiInfo);
+            }
+        }
+
+        /// <summary>
+        /// 加载分组控制器和动作方法列表
+        /// </summary>
+        /// <param name="swaggerGenOptions">Swagger 生成器配置</param>
+        private static void LoadGroupControllerWithActions(SwaggerGenOptions swaggerGenOptions)
+        {
+            swaggerGenOptions.DocInclusionPredicate((currentGroup, apiDescription) =>
+            {
+                if (!apiDescription.TryGetMethodInfo(out MethodInfo method)) return false;
+
+                return GetActionGroups(method).Any(u => u.Group == currentGroup);
+            });
+        }
+
+        /// <summary>
+        /// 配置 Swagger SchemaId
+        /// </summary>
+        /// <param name="swaggerGenOptions">Swagger 生成器配置</param>
+        private static void ConfigureSchemaId(SwaggerGenOptions swaggerGenOptions)
+        {
+            // 本地函数
+            static string DefaultSchemaIdSelector(Type modelType)
+            {
+                if (!modelType.IsConstructedGenericType) return modelType.Name;
+
+                var prefix = modelType.GetGenericArguments()
+                    .Select(genericArg => DefaultSchemaIdSelector(genericArg))
+                    .Aggregate((previous, current) => previous + current);
+
+                return modelType.Name.Split('`').First() + "Of" + prefix;
+            }
+
+            // 调用本地函数
+            swaggerGenOptions.CustomSchemaIds(modelType => DefaultSchemaIdSelector(modelType));
+        }
+
+        /// <summary>
+        /// 加载注释描述文件
+        /// </summary>
+        /// <param name="swaggerGenOptions">Swagger 生成器配置</param>
+        private static void LoadXmlComments(SwaggerGenOptions swaggerGenOptions)
+        {
+            var xmlComments = _specificationDocumentSettings.XmlComments;
+            foreach (var xmlComment in xmlComments)
+            {
+                var assemblyXmlName = xmlComment.EndsWith(".xml") ? xmlComment : $"{xmlComment}.xml";
+                var assemblyXmlPath = Path.Combine(AppContext.BaseDirectory, assemblyXmlName);
+                if (File.Exists(assemblyXmlPath))
+                {
+                    swaggerGenOptions.IncludeXmlComments(assemblyXmlPath, true);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 配置分组终点路由
+        /// </summary>
+        /// <param name="swaggerUIOptions"></param>
+        private static void CreateGroupEndpoint(SwaggerUIOptions swaggerUIOptions)
+        {
+            foreach (var group in _groups)
+            {
+                var groupOpenApiInfo = GetGroupOpenApiInfo(group);
+
+                swaggerUIOptions.SwaggerEndpoint($"/swagger/{group}/swagger.json", groupOpenApiInfo?.Title ?? group);
+            }
+        }
+
+        /// <summary>
+        /// 注入 Mini-Profiler 插件
+        /// </summary>
+        /// <param name="swaggerUIOptions"></param>
+        private static void InjectMiniProfilerPlugin(SwaggerUIOptions swaggerUIOptions)
+        {
+            if (App.Settings.InjectMiniProfiler != true) return;
+
+            // 启用 Mini-Profiler 组件
+            var thisType = typeof(SpecificationDocumentBuilder);
+            var thisAssembly = thisType.Assembly;
+
+            swaggerUIOptions.IndexStream = () => thisAssembly.GetManifestResourceStream($"{thisType.Namespace}.Assets.index-mini-profiler.html");
+        }
+
+        /// <summary>
+        /// <see cref="GetControllerGroups(MethodInfo)"/> 缓存集合
+        /// </summary>
+        private static readonly ConcurrentDictionary<string, SpecificationOpenApiInfo> GetGroupOpenApiInfoCached;
+
+        /// <summary>
+        /// 获取分组配置信息
+        /// </summary>
+        /// <param name="group"></param>
+        /// <returns></returns>
+        private static SpecificationOpenApiInfo GetGroupOpenApiInfo(string group)
+        {
+            var isCached = GetGroupOpenApiInfoCached.TryGetValue(group, out SpecificationOpenApiInfo specificationOpenApiInfo);
+            if (isCached) return specificationOpenApiInfo;
+
+            // 本地静态方法
+            static SpecificationOpenApiInfo Function(string group)
+            {
+                return _specificationDocumentSettings.GroupOpenApiInfos.FirstOrDefault(u => u.Group == group) ?? new SpecificationOpenApiInfo(group);
+            }
+
+            // 调用本地静态方法
+            specificationOpenApiInfo = Function(group);
+            GetGroupOpenApiInfoCached.TryAdd(group, specificationOpenApiInfo);
+            return specificationOpenApiInfo;
         }
 
         /// <summary>

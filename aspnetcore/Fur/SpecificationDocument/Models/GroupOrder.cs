@@ -8,7 +8,7 @@
         /// <summary>
         /// 构造函数
         /// </summary>
-        public GroupOrder()
+        internal GroupOrder()
         {
             Order = 0;
         }

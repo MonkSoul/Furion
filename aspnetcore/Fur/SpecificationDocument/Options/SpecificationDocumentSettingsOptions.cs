@@ -1,5 +1,4 @@
 ﻿using Fur.Options;
-using Microsoft.OpenApi.Models;
 using System.Collections.Generic;
 
 namespace Fur.SpecificationDocument
@@ -21,6 +20,21 @@ namespace Fur.SpecificationDocument
         public string DefaultGroupName { get; set; }
 
         /// <summary>
+        /// 启用授权支持
+        /// </summary>
+        public bool? EnableAuthorized { get; set; }
+
+        /// <summary>
+        /// 格式化为V2版本
+        /// </summary>
+        public bool? FormatAsV2 { get; set; }
+
+        /// <summary>
+        /// 配置规范化文档地址
+        /// </summary>
+        public string RoutePrefix { get; set; }
+
+        /// <summary>
         /// XML 描述文件
         /// </summary>
         public string[] XmlComments { get; set; }
@@ -28,12 +42,12 @@ namespace Fur.SpecificationDocument
         /// <summary>
         /// 分组信息
         /// </summary>
-        public IEnumerable<OpenApiInfo> GroupInfos { get; set; }
+        public IEnumerable<SpecificationOpenApiInfo> GroupOpenApiInfos { get; set; }
 
         /// <summary>
-        /// 启用授权支持
+        /// 默认描述信息
         /// </summary>
-        public bool? EnableAuthorized { get; set; }
+        private const string defaultDescription = "OpenApi Document";
 
         /// <summary>
         /// 后期配置
@@ -41,8 +55,23 @@ namespace Fur.SpecificationDocument
         /// <param name="options"></param>
         public void PostConfigure(SpecificationDocumentSettingsOptions options)
         {
-            options.DocumentTitle ??= $"{nameof(Fur)} Specification Document";
+            options.DocumentTitle ??= $"{nameof(Fur)} {defaultDescription}";
             options.DefaultGroupName ??= "Default";
+            options.FormatAsV2 ??= false;
+            options.RoutePrefix ??= string.Empty;
+            XmlComments ??= new string[]
+           {
+                "Fur.Application",
+                "Fur.Web.Entry",
+                "Fur.Web.Core"
+           };
+            GroupOpenApiInfos ??= new List<SpecificationOpenApiInfo>
+            {
+                new SpecificationOpenApiInfo(options.DefaultGroupName)
+                {
+                    Title=$"{options.DefaultGroupName} {defaultDescription}"
+                }
+            };
         }
     }
 }

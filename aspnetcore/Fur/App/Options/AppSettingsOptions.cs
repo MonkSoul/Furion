@@ -6,6 +6,11 @@
     public sealed class AppSettingsOptions : IAppOptions<AppSettingsOptions>
     {
         /// <summary>
+        /// MiniProfiler 插件路径
+        /// </summary>
+        internal const string MiniProfilerRouteBasePath = "/index-mini-profiler";
+
+        /// <summary>
         /// 应用类型
         /// </summary>
         public ProjectType Project { get; set; }
