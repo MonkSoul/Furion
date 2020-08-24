@@ -47,15 +47,18 @@ namespace Fur.SpecificationDocument
         /// </summary>
         static SpecificationDocumentBuilder()
         {
+            // 载入配置
             _specificationDocumentSettings = App.GetOptions<SpecificationDocumentSettingsOptions>();
+
+            // 初始化常量
             _groupOrderRegex = new Regex(@"@(?<order>[0-9]+$)");
+            GetActionGroupsCached = new ConcurrentDictionary<MethodInfo, IEnumerable<GroupOrder>>();
+            GetControllerGroupsCached = new ConcurrentDictionary<Type, IEnumerable<GroupOrder>>();
+            GetGroupOpenApiInfoCached = new ConcurrentDictionary<string, SpecificationOpenApiInfo>();
 
             // 默认分组，支持多个逗号分割
             _defaultGroups = new List<GroupOrder> { ResolveGroupOrder(_specificationDocumentSettings.DefaultGroupName) };
 
-            GetActionGroupsCached = new ConcurrentDictionary<MethodInfo, IEnumerable<GroupOrder>>();
-            GetControllerGroupsCached = new ConcurrentDictionary<Type, IEnumerable<GroupOrder>>();
-            GetGroupOpenApiInfoCached = new ConcurrentDictionary<string, SpecificationOpenApiInfo>();
             // 加载所有分组
             _groups = ReadGroups();
         }
@@ -242,7 +245,7 @@ namespace Fur.SpecificationDocument
         {
             // 获取所有的控制器和动作方法
             var controllers = App.Assemblies.SelectMany(a => a.GetTypes().Where(u => Penetrates.IsController(u)));
-            var actions = controllers.SelectMany(c => c.GetMethods().Where(u => IsAction(u, false)));
+            var actions = controllers.SelectMany(c => c.GetMethods().Where(u => IsAction(u, c)));
 
             // 合并所有分组
             var groupOrders = controllers.SelectMany(u => GetControllerGroups(u))
@@ -254,7 +257,7 @@ namespace Fur.SpecificationDocument
 
             // 分组排序
             return groupOrders
-                .OrderBy(u => u.Order)
+                .OrderByDescending(u => u.Order)
                 .ThenBy(u => u.Group)
                 .Select(u => u.Group)
                 .Distinct();
@@ -345,15 +348,16 @@ namespace Fur.SpecificationDocument
         /// <summary>
         /// 是否是动作方法
         /// </summary>
-        /// <param name="method"></param>
+        /// <param name="method">方法</param>
+        /// <param name="declaringType">声明类型</param>
         /// <returns></returns>
-        private static bool IsAction(MethodInfo method, bool checkDeclaringType = true)
+        private static bool IsAction(MethodInfo method, Type declaringType)
         {
             // 不是是非公开、抽象、静态、泛型方法
             if (!method.IsPublic || method.IsAbstract || method.IsStatic || method.IsGenericMethod) return false;
 
             // 如果所在类型不是控制器，则该行为也被忽略
-            if (checkDeclaringType && !Penetrates.IsController(method.DeclaringType)) return false;
+            if (method.DeclaringType != declaringType) return false;
 
             // 不是能被导出忽略的接方法
             if (method.IsDefined(typeof(ApiExplorerSettingsAttribute), true) && method.GetCustomAttribute<ApiExplorerSettingsAttribute>(true).IgnoreApi) return false;
@@ -368,13 +372,21 @@ namespace Fur.SpecificationDocument
         /// <returns></returns>
         private static GroupOrder ResolveGroupOrder(string group)
         {
-            if (!_groupOrderRegex.IsMatch(group)) return new GroupOrder { Group = group };
+            string realGroup;
+            int order = 0;
 
-            var order = int.Parse(_groupOrderRegex.Match(group).Groups["order"].Value);
+            if (!_groupOrderRegex.IsMatch(group)) realGroup = group;
+            else
+            {
+                realGroup = _groupOrderRegex.Replace(group, "");
+                order = int.Parse(_groupOrderRegex.Match(group).Groups["order"].Value);
+            }
+
+            var groupOpenApiInfo = GetGroupOpenApiInfo(realGroup);
             return new GroupOrder
             {
-                Group = _groupOrderRegex.Replace(group, ""),
-                Order = order
+                Group = realGroup,
+                Order = groupOpenApiInfo.Order ?? order
             };
         }
     }

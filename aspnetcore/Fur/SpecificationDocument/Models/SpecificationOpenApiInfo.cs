@@ -15,7 +15,6 @@ namespace Fur.SpecificationDocument
         public SpecificationOpenApiInfo(string group)
         {
             this.Group = group;
-            this.Order = 0;
             base.Title ??= string.Join(' ', Penetrates.SplitCamelCase(group));
             base.Version = "1.0.0";
         }
@@ -28,6 +27,6 @@ namespace Fur.SpecificationDocument
         /// <summary>
         /// 排序
         /// </summary>
-        public int Order { get; set; }
+        public int? Order { get; set; }
     }
 }

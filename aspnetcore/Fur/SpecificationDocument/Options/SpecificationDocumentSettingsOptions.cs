@@ -45,6 +45,11 @@ namespace Fur.SpecificationDocument
         public IEnumerable<SpecificationOpenApiInfo> GroupOpenApiInfos { get; set; }
 
         /// <summary>
+        /// 是否有分组配置
+        /// </summary>
+        internal bool HasGroups { get; private set; }
+
+        /// <summary>
         /// 默认描述信息
         /// </summary>
         private const string defaultDescription = "OpenApi Document";
