@@ -1051,9 +1051,178 @@ import versionpzUrl from "../static/img/versionpz.png";
 
 `Groups` 配置主要用于配置 `Swagger` 分组信息。
 
-### 3.9.10 `Tags` 配置
+通过配置 `Groups` 参数可以将`控制器和动作方法` 进行归类和多个分组直接共享。可通过 `[ApiDescriptionSettings(params Groups)]` 构造函数传入或指定 `Groups` 参数配置接口是否导出。通常用于动作方法，如果用于控制器实际作用不大。
 
-`Tags` 配置主要用于配置 `Swagger` 标签分组信息。
+```cs {5,13}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    [ApiDescriptionSettings("Default", "Common")]
+    public class FurAppService : IDynamicApiController
+    {
+        public string Get()
+        {
+            return nameof(Fur);
+        }
+
+        [ApiDescriptionSettings("Custom")]
+        public int Get(int id)
+        {
+            return id;
+        }
+    }
+}
+```
+
+如下图所示：
+
+import dfzUrl from "../static/img/dfz.gif";
+
+<img src={dfzUrl} />
+
+### 3.9.10 `Tag` 配置
+
+`Tag` 配置主要用于配置 `Swagger` 标签分组信息及合并标签。也就是 `组中组`:
+
+import tag1Url from "../static/img/tag1.png";
+import tag2Url from "../static/img/tag2.png";
+
+<Tabs
+  defaultValue="tag1"
+  values={[
+    { label: "标签命名", value: "tag1" },
+    { label: "合并标签", value: "tag2" },
+  ]}
+>
+  <TabItem value="tag1">
+
+#### 未贴标签之前
+
+```cs
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        public string Get()
+        {
+            return nameof(Fur);
+        }
+
+        public int Get(int id)
+        {
+            return id;
+        }
+    }
+
+    public class TestAppService : IDynamicApiController
+    {
+        public string Get()
+        {
+            return nameof(Fur);
+        }
+
+        public int Get(int id)
+        {
+            return id;
+        }
+    }
+}
+```
+
+#### 贴标签之后
+
+```cs {5,19}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    [ApiDescriptionSettings(Tag = "分组一")]
+    public class FurAppService : IDynamicApiController
+    {
+        public string Get()
+        {
+            return nameof(Fur);
+        }
+
+        public int Get(int id)
+        {
+            return id;
+        }
+    }
+
+    [ApiDescriptionSettings(Tag = "分组二")]
+    public class TestAppService : IDynamicApiController
+    {
+        public string Get()
+        {
+            return nameof(Fur);
+        }
+
+        public int Get(int id)
+        {
+            return id;
+        }
+    }
+}
+```
+
+如下图所示：
+
+<img src={tag1Url} />
+
+  </TabItem>
+  <TabItem value="tag2">
+
+```cs {5,19}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    [ApiDescriptionSettings(Tag = "合并所有标签")]
+    public class FurAppService : IDynamicApiController
+    {
+        public string Get()
+        {
+            return nameof(Fur);
+        }
+
+        public int Get(int id)
+        {
+            return id;
+        }
+    }
+
+    [ApiDescriptionSettings(Tag = "合并所有标签")]
+    public class TestAppService : IDynamicApiController
+    {
+        public string Get()
+        {
+            return nameof(Fur);
+        }
+
+        public int Get(int id)
+        {
+            return id;
+        }
+    }
+}
+```
+
+如下图所示：
+
+<img src={tag2Url} />
+
+  </TabItem>
+</Tabs>
+
+:::tip 小知识
+
+如果 `Tag` 名字一样，则会自动合并，否则只是命名。
+
+:::
 
 ### 3.9.11 `AuthPolicies` 配置
 
