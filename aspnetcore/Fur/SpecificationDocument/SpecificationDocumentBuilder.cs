@@ -117,6 +117,9 @@ namespace Fur.SpecificationDocument
             // 配置UI地址
             swaggerUIOptions.RoutePrefix = _specificationDocumentSettings.RoutePrefix;
 
+            // 文档展开设置
+            swaggerUIOptions.DocExpansion(_specificationDocumentSettings.DocExpansionState.Value);
+
             // 注入 Mini-Profiler 组件
             InjectMiniProfilerPlugin(swaggerUIOptions);
         }

@@ -40,6 +40,7 @@ namespace Fur.Web.Entry
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

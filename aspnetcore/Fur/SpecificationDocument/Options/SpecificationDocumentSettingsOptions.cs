@@ -1,4 +1,5 @@
 ﻿using Fur.Options;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Collections.Generic;
 
 namespace Fur.SpecificationDocument
@@ -35,6 +36,11 @@ namespace Fur.SpecificationDocument
         public string RoutePrefix { get; set; }
 
         /// <summary>
+        /// 文档展开设置
+        /// </summary>
+        public DocExpansion? DocExpansionState { get; set; }
+
+        /// <summary>
         /// XML 描述文件
         /// </summary>
         public string[] XmlComments { get; set; }
@@ -64,6 +70,7 @@ namespace Fur.SpecificationDocument
             options.DefaultGroupName ??= "Default";
             options.FormatAsV2 ??= false;
             options.RoutePrefix ??= string.Empty;
+            options.DocExpansionState ??= DocExpansion.List;
             XmlComments ??= new string[]
            {
                 "Fur.Application",
