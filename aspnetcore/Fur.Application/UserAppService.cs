@@ -5,7 +5,6 @@ namespace Fur.Application
     /// <summary>
     /// 用户接口
     /// </summary>
-    [ApiDescriptionSettings(Tag = "All Apis")]
     public class UserAppService : IDynamicApiController
     {
         /// <summary>
@@ -18,7 +17,7 @@ namespace Fur.Application
         }
 
         /// <summary>
-        /// 动作方法注释
+        /// 通过Id获取
         /// </summary>
         /// <returns></returns>
         public string Get(int id)

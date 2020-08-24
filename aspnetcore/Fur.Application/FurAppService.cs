@@ -3,9 +3,8 @@
 namespace Fur.Application
 {
     /// <summary>
-    /// 控制器注释
+    /// 框架接口
     /// </summary>
-    [ApiDescriptionSettings(Tag = "All Apis")]
     public class FurAppService : IDynamicApiController
     {
         /// <summary>
