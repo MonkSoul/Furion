@@ -250,7 +250,7 @@ namespace Fur.SpecificationDocument
             // 本地函数
             static SpecificationOpenApiInfo Function(string group)
             {
-                return _specificationDocumentSettings.GroupOpenApiInfos.FirstOrDefault(u => u.Group == group) ?? new SpecificationOpenApiInfo(group);
+                return _specificationDocumentSettings.GroupOpenApiInfos.FirstOrDefault(u => u.Group == group) ?? new SpecificationOpenApiInfo { Group = group };
             }
 
             // 调用本地函数
@@ -275,14 +275,19 @@ namespace Fur.SpecificationDocument
                     actions.SelectMany(u => GetActionGroups(u))
                 )
                 .Where(u => u != null)
-                .Distinct();
+                // 分组后取最大排序
+                .GroupBy(u => u.Group)
+                .Select(u => new GroupOrder
+                {
+                    Group = u.Key,
+                    Order = u.Max(x => x.Order)
+                });
 
             // 分组排序
             return groupOrders
                 .OrderByDescending(u => u.Order)
                 .ThenBy(u => u.Group)
-                .Select(u => u.Group)
-                .Distinct();
+                .Select(u => u.Group);
         }
 
         /// <summary>

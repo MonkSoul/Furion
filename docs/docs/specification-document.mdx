@@ -42,23 +42,23 @@ import TabItem from "@theme/TabItem";
 和 C# 命名规范一样，好的、统一的接口命名规范，不仅可以增强其可读性，而且还会减少很多不必要的口头/书面上的解释。，可使用"驼峰命名法"按照实现接口的**业务类型、业务场景**等命名，有必要时可采取多级目录命名，但目录不宜过长，两级目录较为适宜
 
 - `常见命名方式`:
-    - `接口名称动词前/后缀化`： 接口名称以接口数据操作的动词为前/后缀，常见动词有：`Add、Delete、Update、Query、Get、Send、Save、Detail、List`等，如：新建用户 `AddUser`、查询订单详情 `QueryOrderDetail`。
-    - `接口名称动词 + 请求方式`：接口路径中包含具体接口名称的名词，接口数据操作动作以HTTP请求方式来区分。常用的HTTP请求方式有：
-        - `GET`：从服务器取出资源（一项或多项）
-        - `POST`：在服务器新建一个资源
-        - `PUT`：在服务器更新资源（客户端提供改变后的完整资源）
-        - `PATCH`：在服务器更新资源（客户端提供改变的属性）
-        - `DELETE`：从服务器删除资源
+  - `接口名称动词前/后缀化`： 接口名称以接口数据操作的动词为前/后缀，常见动词有：`Add、Delete、Update、Query、Get、Send、Save、Detail、List`等，如：新建用户 `AddUser`、查询订单详情 `QueryOrderDetail`。
+  - `接口名称动词 + 请求方式`：接口路径中包含具体接口名称的名词，接口数据操作动作以 HTTP 请求方式来区分。常用的 HTTP 请求方式有：
+    - `GET`：从服务器取出资源（一项或多项）
+    - `POST`：在服务器新建一个资源
+    - `PUT`：在服务器更新资源（客户端提供改变后的完整资源）
+    - `PATCH`：在服务器更新资源（客户端提供改变的属性）
+    - `DELETE`：从服务器删除资源
 
 ### 4.3.5 请求参数规范
 
 - `请求方式`：按照 `GET、POST、PUT` 等含义定义，避免出现不一致现象，对人造成误解、歧义
-    - `请求头`：请求头根据项目需求添加配置参数。如：请求数据格式，`accept=application/json` 等。如有需要，请求头可根据项目需求要求传入用户token、唯一验签码等加密数据
-    - `请求参数/请求体`： 请求参数字段，尽可能与数据库表字段、对象属性名等保持一致，因为保持一致最省事，最舒服的一件事
-   
-### 4.3.6 返回数据规范   
+  - `请求头`：请求头根据项目需求添加配置参数。如：请求数据格式，`accept=application/json` 等。如有需要，请求头可根据项目需求要求传入用户 token、唯一验签码等加密数据
+  - `请求参数/请求体`： 请求参数字段，尽可能与数据库表字段、对象属性名等保持一致，因为保持一致最省事，最舒服的一件事
 
-统一规范返回数据的格式，对己对彼都有好处，此处以json格式为例。返回数据应包含：**返回状态码、返回状态信息、具体数据**。**返回数据中的状态码、状态信息，常指具体的业务状态，不建议和 HTTP 状态码混在一起**。HTTP状态，是用来体现 HTTP链路状态情况，如：404-Not Found。HTTP状态码和json结果中的状态码，并存尚可，用于体现不同维度的状态。
+### 4.3.6 返回数据规范
+
+统一规范返回数据的格式，对己对彼都有好处，此处以 json 格式为例。返回数据应包含：**返回状态码、返回状态信息、具体数据**。**返回数据中的状态码、状态信息，常指具体的业务状态，不建议和 HTTP 状态码混在一起**。HTTP 状态，是用来体现 HTTP 链路状态情况，如：404-Not Found。HTTP 状态码和 json 结果中的状态码，并存尚可，用于体现不同维度的状态。
 
 ## 4.4 什么是 Swagger
 
@@ -72,8 +72,254 @@ import TabItem from "@theme/TabItem";
 
 这样，如果按照新的开发模式，在开发新版本或者迭代版本的时候，只需要更新 `Swagger` 描述文件，就可以自动生成接口文档和客户端服务端代码，做到调用端代码、服务端代码以及接口文档的一致性。
 
-所以，Swagger 是一个规范和完整的框架，用于生成、描述、调用和可视化` RESTful` 风格的 `Web` 服务。
+所以，Swagger 是一个规范和完整的框架，用于生成、描述、调用和可视化`RESTful` 风格的 `Web` 服务。
 
 总体目标是使客户端和文件系统作为服务器以同样的速度来更新。文件的方法、参数和模型紧密集成到服务器端的代码，允许 API 来始终保持同步。`Swagger` 让部署管理和使用功能强大的 `API` 从未如此简单。
 
 ## 4.5 Swagger 使用
+
+`Fur` 框架提供了非常方便且灵活的 `Swagger` 配置，无需增加额外学习成本。
+
+### 4.5.1 注册服务
+
+```cs {4,13-16,18,30-33}
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+namespace Fur.Web.Entry
+{
+    public class Startup
+    {
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddApp(options =>
+            {
+                options.AddSpecificationDocuments();
+            });
+
+            services.AddControllers().AddDynamicApiControllers();
+
+            // Other Codes...
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseApp(options =>
+            {
+                options.UseSpecificationDocuments();
+            });
+
+            // Other Codes...
+        }
+    }
+}
+```
+
+:::tip 小知识
+
+`services.AddSpecificationDocuments()` 通常和 `.AddDynamicApiControllers()` 成对出现。
+
+:::
+
+### 4.5.2 默认地址
+
+在 `Fur` 框架中，默认 `规范化文档` 地址为主机根目录，**支持自定义配置**。
+
+import swagger1 from "../static/img/swagger1.png";
+
+如下图所示：
+
+<img src={swagger1} />
+
+### 4.5.3 默认分组
+
+`Fur` 框架中默认分组名为 `Default`，**支持自定义配置**。
+
+### 4.5.4 文档注释
+
+规范化文档默认扫描 `Fur.Application`，`Fur.Web.Core`，`Fur.Web.Entry` 三个程序集`.xml` 注释文件，**支持自定义配置**。
+
+只支持 `///` 标识的注释语法，如：**类、方法、属性、参数、返回值、验证特性**。
+
+```cs {5-7,10-13,19-23}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    /// <summary>
+    /// 类注释
+    /// </summary>
+    public class FurAppService : IDynamicApiController
+    {
+        /// <summary>
+        /// 方法注释
+        /// </summary>
+        /// <returns></returns>
+        public string Get()
+        {
+            return nameof(Fur);
+        }
+
+        /// <summary>
+        /// 带 ID 参数的方法注释
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public int Get(int id)
+        {
+            return id;
+        }
+    }
+}
+```
+
+import swagger2 from "../static/img/swagger2.png";
+
+如下图所示：
+
+<img src={swagger2} />
+
+### 4.5.5 多分组支持
+
+多分组是一个系统中必备功能，我们可以将系统划分为多个模块，每个模块都独立的 `api` 配置。在 `Fur` 框架中，实现多分组非常简单。如：
+
+```cs {5,21,32}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    [ApiDescriptionSettings("Group1")]
+    public class FurAppService : IDynamicApiController
+    {
+        /// <summary>
+        /// 随父类 Group1 分组
+        /// </summary>
+        /// <returns></returns>
+        public string Post()
+        {
+            return nameof(Fur);
+        }
+
+        /// <summary>
+        /// 在 Group1、Group3 都有我
+        /// </summary>
+        /// <returns></returns>
+        [ApiDescriptionSettings("Group1", "Group3")]
+        public string Get()
+        {
+            return nameof(Fur);
+        }
+
+        /// <summary>
+        /// 我只在 Group2 出现
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [ApiDescriptionSettings("Group2")]
+        public int Get(int id)
+        {
+            return id;
+        }
+    }
+}
+```
+
+import swagger3 from "../static/img/swagger3.gif";
+
+如下图所示：
+
+<img src={swagger3} />
+
+### 4.5.6 多分组排序
+
+import swagger4 from "../static/img/swagger4.png";
+
+<Tabs
+  defaultValue="fz1"
+  values={[
+    { label: "方式一", value: "fz1" },
+    { label: "方式二", value: "fz2" },
+  ]}
+>
+  <TabItem value="fz1">
+
+**通过分组名称添加 `@整数` 进行排序**
+
+```cs {5,19}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    [ApiDescriptionSettings("Group1@1")]
+    public class FurAppService : IDynamicApiController
+    {
+        public string Post()
+        {
+            return nameof(Fur);
+        }
+
+        [ApiDescriptionSettings("Group1", "Group3")]
+        public string Get()
+        {
+            return nameof(Fur);
+        }
+
+        [ApiDescriptionSettings("Group@2")]
+        public int Get(int id),19
+        {
+            return id;
+        }
+    }
+}
+```
+
+可以通过在分组名后面添加 `@整数` 进行排序，`整数` 越大排前面。如果分组名称多次指定且多次指定了 `@整数` ，则自动**取该分组最大的整数**进行排序。
+
+  </TabItem>
+  <TabItem value="fz2">
+
+**通过配置文件配置排序**
+
+```json {2,3,4-17}
+{
+  "AppSettings": {
+    "SpecificationDocumentSettings": {
+      "GroupOpenApiInfos": [
+        {
+          "Group": "Group1",
+          "Order": 1
+        },
+        {
+          "Group": "Group2",
+          "Order": 2
+        },
+        {
+          "Group": "Group3",
+          "Order": 0
+        }
+      ]
+    }
+  }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+如下图所示：
+
+<img src={swagger4} />
+
+:::tip 默认排序
+
+分组默认排序 `Order` 为 `0`。
+
+:::

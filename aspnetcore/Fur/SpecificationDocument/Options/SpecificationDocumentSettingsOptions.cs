@@ -1,6 +1,5 @@
 ﻿using Fur.Options;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using System.Collections.Generic;
 
 namespace Fur.SpecificationDocument
 {
@@ -48,7 +47,7 @@ namespace Fur.SpecificationDocument
         /// <summary>
         /// 分组信息
         /// </summary>
-        public IEnumerable<SpecificationOpenApiInfo> GroupOpenApiInfos { get; set; }
+        public SpecificationOpenApiInfo[] GroupOpenApiInfos { get; set; }
 
         /// <summary>
         /// 是否有分组配置
@@ -77,11 +76,11 @@ namespace Fur.SpecificationDocument
                 "Fur.Web.Entry",
                 "Fur.Web.Core"
            };
-            GroupOpenApiInfos ??= new List<SpecificationOpenApiInfo>
+            GroupOpenApiInfos ??= new SpecificationOpenApiInfo[]
             {
-                new SpecificationOpenApiInfo(options.DefaultGroupName)
+                new SpecificationOpenApiInfo()
                 {
-                    Title=$"{options.DefaultGroupName} {defaultDescription}"
+                    Group=options.DefaultGroupName
                 }
             };
         }

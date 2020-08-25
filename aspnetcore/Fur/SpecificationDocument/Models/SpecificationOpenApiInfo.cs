@@ -8,21 +8,25 @@ namespace Fur.SpecificationDocument
     /// </summary>
     public sealed class SpecificationOpenApiInfo : OpenApiInfo
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="group"></param>
-        public SpecificationOpenApiInfo(string group)
+        public SpecificationOpenApiInfo()
         {
-            this.Group = group;
-            base.Title ??= string.Join(' ', Penetrates.SplitCamelCase(group));
-            base.Version = "1.0.0";
+            base.Version ??= "1.0.0";
         }
+
+        private string _group;
 
         /// <summary>
         /// 所属组
         /// </summary>
-        public string Group { get; set; }
+        public string Group
+        {
+            get => _group;
+            set
+            {
+                _group = value;
+                Title ??= string.Join(' ', Penetrates.SplitCamelCase(_group));
+            }
+        }
 
         /// <summary>
         /// 排序
