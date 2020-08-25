@@ -10,6 +10,11 @@ namespace Fur.Authorization
     /// </summary>
     public abstract class AuthorizePolicyHandler : IAuthorizationHandler
     {
+        /// <summary>
+        /// 授权验证核心方法
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public Task HandleAsync(AuthorizationHandlerContext context)
         {
             // 获取所有未成功验证的需求
@@ -35,6 +40,12 @@ namespace Fur.Authorization
             return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// 验证管道
+        /// </summary>
+        /// <param name="context">授权上下文</param>
+        /// <param name="actionDescriptor">动作方法描述器</param>
+        /// <returns></returns>
         public virtual bool Pipeline(AuthorizationHandlerContext context, ControllerActionDescriptor actionDescriptor) => true;
     }
 }
