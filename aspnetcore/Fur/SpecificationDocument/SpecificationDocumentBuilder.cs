@@ -247,13 +247,13 @@ namespace Fur.SpecificationDocument
             var isCached = GetGroupOpenApiInfoCached.TryGetValue(group, out SpecificationOpenApiInfo specificationOpenApiInfo);
             if (isCached) return specificationOpenApiInfo;
 
-            // 本地静态方法
+            // 本地函数
             static SpecificationOpenApiInfo Function(string group)
             {
                 return _specificationDocumentSettings.GroupOpenApiInfos.FirstOrDefault(u => u.Group == group) ?? new SpecificationOpenApiInfo(group);
             }
 
-            // 调用本地静态方法
+            // 调用本地函数
             specificationOpenApiInfo = Function(group);
             GetGroupOpenApiInfoCached.TryAdd(group, specificationOpenApiInfo);
             return specificationOpenApiInfo;
@@ -300,7 +300,7 @@ namespace Fur.SpecificationDocument
             var isCached = GetControllerGroupsCached.TryGetValue(type, out IEnumerable<GroupOrder> groups);
             if (isCached) return groups;
 
-            // 本地静态方法
+            // 本地函数
             static IEnumerable<GroupOrder> Function(Type type)
             {
                 // 如果控制器没有定义 [ApiDescriptionSettings] 特性，则返回默认分组
@@ -320,7 +320,7 @@ namespace Fur.SpecificationDocument
                 return groupOrders;
             }
 
-            // 调用本地静态方法
+            // 调用本地函数
             groups = Function(type);
             GetControllerGroupsCached.TryAdd(type, groups);
             return groups;
@@ -341,7 +341,7 @@ namespace Fur.SpecificationDocument
             var isCached = GetActionGroupsCached.TryGetValue(method, out IEnumerable<GroupOrder> groups);
             if (isCached) return groups;
 
-            // 本地静态方法
+            // 本地函数
             static IEnumerable<GroupOrder> Function(MethodInfo method)
             {
                 // 如果动作方法没有定义 [ApiDescriptionSettings] 特性，则返回所在控制器分组
@@ -361,7 +361,7 @@ namespace Fur.SpecificationDocument
                 return groupOrders;
             }
 
-            // 调用本地静态方法
+            // 调用本地函数
             groups = Function(method);
             GetActionGroupsCached.TryAdd(method, groups);
             return groups;
@@ -382,7 +382,7 @@ namespace Fur.SpecificationDocument
             var isCached = GetControllerTagCached.TryGetValue(controllerActionDescriptor, out string tag);
             if (isCached) return tag;
 
-            // 本地静态方法
+            // 本地函数
             static string Function(ControllerActionDescriptor controllerActionDescriptor)
             {
                 var type = controllerActionDescriptor.ControllerTypeInfo;
@@ -394,7 +394,7 @@ namespace Fur.SpecificationDocument
                 return string.IsNullOrEmpty(apiDescriptionSettings.Tag) ? controllerActionDescriptor.ControllerName : apiDescriptionSettings.Tag;
             }
 
-            // 调用本地静态方法
+            // 调用本地函数
             tag = Function(controllerActionDescriptor);
             GetControllerTagCached.TryAdd(controllerActionDescriptor, tag);
             return tag;
@@ -415,7 +415,7 @@ namespace Fur.SpecificationDocument
             var isCached = GetActionTagCached.TryGetValue(apiDescription, out string tag);
             if (isCached) return tag;
 
-            // 本地静态方法
+            // 本地函数
             static string Function(ApiDescription apiDescription)
             {
                 if (!apiDescription.TryGetMethodInfo(out MethodInfo method)) return "unknown";
@@ -431,7 +431,7 @@ namespace Fur.SpecificationDocument
                 return string.IsNullOrEmpty(apiDescriptionSettings.Tag) ? GetControllerTag(controllerActionDescriptor) : apiDescriptionSettings.Tag;
             }
 
-            // 调用本地静态方法
+            // 调用本地函数
             tag = Function(apiDescription);
             GetActionTagCached.TryAdd(apiDescription, tag);
             return tag;
@@ -445,7 +445,7 @@ namespace Fur.SpecificationDocument
         /// <returns></returns>
         private static bool IsAction(MethodInfo method, Type declaringType)
         {
-            // 不是是非公开、抽象、静态、泛型方法
+            // 不是非公开、抽象、静态、泛型方法
             if (!method.IsPublic || method.IsAbstract || method.IsStatic || method.IsGenericMethod) return false;
 
             // 如果所在类型不是控制器，则该行为也被忽略
