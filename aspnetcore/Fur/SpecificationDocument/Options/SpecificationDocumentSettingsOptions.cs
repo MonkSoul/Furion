@@ -50,22 +50,12 @@ namespace Fur.SpecificationDocument
         public SpecificationOpenApiInfo[] GroupOpenApiInfos { get; set; }
 
         /// <summary>
-        /// 是否有分组配置
-        /// </summary>
-        internal bool HasGroups { get; private set; }
-
-        /// <summary>
-        /// 默认描述信息
-        /// </summary>
-        private const string defaultDescription = "OpenApi Document";
-
-        /// <summary>
         /// 后期配置
         /// </summary>
         /// <param name="options"></param>
         public void PostConfigure(SpecificationDocumentSettingsOptions options)
         {
-            options.DocumentTitle ??= $"{nameof(Fur)} {defaultDescription}";
+            options.DocumentTitle ??= "Specification Api Document";
             options.DefaultGroupName ??= "Default";
             options.FormatAsV2 ??= false;
             options.RoutePrefix ??= string.Empty;

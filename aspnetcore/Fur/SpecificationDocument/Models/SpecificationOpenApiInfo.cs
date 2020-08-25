@@ -8,11 +8,16 @@ namespace Fur.SpecificationDocument
     /// </summary>
     public sealed class SpecificationOpenApiInfo : OpenApiInfo
     {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public SpecificationOpenApiInfo()
         {
-            base.Version ??= "1.0.0";
         }
 
+        /// <summary>
+        /// 分组私有字段
+        /// </summary>
         private string _group;
 
         /// <summary>

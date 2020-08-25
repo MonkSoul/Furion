@@ -81,7 +81,8 @@ namespace Fur.SpecificationDocument
         /// Swagger 生成器构建
         /// </summary>
         /// <param name="swaggerGenOptions">Swagger 生成器配置</param>
-        internal static void BuildGen(SwaggerGenOptions swaggerGenOptions)
+        /// <param name="configure">自定义配置</param>
+        internal static void BuildGen(SwaggerGenOptions swaggerGenOptions, Action<SwaggerGenOptions> configure = null)
         {
             // 创建分组文档
             CreateSwaggerDocs(swaggerGenOptions);
@@ -100,6 +101,9 @@ namespace Fur.SpecificationDocument
 
             // 加载注释描述文件
             LoadXmlComments(swaggerGenOptions);
+
+            // 自定义配置
+            configure?.Invoke(swaggerGenOptions);
         }
 
         /// <summary>
