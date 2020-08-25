@@ -80,36 +80,7 @@ namespace Fur.DynamicApiController
         /// <param name="apiDescriptionSettings">接口描述配置</param>
         private void ConfigureControllerName(ControllerModel controller, ApiDescriptionSettingsAttribute apiDescriptionSettings)
         {
-            // 获取版本号
-            var apiVersion = apiDescriptionSettings?.Version;
-
-            // 解析控制器名称
-            // 判断是否有自定义名称
-            string tempName = apiDescriptionSettings?.Name;
-            if (string.IsNullOrEmpty(tempName))
-            {
-                // 处理版本号
-                var (name, version) = ResolveNameVersion(controller.ControllerName);
-                tempName = name;
-                apiVersion ??= version;
-
-                // 判断是否保留原有名称
-                if (apiDescriptionSettings?.KeepName != true)
-                {
-                    // 清除指定前后缀
-                    tempName = Penetrates.ClearStringAffixes(tempName, affixes: _lazyControllerSettings.AbandonControllerAffixes);
-
-                    // 处理骆驼命名
-                    if ((apiDescriptionSettings?.SplitCamelCase ?? true) != false)
-                    {
-                        tempName = string.Join(_lazyControllerSettings.CamelCaseSeparator, Penetrates.SplitCamelCase(tempName));
-                    }
-                }
-            }
-
-            // 拼接名称和版本号
-            var controllerName = $"{tempName}{(string.IsNullOrEmpty(apiVersion) ? null : $"{_lazyControllerSettings.VersionSeparator}{apiVersion}")}";
-            controller.ControllerName = _lazyControllerSettings.LowercaseRoute.Value ? controllerName.ToLower() : controllerName;
+            controller.ControllerName = ConfigureControllerAndActionName(apiDescriptionSettings, controller.ControllerName, _lazyControllerSettings.AbandonControllerAffixes, _ => _);
         }
 
         /// <summary>
@@ -152,49 +123,23 @@ namespace Fur.DynamicApiController
         /// <param name="apiDescriptionSettings">接口描述配置</param>
         private void ConfigureActionName(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings)
         {
-            // 获取版本号
-            var apiVersion = apiDescriptionSettings?.Version;
-
-            // 解析控制器名称
-            // 判断是否有自定义名称
-            string tempName = apiDescriptionSettings?.Name;
-            if (string.IsNullOrEmpty(tempName))
+            action.ActionName = ConfigureControllerAndActionName(apiDescriptionSettings, action.ActionName, _lazyControllerSettings.AbandonActionAffixes, (tempName) =>
             {
-                // 处理版本号
-                var (name, version) = ResolveNameVersion(action.ActionName);
-                tempName = name;
-                apiVersion ??= version;
-
-                // 判断是否保留原有名称
-                if (apiDescriptionSettings?.KeepName != true)
+                // 处理动作方法名称谓词
+                if (apiDescriptionSettings?.KeepVerb != true)
                 {
-                    // 清除指定前后缀
-                    tempName = Penetrates.ClearStringAffixes(tempName, affixes: _lazyControllerSettings.AbandonActionAffixes);
-
-                    // 处理动作方法名称谓词
-                    if (apiDescriptionSettings?.KeepVerb != true)
+                    var words = Penetrates.SplitCamelCase(tempName);
+                    var verbKey = words.First().ToLower();
+                    // 处理类似 getlist,getall 多个单词
+                    if (words.Length > 1 && Penetrates.VerbToHttpMethods.ContainsKey((words[0] + words[1]).ToLower()))
                     {
-                        var words = Penetrates.SplitCamelCase(tempName);
-                        var verbKey = words.First().ToLower();
-                        // 处理类似 getlist,getall 多个单词
-                        if (words.Length > 1 && Penetrates.VerbToHttpMethods.ContainsKey((words[0] + words[1]).ToLower()))
-                        {
-                            tempName = tempName[(words[0] + words[1]).Length..];
-                        }
-                        else if (Penetrates.VerbToHttpMethods.ContainsKey(verbKey)) tempName = tempName[verbKey.Length..];
+                        tempName = tempName[(words[0] + words[1]).Length..];
                     }
-
-                    // 处理骆驼命名
-                    if ((apiDescriptionSettings?.SplitCamelCase ?? true) != false)
-                    {
-                        tempName = string.Join(_lazyControllerSettings.CamelCaseSeparator, Penetrates.SplitCamelCase(tempName));
-                    }
+                    else if (Penetrates.VerbToHttpMethods.ContainsKey(verbKey)) tempName = tempName[verbKey.Length..];
                 }
-            }
 
-            // 拼接名称和版本号
-            var actionName = $"{tempName}{(string.IsNullOrEmpty(apiVersion) ? null : $"{_lazyControllerSettings.VersionSeparator}{apiVersion}")}";
-            action.ActionName = _lazyControllerSettings.LowercaseRoute.Value ? actionName.ToLower() : actionName;
+                return tempName;
+            });
         }
 
         /// <summary>
@@ -411,6 +356,51 @@ namespace Fur.DynamicApiController
             }
 
             return parameterRouteTemplate;
+        }
+
+        /// <summary>
+        /// 配置控制器和动作方法名称
+        /// </summary>
+        /// <param name="apiDescriptionSettings"></param>
+        /// <param name="orignalName"></param>
+        /// <param name="affixes"></param>
+        /// <param name="configure"></param>
+        /// <returns></returns>
+        private string ConfigureControllerAndActionName(ApiDescriptionSettingsAttribute apiDescriptionSettings, string orignalName, string[] affixes, Func<string, string> configure)
+        {
+            // 获取版本号
+            var apiVersion = apiDescriptionSettings?.Version;
+
+            // 解析控制器名称
+            // 判断是否有自定义名称
+            string tempName = apiDescriptionSettings?.Name;
+            if (string.IsNullOrEmpty(tempName))
+            {
+                // 处理版本号
+                var (name, version) = ResolveNameVersion(orignalName);
+                tempName = name;
+                apiVersion ??= version;
+
+                // 判断是否保留原有名称
+                if (apiDescriptionSettings?.KeepName != true)
+                {
+                    // 清除指定前后缀
+                    tempName = Penetrates.ClearStringAffixes(tempName, affixes: affixes);
+
+                    // 自定义配置
+                    tempName = configure.Invoke(tempName);
+
+                    // 处理骆驼命名
+                    if ((apiDescriptionSettings?.SplitCamelCase ?? true) != false)
+                    {
+                        tempName = string.Join(_lazyControllerSettings.CamelCaseSeparator, Penetrates.SplitCamelCase(tempName));
+                    }
+                }
+            }
+
+            // 拼接名称和版本号
+            var newName = $"{tempName}{(string.IsNullOrEmpty(apiVersion) ? null : $"{_lazyControllerSettings.VersionSeparator}{apiVersion}")}";
+            return _lazyControllerSettings.LowercaseRoute.Value ? newName.ToLower() : newName;
         }
 
         /// <summary>

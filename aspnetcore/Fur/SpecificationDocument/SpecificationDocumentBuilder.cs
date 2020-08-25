@@ -182,6 +182,7 @@ namespace Fur.SpecificationDocument
                     .Select(genericArg => DefaultSchemaIdSelector(genericArg))
                     .Aggregate((previous, current) => previous + current);
 
+                // 通过 Of 拼接多个泛型
                 return modelType.Name.Split('`').First() + "Of" + prefix;
             }
 
@@ -222,17 +223,18 @@ namespace Fur.SpecificationDocument
         }
 
         /// <summary>
-        /// 注入 Mini-Profiler 插件
+        /// 注入 MiniProfiler 插件
         /// </summary>
         /// <param name="swaggerUIOptions"></param>
         private static void InjectMiniProfilerPlugin(SwaggerUIOptions swaggerUIOptions)
         {
             if (App.Settings.InjectMiniProfiler != true) return;
 
-            // 启用 Mini-Profiler 组件
+            // 启用 MiniProfiler 组件
             var thisType = typeof(SpecificationDocumentBuilder);
             var thisAssembly = thisType.Assembly;
 
+            // 自定义 Swagger 首页
             swaggerUIOptions.IndexStream = () => thisAssembly.GetManifestResourceStream($"{thisType.Namespace}.Assets.index-mini-profiler.html");
         }
 
