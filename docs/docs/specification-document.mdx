@@ -548,7 +548,39 @@ import swagger7 from "../static/img/swagger7.png";
 
 ### 4.5.11 授权控制
 
-文档整理中...
+待整理...
+
+```json title="Fur.Web.Entry/appsettings.json"
+{
+  "AppSettings": {
+    "SpecificationDocumentSettings": {
+      "EnableAuthorized": true,
+      
+      "SecurityDefinitions": [
+        {
+          "Id": "Bearer",
+          "Type": "Http",
+          "Name": "Authorization",
+          "Description": "JWT Authorization header using the Bearer scheme.",
+          "BearerFormat": "JWT",
+          "Scheme": "bearer",
+          "In": "Header",
+
+          "Requirement": {
+            "Scheme": {
+              "Reference": {
+                "Id": "Bearer",
+                "Type": "SecurityScheme"
+              },
+              "Accesses": null
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+```
 
 ### 4.5.12 在线测试
 

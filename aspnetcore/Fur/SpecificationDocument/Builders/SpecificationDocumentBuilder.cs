@@ -218,7 +218,34 @@ namespace Fur.SpecificationDocument
         private static void ConfigureSecurities(SwaggerGenOptions swaggerGenOptions)
         {
             // 判断是否启用了授权
-            if (_specificationDocumentSettings.EnableAuthorized != true) return;
+            if (_specificationDocumentSettings.EnableAuthorized != true || _specificationDocumentSettings.SecurityDefinitions.Length == 0) return;
+
+            var openApiSecurityRequirement = new OpenApiSecurityRequirement();
+
+            // 生成安全定义
+            foreach (var securityDefinition in _specificationDocumentSettings.SecurityDefinitions)
+            {
+                // Id 必须定义
+                if (string.IsNullOrEmpty(securityDefinition.Id)) continue;
+
+                // 添加安全定义
+                var openApiSecurityScheme = securityDefinition as OpenApiSecurityScheme;
+                swaggerGenOptions.AddSecurityDefinition(securityDefinition.Id, openApiSecurityScheme);
+
+                // 添加安全需求
+                var securityRequirement = securityDefinition.Requirement;
+                if (securityRequirement != null && securityRequirement.Scheme != null && securityRequirement.Scheme.Reference != null)
+                {
+                    securityRequirement.Scheme.Reference.Id ??= securityDefinition.Id;
+                    openApiSecurityRequirement.Add(securityRequirement.Scheme, securityRequirement.Accesses);
+                }
+            }
+
+            // 添加安全需求
+            if (openApiSecurityRequirement.Count > 0)
+            {
+                swaggerGenOptions.AddSecurityRequirement(openApiSecurityRequirement);
+            }
         }
 
         /// <summary>

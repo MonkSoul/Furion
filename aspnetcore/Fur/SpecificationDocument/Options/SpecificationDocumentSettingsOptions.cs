@@ -51,6 +51,11 @@ namespace Fur.SpecificationDocument
         public SpecificationOpenApiInfo[] GroupOpenApiInfos { get; set; }
 
         /// <summary>
+        /// 安全定义
+        /// </summary>
+        public SpecificationOpenApiSecurityScheme[] SecurityDefinitions { get; set; }
+
+        /// <summary>
         /// 后期配置
         /// </summary>
         /// <param name="options"></param>
@@ -74,6 +79,7 @@ namespace Fur.SpecificationDocument
                     Group=options.DefaultGroupName
                 }
             };
+            SecurityDefinitions ??= new SpecificationOpenApiSecurityScheme[] { };
         }
     }
 }
