@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 
-namespace Fur.PolicyAuthorization
+namespace Fur.Authorization
 {
     /// <summary>
     /// 授权策略提供器

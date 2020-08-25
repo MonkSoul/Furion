@@ -102,6 +102,9 @@ namespace Fur.SpecificationDocument
             // 加载注释描述文件
             LoadXmlComments(swaggerGenOptions);
 
+            // 配置授权
+            ConfigureSecurities(swaggerGenOptions);
+
             // 自定义配置
             configure?.Invoke(swaggerGenOptions);
         }
@@ -206,6 +209,16 @@ namespace Fur.SpecificationDocument
                     swaggerGenOptions.IncludeXmlComments(assemblyXmlPath, true);
                 }
             }
+        }
+
+        /// <summary>
+        /// 配置授权
+        /// </summary>
+        /// <param name="swaggerGenOptions">Swagger 生成器配置</param>
+        private static void ConfigureSecurities(SwaggerGenOptions swaggerGenOptions)
+        {
+            // 判断是否启用了授权
+            if (_specificationDocumentSettings.EnableAuthorized != true) return;
         }
 
         /// <summary>

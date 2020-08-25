@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace Fur.PolicyAuthorization
+namespace Fur.Authorization
 {
     /// <summary>
     /// 策略对应的需求

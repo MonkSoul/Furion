@@ -1,4 +1,4 @@
-﻿namespace Fur.PolicyAuthorization
+﻿namespace Fur.Authorization
 {
     /// <summary>
     /// 常量、公共方法配置类

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using System;
 
-namespace Fur.PolicyAuthorization
+namespace Fur.Authorization
 {
     /// <summary>
     /// 策略授权特性

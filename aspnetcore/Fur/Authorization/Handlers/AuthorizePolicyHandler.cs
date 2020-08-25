@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using System.Threading.Tasks;
 
-namespace Fur.PolicyAuthorization
+namespace Fur.Authorization
 {
     /// <summary>
     /// 授权策略执行程序

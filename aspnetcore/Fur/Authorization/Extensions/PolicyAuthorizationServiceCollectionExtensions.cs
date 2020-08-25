@@ -1,4 +1,4 @@
-﻿using Fur.PolicyAuthorization;
+﻿using Fur.Authorization;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Microsoft.Extensions.DependencyInjection
