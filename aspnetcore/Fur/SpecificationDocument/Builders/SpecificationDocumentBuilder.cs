@@ -124,7 +124,7 @@ namespace Fur.SpecificationDocument
             // 文档展开设置
             swaggerUIOptions.DocExpansion(_specificationDocumentSettings.DocExpansionState.Value);
 
-            // 注入 Mini-Profiler 组件
+            // 注入 MiniProfiler 组件
             InjectMiniProfilerPlugin(swaggerUIOptions);
         }
 
