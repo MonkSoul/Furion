@@ -116,12 +116,12 @@ namespace Fur.DynamicApiController
             string tempStr = null;
             foreach (var affix in affixes)
             {
-                if (pos != 1 && !startCleared && str.StartsWith(affix))
+                if (pos != 1 && !startCleared && str.StartsWith(affix, StringComparison.OrdinalIgnoreCase))
                 {
                     tempStr = str[affix.Length..];
                     startCleared = true;
                 }
-                if (pos != -1 && !endCleared && str.EndsWith(affix))
+                if (pos != -1 && !endCleared && str.EndsWith(affix, StringComparison.OrdinalIgnoreCase))
                 {
                     var _tempStr = !string.IsNullOrEmpty(tempStr) ? tempStr : str;
                     tempStr = _tempStr.Substring(0, _tempStr.Length - affix.Length);

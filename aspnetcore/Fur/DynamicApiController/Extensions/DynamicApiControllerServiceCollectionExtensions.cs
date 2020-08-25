@@ -12,7 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class DynamicApiControllerServiceCollectionExtensions
     {
         /// <summary>
-        /// 添加动态接口控制器
+        /// 添加动态接口控制器服务
         /// </summary>
         /// <param name="mvcBuilder">Mvc构建器</param>
         /// <param name="providersOrConventions">控制器特性提供器或应用模型转换器</param>

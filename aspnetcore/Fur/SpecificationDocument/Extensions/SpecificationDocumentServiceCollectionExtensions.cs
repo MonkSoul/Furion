@@ -4,10 +4,13 @@ using System;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+    /// <summary>
+    /// 规范化接口服务拓展类
+    /// </summary>
     public static class SpecificationDocumentServiceCollectionExtensions
     {
         /// <summary>
-        /// 添加规范化文档
+        /// 添加规范化文档服务
         /// </summary>
         /// <param name="services">服务集合</param>
         /// <param name="configure">自定义配置</param>
