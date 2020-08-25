@@ -96,9 +96,9 @@ namespace Microsoft.Extensions.DependencyInjection
                 if (postConfigureMethod != null)
                 {
                     if (optionsSettings?.PostConfigureAll != true)
-                        services.PostConfigure<TOptions>(options => postConfigureMethod.Invoke(options, new object[] { options }));
+                        services.PostConfigure<TOptions>(options => postConfigureMethod.Invoke(options, new object[] { options, optionsConfiguration }));
                     else
-                        services.PostConfigureAll<TOptions>(options => postConfigureMethod.Invoke(options, new object[] { options }));
+                        services.PostConfigureAll<TOptions>(options => postConfigureMethod.Invoke(options, new object[] { options, optionsConfiguration }));
                 }
             }
 

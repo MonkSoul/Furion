@@ -1,4 +1,5 @@
 ﻿using Fur.Options;
+using Microsoft.Extensions.Configuration;
 
 namespace Fur.Authorization
 {
@@ -12,7 +13,7 @@ namespace Fur.Authorization
         /// 选项后期配置
         /// </summary>
         /// <param name="options"></param>
-        public void PostConfigure(JWTSettingsOptions options)
+        public void PostConfigure(JWTSettingsOptions options, IConfiguration configuration)
         {
         }
     }

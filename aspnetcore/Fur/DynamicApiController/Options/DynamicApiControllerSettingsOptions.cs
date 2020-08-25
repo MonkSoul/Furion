@@ -1,4 +1,5 @@
 ﻿using Fur.Options;
+using Microsoft.Extensions.Configuration;
 using System.ComponentModel.DataAnnotations;
 
 namespace Fur.DynamicApiController
@@ -70,7 +71,7 @@ namespace Fur.DynamicApiController
         /// 选项后期配置
         /// </summary>
         /// <param name="options"></param>
-        public void PostConfigure(DynamicApiControllerSettingsOptions options)
+        public void PostConfigure(DynamicApiControllerSettingsOptions options, IConfiguration configuration)
         {
             options.DefaultRoutePrefix ??= "api";
             options.DefaultHttpMethod ??= "POST";

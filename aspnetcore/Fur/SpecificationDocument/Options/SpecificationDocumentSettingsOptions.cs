@@ -1,4 +1,5 @@
 ﻿using Fur.Options;
+using Microsoft.Extensions.Configuration;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace Fur.SpecificationDocument
@@ -53,7 +54,7 @@ namespace Fur.SpecificationDocument
         /// 后期配置
         /// </summary>
         /// <param name="options"></param>
-        public void PostConfigure(SpecificationDocumentSettingsOptions options)
+        public void PostConfigure(SpecificationDocumentSettingsOptions options, IConfiguration configuration)
         {
             options.DocumentTitle ??= "Specification Api Document";
             options.DefaultGroupName ??= "Default";

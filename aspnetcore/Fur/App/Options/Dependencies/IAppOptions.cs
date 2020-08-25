@@ -15,7 +15,7 @@ namespace Fur.Options
     public partial interface IAppOptions<TOptions> : IAppOptions
         where TOptions : class, IAppOptions
     {
-        void PostConfigure(TOptions options);
+        void PostConfigure(TOptions options, IConfiguration configuration);
     }
 
     /// <summary>

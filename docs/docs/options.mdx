@@ -568,8 +568,9 @@ namespace Fur.Application
 
 在 `Fur` 框架中，配置选项后期配置很简单，只需要继承 `IAppOptions<TOptions` 接口并实现 `PostConfigure(TOptions options)` 方法。
 
-```cs {6,15-20}
+```cs {7,16-21}
 using Fur.Options;
+using Microsoft.Extensions.Configuration;
 using System.ComponentModel.DataAnnotations;
 
 namespace Fur.Application
@@ -583,7 +584,7 @@ namespace Fur.Application
         [Required, MaxLength(100)]
         public string Company { get; set; }
 
-        public void PostConfigure(AppInfoOptions options)
+        public void PostConfigure(AppInfoOptions options, IConfiguration configuration)
         {
             options.Name ??= "Fur";
             options.Version ??= "1.0.0";
@@ -595,7 +596,7 @@ namespace Fur.Application
 
 :::note 特别说明
 
-**`IAppOptions<TOptions, TOptionsValidation>`** 继承自 **`IAppOptions<TOptions>`**，也就是自定义复杂验证默认具有 **`PostConfigure(TOptions options)`** 选项后期配置方法。
+**`IAppOptions<TOptions, TOptionsValidation>`** 继承自 **`IAppOptions<TOptions>`**，也就是自定义复杂验证默认具有 **`PostConfigure(TOptions options, IConfiguration configuration)`** 选项后期配置方法。
 
 :::
 

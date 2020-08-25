@@ -1,4 +1,6 @@
-﻿namespace Fur.Options
+﻿using Microsoft.Extensions.Configuration;
+
+namespace Fur.Options
 {
     /// <summary>
     /// 应用全局配置
@@ -24,7 +26,7 @@
         /// 后期配置
         /// </summary>
         /// <param name="options"></param>
-        public void PostConfigure(AppSettingsOptions options)
+        public void PostConfigure(AppSettingsOptions options, IConfiguration configuration)
         {
             options.InjectMiniProfiler ??= true;
         }
