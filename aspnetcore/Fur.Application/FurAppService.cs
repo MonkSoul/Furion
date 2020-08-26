@@ -5,17 +5,10 @@ namespace Fur.Application
 {
     public class FurAppService : IDynamicApiController
     {
-        [IfException(ErrorCodes.x1000, args: "百小僧")]
-        public string Get()
-        {
-            throw Oops.Oh(ErrorCodes.x1000);
-
-            return nameof(Fur);
-        }
-
         public int Get(int id)
         {
-            throw Oops.Oh("哈哈哈哈");
+            if (id < 3) throw Oops.Oh($"{id} 不能小于3。");
+
             return id;
         }
     }

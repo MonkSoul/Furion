@@ -18,5 +18,9 @@ module.exports = {
       type: "doc",
       id: "specification-document",
     },
+    {
+      type: "doc",
+      id: "friendly-exception",
+    },
   ],
 };

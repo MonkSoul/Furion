@@ -35,46 +35,46 @@ namespace Fur.FriendlyException
         }
 
         /// <summary>
-        /// 抛出一个异常
+        /// 抛出字符串异常
         /// </summary>
         /// <param name="errorMessage">异常消息</param>
-        /// <param name="args">格式化参数</param>
-        /// <returns></returns>
+        /// <param name="args">String.Format 参数</param>
+        /// <returns>异常实例</returns>
         public static Exception Oh(string errorMessage, params object[] args)
         {
             return new Exception(args.Length > 0 ? string.Format(errorMessage, args) : errorMessage);
         }
 
         /// <summary>
-        /// 抛出一个异常
+        /// 抛出字符串异常
         /// </summary>
         /// <param name="errorMessage">异常消息</param>
-        /// <param name="exceptionType">异常类型</param>
-        /// <param name="args">格式化参数</param>
-        /// <returns></returns>
+        /// <param name="exceptionType">具体异常类型</param>
+        /// <param name="args">String.Format 参数</param>
+        /// <returns>异常实例</returns>
         public static Exception Oh(string errorMessage, Type exceptionType, params object[] args)
         {
             return Activator.CreateInstance(exceptionType, new object[] { args.Length > 0 ? string.Format(errorMessage, args) : errorMessage }) as Exception;
         }
 
         /// <summary>
-        /// 抛出一个异常
+        /// 抛出错误码异常
         /// </summary>
         /// <param name="errorCode">错误码</param>
-        /// <param name="args">格式化参数</param>
-        /// <returns></returns>
+        /// <param name="args">String.Format 参数</param>
+        /// <returns>异常实例</returns>
         public static Exception Oh(object errorCode, params object[] args)
         {
             return new Exception(GetErrorCodeMessage(errorCode, args));
         }
 
         /// <summary>
-        /// 抛出一个异常
+        /// 抛出错误码异常
         /// </summary>
         /// <param name="errorCode">错误码</param>
-        /// <param name="exceptionType">异常类型</param>
-        /// <param name="args">格式化参数</param>
-        /// <returns></returns>
+        /// <param name="exceptionType">具体异常类型</param>
+        /// <param name="args">String.Format 参数</param>
+        /// <returns>异常实例</returns>
         public static Exception Oh(object errorCode, Type exceptionType, params object[] args)
         {
             return Activator.CreateInstance(exceptionType, new object[] { GetErrorCodeMessage(errorCode, args) }) as Exception;
@@ -172,6 +172,9 @@ namespace Fur.FriendlyException
         /// 处理异常配置数据
         /// </summary>
         /// <param name="errorCodes">错误消息配置对象</param>
+        /// <remarks>
+        /// 方式：数组第一个元素为错误码，第二个参数为错误消息，剩下的参数为错误码格式化字符串
+        /// </remarks>
         /// <returns></returns>
         private static string FixErrorCodeSettingMessage(object[] errorCodes)
         {

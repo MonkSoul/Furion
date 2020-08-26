@@ -1,0 +1,168 @@
+---
+id: friendly-exception
+title: 5. 友好异常处理
+sidebar_label: 5. 友好异常处理
+---
+
+## 5.1 什么是异常
+
+异常一般是指运行期（此处特指 `Exception` 类）会发生的导致程序意外中止的问题，是一种对问题的描述后的封装对象。
+
+在过去开发中，通常异常由系统运行时出错抛出，但现在的开发过程中，我们应在程序开发中合理的抛出异常，比如更新一条不存在的实体，或查询一个不存在的数据等等。
+
+## 5.2 处理异常方式
+
+- 不处理，直接中断程序执行（不推荐）
+- 通过 `try catch finally` 处理（不推荐）
+- 全局统一处理，并记录异常信息**（推荐）**
+- 异常注解方式处理，支持**本地化** **（推荐）**
+
+## 5.3 什么是友好异常处理
+
+### 5.3.1 非友好异常处理
+
+在了解友好异常处理之前可以看看非友好异常处理：
+
+- 对终端用户抛出 `500状态码` 堆栈信息
+- 大量的 `try catch` 代码，污染正常业务逻辑
+- 没有规范化的异常状态码和异常消息管理
+- 没有异常日志收集记录
+- 不支持异常消息本地化处理
+- 不支持异常策略，失败后程序立即终止
+- 不支持分布式事务 CAP
+- 不支持异常传播
+- 返回的异常格式杂乱
+
+### 5.3.2 友好异常处理
+
+- 对终端用户提示友好
+- 对后端开发人员提供详细的异常堆栈
+- 不干扰正常业务逻辑代码，如 没有 `try catch` 代码
+- 支持异常状态码多方设置
+- 支持异常消息本地化
+- 异常信息统一配置管理
+- 支持异常策略，如重试
+- 支持异常日志收集记录
+- 支持 CAP 分布式事务关联
+- 支持内部异常外部传播
+- 支持返回统一的异常格式数据
+
+## 5.4 友好异常处理使用示例
+
+`Fur` 框架提供了非常灵活的友好异常处理方式。
+
+## 5.5 注册友好异常服务
+
+```cs {3,13,15} title="Fur.Web.Entry/Startup.cs"
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Fur.Web.Entry
+{
+    public class Startup
+    {
+        // Other Codes...
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddApp();
+            services.AddControllers()
+                    .AddFriendlyException();
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            // Other Codes...
+        }
+    }
+}
+```
+
+:::important 特别注意
+
+`.AddFriendlyException()` 需在 `services.AddControllers()` 之后注册。同时 `services.AddApp()` 总是最先注册。
+
+:::
+
+## 5.6 一个例子
+
+如果传入 `id` 小于 3，则抛出异常。
+
+```cs {2,10}
+using Fur.DynamicApiController;
+using Fur.FriendlyException;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        public int Get(int id)
+        {
+            if (id < 3) throw Oops.Oh($"{id} 不能小于3");
+
+            return id;
+        }
+    }
+}
+```
+
+如下图所示：
+
+import yhyc1 from "../static/img/yhyc1.gif";
+
+<img src={yhyc1} />
+
+## 5.7 关于 Oops.Oh
+
+通过上面的例子可以看出，`Oops.Oh(errorMessage)` 可以结合 `throw` 抛出异常。对于熟悉`C#`的人员来说，`throw` 后面只能 `Exception` 实例。`Oops.Oh(...)` 方法返回正是 `Exception` 实例。
+
+### 5.7.1 为什么起这个名字？
+
+这个名字来源于一个英语句子：`Oh, Oops!`，意思是 **噢（哎），出错了！**，所以就有了 `Oops.Oh`。
+
+### 5.7.2 `Oops.Oh` 重载方法
+
+```cs {13,22,30,39}
+using System;
+
+namespace Fur.FriendlyException
+{
+    public static class Oops
+    {
+        /// <summary>
+        /// 抛出字符串异常
+        /// </summary>
+        /// <param name="errorMessage">异常消息</param>
+        /// <param name="args">String.Format 参数</param>
+        /// <returns>异常实例</returns>
+        public static Exception Oh(string errorMessage, params object[] args);
+
+        /// <summary>
+        /// 抛出字符串异常
+        /// </summary>
+        /// <param name="errorMessage">异常消息</param>
+        /// <param name="exceptionType">具体异常类型</param>
+        /// <param name="args">String.Format 参数</param>
+        /// <returns>异常实例</returns>
+        public static Exception Oh(string errorMessage, Type exceptionType, params object[] args);
+
+        /// <summary>
+        /// 抛出错误码异常
+        /// </summary>
+        /// <param name="errorCode">错误码</param>
+        /// <param name="args">String.Format 参数</param>
+        /// <returns>异常实例</returns>
+        public static Exception Oh(object errorCode, params object[] args);
+
+        /// <summary>
+        /// 抛出错误码异常
+        /// </summary>
+        /// <param name="errorCode">错误码</param>
+        /// <param name="exceptionType">具体异常类型</param>
+        /// <param name="args">String.Format 参数</param>
+        /// <returns>异常实例</returns>
+        public static Exception Oh(object errorCode, Type exceptionType, params object[] args);
+    }
+}
+```

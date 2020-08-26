@@ -82,7 +82,7 @@ import TabItem from "@theme/TabItem";
 
 ### 4.5.1 注册服务
 
-```cs {4,13-16,18,30-33}
+```cs {4,13-16,18,30-33} title="Fur.Web.Entry/Startup.cs"
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -589,6 +589,48 @@ import swagger7 from "../static/img/swagger7.png";
 import swagger8 from "../static/img/swagger8.gif";
 
 <img src={swagger8} />
+
+### 4.5.13 性能监视 `MiniProfiler`
+
+规范化文档默认集成了 `MiniProfiler` 第三方性能组件，通过该组件可以方便查看请求性能、异常堆栈、数据库操作等信息。默认在 `Swagger` 首页左上角显示。
+
+如下图所示：
+
+import mipr from "../static/img/mipr.png";
+
+<img src={mipr} />
+
+:::note 小提示
+
+也可以通过 **`appsetting.json`** 中 **`AppSettings:InjectMiniProfiler`** 设为 **`false`** 关闭。
+
+:::
+
+### 4.5.14 定义接口输出类型
+
+```cs {2,8-9}
+using Fur.DynamicApiController;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        [ProducesResponseType(201, Type = typeof(TestDto))]
+        [ProducesResponseType(400)]
+        public string Get()
+        {
+            return nameof(Fur);
+        }
+    }
+}
+```
+
+如下图所示：
+
+import fhzlx from "../static/img/fhzlx.png";
+
+<img src={fhzlx} />
 
 ## 4.6 `SpecificationDocumentSettings` 配置
 
