@@ -1,6 +1,7 @@
 ﻿using Fur.Options;
 using Microsoft.Extensions.Configuration;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using System;
 
 namespace Fur.SpecificationDocument
 {
@@ -79,7 +80,7 @@ namespace Fur.SpecificationDocument
                     Group=options.DefaultGroupName
                 }
             };
-            SecurityDefinitions ??= new SpecificationOpenApiSecurityScheme[] { };
+            SecurityDefinitions ??= Array.Empty<SpecificationOpenApiSecurityScheme>();
         }
     }
 }

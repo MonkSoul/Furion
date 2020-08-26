@@ -9,13 +9,14 @@ namespace Fur.Application
         [IfException(ErrorCodes.x1000, args: "百小僧")]
         public string Get()
         {
-            throw Oops.Made(ErrorCodes.x1000, typeof(InvalidOperationException));
+            throw Oops.Oh(ErrorCodes.x1000);
 
             return nameof(Fur);
         }
 
         public int Get(int id)
         {
+            throw new Exception("哈哈哈");
             return id;
         }
     }

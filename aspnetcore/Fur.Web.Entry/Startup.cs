@@ -1,4 +1,3 @@
-using Fur.Application;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,9 +20,10 @@ namespace Fur.Web.Entry
             services.AddApp(options =>
             {
                 options.AddSpecificationDocuments();
-                options.AddFriendlyException<ErrorCodeProvider>();
             });
-            services.AddControllers().AddDynamicApiControllers();
+            services.AddControllers()
+                .AddDynamicApiControllers()
+                .AddFriendlyException();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

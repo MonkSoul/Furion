@@ -1,8 +1,8 @@
 ﻿using Fur.FriendlyException;
-using System;
 
 namespace Fur.Application
 {
+    [ExceptionErrorCodes]
     public static class ErrorCodes
     {
         [ExceptionMetadata("没找到 {0} 数据")]
@@ -12,6 +12,7 @@ namespace Fur.Application
         public const string x1001 = "<user>.<not found>";
     }
 
+    [ExceptionErrorCodes]
     public static class ErrorCodes2
     {
         [ExceptionMetadata("没找到数据")]
@@ -19,14 +20,5 @@ namespace Fur.Application
 
         [ExceptionMetadata("该 {0} 用户没找到", "百小僧")]
         public const string z2001 = "<employee>.<not found>";
-    }
-
-    public class ErrorCodeProvider : IExceptionErrorCodeProvider
-    {
-        public Type[] Definitions => new[]
-        {
-            typeof(ErrorCodes),
-            typeof(ErrorCodes2)
-        };
     }
 }

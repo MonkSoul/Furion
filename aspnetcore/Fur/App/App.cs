@@ -39,7 +39,7 @@ namespace Fur
         /// <summary>
         /// 应用有效程序集
         /// </summary>
-        public static IEnumerable<Assembly> Assemblies;
+        public static readonly IEnumerable<Assembly> Assemblies;
 
         /// <summary>
         /// 应用服务

@@ -37,10 +37,10 @@ namespace Fur.FriendlyException
         /// <summary>
         /// 抛出一个异常
         /// </summary>
-        /// <param name="errorCode"></param>
-        /// <param name="args"></param>
+        /// <param name="errorCode">错误码</param>
+        /// <param name="args">格式化参数</param>
         /// <returns></returns>
-        public static Exception Made(object errorCode, params object[] args)
+        public static Exception Oh(object errorCode, params object[] args)
         {
             return new Exception(GetErrorCodeMessage(errorCode, args));
         }
@@ -48,10 +48,11 @@ namespace Fur.FriendlyException
         /// <summary>
         /// 抛出一个异常
         /// </summary>
-        /// <param name="errorCode"></param>
-        /// <param name="args"></param>
+        /// <param name="errorCode">错误码</param>
+        /// <param name="exceptionType">异常类型</param>
+        /// <param name="args">格式化参数</param>
         /// <returns></returns>
-        public static Exception Made(object errorCode, Type exceptionType, params object[] args)
+        public static Exception Oh(object errorCode, Type exceptionType, params object[] args)
         {
             return Activator.CreateInstance(exceptionType, new object[] { GetErrorCodeMessage(errorCode, args) }) as Exception;
         }
@@ -81,19 +82,39 @@ namespace Fur.FriendlyException
                 errorCodeMessage = string.Format(errorCodeMessage, ifExceptionAttribute.Args);
             }
 
+            // 拼接状态码
+            errorCodeMessage = $"[{errorCode}] {errorCodeMessage}";
+
             // 字符串格式化
             if (args.Length > 0) return string.Format(errorCodeMessage, args);
 
             return errorCodeMessage;
         }
 
+        /// <summary>
+        /// 获取所有错误消息
+        /// </summary>
+        /// <returns></returns>
         private static Dictionary<object, string> GetErrorCodeMessages()
         {
-            // 获取错误代码提供器
+            var errorCodeDefinitions = new List<Type>();
+
+            // 查找所有公开且是静态类且贴有 [ExceptionErrorCodes] 特性的类型
+            var errorCodeDefinitionTypes = App.Assemblies.SelectMany(u => u.GetTypes().Where(c => c.IsPublic && c.IsClass && c.IsSealed && c.IsAbstract && c.IsDefined(typeof(ExceptionErrorCodesAttribute), true)));
+            errorCodeDefinitions.AddRange(errorCodeDefinitionTypes);
+
+            // 获取错误代码提供器中定义的类型
             var exceptionErrorCodeProvider = App.ServiceProvider.GetService<IExceptionErrorCodeProvider>();
+            if (exceptionErrorCodeProvider != null) errorCodeDefinitions.AddRange(exceptionErrorCodeProvider.Definitions);
+
+            // 如果没有任何定义，返回空
+            if (errorCodeDefinitions.Count == 0) return new Dictionary<object, string>();
+
+            // 合并特性类型和特性提供器定义类型并去重
+            errorCodeDefinitions = errorCodeDefinitions.Distinct().ToList();
 
             // 解析所有错误状态码字段，该字段必须是公开的、静态的且贴有 [ExceptionMetadata] 特性
-            var errorCodesFields = exceptionErrorCodeProvider.Definitions
+            var errorCodesFields = errorCodeDefinitions
                 .SelectMany(u => u.GetFields(BindingFlags.Public | BindingFlags.Static).Where(u => u.IsDefined(typeof(ExceptionMetadataAttribute))));
 
             // 构建错误码和消息字典集合
