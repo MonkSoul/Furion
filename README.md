@@ -47,6 +47,12 @@
 
 正在整理中...
 
+## 功能模块
+
+<p align="center">
+<img src="./docs/static/img/furfunctions.png"/>
+</p>
+
 ## 环境要求
 
 - Visual Studio 2019 16.7 +
