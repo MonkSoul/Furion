@@ -234,7 +234,9 @@ namespace Fur.SpecificationDocument
 
                 // 添加安全需求
                 var securityRequirement = securityDefinition.Requirement;
-                if (securityRequirement != null && securityRequirement.Scheme != null && securityRequirement.Scheme.Reference != null)
+
+                // C# 9.0 模式匹配新语法
+                if (securityRequirement is { Scheme: { Reference: not null } })
                 {
                     securityRequirement.Scheme.Reference.Id ??= securityDefinition.Id;
                     openApiSecurityRequirement.Add(securityRequirement.Scheme, securityRequirement.Accesses);
