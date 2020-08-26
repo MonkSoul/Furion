@@ -12,7 +12,6 @@ namespace Fur.FriendlyException
         /// 构造函数
         /// </summary>
         /// <param name="errorCode">错误编码</param>
-        /// <param name="errorMessage">错误消息</param>
         /// <param name="args">格式化参数</param>
         public IfExceptionAttribute(object errorCode, params object[] args)
         {
