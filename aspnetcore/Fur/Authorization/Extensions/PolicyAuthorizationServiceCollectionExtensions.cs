@@ -1,5 +1,6 @@
 ﻿using Fur.Authorization;
 using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -12,9 +13,10 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 添加策略授权服务
         /// </summary>
         /// <typeparam name="TAuthorizationHandler">策略授权处理程序</typeparam>
-        /// <param name="services"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddPolicyAuthorizations<TAuthorizationHandler>(this IServiceCollection services)
+        /// <param name="services">服务集合</param>
+        /// <param name="configure">自定义配置</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddPolicyAuthorizations<TAuthorizationHandler>(this IServiceCollection services, Action<IServiceCollection> configure = null)
             where TAuthorizationHandler : class, IAuthorizationHandler
         {
             // 注册授权策略提供器
@@ -23,6 +25,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // 注册策略授权处理程序
             services.AddSingleton<IAuthorizationHandler, TAuthorizationHandler>();
 
+            configure?.Invoke(services);
             return services;
         }
     }
