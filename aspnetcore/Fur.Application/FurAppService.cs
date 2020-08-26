@@ -1,6 +1,5 @@
 ﻿using Fur.DynamicApiController;
 using Fur.FriendlyException;
-using System;
 
 namespace Fur.Application
 {
@@ -16,7 +15,7 @@ namespace Fur.Application
 
         public int Get(int id)
         {
-            throw new Exception("哈哈哈");
+            throw Oops.Oh("哈哈哈哈");
             return id;
         }
     }

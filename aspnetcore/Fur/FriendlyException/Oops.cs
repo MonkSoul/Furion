@@ -37,6 +37,29 @@ namespace Fur.FriendlyException
         /// <summary>
         /// 抛出一个异常
         /// </summary>
+        /// <param name="errorMessage">异常消息</param>
+        /// <param name="args">格式化参数</param>
+        /// <returns></returns>
+        public static Exception Oh(string errorMessage, params object[] args)
+        {
+            return new Exception(args.Length > 0 ? string.Format(errorMessage, args) : errorMessage);
+        }
+
+        /// <summary>
+        /// 抛出一个异常
+        /// </summary>
+        /// <param name="errorMessage">异常消息</param>
+        /// <param name="exceptionType">异常类型</param>
+        /// <param name="args">格式化参数</param>
+        /// <returns></returns>
+        public static Exception Oh(string errorMessage, Type exceptionType, params object[] args)
+        {
+            return Activator.CreateInstance(exceptionType, new object[] { args.Length > 0 ? string.Format(errorMessage, args) : errorMessage }) as Exception;
+        }
+
+        /// <summary>
+        /// 抛出一个异常
+        /// </summary>
         /// <param name="errorCode">错误码</param>
         /// <param name="args">格式化参数</param>
         /// <returns></returns>
