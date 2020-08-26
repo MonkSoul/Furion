@@ -21,11 +21,11 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             var services = mvcBuilder.Services;
 
-            // 单例注册异常状态码提供器
-            services.TryAddSingleton<IExceptionErrorCodeProvider, ExceptionErrorCodeProvider>();
-
             // 添加全局异常过滤器
             mvcBuilder.AddFriendlyException(enabledGlobalExceptionFilter);
+
+            // 单例注册异常状态码提供器
+            services.TryAddSingleton<IExceptionErrorCodeProvider, ExceptionErrorCodeProvider>();
 
             return mvcBuilder;
         }
@@ -38,6 +38,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IMvcBuilder AddFriendlyException(this IMvcBuilder mvcBuilder, bool enabledGlobalExceptionFilter = true)
         {
+            var services = mvcBuilder.Services;
+
+            // 添加异常配置文件支持
+            services.AddAppOptions<ErrorCodesSettingsOptions>();
+
             // 添加全局异常过滤器
             if (enabledGlobalExceptionFilter)
                 mvcBuilder.AddMvcOptions(options => options.Filters.Add<FriendlyExceptionFilter>());

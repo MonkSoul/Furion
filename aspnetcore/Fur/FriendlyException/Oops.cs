@@ -23,7 +23,7 @@ namespace Fur.FriendlyException
         /// <summary>
         /// 错误消息字典
         /// </summary>
-        internal static readonly Dictionary<object, string> ErrorCodeMessages;
+        internal static readonly Dictionary<string, string> ErrorCodeMessages;
 
         /// <summary>
         /// 静态构造函数
@@ -96,7 +96,7 @@ namespace Fur.FriendlyException
 
             // 获取错误码消息
             var errorCodeMessage = ifExceptionAttribute == null || string.IsNullOrEmpty(ifExceptionAttribute.ErrorMessage)
-                ? (ErrorCodeMessages.GetValueOrDefault(errorCode) ?? "Internal Server Error.")
+                ? (ErrorCodeMessages.GetValueOrDefault(errorCode.ToString()) ?? "Internal Server Error.")
                 : ifExceptionAttribute.ErrorMessage;
 
             // 不带消息的格式化
@@ -118,7 +118,7 @@ namespace Fur.FriendlyException
         /// 获取所有错误消息
         /// </summary>
         /// <returns></returns>
-        private static Dictionary<object, string> GetErrorCodeMessages()
+        private static Dictionary<string, string> GetErrorCodeMessages()
         {
             var errorCodeDefinitions = new List<Type>();
 
@@ -130,26 +130,54 @@ namespace Fur.FriendlyException
             var exceptionErrorCodeProvider = App.ServiceProvider.GetService<IExceptionErrorCodeProvider>();
             if (exceptionErrorCodeProvider != null) errorCodeDefinitions.AddRange(exceptionErrorCodeProvider.Definitions);
 
+            Dictionary<string, string> errorCodeMessages = null;
+
             // 如果没有任何定义，返回空
-            if (errorCodeDefinitions.Count == 0) return new Dictionary<object, string>();
+            if (errorCodeDefinitions.Count > 0)
+            {
+                // 合并特性类型和特性提供器定义类型并去重
+                errorCodeDefinitions = errorCodeDefinitions.Distinct().ToList();
 
-            // 合并特性类型和特性提供器定义类型并去重
-            errorCodeDefinitions = errorCodeDefinitions.Distinct().ToList();
+                // 解析所有错误状态码字段，该字段必须是公开的、静态的且贴有 [ExceptionMetadata] 特性
+                var errorCodesFields = errorCodeDefinitions
+                    .SelectMany(u => u.GetFields(BindingFlags.Public | BindingFlags.Static).Where(u => u.IsDefined(typeof(ExceptionMetadataAttribute))));
 
-            // 解析所有错误状态码字段，该字段必须是公开的、静态的且贴有 [ExceptionMetadata] 特性
-            var errorCodesFields = errorCodeDefinitions
-                .SelectMany(u => u.GetFields(BindingFlags.Public | BindingFlags.Static).Where(u => u.IsDefined(typeof(ExceptionMetadataAttribute))));
+                // 构建错误码和消息字典集合
+                errorCodeMessages = errorCodesFields
+                   .Select(u => new
+                   {
+                       Key = u.GetRawConstantValue(),
+                       Value = u.GetCustomAttribute<ExceptionMetadataAttribute>().ErrorMessage
+                   })
+                   .ToDictionary(u => u.Key.ToString(), u => u.Value);
+            }
 
-            // 构建错误码和消息字典集合
-            var errorCodeMessages = errorCodesFields
-                .Select(u => new
-                {
-                    Key = u.GetRawConstantValue(),
-                    Value = u.GetCustomAttribute<ExceptionMetadataAttribute>().ErrorMessage
-                })
-                .ToDictionary(u => u.Key, u => u.Value);
+            // 加载配置文件状态码
+            var errorCodesSettings = App.GetOptions<ErrorCodesSettingsOptions>();
+            if (errorCodesSettings is { Datas: not null })
+            {
+                // 获取所有参数大于1的配置
+                var fitErrorCodes = errorCodesSettings.Datas
+                    .Where(u => u.Length > 1)
+                    .ToDictionary(u => u[0].ToString(), u => FixErrorCodeSettingMessage(u));
+
+                // 合并两个字典
+                errorCodeMessages = (errorCodeMessages ?? new Dictionary<string, string>()).Concat(fitErrorCodes).ToDictionary(k => k.Key, v => v.Value);
+            }
 
             return errorCodeMessages;
+        }
+
+        /// <summary>
+        /// 处理异常配置数据
+        /// </summary>
+        /// <param name="errorCodes">错误消息配置对象</param>
+        /// <returns></returns>
+        private static string FixErrorCodeSettingMessage(object[] errorCodes)
+        {
+            var args = errorCodes.Skip(2).ToArray();
+            var errorMessage = errorCodes[1].ToString();
+            return args.Length > 0 ? string.Format(errorMessage, args) : errorMessage;
         }
 
         /// <summary>
