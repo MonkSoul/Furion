@@ -23,7 +23,8 @@ namespace Fur.Web.Entry
             });
             services.AddControllers()
                 .AddDynamicApiControllers()
-                .AddFriendlyException();
+                .AddFriendlyException()
+                .AddDataValidation();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
