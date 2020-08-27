@@ -48,7 +48,7 @@ namespace Fur.DataValidation
                 method.DeclaringType.IsDefined(nonValidateAttributeType, true))
             {
                 // 打印验证跳过消息
-                MiniProfiler.Current.CustomTiming("validation", "Validation Skipped", "Skipped !");
+                PrintToMiniProfiler("Skipped");
                 return;
             }
 
@@ -56,7 +56,7 @@ namespace Fur.DataValidation
             if (method.GetParameters().Length == 0 || modelState.IsValid)
             {
                 // 打印验证成功消息
-                MiniProfiler.Current.CustomTiming("validation", "Validation Successed", "Successed");
+                PrintToMiniProfiler("Successed");
                 return;
             }
 
@@ -72,7 +72,7 @@ namespace Fur.DataValidation
                     , Formatting.Indented);
 
                 // 打印验证失败信息
-                MiniProfiler.Current.CustomTiming("validation", $"Validation Failed:\r\n{validationResults}", "Failed").Errored = true;
+                PrintToMiniProfiler("Failed", $"Validation Failed:\r\n{validationResults}", true);
             }
         }
 
@@ -99,6 +99,24 @@ namespace Fur.DataValidation
         /// <param name="context"></param>
         public void OnActionExecuted(ActionExecutedContext context)
         {
+        }
+
+        /// <summary>
+        /// 打印验证信息到 MiniProfiler
+        /// </summary>
+        /// <param name="state">状态</param>
+        /// <param name="message">消息</param>
+        /// <param name="isError">是否为警告消息</param>
+        private static void PrintToMiniProfiler(string state, string message = null, bool isError = false)
+        {
+            // 判断是否注入 MiniProfiler 组件
+            if (App.Settings.InjectMiniProfiler != true) return;
+
+            // 打印消息
+            var customTiming = MiniProfiler.Current.CustomTiming("validation", string.IsNullOrEmpty(message) ? $"Validation {state}" : message, state + (isError ? " !" : string.Empty));
+
+            // 判断是否是警告消息
+            if (isError) customTiming.Errored = true;
         }
     }
 }
