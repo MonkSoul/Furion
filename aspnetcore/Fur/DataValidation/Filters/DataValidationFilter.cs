@@ -63,7 +63,13 @@ namespace Fur.DataValidation
             // 返回验证失败结果
             if (context.Result == null && !modelState.IsValid)
             {
-                string validationResults = SetValidateFailedResult(context, modelState);
+                // 设置验证失败结果
+                SetValidateFailedResult(context, modelState);
+
+                // 将验证错误信息转换成字典并序列化成 Json
+                var validationResults = JsonConvert.SerializeObject(
+                    modelState.ToDictionary(u => u.Key, u => modelState[u.Key].Errors.Select(c => c.ErrorMessage))
+                    , Formatting.Indented);
 
                 // 打印验证失败信息
                 MiniProfiler.Current.CustomTiming("validation", $"Validation Failed:\r\n{validationResults}", "Failed").Errored = true;
@@ -75,8 +81,7 @@ namespace Fur.DataValidation
         /// </summary>
         /// <param name="context">动作方法执行上下文</param>
         /// <param name="modelState">模型验证状态</param>
-        /// <returns></returns>
-        private static string SetValidateFailedResult(ActionExecutingContext context, ModelStateDictionary modelState)
+        private static void SetValidateFailedResult(ActionExecutingContext context, ModelStateDictionary modelState)
         {
             // 返回 400 错误
             var result = new BadRequestObjectResult(modelState);
@@ -86,12 +91,6 @@ namespace Fur.DataValidation
             result.ContentTypes.Add(MediaTypeNames.Application.Xml);
 
             context.Result = result;
-
-            // 将验证错误信息转换成字典并序列化成 Json
-            var validationResults = JsonConvert.SerializeObject(
-                modelState.ToDictionary(u => u.Key, u => modelState[u.Key].Errors.Select(c => c.ErrorMessage))
-                , Formatting.Indented);
-            return validationResults;
         }
 
         /// <summary>
