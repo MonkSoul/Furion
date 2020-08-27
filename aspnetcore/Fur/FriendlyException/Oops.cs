@@ -44,7 +44,7 @@ namespace Fur.FriendlyException
         public static Exception Oh(string errorMessage, params object[] args)
         {
             errorMessage = $"[Unknown] {errorMessage}";
-            return new Exception(args.Length > 0 ? string.Format(errorMessage, args) : errorMessage);
+            return new Exception(FormatErrorMessage(errorMessage, args));
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Fur.FriendlyException
         public static Exception Oh(string errorMessage, Type exceptionType, params object[] args)
         {
             errorMessage = $"[Unknown] {errorMessage}";
-            return Activator.CreateInstance(exceptionType, new object[] { args.Length > 0 ? string.Format(errorMessage, args) : errorMessage }) as Exception;
+            return Activator.CreateInstance(exceptionType, new object[] { FormatErrorMessage(errorMessage, args) }) as Exception;
         }
 
         /// <summary>
@@ -112,6 +112,17 @@ namespace Fur.FriendlyException
         }
 
         /// <summary>
+        /// 格式化错误消息
+        /// </summary>
+        /// <param name="errorMessage">错误消息</param>
+        /// <param name="args">格式化参数</param>
+        /// <returns></returns>
+        internal static string FormatErrorMessage(string errorMessage, params object[] args)
+        {
+            return args == null || args.Length == 0 ? errorMessage : string.Format(errorMessage, args);
+        }
+
+        /// <summary>
         /// 获取错误码消息
         /// </summary>
         /// <param name="errorCode"></param>
@@ -130,19 +141,14 @@ namespace Fur.FriendlyException
                 ? (ErrorCodeMessages.GetValueOrDefault(errorCode.ToString()) ?? "Internal Server Error.")
                 : ifExceptionAttribute.ErrorMessage;
 
-            // 不带消息的格式化
-            if (ifExceptionAttribute?.Args.Length > 0)
-            {
-                errorCodeMessage = string.Format(errorCodeMessage, ifExceptionAttribute.Args);
-            }
+            // 采用 [IfException] 格式化参数覆盖
+            errorCodeMessage = FormatErrorMessage(errorCodeMessage, ifExceptionAttribute?.Args);
 
             // 拼接状态码
             errorCodeMessage = $"[{errorCode}] {errorCodeMessage}";
 
             // 字符串格式化
-            if (args.Length > 0) return string.Format(errorCodeMessage, args);
-
-            return errorCodeMessage;
+            return FormatErrorMessage(errorCodeMessage, args);
         }
 
         /// <summary>
@@ -209,7 +215,7 @@ namespace Fur.FriendlyException
         {
             var args = errorCodes.Skip(2).ToArray();
             var errorMessage = errorCodes[1].ToString();
-            return args.Length > 0 ? string.Format(errorMessage, args) : errorMessage;
+            return FormatErrorMessage(errorMessage, args);
         }
 
         /// <summary>

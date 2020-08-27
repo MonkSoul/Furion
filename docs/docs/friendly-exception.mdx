@@ -53,7 +53,7 @@ sidebar_label: 5. 友好异常处理
 
 ## 5.5 注册友好异常服务
 
-```cs {3,13,15} title="Fur.Web.Entry/Startup.cs"
+```cs {3,15} title="Fur.Web.Entry/Startup.cs"
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -85,11 +85,11 @@ namespace Fur.Web.Entry
 
 :::
 
-## 5.6 一个例子
+## 5.6 两个例子
 
-如果传入 `id` 小于 3，则抛出异常。
+### 5.6.1 简单抛个异常
 
-```cs {2,10}
+```cs {2,12}
 using Fur.DynamicApiController;
 using Fur.FriendlyException;
 
@@ -99,7 +99,10 @@ namespace Fur.Application
     {
         public int Get(int id)
         {
-            if (id < 3) throw Oops.Oh($"{id} 不能小于3");
+            if (id < 3)
+            {
+                throw Oops.Oh($"{id} 不能小于3");
+            }
 
             return id;
         }
@@ -112,6 +115,36 @@ namespace Fur.Application
 import yhyc1 from "../static/img/yhyc1.gif";
 
 <img src={yhyc1} />
+
+### 5.6.2 抛出特定类型异常
+
+```cs {2,13}
+using Fur.DynamicApiController;
+using Fur.FriendlyException;
+using System;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        public int Get(int id)
+        {
+            if (id < 3)
+            {
+                throw Oops.Oh($"{id} 不能小于3。", typeof(InvalidOperationException));
+            }
+
+            return id;
+        }
+    }
+}
+```
+
+如下图所示：
+
+import yhyc2 from "../static/img/yhyc2.png";
+
+<img src={yhyc2} />
 
 ## 5.7 关于 Oops.Oh
 
@@ -166,3 +199,324 @@ namespace Fur.FriendlyException
     }
 }
 ```
+
+## 5.8 最佳实践 🤗
+
+在 `Fur` 框架中，提供了非常灵活且规范化的友好异常处理方式，通过这个方式可以方便管理异常状态码、异常信息及异常本地化。
+
+### 5.8.1 创建异常信息静态类
+
+```cs {1,5,8,11,14,17}
+using Fur.FriendlyException;
+
+namespace Fur.Application
+{
+    [ExceptionErrorCodes]
+    public static class ErrorCodes
+    {
+        [ExceptionMetadata("{0} 不能小于 {1}")]
+        public const int z1000 = 2000;
+
+        [ExceptionMetadata("数据不存在")]
+        public const int x1000 = 1000;
+
+        [ExceptionMetadata("{0} 发现 {1} 个异常", "百小僧", 2)]
+        public const string x1001 = "x1001";
+
+        [ExceptionMetadata("服务器运行异常")]
+        public const string SERVER_ERROR = "Error";
+    }
+}
+```
+
+:::important
+
+异常消息类必须是 `公开且是静态类`。`Fur` 框架提供了 `[ExceptionErrorCodes]` 特性和 `IExceptionErrorCodeProvider` 提供器接口来提供异常信息扫描，这里用的是 `[ExceptionErrorCodes]` 特性类。
+
+:::
+
+### 5.8.2 关于 `[ExceptionMetadata]`
+
+`Fur` 框架提供了`[ExceptionMetadata]` 特性用来标识**常量字段**异常元数据，该特性支持传入 `消息内容` 和 `格式化参数`。最终会使用 `String.Format(消息内容，格式化参数)` 进行格式化。
+
+如果消息内容中包含`格式化占位符`但未指定`格式化参数`，那么会查找异常所在方法是否贴有 `[IfException]` 特性且含有格式化参数，接着就会查找 `Oops.Oh` 中指定的 `格式化参数`。
+
+### 5.8.3 静态异常类使用
+
+```cs {2,12}
+using Fur.DynamicApiController;
+using Fur.FriendlyException;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        public int Get(int id)
+        {
+            if (id < 3)
+            {
+                throw Oops.Oh(ErrorCodes.z1000, id, 3);
+            }
+
+            return id;
+        }
+    }
+}
+```
+
+如下图所示：
+
+import yhyc3 from "../static/img/yhyc3.gif";
+
+<img src={yhyc3} />
+
+### 5.8.4 更多例子
+
+```cs
+throw Oops.Oh(1000);
+throw Oops.Oh(ErrorCodes.x1000);
+throw Oops.Oh("哈哈哈哈");
+throw Oops.Oh(errorCode: "x1001");
+throw Oops.Oh(1000, typeof(Exception));
+```
+
+## 5.9 多个异常信息静态类
+
+```cs {5-6,21-22}
+using Fur.FriendlyException;
+
+namespace Fur.Application
+{
+    [ExceptionErrorCodes]
+    public static class ErrorCodes
+    {
+        [ExceptionMetadata("{0} 不能小于 {1}")]
+        public const int z1000 = 2000;
+
+        [ExceptionMetadata("数据不存在")]
+        public const int x1000 = 1000;
+
+        [ExceptionMetadata("{0} 发现 {1} 个异常", "百小僧", 2)]
+        public const string x1001 = "x1001";
+
+        [ExceptionMetadata("服务器运行异常")]
+        public const string SERVER_ERROR = "Error";
+    }
+
+    [ExceptionErrorCodes]
+    public static class UserErrorCodes
+    {
+        [ExceptionMetadata("用户数据不存在")]
+        public const int u1000 = 1000;
+
+        [ExceptionMetadata("其他异常")]
+        public const int u1001 = 1000;
+    }
+}
+```
+
+:::important 特别注意
+
+多个异常静态类中也必须保证常量值唯一性，不可重复。
+
+:::
+
+## 5.10 `IExceptionErrorCodeProvider` 提供器
+
+在 `Fur` 框架中，还提供了 `IExceptionErrorCodeProvider` 异常消息提供器接口，方便在不能贴 `[ExceptionErrorCodes]` 特性情况下使用：
+
+```cs {2,6,8-11}
+using Fur.FriendlyException;
+using System;
+
+namespace Fur.Application
+{
+    public class CustomExceptionErrorCodeProvider : IExceptionErrorCodeProvider
+    {
+        public Type[] Definitions => new[] {
+            typeof(ErrorCodes),
+            typeof(ErrorCodes2)
+        };
+    }
+}
+```
+
+使用 `IExceptionErrorCodeProvider` 方式需要在 `Startup.cs` 中注册：
+
+```cs {3,15} title="Fur.Web.Entry/Startup.cs"
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Fur.Web.Entry
+{
+    public class Startup
+    {
+        // Other Codes...
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddApp();
+            services.AddControllers()
+                    .AddFriendlyException<CustomExceptionErrorCodeProvider>();
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            // Other Codes...
+        }
+    }
+}
+```
+
+:::tip 小知识
+
+只有使用 `IExceptionErrorCodeProvider` 方式才需使用泛型方式注册。通过上面的方式注册可以同时支持 `IExceptionErrorCodeProvider` 和 `[ExceptionErrorCodes]` 方式。
+
+:::
+
+5.11 `appsetting.json` 中配置
+
+`Fur` 框架还提供了非常灵活的配置文件配置异常，通过这种方式可以实现异常信息后期配置，也就是无需在开发阶段预先定义。
+
+```json {2-9} title="Fur.Web.Entry/appsettings.json"
+{
+  "AppSettings": {
+    "ErrorCodesSettings": {
+      "Datas": [
+        [5000, "{0} 不能小于 {1}"],
+        [5001, "我叫 {0} 名字", "百小僧"],
+        [5002, "Oops! 出错了"]
+      ]
+    }
+  }
+}
+```
+
+`Datas` 类型为二维数组，二维数组中的每一个数组第一个参数为 `ErrorCode` 也就是错误码，第二个参数为 `ErrorMessage` 消息内容，剩余参数作为 `ErrorMessage` 的格式化参数。
+
+#### 使用示例
+
+```cs {2,12}
+using Fur.DynamicApiController;
+using Fur.FriendlyException;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        public int Get(int id)
+        {
+            if (id < 3)
+            {
+                throw Oops.Oh(5000, id, 3); // 可以将 5000作为常量配置起来
+            }
+
+            return id;
+        }
+    }
+}
+```
+
+:::tip 小知识
+
+`[ExceptionErrorCodes]` 和 `IExceptionErrorCodeProvider` 和 `appsettings.json` 可以同时使用。只要确保 `错误码` 唯一即可。
+
+:::
+
+## 5.11 `[IfException]` 使用
+
+`Fur` 框架提供了 `[IfException]` 特性可以**覆盖默认消息配置**。也就是覆盖 `异常消息静态类` 和 `appsettings.json` 中的配置。
+
+:::caution 特别注意
+
+`[IfException]` 只能贴在方法上，支持多个，而且该方法所在的类类型必须是 `ControllerBase` 子类 或 实现 `IDynamicApiController` 接口。
+
+:::
+
+### 5.11.1 使用示例
+
+- 异常消息类定义
+
+```cs {1,4}
+[ExceptionErrorCodes]
+public static class ErrorCodes
+{
+   [ExceptionMetadata("{0} 不能小于 {1}")]
+   public const int z1000 = 2000;
+}
+```
+
+- 覆盖默认配置
+
+```cs {8}
+using Fur.DynamicApiController;
+using Fur.FriendlyException;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        [IfException(ErrorCodes.z1000, ErrorMessage = "我覆盖了默认的：{0} 不能小于 {1}")]
+        public int Get(int id)
+        {
+            if (id < 3)
+            {
+                throw Oops.Oh(ErrorCodes.z1000, id, 3);
+            }
+
+            return id;
+        }
+    }
+}
+```
+
+如下图所示：
+
+import yhyc4 from "../static/img/yhyc4.png";
+
+<img src={yhyc4} />
+
+### 5.11.2 更多例子
+
+```cs {2,8-11}
+using Fur.DynamicApiController;
+using Fur.FriendlyException;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        [IfException(ErrorCodes.z1000, ErrorMessage = "我覆盖了默认的：{0} 不能小于 {1}")]
+        [IfException(ErrorCodes.x1001, "格式化参数1", "格式化参数2", ErrorMessage = "我覆盖了默认的：{0} 不能小于 {1}")]
+        [IfException(ErrorCodes.x1000, "格式化参数1", "格式化参数2")]
+        [IfException(ErrorCodes.SERVER_ERROR, "格式化参数1", "格式化参数2")]
+        public int Get(int id)
+        {
+            if (id < 3)
+            {
+                throw Oops.Oh(ErrorCodes.z1000, id, 3);
+            }
+
+            return id;
+        }
+    }
+}
+```
+:::important 格式化流程
+
+如果消息内容中包含`格式化占位符`但未指定`格式化参数`，那么会查找异常所在方法是否贴有 `[IfException]` 特性且含有格式化参数，接着就会查找 `Oops.Oh` 中指定的 `格式化参数`。
+
+:::
+
+## 5.12 多语言支持
+
+文档整理中...
+
+## 5.13 反馈与建议
+
+:::note 与我们交流
+
+给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+
+:::
