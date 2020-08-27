@@ -43,6 +43,7 @@ namespace Fur.FriendlyException
         /// <returns>异常实例</returns>
         public static Exception Oh(string errorMessage, params object[] args)
         {
+            errorMessage = $"[Unknown] {errorMessage}";
             return new Exception(args.Length > 0 ? string.Format(errorMessage, args) : errorMessage);
         }
 
@@ -55,6 +56,7 @@ namespace Fur.FriendlyException
         /// <returns>异常实例</returns>
         public static Exception Oh(string errorMessage, Type exceptionType, params object[] args)
         {
+            errorMessage = $"[Unknown] {errorMessage}";
             return Activator.CreateInstance(exceptionType, new object[] { args.Length > 0 ? string.Format(errorMessage, args) : errorMessage }) as Exception;
         }
 
