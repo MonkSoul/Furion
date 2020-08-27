@@ -1,7 +1,6 @@
 ﻿using Fur.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using StackExchange.Profiling;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -16,6 +15,11 @@ namespace Fur.FriendlyException
     /// </summary>
     public static class Oops
     {
+        /// <summary>
+        /// MiniProfiler 分类名
+        /// </summary>
+        private const string MiniProfilerCategory = "errors";
+
         /// <summary>
         /// 方法错误异常特性
         /// </summary>
@@ -104,11 +108,11 @@ namespace Fur.FriendlyException
             // 打印错误文件名和行号
             if (!string.IsNullOrEmpty(exceptionFileName) && exceptionFileLineNumber > 0)
             {
-                MiniProfiler.Current.CustomTiming("errors", $"{exceptionFileName}:line {exceptionFileLineNumber}", "Locator").Errored = true;
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Locator", $"{exceptionFileName}:line {exceptionFileLineNumber}", true);
             }
 
             // 打印完整的堆栈信息
-            MiniProfiler.Current.CustomTiming("errors", exception.ToString(), "StackTrace").Errored = true;
+            App.PrintToMiniProfiler(MiniProfilerCategory, "StackTrace", exception.ToString(), true);
         }
 
         /// <summary>

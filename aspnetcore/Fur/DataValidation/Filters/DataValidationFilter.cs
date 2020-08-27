@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
-using StackExchange.Profiling;
 using System.Linq;
 using System.Net.Mime;
 
@@ -14,6 +13,11 @@ namespace Fur.DataValidation
     /// </summary>
     public sealed class DataValidationFilter : IActionFilter, IOrderedFilter
     {
+        /// <summary>
+        /// MiniProfiler 分类名
+        /// </summary>
+        private const string MiniProfilerCategory = "validation";
+
         /// <summary>
         /// 过滤器排序
         /// </summary>
@@ -48,15 +52,15 @@ namespace Fur.DataValidation
                 method.DeclaringType.IsDefined(nonValidateAttributeType, true))
             {
                 // 打印验证跳过消息
-                PrintToMiniProfiler("Skipped");
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Skipped");
                 return;
             }
 
             // 如果动作方法参数为 0 或 验证通过，则跳过，
-            if (method.GetParameters().Length == 0 || modelState.IsValid)
+            if (actionDescriptor.Parameters.Count == 0 || modelState.IsValid)
             {
                 // 打印验证成功消息
-                PrintToMiniProfiler("Successed");
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Successed");
                 return;
             }
 
@@ -72,7 +76,7 @@ namespace Fur.DataValidation
                     , Formatting.Indented);
 
                 // 打印验证失败信息
-                PrintToMiniProfiler("Failed", $"Validation Failed:\r\n{validationResults}", true);
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", $"Validation Failed:\r\n{validationResults}", true);
             }
         }
 
@@ -99,24 +103,6 @@ namespace Fur.DataValidation
         /// <param name="context"></param>
         public void OnActionExecuted(ActionExecutedContext context)
         {
-        }
-
-        /// <summary>
-        /// 打印验证信息到 MiniProfiler
-        /// </summary>
-        /// <param name="state">状态</param>
-        /// <param name="message">消息</param>
-        /// <param name="isError">是否为警告消息</param>
-        private static void PrintToMiniProfiler(string state, string message = null, bool isError = false)
-        {
-            // 判断是否注入 MiniProfiler 组件
-            if (App.Settings.InjectMiniProfiler != true) return;
-
-            // 打印消息
-            var customTiming = MiniProfiler.Current.CustomTiming("validation", string.IsNullOrEmpty(message) ? $"Validation {state}" : message, state + (isError ? " !" : string.Empty));
-
-            // 判断是否是警告消息
-            if (isError) customTiming.Errored = true;
         }
     }
 }

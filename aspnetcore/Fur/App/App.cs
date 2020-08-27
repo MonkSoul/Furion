@@ -4,10 +4,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.Options;
+using StackExchange.Profiling;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
+using System.Threading;
 
 namespace Fur
 {
@@ -87,6 +89,26 @@ namespace Fur
         public static TOptions GetOptionsSnapshot<TOptions>()
             where TOptions : class
             => ServiceProvider.GetService<IOptionsSnapshot<TOptions>>().Value;
+
+        /// <summary>
+        /// 打印验证信息到 MiniProfiler
+        /// </summary>
+        /// <param name="category">分类</param>
+        /// <param name="state">状态</param>
+        /// <param name="message">消息</param>
+        /// <param name="isError">是否为警告消息</param>
+        public static void PrintToMiniProfiler(string category, string state, string message = null, bool isError = false)
+        {
+            // 判断是否注入 MiniProfiler 组件
+            if (Settings.InjectMiniProfiler != true) return;
+
+            // 打印消息
+            var caseCategory = Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(category);
+            var customTiming = MiniProfiler.Current.CustomTiming(category, string.IsNullOrEmpty(message) ? $"{caseCategory} {state}" : message, state);
+
+            // 判断是否是警告消息
+            if (isError) customTiming.Errored = true;
+        }
 
         /// <summary>
         /// 获取应用有效程序集
