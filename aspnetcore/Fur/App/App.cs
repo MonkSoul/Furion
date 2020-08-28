@@ -19,9 +19,22 @@ namespace Fur
     public static class App
     {
         /// <summary>
+        /// 私有设置，避免重复解析
+        /// </summary>
+        private static AppSettingsOptions _settings;
+
+        /// <summary>
         /// 应用全局配置
         /// </summary>
-        public static AppSettingsOptions Settings { get => ServiceProvider.GetService<IOptions<AppSettingsOptions>>().Value; }
+        public static AppSettingsOptions Settings
+        {
+            get
+            {
+                if (_settings == null)
+                    _settings = ServiceProvider.GetService<IOptions<AppSettingsOptions>>().Value;
+                return _settings;
+            }
+        }
 
         /// <summary>
         /// 服务提供器
