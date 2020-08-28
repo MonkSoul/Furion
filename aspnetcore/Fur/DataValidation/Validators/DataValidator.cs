@@ -216,15 +216,15 @@ namespace Fur.DataValidation
             var customErrorMessages = new Dictionary<string, string>();
 
             // 加载自定义提供器异常消息
-            var validationErrorMessageProvider = App.ServiceProvider.GetService<IValidationErrorMessageProvider>();
+            var validationErrorMessageProvider = App.ServiceProvider.GetService<IValidationTypeErrorMessageProvider>();
             if (validationErrorMessageProvider != null)
             {
                 // 合并自定义验证消息
-                customErrorMessages = customErrorMessages.AddOrUpdate(validationErrorMessageProvider.ErrorMessageDefinitions ?? new Dictionary<string, string>());
+                customErrorMessages = customErrorMessages.AddOrUpdate(validationErrorMessageProvider.Definitions ?? new Dictionary<string, string>());
             }
 
             // 加载配置文件配置
-            var validationErrorMessageSettings = App.GetOptions<ValidationErrorMessageSettingsOptions>();
+            var validationErrorMessageSettings = App.GetOptions<ValidationTypeErrorMessageSettingsOptions>();
             if (validationErrorMessageSettings is { Definitions: not null })
             {
                 // 获取所有参数大于1的配置

@@ -51,7 +51,7 @@ sidebar_label: 5. 友好异常处理
 
 `Fur` 框架提供了非常灵活的友好异常处理方式。
 
-## 5.5 注册友好异常服务
+### 5.4.1 注册友好异常服务
 
 ```cs {3,15} title="Fur.Web.Entry/Startup.cs"
 using Microsoft.AspNetCore.Builder;
@@ -68,7 +68,7 @@ namespace Fur.Web.Entry
         {
             services.AddApp();
             services.AddControllers()
-                    .AddFriendlyException();
+                    .AddFriendlyException();    // 可通过 .AddFriendlyException(false) 关闭全局异常处理
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -85,9 +85,9 @@ namespace Fur.Web.Entry
 
 :::
 
-## 5.6 两个例子
+### 5.4.2 两个例子
 
-### 5.6.1 简单抛个异常
+#### 简单抛个异常
 
 ```cs {2,12}
 using Fur.DynamicApiController;
@@ -116,7 +116,7 @@ import yhyc1 from "../static/img/yhyc1.gif";
 
 <img src={yhyc1} />
 
-### 5.6.2 抛出特定类型异常
+#### 抛出特定类型异常
 
 ```cs {2,13}
 using Fur.DynamicApiController;
@@ -146,15 +146,15 @@ import yhyc2 from "../static/img/yhyc2.png";
 
 <img src={yhyc2} />
 
-## 5.7 关于 Oops.Oh
+## 5.5 关于 Oops.Oh
 
 通过上面的例子可以看出，`Oops.Oh(errorMessage)` 可以结合 `throw` 抛出异常。对于熟悉`C#`的人员来说，`throw` 后面只能 `Exception` 实例。`Oops.Oh(...)` 方法返回正是 `Exception` 实例。
 
-### 5.7.1 为什么起这个名字？
+### 5.5.1 为什么起这个名字？
 
 这个名字来源于一个英语句子：`Oh, Oops!`，意思是 **噢（哎），出错了！**，所以就有了 `Oops.Oh`。
 
-### 5.7.2 `Oops.Oh` 重载方法
+### 5.5.2 `Oops.Oh` 重载方法
 
 ```cs {13,22,30,39}
 using System;
@@ -200,11 +200,11 @@ namespace Fur.FriendlyException
 }
 ```
 
-## 5.8 最佳实践 🤗
+## 5.6 最佳实践 🤗
 
 在 `Fur` 框架中，提供了非常灵活且规范化的友好异常处理方式，通过这个方式可以方便管理异常状态码、异常信息及异常本地化。
 
-### 5.8.1 创建异常信息静态类
+### 5.6.1 创建异常信息静态类
 
 ```cs {1,5,8,11,14,17}
 using Fur.FriendlyException;
@@ -235,13 +235,13 @@ namespace Fur.Application
 
 :::
 
-### 5.8.2 关于 `[ExceptionMetadata]`
+### 5.6.2 关于 `[ExceptionMetadata]`
 
 `Fur` 框架提供了`[ExceptionMetadata]` 特性用来标识**常量字段**异常元数据，该特性支持传入 `消息内容` 和 `格式化参数`。最终会使用 `String.Format(消息内容，格式化参数)` 进行格式化。
 
 如果消息内容中包含`格式化占位符`但未指定`格式化参数`，那么会查找异常所在方法是否贴有 `[IfException]` 特性且含有格式化参数，接着就会查找 `Oops.Oh` 中指定的 `格式化参数`。
 
-### 5.8.3 静态异常类使用
+### 5.6.3 静态异常类使用
 
 ```cs {2,12}
 using Fur.DynamicApiController;
@@ -270,7 +270,7 @@ import yhyc3 from "../static/img/yhyc3.gif";
 
 <img src={yhyc3} />
 
-### 5.8.4 更多例子
+### 5.6.4 更多例子
 
 ```cs
 throw Oops.Oh(1000);
@@ -280,7 +280,7 @@ throw Oops.Oh(errorCode: "x1001");
 throw Oops.Oh(1000, typeof(Exception));
 ```
 
-## 5.9 多个异常信息静态类
+## 5.7 多个异常信息静态类
 
 ```cs {5-6,21-22}
 using Fur.FriendlyException;
@@ -321,7 +321,7 @@ namespace Fur.Application
 
 :::
 
-## 5.10 `IExceptionErrorCodeProvider` 提供器
+## 5.8 `IExceptionErrorCodeProvider` 提供器
 
 在 `Fur` 框架中，还提供了 `IExceptionErrorCodeProvider` 异常消息提供器接口，方便在不能贴 `[ExceptionErrorCodes]` 特性情况下使用：
 
@@ -375,7 +375,7 @@ namespace Fur.Web.Entry
 
 :::
 
-## 5.11 `appsetting.json` 中配置
+## 5.9 `appsetting.json` 中配置
 
 `Fur` 框架还提供了非常灵活的配置文件配置异常，通过这种方式可以实现异常信息后期配置，也就是无需在开发阶段预先定义。
 
@@ -424,7 +424,7 @@ namespace Fur.Application
 
 :::
 
-## 5.12 `[IfException]` 使用
+## 5.10 `[IfException]` 使用
 
 `Fur` 框架提供了 `[IfException]` 特性可以**覆盖默认消息配置**。也就是覆盖 `异常消息静态类` 和 `appsettings.json` 中的配置。
 
@@ -434,7 +434,7 @@ namespace Fur.Application
 
 :::
 
-### 5.12.1 使用示例
+### 5.10.1 使用示例
 
 - 异常消息类定义
 
@@ -477,7 +477,7 @@ import yhyc4 from "../static/img/yhyc4.png";
 
 <img src={yhyc4} />
 
-### 5.12.2 更多例子
+### 5.10.2 更多例子
 
 ```cs {2,8-11}
 using Fur.DynamicApiController;
@@ -510,18 +510,22 @@ namespace Fur.Application
 
 :::
 
-## 5.13 异常消息优先级
+## 5.11 异常消息优先级
 
 `[ExceptionMetadata]` -> `appsettings.json` -> `[IfException]`。**（低 -> 高）**
 
 - `[IfException]` 会覆盖 `appsettings.json` 定义的状态码消息。
 - `appsettings.json` 会覆盖 `[ExceptionMetadata]` 定义的消息。
 
-## 5.14 多语言支持
+## 5.12 多语言支持
 
 文档整理中...
 
-## 5.15 反馈与建议
+## 5.13 异常模型提供器
+
+文档整理中...
+
+## 5.14 反馈与建议
 
 :::note 与我们交流
 
