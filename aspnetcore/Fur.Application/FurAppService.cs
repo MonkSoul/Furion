@@ -15,6 +15,8 @@ namespace Fur.Application
 
         public List<ValidationResult> Post(TestDto testDto)
         {
+            var b = "2".TryValidate(ValidationTypes.Required);
+
             var a = testDto.TryValidate();
 
             return a.ValidationResults.ToList();

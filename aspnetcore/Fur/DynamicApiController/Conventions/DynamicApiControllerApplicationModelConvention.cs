@@ -1,4 +1,5 @@
 ﻿using Fur.Extensions;
+using Fur.FriendlyException;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
@@ -169,7 +170,7 @@ namespace Fur.DynamicApiController
                 "PUT" => new HttpPutAttribute(),
                 "DELETE" => new HttpDeleteAttribute(),
                 "PATCH" => new HttpPatchAttribute(),
-                _ => throw new NotSupportedException($"{verb}")
+                _ => throw Oops.Oh($"{verb}", typeof(NotSupportedException))
             };
 
             selectorModel.EndpointMetadata.Add(httpMethodAttribute);

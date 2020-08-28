@@ -28,5 +28,27 @@ namespace Fur.DataValidation
         {
             return DataValidator.TryValidateValue(value, validationAttributes);
         }
+
+        /// <summary>
+        /// 拓展方法，验证单个值
+        /// </summary>
+        /// <param name="value">单个值</param>
+        /// <param name="regexPattern">正则表达式</param>
+        /// <returns></returns>
+        public static bool TryValidate(this object value, string regexPattern)
+        {
+            return DataValidator.TryValidateValue(value, regexPattern);
+        }
+
+        /// <summary>
+        /// 拓展方法，验证单个值
+        /// </summary>
+        /// <param name="value">单个值</param>
+        /// <param name="validationTypes">验证类型</param>
+        /// <returns></returns>
+        public static DataValidationResult TryValidate(this object value, params object[] validationTypes)
+        {
+            return DataValidator.TryValidateValue(value, validationTypes);
+        }
     }
 }

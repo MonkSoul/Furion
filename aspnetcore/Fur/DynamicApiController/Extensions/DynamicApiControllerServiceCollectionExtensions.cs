@@ -1,4 +1,5 @@
 ﻿using Fur.DynamicApiController;
+using Fur.FriendlyException;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using System;
@@ -24,7 +25,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddAppOptions<DynamicApiControllerSettingsOptions>();
 
             var partManager = services.FirstOrDefault(s => s.ServiceType == typeof(ApplicationPartManager)).ImplementationInstance as ApplicationPartManager
-                ?? throw new InvalidOperationException($"`{nameof(AddDynamicApiControllers)}` must be invoked after `{nameof(MvcServiceCollectionExtensions.AddControllers)}`.");
+                ?? throw Oops.Oh($"`{nameof(AddDynamicApiControllers)}` must be invoked after `{nameof(MvcServiceCollectionExtensions.AddControllers)}`.", typeof(InvalidOperationException));
 
             // 添加控制器特性提供器
             var providers = providersOrConventions.Where(u => typeof(IApplicationFeatureProvider).IsAssignableFrom(u.GetType()));
