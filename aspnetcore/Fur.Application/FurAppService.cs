@@ -15,11 +15,11 @@ namespace Fur.Application
 
         public List<ValidationResult> Post(TestDto testDto)
         {
-            var b = "2".TryValidate(ValidationTypes.Required);
+            var data = "111a";
 
-            var a = testDto.TryValidate();
+            var validate = data.TryValidate(ValidationTypes.Integer);
 
-            return a.ValidationResults.ToList();
+            return validate.ValidationResults.ToList();
         }
     }
 }

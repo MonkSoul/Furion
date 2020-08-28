@@ -1,3 +1,4 @@
+using Fur.Application;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +25,7 @@ namespace Fur.Web.Entry
             services.AddControllers()
                 .AddDynamicApiControllers()
                 .AddFriendlyException()
-                .AddDataValidation();
+                .AddDataValidation<ValidationErrorMessageProvider>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

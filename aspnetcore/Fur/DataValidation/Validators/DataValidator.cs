@@ -1,4 +1,5 @@
 ﻿using Fur.FriendlyException;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -91,10 +92,11 @@ namespace Fur.DataValidation
         /// </summary>
         /// <param name="value"></param>
         /// <param name="regexPattern"></param>
+        /// <param name="regexOptions">正则表达式选项</param>
         /// <returns></returns>
-        public static bool TryValidateValue(object value, string regexPattern)
+        public static bool TryValidateValue(object value, string regexPattern, RegexOptions regexOptions = RegexOptions.None)
         {
-            return Regex.IsMatch(value.ToString(), regexPattern);
+            return Regex.IsMatch(value.ToString(), regexPattern, regexOptions);
         }
 
         /// <summary>
@@ -126,13 +128,15 @@ namespace Fur.DataValidation
             foreach (var validationType in validationTypes)
             {
                 // 解析名称和正则表达式
-                var (_, validationRegularExpression) = GetValidationTypeRegularExpression(validationType);
+                var (validationName, validationRegularExpression) = GetValidationTypeRegularExpression(validationType);
 
                 // 通过正则表达式验证
-                if (!TryValidateValue(value, validationRegularExpression.RegularExpression))
+                if (!TryValidateValue(value, validationRegularExpression.RegularExpression, validationRegularExpression.RegexOptions))
                 {
                     isAllVaild = false;
-                    results.Add(new ValidationResult(validationRegularExpression.ValidateFailedMessage));
+                    // 格式化
+                    results.Add(new ValidationResult(
+                        string.Format(validationRegularExpression.ValidateFailedMessage, value, validationName)));
                     break;
                 }
             }
@@ -207,12 +211,40 @@ namespace Fur.DataValidation
         /// <returns></returns>
         private static Dictionary<string, ValidationRegularExpressionAttribute> GetValidationRegularExpressions()
         {
+            // 自定义错误异常
+            var customErrorMessages = new Dictionary<string, string>();
+
+            // 加载自定义提供器异常消息
+            var validationErrorMessageProvider = App.ServiceProvider.GetService<IValidationErrorMessageProvider>();
+            if (validationErrorMessageProvider != null)
+            {
+                // 合并自定义异常
+                customErrorMessages = customErrorMessages.Concat(validationErrorMessageProvider.ErrorMessageDefinitions ?? new Dictionary<string, string>()).ToDictionary(k => k.Key, v => v.Value);
+            }
+
             // 获取所有验证属性
             var validationFields = ValidationTypes.SelectMany(u => u.GetFields()
                 .Where(u => u.IsDefined(typeof(ValidationRegularExpressionAttribute))))
-                .ToDictionary(u => u.Name, u => u.GetCustomAttribute<ValidationRegularExpressionAttribute>());
+                .ToDictionary(u => u.Name, u => ReplaceValidateErrorMessage(u.Name, u, customErrorMessages));
 
             return validationFields;
+        }
+
+        /// <summary>
+        /// 替换默认验证失败消息
+        /// </summary>
+        /// <param name="name">验证唯一名称</param>
+        /// <param name="type"></param>
+        /// <param name="customErrorMessages"></param>
+        private static ValidationRegularExpressionAttribute ReplaceValidateErrorMessage(string name, FieldInfo field, Dictionary<string, string> customErrorMessages)
+        {
+            var validationRegularExpression = field.GetCustomAttribute<ValidationRegularExpressionAttribute>();
+            if (customErrorMessages.ContainsKey(name))
+            {
+                validationRegularExpression.ValidateFailedMessage = customErrorMessages[name];
+            }
+
+            return validationRegularExpression;
         }
     }
 }

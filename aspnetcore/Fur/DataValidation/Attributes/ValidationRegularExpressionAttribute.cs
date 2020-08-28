@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace Fur.DataValidation
 {
@@ -13,10 +14,11 @@ namespace Fur.DataValidation
         /// </summary>
         /// <param name="regularExpression">正则表达式</param>
         /// <param name="validateFailedMessage">验证失败消息</param>
-        public ValidationRegularExpressionAttribute(string regularExpression, string validateFailedMessage)
+        public ValidationRegularExpressionAttribute(string regularExpression, string validateFailedMessage, RegexOptions regexOptions = RegexOptions.None)
         {
             RegularExpression = regularExpression;
             ValidateFailedMessage = validateFailedMessage;
+            RegexOptions = regexOptions;
         }
 
         /// <summary>
@@ -28,5 +30,10 @@ namespace Fur.DataValidation
         /// 验证失败消息
         /// </summary>
         public string ValidateFailedMessage { get; set; }
+
+        /// <summary>
+        /// 正则表达式选项
+        /// </summary>
+        public RegexOptions RegexOptions { get; set; }
     }
 }

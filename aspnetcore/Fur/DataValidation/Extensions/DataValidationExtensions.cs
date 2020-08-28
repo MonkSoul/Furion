@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace Fur.DataValidation
 {
@@ -34,10 +35,11 @@ namespace Fur.DataValidation
         /// </summary>
         /// <param name="value">单个值</param>
         /// <param name="regexPattern">正则表达式</param>
+        /// <param name="regexOptions">正则表达式选项</param>
         /// <returns></returns>
-        public static bool TryValidate(this object value, string regexPattern)
+        public static bool TryValidate(this object value, string regexPattern, RegexOptions regexOptions = RegexOptions.None)
         {
-            return DataValidator.TryValidateValue(value, regexPattern);
+            return DataValidator.TryValidateValue(value, regexPattern, regexOptions);
         }
 
         /// <summary>
