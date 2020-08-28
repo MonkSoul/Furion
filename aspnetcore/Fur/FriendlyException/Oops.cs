@@ -1,4 +1,5 @@
 ﻿using Fur.DynamicApiController;
+using Fur.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -193,15 +194,15 @@ namespace Fur.FriendlyException
 
             // 加载配置文件状态码
             var errorCodesSettings = App.GetOptions<ErrorCodesSettingsOptions>();
-            if (errorCodesSettings is { Datas: not null })
+            if (errorCodesSettings is { Definitions: not null })
             {
                 // 获取所有参数大于1的配置
-                var fitErrorCodes = errorCodesSettings.Datas
+                var fitErrorCodes = errorCodesSettings.Definitions
                     .Where(u => u.Length > 1)
                     .ToDictionary(u => u[0].ToString(), u => FixErrorCodeSettingMessage(u));
 
                 // 合并两个字典
-                errorCodeMessages = (errorCodeMessages ?? new Dictionary<string, string>()).Concat(fitErrorCodes).ToDictionary(k => k.Key, v => v.Value);
+                errorCodeMessages = (errorCodeMessages ?? new Dictionary<string, string>()).AddOrUpdate(fitErrorCodes);
             }
 
             return errorCodeMessages;

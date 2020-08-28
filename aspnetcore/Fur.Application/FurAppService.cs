@@ -15,9 +15,7 @@ namespace Fur.Application
 
         public List<ValidationResult> Post(TestDto testDto)
         {
-            var data = "111a";
-
-            var validate = data.TryValidate(ValidationTypes.Integer);
+            var validate = "".TryValidate(ValidationTypes.Required);
 
             return validate.ValidationResults.ToList();
         }

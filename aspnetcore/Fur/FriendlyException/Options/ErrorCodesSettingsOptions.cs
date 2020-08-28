@@ -11,6 +11,6 @@ namespace Fur.FriendlyException
         /// <summary>
         /// 异常状态码配置列表
         /// </summary>
-        public object[][] Datas { get; set; }
+        public object[][] Definitions { get; set; }
     }
 }

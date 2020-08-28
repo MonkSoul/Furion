@@ -1,4 +1,5 @@
-﻿using Fur.FriendlyException;
+﻿using Fur.Extensions;
+using Fur.FriendlyException;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Concurrent;
@@ -218,8 +219,21 @@ namespace Fur.DataValidation
             var validationErrorMessageProvider = App.ServiceProvider.GetService<IValidationErrorMessageProvider>();
             if (validationErrorMessageProvider != null)
             {
-                // 合并自定义异常
-                customErrorMessages = customErrorMessages.Concat(validationErrorMessageProvider.ErrorMessageDefinitions ?? new Dictionary<string, string>()).ToDictionary(k => k.Key, v => v.Value);
+                // 合并自定义验证消息
+                customErrorMessages = customErrorMessages.AddOrUpdate(validationErrorMessageProvider.ErrorMessageDefinitions ?? new Dictionary<string, string>());
+            }
+
+            // 加载配置文件配置
+            var validationErrorMessageSettings = App.GetOptions<ValidationErrorMessageSettingsOptions>();
+            if (validationErrorMessageSettings is { Definitions: not null })
+            {
+                // 获取所有参数大于1的配置
+                var settingsErrorMessages = validationErrorMessageSettings.Definitions
+                    .Where(u => u.Length > 1)
+                    .ToDictionary(u => u[0].ToString(), u => u[1].ToString());
+
+                // 合并自定义验证消息
+                customErrorMessages = customErrorMessages.AddOrUpdate(settingsErrorMessages);
             }
 
             // 获取所有验证属性

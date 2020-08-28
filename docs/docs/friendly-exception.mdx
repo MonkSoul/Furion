@@ -375,7 +375,7 @@ namespace Fur.Web.Entry
 
 :::
 
-5.11 `appsetting.json` 中配置
+## 5.11 `appsetting.json` 中配置
 
 `Fur` 框架还提供了非常灵活的配置文件配置异常，通过这种方式可以实现异常信息后期配置，也就是无需在开发阶段预先定义。
 
@@ -383,7 +383,7 @@ namespace Fur.Web.Entry
 {
   "AppSettings": {
     "ErrorCodesSettings": {
-      "Datas": [
+      "Definitions": [
         [5000, "{0} 不能小于 {1}"],
         [5001, "我叫 {0} 名字", "百小僧"],
         [5002, "Oops! 出错了"]
@@ -393,7 +393,7 @@ namespace Fur.Web.Entry
 }
 ```
 
-`Datas` 类型为二维数组，二维数组中的每一个数组第一个参数为 `ErrorCode` 也就是错误码，第二个参数为 `ErrorMessage` 消息内容，剩余参数作为 `ErrorMessage` 的格式化参数。
+`Definitions` 类型为二维数组，二维数组中的每一个数组第一个参数为 `ErrorCode` 也就是错误码，第二个参数为 `ErrorMessage` 消息内容，剩余参数作为 `ErrorMessage` 的格式化参数。
 
 #### 使用示例
 
@@ -420,11 +420,11 @@ namespace Fur.Application
 
 :::tip 小知识
 
-`[ExceptionErrorCodes]` 和 `IExceptionErrorCodeProvider` 和 `appsettings.json` 可以同时使用。只要确保 `错误码` 唯一即可。
+`[ExceptionErrorCodes]` 和 `IExceptionErrorCodeProvider` 和 `appsettings.json` 可以同时使用。
 
 :::
 
-## 5.11 `[IfException]` 使用
+## 5.12 `[IfException]` 使用
 
 `Fur` 框架提供了 `[IfException]` 特性可以**覆盖默认消息配置**。也就是覆盖 `异常消息静态类` 和 `appsettings.json` 中的配置。
 
@@ -434,7 +434,7 @@ namespace Fur.Application
 
 :::
 
-### 5.11.1 使用示例
+### 5.12.1 使用示例
 
 - 异常消息类定义
 
@@ -477,7 +477,7 @@ import yhyc4 from "../static/img/yhyc4.png";
 
 <img src={yhyc4} />
 
-### 5.11.2 更多例子
+### 5.12.2 更多例子
 
 ```cs {2,8-11}
 using Fur.DynamicApiController;
@@ -503,17 +503,25 @@ namespace Fur.Application
     }
 }
 ```
+
 :::important 格式化流程
 
 如果消息内容中包含`格式化占位符`但未指定`格式化参数`，那么会查找异常所在方法是否贴有 `[IfException]` 特性且含有格式化参数，接着就会查找 `Oops.Oh` 中指定的 `格式化参数`。
 
 :::
 
-## 5.12 多语言支持
+## 5.13 异常消息优先级
+
+`[ExceptionMetadata]` -> `appsettings.json` -> `[IfException]`。**（低 -> 高）**
+
+- `[IfException]` 会覆盖 `appsettings.json` 定义的状态码消息。
+- `appsettings.json` 会覆盖 `[ExceptionMetadata]` 定义的消息。
+
+## 5.14 多语言支持
 
 文档整理中...
 
-## 5.13 反馈与建议
+## 5.15 反馈与建议
 
 :::note 与我们交流
 
