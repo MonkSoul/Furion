@@ -49,21 +49,21 @@ namespace Fur.DataValidation
         /// <returns>验证结果</returns>
         public static DataValidationResult TryValidateObject(object obj, bool validateAllProperties = true)
         {
-            // 如果该类型贴有 [NonVaildate] 特性，则跳过验证
+            // 如果该类型贴有 [NonValidate] 特性，则跳过验证
             if (obj.GetType().IsDefined(typeof(NonValidationAttribute), true))
                 return new DataValidationResult
                 {
-                    IsVaild = true
+                    IsValid = true
                 };
 
             // 存储验证结果
             ICollection<ValidationResult> results = new List<ValidationResult>();
-            var isVaild = Validator.TryValidateObject(obj, new ValidationContext(obj), results, validateAllProperties);
+            var isValid = Validator.TryValidateObject(obj, new ValidationContext(obj), results, validateAllProperties);
 
             // 返回验证结果
             return new DataValidationResult
             {
-                IsVaild = isVaild,
+                IsValid = isValid,
                 ValidationResults = results
             };
         }
@@ -78,12 +78,12 @@ namespace Fur.DataValidation
         {
             // 存储验证结果
             ICollection<ValidationResult> results = new List<ValidationResult>();
-            var isVaild = Validator.TryValidateValue(value, new ValidationContext(value), results, validationAttributes);
+            var isValid = Validator.TryValidateValue(value, new ValidationContext(value), results, validationAttributes);
 
             // 返回验证结果
             return new DataValidationResult
             {
-                IsVaild = isVaild,
+                IsValid = isValid,
                 ValidationResults = results
             };
         }
@@ -131,35 +131,35 @@ namespace Fur.DataValidation
                 // 返回验证结果
                 return new DataValidationResult
                 {
-                    IsVaild = false,
+                    IsValid = false,
                     ValidationResults = results
                 };
             }
 
             // 验证标识
-            bool? isVaild = null;
+            bool? isValid = null;
             foreach (var validationType in validationTypes)
             {
                 // 解析名称和正则表达式
                 var (validationName, validationRegularExpression) = GetValidationTypeRegularExpression(validationType);
 
                 // 验证结果
-                var vaildResult = TryValidateValue(value, validationRegularExpression.RegularExpression, validationRegularExpression.RegexOptions);
+                var validResult = TryValidateValue(value, validationRegularExpression.RegularExpression, validationRegularExpression.RegexOptions);
 
                 // 判断是否需要同时验证通过才通过
                 if (validationLogics == ValidationLogicOptions.Or)
                 {
                     // 只要有一个验证通过，则跳出
-                    if (vaildResult)
+                    if (validResult)
                     {
-                        isVaild = true;
+                        isValid = true;
                         break;
                     }
                 }
 
-                if (!vaildResult)
+                if (!validResult)
                 {
-                    if (isVaild != false) isVaild = false;
+                    if (isValid != false) isValid = false;
                     // 添加错误消息
                     results.Add(new ValidationResult(
                         string.Format(validationRegularExpression.DefaultErrorMessage, value, validationName)));
@@ -169,7 +169,7 @@ namespace Fur.DataValidation
             // 返回验证结果
             return new DataValidationResult
             {
-                IsVaild = isVaild ?? true,
+                IsValid = isValid ?? true,
                 ValidationResults = results
             };
         }

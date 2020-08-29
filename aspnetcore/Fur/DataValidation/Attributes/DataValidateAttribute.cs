@@ -41,7 +41,7 @@ namespace Fur.DataValidation
             var dataValidationResult = value.TryValidate(ValidationLogic, ValidationTypes);
 
             // 验证失败
-            if (!dataValidationResult.IsVaild)
+            if (!dataValidationResult.IsValid)
             {
                 return new ValidationResult(string.IsNullOrEmpty(ErrorMessage) ? dataValidationResult.ValidationResults.FirstOrDefault().ErrorMessage : ErrorMessage);
             }

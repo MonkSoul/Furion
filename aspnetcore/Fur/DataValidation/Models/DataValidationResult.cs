@@ -11,7 +11,7 @@ namespace Fur.DataValidation
         /// <summary>
         /// 验证状态
         /// </summary>
-        public bool IsVaild { get; set; }
+        public bool IsValid { get; set; }
 
         /// <summary>
         /// 验证结果

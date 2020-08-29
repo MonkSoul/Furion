@@ -47,7 +47,7 @@ namespace Fur.DataValidation
             // 跳过验证类型
             var nonValidateAttributeType = typeof(NonValidationAttribute);
 
-            // 如果贴了 [NonVaildate] 特性 或 所在类型贴了 [NonVaildate] 特性，则跳过验证
+            // 如果贴了 [NonValidate] 特性 或 所在类型贴了 [NonValidate] 特性，则跳过验证
             if (method.IsDefined(nonValidateAttributeType, true) ||
                 method.DeclaringType.IsDefined(nonValidateAttributeType, true))
             {
