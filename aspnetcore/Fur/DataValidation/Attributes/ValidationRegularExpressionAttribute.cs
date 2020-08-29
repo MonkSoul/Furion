@@ -13,11 +13,11 @@ namespace Fur.DataValidation
         /// 构造函数
         /// </summary>
         /// <param name="regularExpression">正则表达式</param>
-        /// <param name="validateFailedMessage">验证失败消息</param>
-        public ValidationRegularExpressionAttribute(string regularExpression, string validateFailedMessage, RegexOptions regexOptions = RegexOptions.None)
+        /// <param name="defaultErrorMessage">默认验证失败类型</param>
+        public ValidationRegularExpressionAttribute(string regularExpression, string defaultErrorMessage, RegexOptions regexOptions = RegexOptions.None)
         {
             RegularExpression = regularExpression;
-            ValidateFailedMessage = validateFailedMessage;
+            DefaultErrorMessage = defaultErrorMessage;
             RegexOptions = regexOptions;
         }
 
@@ -27,9 +27,9 @@ namespace Fur.DataValidation
         public string RegularExpression { get; set; }
 
         /// <summary>
-        /// 验证失败消息
+        /// 默认验证失败类型
         /// </summary>
-        public string ValidateFailedMessage { get; set; }
+        public string DefaultErrorMessage { get; set; }
 
         /// <summary>
         /// 正则表达式选项

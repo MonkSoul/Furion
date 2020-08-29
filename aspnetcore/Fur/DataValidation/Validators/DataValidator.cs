@@ -108,7 +108,7 @@ namespace Fur.DataValidation
         /// <returns></returns>
         public static DataValidationResult TryValidateValue(object value, params object[] validationTypes)
         {
-            return TryValidateValue(value, ValidationLogics.And, validationTypes);
+            return TryValidateValue(value, ValidationLogicOptions.And, validationTypes);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Fur.DataValidation
         /// <param name="validationLogics">验证方式</param>
         /// <param name="validationTypes"></param>
         /// <returns></returns>
-        public static DataValidationResult TryValidateValue(object value, ValidationLogics validationLogics, params object[] validationTypes)
+        public static DataValidationResult TryValidateValue(object value, ValidationLogicOptions validationLogics, params object[] validationTypes)
         {
             // 存储验证结果
             ICollection<ValidationResult> results = new List<ValidationResult>();
@@ -147,7 +147,7 @@ namespace Fur.DataValidation
                 var vaildResult = TryValidateValue(value, validationRegularExpression.RegularExpression, validationRegularExpression.RegexOptions);
 
                 // 判断是否需要同时验证通过才通过
-                if (validationLogics == ValidationLogics.Or)
+                if (validationLogics == ValidationLogicOptions.Or)
                 {
                     // 只要有一个验证通过，则跳出
                     if (vaildResult)
@@ -162,7 +162,7 @@ namespace Fur.DataValidation
                     if (isVaild != false) isVaild = false;
                     // 添加错误消息
                     results.Add(new ValidationResult(
-                        string.Format(validationRegularExpression.ValidateFailedMessage, value, validationName)));
+                        string.Format(validationRegularExpression.DefaultErrorMessage, value, validationName)));
                 }
             }
 
@@ -279,7 +279,7 @@ namespace Fur.DataValidation
             var validationRegularExpression = field.GetCustomAttribute<ValidationRegularExpressionAttribute>();
             if (customErrorMessages.ContainsKey(name))
             {
-                validationRegularExpression.ValidateFailedMessage = customErrorMessages[name];
+                validationRegularExpression.DefaultErrorMessage = customErrorMessages[name];
             }
 
             return validationRegularExpression;

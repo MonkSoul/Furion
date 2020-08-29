@@ -31,6 +31,7 @@ import kzqUrl from "../static/img/kzq.png";
 >
   <TabItem value="mvc">
 
+
 ```cs {1,5,7}
 using Microsoft.AspNetCore.Mvc;
 
@@ -48,6 +49,7 @@ namespace Fur.Web.Entry.Controllers
 
   </TabItem>
   <TabItem value="webapi">
+
 
 ```cs {1,5,6,8,9}
 using Microsoft.AspNetCore.Mvc;
@@ -68,6 +70,7 @@ namespace Fur.Web.Entry.Controllers
 
   </TabItem>
 </Tabs>
+
 
 `Mvc` 控制器和 `WebAPI` 控制器最大的区别是 `WebAPI` 控制器不带 **视图** 和通过 **请求谓词和路由地址响应行为**。
 
@@ -166,7 +169,9 @@ namespace Fur.Web.Entry
 
 ## 3.5 第一个例子
 
-创建一个 `FurAppService` 类继承 `IDynamicApiController` 接口，并在这个类中编写一个 `Get` 方法。
+创建一个 `FurAppService` 类继承 `IDynamicApiController` 接口 或 贴 `[DynamicApiController]` 特性，并在这个类中编写一个 `Get` 方法。
+
+- **`IDynamicApiController` 方式**
 
 ```cs {1,5,7}
 using Fur.DynamicApiController;
@@ -174,6 +179,24 @@ using Fur.DynamicApiController;
 namespace Fur.Application
 {
     public class FurAppService : IDynamicApiController
+    {
+        public string Get()
+        {
+            return $"Hello {nameof(Fur)}";
+        }
+    }
+}
+```
+
+- **`[DynamicApiController]` 方式**
+
+```cs {1,5,8}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    [DynamicApiController]
+    public class FurAppService
     {
         public string Get()
         {
@@ -396,6 +419,7 @@ import getyycsUrl from "../static/img/getyycs.png";
 >
   <TabItem value="fromquery">
 
+
 ```cs {2,8}
 using Fur.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
@@ -415,6 +439,7 @@ namespace Fur.Application
   </TabItem>
   <TabItem value="DynamicApiControllerSettings">
 
+
 ```json {2-4} title="Fur.Web.Entry/appsettings.json"
 {
   "AppSettings": {
@@ -427,6 +452,7 @@ namespace Fur.Application
 
   </TabItem>
 </Tabs>
+
 
 如下图所示：
 
@@ -565,6 +591,7 @@ import wcrlUrl from "../static/img/wcrl.png";
 >
   <TabItem value="kzqrl">
 
+
 ```cs {2,6}
 using Fur.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
@@ -589,6 +616,7 @@ namespace Fur.Application
   </TabItem>
   <TabItem value="dzffrl">
 
+
 ```cs {2,8}
 using Fur.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
@@ -612,6 +640,7 @@ namespace Fur.Application
 
   </TabItem>
   <TabItem value="allrl">
+
 
 ```cs {2,6,9}
 using Fur.DynamicApiController;
@@ -638,6 +667,7 @@ namespace Fur.Application
   </TabItem>
   <TabItem value="vcrl">
 
+
 ```cs {9}
 using Fur.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
@@ -662,6 +692,7 @@ namespace Fur.Application
 
   </TabItem>
 </Tabs>
+
 
 :::important 小提示
 
@@ -728,6 +759,7 @@ import dzffbbUrl from "../static/img/dzffbb.png";
 >
   <TabItem value="kzqbb">
 
+
 ```cs {5,13,21}
 using Fur.DynamicApiController;
 
@@ -766,6 +798,7 @@ namespace Fur.Application
   </TabItem>
   <TabItem value="dzffbb">
 
+
 ```cs {7,12,16}
 using Fur.DynamicApiController;
 
@@ -796,6 +829,7 @@ namespace Fur.Application
 
   </TabItem>
 </Tabs>
+
 
 :::note 版本生成原理
 
@@ -1097,6 +1131,7 @@ import tag2Url from "../static/img/tag2.png";
 >
   <TabItem value="tag1">
 
+
 #### 未贴标签之前
 
 ```cs
@@ -1176,6 +1211,7 @@ namespace Fur.Application
   </TabItem>
   <TabItem value="tag2">
 
+
 ```cs {5,19}
 using Fur.DynamicApiController;
 
@@ -1217,6 +1253,7 @@ namespace Fur.Application
 
   </TabItem>
 </Tabs>
+
 
 :::tip 小知识
 

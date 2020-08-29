@@ -4,6 +4,9 @@ title: 6. 数据校验
 sidebar_label: 6. 数据校验
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## 6.1 关于数据校验
 
 数据校验字面上的意思就是对使用者提交过来的数据进行合法性验证。在一套完善的应用系统中，数据有效性校验是必不可少的业务处理第一道关卡。
@@ -179,7 +182,7 @@ public class DtoModel : IValidatableObject
 
 所以，`Fur` 提供了新的验证引擎 `DataValidation`，在完全兼容 `Mvc` 内置验证的同时提供了大量常见验证、复杂验证、自定义验证等能力。
 
-## 6.4 `DataValidation` 验证
+## 6.4 `DataValidation` 验证  🤗
 
 `DataValidation` 是 `Fur` 框架提供了全新的验证方式，完全兼容 `Mvc` 内置验证，并且赋予了超能。
 
@@ -231,7 +234,7 @@ namespace Fur.Web.Entry
 ### 6.5.2 兼容 `Mvc` 特性验证
 
 <Tabs
-  defaultValue="kzqbb"
+  defaultValue="testdto"
   values={[
     { label: "TestDto", value: "testdto" },
     { label: "FurAppService", value: "furAppService" },
@@ -302,7 +305,7 @@ import sjyz1 from "../static/img/sjyz1.gif";
 
 ### 6.5.3 兼容 `Mvc` 复杂验证
 
-```cs {2,14-22}
+```cs {2,6,14-22}
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -378,6 +381,7 @@ import sjyz3 from "../static/img/sjyz3.gif";
 - `PositiveNumber`：正数类型
 - `NegativeNumber`：负数类型
 - `Integer`：整数类型
+- `Money`：金钱类型
 - `Date`：日期类型
 - `Time`：时间类型
 - `IDCard`：身份证类型
@@ -407,6 +411,380 @@ import sjyz3 from "../static/img/sjyz3.gif";
 
 **使用示例**
 
+<Tabs
+  defaultValue="dglx"
+  values={[
+    { label: "单个类型验证", value: "dglx" },
+    { label: "多个组合类型验证", value: "zhlx" },
+  ]}
+>
+<TabItem value="dglx">
+
+
 ```cs
+// 验证必填
 "".TryValidate(ValidationTypes.Required);   // => false
+
+// 验证中文
+"我叫 MonK".TryValidate(ValidationTypes.Chinese); // => false
+
+// 验证数值
+2.TryValidate(ValidationTypes.Numeric); // => true
+
+// 验证整数
+true.TryValidate(ValidationTypes.Integer); // => false
+
+// 验证邮箱
+"monksoul@outlook.com".TryValidate(ValidationTypes.EmailAddress); // => true
+
+// 验证负数
+2.0m.TryValidate(ValidationTypes.NegativeNumber); // => false
+
+// 自定义正则表达式验证
+"Fur".TryValidate("/^Fur$"); // => true
 ```
+
+</TabItem>
+<TabItem value="zhlx">
+
+
+```cs
+// 验证数值类型且是整数
+"20".TryValidate(ValidationTypes.Numeric, ValidationTypes.Integer); // => true
+
+// 验证时日期或时间格式
+"2020-05-20".TryValidate(ValidationLogicOptions.Or, ValidationTypes.Date, ValidationTypes.Time); // => true
+"23:45:20".TryValidate(ValidationLogicOptions.Or, ValidationTypes.Date, ValidationTypes.Time); // => true
+
+```
+
+</TabItem>
+</Tabs>
+
+
+:::tip 小知识
+
+可通过设置 `TryValidate([ValidationLogicOptions], params object[] validationTypes)` 方法的 `ValidationLogicOptions` 参数配置验证逻辑，如：**`同时成立`** 或 **`只要一个成立`** 即可验证通过
+
+:::
+
+### 6.6.3 `[DataValidate]` 特性
+
+`Fur` 还提供了 `[DataValidate]` 特性方便在模型参数中使用 `ValidationTypes` 常见验证或自定义验证。
+
+```cs {1,7,10,14,17,20}
+using Fur.DataValidation;
+
+namespace Fur.Application
+{
+    public class TestDto
+    {
+        [DataValidate(ValidationTypes.Integer)]
+        public int Id { get; set; }
+
+        [DataValidate(ValidationTypes.Numeric, ValidationTypes.Integer)]
+        public int Cost { get; set; }
+
+        [DataValidate(ValidationLogicOptions.Or, ValidationTypes.Chinese, ValidationTypes.Date)]
+        public string Name { get; set; }
+
+        // 可以和Mvc特性共存
+        [Required, DataValidate(ValidationTypes.Age)]
+        public int Age { get; set; }
+
+        [DataValidate(ValidationTypes.IDCard, ErrorMessage = "自定义身份证提示消息")]
+        public string IDCard { get; set; }
+    }
+}
+```
+
+## 6.7 `[NonValidation]` 跳过验证
+
+`Fur` 框架提供了对象模型跳过验证特性 `[NonValidation]`，支持在 `控制器`，`动作方法`，`类` 中使用。
+
+一旦贴了此特性，那么将不会执行验证操作。
+
+:::note
+
+**`[NonValidation]`** 只对对象类型有效，值类型无效。
+
+:::
+
+## 6.8 高级自定义操作
+
+### 6.8.1 自定义 `ValidationTypes` 类型
+
+除了 `Fur` 内置的验证类型以外，`Fur` 还提供了非常灵活的自定义验证类型机制。
+
+实现自定义验证类型必须遵循以下配置：
+
+- 验证类型必须时公开且时 `Enum` 枚举类型
+- 枚举类型必须贴有 `[ValidationType]` 特性
+- 枚举中每一项必须贴有 `[ValidationRegularExpression]` 特性
+
+**如**：
+
+```cs {1,6,12,18}
+using Fur.DataValidation;
+using System.Text.RegularExpressions;
+
+namespace Fur.Application
+{
+    [ValidationType]
+    public enum MyValidationTypes
+    {
+        /// <summary>
+        /// 强密码类型
+        /// </summary>
+        [ValidationRegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$", "必须须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间")]
+        StrongPassword,
+
+        /// <summary>
+        /// 以 Fur 字符串开头，忽略大小写
+        /// </summary>
+        [ValidationRegularExpression(@"^(fur).*", "默认提示：必须以Fur字符串开头，忽略大小写", RegexOptions.IgnoreCase)]
+        StartWithFurString
+    }
+}
+
+```
+
+**使用**
+
+- 手动使用
+
+```cs
+"q1w2e3".TryValidate(MyValidationTypes.StrongPassword); // => false
+
+"furos".TryValidate(MyValidationTypes.StartWithFurString); // => true
+```
+
+- `[DataValidate]` 中使用
+
+```cs
+[DataValidate(MyValidationTypes.StrongPassword)]
+public string Password { get; set; }
+```
+
+- 多个自定义类型混用
+
+```cs
+"Q1w2e3r4t5!*".TryValidate(MyValidationTypes.StrongPassword, ValidationTypes.Required); // => true
+```
+
+:::caution 特别注意
+
+自定义的验证类型也要保证名称全局唯一，也就是多个验证类型不能出现一样的名字。
+
+:::
+
+### 6.8.2 自定义 `ValidationTypes` 失败消息
+
+`Fur` 内置的 `ValidationTypes` 已有默认的失败消息：
+
+- `Required`：**The Value is required.**
+- `Numeric`：**The Value is not a numeric type.**
+- `PositiveNumber`：**The Value is not a positive number type.**
+- `NegativeNumber`：**The Value is not a negative number type.**
+- `Integer`：**The Value is not a integer type.**
+- `Money`：**The Value is not a money type.**
+- `Date`：**The Value is not a date type.**
+- `Time`：**The Value is not a time type.**
+- `IDCard`：**The Value is not a idcard type.**
+- `PostCode`：**The Value is not a postcode type.**
+- `PhoneNumber`：**The Value is not a phone number type.**
+- `Telephone`：**The Value is not a telephone type.**
+- `PhoneOrTelNumber`：**The Value is not a phone number or telephone type.**
+- `EmailAddress`：**The Value is not a email address type.**
+- `Url`：**The Value is not a url address type.**
+- `Color`：**The Value is not a color type.**
+- `Chinese`：**The Value is not a chinese type.**
+- `IPv4`：**The Value is not a IPv4 type.**
+- `IPv6`：**The Value is not a IPv6 type.**
+- `Age`：**The Value is not a age type.**
+- `ChineseName`：**The Value is not a chinese name type.**
+- `EnglishName`：**The Value is not a english name type.**
+- `Capital`：**The Value is not a capital type.**
+- `Lowercase`：**The Value is not a lowercase type.**
+- `Ascii`：**The Value is not a ascii type.**
+- `Md5`：**The Value is not a md5 type.**
+- `Zip`：**The Value is not a zip type.**
+- `Image`：**The Value is not a image type.**
+- `Document`：**The Value is not a document type.**
+- `MP3`：**The Value is not a mp3 type.**
+- `Flash`：**The Value is not a flash type.**
+- `Video`：**The Value is not a video type.**
+
+我们可以通过创建继承 `IValidationTypeErrorMessageProvider` 验证消息提供器类型，或通过 `appsettings.json` 配置。
+
+- **`IValidationTypeErrorMessageProvider` 方式**
+
+#### 创建验证错误消息提供器
+
+```cs {1,6,8-19}
+using Fur.DataValidation;
+using System.Collections.Generic;
+
+namespace Fur.Application
+{
+    public class ValidationTypeErrorMessageProvider : IValidationTypeErrorMessageProvider
+    {
+        public Dictionary<string, string> Definitions => new Dictionary<string, string>
+        {
+            // 修改内置验证类型验证失败消息
+            [nameof(ValidationTypes.Required)] = "值不能为空或Null",
+            [nameof(ValidationTypes.Numeric)] = "必须是数值类型",
+            [nameof(ValidationTypes.PositiveNumber)] = "必须是正数",
+
+            // 修改自定义类型验证失败消息
+            [nameof(MyValidationTypes.StrongPassword)] = "密码太简单了",
+            [nameof(MyValidationTypes.StartWithFurString)] = "必须以 Fur 开头",
+        };
+    }
+}
+
+```
+
+#### 注册验证消息提供器
+
+```cs {3,15} title="Fur.Web.Entry/Startup.cs"
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Fur.Web.Entry
+{
+    public class Startup
+    {
+        // Other Codes...
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddApp();
+            services.AddControllers()
+                    .AddDataValidation<ValidationTypeErrorMessageProvider>();
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            // Other Codes...
+        }
+    }
+}
+```
+
+如下图所示：
+
+import sjyz4 from "../static/img/sjyz4.png";
+
+<img src={sjyz4} />
+
+- **`appsettings.json` 方式**
+
+```json {2-11} title="Fur.Web.Entry/appsettings.json"
+{
+  "AppSettings": {
+    "ValidationErrorMessageSettings": {
+      "Definitions": [
+        ["Required", "值不能为空或Null"],
+        ["Numeric", "必须是数值类型"],
+
+        ["StrongPassword", "密码太简单了!!!"]
+      ]
+    }
+  }
+}
+```
+
+:::important
+
+`appsettings.json` 中相同的 `Key` 或覆盖 `IValidationTypeErrorMessageProvider` 提供相同 `Key` 的值。
+
+:::
+
+#### 错误消息查找优先级
+
+`DefaultErrorMessage` -> `IValidationTypeErrorMessageProvider` -> `appsettings.json` (**低 -> 高**)
+
+## 6.9 模型验证范围
+
+`Fur` 提供多种模型验证范围设置：
+
+- 全局验证（默认）
+- `[NonValidation]` 跳过验证
+- `[TypeFilter(typeof(DataValidationFilter))]` 局部验证
+- `[ApiController]` 控制器范围验证
+
+### 6.9.1 全局验证
+
+默认情况下，通过 `.AddDataValidation()` 注册数据验证服务已经启用了全局验证，如若不想启用全局验证，则传入 `false` 即可，如：`.AddDataValidation(false)`。
+
+### 6.9.2 `[NonValidation]` 跳过验证
+
+可通过 `[NonValidation]` 贴在 `控制器`，`动作方法`，`类` 中跳过全局验证或不需要验证
+
+### 6.9.3 `[TypeFilter(typeof(DataValidationFilter))]` 局部验证
+
+我们也可以无需注册 `.AddDataValidation()` 服务，直接在 `动作方法` 上贴 `[TypeFilter(typeof(DataValidationFilter))]` 可启用局部验证。如：
+
+```cs {1,3,9}
+using Fur.DataValidation;
+using Fur.DynamicApiController;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        [TypeFilter(typeof(DataValidationFilter))]
+        public TestDto Post(TestDto testDto)
+        {
+            return testDto;
+        }
+    }
+}
+```
+
+### 6.9.4 `[ApiController]` 控制器范围验证
+
+`[ApiController]` 是 `Mvc` 提供的控制器范围（含所有动作方法）的验证。
+
+```cs {1,5}
+using Microsoft.AspNetCore.Mvc;
+
+namespace Fur.Web.Entry.Controllers
+{
+    [ApiController]
+    public class MvcController : Controller
+    {
+        public IActionResult Index()
+        {
+            return View();
+        }
+    }
+}
+```
+
+## 6.10 `MiniProfiler` 查看
+
+如下图所示：
+
+import sjyz5 from "../static/img/sjyz5.png";
+
+<img src={sjyz5} />
+
+## 6.10 多语言支持
+
+文档整理中...
+
+## 6.11 验证模型提供器
+
+文档整理中...
+
+## 6.12 反馈与建议
+
+:::note 与我们交流
+
+给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+
+:::

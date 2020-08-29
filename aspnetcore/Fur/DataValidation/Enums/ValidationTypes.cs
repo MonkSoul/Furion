@@ -11,7 +11,7 @@ namespace Fur.DataValidation
         /// <summary>
         /// 非空非Null
         /// </summary>
-        [ValidationRegularExpressionAttribute(@"^[\w\W]+$", "The Value is required.")]
+        [ValidationRegularExpression(@"^[\w\W]+$", "The Value is required.")]
         Required,
 
         /// <summary>

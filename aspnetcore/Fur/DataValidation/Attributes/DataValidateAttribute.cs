@@ -13,7 +13,7 @@ namespace Fur.DataValidation
         /// </summary>
         /// <param name="validationLogic">验证逻辑</param>
         /// <param name="validationTypes"></param>
-        public DataValidateAttribute(ValidationLogics validationLogic, params object[] validationTypes)
+        public DataValidateAttribute(ValidationLogicOptions validationLogic, params object[] validationTypes)
         {
             ValidationLogic = validationLogic;
             ValidationTypes = validationTypes;
@@ -25,7 +25,7 @@ namespace Fur.DataValidation
         /// <param name="validationTypes"></param>
         public DataValidateAttribute(params object[] validationTypes)
         {
-            ValidationLogic = ValidationLogics.And;
+            ValidationLogic = ValidationLogicOptions.And;
             ValidationTypes = validationTypes;
         }
 
@@ -58,6 +58,6 @@ namespace Fur.DataValidation
         /// <summary>
         /// 验证逻辑
         /// </summary>
-        public ValidationLogics ValidationLogic { get; set; }
+        public ValidationLogicOptions ValidationLogic { get; set; }
     }
 }

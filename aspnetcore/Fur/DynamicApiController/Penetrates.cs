@@ -78,8 +78,8 @@ namespace Fur.DynamicApiController
                 // 不能是非公开、基元类型、值类型、抽象类、接口、泛型类
                 if (!type.IsPublic || type.IsPrimitive || type.IsValueType || type.IsAbstract || type.IsInterface || type.IsGenericType) return false;
 
-                // 继承 ControllerBase 或 实现 IDynamicApiController 的类型
-                if (typeof(IDynamicApiController).IsAssignableFrom(type) || typeof(ControllerBase).IsAssignableFrom(type))
+                // 继承 ControllerBase 或 实现 IDynamicApiController 的类型 或 贴了 [DynamicApiController] 特性
+                if (typeof(ControllerBase).IsAssignableFrom(type) || typeof(IDynamicApiController).IsAssignableFrom(type) || type.IsDefined(typeof(DynamicApiControllerAttribute), true))
                 {
                     // 不是能被导出忽略的接口
                     if (type.IsDefined(typeof(ApiExplorerSettingsAttribute), true) && type.GetCustomAttribute<ApiExplorerSettingsAttribute>(true).IgnoreApi) return false;
