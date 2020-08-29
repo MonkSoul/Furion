@@ -300,7 +300,7 @@ import sjyz1 from "../static/img/sjyz1.gif";
 
 <img src={sjyz1} />
 
-### 6.5.3 `Mvc` 复杂验证
+### 6.5.3 兼容 `Mvc` 复杂验证
 
 ```cs {2,14-22}
 using System.Collections.Generic;
@@ -336,9 +336,9 @@ import sjyz2 from "../static/img/sjyz2.gif";
 
 <img src={sjyz2} />
 
-## 6.6 更多例子
+## 6.6 手动验证
 
-### 6.6.2 手动验证模型
+### 6.6.1 验证模型
 
 ```cs {1,11}
 using Fur.DataValidation;
@@ -348,7 +348,7 @@ namespace Fur.Application
 {
     public class FurAppService : IDynamicApiController
     {
-        [NonVaildate] // 跳过全局验证
+        [NonValidation] // 跳过全局验证
         public DataValidationResult Post(TestDto testDto)
         {
             return testDto.TryValidate();
@@ -362,3 +362,51 @@ namespace Fur.Application
 import sjyz3 from "../static/img/sjyz3.gif";
 
 <img src={sjyz3} />
+
+:::note
+
+支持 **`Mvc`** 内置的特性验证、属性验证及复杂的 **`IValidatableObject`** 验证。
+
+:::
+
+### 6.6.2 `ValidationTypes` 常见验证
+
+`Fur` 内置了很多常用类型的数据验证，包括：
+
+- `Required`：非空、非 Null 类型
+- `Numeric`：数值类型
+- `PositiveNumber`：正数类型
+- `NegativeNumber`：负数类型
+- `Integer`：整数类型
+- `Date`：日期类型
+- `Time`：时间类型
+- `IDCard`：身份证类型
+- `PostCode`：邮编类型
+- `PhoneNumber`：手机号类型
+- `Telephone`：固话类型
+- `PhoneOrTelNumber`：手机或固话类型
+- `EmailAddress`：邮件地址类型
+- `Url`：网址类型
+- `Color`：颜色值类型
+- `Chinese`：中文类型
+- `IPv4`：IPv4 地址类型
+- `IPv6`：IPv6 地址类型
+- `Age`：年龄类型
+- `ChineseName`：中文名类型
+- `EnglishName`：英文名类型
+- `Capital`：纯大写英文类型
+- `Lowercase`：纯小写英文类型
+- `Ascii`：Ascii 类型
+- `Md5`：Md5 字符串类型
+- `Zip`：压缩包格式类型
+- `Image`：图片格式类型
+- `Document`：文档格式类型
+- `MP3`：Mp3 格式类型
+- `Flash`：Flash 格式类型
+- `Video`：视频文件格式类型
+
+**使用示例**
+
+```cs
+"".TryValidate(ValidationTypes.Required);   // => false
+```

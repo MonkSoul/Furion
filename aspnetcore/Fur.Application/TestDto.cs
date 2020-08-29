@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Fur.DataValidation;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Fur.Application
@@ -8,7 +9,7 @@ namespace Fur.Application
         [Range(10, 20, ErrorMessage = "Id 只能在 10-20 区间取值")]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "必填"), MinLength(3, ErrorMessage = "字符串长度不能少于3位")]
+        [DataValidate(ValidationLogics.Or, ValidationTypes.Chinese, ValidationTypes.Date)]
         public string Name { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

@@ -50,7 +50,7 @@ namespace Fur.DataValidation
         public static DataValidationResult TryValidateObject(object obj, bool validateAllProperties = true)
         {
             // 如果该类型贴有 [NonVaildate] 特性，则跳过验证
-            if (obj.GetType().IsDefined(typeof(NonVaildateAttribute), true))
+            if (obj.GetType().IsDefined(typeof(NonValidationAttribute), true))
                 return new DataValidationResult
                 {
                     IsVaild = true
@@ -108,6 +108,18 @@ namespace Fur.DataValidation
         /// <returns></returns>
         public static DataValidationResult TryValidateValue(object value, params object[] validationTypes)
         {
+            return TryValidateValue(value, ValidationLogics.And, validationTypes);
+        }
+
+        /// <summary>
+        /// 验证类型验证
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="validationLogics">验证方式</param>
+        /// <param name="validationTypes"></param>
+        /// <returns></returns>
+        public static DataValidationResult TryValidateValue(object value, ValidationLogics validationLogics, params object[] validationTypes)
+        {
             // 存储验证结果
             ICollection<ValidationResult> results = new List<ValidationResult>();
 
@@ -124,28 +136,40 @@ namespace Fur.DataValidation
                 };
             }
 
-            // 遍历所有验证
-            bool isAllVaild = true;
+            // 验证标识
+            bool? isVaild = null;
             foreach (var validationType in validationTypes)
             {
                 // 解析名称和正则表达式
                 var (validationName, validationRegularExpression) = GetValidationTypeRegularExpression(validationType);
 
-                // 通过正则表达式验证
-                if (!TryValidateValue(value, validationRegularExpression.RegularExpression, validationRegularExpression.RegexOptions))
+                // 验证结果
+                var vaildResult = TryValidateValue(value, validationRegularExpression.RegularExpression, validationRegularExpression.RegexOptions);
+
+                // 判断是否需要同时验证通过才通过
+                if (validationLogics == ValidationLogics.Or)
                 {
-                    isAllVaild = false;
-                    // 格式化
+                    // 只要有一个验证通过，则跳出
+                    if (vaildResult)
+                    {
+                        isVaild = true;
+                        break;
+                    }
+                }
+
+                if (!vaildResult)
+                {
+                    if (isVaild != false) isVaild = false;
+                    // 添加错误消息
                     results.Add(new ValidationResult(
                         string.Format(validationRegularExpression.ValidateFailedMessage, value, validationName)));
-                    break;
                 }
             }
 
             // 返回验证结果
             return new DataValidationResult
             {
-                IsVaild = isAllVaild,
+                IsVaild = isVaild ?? true,
                 ValidationResults = results
             };
         }

@@ -60,7 +60,7 @@ namespace Fur.DataValidation
         /// 身份证号码
         /// </summary>
         [ValidationRegularExpression(@"(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)", "The Value is not a idcard type.")]
-        IdCard,
+        IDCard,
 
         /// <summary>
         /// 邮政编码
@@ -69,10 +69,10 @@ namespace Fur.DataValidation
         PostCode,
 
         /// <summary>
-        /// 电话类型
+        /// 手机号码
         /// </summary>
         [ValidationRegularExpression(@"^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}$|16[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$|19[0-9]{9}$", "The Value is not a phone number type.")]
-        PhoneNumaber,
+        PhoneNumber,
 
         /// <summary>
         /// 固话格式
@@ -186,7 +186,7 @@ namespace Fur.DataValidation
         /// MP3 格式
         /// </summary>
         [ValidationRegularExpression(@"(.*)\.(mp3)$", "The Value is not a mp3 type.")]
-        MP3,
+        Mp3,
 
         /// <summary>
         /// Flash 格式
@@ -195,7 +195,7 @@ namespace Fur.DataValidation
         Flash,
 
         /// <summary>
-        /// 视频文件
+        /// 视频文件格式
         /// </summary>
         [ValidationRegularExpression(@"(.*)\.(rm|rmvb|wmv|avi|mp4|3gp|mkv)$", "The Value is not a video type.")]
         Video,
