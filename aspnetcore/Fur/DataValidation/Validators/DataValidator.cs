@@ -24,7 +24,7 @@ namespace Fur.DataValidation
         /// <summary>
         /// 验证类型正则表达式
         /// </summary>
-        private static readonly Dictionary<string, ValidationRegularExpressionAttribute> ValidationRegularExpressions;
+        private static readonly Dictionary<string, ValidationItemMetadataAttribute> ValidationItemMetadatas;
 
         /// <summary>
         /// 静态构造函数
@@ -35,10 +35,10 @@ namespace Fur.DataValidation
             ValidationTypes = GetValidationTypes();
 
             // 获取所有验证类型正则表达式
-            ValidationRegularExpressions = GetValidationRegularExpressions();
+            ValidationItemMetadatas = GetValidationValidationItemMetadatas();
 
             // 缓存所有正则表达式
-            GetValidationTypeRegularExpressionCached = new ConcurrentDictionary<object, (string, ValidationRegularExpressionAttribute)>();
+            GetValidationTypeValidationItemMetadataCached = new ConcurrentDictionary<object, (string, ValidationItemMetadataAttribute)>();
         }
 
         /// <summary>
@@ -97,6 +97,7 @@ namespace Fur.DataValidation
         /// <returns></returns>
         public static bool TryValidateValue(object value, string regexPattern, RegexOptions regexOptions = RegexOptions.None)
         {
+            if (value == null) Oops.Oh($"Value cannot be null.", typeof(ArgumentNullException));
             return Regex.IsMatch(value.ToString(), regexPattern, regexOptions);
         }
 
@@ -108,17 +109,17 @@ namespace Fur.DataValidation
         /// <returns></returns>
         public static DataValidationResult TryValidateValue(object value, params object[] validationTypes)
         {
-            return TryValidateValue(value, ValidationLogicOptions.And, validationTypes);
+            return TryValidateValue(value, ValidationOptions.AllOfThem, validationTypes);
         }
 
         /// <summary>
         /// 验证类型验证
         /// </summary>
         /// <param name="value"></param>
-        /// <param name="validationLogics">验证方式</param>
+        /// <param name="validationOptionss">验证方式</param>
         /// <param name="validationTypes"></param>
         /// <returns></returns>
-        public static DataValidationResult TryValidateValue(object value, ValidationLogicOptions validationLogics, params object[] validationTypes)
+        public static DataValidationResult TryValidateValue(object value, ValidationOptions validationOptionss, params object[] validationTypes)
         {
             // 存储验证结果
             ICollection<ValidationResult> results = new List<ValidationResult>();
@@ -141,13 +142,13 @@ namespace Fur.DataValidation
             foreach (var validationType in validationTypes)
             {
                 // 解析名称和正则表达式
-                var (validationName, validationRegularExpression) = GetValidationTypeRegularExpression(validationType);
+                var (validationName, validationItemMetadata) = GetValidationTypeValidationItemMetadata(validationType);
 
                 // 验证结果
-                var validResult = TryValidateValue(value, validationRegularExpression.RegularExpression, validationRegularExpression.RegexOptions);
+                var validResult = TryValidateValue(value, validationItemMetadata.RegularExpression, validationItemMetadata.RegexOptions);
 
                 // 判断是否需要同时验证通过才通过
-                if (validationLogics == ValidationLogicOptions.Or)
+                if (validationOptionss == ValidationOptions.AtLeastOne)
                 {
                     // 只要有一个验证通过，则跳出
                     if (validResult)
@@ -162,7 +163,7 @@ namespace Fur.DataValidation
                     if (isValid != false) isValid = false;
                     // 添加错误消息
                     results.Add(new ValidationResult(
-                        string.Format(validationRegularExpression.DefaultErrorMessage, value, validationName)));
+                        string.Format(validationItemMetadata.DefaultErrorMessage, value, validationName)));
                 }
             }
 
@@ -175,22 +176,22 @@ namespace Fur.DataValidation
         }
 
         /// <summary>
-        /// <see cref="GetValidationRegularExpression"/> 缓存集合
+        /// <see cref="GetValidationValidationItemMetadata"/> 缓存集合
         /// </summary>
-        private static readonly ConcurrentDictionary<object, (string, ValidationRegularExpressionAttribute)> GetValidationTypeRegularExpressionCached;
+        private static readonly ConcurrentDictionary<object, (string, ValidationItemMetadataAttribute)> GetValidationTypeValidationItemMetadataCached;
 
         /// <summary>
         /// 获取验证类型正则表达式（需要缓存）
         /// </summary>
         /// <param name="validationType"></param>
         /// <returns></returns>
-        private static (string ValidationName, ValidationRegularExpressionAttribute RegularExpression) GetValidationTypeRegularExpression(object validationType)
+        private static (string ValidationName, ValidationItemMetadataAttribute ValidationItemMetadata) GetValidationTypeValidationItemMetadata(object validationType)
         {
-            var isCached = GetValidationTypeRegularExpressionCached.TryGetValue(validationType, out (string, ValidationRegularExpressionAttribute) validation);
+            var isCached = GetValidationTypeValidationItemMetadataCached.TryGetValue(validationType, out (string, ValidationItemMetadataAttribute) validation);
             if (isCached) return validation;
 
             // 本地函数
-            static (string, ValidationRegularExpressionAttribute) Function(object validationType)
+            static (string, ValidationItemMetadataAttribute) Function(object validationType)
             {
                 // 获取验证类型
                 var type = validationType.GetType();
@@ -203,18 +204,18 @@ namespace Fur.DataValidation
                 var validationName = Enum.GetName(type, validationType);
 
                 // 判断是否配置验证正则表达式
-                if (!ValidationRegularExpressions.ContainsKey(validationName))
+                if (!ValidationItemMetadatas.ContainsKey(validationName))
                     Oops.Oh($"No ${validationName} validation type metadata exists.", typeof(InvalidOperationException));
 
-                // 获取对应的正则表达式
-                var regularExpression = ValidationRegularExpressions[validationName];
+                // 获取对应的验证选项
+                var validationItemMetadataAttribute = ValidationItemMetadatas[validationName];
 
-                return (validationName, regularExpression);
+                return (validationName, validationItemMetadataAttribute);
             }
 
             // 调用本地函数
             validation = Function(validationType);
-            GetValidationTypeRegularExpressionCached.TryAdd(validationType, validation);
+            GetValidationTypeValidationItemMetadataCached.TryAdd(validationType, validation);
             return validation;
         }
 
@@ -234,13 +235,13 @@ namespace Fur.DataValidation
         /// 获取验证类型所有有效的正则表达式
         /// </summary>
         /// <returns></returns>
-        private static Dictionary<string, ValidationRegularExpressionAttribute> GetValidationRegularExpressions()
+        private static Dictionary<string, ValidationItemMetadataAttribute> GetValidationValidationItemMetadatas()
         {
             // 自定义错误异常
             var customErrorMessages = new Dictionary<string, string>();
 
             // 加载自定义提供器异常消息
-            var validationErrorMessageProvider = App.ServiceProvider.GetService<IValidationTypeErrorMessageProvider>();
+            var validationErrorMessageProvider = App.ServiceProvider.GetService<IValidationTypeMessageProvider>();
             if (validationErrorMessageProvider != null)
             {
                 // 合并自定义验证消息
@@ -248,11 +249,11 @@ namespace Fur.DataValidation
             }
 
             // 加载配置文件配置
-            var validationErrorMessageSettings = App.GetOptions<ValidationTypeErrorMessageSettingsOptions>();
-            if (validationErrorMessageSettings is { Definitions: not null })
+            var validationTypeMessageSettings = App.GetOptions<ValidationTypeMessageSettingsOptions>();
+            if (validationTypeMessageSettings is { Definitions: not null })
             {
                 // 获取所有参数大于1的配置
-                var settingsErrorMessages = validationErrorMessageSettings.Definitions
+                var settingsErrorMessages = validationTypeMessageSettings.Definitions
                     .Where(u => u.Length > 1)
                     .ToDictionary(u => u[0].ToString(), u => u[1].ToString());
 
@@ -262,7 +263,7 @@ namespace Fur.DataValidation
 
             // 获取所有验证属性
             var validationFields = ValidationTypes.SelectMany(u => u.GetFields()
-                .Where(u => u.IsDefined(typeof(ValidationRegularExpressionAttribute))))
+                .Where(u => u.IsDefined(typeof(ValidationItemMetadataAttribute))))
                 .ToDictionary(u => u.Name, u => ReplaceValidateErrorMessage(u.Name, u, customErrorMessages));
 
             return validationFields;
@@ -274,15 +275,15 @@ namespace Fur.DataValidation
         /// <param name="name">验证唯一名称</param>
         /// <param name="type"></param>
         /// <param name="customErrorMessages"></param>
-        private static ValidationRegularExpressionAttribute ReplaceValidateErrorMessage(string name, FieldInfo field, Dictionary<string, string> customErrorMessages)
+        private static ValidationItemMetadataAttribute ReplaceValidateErrorMessage(string name, FieldInfo field, Dictionary<string, string> customErrorMessages)
         {
-            var validationRegularExpression = field.GetCustomAttribute<ValidationRegularExpressionAttribute>();
+            var validationValidationItemMetadata = field.GetCustomAttribute<ValidationItemMetadataAttribute>();
             if (customErrorMessages.ContainsKey(name))
             {
-                validationRegularExpression.DefaultErrorMessage = customErrorMessages[name];
+                validationValidationItemMetadata.DefaultErrorMessage = customErrorMessages[name];
             }
 
-            return validationRegularExpression;
+            return validationValidationItemMetadata;
         }
     }
 }

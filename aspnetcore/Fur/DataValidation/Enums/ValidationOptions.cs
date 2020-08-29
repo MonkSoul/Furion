@@ -3,16 +3,16 @@
     /// <summary>
     /// 验证逻辑
     /// </summary>
-    public enum ValidationLogicOptions
+    public enum ValidationOptions
     {
         /// <summary>
-        /// 与操作
+        /// 全部都要验证通过
         /// </summary>
-        And,
+        AllOfThem,
 
         /// <summary>
-        /// 或操作
+        /// 至少一个验证通过
         /// </summary>
-        Or
+        AtLeastOne
     }
 }

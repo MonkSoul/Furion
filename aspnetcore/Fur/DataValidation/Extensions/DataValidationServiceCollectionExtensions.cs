@@ -11,11 +11,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// 添加全局数据验证
         /// </summary>
+        /// <typeparam name="ValidationTypeMessageProvider">验证类型消息提供器</typeparam>
         /// <param name="mvcBuilder"></param>
         /// <param name="enabledGlobalDataValidationFilter">启用全局验证过滤器</param>
         /// <returns></returns>
-        public static IMvcBuilder AddDataValidation<TValidationTypeErrorMessageProvider>(this IMvcBuilder mvcBuilder, bool enabledGlobalDataValidationFilter = true)
-            where TValidationTypeErrorMessageProvider : class, IValidationTypeErrorMessageProvider
+        public static IMvcBuilder AddDataValidation<ValidationTypeMessageProvider>(this IMvcBuilder mvcBuilder, bool enabledGlobalDataValidationFilter = true)
+            where ValidationTypeMessageProvider : class, IValidationTypeMessageProvider
         {
             var services = mvcBuilder.Services;
 
@@ -23,7 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
             mvcBuilder.AddDataValidation(enabledGlobalDataValidationFilter);
 
             // 单例注册验证消息提供器
-            services.TryAddSingleton<IValidationTypeErrorMessageProvider, TValidationTypeErrorMessageProvider>();
+            services.TryAddSingleton<IValidationTypeMessageProvider, ValidationTypeMessageProvider>();
 
             return mvcBuilder;
         }
@@ -39,7 +40,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var services = mvcBuilder.Services;
 
             // 添加验证配置文件支持
-            services.AddAppOptions<ValidationTypeErrorMessageSettingsOptions>();
+            services.AddAppOptions<ValidationTypeMessageSettingsOptions>();
 
             // 判断是否启用全局
             if (enabledGlobalDataValidationFilter)

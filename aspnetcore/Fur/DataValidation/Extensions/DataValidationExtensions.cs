@@ -57,12 +57,12 @@ namespace Fur.DataValidation
         /// 拓展方法，验证单个值
         /// </summary>
         /// <param name="value">单个值</param>
-        /// <param name="validationLogics">验证逻辑</param>
+        /// <param name="validationOptionss">验证逻辑</param>
         /// <param name="validationTypes">验证类型</param>
         /// <returns></returns>
-        public static DataValidationResult TryValidate(this object value, ValidationLogicOptions validationLogics, params object[] validationTypes)
+        public static DataValidationResult TryValidate(this object value, ValidationOptions validationOptionss, params object[] validationTypes)
         {
-            return DataValidator.TryValidateValue(value, validationLogics, validationTypes);
+            return DataValidator.TryValidateValue(value, validationOptionss, validationTypes);
         }
     }
 }

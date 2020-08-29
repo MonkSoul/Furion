@@ -112,7 +112,7 @@ namespace Fur.Web.Entry.Controllers
 
 - 具备原有的 `ControllerBase` 所有功能
 - 支持**任意公开 非静态 非抽象 非泛型类**转控制器
-- 提供更加灵活方便的 `IDynamicApiController` 空接口替代 `ControllerBase` 抽象类
+- 提供更加灵活方便的 `IDynamicApiController` 空接口或 `[DynamicApiController]` 特性替代 `ControllerBase` 抽象类
 - 无需手动配置 `[HttpMethod]` 特性，同时支持一个动作方法多个 `HttpVerb`
 - 无需手动配置 `[Route]` 特性，支持更加灵活的配置及自动路由生成
 - 支持返回泛型接口，泛型类
@@ -218,7 +218,7 @@ import dyglzUrl from "../static/img/dyglz.gif";
 
 `Fur` 框架会在应用启动时注册 `DynamicApiControllerFeatureProvider` 控制器特性提供器，该提供器继承自 `ControllerFeatureProvider` 类。
 
-接着重写 `bool IsController(TypeInfo typeInfo)` 方法，用来标识控制器类型。在 `Fur` 框架中，**继承自 `ControllerBase` 类或 `IDynamicApiController` 接口都会被标记为控制器类型。**
+接着重写 `bool IsController(TypeInfo typeInfo)` 方法，用来标识控制器类型。在 `Fur` 框架中，**继承自 `ControllerBase` 类或 `IDynamicApiController` 接口或 `[DynamicApiController]` 特性都会被标记为控制器类型。**
 
 ### 3.6.2 应用模型转换器
 

@@ -4,17 +4,17 @@ using System.Text.RegularExpressions;
 namespace Fur.DataValidation
 {
     /// <summary>
-    /// 验证表达式特性
+    /// 验证项元数据
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
-    public class ValidationRegularExpressionAttribute : Attribute
+    public class ValidationItemMetadataAttribute : Attribute
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="regularExpression">正则表达式</param>
         /// <param name="defaultErrorMessage">默认验证失败类型</param>
-        public ValidationRegularExpressionAttribute(string regularExpression, string defaultErrorMessage, RegexOptions regexOptions = RegexOptions.None)
+        public ValidationItemMetadataAttribute(string regularExpression, string defaultErrorMessage, RegexOptions regexOptions = RegexOptions.None)
         {
             RegularExpression = regularExpression;
             DefaultErrorMessage = defaultErrorMessage;

@@ -182,7 +182,7 @@ public class DtoModel : IValidatableObject
 
 所以，`Fur` 提供了新的验证引擎 `DataValidation`，在完全兼容 `Mvc` 内置验证的同时提供了大量常见验证、复杂验证、自定义验证等能力。
 
-## 6.4 `DataValidation` 验证  🤗
+## 6.4 `DataValidation` 验证 🤗
 
 `DataValidation` 是 `Fur` 框架提供了全新的验证方式，完全兼容 `Mvc` 内置验证，并且赋予了超能。
 
@@ -242,7 +242,6 @@ namespace Fur.Web.Entry
 >
   <TabItem value="testdto">
 
-
 ```cs {1,7,10}
 using System.ComponentModel.DataAnnotations;
 
@@ -261,7 +260,6 @@ namespace Fur.Application
 
   </TabItem>
   <TabItem value="furAppService">
-
 
 ```cs {12,22}
 using Fur.DynamicApiController;
@@ -295,7 +293,6 @@ namespace Fur.Application
 
   </TabItem>
 </Tabs>
-
 
 如下图所示：
 
@@ -420,7 +417,6 @@ import sjyz3 from "../static/img/sjyz3.gif";
 >
 <TabItem value="dglx">
 
-
 ```cs
 // 验证必填
 "".TryValidate(ValidationTypes.Required);   // => false
@@ -447,30 +443,28 @@ true.TryValidate(ValidationTypes.Integer); // => false
 </TabItem>
 <TabItem value="zhlx">
 
-
 ```cs
 // 验证数值类型且是整数
 "20".TryValidate(ValidationTypes.Numeric, ValidationTypes.Integer); // => true
 
 // 验证时日期或时间格式
-"2020-05-20".TryValidate(ValidationLogicOptions.Or, ValidationTypes.Date, ValidationTypes.Time); // => true
-"23:45:20".TryValidate(ValidationLogicOptions.Or, ValidationTypes.Date, ValidationTypes.Time); // => true
+"2020-05-20".TryValidate(ValidationOptions.AtLeastOne, ValidationTypes.Date, ValidationTypes.Time); // => true
+"23:45:20".TryValidate(ValidationOptions.AtLeastOne, ValidationTypes.Date, ValidationTypes.Time); // => true
 
 ```
 
 </TabItem>
 </Tabs>
 
-
 :::tip 小知识
 
-可通过设置 `TryValidate([ValidationLogicOptions], params object[] validationTypes)` 方法的 `ValidationLogicOptions` 参数配置验证逻辑，如：**`同时成立`** 或 **`只要一个成立`** 即可验证通过
+可通过设置 `TryValidate([ValidationOptions], params object[] validationTypes)` 方法的 `ValidationOptions` 参数配置验证逻辑，如：**`同时成立`** 或 **`只要一个成立`** 即可验证通过
 
 :::
 
-### 6.6.3 `[DataValidate]` 特性
+### 6.6.3 `[DataValidation]` 特性
 
-`Fur` 还提供了 `[DataValidate]` 特性方便在模型参数中使用 `ValidationTypes` 常见验证或自定义验证。
+`Fur` 还提供了 `[DataValidation]` 特性方便在模型参数中使用 `ValidationTypes` 常见验证或自定义验证。
 
 ```cs {1,7,10,14,17,20}
 using Fur.DataValidation;
@@ -479,20 +473,20 @@ namespace Fur.Application
 {
     public class TestDto
     {
-        [DataValidate(ValidationTypes.Integer)]
+        [DataValidation(ValidationTypes.Integer)]
         public int Id { get; set; }
 
-        [DataValidate(ValidationTypes.Numeric, ValidationTypes.Integer)]
+        [DataValidation(ValidationTypes.Numeric, ValidationTypes.Integer)]
         public int Cost { get; set; }
 
-        [DataValidate(ValidationLogicOptions.Or, ValidationTypes.Chinese, ValidationTypes.Date)]
+        [DataValidation(ValidationOptions.AtLeastOne, ValidationTypes.Chinese, ValidationTypes.Date)]
         public string Name { get; set; }
 
         // 可以和Mvc特性共存
-        [Required, DataValidate(ValidationTypes.Age)]
+        [Required, DataValidation(ValidationTypes.Age)]
         public int Age { get; set; }
 
-        [DataValidate(ValidationTypes.IDCard, ErrorMessage = "自定义身份证提示消息")]
+        [DataValidation(ValidationTypes.IDCard, ErrorMessage = "自定义身份证提示消息")]
         public string IDCard { get; set; }
     }
 }
@@ -520,7 +514,7 @@ namespace Fur.Application
 
 - 验证类型必须时公开且时 `Enum` 枚举类型
 - 枚举类型必须贴有 `[ValidationType]` 特性
-- 枚举中每一项必须贴有 `[ValidationRegularExpression]` 特性
+- 枚举中每一项必须贴有 `[ValidationItemMetadata]` 特性
 
 **如**：
 
@@ -536,13 +530,13 @@ namespace Fur.Application
         /// <summary>
         /// 强密码类型
         /// </summary>
-        [ValidationRegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$", "必须须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间")]
+        [ValidationItemMetadata(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}$", "必须须包含大小写字母和数字的组合，不能使用特殊字符，长度在8-10之间")]
         StrongPassword,
 
         /// <summary>
         /// 以 Fur 字符串开头，忽略大小写
         /// </summary>
-        [ValidationRegularExpression(@"^(fur).*", "默认提示：必须以Fur字符串开头，忽略大小写", RegexOptions.IgnoreCase)]
+        [ValidationItemMetadata(@"^(fur).*", "默认提示：必须以Fur字符串开头，忽略大小写", RegexOptions.IgnoreCase)]
         StartWithFurString
     }
 }
@@ -559,10 +553,10 @@ namespace Fur.Application
 "furos".TryValidate(MyValidationTypes.StartWithFurString); // => true
 ```
 
-- `[DataValidate]` 中使用
+- `[DataValidation]` 中使用
 
 ```cs
-[DataValidate(MyValidationTypes.StrongPassword)]
+[DataValidation(MyValidationTypes.StrongPassword)]
 public string Password { get; set; }
 ```
 
@@ -615,9 +609,9 @@ public string Password { get; set; }
 - `Flash`：**The Value is not a flash type.**
 - `Video`：**The Value is not a video type.**
 
-我们可以通过创建继承 `IValidationTypeErrorMessageProvider` 验证消息提供器类型，或通过 `appsettings.json` 配置。
+我们可以通过创建继承 `IValidationTypeMessageProvider` 验证消息提供器类型，或通过 `appsettings.json` 配置。
 
-- **`IValidationTypeErrorMessageProvider` 方式**
+- **`IValidationTypeMessageProvider` 方式**
 
 #### 创建验证错误消息提供器
 
@@ -627,7 +621,7 @@ using System.Collections.Generic;
 
 namespace Fur.Application
 {
-    public class ValidationTypeErrorMessageProvider : IValidationTypeErrorMessageProvider
+    public class ValidationTypeMessageProvider : IValidationTypeMessageProvider
     {
         public Dictionary<string, string> Definitions => new Dictionary<string, string>
         {
@@ -662,7 +656,7 @@ namespace Fur.Web.Entry
         {
             services.AddApp();
             services.AddControllers()
-                    .AddDataValidation<ValidationTypeErrorMessageProvider>();
+                    .AddDataValidation<ValidationTypeMessageProvider>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -684,7 +678,7 @@ import sjyz4 from "../static/img/sjyz4.png";
 ```json {2-11} title="Fur.Web.Entry/appsettings.json"
 {
   "AppSettings": {
-    "ValidationErrorMessageSettings": {
+    "ValidationTypeMessageSettings": {
       "Definitions": [
         ["Required", "值不能为空或Null"],
         ["Numeric", "必须是数值类型"],
@@ -698,13 +692,13 @@ import sjyz4 from "../static/img/sjyz4.png";
 
 :::important
 
-`appsettings.json` 中相同的 `Key` 或覆盖 `IValidationTypeErrorMessageProvider` 提供相同 `Key` 的值。
+`appsettings.json` 中相同的 `Key` 或覆盖 `IValidationTypeMessageProvider` 提供相同 `Key` 的值。
 
 :::
 
 #### 错误消息查找优先级
 
-`DefaultErrorMessage` -> `IValidationTypeErrorMessageProvider` -> `appsettings.json` (**低 -> 高**)
+`DefaultErrorMessage` -> `IValidationTypeMessageProvider` -> `appsettings.json` (**低 -> 高**)
 
 ## 6.9 模型验证范围
 

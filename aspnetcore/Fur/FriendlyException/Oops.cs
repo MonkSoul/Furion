@@ -165,12 +165,12 @@ namespace Fur.FriendlyException
             var errorCodeDefinitions = new List<Type>();
 
             // 查找所有公开且是静态类且贴有 [ExceptionErrorCodes] 特性的类型
-            var errorCodeDefinitionTypes = App.Assemblies.SelectMany(u => u.GetTypes().Where(c => c.IsPublic && c.IsClass && c.IsSealed && c.IsAbstract && c.IsDefined(typeof(ExceptionErrorCodesAttribute), true)));
+            var errorCodeDefinitionTypes = App.Assemblies.SelectMany(u => u.GetTypes().Where(c => c.IsPublic && c.IsClass && c.IsSealed && c.IsAbstract && c.IsDefined(typeof(ErrorCodeTypeAttribute), true)));
             errorCodeDefinitions.AddRange(errorCodeDefinitionTypes);
 
             // 获取错误代码提供器中定义的类型
-            var exceptionErrorCodeProvider = App.ServiceProvider.GetService<IExceptionErrorCodeProvider>();
-            if (exceptionErrorCodeProvider != null) errorCodeDefinitions.AddRange(exceptionErrorCodeProvider.Definitions);
+            var errorCodeTypeProvider = App.ServiceProvider.GetService<IErrorCodeTypeProvider>();
+            if (errorCodeTypeProvider != null) errorCodeDefinitions.AddRange(errorCodeTypeProvider.Definitions);
 
             Dictionary<string, string> errorCodeMessages = null;
             if (errorCodeDefinitions.Count > 0)
@@ -180,24 +180,24 @@ namespace Fur.FriendlyException
 
                 // 解析所有错误状态码字段，该字段必须是公开的、静态的且贴有 [ExceptionMetadata] 特性
                 var errorCodesFields = errorCodeDefinitions
-                    .SelectMany(u => u.GetFields(BindingFlags.Public | BindingFlags.Static).Where(u => u.IsDefined(typeof(ExceptionMetadataAttribute))));
+                    .SelectMany(u => u.GetFields(BindingFlags.Public | BindingFlags.Static).Where(u => u.IsDefined(typeof(ErrorCodeMetadataAttribute))));
 
                 // 构建错误码和消息字典集合
                 errorCodeMessages = errorCodesFields
                    .Select(u => new
                    {
                        Key = u.GetRawConstantValue(),
-                       Value = u.GetCustomAttribute<ExceptionMetadataAttribute>().ErrorMessage
+                       Value = u.GetCustomAttribute<ErrorCodeMetadataAttribute>().ErrorMessage
                    })
                    .ToDictionary(u => u.Key.ToString(), u => u.Value);
             }
 
             // 加载配置文件状态码
-            var errorCodesSettings = App.GetOptions<ErrorCodesSettingsOptions>();
-            if (errorCodesSettings is { Definitions: not null })
+            var errorCodeMessageSettings = App.GetOptions<ErrorCodeMessageSettingsOptions>();
+            if (errorCodeMessageSettings is { Definitions: not null })
             {
                 // 获取所有参数大于1的配置
-                var fitErrorCodes = errorCodesSettings.Definitions
+                var fitErrorCodes = errorCodeMessageSettings.Definitions
                     .Where(u => u.Length > 1)
                     .ToDictionary(u => u[0].ToString(), u => FixErrorCodeSettingMessage(u));
 

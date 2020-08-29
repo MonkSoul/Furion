@@ -12,12 +12,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// 添加友好异常服务拓展服务
         /// </summary>
-        /// <typeparam name="ExceptionErrorCodeProvider">异常错误码提供器</typeparam>
+        /// <typeparam name="ErrorCodeTypeProvider">异常错误码提供器</typeparam>
         /// <param name="mvcBuilder">Mvc构建器</param>
         /// <param name="enabledGlobalExceptionFilter">是否启用全局异常过滤器</param>
         /// <returns></returns>
-        public static IMvcBuilder AddFriendlyException<ExceptionErrorCodeProvider>(this IMvcBuilder mvcBuilder, bool enabledGlobalExceptionFilter = true)
-            where ExceptionErrorCodeProvider : class, IExceptionErrorCodeProvider
+        public static IMvcBuilder AddFriendlyException<ErrorCodeTypeProvider>(this IMvcBuilder mvcBuilder, bool enabledGlobalExceptionFilter = true)
+            where ErrorCodeTypeProvider : class, IErrorCodeTypeProvider
         {
             var services = mvcBuilder.Services;
 
@@ -25,7 +25,7 @@ namespace Microsoft.Extensions.DependencyInjection
             mvcBuilder.AddFriendlyException(enabledGlobalExceptionFilter);
 
             // 单例注册异常状态码提供器
-            services.TryAddSingleton<IExceptionErrorCodeProvider, ExceptionErrorCodeProvider>();
+            services.TryAddSingleton<IErrorCodeTypeProvider, ErrorCodeTypeProvider>();
 
             return mvcBuilder;
         }
@@ -41,7 +41,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var services = mvcBuilder.Services;
 
             // 添加异常配置文件支持
-            services.AddAppOptions<ErrorCodesSettingsOptions>();
+            services.AddAppOptions<ErrorCodeMessageSettingsOptions>();
 
             // 添加全局异常过滤器
             if (enabledGlobalExceptionFilter)

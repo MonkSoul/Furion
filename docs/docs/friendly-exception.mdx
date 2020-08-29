@@ -211,19 +211,19 @@ using Fur.FriendlyException;
 
 namespace Fur.Application
 {
-    [ExceptionErrorCodes]
+    [ErrorCodeType]
     public static class ErrorCodes
     {
-        [ExceptionMetadata("{0} 不能小于 {1}")]
+        [ErrorCodeMetadata("{0} 不能小于 {1}")]
         public const int z1000 = 2000;
 
-        [ExceptionMetadata("数据不存在")]
+        [ErrorCodeMetadata("数据不存在")]
         public const int x1000 = 1000;
 
-        [ExceptionMetadata("{0} 发现 {1} 个异常", "百小僧", 2)]
+        [ErrorCodeMetadata("{0} 发现 {1} 个异常", "百小僧", 2)]
         public const string x1001 = "x1001";
 
-        [ExceptionMetadata("服务器运行异常")]
+        [ErrorCodeMetadata("服务器运行异常")]
         public const string SERVER_ERROR = "Error";
     }
 }
@@ -231,13 +231,13 @@ namespace Fur.Application
 
 :::important
 
-异常消息类必须是 `公开且是静态类`。`Fur` 框架提供了 `[ExceptionErrorCodes]` 特性和 `IExceptionErrorCodeProvider` 提供器接口来提供异常信息扫描，这里用的是 `[ExceptionErrorCodes]` 特性类。
+异常消息类必须是 `公开且是静态类`。`Fur` 框架提供了 `[ErrorCodeType]` 特性和 `IErrorCodeTypeProvider` 提供器接口来提供异常信息扫描，这里用的是 `[ErrorCodeType]` 特性类。
 
 :::
 
-### 5.6.2 关于 `[ExceptionMetadata]`
+### 5.6.2 关于 `[ErrorCodeMetadata]`
 
-`Fur` 框架提供了`[ExceptionMetadata]` 特性用来标识**常量字段**异常元数据，该特性支持传入 `消息内容` 和 `格式化参数`。最终会使用 `String.Format(消息内容，格式化参数)` 进行格式化。
+`Fur` 框架提供了`[ErrorCodeMetadata]` 特性用来标识**常量字段**异常元数据，该特性支持传入 `消息内容` 和 `格式化参数`。最终会使用 `String.Format(消息内容，格式化参数)` 进行格式化。
 
 如果消息内容中包含`格式化占位符`但未指定`格式化参数`，那么会查找异常所在方法是否贴有 `[IfException]` 特性且含有格式化参数，接着就会查找 `Oops.Oh` 中指定的 `格式化参数`。
 
@@ -287,29 +287,29 @@ using Fur.FriendlyException;
 
 namespace Fur.Application
 {
-    [ExceptionErrorCodes]
+    [ErrorCodeType]
     public static class ErrorCodes
     {
-        [ExceptionMetadata("{0} 不能小于 {1}")]
+        [ErrorCodeMetadata("{0} 不能小于 {1}")]
         public const int z1000 = 2000;
 
-        [ExceptionMetadata("数据不存在")]
+        [ErrorCodeMetadata("数据不存在")]
         public const int x1000 = 1000;
 
-        [ExceptionMetadata("{0} 发现 {1} 个异常", "百小僧", 2)]
+        [ErrorCodeMetadata("{0} 发现 {1} 个异常", "百小僧", 2)]
         public const string x1001 = "x1001";
 
-        [ExceptionMetadata("服务器运行异常")]
+        [ErrorCodeMetadata("服务器运行异常")]
         public const string SERVER_ERROR = "Error";
     }
 
-    [ExceptionErrorCodes]
+    [ErrorCodeType]
     public static class UserErrorCodes
     {
-        [ExceptionMetadata("用户数据不存在")]
+        [ErrorCodeMetadata("用户数据不存在")]
         public const int u1000 = 1000;
 
-        [ExceptionMetadata("其他异常")]
+        [ErrorCodeMetadata("其他异常")]
         public const int u1001 = 1000;
     }
 }
@@ -321,9 +321,9 @@ namespace Fur.Application
 
 :::
 
-## 5.8 `IExceptionErrorCodeProvider` 提供器
+## 5.8 `IErrorCodeTypeProvider` 提供器
 
-在 `Fur` 框架中，还提供了 `IExceptionErrorCodeProvider` 异常消息提供器接口，方便在不能贴 `[ExceptionErrorCodes]` 特性情况下使用：
+在 `Fur` 框架中，还提供了 `IErrorCodeTypeProvider` 异常消息提供器接口，方便在不能贴 `[ErrorCodeType]` 特性情况下使用：
 
 ```cs {2,6,8-11}
 using Fur.FriendlyException;
@@ -331,7 +331,7 @@ using System;
 
 namespace Fur.Application
 {
-    public class CustomExceptionErrorCodeProvider : IExceptionErrorCodeProvider
+    public class CustomErrorCodeTypeProvider : IErrorCodeTypeProvider
     {
         public Type[] Definitions => new[] {
             typeof(ErrorCodes),
@@ -341,7 +341,7 @@ namespace Fur.Application
 }
 ```
 
-使用 `IExceptionErrorCodeProvider` 方式需要在 `Startup.cs` 中注册：
+使用 `IErrorCodeTypeProvider` 方式需要在 `Startup.cs` 中注册：
 
 ```cs {3,15} title="Fur.Web.Entry/Startup.cs"
 using Microsoft.AspNetCore.Builder;
@@ -358,7 +358,7 @@ namespace Fur.Web.Entry
         {
             services.AddApp();
             services.AddControllers()
-                    .AddFriendlyException<CustomExceptionErrorCodeProvider>();
+                    .AddFriendlyException<CustomErrorCodeTypeProvider>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -371,7 +371,7 @@ namespace Fur.Web.Entry
 
 :::tip 小知识
 
-只有使用 `IExceptionErrorCodeProvider` 方式才需使用泛型方式注册。通过上面的方式注册可以同时支持 `IExceptionErrorCodeProvider` 和 `[ExceptionErrorCodes]` 方式。
+只有使用 `IErrorCodeTypeProvider` 方式才需使用泛型方式注册。通过上面的方式注册可以同时支持 `IErrorCodeTypeProvider` 和 `[ErrorCodeType]` 方式。
 
 :::
 
@@ -382,7 +382,7 @@ namespace Fur.Web.Entry
 ```json {2-9} title="Fur.Web.Entry/appsettings.json"
 {
   "AppSettings": {
-    "ErrorCodesSettings": {
+    "ErrorCodeMessageSettings": {
       "Definitions": [
         [5000, "{0} 不能小于 {1}"],
         [5001, "我叫 {0} 名字", "百小僧"],
@@ -420,7 +420,7 @@ namespace Fur.Application
 
 :::tip 小知识
 
-`[ExceptionErrorCodes]` 和 `IExceptionErrorCodeProvider` 和 `appsettings.json` 可以同时使用。
+`[ErrorCodeType]` 和 `IErrorCodeTypeProvider` 和 `appsettings.json` 可以同时使用。
 
 :::
 
@@ -439,10 +439,10 @@ namespace Fur.Application
 - 异常消息类定义
 
 ```cs {1,4}
-[ExceptionErrorCodes]
+[ErrorCodeType]
 public static class ErrorCodes
 {
-   [ExceptionMetadata("{0} 不能小于 {1}")]
+   [ErrorCodeMetadata("{0} 不能小于 {1}")]
    public const int z1000 = 2000;
 }
 ```
@@ -512,10 +512,10 @@ namespace Fur.Application
 
 ## 5.11 异常消息优先级
 
-`[ExceptionMetadata]` -> `appsettings.json` -> `[IfException]`。**（低 -> 高）**
+`[ErrorCodeMetadata]` -> `appsettings.json` -> `[IfException]`。**（低 -> 高）**
 
 - `[IfException]` 会覆盖 `appsettings.json` 定义的状态码消息。
-- `appsettings.json` 会覆盖 `[ExceptionMetadata]` 定义的消息。
+- `appsettings.json` 会覆盖 `[ErrorCodeMetadata]` 定义的消息。
 
 ## 5.12 多语言支持
 

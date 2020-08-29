@@ -6,7 +6,7 @@ namespace Fur.Application
     {
         public int Id { get; set; }
 
-        [DataValidate(ValidationLogicOptions.Or, ValidationTypes.Chinese, ValidationTypes.Date)]
+        [DataValidation(ValidationOptions.AtLeastOne, ValidationTypes.Chinese, ValidationTypes.Date)]
         public string Name { get; set; }
     }
 }

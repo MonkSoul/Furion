@@ -3,10 +3,10 @@
 namespace Fur.FriendlyException
 {
     /// <summary>
-    /// 异常代码特性
+    /// 错误代码类型特性
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
-    public sealed class ExceptionErrorCodesAttribute : Attribute
+    public sealed class ErrorCodeTypeAttribute : Attribute
     {
     }
 }
