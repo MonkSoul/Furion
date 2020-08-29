@@ -228,4 +228,137 @@ namespace Fur.Web.Entry
 
 :::
 
-### 6.5.2 第一个例子
+### 6.5.2 兼容 `Mvc` 特性验证
+
+<Tabs
+  defaultValue="kzqbb"
+  values={[
+    { label: "TestDto", value: "testdto" },
+    { label: "FurAppService", value: "furAppService" },
+  ]}
+>
+  <TabItem value="testdto">
+
+
+```cs {1,7,10}
+using System.ComponentModel.DataAnnotations;
+
+namespace Fur.Application
+{
+    public class TestDto
+    {
+        [Range(10, 20, ErrorMessage = "Id 只能在 10-20 区间取值")]
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "必填"), MinLength(3, ErrorMessage = "字符串长度不能少于3位")]
+        public string Name { get; set; }
+    }
+}
+```
+
+  </TabItem>
+  <TabItem value="furAppService">
+
+
+```cs {12,22}
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        /// <summary>
+        /// 值类型验证
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public int Get(int id)
+        {
+            return id;
+        }
+
+        /// <summary>
+        /// 对象类型验证
+        /// </summary>
+        /// <param name="testDto"></param>
+        /// <returns></returns>
+        public TestDto Post(TestDto testDto)
+        {
+            return testDto;
+        }
+    }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+
+如下图所示：
+
+import sjyz1 from "../static/img/sjyz1.gif";
+
+<img src={sjyz1} />
+
+### 6.5.3 `Mvc` 复杂验证
+
+```cs {2,14-22}
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace Fur.Application
+{
+    public class TestDto : IValidatableObject
+    {
+        [Range(10, 20, ErrorMessage = "Id 只能在 10-20 区间取值")]
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "必填"), MinLength(3, ErrorMessage = "字符串长度不能少于3位")]
+        public string Name { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (Name.StartsWith("Fur"))
+            {
+                yield return new ValidationResult(
+                    "不能以 Fur 开头"
+                    , new[] { nameof(Name) }
+                );
+            }
+        }
+    }
+}
+```
+
+如下图所示：
+
+import sjyz2 from "../static/img/sjyz2.gif";
+
+<img src={sjyz2} />
+
+## 6.6 更多例子
+
+### 6.6.2 手动验证模型
+
+```cs {1,11}
+using Fur.DataValidation;
+using Fur.DynamicApiController;
+
+namespace Fur.Application
+{
+    public class FurAppService : IDynamicApiController
+    {
+        [NonVaildate] // 跳过全局验证
+        public DataValidationResult Post(TestDto testDto)
+        {
+            return testDto.TryValidate();
+        }
+    }
+}
+```
+
+如下图所示：
+
+import sjyz3 from "../static/img/sjyz3.gif";
+
+<img src={sjyz3} />
