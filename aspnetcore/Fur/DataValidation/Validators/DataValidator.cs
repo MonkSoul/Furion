@@ -22,6 +22,11 @@ namespace Fur.DataValidation
         private static readonly IEnumerable<Type> ValidationTypes;
 
         /// <summary>
+        /// 所有验证类型
+        /// </summary>
+        private static readonly IEnumerable<Type> ValidationMessageTypes;
+
+        /// <summary>
         /// 验证类型正则表达式
         /// </summary>
         private static readonly Dictionary<string, ValidationItemMetadataAttribute> ValidationItemMetadatas;
@@ -33,6 +38,9 @@ namespace Fur.DataValidation
         {
             // 获取所有验证类型
             ValidationTypes = GetValidationTypes();
+
+            // 获取所有验证消息类型
+            ValidationMessageTypes = GetValidationMessageTypes();
 
             // 获取所有验证类型正则表达式
             ValidationItemMetadatas = GetValidationValidationItemMetadatas();
@@ -232,21 +240,40 @@ namespace Fur.DataValidation
         }
 
         /// <summary>
+        /// 获取所有验证消息类型
+        /// </summary>
+        /// <returns></returns>
+        private static IEnumerable<Type> GetValidationMessageTypes()
+        {
+            // 扫描所有公开的的枚举且贴有 [ValidationMessageType] 特性
+            var validationMessageTypes = App.Assemblies.SelectMany(a => a.GetTypes()
+                .Where(u => u.IsPublic && u.IsEnum && u.IsDefined(typeof(ValidationMessageAttribute), true)));
+            return validationMessageTypes;
+        }
+
+        /// <summary>
         /// 获取验证类型所有有效的正则表达式
         /// </summary>
         /// <returns></returns>
         private static Dictionary<string, ValidationItemMetadataAttribute> GetValidationValidationItemMetadatas()
         {
             // 自定义错误异常
-            var customErrorMessages = new Dictionary<string, string>();
+            Dictionary<string, string> customErrorMessages = null;
+
+            // 查找所有 [ValidationMessageType] 类型中的 [ValidationMessage] 消息定义
+            var validationMessageFields = ValidationMessageTypes.SelectMany(u => u.GetFields()
+                .Where(u => u.IsDefined(typeof(ValidationMessageAttribute))))
+                .ToDictionary(u => u.Name, u => u.GetCustomAttribute<ValidationMessageAttribute>().ErrorMessage);
 
             // 加载自定义提供器异常消息
             var validationErrorMessageProvider = App.ServiceProvider.GetService<IValidationTypeMessageProvider>();
             if (validationErrorMessageProvider != null)
             {
-                // 合并自定义验证消息
-                customErrorMessages = customErrorMessages.AddOrUpdate(validationErrorMessageProvider.Definitions ?? new Dictionary<string, string>());
+                customErrorMessages = validationErrorMessageProvider.Definitions;
             }
+
+            // 合并两个字典，如果有相同的Key则报错
+            customErrorMessages = validationMessageFields.Concat(customErrorMessages ?? new Dictionary<string, string>()).ToDictionary(k => k.Key, v => v.Value);
 
             // 加载配置文件配置
             var validationTypeMessageSettings = App.GetOptions<ValidationTypeMessageSettingsOptions>();
