@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <AnalysisLevel>5</AnalysisLevel>
     <Authors>百小僧/MonkSoul</Authors>
     <Company>Baiqian</Company>
     <Copyright>Baiqian</Copyright>
