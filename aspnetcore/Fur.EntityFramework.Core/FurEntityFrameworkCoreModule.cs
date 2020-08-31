@@ -1,11 +1,6 @@
-﻿using Autofac;
-
-namespace Fur.EntityFramework.Core
+﻿namespace Fur.EntityFramework.Core
 {
-    public sealed class FurEntityFrameworkCoreModule : Module
+    public sealed class FurEntityFrameworkCoreModule
     {
-        protected override void Load(ContainerBuilder builder)
-        {
-        }
     }
 }

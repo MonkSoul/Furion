@@ -1,11 +1,6 @@
-﻿using Autofac;
-
-namespace Fur.Core
+﻿namespace Fur.Core
 {
-    public sealed class FurCoreModule : Module
+    public sealed class FurCoreModule
     {
-        protected override void Load(ContainerBuilder builder)
-        {
-        }
     }
 }
