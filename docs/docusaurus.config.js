@@ -5,8 +5,8 @@ module.exports = {
   baseUrl: "/fur/",
   onBrokenLinks: "throw",
   favicon: "img/favicon.ico",
-  organizationName: "Baiqian", // Usually your GitHub org/user name.
-  projectName: "Fur", // Usually your repo name.
+  organizationName: "Baiqian",
+  projectName: "Fur",
   themeConfig: {
     prism: {
       additionalLanguages: ["powershell", "csharp"],
@@ -113,7 +113,6 @@ module.exports = {
       "@docusaurus/preset-classic",
       {
         docs: {
-          // homePageId: "introduce",
           sidebarPath: require.resolve("./sidebars.js"),
           editUrl: "https://gitee.com/monksoul/Fur/tree/alpha/docs/",
         },
