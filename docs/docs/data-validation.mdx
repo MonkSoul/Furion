@@ -242,6 +242,7 @@ namespace Fur.Web.Entry
 >
   <TabItem value="testdto">
 
+
 ```cs {1,7,10}
 using System.ComponentModel.DataAnnotations;
 
@@ -260,6 +261,7 @@ namespace Fur.Application
 
   </TabItem>
   <TabItem value="furAppService">
+
 
 ```cs {12,22}
 using Fur.DynamicApiController;
@@ -293,6 +295,7 @@ namespace Fur.Application
 
   </TabItem>
 </Tabs>
+
 
 如下图所示：
 
@@ -417,6 +420,7 @@ import sjyz3 from "../static/img/sjyz3.gif";
 >
 <TabItem value="dglx">
 
+
 ```cs
 // 验证必填
 "".TryValidate(ValidationTypes.Required);   // => false
@@ -443,6 +447,7 @@ true.TryValidate(ValidationTypes.Integer); // => false
 </TabItem>
 <TabItem value="zhlx">
 
+
 ```cs
 // 验证数值类型且是整数
 "20".TryValidate(ValidationTypes.Numeric, ValidationTypes.Integer); // => true
@@ -455,6 +460,7 @@ true.TryValidate(ValidationTypes.Integer); // => false
 
 </TabItem>
 </Tabs>
+
 
 :::tip 小知识
 
@@ -609,37 +615,60 @@ public string Password { get; set; }
 - `Flash`：**The Value is not a flash type.**
 - `Video`：**The Value is not a video type.**
 
-我们可以通过创建继承 `IValidationTypeMessageProvider` 验证消息提供器类型，或通过 `appsettings.json` 配置。
+我们可以通过创建继承 `IValidationMessageTypeProvider` 验证消息提供器类型，或通过 `appsettings.json` 配置。
 
-- **`IValidationTypeMessageProvider` 方式**
+- **`[ValidationMessageType]`** 方式
 
-#### 创建验证错误消息提供器
-
-```cs {1,6,8-19}
+```cs {5,9,12,15,19,22}
 using Fur.DataValidation;
-using System.Collections.Generic;
 
 namespace Fur.Application
 {
-    public class ValidationTypeMessageProvider : IValidationTypeMessageProvider
+    [ValidationMessageType]
+    public enum MyValidationMessageType
     {
-        public Dictionary<string, string> Definitions => new Dictionary<string, string>
-        {
-            // 修改内置验证类型验证失败消息
-            [nameof(ValidationTypes.Required)] = "值不能为空或Null",
-            [nameof(ValidationTypes.Numeric)] = "必须是数值类型",
-            [nameof(ValidationTypes.PositiveNumber)] = "必须是正数",
+        // 修改内置验证类型验证失败消息
+        [ValidationMessage("值不能为空或Null")]
+        Required,
 
-            // 修改自定义类型验证失败消息
-            [nameof(MyValidationTypes.StrongPassword)] = "密码太简单了",
-            [nameof(MyValidationTypes.StartWithFurString)] = "必须以 Fur 开头",
+        [ValidationMessage("必须是数值类型")]
+        Numeric,
+
+        [ValidationMessage("必须是正数")]
+        PositiveNumber,
+
+        // 修改自定义类型验证失败消息
+        [ValidationMessage("密码太简单了")]
+        StrongPassword,
+
+        [ValidationMessage("必须以 Fur 开头")]
+        StartWithFurString
+    }
+}
+```
+
+:::tip 小知识
+
+除了贴 `[ValidationMessageType]` 特性外，`Fur` 框架还提供了 `IValidationMessageTypeProvider` 方式查找验证消息类型，如下图所示：
+
+```cs {1,6,8-12}
+using Fur.DataValidation;
+using System;
+
+namespace Fur.Application
+{
+    public class MyValidationTypeMessageProvider : IValidationMessageTypeProvider
+    {
+        public Type[] Definitions => new[]
+        {
+            typeof(MyValidationMessageType),
+            typeof(MyValidationMessageType2)
         };
     }
 }
-
 ```
 
-#### 注册验证消息提供器
+注册验证消息提供器
 
 ```cs {3,15} title="Fur.Web.Entry/Startup.cs"
 using Microsoft.AspNetCore.Builder;
@@ -656,7 +685,7 @@ namespace Fur.Web.Entry
         {
             services.AddApp();
             services.AddControllers()
-                    .AddDataValidation<ValidationTypeMessageProvider>();
+                    .AddDataValidation<MyValidationTypeMessageProvider>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -666,6 +695,8 @@ namespace Fur.Web.Entry
     }
 }
 ```
+
+:::
 
 如下图所示：
 
@@ -692,13 +723,13 @@ import sjyz4 from "../static/img/sjyz4.png";
 
 :::important
 
-`appsettings.json` 中相同的 `Key` 或覆盖 `IValidationTypeMessageProvider` 提供相同 `Key` 的值。
+`appsettings.json` 中相同的 `Key` 或覆盖 `IValidationMessageTypeProvider` 提供相同 `Key` 的值。
 
 :::
 
 #### 错误消息查找优先级
 
-`DefaultErrorMessage` -> `IValidationTypeMessageProvider` -> `appsettings.json` (**低 -> 高**)
+`DefaultErrorMessage` -> `IValidationMessageTypeProvider` -> `appsettings.json` (**低 -> 高**)
 
 ## 6.9 模型验证范围
 
