@@ -28,8 +28,7 @@ namespace Fur.Application
 
         public void Post(TestDto testDto)
         {
-            _repository.DbContext.Add(testDto.Adapt<Test>());
-            _repository.DbContext.SaveChanges();
+            _repository.AddSaveChanges(testDto.Adapt<Test>());
         }
     }
 }

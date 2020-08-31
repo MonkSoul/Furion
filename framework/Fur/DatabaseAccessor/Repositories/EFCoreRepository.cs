@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
 using System.Data.Common;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Fur.DatabaseAccessor.Repositories
 {
@@ -44,31 +46,71 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <summary>
         /// 数据库上下文
         /// </summary>
-        public DbContext DbContext { get; }
+        public virtual DbContext DbContext { get; }
 
         /// <summary>
         /// 实体集合
         /// </summary>
-        public DbSet<TEntity> Entities { get; }
+        public virtual DbSet<TEntity> Entities { get; }
 
         /// <summary>
         /// 不跟踪的（脱轨）实体
         /// </summary>
-        public IQueryable<TEntity> DerailEntities { get; }
+        public virtual IQueryable<TEntity> DerailEntities { get; }
 
         /// <summary>
         /// 数据库操作对象
         /// </summary>
-        public DatabaseFacade Database { get; }
+        public virtual DatabaseFacade Database { get; }
 
         /// <summary>
         /// 数据库连接对象
         /// </summary>
-        public DbConnection DbConnection { get; }
+        public virtual DbConnection DbConnection { get; }
 
         /// <summary>
         /// 租户Id
         /// </summary>
-        public Guid? TenantId { get; }
+        public virtual Guid? TenantId { get; }
+
+        /// <summary>
+        /// 提交更改操作
+        /// </summary>
+        /// <returns></returns>
+        public virtual int SaveChanges()
+        {
+            return DbContext.SaveChanges();
+        }
+
+        /// <summary>
+        /// 提交更改操作
+        /// </summary>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <returns></returns>
+        public virtual int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            return DbContext.SaveChanges(acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 提交更改操作（异步）
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            return DbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 提交更改操作（异步）
+        /// </summary>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            return DbContext.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
     }
 }
