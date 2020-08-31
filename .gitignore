@@ -340,4 +340,4 @@ ASALocalRun/
 # BeatPulse healthcheck temp database 
 healthchecksdb
 
-documents/node_modules
+docs/node_modules
