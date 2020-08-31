@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -31,9 +30,9 @@ namespace Fur.DynamicApiController
         /// <summary>
         /// 构造函数
         /// </summary>
-        public DynamicApiControllerApplicationModelConvention(IOptionsMonitor<DynamicApiControllerSettingsOptions> optionsMonitor)
+        public DynamicApiControllerApplicationModelConvention()
         {
-            _lazyControllerSettings = optionsMonitor.CurrentValue;
+            _lazyControllerSettings = App.GetOptions<DynamicApiControllerSettingsOptions>();
             _nameVersionRegex = new Regex(@"V(?<version>[0-9_]+$)");
         }
 
