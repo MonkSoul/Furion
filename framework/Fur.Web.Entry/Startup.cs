@@ -1,3 +1,4 @@
+using Fur.EntityFramework.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,10 @@ namespace Fur.Web.Entry
             {
                 options.AddSpecificationDocuments();
             });
+
+            services.AddDatabaseAccessor();
+            services.AddAppDbContext<FurDbContext>(Configuration.GetConnectionString("DbConnectionString"));
+
             services.AddControllers()
                 .AddDynamicApiControllers()
                 .AddFriendlyException()

@@ -4,9 +4,9 @@ namespace Fur.Application
 {
     public class TestDto
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
-        [DataValidation(ValidationOptions.AtLeastOne, ValidationTypes.Chinese, ValidationTypes.Date)]
+        [DataValidation(ValidationTypes.Chinese)]
         public string Name { get; set; }
     }
 }
