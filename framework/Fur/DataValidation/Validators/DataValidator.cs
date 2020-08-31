@@ -251,7 +251,7 @@ namespace Fur.DataValidation
                 .ToList();
 
             // 加载自定义验证消息类型提供器
-            var validationMessageTypeProvider = App.ServiceProvider.GetService<IValidationMessageTypeProvider>();
+            var validationMessageTypeProvider = App.NewServiceProvider.GetService<IValidationMessageTypeProvider>();
             if (validationMessageTypeProvider is { Definitions: not null }) validationMessageTypes.AddRange(validationMessageTypeProvider.Definitions);
 
             return validationMessageTypes.Distinct();

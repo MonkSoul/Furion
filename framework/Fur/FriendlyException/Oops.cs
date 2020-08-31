@@ -168,7 +168,7 @@ namespace Fur.FriendlyException
                 .ToList();
 
             // 获取错误代码提供器中定义的类型
-            var errorCodeTypeProvider = App.ServiceProvider.GetService<IErrorCodeTypeProvider>();
+            var errorCodeTypeProvider = App.NewServiceProvider.GetService<IErrorCodeTypeProvider>();
             if (errorCodeTypeProvider is { Definitions: not null }) errorCodeTypes.AddRange(errorCodeTypeProvider.Definitions);
 
             return errorCodeTypes.Distinct();

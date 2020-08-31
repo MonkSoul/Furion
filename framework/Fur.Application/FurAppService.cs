@@ -23,8 +23,8 @@ namespace Fur.Application
 
         public IEnumerable<TestDto> Get()
         {
-            var a1 = App.ServiceProvider.GetRequiredService<IRepository>();
-            var b1 = App.ServiceProvider.GetRequiredService<IRepository>();
+            var a1 = App.NewServiceProvider.GetRequiredService<IRepository>();
+            var b1 = App.NewServiceProvider.GetRequiredService<IRepository>();
 
             var c1 = a1.Equals(b1); // false
 
