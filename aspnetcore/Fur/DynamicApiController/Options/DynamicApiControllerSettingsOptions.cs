@@ -1,4 +1,4 @@
-﻿using Fur.Options;
+﻿using Fur.Configurable;
 using Microsoft.Extensions.Configuration;
 using System.ComponentModel.DataAnnotations;
 

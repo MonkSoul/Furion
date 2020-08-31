@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Fur.Options
+namespace Fur.Configurable
 {
     /// <summary>
     /// 应用全局配置

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace Fur.Options
+namespace Fur.Configurable
 {
     /// <summary>
     /// 应用选项依赖接口

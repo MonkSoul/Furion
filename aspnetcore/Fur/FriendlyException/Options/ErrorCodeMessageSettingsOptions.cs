@@ -1,4 +1,4 @@
-﻿using Fur.Options;
+﻿using Fur.Configurable;
 
 namespace Fur.FriendlyException
 {

@@ -1,4 +1,4 @@
-﻿using Fur.Options;
+﻿using Fur.Configurable;
 using Microsoft.Extensions.Configuration;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System;

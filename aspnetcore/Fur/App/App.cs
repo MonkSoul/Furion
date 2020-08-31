@@ -1,4 +1,4 @@
-﻿using Fur.Options;
+﻿using Fur.Configurable;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

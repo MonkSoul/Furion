@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Fur.Options
+namespace Fur.Configurable
 {
     /// <summary>
     /// 选项配置特性
