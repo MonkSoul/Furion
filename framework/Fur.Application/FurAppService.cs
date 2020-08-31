@@ -3,6 +3,7 @@ using Fur.DatabaseAccessor.Repositories;
 using Fur.DynamicApiController;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,21 +13,24 @@ namespace Fur.Application
     {
         private readonly IRepository<Test> _testRepository;
         private readonly IRepository _repository;
+        private readonly IServiceProvider _serviceProvider;
 
         public FurAppService(
             IRepository<Test> testRepository
-            , IRepository repository)
+            , IRepository repository
+            , IServiceProvider serviceProvider)
         {
             _testRepository = testRepository;
             _repository = repository;
+            _serviceProvider = serviceProvider;
         }
 
         public IEnumerable<TestDto> Get()
         {
-            var a1 = App.NewServiceProvider.GetRequiredService<IRepository>();
-            var b1 = App.NewServiceProvider.GetRequiredService<IRepository>();
+            var a1 = _serviceProvider.GetService<IRepository>();
+            var b1 = _serviceProvider.GetService<IRepository>();
 
-            var c1 = a1.Equals(b1); // false
+            var c1 = a1.Equals(b1); // true
 
             var test1 = _repository.Get<Test>();
             var test2 = _repository.Get<Test>();
