@@ -5,8 +5,8 @@ module.exports = {
   baseUrl: "/fur/",
   onBrokenLinks: "throw",
   favicon: "img/favicon.ico",
-  organizationName: "facebook", // Usually your GitHub org/user name.
-  projectName: "docusaurus", // Usually your repo name.
+  organizationName: "Baiqian", // Usually your GitHub org/user name.
+  projectName: "Fur", // Usually your repo name.
   themeConfig: {
     prism: {
       additionalLanguages: ["powershell", "csharp"],
@@ -24,7 +24,7 @@ module.exports = {
           position: "left",
         },
         {
-          to: "docs/",
+          to: "docs",
           activeBasePath: "docs",
           label: "文档",
           position: "left",
@@ -70,11 +70,11 @@ module.exports = {
           items: [
             {
               label: "快速入门",
-              to: "docs/",
+              to: "docs",
             },
             {
               label: "文档指南",
-              to: "docs/",
+              to: "docs",
             },
           ],
         },
@@ -113,15 +113,12 @@ module.exports = {
       "@docusaurus/preset-classic",
       {
         docs: {
-          // It is recommended to set document id as docs home page (`docs/` path).
-          homePageId: "introduce",
+          // homePageId: "introduce",
           sidebarPath: require.resolve("./sidebars.js"),
-          // Please change this to your repo.
           editUrl: "https://gitee.com/monksoul/Fur/tree/alpha/docs/",
         },
         blog: {
           showReadingTime: true,
-          // Please change this to your repo.
           editUrl: "https://gitee.com/monksoul/Fur/tree/alpha/docs/",
         },
         theme: {

@@ -4,6 +4,7 @@ title: 3. 动态 WebAPI
 sidebar_label: 3. 动态 WebAPI
 ---
 
+import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
@@ -11,9 +12,7 @@ import TabItem from "@theme/TabItem";
 
 简单来说，控制器是一个承上启下的作用，根据用户输入，执行响应行为（动作方法），同时在行为中调用模型的业务逻辑，返回给用户结果（视图）。
 
-import kzqUrl from "../static/img/kzq.png";
-
-<img src={kzqUrl} />
+<img src={useBaseUrl("img/kzq.png")} />
 
 <p></p>
 
@@ -208,9 +207,7 @@ namespace Fur.Application
 
 如下图所示，一个 `WebAPI` 接口就这么生成了。
 
-import dyglzUrl from "../static/img/dyglz.gif";
-
-<img src={dyglzUrl} />
+<img src={useBaseUrl("img/dyglz.gif")} />
 
 ## 3.6 动态 `WebAPI` 原理解析
 
@@ -308,9 +305,7 @@ namespace Fur.Application
 
 如下图所示：
 
-import dgqqwcUrl from "../static/img/dgqqwc.png";
-
-<img src={dgqqwcUrl} />
+<img src={useBaseUrl("img/dgqqwc.png")} />
 
 ### 3.8.2 多个自定义动作方法
 
@@ -341,9 +336,7 @@ namespace Fur.Application
 
 如下图所示：
 
-import dzmcUrl from "../static/img/dzmc.png";
-
-<img src={dzmcUrl} />
+<img src={useBaseUrl("img/dzmc.png")} />
 
 ### 3.8.3 带参数动作方法
 
@@ -374,9 +367,7 @@ namespace Fur.Application
 
 如下图所示：
 
-import dcsffUrl from "../static/img/dcsff.gif";
-
-<img src={dcsffUrl} />
+<img src={useBaseUrl("img/dcsff.gif")} />
 
 ### 3.8.5 `GET/HEAD` 类类型参数
 
@@ -399,9 +390,7 @@ namespace Fur.Application
 
 如下图所示：
 
-import getyycsUrl from "../static/img/getyycs.png";
-
-<img src={getyycsUrl} />
+<img src={useBaseUrl("img/getyycs.png")} />
 
 但是，`GET、HEAD` 请求不支持 `From Body` 绑定。所以我们需要转换为 `Query` 查询参数。
 
@@ -456,9 +445,7 @@ namespace Fur.Application
 
 如下图所示：
 
-import modeltoqueryUrl from "../static/img/modeltoquery.png";
-
-<img src={modeltoqueryUrl} />
+<img src={useBaseUrl("img/modeltoquery.png")} />
 
 ### 3.8.6 自定义参数位置
 
@@ -499,9 +486,7 @@ namespace Fur.Application
 
 如下图所示：
 
-import cswzUrl from "../static/img/cswz.png";
-
-<img src={cswzUrl} />
+<img src={useBaseUrl("img/cswz.png")} />
 
 :::note 温馨提示
 
@@ -536,9 +521,7 @@ namespace Fur.Application
 
 如下图所示：
 
-import zdywcUrl from "../static/img/zdywc.png";
-
-<img src={zdywcUrl} />
+<img src={useBaseUrl("img/zdywc.png")} />
 
 ### 3.8.8 支持多个谓词
 
@@ -561,9 +544,7 @@ namespace Fur.Application
 
 如下图所示：
 
-import dgwcUrl from "../static/img/dgwc.png";
-
-<img src={dgwcUrl} />
+<img src={useBaseUrl("img/dgwc.png")} />
 
 :::caution 特别注意
 
@@ -574,11 +555,6 @@ import dgwcUrl from "../static/img/dgwc.png";
 ### 3.8.9 支持自定义路由
 
 支持控制器和动作方法自定义路由：
-
-import kzqrlUrl from "../static/img/kzqrl.png";
-import dzffrlUrl from "../static/img/dzffrl.png";
-import allrlUrl from "../static/img/allrl.png";
-import wcrlUrl from "../static/img/wcrl.png";
 
 <Tabs
   defaultValue="kzqrl"
@@ -611,7 +587,7 @@ namespace Fur.Application
 
 如下图所示：
 
-<img src={kzqrlUrl} />
+<img src={useBaseUrl("img/kzqrl.png")} />
 
   </TabItem>
   <TabItem value="dzffrl">
@@ -636,7 +612,7 @@ namespace Fur.Application
 
 如下图所示：
 
-<img src={dzffrlUrl} />
+<img src={useBaseUrl("img/dzffrl.png")} />
 
   </TabItem>
   <TabItem value="allrl">
@@ -662,7 +638,7 @@ namespace Fur.Application
 
 如下图所示：
 
-<img src={allrlUrl} />
+<img src={useBaseUrl("img/allrl.png")} />
 
   </TabItem>
   <TabItem value="vcrl">
@@ -688,7 +664,7 @@ namespace Fur.Application
 
 如下图所示：
 
-<img src={wcrlUrl} />
+<img src={useBaseUrl("img/wcrl.png")} />
 
   </TabItem>
 </Tabs>
@@ -735,9 +711,7 @@ namespace Fur.Application
 
 如下图所示：
 
-import dlrzhUrl from "../static/img/dlrzh.gif";
-
-<img src={dlrzhUrl} />
+<img src={useBaseUrl("img/dlrzh.gif")} />
 
 :::caution 特别注意
 
@@ -746,9 +720,6 @@ import dlrzhUrl from "../static/img/dlrzh.gif";
 :::
 
 ### 3.8.11 支持版本控制
-
-import kzqbbUrl from "../static/img/kzqbb.png";
-import dzffbbUrl from "../static/img/dzffbb.png";
 
 <Tabs
   defaultValue="kzqbb"
@@ -793,7 +764,7 @@ namespace Fur.Application
 
 如下图所示：
 
-<img src={kzqbbUrl} />
+<img src={useBaseUrl("img/kzqbb.png")} />
 
   </TabItem>
   <TabItem value="dzffbb">
@@ -825,7 +796,7 @@ namespace Fur.Application
 
 如下图所示：
 
-<img src={dzffbbUrl} />
+<img src={useBaseUrl("img/dzffbb.png")} />
 
   </TabItem>
 </Tabs>
@@ -905,9 +876,7 @@ namespace Fur.Application
 
 如下图所示：
 
-import namepzUrl from "../static/img/namepz.png";
-
-<img src={namepzUrl} />
+<img src={useBaseUrl("img/namepz.png")} />
 
 ### 3.9.3 `KeepName` 配置
 
@@ -932,9 +901,7 @@ namespace Fur.Application
 
 如下图所示：
 
-import keepnamepzUrl from "../static/img/keepnamepz.png";
-
-<img src={keepnamepzUrl} />
+<img src={useBaseUrl("img/keepnamepz.png")} />
 
 ### 3.9.4 `SplitCamelCase` 配置
 
@@ -959,9 +926,7 @@ namespace Fur.Application
 
 如下图所示：
 
-import splitnamepzUrl from "../static/img/splitnamepz.png";
-
-<img src={splitnamepzUrl} />
+<img src={useBaseUrl("img/splitnamepz.png")} />
 
 :::important 特别注意
 
@@ -991,9 +956,7 @@ namespace Fur.Application
 
 如下图所示：
 
-import keepverbpzUrl from "../static/img/keepverbpz.png";
-
-<img src={keepverbpzUrl} />
+<img src={useBaseUrl("img/keepverbpz.png")} />
 
 ### 3.9.6 `Enabled` 配置
 
@@ -1022,9 +985,7 @@ namespace Fur.Application
 
 如下图所示：
 
-import enablepzUrl from "../static/img/enablepz.png";
-
-<img src={enablepzUrl} />
+<img src={useBaseUrl("img/enablepz.png")} />
 
 ### 3.9.7 `Module` 配置
 
@@ -1049,9 +1010,7 @@ namespace Fur.Application
 
 如下图所示：
 
-import modulepzUrl from "../static/img/modulepz.png";
-
-<img src={modulepzUrl} />
+<img src={useBaseUrl("img/modulepz.png")} />
 
 ### 3.9.8 `Version` 配置
 
@@ -1077,9 +1036,7 @@ namespace Fur.Application
 
 如下图所示：
 
-import versionpzUrl from "../static/img/versionpz.png";
-
-<img src={versionpzUrl} />
+<img src={useBaseUrl("img/versionpz.png")} />
 
 ### 3.9.9 `Groups` 配置
 
@@ -1111,16 +1068,11 @@ namespace Fur.Application
 
 如下图所示：
 
-import dfzUrl from "../static/img/dfz.gif";
-
-<img src={dfzUrl} />
+<img src={useBaseUrl("img/dfz.gif")} />
 
 ### 3.9.10 `Tag` 配置
 
 `Tag` 配置主要用于配置 `Swagger` 标签分组信息及合并标签。也就是 `组中组`:
-
-import tag1Url from "../static/img/tag1.png";
-import tag2Url from "../static/img/tag2.png";
 
 <Tabs
   defaultValue="tag1"
@@ -1206,7 +1158,7 @@ namespace Fur.Application
 
 如下图所示：
 
-<img src={tag1Url} />
+<img src={useBaseUrl("img/tag1.png")} />
 
   </TabItem>
   <TabItem value="tag2">
@@ -1249,7 +1201,7 @@ namespace Fur.Application
 
 如下图所示：
 
-<img src={tag2Url} />
+<img src={useBaseUrl("img/tag2.png")} />
 
   </TabItem>
 </Tabs>

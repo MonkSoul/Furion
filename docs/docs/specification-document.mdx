@@ -4,6 +4,7 @@ title: 4. 规范化接口文档
 sidebar_label: 4. 规范化接口文档
 ---
 
+import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
@@ -133,11 +134,9 @@ namespace Fur.Web.Entry
 
 在 `Fur` 框架中，默认 `规范化文档` 地址为主机根目录，**支持自定义配置**。
 
-import swagger1 from "../static/img/swagger1.png";
-
 如下图所示：
 
-<img src={swagger1} />
+<img src={useBaseUrl("img/swagger1.png")} />
 
 ### 4.5.3 默认分组
 
@@ -181,11 +180,9 @@ namespace Fur.Application
 }
 ```
 
-import swagger2 from "../static/img/swagger2.png";
-
 如下图所示：
 
-<img src={swagger2} />
+<img src={useBaseUrl("img/swagger2.png")} />
 
 ### 4.5.5 多分组支持
 
@@ -232,15 +229,11 @@ namespace Fur.Application
 }
 ```
 
-import swagger3 from "../static/img/swagger3.gif";
-
 如下图所示：
 
-<img src={swagger3} />
+<img src={useBaseUrl("img/swagger3.gif")} />
 
 ### 4.5.6 多分组排序
-
-import swagger4 from "../static/img/swagger4.png";
 
 <Tabs
   defaultValue="fz1"
@@ -250,6 +243,7 @@ import swagger4 from "../static/img/swagger4.png";
   ]}
 >
   <TabItem value="fz1">
+
 
 **通过分组名称添加 `@整数` 进行排序**
 
@@ -286,6 +280,7 @@ namespace Fur.Application
   </TabItem>
   <TabItem value="fz2">
 
+
 **通过配置文件配置排序**
 
 ```json {2,3,4-17} title="Fur.Web.Entry/appsettings.json"
@@ -314,9 +309,10 @@ namespace Fur.Application
   </TabItem>
 </Tabs>
 
+
 如下图所示：
 
-<img src={swagger4} />
+<img src={useBaseUrl("img/swagger4.png")} />
 
 :::tip 排序说明
 
@@ -357,16 +353,11 @@ namespace Fur.Application
 
 如下图所示：
 
-import swagger5 from "../static/img/swagger5.png";
-
-<img src={swagger5} />
+<img src={useBaseUrl("img/swagger5.png")} />
 
 ### 4.5.8 组中组（标签）
 
 `Tag` 配置主要用于配置 `Swagger` 标签分组信息及合并标签。也就是 `组中组`:
-
-import tag1Url2 from "../static/img/tag1.png";
-import tag2Url2 from "../static/img/tag2.png";
 
 <Tabs
   defaultValue="tag1"
@@ -376,6 +367,7 @@ import tag2Url2 from "../static/img/tag2.png";
   ]}
 >
   <TabItem value="tag1">
+
 
 #### 未贴标签之前
 
@@ -451,10 +443,11 @@ namespace Fur.Application
 
 如下图所示：
 
-<img src={tag1Url2} />
+<img src={useBaseUrl("img/tag1.png")} />
 
   </TabItem>
   <TabItem value="tag2">
+
 
 ```cs {5,19}
 using Fur.DynamicApiController;
@@ -493,10 +486,11 @@ namespace Fur.Application
 
 如下图所示：
 
-<img src={tag2Url2} />
+<img src={useBaseUrl("img/tag2.png")} />
 
   </TabItem>
 </Tabs>
+
 
 :::tip 小知识
 
@@ -518,9 +512,7 @@ namespace Fur.Application
 
 如下图所示：
 
-import swagger6 from "../static/img/swagger6.gif";
-
-<img src={swagger6} />
+<img src={useBaseUrl("img/swagger6.gif")} />
 
 `DocExpansionState` 配置说明：
 
@@ -542,9 +534,7 @@ import swagger6 from "../static/img/swagger6.gif";
 
 如下图所示：
 
-import swagger7 from "../static/img/swagger7.png";
-
-<img src={swagger7} />
+<img src={useBaseUrl("img/swagger7.png")} />
 
 ### 4.5.11 授权控制
 
@@ -555,7 +545,7 @@ import swagger7 from "../static/img/swagger7.png";
   "AppSettings": {
     "SpecificationDocumentSettings": {
       "EnableAuthorized": true,
-      
+
       "SecurityDefinitions": [
         {
           "Id": "Bearer",
@@ -586,9 +576,7 @@ import swagger7 from "../static/img/swagger7.png";
 
 如下图所示：
 
-import swagger8 from "../static/img/swagger8.gif";
-
-<img src={swagger8} />
+<img src={useBaseUrl("img/swagger8.gif")} />
 
 ### 4.5.13 性能监视 `MiniProfiler`
 
@@ -596,9 +584,7 @@ import swagger8 from "../static/img/swagger8.gif";
 
 如下图所示：
 
-import mipr from "../static/img/mipr.png";
-
-<img src={mipr} />
+<img src={useBaseUrl("img/mipr.png")} />
 
 :::note 小提示
 
@@ -628,9 +614,7 @@ namespace Fur.Application
 
 如下图所示：
 
-import fhzlx from "../static/img/fhzlx.png";
-
-<img src={fhzlx} />
+<img src={useBaseUrl("img/fhzlx.png")} />
 
 ## 4.6 `SpecificationDocumentSettings` 配置
 

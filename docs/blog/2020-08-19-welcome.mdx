@@ -1,17 +1,17 @@
 ---
-id: welcome
+slug: welcome
 title: Fur 介绍
 author: Fur学院
 author_title: 小僧不才，略懂皮毛（Fur）
 author_url: https://gitee.com/monksoul
 author_image_url: https://s1.ax1x.com/2020/08/21/dt3vjJ.th.png
-tags: [fur, furos, .net, .net core, .net 5]
+tags: [fur, furos, .net, .netcore, .net5]
 ---
 
-import furlogoUrl from "../static/img/furlogo.png";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 <img
-  src={furlogoUrl}
+  src={useBaseUrl("img/furlogo.png")}
   height="80"
   style={{ margin: "0 auto", display: "block" }}
 />
@@ -68,9 +68,7 @@ import furlogoUrl from "../static/img/furlogo.png";
 
 ## 功能模块
 
-import furfunctions from "../static/img/furfunctions.png";
-
-<img src={furfunctions} />
+<img src={useBaseUrl("img/furfunctions.png")} />
 
 ## 环境要求
 

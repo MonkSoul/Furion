@@ -4,6 +4,7 @@ title: 2.2 选项
 sidebar_label: 2.2 选项
 ---
 
+import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
@@ -19,7 +20,7 @@ import TabItem from "@theme/TabItem";
 
 :::tip 知识导航
 
-有关配置说明可查看《[2.1 配置](./configuration.mdx)》 章节。
+有关配置说明可查看《[2.1 配置](configuration.mdx)》 章节。
 
 :::
 
@@ -150,6 +151,7 @@ services.AddApp();
 >
   <TabItem value="App.GetOptions<TOptions>(jsonKey)">
 
+
 ```cs {13-16}
 using Fur.Application;
 using Microsoft.AspNetCore.Mvc;
@@ -174,6 +176,7 @@ namespace Fur.Web.Entry.Controllers
 
   </TabItem>
   <TabItem value="依赖注入方式">
+
 
 ```cs {3,15-17,27-29,31-33,35-37}
 using Fur.Application;
@@ -224,6 +227,7 @@ namespace Fur.Web.Entry.Controllers
   
   <TabItem value="App.GetOptions<TOptions>()">
 
+
 ```cs {12-15,17-20,22-25}
 using Fur.Application;
 using Microsoft.AspNetCore.Mvc;
@@ -259,6 +263,7 @@ namespace Fur.Web.Entry.Controllers
 
   </TabItem>
 </Tabs>
+
 
 :::caution 特别注意
 
@@ -366,6 +371,7 @@ namespace Fur
 >
   <TabItem value="non-optionsettings">
 
+
 - 以 `Options` 结尾，则键名为：`AppInfo`
 
 ```cs {1}
@@ -390,7 +396,9 @@ public class AppInfoSettings : IAppOptions
 
   </TabItem>
 
+
   <TabItem value="has-optionsettings">
+
 
 - 配置了 `JsonKey` 属性，，则键名为：`AppSettings:AppInfo`
 
@@ -419,9 +427,10 @@ public class AppInfoSettings : IAppOptions
   </TabItem>
 </Tabs>
 
+
 ### `[OptionsSettings]` 配置说明
 
-- `JsonKey`：对应配置文件中的键，支持 **分层键** 字符串，参见：《[2.2 配置 - 2.1.3 分层读取数据](./configuration#如何选择读取方式)》
+- `JsonKey`：对应配置文件中的键，支持 **分层键** 字符串，参见：《[2.2 配置 - 2.1.3 分层读取数据](configuration#如何选择读取方式)》
 - `PostConfigureAll`：选项后期配置，默认 `false`。[ASP.NET Core - 选项 - 选项后期配置](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/configuration/options?view=aspnetcore-3.1#options-post-configuration)
 
 ## 2.2.6 选项验证
@@ -441,6 +450,7 @@ public class AppInfoSettings : IAppOptions
   ]}
 >
   <TabItem value="texin">
+
 
 ```cs {2,8,10,12}
 using Fur.Configurable;
@@ -462,6 +472,7 @@ namespace Fur.Application
 
   </TabItem>
   <TabItem value="fuza">
+
 
 - 自定义验证类 `AppInfoValidation` 并继承 `IValidateOptions<TOptions>` 接口，同时实现 `Validate` 方法。
 
@@ -555,6 +566,7 @@ namespace Fur.Application
 
   </TabItem>
 </Tabs>
+
 
 :::note 特别说明
 

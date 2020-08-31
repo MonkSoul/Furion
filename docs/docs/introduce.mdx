@@ -2,12 +2,13 @@
 id: introduce
 title: 介绍
 sidebar_label: 1.1 介绍
+slug: /
 ---
 
-import furlogoUrl from "../static/img/furlogo.png";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 <img
-  src={furlogoUrl}
+  src={useBaseUrl("img/furlogo.png")}
   height="80"
   style={{ margin: "0 auto", display: "block" }}
 />
@@ -62,9 +63,7 @@ import furlogoUrl from "../static/img/furlogo.png";
 
 ## 功能模块
 
-import furfunctions from "../static/img/furfunctions.png";
-
-<img src={furfunctions} />
+<img src={useBaseUrl("img/furfunctions.png")} />
 
 ## 环境要求
 
@@ -86,8 +85,6 @@ import furfunctions from "../static/img/furfunctions.png";
 
 如果你觉得 `Fur` 对你有帮助或想资助我们，可以扫描以下二维码：
 
-import skmUrl from "../static/img/skm.png";
-
-<img src={skmUrl} height="400" />
+<img src={useBaseUrl("img/skm.png")} height="400" />
 
 您的支持是我们不断改进的源动力。
