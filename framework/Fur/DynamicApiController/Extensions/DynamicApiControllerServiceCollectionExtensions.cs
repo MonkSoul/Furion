@@ -39,9 +39,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.Conventions.Add(serviceProvider.GetService<DynamicApiControllerApplicationModelConvention>());
             });
 
-            // 支持 JArray/JObject
-            mvcBuilder.AddNewtonsoftJson();
-
             return mvcBuilder;
         }
     }
