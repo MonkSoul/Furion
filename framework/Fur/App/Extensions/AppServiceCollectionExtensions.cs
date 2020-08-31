@@ -18,7 +18,6 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddApp(this IServiceCollection services, Action<IServiceCollection> configure = null)
         {
             App.Services = services;
-            var serviceProvider = App.ServiceProvider;
             services.AddAppOptions<AppSettingsOptions>();
 
             // 注册MiniProfiler 组件

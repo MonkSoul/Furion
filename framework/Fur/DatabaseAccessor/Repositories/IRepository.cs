@@ -73,4 +73,18 @@ namespace Fur.DatabaseAccessor.Repositories
         /// <returns></returns>
         Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
     }
+
+    /// <summary>
+    /// 非泛型仓储
+    /// </summary>
+    public partial interface IRepository
+    {
+        /// <summary>
+        /// 获取实体仓储
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <returns></returns>
+        IRepository<TEntity> Get<TEntity>()
+            where TEntity : class, IDbEntityBase, new();
+    }
 }

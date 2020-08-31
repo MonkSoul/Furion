@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Data.Common;
 using System.Linq;
@@ -111,6 +112,37 @@ namespace Fur.DatabaseAccessor.Repositories
         public virtual Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             return DbContext.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+    }
+
+    /// <summary>
+    /// 非泛型EF Core仓储实现
+    /// </summary>
+    public partial class EFCoreRepository : IRepository
+    {
+        /// <summary>
+        /// 服务提供器
+        /// </summary>
+        private readonly IServiceProvider _serviceProvider;
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        public EFCoreRepository(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+
+        /// <summary>
+        /// 获取实体仓储
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <returns></returns>
+        public virtual IRepository<TEntity> Get<TEntity>()
+             where TEntity : class, IDbEntityBase, new()
+        {
+            return _serviceProvider.GetService<IRepository<TEntity>>();
         }
     }
 }

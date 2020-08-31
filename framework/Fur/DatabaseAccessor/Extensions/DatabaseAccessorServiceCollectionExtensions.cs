@@ -2,6 +2,7 @@
 using Fur.DatabaseAccessor;
 using Fur.DatabaseAccessor.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -19,10 +20,13 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddDatabaseAccessor(this IServiceCollection services)
         {
             // 注册数据库上下文池
-            services.AddScoped<IDbContextPool, DbContextPool>();
+            services.TryAddScoped<IDbContextPool, DbContextPool>();
+
+            // 注册非泛型仓储
+            services.TryAddScoped<IRepository, EFCoreRepository>();
 
             // 注册泛型仓储
-            services.AddScoped(typeof(IRepository<>), typeof(EFCoreRepository<>));
+            services.TryAddScoped(typeof(IRepository<>), typeof(EFCoreRepository<>));
 
             return services;
         }

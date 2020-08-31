@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.Options;
 using StackExchange.Profiling;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -39,7 +40,7 @@ namespace Fur
         /// <summary>
         /// 服务提供器
         /// </summary>
-        public static ServiceProvider ServiceProvider { get => Services.BuildServiceProvider(); }
+        public static IServiceProvider ServiceProvider { get => Services.BuildServiceProvider(); }
 
         /// <summary>
         /// 全局配置选项

@@ -1,6 +1,5 @@
 ﻿using Fur.DynamicApiController;
 using Fur.FriendlyException;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using System;
 using System.Linq;
@@ -16,9 +15,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 添加动态接口控制器服务
         /// </summary>
         /// <param name="mvcBuilder">Mvc构建器</param>
-        /// <param name="providersOrConventions">控制器特性提供器或应用模型转换器</param>
         /// <returns>Mvc构建器</returns>
-        public static IMvcBuilder AddDynamicApiControllers(this IMvcBuilder mvcBuilder, params object[] providersOrConventions)
+        public static IMvcBuilder AddDynamicApiControllers(this IMvcBuilder mvcBuilder)
         {
             var services = mvcBuilder.Services;
             // 添加配置
@@ -28,28 +26,17 @@ namespace Microsoft.Extensions.DependencyInjection
                 ?? throw Oops.Oh($"`{nameof(AddDynamicApiControllers)}` must be invoked after `{nameof(MvcServiceCollectionExtensions.AddControllers)}`.", typeof(InvalidOperationException));
 
             // 添加控制器特性提供器
-            var providers = providersOrConventions.Where(u => typeof(IApplicationFeatureProvider).IsAssignableFrom(u.GetType()));
-            if (!providers.Any()) partManager.FeatureProviders.Add(new DynamicApiControllerFeatureProvider());
-            else
-            {
-                foreach (var provider in providers)
-                {
-                    partManager.FeatureProviders.Add(provider as IApplicationFeatureProvider);
-                }
-            }
+            partManager.FeatureProviders.Add(new DynamicApiControllerFeatureProvider());
+
+            // 注册动态 Api 控制器应用模型转换器
+            var serviceProvider = services
+                .AddSingleton<DynamicApiControllerApplicationModelConvention>()
+                .BuildServiceProvider();
 
             // 添加应用模型转换器
-            var conventions = providersOrConventions.Where(u => typeof(IApplicationModelConvention).IsAssignableFrom(u.GetType()));
             mvcBuilder.AddMvcOptions(options =>
             {
-                if (!providers.Any()) options.Conventions.Add(new DynamicApiControllerApplicationModelConvention());
-                else
-                {
-                    foreach (var convention in conventions)
-                    {
-                        options.Conventions.Add(convention as IApplicationModelConvention);
-                    }
-                }
+                options.Conventions.Add(serviceProvider.GetService<DynamicApiControllerApplicationModelConvention>());
             });
 
             // 支持 JArray/JObject
