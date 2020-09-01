@@ -223,7 +223,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity"></param>
         /// <param name="propertyNames"></param>
         /// <returns></returns>
-        public virtual EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, params string[] propertyNames)
+        public virtual EntityEntry<TEntity> UpdateInclude(TEntity entity, params string[] propertyNames)
         {
             var entityEntry = Attach(entity);
             foreach (var propertyName in propertyNames)
@@ -239,7 +239,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity"></param>
         /// <param name="propertyExpressions"></param>
         /// <returns></returns>
-        public virtual EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        public virtual EntityEntry<TEntity> UpdateInclude(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
             var entityEntry = Attach(entity);
             foreach (var propertyExpression in propertyExpressions)
@@ -255,9 +255,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity"></param>
         /// <param name="propertyNames"></param>
         /// <returns></returns>
-        public virtual EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, IEnumerable<string> propertyNames)
+        public virtual EntityEntry<TEntity> UpdateInclude(TEntity entity, IEnumerable<string> propertyNames)
         {
-            return UpdateIncludeProperties(entity, propertyNames.ToArray());
+            return UpdateInclude(entity, propertyNames.ToArray());
         }
 
         /// <summary>
@@ -266,9 +266,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity"></param>
         /// <param name="propertyExpressions"></param>
         /// <returns></returns>
-        public virtual EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions)
+        public virtual EntityEntry<TEntity> UpdateInclude(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions)
         {
-            return UpdateIncludeProperties(entity, propertyExpressions.ToArray());
+            return UpdateInclude(entity, propertyExpressions.ToArray());
         }
 
         /// <summary>
@@ -277,9 +277,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity"></param>
         /// <param name="propertyNames"></param>
         /// <returns></returns>
-        public virtual Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, params string[] propertyNames)
+        public virtual Task<EntityEntry<TEntity>> UpdateIncludeAsync(TEntity entity, params string[] propertyNames)
         {
-            return Task.FromResult(UpdateIncludeProperties(entity, propertyNames));
+            return Task.FromResult(UpdateInclude(entity, propertyNames));
         }
 
         /// <summary>
@@ -288,9 +288,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity"></param>
         /// <param name="propertyExpressions"></param>
         /// <returns></returns>
-        public virtual Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        public virtual Task<EntityEntry<TEntity>> UpdateIncludeAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
-            return Task.FromResult(UpdateIncludeProperties(entity, propertyExpressions));
+            return Task.FromResult(UpdateInclude(entity, propertyExpressions));
         }
 
         /// <summary>
@@ -299,9 +299,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity"></param>
         /// <param name="propertyNames"></param>
         /// <returns></returns>
-        public virtual Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, IEnumerable<string> propertyNames)
+        public virtual Task<EntityEntry<TEntity>> UpdateIncludeAsync(TEntity entity, IEnumerable<string> propertyNames)
         {
-            return Task.FromResult(UpdateIncludeProperties(entity, propertyNames));
+            return Task.FromResult(UpdateInclude(entity, propertyNames));
         }
 
         /// <summary>
@@ -310,9 +310,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity"></param>
         /// <param name="propertyExpressions"></param>
         /// <returns></returns>
-        public virtual Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions)
+        public virtual Task<EntityEntry<TEntity>> UpdateIncludeAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions)
         {
-            return Task.FromResult(UpdateIncludeProperties(entity, propertyExpressions));
+            return Task.FromResult(UpdateInclude(entity, propertyExpressions));
         }
 
         /// <summary>
@@ -321,9 +321,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity"></param>
         /// <param name="propertyNames"></param>
         /// <returns></returns>
-        public virtual EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, params string[] propertyNames)
+        public virtual EntityEntry<TEntity> UpdateIncludeSaveChanges(TEntity entity, params string[] propertyNames)
         {
-            var entityEntry = UpdateIncludeProperties(entity, propertyNames);
+            var entityEntry = UpdateInclude(entity, propertyNames);
             SaveChanges();
             return entityEntry;
         }
@@ -335,9 +335,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="propertyNames"></param>
         /// <returns></returns>
-        public virtual EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, bool acceptAllChangesOnSuccess, params string[] propertyNames)
+        public virtual EntityEntry<TEntity> UpdateIncludeSaveChanges(TEntity entity, bool acceptAllChangesOnSuccess, params string[] propertyNames)
         {
-            var entityEntry = UpdateIncludeProperties(entity, propertyNames);
+            var entityEntry = UpdateInclude(entity, propertyNames);
             SaveChanges(acceptAllChangesOnSuccess);
             return entityEntry;
         }
@@ -348,9 +348,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity"></param>
         /// <param name="propertyExpressions"></param>
         /// <returns></returns>
-        public virtual EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        public virtual EntityEntry<TEntity> UpdateIncludeSaveChanges(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
-            var entityEntry = UpdateIncludeProperties(entity, propertyExpressions);
+            var entityEntry = UpdateInclude(entity, propertyExpressions);
             SaveChanges();
             return entityEntry;
         }
@@ -362,9 +362,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="propertyExpressions"></param>
         /// <returns></returns>
-        public virtual EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, bool acceptAllChangesOnSuccess, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        public virtual EntityEntry<TEntity> UpdateIncludeSaveChanges(TEntity entity, bool acceptAllChangesOnSuccess, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
-            var entityEntry = UpdateIncludeProperties(entity, propertyExpressions);
+            var entityEntry = UpdateInclude(entity, propertyExpressions);
             SaveChanges(acceptAllChangesOnSuccess);
             return entityEntry;
         }
@@ -375,9 +375,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity"></param>
         /// <param name="propertyNames"></param>
         /// <returns></returns>
-        public virtual EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, IEnumerable<string> propertyNames)
+        public virtual EntityEntry<TEntity> UpdateIncludeSaveChanges(TEntity entity, IEnumerable<string> propertyNames)
         {
-            var entityEntry = UpdateIncludeProperties(entity, propertyNames);
+            var entityEntry = UpdateInclude(entity, propertyNames);
             SaveChanges();
             return entityEntry;
         }
@@ -389,9 +389,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="propertyNames"></param>
         /// <returns></returns>
-        public virtual EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, bool acceptAllChangesOnSuccess, IEnumerable<string> propertyNames)
+        public virtual EntityEntry<TEntity> UpdateIncludeSaveChanges(TEntity entity, bool acceptAllChangesOnSuccess, IEnumerable<string> propertyNames)
         {
-            var entityEntry = UpdateIncludeProperties(entity, propertyNames);
+            var entityEntry = UpdateInclude(entity, propertyNames);
             SaveChanges(acceptAllChangesOnSuccess);
             return entityEntry;
         }
@@ -402,9 +402,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity"></param>
         /// <param name="propertyExpressions"></param>
         /// <returns></returns>
-        public virtual EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions)
+        public virtual EntityEntry<TEntity> UpdateIncludeSaveChanges(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions)
         {
-            var entityEntry = UpdateIncludeProperties(entity, propertyExpressions);
+            var entityEntry = UpdateInclude(entity, propertyExpressions);
             SaveChanges();
             return entityEntry;
         }
@@ -416,9 +416,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="propertyExpressions"></param>
         /// <returns></returns>
-        public virtual EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, bool acceptAllChangesOnSuccess, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions)
+        public virtual EntityEntry<TEntity> UpdateIncludeSaveChanges(TEntity entity, bool acceptAllChangesOnSuccess, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions)
         {
-            var entityEntry = UpdateIncludeProperties(entity, propertyExpressions);
+            var entityEntry = UpdateInclude(entity, propertyExpressions);
             SaveChanges(acceptAllChangesOnSuccess);
             return entityEntry;
         }
@@ -429,9 +429,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity"></param>
         /// <param name="propertyNames"></param>
         /// <returns></returns>
-        public virtual async Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params string[] propertyNames)
+        public virtual async Task<EntityEntry<TEntity>> UpdateIncludeSaveChangesAsync(TEntity entity, params string[] propertyNames)
         {
-            var entityEntry = await UpdateIncludePropertiesAsync(entity, propertyNames);
+            var entityEntry = await UpdateIncludeAsync(entity, propertyNames);
             await SaveChangesAsync();
             return entityEntry;
         }
@@ -443,9 +443,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="propertyNames"></param>
         /// <returns></returns>
-        public virtual async Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, bool acceptAllChangesOnSuccess, params string[] propertyNames)
+        public virtual async Task<EntityEntry<TEntity>> UpdateIncludeSaveChangesAsync(TEntity entity, bool acceptAllChangesOnSuccess, params string[] propertyNames)
         {
-            var entityEntry = await UpdateIncludePropertiesAsync(entity, propertyNames);
+            var entityEntry = await UpdateIncludeAsync(entity, propertyNames);
             await SaveChangesAsync(acceptAllChangesOnSuccess);
             return entityEntry;
         }
@@ -456,9 +456,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity"></param>
         /// <param name="propertyExpressions"></param>
         /// <returns></returns>
-        public virtual async Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        public virtual async Task<EntityEntry<TEntity>> UpdateIncludeSaveChangesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
-            var entityEntry = await UpdateIncludePropertiesAsync(entity, propertyExpressions);
+            var entityEntry = await UpdateIncludeAsync(entity, propertyExpressions);
             await SaveChangesAsync();
             return entityEntry;
         }
@@ -470,9 +470,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="propertyExpressions"></param>
         /// <returns></returns>
-        public virtual async Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, bool acceptAllChangesOnSuccess, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        public virtual async Task<EntityEntry<TEntity>> UpdateIncludeSaveChangesAsync(TEntity entity, bool acceptAllChangesOnSuccess, params Expression<Func<TEntity, object>>[] propertyExpressions)
         {
-            var entityEntry = await UpdateIncludePropertiesAsync(entity, propertyExpressions);
+            var entityEntry = await UpdateIncludeAsync(entity, propertyExpressions);
             await SaveChangesAsync(acceptAllChangesOnSuccess);
             return entityEntry;
         }
@@ -484,9 +484,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual async Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
+        public virtual async Task<EntityEntry<TEntity>> UpdateIncludeSaveChangesAsync(TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
         {
-            var entityEntry = await UpdateIncludePropertiesAsync(entity, propertyNames);
+            var entityEntry = await UpdateIncludeAsync(entity, propertyNames);
             await SaveChangesAsync(cancellationToken);
             return entityEntry;
         }
@@ -499,9 +499,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual async Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        public virtual async Task<EntityEntry<TEntity>> UpdateIncludeSaveChangesAsync(TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
-            var entityEntry = await UpdateIncludePropertiesAsync(entity, propertyNames);
+            var entityEntry = await UpdateIncludeAsync(entity, propertyNames);
             await SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
             return entityEntry;
         }
@@ -513,9 +513,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyExpressions"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual async Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions, CancellationToken cancellationToken = default)
+        public virtual async Task<EntityEntry<TEntity>> UpdateIncludeSaveChangesAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions, CancellationToken cancellationToken = default)
         {
-            var entityEntry = await UpdateIncludePropertiesAsync(entity, propertyExpressions);
+            var entityEntry = await UpdateIncludeAsync(entity, propertyExpressions);
             await SaveChangesAsync(cancellationToken);
             return entityEntry;
         }
@@ -528,9 +528,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual async Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        public virtual async Task<EntityEntry<TEntity>> UpdateIncludeSaveChangesAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
-            var entityEntry = await UpdateIncludePropertiesAsync(entity, propertyExpressions);
+            var entityEntry = await UpdateIncludeAsync(entity, propertyExpressions);
             await SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
             return entityEntry;
         }

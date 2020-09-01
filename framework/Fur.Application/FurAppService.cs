@@ -53,7 +53,7 @@ namespace Fur.Application
 
         public void Update(TestDto testDto)
         {
-            _testRepository.UpdateIncludePropertiesSaveChanges(testDto.Adapt<Test>(), u => u.Name);
+            _testRepository.UpdateIncludeSaveChanges(testDto.Adapt<Test>(), u => u.Name, u => u.Age);
         }
     }
 }
