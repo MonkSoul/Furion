@@ -6,6 +6,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -76,7 +77,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        EntityEntry Entry(TEntity entity);
+        EntityEntry<TEntity> Entry(TEntity entity);
 
         /// <summary>
         /// 获取实体状态
@@ -91,6 +92,31 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity"></param>
         /// <returns></returns>
         EntityState EntityEntryState(TEntity entity);
+
+        /// <summary>
+        /// 实体属性条目
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        PropertyEntry EntityPropertyEntry(object entity, string propertyName);
+
+        /// <summary>
+        /// 实体属性条目
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyName"></param>
+        /// <returns></returns>
+        PropertyEntry EntityPropertyEntry(TEntity entity, string propertyName);
+
+        /// <summary>
+        /// 实体属性条目
+        /// </summary>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpression"></param>
+        /// <returns></returns>
+        PropertyEntry<TEntity, TProperty> EntityPropertyEntry<TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> propertyExpression);
 
         /// <summary>
         /// 判断是否被附加
