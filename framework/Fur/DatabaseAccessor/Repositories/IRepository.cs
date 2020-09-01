@@ -16,7 +16,7 @@ namespace Fur.DatabaseAccessor
     /// 仓储接口
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public partial interface IRepository<TEntity> : IWritableRepository<TEntity>
+    public partial interface IRepository<TEntity> : IWritableRepository<TEntity>, IReadableRepository<TEntity>
         where TEntity : class, IDbEntityBase, new()
     {
         /// <summary>
