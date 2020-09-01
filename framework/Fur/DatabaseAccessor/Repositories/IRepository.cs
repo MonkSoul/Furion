@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Threading;
@@ -41,9 +43,51 @@ namespace Fur.DatabaseAccessor
         DbConnection DbConnection { get; }
 
         /// <summary>
+        /// 实体追综器
+        /// </summary>
+        ChangeTracker ChangeTracker { get; }
+
+        /// <summary>
         /// 租户Id
         /// </summary>
         Guid? TenantId { get; }
+
+        /// <summary>
+        /// 判断上下文是否更改
+        /// </summary>
+        /// <returns></returns>
+        bool HasChanges();
+
+        /// <summary>
+        /// 接受所有更改
+        /// </summary>
+        void AcceptAllChanges();
+
+        /// <summary>
+        /// 附加实体
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        EntityEntry Attach(object entity);
+
+        /// <summary>
+        /// 附加实体
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        EntityEntry<TEntity> Attach(TEntity entity);
+
+        /// <summary>
+        /// 附加多个实体
+        /// </summary>
+        /// <param name="entities"></param>
+        void AttachRange(params object[] entities);
+
+        /// <summary>
+        /// 附加多个实体
+        /// </summary>
+        /// <param name="entities"></param>
+        void AttachRange(IEnumerable<TEntity> entities);
 
         /// <summary>
         /// 提交更改操作

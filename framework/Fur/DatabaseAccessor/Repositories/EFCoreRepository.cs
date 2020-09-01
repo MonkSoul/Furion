@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Threading;
@@ -38,6 +40,7 @@ namespace Fur.DatabaseAccessor
             DbContext = dbContext;
             Database = dbContext.Database;
             DbConnection = Database.GetDbConnection();
+            ChangeTracker = dbContext.ChangeTracker;
 
             //初始化实体
             Entities = dbContext.Set<TEntity>();
@@ -70,9 +73,69 @@ namespace Fur.DatabaseAccessor
         public virtual DbConnection DbConnection { get; }
 
         /// <summary>
+        /// 实体追综器
+        /// </summary>
+        public virtual ChangeTracker ChangeTracker { get; }
+
+        /// <summary>
         /// 租户Id
         /// </summary>
         public virtual Guid? TenantId { get; }
+
+        /// <summary>
+        /// 判断上下文是否更改
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool HasChanges()
+        {
+            return ChangeTracker.HasChanges();
+        }
+
+        /// <summary>
+        /// 接受所有更改
+        /// </summary>
+        public virtual void AcceptAllChanges()
+        {
+            ChangeTracker.AcceptAllChanges();
+        }
+
+        /// <summary>
+        /// 附加实体
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public virtual EntityEntry Attach(object entity)
+        {
+            return DbContext.Attach(entity);
+        }
+
+        /// <summary>
+        /// 附加实体
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public virtual EntityEntry<TEntity> Attach(TEntity entity)
+        {
+            return DbContext.Attach(entity);
+        }
+
+        /// <summary>
+        /// 附加多个实体
+        /// </summary>
+        /// <param name="entities"></param>
+        public virtual void AttachRange(params object[] entities)
+        {
+            DbContext.AttachRange(entities);
+        }
+
+        /// <summary>
+        /// 附加多个实体
+        /// </summary>
+        /// <param name="entities"></param>
+        public virtual void AttachRange(IEnumerable<TEntity> entities)
+        {
+            DbContext.AttachRange(entities);
+        }
 
         /// <summary>
         /// 提交更改操作
