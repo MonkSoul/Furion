@@ -1,5 +1,5 @@
 ﻿using Fur.Core;
-using Fur.DatabaseAccessor.Repositories;
+using Fur.DatabaseAccessor;
 using Fur.DynamicApiController;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;

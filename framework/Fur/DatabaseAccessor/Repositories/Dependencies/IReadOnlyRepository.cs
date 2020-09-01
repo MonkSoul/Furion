@@ -1,4 +1,4 @@
-﻿namespace Fur.DatabaseAccessor.Repositories
+﻿namespace Fur.DatabaseAccessor
 {
     /// <summary>
     /// 只读仓储

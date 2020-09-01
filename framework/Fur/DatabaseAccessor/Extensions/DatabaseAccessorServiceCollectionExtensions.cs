@@ -1,6 +1,5 @@
 ﻿using Fur;
 using Fur.DatabaseAccessor;
-using Fur.DatabaseAccessor.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;

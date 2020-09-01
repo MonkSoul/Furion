@@ -6,141 +6,140 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 可插入的仓储接口
+    /// 可更新的仓储
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public partial interface IInsertableRepository<TEntity>
+    public partial interface IUpdateableRepository<TEntity>
         where TEntity : class, IDbEntityBase, new()
     {
         /// <summary>
-        /// 新增实体
+        /// 更新实体
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        EntityEntry<TEntity> Add(TEntity entity);
+        EntityEntry<TEntity> Update(TEntity entity);
 
         /// <summary>
-        /// 新增多个实体
+        /// 更新多个实体
         /// </summary>
         /// <param name="entities"></param>
-        void AddRange(params TEntity[] entities);
+        void UpdateRange(params TEntity[] entities);
 
         /// <summary>
-        /// 新增多个实体
+        /// 更新多个实体
         /// </summary>
         /// <param name="entities"></param>
-        void AddRange(IEnumerable<TEntity> entities);
+        void UpdateRange(IEnumerable<TEntity> entities);
 
         /// <summary>
-        /// 新增实体（异步）
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<EntityEntry<TEntity>> AddAsync(TEntity entity, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 新增多个实体（异步）
+        /// 更新实体（异步）
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task AddRangeAsync(params TEntity[] entities);
+        Task<EntityEntry<TEntity>> UpdateAsync(TEntity entity);
 
         /// <summary>
-        /// 新增多个实体（异步）
+        /// 更新多个实体（异步）
         /// </summary>
         /// <param name="entities"></param>
-        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
+        Task UpdateRangeAsync(params TEntity[] entities);
 
         /// <summary>
-        /// 新增并提交更改
+        /// 更新多个实体（异步）
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <returns></returns>
+        Task UpdateRangeAsync(IEnumerable<TEntity> entities);
+
+        /// <summary>
+        /// 更新实体并立即保存
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        EntityEntry<TEntity> AddSaveChanges(TEntity entity);
+        EntityEntry<TEntity> UpdateSaveChanges(TEntity entity);
 
         /// <summary>
-        /// 新增并提交更改
+        /// 更新实体并立即保存
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <returns></returns>
-        EntityEntry<TEntity> AddSaveChanges(TEntity entity, bool acceptAllChangesOnSuccess);
+        EntityEntry<TEntity> UpdateSaveChanges(TEntity entity, bool acceptAllChangesOnSuccess);
 
         /// <summary>
-        /// 新增多个实体
+        /// 更新多个实体并立即保存
         /// </summary>
         /// <param name="entities"></param>
-        void AddRangeSaveChanges(params TEntity[] entities);
+        void UpdateRangeSaveChanges(params TEntity[] entities);
 
         /// <summary>
-        /// 新增多个实体
+        /// 更新多个实体并立即保存
         /// </summary>
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="entities"></param>
-        void AddRangeSaveChanges(bool acceptAllChangesOnSuccess, params TEntity[] entities);
+        void UpdateRangeSaveChanges(bool acceptAllChangesOnSuccess, params TEntity[] entities);
 
         /// <summary>
-        /// 新增多个实体
+        /// 更新多个实体并立即保存
         /// </summary>
         /// <param name="entities"></param>
-        void AddRangeSaveChanges(IEnumerable<TEntity> entities);
+        void UpdateRangeSaveChanges(IEnumerable<TEntity> entities);
 
         /// <summary>
-        /// 新增多个实体
+        /// 更新多个实体并立即保存
         /// </summary>
         /// <param name="entities"></param>
         /// <param name="acceptAllChangesOnSuccess"></param>
-        void AddRangeSaveChanges(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess);
+        void UpdateRangeSaveChanges(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess);
 
         /// <summary>
-        ///  新增并提交更改（异步）
+        /// 更新实体并立即保存（异步）
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<EntityEntry<TEntity>> AddSaveChangesAsync(TEntity entity, CancellationToken cancellationToken = default);
+        Task<EntityEntry<TEntity>> UpdateSaveChangesAsync(TEntity entity, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 新增并提交更改（异步）
+        /// 更新实体并立即保存（异步）
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<EntityEntry<TEntity>> AddSaveChangesAsync(TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
-
-        // <summary>
-        /// 新增多个实体（异步）
-        /// </summary>
-        /// <param name="entities"></param>
-        Task AddRangeSaveChangesAsync(params TEntity[] entities);
+        Task<EntityEntry<TEntity>> UpdateSaveChangesAsync(TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 新增多个实体并提交更改（异步）
+        /// 更新多个实体并立即保存（异步）
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <returns></returns>
+        Task UpdateRangeSaveChangesAsync(params TEntity[] entities);
+
+        /// <summary>
+        /// 更新多个实体并立即保存（异步）
         /// </summary>
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="entities"></param>
         /// <returns></returns>
-        Task AddRangeSaveChangesAsync(bool acceptAllChangesOnSuccess, params TEntity[] entities);
+        Task UpdateRangeSaveChangesAsync(bool acceptAllChangesOnSuccess, params TEntity[] entities);
 
         /// <summary>
-        /// 新增多个实体并提交更改（异步）
+        /// 更新多个实体并立即保存（异步）
         /// </summary>
         /// <param name="entities"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task AddRangeSaveChangesAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
+        Task UpdateRangeSaveChangesAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 新增多个实体并提交更改（异步）
+        /// 更新多个实体并立即保存（异步）
         /// </summary>
         /// <param name="entities"></param>
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task AddRangeSaveChangesAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+        Task UpdateRangeSaveChangesAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
     }
 }

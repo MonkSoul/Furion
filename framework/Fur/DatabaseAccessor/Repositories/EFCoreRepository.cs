@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Fur.DatabaseAccessor.Repositories
+namespace Fur.DatabaseAccessor
 {
     /// <summary>
     /// EF Core仓储实现

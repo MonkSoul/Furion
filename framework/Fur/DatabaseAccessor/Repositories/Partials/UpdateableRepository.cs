@@ -9,208 +9,208 @@ namespace Fur.DatabaseAccessor
     /// 可插入的仓储分部类
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public partial class EFCoreRepository<TEntity> : IRepository<TEntity>, IInsertableRepository<TEntity>
+    public partial class EFCoreRepository<TEntity> : IRepository<TEntity>, IUpdateableRepository<TEntity>
          where TEntity : class, IDbEntityBase, new()
     {
         /// <summary>
-        /// 新增实体
+        /// 更新实体
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public virtual EntityEntry<TEntity> Add(TEntity entity)
+        public virtual EntityEntry<TEntity> Update(TEntity entity)
         {
-            return Entities.Add(entity);
+            return Entities.Update(entity);
         }
 
         /// <summary>
-        /// 新增多个实体
+        /// 更新多个实体
         /// </summary>
         /// <param name="entities"></param>
-        public virtual void AddRange(params TEntity[] entities)
+        public virtual void UpdateRange(params TEntity[] entities)
         {
-            Entities.AddRange(entities);
+            Entities.UpdateRange(entities);
         }
 
         /// <summary>
-        /// 新增多个实体
+        /// 更新多个实体
         /// </summary>
         /// <param name="entities"></param>
-        public virtual void AddRange(IEnumerable<TEntity> entities)
+        public virtual void UpdateRange(IEnumerable<TEntity> entities)
         {
-            Entities.AddRange(entities);
+            Entities.UpdateRange(entities);
         }
 
         /// <summary>
-        /// 新增实体（异步）
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public virtual async Task<EntityEntry<TEntity>> AddAsync(TEntity entity, CancellationToken cancellationToken = default)
-        {
-            var entityEntry = await Entities.AddAsync(entity, cancellationToken);
-            return entityEntry;
-        }
-
-        /// <summary>
-        /// 新增多个实体（异步）
+        /// 更新实体（异步）
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public virtual Task AddRangeAsync(params TEntity[] entities)
+        public virtual Task<EntityEntry<TEntity>> UpdateAsync(TEntity entity)
         {
-            return Entities.AddRangeAsync(entities);
+            return Task.FromResult(Entities.Update(entity));
         }
 
         /// <summary>
-        /// 新增多个实体（异步）
+        /// 更新多个实体（异步）
         /// </summary>
         /// <param name="entities"></param>
-        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+        public virtual Task UpdateRangeAsync(params TEntity[] entities)
         {
-            return Entities.AddRangeAsync(entities, cancellationToken);
+            Entities.UpdateRange(entities);
+            return Task.CompletedTask;
         }
 
         /// <summary>
-        /// 新增并提交更改
+        /// 更新多个实体（异步）
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <returns></returns>
+        public virtual Task UpdateRangeAsync(IEnumerable<TEntity> entities)
+        {
+            Entities.UpdateRange(entities);
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// 更新实体并立即保存
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public virtual EntityEntry<TEntity> AddSaveChanges(TEntity entity)
+        public virtual EntityEntry<TEntity> UpdateSaveChanges(TEntity entity)
         {
-            var entityEntry = Add(entity);
+            var entityEntry = Update(entity);
             SaveChanges();
             return entityEntry;
         }
 
         /// <summary>
-        /// 新增并提交更改
+        /// 更新实体并立即保存
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <returns></returns>
-        public virtual EntityEntry<TEntity> AddSaveChanges(TEntity entity, bool acceptAllChangesOnSuccess)
+        public virtual EntityEntry<TEntity> UpdateSaveChanges(TEntity entity, bool acceptAllChangesOnSuccess)
         {
-            var entityEntry = Add(entity);
+            var entityEntry = Update(entity);
             SaveChanges(acceptAllChangesOnSuccess);
             return entityEntry;
         }
 
         /// <summary>
-        /// 新增多个实体
+        /// 更新多个实体并立即保存
         /// </summary>
         /// <param name="entities"></param>
-        public virtual void AddRangeSaveChanges(params TEntity[] entities)
+        public virtual void UpdateRangeSaveChanges(params TEntity[] entities)
         {
-            AddRange(entities);
+            UpdateRange(entities);
             SaveChanges();
         }
 
         /// <summary>
-        /// 新增多个实体
+        /// 更新多个实体并立即保存
         /// </summary>
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="entities"></param>
-        public virtual void AddRangeSaveChanges(bool acceptAllChangesOnSuccess, params TEntity[] entities)
+        public virtual void UpdateRangeSaveChanges(bool acceptAllChangesOnSuccess, params TEntity[] entities)
         {
-            AddRange(entities);
+            UpdateRange(entities);
             SaveChanges(acceptAllChangesOnSuccess);
         }
 
         /// <summary>
-        /// 新增多个实体
+        /// 更新多个实体并立即保存
         /// </summary>
         /// <param name="entities"></param>
-        public virtual void AddRangeSaveChanges(IEnumerable<TEntity> entities)
+        public virtual void UpdateRangeSaveChanges(IEnumerable<TEntity> entities)
         {
-            AddRange(entities);
+            UpdateRange(entities);
             SaveChanges();
         }
 
         /// <summary>
-        /// 新增多个实体
+        /// 更新多个实体并立即保存
         /// </summary>
         /// <param name="entities"></param>
         /// <param name="acceptAllChangesOnSuccess"></param>
-        public virtual void AddRangeSaveChanges(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess)
+        public virtual void UpdateRangeSaveChanges(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess)
         {
-            AddRange(entities);
+            UpdateRange(entities);
             SaveChanges(acceptAllChangesOnSuccess);
         }
 
         /// <summary>
-        ///  新增并提交更改（异步）
+        /// 更新实体并立即保存（异步）
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual async Task<EntityEntry<TEntity>> AddSaveChangesAsync(TEntity entity, CancellationToken cancellationToken = default)
+        public virtual async Task<EntityEntry<TEntity>> UpdateSaveChangesAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
-            var entityEntry = await AddAsync(entity, cancellationToken);
+            var entityEntry = await UpdateAsync(entity);
             await SaveChangesAsync(cancellationToken);
             return entityEntry;
         }
 
         /// <summary>
-        /// 新增并提交更改（异步）
+        /// 更新实体并立即保存（异步）
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual async Task<EntityEntry<TEntity>> AddSaveChangesAsync(TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        public virtual async Task<EntityEntry<TEntity>> UpdateSaveChangesAsync(TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
-            var entityEntry = await AddAsync(entity, cancellationToken);
+            var entityEntry = await UpdateAsync(entity);
             await SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
             return entityEntry;
         }
 
-        // <summary>
-        /// 新增多个实体（异步）
+        /// <summary>
+        /// 更新多个实体并立即保存（异步）
         /// </summary>
         /// <param name="entities"></param>
-        public virtual async Task AddRangeSaveChangesAsync(params TEntity[] entities)
+        /// <returns></returns>
+        public virtual async Task UpdateRangeSaveChangesAsync(params TEntity[] entities)
         {
-            await AddRangeAsync(entities);
+            await UpdateRangeAsync(entities);
             await SaveChangesAsync();
         }
 
         /// <summary>
-        /// 新增多个实体并提交更改（异步）
+        /// 更新多个实体并立即保存（异步）
         /// </summary>
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="entities"></param>
         /// <returns></returns>
-        public virtual async Task AddRangeSaveChangesAsync(bool acceptAllChangesOnSuccess, params TEntity[] entities)
+        public virtual async Task UpdateRangeSaveChangesAsync(bool acceptAllChangesOnSuccess, params TEntity[] entities)
         {
-            await AddRangeAsync(entities);
+            await UpdateRangeAsync(entities);
             await SaveChangesAsync(acceptAllChangesOnSuccess);
         }
 
         /// <summary>
-        /// 新增多个实体并提交更改（异步）
+        /// 更新多个实体并立即保存（异步）
         /// </summary>
         /// <param name="entities"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual async Task AddRangeSaveChangesAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+        public virtual async Task UpdateRangeSaveChangesAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
         {
-            await AddRangeAsync(entities, cancellationToken);
+            await UpdateRangeAsync(entities);
             await SaveChangesAsync(cancellationToken);
         }
 
         /// <summary>
-        /// 新增多个实体并提交更改（异步）
+        /// 更新多个实体并立即保存（异步）
         /// </summary>
         /// <param name="entities"></param>
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual async Task AddRangeSaveChangesAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        public virtual async Task UpdateRangeSaveChangesAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
-            await AddRangeAsync(entities, cancellationToken);
+            await UpdateRangeAsync(entities);
             await SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
     }
