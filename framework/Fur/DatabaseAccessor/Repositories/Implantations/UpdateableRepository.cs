@@ -13,7 +13,7 @@ namespace Fur.DatabaseAccessor
     /// 可插入的仓储分部类
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public partial class EFCoreRepository<TEntity> : IRepository<TEntity>, IUpdateableRepository<TEntity>
+    public partial class EFCoreRepository<TEntity>
          where TEntity : class, IDbEntityBase, new()
     {
         /// <summary>
