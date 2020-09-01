@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -141,5 +143,209 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task UpdateRangeSaveChangesAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新特定属性
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, params string[] propertyNames);
+
+        /// <summary>
+        /// 更新特定属性
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <returns></returns>
+        EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
+
+        /// <summary>
+        /// 更新特定属性
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, IEnumerable<string> propertyNames);
+
+        /// <summary>
+        /// 更新特定属性
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <returns></returns>
+        EntityEntry<TEntity> UpdateIncludeProperties(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions);
+
+        /// <summary>
+        /// 更新特定属性
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, params string[] propertyNames);
+
+        /// <summary>
+        /// 更新特定属性
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <returns></returns>
+        Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
+
+        /// <summary>
+        /// 更新特定属性
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, IEnumerable<string> propertyNames);
+
+        /// <summary>
+        /// 更新特定属性
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <returns></returns>
+        Task<EntityEntry<TEntity>> UpdateIncludePropertiesAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions);
+
+        /// <summary>
+        /// 更新特定属性并立即提交
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, params string[] propertyNames);
+
+        /// <summary>
+        /// 更新特定属性并立即提交
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, bool acceptAllChangesOnSuccess, params string[] propertyNames);
+
+        /// <summary>
+        /// 更新特定属性并立即提交
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <returns></returns>
+        EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
+
+        /// <summary>
+        /// 更新特定属性并立即提交
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <returns></returns>
+        EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, bool acceptAllChangesOnSuccess, params Expression<Func<TEntity, object>>[] propertyExpressions);
+
+        /// <summary>
+        /// 更新特定属性并立即提交
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, IEnumerable<string> propertyNames);
+
+        /// <summary>
+        /// 更新特定属性并立即提交
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, bool acceptAllChangesOnSuccess, IEnumerable<string> propertyNames);
+
+        /// <summary>
+        /// 更新特定属性并立即提交
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <returns></returns>
+        EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions);
+
+        /// <summary>
+        /// 更新特定属性并立即提交
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <returns></returns>
+        EntityEntry<TEntity> UpdateIncludePropertiesSaveChanges(TEntity entity, bool acceptAllChangesOnSuccess, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions);
+
+        /// <summary>
+        /// 更新特定属性并立即提交（异步）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params string[] propertyNames);
+
+        /// <summary>
+        /// 更新特定属性并立即提交（异步）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, bool acceptAllChangesOnSuccess, params string[] propertyNames);
+
+        /// <summary>
+        /// 更新特定属性并立即提交（异步）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <returns></returns>
+        Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
+
+        /// <summary>
+        /// 更新特定属性并立即提交（异步）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <returns></returns>
+        Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, bool acceptAllChangesOnSuccess, params Expression<Func<TEntity, object>>[] propertyExpressions);
+
+        /// <summary>
+        /// 更新特定属性并立即提交（异步）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyNames"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新特定属性并立即提交（异步）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyNames"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新特定属性并立即提交（异步）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新特定属性并立即提交（异步）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<EntityEntry<TEntity>> UpdateIncludePropertiesSaveChangesAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
     }
 }
