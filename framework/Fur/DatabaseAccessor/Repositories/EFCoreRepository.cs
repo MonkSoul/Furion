@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
@@ -136,6 +137,52 @@ namespace Fur.DatabaseAccessor
         {
             DbContext.AttachRange(entities);
         }
+
+        /// <summary>
+        /// 获取所有数据库上下文
+        /// </summary>
+        /// <returns></returns>
+        public ConcurrentBag<DbContext> GetDbContexts()
+            => _dbContextPool.GetDbContexts();
+
+        /// <summary>
+        /// 保存数据库上下文池中所有已更改的数据库上下文
+        /// </summary>
+        /// <returns></returns>
+        public int SavePoolChanges()
+            => _dbContextPool.SavePoolChanges();
+
+        /// <summary>
+        /// 保存数据库上下文池中所有已更改的数据库上下文
+        /// </summary>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <returns></returns>
+        public int SavePoolChanges(bool acceptAllChangesOnSuccess)
+            => _dbContextPool.SavePoolChanges(acceptAllChangesOnSuccess);
+
+        /// <summary>
+        /// 保存数据库上下文池中所有已更改的数据库上下文
+        /// </summary>
+        /// <returns></returns>
+        public Task<int> SavePoolChangesAsync()
+            => _dbContextPool.SavePoolChangesAsync();
+
+        /// <summary>
+        /// 保存数据库上下文池中所有已更改的数据库上下文
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<int> SavePoolChangesAsync(CancellationToken cancellationToken = default)
+            => _dbContextPool.SavePoolChangesAsync(cancellationToken);
+
+        /// <summary>
+        /// 保存数据库上下文池中所有已更改的数据库上下文
+        /// </summary>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<int> SavePoolChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            => _dbContextPool.SavePoolChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
 
         /// <summary>
         /// 提交更改操作

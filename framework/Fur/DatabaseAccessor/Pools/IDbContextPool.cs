@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Fur.DatabaseAccessor
@@ -37,7 +38,29 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 保存数据库上下文池中所有已更改的数据库上下文
         /// </summary>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <returns></returns>
+        int SavePoolChanges(bool acceptAllChangesOnSuccess);
+
+        /// <summary>
+        /// 保存数据库上下文池中所有已更改的数据库上下文
+        /// </summary>
         /// <returns></returns>
         Task<int> SavePoolChangesAsync();
+
+        /// <summary>
+        /// 保存数据库上下文池中所有已更改的数据库上下文（异步）
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<int> SavePoolChangesAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 保存数据库上下文池中所有已更改的数据库上下文（异步）
+        /// </summary>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<int> SavePoolChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
     }
 }

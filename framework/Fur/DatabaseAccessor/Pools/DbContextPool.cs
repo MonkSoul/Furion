@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Fur.DatabaseAccessor
@@ -41,7 +42,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 保存数据库上下文
+        /// 保存数据库上下文（异步）
         /// </summary>
         /// <param name="dbContext"></param>
         public Task SaveDbContextAsync(DbContext dbContext)
@@ -65,6 +66,19 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 保存数据库上下文池中所有已更改的数据库上下文
         /// </summary>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <returns></returns>
+        public int SavePoolChanges(bool acceptAllChangesOnSuccess)
+        {
+            // 查找所有已改变的数据库上下文并保存更改
+            return dbContexts
+                .Where(u => u.ChangeTracker.HasChanges())
+                .Select(u => u.SaveChanges(acceptAllChangesOnSuccess)).Count();
+        }
+
+        /// <summary>
+        /// 保存数据库上下文池中所有已更改的数据库上下文
+        /// </summary>
         /// <returns></returns>
         public async Task<int> SavePoolChangesAsync()
         {
@@ -72,6 +86,43 @@ namespace Fur.DatabaseAccessor
             var tasks = dbContexts
                 .Where(u => u.ChangeTracker.HasChanges())
                 .Select(u => u.SaveChangesAsync());
+
+            // 等等所有异步完成
+            await Task.WhenAll(tasks);
+
+            return tasks.Count();
+        }
+
+        /// <summary>
+        /// 保存数据库上下文池中所有已更改的数据库上下文
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<int> SavePoolChangesAsync(CancellationToken cancellationToken = default)
+        {
+            // 查找所有已改变的数据库上下文并保存更改
+            var tasks = dbContexts
+                .Where(u => u.ChangeTracker.HasChanges())
+                .Select(u => u.SaveChangesAsync(cancellationToken));
+
+            // 等等所有异步完成
+            await Task.WhenAll(tasks);
+
+            return tasks.Count();
+        }
+
+        /// <summary>
+        /// 保存数据库上下文池中所有已更改的数据库上下文（异步）
+        /// </summary>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<int> SavePoolChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            // 查找所有已改变的数据库上下文并保存更改
+            var tasks = dbContexts
+                .Where(u => u.ChangeTracker.HasChanges())
+                .Select(u => u.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken));
 
             // 等等所有异步完成
             await Task.WhenAll(tasks);

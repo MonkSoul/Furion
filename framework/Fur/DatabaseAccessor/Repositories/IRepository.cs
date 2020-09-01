@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
@@ -88,6 +89,46 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entities"></param>
         void AttachRange(IEnumerable<TEntity> entities);
+
+        /// <summary>
+        /// 获取所有数据库上下文
+        /// </summary>
+        /// <returns></returns>
+        ConcurrentBag<DbContext> GetDbContexts();
+
+        /// <summary>
+        /// 保存数据库上下文池中所有已更改的数据库上下文
+        /// </summary>
+        /// <returns></returns>
+        int SavePoolChanges();
+
+        /// <summary>
+        /// 保存数据库上下文池中所有已更改的数据库上下文
+        /// </summary>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <returns></returns>
+        int SavePoolChanges(bool acceptAllChangesOnSuccess);
+
+        /// <summary>
+        /// 保存数据库上下文池中所有已更改的数据库上下文
+        /// </summary>
+        /// <returns></returns>
+        Task<int> SavePoolChangesAsync();
+
+        /// <summary>
+        /// 保存数据库上下文池中所有已更改的数据库上下文
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<int> SavePoolChangesAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 保存数据库上下文池中所有已更改的数据库上下文
+        /// </summary>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<int> SavePoolChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 提交更改操作
