@@ -101,6 +101,58 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
+        /// 获取实体条目
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public virtual EntityEntry Entry(object entity)
+            => DbContext.Entry(entity);
+
+        /// <summary>
+        /// 获取实体条目
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public virtual EntityEntry Entry(TEntity entity)
+            => DbContext.Entry(entity);
+
+        /// <summary>
+        /// 获取实体状态
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public virtual EntityState EntityEntryState(object entity)
+            => Entry(entity).State;
+
+        /// <summary>
+        /// 获取实体状态
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public virtual EntityState EntityEntryState(TEntity entity)
+            => Entry(entity).State;
+
+        /// <summary>
+        /// 判断是否被附加
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public virtual bool IsAttach(object entity)
+        {
+            return EntityEntryState(entity) == EntityState.Detached;
+        }
+
+        /// <summary>
+        /// 判断是否被附加
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public virtual bool IsAttach(TEntity entity)
+        {
+            return EntityEntryState(entity) == EntityState.Detached;
+        }
+
+        /// <summary>
         /// 附加实体
         /// </summary>
         /// <param name="entity"></param>

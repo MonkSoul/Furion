@@ -65,6 +65,48 @@ namespace Fur.DatabaseAccessor
         void AcceptAllChanges();
 
         /// <summary>
+        /// 获取实体条目
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        EntityEntry Entry(object entity);
+
+        /// <summary>
+        /// 获取实体条目
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        EntityEntry Entry(TEntity entity);
+
+        /// <summary>
+        /// 获取实体状态
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        EntityState EntityEntryState(object entity);
+
+        /// <summary>
+        /// 获取实体状态
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        EntityState EntityEntryState(TEntity entity);
+
+        /// <summary>
+        /// 判断是否被附加
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        bool IsAttach(object entity);
+
+        /// <summary>
+        /// 判断是否被附加
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        bool IsAttach(TEntity entity);
+
+        /// <summary>
         /// 附加实体
         /// </summary>
         /// <param name="entity"></param>
