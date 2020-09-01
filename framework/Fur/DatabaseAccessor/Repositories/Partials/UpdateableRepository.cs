@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -531,6 +532,326 @@ namespace Fur.DatabaseAccessor
         public virtual async Task<EntityEntry<TEntity>> UpdateIncludeSaveChangesAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             var entityEntry = await UpdateIncludeAsync(entity, propertyExpressions);
+            await SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 排除特定属性更新
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        public virtual EntityEntry<TEntity> UpdateExclude(TEntity entity, params string[] propertyNames)
+        {
+            var entityEntry = Attach(entity);
+            entityEntry.State = EntityState.Modified;
+            foreach (var propertyName in propertyNames)
+            {
+                EntityPropertyEntry(entity, propertyName).IsModified = false;
+            }
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 排除特定属性更新
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <returns></returns>
+        public virtual EntityEntry<TEntity> UpdateExclude(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            var entityEntry = Attach(entity);
+            entityEntry.State = EntityState.Modified;
+            foreach (var propertyExpression in propertyExpressions)
+            {
+                EntityPropertyEntry(entity, propertyExpression).IsModified = false;
+            }
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 排除特定属性更新
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        public virtual EntityEntry<TEntity> UpdateExclude(TEntity entity, IEnumerable<string> propertyNames)
+        {
+            return UpdateExclude(entity, propertyNames.ToArray());
+        }
+
+        /// <summary>
+        /// 排除特定属性更新
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <returns></returns>
+        public virtual EntityEntry<TEntity> UpdateExclude(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions)
+        {
+            return UpdateExclude(entity, propertyExpressions.ToArray());
+        }
+
+        /// <summary>
+        /// 排除特定属性更新
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        public virtual Task<EntityEntry<TEntity>> UpdateExcludeAsync(TEntity entity, params string[] propertyNames)
+        {
+            return Task.FromResult(UpdateExclude(entity, propertyNames));
+        }
+
+        /// <summary>
+        /// 排除特定属性更新
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <returns></returns>
+        public virtual Task<EntityEntry<TEntity>> UpdateExcludeAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            return Task.FromResult(UpdateExclude(entity, propertyExpressions));
+        }
+
+        /// <summary>
+        /// 排除特定属性更新
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        public virtual Task<EntityEntry<TEntity>> UpdateExcludeAsync(TEntity entity, IEnumerable<string> propertyNames)
+        {
+            return Task.FromResult(UpdateExclude(entity, propertyNames));
+        }
+
+        /// <summary>
+        /// 排除特定属性更新
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <returns></returns>
+        public virtual Task<EntityEntry<TEntity>> UpdateExcludeAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions)
+        {
+            return Task.FromResult(UpdateExclude(entity, propertyExpressions));
+        }
+
+        /// <summary>
+        /// 排除特定属性更新并立即提交
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        public virtual EntityEntry<TEntity> UpdateExcludeSaveChanges(TEntity entity, params string[] propertyNames)
+        {
+            var entityEntry = UpdateExclude(entity, propertyNames);
+            SaveChanges();
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 排除特定属性更新并立即提交
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        public virtual EntityEntry<TEntity> UpdateExcludeSaveChanges(TEntity entity, bool acceptAllChangesOnSuccess, params string[] propertyNames)
+        {
+            var entityEntry = UpdateExclude(entity, propertyNames);
+            SaveChanges(acceptAllChangesOnSuccess);
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 排除特定属性更新并立即提交
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <returns></returns>
+        public virtual EntityEntry<TEntity> UpdateExcludeSaveChanges(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            var entityEntry = UpdateExclude(entity, propertyExpressions);
+            SaveChanges();
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 排除特定属性更新并立即提交
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <returns></returns>
+        public virtual EntityEntry<TEntity> UpdateExcludeSaveChanges(TEntity entity, bool acceptAllChangesOnSuccess, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            var entityEntry = UpdateExclude(entity, propertyExpressions);
+            SaveChanges(acceptAllChangesOnSuccess);
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 排除特定属性更新并立即提交
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        public virtual EntityEntry<TEntity> UpdateExcludeSaveChanges(TEntity entity, IEnumerable<string> propertyNames)
+        {
+            var entityEntry = UpdateExclude(entity, propertyNames);
+            SaveChanges();
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 排除特定属性更新并立即提交
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        public virtual EntityEntry<TEntity> UpdateExcludeSaveChanges(TEntity entity, bool acceptAllChangesOnSuccess, IEnumerable<string> propertyNames)
+        {
+            var entityEntry = UpdateExclude(entity, propertyNames);
+            SaveChanges(acceptAllChangesOnSuccess);
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 排除特定属性更新并立即提交
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <returns></returns>
+        public virtual EntityEntry<TEntity> UpdateExcludeSaveChanges(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions)
+        {
+            var entityEntry = UpdateExclude(entity, propertyExpressions);
+            SaveChanges();
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 排除特定属性更新并立即提交
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <returns></returns>
+        public virtual EntityEntry<TEntity> UpdateExcludeSaveChanges(TEntity entity, bool acceptAllChangesOnSuccess, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions)
+        {
+            var entityEntry = UpdateExclude(entity, propertyExpressions);
+            SaveChanges(acceptAllChangesOnSuccess);
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 排除特定属性更新并立即提交（异步）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        public virtual async Task<EntityEntry<TEntity>> UpdateExcludeSaveChangesAsync(TEntity entity, params string[] propertyNames)
+        {
+            var entityEntry = await UpdateExcludeAsync(entity, propertyNames);
+            await SaveChangesAsync();
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 排除特定属性更新并立即提交（异步）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="propertyNames"></param>
+        /// <returns></returns>
+        public virtual async Task<EntityEntry<TEntity>> UpdateExcludeSaveChangesAsync(TEntity entity, bool acceptAllChangesOnSuccess, params string[] propertyNames)
+        {
+            var entityEntry = await UpdateExcludeAsync(entity, propertyNames);
+            await SaveChangesAsync(acceptAllChangesOnSuccess);
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 排除特定属性更新并立即提交（异步）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <returns></returns>
+        public virtual async Task<EntityEntry<TEntity>> UpdateExcludeSaveChangesAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            var entityEntry = await UpdateExcludeAsync(entity, propertyExpressions);
+            await SaveChangesAsync();
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 排除特定属性更新并立即提交（异步）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <returns></returns>
+        public virtual async Task<EntityEntry<TEntity>> UpdateExcludeSaveChangesAsync(TEntity entity, bool acceptAllChangesOnSuccess, params Expression<Func<TEntity, object>>[] propertyExpressions)
+        {
+            var entityEntry = await UpdateExcludeAsync(entity, propertyExpressions);
+            await SaveChangesAsync(acceptAllChangesOnSuccess);
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 排除特定属性更新并立即提交（异步）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyNames"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task<EntityEntry<TEntity>> UpdateExcludeSaveChangesAsync(TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
+        {
+            var entityEntry = await UpdateExcludeAsync(entity, propertyNames);
+            await SaveChangesAsync(cancellationToken);
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 排除特定属性更新并立即提交（异步）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyNames"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task<EntityEntry<TEntity>> UpdateExcludeSaveChangesAsync(TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            var entityEntry = await UpdateExcludeAsync(entity, propertyNames);
+            await SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 排除特定属性更新并立即提交（异步）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task<EntityEntry<TEntity>> UpdateExcludeSaveChangesAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions, CancellationToken cancellationToken = default)
+        {
+            var entityEntry = await UpdateExcludeAsync(entity, propertyExpressions);
+            await SaveChangesAsync(cancellationToken);
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 排除特定属性更新并立即提交（异步）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task<EntityEntry<TEntity>> UpdateExcludeSaveChangesAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            var entityEntry = await UpdateExcludeAsync(entity, propertyExpressions);
             await SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
             return entityEntry;
         }

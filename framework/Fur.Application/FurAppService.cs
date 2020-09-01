@@ -51,9 +51,19 @@ namespace Fur.Application
             _testRepository.AddSaveChanges(testDto.Adapt<Test>());
         }
 
-        public void Update(TestDto testDto)
+        public void UpdateAll(TestDto testDto)
+        {
+            _testRepository.UpdateSaveChanges(testDto.Adapt<Test>());
+        }
+
+        public void UpdateInclude(TestDto testDto)
         {
             _testRepository.UpdateIncludeSaveChanges(testDto.Adapt<Test>(), u => u.Name, u => u.Age);
+        }
+
+        public void UpdateExclude(TestDto testDto)
+        {
+            _testRepository.UpdateExcludeSaveChanges(testDto.Adapt<Test>(), u => u.Address);
         }
     }
 }
