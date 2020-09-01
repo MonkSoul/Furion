@@ -46,9 +46,14 @@ namespace Fur.Application
             return _testRepository.Entities.Find(id).Adapt<TestDto>();
         }
 
-        public void Post(TestDto testDto)
+        public void Add(TestDto testDto)
         {
             _testRepository.AddSaveChanges(testDto.Adapt<Test>());
+        }
+
+        public void Update(TestDto testDto)
+        {
+            _testRepository.UpdateIncludePropertiesSaveChanges(testDto.Adapt<Test>(), u => u.Name);
         }
     }
 }
