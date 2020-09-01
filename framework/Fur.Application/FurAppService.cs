@@ -48,22 +48,27 @@ namespace Fur.Application
 
         public void Add(TestDto testDto)
         {
-            _testRepository.AddSaveChanges(testDto.Adapt<Test>());
+            _testRepository.InsertNow(testDto.Adapt<Test>());
         }
 
         public void UpdateAll(TestDto testDto)
         {
-            _testRepository.UpdateSaveChanges(testDto.Adapt<Test>());
+            _testRepository.UpdateNow(testDto.Adapt<Test>());
         }
 
         public void UpdateInclude(TestDto testDto)
         {
-            _testRepository.UpdateIncludeSaveChanges(testDto.Adapt<Test>(), u => u.Name, u => u.Age);
+            _testRepository.UpdateIncludeNow(testDto.Adapt<Test>(), u => u.Name, u => u.Age);
         }
 
         public void UpdateExclude(TestDto testDto)
         {
-            _testRepository.UpdateExcludeSaveChanges(testDto.Adapt<Test>(), u => u.Address);
+            _testRepository.UpdateExcludeNow(testDto.Adapt<Test>(), u => u.Address);
+        }
+
+        public void Delete(TestDto testDto)
+        {
+            _testRepository.DeleteNow(testDto.Adapt<Test>());
         }
     }
 }

@@ -6,141 +6,142 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 可插入的仓储接口
+    /// 可删除的仓储
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public partial interface IInsertableRepository<TEntity>
+    public partial interface IDeletableRepository<TEntity>
         where TEntity : class, IDbEntityBase, new()
     {
         /// <summary>
-        /// 新增实体
+        /// 移除实体
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        EntityEntry<TEntity> Insert(TEntity entity);
+        EntityEntry<TEntity> Delete(TEntity entity);
 
         /// <summary>
-        /// 新增多个实体
+        /// 移除多个实体
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        void Delete(params TEntity[] entities);
+
+        /// <summary>
+        /// 移除多个实体
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        void Delete(IEnumerable<TEntity> entities);
+
+        /// <summary>
+        /// 移除实体
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        Task<EntityEntry<TEntity>> DeleteAsync(TEntity entity);
+
+        /// <summary>
+        /// 移除多个实体
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        Task DeleteAsync(params TEntity[] entities);
+
+        /// <summary>
+        /// 移除多个实体
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        Task DeleteAsync(IEnumerable<TEntity> entities);
+
+        /// <summary>
+        /// 移除实体并立即提交
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        EntityEntry<TEntity> DeleteNow(TEntity entity);
+
+        /// <summary>
+        /// 移除实体并立即提交
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <returns></returns>
+        EntityEntry<TEntity> DeleteNow(TEntity entity, bool acceptAllChangesOnSuccess);
+
+        /// <summary>
+        /// 移除实体并立即提交
         /// </summary>
         /// <param name="entities"></param>
-        void Insert(params TEntity[] entities);
+        void DeleteNow(params TEntity[] entities);
 
         /// <summary>
-        /// 新增多个实体
+        /// 移除实体并立即提交
+        /// </summary>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="entities"></param>
+        void DeleteNow(bool acceptAllChangesOnSuccess, params TEntity[] entities);
+
+        /// <summary>
+        /// 移除实体并立即提交
         /// </summary>
         /// <param name="entities"></param>
-        void Insert(IEnumerable<TEntity> entities);
+        void DeleteNow(IEnumerable<TEntity> entities);
 
         /// <summary>
-        /// 新增实体（异步）
+        /// 移除实体并立即提交
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        void DeleteNow(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess);
+
+        /// <summary>
+        /// 移除实体并立即提交（异步）
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<EntityEntry<TEntity>> InsertAsync(TEntity entity, CancellationToken cancellationToken = default);
+        Task<EntityEntry<TEntity>> DeleteNowAsync(TEntity entity, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 新增多个实体（异步）
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        Task InsertAsync(params TEntity[] entities);
-
-        /// <summary>
-        /// 新增多个实体（异步）
-        /// </summary>
-        /// <param name="entities"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task InsertAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 新增并提交更改
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        EntityEntry<TEntity> InsertNow(TEntity entity);
-
-        /// <summary>
-        /// 新增并提交更改
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
-        /// <returns></returns>
-        EntityEntry<TEntity> InsertNow(TEntity entity, bool acceptAllChangesOnSuccess);
-
-        /// <summary>
-        /// 新增多个实体
-        /// </summary>
-        /// <param name="entities"></param>
-        void InsertNow(params TEntity[] entities);
-
-        /// <summary>
-        /// 新增多个实体
-        /// </summary>
-        /// <param name="acceptAllChangesOnSuccess"></param>
-        /// <param name="entities"></param>
-        void InsertNow(bool acceptAllChangesOnSuccess, params TEntity[] entities);
-
-        /// <summary>
-        /// 新增多个实体
-        /// </summary>
-        /// <param name="entities"></param>
-        void InsertNow(IEnumerable<TEntity> entities);
-
-        /// <summary>
-        /// 新增多个实体
-        /// </summary>
-        /// <param name="entities"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
-        void InsertNow(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess);
-
-        /// <summary>
-        ///  新增并提交更改（异步）
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<EntityEntry<TEntity>> InsertNowAsync(TEntity entity, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 新增并提交更改（异步）
+        /// 移除实体并立即提交（异步）
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<EntityEntry<TEntity>> InsertNowAsync(TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
-
-        // <summary>
-        /// 新增多个实体（异步）
-        /// </summary>
-        /// <param name="entities"></param>
-        Task InsertNowAsync(params TEntity[] entities);
+        Task<EntityEntry<TEntity>> DeleteNowAsync(TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 新增多个实体并提交更改（异步）
+        /// 移除多个实体并立即提交（异步）
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <returns></returns>
+        Task DeleteNowAsync(params TEntity[] entities);
+
+        /// <summary>
+        /// 移除多个实体并立即提交（异步）
         /// </summary>
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="entities"></param>
         /// <returns></returns>
-        Task InsertNowAsync(bool acceptAllChangesOnSuccess, params TEntity[] entities);
+        Task DeleteNowAsync(bool acceptAllChangesOnSuccess, params TEntity[] entities);
 
         /// <summary>
-        /// 新增多个实体并提交更改（异步）
+        /// 移除多个实体并立即提交（异步）
         /// </summary>
         /// <param name="entities"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task InsertNowAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
+        Task DeleteNowAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 新增多个实体并提交更改（异步）
+        /// 移除多个实体并立即提交（异步）
         /// </summary>
         /// <param name="entities"></param>
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task InsertNowAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+        Task DeleteNowAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
     }
 }

@@ -1,10 +1,10 @@
 ﻿namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 只读仓储
+    /// 可读仓储
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public interface IReadOnlyRepository<TEntity>
+    public interface IReadableRepository<TEntity>
         where TEntity : class, IDbEntityBase, new()
     {
     }
