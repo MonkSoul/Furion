@@ -743,5 +743,205 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<int> CountAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <returns></returns>
+        TEntity Min();
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        TEntity Min(bool noTracking);
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryMins"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        TEntity Min(bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = false);
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression);
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking);
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryMins"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression = null, bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = false);
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity> MinAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity> MinAsync(bool noTracking, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryMins"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity> MinAsync(bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryMins"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression = null, bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <returns></returns>
+        TEntity Max();
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        TEntity Max(bool noTracking);
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryMaxs"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        TEntity Max(bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = false);
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression);
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking);
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryMaxs"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression = null, bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = false);
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity> MaxAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity> MaxAsync(bool noTracking, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryMaxs"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity> MaxAsync(bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryMaxs"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression = null, bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
     }
 }

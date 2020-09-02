@@ -1016,6 +1016,278 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <returns></returns>
+        public virtual TEntity Min()
+        {
+            return CombineQueryable().Min();
+        }
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual TEntity Min(bool noTracking)
+        {
+            return CombineQueryable(noTracking: noTracking).Min();
+        }
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryMins"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        public virtual TEntity Min(bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = false)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryMins, asSplitQuery).Min();
+        }
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        public virtual TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression)
+        {
+            return CombineQueryable().Min(expression);
+        }
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking)
+        {
+            return CombineQueryable(noTracking: noTracking).Min(expression);
+        }
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryMins"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        public virtual TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression = null, bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = false)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryMins, asSplitQuery).Min(expression);
+        }
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TEntity> MinAsync(CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable().MinAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TEntity> MinAsync(bool noTracking, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(noTracking: noTracking).MinAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryMins"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TEntity> MinAsync(bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = false, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryMins, asSplitQuery).MinAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable().MinAsync(expression, cancellationToken);
+        }
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(noTracking: noTracking).MinAsync(expression, cancellationToken);
+        }
+
+        /// <summary>
+        /// 查看最小值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryMins"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression = null, bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = false, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryMins, asSplitQuery).MinAsync(expression, cancellationToken);
+        }
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <returns></returns>
+        public virtual TEntity Max()
+        {
+            return CombineQueryable().Max();
+        }
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual TEntity Max(bool noTracking)
+        {
+            return CombineQueryable(noTracking: noTracking).Max();
+        }
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryMaxs"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        public virtual TEntity Max(bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = false)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryMaxs, asSplitQuery).Max();
+        }
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        public virtual TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression)
+        {
+            return CombineQueryable().Max(expression);
+        }
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking)
+        {
+            return CombineQueryable(noTracking: noTracking).Max(expression);
+        }
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryMaxs"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        public virtual TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression = null, bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = false)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryMaxs, asSplitQuery).Max(expression);
+        }
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TEntity> MaxAsync(CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable().MaxAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TEntity> MaxAsync(bool noTracking, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(noTracking: noTracking).MaxAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryMaxs"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TEntity> MaxAsync(bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = false, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryMaxs, asSplitQuery).MaxAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable().MaxAsync(expression, cancellationToken);
+        }
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(noTracking: noTracking).MaxAsync(expression, cancellationToken);
+        }
+
+        /// <summary>
+        /// 查看最大值
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryMaxs"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression = null, bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = false, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryMaxs, asSplitQuery).MaxAsync(expression, cancellationToken);
+        }
+
+        /// <summary>
         /// 动态实体
         /// </summary>
         /// <param name="noTracking"></param>
