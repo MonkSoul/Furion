@@ -25,6 +25,11 @@ namespace Fur.DatabaseAccessor
          where TEntity : class, IDbEntityBase, new()
     {
         /// <summary>
+        /// 非泛型仓储
+        /// </summary>
+        private readonly IRepository _repository;
+
+        /// <summary>
         /// 数据库上下文池
         /// </summary>
         private readonly IDbContextPool _dbContextPool;
@@ -36,11 +41,15 @@ namespace Fur.DatabaseAccessor
         /// <param name="dbContext"></param>
         public EFCoreRepository(
             IDbContextPool dbContextPool
+            , IRepository repository
             , DbContext dbContext)
         {
             _dbContextPool = dbContextPool;
             // 保存当前数据库上下文到池中
             _dbContextPool.AddToPool(dbContext);
+
+            // 服务提供器
+            _repository = repository;
 
             // 初始化数据库相关数据
             DbContext = dbContext;
@@ -282,6 +291,17 @@ namespace Fur.DatabaseAccessor
             if (expression != null) entities = entities.Where(expression);
 
             return entities;
+        }
+
+        /// <summary>
+        /// 切换仓储
+        /// </summary>
+        /// <typeparam name="TUseEntity"></typeparam>
+        /// <returns></returns>
+        public virtual IRepository<TUseEntity> Use<TUseEntity>()
+            where TUseEntity : class, IDbEntityBase, new()
+        {
+            return _repository.Get<TUseEntity>();
         }
     }
 

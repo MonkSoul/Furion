@@ -191,6 +191,13 @@ namespace Fur.DatabaseAccessor
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
         IQueryable<TEntity> AsQueryable(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
+
+        /// <summary>
+        /// 切换仓储
+        /// </summary>
+        /// <typeparam name="TUseEntity"></typeparam>
+        /// <returns></returns>
+        IRepository<TUseEntity> Use<TUseEntity>() where TUseEntity : class, IDbEntityBase, new();
     }
 
     /// <summary>

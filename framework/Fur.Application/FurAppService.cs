@@ -31,11 +31,15 @@ namespace Fur.Application
 
             //var c1 = a1.Equals(b1); // true
 
-            //var test1 = _repository.Get<Test>();
-            //var test2 = _repository.Get<Test>();
-            //var a = test1.Equals(test2);    // true
-            //var b = test1.Equals(_testRepository);  // true
-            //var c = test2.Equals(_testRepository);  // true
+            var test1 = _repository.Get<Test>();
+            var test2 = _repository.Get<Test>();
+            var a = test1.Equals(test2);    // true
+            var b = test1.Equals(_testRepository);  // true
+            var c = test2.Equals(_testRepository);  // true
+
+            var test3 = _testRepository.Use<Test>();
+            var d = test1.Equals(test3);
+            var e = test3.Equals(_testRepository);
 
             //return _testRepository.Entities.ProjectToType<TestDto>().ToList();
 
