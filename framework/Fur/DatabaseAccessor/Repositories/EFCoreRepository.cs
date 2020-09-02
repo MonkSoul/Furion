@@ -245,6 +245,16 @@ namespace Fur.DatabaseAccessor
         {
             return _dbContextPool.GetDbContexts();
         }
+
+        /// <summary>
+        /// 判断实体是否设置了主键
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public virtual bool IsKeySet(TEntity entity)
+        {
+            return Entry(entity).IsKeySet;
+        }
     }
 
     /// <summary>

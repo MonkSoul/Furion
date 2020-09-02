@@ -167,6 +167,13 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <returns></returns>
         ConcurrentBag<DbContext> GetDbContexts();
+
+        /// <summary>
+        /// 判断实体是否设置了主键
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        bool IsKeySet(TEntity entity);
     }
 
     /// <summary>
