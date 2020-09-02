@@ -196,7 +196,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking, CancellationToken cancellationToken = default)
         {
-            return DynamicEntities().SingleAsync(predicate, cancellationToken);
+            return DynamicEntities(noTracking).SingleAsync(predicate, cancellationToken);
         }
 
         /// <summary>
@@ -320,7 +320,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking, CancellationToken cancellationToken = default)
         {
-            return DynamicEntities().FirstAsync(predicate, cancellationToken);
+            return DynamicEntities(noTracking).FirstAsync(predicate, cancellationToken);
         }
 
         /// <summary>
@@ -444,7 +444,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> LastAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking, CancellationToken cancellationToken = default)
         {
-            return DynamicEntities().LastAsync(predicate, cancellationToken);
+            return DynamicEntities(noTracking).LastAsync(predicate, cancellationToken);
         }
 
         /// <summary>
