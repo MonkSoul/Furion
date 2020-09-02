@@ -157,7 +157,7 @@ namespace Fur.SpecificationDocument
         {
             swaggerGenOptions.DocInclusionPredicate((currentGroup, apiDescription) =>
             {
-                if (!apiDescription.TryGetMethodInfo(out MethodInfo method)) return false;
+                if (!apiDescription.TryGetMethodInfo(out var method)) return false;
 
                 return GetActionGroups(method).Any(u => u.Group == currentGroup);
             });
@@ -297,7 +297,7 @@ namespace Fur.SpecificationDocument
         /// <returns></returns>
         private static SpecificationOpenApiInfo GetGroupOpenApiInfo(string group)
         {
-            var isCached = GetGroupOpenApiInfoCached.TryGetValue(group, out SpecificationOpenApiInfo specificationOpenApiInfo);
+            var isCached = GetGroupOpenApiInfoCached.TryGetValue(group, out var specificationOpenApiInfo);
             if (isCached) return specificationOpenApiInfo;
 
             // 本地函数
@@ -355,7 +355,7 @@ namespace Fur.SpecificationDocument
         /// <returns></returns>
         private static IEnumerable<GroupOrder> GetControllerGroups(Type type)
         {
-            var isCached = GetControllerGroupsCached.TryGetValue(type, out IEnumerable<GroupOrder> groups);
+            var isCached = GetControllerGroupsCached.TryGetValue(type, out var groups);
             if (isCached) return groups;
 
             // 本地函数
@@ -396,7 +396,7 @@ namespace Fur.SpecificationDocument
         /// <returns></returns>
         private static IEnumerable<GroupOrder> GetActionGroups(MethodInfo method)
         {
-            var isCached = GetActionGroupsCached.TryGetValue(method, out IEnumerable<GroupOrder> groups);
+            var isCached = GetActionGroupsCached.TryGetValue(method, out var groups);
             if (isCached) return groups;
 
             // 本地函数
@@ -437,7 +437,7 @@ namespace Fur.SpecificationDocument
         /// <returns></returns>
         private static string GetControllerTag(ControllerActionDescriptor controllerActionDescriptor)
         {
-            var isCached = GetControllerTagCached.TryGetValue(controllerActionDescriptor, out string tag);
+            var isCached = GetControllerTagCached.TryGetValue(controllerActionDescriptor, out var tag);
             if (isCached) return tag;
 
             // 本地函数
@@ -470,13 +470,13 @@ namespace Fur.SpecificationDocument
         /// <returns></returns>
         private static string GetActionTag(ApiDescription apiDescription)
         {
-            var isCached = GetActionTagCached.TryGetValue(apiDescription, out string tag);
+            var isCached = GetActionTagCached.TryGetValue(apiDescription, out var tag);
             if (isCached) return tag;
 
             // 本地函数
             static string Function(ApiDescription apiDescription)
             {
-                if (!apiDescription.TryGetMethodInfo(out MethodInfo method)) return "unknown";
+                if (!apiDescription.TryGetMethodInfo(out var method)) return "unknown";
 
                 // 获取控制器描述器
                 var controllerActionDescriptor = apiDescription.ActionDescriptor as ControllerActionDescriptor;
@@ -523,7 +523,7 @@ namespace Fur.SpecificationDocument
         private static GroupOrder ResolveGroupOrder(string group)
         {
             string realGroup;
-            int order = 0;
+            var order = 0;
 
             if (!_groupOrderRegex.IsMatch(group)) realGroup = group;
             else

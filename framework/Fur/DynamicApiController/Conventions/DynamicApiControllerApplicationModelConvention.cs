@@ -118,7 +118,7 @@ namespace Fur.DynamicApiController
         /// 配置动作方法接口可见性
         /// </summary>
         /// <param name="action">动作方法模型</param>
-        private void ConfigureActionApiExplorer(ActionModel action)
+        private static void ConfigureActionApiExplorer(ActionModel action)
         {
             if (!action.ApiExplorer.IsVisible.HasValue) action.ApiExplorer.IsVisible = true;
         }

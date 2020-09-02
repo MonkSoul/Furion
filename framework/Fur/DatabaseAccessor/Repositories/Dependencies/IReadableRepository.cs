@@ -419,5 +419,129 @@ namespace Fur.DatabaseAccessor
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
         Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        PagedList<TEntity> PagedFilter(int pageIndex, int pageSize);
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        PagedList<TEntity> PagedFilter(int pageIndex, int pageSize, bool noTracking);
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryPagedFilters"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        PagedList<TEntity> PagedFilter(int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = false);
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        PagedList<TEntity> PagedFilter(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize);
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        PagedList<TEntity> PagedFilter(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking);
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryPagedFilters"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        PagedList<TEntity> PagedFilter(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = false);
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<PagedList<TEntity>> PagedFilterAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<PagedList<TEntity>> PagedFilterAsync(int pageIndex, int pageSize, bool noTracking, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryPagedFilters"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<PagedList<TEntity>> PagedFilterAsync(int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<PagedList<TEntity>> PagedFilterAsync(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<PagedList<TEntity>> PagedFilterAsync(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryPagedFilters"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<PagedList<TEntity>> PagedFilterAsync(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
     }
 }

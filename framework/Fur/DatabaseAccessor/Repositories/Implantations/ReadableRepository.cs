@@ -584,6 +584,166 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public virtual PagedList<TEntity> PagedFilter(int pageIndex, int pageSize)
+        {
+            return CombineQueryable().ToPagedList(pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual PagedList<TEntity> PagedFilter(int pageIndex, int pageSize, bool noTracking)
+        {
+            return CombineQueryable(noTracking: noTracking).ToPagedList(pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryPagedFilters"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        public virtual PagedList<TEntity> PagedFilter(int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = false)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryPagedFilters, asSplitQuery).ToPagedList(pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public virtual PagedList<TEntity> PagedFilter(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize)
+        {
+            return CombineQueryable(expression).ToPagedList(pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual PagedList<TEntity> PagedFilter(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking)
+        {
+            return CombineQueryable(expression, noTracking: noTracking).ToPagedList(pageIndex, pageSize);
+        }
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryPagedFilters"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        public virtual PagedList<TEntity> PagedFilter(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = false)
+        {
+            return CombineQueryable(expression, noTracking, ignoreQueryPagedFilters, asSplitQuery).ToPagedList(pageSize, pageIndex);
+        }
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<PagedList<TEntity>> PagedFilterAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable().ToPagedListAsync(pageSize, pageIndex, cancellationToken);
+        }
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<PagedList<TEntity>> PagedFilterAsync(int pageIndex, int pageSize, bool noTracking, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(noTracking: noTracking).ToPagedListAsync(pageIndex, pageSize, cancellationToken);
+        }
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryPagedFilters"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<PagedList<TEntity>> PagedFilterAsync(int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = false, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryPagedFilters, asSplitQuery).ToPagedListAsync(pageIndex, pageSize, cancellationToken);
+        }
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<PagedList<TEntity>> PagedFilterAsync(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(expression).ToPagedListAsync(pageIndex, pageSize, cancellationToken);
+        }
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<PagedList<TEntity>> PagedFilterAsync(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(expression, noTracking: noTracking).ToPagedListAsync(pageIndex, pageSize, cancellationToken);
+        }
+
+        /// <summary>
+        /// 分页查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryPagedFilters"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<PagedList<TEntity>> PagedFilterAsync(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = false, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(expression, noTracking, ignoreQueryPagedFilters, asSplitQuery).ToPagedListAsync(pageIndex, pageSize, cancellationToken);
+        }
+
+        /// <summary>
         /// 动态实体
         /// </summary>
         /// <param name="noTracking"></param>
