@@ -744,7 +744,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 查看记录条数
+        /// 查看记录是否存在
         /// </summary>
         /// <returns></returns>
         public virtual bool Any()
@@ -753,7 +753,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 查看记录条数
+        /// 查看记录是否存在
         /// </summary>
         /// <param name="noTracking"></param>
         /// <returns></returns>
@@ -763,7 +763,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 查看记录条数
+        /// 查看记录是否存在
         /// </summary>
         /// <param name="noTracking"></param>
         /// <param name="ignoreQueryAnys"></param>
@@ -775,7 +775,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 查看记录条数
+        /// 查看记录是否存在
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
@@ -785,7 +785,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 查看记录条数
+        /// 查看记录是否存在
         /// </summary>
         /// <param name="expression"></param>
         /// <param name="noTracking"></param>
@@ -796,7 +796,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 查看记录条数
+        /// 查看记录是否存在
         /// </summary>
         /// <param name="expression"></param>
         /// <param name="noTracking"></param>
@@ -809,7 +809,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 查看记录条数
+        /// 查看记录是否存在
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
@@ -819,7 +819,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 查看记录条数
+        /// 查看记录是否存在
         /// </summary>
         /// <param name="noTracking"></param>
         /// <param name="cancellationToken"></param>
@@ -830,7 +830,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 查看记录条数
+        /// 查看记录是否存在
         /// </summary>
         /// <param name="noTracking"></param>
         /// <param name="ignoreQueryAnys"></param>
@@ -843,7 +843,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 查看记录条数
+        /// 查看记录是否存在
         /// </summary>
         /// <param name="expression"></param>
         /// <param name="cancellationToken"></param>
@@ -854,7 +854,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 查看记录条数
+        /// 查看记录是否存在
         /// </summary>
         /// <param name="expression"></param>
         /// <param name="noTracking"></param>
@@ -866,7 +866,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 查看记录条数
+        /// 查看记录是否存在
         /// </summary>
         /// <param name="expression"></param>
         /// <param name="noTracking"></param>
@@ -877,6 +877,77 @@ namespace Fur.DatabaseAccessor
         public virtual Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
         {
             return CombineQueryable(null, noTracking, ignoreQueryAnys, asSplitQuery).AnyAsync(expression, cancellationToken);
+        }
+
+        /// <summary>
+        /// 查看记录是否全部满足某个条件
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        public virtual bool All(Expression<Func<TEntity, bool>> expression)
+        {
+            return CombineQueryable().All(expression);
+        }
+
+        /// <summary>
+        /// 查看记录是否全部满足某个条件
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual bool All(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        {
+            return CombineQueryable(noTracking: noTracking).All(expression);
+        }
+
+        /// <summary>
+        /// 查看记录是否全部满足某个条件
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryAlls"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        public virtual bool All(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryAlls = false, bool asSplitQuery = true)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryAlls, asSplitQuery).All(expression);
+        }
+
+        /// <summary>
+        /// 查看记录是否全部满足某个条件
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<bool> AllAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable().AllAsync(expression, cancellationToken);
+        }
+
+        /// <summary>
+        /// 查看记录是否全部满足某个条件
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<bool> AllAsync(Expression<Func<TEntity, bool>> expression, bool noTracking, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(noTracking: noTracking).AllAsync(expression, cancellationToken);
+        }
+
+        /// <summary>
+        /// 查看记录是否全部满足某个条件
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryAlls"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<bool> AllAsync(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryAlls = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryAlls, asSplitQuery).AllAsync(expression, cancellationToken);
         }
 
         /// <summary>
