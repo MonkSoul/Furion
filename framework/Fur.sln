@@ -19,7 +19,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fur.Core", "Fur.Core\Fur.Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fur.Database.Migrations", "Fur.Database.Migrations\Fur.Database.Migrations.csproj", "{EA769D36-9D55-47A6-945F-1687EA95179F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fur.Web.Entry", "Fur.Web.Entry\Fur.Web.Entry.csproj", "{F31BF6DE-6357-43D6-811A-9B15EF5A9D9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fur.Web.Entry", "Fur.Web.Entry\Fur.Web.Entry.csproj", "{F31BF6DE-6357-43D6-811A-9B15EF5A9D9C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7227BD4B-DE7D-468F-A1B3-C86C8F6DBDB0}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

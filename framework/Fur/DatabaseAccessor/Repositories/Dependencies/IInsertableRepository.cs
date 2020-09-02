@@ -1,4 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿// 框架名称：Fur
+// 框架作者：百小僧
+// 框架版本：1.0.0
+// 开源协议：MIT
+// 项目地址：https://gitee.com/monksoul/Fur
+
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
