@@ -28,7 +28,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 根据多个主键查找
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="keyValues"></param>
         /// <returns></returns>
         TEntity Find(params object[] keyValues);
 
@@ -43,7 +43,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 根据多个主键查找
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="keyValues"></param>
         /// <returns></returns>
         Task<TEntity> FindAsync(params object[] keyValues);
 
@@ -64,6 +64,13 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 获取一条
         /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        TEntity Single(bool noTracking);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
         TEntity Single(Expression<Func<TEntity, bool>> predicate);
@@ -71,8 +78,23 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 获取一条
         /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        TEntity Single(Expression<Func<TEntity, bool>> predicate, bool noTracking);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
         /// <returns></returns>
         TEntity SingleOrDefault();
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        TEntity SingleOrDefault(bool noTracking);
 
         /// <summary>
         /// 获取一条
@@ -84,9 +106,25 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 获取一条
         /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<TEntity> SingleAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity> SingleAsync(bool noTracking, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 获取一条
@@ -95,5 +133,14 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking, CancellationToken cancellationToken = default);
     }
 }

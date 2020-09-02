@@ -33,7 +33,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 根据多个主键查找
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="keyValues"></param>
         /// <returns></returns>
         public virtual TEntity Find(params object[] keyValues)
         {
@@ -55,7 +55,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 根据多个主键查找
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="keyValues"></param>
         /// <returns></returns>
         public virtual async Task<TEntity> FindAsync(params object[] keyValues)
         {
@@ -81,7 +81,17 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity Single()
         {
-            return Entities.Single();
+            return DynamicEntities().Single();
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual TEntity Single(bool noTracking)
+        {
+            return DynamicEntities(noTracking).Single();
         }
 
         /// <summary>
@@ -91,7 +101,18 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity Single(Expression<Func<TEntity, bool>> predicate)
         {
-            return Entities.Single(predicate);
+            return DynamicEntities().Single(predicate);
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual TEntity Single(Expression<Func<TEntity, bool>> predicate, bool noTracking)
+        {
+            return DynamicEntities(noTracking).Single(predicate);
         }
 
         /// <summary>
@@ -100,7 +121,17 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity SingleOrDefault()
         {
-            return Entities.SingleOrDefault();
+            return DynamicEntities().SingleOrDefault();
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual TEntity SingleOrDefault(bool noTracking)
+        {
+            return DynamicEntities(noTracking).SingleOrDefault();
         }
 
         /// <summary>
@@ -110,7 +141,18 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
-            return Entities.SingleOrDefault(predicate);
+            return DynamicEntities().SingleOrDefault(predicate);
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking)
+        {
+            return DynamicEntities(noTracking).SingleOrDefault(predicate);
         }
 
         /// <summary>
@@ -120,7 +162,18 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> SingleAsync(CancellationToken cancellationToken = default)
         {
-            return Entities.SingleAsync(cancellationToken);
+            return DynamicEntities().SingleAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TEntity> SingleAsync(bool noTracking, CancellationToken cancellationToken = default)
+        {
+            return DynamicEntities(noTracking).SingleAsync(cancellationToken);
         }
 
         /// <summary>
@@ -131,7 +184,29 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
         {
-            return Entities.SingleAsync(predicate, cancellationToken);
+            return DynamicEntities().SingleAsync(predicate, cancellationToken);
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking, CancellationToken cancellationToken = default)
+        {
+            return DynamicEntities().SingleAsync(predicate, cancellationToken);
+        }
+
+        /// <summary>
+        /// 动态实体
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        private IQueryable<TEntity> DynamicEntities(bool noTracking = false)
+        {
+            return !noTracking ? Entities : DerailEntities;
         }
     }
 }
