@@ -371,48 +371,53 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 查询多条
         /// </summary>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<List<TEntity>> FilterAsync();
+        Task<List<TEntity>> FilterAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 查询多条
         /// </summary>
         /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<List<TEntity>> FilterAsync(bool noTracking);
+        Task<List<TEntity>> FilterAsync(bool noTracking, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 查询多条
         /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryFilters"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<List<TEntity>> FilterAsync(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression, bool noTracking, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="expression"></param>
         /// <param name="noTracking"></param>
         /// <param name="ignoreQueryFilters"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        Task<List<TEntity>> FilterAsync(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false);
-
-        /// <summary>
-        /// 查询多条
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <returns></returns>
-        Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression);
-
-        /// <summary>
-        /// 查询多条
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression, bool noTracking);
-
-        /// <summary>
-        /// 查询多条
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryFilters"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <returns></returns>
-        Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false);
+        Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
     }
 }

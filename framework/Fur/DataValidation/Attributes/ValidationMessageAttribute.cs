@@ -19,7 +19,9 @@ namespace Fur.DataValidation
         /// </summary>
         /// <param name="errorMessage"></param>
         public ValidationMessageAttribute(string errorMessage)
-            => ErrorMessage = errorMessage;
+        {
+            ErrorMessage = errorMessage;
+        }
 
         /// <summary>
         /// 错误消息

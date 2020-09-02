@@ -111,7 +111,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity"></param>
         /// <returns></returns>
         public virtual EntityEntry Entry(object entity)
-            => DbContext.Entry(entity);
+        {
+            return DbContext.Entry(entity);
+        }
 
         /// <summary>
         /// 获取实体条目
@@ -119,7 +121,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity"></param>
         /// <returns></returns>
         public virtual EntityEntry<TEntity> Entry(TEntity entity)
-            => DbContext.Entry(entity);
+        {
+            return DbContext.Entry(entity);
+        }
 
         /// <summary>
         /// 获取实体状态
@@ -127,7 +131,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity"></param>
         /// <returns></returns>
         public virtual EntityState EntityEntryState(object entity)
-            => Entry(entity).State;
+        {
+            return Entry(entity).State;
+        }
 
         /// <summary>
         /// 获取实体状态
@@ -135,7 +141,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity"></param>
         /// <returns></returns>
         public virtual EntityState EntityEntryState(TEntity entity)
-            => Entry(entity).State;
+        {
+            return Entry(entity).State;
+        }
 
         /// <summary>
         /// 实体属性条目
@@ -144,7 +152,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyName"></param>
         /// <returns></returns>
         public virtual PropertyEntry EntityPropertyEntry(object entity, string propertyName)
-            => Entry(entity).Property(propertyName);
+        {
+            return Entry(entity).Property(propertyName);
+        }
 
         /// <summary>
         /// 实体属性条目
@@ -153,7 +163,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyName"></param>
         /// <returns></returns>
         public virtual PropertyEntry EntityPropertyEntry(TEntity entity, string propertyName)
-            => Entry(entity).Property(propertyName);
+        {
+            return Entry(entity).Property(propertyName);
+        }
 
         /// <summary>
         /// 实体属性条目
@@ -163,7 +175,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyExpression"></param>
         /// <returns></returns>
         public virtual PropertyEntry<TEntity, TProperty> EntityPropertyEntry<TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> propertyExpression)
-            => Entry(entity).Property(propertyExpression);
+        {
+            return Entry(entity).Property(propertyExpression);
+        }
 
         /// <summary>
         /// 判断是否被附加
@@ -228,7 +242,9 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <returns></returns>
         public ConcurrentBag<DbContext> GetDbContexts()
-            => _dbContextPool.GetDbContexts();
+        {
+            return _dbContextPool.GetDbContexts();
+        }
     }
 
     /// <summary>

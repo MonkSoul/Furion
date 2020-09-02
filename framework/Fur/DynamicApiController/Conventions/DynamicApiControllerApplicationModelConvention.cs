@@ -380,7 +380,7 @@ namespace Fur.DynamicApiController
 
             // 解析控制器名称
             // 判断是否有自定义名称
-            string tempName = apiDescriptionSettings?.Name;
+            var tempName = apiDescriptionSettings?.Name;
             if (string.IsNullOrEmpty(tempName))
             {
                 // 处理版本号

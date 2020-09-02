@@ -75,7 +75,7 @@ namespace Fur.DynamicApiController
         /// <returns></returns>
         internal static bool IsController(Type type)
         {
-            var isCached = IsControllerCached.TryGetValue(type, out bool isControllerType);
+            var isCached = IsControllerCached.TryGetValue(type, out var isControllerType);
             if (isCached) return isControllerType;
 
             // 本地静态方法
@@ -116,8 +116,8 @@ namespace Fur.DynamicApiController
             // 空前后缀集合直接返回
             if (affixes == null || affixes.Length == 0) return str;
 
-            bool startCleared = false;
-            bool endCleared = false;
+            var startCleared = false;
+            var endCleared = false;
 
             string tempStr = null;
             foreach (var affix in affixes)
@@ -160,6 +160,8 @@ namespace Fur.DynamicApiController
         /// <param name="str">字符串</param>
         /// <returns>首单词</returns>
         internal static string GetCamelCaseFirstWord(string str)
-            => SplitCamelCase(str).First();
+        {
+            return SplitCamelCase(str).First();
+        }
     }
 }

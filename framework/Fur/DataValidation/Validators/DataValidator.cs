@@ -201,7 +201,7 @@ namespace Fur.DataValidation
         /// <returns></returns>
         private static (string ValidationName, ValidationItemMetadataAttribute ValidationItemMetadata) GetValidationTypeValidationItemMetadata(object validationType)
         {
-            var isCached = GetValidationTypeValidationItemMetadataCached.TryGetValue(validationType, out (string, ValidationItemMetadataAttribute) validation);
+            var isCached = GetValidationTypeValidationItemMetadataCached.TryGetValue(validationType, out var validation);
             if (isCached) return validation;
 
             // 本地函数

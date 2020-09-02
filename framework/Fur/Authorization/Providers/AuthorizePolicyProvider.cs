@@ -34,13 +34,19 @@ namespace Fur.Authorization
         /// 获取默认策略
         /// </summary>
         /// <returns></returns>
-        public Task<AuthorizationPolicy> GetDefaultPolicyAsync() => FallbackPolicyProvider.GetDefaultPolicyAsync();
+        public Task<AuthorizationPolicy> GetDefaultPolicyAsync()
+        {
+            return FallbackPolicyProvider.GetDefaultPolicyAsync();
+        }
 
         /// <summary>
         /// 获取回退策略
         /// </summary>
         /// <returns></returns>
-        public Task<AuthorizationPolicy> GetFallbackPolicyAsync() => FallbackPolicyProvider.GetFallbackPolicyAsync();
+        public Task<AuthorizationPolicy> GetFallbackPolicyAsync()
+        {
+            return FallbackPolicyProvider.GetFallbackPolicyAsync();
+        }
 
         /// <summary>
         /// 获取策略

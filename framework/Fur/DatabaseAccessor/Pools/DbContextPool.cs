@@ -32,7 +32,9 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <returns></returns>
         public ConcurrentBag<DbContext> GetDbContexts()
-            => dbContexts;
+        {
+            return dbContexts;
+        }
 
         /// <summary>
         /// 保存数据库上下文

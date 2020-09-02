@@ -52,6 +52,9 @@ namespace Fur.Authorization
         /// <param name="context">授权上下文</param>
         /// <param name="actionDescriptor">动作方法描述器</param>
         /// <returns></returns>
-        public virtual bool Pipeline(AuthorizationHandlerContext context, ControllerActionDescriptor actionDescriptor) => true;
+        public virtual bool Pipeline(AuthorizationHandlerContext context, ControllerActionDescriptor actionDescriptor)
+        {
+            return true;
+        }
     }
 }

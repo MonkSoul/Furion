@@ -18,7 +18,9 @@ namespace Fur.Authorization
         /// </summary>
         /// <param name="policies"></param>
         public AuthorizePolicyRequirement(params string[] policies)
-            => Policies = policies;
+        {
+            Policies = policies;
+        }
 
         /// <summary>
         /// 策略

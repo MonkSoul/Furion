@@ -19,7 +19,9 @@ namespace Fur.DynamicApiController
         /// </summary>
         /// <param name="seat"></param>
         public ApiSeatAttribute(ApiSeats seat = ApiSeats.ActionEnd)
-            => Seat = seat;
+        {
+            Seat = seat;
+        }
 
         /// <summary>
         /// 参数位置

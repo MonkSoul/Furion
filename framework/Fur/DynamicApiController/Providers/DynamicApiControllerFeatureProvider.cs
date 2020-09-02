@@ -20,6 +20,8 @@ namespace Fur.DynamicApiController
         /// <param name="typeInfo">类型</param>
         /// <returns>bool</returns>
         protected override bool IsController(TypeInfo typeInfo)
-            => Penetrates.IsController(typeInfo);
+        {
+            return Penetrates.IsController(typeInfo);
+        }
     }
 }

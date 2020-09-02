@@ -20,7 +20,9 @@ namespace Fur.Authorization
         /// </summary>
         /// <param name="policies">多个策略</param>
         public AuthorizePolicyAttribute(params string[] policies)
-            => Policies = policies;
+        {
+            Policies = policies;
+        }
 
         /// <summary>
         /// 策略

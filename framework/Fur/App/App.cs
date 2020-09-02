@@ -46,17 +46,17 @@ namespace Fur
         /// <summary>
         /// 服务提供器
         /// </summary>
-        public static IServiceProvider NewServiceProvider { get => Services.BuildServiceProvider(); }
+        public static IServiceProvider NewServiceProvider => Services.BuildServiceProvider();
 
         /// <summary>
         /// 全局配置选项
         /// </summary>
-        public static IConfiguration Configuration { get => NewServiceProvider.GetService<IConfiguration>(); }
+        public static IConfiguration Configuration => NewServiceProvider.GetService<IConfiguration>();
 
         /// <summary>
         /// 应用环境
         /// </summary>
-        public static IWebHostEnvironment HostEnvironment { get => NewServiceProvider.GetService<IWebHostEnvironment>(); }
+        public static IWebHostEnvironment HostEnvironment => NewServiceProvider.GetService<IWebHostEnvironment>();
 
         /// <summary>
         /// 应用有效程序集
@@ -81,7 +81,9 @@ namespace Fur
         /// <returns></returns>
         public static TOptions GetOptions<TOptions>(string jsonKey)
             where TOptions : class
-            => Configuration.GetSection(jsonKey).Get<TOptions>();
+        {
+            return Configuration.GetSection(jsonKey).Get<TOptions>();
+        }
 
         /// <summary>
         /// 获取选项
@@ -90,7 +92,9 @@ namespace Fur
         /// <returns></returns>
         public static TOptions GetOptions<TOptions>()
             where TOptions : class
-            => NewServiceProvider.GetService<IOptions<TOptions>>().Value;
+        {
+            return NewServiceProvider.GetService<IOptions<TOptions>>().Value;
+        }
 
         /// <summary>
         /// 获取选项
@@ -99,7 +103,9 @@ namespace Fur
         /// <returns></returns>
         public static TOptions GetOptionsMonitor<TOptions>()
             where TOptions : class
-            => NewServiceProvider.GetService<IOptionsMonitor<TOptions>>().CurrentValue;
+        {
+            return NewServiceProvider.GetService<IOptionsMonitor<TOptions>>().CurrentValue;
+        }
 
         /// <summary>
         /// 获取选项
@@ -108,7 +114,9 @@ namespace Fur
         /// <returns></returns>
         public static TOptions GetOptionsSnapshot<TOptions>()
             where TOptions : class
-            => NewServiceProvider.GetService<IOptionsSnapshot<TOptions>>().Value;
+        {
+            return NewServiceProvider.GetService<IOptionsSnapshot<TOptions>>().Value;
+        }
 
         /// <summary>
         /// 打印验证信息到 MiniProfiler

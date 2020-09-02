@@ -18,7 +18,7 @@ namespace Fur.SpecificationDocument
         /// </summary>
         public SpecificationOpenApiSecurityRequirementItem()
         {
-            Accesses ??= new string[] { };
+            Accesses = System.Array.Empty<string>();
         }
 
         /// <summary>

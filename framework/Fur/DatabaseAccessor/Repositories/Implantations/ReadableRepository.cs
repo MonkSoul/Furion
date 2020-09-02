@@ -516,66 +516,71 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 查询多条
         /// </summary>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual Task<List<TEntity>> FilterAsync()
+        public virtual Task<List<TEntity>> FilterAsync(CancellationToken cancellationToken = default)
         {
-            return CombineQueryable().ToListAsync();
+            return CombineQueryable().ToListAsync(cancellationToken);
         }
 
         /// <summary>
         /// 查询多条
         /// </summary>
         /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual Task<List<TEntity>> FilterAsync(bool noTracking)
+        public virtual Task<List<TEntity>> FilterAsync(bool noTracking, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(noTracking: noTracking).ToListAsync();
+            return CombineQueryable(noTracking: noTracking).ToListAsync(cancellationToken);
         }
 
         /// <summary>
         /// 查询多条
         /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryFilters"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<List<TEntity>> FilterAsync(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryFilters, asSplitQuery).ToListAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(expression).ToListAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression, bool noTracking, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(expression, noTracking: noTracking).ToListAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="expression"></param>
         /// <param name="noTracking"></param>
         /// <param name="ignoreQueryFilters"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        public virtual Task<List<TEntity>> FilterAsync(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false)
+        public virtual Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryFilters, asSplitQuery).ToListAsync();
-        }
-
-        /// <summary>
-        /// 查询多条
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <returns></returns>
-        public virtual Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression)
-        {
-            return CombineQueryable(expression).ToListAsync();
-        }
-
-        /// <summary>
-        /// 查询多条
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        public virtual Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
-        {
-            return CombineQueryable(expression, noTracking: noTracking).ToListAsync();
-        }
-
-        /// <summary>
-        /// 查询多条
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryFilters"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <returns></returns>
-        public virtual Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false)
-        {
-            return CombineQueryable(expression, noTracking, ignoreQueryFilters, asSplitQuery).ToListAsync();
+            return CombineQueryable(expression, noTracking, ignoreQueryFilters, asSplitQuery).ToListAsync(cancellationToken);
         }
 
         /// <summary>

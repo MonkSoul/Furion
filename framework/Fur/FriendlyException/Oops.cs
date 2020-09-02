@@ -242,7 +242,7 @@ namespace Fur.FriendlyException
             var errorMethod = exceptionMethodFrame.GetMethod() as MethodInfo;
 
             // 判断是否已经缓存过该方法，避免重复解析
-            var isCached = ErrorMethods.TryGetValue(errorMethod, out MethodIfException methodIfException);
+            var isCached = ErrorMethods.TryGetValue(errorMethod, out var methodIfException);
             if (isCached) return methodIfException;
 
             // 组装方法异常对象

@@ -32,7 +32,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var optionsSettings = optionsType.GetCustomAttribute<OptionsSettingsAttribute>(false);
 
             // 获取键名
-            string jsonKey = GetOptionsJsonKey(optionsSettings, optionsType);
+            var jsonKey = GetOptionsJsonKey(optionsSettings, optionsType);
 
             // 配置选项（含验证信息）
             var optionsConfiguration = App.Configuration.GetSection(jsonKey);

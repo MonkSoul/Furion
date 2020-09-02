@@ -26,14 +26,18 @@ namespace Fur.Configurable
         /// </summary>
         /// <param name="jsonKey">appsetting.json 对应键</param>
         public OptionsSettingsAttribute(string jsonKey)
-            => JsonKey = jsonKey;
+        {
+            JsonKey = jsonKey;
+        }
 
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="postConfigureAll">启动所有实例进行后期配置</param>
         public OptionsSettingsAttribute(bool postConfigureAll)
-            => PostConfigureAll = postConfigureAll;
+        {
+            PostConfigureAll = postConfigureAll;
+        }
 
         /// <summary>
         /// 构造函数
