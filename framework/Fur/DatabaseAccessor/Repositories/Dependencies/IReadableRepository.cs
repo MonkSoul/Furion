@@ -5,6 +5,7 @@
 // 项目地址：https://gitee.com/monksoul/Fur
 
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -318,5 +319,52 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<TEntity> LastAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <returns></returns>
+        IQueryable<TEntity> Filter();
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        IQueryable<TEntity> Filter(bool noTracking);
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryFilters"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        IQueryable<TEntity> Filter(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false);
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> expression);
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> expression, bool noTracking);
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryFilters"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false);
     }
 }

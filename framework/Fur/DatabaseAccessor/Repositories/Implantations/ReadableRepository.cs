@@ -448,6 +448,71 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <returns></returns>
+        public virtual IQueryable<TEntity> Filter()
+        {
+            return CombineQueryable();
+        }
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual IQueryable<TEntity> Filter(bool noTracking)
+        {
+            return CombineQueryable(noTracking: noTracking);
+        }
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryFilters"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        public virtual IQueryable<TEntity> Filter(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryFilters, asSplitQuery);
+        }
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        public virtual IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> expression)
+        {
+            return CombineQueryable(expression);
+        }
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        {
+            return CombineQueryable(expression, noTracking: noTracking);
+        }
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryFilters"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        public virtual IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false)
+        {
+            return CombineQueryable(expression, noTracking, ignoreQueryFilters, asSplitQuery);
+        }
+
+        /// <summary>
         /// 动态实体
         /// </summary>
         /// <param name="noTracking"></param>
@@ -455,6 +520,24 @@ namespace Fur.DatabaseAccessor
         private IQueryable<TEntity> DynamicEntities(bool noTracking = false)
         {
             return !noTracking ? Entities : DerailEntities;
+        }
+
+        /// <summary>
+        /// 组合查询
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryFilters"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        private IQueryable<TEntity> CombineQueryable(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false)
+        {
+            var entities = DynamicEntities(noTracking);
+            if (ignoreQueryFilters) entities = entities.IgnoreQueryFilters();
+            if (asSplitQuery) entities = entities.AsSplitQuery();
+            if (expression != null) entities = entities.Where(expression);
+
+            return entities;
         }
     }
 }
