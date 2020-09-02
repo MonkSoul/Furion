@@ -744,6 +744,142 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool Any()
+        {
+            return CombineQueryable().Any();
+        }
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual bool Any(bool noTracking)
+        {
+            return CombineQueryable(noTracking: noTracking).Any();
+        }
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryAnys"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        public virtual bool Any(bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = false)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryAnys, asSplitQuery).Any();
+        }
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        public virtual bool Any(Expression<Func<TEntity, bool>> expression)
+        {
+            return CombineQueryable().Any(expression);
+        }
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual bool Any(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        {
+            return CombineQueryable(noTracking: noTracking).Any(expression);
+        }
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryAnys"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        public virtual bool Any(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = false)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryAnys, asSplitQuery).Any(expression);
+        }
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<bool> AnyAsync(CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable().AnyAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<bool> AnyAsync(bool noTracking, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(noTracking: noTracking).AnyAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryAnys"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<bool> AnyAsync(bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = false, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryAnys, asSplitQuery).AnyAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable().AnyAsync(expression, cancellationToken);
+        }
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression, bool noTracking, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(noTracking: noTracking).AnyAsync(expression, cancellationToken);
+        }
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryAnys"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = false, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryAnys, asSplitQuery).AnyAsync(expression, cancellationToken);
+        }
+
+        /// <summary>
         /// 动态实体
         /// </summary>
         /// <param name="noTracking"></param>

@@ -543,5 +543,105 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<PagedList<TEntity>> PagedFilterAsync(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <returns></returns>
+        bool Any();
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        bool Any(bool noTracking);
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryAnys"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        bool Any(bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = false);
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        bool Any(Expression<Func<TEntity, bool>> expression);
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        bool Any(Expression<Func<TEntity, bool>> expression, bool noTracking);
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryAnys"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        bool Any(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = false);
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<bool> AnyAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<bool> AnyAsync(bool noTracking, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryAnys"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<bool> AnyAsync(bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression, bool noTracking, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 判断记录是否存在
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryAnys"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
     }
 }
