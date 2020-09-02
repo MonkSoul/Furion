@@ -255,6 +255,34 @@ namespace Fur.DatabaseAccessor
         {
             return Entry(entity).IsKeySet;
         }
+
+        /// <summary>
+        /// 构建查询分析器
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual IQueryable<TEntity> AsQueryable(bool noTracking = false)
+        {
+            return !noTracking ? Entities : DerailEntities;
+        }
+
+        /// <summary>
+        /// 构建查询分析器
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryFilters"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        public virtual IQueryable<TEntity> AsQueryable(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true)
+        {
+            var entities = AsQueryable(noTracking);
+            if (ignoreQueryFilters) entities = entities.IgnoreQueryFilters();
+            if (asSplitQuery) entities = entities.AsSplitQuery();
+            if (expression != null) entities = entities.Where(expression);
+
+            return entities;
+        }
     }
 
     /// <summary>

@@ -82,7 +82,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity Single()
         {
-            return DynamicEntities().Single();
+            return AsQueryable().Single();
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity Single(bool noTracking)
         {
-            return DynamicEntities(noTracking).Single();
+            return AsQueryable(noTracking).Single();
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity Single(Expression<Func<TEntity, bool>> predicate)
         {
-            return DynamicEntities().Single(predicate);
+            return AsQueryable().Single(predicate);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity Single(Expression<Func<TEntity, bool>> predicate, bool noTracking)
         {
-            return DynamicEntities(noTracking).Single(predicate);
+            return AsQueryable(noTracking).Single(predicate);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity SingleOrDefault()
         {
-            return DynamicEntities().SingleOrDefault();
+            return AsQueryable().SingleOrDefault();
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity SingleOrDefault(bool noTracking)
         {
-            return DynamicEntities(noTracking).SingleOrDefault();
+            return AsQueryable(noTracking).SingleOrDefault();
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
-            return DynamicEntities().SingleOrDefault(predicate);
+            return AsQueryable().SingleOrDefault(predicate);
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking)
         {
-            return DynamicEntities(noTracking).SingleOrDefault(predicate);
+            return AsQueryable(noTracking).SingleOrDefault(predicate);
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> SingleAsync(CancellationToken cancellationToken = default)
         {
-            return DynamicEntities().SingleAsync(cancellationToken);
+            return AsQueryable().SingleAsync(cancellationToken);
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> SingleAsync(bool noTracking, CancellationToken cancellationToken = default)
         {
-            return DynamicEntities(noTracking).SingleAsync(cancellationToken);
+            return AsQueryable(noTracking).SingleAsync(cancellationToken);
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
         {
-            return DynamicEntities().SingleAsync(predicate, cancellationToken);
+            return AsQueryable().SingleAsync(predicate, cancellationToken);
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking, CancellationToken cancellationToken = default)
         {
-            return DynamicEntities(noTracking).SingleAsync(predicate, cancellationToken);
+            return AsQueryable(noTracking).SingleAsync(predicate, cancellationToken);
         }
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity First()
         {
-            return DynamicEntities().First();
+            return AsQueryable().First();
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity First(bool noTracking)
         {
-            return DynamicEntities(noTracking).First();
+            return AsQueryable(noTracking).First();
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity First(Expression<Func<TEntity, bool>> predicate)
         {
-            return DynamicEntities().First(predicate);
+            return AsQueryable().First(predicate);
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity First(Expression<Func<TEntity, bool>> predicate, bool noTracking)
         {
-            return DynamicEntities(noTracking).First(predicate);
+            return AsQueryable(noTracking).First(predicate);
         }
 
         /// <summary>
@@ -246,7 +246,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity FirstOrDefault()
         {
-            return DynamicEntities().FirstOrDefault();
+            return AsQueryable().FirstOrDefault();
         }
 
         /// <summary>
@@ -256,7 +256,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity FirstOrDefault(bool noTracking)
         {
-            return DynamicEntities(noTracking).FirstOrDefault();
+            return AsQueryable(noTracking).FirstOrDefault();
         }
 
         /// <summary>
@@ -266,7 +266,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
-            return DynamicEntities().FirstOrDefault(predicate);
+            return AsQueryable().FirstOrDefault(predicate);
         }
 
         /// <summary>
@@ -277,7 +277,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking)
         {
-            return DynamicEntities(noTracking).FirstOrDefault(predicate);
+            return AsQueryable(noTracking).FirstOrDefault(predicate);
         }
 
         /// <summary>
@@ -287,7 +287,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> FirstAsync(CancellationToken cancellationToken = default)
         {
-            return DynamicEntities().FirstAsync(cancellationToken);
+            return AsQueryable().FirstAsync(cancellationToken);
         }
 
         /// <summary>
@@ -298,7 +298,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> FirstAsync(bool noTracking, CancellationToken cancellationToken = default)
         {
-            return DynamicEntities(noTracking).FirstAsync(cancellationToken);
+            return AsQueryable(noTracking).FirstAsync(cancellationToken);
         }
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
         {
-            return DynamicEntities().FirstAsync(predicate, cancellationToken);
+            return AsQueryable().FirstAsync(predicate, cancellationToken);
         }
 
         /// <summary>
@@ -321,7 +321,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking, CancellationToken cancellationToken = default)
         {
-            return DynamicEntities(noTracking).FirstAsync(predicate, cancellationToken);
+            return AsQueryable(noTracking).FirstAsync(predicate, cancellationToken);
         }
 
         /// <summary>
@@ -330,7 +330,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity Last()
         {
-            return DynamicEntities().Last();
+            return AsQueryable().Last();
         }
 
         /// <summary>
@@ -340,7 +340,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity Last(bool noTracking)
         {
-            return DynamicEntities(noTracking).Last();
+            return AsQueryable(noTracking).Last();
         }
 
         /// <summary>
@@ -350,7 +350,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity Last(Expression<Func<TEntity, bool>> predicate)
         {
-            return DynamicEntities().Last(predicate);
+            return AsQueryable().Last(predicate);
         }
 
         /// <summary>
@@ -361,7 +361,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity Last(Expression<Func<TEntity, bool>> predicate, bool noTracking)
         {
-            return DynamicEntities(noTracking).Last(predicate);
+            return AsQueryable(noTracking).Last(predicate);
         }
 
         /// <summary>
@@ -370,7 +370,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity LastOrDefault()
         {
-            return DynamicEntities().LastOrDefault();
+            return AsQueryable().LastOrDefault();
         }
 
         /// <summary>
@@ -380,7 +380,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity LastOrDefault(bool noTracking)
         {
-            return DynamicEntities(noTracking).LastOrDefault();
+            return AsQueryable(noTracking).LastOrDefault();
         }
 
         /// <summary>
@@ -390,7 +390,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity LastOrDefault(Expression<Func<TEntity, bool>> predicate)
         {
-            return DynamicEntities().LastOrDefault(predicate);
+            return AsQueryable().LastOrDefault(predicate);
         }
 
         /// <summary>
@@ -401,7 +401,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity LastOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking)
         {
-            return DynamicEntities(noTracking).LastOrDefault(predicate);
+            return AsQueryable(noTracking).LastOrDefault(predicate);
         }
 
         /// <summary>
@@ -411,7 +411,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> LastAsync(CancellationToken cancellationToken = default)
         {
-            return DynamicEntities().LastAsync(cancellationToken);
+            return AsQueryable().LastAsync(cancellationToken);
         }
 
         /// <summary>
@@ -422,7 +422,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> LastAsync(bool noTracking, CancellationToken cancellationToken = default)
         {
-            return DynamicEntities(noTracking).LastAsync(cancellationToken);
+            return AsQueryable(noTracking).LastAsync(cancellationToken);
         }
 
         /// <summary>
@@ -433,7 +433,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> LastAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
         {
-            return DynamicEntities().LastAsync(predicate, cancellationToken);
+            return AsQueryable().LastAsync(predicate, cancellationToken);
         }
 
         /// <summary>
@@ -445,7 +445,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> LastAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking, CancellationToken cancellationToken = default)
         {
-            return DynamicEntities(noTracking).LastAsync(predicate, cancellationToken);
+            return AsQueryable(noTracking).LastAsync(predicate, cancellationToken);
         }
 
         /// <summary>
@@ -454,7 +454,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual IQueryable<TEntity> Filter()
         {
-            return CombineQueryable();
+            return AsQueryable();
         }
 
         /// <summary>
@@ -464,7 +464,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual IQueryable<TEntity> Filter(bool noTracking)
         {
-            return CombineQueryable(noTracking: noTracking);
+            return AsQueryable(noTracking: noTracking);
         }
 
         /// <summary>
@@ -476,7 +476,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual IQueryable<TEntity> Filter(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryFilters, asSplitQuery);
+            return AsQueryable(null, noTracking, ignoreQueryFilters, asSplitQuery);
         }
 
         /// <summary>
@@ -486,7 +486,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> expression)
         {
-            return CombineQueryable(expression);
+            return AsQueryable(expression);
         }
 
         /// <summary>
@@ -497,7 +497,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> expression, bool noTracking)
         {
-            return CombineQueryable(expression, noTracking: noTracking);
+            return AsQueryable(expression, noTracking: noTracking);
         }
 
         /// <summary>
@@ -508,9 +508,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="ignoreQueryFilters"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        public virtual IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true)
+        public virtual IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true)
         {
-            return CombineQueryable(expression, noTracking, ignoreQueryFilters, asSplitQuery);
+            return AsQueryable(expression, noTracking, ignoreQueryFilters, asSplitQuery);
         }
 
         /// <summary>
@@ -520,7 +520,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<List<TEntity>> FilterAsync(CancellationToken cancellationToken = default)
         {
-            return CombineQueryable().ToListAsync(cancellationToken);
+            return AsQueryable().ToListAsync(cancellationToken);
         }
 
         /// <summary>
@@ -531,7 +531,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<List<TEntity>> FilterAsync(bool noTracking, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(noTracking: noTracking).ToListAsync(cancellationToken);
+            return AsQueryable(noTracking: noTracking).ToListAsync(cancellationToken);
         }
 
         /// <summary>
@@ -544,7 +544,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<List<TEntity>> FilterAsync(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryFilters, asSplitQuery).ToListAsync(cancellationToken);
+            return AsQueryable(null, noTracking, ignoreQueryFilters, asSplitQuery).ToListAsync(cancellationToken);
         }
 
         /// <summary>
@@ -555,7 +555,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(expression).ToListAsync(cancellationToken);
+            return AsQueryable(expression).ToListAsync(cancellationToken);
         }
 
         /// <summary>
@@ -567,7 +567,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression, bool noTracking, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(expression, noTracking: noTracking).ToListAsync(cancellationToken);
+            return AsQueryable(expression, noTracking: noTracking).ToListAsync(cancellationToken);
         }
 
         /// <summary>
@@ -578,9 +578,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="ignoreQueryFilters"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        public virtual Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
+        public virtual Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(expression, noTracking, ignoreQueryFilters, asSplitQuery).ToListAsync(cancellationToken);
+            return AsQueryable(expression, noTracking, ignoreQueryFilters, asSplitQuery).ToListAsync(cancellationToken);
         }
 
         /// <summary>
@@ -591,7 +591,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual PagedList<TEntity> PagedFilter(int pageIndex, int pageSize)
         {
-            return CombineQueryable().ToPagedList(pageIndex, pageSize);
+            return AsQueryable().ToPagedList(pageIndex, pageSize);
         }
 
         /// <summary>
@@ -603,7 +603,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual PagedList<TEntity> PagedFilter(int pageIndex, int pageSize, bool noTracking)
         {
-            return CombineQueryable(noTracking: noTracking).ToPagedList(pageIndex, pageSize);
+            return AsQueryable(noTracking: noTracking).ToPagedList(pageIndex, pageSize);
         }
 
         /// <summary>
@@ -617,7 +617,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual PagedList<TEntity> PagedFilter(int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = true)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryPagedFilters, asSplitQuery).ToPagedList(pageIndex, pageSize);
+            return AsQueryable(null, noTracking, ignoreQueryPagedFilters, asSplitQuery).ToPagedList(pageIndex, pageSize);
         }
 
         /// <summary>
@@ -629,7 +629,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual PagedList<TEntity> PagedFilter(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize)
         {
-            return CombineQueryable(expression).ToPagedList(pageIndex, pageSize);
+            return AsQueryable(expression).ToPagedList(pageIndex, pageSize);
         }
 
         /// <summary>
@@ -642,7 +642,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual PagedList<TEntity> PagedFilter(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking)
         {
-            return CombineQueryable(expression, noTracking: noTracking).ToPagedList(pageIndex, pageSize);
+            return AsQueryable(expression, noTracking: noTracking).ToPagedList(pageIndex, pageSize);
         }
 
         /// <summary>
@@ -657,7 +657,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual PagedList<TEntity> PagedFilter(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = true)
         {
-            return CombineQueryable(expression, noTracking, ignoreQueryPagedFilters, asSplitQuery).ToPagedList(pageSize, pageIndex);
+            return AsQueryable(expression, noTracking, ignoreQueryPagedFilters, asSplitQuery).ToPagedList(pageSize, pageIndex);
         }
 
         /// <summary>
@@ -669,7 +669,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<PagedList<TEntity>> PagedFilterAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable().ToPagedListAsync(pageSize, pageIndex, cancellationToken);
+            return AsQueryable().ToPagedListAsync(pageSize, pageIndex, cancellationToken);
         }
 
         /// <summary>
@@ -682,7 +682,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<PagedList<TEntity>> PagedFilterAsync(int pageIndex, int pageSize, bool noTracking, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(noTracking: noTracking).ToPagedListAsync(pageIndex, pageSize, cancellationToken);
+            return AsQueryable(noTracking: noTracking).ToPagedListAsync(pageIndex, pageSize, cancellationToken);
         }
 
         /// <summary>
@@ -697,7 +697,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<PagedList<TEntity>> PagedFilterAsync(int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryPagedFilters, asSplitQuery).ToPagedListAsync(pageIndex, pageSize, cancellationToken);
+            return AsQueryable(null, noTracking, ignoreQueryPagedFilters, asSplitQuery).ToPagedListAsync(pageIndex, pageSize, cancellationToken);
         }
 
         /// <summary>
@@ -710,7 +710,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<PagedList<TEntity>> PagedFilterAsync(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(expression).ToPagedListAsync(pageIndex, pageSize, cancellationToken);
+            return AsQueryable(expression).ToPagedListAsync(pageIndex, pageSize, cancellationToken);
         }
 
         /// <summary>
@@ -724,7 +724,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<PagedList<TEntity>> PagedFilterAsync(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(expression, noTracking: noTracking).ToPagedListAsync(pageIndex, pageSize, cancellationToken);
+            return AsQueryable(expression, noTracking: noTracking).ToPagedListAsync(pageIndex, pageSize, cancellationToken);
         }
 
         /// <summary>
@@ -740,7 +740,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<PagedList<TEntity>> PagedFilterAsync(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(expression, noTracking, ignoreQueryPagedFilters, asSplitQuery).ToPagedListAsync(pageIndex, pageSize, cancellationToken);
+            return AsQueryable(expression, noTracking, ignoreQueryPagedFilters, asSplitQuery).ToPagedListAsync(pageIndex, pageSize, cancellationToken);
         }
 
         /// <summary>
@@ -749,7 +749,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual bool Any()
         {
-            return CombineQueryable().Any();
+            return AsQueryable().Any();
         }
 
         /// <summary>
@@ -759,7 +759,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual bool Any(bool noTracking)
         {
-            return CombineQueryable(noTracking: noTracking).Any();
+            return AsQueryable(noTracking: noTracking).Any();
         }
 
         /// <summary>
@@ -771,7 +771,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual bool Any(bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = true)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryAnys, asSplitQuery).Any();
+            return AsQueryable(null, noTracking, ignoreQueryAnys, asSplitQuery).Any();
         }
 
         /// <summary>
@@ -781,7 +781,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual bool Any(Expression<Func<TEntity, bool>> expression)
         {
-            return CombineQueryable().Any(expression);
+            return AsQueryable().Any(expression);
         }
 
         /// <summary>
@@ -792,7 +792,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual bool Any(Expression<Func<TEntity, bool>> expression, bool noTracking)
         {
-            return CombineQueryable(noTracking: noTracking).Any(expression);
+            return AsQueryable(noTracking: noTracking).Any(expression);
         }
 
         /// <summary>
@@ -803,9 +803,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="ignoreQueryAnys"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        public virtual bool Any(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = true)
+        public virtual bool Any(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = true)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryAnys, asSplitQuery).Any(expression);
+            return AsQueryable(null, noTracking, ignoreQueryAnys, asSplitQuery).Any(expression);
         }
 
         /// <summary>
@@ -815,7 +815,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<bool> AnyAsync(CancellationToken cancellationToken = default)
         {
-            return CombineQueryable().AnyAsync(cancellationToken);
+            return AsQueryable().AnyAsync(cancellationToken);
         }
 
         /// <summary>
@@ -826,7 +826,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<bool> AnyAsync(bool noTracking, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(noTracking: noTracking).AnyAsync(cancellationToken);
+            return AsQueryable(noTracking: noTracking).AnyAsync(cancellationToken);
         }
 
         /// <summary>
@@ -839,7 +839,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<bool> AnyAsync(bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryAnys, asSplitQuery).AnyAsync(cancellationToken);
+            return AsQueryable(null, noTracking, ignoreQueryAnys, asSplitQuery).AnyAsync(cancellationToken);
         }
 
         /// <summary>
@@ -850,7 +850,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable().AnyAsync(expression, cancellationToken);
+            return AsQueryable().AnyAsync(expression, cancellationToken);
         }
 
         /// <summary>
@@ -862,7 +862,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression, bool noTracking, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(noTracking: noTracking).AnyAsync(expression, cancellationToken);
+            return AsQueryable(noTracking: noTracking).AnyAsync(expression, cancellationToken);
         }
 
         /// <summary>
@@ -874,9 +874,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="asSplitQuery"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
+        public virtual Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryAnys, asSplitQuery).AnyAsync(expression, cancellationToken);
+            return AsQueryable(null, noTracking, ignoreQueryAnys, asSplitQuery).AnyAsync(expression, cancellationToken);
         }
 
         /// <summary>
@@ -886,7 +886,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual bool All(Expression<Func<TEntity, bool>> expression)
         {
-            return CombineQueryable().All(expression);
+            return AsQueryable().All(expression);
         }
 
         /// <summary>
@@ -897,7 +897,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual bool All(Expression<Func<TEntity, bool>> expression, bool noTracking)
         {
-            return CombineQueryable(noTracking: noTracking).All(expression);
+            return AsQueryable(noTracking: noTracking).All(expression);
         }
 
         /// <summary>
@@ -910,7 +910,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual bool All(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryAlls = false, bool asSplitQuery = true)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryAlls, asSplitQuery).All(expression);
+            return AsQueryable(null, noTracking, ignoreQueryAlls, asSplitQuery).All(expression);
         }
 
         /// <summary>
@@ -921,7 +921,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<bool> AllAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable().AllAsync(expression, cancellationToken);
+            return AsQueryable().AllAsync(expression, cancellationToken);
         }
 
         /// <summary>
@@ -933,7 +933,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<bool> AllAsync(Expression<Func<TEntity, bool>> expression, bool noTracking, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(noTracking: noTracking).AllAsync(expression, cancellationToken);
+            return AsQueryable(noTracking: noTracking).AllAsync(expression, cancellationToken);
         }
 
         /// <summary>
@@ -947,7 +947,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<bool> AllAsync(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryAlls = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryAlls, asSplitQuery).AllAsync(expression, cancellationToken);
+            return AsQueryable(null, noTracking, ignoreQueryAlls, asSplitQuery).AllAsync(expression, cancellationToken);
         }
 
         /// <summary>
@@ -956,7 +956,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual int Count()
         {
-            return CombineQueryable().Count();
+            return AsQueryable().Count();
         }
 
         /// <summary>
@@ -966,7 +966,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual int Count(bool noTracking)
         {
-            return CombineQueryable(noTracking: noTracking).Count();
+            return AsQueryable(noTracking: noTracking).Count();
         }
 
         /// <summary>
@@ -978,7 +978,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual int Count(bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = true)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryCounts, asSplitQuery).Count();
+            return AsQueryable(null, noTracking, ignoreQueryCounts, asSplitQuery).Count();
         }
 
         /// <summary>
@@ -988,7 +988,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual int Count(Expression<Func<TEntity, bool>> expression)
         {
-            return CombineQueryable().Count(expression);
+            return AsQueryable().Count(expression);
         }
 
         /// <summary>
@@ -999,7 +999,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual int Count(Expression<Func<TEntity, bool>> expression, bool noTracking)
         {
-            return CombineQueryable(noTracking: noTracking).Count(expression);
+            return AsQueryable(noTracking: noTracking).Count(expression);
         }
 
         /// <summary>
@@ -1010,9 +1010,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="ignoreQueryCounts"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        public virtual int Count(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = true)
+        public virtual int Count(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = true)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryCounts, asSplitQuery).Count(expression);
+            return AsQueryable(null, noTracking, ignoreQueryCounts, asSplitQuery).Count(expression);
         }
 
         /// <summary>
@@ -1022,7 +1022,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<int> CountAsync(CancellationToken cancellationToken = default)
         {
-            return CombineQueryable().CountAsync(cancellationToken);
+            return AsQueryable().CountAsync(cancellationToken);
         }
 
         /// <summary>
@@ -1033,7 +1033,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<int> CountAsync(bool noTracking, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(noTracking: noTracking).CountAsync(cancellationToken);
+            return AsQueryable(noTracking: noTracking).CountAsync(cancellationToken);
         }
 
         /// <summary>
@@ -1046,7 +1046,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<int> CountAsync(bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryCounts, asSplitQuery).CountAsync(cancellationToken);
+            return AsQueryable(null, noTracking, ignoreQueryCounts, asSplitQuery).CountAsync(cancellationToken);
         }
 
         /// <summary>
@@ -1057,7 +1057,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<int> CountAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable().CountAsync(expression, cancellationToken);
+            return AsQueryable().CountAsync(expression, cancellationToken);
         }
 
         /// <summary>
@@ -1069,7 +1069,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<int> CountAsync(Expression<Func<TEntity, bool>> expression, bool noTracking, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(noTracking: noTracking).CountAsync(expression, cancellationToken);
+            return AsQueryable(noTracking: noTracking).CountAsync(expression, cancellationToken);
         }
 
         /// <summary>
@@ -1081,9 +1081,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="asSplitQuery"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual Task<int> CountAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
+        public virtual Task<int> CountAsync(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryCounts, asSplitQuery).CountAsync(expression, cancellationToken);
+            return AsQueryable(null, noTracking, ignoreQueryCounts, asSplitQuery).CountAsync(expression, cancellationToken);
         }
 
         /// <summary>
@@ -1092,7 +1092,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity Min()
         {
-            return CombineQueryable().Min();
+            return AsQueryable().Min();
         }
 
         /// <summary>
@@ -1102,7 +1102,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity Min(bool noTracking)
         {
-            return CombineQueryable(noTracking: noTracking).Min();
+            return AsQueryable(noTracking: noTracking).Min();
         }
 
         /// <summary>
@@ -1114,7 +1114,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity Min(bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = true)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryMins, asSplitQuery).Min();
+            return AsQueryable(null, noTracking, ignoreQueryMins, asSplitQuery).Min();
         }
 
         /// <summary>
@@ -1124,7 +1124,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
-            return CombineQueryable().Min(expression);
+            return AsQueryable().Min(expression);
         }
 
         /// <summary>
@@ -1135,7 +1135,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking)
         {
-            return CombineQueryable(noTracking: noTracking).Min(expression);
+            return AsQueryable(noTracking: noTracking).Min(expression);
         }
 
         /// <summary>
@@ -1146,9 +1146,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="ignoreQueryMins"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        public virtual TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression = null, bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = true)
+        public virtual TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = true)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryMins, asSplitQuery).Min(expression);
+            return AsQueryable(null, noTracking, ignoreQueryMins, asSplitQuery).Min(expression);
         }
 
         /// <summary>
@@ -1158,7 +1158,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> MinAsync(CancellationToken cancellationToken = default)
         {
-            return CombineQueryable().MinAsync(cancellationToken);
+            return AsQueryable().MinAsync(cancellationToken);
         }
 
         /// <summary>
@@ -1169,7 +1169,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> MinAsync(bool noTracking, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(noTracking: noTracking).MinAsync(cancellationToken);
+            return AsQueryable(noTracking: noTracking).MinAsync(cancellationToken);
         }
 
         /// <summary>
@@ -1182,7 +1182,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> MinAsync(bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryMins, asSplitQuery).MinAsync(cancellationToken);
+            return AsQueryable(null, noTracking, ignoreQueryMins, asSplitQuery).MinAsync(cancellationToken);
         }
 
         /// <summary>
@@ -1193,7 +1193,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable().MinAsync(expression, cancellationToken);
+            return AsQueryable().MinAsync(expression, cancellationToken);
         }
 
         /// <summary>
@@ -1205,7 +1205,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(noTracking: noTracking).MinAsync(expression, cancellationToken);
+            return AsQueryable(noTracking: noTracking).MinAsync(expression, cancellationToken);
         }
 
         /// <summary>
@@ -1217,9 +1217,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="asSplitQuery"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression = null, bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
+        public virtual Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryMins, asSplitQuery).MinAsync(expression, cancellationToken);
+            return AsQueryable(null, noTracking, ignoreQueryMins, asSplitQuery).MinAsync(expression, cancellationToken);
         }
 
         /// <summary>
@@ -1228,7 +1228,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity Max()
         {
-            return CombineQueryable().Max();
+            return AsQueryable().Max();
         }
 
         /// <summary>
@@ -1238,7 +1238,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity Max(bool noTracking)
         {
-            return CombineQueryable(noTracking: noTracking).Max();
+            return AsQueryable(noTracking: noTracking).Max();
         }
 
         /// <summary>
@@ -1250,7 +1250,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity Max(bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = true)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryMaxs, asSplitQuery).Max();
+            return AsQueryable(null, noTracking, ignoreQueryMaxs, asSplitQuery).Max();
         }
 
         /// <summary>
@@ -1260,7 +1260,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression)
         {
-            return CombineQueryable().Max(expression);
+            return AsQueryable().Max(expression);
         }
 
         /// <summary>
@@ -1271,7 +1271,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking)
         {
-            return CombineQueryable(noTracking: noTracking).Max(expression);
+            return AsQueryable(noTracking: noTracking).Max(expression);
         }
 
         /// <summary>
@@ -1282,9 +1282,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="ignoreQueryMaxs"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        public virtual TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression = null, bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = true)
+        public virtual TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = true)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryMaxs, asSplitQuery).Max(expression);
+            return AsQueryable(null, noTracking, ignoreQueryMaxs, asSplitQuery).Max(expression);
         }
 
         /// <summary>
@@ -1294,7 +1294,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> MaxAsync(CancellationToken cancellationToken = default)
         {
-            return CombineQueryable().MaxAsync(cancellationToken);
+            return AsQueryable().MaxAsync(cancellationToken);
         }
 
         /// <summary>
@@ -1305,7 +1305,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> MaxAsync(bool noTracking, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(noTracking: noTracking).MaxAsync(cancellationToken);
+            return AsQueryable(noTracking: noTracking).MaxAsync(cancellationToken);
         }
 
         /// <summary>
@@ -1318,7 +1318,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TEntity> MaxAsync(bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryMaxs, asSplitQuery).MaxAsync(cancellationToken);
+            return AsQueryable(null, noTracking, ignoreQueryMaxs, asSplitQuery).MaxAsync(cancellationToken);
         }
 
         /// <summary>
@@ -1329,7 +1329,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable().MaxAsync(expression, cancellationToken);
+            return AsQueryable().MaxAsync(expression, cancellationToken);
         }
 
         /// <summary>
@@ -1341,7 +1341,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(noTracking: noTracking).MaxAsync(expression, cancellationToken);
+            return AsQueryable(noTracking: noTracking).MaxAsync(expression, cancellationToken);
         }
 
         /// <summary>
@@ -1353,37 +1353,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="asSplitQuery"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression = null, bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
+        public virtual Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
         {
-            return CombineQueryable(null, noTracking, ignoreQueryMaxs, asSplitQuery).MaxAsync(expression, cancellationToken);
-        }
-
-        /// <summary>
-        /// 动态实体
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        private IQueryable<TEntity> DynamicEntities(bool noTracking = false)
-        {
-            return !noTracking ? Entities : DerailEntities;
-        }
-
-        /// <summary>
-        /// 组合查询
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryFilters"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <returns></returns>
-        private IQueryable<TEntity> CombineQueryable(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true)
-        {
-            var entities = DynamicEntities(noTracking);
-            if (ignoreQueryFilters) entities = entities.IgnoreQueryFilters();
-            if (asSplitQuery) entities = entities.AsSplitQuery();
-            if (expression != null) entities = entities.Where(expression);
-
-            return entities;
+            return AsQueryable(null, noTracking, ignoreQueryMaxs, asSplitQuery).MaxAsync(expression, cancellationToken);
         }
     }
 }
