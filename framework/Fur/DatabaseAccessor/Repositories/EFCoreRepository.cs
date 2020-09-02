@@ -301,7 +301,7 @@ namespace Fur.DatabaseAccessor
         public virtual IRepository<TUseEntity> Use<TUseEntity>()
             where TUseEntity : class, IDbEntityBase, new()
         {
-            return _repository.Get<TUseEntity>();
+            return _repository.Use<TUseEntity>();
         }
     }
 
@@ -325,11 +325,11 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 获取实体仓储
+        /// 切换仓储
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <returns></returns>
-        public virtual IRepository<TEntity> Get<TEntity>()
+        public virtual IRepository<TEntity> Use<TEntity>()
              where TEntity : class, IDbEntityBase, new()
         {
             return _serviceProvider.GetService<IRepository<TEntity>>();

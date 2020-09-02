@@ -206,11 +206,11 @@ namespace Fur.DatabaseAccessor
     public partial interface IRepository
     {
         /// <summary>
-        /// 获取实体仓储
+        /// 切换仓储
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <returns></returns>
-        IRepository<TEntity> Get<TEntity>()
+        IRepository<TEntity> Use<TEntity>()
             where TEntity : class, IDbEntityBase, new();
     }
 }

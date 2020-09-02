@@ -31,8 +31,8 @@ namespace Fur.Application
 
             //var c1 = a1.Equals(b1); // true
 
-            var test1 = _repository.Get<Test>();
-            var test2 = _repository.Get<Test>();
+            var test1 = _repository.Use<Test>();
+            var test2 = _repository.Use<Test>();
             var a = test1.Equals(test2);    // true
             var b = test1.Equals(_testRepository);  // true
             var c = test2.Equals(_testRepository);  // true
