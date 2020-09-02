@@ -86,7 +86,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="entities"></param>
-        void DeleteNow(bool acceptAllChangesOnSuccess, params TEntity[] entities);
+        void DeleteNow(TEntity[] entities, bool acceptAllChangesOnSuccess);
 
         /// <summary>
         /// 移除实体并立即提交
@@ -128,10 +128,17 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 移除多个实体并立即提交（异步）
         /// </summary>
+        /// <param name="entities"></param>
+        /// <returns></returns>
+        Task DeleteNowAsync(TEntity[] entities, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 移除多个实体并立即提交（异步）
+        /// </summary>
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="entities"></param>
         /// <returns></returns>
-        Task DeleteNowAsync(bool acceptAllChangesOnSuccess, params TEntity[] entities);
+        Task DeleteNowAsync(TEntity[] entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 移除多个实体并立即提交（异步）

@@ -48,7 +48,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 新增多个实体（异步）
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entities"></param>
         /// <returns></returns>
         Task InsertAsync(params TEntity[] entities);
 
@@ -84,9 +84,9 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 新增多个实体
         /// </summary>
-        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="entities"></param>
-        void InsertNow(bool acceptAllChangesOnSuccess, params TEntity[] entities);
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        void InsertNow(TEntity[] entities, bool acceptAllChangesOnSuccess);
 
         /// <summary>
         /// 新增多个实体
@@ -102,7 +102,7 @@ namespace Fur.DatabaseAccessor
         void InsertNow(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess);
 
         /// <summary>
-        ///  新增并提交更改（异步）
+        /// 新增并提交更改（异步）
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="cancellationToken"></param>
@@ -118,19 +118,29 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         Task<EntityEntry<TEntity>> InsertNowAsync(TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
-        // <summary>
+        /// <summary>
         /// 新增多个实体（异步）
         /// </summary>
         /// <param name="entities"></param>
+        /// <returns></returns>
         Task InsertNowAsync(params TEntity[] entities);
 
         /// <summary>
         /// 新增多个实体并提交更改（异步）
         /// </summary>
-        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="entities"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task InsertNowAsync(bool acceptAllChangesOnSuccess, params TEntity[] entities);
+        Task InsertNowAsync(TEntity[] entities, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 新增多个实体并提交更改（异步）
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task InsertNowAsync(TEntity[] entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 新增多个实体并提交更改（异步）

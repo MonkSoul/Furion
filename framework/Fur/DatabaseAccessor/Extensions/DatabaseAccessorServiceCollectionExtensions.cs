@@ -9,6 +9,7 @@ using Fur.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -21,8 +22,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 添加数据库访问器
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="configure"></param>
         /// <returns></returns>
-        public static IServiceCollection AddDatabaseAccessor(this IServiceCollection services)
+        public static IServiceCollection AddDatabaseAccessor(this IServiceCollection services, Action<IServiceCollection> configure = null)
         {
             // 注册数据库上下文池
             services.TryAddScoped<IDbContextPool, DbContextPool>();
@@ -33,6 +35,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // 注册泛型仓储
             services.TryAddScoped(typeof(IRepository<>), typeof(EFCoreRepository<>));
 
+            configure?.Invoke(services);
             return services;
         }
 

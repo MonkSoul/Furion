@@ -84,9 +84,9 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 更新多个实体并立即保存
         /// </summary>
-        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="entities"></param>
-        void UpdateNow(bool acceptAllChangesOnSuccess, params TEntity[] entities);
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        void UpdateNow(TEntity[] entities, bool acceptAllChangesOnSuccess);
 
         /// <summary>
         /// 更新多个实体并立即保存
@@ -128,10 +128,19 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 更新多个实体并立即保存（异步）
         /// </summary>
-        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="entities"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task UpdateNowAsync(bool acceptAllChangesOnSuccess, params TEntity[] entities);
+        Task UpdateNowAsync(TEntity[] entities, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新多个实体并立即保存（异步）
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task UpdateNowAsync(TEntity[] entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 更新多个实体并立即保存（异步）
@@ -226,10 +235,10 @@ namespace Fur.DatabaseAccessor
         /// 更新特定属性并立即提交
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="propertyNames"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <returns></returns>
-        EntityEntry<TEntity> UpdateIncludeNow(TEntity entity, bool acceptAllChangesOnSuccess, params string[] propertyNames);
+        EntityEntry<TEntity> UpdateIncludeNow(TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess);
 
         /// <summary>
         /// 更新特定属性并立即提交
@@ -243,10 +252,10 @@ namespace Fur.DatabaseAccessor
         /// 更新特定属性并立即提交
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="propertyExpressions"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <returns></returns>
-        EntityEntry<TEntity> UpdateIncludeNow(TEntity entity, bool acceptAllChangesOnSuccess, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        EntityEntry<TEntity> UpdateIncludeNow(TEntity entity, Expression<Func<TEntity, object>>[] propertyExpressions, bool acceptAllChangesOnSuccess);
 
         /// <summary>
         /// 更新特定属性并立即提交
@@ -260,10 +269,10 @@ namespace Fur.DatabaseAccessor
         /// 更新特定属性并立即提交
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="propertyNames"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <returns></returns>
-        EntityEntry<TEntity> UpdateIncludeNow(TEntity entity, bool acceptAllChangesOnSuccess, IEnumerable<string> propertyNames);
+        EntityEntry<TEntity> UpdateIncludeNow(TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess);
 
         /// <summary>
         /// 更新特定属性并立即提交
@@ -277,10 +286,10 @@ namespace Fur.DatabaseAccessor
         /// 更新特定属性并立即提交
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="propertyExpressions"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <returns></returns>
-        EntityEntry<TEntity> UpdateIncludeNow(TEntity entity, bool acceptAllChangesOnSuccess, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions);
+        EntityEntry<TEntity> UpdateIncludeNow(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions, bool acceptAllChangesOnSuccess);
 
         /// <summary>
         /// 更新特定属性并立即提交（异步）
@@ -294,10 +303,20 @@ namespace Fur.DatabaseAccessor
         /// 更新特定属性并立即提交（异步）
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="propertyNames"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, bool acceptAllChangesOnSuccess, params string[] propertyNames);
+        Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新特定属性并立即提交（异步）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyNames"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 更新特定属性并立即提交（异步）
@@ -311,10 +330,20 @@ namespace Fur.DatabaseAccessor
         /// 更新特定属性并立即提交（异步）
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="propertyExpressions"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, bool acceptAllChangesOnSuccess, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyExpressions, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新特定属性并立即提交（异步）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyExpressions, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 更新特定属性并立即提交（异步）
@@ -430,10 +459,10 @@ namespace Fur.DatabaseAccessor
         /// 排除特定属性更新并立即提交
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="propertyNames"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <returns></returns>
-        EntityEntry<TEntity> UpdateExcludeNow(TEntity entity, bool acceptAllChangesOnSuccess, params string[] propertyNames);
+        EntityEntry<TEntity> UpdateExcludeNow(TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess);
 
         /// <summary>
         /// 排除特定属性更新并立即提交
@@ -447,10 +476,10 @@ namespace Fur.DatabaseAccessor
         /// 排除特定属性更新并立即提交
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="propertyExpressions"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <returns></returns>
-        EntityEntry<TEntity> UpdateExcludeNow(TEntity entity, bool acceptAllChangesOnSuccess, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        EntityEntry<TEntity> UpdateExcludeNow(TEntity entity, Expression<Func<TEntity, object>>[] propertyExpressions, bool acceptAllChangesOnSuccess);
 
         /// <summary>
         /// 排除特定属性更新并立即提交
@@ -464,10 +493,10 @@ namespace Fur.DatabaseAccessor
         /// 排除特定属性更新并立即提交
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="propertyNames"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <returns></returns>
-        EntityEntry<TEntity> UpdateExcludeNow(TEntity entity, bool acceptAllChangesOnSuccess, IEnumerable<string> propertyNames);
+        EntityEntry<TEntity> UpdateExcludeNow(TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess);
 
         /// <summary>
         /// 排除特定属性更新并立即提交
@@ -481,10 +510,10 @@ namespace Fur.DatabaseAccessor
         /// 排除特定属性更新并立即提交
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="propertyExpressions"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <returns></returns>
-        EntityEntry<TEntity> UpdateExcludeNow(TEntity entity, bool acceptAllChangesOnSuccess, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions);
+        EntityEntry<TEntity> UpdateExcludeNow(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions, bool acceptAllChangesOnSuccess);
 
         /// <summary>
         /// 排除特定属性更新并立即提交（异步）
@@ -498,10 +527,20 @@ namespace Fur.DatabaseAccessor
         /// 排除特定属性更新并立即提交（异步）
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="propertyNames"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, bool acceptAllChangesOnSuccess, params string[] propertyNames);
+        Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 排除特定属性更新并立即提交（异步）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyNames"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 排除特定属性更新并立即提交（异步）
@@ -515,10 +554,20 @@ namespace Fur.DatabaseAccessor
         /// 排除特定属性更新并立即提交（异步）
         /// </summary>
         /// <param name="entity"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="propertyExpressions"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, bool acceptAllChangesOnSuccess, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyExpressions, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 排除特定属性更新并立即提交（异步）
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="propertyExpressions"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyExpressions, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 排除特定属性更新并立即提交（异步）

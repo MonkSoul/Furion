@@ -40,7 +40,7 @@ namespace Fur.DatabaseAccessor
         {
             _dbContextPool = dbContextPool;
             // 保存当前数据库上下文到池中
-            _dbContextPool.SaveDbContext(dbContext);
+            _dbContextPool.AddToPool(dbContext);
 
             // 初始化数据库相关数据
             DbContext = dbContext;

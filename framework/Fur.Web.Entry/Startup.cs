@@ -23,8 +23,10 @@ namespace Fur.Web.Entry
                 options.AddSpecificationDocuments();
             });
 
-            services.AddDatabaseAccessor();
-            services.AddAppDbContext<FurDbContext>(Configuration.GetConnectionString("DbConnectionString"));
+            services.AddDatabaseAccessor(options =>
+            {
+                options.AddAppDbContext<FurDbContext>(Configuration.GetConnectionString("DbConnectionString"));
+            });
 
             services.AddControllers()
                 .AddDynamicApiControllers()

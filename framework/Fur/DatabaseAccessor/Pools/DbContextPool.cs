@@ -38,7 +38,7 @@ namespace Fur.DatabaseAccessor
         /// 保存数据库上下文
         /// </summary>
         /// <param name="dbContext"></param>
-        public void SaveDbContext(DbContext dbContext)
+        public void AddToPool(DbContext dbContext)
         {
             // 排除已经存在的数据库上下文
             if (!dbContexts.Contains(dbContext))
@@ -51,9 +51,9 @@ namespace Fur.DatabaseAccessor
         /// 保存数据库上下文（异步）
         /// </summary>
         /// <param name="dbContext"></param>
-        public Task SaveDbContextAsync(DbContext dbContext)
+        public Task AddToPoolAsync(DbContext dbContext)
         {
-            SaveDbContext(dbContext);
+            AddToPool(dbContext);
             return Task.CompletedTask;
         }
 
@@ -61,7 +61,7 @@ namespace Fur.DatabaseAccessor
         /// 保存数据库上下文池中所有已更改的数据库上下文
         /// </summary>
         /// <returns></returns>
-        public int SavePoolChanges()
+        public int SavePoolNow()
         {
             // 查找所有已改变的数据库上下文并保存更改
             return dbContexts
@@ -74,7 +74,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <returns></returns>
-        public int SavePoolChanges(bool acceptAllChangesOnSuccess)
+        public int SavePoolNow(bool acceptAllChangesOnSuccess)
         {
             // 查找所有已改变的数据库上下文并保存更改
             return dbContexts
@@ -86,7 +86,7 @@ namespace Fur.DatabaseAccessor
         /// 保存数据库上下文池中所有已更改的数据库上下文
         /// </summary>
         /// <returns></returns>
-        public async Task<int> SavePoolChangesAsync()
+        public async Task<int> SavePoolNowAsync()
         {
             // 查找所有已改变的数据库上下文并保存更改
             var tasks = dbContexts
@@ -104,7 +104,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<int> SavePoolChangesAsync(CancellationToken cancellationToken = default)
+        public async Task<int> SavePoolNowAsync(CancellationToken cancellationToken = default)
         {
             // 查找所有已改变的数据库上下文并保存更改
             var tasks = dbContexts
@@ -123,7 +123,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<int> SavePoolChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        public async Task<int> SavePoolNowAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             // 查找所有已改变的数据库上下文并保存更改
             var tasks = dbContexts

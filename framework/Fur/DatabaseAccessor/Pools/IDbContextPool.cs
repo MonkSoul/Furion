@@ -26,40 +26,40 @@ namespace Fur.DatabaseAccessor
         /// 保存数据库上下文
         /// </summary>
         /// <param name="dbContext"></param>
-        void SaveDbContext(DbContext dbContext);
+        void AddToPool(DbContext dbContext);
 
         /// <summary>
         /// 异步保存数据库上下文
         /// </summary>
         /// <param name="dbContext"></param>
         /// <returns></returns>
-        Task SaveDbContextAsync(DbContext dbContext);
+        Task AddToPoolAsync(DbContext dbContext);
 
         /// <summary>
         /// 保存数据库上下文池中所有已更改的数据库上下文
         /// </summary>
         /// <returns></returns>
-        int SavePoolChanges();
+        int SavePoolNow();
 
         /// <summary>
         /// 保存数据库上下文池中所有已更改的数据库上下文
         /// </summary>
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <returns></returns>
-        int SavePoolChanges(bool acceptAllChangesOnSuccess);
+        int SavePoolNow(bool acceptAllChangesOnSuccess);
 
         /// <summary>
         /// 保存数据库上下文池中所有已更改的数据库上下文
         /// </summary>
         /// <returns></returns>
-        Task<int> SavePoolChangesAsync();
+        Task<int> SavePoolNowAsync();
 
         /// <summary>
         /// 保存数据库上下文池中所有已更改的数据库上下文（异步）
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<int> SavePoolChangesAsync(CancellationToken cancellationToken = default);
+        Task<int> SavePoolNowAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 保存数据库上下文池中所有已更改的数据库上下文（异步）
@@ -67,6 +67,6 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<int> SavePoolChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+        Task<int> SavePoolNowAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
     }
 }

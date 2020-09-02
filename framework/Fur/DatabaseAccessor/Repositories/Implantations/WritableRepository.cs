@@ -20,31 +20,31 @@ namespace Fur.DatabaseAccessor
         /// 保存数据库上下文池中所有已更改的数据库上下文
         /// </summary>
         /// <returns></returns>
-        public int SavePoolChanges()
-            => _dbContextPool.SavePoolChanges();
+        public int SavePoolNow()
+            => _dbContextPool.SavePoolNow();
 
         /// <summary>
         /// 保存数据库上下文池中所有已更改的数据库上下文
         /// </summary>
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <returns></returns>
-        public int SavePoolChanges(bool acceptAllChangesOnSuccess)
-            => _dbContextPool.SavePoolChanges(acceptAllChangesOnSuccess);
+        public int SavePoolNow(bool acceptAllChangesOnSuccess)
+            => _dbContextPool.SavePoolNow(acceptAllChangesOnSuccess);
 
         /// <summary>
         /// 保存数据库上下文池中所有已更改的数据库上下文
         /// </summary>
         /// <returns></returns>
-        public Task<int> SavePoolChangesAsync()
-            => _dbContextPool.SavePoolChangesAsync();
+        public Task<int> SavePoolNowAsync()
+            => _dbContextPool.SavePoolNowAsync();
 
         /// <summary>
         /// 保存数据库上下文池中所有已更改的数据库上下文
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<int> SavePoolChangesAsync(CancellationToken cancellationToken = default)
-            => _dbContextPool.SavePoolChangesAsync(cancellationToken);
+        public Task<int> SavePoolNowAsync(CancellationToken cancellationToken = default)
+            => _dbContextPool.SavePoolNowAsync(cancellationToken);
 
         /// <summary>
         /// 保存数据库上下文池中所有已更改的数据库上下文
@@ -52,14 +52,14 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<int> SavePoolChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            => _dbContextPool.SavePoolChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        public Task<int> SavePoolNowAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            => _dbContextPool.SavePoolNowAsync(acceptAllChangesOnSuccess, cancellationToken);
 
         /// <summary>
         /// 提交更改操作
         /// </summary>
         /// <returns></returns>
-        public virtual int SaveChanges()
+        public virtual int SaveNow()
         {
             return DbContext.SaveChanges();
         }
@@ -69,7 +69,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <returns></returns>
-        public virtual int SaveChanges(bool acceptAllChangesOnSuccess)
+        public virtual int SaveNow(bool acceptAllChangesOnSuccess)
         {
             return DbContext.SaveChanges(acceptAllChangesOnSuccess);
         }
@@ -79,7 +79,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public virtual Task<int> SaveNowAsync(CancellationToken cancellationToken = default)
         {
             return DbContext.SaveChangesAsync(cancellationToken);
         }
@@ -90,7 +90,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        public virtual Task<int> SaveNowAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             return DbContext.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }

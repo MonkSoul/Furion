@@ -88,7 +88,7 @@ namespace Fur.DatabaseAccessor
         public virtual EntityEntry<TEntity> DeleteNow(TEntity entity)
         {
             var entityEntry = Delete(entity);
-            SaveChanges();
+            SaveNow();
             return entityEntry;
         }
 
@@ -101,7 +101,7 @@ namespace Fur.DatabaseAccessor
         public virtual EntityEntry<TEntity> DeleteNow(TEntity entity, bool acceptAllChangesOnSuccess)
         {
             var entityEntry = Delete(entity);
-            SaveChanges(acceptAllChangesOnSuccess);
+            SaveNow(acceptAllChangesOnSuccess);
             return entityEntry;
         }
 
@@ -112,7 +112,7 @@ namespace Fur.DatabaseAccessor
         public virtual void DeleteNow(params TEntity[] entities)
         {
             Delete(entities);
-            SaveChanges();
+            SaveNow();
         }
 
         /// <summary>
@@ -120,10 +120,10 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="entities"></param>
-        public virtual void DeleteNow(bool acceptAllChangesOnSuccess, params TEntity[] entities)
+        public virtual void DeleteNow(TEntity[] entities, bool acceptAllChangesOnSuccess)
         {
             Delete(entities);
-            SaveChanges(acceptAllChangesOnSuccess);
+            SaveNow(acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace Fur.DatabaseAccessor
         public virtual void DeleteNow(IEnumerable<TEntity> entities)
         {
             Delete(entities);
-            SaveChanges();
+            SaveNow();
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace Fur.DatabaseAccessor
         public virtual void DeleteNow(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess)
         {
             Delete(entities);
-            SaveChanges(acceptAllChangesOnSuccess);
+            SaveNow(acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace Fur.DatabaseAccessor
         public virtual async Task<EntityEntry<TEntity>> DeleteNowAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
             var entityEntry = await DeleteAsync(entity);
-            await SaveChangesAsync(cancellationToken);
+            await SaveNowAsync(cancellationToken);
             return entityEntry;
         }
 
@@ -170,7 +170,7 @@ namespace Fur.DatabaseAccessor
         public virtual async Task<EntityEntry<TEntity>> DeleteNowAsync(TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             var entityEntry = await DeleteAsync(entity);
-            await SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+            await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
             return entityEntry;
         }
 
@@ -182,7 +182,18 @@ namespace Fur.DatabaseAccessor
         public virtual async Task DeleteNowAsync(params TEntity[] entities)
         {
             await DeleteAsync(entities);
-            await SaveChangesAsync();
+            await SaveNowAsync();
+        }
+
+        /// <summary>
+        /// 移除多个实体并立即提交（异步）
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <returns></returns>
+        public virtual async Task DeleteNowAsync(TEntity[] entities, CancellationToken cancellationToken = default)
+        {
+            await DeleteAsync(entities);
+            await SaveNowAsync(cancellationToken);
         }
 
         /// <summary>
@@ -191,10 +202,10 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="entities"></param>
         /// <returns></returns>
-        public virtual async Task DeleteNowAsync(bool acceptAllChangesOnSuccess, params TEntity[] entities)
+        public virtual async Task DeleteNowAsync(TEntity[] entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             await DeleteAsync(entities);
-            await SaveChangesAsync(acceptAllChangesOnSuccess);
+            await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -206,7 +217,7 @@ namespace Fur.DatabaseAccessor
         public virtual async Task DeleteNowAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
         {
             await DeleteAsync(entities);
-            await SaveChangesAsync(cancellationToken);
+            await SaveNowAsync(cancellationToken);
         }
 
         /// <summary>
@@ -219,7 +230,7 @@ namespace Fur.DatabaseAccessor
         public virtual async Task DeleteNowAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             await DeleteAsync(entities);
-            await SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+            await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
     }
 }

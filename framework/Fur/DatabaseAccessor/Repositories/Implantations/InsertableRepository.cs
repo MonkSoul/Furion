@@ -61,7 +61,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 新增多个实体（异步）
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entities"></param>
         /// <returns></returns>
         public virtual Task InsertAsync(params TEntity[] entities)
         {
@@ -87,7 +87,7 @@ namespace Fur.DatabaseAccessor
         public virtual EntityEntry<TEntity> InsertNow(TEntity entity)
         {
             var entityEntry = Insert(entity);
-            SaveChanges();
+            SaveNow();
             return entityEntry;
         }
 
@@ -100,7 +100,7 @@ namespace Fur.DatabaseAccessor
         public virtual EntityEntry<TEntity> InsertNow(TEntity entity, bool acceptAllChangesOnSuccess)
         {
             var entityEntry = Insert(entity);
-            SaveChanges(acceptAllChangesOnSuccess);
+            SaveNow(acceptAllChangesOnSuccess);
             return entityEntry;
         }
 
@@ -111,18 +111,18 @@ namespace Fur.DatabaseAccessor
         public virtual void InsertNow(params TEntity[] entities)
         {
             Insert(entities);
-            SaveChanges();
+            SaveNow();
         }
 
         /// <summary>
         /// 新增多个实体
         /// </summary>
-        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="entities"></param>
-        public virtual void InsertNow(bool acceptAllChangesOnSuccess, params TEntity[] entities)
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        public virtual void InsertNow(TEntity[] entities, bool acceptAllChangesOnSuccess)
         {
             Insert(entities);
-            SaveChanges(acceptAllChangesOnSuccess);
+            SaveNow(acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Fur.DatabaseAccessor
         public virtual void InsertNow(IEnumerable<TEntity> entities)
         {
             Insert(entities);
-            SaveChanges();
+            SaveNow();
         }
 
         /// <summary>
@@ -143,11 +143,11 @@ namespace Fur.DatabaseAccessor
         public virtual void InsertNow(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess)
         {
             Insert(entities);
-            SaveChanges(acceptAllChangesOnSuccess);
+            SaveNow(acceptAllChangesOnSuccess);
         }
 
         /// <summary>
-        ///  新增并提交更改（异步）
+        /// 新增并提交更改（异步）
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="cancellationToken"></param>
@@ -155,7 +155,7 @@ namespace Fur.DatabaseAccessor
         public virtual async Task<EntityEntry<TEntity>> InsertNowAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
             var entityEntry = await InsertAsync(entity, cancellationToken);
-            await SaveChangesAsync(cancellationToken);
+            await SaveNowAsync(cancellationToken);
             return entityEntry;
         }
 
@@ -169,30 +169,44 @@ namespace Fur.DatabaseAccessor
         public virtual async Task<EntityEntry<TEntity>> InsertNowAsync(TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             var entityEntry = await InsertAsync(entity, cancellationToken);
-            await SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+            await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
             return entityEntry;
         }
 
-        // <summary>
+        /// <summary>
         /// 新增多个实体（异步）
         /// </summary>
         /// <param name="entities"></param>
+        /// <returns></returns>
         public virtual async Task InsertNowAsync(params TEntity[] entities)
         {
             await InsertAsync(entities);
-            await SaveChangesAsync();
+            await SaveNowAsync();
         }
 
         /// <summary>
         /// 新增多个实体并提交更改（异步）
         /// </summary>
-        /// <param name="acceptAllChangesOnSuccess"></param>
         /// <param name="entities"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual async Task InsertNowAsync(bool acceptAllChangesOnSuccess, params TEntity[] entities)
+        public virtual async Task InsertNowAsync(TEntity[] entities, CancellationToken cancellationToken = default)
         {
             await InsertAsync(entities);
-            await SaveChangesAsync(acceptAllChangesOnSuccess);
+            await SaveNowAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增多个实体并提交更改（异步）
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task InsertNowAsync(TEntity[] entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            await InsertAsync(entities);
+            await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -204,7 +218,7 @@ namespace Fur.DatabaseAccessor
         public virtual async Task InsertNowAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
         {
             await InsertAsync(entities, cancellationToken);
-            await SaveChangesAsync(cancellationToken);
+            await SaveNowAsync(cancellationToken);
         }
 
         /// <summary>
@@ -217,7 +231,7 @@ namespace Fur.DatabaseAccessor
         public virtual async Task InsertNowAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             await InsertAsync(entities, cancellationToken);
-            await SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+            await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
     }
 }
