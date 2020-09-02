@@ -43,7 +43,7 @@ namespace Fur.Application
 
         public TestDto Get(int id)
         {
-            return _testRepository.Entities.Find(id).Adapt<TestDto>();
+            return _testRepository.Find(id).Adapt<TestDto>();
         }
 
         public void Add(TestDto testDto)

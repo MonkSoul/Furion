@@ -4,6 +4,9 @@
 // 开源协议：MIT
 // 项目地址：https://gitee.com/monksoul/Fur
 
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
@@ -13,5 +16,41 @@ namespace Fur.DatabaseAccessor
     public interface IReadableRepository<TEntity>
         where TEntity : class, IDbEntityBase, new()
     {
+        /// <summary>
+        /// 根据主键查找
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        TEntity Find(object key);
+
+        /// <summary>
+        /// 根据多个主键查找
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        TEntity Find(params object[] keyValues);
+
+        /// <summary>
+        /// 根据主键查找
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity> FindAsync(object key, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 根据多个主键查找
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        Task<TEntity> FindAsync(params object[] keyValues);
+
+        /// <summary>
+        /// 根据多个主键查找
+        /// </summary>
+        /// <param name="keyValues"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity> FindAsync(object[] keyValues, CancellationToken cancellationToken = default);
     }
 }

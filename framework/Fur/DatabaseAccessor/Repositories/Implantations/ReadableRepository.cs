@@ -4,6 +4,7 @@
 // 开源协议：MIT
 // 项目地址：https://gitee.com/monksoul/Fur
 
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Fur.DatabaseAccessor
@@ -35,9 +36,38 @@ namespace Fur.DatabaseAccessor
             return Entities.Find(keyValues);
         }
 
-        public virtual async Task<TEntity> FindAsync(object key)
+        /// <summary>
+        /// 根据主键查找
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task<TEntity> FindAsync(object key, CancellationToken cancellationToken = default)
         {
-            var entity = await Entities.FindAsync(key);
+            var entity = await Entities.FindAsync(new object[] { key }, cancellationToken);
+            return entity;
+        }
+
+        /// <summary>
+        /// 根据多个主键查找
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public virtual async Task<TEntity> FindAsync(params object[] keyValues)
+        {
+            var entity = await Entities.FindAsync(keyValues);
+            return entity;
+        }
+
+        /// <summary>
+        /// 根据多个主键查找
+        /// </summary>
+        /// <param name="keyValues"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task<TEntity> FindAsync(object[] keyValues, CancellationToken cancellationToken = default)
+        {
+            var entity = await Entities.FindAsync(keyValues, cancellationToken);
             return entity;
         }
     }
