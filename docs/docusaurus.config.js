@@ -1,6 +1,6 @@
 module.exports = {
   title: "Fur",
-  tagline: "小僧不才，略懂皮毛（Fur）。",
+  tagline: "Fur 是基于 .NET 5 开发的极易入门、极速开发的 Web 应用框架。",
   url: "https://furos.cn",
   baseUrl: "/fur/",
   onBrokenLinks: "throw",
@@ -82,12 +82,12 @@ module.exports = {
           title: "社区",
           items: [
             {
-              label: "Stack Overflow",
-              href: "https://stackoverflow.com/questions/tagged/docusaurus",
+              label: "讨论",
+              href: "https://gitee.com/monksoul/Fur/issues",
             },
             {
-              label: "Discord",
-              href: "https://discordapp.com/invite/docusaurus",
+              label: "看板",
+              href: "https://gitee.com/monksoul/Fur/board",
             },
           ],
         },
@@ -99,13 +99,13 @@ module.exports = {
               to: "blog",
             },
             {
-              label: "GitHub",
-              href: "https://github.com/facebook/docusaurus",
+              label: "仓库",
+              href: "https://gitee.com/monksoul/Fur",
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Fur, Baiqian. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Fur, Baiqian Co.,Ltd.`,
     },
   },
   presets: [

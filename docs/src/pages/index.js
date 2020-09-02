@@ -1,54 +1,55 @@
-import React from 'react';
-import clsx from 'clsx';
-import Layout from '@theme/Layout';
-import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import useBaseUrl from '@docusaurus/useBaseUrl';
-import styles from './styles.module.css';
+import React from "react";
+import clsx from "clsx";
+import Layout from "@theme/Layout";
+import Link from "@docusaurus/Link";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import styles from "./styles.module.css";
 
 const features = [
   {
-    title: <>极易入门</>,
-    imageUrl: 'img/undraw_docusaurus_mountain.svg',
+    title: <>基于 .NET 5</>,
+    imageUrl: "img/undraw_docusaurus_mountain.svg",
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        .NET 5 是 .NET 的重要且令人兴奋的新方向。你会看到 .NET
+        变得更加简单，但也有更广泛的功能和实用程序。所有新的开发和功能都将是
+        .NET 5 的一部分，包括新的 C# 版本。
+      </>
+    ),
+  },
+  {
+    title: <>极易入门</>,
+    imageUrl: "img/undraw_docusaurus_tree.svg",
+    description: (
+      <>
+        Fur 在设计之初就秉承着 “三级”
+        ：极少学习成本、极少依赖，极少配置的设计思想，在架构设计和使用上做了大量的优化，支持各个能力阶层的技术人员极速上手。
       </>
     ),
   },
   {
     title: <>极速开发</>,
-    imageUrl: 'img/undraw_docusaurus_tree.svg',
+    imageUrl: "img/undraw_docusaurus_react.svg",
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
-      </>
-    ),
-  },
-  {
-    title: <>基于 .NET 5</>,
-    imageUrl: 'img/undraw_docusaurus_react.svg',
-    description: (
-      <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Fur
+        独具创新的设计理念和汲取了众多优秀大神、框架的思想同时结合主流的敏捷开发模式打造的一款极速开发框架。为您节约更多时间，去陪恋人、家人和朋友。
       </>
     ),
   },
 ];
 
-function Feature({imageUrl, title, description}) {
+function Feature({ imageUrl, title, description }) {
   const imgUrl = useBaseUrl(imageUrl);
   return (
-    <div className={clsx('col col--4', styles.feature)}>
+    <div className={clsx("col col--4", styles.feature)}>
       {imgUrl && (
         <div className="text--center">
           <img className={styles.featureImage} src={imgUrl} alt={title} />
         </div>
       )}
-      <h3>{title}</h3>
+      <h3 className={clsx(styles.featureTitle)}>{title}</h3>
       <p>{description}</p>
     </div>
   );
@@ -56,22 +57,32 @@ function Feature({imageUrl, title, description}) {
 
 function Home() {
   const context = useDocusaurusContext();
-  const {siteConfig = {}} = context;
+  const { siteConfig = {} } = context;
   return (
     <Layout
-      title={`小僧不才，略懂皮毛（Fur） ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
-      <header className={clsx('hero hero--primary', styles.heroBanner)}>
+      title={`Fur 是基于 .NET 5 开发的极易入门、极速开发的 Web 应用框架。 ${siteConfig.title}`}
+      description="Fur 是基于 .NET 5 开发的极易入门、极速开发的 Web 应用框架。"
+    >
+      <header className={clsx("hero hero--primary", styles.heroBanner)}>
         <div className="container">
-          <h1 className="hero__title">{siteConfig.title}</h1>
-          <p className="hero__subtitle">{siteConfig.tagline}</p>
+          <h1 className="hero__title">
+            <img
+              src={useBaseUrl("img/furlogo.png")}
+              height="80"
+              style={{ margin: "0 auto", display: "block" }}
+            />
+          </h1>
+          <p className={clsx("hero__subtitle", styles.subtitle)}>
+            {siteConfig.tagline}
+          </p>
           <div className={styles.buttons}>
             <Link
               className={clsx(
-                'button button--outline button--secondary button--lg',
-                styles.getStarted,
+                "button button--outline button--secondary button--lg",
+                styles.getStarted
               )}
-              to={useBaseUrl('docs/')}>
+              to={useBaseUrl("docs/")}
+            >
               快速入门
             </Link>
           </div>

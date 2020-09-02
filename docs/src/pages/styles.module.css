@@ -10,7 +10,7 @@
   text-align: center;
   position: relative;
   overflow: hidden;
-  background-color: #003f57;
+  background-color: #282828;
 }
 
 @media screen and (max-width: 966px) {
@@ -32,6 +32,10 @@
   width: 100%;
 }
 
+.featureTitle {
+  text-align: center;
+}
+
 .featureImage {
   height: 200px;
   width: 200px;
@@ -47,4 +51,8 @@
 
 .getStarted:hover {
   color: #003f57 !important;
+}
+
+.subtitle {
+  color: #fff !important;
 }
