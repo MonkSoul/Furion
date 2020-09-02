@@ -341,7 +341,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="ignoreQueryFilters"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        IQueryable<TEntity> Filter(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false);
+        IQueryable<TEntity> Filter(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
         /// 查询多条
@@ -366,7 +366,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="ignoreQueryFilters"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false);
+        IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
         /// 查询多条
@@ -391,7 +391,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="asSplitQuery"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<List<TEntity>> FilterAsync(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+        Task<List<TEntity>> FilterAsync(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 查询多条
@@ -418,7 +418,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="ignoreQueryFilters"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+        Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 分页查询多条
@@ -446,7 +446,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="ignoreQueryPagedFilters"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        PagedList<TEntity> PagedFilter(int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = false);
+        PagedList<TEntity> PagedFilter(int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = true);
 
         /// <summary>
         /// 分页查询多条
@@ -477,7 +477,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="ignoreQueryPagedFilters"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        PagedList<TEntity> PagedFilter(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = false);
+        PagedList<TEntity> PagedFilter(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = true);
 
         /// <summary>
         /// 分页查询多条
@@ -508,7 +508,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="asSplitQuery"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<PagedList<TEntity>> PagedFilterAsync(int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+        Task<PagedList<TEntity>> PagedFilterAsync(int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 分页查询多条
@@ -542,7 +542,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="asSplitQuery"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<PagedList<TEntity>> PagedFilterAsync(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+        Task<PagedList<TEntity>> PagedFilterAsync(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 判断记录是否存在
@@ -564,7 +564,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="ignoreQueryAnys"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        bool Any(bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = false);
+        bool Any(bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = true);
 
         /// <summary>
         /// 判断记录是否存在
@@ -589,7 +589,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="ignoreQueryAnys"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        bool Any(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = false);
+        bool Any(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = true);
 
         /// <summary>
         /// 判断记录是否存在
@@ -614,7 +614,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="asSplitQuery"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<bool> AnyAsync(bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+        Task<bool> AnyAsync(bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 判断记录是否存在
@@ -642,7 +642,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="asSplitQuery"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 查看记录条数
@@ -664,7 +664,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="ignoreQueryCounts"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        int Count(bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = false);
+        int Count(bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = true);
 
         /// <summary>
         /// 查看记录条数
@@ -689,7 +689,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="ignoreQueryCounts"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        int Count(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = false);
+        int Count(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = true);
 
         /// <summary>
         /// 查看记录条数
@@ -714,7 +714,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="asSplitQuery"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<int> CountAsync(bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+        Task<int> CountAsync(bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 查看记录条数
@@ -742,7 +742,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="asSplitQuery"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<int> CountAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+        Task<int> CountAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 查看最小值
@@ -764,7 +764,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="ignoreQueryMins"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        TEntity Min(bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = false);
+        TEntity Min(bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = true);
 
         /// <summary>
         /// 查看最小值
@@ -789,7 +789,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="ignoreQueryMins"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression = null, bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = false);
+        TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression = null, bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = true);
 
         /// <summary>
         /// 查看最小值
@@ -814,7 +814,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="asSplitQuery"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<TEntity> MinAsync(bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+        Task<TEntity> MinAsync(bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 查看最小值
@@ -842,7 +842,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="asSplitQuery"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression = null, bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+        Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression = null, bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 查看最大值
@@ -864,7 +864,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="ignoreQueryMaxs"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        TEntity Max(bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = false);
+        TEntity Max(bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = true);
 
         /// <summary>
         /// 查看最大值
@@ -889,7 +889,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="ignoreQueryMaxs"></param>
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
-        TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression = null, bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = false);
+        TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression = null, bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = true);
 
         /// <summary>
         /// 查看最大值
@@ -914,7 +914,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="asSplitQuery"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<TEntity> MaxAsync(bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+        Task<TEntity> MaxAsync(bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 查看最大值
@@ -942,6 +942,6 @@ namespace Fur.DatabaseAccessor
         /// <param name="asSplitQuery"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression = null, bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+        Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression = null, bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
     }
 }
