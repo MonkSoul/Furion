@@ -149,7 +149,7 @@ namespace Fur.FriendlyException
 
             // 获取错误码消息
             var errorCodeMessage = ifExceptionAttribute == null || string.IsNullOrEmpty(ifExceptionAttribute.ErrorMessage)
-                ? (ErrorCodeMessages.GetValueOrDefault(errorCode.ToString()) ?? "Internal Server Error.")
+                ? (ErrorCodeMessages.GetValueOrDefault(errorCode.ToString()) ?? "Internal Server Error")
                 : ifExceptionAttribute.ErrorMessage;
 
             // 采用 [IfException] 格式化参数覆盖

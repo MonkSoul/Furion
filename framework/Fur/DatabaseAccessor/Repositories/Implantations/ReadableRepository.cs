@@ -4,6 +4,7 @@
 // 开源协议：MIT
 // 项目地址：https://gitee.com/monksoul/Fur
 
+using Fur.FriendlyException;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,13 +23,19 @@ namespace Fur.DatabaseAccessor
          where TEntity : class, IDbEntityBase, new()
     {
         /// <summary>
+        /// 没找到异常消息
+        /// </summary>
+        private const string NoFoundErrorMessage = "Sequence contains no elements";
+
+        /// <summary>
         /// 根据主键查找
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
         public virtual TEntity Find(object key)
         {
-            return Entities.Find(key);
+            var entity = FindOrDefault(key) ?? throw Oops.Oh(NoFoundErrorMessage, typeof(InvalidOperationException));
+            return entity;
         }
 
         /// <summary>
@@ -38,7 +45,8 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual TEntity Find(params object[] keyValues)
         {
-            return Entities.Find(keyValues);
+            var entity = FindOrDefault(keyValues) ?? throw Oops.Oh(NoFoundErrorMessage, typeof(InvalidOperationException));
+            return entity;
         }
 
         /// <summary>
@@ -49,6 +57,61 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public virtual async Task<TEntity> FindAsync(object key, CancellationToken cancellationToken = default)
         {
+            var entity = await FindOrDefaultAsync(key, cancellationToken);
+            return entity ?? throw Oops.Oh(NoFoundErrorMessage, typeof(InvalidOperationException));
+        }
+
+        /// <summary>
+        /// 根据多个主键查找
+        /// </summary>
+        /// <param name="keyValues"></param>
+        /// <returns></returns>
+        public virtual async Task<TEntity> FindAsync(params object[] keyValues)
+        {
+            var entity = await FindOrDefaultAsync(keyValues);
+            return entity ?? throw Oops.Oh(NoFoundErrorMessage, typeof(InvalidOperationException));
+        }
+
+        /// <summary>
+        /// 根据多个主键查找
+        /// </summary>
+        /// <param name="keyValues"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task<TEntity> FindAsync(object[] keyValues, CancellationToken cancellationToken = default)
+        {
+            var entity = await FindOrDefaultAsync(keyValues, cancellationToken);
+            return entity ?? throw Oops.Oh(NoFoundErrorMessage, typeof(InvalidOperationException));
+        }
+
+        /// <summary>
+        /// 根据主键查找
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public virtual TEntity FindOrDefault(object key)
+        {
+            return Entities.Find(key);
+        }
+
+        /// <summary>
+        /// 根据多个主键查找
+        /// </summary>
+        /// <param name="keyValues"></param>
+        /// <returns></returns>
+        public virtual TEntity FindOrDefault(params object[] keyValues)
+        {
+            return Entities.Find(keyValues);
+        }
+
+        /// <summary>
+        /// 根据主键查找
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual async Task<TEntity> FindOrDefaultAsync(object key, CancellationToken cancellationToken = default)
+        {
             var entity = await Entities.FindAsync(new object[] { key }, cancellationToken);
             return entity;
         }
@@ -58,7 +121,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="keyValues"></param>
         /// <returns></returns>
-        public virtual async Task<TEntity> FindAsync(params object[] keyValues)
+        public virtual async Task<TEntity> FindOrDefaultAsync(params object[] keyValues)
         {
             var entity = await Entities.FindAsync(keyValues);
             return entity;
@@ -70,7 +133,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="keyValues"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public virtual async Task<TEntity> FindAsync(object[] keyValues, CancellationToken cancellationToken = default)
+        public virtual async Task<TEntity> FindOrDefaultAsync(object[] keyValues, CancellationToken cancellationToken = default)
         {
             var entity = await Entities.FindAsync(keyValues, cancellationToken);
             return entity;

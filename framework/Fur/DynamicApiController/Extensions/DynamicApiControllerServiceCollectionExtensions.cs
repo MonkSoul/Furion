@@ -27,7 +27,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var services = mvcBuilder.Services;
 
             var partManager = services.FirstOrDefault(s => s.ServiceType == typeof(ApplicationPartManager)).ImplementationInstance as ApplicationPartManager
-                ?? throw Oops.Oh($"`{nameof(AddDynamicApiControllers)}` must be invoked after `{nameof(MvcServiceCollectionExtensions.AddControllers)}`.", typeof(InvalidOperationException));
+                ?? throw Oops.Oh($"`{nameof(AddDynamicApiControllers)}` must be invoked after `{nameof(MvcServiceCollectionExtensions.AddControllers)}`", typeof(InvalidOperationException));
 
             // 添加控制器特性提供器
             partManager.FeatureProviders.Add(new DynamicApiControllerFeatureProvider());

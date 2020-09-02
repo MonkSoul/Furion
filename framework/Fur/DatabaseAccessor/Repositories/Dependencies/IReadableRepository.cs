@@ -58,6 +58,43 @@ namespace Fur.DatabaseAccessor
         Task<TEntity> FindAsync(object[] keyValues, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// 根据主键查找
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        TEntity FindOrDefault(object key);
+
+        /// <summary>
+        /// 根据多个主键查找
+        /// </summary>
+        /// <param name="keyValues"></param>
+        /// <returns></returns>
+        TEntity FindOrDefault(params object[] keyValues);
+
+        /// <summary>
+        /// 根据主键查找
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity> FindOrDefaultAsync(object key, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 根据多个主键查找
+        /// </summary>
+        /// <param name="keyValues"></param>
+        /// <returns></returns>
+        Task<TEntity> FindOrDefaultAsync(params object[] keyValues);
+
+        /// <summary>
+        /// 根据多个主键查找
+        /// </summary>
+        /// <param name="keyValues"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity> FindOrDefaultAsync(object[] keyValues, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// 获取一条
         /// </summary>
         /// <returns></returns>
