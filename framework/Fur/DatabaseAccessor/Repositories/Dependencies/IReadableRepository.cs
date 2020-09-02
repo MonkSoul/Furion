@@ -643,5 +643,105 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <returns></returns>
+        int Count();
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        int Count(bool noTracking);
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryCounts"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        int Count(bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = false);
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        int Count(Expression<Func<TEntity, bool>> expression);
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        int Count(Expression<Func<TEntity, bool>> expression, bool noTracking);
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryCounts"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        int Count(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = false);
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<int> CountAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<int> CountAsync(bool noTracking, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryCounts"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<int> CountAsync(bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<int> CountAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<int> CountAsync(Expression<Func<TEntity, bool>> expression, bool noTracking, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryCounts"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<int> CountAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = false, CancellationToken cancellationToken = default);
     }
 }

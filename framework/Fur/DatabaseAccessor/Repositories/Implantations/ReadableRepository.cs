@@ -744,7 +744,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 判断记录是否存在
+        /// 查看记录条数
         /// </summary>
         /// <returns></returns>
         public virtual bool Any()
@@ -753,7 +753,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 判断记录是否存在
+        /// 查看记录条数
         /// </summary>
         /// <param name="noTracking"></param>
         /// <returns></returns>
@@ -763,7 +763,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 判断记录是否存在
+        /// 查看记录条数
         /// </summary>
         /// <param name="noTracking"></param>
         /// <param name="ignoreQueryAnys"></param>
@@ -775,7 +775,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 判断记录是否存在
+        /// 查看记录条数
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
@@ -785,7 +785,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 判断记录是否存在
+        /// 查看记录条数
         /// </summary>
         /// <param name="expression"></param>
         /// <param name="noTracking"></param>
@@ -796,7 +796,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 判断记录是否存在
+        /// 查看记录条数
         /// </summary>
         /// <param name="expression"></param>
         /// <param name="noTracking"></param>
@@ -809,7 +809,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 判断记录是否存在
+        /// 查看记录条数
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
@@ -819,7 +819,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 判断记录是否存在
+        /// 查看记录条数
         /// </summary>
         /// <param name="noTracking"></param>
         /// <param name="cancellationToken"></param>
@@ -830,7 +830,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 判断记录是否存在
+        /// 查看记录条数
         /// </summary>
         /// <param name="noTracking"></param>
         /// <param name="ignoreQueryAnys"></param>
@@ -843,7 +843,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 判断记录是否存在
+        /// 查看记录条数
         /// </summary>
         /// <param name="expression"></param>
         /// <param name="cancellationToken"></param>
@@ -854,7 +854,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 判断记录是否存在
+        /// 查看记录条数
         /// </summary>
         /// <param name="expression"></param>
         /// <param name="noTracking"></param>
@@ -866,7 +866,7 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 判断记录是否存在
+        /// 查看记录条数
         /// </summary>
         /// <param name="expression"></param>
         /// <param name="noTracking"></param>
@@ -877,6 +877,142 @@ namespace Fur.DatabaseAccessor
         public virtual Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = false, CancellationToken cancellationToken = default)
         {
             return CombineQueryable(null, noTracking, ignoreQueryAnys, asSplitQuery).AnyAsync(expression, cancellationToken);
+        }
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <returns></returns>
+        public virtual int Count()
+        {
+            return CombineQueryable().Count();
+        }
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual int Count(bool noTracking)
+        {
+            return CombineQueryable(noTracking: noTracking).Count();
+        }
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryCounts"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        public virtual int Count(bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = false)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryCounts, asSplitQuery).Count();
+        }
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        public virtual int Count(Expression<Func<TEntity, bool>> expression)
+        {
+            return CombineQueryable().Count(expression);
+        }
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual int Count(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        {
+            return CombineQueryable(noTracking: noTracking).Count(expression);
+        }
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryCounts"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        public virtual int Count(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = false)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryCounts, asSplitQuery).Count(expression);
+        }
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<int> CountAsync(CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable().CountAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<int> CountAsync(bool noTracking, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(noTracking: noTracking).CountAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryCounts"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<int> CountAsync(bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = false, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryCounts, asSplitQuery).CountAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<int> CountAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable().CountAsync(expression, cancellationToken);
+        }
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<int> CountAsync(Expression<Func<TEntity, bool>> expression, bool noTracking, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(noTracking: noTracking).CountAsync(expression, cancellationToken);
+        }
+
+        /// <summary>
+        /// 查看记录条数
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryCounts"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<int> CountAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = false, CancellationToken cancellationToken = default)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryCounts, asSplitQuery).CountAsync(expression, cancellationToken);
         }
 
         /// <summary>
