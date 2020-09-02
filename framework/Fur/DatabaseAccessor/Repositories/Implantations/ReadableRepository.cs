@@ -6,6 +6,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
@@ -510,6 +511,71 @@ namespace Fur.DatabaseAccessor
         public virtual IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false)
         {
             return CombineQueryable(expression, noTracking, ignoreQueryFilters, asSplitQuery);
+        }
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <returns></returns>
+        public virtual Task<List<TEntity>> FilterAsync()
+        {
+            return CombineQueryable().ToListAsync();
+        }
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual Task<List<TEntity>> FilterAsync(bool noTracking)
+        {
+            return CombineQueryable(noTracking: noTracking).ToListAsync();
+        }
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryFilters"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        public virtual Task<List<TEntity>> FilterAsync(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false)
+        {
+            return CombineQueryable(null, noTracking, ignoreQueryFilters, asSplitQuery).ToListAsync();
+        }
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        public virtual Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression)
+        {
+            return CombineQueryable(expression).ToListAsync();
+        }
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression, bool noTracking)
+        {
+            return CombineQueryable(expression, noTracking: noTracking).ToListAsync();
+        }
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryFilters"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        public virtual Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false)
+        {
+            return CombineQueryable(expression, noTracking, ignoreQueryFilters, asSplitQuery).ToListAsync();
         }
 
         /// <summary>

@@ -5,6 +5,7 @@
 // 项目地址：https://gitee.com/monksoul/Fur
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
@@ -366,5 +367,52 @@ namespace Fur.DatabaseAccessor
         /// <param name="asSplitQuery"></param>
         /// <returns></returns>
         IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false);
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <returns></returns>
+        Task<List<TEntity>> FilterAsync();
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        Task<List<TEntity>> FilterAsync(bool noTracking);
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryFilters"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        Task<List<TEntity>> FilterAsync(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false);
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression);
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression, bool noTracking);
+
+        /// <summary>
+        /// 查询多条
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="ignoreQueryFilters"></param>
+        /// <param name="asSplitQuery"></param>
+        /// <returns></returns>
+        Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression = null, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = false);
     }
 }
