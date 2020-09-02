@@ -200,6 +200,254 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <returns></returns>
+        public virtual TEntity First()
+        {
+            return DynamicEntities().First();
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual TEntity First(bool noTracking)
+        {
+            return DynamicEntities(noTracking).First();
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public virtual TEntity First(Expression<Func<TEntity, bool>> predicate)
+        {
+            return DynamicEntities().First(predicate);
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual TEntity First(Expression<Func<TEntity, bool>> predicate, bool noTracking)
+        {
+            return DynamicEntities(noTracking).First(predicate);
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <returns></returns>
+        public virtual TEntity FirstOrDefault()
+        {
+            return DynamicEntities().FirstOrDefault();
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual TEntity FirstOrDefault(bool noTracking)
+        {
+            return DynamicEntities(noTracking).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public virtual TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate)
+        {
+            return DynamicEntities().FirstOrDefault(predicate);
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking)
+        {
+            return DynamicEntities(noTracking).FirstOrDefault(predicate);
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TEntity> FirstAsync(CancellationToken cancellationToken = default)
+        {
+            return DynamicEntities().FirstAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TEntity> FirstAsync(bool noTracking, CancellationToken cancellationToken = default)
+        {
+            return DynamicEntities(noTracking).FirstAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
+        {
+            return DynamicEntities().FirstAsync(predicate, cancellationToken);
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking, CancellationToken cancellationToken = default)
+        {
+            return DynamicEntities().FirstAsync(predicate, cancellationToken);
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <returns></returns>
+        public virtual TEntity Last()
+        {
+            return DynamicEntities().Last();
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual TEntity Last(bool noTracking)
+        {
+            return DynamicEntities(noTracking).Last();
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public virtual TEntity Last(Expression<Func<TEntity, bool>> predicate)
+        {
+            return DynamicEntities().Last(predicate);
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual TEntity Last(Expression<Func<TEntity, bool>> predicate, bool noTracking)
+        {
+            return DynamicEntities(noTracking).Last(predicate);
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <returns></returns>
+        public virtual TEntity LastOrDefault()
+        {
+            return DynamicEntities().LastOrDefault();
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual TEntity LastOrDefault(bool noTracking)
+        {
+            return DynamicEntities(noTracking).LastOrDefault();
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public virtual TEntity LastOrDefault(Expression<Func<TEntity, bool>> predicate)
+        {
+            return DynamicEntities().LastOrDefault(predicate);
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        public virtual TEntity LastOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking)
+        {
+            return DynamicEntities(noTracking).LastOrDefault(predicate);
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TEntity> LastAsync(CancellationToken cancellationToken = default)
+        {
+            return DynamicEntities().LastAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TEntity> LastAsync(bool noTracking, CancellationToken cancellationToken = default)
+        {
+            return DynamicEntities(noTracking).LastAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TEntity> LastAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
+        {
+            return DynamicEntities().LastAsync(predicate, cancellationToken);
+        }
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public virtual Task<TEntity> LastAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking, CancellationToken cancellationToken = default)
+        {
+            return DynamicEntities().LastAsync(predicate, cancellationToken);
+        }
+
+        /// <summary>
         /// 动态实体
         /// </summary>
         /// <param name="noTracking"></param>

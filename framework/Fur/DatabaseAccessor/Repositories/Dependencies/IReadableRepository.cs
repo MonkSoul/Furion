@@ -142,5 +142,181 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <returns></returns>
+        TEntity First();
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        TEntity First(bool noTracking);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        TEntity First(Expression<Func<TEntity, bool>> predicate);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        TEntity First(Expression<Func<TEntity, bool>> predicate, bool noTracking);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <returns></returns>
+        TEntity FirstOrDefault();
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        TEntity FirstOrDefault(bool noTracking);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity> FirstAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity> FirstAsync(bool noTracking, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <returns></returns>
+        TEntity Last();
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        TEntity Last(bool noTracking);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        TEntity Last(Expression<Func<TEntity, bool>> predicate);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        TEntity Last(Expression<Func<TEntity, bool>> predicate, bool noTracking);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <returns></returns>
+        TEntity LastOrDefault();
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        TEntity LastOrDefault(bool noTracking);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        TEntity LastOrDefault(Expression<Func<TEntity, bool>> predicate);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="noTracking"></param>
+        /// <returns></returns>
+        TEntity LastOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity> LastAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity> LastAsync(bool noTracking, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity> LastAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 获取一条
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="noTracking"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<TEntity> LastAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking, CancellationToken cancellationToken = default);
     }
 }
