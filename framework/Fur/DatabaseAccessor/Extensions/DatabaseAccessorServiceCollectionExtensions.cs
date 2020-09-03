@@ -52,7 +52,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     if (!isRegistered) throw new InvalidOperationException("The DbContext for locator binding was not found");
 
                     // 动态解析数据库上下文
-                    return (DbContext)provider.GetService(dbContextType);
+                    return provider.GetService(dbContextType) as DbContext;
                 }
                 return (Func<Type, DbContext>)dbContextResolve;
             });
