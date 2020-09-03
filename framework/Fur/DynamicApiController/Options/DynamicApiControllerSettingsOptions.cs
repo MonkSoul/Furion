@@ -14,7 +14,7 @@ namespace Fur.DynamicApiController
     /// 动态接口控制器配置
     /// </summary>
     [OptionsSettings("AppSettings:DynamicApiControllerSettings")]
-    public sealed class DynamicApiControllerSettingsOptions : IAppOptions<DynamicApiControllerSettingsOptions>
+    public sealed class DynamicApiControllerSettingsOptions : IConfigurableOptions<DynamicApiControllerSettingsOptions>
     {
         /// <summary>
         /// 默认路由前缀

@@ -24,7 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddSpecificationDocuments(this IServiceCollection services, Action<SwaggerGenOptions> configure = null)
         {
             // 添加配置
-            services.AddAppOptions<SpecificationDocumentSettingsOptions>();
+            services.AddConfigurableOptions<SpecificationDocumentSettingsOptions>();
 
             // 添加Swagger生成器服务
             services.AddSwaggerGen(options => SpecificationDocumentBuilder.BuildGen(options, configure));

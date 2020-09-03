@@ -47,7 +47,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var services = mvcBuilder.Services;
 
             // 添加异常配置文件支持
-            services.AddAppOptions<ErrorCodeMessageSettingsOptions>();
+            services.AddConfigurableOptions<ErrorCodeMessageSettingsOptions>();
 
             // 添加全局异常过滤器
             if (enabledGlobalExceptionFilter)

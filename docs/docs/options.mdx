@@ -47,7 +47,7 @@ using Fur.ConfigurableOptions;
 
 namespace Fur.Application
 {
-    public class AppInfoOptions : IAppOptions
+    public class AppInfoOptions : IConfigurableOptions
     {
         public string Name { get; set; }
         public string Version { get; set; }
@@ -60,7 +60,7 @@ namespace Fur.Application
 
 建议所有选项类都应该以 **`Options`** 命名结尾。
 
-另外，`Fur` 框架提供了非常灵活的注册选项服务的方法，只需要继承 **`IAppOptions`** 接口即可，该接口位于 **`Fur.ConfigurableOptions`** 命名空间下。
+另外，`Fur` 框架提供了非常灵活的注册选项服务的方法，只需要继承 **`IConfigurableOptions`** 接口即可，该接口位于 **`Fur.ConfigurableOptions`** 命名空间下。
 
 :::
 
@@ -90,7 +90,7 @@ namespace Fur.Web.Entry
         {
             services.AddApp(options =>
             {
-                options.AddAppOptions<AppInfoOptions>();
+                options.AddConfigurableOptions<AppInfoOptions>();
             });
             // Other Codes...
         }
@@ -105,12 +105,12 @@ namespace Fur.Web.Entry
 
 :::caution 特别注意
 
-`services.AddAppOptions<AppInfoOptions>()` 只能在 `services.AddApp()` **之后或参数内**注册。
+`services.AddConfigurableOptions<AppInfoOptions>()` 只能在 `services.AddApp()` **之后或参数内**注册。
 
 **下面代码是无效的**：
 
 ```cs
-services.AddAppOptions<AppInfoOptions>();
+services.AddConfigurableOptions<AppInfoOptions>();
 services.AddApp();
 ```
 
@@ -375,7 +375,7 @@ namespace Fur
 - 以 `Options` 结尾，则键名为：`AppInfo`
 
 ```cs {1}
-public class AppInfoOptions : IAppOptions
+public class AppInfoOptions : IConfigurableOptions
 {
     public string Name { get; set; }
     public string Version { get; set; }
@@ -386,7 +386,7 @@ public class AppInfoOptions : IAppOptions
 - 不以 `Options` 结尾，则键名为：`AppInfoSettings`
 
 ```cs {1}
-public class AppInfoSettings : IAppOptions
+public class AppInfoSettings : IConfigurableOptions
 {
     public string Name { get; set; }
     public string Version { get; set; }
@@ -404,7 +404,7 @@ public class AppInfoSettings : IAppOptions
 
 ```cs {1}
 [OptionsSettings("AppSettings:AppInfo")]
-public class AppInfoOptions : IAppOptions
+public class AppInfoOptions : IConfigurableOptions
 {
     public string Name { get; set; }
     public string Version { get; set; }
@@ -416,7 +416,7 @@ public class AppInfoOptions : IAppOptions
 
 ```cs {1}
 [OptionsSettings]
-public class AppInfoSettings : IAppOptions
+public class AppInfoSettings : IConfigurableOptions
 {
     public string Name { get; set; }
     public string Version { get; set; }
@@ -435,7 +435,7 @@ public class AppInfoSettings : IAppOptions
 
 ## 2.2.6 选项验证
 
-选项支持验证配置有效性，在 `Fur` 框架中，通过 `services.AddAppOptions<TOptions>()` 注册选项默认启用了验证支持。
+选项支持验证配置有效性，在 `Fur` 框架中，通过 `services.AddConfigurableOptions<TOptions>()` 注册选项默认启用了验证支持。
 
 包括：
 
@@ -458,7 +458,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Fur.Application
 {
-    public class AppInfoOptions : IAppOptions
+    public class AppInfoOptions : IConfigurableOptions
     {
         [Required(ErrorMessage = "名称不能为空")]
         public string Name { get; set; }
@@ -497,7 +497,7 @@ namespace Fur.Application
 }
 ```
 
-- 选项类继承 `IAppOptions<TOptions, TOptionsValidation>` 接口，并实现该接口。
+- 选项类继承 `IConfigurableOptions<TOptions, TOptionsValidation>` 接口，并实现该接口。
 
 ```cs {6,16-18}
 using Fur.ConfigurableOptions;
@@ -505,7 +505,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Fur.Application
 {
-    public class AppInfoOptions : IAppOptions<AppInfoOptions, AppInfoValidation>
+    public class AppInfoOptions : IConfigurableOptions<AppInfoOptions, AppInfoValidation>
     {
         [Required(ErrorMessage = "名称不能为空")]
         public string Name { get; set; }
@@ -532,8 +532,8 @@ using System.Text.RegularExpressions;
 
 namespace Fur.Application
 {
-    // 继承 IAppOptions<TOptions, TOptionsValidation> 接口
-    public class AppInfoOptions : IAppOptions<AppInfoOptions, AppInfoValidation>
+    // 继承 IConfigurableOptions<TOptions, TOptionsValidation> 接口
+    public class AppInfoOptions : IConfigurableOptions<AppInfoOptions, AppInfoValidation>
     {
         [Required(ErrorMessage = "名称不能为空")]
         public string Name { get; set; }
@@ -570,7 +570,7 @@ namespace Fur.Application
 
 :::note 特别说明
 
-**`IAppOptions<TOptions, TOptionsValidation>`** 继承自 **`IAppOptions<TOptions>`**，也就是自定义复杂验证默认具有 **`PostConfigure(TOptions options)`** 选项后期配置方法。关于《[2.2.7 选项后期配置](#227-选项后期配置)》将在下一小节说明。
+**`IConfigurableOptions<TOptions, TOptionsValidation>`** 继承自 **`IConfigurableOptions<TOptions>`**，也就是自定义复杂验证默认具有 **`PostConfigure(TOptions options)`** 选项后期配置方法。关于《[2.2.7 选项后期配置](#227-选项后期配置)》将在下一小节说明。
 
 :::
 
@@ -578,7 +578,7 @@ namespace Fur.Application
 
 选项后期配置通俗一点来说，可以在运行时解析值或设定默认值/后期配置等。
 
-在 `Fur` 框架中，配置选项后期配置很简单，只需要继承 `IAppOptions<TOptions` 接口并实现 `PostConfigure(TOptions options)` 方法。
+在 `Fur` 框架中，配置选项后期配置很简单，只需要继承 `IConfigurableOptions<TOptions` 接口并实现 `PostConfigure(TOptions options)` 方法。
 
 ```cs {7,16-21}
 using Fur.ConfigurableOptions;
@@ -587,7 +587,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Fur.Application
 {
-    public class AppInfoOptions : IAppOptions<AppInfoOptions>
+    public class AppInfoOptions : IConfigurableOptions<AppInfoOptions>
     {
         [Required(ErrorMessage = "名称不能为空")]
         public string Name { get; set; }
@@ -608,7 +608,7 @@ namespace Fur.Application
 
 :::note 特别说明
 
-**`IAppOptions<TOptions, TOptionsValidation>`** 继承自 **`IAppOptions<TOptions>`**，也就是自定义复杂验证默认具有 **`PostConfigure(TOptions options, IConfiguration configuration)`** 选项后期配置方法。
+**`IConfigurableOptions<TOptions, TOptionsValidation>`** 继承自 **`IConfigurableOptions<TOptions>`**，也就是自定义复杂验证默认具有 **`PostConfigure(TOptions options, IConfiguration configuration)`** 选项后期配置方法。
 
 :::
 
@@ -616,14 +616,14 @@ namespace Fur.Application
 
 `Fur` 框架提供了非常简单且灵活的方式监听选项更改，也就是 **`appsettings.json` 或 自定义配置文件发生任何更改都会触发处理方法**。
 
-使用非常简单，只需要继承 `IAppOptionsListener<TOptions>` 接口并实现 `void OnListener(TOptions options, IConfiguration configuration)` 方法即可。
+使用非常简单，只需要继承 `IConfigurableOptionsListener<TOptions>` 接口并实现 `void OnListener(TOptions options, IConfiguration configuration)` 方法即可。
 
 ```cs {5,12-16}
 using Fur.ConfigurableOptions;
 
 namespace Fur.Application
 {
-    public class AppInfoOptions : IAppOptions, IAppOptionsListener<AppInfoOptions>
+    public class AppInfoOptions : IConfigurableOptionsListener<AppInfoOptions>
     {
         public string Name { get; set; }
         public string Version { get; set; }
@@ -635,8 +635,18 @@ namespace Fur.Application
         var name = options.Name;  // 实时的最新值
         var version = options.Version;  // 实时的最新值
     }
+
+    public void PostConfigure(AppInfoOptions options, IConfiguration configuration)
+    {
+    }
 }
 ```
+
+:::note 特别说明
+
+**`IConfigurableOptionsListener<TOptions>`** 继承自 **`IConfigurableOptions<TOptions>`**。
+
+:::
 
 ## 2.2.9 选项的优缺点
 

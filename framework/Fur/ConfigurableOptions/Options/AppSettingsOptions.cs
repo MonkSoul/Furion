@@ -11,7 +11,7 @@ namespace Fur.ConfigurableOptions
     /// <summary>
     /// 应用全局配置
     /// </summary>
-    public sealed class AppSettingsOptions : IAppOptions<AppSettingsOptions>
+    public sealed class AppSettingsOptions : IConfigurableOptions<AppSettingsOptions>
     {
         /// <summary>
         /// MiniProfiler 插件路径

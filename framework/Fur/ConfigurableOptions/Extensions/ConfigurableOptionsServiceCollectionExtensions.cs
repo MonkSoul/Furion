@@ -16,7 +16,7 @@ using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class ConfigurableServiceCollectionExtensions
+    public static class ConfigurableOptionsServiceCollectionExtensions
     {
         /// <summary>
         /// 添加选项配置
@@ -25,8 +25,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务集合</param>
         /// <param name="options">选项实例</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddAppOptions<TOptions>(this IServiceCollection services)
-            where TOptions : class, IAppOptions
+        public static IServiceCollection AddConfigurableOptions<TOptions>(this IServiceCollection services)
+            where TOptions : class, IConfigurableOptions
         {
             var optionsType = typeof(TOptions);
             var optionsSettings = optionsType.GetCustomAttribute<OptionsSettingsAttribute>(false);
@@ -38,9 +38,9 @@ namespace Microsoft.Extensions.DependencyInjection
             var optionsConfiguration = App.Configuration.GetSection(jsonKey);
 
             // 配置选项监听
-            if (typeof(IAppOptionsListener<TOptions>).IsAssignableFrom(optionsType))
+            if (typeof(IConfigurableOptionsListener<TOptions>).IsAssignableFrom(optionsType))
             {
-                var onListenerMethod = optionsType.GetMethod(nameof(IAppOptionsListener<TOptions>.OnListener));
+                var onListenerMethod = optionsType.GetMethod(nameof(IConfigurableOptionsListener<TOptions>.OnListener));
                 if (onListenerMethod != null)
                 {
                     ChangeToken.OnChange(() => optionsConfiguration.GetReloadToken(), () =>
@@ -57,7 +57,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             // 配置复杂验证后后期配置
             var validateInterface = optionsType.GetInterfaces()
-                .FirstOrDefault(u => u.IsGenericType && typeof(IAppOptions).IsAssignableFrom(u.GetGenericTypeDefinition()));
+                .FirstOrDefault(u => u.IsGenericType && typeof(IConfigurableOptions).IsAssignableFrom(u.GetGenericTypeDefinition()));
             if (validateInterface != null)
             {
                 var genericArguments = validateInterface.GenericTypeArguments;
@@ -69,7 +69,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 }
 
                 // 配置后期配置
-                var postConfigureMethod = optionsType.GetMethod(nameof(IAppOptions<TOptions>.PostConfigure));
+                var postConfigureMethod = optionsType.GetMethod(nameof(IConfigurableOptions<TOptions>.PostConfigure));
                 if (postConfigureMethod != null)
                 {
                     if (optionsSettings?.PostConfigureAll != true)

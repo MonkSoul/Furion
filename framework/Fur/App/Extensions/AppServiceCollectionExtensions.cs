@@ -24,7 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddApp(this IServiceCollection services, Action<IServiceCollection> configure = null)
         {
             App.Services = services;
-            services.AddAppOptions<AppSettingsOptions>();
+            services.AddConfigurableOptions<AppSettingsOptions>();
 
             // 注册MiniProfiler 组件
             if (App.Settings.InjectMiniProfiler == true)

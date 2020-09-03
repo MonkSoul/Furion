@@ -46,7 +46,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var services = mvcBuilder.Services;
 
             // 添加验证配置文件支持
-            services.AddAppOptions<ValidationTypeMessageSettingsOptions>();
+            services.AddConfigurableOptions<ValidationTypeMessageSettingsOptions>();
 
             // 判断是否启用全局
             if (enabledGlobalDataValidationFilter)

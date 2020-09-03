@@ -12,7 +12,7 @@ namespace Fur.DataValidation
     /// 验证消息配置选项
     /// </summary>
     [OptionsSettings("AppSettings:ValidationTypeMessageSettings")]
-    public sealed class ValidationTypeMessageSettingsOptions : IAppOptions
+    public sealed class ValidationTypeMessageSettingsOptions : IConfigurableOptions
     {
         /// <summary>
         /// 验证消息配置表

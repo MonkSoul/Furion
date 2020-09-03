@@ -33,7 +33,7 @@ namespace Microsoft.Extensions.DependencyInjection
             partManager.FeatureProviders.Add(new DynamicApiControllerFeatureProvider());
 
             // 添加配置
-            services.AddAppOptions<DynamicApiControllerSettingsOptions>();
+            services.AddConfigurableOptions<DynamicApiControllerSettingsOptions>();
 
             // 添加应用模型转换器
             mvcBuilder.AddMvcOptions(options =>

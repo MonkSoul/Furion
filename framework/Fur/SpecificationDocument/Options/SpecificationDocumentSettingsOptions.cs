@@ -15,7 +15,7 @@ namespace Fur.SpecificationDocument
     /// 规范化文档配置选项
     /// </summary>
     [OptionsSettings("AppSettings:SpecificationDocumentSettings")]
-    public sealed class SpecificationDocumentSettingsOptions : IAppOptions<SpecificationDocumentSettingsOptions>
+    public sealed class SpecificationDocumentSettingsOptions : IConfigurableOptions<SpecificationDocumentSettingsOptions>
     {
         /// <summary>
         /// 文档标题

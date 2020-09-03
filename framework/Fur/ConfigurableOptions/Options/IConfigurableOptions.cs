@@ -12,14 +12,14 @@ namespace Fur.ConfigurableOptions
     /// <summary>
     /// 应用选项依赖接口
     /// </summary>
-    public partial interface IAppOptions { }
+    public partial interface IConfigurableOptions { }
 
     /// <summary>
     /// 选项后期配置
     /// </summary>
     /// <typeparam name="TOptions"></typeparam>
-    public partial interface IAppOptions<TOptions> : IAppOptions
-        where TOptions : class, IAppOptions
+    public partial interface IConfigurableOptions<TOptions> : IConfigurableOptions
+        where TOptions : class, IConfigurableOptions
     {
         void PostConfigure(TOptions options, IConfiguration configuration);
     }
@@ -29,8 +29,8 @@ namespace Fur.ConfigurableOptions
     /// </summary>
     /// <typeparam name="TOptions"></typeparam>
     /// <typeparam name="TOptionsValidation"></typeparam>
-    public partial interface IAppOptions<TOptions, TOptionsValidation> : IAppOptions<TOptions>
-        where TOptions : class, IAppOptions
+    public partial interface IConfigurableOptions<TOptions, TOptionsValidation> : IConfigurableOptions<TOptions>
+        where TOptions : class, IConfigurableOptions
         where TOptionsValidation : class, IValidateOptions<TOptions>
     {
     }
@@ -39,8 +39,8 @@ namespace Fur.ConfigurableOptions
     ///带监听的应用选项依赖接口
     /// </summary>
     /// <typeparam name="TOptions"></typeparam>
-    public partial interface IAppOptionsListener<TOptions>
-        where TOptions : class, IAppOptions
+    public partial interface IConfigurableOptionsListener<TOptions> : IConfigurableOptions<TOptions>
+        where TOptions : class, IConfigurableOptions
     {
         void OnListener(TOptions options, IConfiguration configuration);
     }

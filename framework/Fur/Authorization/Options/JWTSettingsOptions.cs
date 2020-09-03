@@ -13,7 +13,7 @@ namespace Fur.Authorization
     /// Jwt
     /// </summary>
     [OptionsSettings("AppSettings:JWTSettings")]
-    public sealed class JWTSettingsOptions : IAppOptions<JWTSettingsOptions>
+    public sealed class JWTSettingsOptions : IConfigurableOptions<JWTSettingsOptions>
     {
         /// <summary>
         /// 选项后期配置
