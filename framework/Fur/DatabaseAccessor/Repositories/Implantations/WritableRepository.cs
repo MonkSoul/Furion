@@ -10,11 +10,13 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 可写仓储
+    /// 可写仓储分部类
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    public partial class EFCoreRepository<TEntity>
-         where TEntity : class, IEntityBase, new()
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    /// <typeparam name="TDbContextLocator">数据库实体定位器</typeparam>
+    public partial class EFCoreRepository<TEntity, TDbContextLocator>
+        where TEntity : class, IEntityBase, new()
+        where TDbContextLocator : class, IDbContextLocator, new()
     {
         /// <summary>
         /// 接受所有更改

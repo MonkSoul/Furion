@@ -16,9 +16,11 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 可读仓储接口
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    public interface IReadableRepository<TEntity>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    /// <typeparam name="TDbContextLocator">数据库实体定位器</typeparam>
+    public interface IReadableRepository<TEntity, TDbContextLocator>
         where TEntity : class, IEntityBase, new()
+        where TDbContextLocator : class, IDbContextLocator, new()
     {
         /// <summary>
         /// 未查询到数据异常消息

@@ -19,8 +19,10 @@ namespace Fur.DatabaseAccessor
     /// 可写仓储分部类
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial class EFCoreRepository<TEntity>
-         where TEntity : class, IEntityBase, new()
+    /// <typeparam name="TDbContextLocator">数据库实体定位器</typeparam>
+    public partial class EFCoreRepository<TEntity, TDbContextLocator>
+        where TEntity : class, IEntityBase, new()
+        where TDbContextLocator : class, IDbContextLocator, new()
     {
         /// <summary>
         /// 未查询到数据异常消息

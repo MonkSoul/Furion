@@ -20,8 +20,43 @@ namespace Fur.DatabaseAccessor
     /// 仓储接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial interface IRepository<TEntity> : IWritableRepository<TEntity>, IReadableRepository<TEntity>
+    public partial interface IRepository<TEntity> : IRepository<TEntity, DbContextLocator>
         where TEntity : class, IEntityBase, new()
+    {
+    }
+
+    /// <summary>
+    /// 非泛型仓储
+    /// </summary>
+    public partial interface IRepository
+    {
+        /// <summary>
+        /// 切换仓储
+        /// </summary>
+        /// <typeparam name="TEntity">实体类型</typeparam>
+        /// <returns>仓储</returns>
+        IRepository<TEntity> Use<TEntity>()
+            where TEntity : class, IEntityBase, new();
+
+        /// <summary>
+        /// 切换多数据库上下文仓储
+        /// </summary>
+        /// <typeparam name="TEntity">实体类型</typeparam>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <returns>仓储</returns>
+        IRepository<TEntity, TDbContextLocator> Use<TEntity, TDbContextLocator>()
+            where TEntity : class, IEntityBase, new()
+            where TDbContextLocator : class, IDbContextLocator, new();
+    }
+
+    /// <summary>
+    /// 多数据库上下文仓储
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+    public partial interface IRepository<TEntity, TDbContextLocator> : IWritableRepository<TEntity, TDbContextLocator>, IReadableRepository<TEntity, TDbContextLocator>
+        where TEntity : class, IEntityBase, new()
+        where TDbContextLocator : class, IDbContextLocator, new()
     {
         /// <summary>
         /// 数据库上下文
@@ -199,45 +234,10 @@ namespace Fur.DatabaseAccessor
         /// 切换多数据库上下文仓储
         /// </summary>
         /// <typeparam name="TUseEntity">实体类型</typeparam>
-        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <typeparam name="TUseDbContextLocator">数据库上下文定位器</typeparam>
         /// <returns>仓储</returns>
-        IRepository<TUseEntity, TDbContextLocator> Use<TUseEntity, TDbContextLocator>()
+        IRepository<TUseEntity, TUseDbContextLocator> Use<TUseEntity, TUseDbContextLocator>()
             where TUseEntity : class, IEntityBase, new()
-            where TDbContextLocator : class, IDbContextLocator, new();
-    }
-
-    /// <summary>
-    /// 非泛型仓储
-    /// </summary>
-    public partial interface IRepository
-    {
-        /// <summary>
-        /// 切换仓储
-        /// </summary>
-        /// <typeparam name="TEntity">实体类型</typeparam>
-        /// <returns>仓储</returns>
-        IRepository<TEntity> Use<TEntity>()
-            where TEntity : class, IEntityBase, new();
-
-        /// <summary>
-        /// 切换多数据库上下文仓储
-        /// </summary>
-        /// <typeparam name="TEntity">实体类型</typeparam>
-        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-        /// <returns>仓储</returns>
-        IRepository<TEntity, TDbContextLocator> Use<TEntity, TDbContextLocator>()
-            where TEntity : class, IEntityBase, new()
-            where TDbContextLocator : class, IDbContextLocator, new();
-    }
-
-    /// <summary>
-    /// 多数据库上下文仓储
-    /// </summary>
-    /// <typeparam name="TEntity">实体类型</typeparam>
-    /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-    public partial interface IRepository<TEntity, TDbContextLocator> : IRepository<TEntity>
-        where TEntity : class, IEntityBase, new()
-        where TDbContextLocator : class, IDbContextLocator, new()
-    {
+            where TUseDbContextLocator : class, IDbContextLocator, new();
     }
 }

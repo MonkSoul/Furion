@@ -21,8 +21,67 @@ namespace Fur.DatabaseAccessor
     /// EF Core仓储实现
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial class EFCoreRepository<TEntity> : IRepository<TEntity>
-         where TEntity : class, IEntityBase, new()
+    public partial class EFCoreRepository<TEntity> : EFCoreRepository<TEntity, DbContextLocator>, IRepository<TEntity>
+        where TEntity : class, IEntityBase, new()
+    {
+        public EFCoreRepository(IDbContextPool dbContextPool, IRepository repository, Func<Type, DbContext> dbContextResolve)
+            : base(dbContextPool, repository, dbContextResolve)
+        {
+        }
+    }
+
+    /// <summary>
+    /// 非泛型EF Core仓储实现
+    /// </summary>
+    public partial class EFCoreRepository : IRepository
+    {
+        /// <summary>
+        /// 服务提供器
+        /// </summary>
+        private readonly IServiceProvider _serviceProvider;
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        public EFCoreRepository(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+
+        /// <summary>
+        /// 切换仓储
+        /// </summary>
+        /// <typeparam name="TEntity">实体类型</typeparam>
+        /// <returns>仓储</returns>
+        public virtual IRepository<TEntity> Use<TEntity>()
+            where TEntity : class, IEntityBase, new()
+        {
+            return _serviceProvider.GetService<IRepository<TEntity>>();
+        }
+
+        /// <summary>
+        /// 切换多数据库上下文仓储
+        /// </summary>
+        /// <typeparam name="TEntity">实体类型</typeparam>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <returns>仓储</returns>
+        public virtual IRepository<TEntity, TDbContextLocator> Use<TEntity, TDbContextLocator>()
+            where TEntity : class, IEntityBase, new()
+            where TDbContextLocator : class, IDbContextLocator, new()
+        {
+            return _serviceProvider.GetService<IRepository<TEntity, TDbContextLocator>>();
+        }
+    }
+
+    /// <summary>
+    /// 多数据库上下文仓储
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+    public partial class EFCoreRepository<TEntity, TDbContextLocator> : IRepository<TEntity, TDbContextLocator>
+        where TEntity : class, IEntityBase, new()
+        where TDbContextLocator : class, IDbContextLocator, new()
     {
         /// <summary>
         /// 非泛型仓储
@@ -38,12 +97,13 @@ namespace Fur.DatabaseAccessor
         /// 构造函数
         /// </summary>
         /// <param name="dbContextPool">数据库上下文池</param>
-        /// <param name="dbContext">数据库上下文</param>
-        public EFCoreRepository(
-            IDbContextPool dbContextPool
-            , IRepository repository
-            , DbContext dbContext)
+        /// <param name="repository">非泛型仓储</param>
+        /// <param name="dbContextResolve">数据库上下文解析器</param>
+        public EFCoreRepository(IDbContextPool dbContextPool, IRepository repository, Func<Type, DbContext> dbContextResolve)
         {
+            // 解析数据库上下文
+            var dbContext = dbContextResolve(typeof(TDbContextLocator));
+
             _dbContextPool = dbContextPool;
             // 保存当前数据库上下文到池中
             _dbContextPool.AddToPool(dbContext);
@@ -300,78 +360,13 @@ namespace Fur.DatabaseAccessor
         /// 切换多数据库上下文仓储
         /// </summary>
         /// <typeparam name="TUseEntity">实体类型</typeparam>
-        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <typeparam name="TUseDbContextLocator">数据库上下文定位器</typeparam>
         /// <returns>仓储</returns>
-        public virtual IRepository<TUseEntity, TDbContextLocator> Use<TUseEntity, TDbContextLocator>()
+        public virtual IRepository<TUseEntity, TUseDbContextLocator> Use<TUseEntity, TUseDbContextLocator>()
             where TUseEntity : class, IEntityBase, new()
-            where TDbContextLocator : class, IDbContextLocator, new()
+            where TUseDbContextLocator : class, IDbContextLocator, new()
         {
-            return _repository.Use<TUseEntity, TDbContextLocator>();
-        }
-    }
-
-    /// <summary>
-    /// 非泛型EF Core仓储实现
-    /// </summary>
-    public partial class EFCoreRepository : IRepository
-    {
-        /// <summary>
-        /// 服务提供器
-        /// </summary>
-        private readonly IServiceProvider _serviceProvider;
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="serviceProvider"></param>
-        public EFCoreRepository(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-        }
-
-        /// <summary>
-        /// 切换仓储
-        /// </summary>
-        /// <typeparam name="TEntity">实体类型</typeparam>
-        /// <returns>仓储</returns>
-        public virtual IRepository<TEntity> Use<TEntity>()
-            where TEntity : class, IEntityBase, new()
-        {
-            return _serviceProvider.GetService<IRepository<TEntity>>();
-        }
-
-        /// <summary>
-        /// 切换多数据库上下文仓储
-        /// </summary>
-        /// <typeparam name="TEntity">实体类型</typeparam>
-        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-        /// <returns>仓储</returns>
-        public virtual IRepository<TEntity, TDbContextLocator> Use<TEntity, TDbContextLocator>()
-            where TEntity : class, IEntityBase, new()
-            where TDbContextLocator : class, IDbContextLocator, new()
-        {
-            return _serviceProvider.GetService<IRepository<TEntity, TDbContextLocator>>();
-        }
-    }
-
-    /// <summary>
-    /// 多数据库上下文仓储
-    /// </summary>
-    /// <typeparam name="TEntity">实体类型</typeparam>
-    /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-    public partial class EFCoreRepository<TEntity, TDbContextLocator> : EFCoreRepository<TEntity>, IRepository<TEntity, TDbContextLocator>
-        where TEntity : class, IEntityBase, new()
-        where TDbContextLocator : class, IDbContextLocator, new()
-    {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="dbContextPool">数据库上下文池</param>
-        /// <param name="repository">非泛型仓储</param>
-        /// <param name="dbContextResolve">数据库上下文解析器</param>
-        public EFCoreRepository(IDbContextPool dbContextPool, IRepository repository, Func<Type, DbContext> dbContextResolve)
-            : base(dbContextPool, repository, dbContextResolve(typeof(TDbContextLocator)))
-        {
+            return _repository.Use<TUseEntity, TUseDbContextLocator>();
         }
     }
 }

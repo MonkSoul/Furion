@@ -33,14 +33,14 @@ namespace Microsoft.Extensions.DependencyInjection
             // 注册数据库上下文池
             services.TryAddScoped<IDbContextPool, DbContextPool>();
 
-            // 注册非泛型仓储
-            services.TryAddScoped<IRepository, EFCoreRepository>();
+            // 注册多数据库上下文仓储
+            services.TryAddScoped(typeof(IRepository<,>), typeof(EFCoreRepository<,>));
 
             // 注册泛型仓储
             services.TryAddScoped(typeof(IRepository<>), typeof(EFCoreRepository<>));
 
-            // 注册多数据库上下文仓储
-            services.TryAddScoped(typeof(IRepository<,>), typeof(EFCoreRepository<,>));
+            // 注册非泛型仓储
+            services.TryAddScoped<IRepository, EFCoreRepository>();
 
             // 解析数据库上下文
             services.AddScoped(provider =>
@@ -73,8 +73,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // 避免重复注册默认数据库上下文
             if (dbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
-            // 注册默认数据库上下文
-            services.AddScoped<DbContext, TDbContext>();
+            // 注册数据库上下文
             return services.AddAppDbContext<TDbContext, DbContextLocator>(connectionString, poolSize);
         }
 
