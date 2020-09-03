@@ -10,6 +10,7 @@
     <PackageProjectUrl>https://www.furos.cn</PackageProjectUrl>
     <RepositoryUrl>https://gitee.com/monksoul/Fur</RepositoryUrl>
     <RepositoryType>Gitee</RepositoryType>
+    <PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -18,6 +19,10 @@
 
   <ItemGroup>
     <None Remove="SpecificationDocument\Assets\index-mini-profiler.html" />
+    <None Include="..\..\docs\static\img\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
