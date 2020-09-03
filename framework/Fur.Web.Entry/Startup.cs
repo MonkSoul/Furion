@@ -1,4 +1,3 @@
-using Fur.DatabaseAccessor;
 using Fur.EntityFramework.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,7 +25,7 @@ namespace Fur.Web.Entry
 
             services.AddDatabaseAccessor(options =>
             {
-                options.AddAppDbContext<FurDbContext, DbContextLocator>(Configuration.GetConnectionString("DbConnectionString"));
+                options.AddAppDbContext<FurDbContext>(Configuration.GetConnectionString("DbConnectionString"));
             });
 
             services.AddControllers()
