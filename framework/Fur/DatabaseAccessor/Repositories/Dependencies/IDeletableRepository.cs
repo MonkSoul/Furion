@@ -12,149 +12,149 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 可删除的仓储
+    /// 可删除仓储接口
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TEntity">实体类型</typeparam>
     public partial interface IDeletableRepository<TEntity>
         where TEntity : class, IEntityBase, new()
     {
         /// <summary>
-        /// 移除实体
+        /// 删除一条记录
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <returns>代理中的实体</returns>
         EntityEntry<TEntity> Delete(TEntity entity);
 
         /// <summary>
-        /// 移除多个实体
+        /// 删除多条记录
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entities">多个实体</param>
         void Delete(params TEntity[] entities);
 
         /// <summary>
-        /// 移除多个实体
+        /// 删除多条记录
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entities">多个实体</param>
         void Delete(IEnumerable<TEntity> entities);
 
         /// <summary>
-        /// 移除实体
+        /// 删除一条记录
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <returns>代理中的实体</returns>
         Task<EntityEntry<TEntity>> DeleteAsync(TEntity entity);
 
         /// <summary>
-        /// 移除多个实体
+        /// 删除多条记录
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entities">多个实体</param>
+        /// <returns>Task</returns>
         Task DeleteAsync(params TEntity[] entities);
 
         /// <summary>
-        /// 移除多个实体
+        /// 删除多条记录
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entities">多个实体</param>
+        /// <returns>Task</returns>
         Task DeleteAsync(IEnumerable<TEntity> entities);
 
         /// <summary>
-        /// 移除实体并立即提交
+        /// 删除一条记录并立即提交
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <returns>代理中的实体</returns>
         EntityEntry<TEntity> DeleteNow(TEntity entity);
 
         /// <summary>
-        /// 移除实体并立即提交
+        /// 删除一条记录并立即提交
         /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns></returns>
         EntityEntry<TEntity> DeleteNow(TEntity entity, bool acceptAllChangesOnSuccess);
 
         /// <summary>
-        /// 移除实体并立即提交
+        /// 删除多条记录并立即提交
         /// </summary>
-        /// <param name="entities"></param>
+        /// <param name="entities">多个实体</param>
         void DeleteNow(params TEntity[] entities);
 
         /// <summary>
-        /// 移除实体并立即提交
+        /// 删除多条记录并立即提交
         /// </summary>
-        /// <param name="acceptAllChangesOnSuccess"></param>
-        /// <param name="entities"></param>
+        /// <param name="entities">多个实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         void DeleteNow(TEntity[] entities, bool acceptAllChangesOnSuccess);
 
         /// <summary>
-        /// 移除实体并立即提交
+        /// 删除多条记录并立即提交
         /// </summary>
-        /// <param name="entities"></param>
+        /// <param name="entities">多个实体</param>
         void DeleteNow(IEnumerable<TEntity> entities);
 
         /// <summary>
-        /// 移除实体并立即提交
+        /// 删除多条记录并立即提交
         /// </summary>
-        /// <param name="entities"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="entities">多个实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         void DeleteNow(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess);
 
         /// <summary>
-        /// 移除实体并立即提交（异步）
+        /// 删除一条记录并立即提交
         /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <param name="cancellationToken">异步令牌</param>
+        /// <returns>代理中的实体</returns>
         Task<EntityEntry<TEntity>> DeleteNowAsync(TEntity entity, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 移除实体并立即提交（异步）
+        /// 删除一条记录并立即提交
         /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">异步令牌</param>
+        /// <returns>代理中的实体</returns>
         Task<EntityEntry<TEntity>> DeleteNowAsync(TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 移除多个实体并立即提交（异步）
+        /// 删除多条记录并立即提交
         /// </summary>
-        /// <param name="entities"></param>
-        /// <returns></returns>
+        /// <param name="entities">多个实体</param>
+        /// <returns>Task</returns>
         Task DeleteNowAsync(params TEntity[] entities);
 
         /// <summary>
-        /// 移除多个实体并立即提交（异步）
+        /// 删除多条记录并立即提交
         /// </summary>
-        /// <param name="entities"></param>
-        /// <returns></returns>
+        /// <param name="entities">多个实体</param>
+        /// <param name="cancellationToken">异步令牌</param>
+        /// <returns>Task</returns>
         Task DeleteNowAsync(TEntity[] entities, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 移除多个实体并立即提交（异步）
+        /// 删除多条记录并立即提交
         /// </summary>
-        /// <param name="acceptAllChangesOnSuccess"></param>
-        /// <param name="entities"></param>
-        /// <returns></returns>
+        /// <param name="entities">多个实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">异步令牌</param>
+        /// <returns>Task</returns>
         Task DeleteNowAsync(TEntity[] entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 移除多个实体并立即提交（异步）
+        /// 删除多条记录并立即提交
         /// </summary>
-        /// <param name="entities"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="entities">多个实体</param>
+        /// <param name="cancellationToken">异步令牌</param>
+        /// <returns>Task</returns>
         Task DeleteNowAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 移除多个实体并立即提交（异步）
+        /// 删除多条记录并立即提交
         /// </summary>
-        /// <param name="entities"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="entities">多个实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">异步令牌</param>
+        /// <returns>Task</returns>
         Task DeleteNowAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
     }
 }
