@@ -4,7 +4,7 @@
 // 开源协议：MIT
 // 项目地址：https://gitee.com/monksoul/Fur
 
-using Fur.Configurable;
+using Fur.ConfigurableOptions;
 using Microsoft.Extensions.Configuration;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System;

@@ -5,7 +5,7 @@
 // 项目地址：https://gitee.com/monksoul/Fur
 
 using Fur;
-using Fur.Configurable;
+using Fur.ConfigurableOptions;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
