@@ -107,14 +107,6 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 接受所有更改
-        /// </summary>
-        public virtual void AcceptAllChanges()
-        {
-            ChangeTracker.AcceptAllChanges();
-        }
-
-        /// <summary>
         /// 获取实体条目
         /// </summary>
         /// <param name="entity"></param>

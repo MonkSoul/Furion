@@ -17,6 +17,11 @@ namespace Fur.DatabaseAccessor
         where TEntity : class, IEntityBase, new()
     {
         /// <summary>
+        /// 接受所有更改
+        /// </summary>
+        void AcceptAllChanges();
+
+        /// <summary>
         /// 保存数据库上下文池中所有已更改的数据库上下文
         /// </summary>
         /// <returns></returns>

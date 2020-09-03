@@ -65,11 +65,6 @@ namespace Fur.DatabaseAccessor
         bool HasChanges();
 
         /// <summary>
-        /// 接受所有更改
-        /// </summary>
-        void AcceptAllChanges();
-
-        /// <summary>
         /// 获取实体条目
         /// </summary>
         /// <param name="entity"></param>
