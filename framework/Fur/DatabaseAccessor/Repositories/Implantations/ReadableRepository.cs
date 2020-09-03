@@ -23,65 +23,65 @@ namespace Fur.DatabaseAccessor
          where TEntity : class, IEntityBase, new()
     {
         /// <summary>
-        /// 没找到异常消息
+        /// 数据未查询到默认异常消息
         /// </summary>
-        private const string NoFoundErrorMessage = "Sequence contains no elements";
+        private const string NotFoundErrorMessage = "Sequence contains no elements";
 
         /// <summary>
-        /// 根据主键查找
+        /// 根据键查询一条记录
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="key">键</param>
+        /// <returns>数据库中的实体</returns>
         public virtual TEntity Find(object key)
         {
-            var entity = FindOrDefault(key) ?? throw Oops.Oh(NoFoundErrorMessage, typeof(InvalidOperationException));
+            var entity = FindOrDefault(key) ?? throw Oops.Oh(NotFoundErrorMessage, typeof(InvalidOperationException));
             return entity;
         }
 
         /// <summary>
-        /// 根据多个主键查找
+        /// 根据多个键查询一条记录
         /// </summary>
-        /// <param name="keyValues"></param>
-        /// <returns></returns>
+        /// <param name="keyValues">多个键</param>
+        /// <returns>数据库中的实体</returns>
         public virtual TEntity Find(params object[] keyValues)
         {
-            var entity = FindOrDefault(keyValues) ?? throw Oops.Oh(NoFoundErrorMessage, typeof(InvalidOperationException));
+            var entity = FindOrDefault(keyValues) ?? throw Oops.Oh(NotFoundErrorMessage, typeof(InvalidOperationException));
             return entity;
         }
 
         /// <summary>
-        /// 根据主键查找
+        /// 根据键查询一条记录
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="key">键</param>
+        /// <param name="cancellationToken">异步令牌</param>
+        /// <returns>数据库实体</returns>
         public virtual async Task<TEntity> FindAsync(object key, CancellationToken cancellationToken = default)
         {
             var entity = await FindOrDefaultAsync(key, cancellationToken);
-            return entity ?? throw Oops.Oh(NoFoundErrorMessage, typeof(InvalidOperationException));
+            return entity ?? throw Oops.Oh(NotFoundErrorMessage, typeof(InvalidOperationException));
         }
 
         /// <summary>
-        /// 根据多个主键查找
+        /// 根据多个键查询一条记录
         /// </summary>
-        /// <param name="keyValues"></param>
-        /// <returns></returns>
+        /// <param name="keyValues">多个键</param>
+        /// <returns>数据库中的实体</returns>
         public virtual async Task<TEntity> FindAsync(params object[] keyValues)
         {
             var entity = await FindOrDefaultAsync(keyValues);
-            return entity ?? throw Oops.Oh(NoFoundErrorMessage, typeof(InvalidOperationException));
+            return entity ?? throw Oops.Oh(NotFoundErrorMessage, typeof(InvalidOperationException));
         }
 
         /// <summary>
-        /// 根据多个主键查找
+        /// 根据多个键查询一条记录
         /// </summary>
-        /// <param name="keyValues"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="keyValues">多个键</param>
+        /// <param name="cancellationToken">异步令牌</param>
+        /// <returns>数据库中的实体</returns>
         public virtual async Task<TEntity> FindAsync(object[] keyValues, CancellationToken cancellationToken = default)
         {
             var entity = await FindOrDefaultAsync(keyValues, cancellationToken);
-            return entity ?? throw Oops.Oh(NoFoundErrorMessage, typeof(InvalidOperationException));
+            return entity ?? throw Oops.Oh(NotFoundErrorMessage, typeof(InvalidOperationException));
         }
 
         /// <summary>
