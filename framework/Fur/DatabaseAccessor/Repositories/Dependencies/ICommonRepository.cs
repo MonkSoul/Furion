@@ -11,7 +11,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     public partial interface ICommonRepository<TEntity>
-       where TEntity : class, IDbEntityBase, new()
+       where TEntity : class, IEntityBase, new()
     {
     }
 }

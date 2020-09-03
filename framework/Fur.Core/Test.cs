@@ -2,7 +2,7 @@
 
 namespace Fur.Core
 {
-    public class Test : DbEntityBase
+    public class Test : EntityBase
     {
         public string Name { get; set; }
         public int Age { get; set; }

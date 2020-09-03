@@ -16,7 +16,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     public partial interface IInsertableRepository<TEntity>
-        where TEntity : class, IDbEntityBase, new()
+        where TEntity : class, IEntityBase, new()
     {
         /// <summary>
         /// 新增实体

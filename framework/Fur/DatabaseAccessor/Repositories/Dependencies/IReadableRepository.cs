@@ -18,7 +18,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     public interface IReadableRepository<TEntity>
-        where TEntity : class, IDbEntityBase, new()
+        where TEntity : class, IEntityBase, new()
     {
         /// <summary>
         /// 根据主键查找

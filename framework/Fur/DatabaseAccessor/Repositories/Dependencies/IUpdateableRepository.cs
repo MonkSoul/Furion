@@ -18,7 +18,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     public partial interface IUpdateableRepository<TEntity>
-        where TEntity : class, IDbEntityBase, new()
+        where TEntity : class, IEntityBase, new()
     {
         /// <summary>
         /// 更新实体

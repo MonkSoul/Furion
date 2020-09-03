@@ -20,7 +20,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     public partial class EFCoreRepository<TEntity>
-         where TEntity : class, IDbEntityBase, new()
+         where TEntity : class, IEntityBase, new()
     {
         /// <summary>
         /// 更新实体

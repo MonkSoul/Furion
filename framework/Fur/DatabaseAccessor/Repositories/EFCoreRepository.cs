@@ -22,7 +22,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     public partial class EFCoreRepository<TEntity> : IRepository<TEntity>
-         where TEntity : class, IDbEntityBase, new()
+         where TEntity : class, IEntityBase, new()
     {
         /// <summary>
         /// 非泛型仓储
@@ -299,7 +299,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TUseEntity"></typeparam>
         /// <returns></returns>
         public virtual IRepository<TUseEntity> Use<TUseEntity>()
-            where TUseEntity : class, IDbEntityBase, new()
+            where TUseEntity : class, IEntityBase, new()
         {
             return _repository.Use<TUseEntity>();
         }
@@ -330,7 +330,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TEntity"></typeparam>
         /// <returns></returns>
         public virtual IRepository<TEntity> Use<TEntity>()
-             where TEntity : class, IDbEntityBase, new()
+             where TEntity : class, IEntityBase, new()
         {
             return _serviceProvider.GetService<IRepository<TEntity>>();
         }

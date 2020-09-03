@@ -21,7 +21,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     public partial interface IRepository<TEntity> : IWritableRepository<TEntity>, IReadableRepository<TEntity>
-        where TEntity : class, IDbEntityBase, new()
+        where TEntity : class, IEntityBase, new()
     {
         /// <summary>
         /// 数据库上下文
@@ -197,7 +197,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <typeparam name="TUseEntity"></typeparam>
         /// <returns></returns>
-        IRepository<TUseEntity> Use<TUseEntity>() where TUseEntity : class, IDbEntityBase, new();
+        IRepository<TUseEntity> Use<TUseEntity>() where TUseEntity : class, IEntityBase, new();
     }
 
     /// <summary>
@@ -211,6 +211,6 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TEntity"></typeparam>
         /// <returns></returns>
         IRepository<TEntity> Use<TEntity>()
-            where TEntity : class, IDbEntityBase, new();
+            where TEntity : class, IEntityBase, new();
     }
 }

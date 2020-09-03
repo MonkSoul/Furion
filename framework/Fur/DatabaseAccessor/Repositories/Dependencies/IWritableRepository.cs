@@ -14,7 +14,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     public partial interface IWritableRepository<TEntity> : IInsertableRepository<TEntity>, IUpdateableRepository<TEntity>, IDeletableRepository<TEntity>
-       where TEntity : class, IDbEntityBase, new()
+       where TEntity : class, IEntityBase, new()
     {
         /// <summary>
         /// 保存数据库上下文池中所有已更改的数据库上下文
