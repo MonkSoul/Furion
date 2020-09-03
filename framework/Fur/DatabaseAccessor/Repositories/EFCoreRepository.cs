@@ -108,7 +108,7 @@ namespace Fur.DatabaseAccessor
             // 保存当前数据库上下文到池中
             _dbContextPool.AddToPool(dbContext);
 
-            // 服务提供器
+            // 非泛型仓储
             _repository = repository;
 
             // 初始化数据库相关数据
