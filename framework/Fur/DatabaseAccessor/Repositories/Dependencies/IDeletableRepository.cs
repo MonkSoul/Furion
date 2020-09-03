@@ -103,7 +103,7 @@ namespace Fur.DatabaseAccessor
         /// 删除一条记录并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         Task<EntityEntry<TEntity>> DeleteNowAsync(TEntity entity, CancellationToken cancellationToken = default);
 
@@ -112,7 +112,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         Task<EntityEntry<TEntity>> DeleteNowAsync(TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
@@ -127,7 +127,7 @@ namespace Fur.DatabaseAccessor
         /// 删除多条记录并立即提交
         /// </summary>
         /// <param name="entities">多个实体</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>Task</returns>
         Task DeleteNowAsync(TEntity[] entities, CancellationToken cancellationToken = default);
 
@@ -136,7 +136,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entities">多个实体</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>Task</returns>
         Task DeleteNowAsync(TEntity[] entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
@@ -144,7 +144,7 @@ namespace Fur.DatabaseAccessor
         /// 删除多条记录并立即提交
         /// </summary>
         /// <param name="entities">多个实体</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>Task</returns>
         Task DeleteNowAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
 
@@ -153,7 +153,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entities">多个实体</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>Task</returns>
         Task DeleteNowAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
     }

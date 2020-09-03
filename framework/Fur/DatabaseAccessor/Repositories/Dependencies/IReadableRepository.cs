@@ -14,1024 +14,503 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 可读仓储
+    /// 可读仓储接口
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     public interface IReadableRepository<TEntity>
         where TEntity : class, IEntityBase, new()
     {
         /// <summary>
-        /// 根据主键查找
+        /// 未查询到数据异常消息
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        private const string NotFoundErrorMessage = "Sequence contains no elements";
+
+        /// <summary>
+        /// 根据键查询一条记录
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <returns>数据库中的实体</returns>
         TEntity Find(object key);
 
         /// <summary>
-        /// 根据多个主键查找
+        /// 根据多个键查询一条记录
         /// </summary>
-        /// <param name="keyValues"></param>
-        /// <returns></returns>
+        /// <param name="keyValues">多个键</param>
+        /// <returns>数据库中的实体</returns>
         TEntity Find(params object[] keyValues);
 
         /// <summary>
-        /// 根据主键查找
+        /// 根据键查询一条记录
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="key">键</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库实体</returns>
         Task<TEntity> FindAsync(object key, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 根据多个主键查找
+        /// 根据多个键查询一条记录
         /// </summary>
-        /// <param name="keyValues"></param>
-        /// <returns></returns>
+        /// <param name="keyValues">多个键</param>
+        /// <returns>数据库中的实体</returns>
         Task<TEntity> FindAsync(params object[] keyValues);
 
         /// <summary>
-        /// 根据多个主键查找
+        /// 根据多个键查询一条记录
         /// </summary>
-        /// <param name="keyValues"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="keyValues">多个键</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
         Task<TEntity> FindAsync(object[] keyValues, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 根据主键查找
+        /// 根据键查询一条记录
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="key">键</param>
+        /// <returns>数据库中的实体</returns>
         TEntity FindOrDefault(object key);
 
         /// <summary>
-        /// 根据多个主键查找
+        /// 根据多个键查询一条记录
         /// </summary>
-        /// <param name="keyValues"></param>
-        /// <returns></returns>
+        /// <param name="keyValues">多个键</param>
+        /// <returns>数据库中的实体</returns>
         TEntity FindOrDefault(params object[] keyValues);
 
         /// <summary>
-        /// 根据主键查找
+        /// 根据键查询一条记录
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="key">键</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
         Task<TEntity> FindOrDefaultAsync(object key, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 根据多个主键查找
+        /// 根据多个键查询一条记录
         /// </summary>
-        /// <param name="keyValues"></param>
-        /// <returns></returns>
+        /// <param name="keyValues">多个键</param>
+        /// <returns>数据库中的实体</returns>
         Task<TEntity> FindOrDefaultAsync(params object[] keyValues);
 
         /// <summary>
-        /// 根据多个主键查找
+        /// 根据多个键查询一条记录
         /// </summary>
-        /// <param name="keyValues"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="keyValues">多个键</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
         Task<TEntity> FindOrDefaultAsync(object[] keyValues, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 获取一条
+        /// 查询一条记录
         /// </summary>
-        /// <returns></returns>
-        TEntity Single();
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
+        TEntity Single(bool noTracking = false);
 
         /// <summary>
-        /// 获取一条
+        /// 根据表达式查询一条记录
         /// </summary>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        TEntity Single(bool noTracking);
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
+        TEntity Single(Expression<Func<TEntity, bool>> predicate, bool noTracking = false);
 
         /// <summary>
-        /// 获取一条
+        /// 查询一条记录
         /// </summary>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
-        TEntity Single(Expression<Func<TEntity, bool>> predicate);
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
+        TEntity SingleOrDefault(bool noTracking = false);
 
         /// <summary>
-        /// 获取一条
+        /// 根据表达式查询一条记录
         /// </summary>
-        /// <param name="predicate"></param>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        TEntity Single(Expression<Func<TEntity, bool>> predicate, bool noTracking);
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
+        TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking = false);
 
         /// <summary>
-        /// 获取一条
+        /// 查询一条记录
         /// </summary>
-        /// <returns></returns>
-        TEntity SingleOrDefault();
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<TEntity> SingleAsync(bool noTracking = false, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 获取一条
+        /// 根据表达式查询一条记录
         /// </summary>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        TEntity SingleOrDefault(bool noTracking);
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = false, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 获取一条
+        /// 查询一条记录
         /// </summary>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
-        TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
+        TEntity First(bool noTracking = false);
 
         /// <summary>
-        /// 获取一条
+        /// 根据表达式查询一条记录
         /// </summary>
-        /// <param name="predicate"></param>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking);
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
+        TEntity First(Expression<Func<TEntity, bool>> predicate, bool noTracking = false);
 
         /// <summary>
-        /// 获取一条
+        /// 查询一条记录
         /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TEntity> SingleAsync(CancellationToken cancellationToken = default);
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
+        TEntity FirstOrDefault(bool noTracking = false);
 
         /// <summary>
-        /// 获取一条
+        /// 根据表达式查询一条记录
         /// </summary>
-        /// <param name="noTracking"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TEntity> SingleAsync(bool noTracking, CancellationToken cancellationToken = default);
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
+        TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking = false);
 
         /// <summary>
-        /// 获取一条
+        /// 查询一条记录
         /// </summary>
-        /// <param name="predicate"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<TEntity> FirstAsync(bool noTracking = false, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 获取一条
+        /// 根据表达式查询一条记录
         /// </summary>
-        /// <param name="predicate"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking, CancellationToken cancellationToken = default);
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = false, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 获取一条
+        /// 查询一条记录
         /// </summary>
-        /// <returns></returns>
-        TEntity First();
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
+        TEntity Last(bool noTracking = false);
 
         /// <summary>
-        /// 获取一条
+        /// 根据表达式查询一条记录
         /// </summary>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        TEntity First(bool noTracking);
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
+        TEntity Last(Expression<Func<TEntity, bool>> predicate, bool noTracking = false);
 
         /// <summary>
-        /// 获取一条
+        /// 查询一条记录
         /// </summary>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
-        TEntity First(Expression<Func<TEntity, bool>> predicate);
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
+        TEntity LastOrDefault(bool noTracking = false);
 
         /// <summary>
-        /// 获取一条
+        /// 根据表达式查询一条记录
         /// </summary>
-        /// <param name="predicate"></param>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        TEntity First(Expression<Func<TEntity, bool>> predicate, bool noTracking);
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
+        TEntity LastOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking = false);
 
         /// <summary>
-        /// 获取一条
+        /// 查询一条记录
         /// </summary>
-        /// <returns></returns>
-        TEntity FirstOrDefault();
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<TEntity> LastAsync(bool noTracking = false, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 获取一条
+        /// 根据表达式查询一条记录
         /// </summary>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        TEntity FirstOrDefault(bool noTracking);
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<TEntity> LastAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = false, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 获取一条
+        /// 查询多条记录
         /// </summary>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
-        TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
-
-        /// <summary>
-        /// 获取一条
-        /// </summary>
-        /// <param name="predicate"></param>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking);
-
-        /// <summary>
-        /// 获取一条
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TEntity> FirstAsync(CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 获取一条
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TEntity> FirstAsync(bool noTracking, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 获取一条
-        /// </summary>
-        /// <param name="predicate"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 获取一条
-        /// </summary>
-        /// <param name="predicate"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 获取一条
-        /// </summary>
-        /// <returns></returns>
-        TEntity Last();
-
-        /// <summary>
-        /// 获取一条
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        TEntity Last(bool noTracking);
-
-        /// <summary>
-        /// 获取一条
-        /// </summary>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
-        TEntity Last(Expression<Func<TEntity, bool>> predicate);
-
-        /// <summary>
-        /// 获取一条
-        /// </summary>
-        /// <param name="predicate"></param>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        TEntity Last(Expression<Func<TEntity, bool>> predicate, bool noTracking);
-
-        /// <summary>
-        /// 获取一条
-        /// </summary>
-        /// <returns></returns>
-        TEntity LastOrDefault();
-
-        /// <summary>
-        /// 获取一条
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        TEntity LastOrDefault(bool noTracking);
-
-        /// <summary>
-        /// 获取一条
-        /// </summary>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
-        TEntity LastOrDefault(Expression<Func<TEntity, bool>> predicate);
-
-        /// <summary>
-        /// 获取一条
-        /// </summary>
-        /// <param name="predicate"></param>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        TEntity LastOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking);
-
-        /// <summary>
-        /// 获取一条
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TEntity> LastAsync(CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 获取一条
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TEntity> LastAsync(bool noTracking, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 获取一条
-        /// </summary>
-        /// <param name="predicate"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TEntity> LastAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 获取一条
-        /// </summary>
-        /// <param name="predicate"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TEntity> LastAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查询多条
-        /// </summary>
-        /// <returns></returns>
-        IQueryable<TEntity> Filter();
-
-        /// <summary>
-        /// 查询多条
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        IQueryable<TEntity> Filter(bool noTracking);
-
-        /// <summary>
-        /// 查询多条
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryFilters"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <returns></returns>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>数据库中的多个实体</returns>
         IQueryable<TEntity> Filter(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
-        /// 查询多条
+        /// 根据表达式查询多条记录
         /// </summary>
-        /// <param name="expression"></param>
-        /// <returns></returns>
-        IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> expression);
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>数据库中的多个实体</returns>
+        IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
-        /// 查询多条
+        /// 查询多条记录
         /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> expression, bool noTracking);
-
-        /// <summary>
-        /// 查询多条
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryFilters"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <returns></returns>
-        IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
-
-        /// <summary>
-        /// 查询多条
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<List<TEntity>> FilterAsync(CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查询多条
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<List<TEntity>> FilterAsync(bool noTracking, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查询多条
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryFilters"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的多个实体</returns>
         Task<List<TEntity>> FilterAsync(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 查询多条
+        /// 根据表达式查询多条记录
         /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default);
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的多个实体</returns>
+        Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 查询多条
+        /// 分页查询多条记录
         /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression, bool noTracking, CancellationToken cancellationToken = default);
+        /// <param name="pageIndex">页码</param>
+        /// <param name="pageSize">页大小</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>数据库中的多个实体</returns>
+        PagedList<TEntity> PagedFilter(int pageIndex = 1, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
-        /// 查询多条
+        /// 根据表达式分页查询多条记录
         /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryFilters"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <returns></returns>
-        Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
+        /// <param name="predicate">表达式</param>
+        /// <param name="pageIndex">页码</param>
+        /// <param name="pageSize">页大小</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>数据库中的多个实体</returns>
+        PagedList<TEntity> PagedFilter(Expression<Func<TEntity, bool>> predicate, int pageIndex = 1, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
-        /// 分页查询多条
+        /// 分页查询多条记录
         /// </summary>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        PagedList<TEntity> PagedFilter(int pageIndex, int pageSize);
+        /// <param name="pageIndex">页码</param>
+        /// <param name="pageSize">页大小</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的多个实体</returns>
+        Task<PagedList<TEntity>> PagedFilterAsync(int pageIndex = 1, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 分页查询多条
+        /// 根据表达式分页查询多条记录
         /// </summary>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        PagedList<TEntity> PagedFilter(int pageIndex, int pageSize, bool noTracking);
+        /// <param name="predicate">表达式</param>
+        /// <param name="pageIndex">页码</param>
+        /// <param name="pageSize">页大小</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的多个实体</returns>
+        Task<PagedList<TEntity>> PagedFilterAsync(Expression<Func<TEntity, bool>> predicate, int pageIndex = 1, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 分页查询多条
+        /// 判断记录是否存在
         /// </summary>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryPagedFilters"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <returns></returns>
-        PagedList<TEntity> PagedFilter(int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = true);
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>bool</returns>
+        bool Any(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
-        /// 分页查询多条
+        /// 根据表达式判断记录是否存在
         /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        PagedList<TEntity> PagedFilter(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize);
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>bool</returns>
+        bool Any(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
-        /// 分页查询多条
+        /// 判断记录是否存在
         /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        PagedList<TEntity> PagedFilter(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking);
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>bool</returns>
+        Task<bool> AnyAsync(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 分页查询多条
+        /// 根据表达式判断记录是否存在
         /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryPagedFilters"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <returns></returns>
-        PagedList<TEntity> PagedFilter(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = true);
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>bool</returns>
+        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 分页查询多条
+        /// 根据表达式判断记录是否全部满足条件
         /// </summary>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<PagedList<TEntity>> PagedFilterAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default);
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>bool</returns>
+        bool All(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
-        /// 分页查询多条
+        /// 根据表达式判断记录是否全部满足条件
         /// </summary>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<PagedList<TEntity>> PagedFilterAsync(int pageIndex, int pageSize, bool noTracking, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 分页查询多条
-        /// </summary>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryPagedFilters"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<PagedList<TEntity>> PagedFilterAsync(int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 分页查询多条
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<PagedList<TEntity>> PagedFilterAsync(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 分页查询多条
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<PagedList<TEntity>> PagedFilterAsync(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 分页查询多条
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryPagedFilters"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<PagedList<TEntity>> PagedFilterAsync(Expression<Func<TEntity, bool>> expression, int pageIndex, int pageSize, bool noTracking = true, bool ignoreQueryPagedFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看记录是否存在
-        /// </summary>
-        /// <returns></returns>
-        bool Any();
-
-        /// <summary>
-        /// 查看记录是否存在
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        bool Any(bool noTracking);
-
-        /// <summary>
-        /// 查看记录是否存在
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryAnys"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <returns></returns>
-        bool Any(bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = true);
-
-        /// <summary>
-        /// 查看记录是否存在
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <returns></returns>
-        bool Any(Expression<Func<TEntity, bool>> expression);
-
-        /// <summary>
-        /// 查看记录是否存在
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        bool Any(Expression<Func<TEntity, bool>> expression, bool noTracking);
-
-        /// <summary>
-        /// 查看记录是否存在
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryAnys"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <returns></returns>
-        bool Any(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = true);
-
-        /// <summary>
-        /// 查看记录是否存在
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<bool> AnyAsync(CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看记录是否存在
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<bool> AnyAsync(bool noTracking, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看记录是否存在
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryAnys"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<bool> AnyAsync(bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看记录是否存在
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看记录是否存在
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression, bool noTracking, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看记录是否存在
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryAnys"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryAnys = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看记录是否全部满足某个条件
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <returns></returns>
-        bool All(Expression<Func<TEntity, bool>> expression);
-
-        /// <summary>
-        /// 查看记录是否全部满足某个条件
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        bool All(Expression<Func<TEntity, bool>> expression, bool noTracking);
-
-        /// <summary>
-        /// 查看记录是否全部满足某个条件
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryAlls"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <returns></returns>
-        bool All(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryAlls = false, bool asSplitQuery = true);
-
-        /// <summary>
-        /// 查看记录是否全部满足某个条件
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<bool> AllAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看记录是否全部满足某个条件
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<bool> AllAsync(Expression<Func<TEntity, bool>> expression, bool noTracking, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看记录是否全部满足某个条件
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryAlls"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<bool> AllAsync(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryAlls = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>bool</returns>
+        Task<bool> AllAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 查看记录条数
         /// </summary>
-        /// <returns></returns>
-        int Count();
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>int</returns>
+        int Count(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
+
+        /// <summary>
+        /// 根据表达式查询记录条数
+        /// </summary>
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>int</returns>
+        int Count(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
         /// 查看记录条数
         /// </summary>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        int Count(bool noTracking);
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>int</returns>
+        Task<int> CountAsync(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 查看记录条数
+        /// 根据表达式查询记录条数
         /// </summary>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryCounts"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <returns></returns>
-        int Count(bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = true);
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>int</returns>
+        Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 查看记录条数
+        /// 查看最小记录
         /// </summary>
-        /// <param name="expression"></param>
-        /// <returns></returns>
-        int Count(Expression<Func<TEntity, bool>> expression);
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>实体</returns>
+        TEntity Min(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
-        /// 查看记录条数
+        /// 根据表达式查看最小值
         /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        int Count(Expression<Func<TEntity, bool>> expression, bool noTracking);
+        /// <typeparam name="TResult">最小值类型</typeparam>
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>TResult</returns>
+        TResult Min<TResult>(Expression<Func<TEntity, TResult>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
-        /// 查看记录条数
+        /// 查看最小记录
         /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryCounts"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <returns></returns>
-        int Count(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = true);
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>实体</returns>
+        Task<TEntity> MinAsync(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 查看记录条数
+        /// 根据表达式查看最小值
         /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<int> CountAsync(CancellationToken cancellationToken = default);
+        /// <typeparam name="TResult">最小值类型</typeparam>
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>TResult</returns>
+        Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 查看记录条数
+        /// 查看最大记录
         /// </summary>
-        /// <param name="noTracking"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<int> CountAsync(bool noTracking, CancellationToken cancellationToken = default);
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>实体</returns>
+        TEntity Max(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
-        /// 查看记录条数
+        /// 根据表达式查看最小值
         /// </summary>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryCounts"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<int> CountAsync(bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
+        /// <typeparam name="TResult">最小值类型</typeparam>
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>TResult</returns>
+        TResult Max<TResult>(Expression<Func<TEntity, TResult>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
-        /// 查看记录条数
+        /// 查看最大记录
         /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<int> CountAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default);
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>实体</returns>
+        Task<TEntity> MaxAsync(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 查看记录条数
+        /// 根据表达式查看最小值
         /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<int> CountAsync(Expression<Func<TEntity, bool>> expression, bool noTracking, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看记录条数
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryCounts"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<int> CountAsync(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryCounts = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看最小值
-        /// </summary>
-        /// <returns></returns>
-        TEntity Min();
-
-        /// <summary>
-        /// 查看最小值
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        TEntity Min(bool noTracking);
-
-        /// <summary>
-        /// 查看最小值
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryMins"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <returns></returns>
-        TEntity Min(bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = true);
-
-        /// <summary>
-        /// 查看最小值
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <returns></returns>
-        TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression);
-
-        /// <summary>
-        /// 查看最小值
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking);
-
-        /// <summary>
-        /// 查看最小值
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryMins"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <returns></returns>
-        TResult Min<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = true);
-
-        /// <summary>
-        /// 查看最小值
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TEntity> MinAsync(CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看最小值
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TEntity> MinAsync(bool noTracking, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看最小值
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryMins"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TEntity> MinAsync(bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看最小值
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看最小值
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看最小值
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryMins"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TResult> MinAsync<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking = true, bool ignoreQueryMins = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看最大值
-        /// </summary>
-        /// <returns></returns>
-        TEntity Max();
-
-        /// <summary>
-        /// 查看最大值
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        TEntity Max(bool noTracking);
-
-        /// <summary>
-        /// 查看最大值
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryMaxs"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <returns></returns>
-        TEntity Max(bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = true);
-
-        /// <summary>
-        /// 查看最大值
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <returns></returns>
-        TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression);
-
-        /// <summary>
-        /// 查看最大值
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
-        TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking);
-
-        /// <summary>
-        /// 查看最大值
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryMaxs"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <returns></returns>
-        TResult Max<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = true);
-
-        /// <summary>
-        /// 查看最大值
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TEntity> MaxAsync(CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看最大值
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TEntity> MaxAsync(bool noTracking, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看最大值
-        /// </summary>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryMaxs"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TEntity> MaxAsync(bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看最大值
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看最大值
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查看最大值
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryMaxs"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> expression, bool noTracking = true, bool ignoreQueryMaxs = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
+        /// <typeparam name="TResult">最小值类型</typeparam>
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>TResult</returns>
+        Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
     }
 }

@@ -105,7 +105,7 @@ namespace Fur.DatabaseAccessor
         /// 更新一条记录并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         Task<EntityEntry<TEntity>> UpdateNowAsync(TEntity entity, CancellationToken cancellationToken = default);
 
@@ -114,7 +114,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         Task<EntityEntry<TEntity>> UpdateNowAsync(TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
@@ -129,7 +129,7 @@ namespace Fur.DatabaseAccessor
         /// 更新多条记录并立即提交
         /// </summary>
         /// <param name="entities">多个实体</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns></returns>
         Task UpdateNowAsync(TEntity[] entities, CancellationToken cancellationToken = default);
 
@@ -138,7 +138,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entities">多个实体</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>Task</returns>
         Task UpdateNowAsync(TEntity[] entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
@@ -146,7 +146,7 @@ namespace Fur.DatabaseAccessor
         /// 更新多条记录并立即提交
         /// </summary>
         /// <param name="entities">多个实体</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>Task</returns>
         Task UpdateNowAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
 
@@ -155,7 +155,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entities">多个实体</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>Task</returns>
         Task UpdateNowAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
@@ -171,9 +171,9 @@ namespace Fur.DatabaseAccessor
         /// 更新一条记录中特定属性
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
-        EntityEntry<TEntity> UpdateInclude(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        EntityEntry<TEntity> UpdateInclude(TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates);
 
         /// <summary>
         /// 更新一条记录中特定属性
@@ -187,9 +187,9 @@ namespace Fur.DatabaseAccessor
         /// 更新一条记录中特定属性
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
-        EntityEntry<TEntity> UpdateInclude(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions);
+        EntityEntry<TEntity> UpdateInclude(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates);
 
         /// <summary>
         /// 更新一条记录中的特定属性
@@ -203,9 +203,9 @@ namespace Fur.DatabaseAccessor
         /// 更新一条记录中的特定属性
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
-        Task<EntityEntry<TEntity>> UpdateIncludeAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        Task<EntityEntry<TEntity>> UpdateIncludeAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates);
 
         /// <summary>
         /// 更新一条记录中的特定属性
@@ -219,9 +219,9 @@ namespace Fur.DatabaseAccessor
         /// 更新一条记录中的特定属性
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
-        Task<EntityEntry<TEntity>> UpdateIncludeAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions);
+        Task<EntityEntry<TEntity>> UpdateIncludeAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates);
 
         /// <summary>
         /// 更新一条记录中的特定属性并立即提交
@@ -244,18 +244,18 @@ namespace Fur.DatabaseAccessor
         /// 更新一条记录中的特定属性并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中实体</returns>
-        EntityEntry<TEntity> UpdateIncludeNow(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        EntityEntry<TEntity> UpdateIncludeNow(TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates);
 
         /// <summary>
         /// 更新一条记录中的特定属性并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
-        EntityEntry<TEntity> UpdateIncludeNow(TEntity entity, Expression<Func<TEntity, object>>[] propertyExpressions, bool acceptAllChangesOnSuccess);
+        EntityEntry<TEntity> UpdateIncludeNow(TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess);
 
         /// <summary>
         /// 更新一条记录中的特定属性并立即提交
@@ -278,18 +278,18 @@ namespace Fur.DatabaseAccessor
         /// 更新一条记录中的特定属性并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
-        EntityEntry<TEntity> UpdateIncludeNow(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions);
+        EntityEntry<TEntity> UpdateIncludeNow(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates);
 
         /// <summary>
         /// 更新一条记录中的特定属性并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
-        EntityEntry<TEntity> UpdateIncludeNow(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions, bool acceptAllChangesOnSuccess);
+        EntityEntry<TEntity> UpdateIncludeNow(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess);
 
         /// <summary>
         /// 更新一条记录中的特定属性并立即提交
@@ -304,7 +304,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default);
 
@@ -314,7 +314,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
@@ -322,35 +322,35 @@ namespace Fur.DatabaseAccessor
         /// 更新一条记录中的特定属性并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
-        Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates);
 
         /// <summary>
         /// 更新一条记录中的特定属性并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyExpressions, CancellationToken cancellationToken = default);
+        Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 更新一条记录中的特定属性并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyExpressions, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+        Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 更新一条记录中的特定属性并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default);
 
@@ -360,7 +360,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
@@ -368,20 +368,20 @@ namespace Fur.DatabaseAccessor
         /// 更新一条记录中的特定属性并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions, CancellationToken cancellationToken = default);
+        Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 更新一条记录中的特定属性并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+        Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 更新一条记录并排除属性
@@ -395,9 +395,9 @@ namespace Fur.DatabaseAccessor
         /// 更新一条记录并排除属性
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
-        EntityEntry<TEntity> UpdateExclude(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        EntityEntry<TEntity> UpdateExclude(TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates);
 
         /// <summary>
         /// 更新一条记录并排除属性
@@ -411,9 +411,9 @@ namespace Fur.DatabaseAccessor
         /// 更新一条记录并排除属性
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
-        EntityEntry<TEntity> UpdateExclude(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions);
+        EntityEntry<TEntity> UpdateExclude(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates);
 
         /// <summary>
         /// 更新一条记录中的特定属性
@@ -427,9 +427,9 @@ namespace Fur.DatabaseAccessor
         /// 更新一条记录中的特定属性
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
-        Task<EntityEntry<TEntity>> UpdateExcludeAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        Task<EntityEntry<TEntity>> UpdateExcludeAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates);
 
         /// <summary>
         /// 更新一条记录中的特定属性
@@ -443,9 +443,9 @@ namespace Fur.DatabaseAccessor
         /// 更新一条记录中的特定属性
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
-        Task<EntityEntry<TEntity>> UpdateExcludeAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions);
+        Task<EntityEntry<TEntity>> UpdateExcludeAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates);
 
         /// <summary>
         /// 更新一条记录并排除属性并立即提交
@@ -468,18 +468,18 @@ namespace Fur.DatabaseAccessor
         /// 更新一条记录并排除属性并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中实体</returns>
-        EntityEntry<TEntity> UpdateExcludeNow(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        EntityEntry<TEntity> UpdateExcludeNow(TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates);
 
         /// <summary>
         /// 更新一条记录并排除属性并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
-        EntityEntry<TEntity> UpdateExcludeNow(TEntity entity, Expression<Func<TEntity, object>>[] propertyExpressions, bool acceptAllChangesOnSuccess);
+        EntityEntry<TEntity> UpdateExcludeNow(TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess);
 
         /// <summary>
         /// 更新一条记录并排除属性并立即提交
@@ -502,18 +502,18 @@ namespace Fur.DatabaseAccessor
         /// 更新一条记录并排除属性并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
-        EntityEntry<TEntity> UpdateExcludeNow(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions);
+        EntityEntry<TEntity> UpdateExcludeNow(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates);
 
         /// <summary>
         /// 更新一条记录并排除属性并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
-        EntityEntry<TEntity> UpdateExcludeNow(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions, bool acceptAllChangesOnSuccess);
+        EntityEntry<TEntity> UpdateExcludeNow(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess);
 
         /// <summary>
         /// 更新一条记录并排除属性并立即提交
@@ -528,7 +528,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default);
 
@@ -538,7 +538,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
@@ -546,35 +546,35 @@ namespace Fur.DatabaseAccessor
         /// 更新一条记录并排除属性并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
-        Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyExpressions);
+        Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates);
 
         /// <summary>
         /// 更新一条记录并排除属性并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyExpressions, CancellationToken cancellationToken = default);
+        Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 更新一条记录并排除属性并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyExpressions, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+        Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 更新一条记录并排除属性并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default);
 
@@ -584,7 +584,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
@@ -592,19 +592,19 @@ namespace Fur.DatabaseAccessor
         /// 更新一条记录并排除属性并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions, CancellationToken cancellationToken = default);
+        Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 更新一条记录并排除属性并立即提交
         /// </summary>
         /// <param name="entity">实体</param>
-        /// <param name="propertyExpressions">属性表达式</param>
+        /// <param name="propertyPredicates">属性表达式</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">异步令牌</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyExpressions, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+        Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
     }
 }
