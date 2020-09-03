@@ -91,7 +91,7 @@ namespace Microsoft.Extensions.DependencyInjection
             where TDbContext : DbContext
             where TDbContextLocator : class, IDbContextLocator, new()
         {
-            // 将数据库上下文和定位器保存到上下文栈中
+            // 将数据库上下文和定位器一一保存起来
             var isSuccess = dbContextLocators.TryAdd(typeof(TDbContextLocator), typeof(TDbContext));
             if (!isSuccess) throw new InvalidOperationException("The locator is bound to another DbContext");
 
