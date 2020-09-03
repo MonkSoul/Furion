@@ -7,11 +7,11 @@
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 公共仓储接口
+    /// 可操作性仓储接口
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    public partial interface ICommonRepository<TEntity>
-       where TEntity : class, IEntityBase, new()
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    public partial interface IOperableRepository<TEntity>
+        where TEntity : class, IEntityBase, new()
     {
     }
 }

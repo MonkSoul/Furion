@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 可写仓储
+    /// 可写仓储接口
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public partial interface IWritableRepository<TEntity> : IInsertableRepository<TEntity>, IUpdateableRepository<TEntity>, IDeletableRepository<TEntity>
+    public partial interface IWritableRepository<TEntity> : IInsertableRepository<TEntity>, IUpdateableRepository<TEntity>, IDeletableRepository<TEntity>, IOperableRepository<TEntity>
         where TEntity : class, IEntityBase, new()
     {
         /// <summary>

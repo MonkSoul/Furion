@@ -14,17 +14,20 @@ namespace Fur.Application
         private readonly IRepository _repository;
         private readonly IServiceProvider _serviceProvider;
         private readonly IRepository<Test, DbContextLocator> _repository1;
+        private readonly IRepository<Test, FurDbContextLocator2> _repository2;
 
         public FurAppService(
             IRepository<Test> testRepository
             , IRepository repository
             , IServiceProvider serviceProvider
-            , IRepository<Test, DbContextLocator> repository1)
+            , IRepository<Test, DbContextLocator> repository1
+            , IRepository<Test, FurDbContextLocator2> repository2)
         {
             _testRepository = testRepository;
             _repository = repository;
             _serviceProvider = serviceProvider;
             _repository1 = repository1;
+            _repository2 = repository2;
         }
 
         public IEnumerable<TestDto> Get()
