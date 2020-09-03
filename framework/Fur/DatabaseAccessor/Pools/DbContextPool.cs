@@ -87,23 +87,6 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 保存数据库上下文池中所有已更改的数据库上下文
         /// </summary>
-        /// <returns></returns>
-        public async Task<int> SavePoolNowAsync()
-        {
-            // 查找所有已改变的数据库上下文并保存更改
-            var tasks = dbContexts
-                .Where(u => u.ChangeTracker.HasChanges())
-                .Select(u => u.SaveChangesAsync());
-
-            // 等等所有异步完成
-            await Task.WhenAll(tasks);
-
-            return tasks.Count();
-        }
-
-        /// <summary>
-        /// 保存数据库上下文池中所有已更改的数据库上下文
-        /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<int> SavePoolNowAsync(CancellationToken cancellationToken = default)

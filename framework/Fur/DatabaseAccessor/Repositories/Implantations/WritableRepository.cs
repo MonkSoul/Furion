@@ -38,15 +38,6 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 保存数据库上下文池中所有已更改的数据库上下文
         /// </summary>
-        /// <returns></returns>
-        public Task<int> SavePoolNowAsync()
-        {
-            return _dbContextPool.SavePoolNowAsync();
-        }
-
-        /// <summary>
-        /// 保存数据库上下文池中所有已更改的数据库上下文
-        /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public Task<int> SavePoolNowAsync(CancellationToken cancellationToken = default)

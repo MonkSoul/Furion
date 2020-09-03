@@ -49,12 +49,6 @@ namespace Fur.DatabaseAccessor
         int SavePoolNow(bool acceptAllChangesOnSuccess);
 
         /// <summary>
-        /// 保存数据库上下文池中所有已更改的数据库上下文
-        /// </summary>
-        /// <returns></returns>
-        Task<int> SavePoolNowAsync();
-
-        /// <summary>
         /// 保存数据库上下文池中所有已更改的数据库上下文（异步）
         /// </summary>
         /// <param name="cancellationToken"></param>
