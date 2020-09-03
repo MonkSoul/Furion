@@ -16,9 +16,9 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 可写仓储
+    /// 可写仓储分部类
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TEntity">实体类型</typeparam>
     public partial class EFCoreRepository<TEntity>
          where TEntity : class, IEntityBase, new()
     {
