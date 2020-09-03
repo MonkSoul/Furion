@@ -12,151 +12,151 @@ using System.Threading.Tasks;
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 可插入的仓储接口
+    /// 可插入仓储接口
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TEntity">实体类型</typeparam>
     public partial interface IInsertableRepository<TEntity>
         where TEntity : class, IEntityBase, new()
     {
         /// <summary>
-        /// 新增实体
+        /// 新增一条记录
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <returns>代理的实体</returns>
         EntityEntry<TEntity> Insert(TEntity entity);
 
         /// <summary>
-        /// 新增多个实体
+        /// 新增多条记录
         /// </summary>
-        /// <param name="entities"></param>
+        /// <param name="entities">多个实体</param>
         void Insert(params TEntity[] entities);
 
         /// <summary>
-        /// 新增多个实体
+        /// 新增多条记录
         /// </summary>
-        /// <param name="entities"></param>
+        /// <param name="entities">多个实体</param>
         void Insert(IEnumerable<TEntity> entities);
 
         /// <summary>
-        /// 新增实体（异步）
+        /// 新增一条记录
         /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <param name="cancellationToken">异步令牌</param>
+        /// <returns>代理的实体</returns>
         Task<EntityEntry<TEntity>> InsertAsync(TEntity entity, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 新增多个实体（异步）
+        /// 新增多条记录
         /// </summary>
-        /// <param name="entities"></param>
-        /// <returns></returns>
+        /// <param name="entities">多个实体</param>
+        /// <returns>Task</returns>
         Task InsertAsync(params TEntity[] entities);
 
         /// <summary>
-        /// 新增多个实体（异步）
+        /// 新增多条记录
         /// </summary>
-        /// <param name="entities"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="entities">多个实体</param>
+        /// <param name="cancellationToken">异步令牌</param>
         /// <returns></returns>
         Task InsertAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 新增并提交更改
+        /// 新增一条记录并立即提交
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <returns>数据库中返回的实体</returns>
         EntityEntry<TEntity> InsertNow(TEntity entity);
 
         /// <summary>
-        /// 新增并提交更改
+        /// 新增一条记录并立即提交
         /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中返回的实体</returns>
         EntityEntry<TEntity> InsertNow(TEntity entity, bool acceptAllChangesOnSuccess);
 
         /// <summary>
-        /// 新增多个实体
+        /// 新增多条记录
         /// </summary>
-        /// <param name="entities"></param>
+        /// <param name="entities">多个实体</param>
         void InsertNow(params TEntity[] entities);
 
         /// <summary>
-        /// 新增多个实体
+        /// 新增多条记录
         /// </summary>
-        /// <param name="entities"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="entities">多个实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         void InsertNow(TEntity[] entities, bool acceptAllChangesOnSuccess);
 
         /// <summary>
-        /// 新增多个实体
+        /// 新增多条记录
         /// </summary>
-        /// <param name="entities"></param>
+        /// <param name="entities">多个实体</param>
         void InsertNow(IEnumerable<TEntity> entities);
 
         /// <summary>
-        /// 新增多个实体
+        /// 新增多条记录
         /// </summary>
-        /// <param name="entities"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
+        /// <param name="entities">多个实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         void InsertNow(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess);
 
         /// <summary>
-        /// 新增并提交更改（异步）
+        /// 新增一条记录并立即提交
         /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <param name="cancellationToken">异步令牌</param>
+        /// <returns>数据库中返回的实体</returns>
         Task<EntityEntry<TEntity>> InsertNowAsync(TEntity entity, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 新增并提交更改（异步）
+        /// 新增一条记录并立即提交
         /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">异步令牌</param>
+        /// <returns>数据库中返回的实体</returns>
         Task<EntityEntry<TEntity>> InsertNowAsync(TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 新增多个实体（异步）
+        /// 新增多条记录并立即提交
         /// </summary>
-        /// <param name="entities"></param>
-        /// <returns></returns>
+        /// <param name="entities">多个实体</param>
+        /// <returns>Task</returns>
         Task InsertNowAsync(params TEntity[] entities);
 
         /// <summary>
-        /// 新增多个实体并提交更改（异步）
+        /// 新增多条记录并立即提交
         /// </summary>
-        /// <param name="entities"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="entities">多个实体</param>
+        /// <param name="cancellationToken">异步令牌</param>
+        /// <returns>Task</returns>
         Task InsertNowAsync(TEntity[] entities, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 新增多个实体并提交更改（异步）
+        /// 新增多条记录并立即提交
         /// </summary>
-        /// <param name="entities"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="entities">多个实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">异步令牌</param>
+        /// <returns>Task</returns>
         Task InsertNowAsync(TEntity[] entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 新增多个实体并提交更改（异步）
+        /// 新增多条记录并立即提交
         /// </summary>
-        /// <param name="entities"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="entities">多个实体</param>
+        /// <param name="cancellationToken">异步令牌</param>
+        /// <returns>Task</returns>
         Task InsertNowAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 新增多个实体并提交更改（异步）
+        /// 新增多条记录并立即提交
         /// </summary>
-        /// <param name="entities"></param>
-        /// <param name="acceptAllChangesOnSuccess"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="entities">多个实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">异步令牌</param>
+        /// <returns>Task</returns>
         Task InsertNowAsync(IEnumerable<TEntity> entities, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
     }
 }

@@ -197,7 +197,8 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <typeparam name="TUseEntity"></typeparam>
         /// <returns></returns>
-        IRepository<TUseEntity> Use<TUseEntity>() where TUseEntity : class, IEntityBase, new();
+        IRepository<TUseEntity> Use<TUseEntity>()
+            where TUseEntity : class, IEntityBase, new();
     }
 
     /// <summary>
