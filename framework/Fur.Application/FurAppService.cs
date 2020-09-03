@@ -13,15 +13,18 @@ namespace Fur.Application
         private readonly IRepository<Test> _testRepository;
         private readonly IRepository _repository;
         private readonly IServiceProvider _serviceProvider;
+        private readonly IRepository<Test, DbContextLocator> _repository1;
 
         public FurAppService(
             IRepository<Test> testRepository
             , IRepository repository
-            , IServiceProvider serviceProvider)
+            , IServiceProvider serviceProvider
+            , IRepository<Test, DbContextLocator> repository1)
         {
             _testRepository = testRepository;
             _repository = repository;
             _serviceProvider = serviceProvider;
+            _repository1 = repository1;
         }
 
         public IEnumerable<TestDto> Get()
@@ -40,6 +43,9 @@ namespace Fur.Application
             var test3 = _testRepository.Use<Test>();
             var d = test1.Equals(test3);
             var e = test3.Equals(_testRepository);
+
+            var test4 = _repository1.Use<Test>();
+            var f = test1.Equals(test4);
 
             //return _testRepository.Entities.ProjectToType<TestDto>().ToList();
 

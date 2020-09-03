@@ -35,15 +35,29 @@ namespace Microsoft.Extensions.DependencyInjection
             // 注册泛型仓储
             services.TryAddScoped(typeof(IRepository<>), typeof(EFCoreRepository<>));
 
+            // 注册多上下文仓储
+            services.TryAddScoped(typeof(IRepository<,>), typeof(EFCoreRepository<,>));
+
             configure?.Invoke(services);
             return services;
         }
 
-        public static IServiceCollection AddAppDbContext<TDbContext>(this IServiceCollection services, string connectionString, int poolSize = 100)
+        public static IServiceCollection AddAppDbContext<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString, int poolSize = 100)
             where TDbContext : DbContext
+            where TDbContextLocator : class, IDbContextLocator, new()
         {
             // 注册数据库上下文
             services.AddScoped<DbContext, TDbContext>();
+
+            services.AddScoped(provider =>
+            {
+                Func<Type, DbContext> dbContextResolve = (locator) =>
+                {
+                    if (locator == typeof(TDbContextLocator)) return provider.GetService<TDbContext>();
+                    return default;
+                };
+                return dbContextResolve;
+            });
 
             // 添加数据库上下文池
             services.AddDbContextPool<TDbContext>((serviceProvider, options) =>

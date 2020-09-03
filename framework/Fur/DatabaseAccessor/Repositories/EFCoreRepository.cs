@@ -20,7 +20,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// EF Core仓储实现
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TEntity">实体类型</typeparam>
     public partial class EFCoreRepository<TEntity> : IRepository<TEntity>
          where TEntity : class, IEntityBase, new()
     {
@@ -288,12 +288,25 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 切换仓储
         /// </summary>
-        /// <typeparam name="TUseEntity"></typeparam>
-        /// <returns></returns>
+        /// <typeparam name="TUseEntity">实体类型</typeparam>
+        /// <returns>仓储</returns>
         public virtual IRepository<TUseEntity> Use<TUseEntity>()
             where TUseEntity : class, IEntityBase, new()
         {
             return _repository.Use<TUseEntity>();
+        }
+
+        /// <summary>
+        /// 切换多上下文仓储
+        /// </summary>
+        /// <typeparam name="TUseEntity">实体类型</typeparam>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <returns>仓储</returns>
+        public virtual IRepository<TUseEntity, TDbContextLocator> Use<TUseEntity, TDbContextLocator>()
+            where TUseEntity : class, IEntityBase, new()
+            where TDbContextLocator : class, IDbContextLocator, new()
+        {
+            return _repository.Use<TUseEntity, TDbContextLocator>();
         }
     }
 
@@ -319,12 +332,40 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 切换仓储
         /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <returns></returns>
+        /// <typeparam name="TEntity">实体类型</typeparam>
+        /// <returns>仓储</returns>
         public virtual IRepository<TEntity> Use<TEntity>()
-             where TEntity : class, IEntityBase, new()
+            where TEntity : class, IEntityBase, new()
         {
             return _serviceProvider.GetService<IRepository<TEntity>>();
+        }
+
+        /// <summary>
+        /// 切换多上下文仓储
+        /// </summary>
+        /// <typeparam name="TEntity">实体类型</typeparam>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <returns>仓储</returns>
+        public virtual IRepository<TEntity, TDbContextLocator> Use<TEntity, TDbContextLocator>()
+            where TEntity : class, IEntityBase, new()
+            where TDbContextLocator : class, IDbContextLocator, new()
+        {
+            return _serviceProvider.GetService<IRepository<TEntity, TDbContextLocator>>();
+        }
+    }
+
+    /// <summary>
+    /// 多上下文仓储
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+    public partial class EFCoreRepository<TEntity, TDbContextLocator> : EFCoreRepository<TEntity>, IRepository<TEntity, TDbContextLocator>
+        where TEntity : class, IEntityBase, new()
+        where TDbContextLocator : class, IDbContextLocator, new()
+    {
+        public EFCoreRepository(IDbContextPool dbContextPool, IRepository repository, Func<Type, DbContext> dbContextResolve)
+            : base(dbContextPool, repository, dbContextResolve(typeof(TDbContextLocator)))
+        {
         }
     }
 }
