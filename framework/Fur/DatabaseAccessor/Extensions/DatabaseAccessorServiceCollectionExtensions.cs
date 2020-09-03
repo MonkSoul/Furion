@@ -39,7 +39,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // 注册泛型仓储
             services.TryAddScoped(typeof(IRepository<>), typeof(EFCoreRepository<>));
 
-            // 注册多上下文仓储
+            // 注册多数据库上下文仓储
             services.TryAddScoped(typeof(IRepository<,>), typeof(EFCoreRepository<,>));
 
             // 解析数据库上下文

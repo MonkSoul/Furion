@@ -196,7 +196,7 @@ namespace Fur.DatabaseAccessor
             where TUseEntity : class, IEntityBase, new();
 
         /// <summary>
-        /// 切换多上下文仓储
+        /// 切换多数据库上下文仓储
         /// </summary>
         /// <typeparam name="TUseEntity">实体类型</typeparam>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
@@ -220,7 +220,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IEntityBase, new();
 
         /// <summary>
-        /// 切换多上下文仓储
+        /// 切换多数据库上下文仓储
         /// </summary>
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
@@ -231,7 +231,7 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 多上下文仓储
+    /// 多数据库上下文仓储
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
