@@ -70,6 +70,11 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddAppDbContext<TDbContext>(this IServiceCollection services, string connectionString, int poolSize = 100)
             where TDbContext : DbContext
         {
+            // 避免重复注册默认数据库上下文
+            if (dbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+
+            // 注册默认数据库上下文
+            services.AddScoped<DbContext, TDbContext>();
             return services.AddAppDbContext<TDbContext, DbContextLocator>(connectionString, poolSize);
         }
 
@@ -91,7 +96,7 @@ namespace Microsoft.Extensions.DependencyInjection
             if (!isSuccess) throw new InvalidOperationException("The locator is bound to another DbContext");
 
             // 注册数据库上下文
-            services.AddScoped<DbContext, TDbContext>();
+            services.TryAddScoped<TDbContext>();
 
             // 添加数据库上下文池
             services.AddDbContextPool<TDbContext>((serviceProvider, options) =>

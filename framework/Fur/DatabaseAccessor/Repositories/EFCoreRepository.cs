@@ -37,8 +37,8 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="dbContextPool"></param>
-        /// <param name="dbContext"></param>
+        /// <param name="dbContextPool">数据库上下文池</param>
+        /// <param name="dbContext">数据库上下文</param>
         public EFCoreRepository(
             IDbContextPool dbContextPool
             , IRepository repository

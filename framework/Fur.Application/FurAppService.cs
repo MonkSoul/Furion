@@ -44,11 +44,14 @@ namespace Fur.Application
             var c = test2.Equals(_testRepository);  // true
 
             var test3 = _testRepository.Use<Test>();
-            var d = test1.Equals(test3);
-            var e = test3.Equals(_testRepository);
+            var d = test1.Equals(test3); // true
+            var e = test3.Equals(_testRepository); // true
 
             var test4 = _repository1.Use<Test>();
-            var f = test1.Equals(test4);
+            var f = test1.Equals(test4); // true
+
+            var test5 = _repository2.Use<Test>();
+            var g = test4.Equals(test5); // fale
 
             //return _testRepository.Entities.ProjectToType<TestDto>().ToList();
 
