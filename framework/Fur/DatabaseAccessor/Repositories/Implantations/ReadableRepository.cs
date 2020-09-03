@@ -23,7 +23,7 @@ namespace Fur.DatabaseAccessor
          where TEntity : class, IEntityBase, new()
     {
         /// <summary>
-        /// 数据未查询到默认异常消息
+        /// 未查询到数据异常消息
         /// </summary>
         private const string NotFoundErrorMessage = "Sequence contains no elements";
 
@@ -85,31 +85,31 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 根据主键查找
+        /// 根据键查询一条记录
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="key">键</param>
+        /// <returns>数据库中的实体</returns>
         public virtual TEntity FindOrDefault(object key)
         {
             return Entities.Find(key);
         }
 
         /// <summary>
-        /// 根据多个主键查找
+        /// 根据多个键查询一条记录
         /// </summary>
-        /// <param name="keyValues"></param>
-        /// <returns></returns>
+        /// <param name="keyValues">多个键</param>
+        /// <returns>数据库中的实体</returns>
         public virtual TEntity FindOrDefault(params object[] keyValues)
         {
             return Entities.Find(keyValues);
         }
 
         /// <summary>
-        /// 根据主键查找
+        /// 根据键查询一条记录
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="key">键</param>
+        /// <param name="cancellationToken">异步令牌</param>
+        /// <returns>数据库中的实体</returns>
         public virtual async Task<TEntity> FindOrDefaultAsync(object key, CancellationToken cancellationToken = default)
         {
             var entity = await Entities.FindAsync(new object[] { key }, cancellationToken);
@@ -117,10 +117,10 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 根据多个主键查找
+        /// 根据多个键查询一条记录
         /// </summary>
-        /// <param name="keyValues"></param>
-        /// <returns></returns>
+        /// <param name="keyValues">多个键</param>
+        /// <returns>数据库中的实体</returns>
         public virtual async Task<TEntity> FindOrDefaultAsync(params object[] keyValues)
         {
             var entity = await Entities.FindAsync(keyValues);
@@ -128,11 +128,11 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 根据多个主键查找
+        /// 根据多个键查询一条记录
         /// </summary>
-        /// <param name="keyValues"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <param name="keyValues">多个键</param>
+        /// <param name="cancellationToken">异步令牌</param>
+        /// <returns>数据库中的实体</returns>
         public virtual async Task<TEntity> FindOrDefaultAsync(object[] keyValues, CancellationToken cancellationToken = default)
         {
             var entity = await Entities.FindAsync(keyValues, cancellationToken);
