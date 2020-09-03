@@ -96,131 +96,131 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 判断上下文是否更改
         /// </summary>
-        /// <returns></returns>
+        /// <returns>bool</returns>
         bool HasChanges();
 
         /// <summary>
-        /// 获取实体条目
+        /// 将实体加入数据上下文托管
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <returns>EntityEntry</returns>
         EntityEntry Entry(object entity);
 
         /// <summary>
-        /// 获取实体条目
+        /// 将实体加入数据上下文托管
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">实体</param>
         /// <returns></returns>
         EntityEntry<TEntity> Entry(TEntity entity);
 
         /// <summary>
         /// 获取实体状态
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">实体</param>
         /// <returns></returns>
         EntityState EntityEntryState(object entity);
 
         /// <summary>
         /// 获取实体状态
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <returns>EntityState</returns>
         EntityState EntityEntryState(TEntity entity);
 
         /// <summary>
-        /// 实体属性条目
+        /// 将实体属性加入托管
         /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="propertyName"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyName">属性名</param>
+        /// <returns>PropertyEntry</returns>
         PropertyEntry EntityPropertyEntry(object entity, string propertyName);
 
         /// <summary>
-        /// 实体属性条目
+        /// 将实体属性加入托管
         /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="propertyName"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyName">属性名</param>
+        /// <returns>PropertyEntry</returns>
         PropertyEntry EntityPropertyEntry(TEntity entity, string propertyName);
 
         /// <summary>
-        /// 实体属性条目
+        /// 将实体属性加入托管
         /// </summary>
-        /// <typeparam name="TProperty"></typeparam>
-        /// <param name="entity"></param>
-        /// <param name="propertyExpression"></param>
-        /// <returns></returns>
-        PropertyEntry<TEntity, TProperty> EntityPropertyEntry<TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> propertyExpression);
+        /// <typeparam name="TProperty">属性类型</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicate">属性表达式</param>
+        /// <returns>PropertyEntry</returns>
+        PropertyEntry<TEntity, TProperty> EntityPropertyEntry<TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> propertyPredicate);
 
         /// <summary>
         /// 判断是否被附加
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <returns>bool</returns>
         bool IsAttach(object entity);
 
         /// <summary>
         /// 判断是否被附加
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <returns>bool</returns>
         bool IsAttach(TEntity entity);
 
         /// <summary>
         /// 附加实体
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <returns>EntityEntry</returns>
         EntityEntry Attach(object entity);
 
         /// <summary>
         /// 附加实体
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <returns>EntityEntry</returns>
         EntityEntry<TEntity> Attach(TEntity entity);
 
         /// <summary>
         /// 附加多个实体
         /// </summary>
-        /// <param name="entities"></param>
+        /// <param name="entities">多个实体</param>
         void AttachRange(params object[] entities);
 
         /// <summary>
         /// 附加多个实体
         /// </summary>
-        /// <param name="entities"></param>
+        /// <param name="entities">多个实体</param>
         void AttachRange(IEnumerable<TEntity> entities);
 
         /// <summary>
         /// 获取所有数据库上下文
         /// </summary>
-        /// <returns></returns>
-        ConcurrentBag<DbContext> GetDbContexts();
+        /// <returns>ConcurrentBag<DbContext></returns>
+        public ConcurrentBag<DbContext> GetDbContexts();
 
         /// <summary>
         /// 判断实体是否设置了主键
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <returns>bool</returns>
         bool IsKeySet(TEntity entity);
 
         /// <summary>
         /// 构建查询分析器
         /// </summary>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>IQueryable<TEntity></returns>
         IQueryable<TEntity> AsQueryable(bool noTracking = false);
 
         /// <summary>
         /// 构建查询分析器
         /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryFilters"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <returns></returns>
-        IQueryable<TEntity> AsQueryable(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>IQueryable<TEntity></returns>
+        IQueryable<TEntity> AsQueryable(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
         /// 切换仓储

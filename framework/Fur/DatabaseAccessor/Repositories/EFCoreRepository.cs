@@ -160,26 +160,26 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 判断上下文是否更改
         /// </summary>
-        /// <returns></returns>
+        /// <returns>bool</returns>
         public virtual bool HasChanges()
         {
             return ChangeTracker.HasChanges();
         }
 
         /// <summary>
-        /// 获取实体条目
+        /// 将实体加入数据上下文托管
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <returns>EntityEntry</returns>
         public virtual EntityEntry Entry(object entity)
         {
             return DbContext.Entry(entity);
         }
 
         /// <summary>
-        /// 获取实体条目
+        /// 将实体加入数据上下文托管
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">实体</param>
         /// <returns></returns>
         public virtual EntityEntry<TEntity> Entry(TEntity entity)
         {
@@ -189,7 +189,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 获取实体状态
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">实体</param>
         /// <returns></returns>
         public virtual EntityState EntityEntryState(object entity)
         {
@@ -199,52 +199,52 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 获取实体状态
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <returns>EntityState</returns>
         public virtual EntityState EntityEntryState(TEntity entity)
         {
             return Entry(entity).State;
         }
 
         /// <summary>
-        /// 实体属性条目
+        /// 将实体属性加入托管
         /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="propertyName"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyName">属性名</param>
+        /// <returns>PropertyEntry</returns>
         public virtual PropertyEntry EntityPropertyEntry(object entity, string propertyName)
         {
             return Entry(entity).Property(propertyName);
         }
 
         /// <summary>
-        /// 实体属性条目
+        /// 将实体属性加入托管
         /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="propertyName"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyName">属性名</param>
+        /// <returns>PropertyEntry</returns>
         public virtual PropertyEntry EntityPropertyEntry(TEntity entity, string propertyName)
         {
             return Entry(entity).Property(propertyName);
         }
 
         /// <summary>
-        /// 实体属性条目
+        /// 将实体属性加入托管
         /// </summary>
-        /// <typeparam name="TProperty"></typeparam>
-        /// <param name="entity"></param>
-        /// <param name="propertyExpression"></param>
-        /// <returns></returns>
-        public virtual PropertyEntry<TEntity, TProperty> EntityPropertyEntry<TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> propertyExpression)
+        /// <typeparam name="TProperty">属性类型</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicate">属性表达式</param>
+        /// <returns>PropertyEntry</returns>
+        public virtual PropertyEntry<TEntity, TProperty> EntityPropertyEntry<TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> propertyPredicate)
         {
-            return Entry(entity).Property(propertyExpression);
+            return Entry(entity).Property(propertyPredicate);
         }
 
         /// <summary>
         /// 判断是否被附加
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <returns>bool</returns>
         public virtual bool IsAttach(object entity)
         {
             return EntityEntryState(entity) == EntityState.Detached;
@@ -253,8 +253,8 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 判断是否被附加
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <returns>bool</returns>
         public virtual bool IsAttach(TEntity entity)
         {
             return EntityEntryState(entity) == EntityState.Detached;
@@ -263,8 +263,8 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 附加实体
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <returns>EntityEntry</returns>
         public virtual EntityEntry Attach(object entity)
         {
             return DbContext.Attach(entity);
@@ -273,8 +273,8 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 附加实体
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <returns>EntityEntry</returns>
         public virtual EntityEntry<TEntity> Attach(TEntity entity)
         {
             return DbContext.Attach(entity);
@@ -283,7 +283,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 附加多个实体
         /// </summary>
-        /// <param name="entities"></param>
+        /// <param name="entities">多个实体</param>
         public virtual void AttachRange(params object[] entities)
         {
             DbContext.AttachRange(entities);
@@ -292,7 +292,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 附加多个实体
         /// </summary>
-        /// <param name="entities"></param>
+        /// <param name="entities">多个实体</param>
         public virtual void AttachRange(IEnumerable<TEntity> entities)
         {
             DbContext.AttachRange(entities);
@@ -301,7 +301,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 获取所有数据库上下文
         /// </summary>
-        /// <returns></returns>
+        /// <returns>ConcurrentBag<DbContext></returns>
         public ConcurrentBag<DbContext> GetDbContexts()
         {
             return _dbContextPool.GetDbContexts();
@@ -310,8 +310,8 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 判断实体是否设置了主键
         /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
+        /// <param name="entity">实体</param>
+        /// <returns>bool</returns>
         public virtual bool IsKeySet(TEntity entity)
         {
             return Entry(entity).IsKeySet;
@@ -320,8 +320,8 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 构建查询分析器
         /// </summary>
-        /// <param name="noTracking"></param>
-        /// <returns></returns>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>IQueryable<TEntity></returns>
         public virtual IQueryable<TEntity> AsQueryable(bool noTracking = false)
         {
             return !noTracking ? Entities : DerailEntities;
@@ -330,17 +330,17 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 构建查询分析器
         /// </summary>
-        /// <param name="expression"></param>
-        /// <param name="noTracking"></param>
-        /// <param name="ignoreQueryFilters"></param>
-        /// <param name="asSplitQuery"></param>
-        /// <returns></returns>
-        public virtual IQueryable<TEntity> AsQueryable(Expression<Func<TEntity, bool>> expression, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true)
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>IQueryable<TEntity></returns>
+        public virtual IQueryable<TEntity> AsQueryable(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true)
         {
             var entities = AsQueryable(noTracking);
             if (ignoreQueryFilters) entities = entities.IgnoreQueryFilters();
             if (asSplitQuery) entities = entities.AsSplitQuery();
-            if (expression != null) entities = entities.Where(expression);
+            if (predicate != null) entities = entities.Where(predicate);
 
             return entities;
         }
