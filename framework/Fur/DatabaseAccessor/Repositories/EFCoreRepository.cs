@@ -363,6 +363,12 @@ namespace Fur.DatabaseAccessor
         where TEntity : class, IEntityBase, new()
         where TDbContextLocator : class, IDbContextLocator, new()
     {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="dbContextPool">数据库上下文池</param>
+        /// <param name="repository">非泛型仓储</param>
+        /// <param name="dbContextResolve">数据库上下文解析器</param>
         public EFCoreRepository(IDbContextPool dbContextPool, IRepository repository, Func<Type, DbContext> dbContextResolve)
             : base(dbContextPool, repository, dbContextResolve(typeof(TDbContextLocator)))
         {
