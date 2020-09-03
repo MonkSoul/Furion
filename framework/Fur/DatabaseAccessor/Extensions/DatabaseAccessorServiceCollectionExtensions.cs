@@ -51,6 +51,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     var isRegistered = dbContextLocators.TryGetValue(locator, out var dbContextType);
                     if (!isRegistered) throw new InvalidOperationException("The DbContext for locator binding was not found");
 
+                    // 动态解析数据库上下文
                     return (DbContext)provider.GetService(dbContextType);
                 }
                 return (Func<Type, DbContext>)dbContextResolve;
