@@ -69,11 +69,6 @@ namespace Fur.Application
             _testRepository.InsertNow(testDto.Adapt<Test>());
         }
 
-        public void UpdateAll(TestDto testDto)
-        {
-            _testRepository.UpdateNow(testDto.Adapt<Test>());
-        }
-
         public void UpdateInclude(TestDto testDto)
         {
             _testRepository.UpdateIncludeNow(testDto.Adapt<Test>(), u => u.Name, u => u.Age);
@@ -82,6 +77,13 @@ namespace Fur.Application
         public void UpdateExclude(TestDto testDto)
         {
             _testRepository.UpdateExcludeNow(testDto.Adapt<Test>(), u => u.Address);
+        }
+
+        [IfException(EFCoreErrorCodes.KeyNotSet, ErrorMessage = "没有设置主键")]
+        [IfException(EFCoreErrorCodes.DataNotFound, ErrorMessage = "数据没找到")]
+        public void UpdateAll(TestDto testDto)
+        {
+            _testRepository.UpdateSafelyNow(testDto.Adapt<Test>());
         }
 
         [IfException(EFCoreErrorCodes.DataNotFound, ErrorMessage = "数据没找到")]

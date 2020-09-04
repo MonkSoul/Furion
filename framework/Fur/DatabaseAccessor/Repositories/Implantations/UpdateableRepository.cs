@@ -4,6 +4,7 @@
 // 开源协议：MIT
 // 项目地址：https://gitee.com/monksoul/Fur
 
+using Fur.FriendlyException;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
@@ -933,6 +934,106 @@ namespace Fur.DatabaseAccessor
             var entityEntry = await UpdateExcludeAsync(entity, propertyPredicates);
             await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
             return entityEntry;
+        }
+
+        /// <summary>
+        /// 更新一条记录
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns>代理中的实体</returns>
+        public virtual EntityEntry<TEntity> UpdateSafely(TEntity entity)
+        {
+            var (Key, Value) = IsEntityKeySet(entity);
+            var _ = FindOrDefault(Value) ?? throw Oops.Oh(EFCoreErrorCodes.DataNotFound, Key, Value);
+
+            return Update(entity);
+        }
+
+        /// <summary>
+        /// 更新一条记录
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns>代理中的实体</returns>
+        public virtual async Task<EntityEntry<TEntity>> UpdateSafelyAsync(TEntity entity)
+        {
+            var (Key, Value) = IsEntityKeySet(entity);
+            var e = await FindOrDefaultAsync(Value);
+            if (e == null) throw Oops.Oh(EFCoreErrorCodes.DataNotFound, Key, Value);
+
+            return await UpdateAsync(entity);
+        }
+
+        /// <summary>
+        /// 更新一条记录并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns>代理中的实体</returns>
+        public virtual EntityEntry<TEntity> UpdateSafelyNow(TEntity entity)
+        {
+            var entityEntry = UpdateSafely(entity);
+            SaveNow();
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 更新一条记录并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>代理中的实体</returns>
+        public virtual EntityEntry<TEntity> UpdateSafelyNow(TEntity entity, bool acceptAllChangesOnSuccess)
+        {
+            var entityEntry = UpdateSafely(entity);
+            SaveNow(acceptAllChangesOnSuccess);
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 更新一条记录并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>代理中的实体</returns>
+        public virtual async Task<EntityEntry<TEntity>> UpdateSafelyNowAsync(TEntity entity, CancellationToken cancellationToken = default)
+        {
+            var entityEntry = await UpdateSafelyAsync(entity);
+            await SaveNowAsync(cancellationToken);
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 更新一条记录并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>代理中的实体</returns>
+        public virtual async Task<EntityEntry<TEntity>> UpdateSafelyNowAsync(TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            var entityEntry = await UpdateSafelyAsync(entity);
+            await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 检查实体是否设置了主键
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        private (string Key, object Value) IsEntityKeySet(TEntity entity)
+        {
+            // 读取主键
+            var keyProperty = EntityType.FindPrimaryKey().Properties.AsEnumerable().FirstOrDefault()?.PropertyInfo;
+            if (keyProperty == null) return default;
+
+            // 获取主键的值
+            var keyName = keyProperty.Name;
+            var keyValue = keyProperty.GetValue(entity);
+
+            // 主键不能为空，且不能为0，也不能为GUID空值
+            if (keyValue == null || (keyProperty.PropertyType.IsValueType && (keyValue.Equals(0) || keyValue.Equals(Guid.Empty)))) throw Oops.Oh(EFCoreErrorCodes.KeyNotSet, keyName, keyValue);
+
+            return (keyName, keyValue);
         }
     }
 }

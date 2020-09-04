@@ -4,6 +4,7 @@
 // 开源协议：MIT
 // 项目地址：https://gitee.com/monksoul/Fur
 
+using Fur.FriendlyException;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
@@ -318,7 +319,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="key">主键</param>
         public virtual void DeleteSafely(object key)
         {
-            var entity = Find(key);
+            var entity = FindOrDefault(key) ?? throw Oops.Oh(EFCoreErrorCodes.DataNotFound, key);
             Delete(entity);
         }
 
@@ -330,7 +331,9 @@ namespace Fur.DatabaseAccessor
         /// <returns>Task</returns>
         public virtual async Task DeleteSafelyAsync(object key, CancellationToken cancellationToken = default)
         {
-            var entity = await FindAsync(key, cancellationToken);
+            var entity = await FindOrDefaultAsync(key, cancellationToken);
+            if (entity == null) throw Oops.Oh(EFCoreErrorCodes.DataNotFound, key);
+
             await DeleteAsync(entity);
         }
 

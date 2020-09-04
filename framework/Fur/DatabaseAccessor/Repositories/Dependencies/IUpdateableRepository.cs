@@ -608,5 +608,51 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新一条记录
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns>代理中的实体</returns>
+        EntityEntry<TEntity> UpdateSafely(TEntity entity);
+
+        /// <summary>
+        /// 更新一条记录
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns>代理中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateSafelyAsync(TEntity entity);
+
+        /// <summary>
+        /// 更新一条记录并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns>代理中的实体</returns>
+        EntityEntry<TEntity> UpdateSafelyNow(TEntity entity);
+
+        /// <summary>
+        /// 更新一条记录并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>代理中的实体</returns>
+        EntityEntry<TEntity> UpdateSafelyNow(TEntity entity, bool acceptAllChangesOnSuccess);
+
+        /// <summary>
+        /// 更新一条记录并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>代理中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateSafelyNowAsync(TEntity entity, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新一条记录并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>代理中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateSafelyNowAsync(TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
     }
 }
