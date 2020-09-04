@@ -1100,7 +1100,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>代理中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> UpdateIncludeSafelyAsync(TEntity entity, IEnumerable<string> propertyNames)
         {
-            return UpdateIncludeSafelyAsync(entity, propertyNames);
+            return UpdateIncludeSafelyAsync(entity, propertyNames.ToArray());
         }
 
         /// <summary>
@@ -1111,7 +1111,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>代理中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> UpdateIncludeSafelyAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
         {
-            return UpdateIncludeSafelyAsync(entity, propertyPredicates);
+            return UpdateIncludeSafelyAsync(entity, propertyPredicates.ToArray());
         }
 
         /// <summary>
@@ -1450,7 +1450,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>代理中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> UpdateExcludeSafelyAsync(TEntity entity, IEnumerable<string> propertyNames)
         {
-            return UpdateExcludeSafelyAsync(entity, propertyNames);
+            return UpdateExcludeSafelyAsync(entity, propertyNames.ToArray());
         }
 
         /// <summary>
@@ -1461,7 +1461,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>代理中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> UpdateExcludeSafelyAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
         {
-            return UpdateExcludeSafelyAsync(entity, propertyPredicates);
+            return UpdateExcludeSafelyAsync(entity, propertyPredicates.ToArray());
         }
 
         /// <summary>
