@@ -1,6 +1,6 @@
 module.exports = {
   title: "Fur",
-  tagline: "Fur 是基于 .NET 5 开发的极易入门、极速开发的 Web 应用框架。",
+  tagline: "Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。",
   url: "https://furos.cn",
   baseUrl: "/fur/",
   onBrokenLinks: "throw",
@@ -69,11 +69,11 @@ module.exports = {
           title: "文档",
           items: [
             {
-              label: "快速入门",
+              label: "入门",
               to: "docs",
             },
             {
-              label: "文档指南",
+              label: "指南",
               to: "docs",
             },
           ],

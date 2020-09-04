@@ -6,7 +6,7 @@
     <Authors>百小僧/MonkSoul</Authors>
     <Company>Baiqian</Company>
     <Copyright>Baiqian</Copyright>
-    <Description>Fur 是基于 .NET 5 开发的极易入门、极速开发的 Web 应用框架。</Description>
+    <Description>Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。</Description>
     <PackageProjectUrl>https://www.furos.cn</PackageProjectUrl>
     <RepositoryUrl>https://gitee.com/monksoul/Fur</RepositoryUrl>
     <RepositoryType>Gitee</RepositoryType>

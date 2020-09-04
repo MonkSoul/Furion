@@ -51,11 +51,11 @@ namespace Fur.DataValidation
             var modelState = context.ModelState;
 
             // 跳过验证类型
-            var nonValidateAttributeType = typeof(NonValidationAttribute);
+            var nonValidationAttributeType = typeof(NonValidationAttribute);
 
-            // 如果贴了 [NonValidate] 特性 或 所在类型贴了 [NonValidate] 特性，则跳过验证
-            if (method.IsDefined(nonValidateAttributeType, true) ||
-                method.DeclaringType.IsDefined(nonValidateAttributeType, true))
+            // 如果贴了 [NonValidation] 特性 或 所在类型贴了 [NonValidation] 特性，则跳过验证
+            if (method.IsDefined(nonValidationAttributeType, true) ||
+                method.DeclaringType.IsDefined(nonValidationAttributeType, true))
             {
                 // 打印验证跳过消息
                 App.PrintToMiniProfiler(MiniProfilerCategory, "Skipped");

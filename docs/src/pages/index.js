@@ -8,13 +8,16 @@ import styles from "./styles.module.css";
 
 const features = [
   {
-    title: <>基于 .NET 5</>,
+    title: <>.NET 5 平台</>,
     imageUrl: "img/undraw_docusaurus_mountain.svg",
     description: (
       <>
         .NET 5 是 .NET 的重要且令人兴奋的新方向。你会看到 .NET
-        变得更加简单，但也有更广泛的功能和实用程序。所有新的开发和功能都将是
-        .NET 5 的一部分，包括新的 C# 版本。
+        变得更加简单，但也有更广泛的功能和实用程序。
+        <strong>
+          所有新的开发和功能都将是 .NET 5 的一部分，包括新的 C# 版本
+        </strong>
+        。
       </>
     ),
   },
@@ -23,8 +26,9 @@ const features = [
     imageUrl: "img/undraw_docusaurus_tree.svg",
     description: (
       <>
-        Fur 在设计之初就秉承着 “三级”
-        ：极少学习成本、极少依赖，极少配置的设计思想，在架构设计和使用上做了大量的优化，支持各个能力阶层的技术人员极速上手。
+        Fur 在设计之初就秉承着 “五极” ：
+        <strong>极少入门、极少依赖，极少配置、极其灵活、极易维护</strong>{" "}
+        的设计思想，在架构设计和使用上做了大量的优化，支持各个能力阶层的技术人员极速上手。
       </>
     ),
   },
@@ -34,7 +38,8 @@ const features = [
     description: (
       <>
         Fur
-        独具创新的设计理念和汲取了众多优秀大神、框架的思想同时结合主流的敏捷开发模式打造的一款极速开发框架。为您节约更多时间，去陪恋人、家人和朋友。
+        独具创新的设计理念和汲取了众多优秀大神的框架思想同时结合主流的敏捷开发模式打造的一款极速开发框架。
+        <strong>为您节约更多时间，去陪恋人、家人和朋友</strong>。
       </>
     ),
   },
@@ -60,8 +65,8 @@ function Home() {
   const { siteConfig = {} } = context;
   return (
     <Layout
-      title={`Fur 是基于 .NET 5 开发的极易入门、极速开发的 Web 应用框架。 ${siteConfig.title}`}
-      description="Fur 是基于 .NET 5 开发的极易入门、极速开发的 Web 应用框架。"
+      title={`Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。 ${siteConfig.title}`}
+      description="Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。"
     >
       <header className={clsx("hero hero--primary", styles.heroBanner)}>
         <div className="container">
@@ -83,7 +88,7 @@ function Home() {
               )}
               to={useBaseUrl("docs/")}
             >
-              快速入门
+              一分钟入门
             </Link>
           </div>
         </div>
