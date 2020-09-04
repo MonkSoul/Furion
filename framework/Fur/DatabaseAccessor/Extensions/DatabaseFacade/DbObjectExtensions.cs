@@ -12,7 +12,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// DatabaseFacade 拓展类
     /// </summary>
-    internal static class DatabaseFacadeExtensions
+    internal static class DbObjectExtensions
     {
         /// <summary>
         /// MiniProfiler 组件状态
@@ -22,7 +22,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
-        static DatabaseFacadeExtensions()
+        static DbObjectExtensions()
         {
             InjectMiniProfiler = App.Settings.InjectMiniProfiler.Value;
         }

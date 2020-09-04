@@ -202,7 +202,13 @@ namespace Fur.FriendlyException
 
 在 `Fur` 框架中，提供了非常灵活且规范化的友好异常处理方式，通过这个方式可以方便管理异常状态码、异常信息及异常本地化。
 
-### 5.6.1 创建异常信息静态类
+### 5.6.1 创建异常信息类型
+
+实现自定义异常信息类型必须遵循以下配置：
+
+- 类型必须是公开且时 `Enum` 枚举类型
+- 枚举类型必须贴有 `[ErrorCodeType]` 特性
+- 枚举中每一项必须贴有 `[ErrorCodeItemMetadata]` 特性
 
 ```cs {1,5,8,11,14,17}
 using Fur.FriendlyException;
@@ -210,32 +216,32 @@ using Fur.FriendlyException;
 namespace Fur.Application
 {
     [ErrorCodeType]
-    public static class ErrorCodes
+    public enum ErrorCodes
     {
-        [ErrorCodeMetadata("{0} 不能小于 {1}")]
-        public const int z1000 = 2000;
+        [ErrorCodeItemMetadata("{0} 不能小于 {1}")]
+        z1000,
 
-        [ErrorCodeMetadata("数据不存在")]
-        public const int x1000 = 1000;
+        [ErrorCodeItemMetadata("数据不存在")]
+        x1000,
 
-        [ErrorCodeMetadata("{0} 发现 {1} 个异常", "百小僧", 2)]
-        public const string x1001 = "x1001";
+        [ErrorCodeItemMetadata("{0} 发现 {1} 个异常", "百小僧", 2)]
+        x1001,
 
-        [ErrorCodeMetadata("服务器运行异常")]
-        public const string SERVER_ERROR = "Error";
+        [ErrorCodeItemMetadata("服务器运行异常", ErrorCode = "Error")]
+        SERVER_ERROR
     }
 }
 ```
 
 :::important
 
-异常消息类必须是 `公开且是静态类`。`Fur` 框架提供了 `[ErrorCodeType]` 特性和 `IErrorCodeTypeProvider` 提供器接口来提供异常信息扫描，这里用的是 `[ErrorCodeType]` 特性类。
+`Fur` 框架提供了 `[ErrorCodeType]` 特性和 `IErrorCodeTypeProvider` 提供器接口来提供异常信息扫描，这里用的是 `[ErrorCodeType]` 特性类。
 
 :::
 
-### 5.6.2 关于 `[ErrorCodeMetadata]`
+### 5.6.2 关于 `[ErrorCodeItemMetadata]`
 
-`Fur` 框架提供了`[ErrorCodeMetadata]` 特性用来标识**常量字段**异常元数据，该特性支持传入 `消息内容` 和 `格式化参数`。最终会使用 `String.Format(消息内容，格式化参数)` 进行格式化。
+`Fur` 框架提供了`[ErrorCodeItemMetadata]` 特性用来标识**枚举字段**异常元数据，该特性支持传入 `消息内容` 和 `格式化参数`。最终会使用 `String.Format(消息内容，格式化参数)` 进行格式化。
 
 如果消息内容中包含`格式化占位符`但未指定`格式化参数`，那么会查找异常所在方法是否贴有 `[IfException]` 特性且含有格式化参数，接着就会查找 `Oops.Oh` 中指定的 `格式化参数`。
 
@@ -276,7 +282,7 @@ throw Oops.Oh(errorCode: "x1001");
 throw Oops.Oh(1000, typeof(Exception));
 ```
 
-## 5.7 多个异常信息静态类
+## 5.7 多个异常信息类型
 
 ```cs {5-6,21-22}
 using Fur.FriendlyException;
@@ -284,29 +290,29 @@ using Fur.FriendlyException;
 namespace Fur.Application
 {
     [ErrorCodeType]
-    public static class ErrorCodes
+    public enum ErrorCodes
     {
-        [ErrorCodeMetadata("{0} 不能小于 {1}")]
-        public const int z1000 = 2000;
+        [ErrorCodeItemMetadata("{0} 不能小于 {1}")]
+        z1000,
 
-        [ErrorCodeMetadata("数据不存在")]
-        public const int x1000 = 1000;
+        [ErrorCodeItemMetadata("数据不存在")]
+        x1000,
 
-        [ErrorCodeMetadata("{0} 发现 {1} 个异常", "百小僧", 2)]
-        public const string x1001 = "x1001";
+        [ErrorCodeItemMetadata("{0} 发现 {1} 个异常", "百小僧", 2)]
+        x1001,
 
-        [ErrorCodeMetadata("服务器运行异常")]
-        public const string SERVER_ERROR = "Error";
+        [ErrorCodeItemMetadata("服务器运行异常", ErrorCode = "Error")]
+        SERVER_ERROR
     }
 
     [ErrorCodeType]
-    public static class UserErrorCodes
+    public enum UserErrorCodes
     {
-        [ErrorCodeMetadata("用户数据不存在")]
-        public const int u1000 = 1000;
+        [ErrorCodeItemMetadata("用户数据不存在")]
+        u1000,
 
-        [ErrorCodeMetadata("其他异常")]
-        public const int u1001 = 1000;
+        [ErrorCodeItemMetadata("其他异常")]
+        u1001
     }
 }
 ```
@@ -422,7 +428,7 @@ namespace Fur.Application
 
 ## 5.10 `[IfException]` 使用
 
-`Fur` 框架提供了 `[IfException]` 特性可以**覆盖默认消息配置**。也就是覆盖 `异常消息静态类` 和 `appsettings.json` 中的配置。
+`Fur` 框架提供了 `[IfException]` 特性可以**覆盖默认消息配置**。也就是覆盖 `异常消息类型` 和 `appsettings.json` 中的配置。
 
 :::caution 特别注意
 
@@ -438,8 +444,8 @@ namespace Fur.Application
 [ErrorCodeType]
 public static class ErrorCodes
 {
-   [ErrorCodeMetadata("{0} 不能小于 {1}")]
-   public const int z1000 = 2000;
+   [ErrorCodeItemMetadata("{0} 不能小于 {1}")]
+   z1000
 }
 ```
 
@@ -506,10 +512,10 @@ namespace Fur.Application
 
 ## 5.11 异常消息优先级
 
-`[ErrorCodeMetadata]` -> `appsettings.json` -> `[IfException]`。**（低 -> 高）**
+`[ErrorCodeItemMetadata]` -> `appsettings.json` -> `[IfException]`。**（低 -> 高）**
 
 - `[IfException]` 会覆盖 `appsettings.json` 定义的状态码消息。
-- `appsettings.json` 会覆盖 `[ErrorCodeMetadata]` 定义的消息。
+- `appsettings.json` 会覆盖 `[ErrorCodeItemMetadata]` 定义的消息。
 
 ## 5.12 多语言支持
 

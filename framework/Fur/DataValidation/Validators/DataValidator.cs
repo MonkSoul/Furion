@@ -239,7 +239,7 @@ namespace Fur.DataValidation
         /// <returns></returns>
         private static IEnumerable<Type> GetValidationTypes()
         {
-            // 扫描所有公开的的枚举且贴有 [ValidationType] 特性
+            // 扫描所有公开的枚举且贴有 [ValidationType] 特性
             var validationTypes = App.Assemblies.SelectMany(a => a.GetTypes()
                 .Where(u => u.IsPublic && u.IsEnum && u.IsDefined(typeof(ValidationTypeAttribute), true)));
             return validationTypes;

@@ -33,6 +33,11 @@ namespace Fur.FriendlyException
         internal static readonly ConcurrentDictionary<MethodInfo, MethodIfException> ErrorMethods;
 
         /// <summary>
+        /// 错误代码类型
+        /// </summary>
+        internal static readonly IEnumerable<Type> ErrorCodeTypes;
+
+        /// <summary>
         /// 错误消息字典
         /// </summary>
         internal static readonly Dictionary<string, string> ErrorCodeMessages;
@@ -43,6 +48,7 @@ namespace Fur.FriendlyException
         static Oops()
         {
             ErrorMethods = new ConcurrentDictionary<MethodInfo, MethodIfException>();
+            ErrorCodeTypes = GetErrorCodeTypes();
             ErrorCodeMessages = GetErrorCodeMessages();
         }
 
@@ -141,6 +147,19 @@ namespace Fur.FriendlyException
         /// <returns></returns>
         private static string GetErrorCodeMessage(object errorCode, params object[] args)
         {
+            // 获取类型
+            var errorType = errorCode.GetType();
+
+            // 判断是否是内置枚举类型，如果是解析特性
+            if (ErrorCodeTypes.Any(u => u == errorType))
+            {
+                var fieldinfo = errorType.GetField(Enum.GetName(errorType, errorCode));
+                if (fieldinfo.IsDefined(typeof(ErrorCodeItemMetadataAttribute), true))
+                {
+                    errorCode = GetErrorCodeItemMessage(fieldinfo).Key;
+                }
+            }
+
             // 获取出错的方法
             var errorMethod = GetEndPointExceptionMethod();
 
@@ -168,9 +187,9 @@ namespace Fur.FriendlyException
         /// <returns></returns>
         private static IEnumerable<Type> GetErrorCodeTypes()
         {
-            // 查找所有公开且是静态类且贴有 [ExceptionErrorCodes] 特性的类型
-            var errorCodeTypes = App.Assemblies.SelectMany(u => u.GetTypes()
-                    .Where(c => c.IsPublic && c.IsClass && c.IsSealed && c.IsAbstract && c.IsDefined(typeof(ErrorCodeTypeAttribute), true)))
+            // 查找所有公开的枚举贴有 [ErrorCodeType] 特性的类型
+            var errorCodeTypes = App.Assemblies.SelectMany(a => a.GetTypes()
+                    .Where(u => u.IsPublic && u.IsEnum && u.IsDefined(typeof(ErrorCodeTypeAttribute), true)))
                 .ToList();
 
             // 获取错误代码提供器中定义的类型
@@ -186,15 +205,10 @@ namespace Fur.FriendlyException
         /// <returns></returns>
         private static Dictionary<string, string> GetErrorCodeMessages()
         {
-            // 解析所有错误状态码字段，该字段必须是公开的、静态的且贴有 [ErrorCodeMetadata] 特性
-            var errorCodeMessages = GetErrorCodeTypes()
-                .SelectMany(u => u.GetFields(BindingFlags.Public | BindingFlags.Static).Where(u => u.IsDefined(typeof(ErrorCodeMetadataAttribute))))
-                .Select(u => new
-                {
-                    Key = u.GetRawConstantValue(),
-                    Value = u.GetCustomAttribute<ErrorCodeMetadataAttribute>().ErrorMessage
-                })
-               .ToDictionary(u => u.Key.ToString(), u => u.Value); ;
+            // 查找所有 [ErrorCodeType] 类型中的 [ErrorCodeMetadata] 元数据定义
+            var errorCodeMessages = ErrorCodeTypes.SelectMany(u => u.GetFields().Where(u => u.IsDefined(typeof(ErrorCodeItemMetadataAttribute))))
+                .Select(u => GetErrorCodeItemMessage(u))
+               .ToDictionary(u => u.Key.ToString(), u => u.Value);
 
             // 加载配置文件状态码
             var errorCodeMessageSettings = App.GetOptions<ErrorCodeMessageSettingsOptions>();
@@ -256,6 +270,17 @@ namespace Fur.FriendlyException
             ErrorMethods.TryAdd(errorMethod, methodIfException);
 
             return methodIfException;
+        }
+
+        /// <summary>
+        /// 获取错误代码消息实体
+        /// </summary>
+        /// <param name="fieldInfo">字段对象</param>
+        /// <returns>(object key, object value)</returns>
+        private static (object Key, string Value) GetErrorCodeItemMessage(FieldInfo fieldInfo)
+        {
+            var errorCodeItemMetadata = fieldInfo.GetCustomAttribute<ErrorCodeItemMetadataAttribute>();
+            return (errorCodeItemMetadata.ErrorCode ?? fieldInfo.Name, errorCodeItemMetadata.ErrorMessage);
         }
     }
 }
