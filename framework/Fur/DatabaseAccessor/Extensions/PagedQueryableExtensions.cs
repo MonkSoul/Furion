@@ -16,7 +16,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 分部拓展类
     /// </summary>
-    public static class QueryablePagedExtensions
+    public static class PagedQueryableExtensions
     {
         /// <summary>
         /// 分页拓展
