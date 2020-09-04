@@ -12,7 +12,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// DatabaseFacade 拓展类
     /// </summary>
-    internal static class DbObjectExtensions
+    public static class DbObjectExtensions
     {
         /// <summary>
         /// MiniProfiler 组件状态
@@ -35,7 +35,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="commandType">命令类型</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>数据库连接对象及数据库命令对象</returns>
-        internal static (DbConnection dbConnection, DbCommand dbCommand) PrepareDbCommand(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        public static (DbConnection dbConnection, DbCommand dbCommand) PrepareDbCommand(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             // 创建数据库连接对象及数据库命令对象
             var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType, parameters);
@@ -55,7 +55,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="commandType">命令类型</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>数据库连接对象及数据库命令对象</returns>
-        internal static async Task<(DbConnection dbConnection, DbCommand dbCommand)> PrepareDbCommandAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        public static async Task<(DbConnection dbConnection, DbCommand dbCommand)> PrepareDbCommandAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
         {
             // 创建数据库连接对象及数据库命令对象
             var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType, parameters);
@@ -75,7 +75,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="commandType">命令类型</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>数据库连接对象、数据库命令对象和数据库适配器对象</returns>
-        internal static (DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter) PrepareDbDbDataAdapter(this DatabaseFacade databaseFacade, string sql, CommandType commandType, params object[] parameters)
+        public static (DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter) PrepareDbDbDataAdapter(this DatabaseFacade databaseFacade, string sql, CommandType commandType, params object[] parameters)
         {
             // 创建数据库连接对象、数据库命令对象和数据库适配器对象
             var (dbConnection, dbCommand, dbDataAdapter) = databaseFacade.CreateDbDataAdapter(sql, commandType, parameters);
@@ -95,7 +95,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="commandType">命令类型</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>数据库连接对象、数据库命令对象和数据库适配器对象</returns>
-        internal static async Task<(DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter)> PrepareDbDbDataAdapterAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType, params object[] parameters)
+        public static async Task<(DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter)> PrepareDbDbDataAdapterAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType, params object[] parameters)
         {
             // 创建数据库连接对象、数据库命令对象和数据库适配器对象
             var (dbConnection, dbCommand, dbDataAdapter) = databaseFacade.CreateDbDataAdapter(sql, commandType, parameters);
