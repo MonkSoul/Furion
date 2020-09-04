@@ -7,6 +7,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns>仓储</returns>
-        IRepository<TEntity> Use<TEntity>()
+        IRepository<TEntity> Change<TEntity>()
             where TEntity : class, IEntityBase, new();
 
         /// <summary>
@@ -44,7 +45,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <returns>仓储</returns>
-        IRepository<TEntity, TDbContextLocator> Use<TEntity, TDbContextLocator>()
+        IRepository<TEntity, TDbContextLocator> Change<TEntity, TDbContextLocator>()
             where TEntity : class, IEntityBase, new()
             where TDbContextLocator : class, IDbContextLocator, new();
     }
@@ -72,6 +73,11 @@ namespace Fur.DatabaseAccessor
         /// 不跟踪的（脱轨）实体
         /// </summary>
         IQueryable<TEntity> DerailEntities { get; }
+
+        /// <summary>
+        /// 查看实体类型
+        /// </summary>
+        IEntityType EntityType { get; }
 
         /// <summary>
         /// 数据库操作对象
@@ -153,6 +159,38 @@ namespace Fur.DatabaseAccessor
         PropertyEntry<TEntity, TProperty> EntityPropertyEntry<TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> propertyPredicate);
 
         /// <summary>
+        /// 改变实体状态
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="entityState">实体状态</param>
+        /// <returns>EntityEntry</returns>
+        EntityEntry ChangeEntityState(object entity, EntityState entityState);
+
+        /// <summary>
+        /// 改变实体状态
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="entityState">实体状态</param>
+        /// <returns>EntityEntry<TEntity></returns>
+        EntityEntry<TEntity> ChangeEntityState(TEntity entity, EntityState entityState);
+
+        /// <summary>
+        /// 改变实体状态
+        /// </summary>
+        /// <param name="entityEntry">实体条目</param>
+        /// <param name="entityState">实体状态</param>
+        /// <returns>EntityEntry</returns>
+        EntityEntry ChangeEntityState(EntityEntry entityEntry, EntityState entityState);
+
+        /// <summary>
+        /// 改变实体状态
+        /// </summary>
+        /// <param name="entityEntry">实体条目</param>
+        /// <param name="entityState">实体状态</param>
+        /// <returns>EntityEntry<TEntity></returns>
+        EntityEntry<TEntity> ChangeEntityState(EntityEntry<TEntity> entityEntry, EntityState entityState);
+
+        /// <summary>
         /// 判断是否被附加
         /// </summary>
         /// <param name="entity">实体</param>
@@ -225,19 +263,19 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 切换仓储
         /// </summary>
-        /// <typeparam name="TUseEntity">实体类型</typeparam>
+        /// <typeparam name="TChangeEntity">实体类型</typeparam>
         /// <returns>仓储</returns>
-        IRepository<TUseEntity> Use<TUseEntity>()
-            where TUseEntity : class, IEntityBase, new();
+        IRepository<TChangeEntity> Change<TChangeEntity>()
+            where TChangeEntity : class, IEntityBase, new();
 
         /// <summary>
         /// 切换多数据库上下文仓储
         /// </summary>
-        /// <typeparam name="TUseEntity">实体类型</typeparam>
-        /// <typeparam name="TUseDbContextLocator">数据库上下文定位器</typeparam>
+        /// <typeparam name="TChangeEntity">实体类型</typeparam>
+        /// <typeparam name="TChangeDbContextLocator">数据库上下文定位器</typeparam>
         /// <returns>仓储</returns>
-        IRepository<TUseEntity, TUseDbContextLocator> Use<TUseEntity, TUseDbContextLocator>()
-            where TUseEntity : class, IEntityBase, new()
-            where TUseDbContextLocator : class, IDbContextLocator, new();
+        IRepository<TChangeEntity, TChangeDbContextLocator> Change<TChangeEntity, TChangeDbContextLocator>()
+            where TChangeEntity : class, IEntityBase, new()
+            where TChangeDbContextLocator : class, IDbContextLocator, new();
     }
 }

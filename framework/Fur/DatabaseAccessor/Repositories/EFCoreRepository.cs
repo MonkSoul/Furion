@@ -7,6 +7,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Concurrent;
@@ -54,7 +55,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns>仓储</returns>
-        public virtual IRepository<TEntity> Use<TEntity>()
+        public virtual IRepository<TEntity> Change<TEntity>()
             where TEntity : class, IEntityBase, new()
         {
             return _serviceProvider.GetService<IRepository<TEntity>>();
@@ -66,7 +67,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <returns>仓储</returns>
-        public virtual IRepository<TEntity, TDbContextLocator> Use<TEntity, TDbContextLocator>()
+        public virtual IRepository<TEntity, TDbContextLocator> Change<TEntity, TDbContextLocator>()
             where TEntity : class, IEntityBase, new()
             where TDbContextLocator : class, IDbContextLocator, new()
         {
@@ -120,6 +121,7 @@ namespace Fur.DatabaseAccessor
             //初始化实体
             Entities = dbContext.Set<TEntity>();
             DerailEntities = Entities.AsNoTracking();
+            EntityType = dbContext.Model.FindEntityType(typeof(TEntity));
         }
 
         /// <summary>
@@ -136,6 +138,11 @@ namespace Fur.DatabaseAccessor
         /// 不跟踪的（脱轨）实体
         /// </summary>
         public virtual IQueryable<TEntity> DerailEntities { get; }
+
+        /// <summary>
+        /// 查看实体类型
+        /// </summary>
+        public virtual IEntityType EntityType { get; }
 
         /// <summary>
         /// 数据库操作对象
@@ -238,6 +245,56 @@ namespace Fur.DatabaseAccessor
         public virtual PropertyEntry<TEntity, TProperty> EntityPropertyEntry<TProperty>(TEntity entity, Expression<Func<TEntity, TProperty>> propertyPredicate)
         {
             return Entry(entity).Property(propertyPredicate);
+        }
+
+        /// <summary>
+        /// 改变实体状态
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="entityState">实体状态</param>
+        /// <returns>EntityEntry</returns>
+        public virtual EntityEntry ChangeEntityState(object entity, EntityState entityState)
+        {
+            var entityEntry = Entry(entity);
+            entityEntry.State = entityState;
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 改变实体状态
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="entityState">实体状态</param>
+        /// <returns>EntityEntry<TEntity></returns>
+        public virtual EntityEntry<TEntity> ChangeEntityState(TEntity entity, EntityState entityState)
+        {
+            var entityEntry = Entry(entity);
+            entityEntry.State = entityState;
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 改变实体状态
+        /// </summary>
+        /// <param name="entityEntry">实体条目</param>
+        /// <param name="entityState">实体状态</param>
+        /// <returns>EntityEntry</returns>
+        public virtual EntityEntry ChangeEntityState(EntityEntry entityEntry, EntityState entityState)
+        {
+            entityEntry.State = entityState;
+            return entityEntry;
+        }
+
+        /// <summary>
+        /// 改变实体状态
+        /// </summary>
+        /// <param name="entityEntry">实体条目</param>
+        /// <param name="entityState">实体状态</param>
+        /// <returns>EntityEntry<TEntity></returns>
+        public virtual EntityEntry<TEntity> ChangeEntityState(EntityEntry<TEntity> entityEntry, EntityState entityState)
+        {
+            entityEntry.State = entityState;
+            return entityEntry;
         }
 
         /// <summary>
@@ -348,25 +405,25 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 切换仓储
         /// </summary>
-        /// <typeparam name="TUseEntity">实体类型</typeparam>
+        /// <typeparam name="TChangeEntity">实体类型</typeparam>
         /// <returns>仓储</returns>
-        public virtual IRepository<TUseEntity> Use<TUseEntity>()
-            where TUseEntity : class, IEntityBase, new()
+        public virtual IRepository<TChangeEntity> Change<TChangeEntity>()
+            where TChangeEntity : class, IEntityBase, new()
         {
-            return _repository.Use<TUseEntity>();
+            return _repository.Change<TChangeEntity>();
         }
 
         /// <summary>
         /// 切换多数据库上下文仓储
         /// </summary>
-        /// <typeparam name="TUseEntity">实体类型</typeparam>
-        /// <typeparam name="TUseDbContextLocator">数据库上下文定位器</typeparam>
+        /// <typeparam name="TChangeEntity">实体类型</typeparam>
+        /// <typeparam name="TChangeDbContextLocator">数据库上下文定位器</typeparam>
         /// <returns>仓储</returns>
-        public virtual IRepository<TUseEntity, TUseDbContextLocator> Use<TUseEntity, TUseDbContextLocator>()
-            where TUseEntity : class, IEntityBase, new()
-            where TUseDbContextLocator : class, IDbContextLocator, new()
+        public virtual IRepository<TChangeEntity, TChangeDbContextLocator> Change<TChangeEntity, TChangeDbContextLocator>()
+            where TChangeEntity : class, IEntityBase, new()
+            where TChangeDbContextLocator : class, IDbContextLocator, new()
         {
-            return _repository.Use<TUseEntity, TUseDbContextLocator>();
+            return _repository.Change<TChangeEntity, TChangeDbContextLocator>();
         }
     }
 }

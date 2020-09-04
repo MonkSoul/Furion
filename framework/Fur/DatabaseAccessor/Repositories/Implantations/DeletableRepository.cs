@@ -4,8 +4,11 @@
 // 开源协议：MIT
 // 项目地址：https://gitee.com/monksoul/Fur
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -233,6 +236,169 @@ namespace Fur.DatabaseAccessor
         {
             await DeleteAsync(entities);
             await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 根据主键删除一条记录
+        /// </summary>
+        /// <param name="key">主键</param>
+        public virtual void Delete(object key)
+        {
+            var deleteEntity = CreateDeleteEntity(key);
+            if (deleteEntity != null) return;
+
+            var entity = FindOrDefault(key);
+            if (entity != null) Delete(entity);
+        }
+
+        /// <summary>
+        /// 根据主键删除一条记录
+        /// </summary>
+        /// <param name="key">主键</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>Task</returns>
+        public virtual async Task DeleteAsync(object key, CancellationToken cancellationToken = default)
+        {
+            var deleteEntity = CreateDeleteEntity(key);
+            if (deleteEntity != null) return;
+
+            var entity = await FindOrDefaultAsync(key, cancellationToken);
+            if (entity != null) await DeleteAsync(entity);
+        }
+
+        /// <summary>
+        /// 根据主键删除一条记录并立即提交
+        /// </summary>
+        /// <param name="key">主键</param>
+        public virtual void DeleteNow(object key)
+        {
+            Delete(key);
+            SaveNow();
+        }
+
+        /// <summary>
+        /// 根据主键删除一条记录并立即提交
+        /// </summary>
+        /// <param name="key">主键</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        public virtual void DeleteNow(object key, bool acceptAllChangesOnSuccess)
+        {
+            Delete(key);
+            SaveNow(acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 根据主键删除一条记录并立即提交
+        /// </summary>
+        /// <param name="key">主键</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns></returns>
+        public virtual async Task DeleteNowAsync(object key, CancellationToken cancellationToken = default)
+        {
+            await DeleteAsync(key, cancellationToken);
+            await SaveNowAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 根据主键删除一条记录并立即提交
+        /// </summary>
+        /// <param name="key">主键</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns></returns>
+        public virtual async Task DeleteNowAsync(object key, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            await DeleteAsync(key, cancellationToken);
+            await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 根据主键删除一条记录
+        /// </summary>
+        /// <param name="key">主键</param>
+        public virtual void DeleteSafely(object key)
+        {
+            var entity = Find(key);
+            Delete(entity);
+        }
+
+        /// <summary>
+        /// 根据主键删除一条记录
+        /// </summary>
+        /// <param name="key">主键</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>Task</returns>
+        public virtual async Task DeleteSafelyAsync(object key, CancellationToken cancellationToken = default)
+        {
+            var entity = await FindAsync(key, cancellationToken);
+            await DeleteAsync(entity);
+        }
+
+        /// <summary>
+        /// 根据主键删除一条记录并立即提交
+        /// </summary>
+        /// <param name="key">主键</param>
+        public virtual void DeleteSafelyNow(object key)
+        {
+            DeleteSafely(key);
+            SaveNow();
+        }
+
+        /// <summary>
+        /// 根据主键删除一条记录并立即提交
+        /// </summary>
+        /// <param name="key">主键</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        public virtual void DeleteSafelyNow(object key, bool acceptAllChangesOnSuccess)
+        {
+            DeleteSafely(key);
+            SaveNow(acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 根据主键删除一条记录并立即提交
+        /// </summary>
+        /// <param name="key">主键</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns></returns>
+        public virtual async Task DeleteSafelyNowAsync(object key, CancellationToken cancellationToken = default)
+        {
+            await DeleteSafelyAsync(key, cancellationToken);
+            await SaveNowAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 根据主键删除一条记录并立即提交
+        /// </summary>
+        /// <param name="key">主键</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns></returns>
+        public virtual async Task DeleteSafelyNowAsync(object key, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            await DeleteSafelyAsync(key, cancellationToken);
+            await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 创建需要删除的实体
+        /// </summary>
+        /// <param name="key">主键</param>
+        /// <returns></returns>
+        private TEntity CreateDeleteEntity(object key)
+        {
+            // 读取主键
+            var keyProperty = EntityType.FindPrimaryKey().Properties.AsEnumerable().FirstOrDefault()?.PropertyInfo;
+            if (keyProperty == null) return default;
+
+            // 创建实体对象并设置主键值
+            var entity = Activator.CreateInstance<TEntity>();
+            keyProperty.SetValue(entity, key);
+
+            // 设置实体状态为已删除
+            ChangeEntityState(entity, EntityState.Deleted);
+
+            return entity;
         }
     }
 }

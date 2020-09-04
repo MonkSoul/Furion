@@ -37,20 +37,20 @@ namespace Fur.Application
 
             //var c1 = a1.Equals(b1); // true
 
-            var test1 = _repository.Use<Test>();
-            var test2 = _repository.Use<Test>();
+            var test1 = _repository.Change<Test>();
+            var test2 = _repository.Change<Test>();
             var a = test1.Equals(test2);    // true
             var b = test1.Equals(_testRepository);  // true
             var c = test2.Equals(_testRepository);  // true
 
-            var test3 = _testRepository.Use<Test>();
+            var test3 = _testRepository.Change<Test>();
             var d = test1.Equals(test3); // true
             var e = test3.Equals(_testRepository); // true
 
-            var test4 = _repository1.Use<Test>();
+            var test4 = _repository1.Change<Test>();
             var f = test1.Equals(test4); // true
 
-            var test5 = _repository2.Use<Test>();
+            var test5 = _repository2.Change<Test>();
             var g = test4.Equals(test5); // fale
 
             //return _testRepository.Entities.ProjectToType<TestDto>().ToList();
@@ -83,9 +83,9 @@ namespace Fur.Application
             _testRepository.UpdateExcludeNow(testDto.Adapt<Test>(), u => u.Address);
         }
 
-        public void Delete(TestDto testDto)
+        public void Delete(int id)
         {
-            _testRepository.DeleteNow(testDto.Adapt<Test>());
+            _testRepository.DeleteSafelyNow(id);
         }
     }
 }
