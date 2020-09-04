@@ -164,7 +164,7 @@ namespace Fur.FriendlyException
             var errorMethod = GetEndPointExceptionMethod();
 
             // 获取异常特性
-            var ifExceptionAttribute = errorMethod.IfExceptionAttributes.FirstOrDefault(u => u.ErrorCode.Equals(errorCode));
+            var ifExceptionAttribute = errorMethod.IfExceptionAttributes.FirstOrDefault(u => u.ErrorCode.ToString().Equals(errorCode.ToString()));
 
             // 获取错误码消息
             var errorCodeMessage = ifExceptionAttribute == null || string.IsNullOrEmpty(ifExceptionAttribute.ErrorMessage)

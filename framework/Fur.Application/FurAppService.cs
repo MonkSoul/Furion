@@ -1,6 +1,7 @@
 ﻿using Fur.Core;
 using Fur.DatabaseAccessor;
 using Fur.DynamicApiController;
+using Fur.FriendlyException;
 using Mapster;
 using System;
 using System.Collections.Generic;
@@ -83,6 +84,7 @@ namespace Fur.Application
             _testRepository.UpdateExcludeNow(testDto.Adapt<Test>(), u => u.Address);
         }
 
+        [IfException(EFCoreErrorCodes.DataNotFound, ErrorMessage = "数据没找到")]
         public void Delete(int id)
         {
             _testRepository.DeleteSafelyNow(id);
