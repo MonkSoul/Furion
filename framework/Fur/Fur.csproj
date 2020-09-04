@@ -42,7 +42,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DatabaseAccessor\Extensions\DatabaseFacade\" />
     <Folder Include="DatabaseAccessor\Options\" />
     <Folder Include="DatabaseAccessor\Attributes\" />
   </ItemGroup>

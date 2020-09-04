@@ -37,7 +37,7 @@ namespace Fur.DataValidation
         /// <summary>
         /// 是否时可重复使用的
         /// </summary>
-        public bool IsReusable => true;
+        public static bool IsReusable => true;
 
         /// <summary>
         /// 动作方法执行之前操作
