@@ -654,5 +654,453 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>代理中的实体</returns>
         Task<EntityEntry<TEntity>> UpdateSafelyNowAsync(TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新一条记录中特定属性
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>代理中的实体</returns>
+        EntityEntry<TEntity> UpdateIncludeSafely(TEntity entity, params string[] propertyNames);
+
+        /// <summary>
+        /// 更新一条记录中特定属性
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        EntityEntry<TEntity> UpdateIncludeSafely(TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates);
+
+        /// <summary>
+        /// 更新一条记录中特定属性
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>代理中的实体</returns>
+        EntityEntry<TEntity> UpdateIncludeSafely(TEntity entity, IEnumerable<string> propertyNames);
+
+        /// <summary>
+        /// 更新一条记录中特定属性
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        EntityEntry<TEntity> UpdateIncludeSafely(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>代理中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateIncludeSafelyAsync(TEntity entity, params string[] propertyNames);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateIncludeSafelyAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateIncludeSafelyAsync(TEntity entity, IEnumerable<string> propertyNames);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateIncludeSafelyAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>数据库中的实体</returns>
+        EntityEntry<TEntity> UpdateIncludeSafelyNow(TEntity entity, params string[] propertyNames);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        EntityEntry<TEntity> UpdateIncludeSafelyNow(TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>数据库中实体</returns>
+        EntityEntry<TEntity> UpdateIncludeSafelyNow(TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        EntityEntry<TEntity> UpdateIncludeSafelyNow(TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>数据库中的实体</returns>
+        EntityEntry<TEntity> UpdateIncludeSafelyNow(TEntity entity, IEnumerable<string> propertyNames);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        EntityEntry<TEntity> UpdateIncludeSafelyNow(TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>数据库中的实体</returns>
+        EntityEntry<TEntity> UpdateIncludeSafelyNow(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        EntityEntry<TEntity> UpdateIncludeSafelyNow(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>数据库中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateIncludeSafelyNowAsync(TEntity entity, params string[] propertyNames);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateIncludeSafelyNowAsync(TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateIncludeSafelyNowAsync(TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>数据库中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateIncludeSafelyNowAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateIncludeSafelyNowAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateIncludeSafelyNowAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateIncludeSafelyNowAsync(TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateIncludeSafelyNowAsync(TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateIncludeSafelyNowAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateIncludeSafelyNowAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新一条记录并排除属性
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>代理中的实体</returns>
+        EntityEntry<TEntity> UpdateExcludeSafely(TEntity entity, params string[] propertyNames);
+
+        /// <summary>
+        /// 更新一条记录并排除属性
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        EntityEntry<TEntity> UpdateExcludeSafely(TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates);
+
+        /// <summary>
+        /// 更新一条记录并排除属性
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>代理中的实体</returns>
+        EntityEntry<TEntity> UpdateExcludeSafely(TEntity entity, IEnumerable<string> propertyNames);
+
+        /// <summary>
+        /// 更新一条记录并排除属性
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        EntityEntry<TEntity> UpdateExcludeSafely(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>代理中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateExcludeSafelyAsync(TEntity entity, params string[] propertyNames);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateExcludeSafelyAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateExcludeSafelyAsync(TEntity entity, IEnumerable<string> propertyNames);
+
+        /// <summary>
+        /// 更新一条记录中的特定属性
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateExcludeSafelyAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates);
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>数据库中的实体</returns>
+        EntityEntry<TEntity> UpdateExcludeSafelyNow(TEntity entity, params string[] propertyNames);
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        EntityEntry<TEntity> UpdateExcludeSafelyNow(TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess);
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>数据库中实体</returns>
+        EntityEntry<TEntity> UpdateExcludeSafelyNow(TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates);
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        EntityEntry<TEntity> UpdateExcludeSafelyNow(TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess);
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>数据库中的实体</returns>
+        EntityEntry<TEntity> UpdateExcludeSafelyNow(TEntity entity, IEnumerable<string> propertyNames);
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        EntityEntry<TEntity> UpdateExcludeSafelyNow(TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess);
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>数据库中的实体</returns>
+        EntityEntry<TEntity> UpdateExcludeSafelyNow(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates);
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        EntityEntry<TEntity> UpdateExcludeSafelyNow(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess);
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>数据库中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateExcludeSafelyNowAsync(TEntity entity, params string[] propertyNames);
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateExcludeSafelyNowAsync(TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateExcludeSafelyNowAsync(TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>数据库中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateExcludeSafelyNowAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates);
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateExcludeSafelyNowAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateExcludeSafelyNowAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateExcludeSafelyNowAsync(TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateExcludeSafelyNowAsync(TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateExcludeSafelyNowAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<EntityEntry<TEntity>> UpdateExcludeSafelyNowAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
     }
 }

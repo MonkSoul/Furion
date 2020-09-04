@@ -68,14 +68,14 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="connectionString">连接字符串</param>
         /// <param name="poolSize">池大小</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddAppDbContext<TDbContext>(this IServiceCollection services, string connectionString, int poolSize = 100)
+        public static IServiceCollection AddAppDbContextPool<TDbContext>(this IServiceCollection services, string connectionString, int poolSize = 100)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
             if (dbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddAppDbContext<TDbContext, DbContextLocator>(connectionString, poolSize);
+            return services.AddAppDbContextPool<TDbContext, DbContextLocator>(connectionString, poolSize);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="connectionString">连接字符串</param>
         /// <param name="poolSize">池大小</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddAppDbContext<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString, int poolSize = 100)
+        public static IServiceCollection AddAppDbContextPool<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString, int poolSize = 100)
             where TDbContext : DbContext
             where TDbContextLocator : class, IDbContextLocator, new()
         {
@@ -98,8 +98,62 @@ namespace Microsoft.Extensions.DependencyInjection
             // 注册数据库上下文
             services.TryAddScoped<TDbContext>();
 
-            // 添加数据库上下文池
-            services.AddDbContextPool<TDbContext>((serviceProvider, options) =>
+            // 配置数据库上下文
+            services.AddDbContextPool<TDbContext>(ConfigureDbContext(connectionString), poolSize: poolSize);
+
+            return services;
+        }
+
+        /// <summary>
+        /// 添加默认数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddAppDbContext<TDbContext>(this IServiceCollection services, string connectionString)
+            where TDbContext : DbContext
+        {
+            // 避免重复注册默认数据库上下文
+            if (dbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+
+            // 注册数据库上下文
+            return services.AddAppDbContext<TDbContext, DbContextLocator>(connectionString);
+        }
+
+        /// <summary>
+        /// 添加其他数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddAppDbContext<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString)
+            where TDbContext : DbContext
+            where TDbContextLocator : class, IDbContextLocator, new()
+        {
+            // 将数据库上下文和定位器一一保存起来
+            var isSuccess = dbContextLocators.TryAdd(typeof(TDbContextLocator), typeof(TDbContext));
+            if (!isSuccess) throw new InvalidOperationException("The locator is bound to another DbContext");
+
+            // 注册数据库上下文
+            services.TryAddScoped<TDbContext>();
+
+            // 配置数据库上下文
+            services.AddDbContext<TDbContext>(ConfigureDbContext(connectionString));
+
+            return services;
+        }
+
+        /// <summary>
+        /// 配置数据库上下文
+        /// </summary>
+        /// <param name="connectionString">数据库连接字符串</param>
+        /// <returns></returns>
+        private static Action<IServiceProvider, DbContextOptionsBuilder> ConfigureDbContext(string connectionString)
+        {
+            return (serviceProvider, options) =>
             {
                 if (App.HostEnvironment.IsDevelopment())
                 {
@@ -115,10 +169,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 });
 
                 //options.UseInternalServiceProvider(serviceProvider);
-            }
-           , poolSize: poolSize);
-
-            return services;
+            };
         }
 
         /// <summary>

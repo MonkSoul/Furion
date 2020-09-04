@@ -26,8 +26,8 @@ namespace Fur.Web.Entry
 
             services.AddDatabaseAccessor(options =>
             {
-                options.AddAppDbContext<FurDbContext>(Configuration.GetConnectionString("DbConnectionString"));
-                options.AddAppDbContext<FurDbContext2, FurDbContextLocator2>(Configuration.GetConnectionString("DbConnectionString2"));
+                options.AddAppDbContextPool<FurDbContext>(Configuration.GetConnectionString("DbConnectionString"));
+                options.AddAppDbContextPool<FurDbContext2, FurDbContextLocator2>(Configuration.GetConnectionString("DbConnectionString2"));
             });
 
             services.AddControllers()

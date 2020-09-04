@@ -69,14 +69,18 @@ namespace Fur.Application
             _testRepository.InsertNow(testDto.Adapt<Test>());
         }
 
+        [IfException(EFCoreErrorCodes.KeyNotSet, ErrorMessage = "没有设置主键")]
+        [IfException(EFCoreErrorCodes.DataNotFound, ErrorMessage = "数据没找到")]
         public void UpdateInclude(TestDto testDto)
         {
-            _testRepository.UpdateIncludeNow(testDto.Adapt<Test>(), u => u.Name, u => u.Age);
+            _testRepository.UpdateIncludeSafelyNow(testDto.Adapt<Test>(), u => u.Name, u => u.Age);
         }
 
+        [IfException(EFCoreErrorCodes.KeyNotSet, ErrorMessage = "没有设置主键")]
+        [IfException(EFCoreErrorCodes.DataNotFound, ErrorMessage = "数据没找到")]
         public void UpdateExclude(TestDto testDto)
         {
-            _testRepository.UpdateExcludeNow(testDto.Adapt<Test>(), u => u.Address);
+            _testRepository.UpdateExcludeSafelyNow(testDto.Adapt<Test>(), u => u.Address);
         }
 
         [IfException(EFCoreErrorCodes.KeyNotSet, ErrorMessage = "没有设置主键")]
