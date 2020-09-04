@@ -175,7 +175,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         private static void SetDbCommandParameters(ref DbCommand dbCommand, params object[] parameters)
         {
-            if (parameters.Length == 0) return;
+            if (parameters == null || parameters.Length == 0) return;
 
             // 添加 @ 前缀
             foreach (SqlParameter parameter in parameters)
