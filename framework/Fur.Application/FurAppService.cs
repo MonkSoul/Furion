@@ -84,7 +84,7 @@ namespace Fur.Application
             _testRepository.UpdateExcludeNow(testDto.Adapt<Test>(), u => u.Address);
         }
 
-        [IfException(EFCoreErrorCodes.DataNotFound, ErrorMessage = "数据没{0}找到")]
+        [IfException(EFCoreErrorCodes.DataNotFound, ErrorMessage = "数据没找到")]
         public void Delete(int id)
         {
             _testRepository.DeleteSafelyNow(id);
