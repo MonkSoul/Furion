@@ -147,24 +147,13 @@ namespace Fur.FriendlyException
         /// <returns></returns>
         private static string GetErrorCodeMessage(object errorCode, params object[] args)
         {
-            // 获取类型
-            var errorType = errorCode.GetType();
-
-            // 判断是否是内置枚举类型，如果是解析特性
-            if (ErrorCodeTypes.Any(u => u == errorType))
-            {
-                var fieldinfo = errorType.GetField(Enum.GetName(errorType, errorCode));
-                if (fieldinfo.IsDefined(typeof(ErrorCodeItemMetadataAttribute), true))
-                {
-                    errorCode = GetErrorCodeItemMessage(fieldinfo).Key;
-                }
-            }
+            errorCode = HandleEnumErrorCode(errorCode);
 
             // 获取出错的方法
             var errorMethod = GetEndPointExceptionMethod();
 
             // 获取异常特性
-            var ifExceptionAttribute = errorMethod.IfExceptionAttributes.FirstOrDefault(u => u.ErrorCode.ToString().Equals(errorCode.ToString()));
+            var ifExceptionAttribute = errorMethod.IfExceptionAttributes.FirstOrDefault(u => HandleEnumErrorCode(u.ErrorCode).ToString().Equals(errorCode.ToString()));
 
             // 获取错误码消息
             var errorCodeMessage = ifExceptionAttribute == null || string.IsNullOrEmpty(ifExceptionAttribute.ErrorMessage)
@@ -179,6 +168,29 @@ namespace Fur.FriendlyException
 
             // 字符串格式化
             return FormatErrorMessage(errorCodeMessage, args);
+        }
+
+        /// <summary>
+        /// 处理枚举类型错误码
+        /// </summary>
+        /// <param name="errorCode">错误码</param>
+        /// <returns></returns>
+        private static object HandleEnumErrorCode(object errorCode)
+        {
+            // 获取类型
+            var errorType = errorCode.GetType();
+
+            // 判断是否是内置枚举类型，如果是解析特性
+            if (ErrorCodeTypes.Any(u => u == errorType))
+            {
+                var fieldinfo = errorType.GetField(Enum.GetName(errorType, errorCode));
+                if (fieldinfo.IsDefined(typeof(ErrorCodeItemMetadataAttribute), true))
+                {
+                    errorCode = GetErrorCodeItemMessage(fieldinfo).Key;
+                }
+            }
+
+            return errorCode;
         }
 
         /// <summary>
