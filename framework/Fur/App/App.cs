@@ -5,7 +5,7 @@
 // 框架名称：Fur
 // 框架作者：百小僧
 // 框架版本：1.0.0
-// 源码地址：https://gitee.com/monksoul/Fur 
+// 源码地址：https://gitee.com/monksoul/Fur
 // 开源协议：Apache-2.0（https://gitee.com/monksoul/Fur/blob/alpha/LICENSE）
 // --------------------------------------------------------------------------------------
 
@@ -73,6 +73,9 @@ namespace Fur
         /// </summary>
         internal static IServiceCollection Services;
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         static App()
         {
             Assemblies = GetAssemblies();
@@ -83,7 +86,7 @@ namespace Fur
         /// </summary>
         /// <typeparam name="TOptions">强类型选项类</typeparam>
         /// <param name="jsonKey">配置中对应的Key</param>
-        /// <returns></returns>
+        /// <returns>TOptions</returns>
         public static TOptions GetOptions<TOptions>(string jsonKey)
             where TOptions : class
         {
@@ -94,7 +97,7 @@ namespace Fur
         /// 获取选项
         /// </summary>
         /// <typeparam name="TOptions">强类型选项类</typeparam>
-        /// <returns></returns>
+        /// <returns>TOptions</returns>
         public static TOptions GetOptions<TOptions>()
             where TOptions : class
         {
@@ -105,7 +108,7 @@ namespace Fur
         /// 获取选项
         /// </summary>
         /// <typeparam name="TOptions">强类型选项类</typeparam>
-        /// <returns></returns>
+        /// <returns>TOptions</returns>
         public static TOptions GetOptionsMonitor<TOptions>()
             where TOptions : class
         {
@@ -116,7 +119,7 @@ namespace Fur
         /// 获取选项
         /// </summary>
         /// <typeparam name="TOptions">强类型选项类</typeparam>
-        /// <returns></returns>
+        /// <returns>TOptions</returns>
         public static TOptions GetOptionsSnapshot<TOptions>()
             where TOptions : class
         {
@@ -146,7 +149,7 @@ namespace Fur
         /// <summary>
         /// 获取应用有效程序集
         /// </summary>
-        /// <returns></returns>
+        /// <returns>IEnumerable<Assembly></returns>
         private static IEnumerable<Assembly> GetAssemblies()
         {
             // 需排除的程序集名称
