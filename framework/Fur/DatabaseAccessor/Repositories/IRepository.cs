@@ -74,7 +74,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 不跟踪的（脱轨）实体
         /// </summary>
-        IQueryable<TEntity> DerailEntities { get; }
+        IQueryable<TEntity> DetachedEntities { get; }
 
         /// <summary>
         /// 查看实体类型
@@ -236,6 +236,30 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entities">多个实体</param>
         void AttachRange(IEnumerable<TEntity> entities);
+
+        /// <summary>
+        /// 取消附加实体
+        /// </summary>
+        /// <param name="entity">实体</param>
+        void Detach(object entity);
+
+        /// <summary>
+        /// 取消附加实体
+        /// </summary>
+        /// <param name="entity">实体</param>
+        void Detach(TEntity entity);
+
+        /// <summary>
+        /// 取消附加实体
+        /// </summary>
+        /// <param name="entityEntry">实体条目</param>
+        void Detach(EntityEntry entityEntry);
+
+        /// <summary>
+        /// 取消附加实体
+        /// </summary>
+        /// <param name="entityEntry">实体条目</param>
+        void Detach(EntityEntry<TEntity> entityEntry);
 
         /// <summary>
         /// 获取所有数据库上下文

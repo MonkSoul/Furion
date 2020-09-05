@@ -1723,7 +1723,7 @@ namespace Fur.DatabaseAccessor
             var (Key, Value) = GetEntityKeyValue(entity);
             var trackEntity = FindOrDefault(Value) ?? throw Oops.Oh(EFCoreErrorCodes.DataNotFound, Key, Value);
             // 取消跟踪实体
-            ChangeEntityState(trackEntity, EntityState.Detached);
+            Detach(trackEntity);
         }
 
         /// <summary>
@@ -1736,7 +1736,7 @@ namespace Fur.DatabaseAccessor
             var trackEntity = await FindOrDefaultAsync(Value);
             if (trackEntity == null) throw Oops.Oh(EFCoreErrorCodes.DataNotFound, Key, Value);
             // 取消跟踪实体
-            ChangeEntityState(trackEntity, EntityState.Detached);
+            Detach(trackEntity);
         }
 
         /// <summary>
@@ -1754,7 +1754,7 @@ namespace Fur.DatabaseAccessor
             var keyName = keyProperty.Name;
             var keyValue = keyProperty.GetValue(entity);
 
-            // 主键不能为空，且不能为0，也不能为GUID空值
+            // 主键不能为空，且不能为 0，也不能为 Guid 空值
             if (keyValue == null || (keyProperty.PropertyType.IsValueType && (keyValue.Equals(0) || keyValue.Equals(Guid.Empty)))) throw Oops.Oh(EFCoreErrorCodes.KeyNotSet, keyName, keyValue);
 
             return (keyName, keyValue);

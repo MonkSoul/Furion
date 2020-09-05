@@ -130,7 +130,7 @@ namespace Fur.DatabaseAccessor
 
             //初始化实体
             Entities = dbContext.Set<TEntity>();
-            DerailEntities = Entities.AsNoTracking();
+            DetachedEntities = Entities.AsNoTracking();
             EntityType = dbContext.Model.FindEntityType(typeof(TEntity));
 
             // 初始化服务提供器
@@ -150,7 +150,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 不跟踪的（脱轨）实体
         /// </summary>
-        public virtual IQueryable<TEntity> DerailEntities { get; }
+        public virtual IQueryable<TEntity> DetachedEntities { get; }
 
         /// <summary>
         /// 查看实体类型
@@ -374,6 +374,42 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
+        /// 取消附加实体
+        /// </summary>
+        /// <param name="entity">实体</param>
+        public virtual void Detach(object entity)
+        {
+            ChangeEntityState(entity, EntityState.Deleted);
+        }
+
+        /// <summary>
+        /// 取消附加实体
+        /// </summary>
+        /// <param name="entity">实体</param>
+        public virtual void Detach(TEntity entity)
+        {
+            ChangeEntityState(entity, EntityState.Deleted);
+        }
+
+        /// <summary>
+        /// 取消附加实体
+        /// </summary>
+        /// <param name="entityEntry">实体条目</param>
+        public virtual void Detach(EntityEntry entityEntry)
+        {
+            ChangeEntityState(entityEntry, EntityState.Deleted);
+        }
+
+        /// <summary>
+        /// 取消附加实体
+        /// </summary>
+        /// <param name="entityEntry">实体条目</param>
+        public virtual void Detach(EntityEntry<TEntity> entityEntry)
+        {
+            ChangeEntityState(entityEntry, EntityState.Deleted);
+        }
+
+        /// <summary>
         /// 获取所有数据库上下文
         /// </summary>
         /// <returns>ConcurrentBag<DbContext></returns>
@@ -431,7 +467,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>IQueryable<TEntity></returns>
         public virtual IQueryable<TEntity> AsQueryable(bool noTracking = false)
         {
-            return !noTracking ? Entities : DerailEntities;
+            return !noTracking ? Entities : DetachedEntities;
         }
 
         /// <summary>
