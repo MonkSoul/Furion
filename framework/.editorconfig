@@ -1,4 +1,4 @@
-# Rules in this file were initially inferred by Visual Studio IntelliCode from the D:\MONK\Fur\framework codebase based on best match to current usage at 2020/9/2
+ï»¿# Rules in this file were initially inferred by Visual Studio IntelliCode from the D:\MONK\Fur\framework codebase based on best match to current usage at 2020/9/2
 # You can modify the rules from these initially generated values to suit your own policies
 # You can learn more about editorconfig here: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference
 [*.cs]
@@ -124,4 +124,4 @@ dotnet_style_qualification_for_method = false:suggestion
 dotnet_style_qualification_for_property = false:suggestion
 
 # Add file header
-file_header_template = ¿ò¼ÜÃû³Æ£ºFur\n¿ò¼Ü×÷Õß£º°ÙĞ¡É®\n¿ò¼Ü°æ±¾£º1.0.0\nÔ´ÂëµØÖ·£ºhttps://gitee.com/monksoul/Fur \n¿ªÔ´Ğ­Òé£ºApache-2.0£¨https://gitee.com/monksoul/Fur/blob/alpha/LICENSE£©
+file_header_template = --------------------------------------------------------------------------------------\nFur æ˜¯ .NET 5 å¹³å°ä¸‹ææ˜“å…¥é—¨ã€æé€Ÿå¼€å‘çš„ Web åº”ç”¨æ¡†æ¶ã€‚\nCopyright Â© 2020 Fur, Baiqian Co.,Ltd.\n\næ¡†æ¶åç§°ï¼šFur\næ¡†æ¶ä½œè€…ï¼šç™¾å°åƒ§\næ¡†æ¶ç‰ˆæœ¬ï¼š1.0.0\næºç åœ°å€ï¼šhttps://gitee.com/monksoul/Fur \nå¼€æºåè®®ï¼šApache-2.0ï¼ˆhttps://gitee.com/monksoul/Fur/blob/alpha/LICENSEï¼‰\n--------------------------------------------------------------------------------------
