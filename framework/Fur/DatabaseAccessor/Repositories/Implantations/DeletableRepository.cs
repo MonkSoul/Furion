@@ -317,7 +317,7 @@ namespace Fur.DatabaseAccessor
         /// 根据主键删除一条记录
         /// </summary>
         /// <param name="key">主键</param>
-        public virtual void DeleteSafely(object key)
+        public virtual void DeleteExists(object key)
         {
             var entity = FindOrDefault(key) ?? throw Oops.Oh(EFCoreErrorCodes.DataNotFound, key);
             Delete(entity);
@@ -329,7 +329,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="key">主键</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task</returns>
-        public virtual async Task DeleteSafelyAsync(object key, CancellationToken cancellationToken = default)
+        public virtual async Task DeleteExistsAsync(object key, CancellationToken cancellationToken = default)
         {
             var entity = await FindOrDefaultAsync(key, cancellationToken);
             if (entity == null) throw Oops.Oh(EFCoreErrorCodes.DataNotFound, key);
@@ -341,9 +341,9 @@ namespace Fur.DatabaseAccessor
         /// 根据主键删除一条记录并立即提交
         /// </summary>
         /// <param name="key">主键</param>
-        public virtual void DeleteSafelyNow(object key)
+        public virtual void DeleteExistsNow(object key)
         {
-            DeleteSafely(key);
+            DeleteExists(key);
             SaveNow();
         }
 
@@ -352,9 +352,9 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="key">主键</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        public virtual void DeleteSafelyNow(object key, bool acceptAllChangesOnSuccess)
+        public virtual void DeleteExistsNow(object key, bool acceptAllChangesOnSuccess)
         {
-            DeleteSafely(key);
+            DeleteExists(key);
             SaveNow(acceptAllChangesOnSuccess);
         }
 
@@ -364,9 +364,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="key">主键</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns></returns>
-        public virtual async Task DeleteSafelyNowAsync(object key, CancellationToken cancellationToken = default)
+        public virtual async Task DeleteExistsNowAsync(object key, CancellationToken cancellationToken = default)
         {
-            await DeleteSafelyAsync(key, cancellationToken);
+            await DeleteExistsAsync(key, cancellationToken);
             await SaveNowAsync(cancellationToken);
         }
 
@@ -377,9 +377,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns></returns>
-        public virtual async Task DeleteSafelyNowAsync(object key, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        public virtual async Task DeleteExistsNowAsync(object key, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
-            await DeleteSafelyAsync(key, cancellationToken);
+            await DeleteExistsAsync(key, cancellationToken);
             await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 

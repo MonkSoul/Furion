@@ -207,7 +207,7 @@ namespace Fur.DatabaseAccessor
         /// 根据主键删除一条记录
         /// </summary>
         /// <param name="key">主键</param>
-        void DeleteSafely(object key);
+        void DeleteExists(object key);
 
         /// <summary>
         /// 根据主键删除一条记录
@@ -215,20 +215,20 @@ namespace Fur.DatabaseAccessor
         /// <param name="key">主键</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task</returns>
-        Task DeleteSafelyAsync(object key, CancellationToken cancellationToken = default);
+        Task DeleteExistsAsync(object key, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 根据主键删除一条记录并立即提交
         /// </summary>
         /// <param name="key">主键</param>
-        void DeleteSafelyNow(object key);
+        void DeleteExistsNow(object key);
 
         /// <summary>
         /// 根据主键删除一条记录并立即提交
         /// </summary>
         /// <param name="key">主键</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        void DeleteSafelyNow(object key, bool acceptAllChangesOnSuccess);
+        void DeleteExistsNow(object key, bool acceptAllChangesOnSuccess);
 
         /// <summary>
         /// 根据主键删除一条记录并立即提交
@@ -236,7 +236,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="key">主键</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns></returns>
-        Task DeleteSafelyNowAsync(object key, CancellationToken cancellationToken = default);
+        Task DeleteExistsNowAsync(object key, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 根据主键删除一条记录并立即提交
@@ -245,6 +245,6 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns></returns>
-        Task DeleteSafelyNowAsync(object key, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+        Task DeleteExistsNowAsync(object key, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
     }
 }

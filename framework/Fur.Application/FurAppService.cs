@@ -71,27 +71,27 @@ namespace Fur.Application
         [IfException(EFCoreErrorCodes.DataNotFound, ErrorMessage = "数据没找到")]
         public void UpdateInclude(TestDto testDto)
         {
-            _testRepository.UpdateIncludeSafelyNow(testDto.Adapt<Test>(), u => u.Name, u => u.Age);
+            _testRepository.UpdateIncludeExistsNow(testDto.Adapt<Test>(), u => u.Name, u => u.Age);
         }
 
         [IfException(EFCoreErrorCodes.KeyNotSet, ErrorMessage = "没有设置主键")]
         [IfException(EFCoreErrorCodes.DataNotFound, ErrorMessage = "数据没找到")]
         public void UpdateExclude(TestDto testDto)
         {
-            _testRepository.UpdateExcludeSafelyNow(testDto.Adapt<Test>(), u => u.Address);
+            _testRepository.UpdateExcludeExistsNow(testDto.Adapt<Test>(), u => u.Address);
         }
 
         [IfException(EFCoreErrorCodes.KeyNotSet, ErrorMessage = "没有设置主键")]
         [IfException(EFCoreErrorCodes.DataNotFound, ErrorMessage = "数据没找到")]
         public void UpdateAll(TestDto testDto)
         {
-            _testRepository.UpdateSafelyNow(testDto.Adapt<Test>());
+            _testRepository.UpdateExistsNow(testDto.Adapt<Test>());
         }
 
         [IfException(EFCoreErrorCodes.DataNotFound, ErrorMessage = "数据没找到")]
         public void Delete(int id)
         {
-            _testRepository.DeleteSafelyNow(id);
+            _testRepository.DeleteExistsNow(id);
         }
     }
 }
