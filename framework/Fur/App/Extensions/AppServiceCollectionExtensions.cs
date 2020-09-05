@@ -26,6 +26,9 @@ namespace Microsoft.Extensions.DependencyInjection
             App.Services = services;
             services.AddConfigurableOptions<AppSettingsOptions>();
 
+            // 注册 IHttpContextAccessor
+            services.AddHttpContextAccessor();
+
             // 注册MiniProfiler 组件
             if (App.Settings.InjectMiniProfiler == true)
             {

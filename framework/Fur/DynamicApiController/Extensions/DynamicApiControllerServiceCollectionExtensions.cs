@@ -35,11 +35,18 @@ namespace Microsoft.Extensions.DependencyInjection
             // 添加配置
             services.AddConfigurableOptions<DynamicApiControllerSettingsOptions>();
 
-            // 添加应用模型转换器
+            // 配置 Mvc 选项
             mvcBuilder.AddMvcOptions(options =>
             {
+                // 添加应用模型转换器
                 options.Conventions.Add(new DynamicApiControllerApplicationModelConvention());
+
+                // 处理 Web API 不支持的返回格式，统一返回 406 状态码
+                //options.ReturnHttpNotAcceptable = true;
             });
+
+            // 添加 Xml 支持
+            mvcBuilder.AddXmlDataContractSerializerFormatters();
 
             return mvcBuilder;
         }

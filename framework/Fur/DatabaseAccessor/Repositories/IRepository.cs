@@ -202,14 +202,14 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entity">实体</param>
         /// <returns>bool</returns>
-        bool IsAttach(object entity);
+        bool IsAttached(object entity);
 
         /// <summary>
         /// 判断是否被附加
         /// </summary>
         /// <param name="entity">实体</param>
         /// <returns>bool</returns>
-        bool IsAttach(TEntity entity);
+        bool IsAttached(TEntity entity);
 
         /// <summary>
         /// 附加实体

@@ -245,9 +245,10 @@ namespace Fur.DatabaseAccessor
         /// <param name="key">主键</param>
         public virtual void Delete(object key)
         {
-            var deleteEntity = CreateDeleteEntity(key);
-            if (deleteEntity != null) return;
+            var deletedEntity = BuildDeletedEntity(key);
+            if (deletedEntity != null) return;
 
+            // 如果主键不存在，则采用 Find 查询
             var entity = FindOrDefault(key);
             if (entity != null) Delete(entity);
         }
@@ -260,9 +261,10 @@ namespace Fur.DatabaseAccessor
         /// <returns>Task</returns>
         public virtual async Task DeleteAsync(object key, CancellationToken cancellationToken = default)
         {
-            var deleteEntity = CreateDeleteEntity(key);
-            if (deleteEntity != null) return;
+            var deletedEntity = BuildDeletedEntity(key);
+            if (deletedEntity != null) return;
 
+            // 如果主键不存在，则采用 FindAsync 查询
             var entity = await FindOrDefaultAsync(key, cancellationToken);
             if (entity != null) await DeleteAsync(entity);
         }
@@ -384,11 +386,11 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 创建需要删除的实体
+        /// 构建被删除的实体
         /// </summary>
         /// <param name="key">主键</param>
         /// <returns></returns>
-        private TEntity CreateDeleteEntity(object key)
+        private TEntity BuildDeletedEntity(object key)
         {
             // 读取主键
             var keyProperty = EntityType.FindPrimaryKey().Properties.AsEnumerable().FirstOrDefault()?.PropertyInfo;

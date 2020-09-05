@@ -320,7 +320,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entity">实体</param>
         /// <returns>bool</returns>
-        public virtual bool IsAttach(object entity)
+        public virtual bool IsAttached(object entity)
         {
             return EntityEntryState(entity) == EntityState.Detached;
         }
@@ -330,7 +330,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entity">实体</param>
         /// <returns>bool</returns>
-        public virtual bool IsAttach(TEntity entity)
+        public virtual bool IsAttached(TEntity entity)
         {
             return EntityEntryState(entity) == EntityState.Detached;
         }
