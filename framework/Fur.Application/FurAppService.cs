@@ -52,9 +52,7 @@ namespace Fur.Application
             var f = test1.Equals(test4); // true
 
             var test5 = _repository2.Change<Test>();
-            var g = test4.Equals(test5); // fale
-
-            //return _testRepository.Entities.ProjectToType<TestDto>().ToList();
+            var g = test4.Equals(test5); // true
 
             return _testRepository.Filter().ProjectToType<TestDto>().ToList();
         }

@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Fur.DatabaseAccessor
 {
@@ -93,6 +95,11 @@ namespace Fur.DatabaseAccessor
         /// 实体追综器
         /// </summary>
         ChangeTracker ChangeTracker { get; }
+
+        /// <summary>
+        /// 服务提供器
+        /// </summary>
+        IServiceProvider ServiceProvider { get; }
 
         /// <summary>
         /// 租户Id
@@ -242,6 +249,26 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>bool</returns>
         bool IsKeySet(TEntity entity);
+
+        /// <summary>
+        /// 删除数据库
+        /// </summary>
+        void EnsureDeleted();
+
+        /// <summary>
+        /// 删除数据库
+        /// </summary>
+        Task EnsureDeletedAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 创建数据库
+        /// </summary>
+        void EnsureCreated();
+
+        /// <summary>
+        /// 创建数据库
+        /// </summary>
+        Task EnsureCreatedAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 构建查询分析器

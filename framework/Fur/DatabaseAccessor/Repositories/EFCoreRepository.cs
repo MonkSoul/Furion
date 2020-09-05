@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Fur.DatabaseAccessor
 {
@@ -25,8 +27,11 @@ namespace Fur.DatabaseAccessor
     public partial class EFCoreRepository<TEntity> : EFCoreRepository<TEntity, DbContextLocator>, IRepository<TEntity>
         where TEntity : class, IEntityBase, new()
     {
-        public EFCoreRepository(IDbContextPool dbContextPool, IRepository repository, Func<Type, DbContext> dbContextResolve)
-            : base(dbContextPool, repository, dbContextResolve)
+        public EFCoreRepository(
+            Func<Type, DbContext> dbContextResolve
+            , IDbContextPool dbContextPool
+            , IRepository repository
+            , IServiceProvider serviceProvider) : base(dbContextResolve, dbContextPool, repository, serviceProvider)
         {
         }
     }
@@ -45,7 +50,8 @@ namespace Fur.DatabaseAccessor
         /// 构造函数
         /// </summary>
         /// <param name="serviceProvider"></param>
-        public EFCoreRepository(IServiceProvider serviceProvider)
+        public EFCoreRepository(
+            IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
@@ -100,7 +106,11 @@ namespace Fur.DatabaseAccessor
         /// <param name="dbContextPool">数据库上下文池</param>
         /// <param name="repository">非泛型仓储</param>
         /// <param name="dbContextResolve">数据库上下文解析器</param>
-        public EFCoreRepository(IDbContextPool dbContextPool, IRepository repository, Func<Type, DbContext> dbContextResolve)
+        public EFCoreRepository(
+            Func<Type, DbContext> dbContextResolve
+            , IDbContextPool dbContextPool
+            , IRepository repository
+            , IServiceProvider serviceProvider)
         {
             // 解析数据库上下文
             var dbContext = dbContextResolve(typeof(TDbContextLocator));
@@ -122,6 +132,9 @@ namespace Fur.DatabaseAccessor
             Entities = dbContext.Set<TEntity>();
             DerailEntities = Entities.AsNoTracking();
             EntityType = dbContext.Model.FindEntityType(typeof(TEntity));
+
+            // 初始化服务提供器
+            ServiceProvider = serviceProvider;
         }
 
         /// <summary>
@@ -158,6 +171,11 @@ namespace Fur.DatabaseAccessor
         /// 实体追综器
         /// </summary>
         public virtual ChangeTracker ChangeTracker { get; }
+
+        /// <summary>
+        /// 服务提供器
+        /// </summary>
+        public virtual IServiceProvider ServiceProvider { get; }
 
         /// <summary>
         /// 租户Id
@@ -372,6 +390,38 @@ namespace Fur.DatabaseAccessor
         public virtual bool IsKeySet(TEntity entity)
         {
             return Entry(entity).IsKeySet;
+        }
+
+        /// <summary>
+        /// 删除数据库
+        /// </summary>
+        public virtual void EnsureDeleted()
+        {
+            DbContext.Database.EnsureDeleted();
+        }
+
+        /// <summary>
+        /// 删除数据库
+        /// </summary>
+        public virtual Task EnsureDeletedAsync(CancellationToken cancellationToken = default)
+        {
+            return DbContext.Database.EnsureDeletedAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 创建数据库
+        /// </summary>
+        public virtual void EnsureCreated()
+        {
+            DbContext.Database.EnsureCreated();
+        }
+
+        /// <summary>
+        /// 创建数据库
+        /// </summary>
+        public virtual Task EnsureCreatedAsync(CancellationToken cancellationToken = default)
+        {
+            return DbContext.Database.EnsureCreatedAsync(cancellationToken);
         }
 
         /// <summary>
