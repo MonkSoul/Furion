@@ -5,7 +5,7 @@
 // 框架名称：Fur
 // 框架作者：百小僧
 // 框架版本：1.0.0
-// 源码地址：https://gitee.com/monksoul/Fur 
+// 源码地址：https://gitee.com/monksoul/Fur
 // 开源协议：Apache-2.0（https://gitee.com/monksoul/Fur/blob/alpha/LICENSE）
 // --------------------------------------------------------------------------------------
 
@@ -32,6 +32,13 @@ namespace Fur.DatabaseAccessor
     public partial class EFCoreRepository<TEntity> : EFCoreRepository<TEntity, DbContextLocator>, IRepository<TEntity>
         where TEntity : class, IEntityBase, new()
     {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="dbContextResolve">数据库上下文解析器</param>
+        /// <param name="dbContextPool">数据库上下文池</param>
+        /// <param name="repository">非泛型仓储</param>
+        /// <param name="serviceProvider">服务提供器</param>
         public EFCoreRepository(
             Func<Type, DbContext> dbContextResolve
             , IDbContextPool dbContextPool
@@ -54,7 +61,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="serviceProvider"></param>
+        /// <param name="serviceProvider">服务提供器</param>
         public EFCoreRepository(
             IServiceProvider serviceProvider)
         {
@@ -108,9 +115,10 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
+        /// <param name="dbContextResolve">数据库上下文解析器</param>
         /// <param name="dbContextPool">数据库上下文池</param>
         /// <param name="repository">非泛型仓储</param>
-        /// <param name="dbContextResolve">数据库上下文解析器</param>
+        /// <param name="serviceProvider">服务提供器</param>
         public EFCoreRepository(
             Func<Type, DbContext> dbContextResolve
             , IDbContextPool dbContextPool
