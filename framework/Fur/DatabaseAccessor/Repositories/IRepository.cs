@@ -97,6 +97,11 @@ namespace Fur.DatabaseAccessor
         ChangeTracker ChangeTracker { get; }
 
         /// <summary>
+        /// 数据库提供器名
+        /// </summary>
+        string DatabaseProviderName { get; }
+
+        /// <summary>
         /// 服务提供器
         /// </summary>
         IServiceProvider ServiceProvider { get; }
@@ -293,6 +298,48 @@ namespace Fur.DatabaseAccessor
         /// 创建数据库
         /// </summary>
         Task EnsureCreatedAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 判断是否是 SqlServer 数据库
+        /// </summary>
+        /// <returns>bool</returns>
+        bool IsSqlServer();
+
+        /// <summary>
+        /// 判断是否是 Sqlite 数据库
+        /// </summary>
+        /// <returns>bool</returns>
+        bool IsSqlite();
+
+        /// <summary>
+        /// 判断是否是 Cosmos 数据库
+        /// </summary>
+        /// <returns>bool</returns>
+        bool IsCosmos();
+
+        /// <summary>
+        /// 判断是否是 内存中 数据库
+        /// </summary>
+        /// <returns>bool</returns>
+        bool IsInMemory();
+
+        /// <summary>
+        /// 判断是否是 MySql 数据库
+        /// </summary>
+        /// <returns>bool</returns>
+        bool IsMySql();
+
+        /// <summary>
+        /// 判断是否是 PostgreSQL 数据库
+        /// </summary>
+        /// <returns>bool</returns>
+        bool IsNpgsql();
+
+        /// <summary>
+        /// 判断是否是关系型数据库
+        /// </summary>
+        /// <returns>bool</returns>
+        bool IsRelational();
 
         /// <summary>
         /// 构建查询分析器

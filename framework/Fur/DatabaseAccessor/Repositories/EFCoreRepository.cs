@@ -127,6 +127,7 @@ namespace Fur.DatabaseAccessor
             Database = dbContext.Database;
             DbConnection = Database.GetDbConnection();
             ChangeTracker = dbContext.ChangeTracker;
+            DatabaseProviderName = Database.ProviderName;
 
             //初始化实体
             Entities = dbContext.Set<TEntity>();
@@ -171,6 +172,11 @@ namespace Fur.DatabaseAccessor
         /// 实体追综器
         /// </summary>
         public virtual ChangeTracker ChangeTracker { get; }
+
+        /// <summary>
+        /// 数据库提供器名
+        /// </summary>
+        public virtual string DatabaseProviderName { get; }
 
         /// <summary>
         /// 服务提供器
@@ -458,6 +464,69 @@ namespace Fur.DatabaseAccessor
         public virtual Task EnsureCreatedAsync(CancellationToken cancellationToken = default)
         {
             return DbContext.Database.EnsureCreatedAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 判断是否是 SqlServer 数据库
+        /// </summary>
+        /// <returns>bool</returns>
+        public virtual bool IsSqlServer()
+        {
+            return DatabaseProviderName.Equals(DatabaseProviderOptions.SqlServer, StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// 判断是否是 Sqlite 数据库
+        /// </summary>
+        /// <returns>bool</returns>
+        public virtual bool IsSqlite()
+        {
+            return DatabaseProviderName.Equals(DatabaseProviderOptions.Sqlite, StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// 判断是否是 Cosmos 数据库
+        /// </summary>
+        /// <returns>bool</returns>
+        public virtual bool IsCosmos()
+        {
+            return DatabaseProviderName.Equals(DatabaseProviderOptions.Cosmos, StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// 判断是否是 内存中 数据库
+        /// </summary>
+        /// <returns>bool</returns>
+        public virtual bool IsInMemory()
+        {
+            return DatabaseProviderName.Equals(DatabaseProviderOptions.InMemory, StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// 判断是否是 MySql 数据库
+        /// </summary>
+        /// <returns>bool</returns>
+        public virtual bool IsMySql()
+        {
+            return DatabaseProviderName.Equals(DatabaseProviderOptions.MySql, StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// 判断是否是 PostgreSQL 数据库
+        /// </summary>
+        /// <returns>bool</returns>
+        public virtual bool IsNpgsql()
+        {
+            return DatabaseProviderName.Equals(DatabaseProviderOptions.PostgreSQL, StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// 判断是否是关系型数据库
+        /// </summary>
+        /// <returns>bool</returns>
+        public virtual bool IsRelational()
+        {
+            return Database.IsRelational();
         }
 
         /// <summary>
