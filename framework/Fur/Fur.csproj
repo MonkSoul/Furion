@@ -5,11 +5,12 @@
     <AnalysisLevel>5</AnalysisLevel>
     <Authors>百小僧/MonkSoul</Authors>
     <Company>Baiqian</Company>
-    <Copyright>Baiqian</Copyright>
+    <Copyright>© 2020 Fur, Baiqian Co.,Ltd.</Copyright>
     <Description>Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。</Description>
-    <PackageProjectUrl>https://www.furos.cn</PackageProjectUrl>
+    <PackageProjectUrl>https://furos.cn</PackageProjectUrl>
     <RepositoryUrl>https://gitee.com/monksoul/Fur</RepositoryUrl>
     <RepositoryType>Gitee</RepositoryType>
+    <PackageLicenseExpression>Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）</PackageLicenseExpression>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
