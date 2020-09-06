@@ -48,7 +48,7 @@ namespace Fur.FriendlyException
         internal static readonly Dictionary<string, string> ErrorCodeMessages;
 
         /// <summary>
-        /// 静态构造函数
+        /// 构造函数
         /// </summary>
         static Oops()
         {

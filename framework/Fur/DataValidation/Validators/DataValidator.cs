@@ -43,7 +43,7 @@ namespace Fur.DataValidation
         private static readonly Dictionary<string, ValidationItemMetadataAttribute> ValidationItemMetadatas;
 
         /// <summary>
-        /// 静态构造函数
+        /// 构造函数
         /// </summary>
         static DataValidator()
         {

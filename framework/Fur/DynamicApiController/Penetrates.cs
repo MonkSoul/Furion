@@ -35,7 +35,7 @@ namespace Fur.DynamicApiController
         internal static Dictionary<string, string> VerbToHttpMethods { get; private set; }
 
         /// <summary>
-        /// 静态构造函数
+        /// 构造函数
         /// </summary>
         static Penetrates()
         {
