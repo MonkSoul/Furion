@@ -5,7 +5,7 @@
 // 框架名称：Fur
 // 框架作者：百小僧
 // 框架版本：1.0.0
-// 源码地址：https://gitee.com/monksoul/Fur 
+// 源码地址：https://gitee.com/monksoul/Fur
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // --------------------------------------------------------------------------------------
 
@@ -168,7 +168,7 @@ namespace Fur.DynamicApiController
             var verbKey = Penetrates.GetCamelCaseFirstWord(action.ActionMethod.Name).ToLower();
             var verb = Penetrates.VerbToHttpMethods.ContainsKey(verbKey)
                 ? Penetrates.VerbToHttpMethods[verbKey]
-                : _lazyControllerSettings.DefaultHttpMethod.ToLower();
+                : _lazyControllerSettings.DefaultHttpMethod.ToUpper();
 
             // 添加请求约束
             selectorModel.ActionConstraints.Add(new HttpMethodActionConstraint(new[] { verb }));

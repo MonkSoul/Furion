@@ -5,7 +5,7 @@
 // 框架名称：Fur
 // 框架作者：百小僧
 // 框架版本：1.0.0
-// 源码地址：https://gitee.com/monksoul/Fur 
+// 源码地址：https://gitee.com/monksoul/Fur
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // --------------------------------------------------------------------------------------
 
@@ -62,7 +62,9 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-    public partial interface IRepository<TEntity, TDbContextLocator> : IWritableRepository<TEntity, TDbContextLocator>, IReadableRepository<TEntity, TDbContextLocator>
+    public partial interface IRepository<TEntity, TDbContextLocator>
+        : IWritableRepository<TEntity, TDbContextLocator>
+        , IReadableRepository<TEntity, TDbContextLocator>
         where TEntity : class, IEntityBase, new()
         where TDbContextLocator : class, IDbContextLocator, new()
     {
@@ -102,9 +104,14 @@ namespace Fur.DatabaseAccessor
         ChangeTracker ChangeTracker { get; }
 
         /// <summary>
+        /// 实体模型
+        /// </summary>
+        IModel Model { get; }
+
+        /// <summary>
         /// 数据库提供器名
         /// </summary>
-        string DatabaseProviderName { get; }
+        string ProviderName { get; }
 
         /// <summary>
         /// 服务提供器
@@ -345,23 +352,6 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <returns>bool</returns>
         bool IsRelational();
-
-        /// <summary>
-        /// 构建查询分析器
-        /// </summary>
-        /// <param name="noTracking">是否跟踪实体</param>
-        /// <returns>IQueryable<TEntity></returns>
-        IQueryable<TEntity> AsQueryable(bool noTracking = false);
-
-        /// <summary>
-        /// 构建查询分析器
-        /// </summary>
-        /// <param name="predicate">表达式</param>
-        /// <param name="noTracking">是否跟踪实体</param>
-        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
-        /// <param name="asSplitQuery">是否切割查询</param>
-        /// <returns>IQueryable<TEntity></returns>
-        IQueryable<TEntity> AsQueryable(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
         /// 切换仓储

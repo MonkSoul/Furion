@@ -3,6 +3,7 @@ using Fur.DatabaseAccessor;
 using Fur.DynamicApiController;
 using Fur.FriendlyException;
 using Mapster;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,10 +34,15 @@ namespace Fur.Application
 
         public IEnumerable<TestDto> Get()
         {
-            //var a1 = _serviceProvider.GetService<IRepository>();
-            //var b1 = _serviceProvider.GetService<IRepository>();
+            return _testRepository.AsQueryable().ProjectToType<TestDto>().ToList();
+        }
 
-            //var c1 = a1.Equals(b1); // true
+        public bool CheckScope()
+        {
+            var a1 = _serviceProvider.GetService<IRepository>();
+            var b1 = _serviceProvider.GetService<IRepository>();
+
+            var z = a1.Equals(b1); // true
 
             var test1 = _repository.Change<Test>();
             var test2 = _repository.Change<Test>();
@@ -54,7 +60,7 @@ namespace Fur.Application
             var test5 = _repository2.Change<Test>();
             var g = test4.Equals(test5); // true
 
-            return _testRepository.Filter().ProjectToType<TestDto>().ToList();
+            return a == b == c == d == e == f == g == z;
         }
 
         public TestDto Get(int id)

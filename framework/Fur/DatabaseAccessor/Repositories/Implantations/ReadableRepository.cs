@@ -5,7 +5,7 @@
 // 框架名称：Fur
 // 框架作者：百小僧
 // 框架版本：1.0.0
-// 源码地址：https://gitee.com/monksoul/Fur 
+// 源码地址：https://gitee.com/monksoul/Fur
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // --------------------------------------------------------------------------------------
 
@@ -685,6 +685,34 @@ namespace Fur.DatabaseAccessor
         public virtual Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default)
         {
             return AsQueryable(null, noTracking, ignoreQueryFilters, asSplitQuery).MaxAsync(predicate, cancellationToken);
+        }
+
+        /// <summary>
+        /// 构建查询分析器
+        /// </summary>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>IQueryable<TEntity></returns>
+        public virtual IQueryable<TEntity> AsQueryable(bool noTracking = true)
+        {
+            return !noTracking ? Entities : DetachedEntities;
+        }
+
+        /// <summary>
+        /// 构建查询分析器
+        /// </summary>
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>IQueryable<TEntity></returns>
+        public virtual IQueryable<TEntity> AsQueryable(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true)
+        {
+            var entities = AsQueryable(noTracking);
+            if (ignoreQueryFilters) entities = entities.IgnoreQueryFilters();
+            if (asSplitQuery) entities = entities.AsSplitQuery();
+            if (predicate != null) entities = entities.Where(predicate);
+
+            return entities;
         }
     }
 }

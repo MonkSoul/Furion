@@ -5,7 +5,7 @@
 // 框架名称：Fur
 // 框架作者：百小僧
 // 框架版本：1.0.0
-// 源码地址：https://gitee.com/monksoul/Fur 
+// 源码地址：https://gitee.com/monksoul/Fur
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // --------------------------------------------------------------------------------------
 
@@ -24,14 +24,10 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator">数据库实体定位器</typeparam>
     public interface IReadableRepository<TEntity, TDbContextLocator>
+        : ISqlQueryableRepository<TEntity, TDbContextLocator>
         where TEntity : class, IEntityBase, new()
         where TDbContextLocator : class, IDbContextLocator, new()
     {
-        /// <summary>
-        /// 未查询到数据异常消息
-        /// </summary>
-        private const string NotFoundErrorMessage = "Sequence contains no elements";
-
         /// <summary>
         /// 根据键查询一条记录
         /// </summary>
@@ -519,5 +515,22 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>TResult</returns>
         Task<TResult> MaxAsync<TResult>(Expression<Func<TEntity, TResult>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 构建查询分析器
+        /// </summary>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>IQueryable<TEntity></returns>
+        IQueryable<TEntity> AsQueryable(bool noTracking = true);
+
+        /// <summary>
+        /// 构建查询分析器
+        /// </summary>
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>IQueryable<TEntity></returns>
+        IQueryable<TEntity> AsQueryable(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
     }
 }

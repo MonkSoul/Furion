@@ -5,7 +5,7 @@
 // 框架名称：Fur
 // 框架作者：百小僧
 // 框架版本：1.0.0
-// 源码地址：https://gitee.com/monksoul/Fur 
+// 源码地址：https://gitee.com/monksoul/Fur
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // --------------------------------------------------------------------------------------
 
@@ -19,7 +19,12 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator">数据库实体定位器</typeparam>
-    public partial interface IWritableRepository<TEntity, TDbContextLocator> : IInsertableRepository<TEntity, TDbContextLocator>, IUpdateableRepository<TEntity, TDbContextLocator>, IDeletableRepository<TEntity, TDbContextLocator>, IOperableRepository<TEntity, TDbContextLocator>
+    public partial interface IWritableRepository<TEntity, TDbContextLocator>
+        : IInsertableRepository<TEntity, TDbContextLocator>
+        , IUpdateableRepository<TEntity, TDbContextLocator>
+        , IDeletableRepository<TEntity, TDbContextLocator>
+        , IOperableRepository<TEntity, TDbContextLocator>
+        , ISqlExecutableRepository<TEntity, TDbContextLocator>
         where TEntity : class, IEntityBase, new()
         where TDbContextLocator : class, IDbContextLocator, new()
     {

@@ -5,7 +5,7 @@
 // 框架名称：Fur
 // 框架作者：百小僧
 // 框架版本：1.0.0
-// 源码地址：https://gitee.com/monksoul/Fur 
+// 源码地址：https://gitee.com/monksoul/Fur
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // --------------------------------------------------------------------------------------
 
@@ -140,12 +140,13 @@ namespace Fur.DatabaseAccessor
             Database = dbContext.Database;
             DbConnection = Database.GetDbConnection();
             ChangeTracker = dbContext.ChangeTracker;
-            DatabaseProviderName = Database.ProviderName;
+            Model = dbContext.Model;
+            ProviderName = Database.ProviderName;
 
             //初始化实体
             Entities = dbContext.Set<TEntity>();
             DetachedEntities = Entities.AsNoTracking();
-            EntityType = dbContext.Model.FindEntityType(typeof(TEntity));
+            EntityType = Model.FindEntityType(typeof(TEntity));
 
             // 初始化服务提供器
             ServiceProvider = serviceProvider;
@@ -187,9 +188,14 @@ namespace Fur.DatabaseAccessor
         public virtual ChangeTracker ChangeTracker { get; }
 
         /// <summary>
+        /// 实体模型
+        /// </summary>
+        public virtual IModel Model { get; }
+
+        /// <summary>
         /// 数据库提供器名
         /// </summary>
-        public virtual string DatabaseProviderName { get; }
+        public virtual string ProviderName { get; }
 
         /// <summary>
         /// 服务提供器
@@ -485,7 +491,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsSqlServer()
         {
-            return DatabaseProviderName.Equals(DatabaseProviderOptions.SqlServer, StringComparison.Ordinal);
+            return ProviderName.Equals(DatabaseProviderOptions.SqlServer, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -494,7 +500,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsSqlite()
         {
-            return DatabaseProviderName.Equals(DatabaseProviderOptions.Sqlite, StringComparison.Ordinal);
+            return ProviderName.Equals(DatabaseProviderOptions.Sqlite, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -503,7 +509,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsCosmos()
         {
-            return DatabaseProviderName.Equals(DatabaseProviderOptions.Cosmos, StringComparison.Ordinal);
+            return ProviderName.Equals(DatabaseProviderOptions.Cosmos, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -512,7 +518,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsInMemory()
         {
-            return DatabaseProviderName.Equals(DatabaseProviderOptions.InMemory, StringComparison.Ordinal);
+            return ProviderName.Equals(DatabaseProviderOptions.InMemory, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -521,7 +527,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsMySql()
         {
-            return DatabaseProviderName.Equals(DatabaseProviderOptions.MySql, StringComparison.Ordinal);
+            return ProviderName.Equals(DatabaseProviderOptions.MySql, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -530,7 +536,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsNpgsql()
         {
-            return DatabaseProviderName.Equals(DatabaseProviderOptions.PostgreSQL, StringComparison.Ordinal);
+            return ProviderName.Equals(DatabaseProviderOptions.PostgreSQL, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -540,34 +546,6 @@ namespace Fur.DatabaseAccessor
         public virtual bool IsRelational()
         {
             return Database.IsRelational();
-        }
-
-        /// <summary>
-        /// 构建查询分析器
-        /// </summary>
-        /// <param name="noTracking">是否跟踪实体</param>
-        /// <returns>IQueryable<TEntity></returns>
-        public virtual IQueryable<TEntity> AsQueryable(bool noTracking = false)
-        {
-            return !noTracking ? Entities : DetachedEntities;
-        }
-
-        /// <summary>
-        /// 构建查询分析器
-        /// </summary>
-        /// <param name="predicate">表达式</param>
-        /// <param name="noTracking">是否跟踪实体</param>
-        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
-        /// <param name="asSplitQuery">是否切割查询</param>
-        /// <returns>IQueryable<TEntity></returns>
-        public virtual IQueryable<TEntity> AsQueryable(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true)
-        {
-            var entities = AsQueryable(noTracking);
-            if (ignoreQueryFilters) entities = entities.IgnoreQueryFilters();
-            if (asSplitQuery) entities = entities.AsSplitQuery();
-            if (predicate != null) entities = entities.Where(predicate);
-
-            return entities;
         }
 
         /// <summary>
