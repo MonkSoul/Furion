@@ -2,7 +2,7 @@
 <p></p>
 
 <p align="center">
-<img src="./docs/static/img/furlogo.png" height="80"/>
+<img src="./handbook/static/img/furlogo.png" height="80"/>
 </p>
 
 <div align="center">
@@ -56,7 +56,7 @@
 ## 功能模块
 
 <p align="center">
-<img src="./docs/static/img/furfunctions.png"/>
+<img src="./handbook/static/img/furfunctions.png"/>
 </p>
 
 ## 环境要求
