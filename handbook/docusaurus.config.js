@@ -5,7 +5,7 @@ module.exports = {
   baseUrl: "/fur/",
   onBrokenLinks: "throw",
   favicon: "img/favicon.ico",
-  organizationName: "Baiqian",
+  organizationName: "Baiqian Co.,Ltd.",
   projectName: "Fur",
   themeConfig: {
     prism: {

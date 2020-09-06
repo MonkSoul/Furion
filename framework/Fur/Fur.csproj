@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <AnalysisLevel>5</AnalysisLevel>
     <Authors>百小僧/MonkSoul</Authors>
-    <Company>Baiqian</Company>
+    <Company>Baiqian Co.,Ltd.</Company>
     <Copyright>© 2020 Fur, Baiqian Co.,Ltd.</Copyright>
     <Description>Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。</Description>
     <PackageProjectUrl>https://furos.cn</PackageProjectUrl>

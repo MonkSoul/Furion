@@ -8,7 +8,7 @@ import styles from "./styles.module.css";
 
 const features = [
   {
-    title: <>.NET 5 起点</>,
+    title: <>.NET 5 新起点</>,
     imageUrl: "img/undraw_docusaurus_mountain.svg",
     description: (
       <>
