@@ -22,10 +22,19 @@ namespace Fur.DatabaseAccessor
     /// 可更新仓储接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    /// <typeparam name="TDbContextLocator">数据库实体定位器</typeparam>
-    public partial interface IUpdateableRepository<TEntity, TDbContextLocator>
+    public partial interface IUpdateableRepository<TEntity> : IUpdateableRepository<TEntity, DbContextLocator>
         where TEntity : class, IEntityBase, new()
-        where TDbContextLocator : class, IDbContextLocator, new()
+    {
+    }
+
+    /// <summary>
+    /// 可更新仓储接口
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    /// <typeparam name="TDbContextLocator">数据库实体定位器</typeparam>
+    public partial interface IUpdateableRepository<TEntity, TDbContextLocator> : IRepositoryDependency
+    where TEntity : class, IEntityBase, new()
+    where TDbContextLocator : class, IDbContextLocator, new()
     {
         /// <summary>
         /// 更新一条记录

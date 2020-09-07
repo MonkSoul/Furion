@@ -18,15 +18,30 @@ namespace Fur.DatabaseAccessor
     /// 可写仓储接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
+    public partial interface IWritableRepository<TEntity>
+        : IWritableRepository<TEntity, DbContextLocator>
+        , IInsertableRepository<TEntity>
+        , IUpdateableRepository<TEntity>
+        , IDeletableRepository<TEntity>
+        , IOperableRepository<TEntity>
+        , ISqlExecutableRepository<TEntity>
+        where TEntity : class, IEntityBase, new()
+    {
+    }
+
+    /// <summary>
+    /// 可写仓储接口
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator">数据库实体定位器</typeparam>
     public partial interface IWritableRepository<TEntity, TDbContextLocator>
-        : IInsertableRepository<TEntity, TDbContextLocator>
-        , IUpdateableRepository<TEntity, TDbContextLocator>
-        , IDeletableRepository<TEntity, TDbContextLocator>
-        , IOperableRepository<TEntity, TDbContextLocator>
-        , ISqlExecutableRepository<TEntity, TDbContextLocator>
-        where TEntity : class, IEntityBase, new()
-        where TDbContextLocator : class, IDbContextLocator, new()
+    : IInsertableRepository<TEntity, TDbContextLocator>
+    , IUpdateableRepository<TEntity, TDbContextLocator>
+    , IDeletableRepository<TEntity, TDbContextLocator>
+    , IOperableRepository<TEntity, TDbContextLocator>
+    , ISqlExecutableRepository<TEntity, TDbContextLocator>
+    where TEntity : class, IEntityBase, new()
+    where TDbContextLocator : class, IDbContextLocator, new()
     {
         /// <summary>
         /// 接受所有更改

@@ -28,7 +28,10 @@ namespace Fur.DatabaseAccessor
     /// 仓储接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial interface IRepository<TEntity> : IRepository<TEntity, DbContextLocator>
+    public partial interface IRepository<TEntity>
+        : IRepository<TEntity, DbContextLocator>
+        , IWritableRepository<TEntity>
+        , IReadableRepository<TEntity>
         where TEntity : class, IEntityBase, new()
     {
     }
@@ -370,5 +373,13 @@ namespace Fur.DatabaseAccessor
         IRepository<TChangeEntity, TChangeDbContextLocator> Change<TChangeEntity, TChangeDbContextLocator>()
             where TChangeEntity : class, IEntityBase, new()
             where TChangeDbContextLocator : class, IDbContextLocator, new();
+
+        /// <summary>
+        /// 将仓储转为特定仓储
+        /// </summary>
+        /// <typeparam name="TRestrainRepository">特定仓储</typeparam>
+        /// <returns>TRestrainRepository</returns>
+        TRestrainRepository Restrain<TRestrainRepository>()
+            where TRestrainRepository : class, IRepositoryDependency;
     }
 }

@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.FriendlyException;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -570,6 +571,23 @@ namespace Fur.DatabaseAccessor
             where TChangeDbContextLocator : class, IDbContextLocator, new()
         {
             return _repository.Change<TChangeEntity, TChangeDbContextLocator>();
+        }
+
+        /// <summary>
+        /// 将仓储转为特定仓储
+        /// </summary>
+        /// <typeparam name="TRestrainRepository">特定仓储</typeparam>
+        /// <returns>TRestrainRepository</returns>
+        public virtual TRestrainRepository Restrain<TRestrainRepository>()
+            where TRestrainRepository : class, IRepositoryDependency
+        {
+            var type = typeof(TRestrainRepository);
+            if (!type.IsInterface || typeof(IRepositoryDependency) == type || type.Name.Equals(nameof(IRepository)) || (type.IsGenericType && type.GetGenericTypeDefinition().Name.Equals(nameof(IRepository))))
+            {
+                throw Oops.Oh("Invalid type conversion", typeof(InvalidCastException));
+            }
+
+            return this as TRestrainRepository;
         }
     }
 }

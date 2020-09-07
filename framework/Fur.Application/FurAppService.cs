@@ -39,6 +39,10 @@ namespace Fur.Application
 
         public bool CheckScope()
         {
+            var ts2 = _testRepository as IReadableRepository<Test>;
+            var ts = _testRepository.Restrain<IReadableRepository<Test>>();
+            //var ad = ts.Find(6);
+
             var a1 = _serviceProvider.GetService<IRepository>();
             var b1 = _serviceProvider.GetService<IRepository>();
 

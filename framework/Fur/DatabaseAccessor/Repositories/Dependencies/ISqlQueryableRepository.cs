@@ -15,8 +15,17 @@ namespace Fur.DatabaseAccessor
     /// Sql 查询仓储接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
+    public interface ISqlQueryableRepository<TEntity> : ISqlQueryableRepository<TEntity, DbContextLocator>
+        where TEntity : class, IEntityBase, new()
+    {
+    }
+
+    /// <summary>
+    /// Sql 查询仓储接口
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator">数据库实体定位器</typeparam>
-    public interface ISqlQueryableRepository<TEntity, TDbContextLocator>
+    public interface ISqlQueryableRepository<TEntity, TDbContextLocator> : IRepositoryDependency
         where TEntity : class, IEntityBase, new()
         where TDbContextLocator : class, IDbContextLocator, new()
     {
