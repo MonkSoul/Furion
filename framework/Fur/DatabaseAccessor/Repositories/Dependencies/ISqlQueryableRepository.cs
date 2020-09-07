@@ -10,6 +10,7 @@
 // -----------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading;
@@ -94,5 +95,47 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task<DataTable></returns>
         Task<DataTable> SqlQueryAsync(string sql, object model, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Sql 查询返回 List 集合
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>List<T></returns>
+        List<T> SqlQuery<T>(string sql, params object[] parameters);
+
+        /// <summary>
+        /// Sql 查询返回 List 集合
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>List<T></returns>
+        List<T> SqlQuery<T>(string sql, object model);
+
+        /// <summary>
+        /// Sql 查询返回 List 集合
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>Task<List<T>></returns>
+        Task<List<T>> SqlQueryAsync<T>(string sql, params object[] parameters);
+
+        /// <summary>
+        /// Sql 查询返回 List 集合
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>Task<List<T>></returns>
+        Task<List<T>> SqlQueryAsync<T>(string sql, object[] parameters, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Sql 查询返回 List 集合
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>Task<List<T>></returns>
+        Task<List<T>> SqlQueryAsync<T>(string sql, object model, CancellationToken cancellationToken = default);
     }
 }

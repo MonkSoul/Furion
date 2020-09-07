@@ -11,6 +11,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading;
@@ -106,6 +107,66 @@ namespace Fur.DatabaseAccessor
         public virtual Task<DataTable> SqlQueryAsync(string sql, object model, CancellationToken cancellationToken = default)
         {
             return Database.ExecuteReaderAsync(sql, model.ToSqlParameters(), cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// Sql 查询返回 List 集合
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>List<T></returns>
+        public virtual List<T> SqlQuery<T>(string sql, params object[] parameters)
+        {
+            return Database.ExecuteReader(sql, parameters).ToList<T>();
+        }
+
+        /// <summary>
+        /// Sql 查询返回 List 集合
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>List<T></returns>
+        public virtual List<T> SqlQuery<T>(string sql, object model)
+        {
+            return Database.ExecuteReader(sql, model.ToSqlParameters()).ToList<T>();
+        }
+
+        /// <summary>
+        /// Sql 查询返回 List 集合
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>Task<List<T>></returns>
+        public virtual async Task<List<T>> SqlQueryAsync<T>(string sql, params object[] parameters)
+        {
+            var dataTable = await Database.ExecuteReaderAsync(sql, parameters);
+            return dataTable.ToList<T>();
+        }
+
+        /// <summary>
+        /// Sql 查询返回 List 集合
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>Task<List<T>></returns>
+        public virtual async Task<List<T>> SqlQueryAsync<T>(string sql, object[] parameters, CancellationToken cancellationToken = default)
+        {
+            var dataTable = await Database.ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
+            return dataTable.ToList<T>();
+        }
+
+        /// <summary>
+        /// Sql 查询返回 List 集合
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>Task<List<T>></returns>
+        public virtual async Task<List<T>> SqlQueryAsync<T>(string sql, object model, CancellationToken cancellationToken = default)
+        {
+            var dataTable = await Database.ExecuteReaderAsync(sql, model.ToSqlParameters(), cancellationToken: cancellationToken);
+            return dataTable.ToList<T>();
         }
     }
 }
