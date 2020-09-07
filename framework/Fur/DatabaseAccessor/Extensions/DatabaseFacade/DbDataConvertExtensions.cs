@@ -10,7 +10,6 @@
 // -----------------------------------------------------------------------------
 
 using Fur.Extensions;
-using Mapster;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -34,7 +33,7 @@ namespace Fur.DatabaseAccessor.Extensions.DatabaseFacade
         /// <returns>List<T></returns>
         public static List<T> ToList<T>(this DataTable dataTable)
         {
-            return dataTable.ToList(typeof(List<T>)) as List<T>;
+            return (List<T>)dataTable.ToList(typeof(List<T>));
         }
 
         /// <summary>
@@ -46,7 +45,7 @@ namespace Fur.DatabaseAccessor.Extensions.DatabaseFacade
         public static async Task<List<T>> ToListAsync<T>(this DataTable dataTable)
         {
             var list = await dataTable.ToListAsync(typeof(List<T>));
-            return list as List<T>;
+            return (List<T>)list;
         }
 
         /// <summary>
@@ -75,7 +74,7 @@ namespace Fur.DatabaseAccessor.Extensions.DatabaseFacade
                     // 只取第一列数据
                     var firstColumnValue = dataRow[0];
                     // 转换成目标类型数据
-                    var destValue = firstColumnValue.Adapt(firstColumnValue.GetType(), underlyingType);
+                    var destValue = firstColumnValue.ChangeType(underlyingType);
                     // 添加到集合中
                     list.Add(destValue);
                 }
@@ -114,7 +113,7 @@ namespace Fur.DatabaseAccessor.Extensions.DatabaseFacade
                         if (columnValue == DBNull.Value) continue;
 
                         // 转换成目标类型数据
-                        var destValue = columnValue.Adapt(columnValue.GetType(), underlyingType);
+                        var destValue = columnValue.ChangeType(property.PropertyType);
                         property.SetValue(model, destValue);
                     }
 
@@ -135,6 +134,122 @@ namespace Fur.DatabaseAccessor.Extensions.DatabaseFacade
         public static Task<object> ToListAsync(this DataTable dataTable, Type returnType)
         {
             return Task.FromResult(dataTable.ToList(returnType));
+        }
+
+        /// <summary>
+        /// 将 DataSet 转 元组
+        /// </summary>
+        /// <typeparam name="T1">元组元素类型</typeparam>
+        /// <param name="dataSet">DataSet</param>
+        /// <returns>元组类型</returns>
+        public static List<T1> ToList<T1>(this DataSet dataSet)
+        {
+            return (List<T1>)(dataSet.ToList(typeof(List<T1>)));
+        }
+
+        /// <summary>
+        /// 将 DataSet 转 元组
+        /// </summary>
+        /// <typeparam name="T1">元组元素类型</typeparam>
+        /// <typeparam name="T2">元组元素类型</typeparam>
+        /// <param name="dataSet">DataSet</param>
+        /// <returns>元组类型</returns>
+        public static (List<T1> list1, List<T2> list2) ToList<T1, T2>(this DataSet dataSet)
+        {
+            return ((List<T1>, List<T2>))dataSet.ToList(typeof(List<T1>), typeof(List<T2>));
+        }
+
+        /// <summary>
+        /// 将 DataSet 转 元组
+        /// </summary>
+        /// <typeparam name="T1">元组元素类型</typeparam>
+        /// <typeparam name="T2">元组元素类型</typeparam>
+        /// <typeparam name="T3">元组元素类型</typeparam>
+        /// <param name="dataSet">DataSet</param>
+        /// <returns>元组类型</returns>
+        public static (List<T1> list1, List<T2> list2, List<T3> list3) ToList<T1, T2, T3>(this DataSet dataSet)
+        {
+            return ((List<T1>, List<T2>, List<T3>))dataSet.ToList(typeof(List<T1>), typeof(List<T2>), typeof(List<T3>));
+        }
+
+        /// <summary>
+        /// 将 DataSet 转 元组
+        /// </summary>
+        /// <typeparam name="T1">元组元素类型</typeparam>
+        /// <typeparam name="T2">元组元素类型</typeparam>
+        /// <typeparam name="T3">元组元素类型</typeparam>
+        /// <typeparam name="T4">元组元素类型</typeparam>
+        /// <param name="dataSet">DataSet</param>
+        /// <returns>元组类型</returns>
+        public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) ToList<T1, T2, T3, T4>(this DataSet dataSet)
+        {
+            return ((List<T1>, List<T2>, List<T3>, List<T4>))dataSet.ToList(typeof(List<T1>), typeof(List<T2>), typeof(List<T3>), typeof(List<T4>));
+        }
+
+        /// <summary>
+        /// 将 DataSet 转 元组
+        /// </summary>
+        /// <typeparam name="T1">元组元素类型</typeparam>
+        /// <typeparam name="T2">元组元素类型</typeparam>
+        /// <typeparam name="T3">元组元素类型</typeparam>
+        /// <typeparam name="T4">元组元素类型</typeparam>
+        /// <typeparam name="T5">元组元素类型</typeparam>
+        /// <param name="dataSet">DataSet</param>
+        /// <returns>元组类型</returns>
+        public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) ToList<T1, T2, T3, T4, T5>(this DataSet dataSet)
+        {
+            return ((List<T1>, List<T2>, List<T3>, List<T4>, List<T5>))dataSet.ToList(typeof(List<T1>), typeof(List<T2>), typeof(List<T3>), typeof(List<T4>), typeof(List<T5>));
+        }
+
+        /// <summary>
+        /// 将 DataSet 转 元组
+        /// </summary>
+        /// <typeparam name="T1">元组元素类型</typeparam>
+        /// <typeparam name="T2">元组元素类型</typeparam>
+        /// <typeparam name="T3">元组元素类型</typeparam>
+        /// <typeparam name="T4">元组元素类型</typeparam>
+        /// <typeparam name="T5">元组元素类型</typeparam>
+        /// <typeparam name="T6">元组元素类型</typeparam>
+        /// <param name="dataSet">DataSet</param>
+        /// <returns>元组类型</returns>
+        public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) ToList<T1, T2, T3, T4, T5, T6>(this DataSet dataSet)
+        {
+            return ((List<T1>, List<T2>, List<T3>, List<T4>, List<T5>, List<T6>))dataSet.ToList(typeof(List<T1>), typeof(List<T2>), typeof(List<T3>), typeof(List<T4>), typeof(List<T5>), typeof(List<T6>));
+        }
+
+        /// <summary>
+        /// 将 DataSet 转 元组
+        /// </summary>
+        /// <typeparam name="T1">元组元素类型</typeparam>
+        /// <typeparam name="T2">元组元素类型</typeparam>
+        /// <typeparam name="T3">元组元素类型</typeparam>
+        /// <typeparam name="T4">元组元素类型</typeparam>
+        /// <typeparam name="T5">元组元素类型</typeparam>
+        /// <typeparam name="T6">元组元素类型</typeparam>
+        /// <typeparam name="T7">元组元素类型</typeparam>
+        /// <param name="dataSet">DataSet</param>
+        /// <returns>元组类型</returns>
+        public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) ToList<T1, T2, T3, T4, T5, T6, T7>(this DataSet dataSet)
+        {
+            return ((List<T1>, List<T2>, List<T3>, List<T4>, List<T5>, List<T6>, List<T7>))dataSet.ToList(typeof(List<T1>), typeof(List<T2>), typeof(List<T3>), typeof(List<T4>), typeof(List<T5>), typeof(List<T6>), typeof(List<T7>));
+        }
+
+        /// <summary>
+        /// 将 DataSet 转 元组
+        /// </summary>
+        /// <typeparam name="T1">元组元素类型</typeparam>
+        /// <typeparam name="T2">元组元素类型</typeparam>
+        /// <typeparam name="T3">元组元素类型</typeparam>
+        /// <typeparam name="T4">元组元素类型</typeparam>
+        /// <typeparam name="T5">元组元素类型</typeparam>
+        /// <typeparam name="T6">元组元素类型</typeparam>
+        /// <typeparam name="T7">元组元素类型</typeparam>
+        /// <typeparam name="T8">元组元素类型</typeparam>
+        /// <param name="dataSet">DataSet</param>
+        /// <returns>元组类型</returns>
+        public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) ToList<T1, T2, T3, T4, T5, T6, T7, T8>(this DataSet dataSet)
+        {
+            return ((List<T1>, List<T2>, List<T3>, List<T4>, List<T5>, List<T6>, List<T7>, List<T8>))dataSet.ToList(typeof(List<T1>), typeof(List<T2>), typeof(List<T3>), typeof(List<T4>), typeof(List<T5>), typeof(List<T6>), typeof(List<T7>), typeof(List<T8>));
         }
 
         /// <summary>

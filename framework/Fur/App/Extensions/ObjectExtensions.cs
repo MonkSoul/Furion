@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Fur.Extensions
 {
@@ -51,6 +52,37 @@ namespace Fur.Extensions
             }
 
             return dic;
+        }
+
+        /// <summary>
+        /// 转换值到为指定类型
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        internal static object ChangeType(this object value, Type type)
+        {
+            // 如果值为默认值，则返回默认值
+            if (value == null || (value.GetType().IsValueType && (value.Equals(0) || value.Equals(Guid.Empty)))) return default;
+
+            // 属性真实类型
+            Type underlyingType = null;
+
+            // 判断属性类型是否是可空类型
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                underlyingType = new NullableConverter(type).UnderlyingType;
+            }
+            underlyingType ??= type;
+
+            // 枚举类型处理
+            if (typeof(Enum).IsAssignableFrom(underlyingType))
+            {
+                return Enum.Parse(underlyingType, value.ToString());
+            }
+
+            // 执行转换
+            return Convert.ChangeType(value, underlyingType);
         }
     }
 }
