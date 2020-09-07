@@ -19,7 +19,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// ADONET 拓展类
     /// </summary>
-    public static class SqlAdoNetExtensions
+    public static class _SqlAdoNetExtensions
     {
         /// <summary>
         /// 执行 Sql 返回 DataTable
