@@ -137,5 +137,47 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task<List<T>></returns>
         Task<List<T>> SqlQueryAsync<T>(string sql, object model, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///  Sql 查询返回 DataSet
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>DataSet</returns>
+        DataSet SqlQuerySet(string sql, params object[] parameters);
+
+        /// <summary>
+        ///  Sql 查询返回 DataSet
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>DataSet</returns>
+        DataSet SqlQuerySet(string sql, object model);
+
+        /// <summary>
+        ///  Sql 查询返回 DataSet
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>Task<DataSet></returns>
+        Task<DataSet> SqlQuerySetAsync(string sql, params object[] parameters);
+
+        /// <summary>
+        ///  Sql 查询返回 DataSet
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>Task<DataSet></returns>
+        Task<DataSet> SqlQuerySetAsync(string sql, object[] parameters, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///  Sql 查询返回 DataSet
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>Task<DataSet></returns>
+        Task<DataSet> SqlQuerySetAsync(string sql, object model, CancellationToken cancellationToken = default);
     }
 }

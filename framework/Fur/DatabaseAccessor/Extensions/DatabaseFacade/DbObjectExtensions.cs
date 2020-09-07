@@ -16,6 +16,7 @@ using StackExchange.Profiling;
 using StackExchange.Profiling.Data;
 using System.Data;
 using System.Data.Common;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Fur.DatabaseAccessor
@@ -43,13 +44,13 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="databaseFacade">ADO.NET 数据库对象</param>
         /// <param name="sql">sql 语句</param>
-        /// <param name="commandType">命令类型</param>
         /// <param name="parameters">命令参数</param>
+        /// <param name="commandType">命令类型</param>
         /// <returns>数据库连接对象及数据库命令对象</returns>
-        public static (DbConnection dbConnection, DbCommand dbCommand) PrepareDbCommand(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        public static (DbConnection dbConnection, DbCommand dbCommand) PrepareDbCommand(this DatabaseFacade databaseFacade, string sql, object[] parameters = null, CommandType commandType = CommandType.Text)
         {
             // 创建数据库连接对象及数据库命令对象
-            var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType, parameters);
+            var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, parameters, commandType);
 
             // 判断连接字符串是否关闭，如果是，则开启
             if (dbConnection.State == ConnectionState.Closed) dbConnection.Open();
@@ -63,16 +64,17 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="databaseFacade">ADO.NET 数据库对象</param>
         /// <param name="sql">sql 语句</param>
-        /// <param name="commandType">命令类型</param>
         /// <param name="parameters">命令参数</param>
+        /// <param name="commandType">命令类型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>数据库连接对象及数据库命令对象</returns>
-        public static async Task<(DbConnection dbConnection, DbCommand dbCommand)> PrepareDbCommandAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text, params object[] parameters)
+        public static async Task<(DbConnection dbConnection, DbCommand dbCommand)> PrepareDbCommandAsync(this DatabaseFacade databaseFacade, string sql, object[] parameters = null, CommandType commandType = CommandType.Text, CancellationToken cancellationToken = default)
         {
             // 创建数据库连接对象及数据库命令对象
-            var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType, parameters);
+            var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, parameters, commandType);
 
             // 判断连接字符串是否关闭，如果是，则开启
-            if (dbConnection.State == ConnectionState.Closed) await dbConnection.OpenAsync();
+            if (dbConnection.State == ConnectionState.Closed) await dbConnection.OpenAsync(cancellationToken);
 
             // 返回
             return (dbConnection, dbCommand);
@@ -83,13 +85,13 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="databaseFacade">ADO.NET 数据库对象</param>
         /// <param name="sql">sql 语句</param>
-        /// <param name="commandType">命令类型</param>
         /// <param name="parameters">命令参数</param>
+        /// <param name="commandType">命令类型</param>
         /// <returns>数据库连接对象、数据库命令对象和数据库适配器对象</returns>
-        public static (DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter) PrepareDbDbDataAdapter(this DatabaseFacade databaseFacade, string sql, CommandType commandType, params object[] parameters)
+        public static (DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter) PrepareDbDbDataAdapter(this DatabaseFacade databaseFacade, string sql, object[] parameters = null, CommandType commandType = CommandType.Text)
         {
             // 创建数据库连接对象、数据库命令对象和数据库适配器对象
-            var (dbConnection, dbCommand, dbDataAdapter) = databaseFacade.CreateDbDataAdapter(sql, commandType, parameters);
+            var (dbConnection, dbCommand, dbDataAdapter) = databaseFacade.CreateDbDataAdapter(sql, parameters, commandType);
 
             // 判断连接字符串是否关闭，如果是，则开启
             if (dbConnection.State == ConnectionState.Closed) dbConnection.Open();
@@ -103,16 +105,17 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="databaseFacade">ADO.NET 数据库对象</param>
         /// <param name="sql">sql 语句</param>
-        /// <param name="commandType">命令类型</param>
         /// <param name="parameters">命令参数</param>
+        /// <param name="commandType">命令类型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>数据库连接对象、数据库命令对象和数据库适配器对象</returns>
-        public static async Task<(DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter)> PrepareDbDbDataAdapterAsync(this DatabaseFacade databaseFacade, string sql, CommandType commandType, params object[] parameters)
+        public static async Task<(DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter)> PrepareDbDbDataAdapterAsync(this DatabaseFacade databaseFacade, string sql, object[] parameters = null, CommandType commandType = CommandType.Text, CancellationToken cancellationToken = default)
         {
             // 创建数据库连接对象、数据库命令对象和数据库适配器对象
-            var (dbConnection, dbCommand, dbDataAdapter) = databaseFacade.CreateDbDataAdapter(sql, commandType, parameters);
+            var (dbConnection, dbCommand, dbDataAdapter) = databaseFacade.CreateDbDataAdapter(sql, parameters, commandType);
 
             // 判断连接字符串是否关闭，如果是，则开启
-            if (dbConnection.State == ConnectionState.Closed) await dbConnection.OpenAsync();
+            if (dbConnection.State == ConnectionState.Closed) await dbConnection.OpenAsync(cancellationToken);
 
             // 返回
             return (dbConnection, dbCommand, dbDataAdapter);
@@ -123,10 +126,10 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="databaseFacade">ADO.NET 数据库对象</param>
         /// <param name="sql">sql 语句</param>
-        /// <param name="commandType">命令类型</param>
         /// <param name="parameters">命令参数</param>
+        /// <param name="commandType">命令类型</param>
         /// <returns>数据库连接对象及数据库命令对象</returns>
-        private static (DbConnection dbConnection, DbCommand dbCommand) CreateDbCommand(this DatabaseFacade databaseFacade, string sql, CommandType commandType, params object[] parameters)
+        private static (DbConnection dbConnection, DbCommand dbCommand) CreateDbCommand(this DatabaseFacade databaseFacade, string sql, object[] parameters = null, CommandType commandType = CommandType.Text)
         {
             // 判断是否启用 MiniProfiler 组件，如果有，则包装链接
             var dbConnection = InjectMiniProfiler ? new ProfiledDbConnection(databaseFacade.GetDbConnection(), MiniProfiler.Current) : databaseFacade.GetDbConnection();
@@ -147,10 +150,10 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="databaseFacade">ADO.NET 数据库对象</param>
         /// <param name="sql">sql 语句</param>
-        /// <param name="commandType">命令类型</param>
         /// <param name="parameters">命令参数</param>
+        /// <param name="commandType">命令类型</param>
         /// <returns>数据库连接对象、数据库命令对象和数据库适配器对象</returns>
-        private static (DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter) CreateDbDataAdapter(this DatabaseFacade databaseFacade, string sql, CommandType commandType, params object[] parameters)
+        private static (DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter) CreateDbDataAdapter(this DatabaseFacade databaseFacade, string sql, object[] parameters = null, CommandType commandType = CommandType.Text)
         {
             // 获取数据库连接字符串
             var dbConnection = databaseFacade.GetDbConnection();
@@ -162,7 +165,7 @@ namespace Fur.DatabaseAccessor
             var profiledDbProviderFactory = InjectMiniProfiler ? new ProfiledDbProviderFactory(dbProviderFactory, true) : dbProviderFactory;
 
             // 创建数据库连接对象及数据库命令对象
-            var (_dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType, parameters);
+            var (_dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, parameters, commandType);
             dbConnection = _dbConnection;
 
             // 创建数据适配器并设置查询命令对象
@@ -178,7 +181,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="dbCommand">数据库命令对象</param>
         /// <param name="parameters">命令参数</param>
-        private static void SetDbCommandParameters(ref DbCommand dbCommand, params object[] parameters)
+        private static void SetDbCommandParameters(ref DbCommand dbCommand, object[] parameters = null)
         {
             if (parameters == null || parameters.Length == 0) return;
 

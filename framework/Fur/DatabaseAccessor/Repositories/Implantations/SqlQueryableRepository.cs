@@ -168,5 +168,62 @@ namespace Fur.DatabaseAccessor
             var dataTable = await Database.ExecuteReaderAsync(sql, model.ToSqlParameters(), cancellationToken: cancellationToken);
             return dataTable.ToList<T>();
         }
+
+        /// <summary>
+        ///  Sql 查询返回 DataSet
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>DataSet</returns>
+        public virtual DataSet SqlQuerySet(string sql, params object[] parameters)
+        {
+            return Database.DataAdapterFill(sql, parameters);
+        }
+
+        /// <summary>
+        ///  Sql 查询返回 DataSet
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>DataSet</returns>
+        public virtual DataSet SqlQuerySet(string sql, object model)
+        {
+            return Database.DataAdapterFill(sql, model.ToSqlParameters());
+        }
+
+        /// <summary>
+        ///  Sql 查询返回 DataSet
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>Task<DataSet></returns>
+        public virtual Task<DataSet> SqlQuerySetAsync(string sql, params object[] parameters)
+        {
+            return Database.DataAdapterFillAsync(sql, parameters);
+        }
+
+        /// <summary>
+        ///  Sql 查询返回 DataSet
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>Task<DataSet></returns>
+        public virtual Task<DataSet> SqlQuerySetAsync(string sql, object[] parameters, CancellationToken cancellationToken = default)
+        {
+            return Database.DataAdapterFillAsync(sql, parameters, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        ///  Sql 查询返回 DataSet
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>Task<DataSet></returns>
+        public virtual Task<DataSet> SqlQuerySetAsync(string sql, object model, CancellationToken cancellationToken = default)
+        {
+            return Database.DataAdapterFillAsync(sql, model.ToSqlParameters(), cancellationToken: cancellationToken);
+        }
     }
 }
