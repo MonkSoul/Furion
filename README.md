@@ -7,7 +7,7 @@
 
 <div align="center">
 
-[![star](https://gitee.com/monksoul/Fur/badge/star.svg?theme=dark)](https://gitee.com/monksoul/Fur/stargazers) [![fork](https://gitee.com/monksoul/Fur/badge/fork.svg?theme=dark)](https://gitee.com/monksoul/Fur/members) ![MIT](https://img.shields.io/badge/license-MIT-3963bc.svg)
+[![star](https://gitee.com/monksoul/Fur/badge/star.svg?theme=dark)](https://gitee.com/monksoul/Fur/stargazers) [![fork](https://gitee.com/monksoul/Fur/badge/fork.svg?theme=dark)](https://gitee.com/monksoul/Fur/members) ![Apache-2.0](https://img.shields.io/badge/license-Apache%202-blue)
 
 </div>
 
