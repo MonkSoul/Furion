@@ -59,7 +59,8 @@ namespace Fur.DataValidation
             var nonValidationAttributeType = typeof(NonValidationAttribute);
 
             // 如果贴了 [NonValidation] 特性 或 所在类型贴了 [NonValidation] 特性，则跳过验证
-            if (method.IsDefined(nonValidationAttributeType, true) ||
+            if (actionDescriptor.Parameters.Count == 0 ||
+                method.IsDefined(nonValidationAttributeType, true) ||
                 method.DeclaringType.IsDefined(nonValidationAttributeType, true))
             {
                 // 打印验证跳过消息
@@ -68,7 +69,7 @@ namespace Fur.DataValidation
             }
 
             // 如果动作方法参数为 0 或 验证通过，则跳过，
-            if (actionDescriptor.Parameters.Count == 0 || modelState.IsValid)
+            if (modelState.IsValid)
             {
                 // 打印验证成功消息
                 App.PrintToMiniProfiler(MiniProfilerCategory, "Successed");
