@@ -10,6 +10,8 @@
 // -----------------------------------------------------------------------------
 
 using Fur.Extensions;
+using Fur.FriendlyException;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -25,6 +27,109 @@ namespace Fur.DatabaseAccessor.Extensions.DatabaseFacade
     /// </summary>
     public static class DbDataConvertExtensions
     {
+        /// <summary>
+        /// 将模型转为 SqlParameter 集合
+        /// </summary>
+        /// <param name="model">模型</param>
+        /// <returns>SqlParameter[]</returns>
+        public static SqlParameter[] ToSqlParameters(this object model)
+        {
+            var sqlParameters = new List<SqlParameter>();
+
+            var modelType = model?.GetType();
+            if (model == null || !modelType.IsClass) return sqlParameters.ToArray();
+
+            // 获取所有公开实例属性
+            var properties = modelType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            if (properties.Length == 0) return sqlParameters.ToArray();
+
+            // 遍历所有属性
+            foreach (var property in properties)
+            {
+                var propertyValue = property.GetValue(model) ?? DBNull.Value;
+
+                // 判断属性是否贴有 [DbParameter] 特性
+                if (property.IsDefined(typeof(DbParameterAttribute), true))
+                {
+                    var dbParameterAttribute = property.GetCustomAttribute<DbParameterAttribute>(true);
+                    // 设置参数方向
+                    var sqlParameter = new SqlParameter(property.Name, propertyValue) { Direction = dbParameterAttribute.Direction };
+
+                    // 设置参数数据库类型
+                    if (dbParameterAttribute.DbType != null)
+                    {
+                        var type = dbParameterAttribute.DbType.GetType();
+                        if (type.IsEnum && typeof(SqlDbType).IsAssignableFrom(type))
+                        {
+                            sqlParameter.SqlDbType = (SqlDbType)dbParameterAttribute.DbType;
+                        }
+                    }
+                    sqlParameters.Add(sqlParameter);
+                    continue;
+                }
+                sqlParameters.Add(new SqlParameter(property.Name, propertyValue));
+            }
+
+            return sqlParameters.ToArray();
+        }
+
+        /// <summary>
+        /// 将参数类型转 SqlParameter 集合
+        /// </summary>
+        /// <param name="parameters">参数</param>
+        /// <param name="arguments">参数值</param>
+        /// <returns>SqlParameter[]</returns>
+        public static SqlParameter[] ToSqlParameters(this ParameterInfo[] parameters, object[] arguments)
+        {
+            var sqlParameters = new List<SqlParameter>();
+            if (parameters == null || parameters.Length == 0) return sqlParameters.ToArray();
+
+            // 只支持要么全是基元类型，或全部都是类类型
+            if (!parameters.All(u => u.ParameterType.IsRichPrimitive()) || !parameters.All(u => u.ParameterType.IsClass))
+                throw Oops.Oh("Invalid type cast", typeof(InvalidOperationException));
+
+            // 处理基元类型参数
+            if (parameters.All(u => u.ParameterType.IsRichPrimitive()))
+            {
+                for (var i = 0; i < parameters.Length; i++)
+                {
+                    var parameter = parameters[i];
+                    var parameterValue = (arguments.Length > i ? arguments[i] : null) ?? DBNull.Value;
+
+                    // 判断属性是否贴有 [DbParameter] 特性
+                    if (parameter.IsDefined(typeof(DbParameterAttribute), true))
+                    {
+                        var dbParameterAttribute = parameter.GetCustomAttribute<DbParameterAttribute>(true);
+                        // 设置参数方向
+                        var sqlParameter = new SqlParameter(parameter.Name, parameterValue) { Direction = dbParameterAttribute.Direction };
+
+                        // 设置参数数据库类型
+                        if (dbParameterAttribute.DbType != null)
+                        {
+                            var type = dbParameterAttribute.DbType.GetType();
+                            if (type.IsEnum && typeof(SqlDbType).IsAssignableFrom(type))
+                            {
+                                sqlParameter.SqlDbType = (SqlDbType)dbParameterAttribute.DbType;
+                            }
+                        }
+                        sqlParameters.Add(sqlParameter);
+                        continue;
+                    }
+                    sqlParameters.Add(new SqlParameter(parameter.Name, parameterValue));
+                }
+            }
+            // 处理类类型参数
+            else
+            {
+                foreach (var argument in arguments)
+                {
+                    sqlParameters.AddRange(argument.ToSqlParameters());
+                }
+            }
+
+            return sqlParameters.ToArray();
+        }
+
         /// <summary>
         /// 将 DataTable 转 List 集合
         /// </summary>
@@ -83,7 +188,7 @@ namespace Fur.DatabaseAccessor.Extensions.DatabaseFacade
             {
                 // 获取所有的数据列和类公开实例属性
                 var dataColumns = dataTable.Columns;
-                var properties = underlyingType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                var properties = underlyingType.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => !p.IsDefined(typeof(NotMappedAttribute), true));
 
                 // 遍历所有行
                 foreach (var dataRow in dataRows)
@@ -93,9 +198,6 @@ namespace Fur.DatabaseAccessor.Extensions.DatabaseFacade
                     // 遍历所有属性并一一赋值
                     foreach (var property in properties)
                     {
-                        // 如果属性贴了 [NotMapped]，则跳过映射
-                        if (property.IsDefined(typeof(NotMappedAttribute), true)) continue;
-
                         // 获取属性对应的真实列名
                         var columnName = property.Name;
                         if (property.IsDefined(typeof(ColumnAttribute), true))

@@ -44,7 +44,6 @@
 
   <ItemGroup>
     <Folder Include="DatabaseAccessor\Options\" />
-    <Folder Include="DatabaseAccessor\Attributes\" />
   </ItemGroup>
 
 </Project>
