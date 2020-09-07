@@ -11,7 +11,10 @@
 
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Data;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Fur.DatabaseAccessor
 {
@@ -46,6 +49,63 @@ namespace Fur.DatabaseAccessor
         public virtual IQueryable<TEntity> FromSqlInterpolated(FormattableString sql)
         {
             return Entities.FromSqlInterpolated(sql);
+        }
+
+        /// <summary>
+        /// Sql 查询返回 DataTable
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>DataTable</returns>
+        public virtual DataTable SqlQuery(string sql, params object[] parameters)
+        {
+            return Database.ExecuteReader(sql, parameters);
+        }
+
+        /// <summary>
+        /// Sql 查询返回 DataTable
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>DataTable</returns>
+        public virtual DataTable SqlQuery(string sql, object model)
+        {
+            return Database.ExecuteReader(sql, model.ToSqlParameters());
+        }
+
+        /// <summary>
+        /// Sql 查询返回 DataTable
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>Task<DataTable></returns>
+        public virtual Task<DataTable> SqlQueryAsync(string sql, params object[] parameters)
+        {
+            return Database.ExecuteReaderAsync(sql, parameters);
+        }
+
+        /// <summary>
+        /// Sql 查询返回 DataTable
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>Task<DataTable></returns>
+        public virtual Task<DataTable> SqlQueryAsync(string sql, object[] parameters, CancellationToken cancellationToken = default)
+        {
+            return Database.ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// Sql 查询返回 DataTable
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>Task<DataTable></returns>
+        public virtual Task<DataTable> SqlQueryAsync(string sql, object model, CancellationToken cancellationToken = default)
+        {
+            return Database.ExecuteReaderAsync(sql, model.ToSqlParameters(), cancellationToken: cancellationToken);
         }
     }
 }

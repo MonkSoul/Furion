@@ -9,7 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
-namespace Fur.DatabaseAccessor.Extensions
+namespace Fur.DatabaseAccessor
 {
     public static class DbContextExtensions
     {

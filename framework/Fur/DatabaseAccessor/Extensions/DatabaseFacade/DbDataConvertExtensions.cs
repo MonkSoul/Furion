@@ -20,7 +20,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Fur.DatabaseAccessor.Extensions.DatabaseFacade
+namespace Fur.DatabaseAccessor
 {
     /// <summary>
     /// 数据库数据转换拓展
