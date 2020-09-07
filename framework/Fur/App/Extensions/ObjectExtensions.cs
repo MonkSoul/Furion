@@ -57,9 +57,9 @@ namespace Fur.Extensions
         /// <summary>
         /// 转换值到为指定类型
         /// </summary>
-        /// <param name="value"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
+        /// <param name="value">值</param>
+        /// <param name="type">最终类型</param>
+        /// <returns>object</returns>
         internal static object ChangeType(this object value, Type type)
         {
             // 如果值为默认值，则返回默认值
