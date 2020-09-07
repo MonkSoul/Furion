@@ -143,17 +143,6 @@ namespace Fur.DatabaseAccessor.Extensions.DatabaseFacade
         /// <param name="dataSet">DataSet</param>
         /// <param name="returnTypes">特定类型集合</param>
         /// <returns>object</returns>
-        public static Task<object> ToListAsync(this DataSet dataSet, params Type[] returnTypes)
-        {
-            return Task.FromResult(dataSet.ToList(returnTypes));
-        }
-
-        /// <summary>
-        /// 将 DataSet 转 特定类型
-        /// </summary>
-        /// <param name="dataSet">DataSet</param>
-        /// <param name="returnTypes">特定类型集合</param>
-        /// <returns>object</returns>
         public static object ToList(this DataSet dataSet, params Type[] returnTypes)
         {
             if (returnTypes == null || returnTypes.Length == 0) return default;
@@ -201,6 +190,17 @@ namespace Fur.DatabaseAccessor.Extensions.DatabaseFacade
             {
                 return (dataTables[0].ToList(returnTypes[0]));
             }
+        }
+
+        /// <summary>
+        /// 将 DataSet 转 特定类型
+        /// </summary>
+        /// <param name="dataSet">DataSet</param>
+        /// <param name="returnTypes">特定类型集合</param>
+        /// <returns>object</returns>
+        public static Task<object> ToListAsync(this DataSet dataSet, params Type[] returnTypes)
+        {
+            return Task.FromResult(dataSet.ToList(returnTypes));
         }
     }
 }
