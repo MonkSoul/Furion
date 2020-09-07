@@ -37,6 +37,11 @@ namespace Fur.Application
             return _testRepository.AsQueryable().ProjectToType<TestDto>().ToList();
         }
 
+        public List<Test> ExecuteSqlQuery()
+        {
+            return _testRepository.SqlQuery<Test>("SELECT * FROM dbo.Test where id > @id", new { id = 10 });
+        }
+
         public bool CheckScope()
         {
             var ts2 = _testRepository as IReadableRepository<Test>;

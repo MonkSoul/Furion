@@ -11,6 +11,7 @@
 
 using Fur.Extensions;
 using Fur.FriendlyException;
+using Mapster;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
@@ -138,7 +139,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>List<T></returns>
         public static List<T> ToList<T>(this DataTable dataTable)
         {
-            return (List<T>)dataTable.ToList(typeof(List<T>));
+            return dataTable.ToList(typeof(List<T>)).Adapt<List<T>>();
         }
 
         /// <summary>
@@ -150,7 +151,7 @@ namespace Fur.DatabaseAccessor
         public static async Task<List<T>> ToListAsync<T>(this DataTable dataTable)
         {
             var list = await dataTable.ToListAsync(typeof(List<T>));
-            return (List<T>)list;
+            return list.Adapt<List<T>>();
         }
 
         /// <summary>
@@ -246,7 +247,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public static List<T1> ToList<T1>(this DataSet dataSet)
         {
-            return (List<T1>)(dataSet.ToList(typeof(List<T1>)));
+            return dataSet.ToList(typeof(List<T1>)).Adapt<List<T1>>();
         }
 
         /// <summary>
@@ -258,7 +259,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2) ToList<T1, T2>(this DataSet dataSet)
         {
-            return ((List<T1>, List<T2>))dataSet.ToList(typeof(List<T1>), typeof(List<T2>));
+            return dataSet.ToList(typeof(List<T1>), typeof(List<T2>)).Adapt<(List<T1>, List<T2>)>();
         }
 
         /// <summary>
@@ -271,7 +272,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3) ToList<T1, T2, T3>(this DataSet dataSet)
         {
-            return ((List<T1>, List<T2>, List<T3>))dataSet.ToList(typeof(List<T1>), typeof(List<T2>), typeof(List<T3>));
+            return dataSet.ToList(typeof(List<T1>), typeof(List<T2>), typeof(List<T3>)).Adapt<(List<T1>, List<T2>, List<T3>)>();
         }
 
         /// <summary>
@@ -285,7 +286,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) ToList<T1, T2, T3, T4>(this DataSet dataSet)
         {
-            return ((List<T1>, List<T2>, List<T3>, List<T4>))dataSet.ToList(typeof(List<T1>), typeof(List<T2>), typeof(List<T3>), typeof(List<T4>));
+            return dataSet.ToList(typeof(List<T1>), typeof(List<T2>), typeof(List<T3>), typeof(List<T4>)).Adapt<(List<T1>, List<T2>, List<T3>, List<T4>)>();
         }
 
         /// <summary>
@@ -300,7 +301,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) ToList<T1, T2, T3, T4, T5>(this DataSet dataSet)
         {
-            return ((List<T1>, List<T2>, List<T3>, List<T4>, List<T5>))dataSet.ToList(typeof(List<T1>), typeof(List<T2>), typeof(List<T3>), typeof(List<T4>), typeof(List<T5>));
+            return dataSet.ToList(typeof(List<T1>), typeof(List<T2>), typeof(List<T3>), typeof(List<T4>), typeof(List<T5>)).Adapt<(List<T1>, List<T2>, List<T3>, List<T4>, List<T5>)>();
         }
 
         /// <summary>
@@ -316,7 +317,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) ToList<T1, T2, T3, T4, T5, T6>(this DataSet dataSet)
         {
-            return ((List<T1>, List<T2>, List<T3>, List<T4>, List<T5>, List<T6>))dataSet.ToList(typeof(List<T1>), typeof(List<T2>), typeof(List<T3>), typeof(List<T4>), typeof(List<T5>), typeof(List<T6>));
+            return dataSet.ToList(typeof(List<T1>), typeof(List<T2>), typeof(List<T3>), typeof(List<T4>), typeof(List<T5>), typeof(List<T6>)).Adapt<(List<T1>, List<T2>, List<T3>, List<T4>, List<T5>, List<T6>)>();
         }
 
         /// <summary>
@@ -333,7 +334,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) ToList<T1, T2, T3, T4, T5, T6, T7>(this DataSet dataSet)
         {
-            return ((List<T1>, List<T2>, List<T3>, List<T4>, List<T5>, List<T6>, List<T7>))dataSet.ToList(typeof(List<T1>), typeof(List<T2>), typeof(List<T3>), typeof(List<T4>), typeof(List<T5>), typeof(List<T6>), typeof(List<T7>));
+            return dataSet.ToList(typeof(List<T1>), typeof(List<T2>), typeof(List<T3>), typeof(List<T4>), typeof(List<T5>), typeof(List<T6>), typeof(List<T7>)).Adapt<(List<T1>, List<T2>, List<T3>, List<T4>, List<T5>, List<T6>, List<T7>)>();
         }
 
         /// <summary>
@@ -351,7 +352,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public static (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) ToList<T1, T2, T3, T4, T5, T6, T7, T8>(this DataSet dataSet)
         {
-            return ((List<T1>, List<T2>, List<T3>, List<T4>, List<T5>, List<T6>, List<T7>, List<T8>))dataSet.ToList(typeof(List<T1>), typeof(List<T2>), typeof(List<T3>), typeof(List<T4>), typeof(List<T5>), typeof(List<T6>), typeof(List<T7>), typeof(List<T8>));
+            return dataSet.ToList(typeof(List<T1>), typeof(List<T2>), typeof(List<T3>), typeof(List<T4>), typeof(List<T5>), typeof(List<T6>), typeof(List<T7>), typeof(List<T8>)).Adapt<(List<T1>, List<T2>, List<T3>, List<T4>, List<T5>, List<T6>, List<T7>, List<T8>)>();
         }
 
         /// <summary>
