@@ -136,5 +136,71 @@ namespace Fur.DatabaseAccessor.Extensions.DatabaseFacade
         {
             return Task.FromResult(dataTable.ToList(returnType));
         }
+
+        /// <summary>
+        /// 将 DataSet 转 特定类型
+        /// </summary>
+        /// <param name="dataSet">DataSet</param>
+        /// <param name="returnTypes">特定类型集合</param>
+        /// <returns>object</returns>
+        public static Task<object> ToListAsync(this DataSet dataSet, params Type[] returnTypes)
+        {
+            return Task.FromResult(dataSet.ToList(returnTypes));
+        }
+
+        /// <summary>
+        /// 将 DataSet 转 特定类型
+        /// </summary>
+        /// <param name="dataSet">DataSet</param>
+        /// <param name="returnTypes">特定类型集合</param>
+        /// <returns>object</returns>
+        public static object ToList(this DataSet dataSet, params Type[] returnTypes)
+        {
+            if (returnTypes == null || returnTypes.Length == 0) return default;
+
+            // 获取所有的 DataTable
+            var dataTables = dataSet.Tables;
+
+            // 处理 8 个结果集
+            if (returnTypes.Length >= 8)
+            {
+                return (dataTables[0].ToList(returnTypes[0]), dataTables[1].ToList(returnTypes[1]), dataTables[2].ToList(returnTypes[2]), dataTables[3].ToList(returnTypes[3]), dataTables[4].ToList(returnTypes[4]), dataTables[5].ToList(returnTypes[5]), dataTables[6].ToList(returnTypes[6]), dataTables[7].ToList(returnTypes[7]));
+            }
+            // 处理 7 个结果集
+            else if (returnTypes.Length == 7)
+            {
+                return (dataTables[0].ToList(returnTypes[0]), dataTables[1].ToList(returnTypes[1]), dataTables[2].ToList(returnTypes[2]), dataTables[3].ToList(returnTypes[3]), dataTables[4].ToList(returnTypes[4]), dataTables[5].ToList(returnTypes[5]), dataTables[6].ToList(returnTypes[6]));
+            }
+            // 处理 6 个结果集
+            else if (returnTypes.Length == 6)
+            {
+                return (dataTables[0].ToList(returnTypes[0]), dataTables[1].ToList(returnTypes[1]), dataTables[2].ToList(returnTypes[2]), dataTables[3].ToList(returnTypes[3]), dataTables[4].ToList(returnTypes[4]), dataTables[5].ToList(returnTypes[5]));
+            }
+            // 处理 5 个结果集
+            else if (returnTypes.Length == 5)
+            {
+                return (dataTables[0].ToList(returnTypes[0]), dataTables[1].ToList(returnTypes[1]), dataTables[2].ToList(returnTypes[2]), dataTables[3].ToList(returnTypes[3]), dataTables[4].ToList(returnTypes[4]));
+            }
+            // 处理 4 个结果集
+            else if (returnTypes.Length == 4)
+            {
+                return (dataTables[0].ToList(returnTypes[0]), dataTables[1].ToList(returnTypes[1]), dataTables[2].ToList(returnTypes[2]), dataTables[3].ToList(returnTypes[3]));
+            }
+            // 处理 3 个结果集
+            else if (returnTypes.Length == 3)
+            {
+                return (dataTables[0].ToList(returnTypes[0]), dataTables[1].ToList(returnTypes[1]), dataTables[2].ToList(returnTypes[2]));
+            }
+            // 处理 2 个结果集
+            else if (returnTypes.Length == 2)
+            {
+                return (dataTables[0].ToList(returnTypes[0]), dataTables[1].ToList(returnTypes[1]));
+            }
+            // 处理 1 个结果集
+            else
+            {
+                return (dataTables[0].ToList(returnTypes[0]));
+            }
+        }
     }
 }
