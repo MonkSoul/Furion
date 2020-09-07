@@ -9,26 +9,18 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// Sql 查询仓储接口
-    /// </summary>
-    /// <typeparam name="TEntity">实体类型</typeparam>
-    public interface ISqlQueryableRepository<TEntity> : ISqlQueryableRepository<TEntity, DbContextLocator>
-        where TEntity : class, IEntityBase, new()
-    {
-    }
-
-    /// <summary>
-    /// Sql 查询仓储接口
+    /// Sql 查询仓储分部类
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator">数据库实体定位器</typeparam>
-    public interface ISqlQueryableRepository<TEntity, TDbContextLocator> : IRepositoryDependency
+    public partial class EFCoreRepository<TEntity, TDbContextLocator>
         where TEntity : class, IEntityBase, new()
         where TDbContextLocator : class, IDbContextLocator, new()
     {
@@ -38,7 +30,10 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>IQueryable<TEntity></returns>
-        IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters);
+        public virtual IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters)
+        {
+            return Entities.FromSqlRaw(sql, parameters);
+        }
 
         /// <summary>
         /// 执行 Sql 返回 IQueryable
@@ -48,6 +43,9 @@ namespace Fur.DatabaseAccessor
         /// </remarks>
         /// <param name="sql">sql 语句</param>
         /// <returns>IQueryable<TEntity></returns>
-        IQueryable<TEntity> FromSqlInterpolated(FormattableString sql);
+        public virtual IQueryable<TEntity> FromSqlInterpolated(FormattableString sql)
+        {
+            return Entities.FromSqlInterpolated(sql);
+        }
     }
 }
