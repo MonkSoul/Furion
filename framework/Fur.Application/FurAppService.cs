@@ -42,6 +42,22 @@ namespace Fur.Application
             return _testRepository.SqlQuery<Test>("SELECT * FROM dbo.Test where id > @id", new { id = 10 });
         }
 
+        public object ExecuteSqlQuerySet()
+        {
+            var results = _testRepository.SqlQuerySet<Test, Test, TestDto>(@"
+select * from dbo.test where id > @id;
+select top 10 * from dbo.test;
+select Id,Name,Age,Address from dbo.test where id > @id;
+", new { id = 10 });
+
+            return new
+            {
+                results.list1,
+                results.list2,
+                results.list3
+            };
+        }
+
         public bool CheckScope()
         {
             var ts = _testRepository.Constraint<IReadableRepository<Test>>();
