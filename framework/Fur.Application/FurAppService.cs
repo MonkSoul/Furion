@@ -44,7 +44,7 @@ namespace Fur.Application
 
         public object ExecuteSqlQuerySet()
         {
-            var results = _testRepository.SqlQuerySet<Test, Test, TestDto>(@"
+            var (list1, list2, list3) = _testRepository.SqlQuerySet<Test, Test, TestDto>(@"
 select * from dbo.test where id > @id;
 select top 10 * from dbo.test;
 select Id,Name,Age,Address from dbo.test where id > @id;
@@ -52,9 +52,9 @@ select Id,Name,Age,Address from dbo.test where id > @id;
 
             return new
             {
-                results.list1,
-                results.list2,
-                results.list3
+                list1,
+                list2,
+                list3
             };
         }
 
