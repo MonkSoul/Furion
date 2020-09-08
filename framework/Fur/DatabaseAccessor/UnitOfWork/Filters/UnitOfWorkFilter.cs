@@ -88,7 +88,7 @@ namespace Fur.DatabaseAccessor
                 transaction.Complete();
 
                 // 打印事务提交消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Completed", $"Has {hasChangesCount} DbContext Changes.");
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Completed", $"Transaction Completed! Has {hasChangesCount} DbContext Changes.");
             }
             else
             {
