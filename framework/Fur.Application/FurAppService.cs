@@ -10,6 +10,10 @@ using System.Linq;
 
 namespace Fur.Application
 {
+    /// <summary>
+    /// 这里是注释
+    /// </summary>
+    [ApiDescriptionSettings(Tag = "数据库操作测试示例")]
     public class FurAppService : IDynamicApiController
     {
         private readonly IRepository<Test> _testRepository;
@@ -74,7 +78,7 @@ select Id,Name,Age,Address from dbo.test where id > @id;
         }
 
         /// <summary>
-        /// 判断DbContext实例生命周期
+        /// 测试单个数据库，多个数据库、读写分离、主从库数据库生命周期
         /// </summary>
         /// <returns></returns>
         [NonTransact]
