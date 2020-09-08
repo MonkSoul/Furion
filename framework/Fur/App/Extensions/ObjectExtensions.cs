@@ -84,5 +84,15 @@ namespace Fur.Extensions
             // 执行转换
             return Convert.ChangeType(value, underlyingType);
         }
+
+        /// <summary>
+        /// 判断是否是元组类型
+        /// </summary>
+        /// <param name="type">类型</param>
+        /// <returns></returns>
+        internal static bool IsValueTuple(this Type type)
+        {
+            return type.ToString().StartsWith(typeof(ValueTuple).FullName);
+        }
     }
 }

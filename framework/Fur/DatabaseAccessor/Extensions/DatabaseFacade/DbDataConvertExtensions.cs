@@ -378,6 +378,12 @@ namespace Fur.DatabaseAccessor
         {
             if (returnTypes == null || returnTypes.Length == 0) return default;
 
+            // 处理元组类型
+            if (returnTypes.Length == 1 && returnTypes[0].IsValueType)
+            {
+                returnTypes = returnTypes[0].GenericTypeArguments;
+            }
+
             // 获取所有的 DataTable
             var dataTables = dataSet.Tables;
 

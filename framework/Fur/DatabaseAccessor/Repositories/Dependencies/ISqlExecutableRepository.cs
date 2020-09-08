@@ -960,5 +960,41 @@ namespace Fur.DatabaseAccessor
         /// <param name="model">命令模型</param>
         /// <returns>ProcedureOutput</returns>
         Task<ProcedureOutputResult> SqlProcedureOutputAsync(string procName, object model, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 执行存储过程返回OUPUT、RETURN、结果集
+        /// </summary>
+        /// <typeparam name="TResult">数据集结果</typeparam>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>ProcedureOutput</returns>
+        ProcedureOutputResult<TResult> SqlProcedureOutput<TResult>(string procName, SqlParameter[] parameters);
+
+        /// <summary>
+        /// 执行存储过程返回OUPUT、RETURN、结果集
+        /// </summary>
+        /// <typeparam name="TResult">数据集结果</typeparam>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>ProcedureOutput</returns>
+        Task<ProcedureOutputResult<TResult>> SqlProcedureOutputAsync<TResult>(string procName, SqlParameter[] parameters, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 执行存储过程返回OUPUT、RETURN、结果集
+        /// </summary>
+        /// <typeparam name="TResult">数据集结果</typeparam>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="model">命令模型</param>
+        /// <returns>ProcedureOutput</returns>
+        ProcedureOutputResult<TResult> SqlProcedureOutput<TResult>(string procName, object model);
+
+        /// <summary>
+        /// 执行存储过程返回OUPUT、RETURN、结果集
+        /// </summary>
+        /// <typeparam name="TResult">数据集结果</typeparam>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="model">命令模型</param>
+        /// <returns>ProcedureOutput</returns>
+        Task<ProcedureOutputResult<TResult>> SqlProcedureOutputAsync<TResult>(string procName, object model, CancellationToken cancellationToken = default);
     }
 }

@@ -315,17 +315,13 @@ select Id,Name,Age,Address from dbo.test where id > @id;
         /// <returns></returns>
         public object ExecuteProcedureOutput(int id)
         {
-            var result = _testRepository.SqlProcedureOutput("PROC_Output", new ProcOutputParameter { Id = id });
-
-            // 将Result转为集合
-            var (list1, list2) = result.Result.ToList<Test, Test>();
-
+            var result = _testRepository.SqlProcedureOutput<(List<Test>, List<Test>)>("PROC_Output", new ProcOutputParameter { Id = id });
             return new
             {
                 result.OutputValues,
                 result.ReturnValue,
-                list1,
-                list2
+                result.Result.Item1,
+                result.Result.Item2
             };
         }
     }
