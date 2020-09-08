@@ -10,8 +10,11 @@
 // -----------------------------------------------------------------------------
 
 using Mapster;
+using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -1206,6 +1209,65 @@ namespace Fur.DatabaseAccessor
         {
             var result = await Database.ExecuteScalarAsync(sql, model.ToSqlParameters(), cancellationToken: cancellationToken);
             return result.Adapt<TResult>();
+        }
+
+        /// <summary>
+        /// 执行存储过程返回OUPUT、RETURN、结果集
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>ProcedureOutput</returns>
+        public virtual ProcedureOutput SqlProcedureOutput(string procName, SqlParameter[] parameters)
+        {
+            parameters ??= Array.Empty<SqlParameter>();
+
+            // 执行存储过程
+            var dataSet = Database.DataAdapterFill(procName, parameters, CommandType.StoredProcedure);
+
+            // 包装结果集
+            return WrapperProcedureOutput(parameters, dataSet);
+        }
+
+        /// <summary>
+        /// 执行存储过程返回OUPUT、RETURN、结果集
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>ProcedureOutput</returns>
+        public virtual async Task<ProcedureOutput> SqlProcedureOutputAsync(string procName, SqlParameter[] parameters, CancellationToken cancellationToken = default)
+        {
+            parameters ??= Array.Empty<SqlParameter>();
+
+            // 执行存储过程
+            var dataSet = await Database.DataAdapterFillAsync(procName, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
+
+            // 包装结果集
+            return WrapperProcedureOutput(parameters, dataSet);
+        }
+
+        /// <summary>
+        /// 包裹存储过程返回结果集
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>ProcedureOutput</returns>
+        private static ProcedureOutput WrapperProcedureOutput(SqlParameter[] parameters, DataSet dataSet)
+        {
+            // 查询所有OUTPUT值
+            var outputValues = parameters
+               .Where(u => u.Direction == ParameterDirection.Output)
+               .Select(u => new { Name = u.ParameterName, u.Value })
+               .ToDictionary(u => u.Name, u => u.Value);
+
+            // 查询返回值
+            var returnValue = parameters.FirstOrDefault(u => u.Direction == ParameterDirection.ReturnValue)?.Value;
+
+            return new ProcedureOutput
+            {
+                Result = dataSet,
+                OutputValues = outputValues,
+                ReturnValue = returnValue
+            };
         }
     }
 }

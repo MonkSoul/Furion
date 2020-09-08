@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading;
@@ -927,5 +928,21 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>TResult</returns>
         Task<TResult> SqlScalarAsync<TResult>(string sql, object model, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 执行存储过程返回OUPUT、RETURN、结果集
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>ProcedureOutput</returns>
+        ProcedureOutput SqlProcedureOutput(string procName, SqlParameter[] parameters);
+
+        /// <summary>
+        /// 执行存储过程返回OUPUT、RETURN、结果集
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>ProcedureOutput</returns>
+        Task<ProcedureOutput> SqlProcedureOutputAsync(string procName, SqlParameter[] parameters, CancellationToken cancellationToken = default);
     }
 }
