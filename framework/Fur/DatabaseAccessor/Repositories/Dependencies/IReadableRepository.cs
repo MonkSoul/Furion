@@ -24,7 +24,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TEntity">实体类型</typeparam>
     public interface IReadableRepository<TEntity>
         : IReadableRepository<TEntity, DbContextLocator>
-        , ISqlQueryableRepository<TEntity>
+        , ISqlReaderRepository<TEntity>
         where TEntity : class, IEntityBase, new()
     {
     }

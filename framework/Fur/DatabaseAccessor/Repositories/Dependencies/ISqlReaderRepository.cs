@@ -22,7 +22,7 @@ namespace Fur.DatabaseAccessor
     /// Sql 查询仓储接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public interface ISqlQueryableRepository<TEntity> : ISqlQueryableRepository<TEntity, DbContextLocator>
+    public interface ISqlReaderRepository<TEntity> : ISqlQueryableRepository<TEntity, DbContextLocator>
         where TEntity : class, IEntityBase, new()
     {
     }
@@ -149,7 +149,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>DataSet</returns>
-        DataSet SqlQuerySet(string sql, params object[] parameters);
+        DataSet SqlQueryMultiple(string sql, params object[] parameters);
 
         /// <summary>
         ///  Sql 查询返回 DataSet
@@ -157,7 +157,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="model">参数模型</param>
         /// <returns>DataSet</returns>
-        DataSet SqlQuerySet(string sql, object model);
+        DataSet SqlQueryMultiple(string sql, object model);
 
         /// <summary>
         ///  Sql 查询返回 DataSet
@@ -165,7 +165,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>Task<DataSet></returns>
-        Task<DataSet> SqlQuerySetAsync(string sql, params object[] parameters);
+        Task<DataSet> SqlQueryMultipleAsync(string sql, params object[] parameters);
 
         /// <summary>
         ///  Sql 查询返回 DataSet
@@ -174,7 +174,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task<DataSet></returns>
-        Task<DataSet> SqlQuerySetAsync(string sql, object[] parameters, CancellationToken cancellationToken = default);
+        Task<DataSet> SqlQueryMultipleAsync(string sql, object[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///  Sql 查询返回 DataSet
@@ -183,7 +183,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task<DataSet></returns>
-        Task<DataSet> SqlQuerySetAsync(string sql, object model, CancellationToken cancellationToken = default);
+        Task<DataSet> SqlQueryMultipleAsync(string sql, object model, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///  Sql 查询返回 List 集合
@@ -192,7 +192,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>List<T1></returns>
-        List<T1> SqlQuerySet<T1>(string sql, params object[] parameters);
+        List<T1> SqlQueryMultiple<T1>(string sql, params object[] parameters);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -202,7 +202,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2) SqlQuerySet<T1, T2>(string sql, params object[] parameters);
+        (List<T1> list1, List<T2> list2) SqlQueryMultiple<T1, T2>(string sql, params object[] parameters);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -213,7 +213,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2, List<T3> list3) SqlQuerySet<T1, T2, T3>(string sql, params object[] parameters);
+        (List<T1> list1, List<T2> list2, List<T3> list3) SqlQueryMultiple<T1, T2, T3>(string sql, params object[] parameters);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -225,7 +225,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlQuerySet<T1, T2, T3, T4>(string sql, params object[] parameters);
+        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlQueryMultiple<T1, T2, T3, T4>(string sql, params object[] parameters);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -238,7 +238,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlQuerySet<T1, T2, T3, T4, T5>(string sql, params object[] parameters);
+        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlQueryMultiple<T1, T2, T3, T4, T5>(string sql, params object[] parameters);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -252,7 +252,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlQuerySet<T1, T2, T3, T4, T5, T6>(string sql, params object[] parameters);
+        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlQueryMultiple<T1, T2, T3, T4, T5, T6>(string sql, params object[] parameters);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -267,7 +267,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlQuerySet<T1, T2, T3, T4, T5, T6, T7>(string sql, params object[] parameters);
+        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlQueryMultiple<T1, T2, T3, T4, T5, T6, T7>(string sql, params object[] parameters);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -283,7 +283,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlQuerySet<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, params object[] parameters);
+        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlQueryMultiple<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, params object[] parameters);
 
         /// <summary>
         ///  Sql 查询返回 List 集合
@@ -292,7 +292,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="model">参数模型</param>
         /// <returns>List<T1></returns>
-        List<T1> SqlQuerySet<T1>(string sql, object model);
+        List<T1> SqlQueryMultiple<T1>(string sql, object model);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -302,7 +302,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="model">参数模型</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2) SqlQuerySet<T1, T2>(string sql, object model);
+        (List<T1> list1, List<T2> list2) SqlQueryMultiple<T1, T2>(string sql, object model);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -313,7 +313,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="model">参数模型</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2, List<T3> list3) SqlQuerySet<T1, T2, T3>(string sql, object model);
+        (List<T1> list1, List<T2> list2, List<T3> list3) SqlQueryMultiple<T1, T2, T3>(string sql, object model);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -325,7 +325,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="model">参数模型</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlQuerySet<T1, T2, T3, T4>(string sql, object model);
+        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlQueryMultiple<T1, T2, T3, T4>(string sql, object model);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -338,7 +338,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="model">参数模型</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlQuerySet<T1, T2, T3, T4, T5>(string sql, object model);
+        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlQueryMultiple<T1, T2, T3, T4, T5>(string sql, object model);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -352,7 +352,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="model">参数模型</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlQuerySet<T1, T2, T3, T4, T5, T6>(string sql, object model);
+        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlQueryMultiple<T1, T2, T3, T4, T5, T6>(string sql, object model);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -367,7 +367,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="model">参数模型</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlQuerySet<T1, T2, T3, T4, T5, T6, T7>(string sql, object model);
+        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlQueryMultiple<T1, T2, T3, T4, T5, T6, T7>(string sql, object model);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -383,7 +383,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="model">参数模型</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlQuerySet<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, object model);
+        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlQueryMultiple<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, object model);
 
         /// <summary>
         ///  Sql 查询返回 List 集合
@@ -392,7 +392,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>Task<List<T1>></returns>
-        Task<List<T1>> SqlQuerySetAsync<T1>(string sql, params object[] parameters);
+        Task<List<T1>> SqlQueryMultipleAsync<T1>(string sql, params object[] parameters);
 
         /// <summary>
         ///  Sql 查询返回 List 集合
@@ -402,7 +402,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task<List<T1>></returns>
-        Task<List<T1>> SqlQuerySetAsync<T1>(string sql, object[] parameters, CancellationToken cancellationToken = default);
+        Task<List<T1>> SqlQueryMultipleAsync<T1>(string sql, object[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -412,7 +412,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2)> SqlQuerySetAsync<T1, T2>(string sql, params object[] parameters);
+        Task<(List<T1> list1, List<T2> list2)> SqlQueryMultipleAsync<T1, T2>(string sql, params object[] parameters);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -423,7 +423,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2)> SqlQuerySetAsync<T1, T2>(string sql, object[] parameters, CancellationToken cancellationToken = default);
+        Task<(List<T1> list1, List<T2> list2)> SqlQueryMultipleAsync<T1, T2>(string sql, object[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -434,7 +434,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQuerySetAsync<T1, T2, T3>(string sql, params object[] parameters);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQueryMultipleAsync<T1, T2, T3>(string sql, params object[] parameters);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -446,7 +446,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQuerySetAsync<T1, T2, T3>(string sql, object[] parameters, CancellationToken cancellationToken = default);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQueryMultipleAsync<T1, T2, T3>(string sql, object[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -458,7 +458,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQuerySetAsync<T1, T2, T3, T4>(string sql, params object[] parameters);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQueryMultipleAsync<T1, T2, T3, T4>(string sql, params object[] parameters);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -471,7 +471,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQuerySetAsync<T1, T2, T3, T4>(string sql, object[] parameters, CancellationToken cancellationToken = default);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQueryMultipleAsync<T1, T2, T3, T4>(string sql, object[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -484,7 +484,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQuerySetAsync<T1, T2, T3, T4, T5>(string sql, params object[] parameters);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQueryMultipleAsync<T1, T2, T3, T4, T5>(string sql, params object[] parameters);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -498,21 +498,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQuerySetAsync<T1, T2, T3, T4, T5>(string sql, object[] parameters, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Sql 查询返回 元组 集合
-        /// </summary>
-        /// <typeparam name="T1">元组元素类型</typeparam>
-        /// <typeparam name="T2">元组元素类型</typeparam>
-        /// <typeparam name="T3">元组元素类型</typeparam>
-        /// <typeparam name="T4">元组元素类型</typeparam>
-        /// <typeparam name="T5">元组元素类型</typeparam>
-        /// <typeparam name="T6">元组元素类型</typeparam>
-        /// <param name="sql">sql 语句</param>
-        /// <param name="parameters">命令参数</param>
-        /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQuerySetAsync<T1, T2, T3, T4, T5, T6>(string sql, params object[] parameters);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQueryMultipleAsync<T1, T2, T3, T4, T5>(string sql, object[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -525,9 +511,8 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="T6">元组元素类型</typeparam>
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQuerySetAsync<T1, T2, T3, T4, T5, T6>(string sql, object[] parameters, CancellationToken cancellationToken = default);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQueryMultipleAsync<T1, T2, T3, T4, T5, T6>(string sql, params object[] parameters);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -538,11 +523,11 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="T4">元组元素类型</typeparam>
         /// <typeparam name="T5">元组元素类型</typeparam>
         /// <typeparam name="T6">元组元素类型</typeparam>
-        /// <typeparam name="T7">元组元素类型</typeparam>
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQuerySetAsync<T1, T2, T3, T4, T5, T6, T7>(string sql, params object[] parameters);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQueryMultipleAsync<T1, T2, T3, T4, T5, T6>(string sql, object[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -556,9 +541,8 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="T7">元组元素类型</typeparam>
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQuerySetAsync<T1, T2, T3, T4, T5, T6, T7>(string sql, object[] parameters, CancellationToken cancellationToken = default);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQueryMultipleAsync<T1, T2, T3, T4, T5, T6, T7>(string sql, params object[] parameters);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -570,11 +554,11 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="T5">元组元素类型</typeparam>
         /// <typeparam name="T6">元组元素类型</typeparam>
         /// <typeparam name="T7">元组元素类型</typeparam>
-        /// <typeparam name="T8">元组元素类型</typeparam>
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQuerySetAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, params object[] parameters);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQueryMultipleAsync<T1, T2, T3, T4, T5, T6, T7>(string sql, object[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -589,9 +573,25 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="T8">元组元素类型</typeparam>
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
+        /// <returns>元组类型</returns>
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQueryMultipleAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, params object[] parameters);
+
+        /// <summary>
+        /// Sql 查询返回 元组 集合
+        /// </summary>
+        /// <typeparam name="T1">元组元素类型</typeparam>
+        /// <typeparam name="T2">元组元素类型</typeparam>
+        /// <typeparam name="T3">元组元素类型</typeparam>
+        /// <typeparam name="T4">元组元素类型</typeparam>
+        /// <typeparam name="T5">元组元素类型</typeparam>
+        /// <typeparam name="T6">元组元素类型</typeparam>
+        /// <typeparam name="T7">元组元素类型</typeparam>
+        /// <typeparam name="T8">元组元素类型</typeparam>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQuerySetAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, object[] parameters, CancellationToken cancellationToken = default);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQueryMultipleAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, object[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///  Sql 查询返回 List 集合
@@ -601,7 +601,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>List<T1></returns>
-        Task<List<T1>> SqlQuerySetAsync<T1>(string sql, object model, CancellationToken cancellationToken = default);
+        Task<List<T1>> SqlQueryMultipleAsync<T1>(string sql, object model, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -612,7 +612,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2)> SqlQuerySetAsync<T1, T2>(string sql, object model, CancellationToken cancellationToken = default);
+        Task<(List<T1> list1, List<T2> list2)> SqlQueryMultipleAsync<T1, T2>(string sql, object model, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -624,7 +624,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQuerySetAsync<T1, T2, T3>(string sql, object model, CancellationToken cancellationToken = default);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQueryMultipleAsync<T1, T2, T3>(string sql, object model, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -637,7 +637,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQuerySetAsync<T1, T2, T3, T4>(string sql, object model, CancellationToken cancellationToken = default);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQueryMultipleAsync<T1, T2, T3, T4>(string sql, object model, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -651,7 +651,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQuerySetAsync<T1, T2, T3, T4, T5>(string sql, object model, CancellationToken cancellationToken = default);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQueryMultipleAsync<T1, T2, T3, T4, T5>(string sql, object model, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -666,7 +666,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQuerySetAsync<T1, T2, T3, T4, T5, T6>(string sql, object model, CancellationToken cancellationToken = default);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQueryMultipleAsync<T1, T2, T3, T4, T5, T6>(string sql, object model, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -682,7 +682,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQuerySetAsync<T1, T2, T3, T4, T5, T6, T7>(string sql, object model, CancellationToken cancellationToken = default);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQueryMultipleAsync<T1, T2, T3, T4, T5, T6, T7>(string sql, object model, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Sql 查询返回 元组 集合
@@ -699,6 +699,6 @@ namespace Fur.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQuerySetAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, object model, CancellationToken cancellationToken = default);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQueryMultipleAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, object model, CancellationToken cancellationToken = default);
     }
 }

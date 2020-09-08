@@ -63,7 +63,7 @@ namespace Fur.Application
         [NonTransact]
         public object ExecuteSqlQuerySet()
         {
-            var (list1, list2, list3) = _testRepository.SqlQuerySet<Test, Test, TestDto>(@"
+            var (list1, list2, list3) = _testRepository.SqlQueryMultiple<Test, Test, TestDto>(@"
 select * from dbo.test where id > @id;
 select top 10 * from dbo.test;
 select Id,Name,Age,Address from dbo.test where id > @id;
