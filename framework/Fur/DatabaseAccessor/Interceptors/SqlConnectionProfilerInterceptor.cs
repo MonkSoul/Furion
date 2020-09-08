@@ -52,7 +52,7 @@ namespace Fur.DatabaseAccessor
             if (IsDevelopment)
             {
                 // 打印连接信息消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Opening", $"[Context Id: {eventData.ConnectionId}] / [Database: {connection.Database}] / [Connection String: {connection.ConnectionString}]");
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Information", $"[Context Id: {eventData.ConnectionId}] / [Database: {connection.Database}] / [Connection String: {connection.ConnectionString}]");
             }
 
             return base.ConnectionOpening(connection, eventData, result);
@@ -71,7 +71,7 @@ namespace Fur.DatabaseAccessor
             if (IsDevelopment)
             {
                 // 打印连接信息消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "OpeningAsync", $"[Context Id: {eventData.ConnectionId}] / [Database: {connection.Database}] / [Connection String: {connection.ConnectionString}]");
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Information", $"[Context Id: {eventData.ConnectionId}] / [Database: {connection.Database}] / [Connection String: {connection.ConnectionString}]");
             }
 
             return base.ConnectionOpeningAsync(connection, eventData, result, cancellationToken);
