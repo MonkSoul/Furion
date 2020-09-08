@@ -17,20 +17,20 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 存储过程输出返回值
     /// </summary>
-    public sealed class ProcedureOutput
+    public sealed class ProcedureOutputResult
     {
         /// <summary>
         /// 构造函数
         /// </summary>
-        public ProcedureOutput()
+        public ProcedureOutputResult()
         {
-            OutputValues = new Dictionary<string, object>();
+            OutputValues = new List<ProcedureOutputValue>();
         }
 
         /// <summary>
         /// 输出值
         /// </summary>
-        public Dictionary<string, object> OutputValues { get; set; }
+        public List<ProcedureOutputValue> OutputValues { get; set; }
 
         /// <summary>
         /// 返回值

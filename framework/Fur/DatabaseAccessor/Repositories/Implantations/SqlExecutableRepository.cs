@@ -1217,7 +1217,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>ProcedureOutput</returns>
-        public virtual ProcedureOutput SqlProcedureOutput(string procName, SqlParameter[] parameters)
+        public virtual ProcedureOutputResult SqlProcedureOutput(string procName, SqlParameter[] parameters)
         {
             parameters ??= Array.Empty<SqlParameter>();
 
@@ -1234,9 +1234,43 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>ProcedureOutput</returns>
-        public virtual async Task<ProcedureOutput> SqlProcedureOutputAsync(string procName, SqlParameter[] parameters, CancellationToken cancellationToken = default)
+        public virtual async Task<ProcedureOutputResult> SqlProcedureOutputAsync(string procName, SqlParameter[] parameters, CancellationToken cancellationToken = default)
         {
             parameters ??= Array.Empty<SqlParameter>();
+
+            // 执行存储过程
+            var dataSet = await Database.DataAdapterFillAsync(procName, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
+
+            // 包装结果集
+            return WrapperProcedureOutput(parameters, dataSet);
+        }
+
+        /// <summary>
+        /// 执行存储过程返回OUPUT、RETURN、结果集
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="model">命令模型</param>
+        /// <returns>ProcedureOutput</returns>
+        public virtual ProcedureOutputResult SqlProcedureOutput(string procName, object model)
+        {
+            var parameters = model.ToSqlParameters();
+
+            // 执行存储过程
+            var dataSet = Database.DataAdapterFill(procName, parameters, CommandType.StoredProcedure);
+
+            // 包装结果集
+            return WrapperProcedureOutput(parameters, dataSet);
+        }
+
+        /// <summary>
+        /// 执行存储过程返回OUPUT、RETURN、结果集
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="model">命令模型</param>
+        /// <returns>ProcedureOutput</returns>
+        public virtual async Task<ProcedureOutputResult> SqlProcedureOutputAsync(string procName, object model, CancellationToken cancellationToken = default)
+        {
+            var parameters = model.ToSqlParameters();
 
             // 执行存储过程
             var dataSet = await Database.DataAdapterFillAsync(procName, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
@@ -1251,18 +1285,21 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>ProcedureOutput</returns>
-        private static ProcedureOutput WrapperProcedureOutput(SqlParameter[] parameters, DataSet dataSet)
+        private static ProcedureOutputResult WrapperProcedureOutput(SqlParameter[] parameters, DataSet dataSet)
         {
             // 查询所有OUTPUT值
             var outputValues = parameters
                .Where(u => u.Direction == ParameterDirection.Output)
-               .Select(u => new { Name = u.ParameterName, u.Value })
-               .ToDictionary(u => u.Name, u => u.Value);
+               .Select(u => new ProcedureOutputValue
+               {
+                   Name = u.ParameterName,
+                   Value = u.Value
+               }).ToList();
 
             // 查询返回值
             var returnValue = parameters.FirstOrDefault(u => u.Direction == ParameterDirection.ReturnValue)?.Value;
 
-            return new ProcedureOutput
+            return new ProcedureOutputResult
             {
                 Result = dataSet,
                 OutputValues = outputValues,

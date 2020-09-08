@@ -46,5 +46,11 @@ namespace Fur.DatabaseAccessor
         /// 数据库对应类型
         /// </summary>
         public object DbType { get; set; }
+
+        /// <summary>
+        /// 大小
+        /// </summary>
+        /// <remarks>Nvarchar/varchar类型需指定</remarks>
+        public int Size { get; set; }
     }
 }

@@ -65,6 +65,12 @@ namespace Fur.DatabaseAccessor
                             sqlParameter.SqlDbType = (SqlDbType)dbParameterAttribute.DbType;
                         }
                     }
+                    // 设置大小，解决NVarchar，Varchar 问题
+                    if (dbParameterAttribute.Size > 0)
+                    {
+                        sqlParameter.Size = dbParameterAttribute.Size;
+                    }
+
                     sqlParameters.Add(sqlParameter);
                     continue;
                 }
@@ -113,6 +119,13 @@ namespace Fur.DatabaseAccessor
                                 sqlParameter.SqlDbType = (SqlDbType)dbParameterAttribute.DbType;
                             }
                         }
+
+                        // 设置大小，解决NVarchar，Varchar 问题
+                        if (dbParameterAttribute.Size > 0)
+                        {
+                            sqlParameter.Size = dbParameterAttribute.Size;
+                        }
+
                         sqlParameters.Add(sqlParameter);
                         continue;
                     }

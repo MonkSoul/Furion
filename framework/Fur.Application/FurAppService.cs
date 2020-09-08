@@ -177,5 +177,156 @@ select Id,Name,Age,Address from dbo.test where id > @id;
         {
             _testRepository.DeleteExists(id);
         }
+
+        /// <summary>
+        /// 执行存储过程查询
+        /// </summary>
+        /// <param name="id"></param>
+        /// <remarks>
+        /// <code>
+        /// CREATE PROC PROC_GetTable @id INT
+        /// AS
+        /// BEGIN
+        ///     SELECT *
+        ///     FROM dbo.Test
+        ///     WHERE Id > @id;
+        /// END
+        /// </code>
+        /// </remarks>
+        /// <returns></returns>
+        public List<TestDto> ExecuteProcedureQuery(int id)
+        {
+            return _testRepository.SqlProcedureQuery<Test>("PROC_GetTable", new { id = id }).Adapt<List<TestDto>>();
+        }
+
+        /// <summary>
+        /// 执行存储过程查询返回多个结果
+        /// </summary>
+        /// <param name="id"></param>
+        /// <remarks>
+        /// <code>
+        /// CREATE PROC PROC_GetTableSet @id INT
+        /// AS
+        /// BEGIN
+        ///     SELECT *
+        ///     FROM dbo.Test
+        ///     WHERE Id > @id;
+        ///
+        ///     SELECT TOP 20
+        ///            *
+        ///     FROM dbo.Test
+        ///     WHERE Id > @id;
+        ///
+        ///     SELECT TOP 5
+        ///            *
+        ///     FROM dbo.Test
+        ///     WHERE Id > @id;
+        /// END
+        /// </code>
+        /// </remarks>
+        /// <returns></returns>
+        public object ExecuteProcedureQuerySet(int id)
+        {
+            var (list1, list2, list3) = _testRepository.SqlProcedureQueryMultiple<Test, Test, Test>("PROC_GetTableSet", new { id = id });
+
+            return new
+            {
+                list1,
+                list2,
+                list3
+            };
+        }
+
+        /// <summary>
+        /// 执行存储过程返回单行单列
+        /// </summary>
+        /// <remarks>
+        /// <code>
+        /// CREATE PROC PROC_GetScalarValue
+        /// AS
+        /// BEGIN
+        ///     SELECT 'Fur';
+        /// END
+        /// </code>
+        /// </remarks>
+        /// <returns></returns>
+        public string ExecuteProcedureScalar()
+        {
+            return _testRepository.SqlProcedureScalar<string>("PROC_GetScalarValue");
+        }
+
+        /// <summary>
+        /// 执行存储过程返回受影响行数
+        /// </summary>
+        /// <remarks>
+        /// <code>
+        /// CREATE PROC PROC_AddTest
+        /// AS
+        /// BEGIN
+        ///     INSERT INTO dbo.Test
+        ///     (
+        ///         TenantId,
+        ///         Name,
+        ///         Address,
+        ///         Age
+        ///     )
+        ///     VALUES
+        ///     (   NULL,     -- TenantId - uniqueidentifier
+        ///         N'存储过程',  -- Name - nvarchar(max)
+        ///         N'微软数据库', -- Address - nvarchar(max)
+        ///         5         -- Age - int
+        ///         );
+        /// END
+        /// </code>
+        /// </remarks>
+        public int ExecuteProcedureNonQuery()
+        {
+            return _testRepository.SqlProcedureNonQuery("PROC_AddTest");
+        }
+
+        /// <summary>
+        /// 执行存储过程带OUTPUT，返回值，还带结果集（非常复杂）😡
+        /// </summary>
+        /// <remarks>
+        /// <code>
+        /// CREATE PROC PROC_Output
+        ///     @Id INT,
+        ///     @Name NVARCHAR(32) OUTPUT,
+        ///     @Age INT OUTPUT
+        /// AS
+        /// BEGIN
+        ///     SET @Name = 'Fur Output';
+        ///
+        ///     SELECT *
+        ///     FROM dbo.Test
+        ///     WHERE Id > @Id;
+        ///
+        ///     SELECT TOP 10
+        ///            *
+        ///     FROM dbo.Test;
+        ///
+        ///     SET @Age = 27;
+        ///
+        ///     RETURN 10;
+        /// END;
+        /// </code>
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public object ExecuteProcedureOutput(int id)
+        {
+            var result = _testRepository.SqlProcedureOutput("PROC_Output", new ProcOutputParameter { Id = id });
+
+            // 将Result转为集合
+            var (list1, list2) = result.Result.ToList<Test, Test>();
+
+            return new
+            {
+                result.OutputValues,
+                result.ReturnValue,
+                list1,
+                list2
+            };
+        }
     }
 }
