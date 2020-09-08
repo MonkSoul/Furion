@@ -976,5 +976,119 @@ namespace Fur.DatabaseAccessor
             var result = await Database.ExecuteScalarAsync(procName, model.ToSqlParameters(), CommandType.StoredProcedure, cancellationToken: cancellationToken);
             return result.Adapt<TResult>();
         }
+
+        /// <summary>
+        /// 执行存储过程无数据返回
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>int</returns>
+        public virtual int SqlProcedureExecute(string procName, params object[] parameters)
+        {
+            return Database.ExecuteNonQuery(procName, parameters, CommandType.StoredProcedure);
+        }
+
+        /// <summary>
+        /// 执行存储过程无数据返回
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>int</returns>
+        public virtual int SqlProcedureExecute(string procName, object model)
+        {
+            return Database.ExecuteNonQuery(procName, model.ToSqlParameters(), CommandType.StoredProcedure);
+        }
+
+        /// <summary>
+        /// 执行存储过程无数据返回
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>int</returns>
+        public virtual Task<int> SqlProcedureExecuteAsync(string procName, params object[] parameters)
+        {
+            return Database.ExecuteNonQueryAsync(procName, parameters, CommandType.StoredProcedure);
+        }
+
+        /// <summary>
+        /// 执行存储过程无数据返回
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>int</returns>
+        public virtual Task<int> SqlProcedureExecuteAsync(string procName, object[] parameters, CancellationToken cancellationToken = default)
+        {
+            return Database.ExecuteNonQueryAsync(procName, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// 执行存储过程无数据返回
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>int</returns>
+        public virtual Task<int> SqlProcedureExecuteAsync(string procName, object model, CancellationToken cancellationToken = default)
+        {
+            return Database.ExecuteNonQueryAsync(procName, model.ToSqlParameters(), CommandType.StoredProcedure, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// 执行 Sql 无数据返回
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>int</returns>
+        public virtual int SqlExecute(string sql, params object[] parameters)
+        {
+            return Database.ExecuteNonQuery(sql, parameters, CommandType.StoredProcedure);
+        }
+
+        /// <summary>
+        /// 执行 Sql 无数据返回
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>int</returns>
+        public virtual int SqlExecute(string sql, object model)
+        {
+            return Database.ExecuteNonQuery(sql, model.ToSqlParameters(), CommandType.StoredProcedure);
+        }
+
+        /// <summary>
+        /// 执行 Sql 无数据返回
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>int</returns>
+        public virtual Task<int> SqlExecuteAsync(string sql, params object[] parameters)
+        {
+            return Database.ExecuteNonQueryAsync(sql, parameters, CommandType.StoredProcedure);
+        }
+
+        /// <summary>
+        /// 执行 Sql 无数据返回
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>int</returns>
+        public virtual Task<int> SqlExecuteAsync(string sql, object[] parameters, CancellationToken cancellationToken = default)
+        {
+            return Database.ExecuteNonQueryAsync(sql, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// 执行 Sql 无数据返回
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>int</returns>
+        public virtual Task<int> SqlExecuteAsync(string sql, object model, CancellationToken cancellationToken = default)
+        {
+            return Database.ExecuteNonQueryAsync(sql, model.ToSqlParameters(), CommandType.StoredProcedure, cancellationToken: cancellationToken);
+        }
     }
 }
