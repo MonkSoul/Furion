@@ -21,13 +21,19 @@
 
 `Fur` **是基于最新的 .NET 5 每日构建版构建的，目的是为了尽早体验新功能，做出最快的正式版前的调整。** ✈ 
 
-[⏳ 查看开发进度](https://gitee.com/monksoul/Fur/board)
+<div align="right">
+
+**[⏳ 查看开发进度](https://gitee.com/monksoul/Fur/board)**
+
+</div>
 
 所以需要运行 `Fur` 目前需要三个条件：
 
 - 添加 Nuget 包源：dotnet5（`https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json`）
 - 安装最新的 .NET 5 Preview 8：https://dotnet.microsoft.com/download/dotnet/5.0
 - 升级 Visual Studio 到最新版
+
+-----
 
 ## 名字的由来
 
