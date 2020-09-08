@@ -13,10 +13,12 @@ using Fur;
 using Fur.DatabaseAccessor;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -95,8 +97,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务</param>
         /// <param name="connectionString">连接字符串</param>
         /// <param name="poolSize">池大小</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddAppDbContextPool<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString, int poolSize = 100)
+        public static IServiceCollection AddAppDbContextPool<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString, int poolSize = 100, params IInterceptor[] interceptors)
             where TDbContext : DbContext
             where TDbContextLocator : class, IDbContextLocator, new()
         {
@@ -108,7 +111,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddScoped<TDbContext>();
 
             // 配置数据库上下文
-            services.AddDbContextPool<TDbContext>(ConfigureDbContext(connectionString), poolSize: poolSize);
+            services.AddDbContextPool<TDbContext>(ConfigureDbContext(connectionString, interceptors), poolSize: poolSize);
 
             return services;
         }
@@ -137,8 +140,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <param name="services">服务</param>
         /// <param name="connectionString">连接字符串</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddAppDbContext<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString)
+        public static IServiceCollection AddAppDbContext<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString, params IInterceptor[] interceptors)
             where TDbContext : DbContext
             where TDbContextLocator : class, IDbContextLocator, new()
         {
@@ -150,7 +154,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddScoped<TDbContext>();
 
             // 配置数据库上下文
-            services.AddDbContext<TDbContext>(ConfigureDbContext(connectionString));
+            services.AddDbContext<TDbContext>(ConfigureDbContext(connectionString, interceptors));
 
             return services;
         }
@@ -159,8 +163,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 配置数据库上下文
         /// </summary>
         /// <param name="connectionString">数据库连接字符串</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns></returns>
-        private static Action<IServiceProvider, DbContextOptionsBuilder> ConfigureDbContext(string connectionString)
+        private static Action<IServiceProvider, DbContextOptionsBuilder> ConfigureDbContext(string connectionString, params IInterceptor[] interceptors)
         {
             return (serviceProvider, options) =>
             {
@@ -177,8 +182,32 @@ namespace Microsoft.Extensions.DependencyInjection
                     options.MigrationsAssembly("Fur.Database.Migrations");
                 });
 
+                // 添加拦截器
+                AddInterceptors(interceptors, options);
+
                 //options.UseInternalServiceProvider(serviceProvider);
             };
+        }
+
+        /// <summary>
+        /// 数据库数据库拦截器
+        /// </summary>
+        /// <param name="interceptors">拦截器</param>
+        /// <param name="options"></param>
+        private static void AddInterceptors(IInterceptor[] interceptors, DbContextOptionsBuilder options)
+        {
+            if (App.Settings.InjectMiniProfiler != true) return;
+
+            // 添加拦截器
+            var interceptorList = new List<IInterceptor>
+            {
+                new SqlConnectionProfilerInterceptor()
+            };
+            if (interceptors != null || interceptors.Length > 0)
+            {
+                interceptorList.AddRange(interceptors);
+            }
+            options.AddInterceptors(interceptorList.ToArray());
         }
 
         /// <summary>
