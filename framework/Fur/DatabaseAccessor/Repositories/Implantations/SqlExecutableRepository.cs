@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Mapster;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading;
@@ -857,6 +858,123 @@ namespace Fur.DatabaseAccessor
         {
             var dataset = await Database.DataAdapterFillAsync(procName, model.ToSqlParameters(), CommandType.StoredProcedure, cancellationToken: cancellationToken);
             return dataset.ToList<T1, T2, T3, T4, T5, T6, T7, T8>();
+        }
+
+        /// <summary>
+        /// 执行存储过程返回 单行单列
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>object</returns>
+        public virtual object SqlProcedureScalar(string procName, params object[] parameters)
+        {
+            return Database.ExecuteScalar(procName, parameters, CommandType.StoredProcedure);
+        }
+
+        /// <summary>
+        /// 执行存储过程返回 单行单列
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>object</returns>
+        public virtual object SqlProcedureScalar(string procName, object model)
+        {
+            return Database.ExecuteScalar(procName, model.ToSqlParameters(), CommandType.StoredProcedure);
+        }
+
+        /// <summary>
+        /// 执行存储过程返回 单行单列
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>object</returns>
+        public virtual Task<object> SqlProcedureScalarAsync(string procName, params object[] parameters)
+        {
+            return Database.ExecuteScalarAsync(procName, parameters, CommandType.StoredProcedure);
+        }
+
+        /// <summary>
+        /// 执行存储过程返回 单行单列
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>object</returns>
+        public virtual Task<object> SqlProcedureScalarAsync(string procName, object[] parameters, CancellationToken cancellationToken = default)
+        {
+            return Database.ExecuteScalarAsync(procName, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// 执行存储过程返回 单行单列
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>object</returns>
+        public virtual Task<object> SqlProcedureScalarAsync(string procName, object model, CancellationToken cancellationToken = default)
+        {
+            return Database.ExecuteScalarAsync(procName, model.ToSqlParameters(), CommandType.StoredProcedure, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// 执行存储过程返回 单行单列
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>TResult</returns>
+        public virtual TResult SqlProcedureScalar<TResult>(string procName, params object[] parameters)
+        {
+            return Database.ExecuteScalar(procName, parameters, CommandType.StoredProcedure).Adapt<TResult>();
+        }
+
+        /// <summary>
+        /// 执行存储过程返回 单行单列
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>TResult</returns>
+        public virtual TResult SqlProcedureScalar<TResult>(string procName, object model)
+        {
+            return Database.ExecuteScalar(procName, model.ToSqlParameters(), CommandType.StoredProcedure).Adapt<TResult>();
+        }
+
+        /// <summary>
+        /// 执行存储过程返回 单行单列
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>TResult</returns>
+        public virtual async Task<TResult> SqlProcedureScalarAsync<TResult>(string procName, params object[] parameters)
+        {
+            var result = await Database.ExecuteScalarAsync(procName, parameters, CommandType.StoredProcedure);
+            return result.Adapt<TResult>();
+        }
+
+        /// <summary>
+        /// 执行存储过程返回 单行单列
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>TResult</returns>
+        public virtual async Task<TResult> SqlProcedureScalarAsync<TResult>(string procName, object[] parameters, CancellationToken cancellationToken = default)
+        {
+            var result = await Database.ExecuteScalarAsync(procName, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
+            return result.Adapt<TResult>();
+        }
+
+        /// <summary>
+        /// 执行存储过程返回 单行单列
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>TResult</returns>
+        public virtual async Task<TResult> SqlProcedureScalarAsync<TResult>(string procName, object model, CancellationToken cancellationToken = default)
+        {
+            var result = await Database.ExecuteScalarAsync(procName, model.ToSqlParameters(), CommandType.StoredProcedure, cancellationToken: cancellationToken);
+            return result.Adapt<TResult>();
         }
     }
 }

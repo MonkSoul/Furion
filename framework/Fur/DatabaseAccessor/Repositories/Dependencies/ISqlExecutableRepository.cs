@@ -675,5 +675,89 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
         Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlProcedureSetAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string procName, object model, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 执行存储过程返回 单行单列
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>object</returns>
+        object SqlProcedureScalar(string procName, params object[] parameters);
+
+        /// <summary>
+        /// 执行存储过程返回 单行单列
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>object</returns>
+        object SqlProcedureScalar(string procName, object model);
+
+        /// <summary>
+        /// 执行存储过程返回 单行单列
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>object</returns>
+        Task<object> SqlProcedureScalarAsync(string procName, params object[] parameters);
+
+        /// <summary>
+        /// 执行存储过程返回 单行单列
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>object</returns>
+        Task<object> SqlProcedureScalarAsync(string procName, object[] parameters, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 执行存储过程返回 单行单列
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>object</returns>
+        Task<object> SqlProcedureScalarAsync(string procName, object model, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 执行存储过程返回 单行单列
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>TResult</returns>
+        TResult SqlProcedureScalar<TResult>(string procName, params object[] parameters);
+
+        /// <summary>
+        /// 执行存储过程返回 单行单列
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>TResult</returns>
+        TResult SqlProcedureScalar<TResult>(string procName, object model);
+
+        /// <summary>
+        /// 执行存储过程返回 单行单列
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>TResult</returns>
+        Task<TResult> SqlProcedureScalarAsync<TResult>(string procName, params object[] parameters);
+
+        /// <summary>
+        /// 执行存储过程返回 单行单列
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>TResult</returns>
+        Task<TResult> SqlProcedureScalarAsync<TResult>(string procName, object[] parameters, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 执行存储过程返回 单行单列
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>TResult</returns>
+        Task<TResult> SqlProcedureScalarAsync<TResult>(string procName, object model, CancellationToken cancellationToken = default);
     }
 }
