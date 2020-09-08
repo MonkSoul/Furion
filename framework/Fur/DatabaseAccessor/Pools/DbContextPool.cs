@@ -101,10 +101,9 @@ namespace Fur.DatabaseAccessor
                 .Where(u => u.ChangeTracker.HasChanges())
                 .Select(u => u.SaveChangesAsync(cancellationToken));
 
-            // 等等所有异步完成
-            await Task.WhenAll(tasks);
-
-            return tasks.Count();
+            // 等待所有异步完成
+            var results = await Task.WhenAll(tasks);
+            return results.Length;
         }
 
         /// <summary>
@@ -120,10 +119,9 @@ namespace Fur.DatabaseAccessor
                 .Where(u => u.ChangeTracker.HasChanges())
                 .Select(u => u.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken));
 
-            // 等等所有异步完成
-            await Task.WhenAll(tasks);
-
-            return tasks.Count();
+            // 等待所有异步完成
+            var results = await Task.WhenAll(tasks);
+            return results.Length;
         }
     }
 }

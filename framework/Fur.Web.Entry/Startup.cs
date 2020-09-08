@@ -24,16 +24,16 @@ namespace Fur.Web.Entry
                 options.AddSpecificationDocuments();
             });
 
+            services.AddControllers()
+                .AddDynamicApiControllers()
+                .AddFriendlyException()
+                .AddDataValidation();
+
             services.AddDatabaseAccessor(options =>
             {
                 options.AddAppDbContextPool<FurDbContext>(Configuration.GetConnectionString("DbConnectionString"));
                 options.AddAppDbContextPool<FurDbContext2, FurDbContextLocator2>(Configuration.GetConnectionString("DbConnectionString2"));
             });
-
-            services.AddControllers()
-                .AddDynamicApiControllers()
-                .AddFriendlyException()
-                .AddDataValidation();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
