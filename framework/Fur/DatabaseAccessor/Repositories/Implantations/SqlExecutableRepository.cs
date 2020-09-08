@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
@@ -79,6 +80,66 @@ namespace Fur.DatabaseAccessor
         public virtual Task<DataTable> SqlProcedureAsync(string procName, object model, CancellationToken cancellationToken = default)
         {
             return Database.ExecuteReaderAsync(procName, model.ToSqlParameters(), CommandType.StoredProcedure, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// 执行存储过程返回 List 集合
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>List<T></returns>
+        public virtual List<T> SqlProcedure<T>(string procName, params object[] parameters)
+        {
+            return Database.ExecuteReader(procName, parameters, CommandType.StoredProcedure).ToList<T>();
+        }
+
+        /// <summary>
+        /// 执行存储过程返回 List 集合
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>List<T></returns>
+        public virtual List<T> SqlProcedure<T>(string procName, object model)
+        {
+            return Database.ExecuteReader(procName, model.ToSqlParameters(), CommandType.StoredProcedure).ToList<T>();
+        }
+
+        /// <summary>
+        /// 执行存储过程返回 List 集合
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>List<T></returns>
+        public virtual async Task<List<T>> SqlProcedureAsync<T>(string procName, params object[] parameters)
+        {
+            var dataTable = await Database.ExecuteReaderAsync(procName, parameters, CommandType.StoredProcedure);
+            return dataTable.ToList<T>();
+        }
+
+        /// <summary>
+        /// 执行存储过程返回 List 集合
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>List<T></returns>
+        public virtual async Task<List<T>> SqlProcedureAsync<T>(string procName, object[] parameters, CancellationToken cancellationToken = default)
+        {
+            var dataTable = await Database.ExecuteReaderAsync(procName, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
+            return dataTable.ToList<T>();
+        }
+
+        /// <summary>
+        /// 执行存储过程返回 List 集合
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>List<T></returns>
+        public virtual async Task<List<T>> SqlProcedureAsync<T>(string procName, object model, CancellationToken cancellationToken = default)
+        {
+            var dataTable = await Database.ExecuteReaderAsync(procName, model.ToSqlParameters(), CommandType.StoredProcedure, cancellationToken: cancellationToken);
+            return dataTable.ToList<T>();
         }
     }
 }

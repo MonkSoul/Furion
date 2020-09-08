@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
@@ -74,5 +75,47 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>DataTable</returns>
         Task<DataTable> SqlProcedureAsync(string procName, object model, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 执行存储过程返回 List 集合
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>List<T></returns>
+        List<T> SqlProcedure<T>(string procName, params object[] parameters);
+
+        /// <summary>
+        /// 执行存储过程返回 List 集合
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>List<T></returns>
+        List<T> SqlProcedure<T>(string procName, object model);
+
+        /// <summary>
+        /// 执行存储过程返回 List 集合
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>List<T></returns>
+        Task<List<T>> SqlProcedureAsync<T>(string procName, params object[] parameters);
+
+        /// <summary>
+        /// 执行存储过程返回 List 集合
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>List<T></returns>
+        Task<List<T>> SqlProcedureAsync<T>(string procName, object[] parameters, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 执行存储过程返回 List 集合
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>List<T></returns>
+        Task<List<T>> SqlProcedureAsync<T>(string procName, object model, CancellationToken cancellationToken = default);
     }
 }
