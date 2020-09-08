@@ -141,5 +141,62 @@ namespace Fur.DatabaseAccessor
             var dataTable = await Database.ExecuteReaderAsync(procName, model.ToSqlParameters(), CommandType.StoredProcedure, cancellationToken: cancellationToken);
             return dataTable.ToList<T>();
         }
+
+        /// <summary>
+        /// 执行存储过程返回 DataSet
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>DataSet</returns>
+        public virtual DataSet SqlProcedureSet(string procName, params object[] parameters)
+        {
+            return Database.DataAdapterFill(procName, parameters, CommandType.StoredProcedure);
+        }
+
+        /// <summary>
+        /// 执行存储过程返回 DataSet
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>DataSet</returns>
+        public virtual DataSet SqlProcedureSet(string procName, object model)
+        {
+            return Database.DataAdapterFill(procName, model.ToSqlParameters(), CommandType.StoredProcedure);
+        }
+
+        /// <summary>
+        /// 执行存储过程返回 DataSet
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>DataSet</returns>
+        public virtual Task<DataSet> SqlProcedureSetAsync(string procName, params object[] parameters)
+        {
+            return Database.DataAdapterFillAsync(procName, parameters, CommandType.StoredProcedure);
+        }
+
+        /// <summary>
+        /// 执行存储过程返回 DataSet
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>DataSet</returns>
+        public virtual Task<DataSet> SqlProcedureSetAsync(string procName, object[] parameters, CancellationToken cancellationToken = default)
+        {
+            return Database.DataAdapterFillAsync(procName, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// 执行存储过程返回 DataSet
+        /// </summary>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>DataSet</returns>
+        public virtual Task<DataSet> SqlProcedureSetAsync(string procName, object model, CancellationToken cancellationToken = default)
+        {
+            return Database.DataAdapterFillAsync(procName, model.ToSqlParameters(), CommandType.StoredProcedure, cancellationToken: cancellationToken);
+        }
     }
 }
