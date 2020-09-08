@@ -84,20 +84,24 @@ select Id,Name,Age,Address from dbo.test where id > @id;
         [NonTransact]
         public bool CheckScope()
         {
+            // 测试只读数据库操作
             var ts = _testRepository.Constraint<IReadableRepository<Test>>();
             //var ad = ts.Find(6);
 
+            // 测试服务提供器获取
             var a1 = _serviceProvider.GetService<IRepository>();
             var b1 = _serviceProvider.GetService<IRepository>();
 
             var z = a1.Equals(b1); // true
 
+            // 测试非泛型动态切换数据库
             var test1 = _repository.Change<Test>();
             var test2 = _repository.Change<Test>();
             var a = test1.Equals(test2);    // true
             var b = test1.Equals(_testRepository);  // true
             var c = test2.Equals(_testRepository);  // true
 
+            // 测试泛型仓储动态切换数据库
             var test3 = _testRepository.Change<Test>();
             var d = test1.Equals(test3); // true
             var e = test3.Equals(_testRepository); // true
