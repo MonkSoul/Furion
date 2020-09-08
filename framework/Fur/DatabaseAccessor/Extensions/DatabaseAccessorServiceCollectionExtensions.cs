@@ -11,6 +11,7 @@
 
 using Fur;
 using Fur.DatabaseAccessor;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
@@ -61,6 +62,9 @@ namespace Microsoft.Extensions.DependencyInjection
                 }
                 return (Func<Type, DbContext>)dbContextResolve;
             });
+
+            // 注册全局工作单元过滤器
+            services.Configure<MvcOptions>(options => options.Filters.Add<UnitOfWorkFilter>());
 
             return services;
         }

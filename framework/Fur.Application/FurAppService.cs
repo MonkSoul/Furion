@@ -32,16 +32,31 @@ namespace Fur.Application
             _repository2 = repository2;
         }
 
+        /// <summary>
+        /// 查询所有
+        /// </summary>
+        /// <returns></returns>
+        [NonTransact]
         public IEnumerable<TestDto> Get()
         {
             return _testRepository.AsQueryable().ProjectToType<TestDto>().ToList();
         }
 
+        /// <summary>
+        /// 查询sql
+        /// </summary>
+        /// <returns></returns>
+        [NonTransact]
         public List<Test> ExecuteSqlQuery()
         {
             return _testRepository.SqlQuery<Test>("SELECT * FROM dbo.Test where id > @id", new { id = 10 });
         }
 
+        /// <summary>
+        /// 查询多个sql
+        /// </summary>
+        /// <returns></returns>
+        [NonTransact]
         public object ExecuteSqlQuerySet()
         {
             var (list1, list2, list3) = _testRepository.SqlQuerySet<Test, Test, TestDto>(@"
@@ -58,6 +73,11 @@ select Id,Name,Age,Address from dbo.test where id > @id;
             };
         }
 
+        /// <summary>
+        /// 判断DbContext实例生命周期
+        /// </summary>
+        /// <returns></returns>
+        [NonTransact]
         public bool CheckScope()
         {
             var ts = _testRepository.Constraint<IReadableRepository<Test>>();
@@ -87,30 +107,52 @@ select Id,Name,Age,Address from dbo.test where id > @id;
             return a == b == c == d == e == f == g == z;
         }
 
+        /// <summary>
+        /// 获取一个
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [NonTransact]
         public TestDto Get(int id)
         {
             return _testRepository.Find(id).Adapt<TestDto>();
         }
 
+        /// <summary>
+        /// 新增一条
+        /// </summary>
+        /// <param name="testDto"></param>
         public void Add(TestDto testDto)
         {
-            _testRepository.InsertNow(testDto.Adapt<Test>());
+            _testRepository.Insert(testDto.Adapt<Test>());
         }
 
+        /// <summary>
+        /// 更新部分字段
+        /// </summary>
+        /// <param name="testDto"></param>
         [IfException(EFCoreErrorCodes.KeyNotSet, ErrorMessage = "没有设置主键")]
         [IfException(EFCoreErrorCodes.DataNotFound, ErrorMessage = "数据没找到")]
         public void UpdateInclude(TestDto testDto)
         {
-            _testRepository.UpdateIncludeExistsNow(testDto.Adapt<Test>(), u => u.Name, u => u.Age);
+            _testRepository.UpdateIncludeExists(testDto.Adapt<Test>(), u => u.Name, u => u.Age);
         }
 
+        /// <summary>
+        /// 排除部分字段更新
+        /// </summary>
+        /// <param name="testDto"></param>
         [IfException(EFCoreErrorCodes.KeyNotSet, ErrorMessage = "没有设置主键")]
         [IfException(EFCoreErrorCodes.DataNotFound, ErrorMessage = "数据没找到")]
         public void UpdateExclude(TestDto testDto)
         {
-            _testRepository.UpdateExcludeExistsNow(testDto.Adapt<Test>(), u => u.Address);
+            _testRepository.UpdateExcludeExists(testDto.Adapt<Test>(), u => u.Address);
         }
 
+        /// <summary>
+        /// 更新所有
+        /// </summary>
+        /// <param name="testDto"></param>
         [IfException(EFCoreErrorCodes.KeyNotSet, ErrorMessage = "没有设置主键")]
         [IfException(EFCoreErrorCodes.DataNotFound, ErrorMessage = "数据没找到")]
         public void UpdateAll(TestDto testDto)
@@ -118,10 +160,14 @@ select Id,Name,Age,Address from dbo.test where id > @id;
             _testRepository.UpdateExistsNow(testDto.Adapt<Test>());
         }
 
+        /// <summary>
+        /// 删除一条
+        /// </summary>
+        /// <param name="id"></param>
         [IfException(EFCoreErrorCodes.DataNotFound, ErrorMessage = "数据没找到")]
         public void Delete(int id)
         {
-            _testRepository.DeleteExistsNow(id);
+            _testRepository.DeleteExists(id);
         }
     }
 }
