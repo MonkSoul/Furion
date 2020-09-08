@@ -75,6 +75,16 @@
 <img src="./handbook/static/img/furfunctions.png"/>
 </p>
 
+## 框架依赖
+
+`Fur` 为了追求极速入门，极致性能，尽可能的不使用或减少第三方依赖。目前 `Fur` 仅集成了以下三个第三方依赖：
+
+- [Mapster](https://github.com/MapsterMapper/Mapster)：比 `AutoMapper` 还高性能的对象映射
+- [MiniProfiler](https://github.com/MiniProfiler/dotnet)：性能分析和监听必备
+- [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)：`Swagger` 接口文档
+
+麻雀虽小五脏俱全。`Fur` 即使只集成了这三个第三方依赖，但是主流的 `依赖注入/控制反转`，`AOP` 面向切面编程，`事件总线`，`数据验证`，`数据库操作` 等等一个都不少。
+
 ## 环境要求
 
 - Visual Studio 2019 16.7 +
