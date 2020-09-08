@@ -29,6 +29,8 @@
 
 **[⏳ 查看Fur目前进度](https://gitee.com/monksoul/Fur/board)**
 
+<img src="./handbook/static/img/demo.gif" />
+
 -----
 
 ## 名字的由来
