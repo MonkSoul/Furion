@@ -17,21 +17,21 @@
 
 </div>
 
-## ✨立即尝鲜✨
+## ✨ 立即尝鲜 ✨
 
-`Fur` **是基于最新的 .NET 5 每日构建版构建的，目的是为了尽早体验新功能，做出最快的正式版前的调整。** ✈ 
+`Fur` **是基于最新的 .NET 5 每日构建版构建的，目的是为了尽早体验新功能，做出最快的正式版前的调整。** ✈
 
 所以需要运行 `Fur` 目前需要三个条件：
 
-- 添加 Nuget 包源：dotnet5（`https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json`）
-- 安装最新的 .NET 5 Preview 8：https://dotnet.microsoft.com/download/dotnet/5.0
-- 升级 Visual Studio 到最新版
+- **添加 Nuget 包源**：dotnet5（https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json）
+- **安装最新的 .NET 5 Preview 8**：https://dotnet.microsoft.com/download/dotnet/5.0
+- **升级 Visual Studio 到最新版**：https://docs.microsoft.com/zh-cn/visualstudio/releases/2019/release-notes-preview#16.8.0-pre.2.1
 
-**[⏳ 查看Fur目前进度](https://gitee.com/monksoul/Fur/board)**
+**[⏳ 查看 Fur 目前进度](https://gitee.com/monksoul/Fur/board)**
 
 <img src="./handbook/static/img/demo.gif" />
 
------
+---
 
 ## 名字的由来
 
@@ -94,17 +94,17 @@
 ## 支持平台
 
 - 运行环境
-    - Windows
-    - Linux
-    - MacOS
-    - Docker/K8S
+  - Windows
+  - Linux
+  - MacOS
+  - Docker/K8S
 - 数据库
-    - SqlServer
-    - Sqlite
-    - Azure Cosmos
-    - MySql
-    - PostgreSQL
-    - 内存数据库
+  - SqlServer
+  - Sqlite
+  - Azure Cosmos
+  - MySql
+  - PostgreSQL
+  - 内存数据库
 
 ## 谁在使用
 
