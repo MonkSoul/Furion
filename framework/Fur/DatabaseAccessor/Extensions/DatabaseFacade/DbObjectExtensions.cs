@@ -9,13 +9,16 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.FriendlyException;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using StackExchange.Profiling;
 using StackExchange.Profiling.Data;
+using System;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,6 +29,11 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     public static class DbObjectExtensions
     {
+        /// <summary>
+        /// 不支持操作类型
+        /// </summary>
+        private const string NotSupportException = "The database provider does not support {0} operations";
+
         /// <summary>
         /// MiniProfiler 组件状态
         /// </summary>
@@ -131,6 +139,9 @@ namespace Fur.DatabaseAccessor
         /// <returns>数据库连接对象及数据库命令对象</returns>
         private static (DbConnection dbConnection, DbCommand dbCommand) CreateDbCommand(this DatabaseFacade databaseFacade, string sql, object[] parameters = null, CommandType commandType = CommandType.Text)
         {
+            // 检查数据库支持情况
+            CheckDbObjectSupport(databaseFacade, commandType);
+
             // 判断是否启用 MiniProfiler 组件，如果有，则包装链接
             var dbConnection = InjectMiniProfiler ? new ProfiledDbConnection(databaseFacade.GetDbConnection(), MiniProfiler.Current) : databaseFacade.GetDbConnection();
 
@@ -155,6 +166,9 @@ namespace Fur.DatabaseAccessor
         /// <returns>数据库连接对象、数据库命令对象和数据库适配器对象</returns>
         private static (DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter) CreateDbDataAdapter(this DatabaseFacade databaseFacade, string sql, object[] parameters = null, CommandType commandType = CommandType.Text)
         {
+            // 检查数据库支持情况
+            CheckDbObjectSupport(databaseFacade, commandType);
+
             // 获取数据库连接字符串
             var dbConnection = databaseFacade.GetDbConnection();
 
@@ -174,6 +188,20 @@ namespace Fur.DatabaseAccessor
 
             // 返回
             return (dbConnection, dbCommand, dbDataAdapter);
+        }
+
+        /// <summary>
+        /// 检查数据库对象支持情况
+        /// </summary>
+        /// <param name="databaseFacade"></param>
+        /// <param name="commandType"></param>
+        private static void CheckDbObjectSupport(DatabaseFacade databaseFacade, CommandType commandType)
+        {
+            // 处理不支持存储过程的数据库
+            if (commandType == CommandType.StoredProcedure && DatabaseProviderOptions.NotSupportStoredProcedureDatabases.Contains(databaseFacade.ProviderName))
+            {
+                Oops.Oh(NotSupportException, typeof(NotSupportedException), "stored procedure");
+            }
         }
 
         /// <summary>

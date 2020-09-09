@@ -45,5 +45,45 @@ namespace Fur.DatabaseAccessor
         /// PostgreSQL 提供器程序集
         /// </summary>
         internal const string PostgreSQL = "Npgsql.EntityFrameworkCore.PostgreSQL";
+
+        /// <summary>
+        /// 不支持存储过程的数据库
+        /// </summary>
+        internal static readonly string[] NotSupportStoredProcedureDatabases;
+
+        /// <summary>
+        /// 不支持函数的数据库
+        /// </summary>
+        internal static readonly string[] NotSupportFunctionDatabases;
+
+        /// <summary>
+        /// 不支持表值函数的数据库
+        /// </summary>
+        internal static readonly string[] NotSupportTableFunctionDatabases;
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        static DatabaseProviderOptions()
+        {
+            NotSupportStoredProcedureDatabases = new[]
+            {
+                Sqlite,
+                InMemory
+            };
+
+            NotSupportFunctionDatabases = new[]
+            {
+                Sqlite,
+                InMemory
+            };
+
+            NotSupportTableFunctionDatabases = new[]
+            {
+                Sqlite,
+                InMemory,
+                MySql
+            };
+        }
     }
 }
