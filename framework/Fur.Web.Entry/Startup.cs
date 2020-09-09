@@ -43,17 +43,17 @@ namespace Fur.Web.Entry
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseApp(options =>
-            {
-                options.UseSpecificationDocuments();
-            });
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseApp(options =>
+            {
+                options.UseSpecificationDocuments();
+            });
 
             app.UseEndpoints(endpoints =>
             {
