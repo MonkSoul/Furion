@@ -12,6 +12,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Fur.Extensions
 {
@@ -27,6 +29,9 @@ namespace Fur.Extensions
         /// <returns></returns>
         internal static bool IsRichPrimitive(this Type type)
         {
+            // 处理元组类型
+            if (type.IsValueTuple()) return false;
+
             // 基元类型或值类型或字符串类型
             if (type.IsPrimitive || type.IsValueType || type == typeof(string)) return true;
 
@@ -93,6 +98,26 @@ namespace Fur.Extensions
         internal static bool IsValueTuple(this Type type)
         {
             return type.ToString().StartsWith(typeof(ValueTuple).FullName);
+        }
+
+        /// <summary>
+        /// 判断方法是否是异步
+        /// </summary>
+        /// <param name="method">方法</param>
+        /// <returns></returns>
+        internal static bool IsAsync(this MethodInfo method)
+        {
+            return method.ReturnType.IsAsync();
+        }
+
+        /// <summary>
+        /// 判断类型是否是异步类型
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        internal static bool IsAsync(this Type type)
+        {
+            return type.ToString().StartsWith(typeof(Task).FullName);
         }
     }
 }

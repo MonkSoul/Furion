@@ -116,8 +116,9 @@ namespace Fur.DataValidation
         /// <returns></returns>
         public static bool TryValidateValue(object value, string regexPattern, RegexOptions regexOptions = RegexOptions.None)
         {
-            if (value == null) Oops.Oh($"Value cannot be null", typeof(ArgumentNullException));
-            return Regex.IsMatch(value.ToString(), regexPattern, regexOptions);
+            return value == null
+                ? throw Oops.Oh($"Value cannot be null", typeof(ArgumentNullException))
+                : Regex.IsMatch(value.ToString(), regexPattern, regexOptions);
         }
 
         /// <summary>
@@ -217,14 +218,14 @@ namespace Fur.DataValidation
 
                 // 判断是否是有效的验证类型
                 if (!ValidationTypes.Any(u => u == type))
-                    Oops.Oh($"{type.Name} is not a valid validation type", typeof(InvalidOperationException));
+                    throw Oops.Oh($"{type.Name} is not a valid validation type", typeof(InvalidOperationException));
 
                 // 获取对应的枚举名称
                 var validationName = Enum.GetName(type, validationType);
 
                 // 判断是否配置验证正则表达式
                 if (!ValidationItemMetadatas.ContainsKey(validationName))
-                    Oops.Oh($"No ${validationName} validation type metadata exists", typeof(InvalidOperationException));
+                    throw Oops.Oh($"No ${validationName} validation type metadata exists", typeof(InvalidOperationException));
 
                 // 获取对应的验证选项
                 var validationItemMetadataAttribute = ValidationItemMetadatas[validationName];

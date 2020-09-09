@@ -74,7 +74,7 @@ namespace Fur.DatabaseAccessor
             if (parameters == null || parameters.Length == 0) return sqlParameters.ToArray();
 
             // 只支持要么全是基元类型，或全部都是类类型
-            if (!parameters.All(u => u.ParameterType.IsRichPrimitive()) || !parameters.All(u => u.ParameterType.IsClass))
+            if (!parameters.All(u => u.ParameterType.IsRichPrimitive()) && !parameters.All(u => u.ParameterType.IsClass))
                 throw Oops.Oh("Invalid type cast", typeof(InvalidOperationException));
 
             // 处理基元类型参数

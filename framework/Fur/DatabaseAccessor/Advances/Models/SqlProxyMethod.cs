@@ -9,51 +9,46 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
-using System.Collections.Generic;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Data;
 
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 存储过程输出返回值
+    /// Sql 代理方法元数据
     /// </summary>
-    public sealed class ProcedureOutputResult : ProcedureOutputResult<DataSet>
+    internal sealed class SqlProxyMethod
     {
         /// <summary>
-        /// 构造函数
+        /// 命令参数
         /// </summary>
-        public ProcedureOutputResult() : base()
-        {
-        }
-    }
-
-    /// <summary>
-    /// 存储过程输出返回值
-    /// </summary>
-    /// <typeparam name="TResult">泛型版本</typeparam>
-    public class ProcedureOutputResult<TResult>
-    {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public ProcedureOutputResult()
-        {
-            OutputValues = new List<ProcedureOutputValue>();
-        }
+        public SqlParameter[] SqlParameters { get; set; }
 
         /// <summary>
-        /// 输出值
+        /// 方法返回值
         /// </summary>
-        public List<ProcedureOutputValue> OutputValues { get; set; }
+        public Type ReturnType { get; set; }
 
         /// <summary>
-        /// 返回值
+        /// 数据库操作上下文
         /// </summary>
-        public object ReturnValue { get; set; }
+        public DbContext DbContext { get; set; }
 
         /// <summary>
-        /// 结果集
+        /// 是否是异步方法
         /// </summary>
-        public TResult Result { get; set; }
+        public bool IsAsync { get; set; }
+
+        /// <summary>
+        /// 命令类型
+        /// </summary>
+        public CommandType CommandType { get; set; }
+
+        /// <summary>
+        /// 最终 Sql 语句
+        /// </summary>
+        public string FinalSql { get; set; }
     }
 }

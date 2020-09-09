@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Fur.Application
 {
@@ -21,19 +22,23 @@ namespace Fur.Application
         private readonly IServiceProvider _serviceProvider;
         private readonly IRepository<Test, DbContextLocator> _repository1;
         private readonly IRepository<Test, FurDbContextLocator2> _repository2;
+        private readonly ISqlExecuteProxy _sqlExecuteProxy;
 
         public FurAppService(
             IRepository<Test> testRepository
             , IRepository repository
             , IServiceProvider serviceProvider
             , IRepository<Test, DbContextLocator> repository1
-            , IRepository<Test, FurDbContextLocator2> repository2)
+            , IRepository<Test, FurDbContextLocator2> repository2
+            , ISqlExecuteProxy sqlExecuteProxy)
         {
             _testRepository = testRepository;
             _repository = repository;
             _serviceProvider = serviceProvider;
             _repository1 = repository1;
             _repository2 = repository2;
+
+            _sqlExecuteProxy = sqlExecuteProxy;
         }
 
         /// <summary>
@@ -372,6 +377,97 @@ select Id,Name,Age,Address from dbo.test where id > @id;
         public List<TestDto> ExecuteTableFunction(int id)
         {
             return _testRepository.SqlFunctionQuery<Test>("dbo.FN_GetTest", new { id }).Adapt<List<TestDto>>();
+        }
+
+        /// <summary>
+        /// Sql 代理执行Sql语句
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<TestDto> SqlProxyToDataTable(int id)
+        {
+            return _sqlExecuteProxy.GetDataTable(id).ToList<Test>().Adapt<List<TestDto>>();
+        }
+
+        /// <summary>
+        /// Sql 代理执行Sql语句
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public object SqlProxyToDataSet(int id)
+        {
+            var (list1, list2, list3) = _sqlExecuteProxy.GetDataSet(id).ToList<Test, Test, TestDto>();
+            return new { list1, list2, list3 };
+        }
+
+        /// <summary>
+        /// Sql 代理执行Sql语句
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<object> SqlProxyToDataSet2Async(int id)
+        {
+            var dataSet = await _sqlExecuteProxy.GetDataSetAsync(id);
+            var (list1, list2, list3) = dataSet.ToList<Test, Test, TestDto>();
+            return new { list1, list2, list3 };
+        }
+
+        /// <summary>
+        /// Sql 代理执行Sql语句
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public object SqlProxyToDataSet3(int id)
+        {
+            var (list1, list2, list3) = _sqlExecuteProxy.GetDataSetTuple(id);
+            return new { list1, list2, list3 };
+        }
+
+        /// <summary>
+        /// Sql 代理执行Sql语句
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public string SqlProxyToScalar(int id)
+        {
+            return _sqlExecuteProxy.GetScalarName();
+        }
+
+        /// <summary>
+        /// Sql 代理执行Sql语句
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public object SqlProxyToOutput(int id)
+        {
+            var result = _sqlExecuteProxy.GetOutput(new ProcOutputParameter { Id = id });
+            return new
+            {
+                result.OutputValues,
+                result.ReturnValue,
+                result.Result.Item1,
+                result.Result.Item2
+            };
+        }
+
+        /// <summary>
+        /// Sql 代理执行Sql语句
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public string SqlProxyToScalarFunction(string name)
+        {
+            return _sqlExecuteProxy.GetScalarFunction(name);
+        }
+
+        /// <summary>
+        /// Sql 代理执行Sql语句
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<TestDto> SqlProxyToTableFunction(int id)
+        {
+            return _sqlExecuteProxy.GetTableFunction(id).Adapt<List<TestDto>>();
         }
     }
 }

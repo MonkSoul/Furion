@@ -9,15 +9,11 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
-using Fur.FriendlyException;
 using Mapster;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -1228,7 +1224,7 @@ namespace Fur.DatabaseAccessor
             var dataSet = Database.DataAdapterFill(procName, parameters, CommandType.StoredProcedure);
 
             // 包装结果集
-            return WrapperProcedureOutput(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput(parameters, dataSet);
         }
 
         /// <summary>
@@ -1245,7 +1241,7 @@ namespace Fur.DatabaseAccessor
             var dataSet = await Database.DataAdapterFillAsync(procName, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
             // 包装结果集
-            return WrapperProcedureOutput(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput(parameters, dataSet);
         }
 
         /// <summary>
@@ -1262,7 +1258,7 @@ namespace Fur.DatabaseAccessor
             var dataSet = Database.DataAdapterFill(procName, parameters, CommandType.StoredProcedure);
 
             // 包装结果集
-            return WrapperProcedureOutput(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput(parameters, dataSet);
         }
 
         /// <summary>
@@ -1279,7 +1275,7 @@ namespace Fur.DatabaseAccessor
             var dataSet = await Database.DataAdapterFillAsync(procName, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
             // 包装结果集
-            return WrapperProcedureOutput(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput(parameters, dataSet);
         }
 
         /// <summary>
@@ -1297,7 +1293,7 @@ namespace Fur.DatabaseAccessor
             var dataSet = Database.DataAdapterFill(procName, parameters, CommandType.StoredProcedure);
 
             // 包装结果集
-            return WrapperProcedureOutput<TResult>(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput<TResult>(parameters, dataSet);
         }
 
         /// <summary>
@@ -1315,7 +1311,7 @@ namespace Fur.DatabaseAccessor
             var dataSet = await Database.DataAdapterFillAsync(procName, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
             // 包装结果集
-            return WrapperProcedureOutput<TResult>(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput<TResult>(parameters, dataSet);
         }
 
         /// <summary>
@@ -1333,7 +1329,7 @@ namespace Fur.DatabaseAccessor
             var dataSet = Database.DataAdapterFill(procName, parameters, CommandType.StoredProcedure);
 
             // 包装结果集
-            return WrapperProcedureOutput<TResult>(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput<TResult>(parameters, dataSet);
         }
 
         /// <summary>
@@ -1351,7 +1347,7 @@ namespace Fur.DatabaseAccessor
             var dataSet = await Database.DataAdapterFillAsync(procName, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
             // 包装结果集
-            return WrapperProcedureOutput<TResult>(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput<TResult>(parameters, dataSet);
         }
 
         /// <summary>
@@ -1362,7 +1358,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>object</returns>
         public virtual object SqlFunctionScalar(string funcName, params SqlParameter[] parameters)
         {
-            var sql = CombineFunctionSql(DbFunctionType.Scalar, funcName, parameters);
+            var sql = DbHelpers.CombineFunctionSql(ProviderName, DbFunctionType.Scalar, funcName, parameters);
             return Database.ExecuteScalar(sql, parameters);
         }
 
@@ -1374,7 +1370,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>object</returns>
         public virtual object SqlFunctionScalar(string funcName, object model)
         {
-            var (sql, parameters) = CombineFunctionSql(DbFunctionType.Scalar, funcName, model);
+            var (sql, parameters) = DbHelpers.CombineFunctionSql(ProviderName, DbFunctionType.Scalar, funcName, model);
             return Database.ExecuteScalar(sql, parameters);
         }
 
@@ -1386,7 +1382,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>object</returns>
         public virtual Task<object> SqlFunctionScalarAsync(string funcName, params SqlParameter[] parameters)
         {
-            var sql = CombineFunctionSql(DbFunctionType.Scalar, funcName, parameters);
+            var sql = DbHelpers.CombineFunctionSql(ProviderName, DbFunctionType.Scalar, funcName, parameters);
             return Database.ExecuteScalarAsync(sql, parameters);
         }
 
@@ -1398,7 +1394,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>object</returns>
         public virtual Task<object> SqlFunctionScalarAsync(string funcName, SqlParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var sql = CombineFunctionSql(DbFunctionType.Scalar, funcName, parameters);
+            var sql = DbHelpers.CombineFunctionSql(ProviderName, DbFunctionType.Scalar, funcName, parameters);
             return Database.ExecuteScalarAsync(sql, parameters, cancellationToken: cancellationToken);
         }
 
@@ -1410,7 +1406,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>object</returns>
         public virtual Task<object> SqlFunctionScalarAsync(string funcName, object model, CancellationToken cancellationToken = default)
         {
-            var (sql, parameters) = CombineFunctionSql(DbFunctionType.Scalar, funcName, model);
+            var (sql, parameters) = DbHelpers.CombineFunctionSql(ProviderName, DbFunctionType.Scalar, funcName, model);
             return Database.ExecuteScalarAsync(sql, parameters, cancellationToken: cancellationToken);
         }
 
@@ -1423,7 +1419,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>TResult</returns>
         public virtual TResult SqlFunctionScalar<TResult>(string funcName, params SqlParameter[] parameters)
         {
-            var sql = CombineFunctionSql(DbFunctionType.Scalar, funcName, parameters);
+            var sql = DbHelpers.CombineFunctionSql(ProviderName, DbFunctionType.Scalar, funcName, parameters);
             return Database.ExecuteScalar(sql, parameters).Adapt<TResult>();
         }
 
@@ -1436,7 +1432,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>TResult</returns>
         public virtual TResult SqlFunctionScalar<TResult>(string funcName, object model)
         {
-            var (sql, parameters) = CombineFunctionSql(DbFunctionType.Scalar, funcName, model);
+            var (sql, parameters) = DbHelpers.CombineFunctionSql(ProviderName, DbFunctionType.Scalar, funcName, model);
             return Database.ExecuteScalar(sql, parameters).Adapt<TResult>();
         }
 
@@ -1449,7 +1445,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>TResult</returns>
         public virtual async Task<TResult> SqlFunctionScalarAsync<TResult>(string funcName, params SqlParameter[] parameters)
         {
-            var sql = CombineFunctionSql(DbFunctionType.Scalar, funcName, parameters);
+            var sql = DbHelpers.CombineFunctionSql(ProviderName, DbFunctionType.Scalar, funcName, parameters);
             var result = await Database.ExecuteScalarAsync(sql, parameters);
             return result.Adapt<TResult>();
         }
@@ -1463,7 +1459,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>TResult</returns>
         public virtual async Task<TResult> SqlFunctionScalarAsync<TResult>(string funcName, SqlParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var sql = CombineFunctionSql(DbFunctionType.Scalar, funcName, parameters);
+            var sql = DbHelpers.CombineFunctionSql(ProviderName, DbFunctionType.Scalar, funcName, parameters);
             var result = await Database.ExecuteScalarAsync(sql, parameters, cancellationToken: cancellationToken);
             return result.Adapt<TResult>();
         }
@@ -1477,7 +1473,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>object</returns>
         public virtual async Task<TResult> SqlFunctionScalarAsync<TResult>(string funcName, object model, CancellationToken cancellationToken = default)
         {
-            var (sql, parameters) = CombineFunctionSql(DbFunctionType.Scalar, funcName, model);
+            var (sql, parameters) = DbHelpers.CombineFunctionSql(ProviderName, DbFunctionType.Scalar, funcName, model);
             var result = await Database.ExecuteScalarAsync(sql, parameters, cancellationToken: cancellationToken);
             return result.Adapt<TResult>();
         }
@@ -1490,7 +1486,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>DataTable</returns>
         public virtual DataTable SqlFunctionQuery(string funcName, params SqlParameter[] parameters)
         {
-            var sql = CombineFunctionSql(DbFunctionType.Table, funcName, parameters);
+            var sql = DbHelpers.CombineFunctionSql(ProviderName, DbFunctionType.Table, funcName, parameters);
             return Database.ExecuteReader(sql, parameters);
         }
 
@@ -1502,7 +1498,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>DataTable</returns>
         public virtual DataTable SqlFunctionQuery(string funcName, object model)
         {
-            var (sql, parameters) = CombineFunctionSql(DbFunctionType.Table, funcName, model);
+            var (sql, parameters) = DbHelpers.CombineFunctionSql(ProviderName, DbFunctionType.Table, funcName, model);
             return Database.ExecuteReader(sql, parameters);
         }
 
@@ -1514,7 +1510,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>Task<DataTable></returns>
         public virtual Task<DataTable> SqlFunctionQueryAsync(string funcName, params SqlParameter[] parameters)
         {
-            var sql = CombineFunctionSql(DbFunctionType.Table, funcName, parameters);
+            var sql = DbHelpers.CombineFunctionSql(ProviderName, DbFunctionType.Table, funcName, parameters);
             return Database.ExecuteReaderAsync(sql, parameters);
         }
 
@@ -1527,7 +1523,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>Task<DataTable></returns>
         public virtual Task<DataTable> SqlFunctionQueryAsync(string funcName, SqlParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var sql = CombineFunctionSql(DbFunctionType.Table, funcName, parameters);
+            var sql = DbHelpers.CombineFunctionSql(ProviderName, DbFunctionType.Table, funcName, parameters);
             return Database.ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
         }
 
@@ -1540,7 +1536,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>Task<DataTable></returns>
         public virtual Task<DataTable> SqlFunctionQueryAsync(string funcName, object model, CancellationToken cancellationToken = default)
         {
-            var (sql, parameters) = CombineFunctionSql(DbFunctionType.Table, funcName, model);
+            var (sql, parameters) = DbHelpers.CombineFunctionSql(ProviderName, DbFunctionType.Table, funcName, model);
             return Database.ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
         }
 
@@ -1553,7 +1549,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>List<T></returns>
         public virtual List<T> SqlFunctionQuery<T>(string funcName, params SqlParameter[] parameters)
         {
-            var sql = CombineFunctionSql(DbFunctionType.Table, funcName, parameters);
+            var sql = DbHelpers.CombineFunctionSql(ProviderName, DbFunctionType.Table, funcName, parameters);
             return Database.ExecuteReader(sql, parameters).ToList<T>();
         }
 
@@ -1566,7 +1562,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>List<T></returns>
         public virtual List<T> SqlFunctionQuery<T>(string funcName, object model)
         {
-            var (sql, parameters) = CombineFunctionSql(DbFunctionType.Table, funcName, model);
+            var (sql, parameters) = DbHelpers.CombineFunctionSql(ProviderName, DbFunctionType.Table, funcName, model);
             return Database.ExecuteReader(sql, parameters).ToList<T>();
         }
 
@@ -1579,7 +1575,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>Task<List<T>></returns>
         public virtual async Task<List<T>> SqlFunctionQueryAsync<T>(string funcName, params SqlParameter[] parameters)
         {
-            var sql = CombineFunctionSql(DbFunctionType.Table, funcName, parameters);
+            var sql = DbHelpers.CombineFunctionSql(ProviderName, DbFunctionType.Table, funcName, parameters);
             var dataTable = await Database.ExecuteReaderAsync(sql, parameters);
             return dataTable.ToList<T>();
         }
@@ -1594,7 +1590,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>Task<List<T>></returns>
         public virtual async Task<List<T>> SqlFunctionQueryAsync<T>(string funcName, SqlParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var sql = CombineFunctionSql(DbFunctionType.Table, funcName, parameters);
+            var sql = DbHelpers.CombineFunctionSql(ProviderName, DbFunctionType.Table, funcName, parameters);
             var dataTable = await Database.ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
             return dataTable.ToList<T>();
         }
@@ -1609,179 +1605,9 @@ namespace Fur.DatabaseAccessor
         /// <returns>Task<List<T>></returns>
         public virtual async Task<List<T>> SqlFunctionQueryAsync<T>(string funcName, object model, CancellationToken cancellationToken = default)
         {
-            var (sql, parameters) = CombineFunctionSql(DbFunctionType.Table, funcName, model);
+            var (sql, parameters) = DbHelpers.CombineFunctionSql(ProviderName, DbFunctionType.Table, funcName, model);
             var dataTable = await Database.ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
             return dataTable.ToList<T>();
-        }
-
-        /// <summary>
-        /// 不支持操作类型
-        /// </summary>
-        private const string NotSupportException = "The database provider does not support {0} operations";
-
-        /// <summary>
-        /// 检查是否支持函数
-        /// </summary>
-        /// <param name="providerName">ADO.NET 数据库对象</param>
-        /// <param name="commandType">命令类型</param>
-        private static void CheckFunctionSupported(string providerName, DbFunctionType dbFunctionType)
-        {
-            if (DatabaseProvider.NotSupportFunctionDatabases.Contains(providerName))
-            {
-                Oops.Oh(NotSupportException, typeof(NotSupportedException), "function");
-            }
-
-            if (dbFunctionType == DbFunctionType.Table && DatabaseProvider.NotSupportTableFunctionDatabases.Contains(providerName))
-            {
-                Oops.Oh(NotSupportException, typeof(NotSupportedException), "table function");
-            }
-        }
-
-        /// <summary>
-        /// 生成函数执行 sql 语句
-        /// </summary>
-        /// <param name="dbFunctionType">函数类型</param>
-        /// <param name="funcName">函数名词</param>
-        /// <param name="parameters">函数参数</param>
-        /// <returns>sql 语句</returns>
-        private string CombineFunctionSql(DbFunctionType dbFunctionType, string funcName, params SqlParameter[] parameters)
-        {
-            // 检查是否支持函数
-            CheckFunctionSupported(Database.ProviderName, dbFunctionType);
-
-            parameters ??= Array.Empty<SqlParameter>();
-
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"SELECT{(dbFunctionType == DbFunctionType.Table ? " * FROM " : "")} {funcName}(");
-
-            // 生成函数参数
-            for (var i = 0; i < parameters.Length; i++)
-            {
-                var sqlParameter = parameters[i];
-
-                // 添加 @ 前缀参数
-                stringBuilder.Append($"@{(sqlParameter.ParameterName.Replace("@", ""))}");
-
-                // 处理最后一个参数逗号
-                if (i != parameters.Length - 1)
-                {
-                    stringBuilder.Append(", ");
-                }
-            }
-            stringBuilder.Append("); ");
-
-            return stringBuilder.ToString();
-        }
-
-        /// <summary>
-        /// 生成函数执行 sql 语句
-        /// </summary>
-        ///
-        /// <param name="dbFunctionType">函数类型</param>
-        /// <param name="funcName">函数名词</param>
-        /// <param name="parameters">函数参数</param>
-        /// <returns>(string sql, SqlParameter[] parameters)</returns>
-        private (string sql, SqlParameter[] parameters) CombineFunctionSql(DbFunctionType dbFunctionType, string funcName, object model = null)
-        {
-            // 检查是否支持函数
-            CheckFunctionSupported(Database.ProviderName, dbFunctionType);
-
-            // 获取模型所有公开的属性
-            var properities = model == null
-                ? Array.Empty<PropertyInfo>()
-                : model.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
-
-            var parameters = new List<SqlParameter>();
-            var stringBuilder = new StringBuilder();
-
-            stringBuilder.Append($"SELECT{(dbFunctionType == DbFunctionType.Table ? " * FROM " : "")} {funcName}(");
-
-            for (var i = 0; i < properities.Length; i++)
-            {
-                var property = properities[i];
-                var propertyValue = property.GetValue(model) ?? DBNull.Value;
-
-                stringBuilder.Append($"@{property.Name}");
-
-                // 处理最后一个参数逗号
-                if (i != properities.Length - 1)
-                {
-                    stringBuilder.Append(", ");
-                }
-
-                // 判断属性是否贴有 [DbParameter] 特性
-                if (property.IsDefined(typeof(DbParameterAttribute), true))
-                {
-                    var dbParameterAttribute = property.GetCustomAttribute<DbParameterAttribute>(true);
-                    parameters.Add(DbHelpers.CreateSqlParameter(property.Name, propertyValue, dbParameterAttribute));
-                    continue;
-                }
-                parameters.Add(new SqlParameter(property.Name, propertyValue));
-            }
-
-            stringBuilder.Append("); ");
-
-            return (stringBuilder.ToString(), parameters.ToArray());
-        }
-
-        /// <summary>
-        /// 包裹存储过程返回结果集
-        /// </summary>
-        /// <param name="procName">存储过程名</param>
-        /// <param name="parameters">命令参数</param>
-        /// <returns>ProcedureOutput</returns>
-        private static ProcedureOutputResult WrapperProcedureOutput(SqlParameter[] parameters, DataSet dataSet)
-        {
-            // 读取输出返回值
-            ReadOuputValue(parameters, out var outputValues, out var returnValue);
-
-            return new ProcedureOutputResult
-            {
-                Result = dataSet,
-                OutputValues = outputValues,
-                ReturnValue = returnValue
-            };
-        }
-
-        /// <summary>
-        /// 包裹存储过程返回结果集
-        /// </summary>
-        /// <typeparam name="TResult">数据集结果</typeparam>
-        /// <param name="procName">存储过程名</param>
-        /// <param name="parameters">命令参数</param>
-        /// <returns>ProcedureOutput</returns>
-        private static ProcedureOutputResult<TResult> WrapperProcedureOutput<TResult>(SqlParameter[] parameters, DataSet dataSet)
-        {
-            // 读取输出返回值
-            ReadOuputValue(parameters, out var outputValues, out var returnValue);
-
-            return new ProcedureOutputResult<TResult>
-            {
-                Result = dataSet.ToList(typeof(TResult)).Adapt<TResult>(),
-                OutputValues = outputValues,
-                ReturnValue = returnValue
-            };
-        }
-
-        /// <summary>
-        /// 读取输出返回值
-        /// </summary>
-        /// <param name="parameters">参数</param>
-        /// <param name="outputValues">输出参数</param>
-        /// <param name="returnValue">返回值</param>
-        private static void ReadOuputValue(SqlParameter[] parameters, out List<ProcedureOutputValue> outputValues, out object returnValue)
-        {
-            // 查询所有OUTPUT值
-            outputValues = parameters
-               .Where(u => u.Direction == ParameterDirection.Output)
-               .Select(u => new ProcedureOutputValue
-               {
-                   Name = u.ParameterName.Replace("@", ""),
-                   Value = u.Value
-               }).ToList();
-
-            // 查询返回值
-            returnValue = parameters.FirstOrDefault(u => u.Direction == ParameterDirection.ReturnValue)?.Value;
         }
     }
 }

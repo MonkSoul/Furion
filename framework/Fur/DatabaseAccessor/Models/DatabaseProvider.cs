@@ -9,6 +9,8 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.FriendlyException;
+using System;
 using System.Data;
 using System.Linq;
 
@@ -90,14 +92,39 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 是否支持存储过程
+        /// 不支持操作类型
         /// </summary>
-        /// <param name="providerName">提供器名</param>
+        private const string NotSupportException = "The database provider does not support {0} operations";
+
+        /// <summary>
+        /// 检查是否支持存储过程
+        /// </summary>
+        /// <param name="providerName">数据库提供器名词</param>
         /// <param name="commandType">命令类型</param>
-        /// <returns>bool</returns>
-        internal static bool IsSupportStoredProcedure(string providerName, CommandType commandType)
+        internal static void CheckStoredProcedureSupported(string providerName, CommandType commandType)
         {
-            return commandType == CommandType.StoredProcedure && !DatabaseProvider.NotSupportStoredProcedureDatabases.Contains(providerName);
+            if (commandType == CommandType.StoredProcedure && NotSupportStoredProcedureDatabases.Contains(providerName))
+            {
+                throw Oops.Oh(NotSupportException, typeof(NotSupportedException), "stored procedure");
+            }
+        }
+
+        /// <summary>
+        /// 检查是否支持函数
+        /// </summary>
+        /// <param name="providerName">数据库提供器名</param>
+        /// <param name="dbFunctionType">数据库函数类型</param>
+        internal static void CheckFunctionSupported(string providerName, DbFunctionType dbFunctionType)
+        {
+            if (NotSupportFunctionDatabases.Contains(providerName))
+            {
+                throw Oops.Oh(NotSupportException, typeof(NotSupportedException), "function");
+            }
+
+            if (dbFunctionType == DbFunctionType.Table && NotSupportTableFunctionDatabases.Contains(providerName))
+            {
+                throw Oops.Oh(NotSupportException, typeof(NotSupportedException), "table function");
+            }
         }
     }
 }
