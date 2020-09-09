@@ -49,11 +49,8 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public override InterceptionResult ConnectionOpening(DbConnection connection, ConnectionEventData eventData, InterceptionResult result)
         {
-            if (IsDevelopment)
-            {
-                // 打印连接信息消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Information", $"[Context Id: {eventData.ConnectionId}] / [Database: {connection.Database}] / [Connection String: {connection.ConnectionString}]");
-            }
+            // 打印数据库连接信息到 MiniProfiler
+            PrintConnectionToMiniProfiler(connection, eventData);
 
             return base.ConnectionOpening(connection, eventData, result);
         }
@@ -68,13 +65,24 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public override ValueTask<InterceptionResult> ConnectionOpeningAsync(DbConnection connection, ConnectionEventData eventData, InterceptionResult result, CancellationToken cancellationToken = default)
         {
+            // 打印数据库连接信息到 MiniProfiler
+            PrintConnectionToMiniProfiler(connection, eventData);
+
+            return base.ConnectionOpeningAsync(connection, eventData, result, cancellationToken);
+        }
+
+        /// <summary>
+        /// 打印数据库连接信息到 MiniProfiler
+        /// </summary>
+        /// <param name="connection">数据库连接对象</param>
+        /// <param name="eventData">数据库连接事件数据</param>
+        private void PrintConnectionToMiniProfiler(DbConnection connection, ConnectionEventData eventData)
+        {
             if (IsDevelopment)
             {
                 // 打印连接信息消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Information", $"[Context Id: {eventData.ConnectionId}] / [Database: {connection.Database}] / [Connection String: {connection.ConnectionString}]");
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Information", $"[Connection Id: {eventData.ConnectionId}] / [Database: {connection.Database}] / [Connection String: {connection.ConnectionString}]");
             }
-
-            return base.ConnectionOpeningAsync(connection, eventData, result, cancellationToken);
         }
     }
 }

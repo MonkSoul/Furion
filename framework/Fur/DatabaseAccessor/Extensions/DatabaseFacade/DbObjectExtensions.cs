@@ -13,6 +13,8 @@ using Fur.FriendlyException;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Hosting;
 using StackExchange.Profiling;
 using StackExchange.Profiling.Data;
 using System;
@@ -29,6 +31,16 @@ namespace Fur.DatabaseAccessor
     public static class DbObjectExtensions
     {
         /// <summary>
+        /// MiniProfiler 分类名
+        /// </summary>
+        private const string MiniProfilerCategory = "connection";
+
+        /// <summary>
+        /// 是否是开发环境
+        /// </summary>
+        private static readonly bool IsDevelopment;
+
+        /// <summary>
         /// 不支持操作类型
         /// </summary>
         private const string NotSupportException = "The database provider does not support {0} operations";
@@ -43,6 +55,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         static DbObjectExtensions()
         {
+            IsDevelopment = App.HostEnvironment.IsDevelopment();
             InjectMiniProfiler = App.Settings.InjectMiniProfiler.Value;
         }
 
@@ -59,8 +72,8 @@ namespace Fur.DatabaseAccessor
             // 创建数据库连接对象及数据库命令对象
             var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, parameters, commandType);
 
-            // 判断连接字符串是否关闭，如果是，则开启
-            if (dbConnection.State == ConnectionState.Closed) dbConnection.Open();
+            // 打开数据库连接
+            OpenConnection(databaseFacade, dbConnection);
 
             // 返回
             return (dbConnection, dbCommand);
@@ -80,8 +93,8 @@ namespace Fur.DatabaseAccessor
             // 创建数据库连接对象及数据库命令对象
             var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, parameters, commandType);
 
-            // 判断连接字符串是否关闭，如果是，则开启
-            if (dbConnection.State == ConnectionState.Closed) await dbConnection.OpenAsync(cancellationToken);
+            // 打开数据库连接
+            await OpenConnectionAsync(databaseFacade, dbConnection, cancellationToken);
 
             // 返回
             return (dbConnection, dbCommand);
@@ -100,8 +113,8 @@ namespace Fur.DatabaseAccessor
             // 创建数据库连接对象、数据库命令对象和数据库适配器对象
             var (dbConnection, dbCommand, dbDataAdapter) = databaseFacade.CreateDbDataAdapter(sql, parameters, commandType);
 
-            // 判断连接字符串是否关闭，如果是，则开启
-            if (dbConnection.State == ConnectionState.Closed) dbConnection.Open();
+            // 打开数据库连接
+            OpenConnection(databaseFacade, dbConnection);
 
             // 返回
             return (dbConnection, dbCommand, dbDataAdapter);
@@ -121,8 +134,8 @@ namespace Fur.DatabaseAccessor
             // 创建数据库连接对象、数据库命令对象和数据库适配器对象
             var (dbConnection, dbCommand, dbDataAdapter) = databaseFacade.CreateDbDataAdapter(sql, parameters, commandType);
 
-            // 判断连接字符串是否关闭，如果是，则开启
-            if (dbConnection.State == ConnectionState.Closed) await dbConnection.OpenAsync(cancellationToken);
+            // 打开数据库连接
+            await OpenConnectionAsync(databaseFacade, dbConnection, cancellationToken);
 
             // 返回
             return (dbConnection, dbCommand, dbDataAdapter);
@@ -203,6 +216,36 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
+        /// 打开数据库连接
+        /// </summary>
+        /// <param name="databaseFacade">ADO.NET 数据库对象</param>
+        /// <param name="dbConnection">数据库连接对象</param>
+        private static void OpenConnection(DatabaseFacade databaseFacade, DbConnection dbConnection)
+        {
+            // 判断连接字符串是否关闭，如果是，则开启
+            if (dbConnection.State == ConnectionState.Closed) dbConnection.Open();
+
+            // 打印数据库连接信息到 MiniProfiler
+            PrintConnectionToMiniProfiler(databaseFacade, dbConnection);
+        }
+
+        /// <summary>
+        /// 打开数据库连接
+        /// </summary>
+        /// <param name="databaseFacade">ADO.NET 数据库对象</param>
+        /// <param name="dbConnection">数据库连接对象</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns></returns>
+        private static async Task OpenConnectionAsync(DatabaseFacade databaseFacade, DbConnection dbConnection, CancellationToken cancellationToken = default)
+        {
+            // 判断连接字符串是否关闭，如果是，则开启
+            if (dbConnection.State == ConnectionState.Closed) await dbConnection.OpenAsync(cancellationToken);
+
+            // 打印数据库连接信息到 MiniProfiler
+            PrintConnectionToMiniProfiler(databaseFacade, dbConnection);
+        }
+
+        /// <summary>
         /// 设置数据库命令对象参数
         /// </summary>
         /// <param name="dbCommand">数据库命令对象</param>
@@ -219,6 +262,21 @@ namespace Fur.DatabaseAccessor
                     parameter.ParameterName = $"@{parameter.ParameterName}";
                 }
                 dbCommand.Parameters.Add(parameter);
+            }
+        }
+
+        /// <summary>
+        /// 打印数据库连接信息到 MiniProfiler
+        /// </summary>
+        /// <param name="databaseFacade">ADO.NET 数据库对象</param>
+        /// <param name="dbConnection">数据库连接对象</param>
+        private static void PrintConnectionToMiniProfiler(DatabaseFacade databaseFacade, DbConnection dbConnection)
+        {
+            if (InjectMiniProfiler && IsDevelopment)
+            {
+                var connectionId = databaseFacade.GetService<IRelationalConnection>().ConnectionId;
+                // 打印连接信息消息
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Information", $"[Connection Id: {connectionId}] / [Database: {dbConnection.Database}] / [Connection String: {dbConnection.ConnectionString}]");
             }
         }
     }

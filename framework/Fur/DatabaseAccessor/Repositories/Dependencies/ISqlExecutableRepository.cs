@@ -1081,5 +1081,94 @@ namespace Fur.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <returns>object</returns>
         Task<TResult> SqlFunctionScalarAsync<TResult>(string funcName, object model, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 执行表值函数返回 DataTable
+        /// </summary>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>DataTable</returns>
+        DataTable SqlFunctionQuery(string funcName, params SqlParameter[] parameters);
+
+        /// <summary>
+        /// 执行表值函数返回 DataTable
+        /// </summary>
+        /// <param name="funcName">函数名</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>DataTable</returns>
+        DataTable SqlFunctionQuery(string funcName, object model);
+
+        /// <summary>
+        /// 执行表值函数返回 DataTable
+        /// </summary>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>Task<DataTable></returns>
+        Task<DataTable> SqlFunctionQueryAsync(string funcName, params SqlParameter[] parameters);
+
+        /// <summary>
+        /// 执行表值函数返回 DataTable
+        /// </summary>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>Task<DataTable></returns>
+        Task<DataTable> SqlFunctionQueryAsync(string funcName, SqlParameter[] parameters, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 执行表值函数返回 DataTable
+        /// </summary>
+        /// <param name="funcName">函数名</param>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>Task<DataTable></returns>
+        Task<DataTable> SqlFunctionQueryAsync(string funcName, object model, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 执行表值函数返回 List 集合
+        /// </summary>
+        /// <typeparam name="T">返回类型</typeparam>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>List<T></returns>
+        List<T> SqlFunctionQuery<T>(string funcName, params SqlParameter[] parameters);
+
+        /// <summary>
+        /// 执行表值函数返回 List 集合
+        /// </summary>
+        /// <typeparam name="T">返回类型</typeparam>
+        /// <param name="funcName">函数名</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>List<T></returns>
+        List<T> SqlFunctionQuery<T>(string funcName, object model);
+
+        /// <summary>
+        /// 执行表值函数返回 List 集合
+        /// </summary>
+        /// <typeparam name="T">返回类型</typeparam>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>Task<List<T>></returns>
+        Task<List<T>> SqlFunctionQueryAsync<T>(string funcName, params SqlParameter[] parameters);
+
+        /// <summary>
+        /// 执行表值函数返回 List 集合
+        /// </summary>
+        /// <typeparam name="T">返回类型</typeparam>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>Task<List<T>></returns>
+        Task<List<T>> SqlFunctionQueryAsync<T>(string funcName, SqlParameter[] parameters, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 执行表值函数返回 List 集合
+        /// </summary>
+        /// <typeparam name="T">返回类型</typeparam>
+        /// <param name="funcName">函数名</param>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>Task<List<T>></returns>
+        Task<List<T>> SqlFunctionQueryAsync<T>(string funcName, object model, CancellationToken cancellationToken = default);
     }
 }

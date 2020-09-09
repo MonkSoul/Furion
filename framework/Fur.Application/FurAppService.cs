@@ -324,5 +324,54 @@ select Id,Name,Age,Address from dbo.test where id > @id;
                 result.Result.Item2
             };
         }
+
+        /// <summary>
+        /// 执行标量函数
+        /// </summary>
+        /// <remarks>
+        /// <code>
+        /// CREATE FUNCTION FN_GetName
+        /// (
+        ///     @Name NVARCHAR(32)
+        /// )
+        /// RETURNS NVARCHAR(100)
+        /// AS
+        /// BEGIN
+        ///     RETURN '百小僧' + @Name;
+        /// END;
+        /// </code>
+        /// </remarks>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public string ExecuteScalarFunction(string name)
+        {
+            return _testRepository.SqlFunctionScalar<string>("dbo.FN_GetName", new { name });
+        }
+
+        /// <summary>
+        /// 执行表值函数
+        /// </summary>
+        /// <remarks>
+        /// <code>
+        /// CREATE FUNCTION FN_GetTest
+        /// (
+        ///     @Id INT
+        /// )
+        /// RETURNS TABLE
+        /// AS
+        /// RETURN
+        /// (
+        ///     SELECT *
+        ///     FROM dbo.Test
+        ///     WHERE Id > @Id
+        /// );
+        /// </code>
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<TestDto> ExecuteTableFunction(int id)
+        {
+            return _testRepository.SqlFunctionQuery<Test>("dbo.FN_GetTest", new { id }).Adapt<List<TestDto>>();
+        }
     }
 }

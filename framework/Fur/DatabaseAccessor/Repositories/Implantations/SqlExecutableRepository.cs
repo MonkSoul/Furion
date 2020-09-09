@@ -1483,6 +1483,138 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
+        /// 执行表值函数返回 DataTable
+        /// </summary>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>DataTable</returns>
+        public virtual DataTable SqlFunctionQuery(string funcName, params SqlParameter[] parameters)
+        {
+            var sql = CombineFunctionSql(DbFunctionType.Table, funcName, parameters);
+            return Database.ExecuteReader(sql, parameters);
+        }
+
+        /// <summary>
+        /// 执行表值函数返回 DataTable
+        /// </summary>
+        /// <param name="funcName">函数名</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>DataTable</returns>
+        public virtual DataTable SqlFunctionQuery(string funcName, object model)
+        {
+            var (sql, parameters) = CombineFunctionSql(DbFunctionType.Table, funcName, model);
+            return Database.ExecuteReader(sql, parameters);
+        }
+
+        /// <summary>
+        /// 执行表值函数返回 DataTable
+        /// </summary>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>Task<DataTable></returns>
+        public virtual Task<DataTable> SqlFunctionQueryAsync(string funcName, params SqlParameter[] parameters)
+        {
+            var sql = CombineFunctionSql(DbFunctionType.Table, funcName, parameters);
+            return Database.ExecuteReaderAsync(sql, parameters);
+        }
+
+        /// <summary>
+        /// 执行表值函数返回 DataTable
+        /// </summary>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>Task<DataTable></returns>
+        public virtual Task<DataTable> SqlFunctionQueryAsync(string funcName, SqlParameter[] parameters, CancellationToken cancellationToken = default)
+        {
+            var sql = CombineFunctionSql(DbFunctionType.Table, funcName, parameters);
+            return Database.ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// 执行表值函数返回 DataTable
+        /// </summary>
+        /// <param name="funcName">函数名</param>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>Task<DataTable></returns>
+        public virtual Task<DataTable> SqlFunctionQueryAsync(string funcName, object model, CancellationToken cancellationToken = default)
+        {
+            var (sql, parameters) = CombineFunctionSql(DbFunctionType.Table, funcName, model);
+            return Database.ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// 执行表值函数返回 List 集合
+        /// </summary>
+        /// <typeparam name="T">返回类型</typeparam>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>List<T></returns>
+        public virtual List<T> SqlFunctionQuery<T>(string funcName, params SqlParameter[] parameters)
+        {
+            var sql = CombineFunctionSql(DbFunctionType.Table, funcName, parameters);
+            return Database.ExecuteReader(sql, parameters).ToList<T>();
+        }
+
+        /// <summary>
+        /// 执行表值函数返回 List 集合
+        /// </summary>
+        /// <typeparam name="T">返回类型</typeparam>
+        /// <param name="funcName">函数名</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>List<T></returns>
+        public virtual List<T> SqlFunctionQuery<T>(string funcName, object model)
+        {
+            var (sql, parameters) = CombineFunctionSql(DbFunctionType.Table, funcName, model);
+            return Database.ExecuteReader(sql, parameters).ToList<T>();
+        }
+
+        /// <summary>
+        /// 执行表值函数返回 List 集合
+        /// </summary>
+        /// <typeparam name="T">返回类型</typeparam>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>Task<List<T>></returns>
+        public virtual async Task<List<T>> SqlFunctionQueryAsync<T>(string funcName, params SqlParameter[] parameters)
+        {
+            var sql = CombineFunctionSql(DbFunctionType.Table, funcName, parameters);
+            var dataTable = await Database.ExecuteReaderAsync(sql, parameters);
+            return dataTable.ToList<T>();
+        }
+
+        /// <summary>
+        /// 执行表值函数返回 List 集合
+        /// </summary>
+        /// <typeparam name="T">返回类型</typeparam>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>Task<List<T>></returns>
+        public virtual async Task<List<T>> SqlFunctionQueryAsync<T>(string funcName, SqlParameter[] parameters, CancellationToken cancellationToken = default)
+        {
+            var sql = CombineFunctionSql(DbFunctionType.Table, funcName, parameters);
+            var dataTable = await Database.ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
+            return dataTable.ToList<T>();
+        }
+
+        /// <summary>
+        /// 执行表值函数返回 List 集合
+        /// </summary>
+        /// <typeparam name="T">返回类型</typeparam>
+        /// <param name="funcName">函数名</param>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>Task<List<T>></returns>
+        public virtual async Task<List<T>> SqlFunctionQueryAsync<T>(string funcName, object model, CancellationToken cancellationToken = default)
+        {
+            var (sql, parameters) = CombineFunctionSql(DbFunctionType.Table, funcName, model);
+            var dataTable = await Database.ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
+            return dataTable.ToList<T>();
+        }
+
+        /// <summary>
         /// 不支持操作类型
         /// </summary>
         private const string NotSupportException = "The database provider does not support {0} operations";
@@ -1520,7 +1652,7 @@ namespace Fur.DatabaseAccessor
             parameters ??= Array.Empty<SqlParameter>();
 
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"SELECT{(dbFunctionType == DbFunctionType.Table ? " * FROM " : "")} {funcName} (");
+            stringBuilder.Append($"SELECT{(dbFunctionType == DbFunctionType.Table ? " * FROM " : "")} {funcName}(");
 
             // 生成函数参数
             for (var i = 0; i < parameters.Length; i++)
@@ -1562,7 +1694,7 @@ namespace Fur.DatabaseAccessor
             var parameters = new List<SqlParameter>();
             var stringBuilder = new StringBuilder();
 
-            stringBuilder.Append($"SELECT{(dbFunctionType == DbFunctionType.Table ? " * FROM " : "")} {funcName} (");
+            stringBuilder.Append($"SELECT{(dbFunctionType == DbFunctionType.Table ? " * FROM " : "")} {funcName}(");
 
             for (var i = 0; i < properities.Length; i++)
             {
