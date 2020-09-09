@@ -7,7 +7,7 @@
 
 <div align="center">
 
-[![star](https://gitee.com/monksoul/Fur/badge/star.svg?theme=dark)](https://gitee.com/monksoul/Fur/stargazers) [![fork](https://gitee.com/monksoul/Fur/badge/fork.svg?theme=dark)](https://gitee.com/monksoul/Fur/members) ![Apache-2.0](https://img.shields.io/badge/license-Apache%202-blue)
+![https://github.com/dotnet/runtime](https://img.shields.io/badge/Lang-C%23%20%7C%20.NET%205-red) [![star](https://gitee.com/monksoul/Fur/badge/star.svg?theme=dark)](https://gitee.com/monksoul/Fur/stargazers) [![fork](https://gitee.com/monksoul/Fur/badge/fork.svg?theme=dark)](https://gitee.com/monksoul/Fur/members) [![GitHub stars](https://img.shields.io/github/stars/MonkSoul/Fur?logo=github)](https://github.com/MonkSoul/Fur/stargazers) [![GitHub forks](https://img.shields.io/github/forks/MonkSoul/Fur?logo=github)](https://github.com/MonkSoul/Fur/network) [![GitHub license](https://img.shields.io/github/license/MonkSoul/Fur)](https://github.com/MonkSoul/Fur/blob/alpha/LICENSE)
 
 </div>
 
@@ -19,9 +19,9 @@
 
 ## ✨ 立即尝鲜 ✨
 
-`Fur` **是基于最新的 .NET 5 每日构建版构建的，目的是为了尽早体验新功能，做出最快的正式版前的调整。** ✈
+`Fur` **是基于最新的 .NET 5 每日构建版构建的，目的是为了尽早体验新功能，对即将到来的 .NET 5 正式版做出最快的响应。** ✈
 
-所以需要运行 `Fur` 目前需要三个条件：
+所以运行 `Fur` 需要以下三个条件：
 
 - **添加 Nuget 包源**：dotnet5 https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json
 - **安装最新的 .NET 5 Preview 8**：https://dotnet.microsoft.com/download/dotnet/5.0
@@ -121,6 +121,6 @@
 
 ## 贡献代码
 
-`Fur` 是基于 `Apache-2.0` 开源协议的框架，欢迎大家提交 `PR` 或 `Issue`。
+`Fur` 遵循 `Apache-2.0` 开源协议，欢迎大家提交 `PR` 或 `Issue`。
 
 如果要为项目做出贡献，请查看贡献指南。
