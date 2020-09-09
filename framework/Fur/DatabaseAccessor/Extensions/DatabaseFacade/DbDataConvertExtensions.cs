@@ -53,25 +53,7 @@ namespace Fur.DatabaseAccessor
                 if (property.IsDefined(typeof(DbParameterAttribute), true))
                 {
                     var dbParameterAttribute = property.GetCustomAttribute<DbParameterAttribute>(true);
-                    // 设置参数方向
-                    var sqlParameter = new SqlParameter(property.Name, propertyValue) { Direction = dbParameterAttribute.Direction };
-
-                    // 设置参数数据库类型
-                    if (dbParameterAttribute.DbType != null)
-                    {
-                        var type = dbParameterAttribute.DbType.GetType();
-                        if (type.IsEnum && typeof(SqlDbType).IsAssignableFrom(type))
-                        {
-                            sqlParameter.SqlDbType = (SqlDbType)dbParameterAttribute.DbType;
-                        }
-                    }
-                    // 设置大小，解决NVarchar，Varchar 问题
-                    if (dbParameterAttribute.Size > 0)
-                    {
-                        sqlParameter.Size = dbParameterAttribute.Size;
-                    }
-
-                    sqlParameters.Add(sqlParameter);
+                    sqlParameters.Add(DbHelpers.CreateSqlParameter(property.Name, propertyValue, dbParameterAttribute));
                     continue;
                 }
                 sqlParameters.Add(new SqlParameter(property.Name, propertyValue));
@@ -107,26 +89,7 @@ namespace Fur.DatabaseAccessor
                     if (parameter.IsDefined(typeof(DbParameterAttribute), true))
                     {
                         var dbParameterAttribute = parameter.GetCustomAttribute<DbParameterAttribute>(true);
-                        // 设置参数方向
-                        var sqlParameter = new SqlParameter(parameter.Name, parameterValue) { Direction = dbParameterAttribute.Direction };
-
-                        // 设置参数数据库类型
-                        if (dbParameterAttribute.DbType != null)
-                        {
-                            var type = dbParameterAttribute.DbType.GetType();
-                            if (type.IsEnum && typeof(SqlDbType).IsAssignableFrom(type))
-                            {
-                                sqlParameter.SqlDbType = (SqlDbType)dbParameterAttribute.DbType;
-                            }
-                        }
-
-                        // 设置大小，解决NVarchar，Varchar 问题
-                        if (dbParameterAttribute.Size > 0)
-                        {
-                            sqlParameter.Size = dbParameterAttribute.Size;
-                        }
-
-                        sqlParameters.Add(sqlParameter);
+                        sqlParameters.Add(DbHelpers.CreateSqlParameter(parameter.Name, parameterValue, dbParameterAttribute));
                         continue;
                     }
                     sqlParameters.Add(new SqlParameter(parameter.Name, parameterValue));

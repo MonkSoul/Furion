@@ -22,11 +22,11 @@ namespace Fur.DataValidation
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="validationOptions">验证逻辑</param>
+        /// <param name="validationPattern">验证逻辑</param>
         /// <param name="validationTypes"></param>
-        public DataValidationAttribute(ValidationOptions validationOptions, params object[] validationTypes)
+        public DataValidationAttribute(ValidationPattern validationPattern, params object[] validationTypes)
         {
-            ValidationOptions = validationOptions;
+            ValidationPattern = validationPattern;
             ValidationTypes = validationTypes;
         }
 
@@ -36,7 +36,7 @@ namespace Fur.DataValidation
         /// <param name="validationTypes"></param>
         public DataValidationAttribute(params object[] validationTypes)
         {
-            ValidationOptions = ValidationOptions.AllOfThem;
+            ValidationPattern = ValidationPattern.AllOfThem;
             ValidationTypes = validationTypes;
         }
 
@@ -49,7 +49,7 @@ namespace Fur.DataValidation
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             // 执行值验证
-            var dataValidationResult = value.TryValidate(ValidationOptions, ValidationTypes);
+            var dataValidationResult = value.TryValidate(ValidationPattern, ValidationTypes);
 
             // 验证失败
             if (!dataValidationResult.IsValid)
@@ -69,6 +69,6 @@ namespace Fur.DataValidation
         /// <summary>
         /// 验证逻辑
         /// </summary>
-        public ValidationOptions ValidationOptions { get; set; }
+        public ValidationPattern ValidationPattern { get; set; }
     }
 }

@@ -9,12 +9,15 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using System.Data;
+using System.Linq;
+
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
     /// 数据库提供器选项
     /// </summary>
-    internal static class DatabaseProviderOptions
+    internal static class DatabaseProvider
     {
         /// <summary>
         /// SqlServer 提供器程序集
@@ -64,7 +67,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
-        static DatabaseProviderOptions()
+        static DatabaseProvider()
         {
             NotSupportStoredProcedureDatabases = new[]
             {
@@ -84,6 +87,17 @@ namespace Fur.DatabaseAccessor
                 InMemory,
                 MySql
             };
+        }
+
+        /// <summary>
+        /// 是否支持存储过程
+        /// </summary>
+        /// <param name="providerName">提供器名</param>
+        /// <param name="commandType">命令类型</param>
+        /// <returns>bool</returns>
+        internal static bool IsSupportStoredProcedure(string providerName, CommandType commandType)
+        {
+            return commandType == CommandType.StoredProcedure && !DatabaseProvider.NotSupportStoredProcedureDatabases.Contains(providerName);
         }
     }
 }

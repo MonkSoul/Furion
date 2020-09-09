@@ -71,7 +71,7 @@ namespace Fur.DataValidation
         /// <param name="validationOptionss">验证逻辑</param>
         /// <param name="validationTypes">验证类型</param>
         /// <returns></returns>
-        public static DataValidationResult TryValidate(this object value, ValidationOptions validationOptionss, params object[] validationTypes)
+        public static DataValidationResult TryValidate(this object value, ValidationPattern validationOptionss, params object[] validationTypes)
         {
             return DataValidator.TryValidateValue(value, validationOptionss, validationTypes);
         }

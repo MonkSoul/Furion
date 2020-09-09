@@ -128,7 +128,7 @@ namespace Fur.DataValidation
         /// <returns></returns>
         public static DataValidationResult TryValidateValue(object value, params object[] validationTypes)
         {
-            return TryValidateValue(value, ValidationOptions.AllOfThem, validationTypes);
+            return TryValidateValue(value, ValidationPattern.AllOfThem, validationTypes);
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace Fur.DataValidation
         /// <param name="validationOptionss">验证方式</param>
         /// <param name="validationTypes"></param>
         /// <returns></returns>
-        public static DataValidationResult TryValidateValue(object value, ValidationOptions validationOptionss, params object[] validationTypes)
+        public static DataValidationResult TryValidateValue(object value, ValidationPattern validationOptionss, params object[] validationTypes)
         {
             // 存储验证结果
             ICollection<ValidationResult> results = new List<ValidationResult>();
@@ -167,7 +167,7 @@ namespace Fur.DataValidation
                 var validResult = TryValidateValue(value, validationItemMetadata.RegularExpression, validationItemMetadata.RegexOptions);
 
                 // 判断是否需要同时验证通过才通过
-                if (validationOptionss == ValidationOptions.AtLeastOne)
+                if (validationOptionss == ValidationPattern.AtLeastOne)
                 {
                     // 只要有一个验证通过，则跳出
                     if (validResult)

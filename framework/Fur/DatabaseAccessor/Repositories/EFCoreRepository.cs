@@ -492,7 +492,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsSqlServer()
         {
-            return ProviderName.Equals(DatabaseProviderOptions.SqlServer, StringComparison.Ordinal);
+            return ProviderName.Equals(DatabaseProvider.SqlServer, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -501,7 +501,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsSqlite()
         {
-            return ProviderName.Equals(DatabaseProviderOptions.Sqlite, StringComparison.Ordinal);
+            return ProviderName.Equals(DatabaseProvider.Sqlite, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -510,7 +510,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsCosmos()
         {
-            return ProviderName.Equals(DatabaseProviderOptions.Cosmos, StringComparison.Ordinal);
+            return ProviderName.Equals(DatabaseProvider.Cosmos, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -519,7 +519,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsInMemory()
         {
-            return ProviderName.Equals(DatabaseProviderOptions.InMemory, StringComparison.Ordinal);
+            return ProviderName.Equals(DatabaseProvider.InMemory, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -528,7 +528,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsMySql()
         {
-            return ProviderName.Equals(DatabaseProviderOptions.MySql, StringComparison.Ordinal);
+            return ProviderName.Equals(DatabaseProvider.MySql, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -537,7 +537,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsNpgsql()
         {
-            return ProviderName.Equals(DatabaseProviderOptions.PostgreSQL, StringComparison.Ordinal);
+            return ProviderName.Equals(DatabaseProvider.PostgreSQL, StringComparison.Ordinal);
         }
 
         /// <summary>

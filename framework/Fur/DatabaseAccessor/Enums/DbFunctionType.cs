@@ -9,21 +9,21 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
-namespace Fur.DataValidation
+namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 验证逻辑
+    /// 数据库函数类型
     /// </summary>
-    public enum ValidationOptions
+    internal enum DbFunctionType
     {
         /// <summary>
-        /// 全部都要验证通过
+        /// 标量函数
         /// </summary>
-        AllOfThem,
+        Scalar,
 
         /// <summary>
-        /// 至少一个验证通过
+        /// 表值函数
         /// </summary>
-        AtLeastOne
+        Table
     }
 }

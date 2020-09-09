@@ -9,12 +9,15 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.FriendlyException;
 using Mapster;
 using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -1352,6 +1355,244 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
+        /// 执行标量函数返回 单行单列
+        /// </summary>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>object</returns>
+        public virtual object SqlFunctionScalar(string funcName, params SqlParameter[] parameters)
+        {
+            var sql = CombineFunctionSql(DbFunctionType.Scalar, funcName, parameters);
+            return Database.ExecuteScalar(sql, parameters);
+        }
+
+        /// <summary>
+        /// 执行标量函数返回 单行单列
+        /// </summary>
+        /// <param name="funcName">函数名</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>object</returns>
+        public virtual object SqlFunctionScalar(string funcName, object model)
+        {
+            var (sql, parameters) = CombineFunctionSql(DbFunctionType.Scalar, funcName, model);
+            return Database.ExecuteScalar(sql, parameters);
+        }
+
+        /// <summary>
+        /// 执行标量函数返回 单行单列
+        /// </summary>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>object</returns>
+        public virtual Task<object> SqlFunctionScalarAsync(string funcName, params SqlParameter[] parameters)
+        {
+            var sql = CombineFunctionSql(DbFunctionType.Scalar, funcName, parameters);
+            return Database.ExecuteScalarAsync(sql, parameters);
+        }
+
+        /// <summary>
+        /// 执行标量函数返回 单行单列
+        /// </summary>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>object</returns>
+        public virtual Task<object> SqlFunctionScalarAsync(string funcName, SqlParameter[] parameters, CancellationToken cancellationToken = default)
+        {
+            var sql = CombineFunctionSql(DbFunctionType.Scalar, funcName, parameters);
+            return Database.ExecuteScalarAsync(sql, parameters, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// 执行标量函数返回 单行单列
+        /// </summary>
+        /// <param name="funcName">函数名</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>object</returns>
+        public virtual Task<object> SqlFunctionScalarAsync(string funcName, object model, CancellationToken cancellationToken = default)
+        {
+            var (sql, parameters) = CombineFunctionSql(DbFunctionType.Scalar, funcName, model);
+            return Database.ExecuteScalarAsync(sql, parameters, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// 执行标量函数返回 单行单列
+        /// </summary>
+        /// <typeparam name="TResult">返回值类型</typeparam>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>TResult</returns>
+        public virtual TResult SqlFunctionScalar<TResult>(string funcName, params SqlParameter[] parameters)
+        {
+            var sql = CombineFunctionSql(DbFunctionType.Scalar, funcName, parameters);
+            return Database.ExecuteScalar(sql, parameters).Adapt<TResult>();
+        }
+
+        /// <summary>
+        /// 执行标量函数返回 单行单列
+        /// </summary>
+        /// <typeparam name="TResult">返回值类型</typeparam>
+        /// <param name="funcName">函数名</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>TResult</returns>
+        public virtual TResult SqlFunctionScalar<TResult>(string funcName, object model)
+        {
+            var (sql, parameters) = CombineFunctionSql(DbFunctionType.Scalar, funcName, model);
+            return Database.ExecuteScalar(sql, parameters).Adapt<TResult>();
+        }
+
+        /// <summary>
+        /// 执行标量函数返回 单行单列
+        /// </summary>
+        /// <typeparam name="TResult">返回值类型</typeparam>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>TResult</returns>
+        public virtual async Task<TResult> SqlFunctionScalarAsync<TResult>(string funcName, params SqlParameter[] parameters)
+        {
+            var sql = CombineFunctionSql(DbFunctionType.Scalar, funcName, parameters);
+            var result = await Database.ExecuteScalarAsync(sql, parameters);
+            return result.Adapt<TResult>();
+        }
+
+        /// <summary>
+        /// 执行标量函数返回 单行单列
+        /// </summary>
+        /// <typeparam name="TResult">返回值类型</typeparam>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>TResult</returns>
+        public virtual async Task<TResult> SqlFunctionScalarAsync<TResult>(string funcName, SqlParameter[] parameters, CancellationToken cancellationToken = default)
+        {
+            var sql = CombineFunctionSql(DbFunctionType.Scalar, funcName, parameters);
+            var result = await Database.ExecuteScalarAsync(sql, parameters, cancellationToken: cancellationToken);
+            return result.Adapt<TResult>();
+        }
+
+        /// <summary>
+        /// 执行标量函数返回 单行单列
+        /// </summary>
+        /// <typeparam name="TResult">返回值类型</typeparam>
+        /// <param name="funcName">函数名</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>object</returns>
+        public virtual async Task<TResult> SqlFunctionScalarAsync<TResult>(string funcName, object model, CancellationToken cancellationToken = default)
+        {
+            var (sql, parameters) = CombineFunctionSql(DbFunctionType.Scalar, funcName, model);
+            var result = await Database.ExecuteScalarAsync(sql, parameters, cancellationToken: cancellationToken);
+            return result.Adapt<TResult>();
+        }
+
+        /// <summary>
+        /// 不支持操作类型
+        /// </summary>
+        private const string NotSupportException = "The database provider does not support {0} operations";
+
+        /// <summary>
+        /// 检查是否支持函数
+        /// </summary>
+        /// <param name="providerName">ADO.NET 数据库对象</param>
+        /// <param name="commandType">命令类型</param>
+        private static void CheckFunctionSupported(string providerName, DbFunctionType dbFunctionType)
+        {
+            if (DatabaseProvider.NotSupportFunctionDatabases.Contains(providerName))
+            {
+                Oops.Oh(NotSupportException, typeof(NotSupportedException), "function");
+            }
+
+            if (dbFunctionType == DbFunctionType.Table && DatabaseProvider.NotSupportTableFunctionDatabases.Contains(providerName))
+            {
+                Oops.Oh(NotSupportException, typeof(NotSupportedException), "table function");
+            }
+        }
+
+        /// <summary>
+        /// 生成函数执行 sql 语句
+        /// </summary>
+        /// <param name="dbFunctionType">函数类型</param>
+        /// <param name="funcName">函数名词</param>
+        /// <param name="parameters">函数参数</param>
+        /// <returns>sql 语句</returns>
+        private string CombineFunctionSql(DbFunctionType dbFunctionType, string funcName, params SqlParameter[] parameters)
+        {
+            // 检查是否支持函数
+            CheckFunctionSupported(Database.ProviderName, dbFunctionType);
+
+            parameters ??= Array.Empty<SqlParameter>();
+
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append($"SELECT{(dbFunctionType == DbFunctionType.Table ? " * FROM " : "")} {funcName} (");
+
+            // 生成函数参数
+            for (var i = 0; i < parameters.Length; i++)
+            {
+                var sqlParameter = parameters[i];
+
+                // 添加 @ 前缀参数
+                stringBuilder.Append($"@{(sqlParameter.ParameterName.Replace("@", ""))}");
+
+                // 处理最后一个参数逗号
+                if (i != parameters.Length - 1)
+                {
+                    stringBuilder.Append(", ");
+                }
+            }
+            stringBuilder.Append("); ");
+
+            return stringBuilder.ToString();
+        }
+
+        /// <summary>
+        /// 生成函数执行 sql 语句
+        /// </summary>
+        ///
+        /// <param name="dbFunctionType">函数类型</param>
+        /// <param name="funcName">函数名词</param>
+        /// <param name="parameters">函数参数</param>
+        /// <returns>(string sql, SqlParameter[] parameters)</returns>
+        private (string sql, SqlParameter[] parameters) CombineFunctionSql(DbFunctionType dbFunctionType, string funcName, object model = null)
+        {
+            // 检查是否支持函数
+            CheckFunctionSupported(Database.ProviderName, dbFunctionType);
+
+            // 获取模型所有公开的属性
+            var properities = model == null
+                ? Array.Empty<PropertyInfo>()
+                : model.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            var parameters = new List<SqlParameter>();
+            var stringBuilder = new StringBuilder();
+
+            stringBuilder.Append($"SELECT{(dbFunctionType == DbFunctionType.Table ? " * FROM " : "")} {funcName} (");
+
+            for (var i = 0; i < properities.Length; i++)
+            {
+                var property = properities[i];
+                var propertyValue = property.GetValue(model) ?? DBNull.Value;
+
+                stringBuilder.Append($"@{property.Name}");
+
+                // 处理最后一个参数逗号
+                if (i != properities.Length - 1)
+                {
+                    stringBuilder.Append(", ");
+                }
+
+                // 判断属性是否贴有 [DbParameter] 特性
+                if (property.IsDefined(typeof(DbParameterAttribute), true))
+                {
+                    var dbParameterAttribute = property.GetCustomAttribute<DbParameterAttribute>(true);
+                    parameters.Add(DbHelpers.CreateSqlParameter(property.Name, propertyValue, dbParameterAttribute));
+                    continue;
+                }
+                parameters.Add(new SqlParameter(property.Name, propertyValue));
+            }
+
+            stringBuilder.Append("); ");
+
+            return (stringBuilder.ToString(), parameters.ToArray());
+        }
+
+        /// <summary>
         /// 包裹存储过程返回结果集
         /// </summary>
         /// <param name="procName">存储过程名</param>
@@ -1403,7 +1644,7 @@ namespace Fur.DatabaseAccessor
                .Where(u => u.Direction == ParameterDirection.Output)
                .Select(u => new ProcedureOutputValue
                {
-                   Name = u.ParameterName,
+                   Name = u.ParameterName.Replace("@", ""),
                    Value = u.Value
                }).ToList();
 

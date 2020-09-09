@@ -996,5 +996,90 @@ namespace Fur.DatabaseAccessor
         /// <param name="model">命令模型</param>
         /// <returns>ProcedureOutput</returns>
         Task<ProcedureOutputResult<TResult>> SqlProcedureOutputAsync<TResult>(string procName, object model, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 执行标量函数返回 单行单列
+        /// </summary>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>object</returns>
+        object SqlFunctionScalar(string funcName, params SqlParameter[] parameters);
+
+        /// <summary>
+        /// 执行标量函数返回 单行单列
+        /// </summary>
+        /// <param name="funcName">函数名</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>object</returns>
+        object SqlFunctionScalar(string funcName, object model);
+
+        /// <summary>
+        /// 执行标量函数返回 单行单列
+        /// </summary>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>object</returns>
+        Task<object> SqlFunctionScalarAsync(string funcName, params SqlParameter[] parameters);
+
+        /// <summary>
+        /// 执行标量函数返回 单行单列
+        /// </summary>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>object</returns>
+        Task<object> SqlFunctionScalarAsync(string funcName, SqlParameter[] parameters, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 执行标量函数返回 单行单列
+        /// </summary>
+        /// <param name="funcName">函数名</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>object</returns>
+        Task<object> SqlFunctionScalarAsync(string funcName, object model, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 执行标量函数返回 单行单列
+        /// </summary>
+        /// <typeparam name="TResult">返回值类型</typeparam>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>TResult</returns>
+        TResult SqlFunctionScalar<TResult>(string funcName, params SqlParameter[] parameters);
+
+        /// <summary>
+        /// 执行标量函数返回 单行单列
+        /// </summary>
+        /// <typeparam name="TResult">返回值类型</typeparam>
+        /// <param name="funcName">函数名</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>TResult</returns>
+        TResult SqlFunctionScalar<TResult>(string funcName, object model);
+
+        /// <summary>
+        /// 执行标量函数返回 单行单列
+        /// </summary>
+        /// <typeparam name="TResult">返回值类型</typeparam>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>TResult</returns>
+        Task<TResult> SqlFunctionScalarAsync<TResult>(string funcName, params SqlParameter[] parameters);
+
+        /// <summary>
+        /// 执行标量函数返回 单行单列
+        /// </summary>
+        /// <typeparam name="TResult">返回值类型</typeparam>
+        /// <param name="funcName">函数名</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>TResult</returns>
+        Task<TResult> SqlFunctionScalarAsync<TResult>(string funcName, SqlParameter[] parameters, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 执行标量函数返回 单行单列
+        /// </summary>
+        /// <typeparam name="TResult">返回值类型</typeparam>
+        /// <param name="funcName">函数名</param>
+        /// <param name="model">参数模型</param>
+        /// <returns>object</returns>
+        Task<TResult> SqlFunctionScalarAsync<TResult>(string funcName, object model, CancellationToken cancellationToken = default);
     }
 }
