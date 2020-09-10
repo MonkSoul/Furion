@@ -11,14 +11,13 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Collections.Generic;
 
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
     /// 数据库实体全局配置依赖接口
     /// </summary>
-    public interface IEntityInfluence : IEntityInfluence<DbContextLocator>
+    public interface IModelBuilderFilter : IModelBuilderFilter<DbContextLocator>
     {
     }
 
@@ -26,7 +25,7 @@ namespace Fur.DatabaseAccessor
     /// 数据库实体全局配置依赖接口
     /// </summary>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
-    public interface IEntityInfluence<TDbContextLocator1> : IEntityInfluencePrivate
+    public interface IModelBuilderFilter<TDbContextLocator1> : IModelBuilderFilterPrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
     {
     }
@@ -36,7 +35,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
-    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2> : IEntityInfluencePrivate
+    public interface IModelBuilderFilter<TDbContextLocator1, TDbContextLocator2> : IModelBuilderFilterPrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
     {
@@ -48,7 +47,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
-    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3> : IEntityInfluencePrivate
+    public interface IModelBuilderFilter<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3> : IModelBuilderFilterPrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -62,7 +61,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
-    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4> : IEntityInfluencePrivate
+    public interface IModelBuilderFilter<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4> : IModelBuilderFilterPrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -78,7 +77,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
-    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5> : IEntityInfluencePrivate
+    public interface IModelBuilderFilter<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5> : IModelBuilderFilterPrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -96,7 +95,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
-    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6> : IEntityInfluencePrivate
+    public interface IModelBuilderFilter<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6> : IModelBuilderFilterPrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -116,7 +115,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
-    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7> : IEntityInfluencePrivate
+    public interface IModelBuilderFilter<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7> : IModelBuilderFilterPrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -138,7 +137,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator8">数据库上下文定位器</typeparam>
-    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7, TDbContextLocator8> : IEntityInfluencePrivate
+    public interface IModelBuilderFilter<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7, TDbContextLocator8> : IModelBuilderFilterPrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -153,15 +152,22 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库实体全局配置依赖接口（禁止外部继承）
     /// </summary>
-    public interface IEntityInfluencePrivate : IModelCreating
+    public interface IModelBuilderFilterPrivate : IModelCreating
     {
         /// <summary>
-        /// 全局配置
+        /// 模型构建之前
         /// </summary>
         /// <param name="entityBuilder">实体构建器</param>
         /// <param name="dbContext">数据库上下文</param>
         /// <param name="dbContextLocator">数据库上下文定位器</param>
-        /// <returns></returns>
-        IEnumerable<object> Influence(EntityTypeBuilder entityBuilder, DbContext dbContext, IDbContextLocator dbContextLocator);
+        void OnCreating(EntityTypeBuilder entityBuilder, DbContext dbContext, IDbContextLocator dbContextLocator);
+
+        /// <summary>
+        /// 模型构建之后
+        /// </summary>
+        /// <param name="entityBuilder">实体构建器</param>
+        /// <param name="dbContext">数据库上下文</param>
+        /// <param name="dbContextLocator">数据库上下文定位器</param>
+        void OnCreated(EntityTypeBuilder entityBuilder, DbContext dbContext, IDbContextLocator dbContextLocator);
     }
 }
