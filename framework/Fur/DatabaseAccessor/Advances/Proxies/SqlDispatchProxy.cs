@@ -183,7 +183,7 @@ namespace Fur.DatabaseAccessor
             var parameters = method.GetParameters().ToSqlParameters(args);
 
             // 定义最终 Sql 语句
-            string finalSql = null;
+            string finalSql;
             var commandType = CommandType.Text;
 
             // 如果是存储过程类型

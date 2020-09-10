@@ -16,6 +16,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// Sql 执行代理基特性
     /// </summary>
+    [AttributeUsage(AttributeTargets.Method)]
     public class SqlProxyAttribute : Attribute
     {
         /// <summary>
