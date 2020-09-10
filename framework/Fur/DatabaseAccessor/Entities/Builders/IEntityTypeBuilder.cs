@@ -18,6 +18,15 @@ namespace Fur.DatabaseAccessor
     /// 数据库实体类型配置依赖接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
+    public interface IEntityTypeBuilder<TEntity> : IEntityTypeBuilder<TEntity, DbContextLocator>
+        where TEntity : class, IEntity, new()
+    {
+    }
+
+    /// <summary>
+    /// 数据库实体类型配置依赖接口
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     public interface IEntityTypeBuilder<TEntity, TDbContextLocator1> : IEntityTypeBuilderPrivate<TEntity>
         where TEntity : class, IEntity, new()
@@ -168,10 +177,10 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 实体类型配置
         /// </summary>
-        /// <param name="entity">实体类型构建器</param>
+        /// <param name="entityBuilder">实体类型构建器</param>
         /// <param name="dbContext">数据库上下文</param>
         /// <param name="dbContextLocator">数据库上下文定位器</param>
         /// <returns></returns>
-        EntityTypeBuilder<TEntity> PreConfigure(EntityTypeBuilder<TEntity> entity, DbContext dbContext, IDbContextLocator dbContextLocator);
+        EntityTypeBuilder<TEntity> PreConfigure(EntityTypeBuilder<TEntity> entityBuilder, DbContext dbContext, IDbContextLocator dbContextLocator);
     }
 }

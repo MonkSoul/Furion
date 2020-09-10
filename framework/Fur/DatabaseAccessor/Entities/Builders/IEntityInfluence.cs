@@ -10,52 +10,45 @@
 // -----------------------------------------------------------------------------
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Collections.Generic;
 
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 数据库种子数据依赖接口
+    /// 数据库实体全局配置依赖接口
     /// </summary>
-    /// <typeparam name="TEntity">实体类型</typeparam>
-    public interface IEntitySeedData<TEntity> : IEntitySeedData<TEntity, DbContextLocator>
-        where TEntity : class, IEntity, new()
+    public interface IEntityInfluence : IEntityInfluence<DbContextLocator>
     {
     }
 
     /// <summary>
-    /// 数据库种子数据依赖接口
+    /// 数据库实体全局配置依赖接口
     /// </summary>
-    /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
-    public interface IEntitySeedData<TEntity, TDbContextLocator1> : IEntitySeedDataPrivate<TEntity>
-        where TEntity : class, IEntity, new()
+    public interface IEntityInfluence<TDbContextLocator1> : IEntitySeedDataPrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
     {
     }
 
     /// <summary>
-    /// 数据库种子数据依赖接口
+    /// 数据库实体全局配置依赖接口
     /// </summary>
-    /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
-    public interface IEntitySeedData<TEntity, TDbContextLocator1, TDbContextLocator2> : IEntitySeedDataPrivate<TEntity>
-        where TEntity : class, IEntity, new()
+    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2> : IEntitySeedDataPrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
     {
     }
 
     /// <summary>
-    /// 数据库种子数据依赖接口
+    /// 数据库实体全局配置依赖接口
     /// </summary>
-    /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
-    public interface IEntitySeedData<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3> : IEntitySeedDataPrivate<TEntity>
-        where TEntity : class, IEntity, new()
+    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3> : IEntitySeedDataPrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -63,15 +56,13 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 数据库种子数据依赖接口
+    /// 数据库实体全局配置依赖接口
     /// </summary>
-    /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
-    public interface IEntitySeedData<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4> : IEntitySeedDataPrivate<TEntity>
-        where TEntity : class, IEntity, new()
+    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4> : IEntitySeedDataPrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -80,16 +71,14 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 数据库种子数据依赖接口
+    /// 数据库实体全局配置依赖接口
     /// </summary>
-    /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
-    public interface IEntitySeedData<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5> : IEntitySeedDataPrivate<TEntity>
-        where TEntity : class, IEntity, new()
+    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5> : IEntitySeedDataPrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -99,17 +88,15 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 数据库种子数据依赖接口
+    /// 数据库实体全局配置依赖接口
     /// </summary>
-    /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
-    public interface IEntitySeedData<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6> : IEntitySeedDataPrivate<TEntity>
-        where TEntity : class, IEntity, new()
+    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6> : IEntitySeedDataPrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -120,9 +107,8 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 数据库种子数据依赖接口
+    /// 数据库实体全局配置依赖接口
     /// </summary>
-    /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
@@ -130,8 +116,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
-    public interface IEntitySeedData<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7> : IEntitySeedDataPrivate<TEntity>
-        where TEntity : class, IEntity, new()
+    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7> : IEntitySeedDataPrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -143,9 +128,8 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 数据库种子数据依赖接口
+    /// 数据库实体全局配置依赖接口
     /// </summary>
-    /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
@@ -154,8 +138,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator8">数据库上下文定位器</typeparam>
-    public interface IEntitySeedData<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7, TDbContextLocator8> : IEntitySeedDataPrivate<TEntity>
-        where TEntity : class, IEntity, new()
+    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7, TDbContextLocator8> : IEntitySeedDataPrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -168,18 +151,18 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 数据库种子数据依赖接口（禁止外部继承）
+    /// 数据库实体全局配置依赖接口（禁止外部继承）
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public interface IEntitySeedDataPrivate<TEntity> : IModelCreating
-        where TEntity : class, IEntity, new()
+    public interface IEntitySeedDataPrivate : IModelCreating
     {
         /// <summary>
-        /// 配置种子数据
+        /// 全局配置
         /// </summary>
+        /// <param name="entityBuilder">实体构建器</param>
         /// <param name="dbContext">数据库上下文</param>
         /// <param name="dbContextLocator">数据库上下文定位器</param>
         /// <returns></returns>
-        IEnumerable<object> HasData(DbContext dbContext, IDbContextLocator dbContextLocator);
+        IEnumerable<object> Influence(EntityTypeBuilder entityBuilder, DbContext dbContext, IDbContextLocator dbContextLocator);
     }
 }
