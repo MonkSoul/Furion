@@ -25,7 +25,7 @@ namespace Fur.DatabaseAccessor
     public interface IReadableRepository<TEntity>
         : IReadableRepository<TEntity, DbContextLocator>
         , ISqlReaderRepository<TEntity>
-        where TEntity : class, IEntityBase, new()
+        where TEntity : class, IEntity, new()
     {
     }
 
@@ -36,7 +36,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator">数据库实体定位器</typeparam>
     public interface IReadableRepository<TEntity, TDbContextLocator>
     : ISqlQueryableRepository<TEntity, TDbContextLocator>
-    where TEntity : class, IEntityBase, new()
+    where TEntity : class, IEntity, new()
     where TDbContextLocator : class, IDbContextLocator, new()
     {
         /// <summary>

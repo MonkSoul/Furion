@@ -22,7 +22,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     public interface ISqlExecutableRepository<TEntity> : ISqlExecutableRepository<TEntity, DbContextLocator>
-        where TEntity : class, IEntityBase, new()
+        where TEntity : class, IEntity, new()
     {
     }
 
@@ -32,7 +32,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator">数据库实体定位器</typeparam>
     public interface ISqlExecutableRepository<TEntity, TDbContextLocator> : IRepositoryDependency
-        where TEntity : class, IEntityBase, new()
+        where TEntity : class, IEntity, new()
         where TDbContextLocator : class, IDbContextLocator, new()
     {
         /// <summary>

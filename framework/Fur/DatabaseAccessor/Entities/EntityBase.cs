@@ -16,17 +16,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 数据库实体依赖基接口
+    /// 数据库实体依赖基类
     /// </summary>
     public abstract class EntityBase : EntityBase<int>
     {
     }
 
     /// <summary>
-    /// 数据库实体依赖基接口
+    /// 数据库实体依赖基类
     /// </summary>
     /// <typeparam name="TKey">主键类型</typeparam>
-    public abstract class EntityBase<TKey> : IEntityBase
+    public abstract class EntityBase<TKey> : IEntity
         where TKey : struct
     {
         /// <summary>
@@ -43,7 +43,7 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 数据库实体依赖基接口
+    /// 数据库实体依赖基类
     /// </summary>
     /// <typeparam name="TKey">主键类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
@@ -54,7 +54,7 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 数据库实体依赖基接口
+    /// 数据库实体依赖基类
     /// </summary>
     /// <typeparam name="TKey">主键类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
@@ -67,7 +67,7 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 数据库实体依赖基接口
+    /// 数据库实体依赖基类
     /// </summary>
     /// <typeparam name="TKey">主键类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
@@ -82,7 +82,7 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 数据库实体依赖基接口
+    /// 数据库实体依赖基类
     /// </summary>
     /// <typeparam name="TKey">主键类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
@@ -99,7 +99,7 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 数据库实体依赖基接口
+    /// 数据库实体依赖基类
     /// </summary>
     /// <typeparam name="TKey">主键类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
@@ -118,7 +118,7 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 数据库实体依赖基接口
+    /// 数据库实体依赖基类
     /// </summary>
     /// <typeparam name="TKey">主键类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
@@ -139,7 +139,7 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 数据库实体依赖基接口
+    /// 数据库实体依赖基类
     /// </summary>
     /// <typeparam name="TKey">主键类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
@@ -162,7 +162,7 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 数据库实体依赖基接口
+    /// 数据库实体依赖基类
     /// </summary>
     /// <typeparam name="TKey">主键类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>

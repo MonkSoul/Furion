@@ -12,9 +12,13 @@
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 数据库实体依赖基接口
+    /// 无键实体基接口
     /// </summary>
-    public interface IEntityBase
+    public interface IEntityNotKey : IEntity
     {
+        /// <summary>
+        /// 数据库中定义名
+        /// </summary>
+        string DEFINED_NAME { get; set; }
     }
 }

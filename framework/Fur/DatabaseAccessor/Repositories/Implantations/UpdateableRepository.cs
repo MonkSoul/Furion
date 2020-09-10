@@ -27,7 +27,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator">数据库实体定位器</typeparam>
     public partial class EFCoreRepository<TEntity, TDbContextLocator>
-        where TEntity : class, IEntityBase, new()
+        where TEntity : class, IEntity, new()
         where TDbContextLocator : class, IDbContextLocator, new()
     {
         /// <summary>
