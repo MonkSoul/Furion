@@ -27,24 +27,6 @@ namespace Fur.DatabaseAccessor
         public AppDbContext(DbContextOptions<TDbContext> options) : base(options)
         {
         }
-
-        /// <summary>
-        /// 数据库上下文初始化调用方法
-        /// </summary>
-        /// <param name="optionsBuilder"></param>
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-        }
-
-        /// <summary>
-        /// 数据库上下文配置模型调用方法
-        /// </summary>
-        /// <param name="modelBuilder"></param>
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-        }
     }
 
     /// <summary>
@@ -80,6 +62,9 @@ namespace Fur.DatabaseAccessor
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // 配置数据库上下文实体
+            //AppDbContextBuilder.ConfigureDbContextEntity(modelBuilder, this, typeof(TDbContextLocator));
         }
     }
 }

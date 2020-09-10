@@ -17,7 +17,7 @@ namespace Fur.DatabaseAccessor
     /// <remarks>
     /// 对应 <see cref="Microsoft.EntityFrameworkCore.DbContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)"/>
     /// </remarks>
-    public interface IModelCreating
+    public interface IModelBuilder
     {
     }
 }
