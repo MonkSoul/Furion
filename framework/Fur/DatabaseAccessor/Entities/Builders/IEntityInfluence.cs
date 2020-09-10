@@ -26,7 +26,7 @@ namespace Fur.DatabaseAccessor
     /// 数据库实体全局配置依赖接口
     /// </summary>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
-    public interface IEntityInfluence<TDbContextLocator1> : IEntitySeedDataPrivate
+    public interface IEntityInfluence<TDbContextLocator1> : IEntityInfluencePrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
     {
     }
@@ -36,7 +36,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
-    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2> : IEntitySeedDataPrivate
+    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2> : IEntityInfluencePrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
     {
@@ -48,7 +48,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
-    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3> : IEntitySeedDataPrivate
+    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3> : IEntityInfluencePrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -62,7 +62,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
-    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4> : IEntitySeedDataPrivate
+    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4> : IEntityInfluencePrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -78,7 +78,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
-    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5> : IEntitySeedDataPrivate
+    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5> : IEntityInfluencePrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -96,7 +96,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
-    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6> : IEntitySeedDataPrivate
+    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6> : IEntityInfluencePrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -116,7 +116,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
-    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7> : IEntitySeedDataPrivate
+    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7> : IEntityInfluencePrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -138,7 +138,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator8">数据库上下文定位器</typeparam>
-    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7, TDbContextLocator8> : IEntitySeedDataPrivate
+    public interface IEntityInfluence<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7, TDbContextLocator8> : IEntityInfluencePrivate
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -153,8 +153,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库实体全局配置依赖接口（禁止外部继承）
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    public interface IEntitySeedDataPrivate : IModelCreating
+    public interface IEntityInfluencePrivate : IModelCreating
     {
         /// <summary>
         /// 全局配置
