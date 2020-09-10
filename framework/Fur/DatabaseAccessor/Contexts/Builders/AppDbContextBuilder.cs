@@ -16,5 +16,11 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     internal static class AppDbContextBuilder
     {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        static AppDbContextBuilder()
+        {
+        }
     }
 }
