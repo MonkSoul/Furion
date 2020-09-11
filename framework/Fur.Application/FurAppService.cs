@@ -17,6 +17,7 @@ namespace Fur.Application
     [ApiDescriptionSettings(Tag = "数据库操作测试示例")]
     public class FurAppService : IDynamicApiController
     {
+        private readonly ISqlRepository _sqlRepository;
         private readonly IRepository<Test> _testRepository;
         private readonly IRepository _repository;
         private readonly IServiceProvider _serviceProvider;
@@ -25,13 +26,15 @@ namespace Fur.Application
         private readonly ISqlExecuteProxy _sqlExecuteProxy;
 
         public FurAppService(
-            IRepository<Test> testRepository
+            ISqlRepository sqlRepository
+            , IRepository<Test> testRepository
             , IRepository repository
             , IServiceProvider serviceProvider
             , IRepository<Test, DbContextLocator> repository1
             , IRepository<Test, FurDbContextLocator2> repository2
             , ISqlExecuteProxy sqlExecuteProxy)
         {
+            _sqlRepository = sqlRepository;
             _testRepository = testRepository;
             _repository = repository;
             _serviceProvider = serviceProvider;

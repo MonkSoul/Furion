@@ -9,10 +9,8 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,39 +19,17 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// Sql 查询仓储接口
     /// </summary>
-    /// <typeparam name="TEntity">实体类型</typeparam>
-    public interface ISqlReaderRepository<TEntity> : ISqlQueryableRepository<TEntity, DbContextLocator>
-        where TEntity : class, IEntity, new()
+    public interface ISqlReaderRepository : ISqlQueryableRepository<DbContextLocator>
     {
     }
 
     /// <summary>
     /// Sql 查询仓储接口
     /// </summary>
-    /// <typeparam name="TEntity">实体类型</typeparam>
-    /// <typeparam name="TDbContextLocator">数据库实体定位器</typeparam>
-    public interface ISqlQueryableRepository<TEntity, TDbContextLocator> : IRepositoryDependency
-        where TEntity : class, IEntity, new()
+    /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+    public interface ISqlQueryableRepository<TDbContextLocator> : IRepositoryDependency
         where TDbContextLocator : class, IDbContextLocator, new()
     {
-        /// <summary>
-        /// 执行 Sql 返回 IQueryable
-        /// </summary>
-        /// <param name="sql">sql 语句</param>
-        /// <param name="parameters">命令参数</param>
-        /// <returns>IQueryable<TEntity></returns>
-        IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters);
-
-        /// <summary>
-        /// 执行 Sql 返回 IQueryable
-        /// </summary>
-        /// <remarks>
-        /// 支持字符串内插语法
-        /// </remarks>
-        /// <param name="sql">sql 语句</param>
-        /// <returns>IQueryable<TEntity></returns>
-        IQueryable<TEntity> FromSqlInterpolated(FormattableString sql);
-
         /// <summary>
         /// Sql 查询返回 DataTable
         /// </summary>

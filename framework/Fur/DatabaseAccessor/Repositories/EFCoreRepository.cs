@@ -99,7 +99,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-    public partial class EFCoreRepository<TEntity, TDbContextLocator> : IRepository<TEntity, TDbContextLocator>
+    public partial class EFCoreRepository<TEntity, TDbContextLocator> : SqlRepository<TDbContextLocator>, IRepository<TEntity, TDbContextLocator>
         where TEntity : class, IEntity, new()
         where TDbContextLocator : class, IDbContextLocator, new()
     {
@@ -124,7 +124,7 @@ namespace Fur.DatabaseAccessor
             Func<Type, DbContext> dbContextResolve
             , IDbContextPool dbContextPool
             , IRepository repository
-            , IServiceProvider serviceProvider)
+            , IServiceProvider serviceProvider) : base(dbContextResolve, dbContextPool)
         {
             // 解析数据库上下文
             var dbContext = dbContextResolve(typeof(TDbContextLocator));

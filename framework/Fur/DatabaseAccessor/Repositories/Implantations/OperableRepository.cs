@@ -9,9 +9,11 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,7 +24,7 @@ namespace Fur.DatabaseAccessor
     /// 可操作仓储分部类
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    /// <typeparam name="TDbContextLocator">数据库实体定位器</typeparam>
+    /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
     public partial class EFCoreRepository<TEntity, TDbContextLocator>
         where TEntity : class, IEntity, new()
         where TDbContextLocator : class, IDbContextLocator, new()
@@ -746,6 +748,30 @@ namespace Fur.DatabaseAccessor
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             return IsKeySet(entity) ? UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken) : InsertNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 执行 Sql 返回 IQueryable
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>IQueryable<TEntity></returns>
+        public virtual IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters)
+        {
+            return Entities.FromSqlRaw(sql, parameters);
+        }
+
+        /// <summary>
+        /// 执行 Sql 返回 IQueryable
+        /// </summary>
+        /// <remarks>
+        /// 支持字符串内插语法
+        /// </remarks>
+        /// <param name="sql">sql 语句</param>
+        /// <returns>IQueryable<TEntity></returns>
+        public virtual IQueryable<TEntity> FromSqlInterpolated(FormattableString sql)
+        {
+            return Entities.FromSqlInterpolated(sql);
         }
     }
 }

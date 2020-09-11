@@ -32,6 +32,7 @@ namespace Fur.DatabaseAccessor
         : IRepository<TEntity, DbContextLocator>
         , IWritableRepository<TEntity>
         , IReadableRepository<TEntity>
+        , ISqlRepository
         where TEntity : class, IEntity, new()
     {
     }
@@ -68,6 +69,7 @@ namespace Fur.DatabaseAccessor
     public partial interface IRepository<TEntity, TDbContextLocator>
         : IWritableRepository<TEntity, TDbContextLocator>
         , IReadableRepository<TEntity, TDbContextLocator>
+        , ISqlRepository<TDbContextLocator>
         where TEntity : class, IEntity, new()
         where TDbContextLocator : class, IDbContextLocator, new()
     {

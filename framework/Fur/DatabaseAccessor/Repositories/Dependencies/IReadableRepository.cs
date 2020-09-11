@@ -22,9 +22,7 @@ namespace Fur.DatabaseAccessor
     /// 可读仓储接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public interface IReadableRepository<TEntity>
-        : IReadableRepository<TEntity, DbContextLocator>
-        , ISqlReaderRepository<TEntity>
+    public interface IReadableRepository<TEntity> : IReadableRepository<TEntity, DbContextLocator>
         where TEntity : class, IEntity, new()
     {
     }
@@ -33,11 +31,10 @@ namespace Fur.DatabaseAccessor
     /// 可读仓储接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    /// <typeparam name="TDbContextLocator">数据库实体定位器</typeparam>
-    public interface IReadableRepository<TEntity, TDbContextLocator>
-    : ISqlQueryableRepository<TEntity, TDbContextLocator>
-    where TEntity : class, IEntity, new()
-    where TDbContextLocator : class, IDbContextLocator, new()
+    /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+    public interface IReadableRepository<TEntity, TDbContextLocator> : IRepositoryDependency
+        where TEntity : class, IEntity, new()
+        where TDbContextLocator : class, IDbContextLocator, new()
     {
         /// <summary>
         /// 根据键查询一条记录

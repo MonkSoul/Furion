@@ -24,7 +24,7 @@ namespace Fur.DatabaseAccessor
     /// 可删除仓储分部类
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    /// <typeparam name="TDbContextLocator">数据库实体定位器</typeparam>
+    /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
     public partial class EFCoreRepository<TEntity, TDbContextLocator>
         where TEntity : class, IEntity, new()
         where TDbContextLocator : class, IDbContextLocator, new()
