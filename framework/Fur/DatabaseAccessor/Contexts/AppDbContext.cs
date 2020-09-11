@@ -64,7 +64,7 @@ namespace Fur.DatabaseAccessor
             base.OnModelCreating(modelBuilder);
 
             // 配置数据库上下文实体
-            //AppDbContextBuilder.ConfigureDbContextEntity(modelBuilder, this, typeof(TDbContextLocator));
+            AppDbContextBuilder.ConfigureDbContextEntity(modelBuilder, this, typeof(TDbContextLocator));
         }
     }
 }

@@ -9,12 +9,5 @@ namespace Fur.EntityFramework.Core
         public FurDbContext2(DbContextOptions<FurDbContext2> options) : base(options)
         {
         }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<Test>();
-        }
     }
 }
