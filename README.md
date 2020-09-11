@@ -62,7 +62,7 @@
 
 - Gitee：[https://gitee.com/monksoul/Fur](https://gitee.com/monksoul/Fur)
 - GitHub：[https://github.com/monksoul/Fur](https://github.com/monksoul/Fur)
-- 博客园：[https://www.cnblogs.com/furos](https://www.cnblogs.com/furos)
+- 博客园：[https://www.cnblogs.com/dotnetchina](https://www.cnblogs.com/dotnetchina)
 
 ## 架构设计
 
@@ -142,7 +142,7 @@
 
 <p></p>
 
-🎈 欢迎更多的小朋友加入 `Fur` 大集体。
+🎈 欢迎更多的开发者加入 `Fur` 大家庭。
 
 ## 谁在使用
 
