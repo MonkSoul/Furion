@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Fur.Web.Host/Fur.Web.Host.csproj",
+                "${workspaceFolder}/Fur.Web.Entry/Fur.Web.Entry.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Fur.Web.Host/Fur.Web.Host.csproj",
+                "${workspaceFolder}/Fur.Web.Entry/Fur.Web.Entry.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Fur.Web.Host/Fur.Web.Host.csproj",
+                "${workspaceFolder}/Fur.Web.Entry/Fur.Web.Entry.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

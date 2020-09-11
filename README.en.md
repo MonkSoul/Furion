@@ -21,11 +21,10 @@
 
 `Fur` **是基于最新的 .NET 5 每日构建版构建的，目的是为了尽早体验新功能，对即将到来的 .NET 5 正式版做出最快的响应。** ✈
 
-所以运行 `Fur` 需要以下三个条件：
+所以运行 `Fur` 需要以下两个条件：
 
-- **添加 Nuget 包源**：dotnet5 https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json
 - **安装最新的 .NET 5 Preview 8**：https://dotnet.microsoft.com/download/dotnet/5.0
-- **升级 Visual Studio 到最新版**：https://docs.microsoft.com/zh-cn/visualstudio/releases/2019/release-notes-preview#16.8.0-pre.2.1
+- **升级 Visual Studio 到最新版** 或使用 **Visual Studio Code** 打开 `framework` 目录
 
 **[⏳ 查看 Fur 目前进度](https://gitee.com/monksoul/Fur/board)**
 

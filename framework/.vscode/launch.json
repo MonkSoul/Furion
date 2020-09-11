@@ -5,14 +5,14 @@
    "version": "0.2.0",
    "configurations": [
         {
-            "name": "Fur Server For Web",
+            "name": ".NET Core Launch (web)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Fur.Web.Host/bin/Debug/net5.0/Fur.Web.Host.dll",
+            "program": "${workspaceFolder}/Fur.Web.Entry/bin/Debug/net5.0/Fur.Web.Entry.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Fur.Web.Host",
+            "cwd": "${workspaceFolder}/Fur.Web.Entry",
             "stopAtEntry": false,
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
@@ -27,7 +27,7 @@
             }
         },
         {
-            "name": "Fur Server For Attach",
+            "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach",
             "processId": "${command:pickProcess}"
