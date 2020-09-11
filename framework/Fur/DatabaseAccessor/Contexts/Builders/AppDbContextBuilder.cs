@@ -45,8 +45,7 @@ namespace Fur.DatabaseAccessor
         {
             // 扫描程序集，获取数据库实体相关类型
             EntityCorrelationTypes = App.Assemblies.SelectMany(u => u.GetTypes()
-                 .Where(t => t.IsPublic && t.IsClass && !t.IsAbstract && !t.IsGenericType && !t.IsInterface
-                     && (typeof(IEntity).IsAssignableFrom(t) || typeof(IModelBuilder).IsAssignableFrom(t))))
+                 .Where(t => (typeof(IEntity).IsAssignableFrom(t) || typeof(IModelBuilder).IsAssignableFrom(t)) && t.IsPublic && t.IsClass && !t.IsAbstract && !t.IsGenericType && !t.IsInterface))
                 .ToList();
 
             if (EntityCorrelationTypes.Count > 0)

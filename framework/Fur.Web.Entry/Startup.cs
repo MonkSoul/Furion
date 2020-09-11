@@ -22,17 +22,16 @@ namespace Fur.Web.Entry
             services.AddApp(options =>
             {
                 options.AddSpecificationDocuments();
-            });
+                options.AddControllers()
+                           .AddDynamicApiControllers()
+                           .AddFriendlyException()
+                           .AddDataValidation();
 
-            services.AddControllers()
-                .AddDynamicApiControllers()
-                .AddFriendlyException()
-                .AddDataValidation();
-
-            services.AddDatabaseAccessor(options =>
-            {
-                options.AddAppDbContextPool<FurDbContext>(Configuration.GetConnectionString("DbConnectionString"));
-                options.AddAppDbContextPool<FurDbContext2, FurDbContextLocator2>(Configuration.GetConnectionString("DbConnectionString2"));
+                options.AddDatabaseAccessor(options =>
+                {
+                    options.AddSqlServerPool<FurDbContext>(Configuration.GetConnectionString("DbConnectionString"));
+                    options.AddSqlServerPool<FurDbContext2, FurDbContextLocator2>(Configuration.GetConnectionString("DbConnectionString2"));
+                });
             });
         }
 

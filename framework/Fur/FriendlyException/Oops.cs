@@ -206,7 +206,7 @@ namespace Fur.FriendlyException
         {
             // 查找所有公开的枚举贴有 [ErrorCodeType] 特性的类型
             var errorCodeTypes = App.Assemblies.SelectMany(a => a.GetTypes()
-                    .Where(u => u.IsPublic && u.IsEnum && u.IsDefined(typeof(ErrorCodeTypeAttribute), true)))
+                    .Where(u => u.IsDefined(typeof(ErrorCodeTypeAttribute), true) && u.IsPublic && u.IsEnum))
                 .ToList();
 
             // 获取错误代码提供器中定义的类型

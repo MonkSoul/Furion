@@ -247,7 +247,7 @@ namespace Fur.DataValidation
         {
             // 扫描所有公开的枚举且贴有 [ValidationType] 特性
             var validationTypes = App.Assemblies.SelectMany(a => a.GetTypes()
-                .Where(u => u.IsPublic && u.IsEnum && u.IsDefined(typeof(ValidationTypeAttribute), true)));
+                .Where(u => u.IsDefined(typeof(ValidationTypeAttribute), true) && u.IsPublic && u.IsEnum));
             return validationTypes;
         }
 
@@ -259,7 +259,7 @@ namespace Fur.DataValidation
         {
             // 扫描所有公开的的枚举且贴有 [ValidationMessageType] 特性
             var validationMessageTypes = App.Assemblies.SelectMany(a => a.GetTypes()
-                    .Where(u => u.IsPublic && u.IsEnum && u.IsDefined(typeof(ValidationMessageTypeAttribute), true)))
+                    .Where(u => u.IsDefined(typeof(ValidationMessageTypeAttribute), true) && u.IsPublic && u.IsEnum))
                 .ToList();
 
             // 加载自定义验证消息类型提供器

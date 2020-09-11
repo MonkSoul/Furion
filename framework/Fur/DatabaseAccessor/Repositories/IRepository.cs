@@ -59,6 +59,19 @@ namespace Fur.DatabaseAccessor
         IRepository<TEntity, TDbContextLocator> Change<TEntity, TDbContextLocator>()
             where TEntity : class, IEntity, new()
             where TDbContextLocator : class, IDbContextLocator, new();
+
+        /// <summary>
+        /// 获取 Sql 操作仓储
+        /// </summary>
+        /// <returns>ISqlRepository</returns>
+        ISqlRepository Sql();
+
+        /// <summary>
+        /// 获取多数据库上下文 Sql 操作仓储
+        /// </summary>
+        /// <returns>ISqlRepository<TDbContextLocator></returns>
+        ISqlRepository<TDbContextLocator> Sql<TDbContextLocator>()
+             where TDbContextLocator : class, IDbContextLocator, new();
     }
 
     /// <summary>

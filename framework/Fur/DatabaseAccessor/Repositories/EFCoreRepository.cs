@@ -92,6 +92,25 @@ namespace Fur.DatabaseAccessor
         {
             return _serviceProvider.GetService<IRepository<TEntity, TDbContextLocator>>();
         }
+
+        /// <summary>
+        /// 获取 Sql 操作仓储
+        /// </summary>
+        /// <returns>ISqlRepository</returns>
+        public virtual ISqlRepository Sql()
+        {
+            return _serviceProvider.GetService<ISqlRepository>();
+        }
+
+        /// <summary>
+        /// 获取多数据库上下文 Sql 操作仓储
+        /// </summary>
+        /// <returns>ISqlRepository<TDbContextLocator></returns>
+        public virtual ISqlRepository<TDbContextLocator> Sql<TDbContextLocator>()
+             where TDbContextLocator : class, IDbContextLocator, new()
+        {
+            return _serviceProvider.GetService<ISqlRepository<TDbContextLocator>>();
+        }
     }
 
     /// <summary>

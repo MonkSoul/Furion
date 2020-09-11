@@ -24,6 +24,7 @@ namespace Fur.Application
         private readonly IRepository<Test, DbContextLocator> _repository1;
         private readonly IRepository<Test, FurDbContextLocator2> _repository2;
         private readonly ISqlExecuteProxy _sqlExecuteProxy;
+        private readonly ITestService _testService;
 
         public FurAppService(
             ISqlRepository sqlRepository
@@ -32,7 +33,8 @@ namespace Fur.Application
             , IServiceProvider serviceProvider
             , IRepository<Test, DbContextLocator> repository1
             , IRepository<Test, FurDbContextLocator2> repository2
-            , ISqlExecuteProxy sqlExecuteProxy)
+            , ISqlExecuteProxy sqlExecuteProxy
+            , ITestService testService)
         {
             _sqlRepository = sqlRepository;
             _testRepository = testRepository;
@@ -42,6 +44,8 @@ namespace Fur.Application
             _repository2 = repository2;
 
             _sqlExecuteProxy = sqlExecuteProxy;
+
+            _testService = testService;
         }
 
         /// <summary>
@@ -471,6 +475,15 @@ select Id,Name,Age,Address from dbo.test where id > @id;
         public List<TestDto> SqlProxyToTableFunction(int id)
         {
             return _sqlExecuteProxy.GetTableFunction(id).Adapt<List<TestDto>>();
+        }
+
+        /// <summary>
+        /// 测试依赖注入
+        /// </summary>
+        /// <returns></returns>
+        public string TestDependencyInjection()
+        {
+            return _testService.Name();
         }
     }
 }

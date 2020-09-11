@@ -28,6 +28,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>服务集合</returns>
         public static IServiceCollection AddApp(this IServiceCollection services, Action<IServiceCollection> configure = null)
         {
+            // 注册全局依赖注入
+            services.AddDependencyInjection();
+
             App.Services = services;
             services.AddConfigurableOptions<AppSettingsOptions>();
 
