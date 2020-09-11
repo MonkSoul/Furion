@@ -39,6 +39,11 @@ namespace Fur.DatabaseAccessor
         internal Type DbContextLocator { get; set; }
 
         /// <summary>
+        /// 所有关联类型
+        /// </summary>
+        internal List<Type> Types { get; set; }
+
+        /// <summary>
         /// 实体类型集合
         /// </summary>
         internal List<Type> EntityTypes { get; set; }
