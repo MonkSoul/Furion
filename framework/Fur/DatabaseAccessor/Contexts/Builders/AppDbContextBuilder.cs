@@ -9,6 +9,8 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.Extensions;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -79,6 +81,12 @@ namespace Fur.DatabaseAccessor
 
                 // 实体构建成功注入拦截
                 LoadModelBuilderOnCreating(entityBuilder, dbContext, dbContextLocator, dbContextCorrelationType.ModelBuilderFilterInstances);
+
+                // 配置数据库实体类型构建器
+                ConfigureEntityTypeBuilder(entityType, entityBuilder, dbContext, dbContextLocator, dbContextCorrelationType);
+
+                // 配置数据库实体种子数据
+                ConfigureEntitySeedData(entityType, entityBuilder, dbContext, dbContextLocator, dbContextCorrelationType);
 
                 // 实体完成配置注入拦截
                 LoadModelBuilderOnCreated(entityBuilder, dbContext, dbContextLocator, dbContextCorrelationType.ModelBuilderFilterInstances);
@@ -151,6 +159,62 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
+        /// 配置数据库实体类型构建器
+        /// </summary>
+        /// <param name="entityType">实体类型</param>
+        /// <param name="entityBuilder">实体类型构建器</param>
+        /// <param name="dbContext">数据库上下文</param>
+        /// <param name="dbContextLocator">数据库上下文定位器</param>
+        /// <param name="dbContextCorrelationType">数据库实体关联类型</param>
+        private static void ConfigureEntityTypeBuilder(Type entityType, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator, DbContextCorrelationType dbContextCorrelationType)
+        {
+            // 获取该实体类型的配置类型
+            var entityTypeBuilderTypes = dbContextCorrelationType.EntityTypeBuilderTypes
+                .Where(u => u.GetInterfaces()
+                    .Any(i => i.HasImplementedRawGeneric(typeof(IEntityTypeBuilderDependency<>)) && i.GenericTypeArguments.Contains(entityType)));
+
+            if (!entityTypeBuilderTypes.Any()) return;
+
+            // 调用数据库实体自定义配置
+            foreach (var entityTypeBuilderType in entityTypeBuilderTypes)
+            {
+                var instance = Activator.CreateInstance(entityTypeBuilderType);
+                var configureMethod = entityTypeBuilderType.GetMethod("Configure");
+                configureMethod.Invoke(instance, new object[] { entityBuilder, dbContext, dbContextLocator });
+            }
+        }
+
+        /// <summary>
+        /// 配置数据库实体种子数据
+        /// </summary>
+        /// <param name="entityType">实体类型</param>
+        /// <param name="entityBuilder">实体类型构建器</param>
+        /// <param name="dbContext">数据库上下文</param>
+        /// <param name="dbContextLocator">数据库上下文定位器</param>
+        /// <param name="dbContextCorrelationType">数据库实体关联类型</param>
+        private static void ConfigureEntitySeedData(Type entityType, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator, DbContextCorrelationType dbContextCorrelationType)
+        {
+            // 获取该实体类型的种子配置
+            var entitySeedDataTypes = dbContextCorrelationType.EntitySeedDataTypes
+                .Where(u => u.GetInterfaces()
+                    .Any(i => i.HasImplementedRawGeneric(typeof(IEntitySeedDataDependency<>)) && i.GenericTypeArguments.Contains(entityType)));
+
+            if (!entitySeedDataTypes.Any()) return;
+
+            var datas = new List<object>();
+
+            // 调用数据库实体自定义配置
+            foreach (var entitySeedDataType in entitySeedDataTypes)
+            {
+                var instance = Activator.CreateInstance(entitySeedDataType);
+                var hasDataMethod = entitySeedDataType.GetMethod("HasData");
+                datas.AddRange(hasDataMethod.Invoke(instance, new object[] { dbContext, dbContextLocator }).Adapt<IEnumerable<object>>());
+            }
+
+            entityBuilder.HasData(datas.ToArray());
+        }
+
+        /// <summary>
         /// 判断当前类型是否在数据库上下文中
         /// </summary>
         /// <param name="dbContextLocator"></param>
@@ -211,20 +275,20 @@ namespace Fur.DatabaseAccessor
                 else if (typeof(IModelBuilder).IsAssignableFrom(entityCorrelationType))
                 {
                     // 添加模型构建器
-                    if (typeof(IEntitySeedDataDependency<>).IsAssignableFrom(entityCorrelationType))
+                    if (entityCorrelationType.HasImplementedRawGeneric(typeof(IEntityTypeBuilderDependency<>)))
                     {
                         result.EntityTypeBuilderTypes.Add(entityCorrelationType);
                     }
 
                     // 添加全局筛选器
-                    if (typeof(IModelBuilderFilterDependency).IsAssignableFrom(entityCorrelationType))
+                    if (entityCorrelationType.HasImplementedRawGeneric(typeof(IModelBuilderFilterDependency)))
                     {
                         result.ModelBuilderFilterTypes.Add(entityCorrelationType);
                         result.ModelBuilderFilterInstances.Add(Activator.CreateInstance(entityCorrelationType) as IModelBuilderFilterDependency);
                     }
 
                     // 添加种子数据
-                    if (typeof(IEntitySeedDataDependency<>).IsAssignableFrom(entityCorrelationType))
+                    if (entityCorrelationType.HasImplementedRawGeneric(typeof(IEntitySeedDataDependency<>)))
                     {
                         result.EntitySeedDataTypes.Add(entityCorrelationType);
                     }

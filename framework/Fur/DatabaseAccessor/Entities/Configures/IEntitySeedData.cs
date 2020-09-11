@@ -10,6 +10,7 @@
 // -----------------------------------------------------------------------------
 
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 
 namespace Fur.DatabaseAccessor
@@ -180,6 +181,6 @@ namespace Fur.DatabaseAccessor
         /// <param name="dbContext">数据库上下文</param>
         /// <param name="dbContextLocator">数据库上下文定位器</param>
         /// <returns></returns>
-        IEnumerable<object> HasData(DbContext dbContext, IDbContextLocator dbContextLocator);
+        IEnumerable<TEntity> HasData(DbContext dbContext, Type dbContextLocator);
     }
 }

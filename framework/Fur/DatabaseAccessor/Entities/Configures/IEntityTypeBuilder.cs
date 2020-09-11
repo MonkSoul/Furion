@@ -11,6 +11,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace Fur.DatabaseAccessor
 {
@@ -180,7 +181,6 @@ namespace Fur.DatabaseAccessor
         /// <param name="entityBuilder">实体类型构建器</param>
         /// <param name="dbContext">数据库上下文</param>
         /// <param name="dbContextLocator">数据库上下文定位器</param>
-        /// <returns></returns>
-        EntityTypeBuilder<TEntity> PreConfigure(EntityTypeBuilder<TEntity> entityBuilder, DbContext dbContext, IDbContextLocator dbContextLocator);
+        void Configure(EntityTypeBuilder<TEntity> entityBuilder, DbContext dbContext, Type dbContextLocator);
     }
 }
