@@ -73,6 +73,15 @@ namespace Fur.DatabaseAccessor
             {
                 // 创建实体类型
                 var entityBuilder = CreateEntityTypeBuilder(entityType, modelBuilder);
+
+                // 配置无键实体构建器
+                ConfigureEntityNoKeyType(entityType, entityBuilder, dbContextCorrelationType.EntityNoKeyTypes);
+
+                // 实体构建成功注入拦截
+                LoadModelBuilderOnCreating(entityBuilder, dbContext, dbContextLocator, dbContextCorrelationType.ModelBuilderFilterInstances);
+
+                // 实体完成配置注入拦截
+                LoadModelBuilderOnCreated(entityBuilder, dbContext, dbContextLocator, dbContextCorrelationType.ModelBuilderFilterInstances);
             }
         }
 
@@ -88,13 +97,57 @@ namespace Fur.DatabaseAccessor
             return ModelBuildEntityMethod.MakeGenericMethod(type).Invoke(modelBuilder, null) as EntityTypeBuilder;
         }
 
-        private static void CreateEntityNoKeyType(Type entityType, EntityTypeBuilder entityBuilder, DbContextCorrelationType dbContextCorrelationType)
+        /// <summary>
+        /// 配置无键实体类型
+        /// </summary>
+        /// <param name="entityType">实体类型</param>
+        /// <param name="entityBuilder">实体类型构建器</param>
+        /// <param name="EntityNoKeyTypes">无键实体列表</param>
+        private static void ConfigureEntityNoKeyType(Type entityType, EntityTypeBuilder entityBuilder, List<Type> EntityNoKeyTypes)
         {
-            // 如果数据库上下文关联类型中不包含实体类型，则跳过
-            if (!dbContextCorrelationType.EntityNoKeyTypes.Contains(entityType)) return;
+            if (!EntityNoKeyTypes.Contains(entityType)) return;
 
             // 配置视图、存储过程、函数无键实体
             entityBuilder.HasNoKey();
+            entityBuilder.ToView((Activator.CreateInstance(entityType) as IEntityNotKey).DEFINED_NAME);
+        }
+
+        /// <summary>
+        /// 加载模型构建筛选器创建之前拦截
+        /// </summary>
+        /// <param name="entityBuilder">实体类型构建器</param>
+        /// <param name="dbContext">数据库上下文</param>
+        /// <param name="dbContextLocator">数据库上下文定位器</param>
+        /// <param name="modelBuilderFilterInstances">模型构建器筛选器实例</param>
+        private static void LoadModelBuilderOnCreating(EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator, List<IModelBuilderFilterDependency> modelBuilderFilterInstances)
+        {
+            if (modelBuilderFilterInstances.Count == 0) return;
+
+            // 创建过滤器
+            foreach (var filterInstance in modelBuilderFilterInstances)
+            {
+                // 执行构建之后
+                filterInstance.OnCreating(entityBuilder, dbContext, dbContextLocator);
+            }
+        }
+
+        /// <summary>
+        /// 加载模型构建筛选器创建之后拦截
+        /// </summary>
+        /// <param name="entityBuilder">实体类型构建器</param>
+        /// <param name="dbContext">数据库上下文</param>
+        /// <param name="dbContextLocator">数据库上下文定位器</param>
+        /// <param name="modelBuilderFilterInstances">模型构建器筛选器实例</param>
+        private static void LoadModelBuilderOnCreated(EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator, List<IModelBuilderFilterDependency> modelBuilderFilterInstances)
+        {
+            if (modelBuilderFilterInstances.Count == 0) return;
+
+            // 创建过滤器
+            foreach (var filterInstance in modelBuilderFilterInstances)
+            {
+                // 执行构建之后
+                filterInstance.OnCreated(entityBuilder, dbContext, dbContextLocator);
+            }
         }
 
         /// <summary>
@@ -167,6 +220,7 @@ namespace Fur.DatabaseAccessor
                     if (typeof(IModelBuilderFilterDependency).IsAssignableFrom(entityCorrelationType))
                     {
                         result.ModelBuilderFilterTypes.Add(entityCorrelationType);
+                        result.ModelBuilderFilterInstances.Add(Activator.CreateInstance(entityCorrelationType) as IModelBuilderFilterDependency);
                     }
 
                     // 添加种子数据

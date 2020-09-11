@@ -9,45 +9,52 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 数据库模型构建筛选器依赖接口
+    /// 数据库实体依赖基类
     /// </summary>
-    public interface IModelBuilderFilter : IModelBuilderFilter<DbContextLocator>
+    public abstract class EntityBase : EntityBase<int, DbContextLocator>
     {
     }
 
     /// <summary>
-    /// 数据库模型构建筛选器依赖接口
+    /// 数据库实体依赖基类
     /// </summary>
+    /// <typeparam name="TKey">主键类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
-    public interface IModelBuilderFilter<TDbContextLocator1> : IModelBuilderFilterDependency
+    public abstract class EntityBase<TKey, TDbContextLocator1> : EntityBaseDependency<TKey>
+        where TKey : struct
         where TDbContextLocator1 : class, IDbContextLocator, new()
     {
     }
 
     /// <summary>
-    /// 数据库模型构建筛选器依赖接口
+    /// 数据库实体依赖基类
     /// </summary>
+    /// <typeparam name="TKey">主键类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
-    public interface IModelBuilderFilter<TDbContextLocator1, TDbContextLocator2> : IModelBuilderFilterDependency
+    public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2> : EntityBaseDependency<TKey>
+        where TKey : struct
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
     {
     }
 
     /// <summary>
-    /// 数据库模型构建筛选器依赖接口
+    /// 数据库实体依赖基类
     /// </summary>
+    /// <typeparam name="TKey">主键类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
-    public interface IModelBuilderFilter<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3> : IModelBuilderFilterDependency
+    public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3> : EntityBaseDependency<TKey>
+        where TKey : struct
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -55,13 +62,15 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 数据库模型构建筛选器依赖接口
+    /// 数据库实体依赖基类
     /// </summary>
+    /// <typeparam name="TKey">主键类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
-    public interface IModelBuilderFilter<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4> : IModelBuilderFilterDependency
+    public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4> : EntityBaseDependency<TKey>
+        where TKey : struct
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -70,14 +79,16 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 数据库模型构建筛选器依赖接口
+    /// 数据库实体依赖基类
     /// </summary>
+    /// <typeparam name="TKey">主键类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
-    public interface IModelBuilderFilter<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5> : IModelBuilderFilterDependency
+    public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5> : EntityBaseDependency<TKey>
+        where TKey : struct
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -87,15 +98,17 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 数据库模型构建筛选器依赖接口
+    /// 数据库实体依赖基类
     /// </summary>
+    /// <typeparam name="TKey">主键类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
-    public interface IModelBuilderFilter<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6> : IModelBuilderFilterDependency
+    public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6> : EntityBaseDependency<TKey>
+        where TKey : struct
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -106,8 +119,9 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 数据库模型构建筛选器依赖接口
+    /// 数据库实体依赖基类
     /// </summary>
+    /// <typeparam name="TKey">主键类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
@@ -115,7 +129,8 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
-    public interface IModelBuilderFilter<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7> : IModelBuilderFilterDependency
+    public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7> : EntityBaseDependency<TKey>
+        where TKey : struct
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -127,8 +142,9 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 数据库模型构建筛选器依赖接口
+    /// 数据库实体依赖基类
     /// </summary>
+    /// <typeparam name="TKey">主键类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
@@ -137,7 +153,8 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator8">数据库上下文定位器</typeparam>
-    public interface IModelBuilderFilter<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7, TDbContextLocator8> : IModelBuilderFilterDependency
+    public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7, TDbContextLocator8> : EntityBaseDependency<TKey>
+        where TKey : struct
         where TDbContextLocator1 : class, IDbContextLocator, new()
         where TDbContextLocator2 : class, IDbContextLocator, new()
         where TDbContextLocator3 : class, IDbContextLocator, new()
@@ -150,24 +167,22 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 数据库模型构建筛选器依赖接口（禁止外部继承）
+    /// 数据库实体依赖基类（禁止外部继承）
     /// </summary>
-    public interface IModelBuilderFilterDependency : IModelBuilder
+    /// <typeparam name="TKey">主键类型</typeparam>
+    public abstract class EntityBaseDependency<TKey> : IEntity
+        where TKey : struct
     {
         /// <summary>
-        /// 模型构建之前
+        /// 主键Id
         /// </summary>
-        /// <param name="entityBuilder">实体构建器</param>
-        /// <param name="dbContext">数据库上下文</param>
-        /// <param name="dbContextLocator">数据库上下文定位器</param>
-        void OnCreating(EntityTypeBuilder entityBuilder, DbContext dbContext, IDbContextLocator dbContextLocator);
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
 
         /// <summary>
-        /// 模型构建之后
+        /// 租户Id
         /// </summary>
-        /// <param name="entityBuilder">实体构建器</param>
-        /// <param name="dbContext">数据库上下文</param>
-        /// <param name="dbContextLocator">数据库上下文定位器</param>
-        void OnCreated(EntityTypeBuilder entityBuilder, DbContext dbContext, IDbContextLocator dbContextLocator);
+        public Guid? TenantId { get; set; }
     }
 }
