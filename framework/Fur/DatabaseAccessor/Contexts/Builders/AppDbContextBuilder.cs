@@ -72,9 +72,8 @@ namespace Fur.DatabaseAccessor
             // 初始化所有类型
             foreach (var entityType in dbContextCorrelationType.EntityTypes)
             {
-                EntityTypeBuilder entityBuilder = null;
                 // 创建实体类型
-                CreateEntityTypeBuilder(entityType, modelBuilder, ref entityBuilder);
+                var entityBuilder = CreateEntityTypeBuilder(entityType, modelBuilder);
             }
         }
 
@@ -83,17 +82,20 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="type">数据库关联类型</param>
         /// <param name="modelBuilder">模型构建器</param>
-        /// <param name="entityBuilder">实体类型构建器</param>
-        private static void CreateEntityTypeBuilder(Type type, ModelBuilder modelBuilder, ref EntityTypeBuilder entityBuilder)
+        /// <returns>EntityTypeBuilder</returns>
+        private static EntityTypeBuilder CreateEntityTypeBuilder(Type type, ModelBuilder modelBuilder)
         {
-            // 如果实体类型构建器不为空，则跳过
-            if (entityBuilder != null) return;
-
-            // 如果类型不是实体类型，则跳过
-            if (!typeof(IEntity).IsAssignableFrom(type)) return;
-
             // 反射创建实体类型构建器
-            entityBuilder = ModelBuildEntityMethod.MakeGenericMethod(type).Invoke(modelBuilder, null) as EntityTypeBuilder;
+            return ModelBuildEntityMethod.MakeGenericMethod(type).Invoke(modelBuilder, null) as EntityTypeBuilder;
+        }
+
+        private static void CreateEntityNoKeyType(Type entityType, EntityTypeBuilder entityBuilder, DbContextCorrelationType dbContextCorrelationType)
+        {
+            // 如果数据库上下文关联类型中不包含实体类型，则跳过
+            if (!dbContextCorrelationType.EntityNoKeyTypes.Contains(entityType)) return;
+
+            // 配置视图、存储过程、函数无键实体
+            entityBuilder.HasNoKey();
         }
 
         /// <summary>
