@@ -560,6 +560,15 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
+        /// 判断是否是 Oracle 数据库
+        /// </summary>
+        /// <returns>bool</returns>
+        public virtual bool IsOracle()
+        {
+            return ProviderName.Equals(DatabaseProvider.Oracle, StringComparison.Ordinal);
+        }
+
+        /// <summary>
         /// 判断是否是关系型数据库
         /// </summary>
         /// <returns>bool</returns>

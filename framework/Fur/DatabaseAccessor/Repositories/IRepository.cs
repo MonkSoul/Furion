@@ -366,6 +366,12 @@ namespace Fur.DatabaseAccessor
         bool IsNpgsql();
 
         /// <summary>
+        /// 判断是否是 Oracle 数据库
+        /// </summary>
+        /// <returns>bool</returns>
+        bool IsOracle();
+
+        /// <summary>
         /// 判断是否是关系型数据库
         /// </summary>
         /// <returns>bool</returns>

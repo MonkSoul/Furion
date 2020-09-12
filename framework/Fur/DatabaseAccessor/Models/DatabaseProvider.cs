@@ -52,6 +52,11 @@ namespace Fur.DatabaseAccessor
         internal const string PostgreSQL = "Npgsql.EntityFrameworkCore.PostgreSQL";
 
         /// <summary>
+        /// Oracle 提供器程序集
+        /// </summary>
+        internal const string Oracle = "Citms.EntityFrameworkCore.Oracle";
+
+        /// <summary>
         /// 不支持存储过程的数据库
         /// </summary>
         internal static readonly string[] NotSupportStoredProcedureDatabases;

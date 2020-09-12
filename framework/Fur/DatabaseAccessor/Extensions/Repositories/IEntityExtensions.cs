@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Fur.FriendlyException;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +24,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 实体拓展类
     /// </summary>
+    [NonBeScan]
     public static class IEntityExtensions
     {
         /// <summary>

@@ -96,7 +96,7 @@
   - Windows
   - Linux
   - MacOS
-  - Docker/K8S
+  - Docker/K8S/K3S/Rancher
 - 数据库
   - SqlServer
   - Sqlite
@@ -104,6 +104,7 @@
   - MySql
   - PostgreSQL
   - 内存数据库
+  - Oracle
 
 ## 问答 FAQ
 
