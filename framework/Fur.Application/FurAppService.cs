@@ -147,7 +147,8 @@ select Id,Name,Age,Address from dbo.test where id > @id;
         /// <param name="testDto"></param>
         public void Add(TestDto testDto)
         {
-            _testRepository.Insert(testDto.Adapt<Test>());
+            testDto.Adapt<Test>().Insert();
+            //_testRepository.Insert(testDto.Adapt<Test>());
         }
 
         /// <summary>
