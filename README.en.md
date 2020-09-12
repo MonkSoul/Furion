@@ -26,9 +26,9 @@
 - **安装最新的 .NET 5 Preview 8**：https://dotnet.microsoft.com/download/dotnet/5.0
 - **升级 Visual Studio 到最新版** 或使用 **Visual Studio Code** 打开 `framework` 目录
 
-**[⏳ 查看 Fur 目前进度](https://gitee.com/monksoul/Fur/board)**
-
 <img src="./handbook/static/img/demo.gif" />
+
+**[⏳ 查看 Fur 目前进度](https://gitee.com/monksoul/Fur/board)**
 
 ---
 
