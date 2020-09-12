@@ -58,7 +58,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>仓储</returns>
         IRepository<TEntity, TDbContextLocator> Change<TEntity, TDbContextLocator>()
             where TEntity : class, IEntity, new()
-            where TDbContextLocator : class, IDbContextLocator, new();
+            where TDbContextLocator : class, IDbContextLocator;
 
         /// <summary>
         /// 获取 Sql 操作仓储
@@ -71,7 +71,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <returns>ISqlRepository<TDbContextLocator></returns>
         ISqlRepository<TDbContextLocator> Sql<TDbContextLocator>()
-             where TDbContextLocator : class, IDbContextLocator, new();
+             where TDbContextLocator : class, IDbContextLocator;
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ namespace Fur.DatabaseAccessor
         , IReadableRepository<TEntity, TDbContextLocator>
         , ISqlRepository<TDbContextLocator>
         where TEntity : class, IEntity, new()
-        where TDbContextLocator : class, IDbContextLocator, new()
+        where TDbContextLocator : class, IDbContextLocator
     {
         /// <summary>
         /// 数据库上下文
@@ -393,7 +393,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>仓储</returns>
         IRepository<TChangeEntity, TChangeDbContextLocator> Change<TChangeEntity, TChangeDbContextLocator>()
             where TChangeEntity : class, IEntity, new()
-            where TChangeDbContextLocator : class, IDbContextLocator, new();
+            where TChangeDbContextLocator : class, IDbContextLocator;
 
         /// <summary>
         /// 将仓储约束为特定仓储

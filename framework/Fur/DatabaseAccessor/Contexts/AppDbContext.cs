@@ -39,7 +39,7 @@ namespace Fur.DatabaseAccessor
     [NonBeScan]
     public abstract class AppDbContext<TDbContext, TDbContextLocator> : DbContext
         where TDbContext : DbContext
-        where TDbContextLocator : class, IDbContextLocator, new()
+        where TDbContextLocator : class, IDbContextLocator
     {
         /// <summary>
         /// 构造函数

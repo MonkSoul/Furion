@@ -14,6 +14,7 @@ using Fur.DependencyInjection;
 using Fur.FriendlyException;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
@@ -173,7 +174,7 @@ namespace Fur
         /// <returns>IRepository<TEntity, TDbContextLocator></returns>
         public static IRepository<TEntity, TDbContextLocator> GetRepository<TEntity, TDbContextLocator>()
             where TEntity : class, IEntity, new()
-            where TDbContextLocator : class, IDbContextLocator, new()
+            where TDbContextLocator : class, IDbContextLocator
         {
             return RequestServiceProvider.GetService<IRepository<TEntity, TDbContextLocator>>()
                 ?? throw Oops.Oh("Reading IRepository<TEntity, TDbContextLocator> instances on non HTTP requests is not supported.", typeof(NotSupportedException));
@@ -195,7 +196,7 @@ namespace Fur
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <returns>ISqlRepository<TDbContextLocator></returns>
         public static ISqlRepository<TDbContextLocator> GetSqlRepository<TDbContextLocator>()
-            where TDbContextLocator : class, IDbContextLocator, new()
+            where TDbContextLocator : class, IDbContextLocator
         {
             return RequestServiceProvider.GetService<ISqlRepository<TDbContextLocator>>()
                 ?? throw Oops.Oh("Reading ISqlRepository<TDbContextLocator> instances on non HTTP requests is not supported.", typeof(NotSupportedException));

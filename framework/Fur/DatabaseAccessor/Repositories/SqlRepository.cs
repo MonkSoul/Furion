@@ -40,13 +40,8 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
     [NonBeScan]
     public partial class SqlRepository<TDbContextLocator> : ISqlRepository<TDbContextLocator>
-        where TDbContextLocator : class, IDbContextLocator, new()
+        where TDbContextLocator : class, IDbContextLocator
     {
-        /// <summary>
-        /// 数据库操作对象
-        /// </summary>
-        private readonly DatabaseFacade Database;
-
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -65,5 +60,10 @@ namespace Fur.DatabaseAccessor
             // 初始化数据库相关数据
             Database = dbContext.Database;
         }
+
+        /// <summary>
+        /// 数据库操作对象
+        /// </summary>
+        public DatabaseFacade Database { get; }
     }
 }

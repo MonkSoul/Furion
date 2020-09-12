@@ -35,7 +35,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     [NonBeScan]
     public abstract class EntityNotKey<TDbContextLocator1> : EntityNotKeyDependency
-        where TDbContextLocator1 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
     {
         /// <summary>
         /// 构造函数
@@ -53,7 +53,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     [NonBeScan]
     public abstract class EntityNotKey<TDbContextLocator1, TDbContextLocator2> : EntityNotKeyDependency
-        where TDbContextLocator2 : class, IDbContextLocator, new()
+        where TDbContextLocator2 : class, IDbContextLocator
     {
         /// <summary>
         /// 构造函数
@@ -72,9 +72,9 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     [NonBeScan]
     public abstract class EntityNotKey<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3> : EntityNotKeyDependency
-        where TDbContextLocator1 : class, IDbContextLocator, new()
-        where TDbContextLocator2 : class, IDbContextLocator, new()
-        where TDbContextLocator3 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
     {
         /// <summary>
         /// 构造函数
@@ -94,10 +94,10 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     [NonBeScan]
     public abstract class EntityNotKey<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4> : EntityNotKeyDependency
-        where TDbContextLocator1 : class, IDbContextLocator, new()
-        where TDbContextLocator2 : class, IDbContextLocator, new()
-        where TDbContextLocator3 : class, IDbContextLocator, new()
-        where TDbContextLocator4 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+        where TDbContextLocator4 : class, IDbContextLocator
     {
         /// <summary>
         /// 构造函数
@@ -118,11 +118,11 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     [NonBeScan]
     public abstract class EntityNotKey<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5> : EntityNotKeyDependency
-        where TDbContextLocator1 : class, IDbContextLocator, new()
-        where TDbContextLocator2 : class, IDbContextLocator, new()
-        where TDbContextLocator3 : class, IDbContextLocator, new()
-        where TDbContextLocator4 : class, IDbContextLocator, new()
-        where TDbContextLocator5 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+        where TDbContextLocator4 : class, IDbContextLocator
+        where TDbContextLocator5 : class, IDbContextLocator
     {
         /// <summary>
         /// 构造函数
@@ -144,12 +144,12 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     [NonBeScan]
     public abstract class EntityNotKey<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6> : EntityNotKeyDependency
-        where TDbContextLocator1 : class, IDbContextLocator, new()
-        where TDbContextLocator2 : class, IDbContextLocator, new()
-        where TDbContextLocator3 : class, IDbContextLocator, new()
-        where TDbContextLocator4 : class, IDbContextLocator, new()
-        where TDbContextLocator5 : class, IDbContextLocator, new()
-        where TDbContextLocator6 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+        where TDbContextLocator4 : class, IDbContextLocator
+        where TDbContextLocator5 : class, IDbContextLocator
+        where TDbContextLocator6 : class, IDbContextLocator
     {
         /// <summary>
         /// 构造函数
@@ -172,13 +172,13 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
     [NonBeScan]
     public abstract class EntityNotKey<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7> : EntityNotKeyDependency
-        where TDbContextLocator1 : class, IDbContextLocator, new()
-        where TDbContextLocator2 : class, IDbContextLocator, new()
-        where TDbContextLocator3 : class, IDbContextLocator, new()
-        where TDbContextLocator4 : class, IDbContextLocator, new()
-        where TDbContextLocator5 : class, IDbContextLocator, new()
-        where TDbContextLocator6 : class, IDbContextLocator, new()
-        where TDbContextLocator7 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+        where TDbContextLocator4 : class, IDbContextLocator
+        where TDbContextLocator5 : class, IDbContextLocator
+        where TDbContextLocator6 : class, IDbContextLocator
+        where TDbContextLocator7 : class, IDbContextLocator
     {
         /// <summary>
         /// 构造函数
@@ -202,14 +202,14 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator8">数据库上下文定位器</typeparam>
     [NonBeScan]
     public abstract class EntityNotKey<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7, TDbContextLocator8> : EntityNotKeyDependency
-        where TDbContextLocator1 : class, IDbContextLocator, new()
-        where TDbContextLocator2 : class, IDbContextLocator, new()
-        where TDbContextLocator3 : class, IDbContextLocator, new()
-        where TDbContextLocator4 : class, IDbContextLocator, new()
-        where TDbContextLocator5 : class, IDbContextLocator, new()
-        where TDbContextLocator6 : class, IDbContextLocator, new()
-        where TDbContextLocator7 : class, IDbContextLocator, new()
-        where TDbContextLocator8 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+        where TDbContextLocator4 : class, IDbContextLocator
+        where TDbContextLocator5 : class, IDbContextLocator
+        where TDbContextLocator6 : class, IDbContextLocator
+        where TDbContextLocator7 : class, IDbContextLocator
+        where TDbContextLocator8 : class, IDbContextLocator
     {
         /// <summary>
         /// 构造函数

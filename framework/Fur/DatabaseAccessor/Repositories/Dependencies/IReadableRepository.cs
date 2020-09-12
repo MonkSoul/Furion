@@ -34,7 +34,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
     public interface IReadableRepository<TEntity, TDbContextLocator> : IRepositoryDependency
         where TEntity : class, IEntity, new()
-        where TDbContextLocator : class, IDbContextLocator, new()
+        where TDbContextLocator : class, IDbContextLocator
     {
         /// <summary>
         /// 根据键查询一条记录

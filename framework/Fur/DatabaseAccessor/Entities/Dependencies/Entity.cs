@@ -30,7 +30,7 @@ namespace Fur.DatabaseAccessor
     [NonBeScan]
     public abstract class Entity<TKey, TDbContextLocator1> : EntityDependency<TKey>
         where TKey : struct
-        where TDbContextLocator1 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
     {
     }
 
@@ -43,8 +43,8 @@ namespace Fur.DatabaseAccessor
     [NonBeScan]
     public abstract class Entity<TKey, TDbContextLocator1, TDbContextLocator2> : EntityDependency<TKey>
         where TKey : struct
-        where TDbContextLocator1 : class, IDbContextLocator, new()
-        where TDbContextLocator2 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
     {
     }
 
@@ -58,9 +58,9 @@ namespace Fur.DatabaseAccessor
     [NonBeScan]
     public abstract class Entity<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3> : EntityDependency<TKey>
         where TKey : struct
-        where TDbContextLocator1 : class, IDbContextLocator, new()
-        where TDbContextLocator2 : class, IDbContextLocator, new()
-        where TDbContextLocator3 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
     {
     }
 
@@ -75,10 +75,10 @@ namespace Fur.DatabaseAccessor
     [NonBeScan]
     public abstract class Entity<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4> : EntityDependency<TKey>
         where TKey : struct
-        where TDbContextLocator1 : class, IDbContextLocator, new()
-        where TDbContextLocator2 : class, IDbContextLocator, new()
-        where TDbContextLocator3 : class, IDbContextLocator, new()
-        where TDbContextLocator4 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+        where TDbContextLocator4 : class, IDbContextLocator
     {
     }
 
@@ -94,11 +94,11 @@ namespace Fur.DatabaseAccessor
     [NonBeScan]
     public abstract class Entity<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5> : EntityDependency<TKey>
         where TKey : struct
-        where TDbContextLocator1 : class, IDbContextLocator, new()
-        where TDbContextLocator2 : class, IDbContextLocator, new()
-        where TDbContextLocator3 : class, IDbContextLocator, new()
-        where TDbContextLocator4 : class, IDbContextLocator, new()
-        where TDbContextLocator5 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+        where TDbContextLocator4 : class, IDbContextLocator
+        where TDbContextLocator5 : class, IDbContextLocator
     {
     }
 
@@ -115,12 +115,12 @@ namespace Fur.DatabaseAccessor
     [NonBeScan]
     public abstract class Entity<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6> : EntityDependency<TKey>
         where TKey : struct
-        where TDbContextLocator1 : class, IDbContextLocator, new()
-        where TDbContextLocator2 : class, IDbContextLocator, new()
-        where TDbContextLocator3 : class, IDbContextLocator, new()
-        where TDbContextLocator4 : class, IDbContextLocator, new()
-        where TDbContextLocator5 : class, IDbContextLocator, new()
-        where TDbContextLocator6 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+        where TDbContextLocator4 : class, IDbContextLocator
+        where TDbContextLocator5 : class, IDbContextLocator
+        where TDbContextLocator6 : class, IDbContextLocator
     {
     }
 
@@ -138,13 +138,13 @@ namespace Fur.DatabaseAccessor
     [NonBeScan]
     public abstract class Entity<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7> : EntityDependency<TKey>
         where TKey : struct
-        where TDbContextLocator1 : class, IDbContextLocator, new()
-        where TDbContextLocator2 : class, IDbContextLocator, new()
-        where TDbContextLocator3 : class, IDbContextLocator, new()
-        where TDbContextLocator4 : class, IDbContextLocator, new()
-        where TDbContextLocator5 : class, IDbContextLocator, new()
-        where TDbContextLocator6 : class, IDbContextLocator, new()
-        where TDbContextLocator7 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+        where TDbContextLocator4 : class, IDbContextLocator
+        where TDbContextLocator5 : class, IDbContextLocator
+        where TDbContextLocator6 : class, IDbContextLocator
+        where TDbContextLocator7 : class, IDbContextLocator
     {
     }
 
@@ -163,14 +163,14 @@ namespace Fur.DatabaseAccessor
     [NonBeScan]
     public abstract class Entity<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7, TDbContextLocator8> : EntityDependency<TKey>
         where TKey : struct
-        where TDbContextLocator1 : class, IDbContextLocator, new()
-        where TDbContextLocator2 : class, IDbContextLocator, new()
-        where TDbContextLocator3 : class, IDbContextLocator, new()
-        where TDbContextLocator4 : class, IDbContextLocator, new()
-        where TDbContextLocator5 : class, IDbContextLocator, new()
-        where TDbContextLocator6 : class, IDbContextLocator, new()
-        where TDbContextLocator7 : class, IDbContextLocator, new()
-        where TDbContextLocator8 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+        where TDbContextLocator4 : class, IDbContextLocator
+        where TDbContextLocator5 : class, IDbContextLocator
+        where TDbContextLocator6 : class, IDbContextLocator
+        where TDbContextLocator7 : class, IDbContextLocator
+        where TDbContextLocator8 : class, IDbContextLocator
     {
     }
 

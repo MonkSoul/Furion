@@ -115,7 +115,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>服务集合</returns>
         public static IServiceCollection AddSqlServerPool<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString, int poolSize = 100, params IInterceptor[] interceptors)
             where TDbContext : DbContext
-            where TDbContextLocator : class, IDbContextLocator, new()
+            where TDbContextLocator : class, IDbContextLocator
         {
             // 将数据库上下文和定位器一一保存起来
             var isSuccess = dbContextLocators.TryAdd(typeof(TDbContextLocator), typeof(TDbContext));
@@ -158,7 +158,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>服务集合</returns>
         public static IServiceCollection AddSqlServer<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString, params IInterceptor[] interceptors)
             where TDbContext : DbContext
-            where TDbContextLocator : class, IDbContextLocator, new()
+            where TDbContextLocator : class, IDbContextLocator
         {
             // 将数据库上下文和定位器一一保存起来
             var isSuccess = dbContextLocators.TryAdd(typeof(TDbContextLocator), typeof(TDbContext));

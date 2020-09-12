@@ -9,6 +9,8 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Microsoft.EntityFrameworkCore.Infrastructure;
+
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
@@ -26,7 +28,11 @@ namespace Fur.DatabaseAccessor
         : ISqlExecutableRepository<TDbContextLocator>
         , ISqlQueryableRepository<TDbContextLocator>
         , IRepositoryDependency
-       where TDbContextLocator : class, IDbContextLocator, new()
+       where TDbContextLocator : class, IDbContextLocator
     {
+        /// <summary>
+        /// 数据库操作对象
+        /// </summary>
+        DatabaseFacade Database { get; }
     }
 }

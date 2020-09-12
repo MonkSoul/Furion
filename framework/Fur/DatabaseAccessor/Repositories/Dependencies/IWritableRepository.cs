@@ -40,7 +40,7 @@ namespace Fur.DatabaseAccessor
         , IOperableRepository<TEntity, TDbContextLocator>
         , IRepositoryDependency
     where TEntity : class, IEntity, new()
-    where TDbContextLocator : class, IDbContextLocator, new()
+    where TDbContextLocator : class, IDbContextLocator
     {
         /// <summary>
         /// 接受所有更改

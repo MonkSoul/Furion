@@ -31,7 +31,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     public interface IEntitySeedData<TEntity, TDbContextLocator1> : IEntitySeedDataDependency<TEntity>
         where TEntity : class, IEntity, new()
-        where TDbContextLocator1 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
     {
     }
 
@@ -43,8 +43,8 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     public interface IEntitySeedData<TEntity, TDbContextLocator1, TDbContextLocator2> : IEntitySeedDataDependency<TEntity>
         where TEntity : class, IEntity, new()
-        where TDbContextLocator1 : class, IDbContextLocator, new()
-        where TDbContextLocator2 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
     {
     }
 
@@ -57,9 +57,9 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     public interface IEntitySeedData<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3> : IEntitySeedDataDependency<TEntity>
         where TEntity : class, IEntity, new()
-        where TDbContextLocator1 : class, IDbContextLocator, new()
-        where TDbContextLocator2 : class, IDbContextLocator, new()
-        where TDbContextLocator3 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
     {
     }
 
@@ -73,10 +73,10 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     public interface IEntitySeedData<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4> : IEntitySeedDataDependency<TEntity>
         where TEntity : class, IEntity, new()
-        where TDbContextLocator1 : class, IDbContextLocator, new()
-        where TDbContextLocator2 : class, IDbContextLocator, new()
-        where TDbContextLocator3 : class, IDbContextLocator, new()
-        where TDbContextLocator4 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+        where TDbContextLocator4 : class, IDbContextLocator
     {
     }
 
@@ -91,11 +91,11 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     public interface IEntitySeedData<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5> : IEntitySeedDataDependency<TEntity>
         where TEntity : class, IEntity, new()
-        where TDbContextLocator1 : class, IDbContextLocator, new()
-        where TDbContextLocator2 : class, IDbContextLocator, new()
-        where TDbContextLocator3 : class, IDbContextLocator, new()
-        where TDbContextLocator4 : class, IDbContextLocator, new()
-        where TDbContextLocator5 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+        where TDbContextLocator4 : class, IDbContextLocator
+        where TDbContextLocator5 : class, IDbContextLocator
     {
     }
 
@@ -111,12 +111,12 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     public interface IEntitySeedData<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6> : IEntitySeedDataDependency<TEntity>
         where TEntity : class, IEntity, new()
-        where TDbContextLocator1 : class, IDbContextLocator, new()
-        where TDbContextLocator2 : class, IDbContextLocator, new()
-        where TDbContextLocator3 : class, IDbContextLocator, new()
-        where TDbContextLocator4 : class, IDbContextLocator, new()
-        where TDbContextLocator5 : class, IDbContextLocator, new()
-        where TDbContextLocator6 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+        where TDbContextLocator4 : class, IDbContextLocator
+        where TDbContextLocator5 : class, IDbContextLocator
+        where TDbContextLocator6 : class, IDbContextLocator
     {
     }
 
@@ -133,13 +133,13 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
     public interface IEntitySeedData<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7> : IEntitySeedDataDependency<TEntity>
         where TEntity : class, IEntity, new()
-        where TDbContextLocator1 : class, IDbContextLocator, new()
-        where TDbContextLocator2 : class, IDbContextLocator, new()
-        where TDbContextLocator3 : class, IDbContextLocator, new()
-        where TDbContextLocator4 : class, IDbContextLocator, new()
-        where TDbContextLocator5 : class, IDbContextLocator, new()
-        where TDbContextLocator6 : class, IDbContextLocator, new()
-        where TDbContextLocator7 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+        where TDbContextLocator4 : class, IDbContextLocator
+        where TDbContextLocator5 : class, IDbContextLocator
+        where TDbContextLocator6 : class, IDbContextLocator
+        where TDbContextLocator7 : class, IDbContextLocator
     {
     }
 
@@ -157,14 +157,14 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator8">数据库上下文定位器</typeparam>
     public interface IEntitySeedData<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7, TDbContextLocator8> : IEntitySeedDataDependency<TEntity>
         where TEntity : class, IEntity, new()
-        where TDbContextLocator1 : class, IDbContextLocator, new()
-        where TDbContextLocator2 : class, IDbContextLocator, new()
-        where TDbContextLocator3 : class, IDbContextLocator, new()
-        where TDbContextLocator4 : class, IDbContextLocator, new()
-        where TDbContextLocator5 : class, IDbContextLocator, new()
-        where TDbContextLocator6 : class, IDbContextLocator, new()
-        where TDbContextLocator7 : class, IDbContextLocator, new()
-        where TDbContextLocator8 : class, IDbContextLocator, new()
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+        where TDbContextLocator4 : class, IDbContextLocator
+        where TDbContextLocator5 : class, IDbContextLocator
+        where TDbContextLocator6 : class, IDbContextLocator
+        where TDbContextLocator7 : class, IDbContextLocator
+        where TDbContextLocator8 : class, IDbContextLocator
     {
     }
 
