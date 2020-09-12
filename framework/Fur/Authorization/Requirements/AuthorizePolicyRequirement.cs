@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Fur.Authorization
@@ -16,6 +17,7 @@ namespace Fur.Authorization
     /// <summary>
     /// 策略对应的需求
     /// </summary>
+    [NonBeScan]
     public sealed class AuthorizePolicyRequirement : IAuthorizationRequirement
     {
         /// <summary>

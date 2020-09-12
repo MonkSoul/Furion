@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -17,7 +18,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 实体函数配置特性
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method)]
+    [NonBeScan, AttributeUsage(AttributeTargets.Method)]
     public class QueryableFunctionAttribute : DbFunctionAttribute
     {
         /// <summary>

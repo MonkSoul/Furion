@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Mapster;
 using Microsoft.Data.SqlClient;
 using System;
@@ -20,6 +21,7 @@ using System.Text;
 
 namespace Fur.DatabaseAccessor
 {
+    [NonBeScan]
     internal static class DbHelpers
     {
         /// <summary>

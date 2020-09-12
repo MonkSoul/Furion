@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -26,6 +27,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// DatabaseFacade 拓展类
     /// </summary>
+    [NonBeScan]
     public static class DbObjectExtensions
     {
         /// <summary>

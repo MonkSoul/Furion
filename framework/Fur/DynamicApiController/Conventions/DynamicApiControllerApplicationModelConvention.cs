@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Fur.Extensions;
 using Fur.FriendlyException;
 using Microsoft.AspNetCore.Http;
@@ -26,6 +27,7 @@ namespace Fur.DynamicApiController
     /// <summary>
     /// 动态接口控制器应用模型转换器
     /// </summary>
+    [NonBeScan]
     internal sealed class DynamicApiControllerApplicationModelConvention : IApplicationModelConvention
     {
         /// <summary>

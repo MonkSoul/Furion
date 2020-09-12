@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
 using System;
 
@@ -17,7 +18,7 @@ namespace Fur.Authorization
     /// <summary>
     /// 策略授权特性
     /// </summary>
-    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Method)]
+    [NonBeScan, AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Method)]
     public sealed class AuthorizePolicyAttribute : AuthorizeAttribute
     {
         /// <summary>

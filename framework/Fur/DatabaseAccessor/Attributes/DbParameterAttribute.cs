@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using System;
 using System.Data;
 
@@ -17,7 +18,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// SqlParameter 配置特性
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter)]
+    [NonBeScan, AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter)]
     public sealed class DbParameterAttribute : Attribute
     {
         /// <summary>

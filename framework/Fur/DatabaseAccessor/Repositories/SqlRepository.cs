@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
@@ -18,6 +19,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// Sql 操作仓储实现
     /// </summary>
+    [NonBeScan]
     public partial class SqlRepository : SqlRepository<DbContextLocator>, ISqlRepository
     {
         /// <summary>
@@ -36,6 +38,7 @@ namespace Fur.DatabaseAccessor
     /// Sql 操作仓储实现
     /// </summary>
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+    [NonBeScan]
     public partial class SqlRepository<TDbContextLocator> : ISqlRepository<TDbContextLocator>
         where TDbContextLocator : class, IDbContextLocator, new()
     {

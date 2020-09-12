@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
 namespace Fur.SpecificationDocument
@@ -16,6 +17,7 @@ namespace Fur.SpecificationDocument
     /// <summary>
     /// 安全定义需求子项
     /// </summary>
+    [NonBeScan]
     public sealed class SpecificationOpenApiSecurityRequirementItem
     {
         /// <summary>

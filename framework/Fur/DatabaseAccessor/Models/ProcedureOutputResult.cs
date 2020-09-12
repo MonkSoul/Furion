@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using System.Collections.Generic;
 using System.Data;
 
@@ -17,6 +18,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 存储过程输出返回值
     /// </summary>
+    [NonBeScan]
     public sealed class ProcedureOutputResult : ProcedureOutputResult<DataSet>
     {
         /// <summary>
@@ -31,6 +33,7 @@ namespace Fur.DatabaseAccessor
     /// 存储过程输出返回值
     /// </summary>
     /// <typeparam name="TResult">泛型版本</typeparam>
+    [NonBeScan]
     public class ProcedureOutputResult<TResult>
     {
         /// <summary>

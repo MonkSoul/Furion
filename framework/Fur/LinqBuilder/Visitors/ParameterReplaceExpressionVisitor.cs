@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
@@ -17,6 +18,7 @@ namespace Fur.LinqBuilder
     /// <summary>
     /// 自定义参数表达式访问器
     /// </summary>
+    [NonBeScan]
     internal sealed class ParameterReplaceExpressionVisitor : ExpressionVisitor
     {
         /// <summary>

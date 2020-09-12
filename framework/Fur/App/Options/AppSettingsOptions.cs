@@ -9,9 +9,10 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.ConfigurableOptions;
 using Microsoft.Extensions.Configuration;
 
-namespace Fur.ConfigurableOptions
+namespace Fur
 {
     /// <summary>
     /// 应用全局配置

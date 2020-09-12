@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using System;
 
 namespace Fur.DatabaseAccessor
@@ -21,7 +22,7 @@ namespace Fur.DatabaseAccessor
     /// <para>支持方法中贴此特性</para>
     /// <para>注意：只对请求中的起始方法起作用</para>
     /// </remarks>
-    [AttributeUsage(AttributeTargets.Method)]
+    [NonBeScan, AttributeUsage(AttributeTargets.Method)]
     public sealed class NonTransactAttribute : Attribute
     {
     }

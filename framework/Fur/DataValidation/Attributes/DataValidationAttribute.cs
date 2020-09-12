@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -17,6 +18,7 @@ namespace Fur.DataValidation
     /// <summary>
     /// 数据类型验证特性
     /// </summary>
+    [NonBeScan]
     public class DataValidationAttribute : ValidationAttribute
     {
         /// <summary>

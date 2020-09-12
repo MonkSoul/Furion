@@ -9,11 +9,14 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
+
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
     /// 默认数据库上下文定位器
     /// </summary>
+    [NonBeScan]
     public sealed class DbContextLocator : IDbContextLocator
     {
     }

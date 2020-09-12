@@ -9,11 +9,16 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Fur.FriendlyException;
 using System.Threading.Tasks;
 
 namespace Microsoft.AspNetCore.Mvc.Filters
 {
+    /// <summary>
+    /// 友好异常拦截器
+    /// </summary>
+    [NonBeScan]
     public sealed class FriendlyExceptionFilter : IAsyncExceptionFilter
     {
         public Task OnExceptionAsync(ExceptionContext context)

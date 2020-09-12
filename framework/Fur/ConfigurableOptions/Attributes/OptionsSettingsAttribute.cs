@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using System;
 
 namespace Fur.ConfigurableOptions
@@ -16,7 +17,7 @@ namespace Fur.ConfigurableOptions
     /// <summary>
     /// 选项配置特性
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class)]
+    [NonBeScan, AttributeUsage(AttributeTargets.Class)]
     public sealed class OptionsSettingsAttribute : Attribute
     {
         /// <summary>

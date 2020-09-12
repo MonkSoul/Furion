@@ -9,11 +9,14 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
+
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
     /// Sql 对象类型执行代理
     /// </summary>
+    [NonBeScan]
     public class SqlObjectProxyAttribute : SqlProxyAttribute
     {
         /// <summary>

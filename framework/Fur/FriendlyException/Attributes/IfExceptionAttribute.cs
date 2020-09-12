@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using System;
 
 namespace Fur.FriendlyException
@@ -16,7 +17,7 @@ namespace Fur.FriendlyException
     /// <summary>
     /// 异常复写特性
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
+    [NonBeScan, AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
     public sealed class IfExceptionAttribute : Attribute
     {
         /// <summary>

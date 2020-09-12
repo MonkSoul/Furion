@@ -27,6 +27,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// Sql 执行代理类
     /// </summary>
+    [NonBeScan]
     public class SqlDispatchProxy : DispatchProxy, IDispatchProxy
     {
         /// <summary>

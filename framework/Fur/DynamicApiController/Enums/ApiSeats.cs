@@ -9,11 +9,14 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
+
 namespace Fur.DynamicApiController
 {
     /// <summary>
     /// 接口参数位置
     /// </summary>
+    [NonBeScan]
     public enum ApiSeats
     {
         /// <summary>

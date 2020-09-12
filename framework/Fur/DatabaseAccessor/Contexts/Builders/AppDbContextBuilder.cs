@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Fur.Extensions;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库上下文构建器
     /// </summary>
+    [NonBeScan]
     internal static class AppDbContextBuilder
     {
         /// <summary>
@@ -51,8 +53,8 @@ namespace Fur.DatabaseAccessor
         static AppDbContextBuilder()
         {
             // 扫描程序集，获取数据库实体相关类型
-            EntityCorrelationTypes = App.Assemblies.SelectMany(u => u.GetTypes()
-                 .Where(t => (typeof(IEntity).IsAssignableFrom(t) || typeof(IModelBuilder).IsAssignableFrom(t)) && t.IsPublic && t.IsClass && !t.IsAbstract && !t.IsGenericType && !t.IsInterface && !t.IsDefined(typeof(NonAutomaticAttribute), true)))
+            EntityCorrelationTypes = App.CanBeScanTypes.Where(t => (typeof(IEntity).IsAssignableFrom(t) || typeof(IModelBuilder).IsAssignableFrom(t))
+                && t.IsClass && !t.IsAbstract && !t.IsGenericType && !t.IsInterface && !t.IsDefined(typeof(NonAutomaticAttribute), true))
                 .ToList();
 
             if (EntityCorrelationTypes.Count > 0)
@@ -65,10 +67,9 @@ namespace Fur.DatabaseAccessor
             }
 
             // 查找所有数据库函数，必须是公开静态方法，且所在父类也必须是公开静态方法
-            DbFunctionMethods = App.Assemblies.SelectMany(a => a.GetTypes()
-                      .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Static)
-                          .Where(m => t.IsAbstract && t.IsSealed && t.IsPublic && t.IsClass && m.IsDefined(typeof(QueryableFunctionAttribute), true) && !t.IsDefined(typeof(NonAutomaticAttribute), true))))
-                 .ToList();
+            DbFunctionMethods = App.CanBeScanTypes
+                .Where(t => t.IsAbstract && t.IsSealed && t.IsClass && !t.IsDefined(typeof(NonAutomaticAttribute), true))
+                .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => !m.IsDefined(typeof(NonBeScanAttribute), false) && m.IsDefined(typeof(QueryableFunctionAttribute), true))).ToList();
         }
 
         /// <summary>

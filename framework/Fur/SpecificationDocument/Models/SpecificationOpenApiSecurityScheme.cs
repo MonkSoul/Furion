@@ -13,6 +13,9 @@ using Microsoft.OpenApi.Models;
 
 namespace Fur.SpecificationDocument
 {
+    /// <summary>
+    /// 规范化稳定安全配置
+    /// </summary>
     public sealed class SpecificationOpenApiSecurityScheme : OpenApiSecurityScheme
     {
         /// <summary>

@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -19,6 +20,7 @@ namespace Fur.Authorization
     /// <summary>
     /// 授权策略执行程序
     /// </summary>
+    [NonBeScan]
     public abstract class AuthorizePolicyHandler : IAuthorizationHandler
     {
         /// <summary>

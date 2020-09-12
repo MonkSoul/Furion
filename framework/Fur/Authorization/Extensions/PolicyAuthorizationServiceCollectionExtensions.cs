@@ -10,6 +10,7 @@
 // -----------------------------------------------------------------------------
 
 using Fur.Authorization;
+using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
@@ -19,6 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     /// 策略授权服务拓展类
     /// </summary>
+    [NonBeScan]
     public static class PolicyAuthorizationServiceCollectionExtensions
     {
         /// <summary>

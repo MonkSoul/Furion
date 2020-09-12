@@ -9,7 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
-using Fur.ConfigurableOptions;
+using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -29,6 +29,7 @@ namespace Fur
     /// <summary>
     /// 全局应用类
     /// </summary>
+    [NonBeScan]
     public static class App
     {
         /// <summary>
@@ -77,6 +78,11 @@ namespace Fur
         public static readonly IEnumerable<Assembly> Assemblies;
 
         /// <summary>
+        /// 能够被扫描的类型
+        /// </summary>
+        public static readonly IEnumerable<Type> CanBeScanTypes;
+
+        /// <summary>
         /// 应用服务
         /// </summary>
         internal static IServiceCollection Services;
@@ -87,6 +93,7 @@ namespace Fur
         static App()
         {
             Assemblies = GetAssemblies();
+            CanBeScanTypes = Assemblies.SelectMany(u => u.GetTypes().Where(u => u.IsPublic && !u.IsDefined(typeof(NonBeScanAttribute), false)));
         }
 
         /// <summary>

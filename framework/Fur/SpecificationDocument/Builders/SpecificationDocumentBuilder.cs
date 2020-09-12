@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Fur.DynamicApiController;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +33,7 @@ namespace Fur.SpecificationDocument
     /// <summary>
     /// 规范化文档构建器
     /// </summary>
+    [NonBeScan]
     internal static class SpecificationDocumentBuilder
     {
         /// <summary>
@@ -324,7 +326,7 @@ namespace Fur.SpecificationDocument
         private static IEnumerable<string> ReadGroups()
         {
             // 获取所有的控制器和动作方法
-            var controllers = App.Assemblies.SelectMany(a => a.GetTypes().Where(u => Penetrates.IsController(u)));
+            var controllers = App.CanBeScanTypes.Where(u => Penetrates.IsController(u));
             var actions = controllers.SelectMany(c => c.GetMethods().Where(u => IsAction(u, c)));
 
             // 合并所有分组

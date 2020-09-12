@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using System;
 
 namespace Fur.DataValidation
@@ -16,7 +17,7 @@ namespace Fur.DataValidation
     /// <summary>
     /// 跳过验证
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
+    [NonBeScan, AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
     public sealed class NonValidationAttribute : Attribute
     {
     }

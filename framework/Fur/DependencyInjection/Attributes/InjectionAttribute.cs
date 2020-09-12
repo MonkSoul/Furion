@@ -16,7 +16,7 @@ namespace Fur.DependencyInjection
     /// <summary>
     /// 设置依赖注入方式
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class)]
+    [NonBeScan, AttributeUsage(AttributeTargets.Class)]
     public class InjectionAttribute : Attribute
     {
         /// <summary>

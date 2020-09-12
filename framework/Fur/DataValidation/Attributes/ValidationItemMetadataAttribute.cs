@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using System;
 using System.Text.RegularExpressions;
 
@@ -17,7 +18,7 @@ namespace Fur.DataValidation
     /// <summary>
     /// 验证项元数据
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field)]
+    [NonBeScan, AttributeUsage(AttributeTargets.Field)]
     public class ValidationItemMetadataAttribute : Attribute
     {
         /// <summary>

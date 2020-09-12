@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Fur.FriendlyException;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -30,6 +31,7 @@ namespace Fur.DatabaseAccessor
     /// EF Core仓储实现
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
+    [NonBeScan]
     public partial class EFCoreRepository<TEntity> : EFCoreRepository<TEntity, DbContextLocator>, IRepository<TEntity>
         where TEntity : class, IEntity, new()
     {
@@ -52,6 +54,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 非泛型EF Core仓储实现
     /// </summary>
+    [NonBeScan]
     public partial class EFCoreRepository : IRepository
     {
         /// <summary>
@@ -118,6 +121,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+    [NonBeScan]
     public partial class EFCoreRepository<TEntity, TDbContextLocator> : SqlRepository<TDbContextLocator>, IRepository<TEntity, TDbContextLocator>
         where TEntity : class, IEntity, new()
         where TDbContextLocator : class, IDbContextLocator, new()

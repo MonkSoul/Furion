@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Fur.DynamicApiController;
 using Fur.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,7 @@ namespace Fur.FriendlyException
     /// <summary>
     /// 抛异常静态类
     /// </summary>
+    [NonBeScan]
     public static class Oops
     {
         /// <summary>
@@ -205,8 +207,8 @@ namespace Fur.FriendlyException
         private static IEnumerable<Type> GetErrorCodeTypes()
         {
             // 查找所有公开的枚举贴有 [ErrorCodeType] 特性的类型
-            var errorCodeTypes = App.Assemblies.SelectMany(a => a.GetTypes()
-                    .Where(u => u.IsDefined(typeof(ErrorCodeTypeAttribute), true) && u.IsPublic && u.IsEnum))
+            var errorCodeTypes = App.CanBeScanTypes
+                .Where(u => u.IsDefined(typeof(ErrorCodeTypeAttribute), true) && u.IsEnum)
                 .ToList();
 
             // 获取错误代码提供器中定义的类型

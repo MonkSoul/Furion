@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using System.Reflection;
 
@@ -17,6 +18,7 @@ namespace Fur.DynamicApiController
     /// <summary>
     /// 动态接口控制器特性提供器
     /// </summary>
+    [NonBeScan]
     public sealed class DynamicApiControllerFeatureProvider : ControllerFeatureProvider
     {
         /// <summary>

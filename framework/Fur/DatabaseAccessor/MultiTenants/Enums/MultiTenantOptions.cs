@@ -9,11 +9,14 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
+
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
     /// 多租户选项
     /// </summary>
+    [NonBeScan]
     public enum MultiTenantPattern
     {
         /// <summary>

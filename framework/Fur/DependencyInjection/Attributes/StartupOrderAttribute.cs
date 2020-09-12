@@ -16,7 +16,7 @@ namespace Fur.DependencyInjection
     /// <summary>
     /// 注册服务启动配置
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class)]
+    [NonBeScan, AttributeUsage(AttributeTargets.Class)]
     public class StartupOrderAttribute : Attribute
     {
         /// <summary>

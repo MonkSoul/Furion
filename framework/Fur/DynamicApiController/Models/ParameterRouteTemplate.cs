@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using System.Collections.Generic;
 
 namespace Fur.DynamicApiController
@@ -16,6 +17,7 @@ namespace Fur.DynamicApiController
     /// <summary>
     /// 参数路由模板
     /// </summary>
+    [NonBeScan]
     internal class ParameterRouteTemplate
     {
         /// <summary>

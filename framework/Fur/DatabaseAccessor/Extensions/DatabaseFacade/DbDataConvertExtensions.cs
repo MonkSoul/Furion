@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Fur.Extensions;
 using Fur.FriendlyException;
 using Mapster;
@@ -26,6 +27,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库数据转换拓展
     /// </summary>
+    [NonBeScan]
     public static class DbDataConvertExtensions
     {
         /// <summary>

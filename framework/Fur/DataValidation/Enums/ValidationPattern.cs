@@ -9,11 +9,14 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
+
 namespace Fur.DataValidation
 {
     /// <summary>
     /// 验证逻辑
     /// </summary>
+    [NonBeScan]
     public enum ValidationPattern
     {
         /// <summary>

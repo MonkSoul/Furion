@@ -9,11 +9,14 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
+
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
     /// 数据库上下文、实体手动配置选项
     /// </summary>
+    [NonBeScan]
     public enum ManualOptions
     {
         All

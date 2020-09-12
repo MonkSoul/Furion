@@ -10,6 +10,7 @@
 // -----------------------------------------------------------------------------
 
 using Fur.DataValidation;
+using Fur.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -17,6 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     /// 友好异常服务拓展类
     /// </summary>
+    [NonBeScan]
     public static class DataValidationServiceCollectionExtensions
     {
         /// <summary>

@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -18,6 +19,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库上下文关联类型
     /// </summary>
+    [NonBeScan]
     internal sealed class DbContextCorrelationType
     {
         /// <summary>

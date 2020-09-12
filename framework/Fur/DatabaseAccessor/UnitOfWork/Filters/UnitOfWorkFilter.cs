@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Reflection;
@@ -20,6 +21,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 工作单元拦截器
     /// </summary>
+    [NonBeScan]
     internal sealed class UnitOfWorkFilter : IAsyncActionFilter
     {
         /// <summary>

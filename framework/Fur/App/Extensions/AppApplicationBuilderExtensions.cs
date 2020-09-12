@@ -10,6 +10,7 @@
 // -----------------------------------------------------------------------------
 
 using Fur;
+using Fur.DependencyInjection;
 using System;
 
 namespace Microsoft.AspNetCore.Builder
@@ -17,6 +18,7 @@ namespace Microsoft.AspNetCore.Builder
     /// <summary>
     /// 应用中间件拓展类
     /// </summary>
+    [NonBeScan]
     public static class AppApplicationBuilderExtensions
     {
         /// <summary>

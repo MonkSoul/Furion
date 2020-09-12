@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using System.Data;
 
 namespace Fur.DatabaseAccessor
@@ -16,6 +17,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// Sql 语句执行代理
     /// </summary>
+    [NonBeScan]
     public class SqlSentenceProxyAttribute : SqlProxyAttribute
     {
         /// <summary>

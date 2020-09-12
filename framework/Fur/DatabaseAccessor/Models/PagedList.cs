@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using System.Collections.Generic;
 
 namespace Fur.DatabaseAccessor
@@ -17,6 +18,7 @@ namespace Fur.DatabaseAccessor
     /// 分页泛型集合
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
+    [NonBeScan]
     public class PagedList<TEntity>
         where TEntity : class, new()
     {

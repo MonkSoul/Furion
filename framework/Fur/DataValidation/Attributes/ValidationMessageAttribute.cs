@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using System;
 
 namespace Fur.DataValidation
@@ -16,7 +17,7 @@ namespace Fur.DataValidation
     /// <summary>
     /// 验证消息特性
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field)]
+    [NonBeScan, AttributeUsage(AttributeTargets.Field)]
     public sealed class ValidationMessageAttribute : Attribute
     {
         /// <summary>

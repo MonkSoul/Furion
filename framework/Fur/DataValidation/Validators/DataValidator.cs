@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Fur.Extensions;
 using Fur.FriendlyException;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,7 @@ namespace Fur.DataValidation
     /// <summary>
     /// 数据验证器
     /// </summary>
+    [NonBeScan]
     public static class DataValidator
     {
         /// <summary>
@@ -246,8 +248,7 @@ namespace Fur.DataValidation
         private static IEnumerable<Type> GetValidationTypes()
         {
             // 扫描所有公开的枚举且贴有 [ValidationType] 特性
-            var validationTypes = App.Assemblies.SelectMany(a => a.GetTypes()
-                .Where(u => u.IsDefined(typeof(ValidationTypeAttribute), true) && u.IsPublic && u.IsEnum));
+            var validationTypes = App.CanBeScanTypes.Where(u => u.IsDefined(typeof(ValidationTypeAttribute), true) && u.IsEnum);
             return validationTypes;
         }
 
@@ -258,9 +259,8 @@ namespace Fur.DataValidation
         private static IEnumerable<Type> GetValidationMessageTypes()
         {
             // 扫描所有公开的的枚举且贴有 [ValidationMessageType] 特性
-            var validationMessageTypes = App.Assemblies.SelectMany(a => a.GetTypes()
-                    .Where(u => u.IsDefined(typeof(ValidationMessageTypeAttribute), true) && u.IsPublic && u.IsEnum))
-                .ToList();
+            var validationMessageTypes = App.CanBeScanTypes
+                .Where(u => u.IsDefined(typeof(ValidationMessageTypeAttribute), true) && u.IsEnum).ToList();
 
             // 加载自定义验证消息类型提供器
             var validationMessageTypeProvider = App.TransientServiceProvider.GetService<IValidationMessageTypeProvider>();

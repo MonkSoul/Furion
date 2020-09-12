@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Fur.SpecificationDocument;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
@@ -18,6 +19,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     /// 规范化接口服务拓展类
     /// </summary>
+    [NonBeScan]
     public static class SpecificationDocumentServiceCollectionExtensions
     {
         /// <summary>

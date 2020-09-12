@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using System;
 
 namespace Fur.DynamicApiController
@@ -16,7 +17,7 @@ namespace Fur.DynamicApiController
     /// <summary>
     /// 动态 WebApi特性接口
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
+    [NonBeScan, AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
     public sealed class DynamicApiControllerAttribute : Attribute
     {
     }

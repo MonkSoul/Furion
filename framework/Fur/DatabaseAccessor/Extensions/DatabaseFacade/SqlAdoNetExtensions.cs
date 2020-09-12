@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.Data;
 using System.Threading;
@@ -19,6 +20,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// ADONET 拓展类
     /// </summary>
+    [NonBeScan]
     public static class SqlAdoNetExtensions
     {
         /// <summary>

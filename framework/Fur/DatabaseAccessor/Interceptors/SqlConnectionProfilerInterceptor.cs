@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Hosting;
 using System.Data.Common;
@@ -20,6 +21,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库连接拦截分析器
     /// </summary>
+    [NonBeScan]
     internal sealed class SqlConnectionProfilerInterceptor : DbConnectionInterceptor
     {
         /// <summary>

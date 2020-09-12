@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using System;
 
 namespace Fur.DynamicApiController
@@ -16,7 +17,7 @@ namespace Fur.DynamicApiController
     /// <summary>
     /// 接口参数位置设置
     /// </summary>
-    [AttributeUsage(AttributeTargets.Parameter)]
+    [NonBeScan, AttributeUsage(AttributeTargets.Parameter)]
     public class ApiSeatAttribute : Attribute
     {
         /// <summary>

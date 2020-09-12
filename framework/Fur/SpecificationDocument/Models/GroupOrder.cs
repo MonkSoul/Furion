@@ -9,11 +9,14 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
+
 namespace Fur.SpecificationDocument
 {
     /// <summary>
     /// 分组排序
     /// </summary>
+    [NonBeScan]
     internal sealed class GroupOrder
     {
         /// <summary>

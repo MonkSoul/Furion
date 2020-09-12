@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using System;
 
 namespace Fur.LinqBuilder
@@ -16,6 +17,7 @@ namespace Fur.LinqBuilder
     /// <summary>
     /// Linq/Lambda 构建器
     /// </summary>
+    [NonBeScan]
     public static class LinqBuilder
     {
         /// <summary>

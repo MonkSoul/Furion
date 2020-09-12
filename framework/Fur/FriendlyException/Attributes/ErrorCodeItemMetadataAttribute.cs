@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using System;
 
 namespace Fur.FriendlyException
@@ -16,7 +17,7 @@ namespace Fur.FriendlyException
     /// <summary>
     /// 异常元数据特性
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field)]
+    [NonBeScan, AttributeUsage(AttributeTargets.Field)]
     public sealed class ErrorCodeItemMetadataAttribute : Attribute
     {
         /// <summary>

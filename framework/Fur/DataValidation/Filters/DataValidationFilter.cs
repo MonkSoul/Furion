@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -22,6 +23,7 @@ namespace Fur.DataValidation
     /// <summary>
     /// 数据验证控制器
     /// </summary>
+    [NonBeScan]
     public sealed class DataValidationFilter : IActionFilter, IOrderedFilter
     {
         /// <summary>

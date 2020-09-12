@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,6 +20,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// Sql 代理方法元数据
     /// </summary>
+    [NonBeScan]
     internal sealed class SqlProxyMethod
     {
         /// <summary>

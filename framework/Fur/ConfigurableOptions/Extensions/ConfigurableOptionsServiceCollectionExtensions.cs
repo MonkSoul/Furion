@@ -11,6 +11,7 @@
 
 using Fur;
 using Fur.ConfigurableOptions;
+using Fur.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
@@ -21,6 +22,7 @@ using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+    [NonBeScan]
     public static class ConfigurableOptionsServiceCollectionExtensions
     {
         /// <summary>

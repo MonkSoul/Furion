@@ -22,6 +22,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     /// 依赖注入拓展类
     /// </summary>
+    [NonBeScan]
     public static class DependencyInjectionServiceCollectionExtensions
     {
         /// <summary>
@@ -33,8 +34,8 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddDependencyInjection(this IServiceCollection services, bool autoScan = true)
         {
             // 扫描所有继承 AppStartup 的类
-            var startups = App.Assemblies.SelectMany(u => u.GetTypes()
-                    .Where(u => typeof(AppStartup).IsAssignableFrom(u) && u.IsPublic && u.IsClass && !u.IsAbstract && !u.IsGenericType))
+            var startups = App.CanBeScanTypes
+                .Where(u => typeof(AppStartup).IsAssignableFrom(u) && u.IsClass && !u.IsAbstract && !u.IsGenericType)
                 .OrderByDescending(u => GetOrder(u));
 
             // 注册自定义 starup
@@ -58,8 +59,8 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddAutoScanInjection(this IServiceCollection services)
         {
             // 查找所有需要依赖注入的类型
-            var injectTypes = App.Assemblies.SelectMany(u => u.GetTypes()
-                .Where(u => typeof(IDependency).IsAssignableFrom(u) && u.IsPublic && u.IsClass && !u.IsInterface && !u.IsAbstract));
+            var injectTypes = App.CanBeScanTypes
+                .Where(u => typeof(IDependency).IsAssignableFrom(u) && u.IsClass && !u.IsInterface && !u.IsAbstract);
 
             // 执行依赖注入
             foreach (var type in injectTypes)
@@ -108,8 +109,8 @@ namespace Microsoft.Extensions.DependencyInjection
             var typeDependency = typeof(TITDispatchProxy);
 
             // 获取所有的代理接口类型
-            var sqlDispatchProxyInterfaceTypes = App.Assemblies.SelectMany(u => u.GetTypes()
-                .Where(u => typeDependency.IsAssignableFrom(u) && u.IsPublic && u.IsInterface && u != typeDependency));
+            var sqlDispatchProxyInterfaceTypes = App.CanBeScanTypes
+                .Where(u => typeDependency.IsAssignableFrom(u) && u.IsInterface && u != typeDependency);
 
             // 获取代理创建方法
             var dispatchCreateMethod = typeof(DispatchProxy).GetMethod(nameof(DispatchProxy.Create));

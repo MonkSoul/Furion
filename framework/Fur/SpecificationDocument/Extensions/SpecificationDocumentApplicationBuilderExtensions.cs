@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Fur.SpecificationDocument;
 
 namespace Microsoft.AspNetCore.Builder
@@ -16,6 +17,7 @@ namespace Microsoft.AspNetCore.Builder
     /// <summary>
     /// 规范化文档中间件拓展
     /// </summary>
+    [NonBeScan]
     public static class SpecificationDocumentApplicationBuilderExtensions
     {
         public static IApplicationBuilder UseSpecificationDocuments(this IApplicationBuilder app)

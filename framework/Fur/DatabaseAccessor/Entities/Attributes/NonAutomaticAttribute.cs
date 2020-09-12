@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using System;
 
 namespace Fur.DatabaseAccessor
@@ -17,7 +18,7 @@ namespace Fur.DatabaseAccessor
     /// 手动配置实体特性
     /// </summary>
     /// <remarks>支持类和方法</remarks>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    [NonBeScan, AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class NonAutomaticAttribute : Attribute
     {
     }

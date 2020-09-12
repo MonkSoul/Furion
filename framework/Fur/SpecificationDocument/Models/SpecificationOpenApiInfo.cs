@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Fur.DynamicApiController;
 using Microsoft.OpenApi.Models;
 
@@ -17,6 +18,7 @@ namespace Fur.SpecificationDocument
     /// <summary>
     /// 规范化文档开放接口信息
     /// </summary>
+    [NonBeScan]
     public sealed class SpecificationOpenApiInfo : OpenApiInfo
     {
         /// <summary>

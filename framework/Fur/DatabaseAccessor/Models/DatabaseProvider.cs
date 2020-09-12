@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Fur.FriendlyException;
 using System;
 using System.Data;
@@ -19,6 +20,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库提供器选项
     /// </summary>
+    [NonBeScan]
     internal static class DatabaseProvider
     {
         /// <summary>

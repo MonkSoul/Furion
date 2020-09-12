@@ -10,7 +10,7 @@
 // -----------------------------------------------------------------------------
 
 using Fur;
-using Fur.ConfigurableOptions;
+using Fur.DependencyInjection;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -18,6 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     /// 应用服务集合拓展类
     /// </summary>
+    [NonBeScan]
     public static class AppServiceCollectionExtensions
     {
         /// <summary>

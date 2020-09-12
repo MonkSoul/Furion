@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace Fur.LinqBuilder
     /// <summary>
     /// Linq/Lambda 拓展类
     /// </summary>
+    [NonBeScan]
     public static class LinqExtensions
     {
         /// <summary>

@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
 using System.Linq;
@@ -17,6 +18,10 @@ using System.Threading.Tasks;
 
 namespace Fur.DatabaseAccessor
 {
+    /// <summary>
+    /// 数据库上下文池
+    /// </summary>
+    [NonBeScan]
     public sealed class DbContextPool : IDbContextPool
     {
         /// <summary>
