@@ -11,6 +11,7 @@
 
 using Fur.ConfigurableOptions;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
@@ -43,25 +44,32 @@ namespace Fur
             get
             {
                 if (_settings == null)
-                    _settings = NewServiceProvider.GetService<IOptions<AppSettingsOptions>>().Value;
+                    _settings = TransientServiceProvider.GetService<IOptions<AppSettingsOptions>>().Value;
                 return _settings;
             }
         }
 
         /// <summary>
-        /// 服务提供器
+        /// 瞬时服务提供器，每次都是不一样的实例
         /// </summary>
-        public static IServiceProvider NewServiceProvider => Services.BuildServiceProvider();
+        public static IServiceProvider TransientServiceProvider => Services.BuildServiceProvider();
+
+        /// <summary>
+        /// 请求服务提供器，相当于使用构造函数注入方式
+        /// </summary>
+        /// <remarks>每一个请求一个作用域，由于基于请求，所以可能有空异常</remarks>
+        /// <exception cref="ArgumentNullException">空异常</exception>
+        public static IServiceProvider RequestServiceProvider => TransientServiceProvider.GetService<IHttpContextAccessor>()?.HttpContext?.RequestServices;
 
         /// <summary>
         /// 全局配置选项
         /// </summary>
-        public static IConfiguration Configuration => NewServiceProvider.GetService<IConfiguration>();
+        public static IConfiguration Configuration => TransientServiceProvider.GetService<IConfiguration>();
 
         /// <summary>
         /// 应用环境
         /// </summary>
-        public static IWebHostEnvironment HostEnvironment => NewServiceProvider.GetService<IWebHostEnvironment>();
+        public static IWebHostEnvironment HostEnvironment => TransientServiceProvider.GetService<IWebHostEnvironment>();
 
         /// <summary>
         /// 应用有效程序集
@@ -101,7 +109,7 @@ namespace Fur
         public static TOptions GetOptions<TOptions>()
             where TOptions : class
         {
-            return NewServiceProvider.GetService<IOptions<TOptions>>().Value;
+            return TransientServiceProvider.GetService<IOptions<TOptions>>().Value;
         }
 
         /// <summary>
@@ -112,7 +120,7 @@ namespace Fur
         public static TOptions GetOptionsMonitor<TOptions>()
             where TOptions : class
         {
-            return NewServiceProvider.GetService<IOptionsMonitor<TOptions>>().CurrentValue;
+            return TransientServiceProvider.GetService<IOptionsMonitor<TOptions>>().CurrentValue;
         }
 
         /// <summary>
@@ -123,7 +131,7 @@ namespace Fur
         public static TOptions GetOptionsSnapshot<TOptions>()
             where TOptions : class
         {
-            return NewServiceProvider.GetService<IOptionsSnapshot<TOptions>>().Value;
+            return TransientServiceProvider.GetService<IOptionsSnapshot<TOptions>>().Value;
         }
 
         /// <summary>

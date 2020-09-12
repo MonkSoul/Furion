@@ -124,7 +124,10 @@ select Id,Name,Age,Address from dbo.test where id > @id;
             var test5 = _repository2.Change<Test>();
             var g = test4.Equals(test5); // true
 
-            return a == b == c == d == e == f == g == z;
+            var test6 = App.RequestServiceProvider.GetService<IRepository<Test>>();
+            var h = test5.Equals(test6);
+
+            return a == b == c == d == e == f == g == z == h;
         }
 
         /// <summary>
