@@ -90,6 +90,76 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
+        /// 更新一条记录
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> Update<TEntity>(this TEntity entity)
+            where TEntity : class, IEntity, new()
+        {
+            return GetRepository<TEntity>().Update(entity);
+        }
+
+        /// <summary>
+        /// 更新一条记录
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateAsync<TEntity>(this TEntity entity)
+             where TEntity : class, IEntity, new()
+        {
+            return GetRepository<TEntity>().UpdateAsync(entity);
+        }
+
+        /// <summary>
+        /// 更新一条记录并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> UpdateNow<TEntity>(this TEntity entity)
+            where TEntity : class, IEntity, new()
+        {
+            return GetRepository<TEntity>().UpdateNow(entity);
+        }
+
+        /// <summary>
+        /// 更新一条记录并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> UpdateNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
+             where TEntity : class, IEntity, new()
+        {
+            return GetRepository<TEntity>().UpdateNow(entity, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 更新一条记录并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntity, new()
+        {
+            return GetRepository<TEntity>().UpdateNowAsync(entity, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntity, new()
+        {
+            return GetRepository<TEntity>().UpdateNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
         /// 获取实体仓储
         /// </summary>
         /// <typeparam name="TEntity">实体类型</typeparam>
