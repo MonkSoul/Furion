@@ -9,6 +9,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Fur.Extensions;
 using Fur.FriendlyException;
 using Mapster;
@@ -26,12 +27,12 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// Sql 执行代理类
     /// </summary>
-    public class SqlDispatchProxy : DispatchProxy
+    public class SqlDispatchProxy : DispatchProxy, IDispatchProxy
     {
         /// <summary>
         /// 服务提供器
         /// </summary>
-        internal IServiceProvider ServiceProvider { get; set; }
+        public IServiceProvider ServiceProvider { get; set; }
 
         /// <summary>
         /// 拦截

@@ -19,8 +19,6 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -74,7 +72,7 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             // 注册 Sql 代理接口
-            services.AddSqlDispatchProxy();
+            services.AddDispatchProxy<SqlDispatchProxy, ISqlDispatchProxy>();
 
             // 注册全局工作单元过滤器
             services.Configure<MvcOptions>(options => options.Filters.Add<UnitOfWorkFilter>());
@@ -166,41 +164,6 @@ namespace Microsoft.Extensions.DependencyInjection
 
             // 配置数据库上下文
             services.AddDbContext<TDbContext>(ConfigureSqlServerDbContext(connectionString, interceptors));
-
-            return services;
-        }
-
-        /// <summary>
-        /// 添加 Sql 代理服务
-        /// </summary>
-        /// <param name="services">服务集合</param>
-        /// <returns>服务集合</returns>
-        public static IServiceCollection AddSqlDispatchProxy(this IServiceCollection services)
-        {
-            // 注册 Sql 代理类
-            services.AddScoped<DispatchProxy, SqlDispatchProxy>();
-
-            // Sql 代理依赖接口
-            var typeDependency = typeof(ISqlDispatchProxy);
-
-            // 获取所有的代理接口类型
-            var sqlDispatchProxyInterfaceTypes = App.Assemblies.SelectMany(u => u.GetTypes()
-                .Where(u => typeDependency.IsAssignableFrom(u) && u.IsPublic && u.IsInterface && u != typeDependency));
-
-            // 获取代理创建方法
-            var dispatchCreateMethod = typeof(DispatchProxy).GetMethod(nameof(DispatchProxy.Create));
-
-            // 注册 Sql 代理类型
-            foreach (var interfaceType in sqlDispatchProxyInterfaceTypes)
-            {
-                services.AddScoped(interfaceType, provider =>
-                {
-                    var proxy = dispatchCreateMethod.MakeGenericMethod(interfaceType, typeof(SqlDispatchProxy)).Invoke(null, null);
-                    ((SqlDispatchProxy)proxy).ServiceProvider = provider;
-
-                    return proxy;
-                });
-            }
 
             return services;
         }

@@ -485,5 +485,15 @@ select Id,Name,Age,Address from dbo.test where id > @id;
         {
             return _testService.Name();
         }
+
+        /// <summary>
+        /// 测试在 IQueyable 中使用数据库函数
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public List<TestDto> TestDbFunctioninQuery(string name)
+        {
+            return _testRepository.DetachedEntities.Where(u => u.Name == DbFunctions.GetName(name)).ToList().Adapt<List<TestDto>>();
+        }
     }
 }

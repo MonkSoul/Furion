@@ -91,6 +91,45 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
+        /// 添加代理
+        /// </summary>
+        /// <typeparam name="TDispatchProxy">代理类</typeparam>
+        /// <typeparam name="TITDispatchProxy">被代理接口依赖</typeparam>
+        /// <param name="services">服务集合</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddDispatchProxy<TDispatchProxy, TITDispatchProxy>(this IServiceCollection services)
+            where TDispatchProxy : DispatchProxy, IDispatchProxy
+            where TITDispatchProxy : class
+        {
+            // 注册代理类
+            services.AddScoped<DispatchProxy, TDispatchProxy>();
+
+            // 代理依赖接口类型
+            var typeDependency = typeof(TITDispatchProxy);
+
+            // 获取所有的代理接口类型
+            var sqlDispatchProxyInterfaceTypes = App.Assemblies.SelectMany(u => u.GetTypes()
+                .Where(u => typeDependency.IsAssignableFrom(u) && u.IsPublic && u.IsInterface && u != typeDependency));
+
+            // 获取代理创建方法
+            var dispatchCreateMethod = typeof(DispatchProxy).GetMethod(nameof(DispatchProxy.Create));
+
+            // 注册代理类型
+            foreach (var interfaceType in sqlDispatchProxyInterfaceTypes)
+            {
+                services.AddScoped(interfaceType, provider =>
+                {
+                    var proxy = dispatchCreateMethod.MakeGenericMethod(interfaceType, typeof(TDispatchProxy)).Invoke(null, null);
+                    ((TDispatchProxy)proxy).ServiceProvider = provider;
+
+                    return proxy;
+                });
+            }
+
+            return services;
+        }
+
+        /// <summary>
         /// 注册暂时服务
         /// </summary>
         /// <param name="services">服务集合</param>

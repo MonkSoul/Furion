@@ -47,7 +47,7 @@ namespace Fur.DatabaseAccessor
         {
             // 扫描程序集，获取数据库实体相关类型
             EntityCorrelationTypes = App.Assemblies.SelectMany(u => u.GetTypes()
-                 .Where(t => (typeof(IEntity).IsAssignableFrom(t) || typeof(IModelBuilder).IsAssignableFrom(t)) && t.IsPublic && t.IsClass && !t.IsAbstract && !t.IsGenericType && !t.IsInterface))
+                 .Where(t => (typeof(IEntity).IsAssignableFrom(t) || typeof(IModelBuilder).IsAssignableFrom(t)) && t.IsPublic && t.IsClass && !t.IsAbstract && !t.IsGenericType && !t.IsInterface && !t.IsDefined(typeof(NonAutomaticAttribute), true)))
                 .ToList();
 
             if (EntityCorrelationTypes.Count > 0)
@@ -55,6 +55,12 @@ namespace Fur.DatabaseAccessor
                 // 获取模型构建器 Entity<T> 方法
                 ModelBuildEntityMethod = typeof(ModelBuilder).GetMethods(BindingFlags.Public | BindingFlags.Instance).FirstOrDefault(u => u.Name == nameof(ModelBuilder.Entity) && u.GetParameters().Length == 0);
             }
+
+            // 查找所有数据库函数，必须是公开静态方法，且所在父类也必须是公开静态方法
+            DbFunctionMethods = App.Assemblies.SelectMany(a => a.GetTypes()
+                      .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Static)
+                          .Where(m => t.IsAbstract && t.IsSealed && t.IsPublic && t.IsClass && m.IsDefined(typeof(QueryableFunctionAttribute), true) && !t.IsDefined(typeof(NonAutomaticAttribute), true))))
+                 .ToList();
         }
 
         /// <summary>
@@ -68,7 +74,8 @@ namespace Fur.DatabaseAccessor
             // 获取当前数据库上下文关联的类型
             var dbContextCorrelationType = GetDbContextCorrelationType(dbContextLocator);
 
-            if (dbContextCorrelationType.EntityTypes.Count == 0) return;
+            // 如果没有数据，则跳过
+            if (!dbContextCorrelationType.EntityTypes.Any()) goto EntityFunctions;
 
             // 初始化所有类型
             foreach (var entityType in dbContextCorrelationType.EntityTypes)
@@ -91,6 +98,9 @@ namespace Fur.DatabaseAccessor
                 // 实体完成配置注入拦截
                 LoadModelBuilderOnCreated(entityBuilder, dbContext, dbContextLocator, dbContextCorrelationType.ModelBuilderFilterInstances);
             }
+
+        // 配置数据库函数
+        EntityFunctions: ConfigureDbFunctions(modelBuilder, dbContextLocator);
         }
 
         /// <summary>
@@ -215,11 +225,27 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
+        /// 配置数据库函数
+        /// </summary>
+        /// <param name="modelBuilder">模型构建起</param>
+        /// <param name="dbContextLocator">数据库上下文定位器</param>
+        private static void ConfigureDbFunctions(ModelBuilder modelBuilder, Type dbContextLocator)
+        {
+            var dbContextFunctionMethods = DbFunctionMethods.Where(u => IsInThisDbContext(dbContextLocator, u));
+            if (!dbContextFunctionMethods.Any()) return;
+
+            foreach (var method in dbContextFunctionMethods)
+            {
+                modelBuilder.HasDbFunction(method);
+            }
+        }
+
+        /// <summary>
         /// 判断当前类型是否在数据库上下文中
         /// </summary>
-        /// <param name="dbContextLocator"></param>
-        /// <param name="entityCorrelationType"></param>
-        /// <returns></returns>
+        /// <param name="dbContextLocator">数据库上下文定位器</param>
+        /// <param name="entityCorrelationType">数据库实体关联类型</param>
+        /// <returns>bool</returns>
         private static bool IsInThisDbContext(Type dbContextLocator, Type entityCorrelationType)
         {
             // 获取类型父类型及接口
@@ -241,6 +267,25 @@ namespace Fur.DatabaseAccessor
 
             // 接口是泛型且泛型参数包含数据库上下文定位器
             if (interfaces.Any(u => u.IsGenericType && u.GenericTypeArguments.Contains(dbContextLocator))) return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// 判断当前函数是否在数据库上下文中
+        /// </summary>
+        /// <param name="dbContextLocator">数据库上下文定位器</param>
+        /// <param name="method">标识为数据库的函数</param>
+        /// <returns>bool</returns>
+        private static bool IsInThisDbContext(Type dbContextLocator, MethodInfo method)
+        {
+            var queryableFunctionAttribute = method.GetCustomAttribute<QueryableFunctionAttribute>(true);
+
+            // 如果数据库上下文定位器为默认定位器且该函数没有定义数据库上下文定位器，则返回 true
+            if (dbContextLocator == typeof(DbContextLocator) && queryableFunctionAttribute.DbContextLocators.Length == 0) return true;
+
+            // 判断是否保护
+            if (queryableFunctionAttribute.DbContextLocators.Contains(dbContextLocator)) return true;
 
             return false;
         }
