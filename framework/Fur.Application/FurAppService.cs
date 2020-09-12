@@ -76,7 +76,7 @@ namespace Fur.Application
         [NonTransact]
         public object ExecuteSqlQuerySet()
         {
-            var (list1, list2, list3) = _testRepository.SqlQueryMulti<Test, Test, TestDto>(@"
+            var (list1, list2, list3) = _testRepository.SqlQueries<Test, Test, TestDto>(@"
 select * from dbo.test where id > @id;
 select top 10 * from dbo.test;
 select Id,Name,Age,Address from dbo.test where id > @id;
@@ -244,7 +244,7 @@ select Id,Name,Age,Address from dbo.test where id > @id;
         /// <returns></returns>
         public object ExecuteProcedureQuerySet(int id)
         {
-            var (list1, list2, list3) = _testRepository.SqlProcedureQueryMulti<Test, Test, Test>("PROC_GetTableSet", new { id = id });
+            var (list1, list2, list3) = _testRepository.SqlProcedureQueries<Test, Test, Test>("PROC_GetTableSet", new { id = id });
 
             return new
             {
