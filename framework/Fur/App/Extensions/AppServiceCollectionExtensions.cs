@@ -38,6 +38,9 @@ namespace Microsoft.Extensions.DependencyInjection
             // 注册 IHttpContextAccessor
             services.AddHttpContextAccessor();
 
+            // 注册分布式内存缓存
+            services.AddDistributedMemoryCache();
+
             // 注册MiniProfiler 组件
             if (App.Settings.InjectMiniProfiler == true)
             {
