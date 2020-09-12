@@ -35,6 +35,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>服务集合</returns>
         public static IServiceCollection AddDatabaseAccessor(this IServiceCollection services, Action<IServiceCollection> configure = null)
         {
+            // 添加数据库选项配置支持
+            services.AddConfigurableOptions<DatabaseAccessorSettingsOptions>();
+
             // 配置数据库上下文
             configure?.Invoke(services);
 

@@ -41,6 +41,11 @@ namespace Fur.DatabaseAccessor
         private static readonly MethodInfo ModelBuildEntityMethod;
 
         /// <summary>
+        /// 数据库配置
+        /// </summary>
+        private static readonly DatabaseAccessorSettingsOptions databaseAccessorSettings;
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         static AppDbContextBuilder()
@@ -54,6 +59,9 @@ namespace Fur.DatabaseAccessor
             {
                 // 获取模型构建器 Entity<T> 方法
                 ModelBuildEntityMethod = typeof(ModelBuilder).GetMethods(BindingFlags.Public | BindingFlags.Instance).FirstOrDefault(u => u.Name == nameof(ModelBuilder.Entity) && u.GetParameters().Length == 0);
+
+                // 加载数据库配置
+                databaseAccessorSettings = App.GetOptions<DatabaseAccessorSettingsOptions>();
             }
 
             // 查找所有数据库函数，必须是公开静态方法，且所在父类也必须是公开静态方法
@@ -82,6 +90,7 @@ namespace Fur.DatabaseAccessor
             {
                 // 创建实体类型
                 var entityBuilder = CreateEntityTypeBuilder(entityType, modelBuilder);
+                if (entityBuilder == null) continue;
 
                 // 配置无键实体构建器
                 ConfigureEntityNoKeyType(entityType, entityBuilder, dbContextCorrelationType.EntityNoKeyTypes);
@@ -111,8 +120,20 @@ namespace Fur.DatabaseAccessor
         /// <returns>EntityTypeBuilder</returns>
         private static EntityTypeBuilder CreateEntityTypeBuilder(Type type, ModelBuilder modelBuilder)
         {
+            // 判断是否启用多租户支持
+            var enabledMultiTenant = !(databaseAccessorSettings.EnabledMultiTenant == false || databaseAccessorSettings.MultiTenantOptions == MultiTenantPattern.None);
+            if (type == typeof(Tenant) && !enabledMultiTenant) return default;
+
             // 反射创建实体类型构建器
-            return ModelBuildEntityMethod.MakeGenericMethod(type).Invoke(modelBuilder, null) as EntityTypeBuilder;
+            var entityTypeBuilder = ModelBuildEntityMethod.MakeGenericMethod(type).Invoke(modelBuilder, null) as EntityTypeBuilder;
+
+            // 如果未启用多租户支持，则忽略
+            if (!enabledMultiTenant)
+            {
+                entityTypeBuilder.Ignore(nameof(Tenant.TenantId));
+            }
+
+            return entityTypeBuilder;
         }
 
         /// <summary>
