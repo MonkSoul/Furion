@@ -28,6 +28,9 @@
 
 <img src="./handbook/static/img/demo.gif" />
 
+<p></p>
+<p></p>
+
 **[⏳ 查看 Fur 目前进度](https://gitee.com/monksoul/Fur/board)**
 
 ---
