@@ -44,6 +44,37 @@ namespace Fur.DatabaseAccessor
         /// <param name="options"></param>
         public AppDbContext(DbContextOptions<TDbContext> options) : base(options)
         {
+            // 定义数据库上下文提交更改事件
+            this.SavingChanges += SavingChangesEvent;
+            this.SavedChanges += SavedChangesEvent;
+            this.SaveChangesFailed += SaveChangesFailedEvent;
+        }
+
+        /// <summary>
+        /// 数据库上下文提交更改之前执行事件
+        /// </summary>
+        /// <param name="sender">事件对象</param>
+        /// <param name="e">事件参数</param>
+        protected virtual void SavingChangesEvent(object sender, SavingChangesEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// 数据库上下文提交更改成功执行事件
+        /// </summary>
+        /// <param name="sender">事件对象</param>
+        /// <param name="e">事件参数</param>
+        protected virtual void SavedChangesEvent(object sender, SavedChangesEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// 数据库上下文提交更改失败执行事件
+        /// </summary>
+        /// <param name="sender">事件对象</param>
+        /// <param name="e">事件参数</param>
+        protected virtual void SaveChangesFailedEvent(object sender, SaveChangesFailedEventArgs e)
+        {
         }
 
         /// <summary>
