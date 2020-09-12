@@ -820,6 +820,76 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
+        /// 删除一条记录
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> Delete<TEntity>(this TEntity entity)
+            where TEntity : class, IEntity, new()
+        {
+            return GetRepository<TEntity>().Delete(entity);
+        }
+
+        /// <summary>
+        /// 删除一条记录
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> DeleteAsync<TEntity>(this TEntity entity)
+            where TEntity : class, IEntity, new()
+        {
+            return GetRepository<TEntity>().DeleteAsync(entity);
+        }
+
+        /// <summary>
+        /// 删除一条记录并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> DeleteNow<TEntity>(this TEntity entity)
+            where TEntity : class, IEntity, new()
+        {
+            return GetRepository<TEntity>().DeleteNow(entity);
+        }
+
+        /// <summary>
+        /// 删除一条记录并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns></returns>
+        public static EntityEntry<TEntity> DeleteNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
+            where TEntity : class, IEntity, new()
+        {
+            return GetRepository<TEntity>().DeleteNow(entity, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 删除一条记录并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> DeleteNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntity, new()
+        {
+            return GetRepository<TEntity>().DeleteNowAsync(entity, cancellationToken);
+        }
+
+        /// <summary>
+        /// 删除一条记录并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> DeleteNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntity, new()
+        {
+            return GetRepository<TEntity>().DeleteNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
         /// 获取实体仓储
         /// </summary>
         /// <typeparam name="TEntity">实体类型</typeparam>
