@@ -9,7 +9,9 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DatabaseAccessor;
 using Fur.DependencyInjection;
+using Fur.FriendlyException;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -139,6 +141,75 @@ namespace Fur
             where TOptions : class
         {
             return TransientServiceProvider.GetService<IOptionsSnapshot<TOptions>>().Value;
+        }
+
+        /// <summary>
+        /// 获取非泛型仓储
+        /// </summary>
+        /// <typeparam name="TEntity">实体类型</typeparam>
+        public static IRepository GetRepository()
+        {
+            return RequestServiceProvider.GetService<IRepository>()
+                ?? throw Oops.Oh("Reading IRepository instances on non HTTP requests is not supported.", typeof(NotSupportedException));
+        }
+
+        /// <summary>
+        /// 获取实体仓储
+        /// </summary>
+        /// <typeparam name="TEntity">实体类型</typeparam>
+        /// <returns>IRepository<TEntity></returns>
+        public static IRepository<TEntity> GetRepository<TEntity>()
+            where TEntity : class, IEntity, new()
+        {
+            return RequestServiceProvider.GetService<IRepository<TEntity>>()
+                ?? throw Oops.Oh("Reading IRepository<TEntity> instances on non HTTP requests is not supported.", typeof(NotSupportedException));
+        }
+
+        /// <summary>
+        /// 获取实体仓储
+        /// </summary>
+        /// <typeparam name="TEntity">实体类型</typeparam>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <returns>IRepository<TEntity, TDbContextLocator></returns>
+        public static IRepository<TEntity, TDbContextLocator> GetRepository<TEntity, TDbContextLocator>()
+            where TEntity : class, IEntity, new()
+            where TDbContextLocator : class, IDbContextLocator, new()
+        {
+            return RequestServiceProvider.GetService<IRepository<TEntity, TDbContextLocator>>()
+                ?? throw Oops.Oh("Reading IRepository<TEntity, TDbContextLocator> instances on non HTTP requests is not supported.", typeof(NotSupportedException));
+        }
+
+        /// <summary>
+        /// 获取Sql仓储
+        /// </summary>
+        /// <returns>ISqlRepository</returns>
+        public static ISqlRepository GetSqlRepository()
+        {
+            return RequestServiceProvider.GetService<ISqlRepository>()
+                ?? throw Oops.Oh("Reading ISqlRepository instances on non HTTP requests is not supported.", typeof(NotSupportedException));
+        }
+
+        /// <summary>
+        /// 获取Sql仓储
+        /// </summary>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <returns>ISqlRepository<TDbContextLocator></returns>
+        public static ISqlRepository<TDbContextLocator> GetSqlRepository<TDbContextLocator>()
+            where TDbContextLocator : class, IDbContextLocator, new()
+        {
+            return RequestServiceProvider.GetService<ISqlRepository<TDbContextLocator>>()
+                ?? throw Oops.Oh("Reading ISqlRepository<TDbContextLocator> instances on non HTTP requests is not supported.", typeof(NotSupportedException));
+        }
+
+        /// <summary>
+        /// 获取Sql代理
+        /// </summary>
+        /// <returns>ISqlRepository</returns>
+        public static TSqlDispatchProxy GetSqlDispatchProxy<TSqlDispatchProxy>()
+            where TSqlDispatchProxy : class, ISqlDispatchProxy
+        {
+            return RequestServiceProvider.GetService<TSqlDispatchProxy>()
+                ?? throw Oops.Oh("Reading SqlDispatchProxy instances on non HTTP requests is not supported.", typeof(NotSupportedException));
         }
 
         /// <summary>
