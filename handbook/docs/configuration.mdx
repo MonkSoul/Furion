@@ -1,7 +1,7 @@
 ---
 id: configuration
-title: 2.1 配置
-sidebar_label: 2.1 配置
+title: 3.1 配置
+sidebar_label: 3.1 配置
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
@@ -10,11 +10,11 @@ import TabItem from "@theme/TabItem";
 
 :::important 温馨提示
 
-推荐使用 《[2.2 选项](options.mdx)》代替本章节功能。（[为什么](#217-配置的优缺点)）？
+推荐使用 《[3.2 选项](options.mdx)》代替本章节功能。（[为什么](#317-配置的优缺点)）？
 
 :::
 
-## 2.1.1 什么是配置
+## 3.1.1 什么是配置
 
 简单来说，配置将系统应用可动态调配的选项放在统一地方管理，通过不同的配置让系统做出动态调整。
 
@@ -24,7 +24,7 @@ import TabItem from "@theme/TabItem";
 - `Staging`：加载 `appsettings.Staging.json`
 - `{Environment}`：`appsettings.{Environment}.json`
 
-## 2.1.2 配置的使用
+## 3.1.2 配置的使用
 
 假设我们需要在系统运行时获取**系统名称、版本号及版权信息**，这些信息可能随时变化而且需要在多个地方使用。这时就需要将这些信息配置起来。具体步骤如下：
 
@@ -144,7 +144,7 @@ public IConfiguration Configuration { get; set; }
 - 在可依赖注入类中，依赖注入 `IConfiguration` 读取
 - 在静态类/非依赖注入类中，选择 `App.Configuration[jsonKey]` 读取
 
-## 2.1.3 分层读取数据
+## 3.1.3 分层读取数据
 
 在 `ASP.NET Core` 中，配置采用 `:` 分隔符来读取分层配置数据。如上述例子中的 `AppInfo:Name`。如有更多层级数据则只需要通过 `:` 进入下一层节点即可。
 
@@ -204,14 +204,14 @@ var companyName = App.Configuration["AppInfo:Company:Address:Detail"]; // => 中
 
 
 ```cs
-var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern2..."]; // => 中山市东区紫马公园西门
+var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern3..."]; // => 中山市东区紫马公园西门
 ```
 
   </TabItem>
 </Tabs>
 
 
-## 2.1.4 自定义配置文件
+## 3.1.4 自定义配置文件
 
 大多情况下，我们的配置只需要在 `appsettings.json` 中配置即可，但一些特殊情况下，我们希望某些组件或功能拥有独立的配置，比如邮件配置：
 
@@ -293,7 +293,7 @@ var smtpServer = _configuration["outlook:smtp:server"]; // => smtp.office365.com
 </Tabs>
 
 
-## 2.1.5 不同环境读取
+## 3.1.5 不同环境读取
 
 在实际应用开发中，我们可能会根据不同的环境加载不同的配置文件，如 `数据库连接字符串`。
 
@@ -308,7 +308,7 @@ var smtpServer = _configuration["outlook:smtp:server"]; // => smtp.office365.com
 
 这时，`ASP.NET Core` 会在应用启动时自动加载不同环境的配置文件。
 
-## 2.1.6 配置更改通知（`热更新`）
+## 3.1.6 配置更改通知（`热更新`）
 
 在 `.NET Core` 应用程序中，配置支持更改通知，也就是热更新操作。**一旦监听到 `appsetting.json` 或自定义配置文件发生变动，就会触发 `OnChange` 方法**。代码如下：
 
@@ -321,7 +321,7 @@ ChangeToken.OnChange(() => appInfoConfiguration.GetReloadToken(), () =>
 });
 ```
 
-## 2.1.7 配置的优缺点
+## 3.1.7 配置的优缺点
 
 ### 优点
 
@@ -337,11 +337,11 @@ ChangeToken.OnChange(() => appInfoConfiguration.GetReloadToken(), () =>
 - 不能验证配置有效性
 - 不支持更改通知
 
-## 2.1.8 配置使用场景
+## 3.1.8 配置使用场景
 
-如果只需要**一次性读取**配置信息，则使用配置，否则应该使用 《[2.2 选项](options.mdx)》代替。
+如果只需要**一次性读取**配置信息，则使用配置，否则应该使用 《[3.2 选项](options.mdx)》代替。
 
-## 2.1.9 反馈与建议
+## 3.1.9 反馈与建议
 
 :::note 与我们交流
 

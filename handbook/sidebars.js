@@ -6,8 +6,12 @@ module.exports = {
       items: ["introduce", "author"],
     },
     {
+      type: "doc",
+      id: "get-start",
+    },
+    {
       type: "category",
-      label: "2. 配置与选项",
+      label: "3. 配置与选项",
       items: ["configuration", "options"],
     },
     {
@@ -25,6 +29,59 @@ module.exports = {
     {
       type: "doc",
       id: "data-validation",
+    },
+    {
+      type: "category",
+      label: "8. 数据库操作指南",
+      items: ["dbcontext"],
+    },
+    {
+      type: "doc",
+      id: "dependency-injection",
+    },
+    {
+      type: "doc",
+      id: "object-mapper",
+    },
+    {
+      type: "doc",
+      id: "cache",
+    },
+    {
+      type: "doc",
+      id: "auth-control",
+    },
+    {
+      type: "doc",
+      id: "cors",
+    },
+    {
+      type: "doc",
+      id: "local-language",
+    },
+    {
+      type: "doc",
+      id: "view-engine",
+    },
+    {
+      type: "doc",
+      id: "event-bus",
+    },
+    {
+      type: "doc",
+      id: "process-service",
+    },
+    {
+      type: "doc",
+      id: "deploy",
+    },
+    {
+      type: "doc",
+      id: "signalr",
+    },
+    {
+      type: "doc",
+      id: "contribute",
     },
   ],
 };

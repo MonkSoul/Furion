@@ -1,32 +1,32 @@
 ---
 id: data-validation
-title: 6. 数据校验
-sidebar_label: 6. 数据校验
+title: 7. 数据校验
+sidebar_label: 7. 数据校验
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-## 6.1 关于数据校验
+## 7.1 关于数据校验
 
 数据校验字面上的意思就是对使用者提交过来的数据进行合法性验证。在一套完善的应用系统中，数据有效性校验是必不可少的业务处理第一道关卡。
 
-## 6.2 数据校验的好处
+## 7.2 数据校验的好处
 
 - 过滤不安全数据，提高系统的安全性
 - 减少不必要的业务异常处理，提高系统的响应速度
 - 大大提高系统稳定性
 - 大数据并发时起着一定的缓冲作用
 
-## 6.3 数据校验方式
+## 7.3 数据校验方式
 
 - 传统方式，在业务代码之前手动验证
 - `Mvc` 特性方式，`Mvc` 内置的 `DataAnnotations` 方式
 - **推荐方式**，`Fur` 框架内置的 `DataValidation` 验证
 - 其他方式，使用第三方验证库，如 `FluentValidation`
 
-### 6.3.1 传统方式
+### 7.3.1 传统方式
 
 在很多老项目中，我们经常看到这样的代码：
 
@@ -64,7 +64,7 @@ public bool Insert(Person person)
 
 如此得知，这样的方式是极其不推荐的，**不但污染了业务代码，也破坏了业务职责单一性原理，也让验证逻辑无法实现通用，后续维护难度大大升级**。
 
-### 6.3.2 `Mvc` 特性方式
+### 7.3.2 `Mvc` 特性方式
 
 在 `ASP.NET Core` 中，微软为我们提供了全新的 `特性` 验证方式，可通过对对象贴特性实现数据验证。这种方式有效的将数据校验和业务代码剥离开来，而且容易使用和拓展。
 
@@ -183,11 +183,11 @@ public class DtoModel : IValidatableObject
 
 所以，`Fur` 提供了新的验证引擎 `DataValidation`，在完全兼容 `Mvc` 内置验证的同时提供了大量常见验证、复杂验证、自定义验证等能力。
 
-## 6.4 `DataValidation` 验证 🤗
+## 7.4 `DataValidation` 验证 🤗
 
 `DataValidation` 是 `Fur` 框架提供了全新的验证方式，完全兼容 `Mvc` 内置验证，并且赋予了超能。
 
-### 6.4.1 `DataValidation` 优点
+### 7.4.1 `DataValidation` 优点
 
 - **完全兼容 `Mvc` 内置验证引擎**
 - **内置常见验证类型及可自定义验证类型功能**
@@ -196,9 +196,9 @@ public class DtoModel : IValidatableObject
 - 支持在任何类，任何方法、任何位置实现手动验证、特性方式验证等
 - 支持设置验证结果模型
 
-## 6.5 `DataValidation` 使用
+## 7.5 `DataValidation` 使用
 
-### 6.5.1 注册验证服务
+### 7.5.1 注册验证服务
 
 ```cs {3,15} title="Fur.Web.Entry/Startup.cs"
 using Microsoft.AspNetCore.Builder;
@@ -232,7 +232,7 @@ namespace Fur.Web.Entry
 
 :::
 
-### 6.5.2 兼容 `Mvc` 特性验证
+### 7.5.2 兼容 `Mvc` 特性验证
 
 <Tabs
   defaultValue="testdto"
@@ -302,7 +302,7 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/sjyz1.gif")} />
 
-### 6.5.3 兼容 `Mvc` 复杂验证
+### 7.5.3 兼容 `Mvc` 复杂验证
 
 ```cs {2,6,14-22}
 using System.Collections.Generic;
@@ -336,9 +336,9 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/sjyz2.gif")} />
 
-## 6.6 手动验证
+## 7.6 手动验证
 
-### 6.6.1 验证模型
+### 7.7.1 验证模型
 
 ```cs {1,11}
 using Fur.DataValidation;
@@ -367,7 +367,7 @@ namespace Fur.Application
 
 :::
 
-### 6.6.2 `ValidationTypes` 常见验证
+### 7.7.2 `ValidationTypes` 常见验证
 
 `Fur` 内置了很多常用类型的数据验证，包括：
 
@@ -463,7 +463,7 @@ true.TryValidate(ValidationTypes.Integer); // => false
 
 :::
 
-### 6.6.3 `[DataValidation]` 特性
+### 7.7.3 `[DataValidation]` 特性
 
 `Fur` 还提供了 `[DataValidation]` 特性方便在模型参数中使用 `ValidationTypes` 常见验证或自定义验证。
 
@@ -493,7 +493,7 @@ namespace Fur.Application
 }
 ```
 
-## 6.7 `[NonValidation]` 跳过验证
+## 7.7 `[NonValidation]` 跳过验证
 
 `Fur` 框架提供了对象模型跳过验证特性 `[NonValidation]`，支持在 `控制器`，`动作方法`，`类` 中使用。
 
@@ -505,9 +505,9 @@ namespace Fur.Application
 
 :::
 
-## 6.8 高级自定义操作
+## 7.8 高级自定义操作
 
-### 6.8.1 自定义 `ValidationTypes` 类型
+### 7.8.1 自定义 `ValidationTypes` 类型
 
 除了 `Fur` 内置的验证类型以外，`Fur` 还提供了非常灵活的自定义验证类型机制。
 
@@ -573,7 +573,7 @@ public string Password { get; set; }
 
 :::
 
-### 6.8.2 自定义 `ValidationTypes` 失败消息
+### 7.8.2 自定义 `ValidationTypes` 失败消息
 
 `Fur` 内置的 `ValidationTypes` 已有默认的失败消息：
 
@@ -724,7 +724,7 @@ namespace Fur.Web.Entry
 
 `DefaultErrorMessage` -> `IValidationMessageTypeProvider` -> `appsettings.json` (**低 -> 高**)
 
-## 6.9 模型验证范围
+## 7.9 模型验证范围
 
 `Fur` 提供多种模型验证范围设置：
 
@@ -733,15 +733,15 @@ namespace Fur.Web.Entry
 - `[TypeFilter(typeof(DataValidationFilter))]` 局部验证
 - `[ApiController]` 控制器范围验证
 
-### 6.9.1 全局验证
+### 7.9.1 全局验证
 
 默认情况下，通过 `.AddDataValidation()` 注册数据验证服务已经启用了全局验证，如若不想启用全局验证，则传入 `false` 即可，如：`.AddDataValidation(false)`。
 
-### 6.9.2 `[NonValidation]` 跳过验证
+### 7.9.2 `[NonValidation]` 跳过验证
 
 可通过 `[NonValidation]` 贴在 `控制器`，`动作方法`，`类` 中跳过全局验证或不需要验证
 
-### 6.9.3 `[TypeFilter(typeof(DataValidationFilter))]` 局部验证
+### 7.9.3 `[TypeFilter(typeof(DataValidationFilter))]` 局部验证
 
 我们也可以无需注册 `.AddDataValidation()` 服务，直接在 `动作方法` 上贴 `[TypeFilter(typeof(DataValidationFilter))]` 可启用局部验证。如：
 
@@ -763,7 +763,7 @@ namespace Fur.Application
 }
 ```
 
-### 6.9.4 `[ApiController]` 控制器范围验证
+### 7.9.4 `[ApiController]` 控制器范围验证
 
 `[ApiController]` 是 `Mvc` 提供的控制器范围（含所有动作方法）的验证。
 
@@ -783,21 +783,21 @@ namespace Fur.Web.Entry.Controllers
 }
 ```
 
-## 6.10 `MiniProfiler` 查看
+## 7.10 `MiniProfiler` 查看
 
 如下图所示：
 
 <img src={useBaseUrl("img/sjyz5.png")} />
 
-## 6.10 多语言支持
+## 7.10 多语言支持
 
 文档整理中...
 
-## 6.11 验证模型提供器
+## 7.11 验证模型提供器
 
 文档整理中...
 
-## 6.12 反馈与建议
+## 7.12 反馈与建议
 
 :::note 与我们交流
 

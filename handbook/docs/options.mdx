@@ -1,18 +1,18 @@
 ---
 id: options
-title: 2.2 选项
-sidebar_label: 2.2 选项
+title: 3.2 选项
+sidebar_label: 3.2 选项
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-## 2.2.1 什么是选项
+## 3.3.1 什么是选项
 
 选项是 `ASP.NET Core` 推荐的动态读取配置的方式，这种方式将配置文件数据用一个**强类型**来托管，能够实现配置验证、默认值配置、实时读取等功能。
 
-## 2.2.2 与配置的区别
+## 3.3.2 与配置的区别
 
 选项实际上也是配置，但在后者的基础上添加了配置验证、默认值/后期配置设定及提供了多种接口读取配置信息，同时还支持供配置更改通知等强大灵活功能。
 
@@ -20,11 +20,11 @@ import TabItem from "@theme/TabItem";
 
 :::tip 知识导航
 
-有关配置说明可查看《[2.1 配置](configuration.mdx)》 章节。
+有关配置说明可查看《[3.1 配置](configuration.mdx)》 章节。
 
 :::
 
-## 2.2.3 选项的使用
+## 3.3.3 选项的使用
 
 假设我们需要在系统运行时获取**系统名称、版本号及版权信息**，这些信息可能随时变化而且需要在多个地方使用。这时就需要将这些信息配置起来。具体步骤如下：
 
@@ -209,9 +209,9 @@ namespace Fur.Web.Entry.Controllers
                       版本：{options1.Version}，
                       公司：{options1.Company}";
 
-            var info2 = $@"名称：{options2.Name}，
-                      版本：{options2.Version}，
-                      公司：{options2.Company}";
+            var info2 = $@"名称：{options3.Name}，
+                      版本：{options3.Version}，
+                      公司：{options3.Company}";
 
             var info3 = $@"名称：{options3.Name}，
                       版本：{options3.Version}，
@@ -246,9 +246,9 @@ namespace Fur.Web.Entry.Controllers
                       公司：{options1.Company}";
 
             var options2 = App.GetOptionsSnapshot<AppInfoOptions>();
-            var info2 = $@"名称：{options2.Name}，
-                      版本：{options2.Version}，
-                      公司：{options2.Company}";
+            var info2 = $@"名称：{options3.Name}，
+                      版本：{options3.Version}，
+                      公司：{options3.Company}";
 
             var options3 = App.GetOptionsMonitor<AppInfoOptions>();
             var info3 = $@"名称：{options3.Name}，
@@ -317,7 +317,7 @@ namespace Fur
 - 在可依赖注入类中，依赖注入 `IOptions[Snapshot|Monitor]<TOptions>` 读取
 - 在静态类/非依赖注入类中，选择 `App.GetOptions[Snapshot|Monitor]<TOptions>()` 读取
 
-## 2.2.4 选项接口说明
+## 3.3.4 选项接口说明
 
 `ASP.NET Core` 应用提供了多种读取选项的接口：
 
@@ -349,7 +349,7 @@ namespace Fur
 
 :::
 
-## 2.2.5 选项自定义配置
+## 3.3.5 选项自定义配置
 
 我们知道，选项实际上需要和配置文件特定键值挂钩，那 `Fur` 是如何准确的找到配置文件中的键值的呢？
 
@@ -430,10 +430,10 @@ public class AppInfoSettings : IConfigurableOptions
 
 ### `[OptionsSettings]` 配置说明
 
-- `JsonKey`：对应配置文件中的键，支持 **分层键** 字符串，参见：《[2.2 配置 - 2.1.3 分层读取数据](configuration#如何选择读取方式)》
+- `JsonKey`：对应配置文件中的键，支持 **分层键** 字符串，参见：《[3.2 配置 - 3.1.3 分层读取数据](configuration#如何选择读取方式)》
 - `PostConfigureAll`：选项后期配置，默认 `false`。[ASP.NET Core - 选项 - 选项后期配置](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/configuration/options?view=aspnetcore-3.1#options-post-configuration)
 
-## 2.2.6 选项验证
+## 3.3.6 选项验证
 
 选项支持验证配置有效性，在 `Fur` 框架中，通过 `services.AddConfigurableOptions<TOptions>()` 注册选项默认启用了验证支持。
 
@@ -570,11 +570,11 @@ namespace Fur.Application
 
 :::note 特别说明
 
-**`IConfigurableOptions<TOptions, TOptionsValidation>`** 继承自 **`IConfigurableOptions<TOptions>`**，也就是自定义复杂验证默认具有 **`PostConfigure(TOptions options)`** 选项后期配置方法。关于《[2.2.7 选项后期配置](#227-选项后期配置)》将在下一小节说明。
+**`IConfigurableOptions<TOptions, TOptionsValidation>`** 继承自 **`IConfigurableOptions<TOptions>`**，也就是自定义复杂验证默认具有 **`PostConfigure(TOptions options)`** 选项后期配置方法。关于《[3.3.7 选项后期配置](#227-选项后期配置)》将在下一小节说明。
 
 :::
 
-## 2.2.7 选项后期配置
+## 3.3.7 选项后期配置
 
 选项后期配置通俗一点来说，可以在运行时解析值或设定默认值/后期配置等。
 
@@ -612,7 +612,7 @@ namespace Fur.Application
 
 :::
 
-## 2.2.8 选项更改通知（`热更新`）
+## 3.3.8 选项更改通知（`热更新`）
 
 `Fur` 框架提供了非常简单且灵活的方式监听选项更改，也就是 **`appsettings.json` 或 自定义配置文件发生任何更改都会触发处理方法**。
 
@@ -648,7 +648,7 @@ namespace Fur.Application
 
 :::
 
-## 2.2.9 选项的优缺点
+## 3.3.9 选项的优缺点
 
 ### 优点
 
@@ -666,7 +666,7 @@ namespace Fur.Application
 - 需要定义对应类型
 - 需要在启动时注册
 
-## 2.2.10 反馈与建议
+## 3.3.10 反馈与建议
 
 :::note 与我们交流
 
