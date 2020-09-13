@@ -191,9 +191,13 @@ namespace Microsoft.Extensions.DependencyInjection
                 }
                 options.UseSqlServer(connectionString, options =>
                 {
+                    // 配置全局切割 Sql，而不是生成单个复杂 sql
+                    options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                    // 配置 code first 程序集
+                    options.MigrationsAssembly("Fur.Database.Migrations");
+
                     //options.EnableRetryOnFailure();
                     //options.MigrationsHistoryTable("__EFMigrationsHistory", "fur");
-                    options.MigrationsAssembly("Fur.Database.Migrations");
                 });
 
                 // 添加拦截器

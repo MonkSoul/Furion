@@ -37,6 +37,11 @@ namespace Fur.DatabaseAccessor
         public static string Change<TDbContextLocator>(this string sql)
             where TDbContextLocator : class, IDbContextLocator
         {
+            if (sql.Contains(dbContextLocatorSqlSplit))
+            {
+                sql = sql[(sql.IndexOf(dbContextLocatorSqlSplit) + dbContextLocatorSqlSplit.Length)..];
+            }
+
             return $"{typeof(TDbContextLocator).FullName}{dbContextLocatorSqlSplit}{sql}";
         }
 

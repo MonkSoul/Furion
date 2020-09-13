@@ -11,7 +11,6 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Concurrent;
@@ -105,11 +104,6 @@ namespace Fur.DatabaseAccessor
         /// 查看实体类型
         /// </summary>
         IEntityType EntityType { get; }
-
-        /// <summary>
-        /// 数据库操作对象
-        /// </summary>
-        DatabaseFacade Database { get; }
 
         /// <summary>
         /// 数据库连接对象
@@ -328,6 +322,18 @@ namespace Fur.DatabaseAccessor
         /// 创建数据库
         /// </summary>
         Task EnsureCreatedAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 动态改变表名
+        /// </summary>
+        /// <param name="tableName">表名</param>
+        void ChangeTable(string tableName);
+
+        /// <summary>
+        /// 动态改变连接字符串
+        /// </summary>
+        /// <param name="connectionString">连接字符串</param>
+        void ChangeConnectionString(string connectionString);
 
         /// <summary>
         /// 判断是否是 SqlServer 数据库

@@ -161,7 +161,6 @@ namespace Fur.DatabaseAccessor
 
             // 初始化数据库相关数据
             DbContext = dbContext;
-            Database = dbContext.Database;
             DbConnection = Database.GetDbConnection();
             ChangeTracker = dbContext.ChangeTracker;
             Model = dbContext.Model;
@@ -195,11 +194,6 @@ namespace Fur.DatabaseAccessor
         /// 查看实体类型
         /// </summary>
         public virtual IEntityType EntityType { get; }
-
-        /// <summary>
-        /// 数据库操作对象
-        /// </summary>
-        public virtual DatabaseFacade Database { get; }
 
         /// <summary>
         /// 数据库连接对象
@@ -507,6 +501,27 @@ namespace Fur.DatabaseAccessor
         public virtual Task EnsureCreatedAsync(CancellationToken cancellationToken = default)
         {
             return DbContext.Database.EnsureCreatedAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 动态改变表名
+        /// </summary>
+        /// <param name="tableName">表名</param>
+        public virtual void ChangeTable(string tableName)
+        {
+            if (EntityType is IConventionEntityType convention)
+            {
+                convention.SetTableName(tableName);
+            }
+        }
+
+        /// <summary>
+        /// 动态改变连接字符串
+        /// </summary>
+        /// <param name="connectionString">连接字符串</param>
+        public virtual void ChangeConnectionString(string connectionString)
+        {
+            DbConnection.ConnectionString = connectionString;
         }
 
         /// <summary>
