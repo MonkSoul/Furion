@@ -62,8 +62,8 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="connection">数据库连接对象</param>
         /// <param name="eventData">数据库连接事件数据</param>
-        /// <param name="result">取消异步Token</param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="result">拦截器结果</param>
+        /// <param name="cancellationToken">取消异步Token</param>
         /// <returns></returns>
         public override ValueTask<InterceptionResult> ConnectionOpeningAsync(DbConnection connection, ConnectionEventData eventData, InterceptionResult result, CancellationToken cancellationToken = default)
         {

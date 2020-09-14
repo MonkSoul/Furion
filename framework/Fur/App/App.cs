@@ -106,7 +106,7 @@ namespace Fur
         /// <param name="jsonKey">配置中对应的Key</param>
         /// <returns>TOptions</returns>
         public static TOptions GetOptions<TOptions>(string jsonKey)
-            where TOptions : class
+            where TOptions : class, new()
         {
             return Configuration.GetSection(jsonKey).Get<TOptions>();
         }
@@ -117,7 +117,7 @@ namespace Fur
         /// <typeparam name="TOptions">强类型选项类</typeparam>
         /// <returns>TOptions</returns>
         public static TOptions GetOptions<TOptions>()
-            where TOptions : class
+            where TOptions : class, new()
         {
             return TransientServiceProvider.GetService<IOptions<TOptions>>().Value;
         }
@@ -128,7 +128,7 @@ namespace Fur
         /// <typeparam name="TOptions">强类型选项类</typeparam>
         /// <returns>TOptions</returns>
         public static TOptions GetOptionsMonitor<TOptions>()
-            where TOptions : class
+            where TOptions : class, new()
         {
             return TransientServiceProvider.GetService<IOptionsMonitor<TOptions>>().CurrentValue;
         }
@@ -139,7 +139,7 @@ namespace Fur
         /// <typeparam name="TOptions">强类型选项类</typeparam>
         /// <returns>TOptions</returns>
         public static TOptions GetOptionsSnapshot<TOptions>()
-            where TOptions : class
+            where TOptions : class, new()
         {
             return TransientServiceProvider.GetService<IOptionsSnapshot<TOptions>>().Value;
         }

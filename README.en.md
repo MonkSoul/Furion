@@ -24,9 +24,7 @@
 所以运行 `Fur` 需要以下两个条件：
 
 - **安装最新的 .NET 5 Preview 8**：https://dotnet.microsoft.com/download/dotnet/5.0
-- **升级 Visual Studio 到最新版** 或使用 **Visual Studio Code** 打开 `framework` 目录
-
-**如果你的 Visual Studio 2019 无法编译，则需要配置启用预览功能：[https://docs.microsoft.com/zh-cn/visualstudio/ide/reference/environment-preview-features-options?f1url=%3FappId%3DDev16IDEF1%26l%3DZH-CN%26k%3Dk(VS.ToolsOptionsPages.Environment.PreviewFeatures)%26rd%3Dtrue&view=vs-2019](<https://docs.microsoft.com/zh-cn/visualstudio/ide/reference/environment-preview-features-options?f1url=%3FappId%3DDev16IDEF1%26l%3DZH-CN%26k%3Dk(VS.ToolsOptionsPages.Environment.PreviewFeatures)%26rd%3Dtrue&view=vs-2019>)**
+- **安装最新的 Visual Studio 2019 Preview**：https://visualstudio.microsoft.com/zh-hans/vs/preview/ 或使用 **Visual Studio Code** 打开 `framework` 目录
 
 <img src="./handbook/static/img/demo.gif" />
 
