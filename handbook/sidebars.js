@@ -37,6 +37,10 @@ module.exports = {
     },
     {
       type: "doc",
+      id: "saas",
+    },
+    {
+      type: "doc",
       id: "dependency-injection",
     },
     {
@@ -69,7 +73,23 @@ module.exports = {
     },
     {
       type: "doc",
+      id: "logging",
+    },
+    {
+      type: "doc",
+      id: "aop",
+    },
+    {
+      type: "doc",
       id: "process-service",
+    },
+    {
+      type: "doc",
+      id: "job",
+    },
+    {
+      type: "doc",
+      id: "signalr",
     },
     {
       type: "doc",
@@ -77,7 +97,12 @@ module.exports = {
     },
     {
       type: "doc",
-      id: "signalr",
+      id: "devops",
+    },
+    {
+      type: "category",
+      label: "25. 测试指南",
+      items: ["unittest", "performance"],
     },
     {
       type: "doc",
