@@ -88,7 +88,7 @@ function Home() {
                 "button button--outline button--secondary button--lg",
                 styles.getStarted
               )}
-              to={useBaseUrl("docs/")}
+              to={useBaseUrl("docs/get-start")}
             >
               一分钟入门
             </Link>

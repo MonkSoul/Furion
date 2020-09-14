@@ -1,3 +1,4 @@
+using Fur.EntityFramework.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,12 @@ namespace Fur.Web.Entry
                            .AddDynamicApiControllers()
                            .AddFriendlyException()
                            .AddDataValidation();
+
+                // 配置数据库上下文，支持N个数据库
+                options.AddDatabaseAccessor(options =>
+                {
+                    options.AddSqlServerPool<FurDbContext>(Configuration.GetConnectionString("DbConnectionString"));
+                });
             });
         }
 
