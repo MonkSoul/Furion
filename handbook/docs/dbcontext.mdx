@@ -3,3 +3,103 @@ id: dbcontext
 title: 8.1 数据库上下文
 sidebar_label: 8.1 数据库上下文
 ---
+
+## 8.1.1 数据库上下文
+
+简单来说，数据库上下文是负责和数据库交互的对象，提供程序对数据库存取提供了大量的方法。
+
+在 `Fur` 框架中，默认集成了微软亲儿子：`EntityFramework Core` ，也就是通常数据库上下文指的是 `DbContext` 类或它的实现类。
+
+## 8.1.2 `AppDbContext`
+
+在我们实际项目开发过程中，使用 `EFCore` 提供的 `DbContext` 操作对象操作数据库有些繁琐和复杂，且默认不具备读写分离、多库等操作功能。
+
+所以，`Fur` 框架提供了 `AppDbContext<TDbContext, TDbContextLocator>` 数据库上下文，该上下文继承自 `DbContext`。
+
+:::note 特别说明
+后续章节，皆采用 `EFCore` 代替 `EntityFramework Core`。
+:::
+
+## 8.1.3 `AppDbContext` 和 `DbContext` 区别
+
+- `AppDbContext` 继承自 `DbContext`，具备 `DbContext` 所有功能。
+- `AppDbContext` 支持多数据库操作泛型版本，如：`AppDbContext<TDbContext, TDbContextLocator>`
+- `AppDbContext` 自动配置实体信息，无需在 `OnModelCreating` 中配置
+- `AppDbContext` 支持内置多租户支持
+- `AppDbContext` 支持全局模型配置拦截器
+- `AppDbContext` 支持数据提交更改多个事件
+- `AppDbContext` 提供更加强大的模型操作能力，如果 `Sql` 操作，读写分离等
+- `AppDbContext` 能够得到 `Fur` 框架更多的功能支持
+
+## 8.1.4 如何定义数据库上下文
+
+在 `Fur` 框架中了，提供了两种 `AppDbContext` 定义方式：
+
+- `AppDbContext<TDbContext>` 操作默认数据库
+- `AppDbContext<TDbContext, TDbContextLocator>` 操作 N 个数据库
+
+其中 `AppDbContext<TDbContext>` 默认继承自 `AppDbContext<TDbContext, TDbContextLocator>`。
+
+下面是数据库上下文创建的多个例子：
+
+### 8.1.4.1 创建默认数据库上下文
+
+```cs {1,6,12}
+using Fur.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+
+namespace Fur.EntityFramework.Core
+{
+    public class FurDbContext : AppDbContext<FurDbContext>  // 继承 AppDbContext<> 类
+    {
+        /// <summary>
+        /// 继承父类构造函数
+        /// </summary>
+        /// <param name="options"></param>
+        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
+        {
+        }
+    }
+}
+```
+
+### 8.1.4.2 创建其他数据库上下文
+
+```cs {1,6,12}
+using Fur.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+
+namespace Fur.EntityFramework.Core
+{
+    public class FurOtherDbContext : AppDbContext<FurOtherDbContext, FurOtherDbContextLocator>  // 继承 AppDbContext<> 类
+    {
+        /// <summary>
+        /// 继承父类构造函数
+        /// </summary>
+        /// <param name="options"></param>
+        public FurOtherDbContext(DbContextOptions<FurOtherDbContext> options) : base(options)
+        {
+        }
+    }
+}
+```
+
+:::important 特别注意
+所有数据库上下文都应该在 `Fur.EntityFramework.Core` 项目中创建。关于 `TDbContextLocator` 将在下一章节 《[8.2 数据库上下文定位器](dbcontext-locator)》阐述。
+:::
+
+## 8.1.5 反馈与建议
+
+:::note 与我们交流
+
+给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+
+:::
+
+---
+
+:::note 了解更多
+
+想了解更多 `数据库上下文` 知识可查阅 [EF Core - 配置 DbContext](https://docs.microsoft.com/zh-cn/ef/core/miscellaneous/configuring-dbcontext) 章节。
+
+:::

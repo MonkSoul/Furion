@@ -33,7 +33,7 @@ module.exports = {
     {
       type: "category",
       label: "8. 数据库操作指南",
-      items: ["dbcontext"],
+      items: ["dbcontext", "dbcontext-locator", "entity"],
     },
     {
       type: "doc",

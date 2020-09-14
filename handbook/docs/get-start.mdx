@@ -8,7 +8,9 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 2.1 Hello Fur
 
-设置 `Fur.Web.Entry` 为启动项，并在 `Fur.Application` 中创建以下内容:
+### 2.1.1 创建 `FurService` 类
+
+设置 `Fur.Web.Entry` 为启动项，并在 `Fur.Application` 中创建 `FurService` 类，并输入以下内容:
 
 ```cs {1,5,6,12}
 using Fur.DynamicApiController;
@@ -29,6 +31,8 @@ namespace Fur.Application
     }
 }
 ```
+
+### 2.1.2 在浏览器中查看效果
 
 在 `Fur.Web.Entry` 项目中选择 `wwwroot` 右键选择在 `浏览器中查看`
 
@@ -202,7 +206,7 @@ Update-Database
 
 <img src={useBaseUrl("img/getstart7.png")} style={{ height: 400 }} />
 
-## 2.3 增删查改分页
+## 2.3 增删查改分页例子
 
 ```cs {14-19}
 using Fur.Core;
@@ -324,4 +328,4 @@ namespace Fur.Application
 }
 ```
 
-好了，就这样了，真的一分钟入门！！！🎃
+说好一分钟入门，你们用了多长时间。😁

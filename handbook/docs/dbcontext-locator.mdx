@@ -1,0 +1,97 @@
+---
+id: dbcontext-locator
+title: 8.2 数据库上下文定位器
+sidebar_label: 8.2 数据库上下文定位器
+---
+
+## 8.2.1 数据库上下文定位器
+
+在了解数据库上下文定位器之前，我们先了解什么是 `定位器`，`定位器` 就是给物体安装特殊配置，使其能够被实时追踪和定位。
+
+那为什么需要 `定位器`？
+
+由于 `EF Core` 本身支持多个数据库上下文操作，但是通过 `依赖注入` 的方式默认只初始化一个数据库上下文，也就是如果我们想要操作多个数据库上下文，那么 `构造函数` 注入方式就会变得复杂。
+
+所以，`Fur` 实现了一套 `定位器` 功能，通过这个 `定位器` ，我们就能够通过 `依赖注入` 等多个方式定位到数据库上下文并初始化。
+
+## 8.2.2 数据库上下文定位器作用
+
+- 能够实现构造函数初始化多个数据库上下文
+- 能够避免业务层直接引用 `DbContext`
+- 能够实现动态切换数据库、读写分离、主从库等复杂操作
+
+## 8.2.3 如何定义数据库上下文定位器
+
+定义数据库上下文定位器只需遵循三个原则即可：
+
+- 必须是公开 `class` 类型同时具备无参构造函数
+- 该类型必须继承 `IDbContextLocator` 接口
+- 数据库上下文定位器和数据库上下文必须是一对一关系，也就是不能同时被多个数据库上下文使用
+
+数据库上下文定位器定义代码如下：
+
+```cs {1,5}
+using Fur.DatabaseAccessor;
+
+namespace Fur.Core
+{
+    public sealed class FurDbContextLocator : IDbContextLocator
+    {
+    }
+}
+```
+
+## 8.2.4 默认数据库上下文定位器
+
+在 `Fur` 框架中已经提供了 `DbContextLocator` 默认数据库上下文定位器，所以默认数据库上下文只需继承 `AppDbContext<TDbContext>` 即可。
+
+`AppDbContext<TDbContext>` 定义代码如下：
+
+```cs {11}
+using Fur.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+
+namespace Fur.DatabaseAccessor
+{
+    /// <summary>
+    /// 默认应用数据库上下文
+    /// </summary>
+    /// <typeparam name="TDbContext">数据库上下文</typeparam>
+    [NonBeScan]
+    public abstract class AppDbContext<TDbContext> : AppDbContext<TDbContext, DbContextLocator>
+        where TDbContext : DbContext
+    {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="options"></param>
+        public AppDbContext(DbContextOptions<TDbContext> options) : base(options)
+        {
+        }
+    }
+}
+```
+
+## 8.2.5 数据库上下文定位器支持对象
+
+目前数据库上下文支持以下多个对象：
+
+- `AppDbContext<TEntity, TDbContextLocator>`：数据上下文
+- `IRepository<TEntity, TDbContextLocator`：实体仓储
+- `ISqlRepository<TDbContextLocator>`: Sql 操作仓储
+- `Func<Type, DbContext>`：依赖注入获取数据库上下文
+- `Entity<Tkey, TDbContextLocator>` ：实体配置
+- `EntityBase<Tkey, TDbContextLocator1, ... TDbContextLocator8>`：实体配置
+- `EntityNotKey<TDbContextLocator1, ... TDbContextLocator8>`：无键实体配置
+- `IEntitySeedData<TEntity, TDbContextLocator1, ... TDbContextLocator8>`：种子数据配置
+- `IEntityTypeBuilder<TEntity, TDbContextLocator1, ... TDbContextLocator8>`：实体类型构建器
+- `IModelBuilderFilter<TDbContextLocator1, ... TDbContextLocator8>`：模型构建筛选器
+- `[QueryableFunction(DbContextLocators=Type[])]`：查询函数
+
+## 8.2.6 反馈与建议
+
+:::note 与我们交流
+
+给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+
+:::
