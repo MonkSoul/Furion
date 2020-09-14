@@ -265,7 +265,7 @@ namespace Fur.Application
         /// <param name="id"></param>
         public async Task<PersonDto> Find(int id)
         {
-            var person = await _personRepository.FindAsync(1);
+            var person = await _personRepository.FindAsync(id);
             return person.Adapt<PersonDto>();
         }
 
