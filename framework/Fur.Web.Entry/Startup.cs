@@ -29,7 +29,7 @@ namespace Fur.Web.Entry
                 // 配置数据库上下文，支持N个数据库
                 options.AddDatabaseAccessor(options =>
                 {
-                    options.AddSqlServerPool<FurDbContext>(Configuration.GetConnectionString("DbConnectionString"));
+                    options.AddSqlServerPool<FurDbContext>();
                 });
             });
         }

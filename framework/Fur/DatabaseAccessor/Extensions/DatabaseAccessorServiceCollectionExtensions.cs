@@ -15,11 +15,13 @@ using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -93,7 +95,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="connectionString">连接字符串</param>
         /// <param name="poolSize">池大小</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddSqlServerPool<TDbContext>(this IServiceCollection services, string connectionString, int poolSize = 100)
+        public static IServiceCollection AddSqlServerPool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
@@ -113,7 +115,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="poolSize">池大小</param>
         /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddSqlServerPool<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString, int poolSize = 100, params IInterceptor[] interceptors)
+        public static IServiceCollection AddSqlServerPool<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString = default, int poolSize = 100, params IInterceptor[] interceptors)
             where TDbContext : DbContext
             where TDbContextLocator : class, IDbContextLocator
         {
@@ -125,7 +127,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddScoped<TDbContext>();
 
             // 配置数据库上下文
-            services.AddDbContextPool<TDbContext>(ConfigureSqlServerDbContext(connectionString, interceptors), poolSize: poolSize);
+            var connStr = GetDbContextConnectionString<TDbContext>(connectionString);
+            services.AddDbContextPool<TDbContext>(ConfigureSqlServerDbContext(connStr, interceptors), poolSize: poolSize);
 
             return services;
         }
@@ -137,7 +140,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务</param>
         /// <param name="connectionString">连接字符串</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddSqlServer<TDbContext>(this IServiceCollection services, string connectionString)
+        public static IServiceCollection AddSqlServer<TDbContext>(this IServiceCollection services, string connectionString = default)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
@@ -156,7 +159,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="connectionString">连接字符串</param>
         /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddSqlServer<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString, params IInterceptor[] interceptors)
+        public static IServiceCollection AddSqlServer<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString = default, params IInterceptor[] interceptors)
             where TDbContext : DbContext
             where TDbContextLocator : class, IDbContextLocator
         {
@@ -168,7 +171,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddScoped<TDbContext>();
 
             // 配置数据库上下文
-            services.AddDbContext<TDbContext>(ConfigureSqlServerDbContext(connectionString, interceptors));
+            var connStr = GetDbContextConnectionString<TDbContext>(connectionString);
+            services.AddDbContext<TDbContext>(ConfigureSqlServerDbContext(connStr, interceptors));
 
             return services;
         }
@@ -189,16 +193,21 @@ namespace Microsoft.Extensions.DependencyInjection
                                 .EnableDetailedErrors()
                                 .EnableSensitiveDataLogging();
                 }
-                options.UseSqlServer(connectionString, options =>
-                {
-                    // 配置全局切割 Sql，而不是生成单个复杂 sql
-                    options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
-                    // 配置 code first 程序集
-                    options.MigrationsAssembly("Fur.Database.Migrations");
 
-                    //options.EnableRetryOnFailure();
-                    //options.MigrationsHistoryTable("__EFMigrationsHistory", "fur");
-                });
+                // 如果连接字符串不为空
+                if (!string.IsNullOrEmpty(connectionString))
+                {
+                    options.UseSqlServer(connectionString, options =>
+                    {
+                        // 配置全局切割 Sql，而不是生成单个复杂 sql
+                        options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                        // 配置 code first 程序集
+                        options.MigrationsAssembly("Fur.Database.Migrations");
+
+                        //options.EnableRetryOnFailure();
+                        //options.MigrationsHistoryTable("__EFMigrationsHistory", "fur");
+                    });
+                }
 
                 // 添加拦截器
                 AddInterceptors(interceptors, options);
@@ -226,6 +235,30 @@ namespace Microsoft.Extensions.DependencyInjection
                 interceptorList.AddRange(interceptors);
             }
             options.AddInterceptors(interceptorList.ToArray());
+        }
+
+        /// <summary>
+        /// 获取数据库上下文连接字符串
+        /// </summary>
+        /// <typeparam name="TDbContext"></typeparam>
+        /// <param name="connectionString"></param>
+        /// <returns></returns>
+        private static string GetDbContextConnectionString<TDbContext>(string connectionString = default)
+            where TDbContext : DbContext
+        {
+            if (!string.IsNullOrEmpty(connectionString)) return connectionString;
+
+            // 如果没有配置数据库连接字符串，那么查找特性
+            var dbContextType = typeof(TDbContext);
+            if (!dbContextType.IsDefined(typeof(DbContextAttribute), true)) return default;
+
+            // 获取配置特性
+            var dbContextAttribute = dbContextType.GetCustomAttribute<DbContextAttribute>(true);
+            var connStr = dbContextAttribute.ConnectionString;
+
+            if (string.IsNullOrEmpty(connStr)) return default;
+            if (connStr.Contains(";")) return connStr;
+            else return App.Configuration.GetConnectionString(connStr);
         }
 
         /// <summary>

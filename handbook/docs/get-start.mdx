@@ -89,12 +89,13 @@ namespace Fur.Core
 
 在 `Fur.EntityFramework.Core` 中添加 `FurDbContext` 数据库上下文，代码如下：
 
-```cs {1-2,6,12}
+```cs {1-2,6-7,13}
 using Fur.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fur.EntityFramework.Core
 {
+    [DbContext("DbConnectionString")]   // 配置连接字符串
     public class FurDbContext : AppDbContext<FurDbContext>  // 继承 AppDbContext<> 类
     {
         /// <summary>
@@ -165,7 +166,7 @@ namespace Fur.Web.Entry
                 // 配置数据库上下文，支持N个数据库
                 options.AddDatabaseAccessor(options =>
                 {
-                    options.AddSqlServerPool<FurDbContext>(Configuration.GetConnectionString("DbConnectionString"));
+                    options.AddSqlServerPool<FurDbContext>();
                 });
             });
         }
