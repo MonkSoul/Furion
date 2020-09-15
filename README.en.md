@@ -23,7 +23,7 @@
 
 所以运行 `Fur` 需要以下三个条件：
 
-- **安装最新的 .NET 5 Preview 8**：https://dotnet.microsoft.com/download/dotnet/5.0
+- **安装最新的 v5.0.0-rc.1**：https://dotnet.microsoft.com/download/dotnet/5.0
 - **安装最新的 Visual Studio 2019 Preview**：https://visualstudio.microsoft.com/zh-hans/vs/preview/ 或使用 **Visual Studio Code** 打开 `framework` 目录
 - **添加 Nuget 包源**：名称：dotnet5，地址： https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json
 
