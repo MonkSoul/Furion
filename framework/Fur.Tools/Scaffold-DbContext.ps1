@@ -10,6 +10,10 @@ $DefaultProject=Project;
 $ProjectName=$DefaultProject.ProjectName;
 
 # 判断是否等于 Fur.Database.Migrations
-if($ProjectName -ne "Fur.Database.Migrations"){
-    Write-Warning "请将默认项目设置为：Fur.Database.Migrations";
+if($ProjectName -ne "Fur.Core"){
+    Write-Warning "请将默认项目设置为：Fur.Core";
 }
+
+# 执行 Scaffold-DbContext 命令
+
+Scaffold-DbContext Name=DbConnectionString Microsoft.EntityFrameworkCore.SqlServer -Namespace "Fur.Core" -OutputDir "Models" -NoOnConfiguring -DataAnnotations

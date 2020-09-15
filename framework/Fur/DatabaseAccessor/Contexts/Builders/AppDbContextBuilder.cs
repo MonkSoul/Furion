@@ -97,7 +97,7 @@ namespace Fur.DatabaseAccessor
                 ConfigureEntityNoKeyType(entityType, entityBuilder, dbContextCorrelationType.EntityNoKeyTypes);
 
                 // 实体构建成功注入拦截
-                LoadModelBuilderOnCreating(entityBuilder, dbContext, dbContextLocator, dbContextCorrelationType.ModelBuilderFilterInstances);
+                LoadModelBuilderOnCreating(modelBuilder, entityBuilder, dbContext, dbContextLocator, dbContextCorrelationType.ModelBuilderFilterInstances);
 
                 // 配置数据库实体类型构建器
                 ConfigureEntityTypeBuilder(entityType, entityBuilder, dbContext, dbContextLocator, dbContextCorrelationType);
@@ -106,7 +106,7 @@ namespace Fur.DatabaseAccessor
                 ConfigureEntitySeedData(entityType, entityBuilder, dbContext, dbContextLocator, dbContextCorrelationType);
 
                 // 实体完成配置注入拦截
-                LoadModelBuilderOnCreated(entityBuilder, dbContext, dbContextLocator, dbContextCorrelationType.ModelBuilderFilterInstances);
+                LoadModelBuilderOnCreated(modelBuilder, entityBuilder, dbContext, dbContextLocator, dbContextCorrelationType.ModelBuilderFilterInstances);
             }
 
         // 配置数据库函数
@@ -155,11 +155,12 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 加载模型构建筛选器创建之前拦截
         /// </summary>
+        /// <param name="modelBuilder">模型构建器</param>
         /// <param name="entityBuilder">实体类型构建器</param>
         /// <param name="dbContext">数据库上下文</param>
         /// <param name="dbContextLocator">数据库上下文定位器</param>
         /// <param name="modelBuilderFilterInstances">模型构建器筛选器实例</param>
-        private static void LoadModelBuilderOnCreating(EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator, List<IModelBuilderFilterDependency> modelBuilderFilterInstances)
+        private static void LoadModelBuilderOnCreating(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator, List<IModelBuilderFilterDependency> modelBuilderFilterInstances)
         {
             if (modelBuilderFilterInstances.Count == 0) return;
 
@@ -167,18 +168,19 @@ namespace Fur.DatabaseAccessor
             foreach (var filterInstance in modelBuilderFilterInstances)
             {
                 // 执行构建之后
-                filterInstance.OnCreating(entityBuilder, dbContext, dbContextLocator);
+                filterInstance.OnCreating(modelBuilder, entityBuilder, dbContext, dbContextLocator);
             }
         }
 
         /// <summary>
         /// 加载模型构建筛选器创建之后拦截
         /// </summary>
+        /// <param name="modelBuilder">模型构建器</param>
         /// <param name="entityBuilder">实体类型构建器</param>
         /// <param name="dbContext">数据库上下文</param>
         /// <param name="dbContextLocator">数据库上下文定位器</param>
         /// <param name="modelBuilderFilterInstances">模型构建器筛选器实例</param>
-        private static void LoadModelBuilderOnCreated(EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator, List<IModelBuilderFilterDependency> modelBuilderFilterInstances)
+        private static void LoadModelBuilderOnCreated(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator, List<IModelBuilderFilterDependency> modelBuilderFilterInstances)
         {
             if (modelBuilderFilterInstances.Count == 0) return;
 
@@ -186,7 +188,7 @@ namespace Fur.DatabaseAccessor
             foreach (var filterInstance in modelBuilderFilterInstances)
             {
                 // 执行构建之后
-                filterInstance.OnCreated(entityBuilder, dbContext, dbContextLocator);
+                filterInstance.OnCreated(modelBuilder, entityBuilder, dbContext, dbContextLocator);
             }
         }
 
