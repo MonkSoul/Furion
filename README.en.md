@@ -21,10 +21,11 @@
 
 `Fur` **是基于最新的 .NET 5 每日构建版构建的，目的是为了尽早体验新功能，对即将到来的 .NET 5 正式版做出最快的响应。** ✈
 
-所以运行 `Fur` 需要以下两个条件：
+所以运行 `Fur` 需要以下三个条件：
 
 - **安装最新的 .NET 5 Preview 8**：https://dotnet.microsoft.com/download/dotnet/5.0
 - **安装最新的 Visual Studio 2019 Preview**：https://visualstudio.microsoft.com/zh-hans/vs/preview/ 或使用 **Visual Studio Code** 打开 `framework` 目录
+- **添加 Nuget 包源**：名称：dotnet5，地址： https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json
 
 <img src="./handbook/static/img/demo.gif" />
 
