@@ -11,7 +11,6 @@
 
 using Fur.DependencyInjection;
 using Fur.DynamicApiController;
-using Fur.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using System;

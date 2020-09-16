@@ -13,6 +13,7 @@ namespace Fur.Application
     {
         // 初始化仓储
         private readonly IRepository<Person> _personRepository;
+
         public FurService(IRepository<Person> personRepository)
         {
             _personRepository = personRepository;

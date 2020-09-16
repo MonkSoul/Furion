@@ -17,7 +17,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Fur.Extensions
+namespace Fur
 {
     /// <summary>
     /// 对象拓展类

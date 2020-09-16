@@ -10,7 +10,6 @@
 // -----------------------------------------------------------------------------
 
 using Fur.DependencyInjection;
-using Fur.Extensions;
 using Fur.FriendlyException;
 using Mapster;
 using Microsoft.Data.SqlClient;

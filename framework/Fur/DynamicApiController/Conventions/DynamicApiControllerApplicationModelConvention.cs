@@ -10,7 +10,6 @@
 // -----------------------------------------------------------------------------
 
 using Fur.DependencyInjection;
-using Fur.Extensions;
 using Fur.FriendlyException;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -339,7 +338,7 @@ namespace Fur.DynamicApiController
 
                 var template = $"{{{parameterModel.ParameterName}}}";
                 // 如果没有贴路由位置特性，则默认添加到动作方法后面
-                if (!(parameterAttributes.FirstOrDefault(u => u is ApiSeatAttribute) is ApiSeatAttribute apiSeat))
+                if (parameterAttributes.FirstOrDefault(u => u is ApiSeatAttribute) is not ApiSeatAttribute apiSeat)
                 {
                     parameterRouteTemplate.ActionEndTemplates.Add(template);
                     continue;
