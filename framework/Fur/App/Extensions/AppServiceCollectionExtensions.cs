@@ -29,10 +29,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>服务集合</returns>
         public static IServiceCollection AddApp(this IServiceCollection services, Action<IServiceCollection> configure = null)
         {
+            App.Services = services;
+
             // 注册全局依赖注入
             services.AddDependencyInjection();
 
-            App.Services = services;
+            // 注册全局配置选项
             services.AddConfigurableOptions<AppSettingsOptions>();
 
             // 注册 IHttpContextAccessor
