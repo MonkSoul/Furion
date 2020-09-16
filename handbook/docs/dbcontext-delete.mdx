@@ -134,13 +134,13 @@ await user.DeleteExistsNowAsync(1);
 
 所有带 `Now` 结尾的表示立即提交到数据库，也就是立即调用 `SaveChanges` 或 `SaveChangesAsync`。
 
+:::
+
 ## 8.7.8 假删除/软删除
 
 只需调用 `repository.UpdateInclude(user, u=>u.IsDeleted);` 即可。
 
-:::
-
-## 8.7.8 反馈与建议
+## 8.7.9 反馈与建议
 
 :::note 与我们交流
 
