@@ -88,7 +88,120 @@ namespace Fur.EntityFramework.Core
 所有数据库上下文都应该在 `Fur.EntityFramework.Core` 项目中创建。关于 `TDbContextLocator` 将在下一章节 《[8.2 数据库上下文定位器](dbcontext-locator)》阐述。
 :::
 
-## 8.1.5 反馈与建议
+## 8.1.5 配置连接字符串
+
+`Fur` 框架提供多种数据库连接字符串配置方式：
+
+- 在 `Startup` 中添加服务：`AddSqlServerPool<TDbContext>("连接字符串")` 方式
+- 使用 `[DbContext("连接字符串/Key")]` 特性方式（只在 `AppDbContext 实现类有效`）**推荐**
+- 通过重写 `OnConfiguring(DbContextOptionsBuilder optionsBuilder)` 配置
+
+### 8.1.5.1 `Startup` 方式配置
+
+```cs {5,23-26}
+using Fur.EntityFramework.Core;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+namespace Fur.Web.Entry
+{
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddApp(options =>
+            {
+                // 配置数据库上下文，支持N个数据库
+                options.AddDatabaseAccessor(options =>
+                {
+                    options.AddSqlServerPool<FurDbContext>("数据库连接字符串");
+                });
+            });
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            // 其他代码
+        }
+    }
+}
+```
+
+### 8.1.5.2 `[DbContext]` 方式配置
+
+```cs {1,6}
+using Fur.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+
+namespace Fur.EntityFramework.Core
+{
+    [DbContext("DbConnectionString")]   // 支持 `appsetting.json` 名或 连接字符串
+    public class FurDbContext : AppDbContext<FurDbContext>
+    {
+        /// <summary>
+        /// 继承父类构造函数
+        /// </summary>
+        /// <param name="options"></param>
+        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
+        {
+        }
+    }
+}
+```
+
+:::tip 小提示
+
+`Fur` 推荐使用此方式配置数据库连接字符串。
+
+:::
+
+### 8.1.5.3 `OnConfiguring` 方式配置
+
+```cs {16-20}
+using Fur.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+
+namespace Fur.EntityFramework.Core
+{
+    public class FurDbContext : AppDbContext<FurDbContext>
+    {
+        /// <summary>
+        /// 继承父类构造函数
+        /// </summary>
+        /// <param name="options"></param>
+        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
+        {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+
+            optionsBuilder.UseSqlServer("数据库连接字符串");
+        }
+    }
+}
+```
+
+## 8.1.6 数据库上下文定义位置
+
+:::important 特别注意
+
+在 `Fur` 框架中，数据库上下文需定义在 `Fur.EntityFramework.Core` 中，且每一个数据库上下文都必须拥有唯一的 `DbContextLocator` 定位器
+
+:::
+
+## 8.1.7 反馈与建议
 
 :::note 与我们交流
 

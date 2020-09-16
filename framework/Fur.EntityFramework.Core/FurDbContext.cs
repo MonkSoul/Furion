@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Fur.EntityFramework.Core
 {
     [DbContext("DbConnectionString")]
-    public class FurDbContext : AppDbContext<FurDbContext>  // 继承 AppDbContext<> 类
+    public class FurDbContext : AppDbContext<FurDbContext>
     {
         /// <summary>
         /// 继承父类构造函数
