@@ -114,11 +114,11 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
-          editUrl: "https://gitee.com/monksoul/Fur/tree/alpha/docs/",
+          editUrl: "https://gitee.com/monksoul/Fur/tree/rc1/handbook/",
         },
         blog: {
           showReadingTime: true,
-          editUrl: "https://gitee.com/monksoul/Fur/tree/alpha/docs/",
+          editUrl: "https://gitee.com/monksoul/Fur/tree/rc1/handbook/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
