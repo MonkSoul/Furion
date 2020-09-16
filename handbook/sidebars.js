@@ -57,6 +57,7 @@ module.exports = {
         "dbcontext-seed-data",
         "dbcontext-filter",
         "dbcontext-Interceptor",
+        "dbcontext-audit",
       ],
     },
     {
