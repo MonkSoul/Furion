@@ -1,7 +1,8 @@
 ﻿# 定义参数
 Param(
     [string[]] $Tables,
-    [string]$Context
+    [string]$Context,
+    [string]$Name
 )
 
 # 输出信息
@@ -28,14 +29,19 @@ $copyright = @"
 
 $copyright;
 
-Write-Warning "Fur Tools Cli v1.0.0 启动中......";
+Write-Warning "Fur Tools Cli v1.0.0 For SqlServer 启动中......";
 sleep 2;
-Write-Warning "Fur Tools Cli v1.0.0 启动成功！开始执行代码生成......";
+Write-Warning "Fur Tools Cli v1.0.0 For SqlServer 启动成功！开始执行代码生成......";
 sleep 2;
 
 if($Context -eq $null -or $Context -eq ""){
     $Context = "FurDbContext";
 }
+
+if($Name -eq $null -or $Name -eq ""){
+    $Name = "DbConnectionString";
+}
+
 
 # 获取当前目录
 $pwd = pwd;
@@ -57,10 +63,10 @@ $SaveFolder = "Entities";
 
 # 执行 Scaffold-DbContext 命令
 if($Tables.Count -eq 0){
-    Scaffold-DbContext Name=DbConnectionString Microsoft.EntityFrameworkCore.SqlServer -Context $Context -Namespace "Fur.Core" -OutputDir $SaveFolder -NoOnConfiguring -DataAnnotations -NoPluralize -Force;
+    Scaffold-DbContext Name=$Name Microsoft.EntityFrameworkCore.SqlServer -Context $Context -Namespace "Fur.Core" -OutputDir $SaveFolder -NoOnConfiguring -DataAnnotations -NoPluralize -Force;
 }
 else{
-    Scaffold-DbContext Name=DbConnectionString Microsoft.EntityFrameworkCore.SqlServer -Context $Context -Tables $Tables -Namespace "Fur.Core" -OutputDir $SaveFolder -NoOnConfiguring -DataAnnotations -NoPluralize -Force;
+    Scaffold-DbContext Name=$Name Microsoft.EntityFrameworkCore.SqlServer -Context $Context -Tables $Tables -Namespace "Fur.Core" -OutputDir $SaveFolder -NoOnConfiguring -DataAnnotations -NoPluralize -Force;
 }
 
 # 定义模型完整目录
