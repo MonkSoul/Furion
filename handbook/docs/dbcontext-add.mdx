@@ -11,85 +11,102 @@ sidebar_label: 8.4 新增操作
 ```cs
 var user = new User { Name = "百小僧", Age = 27 };
 
-// 例子一
+// ==== 同步操作 ====
+
+// 示例一
 repository.Insert(user);
 
-// 例子二
-await repository.InsertAsync(user);
-
-// 例子三
+// 示例二
 user.Insert();
 
-// 例子四
-await user.InsertAsync();
-
-// 例子五
+// 示例三
 repository.Entities.Add(user);
 
-// 例子六
+// 示例四
+repository.ChangeEntityState(user, EntityState.Added);
+
+// ==== 异步操作 ====
+
+// 示例一
+await repository.InsertAsync(user);
+
+// 示例二
+await user.InsertAsync();
+
+// 示例三
 await repository.Entities.AddAsync(user);
 
-// 例子七
-repository.ChangeEntityState(user, EntityState.Added);
 ```
 
 ## 8.4.2 新增一条，返回最新数据
 
 ```cs
-// 例子一
+// ==== 同步操作 ====
+
+// 示例一
 var newEntity = repository.InsertNow(user);
 
-// 例子二
-var newEntity = await repository.InsertNowAsync(user); // 有三个重载
-
-// 例子三
+// 示例三
 var newEntity = user.InsertNow();
 
-// 例子四
+// ==== 异步操作 ====
+
+// 示例二
+var newEntity = await repository.InsertNowAsync(user); // 有三个重载
+
+// 示例四
 var newEntity = await user.InsertNowAsync();  // 有三个重载
 ```
 
-## 8.4.3 新增多条（不立即操作数据库）
+## 8.4.3 新增多条（不立即提交）
 
 ```cs
-// 例子一
+// ==== 同步操作 ====
+
+// 示例一
 repository.Insert(user, user2);
 
-// 例子二
+// 示例二
 repository.Insert(new List<User> { user, user2 });
 
-// 例子三
+// 示例三
 repository.Insert(new[] {user, user2 });
 
-// 例子四
+// ==== 异步操作 ====
+
+// 示例一
 await repository.InsertAsync(user, user2);
 
-// 例子五
+// 示例二
 await repository.InsertAsync(new List<User> { user, user2 });
 
-// 例子六
+// 示例三
 await repository.InsertAsync(new[] {user, user2 });
 ```
 
-## 8.4.4 新增多条（立即操作数据库）
+## 8.4.4 新增多条（立即提交）
 
 ```cs
-// 例子一
+// ==== 同步操作 ====
+
+// 示例一
 repository.InsertNow(user, user2);
 
-// 例子二
+// 示例二
 repository.InsertNow(new List<User> { user, user2 });
 
-// 例子三
+// 示例三
 repository.InsertNow(new[] {user, user2 });
 
-// 例子四
+// ==== 异步操作 ====
+
+// 示例一
 await repository.InsertNowAsync(user, user2);
 
-// 例子五
+// 示例二
 await repository.InsertNowAsync(new List<User> { user, user2 });
 
-// 例子六
+// 示例三
 await repository.InsertNowAsync(new[] {user, user2 });
 ```
 

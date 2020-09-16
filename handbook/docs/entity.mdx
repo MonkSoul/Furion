@@ -145,7 +145,7 @@ namespace Fur.Core
 
 在过去的 `EF Core` 项目开发中，数据库实体配置需要在 `DbContext` 的 `OnModelCreating` 中配置。`Fur` 为了简化配置和提高开发效率，抽象出了 `IEntityTypeBuilder<TEntity>` 接口。
 
-通过 `IEntityTypeBuilder<TEntity>` 接口，我们需要在 `DbContext` 的 `OnModelCreating` 中配置，可在任意地方配置。
+通过 `IEntityTypeBuilder<TEntity>` 接口，我们无需在 `DbContext` 的 `OnModelCreating` 中配置，可在任意地方配置。
 
 ### 8.3.3.1 在数据库实体中配置
 
