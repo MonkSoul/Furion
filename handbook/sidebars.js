@@ -40,6 +40,7 @@ module.exports = {
         "dbcontext-add",
         "dbcontext-update",
         "dbcontext-add-or-update",
+        "dbcontext-delete",
       ],
     },
     {

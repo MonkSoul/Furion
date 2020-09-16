@@ -1,0 +1,149 @@
+---
+id: dbcontext-delete
+title: 8.7 删除操作
+sidebar_label: 8.7 删除操作
+---
+
+## 8.7.1 删除一个实体（不立即提交）
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+repository.Delete(user);
+
+// 示例二
+user.Delete();
+
+// 示例三
+repository.ChangeEntityState(user, EntityState.Deleted);
+
+// 示例四
+repository.Entities.Remove(user);
+
+// ==== 异步操作 ====
+
+// 示例一
+await repository.DeleteAsync(user);
+
+// 示例二
+await user.DeleteAsync();
+```
+
+## 8.7.2 删除一个实体（立即提交）
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+repository.DeleteNow(user);
+
+// 示例二
+user.DeleteNow();
+
+// ==== 异步操作 ====
+
+// 示例一
+await repository.DeleteNowAsync(user);
+
+// 示例二
+await user.DeleteNowAsync();
+```
+
+## 8.7.3 根据主键删除记录（不立即提交）
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+repository.Delete(1);
+
+// 示例二
+user.Delete(1);
+
+// ==== 异步操作 ====
+
+// 示例一
+await repository.DeleteAsync(1);
+
+// 示例二
+await user.DeleteAsync(1);
+```
+
+## 8.7.4 根据主键删除记录（立即提交）
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+repository.DeleteNow(1);
+
+// 示例二
+user.DeleteNow(1);
+
+// ==== 异步操作 ====
+
+// 示例一
+await repository.DeleteNowAsync(1);
+
+// 示例二
+await user.DeleteNowAsync(1);
+```
+
+## 8.7.5 数据存在才根据主键删除（不立即提交）
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+repository.DeleteExists(1);
+
+// 示例二
+user.DeleteExists(1);
+
+// ==== 异步操作 ====
+
+// 示例一
+await repository.DeleteExistsAsync(1);
+
+// 示例二
+await user.DeleteExistsAsync(1);
+```
+
+## 8.7.6 数据存在才根据主键删除（立即提交）
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+repository.DeleteExistsNow(1);
+
+// 示例二
+user.DeleteExistsNow(1);
+
+// ==== 异步操作 ====
+
+// 示例一
+await repository.DeleteExistsNowAsync(1);
+
+// 示例二
+await user.DeleteExistsNowAsync(1);
+```
+
+:::tip 小知识
+
+所有带 `Now` 结尾的表示立即提交到数据库，也就是立即调用 `SaveChanges` 或 `SaveChangesAsync`。
+
+## 8.7.8 假删除/软删除
+
+只需调用 `repository.UpdateInclude(user, u=>u.IsDeleted);` 即可。
+
+:::
+
+## 8.7.8 反馈与建议
+
+:::note 与我们交流
+
+给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+
+:::
