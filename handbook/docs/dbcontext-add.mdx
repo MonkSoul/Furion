@@ -6,7 +6,7 @@ sidebar_label: 8.5 新增操作
 
 `Fur` 框架提供非常多的语法糖进行数据库操作。
 
-## 8.4.1 新增一条，无返回值
+## 8.5.1 新增一条，无返回值
 
 ```cs
 var user = new User { Name = "百小僧", Age = 27 };
@@ -38,7 +38,7 @@ await repository.Entities.AddAsync(user);
 
 ```
 
-## 8.4.2 新增一条，返回最新数据
+## 8.5.2 新增一条，返回最新数据
 
 ```cs
 // ==== 同步操作 ====
@@ -58,7 +58,7 @@ var newEntity = await repository.InsertNowAsync(user); // 有三个重载
 var newEntity = await user.InsertNowAsync();  // 有三个重载
 ```
 
-## 8.4.3 新增多条（不立即提交）
+## 8.5.3 新增多条（不立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -84,7 +84,7 @@ await repository.InsertAsync(new List<User> { user, user2 });
 await repository.InsertAsync(new[] {user, user2 });
 ```
 
-## 8.4.4 新增多条（立即提交）
+## 8.5.4 新增多条（立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -116,7 +116,7 @@ await repository.InsertNowAsync(new[] {user, user2 });
 
 :::
 
-## 8.4.5 反馈与建议
+## 8.5.5 反馈与建议
 
 :::note 与我们交流
 

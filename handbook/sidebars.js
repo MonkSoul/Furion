@@ -58,6 +58,7 @@ module.exports = {
         "dbcontext-filter",
         "dbcontext-Interceptor",
         "dbcontext-audit",
+        "tran",
       ],
     },
     {

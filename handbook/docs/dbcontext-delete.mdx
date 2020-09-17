@@ -4,7 +4,7 @@ title: 8.8 删除操作
 sidebar_label: 8.8 删除操作
 ---
 
-## 8.7.1 删除一个实体（不立即提交）
+## 8.8.1 删除一个实体（不立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -30,7 +30,7 @@ await repository.DeleteAsync(user);
 await user.DeleteAsync();
 ```
 
-## 8.7.2 删除一个实体（立即提交）
+## 8.8.2 删除一个实体（立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -50,7 +50,7 @@ await repository.DeleteNowAsync(user);
 await user.DeleteNowAsync();
 ```
 
-## 8.7.3 根据主键删除记录（不立即提交）
+## 8.8.3 根据主键删除记录（不立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -70,7 +70,7 @@ await repository.DeleteAsync(1);
 await user.DeleteAsync(1);
 ```
 
-## 8.7.4 根据主键删除记录（立即提交）
+## 8.8.4 根据主键删除记录（立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -90,7 +90,7 @@ await repository.DeleteNowAsync(1);
 await user.DeleteNowAsync(1);
 ```
 
-## 8.7.5 数据存在才根据主键删除（不立即提交）
+## 8.8.5 数据存在才根据主键删除（不立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -110,7 +110,7 @@ await repository.DeleteExistsAsync(1);
 await user.DeleteExistsAsync(1);
 ```
 
-## 8.7.6 数据存在才根据主键删除（立即提交）
+## 8.8.6 数据存在才根据主键删除（立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -136,11 +136,11 @@ await user.DeleteExistsNowAsync(1);
 
 :::
 
-## 8.7.8 假删除/软删除
+## 8.8.8 假删除/软删除
 
 只需调用 `repository.UpdateInclude(user, u=>u.IsDeleted);` 即可。
 
-## 8.7.9 反馈与建议
+## 8.8.9 反馈与建议
 
 :::note 与我们交流
 
