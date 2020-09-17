@@ -43,6 +43,9 @@ namespace Microsoft.Extensions.DependencyInjection
             // 注册分布式内存缓存
             services.AddDistributedMemoryCache();
 
+            // 注册对象映射
+            services.AddObjectMapper();
+
             // 注册MiniProfiler 组件
             if (App.Settings.InjectMiniProfiler == true)
             {

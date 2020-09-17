@@ -33,7 +33,7 @@ namespace Microsoft.Extensions.DependencyInjection
             TypeAdapterConfig.GlobalSettings.Scan(App.Assemblies.ToArray());
 
             TypeAdapterConfig.GlobalSettings.Default
-                .NameMatchingStrategy(NameMatchingStrategy.IgnoreCase)
+                .NameMatchingStrategy(NameMatchingStrategy.Flexible)
                 .PreserveReference(true);
 
             return services;
