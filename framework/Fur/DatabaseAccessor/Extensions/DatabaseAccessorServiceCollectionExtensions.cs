@@ -9,19 +9,12 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
-using Fur;
 using Fur.DatabaseAccessor;
 using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -69,7 +62,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 DbContext dbContextResolve(Type locator)
                 {
                     // 判断定位器是否绑定了数据库上下文
-                    var isRegistered = dbContextLocators.TryGetValue(locator, out var dbContextType);
+                    var isRegistered = Penetrates.DbContextLocators.TryGetValue(locator, out var dbContextType);
                     if (!isRegistered) throw new InvalidOperationException("The DbContext for locator binding was not found");
 
                     // 动态解析数据库上下文
@@ -88,190 +81,23 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// 添加默认数据库上下文
-        /// </summary>
-        /// <typeparam name="TDbContext">数据库上下文</typeparam>
-        /// <param name="services">服务</param>
-        /// <param name="connectionString">连接字符串</param>
-        /// <param name="poolSize">池大小</param>
-        /// <returns>服务集合</returns>
-        public static IServiceCollection AddSqlServerPool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100)
-            where TDbContext : DbContext
-        {
-            // 避免重复注册默认数据库上下文
-            if (dbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
-
-            // 注册数据库上下文
-            return services.AddSqlServerPool<TDbContext, DbContextLocator>(connectionString, poolSize);
-        }
-
-        /// <summary>
-        /// 添加其他数据库上下文
+        /// 注册数据库上下文
         /// </summary>
         /// <typeparam name="TDbContext">数据库上下文</typeparam>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-        /// <param name="services">服务</param>
-        /// <param name="connectionString">连接字符串</param>
-        /// <param name="poolSize">池大小</param>
-        /// <param name="interceptors">拦截器</param>
-        /// <returns>服务集合</returns>
-        public static IServiceCollection AddSqlServerPool<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString = default, int poolSize = 100, params IInterceptor[] interceptors)
+        /// <param name="services">服务提供器</param>
+        public static IServiceCollection RegisterDbContext<TDbContext, TDbContextLocator>(this IServiceCollection services)
             where TDbContext : DbContext
             where TDbContextLocator : class, IDbContextLocator
         {
             // 将数据库上下文和定位器一一保存起来
-            var isSuccess = dbContextLocators.TryAdd(typeof(TDbContextLocator), typeof(TDbContext));
+            var isSuccess = Penetrates.DbContextLocators.TryAdd(typeof(TDbContextLocator), typeof(TDbContext));
             if (!isSuccess) throw new InvalidOperationException("The locator is bound to another DbContext");
 
             // 注册数据库上下文
             services.TryAddScoped<TDbContext>();
 
-            // 配置数据库上下文
-            var connStr = GetDbContextConnectionString<TDbContext>(connectionString);
-            services.AddDbContextPool<TDbContext>(ConfigureSqlServerDbContext(connStr, interceptors), poolSize: poolSize);
-
             return services;
-        }
-
-        /// <summary>
-        ///  添加默认 SqlServer 数据库上下文
-        /// </summary>
-        /// <typeparam name="TDbContext">数据库上下文</typeparam>
-        /// <param name="services">服务</param>
-        /// <param name="connectionString">连接字符串</param>
-        /// <returns>服务集合</returns>
-        public static IServiceCollection AddSqlServer<TDbContext>(this IServiceCollection services, string connectionString = default)
-            where TDbContext : DbContext
-        {
-            // 避免重复注册默认数据库上下文
-            if (dbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
-
-            // 注册数据库上下文
-            return services.AddSqlServer<TDbContext, DbContextLocator>(connectionString);
-        }
-
-        /// <summary>
-        /// 添加 SqlServer 数据库上下文
-        /// </summary>
-        /// <typeparam name="TDbContext">数据库上下文</typeparam>
-        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-        /// <param name="services">服务</param>
-        /// <param name="connectionString">连接字符串</param>
-        /// <param name="interceptors">拦截器</param>
-        /// <returns>服务集合</returns>
-        public static IServiceCollection AddSqlServer<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString = default, params IInterceptor[] interceptors)
-            where TDbContext : DbContext
-            where TDbContextLocator : class, IDbContextLocator
-        {
-            // 将数据库上下文和定位器一一保存起来
-            var isSuccess = dbContextLocators.TryAdd(typeof(TDbContextLocator), typeof(TDbContext));
-            if (!isSuccess) throw new InvalidOperationException("The locator is bound to another DbContext");
-
-            // 注册数据库上下文
-            services.TryAddScoped<TDbContext>();
-
-            // 配置数据库上下文
-            var connStr = GetDbContextConnectionString<TDbContext>(connectionString);
-            services.AddDbContext<TDbContext>(ConfigureSqlServerDbContext(connStr, interceptors));
-
-            return services;
-        }
-
-        /// <summary>
-        /// 配置 SqlServer 数据库上下文
-        /// </summary>
-        /// <param name="connectionString">数据库连接字符串</param>
-        /// <param name="interceptors">拦截器</param>
-        /// <returns></returns>
-        private static Action<IServiceProvider, DbContextOptionsBuilder> ConfigureSqlServerDbContext(string connectionString, params IInterceptor[] interceptors)
-        {
-            return (serviceProvider, options) =>
-            {
-                if (App.HostEnvironment.IsDevelopment())
-                {
-                    options/*.UseLazyLoadingProxies()*/
-                                .EnableDetailedErrors()
-                                .EnableSensitiveDataLogging();
-                }
-
-                // 如果连接字符串不为空
-                if (!string.IsNullOrEmpty(connectionString))
-                {
-                    options.UseSqlServer(connectionString, options =>
-                    {
-                        // 配置全局切割 Sql，而不是生成单个复杂 sql
-                        options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
-                        // 配置 code first 程序集
-                        options.MigrationsAssembly("Fur.Database.Migrations");
-
-                        //options.EnableRetryOnFailure();
-                        //options.MigrationsHistoryTable("__EFMigrationsHistory", "fur");
-                    });
-                }
-
-                // 添加拦截器
-                AddInterceptors(interceptors, options);
-
-                //options.UseInternalServiceProvider(serviceProvider);
-            };
-        }
-
-        /// <summary>
-        /// 数据库数据库拦截器
-        /// </summary>
-        /// <param name="interceptors">拦截器</param>
-        /// <param name="options"></param>
-        private static void AddInterceptors(IInterceptor[] interceptors, DbContextOptionsBuilder options)
-        {
-            if (App.Settings.InjectMiniProfiler != true) return;
-
-            // 添加拦截器
-            var interceptorList = new List<IInterceptor>
-            {
-                new SqlConnectionProfilerInterceptor()
-            };
-            if (interceptors != null || interceptors.Length > 0)
-            {
-                interceptorList.AddRange(interceptors);
-            }
-            options.AddInterceptors(interceptorList.ToArray());
-        }
-
-        /// <summary>
-        /// 获取数据库上下文连接字符串
-        /// </summary>
-        /// <typeparam name="TDbContext"></typeparam>
-        /// <param name="connectionString"></param>
-        /// <returns></returns>
-        private static string GetDbContextConnectionString<TDbContext>(string connectionString = default)
-            where TDbContext : DbContext
-        {
-            if (!string.IsNullOrEmpty(connectionString)) return connectionString;
-
-            // 如果没有配置数据库连接字符串，那么查找特性
-            var dbContextType = typeof(TDbContext);
-            if (!dbContextType.IsDefined(typeof(DbContextAttribute), true)) return default;
-
-            // 获取配置特性
-            var dbContextAttribute = dbContextType.GetCustomAttribute<DbContextAttribute>(true);
-            var connStr = dbContextAttribute.ConnectionString;
-
-            if (string.IsNullOrEmpty(connStr)) return default;
-            if (connStr.Contains(";")) return connStr;
-            else return App.Configuration.GetConnectionString(connStr);
-        }
-
-        /// <summary>
-        /// 数据库上下文定位器集合
-        /// </summary>
-        private static readonly ConcurrentDictionary<Type, Type> dbContextLocators;
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        static DatabaseAccessorServiceCollectionExtensions()
-        {
-            dbContextLocators = new ConcurrentDictionary<Type, Type>();
         }
     }
 }

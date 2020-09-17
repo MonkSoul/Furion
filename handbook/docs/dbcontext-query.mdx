@@ -3,3 +3,127 @@ id: dbcontext-query
 title: 8.9 查询操作
 sidebar_label: 8.9 查询操作
 ---
+
+## 8.9.1 根据主键查询一条
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var person = repository.Find(1);
+
+// 示例二
+var person = repository.FindOrDefault(1);
+
+// 示例三
+var person = repository.Entities.Find(1);
+
+// ==== 异步操作 ====
+
+// 示例一
+var person = await repository.FindAsync(1);
+
+// 示例二
+var person = await repository.FindOrDefaultAsync(1);
+
+// 示例三
+var person = await repository.Entities.FindAsync(1);
+
+```
+
+:::tip 小提示
+
+可以支持多个键查询，如主键、联合键。`repository.Find(1, "百小僧")`;
+
+:::
+
+## 8.9.2 根据条件查询一条
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var person = repository.Single(u => u.Name == "Fur");
+
+// 示例二
+var person = repository.SingleOrDefault(u => u.Name == "Fur");
+
+// 示例三
+var person = repository.First(u => u.Name == "Fur");
+
+// 示例四
+var person = repository.FirstOrDefault(u => u.Name == "Fur");
+
+// 示例五
+var person = repository.Last(u => u.Name == "Fur");
+
+// 示例六
+var person = repository.LastOrDefault(u => u.Name == "Fur");
+
+// 示例七
+var person = repository.Entities.Single(u => u.Name == "Fur");
+
+// 示例八
+var person = repository.Entities.First(u => u.Name == "Fur");
+
+// 示例九
+var person = repository.Entities.FirstOrDefault(u => u.Name == "Fur");
+
+// 示例十
+var person = repository.Entities.Last(u => u.Name == "Fur");
+
+// 示例十一
+var person = repository.Entities.LastOrDefault(u => u.Name == "Fur");
+
+// ==== 异步操作 ====
+
+// 示例一
+var person = await repository.SingleAsync(u => u.Name == "Fur");
+
+// 示例二
+var person = await repository.SingleOrDefaultAsync(u => u.Name == "Fur");
+
+// 示例三
+var person = await repository.FirstAsync(u => u.Name == "Fur");
+
+// 示例四
+var person = await repository.FirstOrDefaultAsync(u => u.Name == "Fur");
+
+// 示例五
+var person = await repository.LastAsync(u => u.Name == "Fur");
+
+// 示例六
+var person = await repository.LastOrDefaultAsync(u => u.Name == "Fur");
+
+// 示例七
+var person = await repository.Entities.SingleAsync(u => u.Name == "Fur");
+
+// 示例八
+var person = await repository.Entities.FirstAsync(u => u.Name == "Fur");
+
+// 示例九
+var person = await repository.Entities.FirstOrDefaultAsync(u => u.Name == "Fur");
+
+// 示例十
+var person = await repository.Entities.LastAsync(u => u.Name == "Fur");
+
+// 示例十一
+var person = await repository.Entities.LastOrDefaultAsync(u => u.Name == "Fur");
+```
+
+## 8.9.3 查询所有数据
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var persons = repository.Entities;
+
+// 示例二
+var persons = repository.DetachedEntities
+
+// 示例三
+var persons = repository.AsQueryable();
+```
+
+## 8.9.4 根据条件查询所有数据

@@ -252,13 +252,14 @@ namespace Fur.DatabaseAccessor
         Task<TEntity> LastAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = false, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 查询多条记录
+        /// 根据表达式查询多条记录
         /// </summary>
+        /// <param name="predicate">表达式</param>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
         /// <param name="asSplitQuery">是否切割查询</param>
         /// <returns>数据库中的多个实体</returns>
-        IQueryable<TEntity> Filter(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
+        IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
         /// 根据表达式查询多条记录
@@ -268,76 +269,80 @@ namespace Fur.DatabaseAccessor
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
         /// <param name="asSplitQuery">是否切割查询</param>
         /// <returns>数据库中的多个实体</returns>
-        IQueryable<TEntity> Filter(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
+        IQueryable<TEntity> Where(Expression<Func<TEntity, int, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
-        /// 查询多条记录
+        /// 根据条件执行表达式查询多条记录
         /// </summary>
-        /// <param name="noTracking">是否跟踪实体</param>
-        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
-        /// <param name="asSplitQuery">是否切割查询</param>
-        /// <param name="cancellationToken">取消异步令牌</param>
-        /// <returns>数据库中的多个实体</returns>
-        Task<List<TEntity>> FilterAsync(bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 根据表达式查询多条记录
-        /// </summary>
+        /// <param name="condition">条件</param>
         /// <param name="predicate">表达式</param>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
         /// <param name="asSplitQuery">是否切割查询</param>
-        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的多个实体</returns>
-        Task<List<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
+        IQueryable<TEntity> WhereIf(bool condition, Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
-        /// 分页查询多条记录
+        /// 根据条件执行表达式查询多条记录
         /// </summary>
-        /// <param name="pageIndex">页码</param>
-        /// <param name="pageSize">页大小</param>
-        /// <param name="noTracking">是否跟踪实体</param>
-        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
-        /// <param name="asSplitQuery">是否切割查询</param>
-        /// <returns>数据库中的多个实体</returns>
-        PagedList<TEntity> PagedFilter(int pageIndex = 1, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
-
-        /// <summary>
-        /// 根据表达式分页查询多条记录
-        /// </summary>
+        /// <param name="condition">条件</param>
         /// <param name="predicate">表达式</param>
-        /// <param name="pageIndex">页码</param>
-        /// <param name="pageSize">页大小</param>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
         /// <param name="asSplitQuery">是否切割查询</param>
         /// <returns>数据库中的多个实体</returns>
-        PagedList<TEntity> PagedFilter(Expression<Func<TEntity, bool>> predicate, int pageIndex = 1, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
+        IQueryable<TEntity> WhereIf(bool condition, Expression<Func<TEntity, int, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
-        /// 分页查询多条记录
+        /// 根据条件执行表达式查询多条记录
         /// </summary>
-        /// <param name="pageIndex">页码</param>
-        /// <param name="pageSize">页大小</param>
+        /// <param name="predicates">表达式集合</param>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
         /// <param name="asSplitQuery">是否切割查询</param>
-        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的多个实体</returns>
-        Task<PagedList<TEntity>> PagedFilterAsync(int pageIndex = 1, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
+        IQueryable<TEntity> WhereOr(Expression<Func<TEntity, bool>>[] predicates, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
-        /// 根据表达式分页查询多条记录
+        /// 根据条件执行表达式查询多条记录
         /// </summary>
+        /// <param name="predicates">表达式集合</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>数据库中的多个实体</returns>
+        IQueryable<TEntity> WhereOr(Expression<Func<TEntity, int, bool>>[] predicates, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
+
+        /// <summary>
+        /// 根据条件执行表达式查询多条记录
+        /// </summary>
+        /// <param name="conditionPredicates">条件表达式集合</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>数据库中的多个实体</returns>
+        IQueryable<TEntity> WhereOrIf((bool condition, Expression<Func<TEntity, bool>> expression)[] conditionPredicates, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
+
+        /// <summary>
+        /// 根据条件执行表达式查询多条记录
+        /// </summary>
+        /// <param name="conditionPredicates">条件表达式集合</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>数据库中的多个实体</returns>
+        IQueryable<TEntity> WhereOrIf((bool condition, Expression<Func<TEntity, int, bool>> expression)[] conditionPredicates, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
+
+        /// <summary>
+        /// 根据条件加载关联数据
+        /// </summary>
+        /// <param name="condition">条件</param>
         /// <param name="predicate">表达式</param>
-        /// <param name="pageIndex">页码</param>
-        /// <param name="pageSize">页大小</param>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
         /// <param name="asSplitQuery">是否切割查询</param>
-        /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的多个实体</returns>
-        Task<PagedList<TEntity>> PagedFilterAsync(Expression<Func<TEntity, bool>> predicate, int pageIndex = 1, int pageSize = 20, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
+        IQueryable<TEntity> IncludeIf<TProperty>(bool condition, Expression<Func<TEntity, TProperty>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
 
         /// <summary>
         /// 判断记录是否存在
@@ -540,5 +545,70 @@ namespace Fur.DatabaseAccessor
         /// <param name="asSplitQuery">是否切割查询</param>
         /// <returns>IQueryable<TEntity></returns>
         IQueryable<TEntity> AsQueryable(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
+
+        /// <summary>
+        /// 构建查询分析器
+        /// </summary>
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>IQueryable<TEntity></returns>
+        IQueryable<TEntity> AsQueryable(Expression<Func<TEntity, int, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
+
+        /// <summary>
+        /// 直接返回数据库结果
+        /// </summary>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>IQueryable<TEntity></returns>
+        List<TEntity> AsEnumerable(bool noTracking = true);
+
+        /// <summary>
+        /// 直接返回数据库结果
+        /// </summary>
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>IQueryable<TEntity></returns>
+        List<TEntity> AsEnumerable(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
+
+        /// <summary>
+        /// 直接返回数据库结果
+        /// </summary>
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>IQueryable<TEntity></returns>
+        List<TEntity> AsEnumerable(Expression<Func<TEntity, int, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true);
+
+        /// <summary>
+        /// 直接返回数据库结果
+        /// </summary>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>IQueryable<TEntity></returns>
+        Task<List<TEntity>> AsAsyncEnumerable(bool noTracking = true, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 直接返回数据库结果
+        /// </summary>
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <returns>IQueryable<TEntity></returns>
+        Task<List<TEntity>> AsAsyncEnumerable(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 直接返回数据库结果
+        /// </summary>
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <param name="asSplitQuery">是否切割查询</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>IQueryable<TEntity></returns>
+        Task<List<TEntity>> AsAsyncEnumerable(Expression<Func<TEntity, int, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true, CancellationToken cancellationToken = default);
     }
 }

@@ -74,6 +74,11 @@ namespace Fur.DatabaseAccessor
         internal static readonly string[] NotSupportTableFunctionDatabases;
 
         /// <summary>
+        /// 不支持环境事务的数据库
+        /// </summary>
+        internal static readonly string[] NotSupportTransactionScopeDatabase;
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         static DatabaseProvider()
@@ -95,6 +100,12 @@ namespace Fur.DatabaseAccessor
                 Sqlite,
                 InMemory,
                 MySql
+            };
+
+            NotSupportTransactionScopeDatabase = new[]
+            {
+                Sqlite,
+                InMemory,
             };
         }
 
