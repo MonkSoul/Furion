@@ -67,25 +67,27 @@ namespace Fur.DatabaseAccessor
                 return;
             }
 
-            // 打印事务开始消息
-            App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning");
-
-            // 获取工作单元特性
-            UnitOfWorkAttribute unitOfWorkAttribute = null;
-            if (!method.IsDefined(typeof(UnitOfWorkAttribute), true)) unitOfWorkAttribute ??= new UnitOfWorkAttribute();
-            else unitOfWorkAttribute = method.GetCustomAttribute<UnitOfWorkAttribute>();
-
             // 判断是否支持环境事务
             var isSupportTransactionScope = _dbContextPool.GetDbContexts().Any(u => !DatabaseProvider.NotSupportTransactionScopeDatabase.Contains(u.Database.ProviderName));
             TransactionScope transaction = null;
 
             if (isSupportTransactionScope)
             {
+                // 打印事务开始消息
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning");
+
+                // 获取工作单元特性
+                UnitOfWorkAttribute unitOfWorkAttribute = null;
+                if (!method.IsDefined(typeof(UnitOfWorkAttribute), true)) unitOfWorkAttribute ??= new UnitOfWorkAttribute();
+                else unitOfWorkAttribute = method.GetCustomAttribute<UnitOfWorkAttribute>();
+
                 // 开启分布式事务
                 transaction = new TransactionScope(unitOfWorkAttribute.ScopeOption
               , new TransactionOptions { IsolationLevel = unitOfWorkAttribute.IsolationLevel }
               , unitOfWorkAttribute.AsyncFlowOption);
             }
+            // 打印不支持事务
+            else App.PrintToMiniProfiler(MiniProfilerCategory, "NotSupported !");
 
             // 继续执行
             var resultContext = await next();
@@ -95,16 +97,20 @@ namespace Fur.DatabaseAccessor
             {
                 // 将所有上下文提交事务
                 var hasChangesCount = await _dbContextPool.SavePoolNowAsync();
-                transaction?.Complete();
-                transaction?.Dispose();
 
-                // 打印事务提交消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Completed", $"Transaction Completed! Has {hasChangesCount} DbContext Changes.");
+                if (isSupportTransactionScope)
+                {
+                    transaction?.Complete();
+                    transaction?.Dispose();
+
+                    // 打印事务提交消息
+                    App.PrintToMiniProfiler(MiniProfilerCategory, "Completed", $"Transaction Completed! Has {hasChangesCount} DbContext Changes.");
+                }
             }
             else
             {
                 // 打印事务回滚消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
+                if (isSupportTransactionScope) App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
             }
         }
     }
