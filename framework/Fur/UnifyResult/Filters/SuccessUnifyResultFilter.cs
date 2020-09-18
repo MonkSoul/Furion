@@ -52,13 +52,13 @@ namespace Fur.UnifyResult
         /// <returns></returns>
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            await next();
+            var actionExecutedContext = await next();
 
             // 处理规范化结果
             var unifyResult = _serviceProvider.GetService<IUnifyResultProvider>();
             if (unifyResult != null && context.Result == null)
             {
-                context.Result = unifyResult.OnSuccessed(context);
+                actionExecutedContext.Result = unifyResult.OnSuccessed(actionExecutedContext);
             }
         }
     }

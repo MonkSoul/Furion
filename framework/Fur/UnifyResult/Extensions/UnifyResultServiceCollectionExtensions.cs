@@ -34,6 +34,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // 添加规范化提供器
             mvcBuilder.Services.AddSingleton<IUnifyResultProvider, TUnifyResultProvider>();
 
+            // 添加成功规范化结果
             mvcBuilder.AddMvcOptions(options =>
             {
                 options.Filters.Add<SuccessUnifyResultFilter>();
