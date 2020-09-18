@@ -89,7 +89,7 @@ namespace Fur.DatabaseAccessor
               , unitOfWorkAttribute.AsyncFlowOption);
             }
             // 打印不支持事务
-            else App.PrintToMiniProfiler(MiniProfilerCategory, "NotSupported !");
+            else if (!isSupportTransactionScope) { App.PrintToMiniProfiler(MiniProfilerCategory, "NotSupported !"); }
 
             // 继续执行
             var resultContext = await next();
