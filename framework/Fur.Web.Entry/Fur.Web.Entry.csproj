@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <AnalysisLevel>5</AnalysisLevel>
+    <UserSecretsId>0d2d4500-dae9-4b8b-9e24-bbff779493e4</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

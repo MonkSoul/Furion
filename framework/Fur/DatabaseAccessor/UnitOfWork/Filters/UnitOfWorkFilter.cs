@@ -64,21 +64,16 @@ namespace Fur.DatabaseAccessor
             var method = actionDescriptor.MethodInfo;
 
             // 如果方法贴了 [NonTransact] 则跳过事务
-            if (method.IsDefined(typeof(NonTransactAttribute), true))
-            {
-                // 打印验证跳过消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Disabled !");
+            var disabledTransact = method.IsDefined(typeof(NonTransactAttribute), true);
 
-                // 继续执行
-                await next();
-                return;
-            }
+            // 打印验禁止跳过事务信息
+            if (disabledTransact) App.PrintToMiniProfiler(MiniProfilerCategory, "Disabled !");
 
             // 判断是否支持环境事务
             var isSupportTransactionScope = _dbContextPool.GetDbContexts().Any(u => !DatabaseProvider.NotSupportTransactionScopeDatabase.Contains(u.Database.ProviderName));
             TransactionScope transaction = null;
 
-            if (isSupportTransactionScope)
+            if (isSupportTransactionScope && !disabledTransact)
             {
                 // 打印事务开始消息
                 App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning");
@@ -105,7 +100,7 @@ namespace Fur.DatabaseAccessor
                 // 将所有上下文提交事务
                 var hasChangesCount = await _dbContextPool.SavePoolNowAsync();
 
-                if (isSupportTransactionScope)
+                if (isSupportTransactionScope && !disabledTransact)
                 {
                     transaction?.Complete();
                     transaction?.Dispose();
@@ -117,7 +112,7 @@ namespace Fur.DatabaseAccessor
             else
             {
                 // 打印事务回滚消息
-                if (isSupportTransactionScope) App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
+                if (isSupportTransactionScope && !disabledTransact) App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
             }
         }
     }
