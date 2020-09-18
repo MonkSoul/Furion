@@ -106,7 +106,7 @@
   - Azure Cosmos
   - MySql
   - PostgreSQL
-  - 内存数据库
+  - InMemory
   - Oracle
 
 ## 问答 FAQ
