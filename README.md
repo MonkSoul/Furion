@@ -147,6 +147,7 @@
 <a href="https://gitee.com/KaneLeung" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/483/1449079_KaneLeung_1600044384.png!avatar100" height="40"/></a>
 <a href="https://gitee.com/qd98zhq" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/205/617984_qd98zhq_1600045204.png!avatar100" height="40"/></a>
 <a href="https://gitee.com/andyliuqiurong" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/19/58386_andyliuqiurong_1600142677.png!avatar100" height="40"/></a>
+<a href="https://gitee.com/co1024" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/627/1883684_co1024_1600418760.png!avatar100" height="40"/></a>
 
 <p></p>
 
