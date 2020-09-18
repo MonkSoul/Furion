@@ -43,7 +43,7 @@ namespace Fur.UnifyResult
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public IActionResult OnSuccessed(ResultExecutingContext context)
+        public IActionResult OnSuccessed(ActionExecutingContext context)
         {
             return new JsonResult(new RESTfulResult
             {

@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 namespace Fur.UnifyResult
 {
     [NonBeScan]
-    public class SuccessUnifyResultFilter : IAsyncResultFilter, IOrderedFilter
+    public class SuccessUnifyResultFilter : IAsyncActionFilter, IOrderedFilter
     {
         /// <summary>
         /// 服务提供器
@@ -45,21 +45,21 @@ namespace Fur.UnifyResult
         public int Order => FilterOrder;
 
         /// <summary>
-        /// 处理结果
+        /// 处理规范化结果
         /// </summary>
         /// <param name="context"></param>
         /// <param name="next"></param>
         /// <returns></returns>
-        public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
+        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
+            await next();
+
             // 处理规范化结果
             var unifyResult = _serviceProvider.GetService<IUnifyResultProvider>();
-            if (unifyResult != null)
+            if (unifyResult != null && context.Result == null)
             {
                 context.Result = unifyResult.OnSuccessed(context);
             }
-
-            await next();
         }
     }
 }

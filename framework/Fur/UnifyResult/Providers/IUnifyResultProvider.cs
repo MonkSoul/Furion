@@ -33,7 +33,7 @@ namespace Fur.UnifyResult
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        IActionResult OnSuccessed(ResultExecutingContext context);
+        IActionResult OnSuccessed(ActionExecutingContext context);
 
         /// <summary>
         /// 验证失败返回值
