@@ -67,6 +67,7 @@ namespace Fur.Application
         /// 查询所有
         /// </summary>
         /// <returns></returns>
+        [NonTransact]
         public async Task<List<PersonDto>> GetAll()
         {
             var persons = await _personRepository.AsQueryable().ToListAsync();
@@ -79,6 +80,7 @@ namespace Fur.Application
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
+        [NonTransact]
         public async Task<PagedList<PersonDto>> GetAllByPage(int pageIndex = 1, int pageSize = 10)
         {
             var pageResult = await _personRepository.AsQueryable().ToPagedListAsync(pageIndex, pageSize);

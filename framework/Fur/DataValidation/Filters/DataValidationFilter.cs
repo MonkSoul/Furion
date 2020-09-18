@@ -10,11 +10,14 @@
 // -----------------------------------------------------------------------------
 
 using Fur.DependencyInjection;
+using Fur.UnifyResult;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using System;
 using System.Linq;
 using System.Net.Mime;
 
@@ -35,6 +38,20 @@ namespace Fur.DataValidation
         /// 过滤器排序
         /// </summary>
         internal const int FilterOrder = -2000;
+
+        /// <summary>
+        /// 服务提供器
+        /// </summary>
+        private readonly IServiceProvider _serviceProvider;
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="serviceProvider">服务提供器</param>
+        public DataValidationFilter(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
 
         /// <summary>
         /// 排序
@@ -83,14 +100,6 @@ namespace Fur.DataValidation
             {
                 // 设置验证失败结果
                 SetValidateFailedResult(context, modelState);
-
-                // 将验证错误信息转换成字典并序列化成 Json
-                var validationResults = JsonConvert.SerializeObject(
-                    modelState.ToDictionary(u => u.Key, u => modelState[u.Key].Errors.Select(c => c.ErrorMessage))
-                    , Formatting.Indented);
-
-                // 打印验证失败信息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", $"Validation Failed:\r\n{validationResults}", true);
             }
         }
 
@@ -99,16 +108,32 @@ namespace Fur.DataValidation
         /// </summary>
         /// <param name="context">动作方法执行上下文</param>
         /// <param name="modelState">模型验证状态</param>
-        private static void SetValidateFailedResult(ActionExecutingContext context, ModelStateDictionary modelState)
+        private void SetValidateFailedResult(ActionExecutingContext context, ModelStateDictionary modelState)
         {
-            // 返回 400 错误
-            var result = new BadRequestObjectResult(modelState);
+            // 将验证错误信息转换成字典并序列化成 Json
+            var validationResults = modelState.ToDictionary(u => u.Key, u => modelState[u.Key].Errors.Select(c => c.ErrorMessage));
+            var validateFaildMessage = JsonConvert.SerializeObject(validationResults, Formatting.Indented);
 
-            // 设置返回的响应类型
-            result.ContentTypes.Add(MediaTypeNames.Application.Json);
-            result.ContentTypes.Add(MediaTypeNames.Application.Xml);
+            // 处理规范化结果
+            var unifyResult = _serviceProvider.GetService<IUnifyResultProvider>();
+            if (unifyResult != null)
+            {
+                context.Result = unifyResult.OnValidateFailed(context, modelState, validationResults, validateFaildMessage);
+            }
+            else
+            {
+                // 返回 400 错误
+                var result = new BadRequestObjectResult(modelState);
 
-            context.Result = result;
+                // 设置返回的响应类型
+                result.ContentTypes.Add(MediaTypeNames.Application.Json);
+                result.ContentTypes.Add(MediaTypeNames.Application.Xml);
+
+                context.Result = result;
+            }
+
+            // 打印验证失败信息
+            App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", $"Validation Failed:\r\n{validateFaildMessage}", true);
         }
 
         /// <summary>

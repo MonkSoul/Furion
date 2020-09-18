@@ -10,19 +10,15 @@
 // -----------------------------------------------------------------------------
 
 using Fur.DependencyInjection;
-using Fur.FriendlyException;
-using Fur.UnifyResult;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 
-namespace Microsoft.AspNetCore.Mvc.Filters
+namespace Fur.UnifyResult
 {
-    /// <summary>
-    /// 友好异常拦截器
-    /// </summary>
     [NonBeScan]
-    public sealed class FriendlyExceptionFilter : IAsyncExceptionFilter
+    public class SuccessUnifyResultFilter : IAsyncResultFilter, IOrderedFilter
     {
         /// <summary>
         /// 服务提供器
@@ -30,35 +26,40 @@ namespace Microsoft.AspNetCore.Mvc.Filters
         private readonly IServiceProvider _serviceProvider;
 
         /// <summary>
+        /// 过滤器排序
+        /// </summary>
+        internal const int FilterOrder = 2000;
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="serviceProvider">服务提供器</param>
-        public FriendlyExceptionFilter(IServiceProvider serviceProvider)
+        public SuccessUnifyResultFilter(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
 
         /// <summary>
-        /// 异常拦截
+        /// 排序
+        /// </summary>
+        public int Order => FilterOrder;
+
+        /// <summary>
+        /// 处理结果
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="next"></param>
         /// <returns></returns>
-        public Task OnExceptionAsync(ExceptionContext context)
+        public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
         {
-            // 标识异常已经被处理
-            context.ExceptionHandled = true;
-
-            // 设置异常结果
-            var exception = context.Exception;
-
             // 处理规范化结果
             var unifyResult = _serviceProvider.GetService<IUnifyResultProvider>();
-            context.Result = unifyResult == null ? new ContentResult { Content = exception.Message } : unifyResult.OnException(context);
+            if (unifyResult != null)
+            {
+                context.Result = unifyResult.OnSuccessed(context);
+            }
 
-            // 打印错误到 MiniProfiler 中
-            Oops.PrintToMiniProfiler(context.Exception);
-
-            return Task.CompletedTask;
+            await next();
         }
     }
 }

@@ -23,12 +23,17 @@ namespace Fur.DatabaseAccessor
     /// 工作单元拦截器
     /// </summary>
     [NonBeScan]
-    internal sealed class UnitOfWorkFilter : IAsyncActionFilter
+    internal sealed class UnitOfWorkFilter : IAsyncActionFilter, IOrderedFilter
     {
         /// <summary>
         /// MiniProfiler 分类名
         /// </summary>
         private const string MiniProfilerCategory = "transaction";
+
+        /// <summary>
+        /// 过滤器排序
+        /// </summary>
+        internal const int FilterOrder = -1000;
 
         /// <summary>
         /// 数据库上下文池
@@ -43,6 +48,8 @@ namespace Fur.DatabaseAccessor
         {
             _dbContextPool = dbContextPool;
         }
+
+        public int Order => FilterOrder;
 
         /// <summary>
         /// 拦截请求
@@ -60,7 +67,7 @@ namespace Fur.DatabaseAccessor
             if (method.IsDefined(typeof(NonTransactAttribute), true))
             {
                 // 打印验证跳过消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Skipped");
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Disabled !");
 
                 // 继续执行
                 await next();

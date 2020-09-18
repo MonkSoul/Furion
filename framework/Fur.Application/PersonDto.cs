@@ -12,7 +12,7 @@ namespace Fur.Application
         /// <summary>
         /// 姓名
         /// </summary>
-        [StringLength(32, MinimumLength = 2)]
+        [Required, MinLength(2)]
         public string Name { get; set; }
 
         /// <summary>

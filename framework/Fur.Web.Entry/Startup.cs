@@ -1,4 +1,5 @@
 using Fur.EntityFramework.Core;
+using Fur.UnifyResult;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,8 +24,9 @@ namespace Fur.Web.Entry
                 options.AddSpecificationDocuments();
                 options.AddControllers()
                            .AddDynamicApiControllers()
+                           .AddDataValidation()
                            .AddFriendlyException()
-                           .AddDataValidation();
+                           .AddUnifyResult<RESTfulResult, RESTfulResultProvider>();
 
                 // 配置数据库上下文，支持N个数据库
                 options.AddDatabaseAccessor(options =>
