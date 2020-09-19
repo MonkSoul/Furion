@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://furos.cn</PackageProjectUrl>
     <RepositoryUrl>https://gitee.com/monksoul/Fur</RepositoryUrl>
     <RepositoryType>Gitee</RepositoryType>
-    <PackageLicenseExpression>Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）</PackageLicenseExpression>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
