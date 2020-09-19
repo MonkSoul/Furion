@@ -395,6 +395,16 @@ namespace Fur.DatabaseAccessor
         /// 根据条件执行表达式查询多条记录
         /// </summary>
         /// <param name="predicates">表达式集合</param>
+        /// <returns>数据库中的多个实体</returns>
+        public virtual IQueryable<TEntity> WhereOr(params Expression<Func<TEntity, bool>>[] predicates)
+        {
+            return AsQueryable(default(Expression<Func<TEntity, bool>>)).WhereOr(predicates);
+        }
+
+        /// <summary>
+        /// 根据条件执行表达式查询多条记录
+        /// </summary>
+        /// <param name="predicates">表达式集合</param>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
         /// <param name="asSplitQuery">是否切割查询</param>
@@ -402,6 +412,16 @@ namespace Fur.DatabaseAccessor
         public virtual IQueryable<TEntity> WhereOr(Expression<Func<TEntity, bool>>[] predicates, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true)
         {
             return AsQueryable(default(Expression<Func<TEntity, bool>>), noTracking, ignoreQueryFilters, asSplitQuery).WhereOr(predicates);
+        }
+
+        /// <summary>
+        /// 根据条件执行表达式查询多条记录
+        /// </summary>
+        /// <param name="predicates">表达式集合</param>
+        /// <returns>数据库中的多个实体</returns>
+        public virtual IQueryable<TEntity> WhereOr(params Expression<Func<TEntity, int, bool>>[] predicates)
+        {
+            return AsQueryable(default(Expression<Func<TEntity, int, bool>>)).WhereOr(predicates);
         }
 
         /// <summary>
@@ -421,6 +441,16 @@ namespace Fur.DatabaseAccessor
         /// 根据条件执行表达式查询多条记录
         /// </summary>
         /// <param name="conditionPredicates">条件表达式集合</param>
+        /// <returns>数据库中的多个实体</returns>
+        public virtual IQueryable<TEntity> WhereOrIf(params (bool condition, Expression<Func<TEntity, bool>> expression)[] conditionPredicates)
+        {
+            return AsQueryable(default(Expression<Func<TEntity, bool>>)).WhereOrIf(conditionPredicates);
+        }
+
+        /// <summary>
+        /// 根据条件执行表达式查询多条记录
+        /// </summary>
+        /// <param name="conditionPredicates">条件表达式集合</param>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
         /// <param name="asSplitQuery">是否切割查询</param>
@@ -428,6 +458,16 @@ namespace Fur.DatabaseAccessor
         public virtual IQueryable<TEntity> WhereOrIf((bool condition, Expression<Func<TEntity, bool>> expression)[] conditionPredicates, bool noTracking = true, bool ignoreQueryFilters = false, bool asSplitQuery = true)
         {
             return AsQueryable(default(Expression<Func<TEntity, bool>>), noTracking, ignoreQueryFilters, asSplitQuery).WhereOrIf(conditionPredicates);
+        }
+
+        /// <summary>
+        /// 根据条件执行表达式查询多条记录
+        /// </summary>
+        /// <param name="conditionPredicates">条件表达式集合</param>
+        /// <returns>数据库中的多个实体</returns>
+        public virtual IQueryable<TEntity> WhereOrIf(params (bool condition, Expression<Func<TEntity, int, bool>> expression)[] conditionPredicates)
+        {
+            return AsQueryable(default(Expression<Func<TEntity, int, bool>>)).WhereOrIf(conditionPredicates);
         }
 
         /// <summary>
