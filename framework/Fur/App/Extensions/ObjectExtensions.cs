@@ -13,8 +13,10 @@ using Fur.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Dynamic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Fur
@@ -147,6 +149,39 @@ namespace Fur
 
             // 判断逻辑
             bool IsTheRawGenericType(Type type) => generic == (type.IsGenericType ? type.GetGenericTypeDefinition() : type);
+        }
+
+        /// <summary>
+        /// 将对象转成动态类型
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        internal static ExpandoObject ToExpando(this object obj)
+        {
+            var expando = new ExpandoObject();
+            IDictionary<string, object> dictionary = expando;
+
+            foreach (var property in obj.GetType().GetProperties())
+            {
+                dictionary.Add(property.Name, property.GetValue(obj));
+            }
+
+            return expando;
+        }
+
+        /// <summary>
+        /// 判断是否是匿名类型
+        /// </summary>
+        /// <param name="obj">对象</param>
+        /// <returns></returns>
+        internal static bool IsAnonymous(this object obj)
+        {
+            var type = obj.GetType();
+
+            return Attribute.IsDefined(type, typeof(CompilerGeneratedAttribute), false)
+                   && type.IsGenericType && type.Name.Contains("AnonymousType")
+                   && (type.Name.StartsWith("<>") || type.Name.StartsWith("VB$"))
+                   && type.Attributes.HasFlag(TypeAttributes.NotPublic);
         }
     }
 }
