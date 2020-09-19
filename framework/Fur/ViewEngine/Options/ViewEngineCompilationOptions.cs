@@ -24,20 +24,17 @@ namespace Fur.ViewEngine
     [NonBeScan]
     public class ViewEngineCompilationOptions
     {
-        public HashSet<Assembly> ReferencedAssemblies { get; set; } = DefaultReferencedAssemblies();
-
-        public HashSet<MetadataReference> MetadataReferences { get; set; } = new HashSet<MetadataReference>();
-        public string TemplateNamespace { get; set; } = "TemplateNamespace";
-        public string Inherits { get; set; } = "ViewEngineCore.ViewEngineTemplateBase";
-
-        public HashSet<string> DefaultUsings { get; set; } = new HashSet<string>()
-        {
-            "System.Linq"
-        };
-
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public ViewEngineCompilationOptions()
         {
-            // Loading netstandard explicitly causes runtime error on Linux/OSX
+            ReferencedAssemblies = DefaultReferencedAssemblies();
+            MetadataReferences = new HashSet<MetadataReference>();
+            TemplateNamespace = "TemplateNamespace";
+            Inherits = "ViewEngineCore.ViewEngineTemplateBase";
+            DefaultUsings = new HashSet<string>() { "System.Linq" };
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 if (RuntimeInformation.FrameworkDescription.StartsWith(".NET Framework", StringComparison.OrdinalIgnoreCase))
@@ -54,6 +51,35 @@ namespace Fur.ViewEngine
             }
         }
 
+        /// <summary>
+        /// 引用程序集集合
+        /// </summary>
+        public HashSet<Assembly> ReferencedAssemblies { get; set; }
+
+        /// <summary>
+        /// 元数据引用集合
+        /// </summary>
+        public HashSet<MetadataReference> MetadataReferences { get; set; }
+
+        /// <summary>
+        /// 模板命名空间
+        /// </summary>
+        public string TemplateNamespace { get; set; }
+
+        /// <summary>
+        /// 继承类型
+        /// </summary>
+        public string Inherits { get; set; }
+
+        /// <summary>
+        /// 默认 Using
+        /// </summary>
+        public HashSet<string> DefaultUsings { get; set; }
+
+        /// <summary>
+        /// 默认引用程序集
+        /// </summary>
+        /// <returns></returns>
         private static HashSet<Assembly> DefaultReferencedAssemblies()
         {
             if (RuntimeInformation.FrameworkDescription.StartsWith(".NET Framework", StringComparison.OrdinalIgnoreCase))

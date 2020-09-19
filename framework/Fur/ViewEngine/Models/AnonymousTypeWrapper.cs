@@ -22,13 +22,26 @@ namespace Fur.ViewEngine
     [NonBeScan]
     public class AnonymousTypeWrapper : DynamicObject
     {
+        /// <summary>
+        /// 匿名模型
+        /// </summary>
         private readonly object model;
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="model"></param>
         public AnonymousTypeWrapper(object model)
         {
             this.model = model;
         }
 
+        /// <summary>
+        /// 获取成员信息
+        /// </summary>
+        /// <param name="binder"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
             var propertyInfo = model.GetType().GetProperty(binder.Name);
