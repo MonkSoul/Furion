@@ -66,7 +66,7 @@ namespace Fur.DatabaseAccessor
             // 如果方法贴了 [NonTransact] 则跳过事务
             var disabledTransact = method.IsDefined(typeof(NonTransactAttribute), true);
 
-            // 打印验禁止跳过事务信息
+            // 打印验禁止事务信息
             if (disabledTransact) App.PrintToMiniProfiler(MiniProfilerCategory, "Disabled !");
 
             // 判断是否支持环境事务
