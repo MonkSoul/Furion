@@ -31,9 +31,6 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             App.Services = services;
 
-            // 注册全局依赖注入
-            services.AddDependencyInjection();
-
             // 注册全局配置选项
             services.AddConfigurableOptions<AppSettingsOptions>();
 
@@ -55,7 +52,12 @@ namespace Microsoft.Extensions.DependencyInjection
                 }).AddEntityFramework();
             }
 
+            // 自定义服务
             configure?.Invoke(services);
+
+            // 注册全局依赖注入
+            services.AddDependencyInjection();
+
             return services;
         }
     }

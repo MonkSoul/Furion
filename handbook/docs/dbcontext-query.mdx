@@ -208,7 +208,238 @@ var persons = await repository.Where(u => u.Id > 10).ToPagedListAsync();
 var persons = await repository.Where(u => u.Id > 10).ToPagedListAsync(1, 10);
 ```
 
-## 8.9.6 反馈与建议
+## 8.9.6 其他查询
+
+### 8.9.6.1 查看记录是否存在
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var isExists = repository.Any();
+
+// 示例二
+var isExists = repository.Any(u => u.Id > 10);
+
+// 示例三
+var isExists = repository.Entities.Any();
+
+// 示例四
+var isExists = repository.DetachedEntities.Any(u => u.Id > 10);
+
+// 示例五
+var isExists = repository.Where(u => u.Id > 10).Any();
+
+// ==== 异步操作 ====
+
+// 示例一
+var isExists = await repository.AnyAsync();
+
+// 示例二
+var isExists = await repository.AnyAsync(u => u.Id > 10);
+
+// 示例三
+var isExists = await repository.Entities.AnyAsync();
+
+// 示例四
+var isExists = await repository.DetachedEntities.AnyAsync(u => u.Id > 10);
+
+// 示例五
+var isExists = await repository.Where(u => u.Id > 10).AnyAsync();
+```
+
+### 8.9.6.2 查询记录数
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var count = repository.Count();
+
+// 示例二
+var count = repository.Count(u => u.Id > 10);
+
+// 示例三
+var count = repository.Entities.Count(u => u.Id > 10);
+
+// 示例四
+var count = repository.Entities.DetachedEntities.Count();
+
+// 示例五
+var count = repository.Where(u => u.Id > 10).Count();
+
+// ==== 异步操作 ====
+
+// 示例一
+var count = await repository.CountAsync();
+
+// 示例二
+var count = await repository.CountAsync(u => u.Id > 10);
+
+// 示例三
+var count = await repository.Entities.CountAsync(u => u.Id > 10);
+
+// 示例四
+var count = await repository.Entities.DetachedEntities.CountAsync();
+
+// 示例五
+var count = await repository.Where(u => u.Id > 10).CountAsync();
+```
+
+### 8.9.6.3 查询最大值
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var entity = repository.Max();
+
+// 示例二
+var value = repository.Max(u => u.Id);
+
+// 示例三
+var entity = repository.Entities.Max();
+
+// 示例四
+var value = repository.Entities.DetachedEntities.Max(u => u.Age);
+
+// 示例五
+var value = repository.Where(u => u.Id > 10).Max(u => u.Age);
+
+// ==== 异步操作 ====
+
+// 示例一
+var entity = await repository.MaxAsync();
+
+// 示例二
+var value = await repository.MaxAsync(u => u.Id);
+
+// 示例三
+var entity = await repository.Entities.MaxAsync();
+
+// 示例四
+var value = await repository.Entities.DetachedEntities.MaxAsync(u => u.Age);
+
+// 示例五
+var value = await repository.Where(u => u.Id > 10).MaxAsync(u => u.Age);
+```
+
+### 8.9.6.4 查询最小值
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var entity = repository.Min();
+
+// 示例二
+var value = repository.Min(u => u.Id);
+
+// 示例三
+var entity = repository.Entities.Min();
+
+// 示例四
+var value = repository.Entities.DetachedEntities.Min(u => u.Age);
+
+// 示例五
+var value = repository.Where(u => u.Id > 10).Min(u => u.Age);
+
+// ==== 异步操作 ====
+
+// 示例一
+var entity = await repository.MinAsync();
+
+// 示例二
+var value = await repository.MinAsync(u => u.Id);
+
+// 示例三
+var entity = await repository.Entities.MinAsync();
+
+// 示例四
+var value = await repository.Entities.DetachedEntities.MinAsync(u => u.Age);
+
+// 示例五
+var value = await repository.Where(u => u.Id > 10).MinAsync(u => u.Age);
+```
+
+### 8.9.6.5 求和查询
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var sum = repository.Entities.Sum(u => u.Cost);
+
+// 示例二
+var sum = repository.AsQueryable().Sum(u => u.Cost);
+
+// 示例三
+var sum = repository.DetachedEntities.Sum(u => u.Cost);
+
+// ==== 异步操作 ====
+
+// 示例一
+var sum = await repository.Entities.SumAsync(u => u.Cost);
+
+// 示例二
+var sum = await repository.AsQueryable().SumAsync(u => u.Cost);
+
+// 示例三
+var sum = await repository.DetachedEntities.SumAsync(u => u.Cost);
+```
+
+### 8.9.6.6 求平均值查询
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+var sum = repository.Entities.Average(u => u.Cost);
+
+// 示例二
+var sum = repository.AsQueryable().Average(u => u.Cost);
+
+// 示例三
+var sum = repository.DetachedEntities.Average(u => u.Cost);
+
+// ==== 异步操作 ====
+
+// 示例一
+var sum = await repository.Entities.AverageAsync(u => u.Cost);
+
+// 示例二
+var sum = await repository.AsQueryable().AverageAsync(u => u.Cost);
+
+// 示例三
+var sum = await repository.DetachedEntities.AverageAsync(u => u.Cost);
+```
+
+### 8.9.6.7 时间查询
+
+```cs
+var starDate = DateTime.Parse("2020-09-10");
+var endDate = DateTime.Parse("2020-09-10");
+var query = repository.Where(u => u.CreatedDt >= starDate && u.CreatedDt <= endDate);
+```
+
+### 8.9.6.8 模糊查询
+
+```cs
+// 示例一
+repository.Where(u => u.Name.StartWith("Fur"));
+
+// 示例二
+_testRepository.Where(u => u.Name.EndWith("Fur"));
+
+// 示例三
+_testRepository.Where(u => u.Name.Contains("Fur"));
+```
+
+### 8.9.6.9 `Case When`
+
+数据库中的 `Case When` 实际上对应的是我们程序中的 `三元表达式` ，也就是使用 `三元表达式` 即可自动生成 `Case When` 语句。
+
+## 8.9.7 反馈与建议
 
 :::note 与我们交流
 

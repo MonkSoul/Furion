@@ -115,7 +115,7 @@ namespace Microsoft.Extensions.DependencyInjection
             options.UseSqlite(connectionString, options =>
             {
                 // 配置全局切割 Sql，而不是生成单个复杂 sql
-                options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                //options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
                 // 配置 code first 程序集
                 options.MigrationsAssembly("Fur.Database.Migrations");
 

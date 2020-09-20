@@ -16,6 +16,106 @@ namespace Fur.Database.Migrations.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.0-rc.1.20451.13");
 
+            modelBuilder.Entity("Fur.Core.Children", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("PersonId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId");
+
+                    b.ToTable("Children");
+                });
+
+            modelBuilder.Entity("Fur.Core.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("City");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedTime = new DateTime(2020, 8, 20, 15, 30, 20, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            Name = "中国"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedTime = new DateTime(2020, 8, 20, 15, 30, 20, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            Name = "广东省",
+                            ParentId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedTime = new DateTime(2020, 8, 20, 15, 30, 20, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            Name = "中山市",
+                            ParentId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedTime = new DateTime(2020, 8, 20, 15, 30, 20, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            Name = "珠海市",
+                            ParentId = 2
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedTime = new DateTime(2020, 8, 20, 15, 30, 20, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
+                            Name = "浙江省",
+                            ParentId = 1
+                        });
+                });
+
             modelBuilder.Entity("Fur.Core.Person", b =>
                 {
                     b.Property<int>("Id")
@@ -44,6 +144,125 @@ namespace Fur.Database.Migrations.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Person");
+                });
+
+            modelBuilder.Entity("Fur.Core.PersonDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PersonId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("QQ")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId")
+                        .IsUnique();
+
+                    b.ToTable("PersonDetail");
+                });
+
+            modelBuilder.Entity("Fur.Core.Post", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Post");
+                });
+
+            modelBuilder.Entity("PersonPost", b =>
+                {
+                    b.Property<int>("PersonsId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PostsId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("PersonsId", "PostsId");
+
+                    b.HasIndex("PostsId");
+
+                    b.ToTable("PersonPost");
+                });
+
+            modelBuilder.Entity("Fur.Core.Children", b =>
+                {
+                    b.HasOne("Fur.Core.Person", "Person")
+                        .WithMany("Childrens")
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("Fur.Core.City", b =>
+                {
+                    b.HasOne("Fur.Core.City", "Parent")
+                        .WithMany("Childrens")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("Fur.Core.PersonDetail", b =>
+                {
+                    b.HasOne("Fur.Core.Person", "Person")
+                        .WithOne("PersonDetail")
+                        .HasForeignKey("Fur.Core.PersonDetail", "PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("PersonPost", b =>
+                {
+                    b.HasOne("Fur.Core.Person", null)
+                        .WithMany()
+                        .HasForeignKey("PersonsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Fur.Core.Post", null)
+                        .WithMany()
+                        .HasForeignKey("PostsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Fur.Core.City", b =>
+                {
+                    b.Navigation("Childrens");
+                });
+
+            modelBuilder.Entity("Fur.Core.Person", b =>
+                {
+                    b.Navigation("Childrens");
+
+                    b.Navigation("PersonDetail");
                 });
 #pragma warning restore 612, 618
         }

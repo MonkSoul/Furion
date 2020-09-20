@@ -340,7 +340,8 @@ namespace Fur.DatabaseAccessor
                         result.EntityNoKeyTypes.Add(entityCorrelationType);
                     }
                 }
-                else if (typeof(IModelBuilder).IsAssignableFrom(entityCorrelationType))
+
+                if (typeof(IModelBuilder).IsAssignableFrom(entityCorrelationType))
                 {
                     // 添加模型构建器
                     if (entityCorrelationType.HasImplementedRawGeneric(typeof(IEntityTypeBuilderDependency<>)))
