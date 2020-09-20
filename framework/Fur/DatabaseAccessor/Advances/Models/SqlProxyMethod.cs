@@ -10,10 +10,10 @@
 // -----------------------------------------------------------------------------
 
 using Fur.DependencyInjection;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Data;
+using System.Data.Common;
 
 namespace Fur.DatabaseAccessor
 {
@@ -26,7 +26,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 命令参数
         /// </summary>
-        public SqlParameter[] SqlParameters { get; set; }
+        public DbParameter[] DbParameters { get; set; }
 
         /// <summary>
         /// 方法返回值

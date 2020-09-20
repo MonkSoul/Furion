@@ -12,11 +12,11 @@
 using Fur.DependencyInjection;
 using Fur.FriendlyException;
 using Mapster;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -60,7 +60,7 @@ namespace Fur.DatabaseAccessor
             // 定义多次使用变量
             var returnType = sqlProxyMethod.ReturnType;
             var sql = sqlProxyMethod.FinalSql;
-            var parameters = sqlProxyMethod.SqlParameters;
+            var parameters = sqlProxyMethod.DbParameters;
             var commandType = sqlProxyMethod.CommandType;
             var isAsync = sqlProxyMethod.IsAsync;
 
@@ -142,7 +142,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="dataSet">数据集</param>
         /// <returns></returns>
-        private static object ConvertProcedureOutputResult(Type returnType, SqlParameter[] parameters, DataSet dataSet)
+        private static object ConvertProcedureOutputResult(Type returnType, DbParameter[] parameters, DataSet dataSet)
         {
             // 是否是泛型
             if (!returnType.IsGenericType)
@@ -181,7 +181,7 @@ namespace Fur.DatabaseAccessor
             var dbContext = GetDbContext(sqlProxyAttribute.DbContextLocator);
 
             // 转换方法参数
-            var parameters = method.GetParameters().ToSqlParameters(args);
+            var parameters = method.GetParameters().ToDbParameters(null);
 
             // 定义最终 Sql 语句
             string finalSql;
@@ -212,7 +212,7 @@ namespace Fur.DatabaseAccessor
             // 返回
             return new SqlProxyMethod
             {
-                SqlParameters = parameters,
+                DbParameters = parameters,
                 DbContext = dbContext,
                 ReturnType = returnType,
                 IsAsync = isAsyncMethod,

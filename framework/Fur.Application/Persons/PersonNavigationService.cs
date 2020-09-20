@@ -16,6 +16,7 @@ namespace Fur.Application.Persons
     public class PersonNavigationService : IDynamicApiController
     {
         private IRepository<Person> _personRepository;
+
         public PersonNavigationService(IRepository<Person> personRepository)
         {
             _personRepository = personRepository;

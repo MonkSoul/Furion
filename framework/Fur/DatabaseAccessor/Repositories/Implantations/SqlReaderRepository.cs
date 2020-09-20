@@ -11,6 +11,7 @@
 
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,7 +30,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>DataTable</returns>
-        public virtual DataTable SqlQuery(string sql, params object[] parameters)
+        public virtual DataTable SqlQuery(string sql, params DbParameter[] parameters)
         {
             return Database.ExecuteReader(sql, parameters);
         }
@@ -42,7 +43,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>DataTable</returns>
         public virtual DataTable SqlQuery(string sql, object model)
         {
-            return Database.ExecuteReader(sql, model.ToSqlParameters());
+            return Database.ExecuteReader(sql, model).dataTable;
         }
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>Task<DataTable></returns>
-        public virtual Task<DataTable> SqlQueryAsync(string sql, params object[] parameters)
+        public virtual Task<DataTable> SqlQueryAsync(string sql, params DbParameter[] parameters)
         {
             return Database.ExecuteReaderAsync(sql, parameters);
         }
@@ -63,7 +64,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task<DataTable></returns>
-        public virtual Task<DataTable> SqlQueryAsync(string sql, object[] parameters, CancellationToken cancellationToken = default)
+        public virtual Task<DataTable> SqlQueryAsync(string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
             return Database.ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
         }
@@ -75,9 +76,10 @@ namespace Fur.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task<DataTable></returns>
-        public virtual Task<DataTable> SqlQueryAsync(string sql, object model, CancellationToken cancellationToken = default)
+        public virtual async Task<DataTable> SqlQueryAsync(string sql, object model, CancellationToken cancellationToken = default)
         {
-            return Database.ExecuteReaderAsync(sql, model.ToSqlParameters(), cancellationToken: cancellationToken);
+            var (dataTable, _) = await Database.ExecuteReaderAsync(sql, model, cancellationToken: cancellationToken);
+            return dataTable;
         }
 
         /// <summary>
@@ -87,7 +89,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>List<T></returns>
-        public virtual List<T> SqlQuery<T>(string sql, params object[] parameters)
+        public virtual List<T> SqlQuery<T>(string sql, params DbParameter[] parameters)
         {
             return Database.ExecuteReader(sql, parameters).ToList<T>();
         }
@@ -101,7 +103,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>List<T></returns>
         public virtual List<T> SqlQuery<T>(string sql, object model)
         {
-            return Database.ExecuteReader(sql, model.ToSqlParameters()).ToList<T>();
+            return Database.ExecuteReader(sql, model).dataTable.ToList<T>();
         }
 
         /// <summary>
@@ -111,7 +113,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>Task<List<T>></returns>
-        public virtual async Task<List<T>> SqlQueryAsync<T>(string sql, params object[] parameters)
+        public virtual async Task<List<T>> SqlQueryAsync<T>(string sql, params DbParameter[] parameters)
         {
             var dataTable = await Database.ExecuteReaderAsync(sql, parameters);
             return dataTable.ToList<T>();
@@ -125,7 +127,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task<List<T>></returns>
-        public virtual async Task<List<T>> SqlQueryAsync<T>(string sql, object[] parameters, CancellationToken cancellationToken = default)
+        public virtual async Task<List<T>> SqlQueryAsync<T>(string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
             var dataTable = await Database.ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
             return dataTable.ToList<T>();
@@ -141,7 +143,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>Task<List<T>></returns>
         public virtual async Task<List<T>> SqlQueryAsync<T>(string sql, object model, CancellationToken cancellationToken = default)
         {
-            var dataTable = await Database.ExecuteReaderAsync(sql, model.ToSqlParameters(), cancellationToken: cancellationToken);
+            var (dataTable, _) = await Database.ExecuteReaderAsync(sql, model, cancellationToken: cancellationToken);
             return dataTable.ToList<T>();
         }
 
@@ -151,7 +153,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>DataSet</returns>
-        public virtual DataSet SqlQueries(string sql, params object[] parameters)
+        public virtual DataSet SqlQueries(string sql, params DbParameter[] parameters)
         {
             return Database.DataAdapterFill(sql, parameters);
         }
@@ -164,7 +166,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>DataSet</returns>
         public virtual DataSet SqlQueries(string sql, object model)
         {
-            return Database.DataAdapterFill(sql, model.ToSqlParameters());
+            return Database.DataAdapterFill(sql, model).dataSet;
         }
 
         /// <summary>
@@ -173,7 +175,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>Task<DataSet></returns>
-        public virtual Task<DataSet> SqlQueriesAsync(string sql, params object[] parameters)
+        public virtual Task<DataSet> SqlQueriesAsync(string sql, params DbParameter[] parameters)
         {
             return Database.DataAdapterFillAsync(sql, parameters);
         }
@@ -185,7 +187,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task<DataSet></returns>
-        public virtual Task<DataSet> SqlQueriesAsync(string sql, object[] parameters, CancellationToken cancellationToken = default)
+        public virtual Task<DataSet> SqlQueriesAsync(string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
             return Database.DataAdapterFillAsync(sql, parameters, cancellationToken: cancellationToken);
         }
@@ -197,9 +199,10 @@ namespace Fur.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task<DataSet></returns>
-        public virtual Task<DataSet> SqlQueriesAsync(string sql, object model, CancellationToken cancellationToken = default)
+        public virtual async Task<DataSet> SqlQueriesAsync(string sql, object model, CancellationToken cancellationToken = default)
         {
-            return Database.DataAdapterFillAsync(sql, model.ToSqlParameters(), cancellationToken: cancellationToken);
+            var (dataSet, _) = await Database.DataAdapterFillAsync(sql, model, cancellationToken: cancellationToken);
+            return dataSet;
         }
 
         /// <summary>
@@ -209,7 +212,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>List<T1></returns>
-        public virtual List<T1> SqlQueries<T1>(string sql, params object[] parameters)
+        public virtual List<T1> SqlQueries<T1>(string sql, params DbParameter[] parameters)
         {
             return Database.DataAdapterFill(sql, parameters).ToList<T1>();
         }
@@ -222,7 +225,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public virtual (List<T1> list1, List<T2> list2) SqlQueries<T1, T2>(string sql, params object[] parameters)
+        public virtual (List<T1> list1, List<T2> list2) SqlQueries<T1, T2>(string sql, params DbParameter[] parameters)
         {
             return Database.DataAdapterFill(sql, parameters).ToList<T1, T2>();
         }
@@ -236,7 +239,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public virtual (List<T1> list1, List<T2> list2, List<T3> list3) SqlQueries<T1, T2, T3>(string sql, params object[] parameters)
+        public virtual (List<T1> list1, List<T2> list2, List<T3> list3) SqlQueries<T1, T2, T3>(string sql, params DbParameter[] parameters)
         {
             return Database.DataAdapterFill(sql, parameters).ToList<T1, T2, T3>();
         }
@@ -251,7 +254,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public virtual (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlQueries<T1, T2, T3, T4>(string sql, params object[] parameters)
+        public virtual (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlQueries<T1, T2, T3, T4>(string sql, params DbParameter[] parameters)
         {
             return Database.DataAdapterFill(sql, parameters).ToList<T1, T2, T3, T4>();
         }
@@ -267,7 +270,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public virtual (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlQueries<T1, T2, T3, T4, T5>(string sql, params object[] parameters)
+        public virtual (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlQueries<T1, T2, T3, T4, T5>(string sql, params DbParameter[] parameters)
         {
             return Database.DataAdapterFill(sql, parameters).ToList<T1, T2, T3, T4, T5>();
         }
@@ -284,7 +287,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public virtual (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlQueries<T1, T2, T3, T4, T5, T6>(string sql, params object[] parameters)
+        public virtual (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlQueries<T1, T2, T3, T4, T5, T6>(string sql, params DbParameter[] parameters)
         {
             return Database.DataAdapterFill(sql, parameters).ToList<T1, T2, T3, T4, T5, T6>();
         }
@@ -302,7 +305,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public virtual (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlQueries<T1, T2, T3, T4, T5, T6, T7>(string sql, params object[] parameters)
+        public virtual (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlQueries<T1, T2, T3, T4, T5, T6, T7>(string sql, params DbParameter[] parameters)
         {
             return Database.DataAdapterFill(sql, parameters).ToList<T1, T2, T3, T4, T5, T6, T7>();
         }
@@ -321,7 +324,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public virtual (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlQueries<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, params object[] parameters)
+        public virtual (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlQueries<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, params DbParameter[] parameters)
         {
             return Database.DataAdapterFill(sql, parameters).ToList<T1, T2, T3, T4, T5, T6, T7, T8>();
         }
@@ -335,7 +338,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>List<T1></returns>
         public virtual List<T1> SqlQueries<T1>(string sql, object model)
         {
-            return Database.DataAdapterFill(sql, model.ToSqlParameters()).ToList<T1>();
+            return Database.DataAdapterFill(sql, model).dataSet.ToList<T1>();
         }
 
         /// <summary>
@@ -348,7 +351,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public virtual (List<T1> list1, List<T2> list2) SqlQueries<T1, T2>(string sql, object model)
         {
-            return Database.DataAdapterFill(sql, model.ToSqlParameters()).ToList<T1, T2>();
+            return Database.DataAdapterFill(sql, model).dataSet.ToList<T1, T2>();
         }
 
         /// <summary>
@@ -362,7 +365,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public virtual (List<T1> list1, List<T2> list2, List<T3> list3) SqlQueries<T1, T2, T3>(string sql, object model)
         {
-            return Database.DataAdapterFill(sql, model.ToSqlParameters()).ToList<T1, T2, T3>();
+            return Database.DataAdapterFill(sql, model).dataSet.ToList<T1, T2, T3>();
         }
 
         /// <summary>
@@ -377,7 +380,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public virtual (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlQueries<T1, T2, T3, T4>(string sql, object model)
         {
-            return Database.DataAdapterFill(sql, model.ToSqlParameters()).ToList<T1, T2, T3, T4>();
+            return Database.DataAdapterFill(sql, model).dataSet.ToList<T1, T2, T3, T4>();
         }
 
         /// <summary>
@@ -393,7 +396,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public virtual (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlQueries<T1, T2, T3, T4, T5>(string sql, object model)
         {
-            return Database.DataAdapterFill(sql, model.ToSqlParameters()).ToList<T1, T2, T3, T4, T5>();
+            return Database.DataAdapterFill(sql, model).dataSet.ToList<T1, T2, T3, T4, T5>();
         }
 
         /// <summary>
@@ -410,7 +413,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public virtual (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlQueries<T1, T2, T3, T4, T5, T6>(string sql, object model)
         {
-            return Database.DataAdapterFill(sql, model.ToSqlParameters()).ToList<T1, T2, T3, T4, T5, T6>();
+            return Database.DataAdapterFill(sql, model).dataSet.ToList<T1, T2, T3, T4, T5, T6>();
         }
 
         /// <summary>
@@ -428,7 +431,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public virtual (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlQueries<T1, T2, T3, T4, T5, T6, T7>(string sql, object model)
         {
-            return Database.DataAdapterFill(sql, model.ToSqlParameters()).ToList<T1, T2, T3, T4, T5, T6, T7>();
+            return Database.DataAdapterFill(sql, model).dataSet.ToList<T1, T2, T3, T4, T5, T6, T7>();
         }
 
         /// <summary>
@@ -447,7 +450,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public virtual (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlQueries<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, object model)
         {
-            return Database.DataAdapterFill(sql, model.ToSqlParameters()).ToList<T1, T2, T3, T4, T5, T6, T7, T8>();
+            return Database.DataAdapterFill(sql, model).dataSet.ToList<T1, T2, T3, T4, T5, T6, T7, T8>();
         }
 
         /// <summary>
@@ -457,7 +460,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>Task<List<T1>></returns>
-        public virtual async Task<List<T1>> SqlQueriesAsync<T1>(string sql, params object[] parameters)
+        public virtual async Task<List<T1>> SqlQueriesAsync<T1>(string sql, params DbParameter[] parameters)
         {
             var dataset = await Database.DataAdapterFillAsync(sql, parameters);
             return dataset.ToList<T1>();
@@ -471,7 +474,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task<List<T1>></returns>
-        public virtual async Task<List<T1>> SqlQueriesAsync<T1>(string sql, object[] parameters, CancellationToken cancellationToken = default)
+        public virtual async Task<List<T1>> SqlQueriesAsync<T1>(string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
             var dataset = await Database.DataAdapterFillAsync(sql, parameters, cancellationToken: cancellationToken);
             return dataset.ToList<T1>();
@@ -485,7 +488,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public virtual async Task<(List<T1> list1, List<T2> list2)> SqlQueriesAsync<T1, T2>(string sql, params object[] parameters)
+        public virtual async Task<(List<T1> list1, List<T2> list2)> SqlQueriesAsync<T1, T2>(string sql, params DbParameter[] parameters)
         {
             var dataset = await Database.DataAdapterFillAsync(sql, parameters);
             return dataset.ToList<T1, T2>();
@@ -500,7 +503,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public virtual async Task<(List<T1> list1, List<T2> list2)> SqlQueriesAsync<T1, T2>(string sql, object[] parameters, CancellationToken cancellationToken = default)
+        public virtual async Task<(List<T1> list1, List<T2> list2)> SqlQueriesAsync<T1, T2>(string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
             var dataset = await Database.DataAdapterFillAsync(sql, parameters, cancellationToken: cancellationToken);
             return dataset.ToList<T1, T2>();
@@ -515,7 +518,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQueriesAsync<T1, T2, T3>(string sql, params object[] parameters)
+        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQueriesAsync<T1, T2, T3>(string sql, params DbParameter[] parameters)
         {
             var dataset = await Database.DataAdapterFillAsync(sql, parameters);
             return dataset.ToList<T1, T2, T3>();
@@ -531,7 +534,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQueriesAsync<T1, T2, T3>(string sql, object[] parameters, CancellationToken cancellationToken = default)
+        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQueriesAsync<T1, T2, T3>(string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
             var dataset = await Database.DataAdapterFillAsync(sql, parameters, cancellationToken: cancellationToken);
             return dataset.ToList<T1, T2, T3>();
@@ -547,7 +550,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQueriesAsync<T1, T2, T3, T4>(string sql, params object[] parameters)
+        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQueriesAsync<T1, T2, T3, T4>(string sql, params DbParameter[] parameters)
         {
             var dataset = await Database.DataAdapterFillAsync(sql, parameters);
             return dataset.ToList<T1, T2, T3, T4>();
@@ -564,7 +567,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQueriesAsync<T1, T2, T3, T4>(string sql, object[] parameters, CancellationToken cancellationToken = default)
+        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQueriesAsync<T1, T2, T3, T4>(string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
             var dataset = await Database.DataAdapterFillAsync(sql, parameters, cancellationToken: cancellationToken);
             return dataset.ToList<T1, T2, T3, T4>();
@@ -581,7 +584,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQueriesAsync<T1, T2, T3, T4, T5>(string sql, params object[] parameters)
+        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQueriesAsync<T1, T2, T3, T4, T5>(string sql, params DbParameter[] parameters)
         {
             var dataset = await Database.DataAdapterFillAsync(sql, parameters);
             return dataset.ToList<T1, T2, T3, T4, T5>();
@@ -599,7 +602,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQueriesAsync<T1, T2, T3, T4, T5>(string sql, object[] parameters, CancellationToken cancellationToken = default)
+        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQueriesAsync<T1, T2, T3, T4, T5>(string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
             var dataset = await Database.DataAdapterFillAsync(sql, parameters, cancellationToken: cancellationToken);
             return dataset.ToList<T1, T2, T3, T4, T5>();
@@ -617,7 +620,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(string sql, params object[] parameters)
+        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(string sql, params DbParameter[] parameters)
         {
             var dataset = await Database.DataAdapterFillAsync(sql, parameters);
             return dataset.ToList<T1, T2, T3, T4, T5, T6>();
@@ -636,7 +639,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(string sql, object[] parameters, CancellationToken cancellationToken = default)
+        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
             var dataset = await Database.DataAdapterFillAsync(sql, parameters, cancellationToken: cancellationToken);
             return dataset.ToList<T1, T2, T3, T4, T5, T6>();
@@ -655,7 +658,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(string sql, params object[] parameters)
+        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(string sql, params DbParameter[] parameters)
         {
             var dataset = await Database.DataAdapterFillAsync(sql, parameters);
             return dataset.ToList<T1, T2, T3, T4, T5, T6, T7>();
@@ -675,7 +678,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(string sql, object[] parameters, CancellationToken cancellationToken = default)
+        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
             var dataset = await Database.DataAdapterFillAsync(sql, parameters, cancellationToken: cancellationToken);
             return dataset.ToList<T1, T2, T3, T4, T5, T6, T7>();
@@ -695,7 +698,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, params object[] parameters)
+        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, params DbParameter[] parameters)
         {
             var dataset = await Database.DataAdapterFillAsync(sql, parameters);
             return dataset.ToList<T1, T2, T3, T4, T5, T6, T7, T8>();
@@ -716,7 +719,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, object[] parameters, CancellationToken cancellationToken = default)
+        public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
             var dataset = await Database.DataAdapterFillAsync(sql, parameters, cancellationToken: cancellationToken);
             return dataset.ToList<T1, T2, T3, T4, T5, T6, T7, T8>();
@@ -732,7 +735,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>List<T1></returns>
         public virtual async Task<List<T1>> SqlQueriesAsync<T1>(string sql, object model, CancellationToken cancellationToken = default)
         {
-            var dataset = await Database.DataAdapterFillAsync(sql, model.ToSqlParameters(), cancellationToken: cancellationToken);
+            var (dataset, _) = await Database.DataAdapterFillAsync(sql, model, cancellationToken: cancellationToken);
             return dataset.ToList<T1>();
         }
 
@@ -747,7 +750,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public virtual async Task<(List<T1> list1, List<T2> list2)> SqlQueriesAsync<T1, T2>(string sql, object model, CancellationToken cancellationToken = default)
         {
-            var dataset = await Database.DataAdapterFillAsync(sql, model.ToSqlParameters(), cancellationToken: cancellationToken);
+            var (dataset, _) = await Database.DataAdapterFillAsync(sql, model, cancellationToken: cancellationToken);
             return dataset.ToList<T1, T2>();
         }
 
@@ -763,7 +766,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQueriesAsync<T1, T2, T3>(string sql, object model, CancellationToken cancellationToken = default)
         {
-            var dataset = await Database.DataAdapterFillAsync(sql, model.ToSqlParameters(), cancellationToken: cancellationToken);
+            var (dataset, _) = await Database.DataAdapterFillAsync(sql, model, cancellationToken: cancellationToken);
             return dataset.ToList<T1, T2, T3>();
         }
 
@@ -780,7 +783,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQueriesAsync<T1, T2, T3, T4>(string sql, object model, CancellationToken cancellationToken = default)
         {
-            var dataset = await Database.DataAdapterFillAsync(sql, model.ToSqlParameters(), cancellationToken: cancellationToken);
+            var (dataset, _) = await Database.DataAdapterFillAsync(sql, model, cancellationToken: cancellationToken);
             return dataset.ToList<T1, T2, T3, T4>();
         }
 
@@ -798,7 +801,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQueriesAsync<T1, T2, T3, T4, T5>(string sql, object model, CancellationToken cancellationToken = default)
         {
-            var dataset = await Database.DataAdapterFillAsync(sql, model.ToSqlParameters(), cancellationToken: cancellationToken);
+            var (dataset, _) = await Database.DataAdapterFillAsync(sql, model, cancellationToken: cancellationToken);
             return dataset.ToList<T1, T2, T3, T4, T5>();
         }
 
@@ -817,7 +820,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(string sql, object model, CancellationToken cancellationToken = default)
         {
-            var dataset = await Database.DataAdapterFillAsync(sql, model.ToSqlParameters(), cancellationToken: cancellationToken);
+            var (dataset, _) = await Database.DataAdapterFillAsync(sql, model, cancellationToken: cancellationToken);
             return dataset.ToList<T1, T2, T3, T4, T5, T6>();
         }
 
@@ -837,7 +840,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(string sql, object model, CancellationToken cancellationToken = default)
         {
-            var dataset = await Database.DataAdapterFillAsync(sql, model.ToSqlParameters(), cancellationToken: cancellationToken);
+            var (dataset, _) = await Database.DataAdapterFillAsync(sql, model, cancellationToken: cancellationToken);
             return dataset.ToList<T1, T2, T3, T4, T5, T6, T7>();
         }
 
@@ -858,7 +861,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>元组类型</returns>
         public virtual async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string sql, object model, CancellationToken cancellationToken = default)
         {
-            var dataset = await Database.DataAdapterFillAsync(sql, model.ToSqlParameters(), cancellationToken: cancellationToken);
+            var (dataset, _) = await Database.DataAdapterFillAsync(sql, model, cancellationToken: cancellationToken);
             return dataset.ToList<T1, T2, T3, T4, T5, T6, T7, T8>();
         }
     }

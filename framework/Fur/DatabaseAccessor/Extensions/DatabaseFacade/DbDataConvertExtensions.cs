@@ -12,11 +12,11 @@
 using Fur.DependencyInjection;
 using Fur.FriendlyException;
 using Mapster;
-using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -30,20 +30,20 @@ namespace Fur.DatabaseAccessor
     public static class DbDataConvertExtensions
     {
         /// <summary>
-        /// 将模型转为 SqlParameter 集合
+        /// 将模型转为 DbParameter 集合
         /// </summary>
         /// <param name="model">模型</param>
-        /// <returns>SqlParameter[]</returns>
-        public static SqlParameter[] ToSqlParameters(this object model)
+        /// <returns>DbParameter[]</returns>
+        internal static DbParameter[] ToDbParameters(this object model, DbCommand dbCommand)
         {
-            var sqlParameters = new List<SqlParameter>();
+            var dbParameters = new List<DbParameter>();
 
             var modelType = model?.GetType();
-            if (model == null || !modelType.IsClass) return sqlParameters.ToArray();
+            if (model == null || !modelType.IsClass) return dbParameters.ToArray();
 
             // 获取所有公开实例属性
             var properties = modelType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            if (properties.Length == 0) return sqlParameters.ToArray();
+            if (properties.Length == 0) return dbParameters.ToArray();
 
             // 遍历所有属性
             foreach (var property in properties)
@@ -54,25 +54,30 @@ namespace Fur.DatabaseAccessor
                 if (property.IsDefined(typeof(DbParameterAttribute), true))
                 {
                     var dbParameterAttribute = property.GetCustomAttribute<DbParameterAttribute>(true);
-                    sqlParameters.Add(DbHelpers.CreateSqlParameter(property.Name, propertyValue, dbParameterAttribute));
+                    dbParameters.Add(DbHelpers.CreateDbParameter(property.Name, propertyValue, dbParameterAttribute, dbCommand));
                     continue;
                 }
-                sqlParameters.Add(new SqlParameter(property.Name, propertyValue));
+
+                // 创建命令参数
+                var dbParameter = dbCommand.CreateParameter();
+                dbParameter.ParameterName = property.Name;
+                dbParameter.Value = propertyValue;
+                dbParameters.Add(dbParameter);
             }
 
-            return sqlParameters.ToArray();
+            return dbParameters.ToArray();
         }
 
         /// <summary>
-        /// 将参数类型转 SqlParameter 集合
+        /// 将参数类型转 DbParameter 集合
         /// </summary>
         /// <param name="parameters">参数</param>
         /// <param name="arguments">参数值</param>
-        /// <returns>SqlParameter[]</returns>
-        public static SqlParameter[] ToSqlParameters(this ParameterInfo[] parameters, object[] arguments)
+        /// <returns>DbParameter[]</returns>
+        internal static DbParameter[] ToDbParameters(this ParameterInfo[] parameters, object[] arguments, DbCommand dbCommand)
         {
-            var sqlParameters = new List<SqlParameter>();
-            if (parameters == null || parameters.Length == 0) return sqlParameters.ToArray();
+            var dbParameters = new List<DbParameter>();
+            if (parameters == null || parameters.Length == 0) return dbParameters.ToArray();
 
             // 只支持要么全是基元类型，或全部都是类类型
             if (!parameters.All(u => u.ParameterType.IsRichPrimitive()) && !parameters.All(u => u.ParameterType.IsClass))
@@ -90,10 +95,14 @@ namespace Fur.DatabaseAccessor
                     if (parameter.IsDefined(typeof(DbParameterAttribute), true))
                     {
                         var dbParameterAttribute = parameter.GetCustomAttribute<DbParameterAttribute>(true);
-                        sqlParameters.Add(DbHelpers.CreateSqlParameter(parameter.Name, parameterValue, dbParameterAttribute));
+                        dbParameters.Add(DbHelpers.CreateDbParameter(parameter.Name, parameterValue, dbParameterAttribute, dbCommand));
                         continue;
                     }
-                    sqlParameters.Add(new SqlParameter(parameter.Name, parameterValue));
+
+                    var dbParameter = dbCommand.CreateParameter();
+                    dbParameter.ParameterName = parameter.Name;
+                    dbParameter.Value = parameterValue;
+                    dbParameters.Add(dbParameter);
                 }
             }
             // 处理类类型参数
@@ -101,11 +110,11 @@ namespace Fur.DatabaseAccessor
             {
                 foreach (var argument in arguments)
                 {
-                    sqlParameters.AddRange(argument.ToSqlParameters());
+                    dbParameters.AddRange(argument.ToDbParameters(dbCommand));
                 }
             }
 
-            return sqlParameters.ToArray();
+            return dbParameters.ToArray();
         }
 
         /// <summary>

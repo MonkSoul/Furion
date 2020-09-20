@@ -11,10 +11,10 @@
 
 using Fur.DependencyInjection;
 using Mapster;
-using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -30,28 +30,31 @@ namespace Fur.DatabaseAccessor
         /// <param name="name">参数名</param>
         /// <param name="value">参数值</param>
         /// <param name="dbParameterAttribute">参数特性</param>
-        /// <returns>SqlParameter</returns>
-        internal static SqlParameter CreateSqlParameter(string name, object value, DbParameterAttribute dbParameterAttribute)
+        /// <returns>DbParameter</returns>
+        internal static DbParameter CreateDbParameter(string name, object value, DbParameterAttribute dbParameterAttribute, DbCommand dbCommand)
         {
             // 设置参数方向
-            var sqlParameter = new SqlParameter(name, value) { Direction = dbParameterAttribute.Direction };
+            var dbParameter = dbCommand.CreateParameter();
+            dbParameter.ParameterName = name;
+            dbParameter.Value = value;
+            dbParameter.Direction = dbParameterAttribute.Direction;
 
             // 设置参数数据库类型
             if (dbParameterAttribute.DbType != null)
             {
                 var type = dbParameterAttribute.DbType.GetType();
-                if (type.IsEnum && typeof(SqlDbType).IsAssignableFrom(type))
+                if (type.IsEnum && typeof(DbType).IsAssignableFrom(type))
                 {
-                    sqlParameter.SqlDbType = (SqlDbType)dbParameterAttribute.DbType;
+                    dbParameter.DbType = (DbType)dbParameterAttribute.DbType;
                 }
             }
             // 设置大小，解决NVarchar，Varchar 问题
             if (dbParameterAttribute.Size > 0)
             {
-                sqlParameter.Size = dbParameterAttribute.Size;
+                dbParameter.Size = dbParameterAttribute.Size;
             }
 
-            return sqlParameter;
+            return dbParameter;
         }
 
         /// <summary>
@@ -62,12 +65,12 @@ namespace Fur.DatabaseAccessor
         /// <param name="funcName">函数名词</param>
         /// <param name="parameters">函数参数</param>
         /// <returns>sql 语句</returns>
-        internal static string CombineFunctionSql(string providerName, DbFunctionType dbFunctionType, string funcName, params SqlParameter[] parameters)
+        internal static string CombineFunctionSql(string providerName, DbFunctionType dbFunctionType, string funcName, params DbParameter[] parameters)
         {
             // 检查是否支持函数
             DatabaseProvider.CheckFunctionSupported(providerName, dbFunctionType);
 
-            parameters ??= Array.Empty<SqlParameter>();
+            parameters ??= Array.Empty<DbParameter>();
 
             var stringBuilder = new StringBuilder();
             stringBuilder.Append($"SELECT{(dbFunctionType == DbFunctionType.Table ? " * FROM" : "")} {funcName}(");
@@ -98,8 +101,8 @@ namespace Fur.DatabaseAccessor
         /// <param name="dbFunctionType">函数类型</param>
         /// <param name="funcName">函数名词</param>
         /// <param name="model">参数模型</param>
-        /// <returns>(string sql, SqlParameter[] parameters)</returns>
-        internal static (string sql, SqlParameter[] parameters) CombineFunctionSql(string providerName, DbFunctionType dbFunctionType, string funcName, object model)
+        /// <returns>(string sql, DbParameter[] parameters)</returns>
+        internal static string CombineFunctionSql(string providerName, DbFunctionType dbFunctionType, string funcName, object model)
         {
             // 检查是否支持函数
             DatabaseProvider.CheckFunctionSupported(providerName, dbFunctionType);
@@ -109,7 +112,6 @@ namespace Fur.DatabaseAccessor
                 ? Array.Empty<PropertyInfo>()
                 : model.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
-            var parameters = new List<SqlParameter>();
             var stringBuilder = new StringBuilder();
 
             stringBuilder.Append($"SELECT{(dbFunctionType == DbFunctionType.Table ? " * FROM" : "")} {funcName}(");
@@ -117,7 +119,6 @@ namespace Fur.DatabaseAccessor
             for (var i = 0; i < properities.Length; i++)
             {
                 var property = properities[i];
-                var propertyValue = property.GetValue(model) ?? DBNull.Value;
 
                 stringBuilder.Append($"@{property.Name}");
 
@@ -126,20 +127,11 @@ namespace Fur.DatabaseAccessor
                 {
                     stringBuilder.Append(", ");
                 }
-
-                // 判断属性是否贴有 [DbParameter] 特性
-                if (property.IsDefined(typeof(DbParameterAttribute), true))
-                {
-                    var dbParameterAttribute = property.GetCustomAttribute<DbParameterAttribute>(true);
-                    parameters.Add(DbHelpers.CreateSqlParameter(property.Name, propertyValue, dbParameterAttribute));
-                    continue;
-                }
-                parameters.Add(new SqlParameter(property.Name, propertyValue));
             }
 
             stringBuilder.Append("); ");
 
-            return (stringBuilder.ToString(), parameters.ToArray());
+            return stringBuilder.ToString();
         }
 
         /// <summary>
@@ -148,7 +140,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="dataSet">数据集</param>
         /// <returns>ProcedureOutput</returns>
-        internal static ProcedureOutputResult WrapperProcedureOutput(SqlParameter[] parameters, DataSet dataSet)
+        internal static ProcedureOutputResult WrapperProcedureOutput(DbParameter[] parameters, DataSet dataSet)
         {
             // 读取输出返回值
             ReadOuputValue(parameters, out var outputValues, out var returnValue);
@@ -168,7 +160,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="dataSet">数据集</param>
         /// <returns>ProcedureOutput</returns>
-        internal static ProcedureOutputResult<TResult> WrapperProcedureOutput<TResult>(SqlParameter[] parameters, DataSet dataSet)
+        internal static ProcedureOutputResult<TResult> WrapperProcedureOutput<TResult>(DbParameter[] parameters, DataSet dataSet)
         {
             // 读取输出返回值
             ReadOuputValue(parameters, out var outputValues, out var returnValue);
@@ -188,7 +180,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="dataSet">数据集</param>
         /// <param name="type">返回类型</param>
         /// <returns>ProcedureOutput</returns>
-        internal static object WrapperProcedureOutput(SqlParameter[] parameters, DataSet dataSet, Type type)
+        internal static object WrapperProcedureOutput(DbParameter[] parameters, DataSet dataSet, Type type)
         {
             // 读取输出返回值
             ReadOuputValue(parameters, out var outputValues, out var returnValue);
@@ -207,7 +199,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">参数</param>
         /// <param name="outputValues">输出参数</param>
         /// <param name="returnValue">返回值</param>
-        private static void ReadOuputValue(SqlParameter[] parameters, out List<ProcedureOutputValue> outputValues, out object returnValue)
+        private static void ReadOuputValue(DbParameter[] parameters, out List<ProcedureOutputValue> outputValues, out object returnValue)
         {
             // 查询所有OUTPUT值
             outputValues = parameters

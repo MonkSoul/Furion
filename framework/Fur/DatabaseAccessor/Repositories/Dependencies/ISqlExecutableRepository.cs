@@ -9,9 +9,9 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
-using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -37,7 +37,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>DataTable</returns>
-        DataTable SqlProcedureQuery(string procName, params object[] parameters);
+        DataTable SqlProcedureQuery(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 DataTable
@@ -53,7 +53,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>DataTable</returns>
-        Task<DataTable> SqlProcedureQueryAsync(string procName, params object[] parameters);
+        Task<DataTable> SqlProcedureQueryAsync(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 DataTable
@@ -62,7 +62,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>DataTable</returns>
-        Task<DataTable> SqlProcedureQueryAsync(string procName, object[] parameters, CancellationToken cancellationToken = default);
+        Task<DataTable> SqlProcedureQueryAsync(string procName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行存储过程返回 DataTable
@@ -79,7 +79,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>List<T></returns>
-        List<T> SqlProcedureQuery<T>(string procName, params object[] parameters);
+        List<T> SqlProcedureQuery<T>(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 List 集合
@@ -95,7 +95,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>List<T></returns>
-        Task<List<T>> SqlProcedureQueryAsync<T>(string procName, params object[] parameters);
+        Task<List<T>> SqlProcedureQueryAsync<T>(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 List 集合
@@ -104,7 +104,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>List<T></returns>
-        Task<List<T>> SqlProcedureQueryAsync<T>(string procName, object[] parameters, CancellationToken cancellationToken = default);
+        Task<List<T>> SqlProcedureQueryAsync<T>(string procName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行存储过程返回 List 集合
@@ -121,7 +121,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>DataSet</returns>
-        DataSet SqlProcedureQueries(string procName, params object[] parameters);
+        DataSet SqlProcedureQueries(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 DataSet
@@ -137,7 +137,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>DataSet</returns>
-        Task<DataSet> SqlProcedureQueriesAsync(string procName, params object[] parameters);
+        Task<DataSet> SqlProcedureQueriesAsync(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 DataSet
@@ -146,7 +146,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>DataSet</returns>
-        Task<DataSet> SqlProcedureQueriesAsync(string procName, object[] parameters, CancellationToken cancellationToken = default);
+        Task<DataSet> SqlProcedureQueriesAsync(string procName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行存储过程返回 DataSet
@@ -164,7 +164,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>List<T1></returns>
-        List<T1> SqlProcedureQueries<T1>(string procName, params object[] parameters);
+        List<T1> SqlProcedureQueries<T1>(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 元组 集合
@@ -174,7 +174,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2) SqlProcedureQueries<T1, T2>(string procName, params object[] parameters);
+        (List<T1> list1, List<T2> list2) SqlProcedureQueries<T1, T2>(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 元组 集合
@@ -185,7 +185,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2, List<T3> list3) SqlProcedureQueries<T1, T2, T3>(string procName, params object[] parameters);
+        (List<T1> list1, List<T2> list2, List<T3> list3) SqlProcedureQueries<T1, T2, T3>(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 元组 集合
@@ -197,7 +197,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlProcedureQueries<T1, T2, T3, T4>(string procName, params object[] parameters);
+        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlProcedureQueries<T1, T2, T3, T4>(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 元组 集合
@@ -210,7 +210,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlProcedureQueries<T1, T2, T3, T4, T5>(string procName, params object[] parameters);
+        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlProcedureQueries<T1, T2, T3, T4, T5>(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 元组 集合
@@ -224,7 +224,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlProcedureQueries<T1, T2, T3, T4, T5, T6>(string procName, params object[] parameters);
+        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlProcedureQueries<T1, T2, T3, T4, T5, T6>(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 元组 集合
@@ -239,7 +239,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7>(string procName, params object[] parameters);
+        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7>(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 元组 集合
@@ -255,7 +255,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7, T8>(string procName, params object[] parameters);
+        (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7, T8>(string procName, params DbParameter[] parameters);
 
         /// <summary>
         ///  执行存储过程返回 List 集合
@@ -364,7 +364,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>Task<List<T1>></returns>
-        Task<List<T1>> SqlProcedureQueriesAsync<T1>(string procName, params object[] parameters);
+        Task<List<T1>> SqlProcedureQueriesAsync<T1>(string procName, params DbParameter[] parameters);
 
         /// <summary>
         ///  执行存储过程返回 List 集合
@@ -374,7 +374,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task<List<T1>></returns>
-        Task<List<T1>> SqlProcedureQueriesAsync<T1>(string procName, object[] parameters, CancellationToken cancellationToken = default);
+        Task<List<T1>> SqlProcedureQueriesAsync<T1>(string procName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行存储过程返回 元组 集合
@@ -384,7 +384,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2)> SqlProcedureQueriesAsync<T1, T2>(string procName, params object[] parameters);
+        Task<(List<T1> list1, List<T2> list2)> SqlProcedureQueriesAsync<T1, T2>(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 元组 集合
@@ -395,7 +395,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2)> SqlProcedureQueriesAsync<T1, T2>(string procName, object[] parameters, CancellationToken cancellationToken = default);
+        Task<(List<T1> list1, List<T2> list2)> SqlProcedureQueriesAsync<T1, T2>(string procName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行存储过程返回 元组 集合
@@ -406,7 +406,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlProcedureQueriesAsync<T1, T2, T3>(string procName, params object[] parameters);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlProcedureQueriesAsync<T1, T2, T3>(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 元组 集合
@@ -418,7 +418,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlProcedureQueriesAsync<T1, T2, T3>(string procName, object[] parameters, CancellationToken cancellationToken = default);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlProcedureQueriesAsync<T1, T2, T3>(string procName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行存储过程返回 元组 集合
@@ -430,7 +430,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlProcedureQueriesAsync<T1, T2, T3, T4>(string procName, params object[] parameters);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlProcedureQueriesAsync<T1, T2, T3, T4>(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 元组 集合
@@ -443,7 +443,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlProcedureQueriesAsync<T1, T2, T3, T4>(string procName, object[] parameters, CancellationToken cancellationToken = default);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlProcedureQueriesAsync<T1, T2, T3, T4>(string procName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行存储过程返回 元组 集合
@@ -456,7 +456,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(string procName, params object[] parameters);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 元组 集合
@@ -470,21 +470,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(string procName, object[] parameters, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 执行存储过程返回 元组 集合
-        /// </summary>
-        /// <typeparam name="T1">元组元素类型</typeparam>
-        /// <typeparam name="T2">元组元素类型</typeparam>
-        /// <typeparam name="T3">元组元素类型</typeparam>
-        /// <typeparam name="T4">元组元素类型</typeparam>
-        /// <typeparam name="T5">元组元素类型</typeparam>
-        /// <typeparam name="T6">元组元素类型</typeparam>
-        /// <param name="procName">存储过程名</param>
-        /// <param name="parameters">命令参数</param>
-        /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(string procName, params object[] parameters);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(string procName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行存储过程返回 元组 集合
@@ -497,9 +483,8 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="T6">元组元素类型</typeparam>
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(string procName, object[] parameters, CancellationToken cancellationToken = default);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 元组 集合
@@ -510,11 +495,11 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="T4">元组元素类型</typeparam>
         /// <typeparam name="T5">元组元素类型</typeparam>
         /// <typeparam name="T6">元组元素类型</typeparam>
-        /// <typeparam name="T7">元组元素类型</typeparam>
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(string procName, params object[] parameters);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(string procName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行存储过程返回 元组 集合
@@ -528,9 +513,8 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="T7">元组元素类型</typeparam>
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(string procName, object[] parameters, CancellationToken cancellationToken = default);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 元组 集合
@@ -542,11 +526,11 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="T5">元组元素类型</typeparam>
         /// <typeparam name="T6">元组元素类型</typeparam>
         /// <typeparam name="T7">元组元素类型</typeparam>
-        /// <typeparam name="T8">元组元素类型</typeparam>
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string procName, params object[] parameters);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(string procName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行存储过程返回 元组 集合
@@ -561,9 +545,25 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="T8">元组元素类型</typeparam>
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
+        /// <returns>元组类型</returns>
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string procName, params DbParameter[] parameters);
+
+        /// <summary>
+        /// 执行存储过程返回 元组 集合
+        /// </summary>
+        /// <typeparam name="T1">元组元素类型</typeparam>
+        /// <typeparam name="T2">元组元素类型</typeparam>
+        /// <typeparam name="T3">元组元素类型</typeparam>
+        /// <typeparam name="T4">元组元素类型</typeparam>
+        /// <typeparam name="T5">元组元素类型</typeparam>
+        /// <typeparam name="T6">元组元素类型</typeparam>
+        /// <typeparam name="T7">元组元素类型</typeparam>
+        /// <typeparam name="T8">元组元素类型</typeparam>
+        /// <param name="procName">存储过程名</param>
+        /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string procName, object[] parameters, CancellationToken cancellationToken = default);
+        Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(string procName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///  执行存储过程返回 List 集合
@@ -679,7 +679,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>object</returns>
-        object SqlProcedureScalar(string procName, params object[] parameters);
+        object SqlProcedureScalar(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 单行单列
@@ -695,7 +695,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>object</returns>
-        Task<object> SqlProcedureScalarAsync(string procName, params object[] parameters);
+        Task<object> SqlProcedureScalarAsync(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 单行单列
@@ -704,7 +704,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>object</returns>
-        Task<object> SqlProcedureScalarAsync(string procName, object[] parameters, CancellationToken cancellationToken = default);
+        Task<object> SqlProcedureScalarAsync(string procName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行存储过程返回 单行单列
@@ -721,7 +721,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>TResult</returns>
-        TResult SqlProcedureScalar<TResult>(string procName, params object[] parameters);
+        TResult SqlProcedureScalar<TResult>(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 单行单列
@@ -737,7 +737,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>TResult</returns>
-        Task<TResult> SqlProcedureScalarAsync<TResult>(string procName, params object[] parameters);
+        Task<TResult> SqlProcedureScalarAsync<TResult>(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回 单行单列
@@ -746,7 +746,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>TResult</returns>
-        Task<TResult> SqlProcedureScalarAsync<TResult>(string procName, object[] parameters, CancellationToken cancellationToken = default);
+        Task<TResult> SqlProcedureScalarAsync<TResult>(string procName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行存储过程返回 单行单列
@@ -763,7 +763,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>int</returns>
-        int SqlProcedureNonQuery(string procName, params object[] parameters);
+        int SqlProcedureNonQuery(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程无数据返回
@@ -779,7 +779,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>int</returns>
-        Task<int> SqlProcedureNonQueryAsync(string procName, params object[] parameters);
+        Task<int> SqlProcedureNonQueryAsync(string procName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程无数据返回
@@ -788,7 +788,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>int</returns>
-        Task<int> SqlProcedureNonQueryAsync(string procName, object[] parameters, CancellationToken cancellationToken = default);
+        Task<int> SqlProcedureNonQueryAsync(string procName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行存储过程无数据返回
@@ -805,7 +805,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>int</returns>
-        int SqlNonQuery(string sql, params object[] parameters);
+        int SqlNonQuery(string sql, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行 Sql 无数据返回
@@ -821,7 +821,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>int</returns>
-        Task<int> SqlNonQueryAsync(string sql, params object[] parameters);
+        Task<int> SqlNonQueryAsync(string sql, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行 Sql 无数据返回
@@ -830,7 +830,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>int</returns>
-        Task<int> SqlNonQueryAsync(string sql, object[] parameters, CancellationToken cancellationToken = default);
+        Task<int> SqlNonQueryAsync(string sql, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行 Sql 无数据返回
@@ -847,7 +847,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>object</returns>
-        object SqlScalar(string sql, params object[] parameters);
+        object SqlScalar(string sql, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行 Sql 返回 单行单列
@@ -863,7 +863,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>object</returns>
-        Task<object> SqlScalarAsync(string sql, params object[] parameters);
+        Task<object> SqlScalarAsync(string sql, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行 Sql 返回 单行单列
@@ -872,7 +872,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>object</returns>
-        Task<object> SqlScalarAsync(string sql, object[] parameters, CancellationToken cancellationToken = default);
+        Task<object> SqlScalarAsync(string sql, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行 Sql 返回 单行单列
@@ -889,7 +889,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>TResult</returns>
-        TResult SqlScalar<TResult>(string sql, params object[] parameters);
+        TResult SqlScalar<TResult>(string sql, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行 Sql 返回 单行单列
@@ -905,7 +905,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>TResult</returns>
-        Task<TResult> SqlScalarAsync<TResult>(string sql, params object[] parameters);
+        Task<TResult> SqlScalarAsync<TResult>(string sql, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行 Sql 返回 单行单列
@@ -914,7 +914,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>TResult</returns>
-        Task<TResult> SqlScalarAsync<TResult>(string sql, object[] parameters, CancellationToken cancellationToken = default);
+        Task<TResult> SqlScalarAsync<TResult>(string sql, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行 Sql 返回 单行单列
@@ -931,7 +931,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>ProcedureOutput</returns>
-        ProcedureOutputResult SqlProcedureOutput(string procName, SqlParameter[] parameters);
+        ProcedureOutputResult SqlProcedureOutput(string procName, DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回OUPUT、RETURN、结果集
@@ -939,7 +939,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>ProcedureOutput</returns>
-        Task<ProcedureOutputResult> SqlProcedureOutputAsync(string procName, SqlParameter[] parameters, CancellationToken cancellationToken = default);
+        Task<ProcedureOutputResult> SqlProcedureOutputAsync(string procName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行存储过程返回OUPUT、RETURN、结果集
@@ -964,7 +964,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>ProcedureOutput</returns>
-        ProcedureOutputResult<TResult> SqlProcedureOutput<TResult>(string procName, SqlParameter[] parameters);
+        ProcedureOutputResult<TResult> SqlProcedureOutput<TResult>(string procName, DbParameter[] parameters);
 
         /// <summary>
         /// 执行存储过程返回OUPUT、RETURN、结果集
@@ -973,7 +973,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>ProcedureOutput</returns>
-        Task<ProcedureOutputResult<TResult>> SqlProcedureOutputAsync<TResult>(string procName, SqlParameter[] parameters, CancellationToken cancellationToken = default);
+        Task<ProcedureOutputResult<TResult>> SqlProcedureOutputAsync<TResult>(string procName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行存储过程返回OUPUT、RETURN、结果集
@@ -999,7 +999,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="funcName">函数名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>object</returns>
-        object SqlFunctionScalar(string funcName, params SqlParameter[] parameters);
+        object SqlFunctionScalar(string funcName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行标量函数返回 单行单列
@@ -1015,7 +1015,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="funcName">函数名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>object</returns>
-        Task<object> SqlFunctionScalarAsync(string funcName, params SqlParameter[] parameters);
+        Task<object> SqlFunctionScalarAsync(string funcName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行标量函数返回 单行单列
@@ -1023,7 +1023,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="funcName">函数名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>object</returns>
-        Task<object> SqlFunctionScalarAsync(string funcName, SqlParameter[] parameters, CancellationToken cancellationToken = default);
+        Task<object> SqlFunctionScalarAsync(string funcName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行标量函数返回 单行单列
@@ -1040,7 +1040,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="funcName">函数名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>TResult</returns>
-        TResult SqlFunctionScalar<TResult>(string funcName, params SqlParameter[] parameters);
+        TResult SqlFunctionScalar<TResult>(string funcName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行标量函数返回 单行单列
@@ -1058,7 +1058,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="funcName">函数名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>TResult</returns>
-        Task<TResult> SqlFunctionScalarAsync<TResult>(string funcName, params SqlParameter[] parameters);
+        Task<TResult> SqlFunctionScalarAsync<TResult>(string funcName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行标量函数返回 单行单列
@@ -1067,7 +1067,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="funcName">函数名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>TResult</returns>
-        Task<TResult> SqlFunctionScalarAsync<TResult>(string funcName, SqlParameter[] parameters, CancellationToken cancellationToken = default);
+        Task<TResult> SqlFunctionScalarAsync<TResult>(string funcName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行标量函数返回 单行单列
@@ -1084,7 +1084,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="funcName">函数名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>DataTable</returns>
-        DataTable SqlFunctionQuery(string funcName, params SqlParameter[] parameters);
+        DataTable SqlFunctionQuery(string funcName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行表值函数返回 DataTable
@@ -1100,7 +1100,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="funcName">函数名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>Task<DataTable></returns>
-        Task<DataTable> SqlFunctionQueryAsync(string funcName, params SqlParameter[] parameters);
+        Task<DataTable> SqlFunctionQueryAsync(string funcName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行表值函数返回 DataTable
@@ -1109,7 +1109,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task<DataTable></returns>
-        Task<DataTable> SqlFunctionQueryAsync(string funcName, SqlParameter[] parameters, CancellationToken cancellationToken = default);
+        Task<DataTable> SqlFunctionQueryAsync(string funcName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行表值函数返回 DataTable
@@ -1127,7 +1127,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="funcName">函数名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>List<T></returns>
-        List<T> SqlFunctionQuery<T>(string funcName, params SqlParameter[] parameters);
+        List<T> SqlFunctionQuery<T>(string funcName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行表值函数返回 List 集合
@@ -1145,7 +1145,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="funcName">函数名</param>
         /// <param name="parameters">命令参数</param>
         /// <returns>Task<List<T>></returns>
-        Task<List<T>> SqlFunctionQueryAsync<T>(string funcName, params SqlParameter[] parameters);
+        Task<List<T>> SqlFunctionQueryAsync<T>(string funcName, params DbParameter[] parameters);
 
         /// <summary>
         /// 执行表值函数返回 List 集合
@@ -1155,7 +1155,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task<List<T>></returns>
-        Task<List<T>> SqlFunctionQueryAsync<T>(string funcName, SqlParameter[] parameters, CancellationToken cancellationToken = default);
+        Task<List<T>> SqlFunctionQueryAsync<T>(string funcName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行表值函数返回 List 集合

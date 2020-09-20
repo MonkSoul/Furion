@@ -16,7 +16,7 @@ using System.Data;
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// SqlParameter 配置特性
+    /// DbParameter 配置特性
     /// </summary>
     [NonBeScan, AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter)]
     public sealed class DbParameterAttribute : Attribute
