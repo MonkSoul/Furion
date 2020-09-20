@@ -316,7 +316,7 @@ var query = from student in repository.AsQueryable()
 
 // 示例三
 var query = from a in repository.AsQueryable()
-            join b in repository2.AsQueryable on a.Id equals b.Aid
+            join b in repository2.AsQueryable() on a.Id equals b.Aid
             join c in repository3.AsQueryable() on c.id equals b.Bid
             group emp by new { emp.Age, emp.Sex } into g
             select new {
