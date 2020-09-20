@@ -53,7 +53,6 @@ namespace Fur.DynamicApiController
                 ["find"] = "GET",
                 ["fetch"] = "GET",
                 ["query"] = "GET",
-                ["search"] = "GET",
                 ["getlist"] = "GET",
                 ["getall"] = "GET",
 

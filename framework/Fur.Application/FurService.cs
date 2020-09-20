@@ -1,7 +1,9 @@
 ﻿using Fur.Core;
 using Fur.DatabaseAccessor;
 using Fur.DynamicApiController;
+using Fur.LinqBuilder;
 using Mapster;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -85,6 +87,21 @@ namespace Fur.Application
         {
             var pageResult = await _personRepository.AsQueryable().ToPagedListAsync(pageIndex, pageSize);
             return pageResult.Adapt<PagedList<PersonDto>>();
+        }
+
+        /// <summary>
+        /// 搜索数据
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="age"></param>
+        /// <returns></returns>
+        public async Task<List<PersonDto>> Search([FromQuery] string name, [FromQuery] int age)
+        {
+            var persons = await _personRepository.WhereIf(!string.IsNullOrEmpty(name), u => u.Name.Contains(name))
+                                                                          .WhereIf(age > 18, u => u.Age > 18)
+                                                                          .ToListAsync();
+
+            return persons.Adapt<List<PersonDto>>();
         }
     }
 }
