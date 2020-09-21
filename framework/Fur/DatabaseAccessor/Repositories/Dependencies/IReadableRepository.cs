@@ -568,7 +568,7 @@ namespace Fur.DatabaseAccessor
         /// 直接返回数据库结果
         /// </summary>
         /// <param name="noTracking">是否跟踪实体</param>
-        /// <returns>IQueryable<TEntity></returns>
+        /// <returns>List<TEntity></returns>
         List<TEntity> AsEnumerable(bool noTracking = true);
 
         /// <summary>
@@ -577,7 +577,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="predicate">表达式</param>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
-        /// <returns>IQueryable<TEntity></returns>
+        /// <returns>List<TEntity></returns>
         List<TEntity> AsEnumerable(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false);
 
         /// <summary>
@@ -586,14 +586,14 @@ namespace Fur.DatabaseAccessor
         /// <param name="predicate">表达式</param>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
-        /// <returns>IQueryable<TEntity></returns>
+        /// <returns>List<TEntity></returns>
         List<TEntity> AsEnumerable(Expression<Func<TEntity, int, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false);
 
         /// <summary>
         /// 直接返回数据库结果
         /// </summary>
         /// <param name="noTracking">是否跟踪实体</param>
-        /// <returns>IQueryable<TEntity></returns>
+        /// <returns>List<TEntity></returns>
         Task<List<TEntity>> AsAsyncEnumerable(bool noTracking = true, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -602,7 +602,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="predicate">表达式</param>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
-        /// <returns>IQueryable<TEntity></returns>
+        /// <returns>List<TEntity></returns>
         Task<List<TEntity>> AsAsyncEnumerable(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -612,7 +612,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
         /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>IQueryable<TEntity></returns>
+        /// <returns>List<TEntity></returns>
         Task<List<TEntity>> AsAsyncEnumerable(Expression<Func<TEntity, int, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false, CancellationToken cancellationToken = default);
     }
 }
