@@ -109,6 +109,12 @@
   - InMemory
   - Oracle
 
+## 关于性能
+
+`Fur` 目前采用 `Visual Studio 2019` 自带性能测试和 `JMeter` 进行测试，由于篇幅有限，只贴部分测试图：
+
+<img src="./handbook/static/img/xncs.png"/>
+
 ## 问答 FAQ
 
 🥇 **1. 不是有一个 Abp 框架了吗？**
