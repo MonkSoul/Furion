@@ -2215,7 +2215,7 @@ namespace Fur.DatabaseAccessor
         public static object SqlFunctionScalar(this string funcName, params DbParameter[] parameters)
         {
             var database = GetSqlRepositoryDatabase(ref funcName);
-            var sql = DbHelpers.CombineFunctionSql(database.ProviderName, DbFunctionType.Scalar, funcName, parameters);
+            var sql = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Scalar, funcName, parameters);
             return database.ExecuteScalar(sql, parameters);
         }
 
@@ -2228,7 +2228,7 @@ namespace Fur.DatabaseAccessor
         public static object SqlFunctionScalar(this string funcName, object model)
         {
             var database = GetSqlRepositoryDatabase(ref funcName);
-            var sql = DbHelpers.CombineFunctionSql(database.ProviderName, DbFunctionType.Scalar, funcName, model);
+            var sql = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Scalar, funcName, model);
             return database.ExecuteScalar(sql, model).result;
         }
 
@@ -2241,7 +2241,7 @@ namespace Fur.DatabaseAccessor
         public static Task<object> SqlFunctionScalarAsync(this string funcName, params DbParameter[] parameters)
         {
             var database = GetSqlRepositoryDatabase(ref funcName);
-            var sql = DbHelpers.CombineFunctionSql(database.ProviderName, DbFunctionType.Scalar, funcName, parameters);
+            var sql = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Scalar, funcName, parameters);
             return database.ExecuteScalarAsync(sql, parameters);
         }
 
@@ -2254,7 +2254,7 @@ namespace Fur.DatabaseAccessor
         public static Task<object> SqlFunctionScalarAsync(this string funcName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
             var database = GetSqlRepositoryDatabase(ref funcName);
-            var sql = DbHelpers.CombineFunctionSql(database.ProviderName, DbFunctionType.Scalar, funcName, parameters);
+            var sql = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Scalar, funcName, parameters);
             return database.ExecuteScalarAsync(sql, parameters, cancellationToken: cancellationToken);
         }
 
@@ -2267,7 +2267,7 @@ namespace Fur.DatabaseAccessor
         public static async Task<object> SqlFunctionScalarAsync(this string funcName, object model, CancellationToken cancellationToken = default)
         {
             var database = GetSqlRepositoryDatabase(ref funcName);
-            var sql = DbHelpers.CombineFunctionSql(database.ProviderName, DbFunctionType.Scalar, funcName, model);
+            var sql = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Scalar, funcName, model);
             var (result, _) = await database.ExecuteScalarAsync(sql, model, cancellationToken: cancellationToken);
             return result;
         }
@@ -2282,7 +2282,7 @@ namespace Fur.DatabaseAccessor
         public static TResult SqlFunctionScalar<TResult>(this string funcName, params DbParameter[] parameters)
         {
             var database = GetSqlRepositoryDatabase(ref funcName);
-            var sql = DbHelpers.CombineFunctionSql(database.ProviderName, DbFunctionType.Scalar, funcName, parameters);
+            var sql = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Scalar, funcName, parameters);
             return database.ExecuteScalar(sql, parameters).Adapt<TResult>();
         }
 
@@ -2296,7 +2296,7 @@ namespace Fur.DatabaseAccessor
         public static TResult SqlFunctionScalar<TResult>(this string funcName, object model)
         {
             var database = GetSqlRepositoryDatabase(ref funcName);
-            var sql = DbHelpers.CombineFunctionSql(database.ProviderName, DbFunctionType.Scalar, funcName, model);
+            var sql = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Scalar, funcName, model);
             return database.ExecuteScalar(sql, model).result.Adapt<TResult>();
         }
 
@@ -2310,7 +2310,7 @@ namespace Fur.DatabaseAccessor
         public static async Task<TResult> SqlFunctionScalarAsync<TResult>(this string funcName, params DbParameter[] parameters)
         {
             var database = GetSqlRepositoryDatabase(ref funcName);
-            var sql = DbHelpers.CombineFunctionSql(database.ProviderName, DbFunctionType.Scalar, funcName, parameters);
+            var sql = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Scalar, funcName, parameters);
             var result = await database.ExecuteScalarAsync(sql, parameters);
             return result.Adapt<TResult>();
         }
@@ -2325,7 +2325,7 @@ namespace Fur.DatabaseAccessor
         public static async Task<TResult> SqlFunctionScalarAsync<TResult>(this string funcName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
             var database = GetSqlRepositoryDatabase(ref funcName);
-            var sql = DbHelpers.CombineFunctionSql(database.ProviderName, DbFunctionType.Scalar, funcName, parameters);
+            var sql = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Scalar, funcName, parameters);
             var result = await database.ExecuteScalarAsync(sql, parameters, cancellationToken: cancellationToken);
             return result.Adapt<TResult>();
         }
@@ -2340,7 +2340,7 @@ namespace Fur.DatabaseAccessor
         public static async Task<TResult> SqlFunctionScalarAsync<TResult>(this string funcName, object model, CancellationToken cancellationToken = default)
         {
             var database = GetSqlRepositoryDatabase(ref funcName);
-            var sql = DbHelpers.CombineFunctionSql(database.ProviderName, DbFunctionType.Scalar, funcName, model);
+            var sql = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Scalar, funcName, model);
             var (result, _) = await database.ExecuteScalarAsync(sql, model, cancellationToken: cancellationToken);
             return result.Adapt<TResult>();
         }
@@ -2354,7 +2354,7 @@ namespace Fur.DatabaseAccessor
         public static DataTable SqlFunctionQuery(this string funcName, params DbParameter[] parameters)
         {
             var database = GetSqlRepositoryDatabase(ref funcName);
-            var sql = DbHelpers.CombineFunctionSql(database.ProviderName, DbFunctionType.Table, funcName, parameters);
+            var sql = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Table, funcName, parameters);
             return database.ExecuteReader(sql, parameters);
         }
 
@@ -2367,7 +2367,7 @@ namespace Fur.DatabaseAccessor
         public static DataTable SqlFunctionQuery(this string funcName, object model)
         {
             var database = GetSqlRepositoryDatabase(ref funcName);
-            var sql = DbHelpers.CombineFunctionSql(database.ProviderName, DbFunctionType.Table, funcName, model);
+            var sql = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Table, funcName, model);
             return database.ExecuteReader(sql, model).dataTable;
         }
 
@@ -2380,7 +2380,7 @@ namespace Fur.DatabaseAccessor
         public static Task<DataTable> SqlFunctionQueryAsync(this string funcName, params DbParameter[] parameters)
         {
             var database = GetSqlRepositoryDatabase(ref funcName);
-            var sql = DbHelpers.CombineFunctionSql(database.ProviderName, DbFunctionType.Table, funcName, parameters);
+            var sql = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Table, funcName, parameters);
             return database.ExecuteReaderAsync(sql, parameters);
         }
 
@@ -2394,7 +2394,7 @@ namespace Fur.DatabaseAccessor
         public static Task<DataTable> SqlFunctionQueryAsync(this string funcName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
             var database = GetSqlRepositoryDatabase(ref funcName);
-            var sql = DbHelpers.CombineFunctionSql(database.ProviderName, DbFunctionType.Table, funcName, parameters);
+            var sql = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Table, funcName, parameters);
             return database.ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
         }
 
@@ -2408,7 +2408,7 @@ namespace Fur.DatabaseAccessor
         public static async Task<DataTable> SqlFunctionQueryAsync(this string funcName, object model, CancellationToken cancellationToken = default)
         {
             var database = GetSqlRepositoryDatabase(ref funcName);
-            var sql = DbHelpers.CombineFunctionSql(database.ProviderName, DbFunctionType.Table, funcName, model);
+            var sql = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Table, funcName, model);
             var (dataTable, _) = await database.ExecuteReaderAsync(sql, model, cancellationToken: cancellationToken);
             return dataTable;
         }
@@ -2423,7 +2423,7 @@ namespace Fur.DatabaseAccessor
         public static List<T> SqlFunctionQuery<T>(this string funcName, params DbParameter[] parameters)
         {
             var database = GetSqlRepositoryDatabase(ref funcName);
-            var sql = DbHelpers.CombineFunctionSql(database.ProviderName, DbFunctionType.Table, funcName, parameters);
+            var sql = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Table, funcName, parameters);
             return database.ExecuteReader(sql, parameters).ToList<T>();
         }
 
@@ -2437,7 +2437,7 @@ namespace Fur.DatabaseAccessor
         public static List<T> SqlFunctionQuery<T>(this string funcName, object model)
         {
             var database = GetSqlRepositoryDatabase(ref funcName);
-            var sql = DbHelpers.CombineFunctionSql(database.ProviderName, DbFunctionType.Table, funcName, model);
+            var sql = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Table, funcName, model);
             return database.ExecuteReader(sql, model).dataTable.ToList<T>();
         }
 
@@ -2451,7 +2451,7 @@ namespace Fur.DatabaseAccessor
         public static async Task<List<T>> SqlFunctionQueryAsync<T>(this string funcName, params DbParameter[] parameters)
         {
             var database = GetSqlRepositoryDatabase(ref funcName);
-            var sql = DbHelpers.CombineFunctionSql(database.ProviderName, DbFunctionType.Table, funcName, parameters);
+            var sql = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Table, funcName, parameters);
             var dataTable = await database.ExecuteReaderAsync(sql, parameters);
             return dataTable.ToList<T>();
         }
@@ -2467,7 +2467,7 @@ namespace Fur.DatabaseAccessor
         public static async Task<List<T>> SqlFunctionQueryAsync<T>(this string funcName, DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
             var database = GetSqlRepositoryDatabase(ref funcName);
-            var sql = DbHelpers.CombineFunctionSql(database.ProviderName, DbFunctionType.Table, funcName, parameters);
+            var sql = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Table, funcName, parameters);
             var dataTable = await database.ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
             return dataTable.ToList<T>();
         }
@@ -2483,7 +2483,7 @@ namespace Fur.DatabaseAccessor
         public static async Task<List<T>> SqlFunctionQueryAsync<T>(this string funcName, object model, CancellationToken cancellationToken = default)
         {
             var database = GetSqlRepositoryDatabase(ref funcName);
-            var sql = DbHelpers.CombineFunctionSql(database.ProviderName, DbFunctionType.Table, funcName, model);
+            var sql = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Table, funcName, model);
             var (dataTable, _) = await database.ExecuteReaderAsync(sql, model, cancellationToken: cancellationToken);
             return dataTable.ToList<T>();
         }

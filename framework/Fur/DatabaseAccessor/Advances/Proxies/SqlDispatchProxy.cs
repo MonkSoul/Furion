@@ -15,6 +15,7 @@ using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
@@ -60,7 +61,7 @@ namespace Fur.DatabaseAccessor
             // 定义多次使用变量
             var returnType = sqlProxyMethod.ReturnType;
             var sql = sqlProxyMethod.FinalSql;
-            var parameters = sqlProxyMethod.DbParameters;
+            var parameterModel = sqlProxyMethod.ParameterModel;
             var commandType = sqlProxyMethod.CommandType;
             var isAsync = sqlProxyMethod.IsAsync;
 
@@ -68,22 +69,22 @@ namespace Fur.DatabaseAccessor
             if (returnType == typeof(DataSet))
             {
                 return !isAsync
-                    ? database.DataAdapterFill(sql, parameters, commandType)
-                    : database.DataAdapterFillAsync(sql, parameters, commandType);
+                    ? database.DataAdapterFill(sql, parameterModel, commandType)
+                    : database.DataAdapterFillAsync(sql, parameterModel, commandType);
             }
             // 处理 无返回值
             else if (returnType == typeof(void))
             {
                 return !isAsync
-                    ? database.ExecuteNonQuery(sql, parameters, commandType)
-                    : database.ExecuteNonQueryAsync(sql, parameters, commandType);
+                    ? database.ExecuteNonQuery(sql, parameterModel, commandType)
+                    : database.ExecuteNonQueryAsync(sql, parameterModel, commandType);
             }
             // 处理 元组类型 返回值
             else if (returnType.IsValueTuple())
             {
-                var dataSet = !isAsync
-                    ? database.DataAdapterFill(sql, parameters, commandType)
-                    : database.DataAdapterFillAsync(sql, parameters, commandType).GetAwaiter().GetResult();
+                var (dataSet, _) = !isAsync
+                    ? database.DataAdapterFill(sql, parameterModel, commandType)
+                    : database.DataAdapterFillAsync(sql, parameterModel, commandType).GetAwaiter().GetResult();
 
                 var result = ConvertValueTuple(returnType, dataSet);
                 return !isAsync ? result : Task.FromResult(result);
@@ -92,24 +93,24 @@ namespace Fur.DatabaseAccessor
             else if (returnType.IsRichPrimitive())
             {
                 return !isAsync
-                    ? database.ExecuteScalar(sql, parameters, commandType)
-                    : database.ExecuteScalarAsync(sql, parameters, commandType);
+                    ? database.ExecuteScalar(sql, parameterModel, commandType)
+                    : database.ExecuteScalarAsync(sql, parameterModel, commandType);
             }
             // 处理 存储过程带输出类型 返回值
             else if (returnType == typeof(ProcedureOutputResult) || (returnType.IsGenericType && typeof(ProcedureOutputResult<>).IsAssignableFrom(returnType.GetGenericTypeDefinition())))
             {
-                var dataSet = !isAsync
-                    ? database.DataAdapterFill(sql, parameters, commandType)
-                    : database.DataAdapterFillAsync(sql, parameters, commandType).GetAwaiter().GetResult();
+                var (dataSet, dbParameters) = !isAsync
+                    ? database.DataAdapterFill(sql, parameterModel, commandType)
+                    : database.DataAdapterFillAsync(sql, parameterModel, commandType).GetAwaiter().GetResult();
 
-                var result = ConvertProcedureOutputResult(returnType, parameters, dataSet);
+                var result = ConvertProcedureOutputResult(returnType, dbParameters, dataSet);
                 return !isAsync ? result : Task.FromResult(result);
             }
             else
             {
-                var dataTable = !isAsync
-                        ? database.ExecuteReader(sql, parameters, commandType)
-                        : database.ExecuteReaderAsync(sql, parameters, commandType).GetAwaiter().GetResult();
+                var (dataTable, _) = !isAsync
+                        ? database.ExecuteReader(sql, parameterModel, commandType)
+                        : database.ExecuteReaderAsync(sql, parameterModel, commandType).GetAwaiter().GetResult();
 
                 // 处理 DataTable 返回值
                 if (returnType == typeof(DataTable)) return !isAsync ? dataTable : Task.FromResult(dataTable);
@@ -181,7 +182,7 @@ namespace Fur.DatabaseAccessor
             var dbContext = GetDbContext(sqlProxyAttribute.DbContextLocator);
 
             // 转换方法参数
-            var parameters = method.GetParameters().ToDbParameters(null);
+            var parameters = CombineDbParameter(method, args);
 
             // 定义最终 Sql 语句
             string finalSql;
@@ -196,7 +197,7 @@ namespace Fur.DatabaseAccessor
             // 如果是函数类型
             else if (sqlProxyAttribute is SqlFunctionAttribute sqlFunctionAttribute)
             {
-                finalSql = DbHelpers.CombineFunctionSql(dbContext.Database.ProviderName,
+                finalSql = DbHelpers.GenerateFunctionSql(dbContext.Database.ProviderName,
                     returnType.IsRichPrimitive() ? DbFunctionType.Scalar : DbFunctionType.Table,
                     sqlFunctionAttribute.Name,
                     parameters);
@@ -212,7 +213,7 @@ namespace Fur.DatabaseAccessor
             // 返回
             return new SqlProxyMethod
             {
-                DbParameters = parameters,
+                ParameterModel = parameters,
                 DbContext = dbContext,
                 ReturnType = returnType,
                 IsAsync = isAsyncMethod,
@@ -239,6 +240,35 @@ namespace Fur.DatabaseAccessor
             dbContextPool.AddToPool(dbContext);
 
             return dbContext;
+        }
+
+        /// <summary>
+        /// 创建数据库命令参数字典
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="arguments"></param>
+        /// <returns></returns>
+        private static object CombineDbParameter(MethodInfo method, object[] arguments)
+        {
+            var parameters = method.GetParameters();
+            if (parameters == null || parameters.Length == 0) return null;
+
+            // 只支持要么全是基元类型，或全部都是类类型
+            if (!parameters.All(u => u.ParameterType.IsRichPrimitive()) && !parameters.All(u => u.ParameterType.IsClass))
+                throw Oops.Oh("Invalid type cast", typeof(InvalidOperationException));
+
+            if (parameters.All(u => u.ParameterType.IsRichPrimitive()))
+            {
+                var dic = new Dictionary<string, object>();
+                for (var i = 0; i < parameters.Length; i++)
+                {
+                    var parameter = parameters[i];
+                    var parameterValue = arguments.Length > i ? arguments[i] : null;
+                    dic.Add(parameter.Name, parameterValue);
+                }
+                return dic;
+            }
+            else return arguments.First();
         }
     }
 }

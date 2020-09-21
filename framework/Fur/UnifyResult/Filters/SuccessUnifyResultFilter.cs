@@ -58,7 +58,8 @@ namespace Fur.UnifyResult
             var unifyResult = _serviceProvider.GetService<IUnifyResultProvider>();
             if (unifyResult != null && context.Result == null)
             {
-                actionExecutedContext.Result = unifyResult.OnSuccessed(actionExecutedContext);
+                var result = unifyResult.OnSuccessed(actionExecutedContext);
+                if (result != null) actionExecutedContext.Result = result;
             }
         }
     }

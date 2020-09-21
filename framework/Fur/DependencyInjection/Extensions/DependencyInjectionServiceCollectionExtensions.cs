@@ -74,17 +74,17 @@ namespace Microsoft.Extensions.DependencyInjection
                 // 注册暂时服务
                 if (typeof(ITransient).IsAssignableFrom(type))
                 {
-                    AddTransient(services, type, injectionAttribute, canInjectInterfaces);
+                    RegisterService(services, Fur.DependencyInjection.RegisterType.Transient, type, injectionAttribute, canInjectInterfaces);
                 }
                 // 注册作用域服务
                 else if (typeof(IScoped).IsAssignableFrom(type))
                 {
-                    AddScoped(services, type, injectionAttribute, canInjectInterfaces);
+                    RegisterService(services, Fur.DependencyInjection.RegisterType.Scoped, type, injectionAttribute, canInjectInterfaces);
                 }
                 // 注册单例服务
                 else if (typeof(ISingleton).IsAssignableFrom(type))
                 {
-                    AddSingleton(services, type, injectionAttribute, canInjectInterfaces);
+                    RegisterService(services, Fur.DependencyInjection.RegisterType.Singleton, type, injectionAttribute, canInjectInterfaces);
                 }
             }
 
@@ -131,29 +131,19 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// 注册暂时服务
+        /// 注册服务
         /// </summary>
         /// <param name="services">服务集合</param>
+        /// <param name="registerType">类型作用域</param>
         /// <param name="type">类型</param>
         /// <param name="injectionAttribute">注入特性</param>
         /// <param name="canInjectInterfaces">能被注册的接口</param>
-        private static void AddTransient(IServiceCollection services, Type type, InjectionAttribute injectionAttribute, IEnumerable<Type> canInjectInterfaces)
+        private static void RegisterService(IServiceCollection services, RegisterType registerType, Type type, InjectionAttribute injectionAttribute, IEnumerable<Type> canInjectInterfaces)
         {
             // 注册自己
             if (injectionAttribute.InjectionScope is InjectionScopeOptions.Self or InjectionScopeOptions.All)
             {
-                switch (injectionAttribute.Injection)
-                {
-                    case InjectionOptions.TryAdd:
-                        services.TryAddTransient(type);
-                        break;
-
-                    case InjectionOptions.Add:
-                        services.AddTransient(type);
-                        break;
-
-                    default: break;
-                }
+                RegisterType(services, registerType, type, injectionAttribute);
             }
 
             if (!canInjectInterfaces.Any()) return;
@@ -161,173 +151,104 @@ namespace Microsoft.Extensions.DependencyInjection
             // 只注册第一个接口
             if (injectionAttribute.InjectionScope == InjectionScopeOptions.FirstOneInterface)
             {
-                var firstInterface = canInjectInterfaces.First();
-
-                switch (injectionAttribute.Injection)
-                {
-                    case InjectionOptions.TryAdd:
-                        services.TryAddTransient(firstInterface, type);
-                        break;
-
-                    case InjectionOptions.Add:
-                        services.AddTransient(firstInterface, type);
-                        break;
-
-                    default: break;
-                }
+                RegisterType(services, registerType, type, injectionAttribute, canInjectInterfaces.First());
             }
             // 注册多个接口
             else if (injectionAttribute.InjectionScope is InjectionScopeOptions.ImplementedInterfaces or InjectionScopeOptions.All)
             {
                 foreach (var inter in canInjectInterfaces)
                 {
-                    switch (injectionAttribute.Injection)
-                    {
-                        case InjectionOptions.TryAdd:
-                            services.TryAddTransient(inter, type);
-                            break;
-
-                        case InjectionOptions.Add:
-                            services.AddTransient(inter, type);
-                            break;
-
-                        default: break;
-                    }
+                    RegisterType(services, registerType, type, injectionAttribute, inter);
                 }
             }
         }
 
         /// <summary>
-        /// 注册作用域服务
+        /// 注册类型
         /// </summary>
-        /// <param name="services">服务集合</param>
+        /// <param name="services">服务</param>
         /// <param name="type">类型</param>
         /// <param name="injectionAttribute">注入特性</param>
-        /// <param name="canInjectInterfaces">能被注册的接口</param>
-        private static void AddScoped(IServiceCollection services, Type type, InjectionAttribute injectionAttribute, IEnumerable<Type> canInjectInterfaces)
+        /// <param name="inter">接口</param>
+        private static void RegisterType(IServiceCollection services, RegisterType registerType, Type type, InjectionAttribute injectionAttribute, Type inter = null)
         {
-            // 注册自己
-            if (injectionAttribute.InjectionScope is InjectionScopeOptions.Self or InjectionScopeOptions.All)
+            if (registerType == Fur.DependencyInjection.RegisterType.Transient) RegisterTransientType(services, type, injectionAttribute, inter);
+            if (registerType == Fur.DependencyInjection.RegisterType.Scoped) RegisterScopeType(services, type, injectionAttribute, inter);
+            if (registerType == Fur.DependencyInjection.RegisterType.Singleton) RegisterSingletonType(services, type, injectionAttribute, inter);
+        }
+
+        /// <summary>
+        /// 注册瞬时接口实例类型
+        /// </summary>
+        /// <param name="services">服务</param>
+        /// <param name="type">类型</param>
+        /// <param name="injectionAttribute">注入特性</param>
+        /// <param name="inter">接口</param>
+        private static void RegisterTransientType(IServiceCollection services, Type type, InjectionAttribute injectionAttribute, Type inter = null)
+        {
+            switch (injectionAttribute.Injection)
             {
-                switch (injectionAttribute.Injection)
-                {
-                    case InjectionOptions.TryAdd:
-                        services.TryAddScoped(type);
-                        break;
+                case InjectionOptions.TryAdd:
+                    if (inter == null) services.TryAddTransient(type);
+                    else services.TryAddTransient(inter, type);
+                    break;
 
-                    case InjectionOptions.Add:
-                        services.AddScoped(type);
-                        break;
+                case InjectionOptions.Add:
+                    if (inter == null) services.AddTransient(type);
+                    else services.AddTransient(inter, type);
+                    break;
 
-                    default: break;
-                }
-            }
-
-            if (!canInjectInterfaces.Any()) return;
-
-            // 只注册第一个接口
-            if (injectionAttribute.InjectionScope == InjectionScopeOptions.FirstOneInterface)
-            {
-                var firstInterface = canInjectInterfaces.First();
-
-                switch (injectionAttribute.Injection)
-                {
-                    case InjectionOptions.TryAdd:
-                        services.TryAddScoped(firstInterface, type);
-                        break;
-
-                    case InjectionOptions.Add:
-                        services.AddScoped(firstInterface, type);
-                        break;
-
-                    default: break;
-                }
-            }
-            // 注册多个接口
-            else if (injectionAttribute.InjectionScope is InjectionScopeOptions.ImplementedInterfaces or InjectionScopeOptions.All)
-            {
-                foreach (var inter in canInjectInterfaces)
-                {
-                    switch (injectionAttribute.Injection)
-                    {
-                        case InjectionOptions.TryAdd:
-                            services.TryAddScoped(inter, type);
-                            break;
-
-                        case InjectionOptions.Add:
-                            services.AddScoped(inter, type);
-                            break;
-
-                        default: break;
-                    }
-                }
+                default: break;
             }
         }
 
         /// <summary>
-        /// 注册单例服务
+        /// 注册作用域接口实例类型
         /// </summary>
-        /// <param name="services">服务集合</param>
+        /// <param name="services">服务</param>
         /// <param name="type">类型</param>
         /// <param name="injectionAttribute">注入特性</param>
-        /// <param name="canInjectInterfaces">能被注册的接口</param>
-        private static void AddSingleton(IServiceCollection services, Type type, InjectionAttribute injectionAttribute, IEnumerable<Type> canInjectInterfaces)
+        /// <param name="inter">接口</param>
+        private static void RegisterScopeType(IServiceCollection services, Type type, InjectionAttribute injectionAttribute, Type inter = null)
         {
-            // 注册自己
-            if (injectionAttribute.InjectionScope is InjectionScopeOptions.Self or InjectionScopeOptions.All)
+            switch (injectionAttribute.Injection)
             {
-                switch (injectionAttribute.Injection)
-                {
-                    case InjectionOptions.TryAdd:
-                        services.TryAddSingleton(type);
-                        break;
+                case InjectionOptions.TryAdd:
+                    if (inter == null) services.TryAddScoped(type);
+                    else services.TryAddScoped(inter, type);
+                    break;
 
-                    case InjectionOptions.Add:
-                        services.AddSingleton(type);
-                        break;
+                case InjectionOptions.Add:
+                    if (inter == null) services.AddScoped(type);
+                    else services.AddScoped(inter, type);
+                    break;
 
-                    default: break;
-                }
+                default: break;
             }
+        }
 
-            if (!canInjectInterfaces.Any()) return;
-
-            // 只注册第一个接口
-            if (injectionAttribute.InjectionScope == InjectionScopeOptions.FirstOneInterface)
+        /// <summary>
+        /// 注册单例接口实例类型
+        /// </summary>
+        /// <param name="services">服务</param>
+        /// <param name="type">类型</param>
+        /// <param name="injectionAttribute">注入特性</param>
+        /// <param name="inter">接口</param>
+        private static void RegisterSingletonType(IServiceCollection services, Type type, InjectionAttribute injectionAttribute, Type inter = null)
+        {
+            switch (injectionAttribute.Injection)
             {
-                var firstInterface = canInjectInterfaces.First();
+                case InjectionOptions.TryAdd:
+                    if (inter == null) services.TryAddSingleton(type);
+                    else services.TryAddSingleton(inter, type);
+                    break;
 
-                switch (injectionAttribute.Injection)
-                {
-                    case InjectionOptions.TryAdd:
-                        services.TryAddSingleton(firstInterface, type);
-                        break;
+                case InjectionOptions.Add:
+                    if (inter == null) services.AddSingleton(type);
+                    else services.AddSingleton(inter, type);
+                    break;
 
-                    case InjectionOptions.Add:
-                        services.AddSingleton(firstInterface, type);
-                        break;
-
-                    default: break;
-                }
-            }
-            // 注册多个接口
-            else if (injectionAttribute.InjectionScope is InjectionScopeOptions.ImplementedInterfaces or InjectionScopeOptions.All)
-            {
-                foreach (var inter in canInjectInterfaces)
-                {
-                    switch (injectionAttribute.Injection)
-                    {
-                        case InjectionOptions.TryAdd:
-                            services.TryAddSingleton(inter, type);
-                            break;
-
-                        case InjectionOptions.Add:
-                            services.AddSingleton(inter, type);
-                            break;
-
-                        default: break;
-                    }
-                }
+                default: break;
             }
         }
 

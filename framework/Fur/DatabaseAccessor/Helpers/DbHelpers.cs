@@ -25,16 +25,84 @@ namespace Fur.DatabaseAccessor
     internal static class DbHelpers
     {
         /// <summary>
-        /// 创建数据库命令参数
+        /// 将模型转为 DbParameter 集合
+        /// </summary>
+        /// <param name="model">参数模型</param>
+        /// <param name="dbCommand">数据库命令对象</param>
+        /// <returns></returns>
+        internal static DbParameter[] ConvertToDbParameters(object model, DbCommand dbCommand)
+        {
+            var modelType = model?.GetType();
+
+            // 处理字典类型参数
+            if (modelType == typeof(Dictionary<string, object>)) return ConvertToDbParameters((Dictionary<string, object>)model, dbCommand);
+
+            var dbParameters = new List<DbParameter>();
+            if (model == null || !modelType.IsClass) return dbParameters.ToArray();
+
+            // 获取所有公开实例属性
+            var properties = modelType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            if (properties.Length == 0) return dbParameters.ToArray();
+
+            // 遍历所有属性
+            foreach (var property in properties)
+            {
+                var propertyValue = property.GetValue(model) ?? DBNull.Value;
+
+                // 创建命令参数
+                var dbParameter = dbCommand.CreateParameter();
+
+                // 判断属性是否贴有 [DbParameter] 特性
+                if (property.IsDefined(typeof(DbParameterAttribute), true))
+                {
+                    var dbParameterAttribute = property.GetCustomAttribute<DbParameterAttribute>(true);
+                    dbParameters.Add(DbHelpers.ConfigureDbParameter(property.Name, propertyValue, dbParameterAttribute, dbParameter));
+                    continue;
+                }
+
+                dbParameter.ParameterName = property.Name;
+                dbParameter.Value = propertyValue;
+                dbParameters.Add(dbParameter);
+            }
+
+            return dbParameters.ToArray();
+        }
+
+        /// <summary>
+        /// 将字典转换成命令参数
+        /// </summary>
+        /// <param name="keyValues">字典</param>
+        /// <param name="dbCommand">数据库命令对象</param>
+        /// <returns></returns>
+        internal static DbParameter[] ConvertToDbParameters(Dictionary<string, object> keyValues, DbCommand dbCommand)
+        {
+            var dbParameters = new List<DbParameter>();
+            if (keyValues == null || keyValues.Count == 0) return dbParameters.ToArray();
+
+            foreach (var key in keyValues.Keys)
+            {
+                var value = keyValues[key] ?? DBNull.Value;
+
+                // 创建命令参数
+                var dbParameter = dbCommand.CreateParameter();
+                dbParameter.ParameterName = key;
+                dbParameter.Value = value;
+                dbParameters.Add(dbParameter);
+            }
+
+            return dbParameters.ToArray();
+        }
+
+        /// <summary>
+        /// 配置数据库命令参数
         /// </summary>
         /// <param name="name">参数名</param>
         /// <param name="value">参数值</param>
         /// <param name="dbParameterAttribute">参数特性</param>
         /// <returns>DbParameter</returns>
-        internal static DbParameter CreateDbParameter(string name, object value, DbParameterAttribute dbParameterAttribute, DbCommand dbCommand)
+        internal static DbParameter ConfigureDbParameter(string name, object value, DbParameterAttribute dbParameterAttribute, DbParameter dbParameter)
         {
             // 设置参数方向
-            var dbParameter = dbCommand.CreateParameter();
             dbParameter.ParameterName = name;
             dbParameter.Value = value;
             dbParameter.Direction = dbParameterAttribute.Direction;
@@ -65,7 +133,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="funcName">函数名词</param>
         /// <param name="parameters">函数参数</param>
         /// <returns>sql 语句</returns>
-        internal static string CombineFunctionSql(string providerName, DbFunctionType dbFunctionType, string funcName, params DbParameter[] parameters)
+        internal static string GenerateFunctionSql(string providerName, DbFunctionType dbFunctionType, string funcName, params DbParameter[] parameters)
         {
             // 检查是否支持函数
             DatabaseProvider.CheckFunctionSupported(providerName, dbFunctionType);
@@ -102,15 +170,19 @@ namespace Fur.DatabaseAccessor
         /// <param name="funcName">函数名词</param>
         /// <param name="model">参数模型</param>
         /// <returns>(string sql, DbParameter[] parameters)</returns>
-        internal static string CombineFunctionSql(string providerName, DbFunctionType dbFunctionType, string funcName, object model)
+        internal static string GenerateFunctionSql(string providerName, DbFunctionType dbFunctionType, string funcName, object model)
         {
             // 检查是否支持函数
             DatabaseProvider.CheckFunctionSupported(providerName, dbFunctionType);
 
+            var modelType = model?.GetType();
+            // 处理字典类型参数
+            if (modelType == typeof(Dictionary<string, object>)) return GenerateFunctionSql(providerName, dbFunctionType, funcName, (Dictionary<string, object>)model);
+
             // 获取模型所有公开的属性
             var properities = model == null
                 ? Array.Empty<PropertyInfo>()
-                : model.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                : modelType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
             var stringBuilder = new StringBuilder();
 
@@ -126,6 +198,43 @@ namespace Fur.DatabaseAccessor
                 if (i != properities.Length - 1)
                 {
                     stringBuilder.Append(", ");
+                }
+            }
+
+            stringBuilder.Append("); ");
+
+            return stringBuilder.ToString();
+        }
+
+        /// <summary>
+        /// 生成函数执行 sql 语句
+        /// </summary>
+        ///<param name="providerName">ADO.NET 数据库对象</param>
+        /// <param name="dbFunctionType">函数类型</param>
+        /// <param name="funcName">函数名词</param>
+        /// <param name="keyValues">字典类型参数</param>
+        /// <returns></returns>
+        internal static string GenerateFunctionSql(string providerName, DbFunctionType dbFunctionType, string funcName, Dictionary<string, object> keyValues)
+        {
+            // 检查是否支持函数
+            DatabaseProvider.CheckFunctionSupported(providerName, dbFunctionType);
+
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append($"SELECT{(dbFunctionType == DbFunctionType.Table ? " * FROM" : "")} {funcName}(");
+
+            if (keyValues != null && keyValues.Count > 0)
+            {
+                var i = 0;
+                foreach (var key in keyValues.Keys)
+                {
+                    stringBuilder.Append($"@{key}");
+
+                    // 处理最后一个参数逗号
+                    if (i != keyValues.Count - 1)
+                    {
+                        stringBuilder.Append(", ");
+                    }
+                    i++;
                 }
             }
 

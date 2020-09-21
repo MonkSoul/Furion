@@ -45,11 +45,18 @@ namespace Fur.UnifyResult
         /// <returns></returns>
         public IActionResult OnSuccessed(ActionExecutedContext context)
         {
+            object data;
+            // 处理内容结果
+            if (context.Result is ContentResult contentResult) data = contentResult.Content;
+            // 处理对象结果
+            else if (context.Result is ObjectResult objectResult) data = objectResult.Value;
+            else return null;
+
             return new JsonResult(new RESTfulResult
             {
                 StatusCode = context.Result is EmptyResult ? StatusCodes.Status204NoContent : StatusCodes.Status200OK,
                 Successed = true,
-                Data = context.Result is ObjectResult objectResult ? objectResult.Value : null,
+                Data = data,
                 Errors = null
             });
         }

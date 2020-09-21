@@ -13,7 +13,6 @@ using Fur.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Data;
-using System.Data.Common;
 
 namespace Fur.DatabaseAccessor
 {
@@ -24,9 +23,9 @@ namespace Fur.DatabaseAccessor
     internal sealed class SqlProxyMethod
     {
         /// <summary>
-        /// 命令参数
+        /// 参数模型
         /// </summary>
-        public DbParameter[] DbParameters { get; set; }
+        public object ParameterModel { get; set; }
 
         /// <summary>
         /// 方法返回值
