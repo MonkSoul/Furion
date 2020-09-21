@@ -19,6 +19,6 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 数据库中定义名
         /// </summary>
-        string DEFINED_NAME { get; set; }
+        string GetName();
     }
 }

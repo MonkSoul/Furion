@@ -9,7 +9,7 @@ module.exports = {
   projectName: "Fur",
   themeConfig: {
     prism: {
-      additionalLanguages: ["powershell", "csharp"],
+      additionalLanguages: ["powershell", "csharp", "sql"],
     },
     navbar: {
       title: "Fur",

@@ -148,7 +148,7 @@ namespace Fur.DatabaseAccessor
 
             // 配置视图、存储过程、函数无键实体
             entityBuilder.HasNoKey();
-            entityBuilder.ToView((Activator.CreateInstance(entityType) as IEntityNotKey).DEFINED_NAME);
+            entityBuilder.ToView((Activator.CreateInstance(entityType) as IEntityNotKey).GetName());
         }
 
         /// <summary>

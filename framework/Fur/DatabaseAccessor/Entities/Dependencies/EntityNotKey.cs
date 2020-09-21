@@ -10,7 +10,6 @@
 // -----------------------------------------------------------------------------
 
 using Fur.DependencyInjection;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Fur.DatabaseAccessor
 {
@@ -227,18 +226,26 @@ namespace Fur.DatabaseAccessor
     public abstract class EntityNotKeyDependency : IEntityNotKey
     {
         /// <summary>
+        /// 无键实体名
+        /// </summary>
+        private readonly string _name;
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="name">数据库中定义名</param>
         public EntityNotKeyDependency(string name)
         {
-            DEFINED_NAME = name;
+            _name = name;
         }
 
         /// <summary>
-        /// 数据库中定义名
+        /// 获取视图名称
         /// </summary>
-        [NotMapped]
-        public string DEFINED_NAME { get; set; }
+        /// <returns></returns>
+        public string GetName()
+        {
+            return _name;
+        }
     }
 }
