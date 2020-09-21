@@ -33,12 +33,12 @@ namespace Fur.Core
         /// <summary>
         /// 上级
         /// </summary>
-        public virtual City Parent { get; set; }
+        public City Parent { get; set; }
 
         /// <summary>
         /// 子集
         /// </summary>
-        public virtual ICollection<City> Childrens { get; set; }
+        public ICollection<City> Childrens { get; set; }
 
         /// <summary>
         /// 配置实体关系
