@@ -10,6 +10,7 @@ namespace Fur.Application
     public class SqlService
     {
         private ISqlRepository _sqlRepository;
+
         public SqlService(ISqlRepository sqlRepository)
         {
             _sqlRepository = sqlRepository;

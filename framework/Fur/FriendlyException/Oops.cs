@@ -157,6 +157,7 @@ namespace Fur.FriendlyException
 
             // 获取出错的方法
             var errorMethod = GetEndPointExceptionMethod();
+            if (errorMethod == null) return default;
 
             // 获取异常特性
             var ifExceptionAttribute = errorMethod.IfExceptionAttributes.FirstOrDefault(u => HandleEnumErrorCode(u.ErrorCode).ToString().Equals(errorCode.ToString()));
@@ -269,6 +270,8 @@ namespace Fur.FriendlyException
             var stackTrace = new StackTrace();
             var exceptionMethodFrame = stackTrace.GetFrames()
                 .FirstOrDefault(u => typeof(ControllerBase).IsAssignableFrom(u.GetMethod().DeclaringType) || typeof(IDynamicApiController).IsAssignableFrom(u.GetMethod().DeclaringType));
+
+            if (exceptionMethodFrame == null) return default;
 
             // 获取出错堆栈的方法对象
             var errorMethod = exceptionMethodFrame.GetMethod() as MethodInfo;
