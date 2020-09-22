@@ -159,8 +159,11 @@ namespace Fur.DatabaseAccessor
             // 非泛型仓储
             _repository = repository;
 
-            // 初始化数据库相关数据
+            // 配置数据库上下文
             DbContext = dbContext;
+            DynamicDbContext = dbContext;
+
+            // 初始化数据库相关数据
             DbConnection = Database.GetDbConnection();
             ChangeTracker = dbContext.ChangeTracker;
             Model = dbContext.Model;
@@ -179,6 +182,11 @@ namespace Fur.DatabaseAccessor
         /// 数据库上下文
         /// </summary>
         public virtual DbContext DbContext { get; }
+
+        /// <summary>
+        /// 动态数据库上下文
+        /// </summary>
+        public virtual dynamic DynamicDbContext { get; }
 
         /// <summary>
         /// 实体集合
