@@ -68,16 +68,20 @@ namespace Fur.DatabaseAccessor
             // 处理 DataSet 返回值
             if (returnType == typeof(DataSet))
             {
-                return !isAsync
+                var (dataSet, _) = !isAsync
                     ? database.DataAdapterFill(sql, parameterModel, commandType)
-                    : database.DataAdapterFillAsync(sql, parameterModel, commandType);
+                    : database.DataAdapterFillAsync(sql, parameterModel, commandType).GetAwaiter().GetResult();
+
+                return !isAsync ? dataSet : Task.FromResult(dataSet);
             }
             // 处理 无返回值
             else if (returnType == typeof(void))
             {
-                return !isAsync
+                var (rowEffects, _) = !isAsync
                     ? database.ExecuteNonQuery(sql, parameterModel, commandType)
-                    : database.ExecuteNonQueryAsync(sql, parameterModel, commandType);
+                    : database.ExecuteNonQueryAsync(sql, parameterModel, commandType).GetAwaiter().GetResult();
+
+                return !isAsync ? rowEffects : Task.FromResult(rowEffects);
             }
             // 处理 元组类型 返回值
             else if (returnType.IsValueTuple())
@@ -92,9 +96,11 @@ namespace Fur.DatabaseAccessor
             // 处理 基元类型 返回值
             else if (returnType.IsRichPrimitive())
             {
-                return !isAsync
+                var (result, _) = !isAsync
                     ? database.ExecuteScalar(sql, parameterModel, commandType)
-                    : database.ExecuteScalarAsync(sql, parameterModel, commandType);
+                    : database.ExecuteScalarAsync(sql, parameterModel, commandType).GetAwaiter().GetResult();
+
+                return !isAsync ? result : Task.FromResult(result);
             }
             // 处理 存储过程带输出类型 返回值
             else if (returnType == typeof(ProcedureOutputResult) || (returnType.IsGenericType && typeof(ProcedureOutputResult<>).IsAssignableFrom(returnType.GetGenericTypeDefinition())))
