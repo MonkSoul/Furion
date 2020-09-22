@@ -280,7 +280,7 @@ namespace Fur.Application
         /// <returns></returns>
         public async Task<List<PersonDto>> GetAll()
         {
-            var persons = await _personRepository.AsQueryable().ToListAsync();
+            var persons = await _personRepository.AsAsyncEnumerable();
             return persons.Adapt<List<PersonDto>>();
         }
 
@@ -292,7 +292,7 @@ namespace Fur.Application
         /// <returns></returns>
         public async Task<PagedList<PersonDto>> GetAllByPage(int pageIndex = 1, int pageSize = 10)
         {
-            var pageResult = await _personRepository.PagedFilterAsync(pageIndex, pageSize);
+            var pageResult = await _personRepository.AsQueryable().ToPagedList(pageIndex, pageSize);
             return pageResult.Adapt<PagedList<PersonDto>>();
         }
     }
