@@ -195,6 +195,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 软删除
         /// </summary>
+        [FakeDelete(true)]
         public bool IsDeleted { get; set; }
     }
 }

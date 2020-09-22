@@ -138,7 +138,67 @@ await user.DeleteExistsNowAsync(1);
 
 ## 8.8.8 假删除/软删除
 
-只需调用 `repository.UpdateInclude(user, u=>u.IsDeleted);` 即可。
+`Fur` 框架中可以通过 `[FakeDelete]` 特性标记假删除特性，如：
+
+### 8.8.8.1 添加 `[FakeDelete]` 标记
+
+```cs {3}
+public class Model: IEntity
+{
+    [FakeDelete(true)]  // 设置假删除的值
+    public bool IsDeleted { get; set; }
+}
+```
+
+:::note [FakeDelete]
+
+**`[FakeDelete]** 属性拥有带一个参数的构造函数，这个参数是假删除的值
+
+:::
+
+### 8.8.8.2 假删除使用
+
+```cs
+// ==== 同步操作 ====
+
+// 示例一
+repository.FakeDelete(entity);
+
+// 示例二
+repository.FakeDeleteNow(entity);
+
+// 示例三
+repository.FakeDelete(1);
+
+// 示例四
+repository.FakeDeleteNow(1);
+
+// 示例五
+entity.FakeDelete();
+
+// 示例六
+repository.UpdateInclude(user, u => u.IsDeleted);
+
+// ==== 异步操作 ====
+
+// 示例一
+await repository.FakeDeleteAsync(entity);
+
+// 示例二
+await repository.FakeDeleteNowAsync(entity);
+
+// 示例三
+await repository.FakeDeleteAsync(1);
+
+// 示例四
+await repository.FakeDeleteNowAsync(1);
+
+// 示例五
+await entity.FakeDeleteAsync();
+
+// 示例六
+await repository.UpdateIncludeAsync(user, u => u.IsDeleted);
+```
 
 ## 8.8.9 反馈与建议
 

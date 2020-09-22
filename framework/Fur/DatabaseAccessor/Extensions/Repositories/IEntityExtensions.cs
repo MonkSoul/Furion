@@ -1813,5 +1813,75 @@ namespace Fur.DatabaseAccessor
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
+
+        /// <summary>
+        /// 假删除
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns></returns>
+        public static EntityEntry<TEntity> FakeDelete<TEntity>(this TEntity entity)
+            where TEntity : class, IEntity, new()
+        {
+            return App.GetRepository<TEntity>().FakeDelete(entity);
+        }
+
+        /// <summary>
+        /// 假删除
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns></returns>
+        public static Task<EntityEntry<TEntity>> FakeDeleteAsync<TEntity>(this TEntity entity)
+            where TEntity : class, IEntity, new()
+        {
+            return App.GetRepository<TEntity>().FakeDeleteAsync(entity);
+        }
+
+        /// <summary>
+        /// 假删除并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns></returns>
+        public static EntityEntry<TEntity> FakeDeleteNow<TEntity>(this TEntity entity)
+            where TEntity : class, IEntity, new()
+        {
+            return App.GetRepository<TEntity>().FakeDeleteNow(entity);
+        }
+
+        /// <summary>
+        /// 假删除并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns></returns>
+        public static EntityEntry<TEntity> FakeDeleteNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
+            where TEntity : class, IEntity, new()
+        {
+            return App.GetRepository<TEntity>().FakeDeleteNow(entity, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 假删除并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns></returns>
+        public static Task<EntityEntry<TEntity>> FakeDeleteNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntity, new()
+        {
+            return App.GetRepository<TEntity>().FakeDeleteNowAsync(entity, cancellationToken);
+        }
+
+        /// <summary>
+        /// 假删除并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns></returns>
+        public static Task<EntityEntry<TEntity>> FakeDeleteNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+             where TEntity : class, IEntity, new()
+        {
+            return App.GetRepository<TEntity>().FakeDeleteNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+        }
     }
 }

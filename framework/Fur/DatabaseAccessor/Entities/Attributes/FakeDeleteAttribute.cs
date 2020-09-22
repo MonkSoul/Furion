@@ -9,32 +9,29 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
-using Fur.FriendlyException;
+using Fur.DependencyInjection;
+using System;
 
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// EF Core 内置异常
+    /// 假删除/软删除
     /// </summary>
-    [ErrorCodeType]
-    public enum EFCoreErrorCodes
+    [NonBeScan, AttributeUsage(AttributeTargets.Property)]
+    public class FakeDeleteAttribute : Attribute
     {
         /// <summary>
-        /// 未找到数据
+        /// 构造函数
         /// </summary>
-        [ErrorCodeItemMetadata("Sequence contains no elements", ErrorCode = "EFCore.DataNotFound")]
-        DataNotFound,
+        /// <param name="state"></param>
+        public FakeDeleteAttribute(object state)
+        {
+            State = state;
+        }
 
         /// <summary>
-        /// 键没有设置
+        /// 假删除/软删除状态
         /// </summary>
-        [ErrorCodeItemMetadata("The primary key value is not set", ErrorCode = "EFCore.KeyNotSet")]
-        KeyNotSet,
-
-        /// <summary>
-        /// 未找到假删除的属性
-        /// </summary>
-        [ErrorCodeItemMetadata("No attributes marked as fake deleted were found", ErrorCode = "EFCore.FakeDeleteNotFound")]
-        FakeDeleteNotFound
+        public object State { get; set; }
     }
 }

@@ -106,7 +106,14 @@ public async Task<List<PersonDto>> GetAll([FromServices] IRepository<Person> rep
 ### 8.4.2.3 `App.GetRepository` 获取
 
 ```cs
+// 非泛型仓储
+var repository = App.GetRepository();
+
+// 泛型仓储
 var repository = App.GetRepository<Person>();
+
+// Sql 仓储
+var sqlRepository = App.GetSqlRepository();
 ```
 
 :::important 特别说明
