@@ -145,13 +145,18 @@ namespace Fur
         }
 
         /// <summary>
+        /// 不支持解析服务错误提示
+        /// </summary>
+        private const string NotSupportedResolveMessage = "Reading {0} instances on non HTTP requests is not supported.";
+
+        /// <summary>
         /// 获取非泛型仓储
         /// </summary>
         /// <typeparam name="TEntity">实体类型</typeparam>
         public static IRepository GetRepository()
         {
             return RequestServiceProvider.GetService<IRepository>()
-                ?? throw Oops.Oh("Reading IRepository instances on non HTTP requests is not supported.", typeof(NotSupportedException));
+                ?? throw Oops.Oh(NotSupportedResolveMessage, typeof(NotSupportedException), nameof(IRepository));
         }
 
         /// <summary>
@@ -163,7 +168,7 @@ namespace Fur
             where TEntity : class, IEntity, new()
         {
             return RequestServiceProvider.GetService<IRepository<TEntity>>()
-                ?? throw Oops.Oh("Reading IRepository<TEntity> instances on non HTTP requests is not supported.", typeof(NotSupportedException));
+                ?? throw Oops.Oh(NotSupportedResolveMessage, typeof(NotSupportedException), nameof(IRepository<TEntity>));
         }
 
         /// <summary>
@@ -177,7 +182,7 @@ namespace Fur
             where TDbContextLocator : class, IDbContextLocator
         {
             return RequestServiceProvider.GetService<IRepository<TEntity, TDbContextLocator>>()
-                ?? throw Oops.Oh("Reading IRepository<TEntity, TDbContextLocator> instances on non HTTP requests is not supported.", typeof(NotSupportedException));
+                ?? throw Oops.Oh(NotSupportedResolveMessage, typeof(NotSupportedException), nameof(IRepository<TEntity, TDbContextLocator>));
         }
 
         /// <summary>
@@ -187,7 +192,7 @@ namespace Fur
         public static ISqlRepository GetSqlRepository()
         {
             return RequestServiceProvider.GetService<ISqlRepository>()
-                ?? throw Oops.Oh("Reading ISqlRepository instances on non HTTP requests is not supported.", typeof(NotSupportedException));
+                ?? throw Oops.Oh(NotSupportedResolveMessage, typeof(NotSupportedException), nameof(ISqlRepository));
         }
 
         /// <summary>
@@ -199,7 +204,7 @@ namespace Fur
             where TDbContextLocator : class, IDbContextLocator
         {
             return RequestServiceProvider.GetService<ISqlRepository<TDbContextLocator>>()
-                ?? throw Oops.Oh("Reading ISqlRepository<TDbContextLocator> instances on non HTTP requests is not supported.", typeof(NotSupportedException));
+                ?? throw Oops.Oh(NotSupportedResolveMessage, typeof(NotSupportedException), nameof(ISqlRepository<TDbContextLocator>));
         }
 
         /// <summary>
@@ -210,7 +215,7 @@ namespace Fur
             where TSqlDispatchProxy : class, ISqlDispatchProxy
         {
             return RequestServiceProvider.GetService<TSqlDispatchProxy>()
-                ?? throw Oops.Oh("Reading SqlDispatchProxy instances on non HTTP requests is not supported.", typeof(NotSupportedException));
+                ?? throw Oops.Oh(NotSupportedResolveMessage, typeof(NotSupportedException), nameof(ISqlDispatchProxy));
         }
 
         /// <summary>

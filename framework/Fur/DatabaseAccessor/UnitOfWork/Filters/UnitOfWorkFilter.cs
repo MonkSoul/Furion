@@ -49,6 +49,9 @@ namespace Fur.DatabaseAccessor
             _dbContextPool = dbContextPool;
         }
 
+        /// <summary>
+        /// 排序属性
+        /// </summary>
         public int Order => FilterOrder;
 
         /// <summary>
