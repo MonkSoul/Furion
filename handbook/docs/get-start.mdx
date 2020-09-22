@@ -292,7 +292,7 @@ namespace Fur.Application
         /// <returns></returns>
         public async Task<PagedList<PersonDto>> GetAllByPage(int pageIndex = 1, int pageSize = 10)
         {
-            var pageResult = await _personRepository.AsQueryable().ToPagedList(pageIndex, pageSize);
+            var pageResult = await _personRepository.AsQueryable().ToPagedListAsync(pageIndex, pageSize);
             return pageResult.Adapt<PagedList<PersonDto>>();
         }
     }
