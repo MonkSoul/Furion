@@ -157,6 +157,7 @@ namespace Fur.FriendlyException
 
             // 获取出错的方法
             var errorMethod = GetEndPointExceptionMethod();
+            // 修复忘记写 throw 抛异常bug
             if (errorMethod == null) return default;
 
             // 获取异常特性
@@ -271,6 +272,7 @@ namespace Fur.FriendlyException
             var exceptionMethodFrame = stackTrace.GetFrames()
                 .FirstOrDefault(u => typeof(ControllerBase).IsAssignableFrom(u.GetMethod().DeclaringType) || typeof(IDynamicApiController).IsAssignableFrom(u.GetMethod().DeclaringType));
 
+            // 修复忘记写 throw 抛异常bug
             if (exceptionMethodFrame == null) return default;
 
             // 获取出错堆栈的方法对象
