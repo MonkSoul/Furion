@@ -50,6 +50,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fur.EntityFramework.Core
 {
+    [DbContext("连接字符串或appsetting.json 键")]
     public class FurDbContext : AppDbContext<FurDbContext>  // 继承 AppDbContext<> 类
     {
         /// <summary>
@@ -71,6 +72,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fur.EntityFramework.Core
 {
+    [DbContext("连接字符串或appsetting.json 键")]
     public class FurOtherDbContext : AppDbContext<FurOtherDbContext, FurOtherDbContextLocator>  // 继承 AppDbContext<> 类
     {
         /// <summary>
@@ -124,7 +126,11 @@ namespace Fur.Web.Entry
                 // 配置数据库上下文，支持N个数据库
                 options.AddDatabaseAccessor(options =>
                 {
-                    options.AddSqlServerPool<FurDbContext>("数据库连接字符串");
+                    // 配置默认数据库
+                    options.AddSqlServerPool<FurDbContext>();
+
+                    // 配置多个数据库，多个数据库必须指定数据库上下文定位器
+                    options.AddSqlitePool<SqliteDbContext, SqliteDbContextLocaotr>();
                 });
             });
         }
@@ -201,7 +207,33 @@ namespace Fur.EntityFramework.Core
 
 :::
 
-## 8.1.7 反馈与建议
+## 8.1.7 动态数据库上下文对象
+
+在 `Fur` 框架中，数据库上下文是定义在 `Fur.EntityFramework.Core` 项目层，并且该层不被 `Fur.Application` 和 `Fur.Core` 等层引用。
+
+所以就不能直接在 `Fur.Application` 项目层直接使用 `Fur.EntityFramework.Core` 定义的数据库上下文。
+
+`Fur` 为了解决这个问题，提供了两种方式处理：
+
+- `respository.DbContext` ：当前数据库上下文对象，返回是 `DbContext` 抽象类型
+- `respository.DynamicDbContext`：当前数据库上下文对象，返回的是 `dynamic` 类型
+
+如果你只是想使用 `DbContext` 的功能，直接使用 `respository.DbContext` 即可，如：
+
+```cs
+respository.DbContext.SaveChanges();
+```
+
+如果你想能够获取具体的数据库上下文类型，如 `MyDbContext`，那么使用 `respository.DynamicDbContext` 就可以获取到具体的 `MyDbContext` 类型。如：
+
+```cs
+var persons = respository.DynamicDbContext.Persons.Find(1);
+var users = respository.DynamicDbContext.Users;
+```
+
+这样就可以直接操作 `MyDbContext` 定义的属性和方法了。
+
+## 8.1.8 反馈与建议
 
 :::note 与我们交流
 

@@ -195,7 +195,7 @@ namespace Fur.DatabaseAccessor
             var commandType = CommandType.Text;
 
             // 如果是存储过程类型
-            if (sqlProxyAttribute is SqlProduceAttribute sqlProduceAttribute)
+            if (sqlProxyAttribute is SqlProcedureAttribute sqlProduceAttribute)
             {
                 finalSql = sqlProduceAttribute.Name;
                 commandType = CommandType.StoredProcedure;

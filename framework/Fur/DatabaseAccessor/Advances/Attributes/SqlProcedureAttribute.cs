@@ -15,13 +15,13 @@ using System;
 namespace Fur.DatabaseAccessor
 {
     [NonBeScan, AttributeUsage(AttributeTargets.Method)]
-    public class SqlProduceAttribute : SqlObjectProxyAttribute
+    public class SqlProcedureAttribute : SqlObjectProxyAttribute
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="name">存储过程名</param>
-        public SqlProduceAttribute(string name) : base(name)
+        public SqlProcedureAttribute(string name) : base(name)
         {
         }
     }
