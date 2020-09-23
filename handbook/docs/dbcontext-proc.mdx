@@ -81,7 +81,7 @@ namespace Fur.Application
 {
     public interface ISqlExecuteProxy : ISqlDispatchProxy
     {
-        [SqlProduce("proc_GetPersons")]
+        [SqlProcedure("proc_GetPersons")]
         List<Person> GetPersons(string keyword);
     }
 }
