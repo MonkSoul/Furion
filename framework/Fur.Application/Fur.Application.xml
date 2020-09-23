@@ -1,0 +1,259 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Fur.Application</name>
+    </assembly>
+    <members>
+        <member name="P:Fur.Application.Persons.ChildrenDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.ChildrenDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.ChildrenDto.Gender">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.ChildrenInputDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.ChildrenInputDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.ChildrenInputDto.Gender">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.CityDto.Id">
+            <summary>
+            逐渐
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.CityDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.CityDto.Childrens">
+            <summary>
+            子集
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.PersonDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.PersonDto.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.PersonDto.Age">
+            <summary>
+            年龄
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.PersonDto.Address">
+            <summary>
+            住址
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.PersonDto.PhoneNumber">
+            <summary>
+            电话号码
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.PersonDto.QQ">
+            <summary>
+            QQ 号码
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.PersonDto.Childrens">
+            <summary>
+            孩子
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.PersonDto.Posts">
+            <summary>
+            孩子
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.PersonInputDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.PersonInputDto.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.PersonInputDto.Age">
+            <summary>
+            年龄
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.PersonInputDto.Address">
+            <summary>
+            住址
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.PersonInputDto.PhoneNumber">
+            <summary>
+            电话号码
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.PersonInputDto.QQ">
+            <summary>
+            QQ 号码
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.PersonInputDto.Childrens">
+            <summary>
+            孩子
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.PersonInputDto.Posts">
+            <summary>
+            孩子
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.PostInputDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.PostInputDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.PostDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:Fur.Application.Persons.PostDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="T:Fur.Application.Persons.PersonRelationshipService">
+            <summary>
+            关联数据演示
+            </summary>
+        </member>
+        <member name="M:Fur.Application.Persons.PersonRelationshipService.OneToOne">
+            <summary>
+            一对一
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.Application.Persons.PersonRelationshipService.OneToMany">
+            <summary>
+            一对多
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.Application.Persons.PersonRelationshipService.ManyToMany">
+            <summary>
+            多对多
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.Application.Persons.PersonRelationshipService.InnerJoin">
+            <summary>
+            内连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.Application.Persons.PersonRelationshipService.LeftJoin">
+            <summary>
+            左连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.Application.Persons.PersonRelationshipService.RightJoin">
+            <summary>
+            右连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.Application.Persons.PersonRelationshipService.TreeSelect">
+            <summary>
+            树形/递归查询
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.Application.Persons.PersonRelationshipService.GetVPerson">
+            <summary>
+            读取视图
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Fur.Application.PersonService">
+            <summary>
+            用户管理
+            </summary>
+        </member>
+        <member name="M:Fur.Application.PersonService.Insert(Fur.Application.Persons.PersonInputDto)">
+            <summary>
+            新增一条
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.Application.PersonService.Update(Fur.Application.Persons.PersonInputDto)">
+            <summary>
+            更新一条
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.Application.PersonService.Delete(System.Int32)">
+            <summary>
+            删除一条
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:Fur.Application.PersonService.Find(System.Int32)">
+            <summary>
+            查询一条
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:Fur.Application.PersonService.GetAll">
+            <summary>
+            查询所有
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.Application.PersonService.GetAllByPage(System.Int32,System.Int32)">
+            <summary>
+            分页查询
+            </summary>
+            <param name="pageIndex"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.Application.PersonService.Search(System.String,System.Int32)">
+            <summary>
+            搜索数据
+            </summary>
+            <param name="name"></param>
+            <param name="age"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

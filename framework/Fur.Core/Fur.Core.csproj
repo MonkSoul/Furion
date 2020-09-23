@@ -2,7 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>Fur.Core.xml</DocumentationFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fur.Core.xml" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Fur\Fur.csproj" />

@@ -3,12 +3,13 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>0d2d4500-dae9-4b8b-9e24-bbff779493e4</UserSecretsId>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>Fur.Web.Entry.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>obj\Debug\net5.0\Fur.Web.Entry.xml</DocumentationFile>
-    <NoWarn>1701;1702;1591</NoWarn>
-  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Fur.Web.Entry.xml" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Fur.Application\Fur.Application.csproj" />

@@ -2,12 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>Fur.Application.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702;1591</NoWarn>
-    <DocumentationFile>obj\Debug\net5.0\Fur.Application.xml</DocumentationFile>
-  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Fur.Application.xml" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Fur.Core\Fur.Core.csproj" />
