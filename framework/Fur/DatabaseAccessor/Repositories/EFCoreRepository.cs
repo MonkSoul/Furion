@@ -147,7 +147,7 @@ namespace Fur.DatabaseAccessor
             Func<Type, DbContext> dbContextResolve
             , IDbContextPool dbContextPool
             , IRepository repository
-            , IServiceProvider serviceProvider) : base(dbContextResolve, dbContextPool)
+            , IServiceProvider serviceProvider) : base(dbContextResolve, dbContextPool, serviceProvider)
         {
             // 解析数据库上下文
             var dbContext = dbContextResolve(typeof(TDbContextLocator));
@@ -609,7 +609,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <typeparam name="TChangeEntity">实体类型</typeparam>
         /// <returns>仓储</returns>
-        public virtual IRepository<TChangeEntity> Change<TChangeEntity>()
+        public virtual new IRepository<TChangeEntity> Change<TChangeEntity>()
             where TChangeEntity : class, IEntity, new()
         {
             return _repository.Change<TChangeEntity>();

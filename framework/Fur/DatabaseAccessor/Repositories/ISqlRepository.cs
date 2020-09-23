@@ -34,5 +34,13 @@ namespace Fur.DatabaseAccessor
         /// 数据库操作对象
         /// </summary>
         DatabaseFacade Database { get; }
+
+        /// <summary>
+        /// 切换仓储
+        /// </summary>
+        /// <typeparam name="TChangeDbContextLocator">数据库上下文定位器</typeparam>
+        /// <returns>仓储</returns>
+        ISqlRepository<TChangeDbContextLocator> Change<TChangeDbContextLocator>()
+            where TChangeDbContextLocator : class, IDbContextLocator;
     }
 }

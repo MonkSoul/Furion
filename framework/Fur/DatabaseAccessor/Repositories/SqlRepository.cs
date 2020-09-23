@@ -12,6 +12,7 @@
 using Fur.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace Fur.DatabaseAccessor
@@ -27,9 +28,11 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="dbContextResolve">数据库上下文解析器</param>
         /// <param name="dbContextPool">数据库上下文池</param>
+        /// <param name="serviceProvider">服务提供器</param>
         public SqlRepository(
             Func<Type, DbContext> dbContextResolve
-            , IDbContextPool dbContextPool) : base(dbContextResolve, dbContextPool)
+            , IDbContextPool dbContextPool
+            , IServiceProvider serviceProvider) : base(dbContextResolve, dbContextPool, serviceProvider)
         {
         }
     }
@@ -43,13 +46,20 @@ namespace Fur.DatabaseAccessor
         where TDbContextLocator : class, IDbContextLocator
     {
         /// <summary>
+        /// 服务提供器
+        /// </summary>
+        private readonly IServiceProvider _serviceProvider;
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="dbContextResolve">数据库上下文解析器</param>
         /// <param name="dbContextPool">数据库上下文池</param>
+        /// <param name="serviceProvider">服务提供器</param>
         public SqlRepository(
             Func<Type, DbContext> dbContextResolve
-            , IDbContextPool dbContextPool)
+            , IDbContextPool dbContextPool
+            , IServiceProvider serviceProvider)
         {
             // 解析数据库上下文
             var dbContext = dbContextResolve(typeof(TDbContextLocator));
@@ -59,11 +69,24 @@ namespace Fur.DatabaseAccessor
 
             // 初始化数据库相关数据
             Database = dbContext.Database;
+
+            _serviceProvider = serviceProvider;
         }
 
         /// <summary>
         /// 数据库操作对象
         /// </summary>
-        public DatabaseFacade Database { get; }
+        public virtual DatabaseFacade Database { get; }
+
+        /// <summary>
+        /// 切换仓储
+        /// </summary>
+        /// <typeparam name="TChangeDbContextLocator">数据库上下文定位器</typeparam>
+        /// <returns>仓储</returns>
+        public virtual ISqlRepository<TChangeDbContextLocator> Change<TChangeDbContextLocator>()
+             where TChangeDbContextLocator : class, IDbContextLocator
+        {
+            return _serviceProvider.GetService<ISqlRepository<TChangeDbContextLocator>>();
+        }
     }
 }

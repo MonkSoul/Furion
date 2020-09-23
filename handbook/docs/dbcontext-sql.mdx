@@ -687,7 +687,37 @@ var dataTable = personRepository.SqlQuery("select * from person");
 
 :::
 
-## 8.14.9 反馈与建议
+## 8.14.9 多数据库 `Sql` 操作 💯 💛
+
+`Fur` 框架拥有非常灵活的多数据库操作方式，只需通过多**数据库上下文定位器**即可动态切换数据库。
+
+### 8.14.9.1 懒人无敌 🐮 方式
+
+```cs
+var dataTable = "select * from person".Change<MySqlDbContextLocator>().SqlQuery();
+
+var persons = "select * from person whre id > @id".Change<SqliteDbContextLocator>().SqlQuery<Person>();
+```
+
+:::important 补充说明
+
+懒人方式 只需要通过 `Change<TDbContextLocator>` 方式即可动态切换数据库。
+
+:::
+
+### 8.14.9.2 `ISqlRepository` 方式
+
+只需要通过 `ISqlRepository<TDbContextLocator>` 注入或通过 `sqlRepository.Change<TDbContextLocator>()` 切换。
+
+### 8.14.9.3 `IRepository` 方式
+
+只需要通过 `repository.Change<TDbContextLocator>()` 获取即可。
+
+### 8.14.9.4 `IRepository<TEntity>` 方式
+
+只需要通过 `IRepository<TEntity, TDbContextLocator>` 注入或通过 `personRepository.Change<TEntity, TDbContextLocator>()` 切换。
+
+## 8.14.10 反馈与建议
 
 :::note 与我们交流
 

@@ -393,8 +393,8 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <typeparam name="TChangeEntity">实体类型</typeparam>
         /// <returns>仓储</returns>
-        IRepository<TChangeEntity> Change<TChangeEntity>()
-            where TChangeEntity : class, IEntity, new();
+        new IRepository<TChangeEntity> Change<TChangeEntity>()
+                where TChangeEntity : class, IEntity, new();
 
         /// <summary>
         /// 切换多数据库上下文仓储
