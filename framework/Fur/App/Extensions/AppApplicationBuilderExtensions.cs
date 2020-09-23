@@ -35,6 +35,7 @@ namespace Microsoft.AspNetCore.Builder
                 app.UseMiniProfiler();
             }
 
+            // 调用自定义服务
             configure?.Invoke(app);
             return app;
         }
