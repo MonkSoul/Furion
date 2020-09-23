@@ -96,7 +96,7 @@ public FurService(IRepository<Person> personRepository)
 ### 8.4.2.2 方法参数注入
 
 ```cs {1}
-public async Task<List<PersonDto>> GetAll([FromServices] IRepository<Person> repository, string keywork)
+public async Task<List<PersonDto>> GetAll([FromServices] IRepository<Person> repository, string keyword)
 {
     var persons = await repository.AsQueryable().ToListAsync();
     return persons.Adapt<List<PersonDto>>();
