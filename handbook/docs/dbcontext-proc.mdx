@@ -4,6 +4,12 @@ title: 8.12 存储过程操作
 sidebar_label: 8.12 存储过程操作
 ---
 
+:::important 温馨提示
+
+推荐使用 《[8.15 Sql 高级代理](dbcontext-sql-proxy.mdx)》代替本章节功能。`Sql 高级代理` 能够提供更容易且更易维护的方式。
+
+:::
+
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
@@ -431,7 +437,7 @@ _repository.Sql().SqlProcedureNonQuery("proc_UpdateData");
 
 在存储过程中，有一种例子非常复杂，那就是既有 `INPUT` 参数，又有 `OUTPUT` 参数，还有 `RETURN` 参数，同时还输出 结果集 💥，如：
 
-```sql
+```sql {3,4,10-12,15-17,22}
 CREATE PROC PROC_Output
     @Id INT,    // 输入参数
     @Name NVARCHAR(32) OUTPUT,  // 输出参数，还带长度
@@ -459,7 +465,7 @@ END;
 
 ### 8.12.3.1 创建参数模型
 
-```cs
+```cs {1,10,13,16}
 using Fur.DatabaseAccessor;
 using System.Data;
 
