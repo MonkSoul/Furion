@@ -2,12 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <AnalysisLevel>5</AnalysisLevel>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>obj\Debug\net5.0\Fur.Web.Core.xml</DocumentationFile>
     <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>obj\Debug\net5.0\Fur.Web.Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
