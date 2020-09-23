@@ -249,10 +249,10 @@ namespace Fur
                 "Fur.Database.Migrations"
             };
 
-            var dependencyConext = DependencyContext.Default;
+            var dependencyContext = DependencyContext.Default;
 
             // 读取项目程序集或Fur官方发布的包
-            return dependencyConext.CompileLibraries
+            return dependencyContext.CompileLibraries
                 .Where(u => (u.Type == "project" && !excludeAssemblyNames.Contains(u.Name)) || (u.Type == "package" && u.Name.StartsWith(nameof(Fur))))
                 .Select(u => AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(u.Name)));
         }
