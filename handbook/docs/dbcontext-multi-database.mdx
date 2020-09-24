@@ -3,3 +3,90 @@ id: dbcontext-multi-database
 title: 8.16 多数据库操作
 sidebar_label: 8.16 多数据库操作
 ---
+
+## 8.16.1 多数据库操作指定
+
+`Fur` 通过独创的 `数据库上下文定位器` 实现多数据库灵活操作切换。只需要为每一种数据库绑定唯一的数据库上下文定位器即可。
+
+以下是 `Fur` 支持多数据库操作的实例：
+
+## 8.16.2 实体仓储方式指定
+
+```cs
+// 切换到 MSSQL 操作 Person表
+var mssqlRepository = personRepository.Change<Person, MsSqlDbContextLocator>();
+
+// 切换到 MySql 操作 Person表
+var mysqlRepository = personRepository.Change<Person, MySqlDbContextLocator>();
+
+// 切换到 Sqlite 操作 Person表
+var sqliteRepository = personRepository.Change<Person, SqliteDbContextLocator>();
+
+```
+
+## 8.16.3 非泛型仓储指定
+
+```cs
+// 切换到 MSSQL 操作 Person表
+var mssqlRepository = repository.Change<Person, MsSqlDbContextLocator>();
+
+// 切换到 MySql 操作 Person表
+var mysqlRepository = repository.Change<Person, MySqlDbContextLocator>();
+
+// 切换到 Sqlite 操作 Person表
+var sqliteRepository = repository.Change<Person, SqliteDbContextLocator>();
+```
+
+## 8.16.4 `Sql` 仓储指定
+
+```cs
+// 切换到 MSSQL 操作 Person表
+var mssqlRepository = sqlRepository.Change<MsSqlDbContextLocator>();
+
+// 切换到 MySql 操作 Person表
+var mysqlRepository = sqlRepository.Change<MySqlDbContextLocator>();
+
+// 切换到 Sqlite 操作 Person表
+var sqliteRepository = sqlRepository.Change<SqliteDbContextLocator>();
+```
+
+## 8.16.5 实体定义指定
+
+```cs
+
+// 支持一个数据库
+public class Person: IEntity<MySqlDbContextLocator>
+{
+    // ....
+}
+
+// 支持多个数据库
+public class Person: IEntity<MySqlDbContextLocator, SqliteDbContextLocator>
+{
+    // ....
+}
+```
+
+:::tip 小知识
+
+所有的 `实体依赖接口或抽象类` 都支持泛型方式 指定 数据库上下文定位器，最多支持 `8` 个。
+
+:::
+
+## 8.16.6 Linq 函数指定
+
+```cs
+public static class QueryFunctions
+{
+    [QueryableFunction("FN_GetId", "dbo", typeof(MySqlDbContextLocator), typeof(SqliteDbContextLocator))]
+    public static int GetId(int id) => throw new NotSupportedException();
+}
+```
+
+## 8.16.7 反馈与建议
+
+:::note 与我们交流
+
+给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+
+:::
