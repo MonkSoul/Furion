@@ -2490,23 +2490,6 @@ namespace Fur.DatabaseAccessor
             return dataTable.ToList<T>();
         }
 
-        // 分隔符
-        private static readonly string dbContextLocatorSqlSplit;
-
-        /// <summary>
-        /// 静态构造函数
-        /// </summary>
-        static SqlExtensions()
-        {
-            dbContextLocatorSqlSplit = "-=>";
-            DbContextLocatorTypesCached = new ConcurrentDictionary<string, Type>();
-        }
-
-        /// <summary>
-        /// 数据库上下文定位器缓存
-        /// </summary>
-        private static readonly ConcurrentDictionary<string, Type> DbContextLocatorTypesCached;
-
         /// <summary>
         /// 获取 Sql 仓储数据库操作对象
         /// </summary>
@@ -2548,5 +2531,22 @@ namespace Fur.DatabaseAccessor
                 return dbContextLocator;
             }
         }
+
+        // 分隔符
+        private static readonly string dbContextLocatorSqlSplit;
+
+        /// <summary>
+        /// 静态构造函数
+        /// </summary>
+        static SqlExtensions()
+        {
+            dbContextLocatorSqlSplit = "-=>";
+            DbContextLocatorTypesCached = new ConcurrentDictionary<string, Type>();
+        }
+
+        /// <summary>
+        /// 数据库上下文定位器缓存
+        /// </summary>
+        private static readonly ConcurrentDictionary<string, Type> DbContextLocatorTypesCached;
     }
 }
