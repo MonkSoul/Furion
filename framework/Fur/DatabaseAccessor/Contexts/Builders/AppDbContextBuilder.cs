@@ -274,7 +274,7 @@ namespace Fur.DatabaseAccessor
         {
             // 获取类型父类型及接口
             var baseType = entityCorrelationType.BaseType;
-            var interfaces = entityCorrelationType.GetInterfaces().Where(u => typeof(IModelBuilder).IsAssignableFrom(u));
+            var interfaces = entityCorrelationType.GetInterfaces().Where(u => typeof(IEntity).IsAssignableFrom(u) || typeof(IModelBuilder).IsAssignableFrom(u));
 
             // 默认数据库上下文情况
             if (dbContextLocator == typeof(DbContextLocator))
@@ -282,8 +282,8 @@ namespace Fur.DatabaseAccessor
                 // 父类继承 IEntity 类型且不是泛型
                 if (typeof(IEntity).IsAssignableFrom(baseType) && !baseType.IsGenericType) return true;
 
-                // 接口等于 IModelBuilderFilter 类型或 只有一个泛型参数
-                if (interfaces.Any(u => u == typeof(IModelBuilderFilter) || (u.IsGenericType && u.GenericTypeArguments.Length == 1))) return true;
+                // 接口等于 IEntity 或 IModelBuilderFilter 类型或 只有一个泛型参数
+                if (interfaces.Any(u => u == typeof(IEntity) || u == typeof(IModelBuilderFilter) || (u.IsGenericType && u.GenericTypeArguments.Length == 1))) return true;
             }
 
             // 父类是泛型且泛型参数包含数据库上下文定位器
