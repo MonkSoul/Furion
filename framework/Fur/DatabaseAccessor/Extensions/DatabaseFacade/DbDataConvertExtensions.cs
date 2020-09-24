@@ -269,6 +269,23 @@ namespace Fur.DatabaseAccessor
                     list.Add(destValue);
                 }
             }
+            // 处理Object类型
+            else if (underlyingType == typeof(object))
+            {
+                // 获取所有列名
+                var columns = dataTable.Columns;
+
+                // 遍历所有行
+                foreach (var dataRow in dataRows)
+                {
+                    var dic = new Dictionary<string, object>();
+                    foreach (DataColumn column in columns)
+                    {
+                        dic.Add(column.ColumnName, dataRow[column]);
+                    }
+                    list.Add(dic);
+                }
+            }
             else
             {
                 // 获取所有的数据列和类公开实例属性
