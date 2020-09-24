@@ -57,6 +57,12 @@
 
 之所以选择 **奶牛** 是因为 `牛` 具有脚踏实地，任劳任怨的做事风格，同时 **奶牛** 意味着丰富的营养价值，正如 `Fur` 所能带给你的。
 
+`Fur` LOGO 设计由 `F` `U` `R` 三个单词组成：
+
+<p>
+<img src="./handbook/static/img/logo2.png" height="120"/>
+</p>
+
 ## 文档地址
 
 [https://monksoul.gitee.io/fur/](https://monksoul.gitee.io/fur/) 临时的
