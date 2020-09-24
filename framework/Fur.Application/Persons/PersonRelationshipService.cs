@@ -18,6 +18,11 @@ namespace Fur.Application.Persons
         private readonly IReadableRepository<V_Person> _readableRepository;
         private readonly IRepository<Person> _personRepository;
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="personRepository"></param>
+        /// <param name="repository"></param>
         public PersonRelationshipService(IRepository<Person> personRepository
             , IRepository<V_Person> repository)
         {
