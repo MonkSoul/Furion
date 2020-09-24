@@ -33,7 +33,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <returns>DbSet<TEntity></returns>
         public static DbSet<TEntity> Ethnics<TEntity>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().Entities;
         }
@@ -45,7 +45,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>代理的实体</returns>
         public static EntityEntry<TEntity> Insert<TEntity>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().Insert(entity);
         }
@@ -57,7 +57,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>代理的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertAsync(entity, cancellationToken);
         }
@@ -69,7 +69,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertNow<TEntity>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertNow(entity);
         }
@@ -81,7 +81,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertNow(entity, acceptAllChangesOnSuccess);
         }
@@ -93,7 +93,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertNowAsync(entity, cancellationToken);
         }
@@ -105,7 +105,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -117,7 +117,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> Update<TEntity>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().Update(entity);
         }
@@ -129,7 +129,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateAsync<TEntity>(this TEntity entity)
-             where TEntity : class, IEntity, new()
+             where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateAsync(entity);
         }
@@ -141,7 +141,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateNow<TEntity>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateNow(entity);
         }
@@ -154,7 +154,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
-             where TEntity : class, IEntity, new()
+             where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateNow(entity, acceptAllChangesOnSuccess);
         }
@@ -167,7 +167,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateNowAsync(entity, cancellationToken);
         }
@@ -181,7 +181,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -194,7 +194,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateInclude(entity, propertyNames);
         }
@@ -207,7 +207,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateInclude(entity, propertyPredicates);
         }
@@ -220,7 +220,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateInclude(entity, propertyNames);
         }
@@ -233,7 +233,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateInclude(entity, propertyPredicates);
         }
@@ -246,7 +246,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyNames);
         }
@@ -259,7 +259,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyPredicates);
         }
@@ -272,7 +272,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyNames);
         }
@@ -285,7 +285,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyPredicates);
         }
@@ -298,7 +298,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames);
         }
@@ -312,7 +312,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
@@ -325,7 +325,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中实体</returns>
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates);
         }
@@ -339,7 +339,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
@@ -352,7 +352,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames);
         }
@@ -366,7 +366,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess)
-             where TEntity : class, IEntity, new()
+             where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
@@ -379,7 +379,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates);
         }
@@ -393,7 +393,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
@@ -406,7 +406,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames);
         }
@@ -420,7 +420,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
         }
@@ -435,7 +435,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -448,7 +448,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates);
         }
@@ -462,7 +462,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
@@ -477,7 +477,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -491,7 +491,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
         }
@@ -506,7 +506,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -520,7 +520,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
@@ -535,7 +535,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -548,7 +548,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExclude(entity, propertyNames);
         }
@@ -561,7 +561,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExclude(entity, propertyPredicates);
         }
@@ -574,7 +574,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExclude(entity, propertyNames);
         }
@@ -587,7 +587,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExclude(entity, propertyPredicates);
         }
@@ -600,7 +600,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyNames);
         }
@@ -613,7 +613,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyPredicates);
         }
@@ -626,7 +626,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyNames);
         }
@@ -639,7 +639,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyPredicates);
         }
@@ -652,7 +652,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames);
         }
@@ -666,7 +666,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
@@ -679,7 +679,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中实体</returns>
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates);
         }
@@ -693,7 +693,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
@@ -706,7 +706,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames);
         }
@@ -720,7 +720,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess)
-             where TEntity : class, IEntity, new()
+             where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
@@ -733,7 +733,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates);
         }
@@ -747,7 +747,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
@@ -760,7 +760,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames);
         }
@@ -774,7 +774,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
         }
@@ -789,7 +789,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -802,7 +802,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates);
         }
@@ -816,7 +816,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
@@ -831,7 +831,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -845,7 +845,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
         }
@@ -860,7 +860,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -874,7 +874,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
@@ -889,7 +889,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -901,7 +901,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> Delete<TEntity>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().Delete(entity);
         }
@@ -913,7 +913,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> DeleteAsync<TEntity>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().DeleteAsync(entity);
         }
@@ -925,7 +925,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> DeleteNow<TEntity>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().DeleteNow(entity);
         }
@@ -938,7 +938,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns></returns>
         public static EntityEntry<TEntity> DeleteNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().DeleteNow(entity, acceptAllChangesOnSuccess);
         }
@@ -951,7 +951,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> DeleteNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().DeleteNowAsync(entity, cancellationToken);
         }
@@ -965,7 +965,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> DeleteNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().DeleteNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -977,7 +977,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdate<TEntity>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdate(entity);
         }
@@ -990,7 +990,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateAsync(entity, cancellationToken);
         }
@@ -1002,7 +1002,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateNow<TEntity>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateNow(entity);
         }
@@ -1015,7 +1015,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateNow(entity, acceptAllChangesOnSuccess);
         }
@@ -1028,7 +1028,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateNowAsync(entity, cancellationToken);
         }
@@ -1042,7 +1042,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -1055,7 +1055,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateInclude<TEntity>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateInclude(entity, propertyNames);
         }
@@ -1068,7 +1068,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateInclude<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateInclude(entity, propertyPredicates);
         }
@@ -1081,7 +1081,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateInclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateInclude(entity, propertyNames);
         }
@@ -1094,7 +1094,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateInclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateInclude(entity, propertyPredicates);
         }
@@ -1107,7 +1107,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyNames);
         }
@@ -1121,7 +1121,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyNames, cancellationToken);
         }
@@ -1134,7 +1134,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyPredicates);
         }
@@ -1148,7 +1148,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyPredicates, cancellationToken);
         }
@@ -1162,7 +1162,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyNames, cancellationToken);
         }
@@ -1176,7 +1176,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyPredicates, cancellationToken);
         }
@@ -1189,7 +1189,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyNames);
         }
@@ -1203,7 +1203,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
@@ -1216,7 +1216,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyPredicates);
         }
@@ -1230,7 +1230,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
@@ -1243,7 +1243,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyNames);
         }
@@ -1257,7 +1257,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
@@ -1270,7 +1270,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyPredicates);
         }
@@ -1284,7 +1284,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
@@ -1297,7 +1297,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames);
         }
@@ -1311,7 +1311,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
         }
@@ -1326,7 +1326,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -1339,7 +1339,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates);
         }
@@ -1353,7 +1353,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
@@ -1368,7 +1368,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -1382,7 +1382,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
         }
@@ -1397,7 +1397,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -1411,7 +1411,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
@@ -1426,7 +1426,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -1439,7 +1439,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExclude<TEntity>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExclude(entity, propertyNames);
         }
@@ -1452,7 +1452,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExclude<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExclude(entity, propertyPredicates);
         }
@@ -1465,7 +1465,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExclude(entity, propertyNames);
         }
@@ -1478,7 +1478,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExclude(entity, propertyPredicates);
         }
@@ -1491,7 +1491,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyNames);
         }
@@ -1505,7 +1505,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyNames, cancellationToken);
         }
@@ -1518,7 +1518,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyPredicates);
         }
@@ -1532,7 +1532,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyPredicates, cancellationToken);
         }
@@ -1546,7 +1546,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyNames, cancellationToken);
         }
@@ -1560,7 +1560,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyPredicates, cancellationToken);
         }
@@ -1573,7 +1573,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyNames);
         }
@@ -1587,7 +1587,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
@@ -1600,7 +1600,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyPredicates);
         }
@@ -1614,7 +1614,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
@@ -1627,7 +1627,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyNames);
         }
@@ -1641,7 +1641,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
@@ -1654,7 +1654,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyPredicates);
         }
@@ -1668,7 +1668,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
@@ -1681,7 +1681,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames);
         }
@@ -1695,7 +1695,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
         }
@@ -1710,7 +1710,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -1723,7 +1723,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates);
         }
@@ -1737,7 +1737,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
@@ -1752,7 +1752,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -1766,7 +1766,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
         }
@@ -1781,7 +1781,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -1795,7 +1795,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
@@ -1810,7 +1810,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
@@ -1821,7 +1821,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns></returns>
         public static EntityEntry<TEntity> FakeDelete<TEntity>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().FakeDelete(entity);
         }
@@ -1832,7 +1832,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns></returns>
         public static Task<EntityEntry<TEntity>> FakeDeleteAsync<TEntity>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().FakeDeleteAsync(entity);
         }
@@ -1843,7 +1843,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns></returns>
         public static EntityEntry<TEntity> FakeDeleteNow<TEntity>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().FakeDeleteNow(entity);
         }
@@ -1855,7 +1855,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns></returns>
         public static EntityEntry<TEntity> FakeDeleteNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().FakeDeleteNow(entity, acceptAllChangesOnSuccess);
         }
@@ -1867,7 +1867,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns></returns>
         public static Task<EntityEntry<TEntity>> FakeDeleteNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().FakeDeleteNowAsync(entity, cancellationToken);
         }
@@ -1880,7 +1880,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns></returns>
         public static Task<EntityEntry<TEntity>> FakeDeleteNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-             where TEntity : class, IEntity, new()
+             where TEntity : class, IEntityDependency, new()
         {
             return App.GetRepository<TEntity>().FakeDeleteNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
         }

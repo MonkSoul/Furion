@@ -154,7 +154,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库模型构建筛选器依赖接口（禁止外部继承）
     /// </summary>
-    public interface IModelBuilderFilterDependency : IModelBuilder
+    public interface IModelBuilderFilterDependency : IModelBuilderDependency
     {
         /// <summary>
         /// 模型构建之前

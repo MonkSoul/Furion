@@ -182,7 +182,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TKey">主键类型</typeparam>
     [NonBeScan]
-    public abstract class EntityBaseDependency<TKey> : IEntity
+    public abstract class EntityBaseDependency<TKey> : IEntityDependency
         where TKey : struct
     {
         /// <summary>

@@ -53,7 +53,7 @@ namespace Fur.DatabaseAccessor
         static AppDbContextBuilder()
         {
             // 扫描程序集，获取数据库实体相关类型
-            EntityCorrelationTypes = App.CanBeScanTypes.Where(t => (typeof(IEntity).IsAssignableFrom(t) || typeof(IModelBuilder).IsAssignableFrom(t))
+            EntityCorrelationTypes = App.CanBeScanTypes.Where(t => (typeof(IEntityDependency).IsAssignableFrom(t) || typeof(IModelBuilderDependency).IsAssignableFrom(t))
                 && t.IsClass && !t.IsAbstract && !t.IsGenericType && !t.IsInterface && !t.IsDefined(typeof(NonAutomaticAttribute), true))
                 .ToList();
 
@@ -149,7 +149,7 @@ namespace Fur.DatabaseAccessor
 
             // 配置视图、存储过程、函数无键实体
             entityBuilder.HasNoKey();
-            entityBuilder.ToView((Activator.CreateInstance(entityType) as IEntityNotKey).GetName());
+            entityBuilder.ToView((Activator.CreateInstance(entityType) as IEntityNotKeyDependency).GetName());
         }
 
         /// <summary>
@@ -274,15 +274,15 @@ namespace Fur.DatabaseAccessor
         {
             // 获取类型父类型及接口
             var baseType = entityCorrelationType.BaseType;
-            var interfaces = entityCorrelationType.GetInterfaces().Where(u => typeof(IEntity).IsAssignableFrom(u) || typeof(IModelBuilder).IsAssignableFrom(u));
+            var interfaces = entityCorrelationType.GetInterfaces().Where(u => typeof(IEntityDependency).IsAssignableFrom(u) || typeof(IModelBuilderDependency).IsAssignableFrom(u));
 
             // 默认数据库上下文情况
             if (dbContextLocator == typeof(DbContextLocator))
             {
-                // 父类继承 IEntity 类型且不是泛型
-                if (typeof(IEntity).IsAssignableFrom(baseType) && !baseType.IsGenericType) return true;
+                // 父类继承 IEntityDependency 类型且不是泛型
+                if (typeof(IEntityDependency).IsAssignableFrom(baseType) && !baseType.IsGenericType) return true;
 
-                // 接口等于 IEntity 或 IModelBuilderFilter 类型或 只有一个泛型参数
+                // 接口等于 IEntityDependency 或 IModelBuilderFilter 类型或 只有一个泛型参数
                 if (interfaces.Any(u => u == typeof(IEntity) || u == typeof(IModelBuilderFilter) || (u.IsGenericType && u.GenericTypeArguments.Length == 1))) return true;
             }
 
@@ -329,20 +329,20 @@ namespace Fur.DatabaseAccessor
             // 组装对象
             foreach (var entityCorrelationType in dbContextEntityCorrelationTypes)
             {
-                // 只要继承 IEntity 接口，都是实体
-                if (typeof(IEntity).IsAssignableFrom(entityCorrelationType))
+                // 只要继承 IEntityDependency 接口，都是实体
+                if (typeof(IEntityDependency).IsAssignableFrom(entityCorrelationType))
                 {
                     // 添加实体
                     result.EntityTypes.Add(entityCorrelationType);
 
                     // 添加无键实体
-                    if (typeof(IEntityNotKey).IsAssignableFrom(entityCorrelationType))
+                    if (typeof(IEntityNotKeyDependency).IsAssignableFrom(entityCorrelationType))
                     {
                         result.EntityNoKeyTypes.Add(entityCorrelationType);
                     }
                 }
 
-                if (typeof(IModelBuilder).IsAssignableFrom(entityCorrelationType))
+                if (typeof(IModelBuilderDependency).IsAssignableFrom(entityCorrelationType))
                 {
                     // 添加模型构建器
                     if (entityCorrelationType.HasImplementedRawGeneric(typeof(IEntityTypeBuilderDependency<>)))

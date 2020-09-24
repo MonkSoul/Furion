@@ -224,7 +224,7 @@ namespace Fur.DatabaseAccessor
     /// 数据库无键实体基类（禁止外部继承）
     /// </summary>
     [NonBeScan]
-    public abstract class EntityNotKeyDependency : IEntityNotKey
+    public abstract class EntityNotKeyDependency : IEntityNotKeyDependency
     {
         /// <summary>
         /// 无键实体名

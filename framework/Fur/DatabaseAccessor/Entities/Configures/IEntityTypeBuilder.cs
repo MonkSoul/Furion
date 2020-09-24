@@ -21,7 +21,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     public interface IEntityTypeBuilder<TEntity> : IEntityTypeBuilder<TEntity, DbContextLocator>
-        where TEntity : class, IEntity, new()
+        where TEntity : class, IEntityDependency, new()
     {
     }
 
@@ -31,7 +31,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     public interface IEntityTypeBuilder<TEntity, TDbContextLocator1> : IEntityTypeBuilderDependency<TEntity>
-        where TEntity : class, IEntity, new()
+        where TEntity : class, IEntityDependency, new()
         where TDbContextLocator1 : class, IDbContextLocator
     {
     }
@@ -43,7 +43,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     public interface IEntityTypeBuilder<TEntity, TDbContextLocator1, TDbContextLocator2> : IEntityTypeBuilderDependency<TEntity>
-        where TEntity : class, IEntity, new()
+        where TEntity : class, IEntityDependency, new()
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
     {
@@ -57,7 +57,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     public interface IEntityTypeBuilder<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3> : IEntityTypeBuilderDependency<TEntity>
-        where TEntity : class, IEntity, new()
+        where TEntity : class, IEntityDependency, new()
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
         where TDbContextLocator3 : class, IDbContextLocator
@@ -73,7 +73,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     public interface IEntityTypeBuilder<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4> : IEntityTypeBuilderDependency<TEntity>
-        where TEntity : class, IEntity, new()
+        where TEntity : class, IEntityDependency, new()
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
         where TDbContextLocator3 : class, IDbContextLocator
@@ -91,7 +91,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     public interface IEntityTypeBuilder<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5> : IEntityTypeBuilderDependency<TEntity>
-        where TEntity : class, IEntity, new()
+        where TEntity : class, IEntityDependency, new()
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
         where TDbContextLocator3 : class, IDbContextLocator
@@ -111,7 +111,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     public interface IEntityTypeBuilder<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6> : IEntityTypeBuilderDependency<TEntity>
-        where TEntity : class, IEntity, new()
+        where TEntity : class, IEntityDependency, new()
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
         where TDbContextLocator3 : class, IDbContextLocator
@@ -133,7 +133,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
     public interface IEntityTypeBuilder<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7> : IEntityTypeBuilderDependency<TEntity>
-        where TEntity : class, IEntity, new()
+        where TEntity : class, IEntityDependency, new()
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
         where TDbContextLocator3 : class, IDbContextLocator
@@ -157,7 +157,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator8">数据库上下文定位器</typeparam>
     public interface IEntityTypeBuilder<TEntity, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7, TDbContextLocator8> : IEntityTypeBuilderDependency<TEntity>
-        where TEntity : class, IEntity, new()
+        where TEntity : class, IEntityDependency, new()
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
         where TDbContextLocator3 : class, IDbContextLocator
@@ -173,8 +173,8 @@ namespace Fur.DatabaseAccessor
     /// 数据库实体类型配置依赖接口（禁止外部继承）
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public interface IEntityTypeBuilderDependency<TEntity> : IModelBuilder
-        where TEntity : class, IEntity, new()
+    public interface IEntityTypeBuilderDependency<TEntity> : IModelBuilderDependency
+        where TEntity : class, IEntityDependency, new()
     {
         /// <summary>
         /// 实体类型配置

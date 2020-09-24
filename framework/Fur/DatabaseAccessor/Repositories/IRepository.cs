@@ -33,7 +33,7 @@ namespace Fur.DatabaseAccessor
         , IWritableRepository<TEntity>
         , IReadableRepository<TEntity>
         , ISqlRepository
-        where TEntity : class, IEntity, new()
+        where TEntity : class, IEntityDependency, new()
     {
     }
 
@@ -48,7 +48,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns>仓储</returns>
         IRepository<TEntity> Change<TEntity>()
-            where TEntity : class, IEntity, new();
+            where TEntity : class, IEntityDependency, new();
 
         /// <summary>
         /// 切换多数据库上下文仓储
@@ -57,7 +57,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <returns>仓储</returns>
         IRepository<TEntity, TDbContextLocator> Change<TEntity, TDbContextLocator>()
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator;
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Fur.DatabaseAccessor
         : IWritableRepository<TEntity, TDbContextLocator>
         , IReadableRepository<TEntity, TDbContextLocator>
         , ISqlRepository<TDbContextLocator>
-        where TEntity : class, IEntity, new()
+        where TEntity : class, IEntityDependency, new()
         where TDbContextLocator : class, IDbContextLocator
     {
         /// <summary>
@@ -395,7 +395,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TChangeEntity">实体类型</typeparam>
         /// <returns>仓储</returns>
         new IRepository<TChangeEntity> Change<TChangeEntity>()
-                where TChangeEntity : class, IEntity, new();
+                where TChangeEntity : class, IEntityDependency, new();
 
         /// <summary>
         /// 切换多数据库上下文仓储
@@ -404,7 +404,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TChangeDbContextLocator">数据库上下文定位器</typeparam>
         /// <returns>仓储</returns>
         IRepository<TChangeEntity, TChangeDbContextLocator> Change<TChangeEntity, TChangeDbContextLocator>()
-            where TChangeEntity : class, IEntity, new()
+            where TChangeEntity : class, IEntityDependency, new()
             where TChangeDbContextLocator : class, IDbContextLocator;
 
         /// <summary>

@@ -34,7 +34,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <returns>DbSet<TEntity></returns>
         public static DbSet<TEntity> Ethnics<TEntity, TDbContextLocator>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().Entities;
@@ -48,7 +48,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>代理的实体</returns>
         public static EntityEntry<TEntity> Insert<TEntity, TDbContextLocator>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().Insert(entity);
@@ -62,7 +62,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>代理的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertAsync<TEntity, TDbContextLocator>(this TEntity entity, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertAsync(entity, cancellationToken);
@@ -76,7 +76,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertNow<TEntity, TDbContextLocator>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertNow(entity);
@@ -90,7 +90,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertNow<TEntity, TDbContextLocator>(this TEntity entity, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertNow(entity, acceptAllChangesOnSuccess);
@@ -104,7 +104,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertNowAsync<TEntity, TDbContextLocator>(this TEntity entity, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertNowAsync(entity, cancellationToken);
@@ -118,7 +118,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertNowAsync<TEntity, TDbContextLocator>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
@@ -132,7 +132,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> Update<TEntity, TDbContextLocator>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().Update(entity);
@@ -146,7 +146,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateAsync<TEntity, TDbContextLocator>(this TEntity entity)
-             where TEntity : class, IEntity, new()
+             where TEntity : class, IEntityDependency, new()
              where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateAsync(entity);
@@ -160,7 +160,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateNow<TEntity, TDbContextLocator>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateNow(entity);
@@ -175,7 +175,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateNow<TEntity, TDbContextLocator>(this TEntity entity, bool acceptAllChangesOnSuccess)
-             where TEntity : class, IEntity, new()
+             where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateNow(entity, acceptAllChangesOnSuccess);
@@ -190,7 +190,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateNowAsync<TEntity, TDbContextLocator>(this TEntity entity, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateNowAsync(entity, cancellationToken);
@@ -206,7 +206,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateNowAsync<TEntity, TDbContextLocator>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
@@ -221,7 +221,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> UpdateInclude<TEntity, TDbContextLocator>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateInclude(entity, propertyNames);
@@ -236,7 +236,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> UpdateInclude<TEntity, TDbContextLocator>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateInclude(entity, propertyPredicates);
@@ -251,7 +251,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> UpdateInclude<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateInclude(entity, propertyNames);
@@ -266,7 +266,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> UpdateInclude<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateInclude(entity, propertyPredicates);
@@ -281,7 +281,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity, TDbContextLocator>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeAsync(entity, propertyNames);
@@ -296,7 +296,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity, TDbContextLocator>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeAsync(entity, propertyPredicates);
@@ -311,7 +311,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeAsync(entity, propertyNames);
@@ -326,7 +326,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeAsync(entity, propertyPredicates);
@@ -341,7 +341,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity, TDbContextLocator>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyNames);
@@ -357,7 +357,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity, TDbContextLocator>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
@@ -371,7 +371,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中实体</returns>
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity, TDbContextLocator>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyPredicates);
@@ -386,7 +386,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity, TDbContextLocator>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
@@ -400,7 +400,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyNames);
@@ -415,7 +415,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess)
-             where TEntity : class, IEntity, new()
+             where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
@@ -429,7 +429,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyPredicates);
@@ -444,7 +444,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
@@ -458,7 +458,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyNames);
@@ -473,7 +473,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
@@ -489,7 +489,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
@@ -503,7 +503,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyPredicates);
@@ -518,7 +518,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
@@ -534,7 +534,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
@@ -549,7 +549,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
@@ -565,7 +565,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
@@ -580,7 +580,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
@@ -596,7 +596,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
@@ -610,7 +610,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> UpdateExclude<TEntity, TDbContextLocator>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExclude(entity, propertyNames);
@@ -624,7 +624,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> UpdateExclude<TEntity, TDbContextLocator>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExclude(entity, propertyPredicates);
@@ -638,7 +638,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> UpdateExclude<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExclude(entity, propertyNames);
@@ -652,7 +652,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> UpdateExclude<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExclude(entity, propertyPredicates);
@@ -666,7 +666,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity, TDbContextLocator>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeAsync(entity, propertyNames);
@@ -680,7 +680,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity, TDbContextLocator>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeAsync(entity, propertyPredicates);
@@ -694,7 +694,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeAsync(entity, propertyNames);
@@ -708,7 +708,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeAsync(entity, propertyPredicates);
@@ -722,7 +722,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity, TDbContextLocator>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyNames);
@@ -737,7 +737,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity, TDbContextLocator>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
@@ -751,7 +751,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中实体</returns>
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity, TDbContextLocator>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyPredicates);
@@ -766,7 +766,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity, TDbContextLocator>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
@@ -780,7 +780,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyNames);
@@ -795,7 +795,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess)
-             where TEntity : class, IEntity, new()
+             where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
@@ -809,7 +809,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyPredicates);
@@ -824,7 +824,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
@@ -838,7 +838,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyNames);
@@ -853,7 +853,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
@@ -869,7 +869,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
@@ -883,7 +883,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyPredicates);
@@ -898,7 +898,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
@@ -914,7 +914,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
@@ -929,7 +929,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
@@ -945,7 +945,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
@@ -960,7 +960,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
@@ -976,7 +976,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
@@ -989,7 +989,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam><param name="entity">实体</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> Delete<TEntity, TDbContextLocator>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().Delete(entity);
@@ -1002,7 +1002,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam><param name="entity">实体</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> DeleteAsync<TEntity, TDbContextLocator>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().DeleteAsync(entity);
@@ -1015,7 +1015,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam><param name="entity">实体</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> DeleteNow<TEntity, TDbContextLocator>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().DeleteNow(entity);
@@ -1029,7 +1029,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns></returns>
         public static EntityEntry<TEntity> DeleteNow<TEntity, TDbContextLocator>(this TEntity entity, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().DeleteNow(entity, acceptAllChangesOnSuccess);
@@ -1043,7 +1043,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> DeleteNowAsync<TEntity, TDbContextLocator>(this TEntity entity, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().DeleteNowAsync(entity, cancellationToken);
@@ -1058,7 +1058,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> DeleteNowAsync<TEntity, TDbContextLocator>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().DeleteNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
@@ -1071,7 +1071,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam><param name="entity">实体</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdate<TEntity, TDbContextLocator>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdate(entity);
@@ -1085,7 +1085,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateAsync<TEntity, TDbContextLocator>(this TEntity entity, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateAsync(entity, cancellationToken);
@@ -1098,7 +1098,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam><param name="entity">实体</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateNow<TEntity, TDbContextLocator>(this TEntity entity)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateNow(entity);
@@ -1112,7 +1112,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateNow<TEntity, TDbContextLocator>(this TEntity entity, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateNow(entity, acceptAllChangesOnSuccess);
@@ -1126,7 +1126,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateNowAsync<TEntity, TDbContextLocator>(this TEntity entity, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateNowAsync(entity, cancellationToken);
@@ -1141,7 +1141,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateNowAsync<TEntity, TDbContextLocator>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
@@ -1155,7 +1155,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateInclude<TEntity, TDbContextLocator>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateInclude(entity, propertyNames);
@@ -1169,7 +1169,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateInclude<TEntity, TDbContextLocator>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateInclude(entity, propertyPredicates);
@@ -1183,7 +1183,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateInclude<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateInclude(entity, propertyNames);
@@ -1197,7 +1197,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateInclude<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateInclude(entity, propertyPredicates);
@@ -1211,7 +1211,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity, TDbContextLocator>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyNames);
@@ -1226,7 +1226,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity, TDbContextLocator>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyNames, cancellationToken);
@@ -1240,7 +1240,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity, TDbContextLocator>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyPredicates);
@@ -1255,7 +1255,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity, TDbContextLocator>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyPredicates, cancellationToken);
@@ -1270,7 +1270,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyNames, cancellationToken);
@@ -1285,7 +1285,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyPredicates, cancellationToken);
@@ -1299,7 +1299,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity, TDbContextLocator>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyNames);
@@ -1314,7 +1314,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity, TDbContextLocator>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
@@ -1328,7 +1328,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity, TDbContextLocator>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyPredicates);
@@ -1343,7 +1343,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity, TDbContextLocator>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
@@ -1357,7 +1357,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyNames);
@@ -1372,7 +1372,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
@@ -1386,7 +1386,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyPredicates);
@@ -1401,7 +1401,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
@@ -1415,7 +1415,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyNames);
@@ -1430,7 +1430,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
@@ -1446,7 +1446,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
@@ -1460,7 +1460,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates);
@@ -1475,7 +1475,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
@@ -1491,7 +1491,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
@@ -1506,7 +1506,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
@@ -1522,7 +1522,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
@@ -1537,7 +1537,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
@@ -1553,7 +1553,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
@@ -1567,7 +1567,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExclude<TEntity, TDbContextLocator>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExclude(entity, propertyNames);
@@ -1581,7 +1581,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExclude<TEntity, TDbContextLocator>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExclude(entity, propertyPredicates);
@@ -1595,7 +1595,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExclude<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExclude(entity, propertyNames);
@@ -1609,7 +1609,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExclude<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExclude(entity, propertyPredicates);
@@ -1623,7 +1623,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity, TDbContextLocator>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyNames);
@@ -1638,7 +1638,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity, TDbContextLocator>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyNames, cancellationToken);
@@ -1652,7 +1652,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity, TDbContextLocator>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyPredicates);
@@ -1667,7 +1667,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity, TDbContextLocator>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyPredicates, cancellationToken);
@@ -1682,7 +1682,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyNames, cancellationToken);
@@ -1697,7 +1697,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>代理中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyPredicates, cancellationToken);
@@ -1711,7 +1711,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity, TDbContextLocator>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyNames);
@@ -1726,7 +1726,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity, TDbContextLocator>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
@@ -1740,7 +1740,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity, TDbContextLocator>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyPredicates);
@@ -1755,7 +1755,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity, TDbContextLocator>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
@@ -1769,7 +1769,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyNames);
@@ -1784,7 +1784,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
@@ -1798,7 +1798,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyPredicates);
@@ -1813,7 +1813,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
@@ -1827,7 +1827,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyNames">属性名</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyNames);
@@ -1842,7 +1842,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
@@ -1858,7 +1858,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
@@ -1872,7 +1872,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="propertyPredicates">属性表达式</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates);
@@ -1887,7 +1887,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
@@ -1903,7 +1903,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
@@ -1918,7 +1918,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
@@ -1934,7 +1934,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
@@ -1949,7 +1949,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
@@ -1965,7 +1965,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);

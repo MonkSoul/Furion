@@ -166,7 +166,7 @@ namespace Fur
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns>IRepository<TEntity></returns>
         public static IRepository<TEntity> GetRepository<TEntity>()
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return RequestServiceProvider.GetService<IRepository<TEntity>>()
                 ?? throw Oops.Oh(NotSupportedResolveMessage, typeof(NotSupportedException), nameof(IRepository<TEntity>));
@@ -179,7 +179,7 @@ namespace Fur
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <returns>IRepository<TEntity, TDbContextLocator></returns>
         public static IRepository<TEntity, TDbContextLocator> GetRepository<TEntity, TDbContextLocator>()
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return RequestServiceProvider.GetService<IRepository<TEntity, TDbContextLocator>>()

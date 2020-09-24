@@ -19,7 +19,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 租户实体
     /// </summary>
-    public class Tenant : IEntity
+    public class Tenant : IEntityDependency
     {
         [Key]
         [ScaffoldColumn(false)]

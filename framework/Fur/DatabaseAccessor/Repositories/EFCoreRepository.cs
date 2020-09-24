@@ -34,7 +34,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TEntity">实体类型</typeparam>
     [NonBeScan]
     public partial class EFCoreRepository<TEntity> : EFCoreRepository<TEntity, DbContextLocator>, IRepository<TEntity>
-        where TEntity : class, IEntity, new()
+        where TEntity : class, IEntityDependency, new()
     {
         /// <summary>
         /// 构造函数
@@ -79,7 +79,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns>仓储</returns>
         public virtual IRepository<TEntity> Change<TEntity>()
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
         {
             return _serviceProvider.GetService<IRepository<TEntity>>();
         }
@@ -91,7 +91,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <returns>仓储</returns>
         public virtual IRepository<TEntity, TDbContextLocator> Change<TEntity, TDbContextLocator>()
-            where TEntity : class, IEntity, new()
+            where TEntity : class, IEntityDependency, new()
             where TDbContextLocator : class, IDbContextLocator
         {
             return _serviceProvider.GetService<IRepository<TEntity, TDbContextLocator>>();
@@ -124,7 +124,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
     [NonBeScan]
     public partial class EFCoreRepository<TEntity, TDbContextLocator> : SqlRepository<TDbContextLocator>, IRepository<TEntity, TDbContextLocator>
-        where TEntity : class, IEntity, new()
+        where TEntity : class, IEntityDependency, new()
         where TDbContextLocator : class, IDbContextLocator
     {
         /// <summary>
@@ -611,7 +611,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TChangeEntity">实体类型</typeparam>
         /// <returns>仓储</returns>
         public virtual new IRepository<TChangeEntity> Change<TChangeEntity>()
-            where TChangeEntity : class, IEntity, new()
+            where TChangeEntity : class, IEntityDependency, new()
         {
             return _repository.Change<TChangeEntity>();
         }
@@ -623,7 +623,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TChangeDbContextLocator">数据库上下文定位器</typeparam>
         /// <returns>仓储</returns>
         public virtual IRepository<TChangeEntity, TChangeDbContextLocator> Change<TChangeEntity, TChangeDbContextLocator>()
-            where TChangeEntity : class, IEntity, new()
+            where TChangeEntity : class, IEntityDependency, new()
             where TChangeDbContextLocator : class, IDbContextLocator
         {
             return _repository.Change<TChangeEntity, TChangeDbContextLocator>();
