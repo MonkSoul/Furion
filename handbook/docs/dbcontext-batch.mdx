@@ -52,7 +52,7 @@ await repository.Where(a => a.ItemId >  500).BatchDeleteAsync();
 // 根据条件批量更新
 repository.Where(a => a.ItemId <= 500).BatchUpdate(a => new Item { Quantity = a.Quantity + 100 });
 repository.Where(a => a.ItemId <= 500).BatchUpdate(new Item { Description = "Updated" });
-repository.Where(a => a.ItemId <= 500).BatchUpdateAsync(new Item { Description = "Updated" });
+await repository.Where(a => a.ItemId <= 500).BatchUpdateAsync(new Item { Description = "Updated" });
 
 // 批量更新指定列
 var updateColumns = new List<string> { nameof(Item.Quantity) };
