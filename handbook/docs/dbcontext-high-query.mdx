@@ -1,14 +1,14 @@
 ---
 id: dbcontext-hight-query
-title: 8.10 高级查询操作
-sidebar_label: 8.10 高级查询操作
+title: 8.11 高级查询操作
+sidebar_label: 8.11 高级查询操作
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-## 8.10.1 关联数据模型
+## 8.11.1 关联数据模型
 
 <Tabs
   defaultValue="person"
@@ -194,7 +194,7 @@ namespace Fur.Core
 </Tabs>
 
 
-## 8.10.2 一对一查询
+## 8.11.2 一对一查询
 
 ```cs
 // 示例一
@@ -224,7 +224,7 @@ var person = repository.IncludeIf(!string.IsNullOrEmpty(keyword), u => u.Detail)
                        .Include(u => u.Post);
 ```
 
-## 8.10.3 一对多查询
+## 8.11.3 一对多查询
 
 ```cs
 // 示例一
@@ -239,7 +239,7 @@ var person = repository.Include(u => u.Childrens);
 
 :::
 
-## 8.10.4 多对多查询
+## 8.11.4 多对多查询
 
 ```cs
 // 示例一
@@ -254,9 +254,9 @@ var person = repository.Include(u => u.Posts);
 
 :::
 
-## 8.10.5 联表查询
+## 8.11.5 联表查询
 
-### 8.10.5.1 内连接 `Inner Join`
+### 8.11.5.1 内连接 `Inner Join`
 
 ```cs
 var query = from p in _personRepository.AsQueryable()
@@ -272,7 +272,7 @@ var query = from p in _personRepository.AsQueryable()
             };
 ```
 
-### 8.10.5.2 左连接 `Left Join`
+### 8.11.5.2 左连接 `Left Join`
 
 ```cs {2,3}
 var query = from p in _personRepository.AsQueryable()
@@ -295,11 +295,11 @@ var query = from p in _personRepository.AsQueryable()
 
 :::
 
-### 8.10.5.2 右连接 `Right Join`
+### 8.11.5.2 右连接 `Right Join`
 
 `Right Join` 只需要将 `Left Join` 主从表位置更换即可。
 
-## 8.10.6 分组查询
+## 8.11.6 分组查询
 
 ```cs
 // 示例一
@@ -325,7 +325,7 @@ var query = from a in repository.AsQueryable()
             };
 ```
 
-## 8.10.7 合并结果集
+## 8.11.7 合并结果集
 
 ```cs
 var query = repository.AsQueryable(u => u.Id > 10)
@@ -334,9 +334,9 @@ var query = repository.AsQueryable(u => u.Id > 10)
                       );
 ```
 
-## 8.10.8 查询排序
+## 8.11.8 查询排序
 
-### 8.10.8.1 正序
+### 8.11.8.1 正序
 
 ```cs
 // 示例一
@@ -349,7 +349,7 @@ var query =repository.AsQueryable()
                      .ThenBy(u => u.Name);
 ```
 
-### 8.10.8.2 倒序
+### 8.11.8.2 倒序
 
 ```cs
 // 示例一
@@ -362,7 +362,7 @@ var query =repository.AsQueryable()
                      .ThenByDescending(u => u.Name);
 ```
 
-### 8.10.8.3 混合倒序
+### 8.11.8.3 混合倒序
 
 ```cs
 // 示例一
@@ -372,7 +372,7 @@ var query = repository.AsQueryable()
                       .ThenBy(u => u.Age);
 ```
 
-## 8.10.9 递归查询
+## 8.11.9 递归查询
 
 <Tabs
   defaultValue="city"
@@ -505,13 +505,13 @@ var cities = await repository.AsQueryable()
 var dtos = cities.Adapt<List<CityDto>>();
 ```
 
-## 8.10.10 动态 `Sql` 查询
+## 8.11.10 动态 `Sql` 查询
 
 `Fur` 默认不支持 动态 `Sql` 查询功能，不过可以通过第三方实现：
 
 在 `Fur` 项目层安装 `System.Linq.Dynamic.Core` 包 [https://github.com/zzzprojects/System.Linq.Dynamic.Core](https://github.com/zzzprojects/System.Linq.Dynamic.Core)
 
-### 8.10.10.1 动态 `Sql`
+### 8.11.10.1 动态 `Sql`
 
 ```cs
 // 示例一
@@ -532,7 +532,7 @@ var customers = repository.AsQueryable()
                           .ToList();
 ```
 
-### 8.10.10.2 动态 `Lambda`
+### 8.11.10.2 动态 `Lambda`
 
 ```cs
 // 示例一
@@ -548,7 +548,7 @@ var e = DynamicExpressionParser.ParseLambda(
         "London", 10);
 ```
 
-## 8.10.11 性能优化
+## 8.11.11 性能优化
 
 默认情况下，`EF Core` 会跟踪所有实体，也就是任何数据改变都会引起数据检查，所以如果只做查询操作，建议关闭实体跟踪功能。
 
@@ -560,7 +560,7 @@ var e = DynamicExpressionParser.ParseLambda(
 
 在 `EF Core` 中，复杂查询总是会生成一个 `sql`，也就是 `AsSingleQuery()`，我们也可以设置为 `AsSplitQuery()` 切割成多个查询。
 
-## 8.10.12 分表查询小例子
+## 8.11.12 分表查询小例子
 
 ```cs
 using Fur.DatabaseAccessor;
@@ -596,7 +596,7 @@ namespace Fur.Core
 var posts = repository.Where(u => u.Id > 10).ToList();
 ```
 
-## 8.10.12 反馈与建议
+## 8.11.12 反馈与建议
 
 :::note 与我们交流
 

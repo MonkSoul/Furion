@@ -1,0 +1,87 @@
+---
+id: dbcontext-batch
+title: 8.9 批量操作
+sidebar_label: 8.9 批量操作
+---
+
+## 8.9.1 关于批量操作
+
+`Fur` 框架中，默认只提供小数据（100 以内）批量数据操作，如果需要更大的数据批量处理，推荐使用第三方包 [EFCore.BulkExtensions](https://github.com/borisdj/EFCore.BulkExtensions)，支持和 `Fur` 无缝衔接。
+
+## 8.9.2 `EFCore.BulkExtensions` 使用
+
+### 8.9.2.1 常见批量操作
+
+```cs
+// 批量插入
+repository.DbContext.BulkInsert(entitiesList);
+repository.DbContext.BulkInsertAsync(entitiesList);
+
+// 批量更新
+repository.DbContext.BulkUpdate(entitiesList);
+repository.DbContext.BulkUpdateAsync(entitiesList);
+
+// 批量删除
+repository.DbContext.BulkDelete(entitiesList);
+repository.DbContext.BulkDeleteAsync(entitiesList);
+
+// 批量插入或更新
+repository.DbContext.BulkInsertOrUpdate(entitiesList);
+repository.DbContext.BulkInsertOrUpdateAsync(entitiesList);
+
+// 批量插入或更新或删除
+repository.DbContext.BulkInsertOrUpdateOrDelete(entitiesList);
+repository.DbContext.BulkInsertOrUpdateOrDeleteAsync(entitiesList);
+
+// 批量读取多个实体
+repository.DbContext.BulkRead(entitiesList);
+repository.DbContext.BulkReadAsync(entitiesList);
+
+// 批量清空表（慎用！！！！！）
+repository.DbContext.Truncate<Entity>();
+repository.DbContext.TruncateAsync<Entity>();
+```
+
+### 8.9.2.2 查询后批量操作
+
+```cs
+// 根据条件批量删除
+repository.Where(a => a.ItemId >  500).BatchDelete();
+await repository.Where(a => a.ItemId >  500).BatchDeleteAsync();
+
+// 根据条件批量更新
+repository.Where(a => a.ItemId <= 500).BatchUpdate(a => new Item { Quantity = a.Quantity + 100 });
+repository.Where(a => a.ItemId <= 500).BatchUpdate(new Item { Description = "Updated" });
+repository.Where(a => a.ItemId <= 500).BatchUpdateAsync(new Item { Description = "Updated" });
+
+// 批量更新指定列
+var updateColumns = new List<string> { nameof(Item.Quantity) };
+var q = repository.Where(a => a.ItemId <= 500);
+int affected = q.BatchUpdate(new Item { Description = "Updated" }, updateColumns);
+```
+
+## 8.9.3 批量操作性能
+
+| Operations\Rows   |   100,000 EF |   100,000 EFBulk |   1,000,000 EFBulk |
+| ----------------- | -----------: | ---------------: | -----------------: |
+| Insert            |      38.98 s |           2.10 s |            17.99 s |
+| Update            |     109.25 s |           3.96 s |            31.45 s |
+| Delete            |       7.26 s |           2.04 s |            12.18 s |
+| ----------------- | ------------ | ---------------- | ------------------ |
+| **Together**      |      70.70 s |           5.88 s |            56.84 s |
+
+## 8.9.4 反馈与建议
+
+:::note 与我们交流
+
+给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+
+:::
+
+---
+
+:::note 了解更多
+
+想了解更多 `EFCore.BulkExtensions` 知识可查阅 [EFCore.BulkExtensions 开源仓库](https://github.com/borisdj/EFCore.BulkExtensions)。
+
+:::

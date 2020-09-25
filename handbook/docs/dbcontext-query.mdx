@@ -1,10 +1,10 @@
 ---
 id: dbcontext-query
-title: 8.9 查询操作
-sidebar_label: 8.9 查询操作
+title: 8.10 查询操作
+sidebar_label: 8.10 查询操作
 ---
 
-## 8.9.1 根据主键查询一条
+## 8.10.1 根据主键查询一条
 
 ```cs
 // ==== 同步操作 ====
@@ -37,7 +37,7 @@ var person = await repository.Entities.FindAsync(1);
 
 :::
 
-## 8.9.2 根据条件查询一条
+## 8.10.2 根据条件查询一条
 
 ```cs
 // ==== 同步操作 ====
@@ -111,7 +111,7 @@ var person = await repository.Entities.LastAsync(u => u.Name == "Fur");
 var person = await repository.Entities.LastOrDefaultAsync(u => u.Name == "Fur");
 ```
 
-## 8.9.3 查询所有数据
+## 8.10.3 查询所有数据
 
 ```cs
 // ==== 同步操作 ====
@@ -132,7 +132,7 @@ var persons = repository.AsEnumerable();
 var persons = await AsAsyncEnumerable();
 ```
 
-## 8.9.4 根据条件查询所有数据
+## 8.10.4 根据条件查询所有数据
 
 ```cs
 // 示例一
@@ -188,7 +188,7 @@ var persons = repository.DetachedEntities.Where(u => u.Id > 20);
 var persons = repository.AsQueryable(u => u.Id > 20).Where(u => u.Name == "Fur");
 ```
 
-## 8.9.5 分页查询
+## 8.10.5 分页查询
 
 ```cs
 // ==== 同步操作 ====
@@ -208,9 +208,9 @@ var persons = await repository.Where(u => u.Id > 10).ToPagedListAsync();
 var persons = await repository.Where(u => u.Id > 10).ToPagedListAsync(1, 10);
 ```
 
-## 8.9.6 其他查询
+## 8.10.6 其他查询
 
-### 8.9.6.1 查看记录是否存在
+### 8.10.6.1 查看记录是否存在
 
 ```cs
 // ==== 同步操作 ====
@@ -248,7 +248,7 @@ var isExists = await repository.DetachedEntities.AnyAsync(u => u.Id > 10);
 var isExists = await repository.Where(u => u.Id > 10).AnyAsync();
 ```
 
-### 8.9.6.2 查询记录数
+### 8.10.6.2 查询记录数
 
 ```cs
 // ==== 同步操作 ====
@@ -286,7 +286,7 @@ var count = await repository.Entities.DetachedEntities.CountAsync();
 var count = await repository.Where(u => u.Id > 10).CountAsync();
 ```
 
-### 8.9.6.3 查询最大值
+### 8.10.6.3 查询最大值
 
 ```cs
 // ==== 同步操作 ====
@@ -324,7 +324,7 @@ var value = await repository.Entities.DetachedEntities.MaxAsync(u => u.Age);
 var value = await repository.Where(u => u.Id > 10).MaxAsync(u => u.Age);
 ```
 
-### 8.9.6.4 查询最小值
+### 8.10.6.4 查询最小值
 
 ```cs
 // ==== 同步操作 ====
@@ -362,7 +362,7 @@ var value = await repository.Entities.DetachedEntities.MinAsync(u => u.Age);
 var value = await repository.Where(u => u.Id > 10).MinAsync(u => u.Age);
 ```
 
-### 8.9.6.5 求和查询
+### 8.10.6.5 求和查询
 
 ```cs
 // ==== 同步操作 ====
@@ -388,7 +388,7 @@ var sum = await repository.AsQueryable().SumAsync(u => u.Cost);
 var sum = await repository.DetachedEntities.SumAsync(u => u.Cost);
 ```
 
-### 8.9.6.6 求平均值查询
+### 8.10.6.6 求平均值查询
 
 ```cs
 // ==== 同步操作 ====
@@ -414,7 +414,7 @@ var sum = await repository.AsQueryable().AverageAsync(u => u.Cost);
 var sum = await repository.DetachedEntities.AverageAsync(u => u.Cost);
 ```
 
-### 8.9.6.7 时间查询
+### 8.10.6.7 时间查询
 
 ```cs
 var starDate = DateTime.Parse("2020-09-10");
@@ -422,7 +422,7 @@ var endDate = DateTime.Parse("2020-09-10");
 var query = repository.Where(u => u.CreatedDt >= starDate && u.CreatedDt <= endDate);
 ```
 
-### 8.9.6.8 模糊查询
+### 8.10.6.8 模糊查询
 
 ```cs
 // 示例一
@@ -435,11 +435,11 @@ _testRepository.Where(u => u.Name.EndWith("Fur"));
 _testRepository.Where(u => u.Name.Contains("Fur"));
 ```
 
-### 8.9.6.9 `Case When`
+### 8.10.6.9 `Case When`
 
 数据库中的 `Case When` 实际上对应的是我们程序中的 `三元表达式` ，也就是使用 `三元表达式` 即可自动生成 `Case When` 语句。
 
-## 8.9.7 反馈与建议
+## 8.10.7 反馈与建议
 
 :::note 与我们交流
 

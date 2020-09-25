@@ -42,6 +42,7 @@ module.exports = {
         "dbcontext-update",
         "dbcontext-add-or-update",
         "dbcontext-delete",
+        "dbcontext-batch",
         "dbcontext-query",
         "dbcontext-hight-query",
         "dbcontext-view",

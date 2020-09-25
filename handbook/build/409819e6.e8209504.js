@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[23],{79:function(n){n.exports=JSON.parse('{"allTagsPath":"/fur/blog/tags","slug":"net-5","name":".net5","count":1,"permalink":"/fur/blog/tags/net-5"}')}}]);
