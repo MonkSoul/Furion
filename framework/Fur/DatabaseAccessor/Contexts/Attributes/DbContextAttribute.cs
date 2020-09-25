@@ -33,5 +33,15 @@ namespace Fur.DatabaseAccessor
         /// 数据库连接字符串
         /// </summary>
         public string ConnectionString { get; set; }
+
+        /// <summary>
+        /// 表统一前缀
+        /// </summary>
+        public string TablePrefix { get; set; }
+
+        /// <summary>
+        /// 表统一后缀
+        /// </summary>
+        public string TableSuffix { get; set; }
     }
 }

@@ -86,11 +86,15 @@ namespace Fur.DatabaseAccessor
             // 如果没有数据，则跳过
             if (!dbContextCorrelationType.EntityTypes.Any()) goto EntityFunctions;
 
+            // 获取当前数据库上下文的 [DbContextAttributes] 特性
+            var dbContextType = dbContext.GetType();
+            var dbContextAttribute = dbContextType.IsDefined(typeof(DbContextAttribute), true) ? dbContextType.GetCustomAttribute<DbContextAttribute>() : null;
+
             // 初始化所有类型
             foreach (var entityType in dbContextCorrelationType.EntityTypes)
             {
                 // 创建实体类型
-                var entityBuilder = CreateEntityTypeBuilder(entityType, modelBuilder);
+                var entityBuilder = CreateEntityTypeBuilder(entityType, modelBuilder, dbContextAttribute);
                 if (entityBuilder == null) continue;
 
                 // 配置无键实体构建器
@@ -118,8 +122,9 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="type">数据库关联类型</param>
         /// <param name="modelBuilder">模型构建器</param>
+        /// <param name="dbContextAttribute">数据库上下文特性</param>
         /// <returns>EntityTypeBuilder</returns>
-        private static EntityTypeBuilder CreateEntityTypeBuilder(Type type, ModelBuilder modelBuilder)
+        private static EntityTypeBuilder CreateEntityTypeBuilder(Type type, ModelBuilder modelBuilder, DbContextAttribute dbContextAttribute = null)
         {
             // 判断是否启用多租户支持
             var enabledMultiTenant = !(databaseAccessorSettings.EnabledMultiTenant == false || databaseAccessorSettings.MultiTenantOptions == MultiTenantPattern.None);
@@ -132,6 +137,13 @@ namespace Fur.DatabaseAccessor
             if (!enabledMultiTenant)
             {
                 entityTypeBuilder.Ignore(nameof(Tenant.TenantId));
+            }
+
+            // 添加表统一前后缀，排除视图
+            if (dbContextAttribute != null && (!string.IsNullOrEmpty(dbContextAttribute.TableSuffix) || !string.IsNullOrEmpty(dbContextAttribute.TableSuffix)) && !typeof(IEntityNotKeyDependency).IsAssignableFrom(type))
+            {
+                var tableName = $"{dbContextAttribute.TablePrefix}{type.Name}{dbContextAttribute.TableSuffix}";
+                entityTypeBuilder.ToTable(tableName);
             }
 
             return entityTypeBuilder;

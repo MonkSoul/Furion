@@ -154,6 +154,13 @@
             关联数据演示
             </summary>
         </member>
+        <member name="M:Fur.Application.Persons.PersonRelationshipService.#ctor(Fur.DatabaseAccessor.IRepository{Fur.Core.Person},Fur.DatabaseAccessor.IRepository{Fur.Core.V_Person})">
+            <summary>
+            构造函数
+            </summary>
+            <param name="personRepository"></param>
+            <param name="repository"></param>
+        </member>
         <member name="M:Fur.Application.Persons.PersonRelationshipService.OneToOne">
             <summary>
             一对一
