@@ -4,13 +4,33 @@ title: 8.16 多数据库操作
 sidebar_label: 8.16 多数据库操作
 ---
 
-## 8.16.1 多数据库操作指定
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 8.16.1 `Fur` 支持数据库提供器
+
+| SqlServer | Sqlite | Cosmos | InMemory | MySql | PostgreSQL | Oracle |
+| --------- | ------ | ------ | -------- | ----- | ---------- | ------ |
+| ✔         | ✔      | ✔      | ✔        | ✔     | ✔          | ✔      |
+
+### 8.16.1.1 数据库提供器对应包
+
+- `SqlServer`：`Microsoft.EntityFrameworkCore.SqlServer`
+- `Sqlite`：`Microsoft.EntityFrameworkCore.Sqlite`
+- `Cosmos`：`Microsoft.EntityFrameworkCore.Cosmos`
+- `InMemory`：`Microsoft.EntityFrameworkCore.InMemory`
+- `MySql`：`Pomelo.EntityFrameworkCore.MySql`
+- `PostgreSQL`：`Npgsql.EntityFrameworkCore.PostgreSQL`
+- `Oracle`：`Citms.EntityFrameworkCore.Oracle`
+
+## 8.16.2 多数据库使用方式
 
 `Fur` 通过独创的 `数据库上下文定位器` 实现多数据库灵活操作切换。只需要为每一种数据库绑定唯一的数据库上下文定位器即可。
 
 以下是 `Fur` 支持多数据库操作的实例：
 
-## 8.16.2 实体仓储方式指定
+### 8.16.2.1 实体仓储方式
 
 ```cs
 // 切换到 MSSQL 操作 Person表
@@ -24,7 +44,7 @@ var sqliteRepository = personRepository.Change<Person, SqliteDbContextLocator>()
 
 ```
 
-## 8.16.3 非泛型仓储指定
+### 8.16.2.2 非泛型仓储方式
 
 ```cs
 // 切换到 MSSQL 操作 Person表
@@ -37,7 +57,7 @@ var mysqlRepository = repository.Change<Person, MySqlDbContextLocator>();
 var sqliteRepository = repository.Change<Person, SqliteDbContextLocator>();
 ```
 
-## 8.16.4 `Sql` 仓储指定
+### 8.16.2.3 `Sql` 仓储方式
 
 ```cs
 // 切换到 MSSQL 操作 Person表
@@ -50,7 +70,7 @@ var mysqlRepository = sqlRepository.Change<MySqlDbContextLocator>();
 var sqliteRepository = sqlRepository.Change<SqliteDbContextLocator>();
 ```
 
-## 8.16.5 实体定义指定
+### 8.16.2.4 实体定义方式
 
 ```cs
 
@@ -73,7 +93,7 @@ public class Person: IEntity<MySqlDbContextLocator, SqliteDbContextLocator>
 
 :::
 
-## 8.16.6 Linq 函数指定
+### 8.16.2.5 Linq 函数方式
 
 ```cs
 public static class QueryFunctions
@@ -83,7 +103,887 @@ public static class QueryFunctions
 }
 ```
 
-## 8.16.7 反馈与建议
+## 8.16.3 各个数据库服务拓展
+
+直接拷贝对应的数据库版本添加到项目中即可。
+
+<Tabs
+  defaultValue="sqlserver"
+  values={[
+    { label: "SqlServer", value: "sqlserver" },
+    { label: "Sqlite", value: "sqlite" },
+    { label: "Cosmos", value: "cosmos" },
+    { label: "InMemory", value: "inMemory" },
+    { label: "MySql", value: "mySql" },
+    { label: "PostgreSQL", value: "postgreSQL" },
+    { label: "Oracle", value: "oracle" },
+  ]}
+>
+  <TabItem value="sqlserver">
+
+
+```cs
+using Fur.DatabaseAccessor;
+using Fur.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using System;
+
+namespace Microsoft.Extensions.DependencyInjection
+{
+    /// <summary>
+    /// SqlServer 数据库服务拓展
+    /// </summary>
+    [NonBeScan]
+    public static class SqlServerServiceCollectionExtensions
+    {
+        /// <summary>
+        /// 添加默认数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="poolSize">池大小</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddSqlServerPool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100)
+            where TDbContext : DbContext
+        {
+            // 避免重复注册默认数据库上下文
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+
+            // 注册数据库上下文
+            return services.AddSqlServerPool<TDbContext, DbContextLocator>(connectionString, poolSize);
+        }
+
+        /// <summary>
+        /// 添加其他数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="poolSize">池大小</param>
+        /// <param name="interceptors">拦截器</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddSqlServerPool<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString = default, int poolSize = 100, params IInterceptor[] interceptors)
+            where TDbContext : DbContext
+            where TDbContextLocator : class, IDbContextLocator
+        {
+            // 注册数据库上下文
+            services.RegisterDbContext<TDbContext, TDbContextLocator>();
+
+            // 配置数据库上下文
+            var connStr = Penetrates.GetDbContextConnectionString<TDbContext>(connectionString);
+            services.AddDbContextPool<TDbContext>(Penetrates.ConfigureDbContext(connStr, options => ConfigureSqlServer(connStr, options), interceptors), poolSize: poolSize);
+
+            return services;
+        }
+
+        /// <summary>
+        ///  添加默认 SqlServer 数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddSqlServer<TDbContext>(this IServiceCollection services, string connectionString = default)
+            where TDbContext : DbContext
+        {
+            // 避免重复注册默认数据库上下文
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+
+            // 注册数据库上下文
+            return services.AddSqlServer<TDbContext, DbContextLocator>(connectionString);
+        }
+
+        /// <summary>
+        /// 添加 SqlServer 数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="interceptors">拦截器</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddSqlServer<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString = default, params IInterceptor[] interceptors)
+            where TDbContext : DbContext
+            where TDbContextLocator : class, IDbContextLocator
+        {
+            // 注册数据库上下文
+            services.RegisterDbContext<TDbContext, TDbContextLocator>();
+
+            // 配置数据库上下文
+            var connStr = Penetrates.GetDbContextConnectionString<TDbContext>(connectionString);
+            services.AddDbContext<TDbContext>(Penetrates.ConfigureDbContext(connStr, options => ConfigureSqlServer(connStr, options), interceptors));
+
+            return services;
+        }
+
+        /// <summary>
+        /// 数据库 SqlServer
+        /// </summary>
+        /// <param name="connectionString">数据库连接字符串</param>
+        /// <param name="options">数据库上下文选项构建器</param>
+        private static void ConfigureSqlServer(string connectionString, DbContextOptionsBuilder options)
+        {
+            options.UseSqlServer(connectionString, options =>
+            {
+                // 配置全局切割 Sql，而不是生成单个复杂 sql
+                //options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                // 配置 code first 程序集
+                options.MigrationsAssembly("Fur.Database.Migrations");
+
+                //options.EnableRetryOnFailure();
+                //options.MigrationsHistoryTable("__EFMigrationsHistory", "fur");
+            });
+        }
+    }
+}
+```
+
+  </TabItem>
+  <TabItem value="sqlite">
+
+
+```cs
+using Fur.DatabaseAccessor;
+using Fur.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using System;
+
+namespace Microsoft.Extensions.DependencyInjection
+{
+    /// <summary>
+    /// Sqlite 数据库服务拓展
+    /// </summary>
+    [NonBeScan]
+    public static class SqliteServiceCollectionExtensions
+    {
+        /// <summary>
+        /// 添加默认数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="poolSize">池大小</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddSqlitePool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100)
+            where TDbContext : DbContext
+        {
+            // 避免重复注册默认数据库上下文
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+
+            // 注册数据库上下文
+            return services.AddSqlitePool<TDbContext, DbContextLocator>(connectionString, poolSize);
+        }
+
+        /// <summary>
+        /// 添加其他数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="poolSize">池大小</param>
+        /// <param name="interceptors">拦截器</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddSqlitePool<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString = default, int poolSize = 100, params IInterceptor[] interceptors)
+            where TDbContext : DbContext
+            where TDbContextLocator : class, IDbContextLocator
+        {
+            // 注册数据库上下文
+            services.RegisterDbContext<TDbContext, TDbContextLocator>();
+
+            // 配置数据库上下文
+            var connStr = Penetrates.GetDbContextConnectionString<TDbContext>(connectionString);
+            services.AddDbContextPool<TDbContext>(Penetrates.ConfigureDbContext(connStr, options => ConfigureSqlite(connStr, options), interceptors), poolSize: poolSize);
+
+            return services;
+        }
+
+        /// <summary>
+        ///  添加默认 Sqlite 数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddSqlite<TDbContext>(this IServiceCollection services, string connectionString = default)
+            where TDbContext : DbContext
+        {
+            // 避免重复注册默认数据库上下文
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+
+            // 注册数据库上下文
+            return services.AddSqlite<TDbContext, DbContextLocator>(connectionString);
+        }
+
+        /// <summary>
+        /// 添加 Sqlite 数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="interceptors">拦截器</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddSqlite<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString = default, params IInterceptor[] interceptors)
+            where TDbContext : DbContext
+            where TDbContextLocator : class, IDbContextLocator
+        {
+            // 注册数据库上下文
+            services.RegisterDbContext<TDbContext, TDbContextLocator>();
+
+            // 配置数据库上下文
+            var connStr = Penetrates.GetDbContextConnectionString<TDbContext>(connectionString);
+            services.AddDbContext<TDbContext>(Penetrates.ConfigureDbContext(connStr, options => ConfigureSqlite(connStr, options), interceptors));
+
+            return services;
+        }
+
+        /// <summary>
+        /// 配置Sqlite
+        /// </summary>
+        /// <param name="connectionString">数据库连接字符串</param>
+        /// <param name="options">数据库上下文选项构建器</param>
+        private static void ConfigureSqlite(string connectionString, DbContextOptionsBuilder options)
+        {
+            options.UseSqlite(connectionString, options =>
+            {
+                // 配置全局切割 Sql，而不是生成单个复杂 sql
+                //options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                // 配置 code first 程序集
+                options.MigrationsAssembly("Fur.Database.Migrations");
+
+                //options.EnableRetryOnFailure();
+                //options.MigrationsHistoryTable("__EFMigrationsHistory", "fur");
+            });
+        }
+    }
+}
+```
+
+  </TabItem>
+  <TabItem value="cosmos">
+
+
+```cs
+using Fur.DatabaseAccessor;
+using Fur.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using System;
+
+namespace Microsoft.Extensions.DependencyInjection
+{
+    /// <summary>
+    /// Cosmos 数据库服务拓展
+    /// </summary>
+    [NonBeScan]
+    public static class CosmosServiceCollectionExtensions
+    {
+        /// <summary>
+        /// 添加默认数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="poolSize">池大小</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddCosmosPool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100)
+            where TDbContext : DbContext
+        {
+            // 避免重复注册默认数据库上下文
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+
+            // 注册数据库上下文
+            return services.AddCosmosPool<TDbContext, DbContextLocator>(connectionString, poolSize);
+        }
+
+        /// <summary>
+        /// 添加其他数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="poolSize">池大小</param>
+        /// <param name="interceptors">拦截器</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddCosmosPool<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString = default, int poolSize = 100, params IInterceptor[] interceptors)
+            where TDbContext : DbContext
+            where TDbContextLocator : class, IDbContextLocator
+        {
+            // 注册数据库上下文
+            services.RegisterDbContext<TDbContext, TDbContextLocator>();
+
+            // 配置数据库上下文
+            var connStr = Penetrates.GetDbContextConnectionString<TDbContext>(connectionString);
+            services.AddDbContextPool<TDbContext>(Penetrates.ConfigureDbContext(connStr, options => ConfigureCosmos(connStr, options), interceptors), poolSize: poolSize);
+
+            return services;
+        }
+
+        /// <summary>
+        ///  添加默认 Cosmos 数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddCosmos<TDbContext>(this IServiceCollection services, string connectionString = default)
+            where TDbContext : DbContext
+        {
+            // 避免重复注册默认数据库上下文
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+
+            // 注册数据库上下文
+            return services.AddCosmos<TDbContext, DbContextLocator>(connectionString);
+        }
+
+        /// <summary>
+        /// 添加 Cosmos 数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="interceptors">拦截器</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddCosmos<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString = default, params IInterceptor[] interceptors)
+            where TDbContext : DbContext
+            where TDbContextLocator : class, IDbContextLocator
+        {
+            // 注册数据库上下文
+            services.RegisterDbContext<TDbContext, TDbContextLocator>();
+
+            // 配置数据库上下文
+            var connStr = Penetrates.GetDbContextConnectionString<TDbContext>(connectionString);
+            services.AddDbContext<TDbContext>(Penetrates.ConfigureDbContext(connStr, options => ConfigureCosmos(connStr, options), interceptors));
+
+            return services;
+        }
+
+        /// <summary>
+        /// 配置 Cosmos
+        /// </summary>
+        /// <param name="connectionString">数据库连接字符串</param>
+        /// <param name="options">数据库上下文选项构建器</param>
+        private static void ConfigureCosmos(string connectionString, DbContextOptionsBuilder options)
+        {
+            options.UseCosmos(connectionString, options =>
+            {
+                // 配置全局切割 Sql，而不是生成单个复杂 sql
+                //options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                // 配置 code first 程序集
+                options.MigrationsAssembly("Fur.Database.Migrations");
+
+                //options.EnableRetryOnFailure();
+                //options.MigrationsHistoryTable("__EFMigrationsHistory", "fur");
+            });
+        }
+    }
+}
+```
+
+  </TabItem>
+  <TabItem value="inMemory">
+
+
+```cs
+using Fur.DatabaseAccessor;
+using Fur.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using System;
+
+namespace Microsoft.Extensions.DependencyInjection
+{
+    /// <summary>
+    /// InMemory 数据库服务拓展
+    /// </summary>
+    [NonBeScan]
+    public static class InMemoryServiceCollectionExtensions
+    {
+        /// <summary>
+        /// 添加默认数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="poolSize">池大小</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddInMemoryPool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100)
+            where TDbContext : DbContext
+        {
+            // 避免重复注册默认数据库上下文
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+
+            // 注册数据库上下文
+            return services.AddInMemoryPool<TDbContext, DbContextLocator>(connectionString, poolSize);
+        }
+
+        /// <summary>
+        /// 添加其他数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="poolSize">池大小</param>
+        /// <param name="interceptors">拦截器</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddInMemoryPool<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString = default, int poolSize = 100, params IInterceptor[] interceptors)
+            where TDbContext : DbContext
+            where TDbContextLocator : class, IDbContextLocator
+        {
+            // 注册数据库上下文
+            services.RegisterDbContext<TDbContext, TDbContextLocator>();
+
+            // 配置数据库上下文
+            var connStr = Penetrates.GetDbContextConnectionString<TDbContext>(connectionString);
+            services.AddDbContextPool<TDbContext>(Penetrates.ConfigureDbContext(connStr, options => ConfigureInMemory(connStr, options), interceptors), poolSize: poolSize);
+
+            return services;
+        }
+
+        /// <summary>
+        ///  添加默认 InMemory 数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddInMemory<TDbContext>(this IServiceCollection services, string connectionString = default)
+            where TDbContext : DbContext
+        {
+            // 避免重复注册默认数据库上下文
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+
+            // 注册数据库上下文
+            return services.AddInMemory<TDbContext, DbContextLocator>(connectionString);
+        }
+
+        /// <summary>
+        /// 添加 InMemory 数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="interceptors">拦截器</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddInMemory<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString = default, params IInterceptor[] interceptors)
+            where TDbContext : DbContext
+            where TDbContextLocator : class, IDbContextLocator
+        {
+            // 注册数据库上下文
+            services.RegisterDbContext<TDbContext, TDbContextLocator>();
+
+            // 配置数据库上下文
+            var connStr = Penetrates.GetDbContextConnectionString<TDbContext>(connectionString);
+            services.AddDbContext<TDbContext>(Penetrates.ConfigureDbContext(connStr, options => ConfigureInMemory(connStr, options), interceptors));
+
+            return services;
+        }
+
+        /// <summary>
+        /// 配置 InMemory
+        /// </summary>
+        /// <param name="connectionString">数据库连接字符串</param>
+        /// <param name="options">数据库上下文选项构建器</param>
+        private static void ConfigureInMemory(string connectionString, DbContextOptionsBuilder options)
+        {
+            options.UseInMemory(connectionString, options =>
+            {
+                // 配置全局切割 Sql，而不是生成单个复杂 sql
+                //options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                // 配置 code first 程序集
+                options.MigrationsAssembly("Fur.Database.Migrations");
+
+                //options.EnableRetryOnFailure();
+                //options.MigrationsHistoryTable("__EFMigrationsHistory", "fur");
+            });
+        }
+    }
+}
+```
+
+  </TabItem>
+  <TabItem value="mySql">
+
+
+```cs
+using Fur.DatabaseAccessor;
+using Fur.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using System;
+
+namespace Microsoft.Extensions.DependencyInjection
+{
+    /// <summary>
+    /// MySql 数据库服务拓展
+    /// </summary>
+    [NonBeScan]
+    public static class MySqlServiceCollectionExtensions
+    {
+        /// <summary>
+        /// 添加默认数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="poolSize">池大小</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddMySqlPool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100)
+            where TDbContext : DbContext
+        {
+            // 避免重复注册默认数据库上下文
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+
+            // 注册数据库上下文
+            return services.AddMySqlPool<TDbContext, DbContextLocator>(connectionString, poolSize);
+        }
+
+        /// <summary>
+        /// 添加其他数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="poolSize">池大小</param>
+        /// <param name="interceptors">拦截器</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddMySqlPool<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString = default, int poolSize = 100, params IInterceptor[] interceptors)
+            where TDbContext : DbContext
+            where TDbContextLocator : class, IDbContextLocator
+        {
+            // 注册数据库上下文
+            services.RegisterDbContext<TDbContext, TDbContextLocator>();
+
+            // 配置数据库上下文
+            var connStr = Penetrates.GetDbContextConnectionString<TDbContext>(connectionString);
+            services.AddDbContextPool<TDbContext>(Penetrates.ConfigureDbContext(connStr, options => ConfigureMySql(connStr, options), interceptors), poolSize: poolSize);
+
+            return services;
+        }
+
+        /// <summary>
+        ///  添加默认 MySql 数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddMySql<TDbContext>(this IServiceCollection services, string connectionString = default)
+            where TDbContext : DbContext
+        {
+            // 避免重复注册默认数据库上下文
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+
+            // 注册数据库上下文
+            return services.AddMySql<TDbContext, DbContextLocator>(connectionString);
+        }
+
+        /// <summary>
+        /// 添加 MySql 数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="interceptors">拦截器</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddMySql<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString = default, params IInterceptor[] interceptors)
+            where TDbContext : DbContext
+            where TDbContextLocator : class, IDbContextLocator
+        {
+            // 注册数据库上下文
+            services.RegisterDbContext<TDbContext, TDbContextLocator>();
+
+            // 配置数据库上下文
+            var connStr = Penetrates.GetDbContextConnectionString<TDbContext>(connectionString);
+            services.AddDbContext<TDbContext>(Penetrates.ConfigureDbContext(connStr, options => ConfigureMySql(connStr, options), interceptors));
+
+            return services;
+        }
+
+        /// <summary>
+        /// 配置 MySql
+        /// </summary>
+        /// <param name="connectionString">数据库连接字符串</param>
+        /// <param name="options">数据库上下文选项构建器</param>
+        private static void ConfigureMySql(string connectionString, DbContextOptionsBuilder options)
+        {
+            options.UseMySql(connectionString, options =>
+            {
+                // 配置全局切割 Sql，而不是生成单个复杂 sql
+                //options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                // 配置 code first 程序集
+                options.MigrationsAssembly("Fur.Database.Migrations");
+
+                //options.EnableRetryOnFailure();
+                //options.MigrationsHistoryTable("__EFMigrationsHistory", "fur");
+            });
+        }
+    }
+}
+```
+
+  </TabItem>
+  <TabItem value="postgreSQL">
+
+
+```cs
+using Fur.DatabaseAccessor;
+using Fur.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using System;
+
+namespace Microsoft.Extensions.DependencyInjection
+{
+    /// <summary>
+    /// PostgreSQL 数据库服务拓展
+    /// </summary>
+    [NonBeScan]
+    public static class PostgreSQLServiceCollectionExtensions
+    {
+        /// <summary>
+        /// 添加默认数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="poolSize">池大小</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddPostgreSQLPool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100)
+            where TDbContext : DbContext
+        {
+            // 避免重复注册默认数据库上下文
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+
+            // 注册数据库上下文
+            return services.AddPostgreSQLPool<TDbContext, DbContextLocator>(connectionString, poolSize);
+        }
+
+        /// <summary>
+        /// 添加其他数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="poolSize">池大小</param>
+        /// <param name="interceptors">拦截器</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddPostgreSQLPool<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString = default, int poolSize = 100, params IInterceptor[] interceptors)
+            where TDbContext : DbContext
+            where TDbContextLocator : class, IDbContextLocator
+        {
+            // 注册数据库上下文
+            services.RegisterDbContext<TDbContext, TDbContextLocator>();
+
+            // 配置数据库上下文
+            var connStr = Penetrates.GetDbContextConnectionString<TDbContext>(connectionString);
+            services.AddDbContextPool<TDbContext>(Penetrates.ConfigureDbContext(connStr, options => ConfigurePostgreSQL(connStr, options), interceptors), poolSize: poolSize);
+
+            return services;
+        }
+
+        /// <summary>
+        ///  添加默认 PostgreSQL 数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddPostgreSQL<TDbContext>(this IServiceCollection services, string connectionString = default)
+            where TDbContext : DbContext
+        {
+            // 避免重复注册默认数据库上下文
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+
+            // 注册数据库上下文
+            return services.AddPostgreSQL<TDbContext, DbContextLocator>(connectionString);
+        }
+
+        /// <summary>
+        /// 添加 PostgreSQL 数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="interceptors">拦截器</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddPostgreSQL<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString = default, params IInterceptor[] interceptors)
+            where TDbContext : DbContext
+            where TDbContextLocator : class, IDbContextLocator
+        {
+            // 注册数据库上下文
+            services.RegisterDbContext<TDbContext, TDbContextLocator>();
+
+            // 配置数据库上下文
+            var connStr = Penetrates.GetDbContextConnectionString<TDbContext>(connectionString);
+            services.AddDbContext<TDbContext>(Penetrates.ConfigureDbContext(connStr, options => ConfigurePostgreSQL(connStr, options), interceptors));
+
+            return services;
+        }
+
+        /// <summary>
+        /// 配置 PostgreSQL
+        /// </summary>
+        /// <param name="connectionString">数据库连接字符串</param>
+        /// <param name="options">数据库上下文选项构建器</param>
+        private static void ConfigurePostgreSQL(string connectionString, DbContextOptionsBuilder options)
+        {
+            options.UsePostgreSQL(connectionString, options =>
+            {
+                // 配置全局切割 Sql，而不是生成单个复杂 sql
+                //options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                // 配置 code first 程序集
+                options.MigrationsAssembly("Fur.Database.Migrations");
+
+                //options.EnableRetryOnFailure();
+                //options.MigrationsHistoryTable("__EFMigrationsHistory", "fur");
+            });
+        }
+    }
+}
+```
+
+  </TabItem>
+  <TabItem value="oracle">
+
+
+```cs
+using Fur.DatabaseAccessor;
+using Fur.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using System;
+
+namespace Microsoft.Extensions.DependencyInjection
+{
+    /// <summary>
+    /// Oracle 数据库服务拓展
+    /// </summary>
+    [NonBeScan]
+    public static class OracleServiceCollectionExtensions
+    {
+        /// <summary>
+        /// 添加默认数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="poolSize">池大小</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddOraclePool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100)
+            where TDbContext : DbContext
+        {
+            // 避免重复注册默认数据库上下文
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+
+            // 注册数据库上下文
+            return services.AddOraclePool<TDbContext, DbContextLocator>(connectionString, poolSize);
+        }
+
+        /// <summary>
+        /// 添加其他数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="poolSize">池大小</param>
+        /// <param name="interceptors">拦截器</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddOraclePool<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString = default, int poolSize = 100, params IInterceptor[] interceptors)
+            where TDbContext : DbContext
+            where TDbContextLocator : class, IDbContextLocator
+        {
+            // 注册数据库上下文
+            services.RegisterDbContext<TDbContext, TDbContextLocator>();
+
+            // 配置数据库上下文
+            var connStr = Penetrates.GetDbContextConnectionString<TDbContext>(connectionString);
+            services.AddDbContextPool<TDbContext>(Penetrates.ConfigureDbContext(connStr, options => ConfigureOracle(connStr, options), interceptors), poolSize: poolSize);
+
+            return services;
+        }
+
+        /// <summary>
+        ///  添加默认 Oracle 数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddOracle<TDbContext>(this IServiceCollection services, string connectionString = default)
+            where TDbContext : DbContext
+        {
+            // 避免重复注册默认数据库上下文
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+
+            // 注册数据库上下文
+            return services.AddOracle<TDbContext, DbContextLocator>(connectionString);
+        }
+
+        /// <summary>
+        /// 添加 Oracle 数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <param name="services">服务</param>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="interceptors">拦截器</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddOracle<TDbContext, TDbContextLocator>(this IServiceCollection services, string connectionString = default, params IInterceptor[] interceptors)
+            where TDbContext : DbContext
+            where TDbContextLocator : class, IDbContextLocator
+        {
+            // 注册数据库上下文
+            services.RegisterDbContext<TDbContext, TDbContextLocator>();
+
+            // 配置数据库上下文
+            var connStr = Penetrates.GetDbContextConnectionString<TDbContext>(connectionString);
+            services.AddDbContext<TDbContext>(Penetrates.ConfigureDbContext(connStr, options => ConfigureOracle(connStr, options), interceptors));
+
+            return services;
+        }
+
+        /// <summary>
+        /// 配置 Oracle
+        /// </summary>
+        /// <param name="connectionString">数据库连接字符串</param>
+        /// <param name="options">数据库上下文选项构建器</param>
+        private static void ConfigureOracle(string connectionString, DbContextOptionsBuilder options)
+        {
+            options.UseOracle(connectionString, options =>
+            {
+                // 配置全局切割 Sql，而不是生成单个复杂 sql
+                //options.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                // 配置 code first 程序集
+                options.MigrationsAssembly("Fur.Database.Migrations");
+
+                //options.EnableRetryOnFailure();
+                //options.MigrationsHistoryTable("__EFMigrationsHistory", "fur");
+            });
+        }
+    }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+
+## 8.16.4 反馈与建议
 
 :::note 与我们交流
 

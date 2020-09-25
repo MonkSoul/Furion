@@ -19,7 +19,7 @@ using System;
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
-    /// SqlServer 数据库服务拓展
+    /// Sqlite 数据库服务拓展
     /// </summary>
     [NonBeScan]
     public static class SqliteServiceCollectionExtensions
@@ -67,7 +67,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        ///  添加默认 SqlServer 数据库上下文
+        ///  添加默认 Sqlite 数据库上下文
         /// </summary>
         /// <typeparam name="TDbContext">数据库上下文</typeparam>
         /// <param name="services">服务</param>
@@ -84,7 +84,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// 添加 SqlServer 数据库上下文
+        /// 添加 Sqlite 数据库上下文
         /// </summary>
         /// <typeparam name="TDbContext">数据库上下文</typeparam>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>

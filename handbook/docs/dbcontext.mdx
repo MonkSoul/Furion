@@ -171,6 +171,12 @@ namespace Fur.EntityFramework.Core
 
 :::
 
+**`[DbContext]`** 内置属性：
+
+- `ConnectionString`：数据库连接字符串或 `appsetting.json` 的键
+- `TablePrefix`：当前数据库上下文表统一前缀
+- `TableSuffix`：当前数据库上下文表统一后缀
+
 ### 8.1.5.3 `OnConfiguring` 方式配置
 
 ```cs {16-20}

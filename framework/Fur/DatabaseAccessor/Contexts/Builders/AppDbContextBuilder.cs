@@ -140,16 +140,40 @@ namespace Fur.DatabaseAccessor
                 entityTypeBuilder.Ignore(nameof(Tenant.TenantId));
             }
 
+            // 添加表前后缀
+            AddTableAffixes(type, dbContextAttribute, entityTypeBuilder);
+
+            return entityTypeBuilder;
+        }
+
+        /// <summary>
+        /// 添加表前后缀
+        /// </summary>
+        /// <param name="type">数据库关联类型</param>
+        /// <param name="modelBuilder">模型构建器</param>
+        /// <param name="dbContextAttribute">数据库上下文特性</param>
+        private static void AddTableAffixes(Type type, DbContextAttribute dbContextAttribute, EntityTypeBuilder entityTypeBuilder)
+        {
             // 添加表统一前后缀，排除视图
             if (!type.IsDefined(typeof(TableAttribute), true)
                 && dbContextAttribute != null && (!string.IsNullOrEmpty(dbContextAttribute.TableSuffix) || !string.IsNullOrEmpty(dbContextAttribute.TableSuffix))
                 && !typeof(IEntityNotKeyDependency).IsAssignableFrom(type))
             {
-                var tableName = $"{dbContextAttribute.TablePrefix}{type.Name}{dbContextAttribute.TableSuffix}";
-                entityTypeBuilder.ToTable(tableName);
-            }
+                var tablePrefix = dbContextAttribute.TablePrefix;
+                var tableSuffix = dbContextAttribute.TableSuffix;
 
-            return entityTypeBuilder;
+                if (!string.IsNullOrEmpty(tablePrefix))
+                {
+                    // 如果前缀中找到 . 字符
+                    if (tablePrefix.IndexOf(".") > 0)
+                    {
+                        var schema = tablePrefix.EndsWith(".") ? tablePrefix[0..^1] : tablePrefix;
+                        entityTypeBuilder.ToTable($"{type.Name}{tableSuffix}", schema: schema);
+                    }
+                    else entityTypeBuilder.ToTable($"{tablePrefix}{type.Name}{tableSuffix}");
+                }
+                else entityTypeBuilder.ToTable($"{type.Name}{tableSuffix}");
+            }
         }
 
         /// <summary>
