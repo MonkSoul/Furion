@@ -50,8 +50,6 @@ module.exports = {
         "dbcontext-sql",
         "dbcontext-sql-proxy",
         "dbcontext-multi-database",
-        "dbcontext-read-write",
-        "dbcontext-high",
         "dbcontext-db-first",
         "dbcontext-code-first",
         "dbcontext-seed-data",
@@ -59,6 +57,7 @@ module.exports = {
         "dbcontext-Interceptor",
         "dbcontext-audit",
         "tran",
+        "dbcontext-read-write",
       ],
     },
     {
