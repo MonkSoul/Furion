@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
 
@@ -140,7 +141,9 @@ namespace Fur.DatabaseAccessor
             }
 
             // 添加表统一前后缀，排除视图
-            if (dbContextAttribute != null && (!string.IsNullOrEmpty(dbContextAttribute.TableSuffix) || !string.IsNullOrEmpty(dbContextAttribute.TableSuffix)) && !typeof(IEntityNotKeyDependency).IsAssignableFrom(type))
+            if (!type.IsDefined(typeof(TableAttribute), true)
+                && dbContextAttribute != null && (!string.IsNullOrEmpty(dbContextAttribute.TableSuffix) || !string.IsNullOrEmpty(dbContextAttribute.TableSuffix))
+                && !typeof(IEntityNotKeyDependency).IsAssignableFrom(type))
             {
                 var tableName = $"{dbContextAttribute.TablePrefix}{type.Name}{dbContextAttribute.TableSuffix}";
                 entityTypeBuilder.ToTable(tableName);
