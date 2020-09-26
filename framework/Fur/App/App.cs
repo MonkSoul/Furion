@@ -254,8 +254,9 @@ namespace Fur
 
             // 读取项目程序集或Fur官方发布的包
             return dependencyContext.CompileLibraries
-                .Where(u => (u.Type == "project" && !excludeAssemblyNames.Contains(u.Name)) 
-                || (u.Type == "package" && u.Name.StartsWith(nameof(Fur))) || (u.Type == "reference"))
+                .Where(u => (u.Type == "project" && !excludeAssemblyNames.Contains(u.Name))
+                    || (u.Type == "package" && u.Name.StartsWith(nameof(Fur)))
+                    || (u.Type == "reference"))
                 .Select(u => AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(u.Name)));
         }
     }
