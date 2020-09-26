@@ -26,12 +26,11 @@ sidebar_label: 1.2 源码结构
 
 ## 1.2.3 `Solution Items` 解决方案配置层
 
-### 1.2.3.1 源码结构
+源码结构：
 
 ```
-Fur
-├─Solution Items                     解决方案配置层
-│  ├─.editorconfig                   配置文件
+Solution Items
+└.editorconfig
 ```
 
 `Solution Items` 是用来配置解决方案中一些全局配置的，如每个文件的顶部版权信息，如：
@@ -185,3 +184,381 @@ file_header_template = ---------------------------------------------------------
 ## 1.2.4 `Fur` 核心层
 
 `Fur` 核心层是 `Fur` 框架的中心，也是 `Fur` 能够支撑起来的必备层。
+
+源码结构：
+
+```
+Fur
+├─Fur.csproj
+├─FurStartup.cs
+├─ViewEngine
+|     ├─IViewEngine.cs
+|     ├─ViewEngine.cs
+|     ├─Templates
+|     |     ├─IViewEngineCompiledTemplate.cs
+|     |     ├─IViewEngineTemplate.cs
+|     |     ├─ViewEngineCompiledTemplate.cs
+|     |     └ViewEngineTemplate.cs
+|     ├─Options
+|     |    └ViewEngineCompilationOptions.cs
+|     ├─Models
+|     |   └AnonymousTypeWrapper.cs
+|     ├─Exceptions
+|     |     ├─ViewEngineCompilationException.cs
+|     |     └ViewEngineException.cs
+|     ├─Compilations
+|     |      ├─IViewEngineCompilationOptionsBuilder.cs
+|     |      └ViewEngineCompilationOptionsBuilder.cs
+├─UnifyResult
+|      ├─Providers
+|      |     ├─IUnifyResultProvider.cs
+|      |     └RESTfulResultProvider.cs
+|      ├─Models
+|      |   └RESTfulResult.cs
+|      ├─Filters
+|      |    └SuccessUnifyResultFilter.cs
+|      ├─Extensions
+|      |     └UnifyResultServiceCollectionExtensions.cs
+├─SpecificationDocument
+|           ├─Options
+|           |    └SpecificationDocumentSettingsOptions.cs
+|           ├─Models
+|           |   ├─GroupOrder.cs
+|           |   ├─SpecificationOpenApiInfo.cs
+|           |   ├─SpecificationOpenApiSecurityRequirementItem.cs
+|           |   └SpecificationOpenApiSecurityScheme.cs
+|           ├─Extensions
+|           |     ├─SpecificationDocumentApplicationBuilderExtensions.cs
+|           |     └SpecificationDocumentServiceCollectionExtensions.cs
+|           ├─Builders
+|           |    └SpecificationDocumentBuilder.cs
+|           ├─Assets
+|           |   └index-mini-profiler.html
+├─ObjectMapper
+|      ├─Helpers
+|      |    └Helpers.cs
+|      ├─Extensions
+|      |     ├─MapsterExtensions.cs
+|      |     └ObjectMapperServiceCollectionExtensions.cs
+|      ├─Dependencies
+|      |      └IObjectMapper.cs
+├─LinqBuilder
+|      ├─Visitors
+|      |    └ParameterReplaceExpressionVisitor.cs
+|      ├─Extensions
+|      |     ├─EFCoreLinqExtensions.cs
+|      |     ├─LinqExpressionExtensions.cs
+|      |     └LinqExtensions.cs
+|      ├─Builders
+|      |    ├─EFCoreLinqBuilder.cs
+|      |    └LinqBuilder.cs
+├─FriendlyException
+|         ├─Oops.cs
+|         ├─Providers
+|         |     └IErrorCodeTypeProvider.cs
+|         ├─Options
+|         |    └ErrorCodeMessageSettingsOptions.cs
+|         ├─Models
+|         |   └MethodIfException.cs
+|         ├─Filters
+|         |    └FriendlyExceptionFilter.cs
+|         ├─Extensions
+|         |     └FriendlyExceptionServiceCollectionExtensions.cs
+|         ├─Attributes
+|         |     ├─ErrorCodeItemMetadataAttribute.cs
+|         |     ├─ErrorCodeTypeAttribute.cs
+|         |     └IfExceptionAttribute.cs
+├─DynamicApiController
+|          ├─Penetrates.cs
+|          ├─Providers
+|          |     └DynamicApiControllerFeatureProvider.cs
+|          ├─Options
+|          |    └DynamicApiControllerSettingsOptions.cs
+|          ├─Models
+|          |   └ParameterRouteTemplate.cs
+|          ├─Extensions
+|          |     └DynamicApiControllerServiceCollectionExtensions.cs
+|          ├─Enums
+|          |   └ApiSeats.cs
+|          ├─Dependencies
+|          |      └IDynamicApiController.cs
+|          ├─Conventions
+|          |      └DynamicApiControllerApplicationModelConvention.cs
+|          ├─Attributes
+|          |     ├─ApiDescriptionSettingsAttribute.cs
+|          |     ├─ApiSeatAttribute.cs
+|          |     └DynamicApiControllerAttribute.cs
+├─DependencyInjection
+|          ├─AppStartup.cs
+|          ├─Extensions
+|          |     └DependencyInjectionServiceCollectionExtensions.cs
+|          ├─Enums
+|          |   ├─InjectionOptions.cs
+|          |   ├─InjectionScopeOptions.cs
+|          |   └RegisterType.cs
+|          ├─Dependencies
+|          |      ├─IDependency.cs
+|          |      ├─IDispatchProxy.cs
+|          |      ├─IScopedDependency.cs
+|          |      ├─ISingletonDependency.cs
+|          |      └ITransientDependency.cs
+|          ├─Attributes
+|          |     ├─InjectionAttribute.cs
+|          |     ├─NonBeScanAttribute.cs
+|          |     └StartupOrderAttribute.cs
+├─DataValidation
+|       ├─Validators
+|       |     └DataValidator.cs
+|       ├─Providers
+|       |     └IValidationMessageTypeProvider.cs
+|       ├─Options
+|       |    └ValidationTypeMessageSettingsOptions.cs
+|       ├─Models
+|       |   └DataValidationResult.cs
+|       ├─Filters
+|       |    └DataValidationFilter.cs
+|       ├─Extensions
+|       |     ├─DataValidationExtensions.cs
+|       |     └DataValidationServiceCollectionExtensions.cs
+|       ├─Enums
+|       |   ├─ValidationPattern.cs
+|       |   └ValidationTypes.cs
+|       ├─Attributes
+|       |     ├─DataValidationAttribute.cs
+|       |     ├─NonValidationAttribute.cs
+|       |     ├─ValidationItemMetadataAttribute.cs
+|       |     ├─ValidationMessageAttribute.cs
+|       |     ├─ValidationMessageTypeAttribute.cs
+|       |     └ValidationTypeAttribute.cs
+├─DatabaseAccessor
+|        ├─UnitOfWork
+|        |     ├─Filters
+|        |     |    └UnitOfWorkFilter.cs
+|        |     ├─Attributes
+|        |     |     ├─NonTransactAttribute.cs
+|        |     |     └UnitOfWorkAttribute.cs
+|        ├─Repositories
+|        |      ├─EFCoreRepository.cs
+|        |      ├─IRepository.cs
+|        |      ├─ISqlRepository.cs
+|        |      ├─SqlRepository.cs
+|        |      ├─Implantations
+|        |      |       ├─DeletableRepository.cs
+|        |      |       ├─InsertableRepository.cs
+|        |      |       ├─OperableRepository.cs
+|        |      |       ├─ReadableRepository.cs
+|        |      |       ├─SqlExecutableRepository.cs
+|        |      |       ├─SqlReaderRepository.cs
+|        |      |       ├─UpdateableRepository.cs
+|        |      |       └WritableRepository.cs
+|        |      ├─Dependencies
+|        |      |      ├─IDeletableRepository.cs
+|        |      |      ├─IInsertableRepository.cs
+|        |      |      ├─IOperableRepository.cs
+|        |      |      ├─IReadableRepository.cs
+|        |      |      ├─IRepositoryDependency.cs
+|        |      |      ├─ISqlExecutableRepository.cs
+|        |      |      ├─ISqlReaderRepository.cs
+|        |      |      ├─IUpdateableRepository.cs
+|        |      |      └IWritableRepository.cs
+|        ├─Pools
+|        |   ├─DbContextPool.cs
+|        |   └IDbContextPool.cs
+|        ├─Options
+|        |    └DatabaseAccessorSettingsOptions.cs
+|        ├─MultiTenants
+|        |      ├─Providers
+|        |      |     └IMultiTenantProvider.cs
+|        |      ├─Locators
+|        |      |    └MultiTenantDbContextLocator.cs
+|        |      ├─Enums
+|        |      |   └MultiTenantOptions.cs
+|        |      ├─Entities
+|        |      |    └Tenant.cs
+|        ├─Models
+|        |   ├─DatabaseProvider.cs
+|        |   ├─PagedList.cs
+|        |   ├─ProcedureOutputResult.cs
+|        |   └ProcedureOutputValue.cs
+|        ├─Locators
+|        |    ├─DbContextLocator.cs
+|        |    └IDbContextLocator.cs
+|        ├─Interceptors
+|        |      ├─DbContextSaveChangesInterceptor.cs
+|        |      ├─SqlCommandProfilerInterceptor.cs
+|        |      └SqlConnectionProfilerInterceptor.cs
+|        ├─Helpers
+|        |    └DbHelpers.cs
+|        ├─Extensions
+|        |     ├─DatabaseAccessorServiceCollectionExtensions.cs
+|        |     ├─PagedQueryableExtensions.cs
+|        |     ├─Repositories
+|        |     |      ├─IEntityDbContextLocatorExtensions.cs
+|        |     |      ├─IEntityExtensions.cs
+|        |     |      └SqlExtensions.cs
+|        |     ├─DatabaseProvider
+|        |     |        ├─Penetrates.cs
+|        |     |        ├─SqliteServiceCollectionExtensions.cs
+|        |     |        └SqlServerServiceCollectionExtensions.cs
+|        |     ├─DatabaseFacade
+|        |     |       ├─DbDataConvertExtensions.cs
+|        |     |       ├─DbObjectExtensions.cs
+|        |     |       └SqlAdoNetExtensions.cs
+|        ├─Enums
+|        |   ├─DbFunctionType.cs
+|        |   ├─EFCoreErrorCodes.cs
+|        |   └ManualOptions.cs
+|        ├─Entities
+|        |    ├─Dependencies
+|        |    |      ├─Entity.cs
+|        |    |      ├─EntityBase.cs
+|        |    |      ├─EntityNotKey.cs
+|        |    |      ├─IEntity.cs
+|        |    |      └IEntityNotKey.cs
+|        |    ├─Configures
+|        |    |     ├─IEntitySeedData.cs
+|        |    |     ├─IEntityTypeBuilder.cs
+|        |    |     ├─IModelBuilderDependency.cs
+|        |    |     └IModelBuilderFilter.cs
+|        |    ├─Attributes
+|        |    |     ├─FakeDeleteAttribute.cs
+|        |    |     ├─NonAutomaticAttribute.cs
+|        |    |     └QueryableFunctionAttribute.cs
+|        ├─Contexts
+|        |    ├─AppDbContext.cs
+|        |    ├─Builders
+|        |    |    ├─AppDbContextBuilder.cs
+|        |    |    ├─Models
+|        |    |    |   └DbContextCorrelationType.cs
+|        |    ├─Attributes
+|        |    |     └DbContextAttribute.cs
+|        ├─Attributes
+|        |     └DbParameterAttribute.cs
+|        ├─Advances
+|        |    ├─Proxies
+|        |    |    └SqlDispatchProxy.cs
+|        |    ├─Models
+|        |    |   └SqlProxyMethod.cs
+|        |    ├─Dependencies
+|        |    |      └ISqlDispatchProxy.cs
+|        |    ├─Attributes
+|        |    |     ├─SqlExecuteAttribute.cs
+|        |    |     ├─SqlFunctionAttribute.cs
+|        |    |     ├─SqlProcedureAttribute.cs
+|        |    |     ├─Basics
+|        |    |     |   ├─SqlObjectProxyAttribute.cs
+|        |    |     |   ├─SqlProxyAttribute.cs
+|        |    |     |   └SqlSentenceProxyAttribute.cs
+├─ConfigurableOptions
+|          ├─Options
+|          |    └IConfigurableOptions.cs
+|          ├─Extensions
+|          |     └ConfigurableOptionsServiceCollectionExtensions.cs
+|          ├─Attributes
+|          |     └OptionsSettingsAttribute.cs
+├─Authorization
+|       ├─Penetrates.cs
+|       ├─Requirements
+|       |      └AuthorizePolicyRequirement.cs
+|       ├─Providers
+|       |     └AuthorizePolicyProvider.cs
+|       ├─Options
+|       |    └JWTSettingsOptions.cs
+|       ├─Handlers
+|       |    └AuthorizePolicyHandler.cs
+|       ├─Extensions
+|       |     └PolicyAuthorizationServiceCollectionExtensions.cs
+|       ├─Attributes
+|       |     └AuthorizePolicyAttribute.cs
+├─App
+|  ├─App.cs
+|  ├─Options
+|  |    └AppSettingsOptions.cs
+|  ├─Extensions
+|  |     ├─AppApplicationBuilderExtensions.cs
+|  |     ├─AppServiceCollectionExtensions.cs
+|  |     └ObjectExtensions.cs
+|  ├─Enums
+|  |   └ProjectType.cs
+```
+
+## 1.2.5 `Fur.Application` 业务应用层
+
+`Fur.Application` 业务应用层是最常用的层，几乎所有的业务代码都在这个层中编写。
+
+源码结构：
+
+```cs
+Fur.Application
+├─Fur.Application.Core.csproj
+├─Fur.Application.Core.xml
+└FurApplicationStartup.cs
+```
+
+## 1.2.6 `Fur.Core` 仓储实体层
+
+`Fur.Core` 主要是存储自定义仓储和定义实体的层。
+
+源码结构：
+
+```cs
+Fur.Core
+├─Fur.Core.csproj
+└FurCoreStartup.cs
+```
+
+## 1.2.7 `Fur.Database.Migrations` 数据库架构维护层
+
+`Fur.Database.Migrations` 主要是用来存放 `Database First` 和 `Code First` 生成的维护文件。
+
+源码结构：
+
+```cs
+Fur.Database.Migrations
+└Fur.Database.Migrations.csproj
+```
+
+## 1.2.8 `Fur.EntityFramework.Core` 数据库上下文配置层
+
+`Fur.EntityFramework.Core` 主要是用来配置数据库上下文和其他数据库相关配置信息的。
+
+源码结构：
+
+```cs
+Fur.EntityFramework.Core
+└Fur.EntityFramework.Core.csproj
+```
+
+## 1.2.9 `Fur.Web.Core` 应用核心层
+
+`Fur.Web.Core` 主要是用来配置 Web 入口一些代码，如 `Filter`，`Middlewares` 等。
+
+源码结构：
+
+```cs
+Fur.Web.Core
+├─Fur.Web.Core.xml
+└FurWebCoreStartup.cs
+```
+
+## 1.2.10 `Fur.Web.Entry` 应用入口层
+
+`Fur.Web.Entry` 是我们的应用层，也就是我们的 `Web` 项目层，发布层。
+
+源码结构：
+
+```cs
+Fur.Web.Entry
+├─appsettings.Development.json
+├─appsettings.json
+├─Fur.Web.Entry.csproj
+├─Fur.Web.Entry.csproj.user
+├─Fur.Web.Entry.xml
+├─Program.cs
+├─Startup.cs
+├─wwwroot
+|    └README.md
+├─Properties
+|     └launchSettings.json
+├─Controllers
+```
