@@ -1,4 +1,59 @@
-﻿# Rules in this file were initially inferred by Visual Studio IntelliCode from the D:\MONK\Fur\framework codebase based on best match to current usage at 2020/9/2
+---
+id: source
+title: 1.2 源码结构
+sidebar_label: 1.2 源码结构
+---
+
+## 1.2.1 源码架构
+
+`Fur` 创建采用多层分层设计，主要设计是 `自动抽象工厂` 和 `DDD 领域驱动设计` 相结合。
+
+`Fur` 框架项目结构如下：
+
+- `Fur.Tests`：测试层
+- `Solution Items`：解决方案配置层
+- `Fur`：框架核心层
+- `Fur.Application`：业务应用层
+- `Fur.Core`：仓储实体层
+- `Fur.Database.Migrations`：架构维护层
+- `Fur.EntityFramework.Core`：EF Core 配置层
+- `Fur.Web.Core`：Web 核心层
+- `Fur.Web.Entry`：Web 入口层/启动层
+
+## 1.2.2 `Fur.Tests` 测试层
+
+`Fur.Tests` 是项目的测试层，目前还未整理完成。
+
+## 1.2.3 `Solution Items` 解决方案配置层
+
+### 1.2.3.1 源码结构
+
+```
+Fur
+├─Solution Items                     解决方案配置层
+│  ├─.editorconfig                   配置文件
+```
+
+`Solution Items` 是用来配置解决方案中一些全局配置的，如每个文件的顶部版权信息，如：
+
+```cs
+// -----------------------------------------------------------------------------
+// Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。
+// Copyright © 2020 Fur, Baiqian Co.,Ltd.
+//
+// 框架名称：Fur
+// 框架作者：百小僧
+// 框架版本：1.0.0
+// 源码地址：Gitee：https://gitee.com/monksoul/Fur
+// 				   Github：https://github.com/monksoul/Fur
+// 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
+// -----------------------------------------------------------------------------
+```
+
+相关配置在 `.editorconfig` 最后面一行，如：
+
+```cs {127}
+# Rules in this file were initially inferred by Visual Studio IntelliCode from the D:\MONK\Fur\framework codebase based on best match to current usage at 2020/9/2
 # You can modify the rules from these initially generated values to suit your own policies
 # You can learn more about editorconfig here: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference
 [*.cs]
@@ -125,3 +180,8 @@ dotnet_style_qualification_for_property = false:suggestion
 
 # Add file header
 file_header_template = -----------------------------------------------------------------------------\nFur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。\nCopyright © 2020 Fur, Baiqian Co.,Ltd.\n\n框架名称：Fur\n框架作者：百小僧\n框架版本：1.0.0\n源码地址：Gitee：https://gitee.com/monksoul/Fur \n				   Github：https://github.com/monksoul/Fur \n开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）\n-----------------------------------------------------------------------------
+```
+
+## 1.2.4 `Fur` 核心层
+
+`Fur` 核心层是 `Fur` 框架的中心，也是 `Fur` 能够支撑起来的必备层。

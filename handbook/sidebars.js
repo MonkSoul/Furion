@@ -3,7 +3,7 @@ module.exports = {
     {
       type: "category",
       label: "1. 框架介绍",
-      items: ["introduce", "author"],
+      items: ["introduce", "source", "author"],
     },
     {
       type: "doc",
@@ -59,6 +59,7 @@ module.exports = {
         "dbcontext-audit",
         "tran",
         "dbcontext-read-write",
+        "split-db",
       ],
     },
     {
