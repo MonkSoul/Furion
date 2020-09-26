@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.30223.230
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fur", "Fur\Fur.csproj", "{C20A1124-D08A-47D6-9287-772BFD1FB235}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fur.Tools", "Fur.Tools", "{001E1ABD-7A14-4C43-A63F-CF28E3E26BDC}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fur.Tests", "Fur.Tests", "{BF89CB76-EA89-4891-9441-32038F84A50E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fur.Application", "Fur.Application\Fur.Application.csproj", "{AB699EE9-43A8-46F2-A855-04A26DE63372}"

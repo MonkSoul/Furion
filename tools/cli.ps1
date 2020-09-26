@@ -5,28 +5,37 @@ Param(
     # 数据库上下文名
     [string]$Context,
     # 数据库连接字符串名
-    [string]$Name,
+    [string]$ConnectionName,
     # 要保存的目录
-    [string]$SaveFolder,
+    [string]$OutputDir,
     # 数据库提供器
     [string]$DbProvider,
-    # Web 项目
+    # 入口项目
     [string]$EntryProject,
     # 实体项目
-    [string]$EntityProject
+    [string]$CoreProject,
+    # 默认前缀
+    [string]$Product
 )
+
+$FurTools = "Fur Tools v1.0.0";
 
 # 获取当前目录
 $pwd = pwd;
 $rootPath = $pwd.Path;
 
 # 初始化默认值
-if ($EntryProject -eq $null -or $EntryProject -eq ""){
-    $EntryProject = "Fur.Web.Entry";
+
+if ($Product -eq $null -or $Product -eq ""){
+    $Product = "Fur";
 }
 
-if ($EntityProject -eq $null -or $EntityProject -eq ""){
-    $EntityProject = "Fur.Core";
+if ($EntryProject -eq $null -or $EntryProject -eq ""){
+    $EntryProject = "$Product.Web.Entry";
+}
+
+if ($CoreProject -eq $null -or $CoreProject -eq ""){
+    $CoreProject = "$Product.Core";
 }
 
 if ($DbProvider -eq $null -or $DbProvider -eq ""){
@@ -34,15 +43,15 @@ if ($DbProvider -eq $null -or $DbProvider -eq ""){
 }
 
 if ($Context -eq $null -or $Context -eq ""){
-    $Context = "FurDbContext";
+    $Context = $Product + "DbContext";
 }
 
-if ($Name -eq $null -or $Name -eq ""){
-    $Name = "DbConnectionString";
+if ($ConnectionName -eq $null -or $ConnectionName -eq ""){
+    $ConnectionName = "DbConnectionString";
 }
 
-if ($SaveFolder -eq $null -or $SaveFolder -eq ""){
-    $SaveFolder = "$rootPath\$EntityProject\Entities";
+if ($OutputDir -eq $null -or $OutputDir -eq ""){
+    $OutputDir = "$rootPath\$CoreProject\Entities";
 }
 
 # 输出信息
@@ -69,8 +78,8 @@ $copyright = @"
 
 $copyright;
 
-Write-Warning "Fur Tools v1.0.0 启动中......";
-Write-Warning "Fur Tools v1.0.0 启动成功！";
+Write-Output "$FurTools 启动中......";
+Write-Output "$FurTools 启动成功！";
 
 # 获取程序包设置的默认项目
 $DefaultProject = Project;
@@ -78,16 +87,16 @@ $DefaultProject = Project;
 # 获取程序员包设置的默认项目名
 $ProjectName = $DefaultProject.ProjectName;
 
-# 判断是否等于 Fur.Database.Migrations
-if ($ProjectName -ne "Fur.Core"){
-    Write-Warning "请将默认项目设置为：Fur.Core";
+# 判断项目是否设置为 Fur.Core
+if ($ProjectName -ne $CoreProject){
+    Write-Warning "$FurTools 请将默认项目设置为：$CoreProject";
 }
 
 # 定义临时目录
-$TempFolder = "$rootPath\$EntityProject\TempEntities";
+$TempOutputDir = "$rootPath\$CoreProject\TempEntities";
 
-Write-Warning "Fur Tools v1.0.0 请选择操作类型：[G] 界面操作，否则命令行操作";
-$options = Read-Host '您的选择是';
+Write-Warning "$FurTools 请键入操作类型：[G] 界面操作，[任意字符] 命令行操作";
+$options = Read-Host "$FurTools 您的输入是";
 
 # 选择 GUI 操作
 if($options -eq "G")
@@ -150,7 +159,7 @@ if($options -eq "G")
 
     # 创建一个 Winform 窗口
     $mainForm = New-Object System.Windows.Forms.Form;
-    $mainForm.Text = "Fur Tools Generate v1.0.0";
+    $mainForm.Text = "Fur Tools v1.0.0";
     $mainForm.Size = New-Object System.Drawing.Size(800,600);
     $mainForm.StartPosition = "CenterScreen";
 
@@ -192,7 +201,7 @@ if($options -eq "G")
         }
         else{
             $btnGenerate.Enabled =$true;
-            $Name = $connDic[$connStr];
+            $ConnectionName = $connDic[$connStr];
         }
     }
     $comboBox.Add_SelectedIndexChanged($comboBoxClickEventHandler);
@@ -208,8 +217,8 @@ if($options -eq "G")
     $connectionDefine = [regex]::Matches($appsetting, '"ConnectionStrings"\s*.\s+\{(?<define>[\s\S]*?)\}');
     if($connectionDefine.Count -eq 0)
     {
-        Write-Warning "Fur Tools v1.0.0 未找到 appsetting.json 中定义的数据库连接字符串！";
-        Write-Warning "Fur Tools v1.0.0 程序终止！";
+        Write-Warning "$FurTools 未找到 appsetting.json 中定义的数据库连接字符串！";
+        Write-Warning "$FurTools 程序终止！";
         return;
     }
 
@@ -237,7 +246,14 @@ if($options -eq "G")
     $btnLoad.Text = "加载数据库表和视图";
     # 绑定按钮事件
     $btnLoadClickEventHandler = [System.EventHandler] {
-        loadDbTable;
+        Try{   
+            Write-Warning "$FurTools 正在加载数据库表和视图......"
+            loadDbTable;
+            Write-Warning "$FurTools 加载成功！"
+        }
+        Catch{
+            Write-Warning "$FurTools 加载数据库表和视图出错，请重试！";
+        }
     }
     $btnLoad.Add_Click($btnLoadClickEventHandler);
     $baseSetting.Controls.Add($btnLoad);
@@ -298,20 +314,20 @@ if($options -eq "G")
 
         # 选择保存目录
         $app = New-Object -com Shell.Application;
-        $selectFolder = $app.BrowseForFolder(0, "选择 $EntityProject 项目层目录", 0, "$rootPath\$EntityProject");
+        $selectFolder = $app.BrowseForFolder(0, "选择 $CoreProject 项目层目录", 0, "$rootPath\$CoreProject");
 
         # 赋值给保存文件夹
-        $SaveFolder = $selectFolder.Self.Path;
-        $Name = $connDic[$connKey];
+        $OutputDir = $selectFolder.Self.Path;
+        $ConnectionName = $connDic[$connKey];
 
-        if($SaveFolder -eq $null -and $SaveFolder -eq "")
+        if($OutputDir -eq $null -and $OutputDir -eq "")
         {
-            Write-Warning "Fur Tools v1.0.0 用户取消操作，程序终止！";
+            Write-Warning "$FurTools 用户取消操作，程序终止！";
             return;
         }
     }
     else{
-        Write-Warning "Fur Tools v1.0.0 用户取消操作，程序终止！";
+        Write-Warning "$FurTools 用户取消操作，程序终止！";
         return;
     }
 
@@ -319,18 +335,39 @@ if($options -eq "G")
     # 构建 Winform GUI 客户端的 [结束]
     # -----------------------------------------------------------------------------
 }
+else{
+    # 选择保存目录
+    $app = New-Object -com Shell.Application;
+    $selectFolder = $app.BrowseForFolder(0, "选择 $CoreProject 项目层目录", 0, "$rootPath\$CoreProject");
+
+    # 赋值给保存文件夹
+    $OutputDir = $selectFolder.Self.Path;
+
+    if($OutputDir -eq $null -and $OutputDir -eq "")
+    {
+        Write-Warning "$FurTools 用户取消操作，程序终止！";
+        return;
+    }
+}
 
 # 执行 Scaffold-DbContext 命令
+
+Write-Output "$FurTools 正在编译解决方案代码......";
+
 if ($Tables.Count -eq 0){
-    Scaffold-DbContext Name=$Name $DbProvider -Context $Context -Namespace $EntityProject -OutputDir $TempFolder -NoOnConfiguring -DataAnnotations -NoPluralize -Force;
+    Scaffold-DbContext Name=$ConnectionName $DbProvider -Context $Context -Namespace $CoreProject -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -Force;
 }
 else
 {
-    Scaffold-DbContext Name=$Name $DbProvider -Context $Context -Tables $Tables -Namespace "Fur.Core" -OutputDir $TempFolder -NoOnConfiguring -DataAnnotations -NoPluralize -Force;
+    Scaffold-DbContext Name=$ConnectionName $DbProvider -Context $Context -Tables $Tables -Namespace $CoreProject -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -Force;
 }
 
+Write-Output "$FurTools 编译成功！";
+
+Write-Output "$FurTools 开始生成实体文件......";
+
 # 获取 DbContext 生成的配置内容
-$dbContextContent = Get-Content "$TempFolder\$Context.cs" -raw;
+$dbContextContent = Get-Content "$TempOutputDir\$Context.cs" -raw;
 $entityConfigures = [regex]::Matches($dbContextContent, "modelBuilder.Entity\<(?<table>\w+)\>\(entity\s=\>\n*[\s\S]*?\{(?<content>[\s\S]*?)\}\);");
 
 # 定义字典集合
@@ -348,19 +385,10 @@ for ($i = 0; $i -le $entityConfigures.Count - 1; $i++){
 # 定义实体文件头模板
 $fileHeader = @"
 // -----------------------------------------------------------------------------
-// 以下代码由 Fur Tools v1.0.0 生成                                          
-// -----------------------------------------------------------------------------
-// Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。
-// Copyright © 2020 Fur, Baiqian Co.,Ltd.
-//
-// 框架名称：Fur
-// 框架作者：百小僧
-// 框架版本：1.0.0
-// 源码地址：https://gitee.com/monksoul/Fur
-// 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
+// 以下代码由 $FurTools 生成                                          
 // -----------------------------------------------------------------------------
 
-using Fur.DatabaseAccessor;
+using $Product.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 "@;
@@ -382,7 +410,7 @@ $classRegex = "public\s+partial\s+class\s+(?<table>\w+)";
 $propRegex = "public\s+partial\s+class\s+(?<table>\w+)\n*[\s\S]*?\{(?<content>[\s\S]*)\}\n*[\s\S]*\}";
 
 #递归获取 生成的所有临时实体文件
-$files = Get-ChildItem $TempFolder -Include *.cs -recurse
+$files = Get-ChildItem $TempOutputDir -Include *.cs -recurse
 for ($i = 0; $i -le $files.Count - 1; $i++){
     # 文件名
     $fileName = $files[$i].BaseName;
@@ -394,7 +422,7 @@ for ($i = 0; $i -le $files.Count - 1; $i++){
     }
 
 # 输出
-    Write-Warning "正在生成 $fileName 实体代码......";
+    Write-Output "$FurTools 正在生成 $fileName.cs 实体代码......";
 
     # 读取生成模型内容
     $entityContent = Get-Content $filePath -raw;
@@ -420,18 +448,22 @@ $newPropsContent
     }
 }
 "@);
-    $finalClass;
+    
+    # 写入文件
     $finalClass | Set-Content $filePath;
-    Write-Warning "成功生成 $fileName 实体代码";
+
+    # 打印生成后代码
+    Write-Output "$FurTools 成功生成 $fileName.cs 实体代码";
+    $finalClass;
 
 # 移动文件
-    Move-Item $filePath "$SaveFolder\$fileName.cs" -force
+    Move-Item $filePath "$OutputDir\$fileName.cs" -force
  }
 
 # 删除临时数据库上下文
-Remove-Item "$TempFolder\$Context.cs";
+Remove-Item "$TempOutputDir\$Context.cs";
 
 # 删除临时实体文件夹
-Remove-Item $TempFolder -force;
+Remove-Item $TempOutputDir -force;
 
-Write-Warning "全部生成成功。";
+Write-Warning "$FurTools 全部实体生成成功！";
