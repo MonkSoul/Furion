@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Fur.Core</name>
+    </assembly>
+    <members>
+        <member name="M:Fur.Core.Children.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="P:Fur.Core.Children.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Fur.Core.Children.Gender">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Fur.Core.Children.PersonId">
+            <summary>
+            外键
+            </summary>
+        </member>
+        <member name="P:Fur.Core.Children.Person">
+            <summary>
+            主表
+            </summary>
+        </member>
+        <member name="T:Fur.Core.City">
+            <summary>
+            城市
+            </summary>
+        </member>
+        <member name="M:Fur.Core.City.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="P:Fur.Core.City.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Fur.Core.City.ParentId">
+            <summary>
+            上级Id
+            </summary>
+        </member>
+        <member name="P:Fur.Core.City.Parent">
+            <summary>
+            上级
+            </summary>
+        </member>
+        <member name="P:Fur.Core.City.Childrens">
+            <summary>
+            子集
+            </summary>
+        </member>
+        <member name="M:Fur.Core.City.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{Fur.Core.City},Microsoft.EntityFrameworkCore.DbContext,System.Type)">
+            <summary>
+            配置实体关系
+            </summary>
+            <param name="entityBuilder"></param>
+            <param name="dbContext"></param>
+            <param name="dbContextLocator"></param>
+        </member>
+        <member name="M:Fur.Core.City.HasData(Microsoft.EntityFrameworkCore.DbContext,System.Type)">
+            <summary>
+            种子数据
+            </summary>
+            <param name="dbContext"></param>
+            <param name="dbContextLocator"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.Core.Person.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="P:Fur.Core.Person.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:Fur.Core.Person.Age">
+            <summary>
+            年龄
+            </summary>
+        </member>
+        <member name="P:Fur.Core.Person.Address">
+            <summary>
+            住址
+            </summary>
+        </member>
+        <member name="P:Fur.Core.Person.PersonDetail">
+            <summary>
+            从表
+            </summary>
+        </member>
+        <member name="P:Fur.Core.Person.Childrens">
+            <summary>
+            一对多
+            </summary>
+        </member>
+        <member name="P:Fur.Core.Person.Posts">
+            <summary>
+            多对多
+            </summary>
+        </member>
+        <member name="P:Fur.Core.PersonDetail.PhoneNumber">
+            <summary>
+            电话号码
+            </summary>
+        </member>
+        <member name="P:Fur.Core.PersonDetail.QQ">
+            <summary>
+            QQ 号码
+            </summary>
+        </member>
+        <member name="P:Fur.Core.PersonDetail.PersonId">
+            <summary>
+            外键
+            </summary>
+        </member>
+        <member name="P:Fur.Core.PersonDetail.Person">
+            <summary>
+            主表
+            </summary>
+        </member>
+        <member name="M:Fur.Core.Post.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="P:Fur.Core.Post.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Fur.Core.Post.Persons">
+            <summary>
+            Person 集合
+            </summary>
+        </member>
+        <member name="M:Fur.Core.V_Person.#ctor">
+            <summary>
+            配置视图名
+            </summary>
+        </member>
+        <member name="P:Fur.Core.V_Person.Id">
+            <summary>
+            主键Id
+            </summary>
+        </member>
+        <member name="P:Fur.Core.V_Person.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:Fur.Core.V_Person.Age">
+            <summary>
+            年龄
+            </summary>
+        </member>
+        <member name="P:Fur.Core.V_Person.Address">
+            <summary>
+            住址
+            </summary>
+        </member>
+        <member name="F:Fur.Core.Gender.Male">
+            <summary>
+            男
+            </summary>
+        </member>
+        <member name="F:Fur.Core.Gender.Female">
+            <summary>
+            女
+            </summary>
+        </member>
+    </members>
+</doc>

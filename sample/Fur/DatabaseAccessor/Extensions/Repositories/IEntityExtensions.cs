@@ -1,0 +1,1888 @@
+﻿// -----------------------------------------------------------------------------
+// Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。
+// Copyright © 2020 Fur, Baiqian Co.,Ltd.
+//
+// 框架名称：Fur
+// 框架作者：百小僧
+// 框架版本：1.0.0
+// 源码地址：Gitee：https://gitee.com/monksoul/Fur
+// 				   Github：https://github.com/monksoul/Fur
+// 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
+// -----------------------------------------------------------------------------
+
+using Fur.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace Fur.DatabaseAccessor
+{
+    /// <summary>
+    /// 实体拓展类
+    /// </summary>
+    [NonBeScan]
+    public static class IEntityExtensions
+    {
+        /// <summary>
+        /// 获取实体同类（族群）
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <returns>DbSet<TEntity></returns>
+        public static DbSet<TEntity> Ethnics<TEntity>(this TEntity entity)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().Entities;
+        }
+
+        /// <summary>
+        /// 新增一条记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <returns>代理的实体</returns>
+        public static EntityEntry<TEntity> Insert<TEntity>(this TEntity entity)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().Insert(entity);
+        }
+
+        /// <summary>
+        /// 新增一条记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <returns>代理的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertAsync(entity, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增一条记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> InsertNow<TEntity>(this TEntity entity)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertNow(entity);
+        }
+
+        /// <summary>
+        /// 新增一条记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> InsertNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertNow(entity, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 新增一条记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertNowAsync(entity, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增一条记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> Update<TEntity>(this TEntity entity)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().Update(entity);
+        }
+
+        /// <summary>
+        /// 更新一条记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateAsync<TEntity>(this TEntity entity)
+             where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateAsync(entity);
+        }
+
+        /// <summary>
+        /// 更新一条记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> UpdateNow<TEntity>(this TEntity entity)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateNow(entity);
+        }
+
+        /// <summary>
+        /// 更新一条记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> UpdateNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
+             where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateNow(entity, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 更新一条记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateNowAsync(entity, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录中特定属性
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, params string[] propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateInclude(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 更新一条记录中特定属性
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateInclude(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 更新一条记录中特定属性
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateInclude(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 更新一条记录中特定属性
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateInclude(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, params string[] propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, params string[] propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>数据库中实体</returns>
+        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess)
+             where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, params string[] propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录中特定属性
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, params string[] propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExclude(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 更新一条记录中特定属性
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExclude(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 更新一条记录中特定属性
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExclude(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 更新一条记录中特定属性
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExclude(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, params string[] propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, params string[] propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>数据库中实体</returns>
+        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess)
+             where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, params string[] propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 删除一条记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> Delete<TEntity>(this TEntity entity)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().Delete(entity);
+        }
+
+        /// <summary>
+        /// 删除一条记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> DeleteAsync<TEntity>(this TEntity entity)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().DeleteAsync(entity);
+        }
+
+        /// <summary>
+        /// 删除一条记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> DeleteNow<TEntity>(this TEntity entity)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().DeleteNow(entity);
+        }
+
+        /// <summary>
+        /// 删除一条记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns></returns>
+        public static EntityEntry<TEntity> DeleteNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().DeleteNow(entity, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 删除一条记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> DeleteNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().DeleteNowAsync(entity, cancellationToken);
+        }
+
+        /// <summary>
+        /// 删除一条记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> DeleteNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().DeleteNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdate<TEntity>(this TEntity entity)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdate(entity);
+        }
+
+        /// <summary>
+        /// 新增或更新一条记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateAsync(entity, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条记录并立即执行
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateNow<TEntity>(this TEntity entity)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateNow(entity);
+        }
+
+        /// <summary>
+        /// 新增或更新一条记录并立即执行
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateNow(entity, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 新增或更新一条记录并立即执行
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateNowAsync(entity, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条记录并立即执行
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateInclude<TEntity>(this TEntity entity, params string[] propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateInclude(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateInclude<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateInclude(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateInclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateInclude(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateInclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateInclude(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, params string[] propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyNames, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyPredicates, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyNames, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyPredicates, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, params string[] propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, params string[] propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateExclude<TEntity>(this TEntity entity, params string[] propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExclude(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateExclude<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExclude(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateExclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExclude(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateExclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExclude(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, params string[] propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyNames, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyPredicates, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyNames, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>代理中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyPredicates, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, params string[] propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns>数据库中的实体</returns>
+        public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, params string[] propertyNames)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
+        }
+
+        /// <summary>
+        /// 新增或更新一条排除特定属性记录并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        /// <summary>
+        /// 假删除
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns></returns>
+        public static EntityEntry<TEntity> FakeDelete<TEntity>(this TEntity entity)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().FakeDelete(entity);
+        }
+
+        /// <summary>
+        /// 假删除
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns></returns>
+        public static Task<EntityEntry<TEntity>> FakeDeleteAsync<TEntity>(this TEntity entity)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().FakeDeleteAsync(entity);
+        }
+
+        /// <summary>
+        /// 假删除并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns></returns>
+        public static EntityEntry<TEntity> FakeDeleteNow<TEntity>(this TEntity entity)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().FakeDeleteNow(entity);
+        }
+
+        /// <summary>
+        /// 假删除并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <returns></returns>
+        public static EntityEntry<TEntity> FakeDeleteNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().FakeDeleteNow(entity, acceptAllChangesOnSuccess);
+        }
+
+        /// <summary>
+        /// 假删除并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns></returns>
+        public static Task<EntityEntry<TEntity>> FakeDeleteNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
+            where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().FakeDeleteNowAsync(entity, cancellationToken);
+        }
+
+        /// <summary>
+        /// 假删除并立即提交
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns></returns>
+        public static Task<EntityEntry<TEntity>> FakeDeleteNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+             where TEntity : class, IEntityDependency, new()
+        {
+            return App.GetRepository<TEntity>().FakeDeleteNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+        }
+    }
+}
