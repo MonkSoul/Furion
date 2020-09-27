@@ -19,7 +19,7 @@ namespace Fur.DataValidation
     /// <summary>
     /// 验证项元数据
     /// </summary>
-    [NonBeScan, AttributeUsage(AttributeTargets.Field)]
+    [SkipScan, AttributeUsage(AttributeTargets.Field)]
     public class ValidationItemMetadataAttribute : Attribute
     {
         /// <summary>

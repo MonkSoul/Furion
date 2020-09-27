@@ -20,7 +20,7 @@ namespace Fur.ViewEngine
     /// <summary>
     /// 匿名类型包装器
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public class AnonymousTypeWrapper : DynamicObject
     {
         /// <summary>

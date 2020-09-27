@@ -19,7 +19,7 @@ namespace Fur.ObjectMapper
     /// <summary>
     /// 对象映射帮助类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     internal class Helpers
     {
         /// <summary>

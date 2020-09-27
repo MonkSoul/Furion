@@ -19,7 +19,7 @@ namespace Fur.ViewEngine
     /// <summary>
     /// 视图异常类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public class ViewEngineException : Exception
     {
         /// <summary>

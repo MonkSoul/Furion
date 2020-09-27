@@ -18,7 +18,7 @@ namespace Fur.DataValidation
     /// <summary>
     /// 验证类型特性
     /// </summary>
-    [NonBeScan, AttributeUsage(AttributeTargets.Enum)]
+    [SkipScan, AttributeUsage(AttributeTargets.Enum)]
     public sealed class ValidationTypeAttribute : Attribute
     {
     }

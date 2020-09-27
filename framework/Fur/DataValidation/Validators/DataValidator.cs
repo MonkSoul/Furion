@@ -26,7 +26,7 @@ namespace Fur.DataValidation
     /// <summary>
     /// 数据验证器
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class DataValidator
     {
         /// <summary>

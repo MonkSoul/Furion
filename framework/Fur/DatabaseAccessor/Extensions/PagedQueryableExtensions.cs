@@ -23,7 +23,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 分部拓展类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class PagedQueryableExtensions
     {
         /// <summary>

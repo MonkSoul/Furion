@@ -17,7 +17,7 @@ namespace Fur.DataValidation
     /// <summary>
     /// 验证逻辑
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public enum ValidationPattern
     {
         /// <summary>

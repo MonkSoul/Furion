@@ -19,7 +19,7 @@ namespace Fur.DynamicApiController
     /// <summary>
     /// 动态接口控制器特性提供器
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public sealed class DynamicApiControllerFeatureProvider : ControllerFeatureProvider
     {
         /// <summary>

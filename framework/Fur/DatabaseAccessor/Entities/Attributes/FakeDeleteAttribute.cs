@@ -18,7 +18,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 假删除/软删除
     /// </summary>
-    [NonBeScan, AttributeUsage(AttributeTargets.Property)]
+    [SkipScan, AttributeUsage(AttributeTargets.Property)]
     public class FakeDeleteAttribute : Attribute
     {
         /// <summary>

@@ -18,7 +18,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// Sql 执行代理基特性
     /// </summary>
-    [NonBeScan, AttributeUsage(AttributeTargets.Method)]
+    [SkipScan, AttributeUsage(AttributeTargets.Method)]
     public class SqlProxyAttribute : Attribute
     {
         /// <summary>

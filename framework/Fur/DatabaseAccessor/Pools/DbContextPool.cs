@@ -22,7 +22,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库上下文池
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public sealed class DbContextPool : IDbContextPool
     {
         /// <summary>

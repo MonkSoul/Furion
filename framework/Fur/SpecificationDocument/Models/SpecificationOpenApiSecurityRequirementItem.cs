@@ -18,7 +18,7 @@ namespace Fur.SpecificationDocument
     /// <summary>
     /// 安全定义需求子项
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public sealed class SpecificationOpenApiSecurityRequirementItem
     {
         /// <summary>

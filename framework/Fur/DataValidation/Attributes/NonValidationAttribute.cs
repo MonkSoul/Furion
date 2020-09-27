@@ -18,7 +18,7 @@ namespace Fur.DataValidation
     /// <summary>
     /// 跳过验证
     /// </summary>
-    [NonBeScan, AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
+    [SkipScan, AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
     public sealed class NonValidationAttribute : Attribute
     {
     }

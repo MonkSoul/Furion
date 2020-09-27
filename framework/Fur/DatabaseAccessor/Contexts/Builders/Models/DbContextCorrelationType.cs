@@ -20,7 +20,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库上下文关联类型
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     internal sealed class DbContextCorrelationType
     {
         /// <summary>

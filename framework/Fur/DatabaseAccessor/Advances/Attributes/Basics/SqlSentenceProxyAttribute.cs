@@ -18,7 +18,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// Sql 语句执行代理
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public class SqlSentenceProxyAttribute : SqlProxyAttribute
     {
         /// <summary>

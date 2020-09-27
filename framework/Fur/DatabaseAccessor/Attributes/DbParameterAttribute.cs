@@ -19,7 +19,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// DbParameter 配置特性
     /// </summary>
-    [NonBeScan, AttributeUsage(AttributeTargets.Property)]
+    [SkipScan, AttributeUsage(AttributeTargets.Property)]
     public sealed class DbParameterAttribute : Attribute
     {
         /// <summary>

@@ -22,7 +22,7 @@ using System.Text;
 
 namespace Fur.DatabaseAccessor
 {
-    [NonBeScan]
+    [SkipScan]
     internal static class DbHelpers
     {
         /// <summary>

@@ -20,7 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     /// 规范化接口服务拓展类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class SpecificationDocumentServiceCollectionExtensions
     {
         /// <summary>

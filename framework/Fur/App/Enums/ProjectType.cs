@@ -17,7 +17,7 @@ namespace Fur
     /// <summary>
     /// 应用类型
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public enum ProjectType
     {
         /// <summary>

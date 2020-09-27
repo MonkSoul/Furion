@@ -22,7 +22,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// ADONET 拓展类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class SqlAdoNetExtensions
     {
         /// <summary>

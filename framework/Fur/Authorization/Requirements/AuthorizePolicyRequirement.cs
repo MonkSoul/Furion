@@ -18,7 +18,7 @@ namespace Fur.Authorization
     /// <summary>
     /// 策略对应的需求
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public sealed class AuthorizePolicyRequirement : IAuthorizationRequirement
     {
         /// <summary>

@@ -24,7 +24,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 实体拓展类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class IEntityExtensions
     {
         /// <summary>

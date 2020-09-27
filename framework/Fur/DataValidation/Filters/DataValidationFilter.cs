@@ -27,7 +27,7 @@ namespace Fur.DataValidation
     /// <summary>
     /// 数据验证控制器
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public sealed class DataValidationFilter : IActionFilter, IOrderedFilter
     {
         /// <summary>

@@ -19,7 +19,7 @@ namespace Microsoft.AspNetCore.Builder
     /// <summary>
     /// 应用中间件拓展类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class AppApplicationBuilderExtensions
     {
         /// <summary>

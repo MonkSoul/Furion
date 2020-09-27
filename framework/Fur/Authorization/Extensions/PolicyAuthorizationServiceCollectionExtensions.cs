@@ -21,7 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     /// 策略授权服务拓展类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class PolicyAuthorizationServiceCollectionExtensions
     {
         /// <summary>

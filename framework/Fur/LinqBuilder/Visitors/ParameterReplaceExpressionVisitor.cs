@@ -19,7 +19,7 @@ namespace Fur.LinqBuilder
     /// <summary>
     /// 自定义参数表达式访问器
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     internal sealed class ParameterReplaceExpressionVisitor : ExpressionVisitor
     {
         /// <summary>

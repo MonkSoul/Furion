@@ -21,7 +21,7 @@ namespace Fur.ViewEngine
     /// <summary>
     /// 视图编译构建器
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public class ViewEngineCompilationOptionsBuilder : IViewEngineCompilationOptionsBuilder
     {
         /// <summary>

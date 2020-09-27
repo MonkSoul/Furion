@@ -28,7 +28,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// Sql 拓展类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class SqlExtensions
     {
         /// <summary>

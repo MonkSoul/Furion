@@ -25,7 +25,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库数据转换拓展
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class DbDataConvertExtensions
     {
         /// <summary>

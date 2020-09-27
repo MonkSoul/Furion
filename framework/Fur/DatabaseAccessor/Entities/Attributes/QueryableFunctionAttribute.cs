@@ -19,7 +19,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 实体函数配置特性
     /// </summary>
-    [NonBeScan, AttributeUsage(AttributeTargets.Method)]
+    [SkipScan, AttributeUsage(AttributeTargets.Method)]
     public class QueryableFunctionAttribute : DbFunctionAttribute
     {
         /// <summary>

@@ -21,7 +21,7 @@ namespace Fur.ViewEngine
     /// <summary>
     /// 视图编译异常类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public class ViewEngineCompilationException : ViewEngineException
     {
         /// <summary>

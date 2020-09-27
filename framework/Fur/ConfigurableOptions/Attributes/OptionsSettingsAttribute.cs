@@ -18,7 +18,7 @@ namespace Fur.ConfigurableOptions
     /// <summary>
     /// 选项配置特性
     /// </summary>
-    [NonBeScan, AttributeUsage(AttributeTargets.Class)]
+    [SkipScan, AttributeUsage(AttributeTargets.Class)]
     public sealed class OptionsSettingsAttribute : Attribute
     {
         /// <summary>

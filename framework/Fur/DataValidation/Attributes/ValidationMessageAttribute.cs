@@ -18,7 +18,7 @@ namespace Fur.DataValidation
     /// <summary>
     /// 验证消息特性
     /// </summary>
-    [NonBeScan, AttributeUsage(AttributeTargets.Field)]
+    [SkipScan, AttributeUsage(AttributeTargets.Field)]
     public sealed class ValidationMessageAttribute : Attribute
     {
         /// <summary>

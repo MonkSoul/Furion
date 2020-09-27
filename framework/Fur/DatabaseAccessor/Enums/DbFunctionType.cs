@@ -17,7 +17,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库函数类型
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     internal enum DbFunctionType
     {
         /// <summary>

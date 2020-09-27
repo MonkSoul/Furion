@@ -22,7 +22,7 @@ namespace Fur.ViewEngine
     /// <summary>
     /// 视图编译选项
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public class ViewEngineCompilationOptions
     {
         /// <summary>

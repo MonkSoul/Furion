@@ -10,6 +10,7 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.DependencyInjection;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Fur.DatabaseAccessor
@@ -17,6 +18,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库上下文提交拦截器
     /// </summary>
+    [SkipScan]
     public class DbContextSaveChangesInterceptor : SaveChangesInterceptor
     {
     }

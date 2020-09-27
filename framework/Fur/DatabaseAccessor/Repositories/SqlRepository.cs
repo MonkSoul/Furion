@@ -21,7 +21,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// Sql 操作仓储实现
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public partial class SqlRepository : SqlRepository<DbContextLocator>, ISqlRepository
     {
         /// <summary>
@@ -42,7 +42,7 @@ namespace Fur.DatabaseAccessor
     /// Sql 操作仓储实现
     /// </summary>
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-    [NonBeScan]
+    [SkipScan]
     public partial class SqlRepository<TDbContextLocator> : ISqlRepository<TDbContextLocator>
         where TDbContextLocator : class, IDbContextLocator
     {

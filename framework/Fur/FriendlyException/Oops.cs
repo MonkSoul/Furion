@@ -26,7 +26,7 @@ namespace Fur.FriendlyException
     /// <summary>
     /// 抛异常静态类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class Oops
     {
         /// <summary>

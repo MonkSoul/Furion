@@ -19,7 +19,7 @@ namespace Fur.DataValidation
     /// <summary>
     /// 数据验证拓展类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class DataValidationExtensions
     {
         /// <summary>

@@ -19,7 +19,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 存储过程输出返回值
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public sealed class ProcedureOutputResult : ProcedureOutputResult<DataSet>
     {
         /// <summary>
@@ -34,7 +34,7 @@ namespace Fur.DatabaseAccessor
     /// 存储过程输出返回值
     /// </summary>
     /// <typeparam name="TResult">泛型版本</typeparam>
-    [NonBeScan]
+    [SkipScan]
     public class ProcedureOutputResult<TResult>
     {
         /// <summary>

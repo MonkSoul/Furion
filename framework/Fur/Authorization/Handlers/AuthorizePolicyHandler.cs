@@ -21,7 +21,7 @@ namespace Fur.Authorization
     /// <summary>
     /// 授权策略执行程序
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public abstract class AuthorizePolicyHandler : IAuthorizationHandler
     {
         /// <summary>

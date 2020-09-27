@@ -19,7 +19,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     /// 应用服务集合拓展类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class AppServiceCollectionExtensions
     {
         /// <summary>

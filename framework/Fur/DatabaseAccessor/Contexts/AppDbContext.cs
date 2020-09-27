@@ -19,7 +19,7 @@ namespace Fur.DatabaseAccessor
     /// 默认应用数据库上下文
     /// </summary>
     /// <typeparam name="TDbContext">数据库上下文</typeparam>
-    [NonBeScan]
+    [SkipScan]
     public abstract class AppDbContext<TDbContext> : AppDbContext<TDbContext, DbContextLocator>
         where TDbContext : DbContext
     {
@@ -37,7 +37,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TDbContext">数据库上下文</typeparam>
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-    [NonBeScan]
+    [SkipScan]
     public abstract class AppDbContext<TDbContext, TDbContextLocator> : DbContext
         where TDbContext : DbContext
         where TDbContextLocator : class, IDbContextLocator

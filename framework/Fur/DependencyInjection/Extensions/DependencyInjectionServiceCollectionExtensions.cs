@@ -23,7 +23,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     /// 依赖注入拓展类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class DependencyInjectionServiceCollectionExtensions
     {
         /// <summary>

@@ -19,7 +19,7 @@ namespace Fur.FriendlyException
     /// <summary>
     /// 方法异常类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     internal sealed class MethodIfException
     {
         /// <summary>

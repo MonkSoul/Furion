@@ -15,7 +15,7 @@ namespace Fur.DependencyInjection
     /// <summary>
     /// 注册范围
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public enum InjectionScopeOptions
     {
         /// <summary>

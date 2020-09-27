@@ -20,7 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     /// 对象映射拓展类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class ObjectMapperServiceCollectionExtensions
     {
         /// <summary>

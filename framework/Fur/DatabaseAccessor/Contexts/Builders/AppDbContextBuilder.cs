@@ -25,7 +25,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库上下文构建器
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     internal static class AppDbContextBuilder
     {
         /// <summary>
@@ -70,7 +70,7 @@ namespace Fur.DatabaseAccessor
             // 查找所有数据库函数，必须是公开静态方法，且所在父类也必须是公开静态方法
             DbFunctionMethods = App.CanBeScanTypes
                 .Where(t => t.IsAbstract && t.IsSealed && t.IsClass && !t.IsDefined(typeof(NonAutomaticAttribute), true))
-                .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => !m.IsDefined(typeof(NonBeScanAttribute), false) && m.IsDefined(typeof(QueryableFunctionAttribute), true))).ToList();
+                .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => !m.IsDefined(typeof(SkipScanAttribute), false) && m.IsDefined(typeof(QueryableFunctionAttribute), true))).ToList();
         }
 
         /// <summary>

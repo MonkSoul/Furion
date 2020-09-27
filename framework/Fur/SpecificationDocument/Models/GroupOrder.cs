@@ -17,7 +17,7 @@ namespace Fur.SpecificationDocument
     /// <summary>
     /// 分组排序
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     internal sealed class GroupOrder
     {
         /// <summary>

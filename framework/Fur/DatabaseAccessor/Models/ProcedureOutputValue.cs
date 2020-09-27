@@ -17,7 +17,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 存储过程输出值模型
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public sealed class ProcedureOutputValue
     {
         /// <summary>

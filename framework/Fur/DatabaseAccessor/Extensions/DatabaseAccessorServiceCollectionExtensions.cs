@@ -22,7 +22,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     /// 数据库访问器服务拓展类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class DatabaseAccessorServiceCollectionExtensions
     {
         /// <summary>

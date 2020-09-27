@@ -19,7 +19,7 @@ namespace Fur.DataValidation
     /// <summary>
     /// 数据类型验证特性
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public class DataValidationAttribute : ValidationAttribute
     {
         /// <summary>

@@ -24,7 +24,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 实体多数据库上下文拓展类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class IEntityDbContextLocatorExtensions
     {
         /// <summary>

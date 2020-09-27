@@ -23,7 +23,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 工作单元拦截器
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     internal sealed class UnitOfWorkFilter : IAsyncActionFilter, IOrderedFilter
     {
         /// <summary>

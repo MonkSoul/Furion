@@ -34,7 +34,7 @@ namespace Fur.SpecificationDocument
     /// <summary>
     /// 规范化文档构建器
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     internal static class SpecificationDocumentBuilder
     {
         /// <summary>

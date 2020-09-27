@@ -19,7 +19,7 @@ namespace Fur.SpecificationDocument
     /// <summary>
     /// 规范化文档开放接口信息
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public sealed class SpecificationOpenApiInfo : OpenApiInfo
     {
         /// <summary>

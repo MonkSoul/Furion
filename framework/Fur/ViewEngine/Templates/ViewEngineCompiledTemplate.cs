@@ -21,7 +21,7 @@ namespace Fur.ViewEngine
     /// <summary>
     /// 视图编译模板实现类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public class ViewEngineCompiledTemplate : IViewEngineCompiledTemplate
     {
         /// <summary>
@@ -184,7 +184,7 @@ namespace Fur.ViewEngine
     /// 泛型视图模板实现类
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [NonBeScan]
+    [SkipScan]
     public class ViewEngineCompiledTemplate<T> : IViewEngineCompiledTemplate<T> where T : IViewEngineTemplate
     {
         /// <summary>

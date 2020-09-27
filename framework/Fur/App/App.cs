@@ -33,7 +33,7 @@ namespace Fur
     /// <summary>
     /// 全局应用类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class App
     {
         /// <summary>
@@ -97,7 +97,7 @@ namespace Fur
         static App()
         {
             Assemblies = GetAssemblies();
-            CanBeScanTypes = Assemblies.SelectMany(u => u.GetTypes().Where(u => u.IsPublic && !u.IsDefined(typeof(NonBeScanAttribute), false)));
+            CanBeScanTypes = Assemblies.SelectMany(u => u.GetTypes().Where(u => u.IsPublic && !u.IsDefined(typeof(SkipScanAttribute), false)));
         }
 
         /// <summary>

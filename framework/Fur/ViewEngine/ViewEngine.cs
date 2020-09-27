@@ -26,7 +26,7 @@ namespace Fur.ViewEngine
     /// <summary>
     /// 视图引擎实现类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public class ViewEngine : IViewEngine
     {
         /// <summary>

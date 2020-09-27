@@ -27,7 +27,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// DatabaseFacade 拓展类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class DbObjectExtensions
     {
         /// <summary>

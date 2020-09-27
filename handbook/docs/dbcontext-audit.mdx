@@ -117,6 +117,41 @@ namespace Fur.EntityFramework.Core
 }
 ```
 
+:::tip 小知识
+
+如果对性能有所要求，那么建议审计日志通过 `日志组件` 写入数据库，如，通过 `Nlog、Log4Net` 这些等：
+
+```cs
+// 插入审计日志表
+dbContext.Audits.Add(new Audit
+{
+    Table = entityType.Name,    // 表名
+    Column = propName,  // 更新的列
+    newValue = newValue,    // 新值
+    OldValue = oldValue,    // 旧值
+    CreatedTime = DateTime.Now, // 操作时间
+    UserId = userId,    // 操作人
+    Operate = entity.State.ToString();  // 操作方式：新增、更新、删除
+});
+```
+
+替换为：
+
+```cs
+logger.Information(JsonConvert.SerializeObject(new Audit
+{
+    Table = entityType.Name,    // 表名
+    Column = propName,  // 更新的列
+    newValue = newValue,    // 新值
+    OldValue = oldValue,    // 旧值
+    CreatedTime = DateTime.Now, // 操作时间
+    UserId = userId,    // 操作人
+    Operate = entity.State.ToString();  // 操作方式：新增、更新、删除
+}));
+```
+
+:::
+
 通过上面的例子，我们就可以对数据库所有的新增、更新、删除进行监控了。
 
 ## 8.21.4 反馈与建议

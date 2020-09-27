@@ -19,7 +19,7 @@ namespace Fur.DataValidation
     /// <summary>
     /// 数据验证结果
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public sealed class DataValidationResult
     {
         /// <summary>

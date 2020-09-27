@@ -17,7 +17,7 @@ namespace Fur.Authorization
     /// <summary>
     /// 常量、公共方法配置类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     internal static class Penetrates
     {
         /// <summary>

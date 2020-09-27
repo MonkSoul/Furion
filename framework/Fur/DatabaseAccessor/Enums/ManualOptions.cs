@@ -17,7 +17,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库上下文、实体手动配置选项
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public enum ManualOptions
     {
         All

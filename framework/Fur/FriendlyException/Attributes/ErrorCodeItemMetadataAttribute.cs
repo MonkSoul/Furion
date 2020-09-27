@@ -18,7 +18,7 @@ namespace Fur.FriendlyException
     /// <summary>
     /// 异常元数据特性
     /// </summary>
-    [NonBeScan, AttributeUsage(AttributeTargets.Field)]
+    [SkipScan, AttributeUsage(AttributeTargets.Field)]
     public sealed class ErrorCodeItemMetadataAttribute : Attribute
     {
         /// <summary>

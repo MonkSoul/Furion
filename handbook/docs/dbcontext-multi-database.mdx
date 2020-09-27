@@ -144,15 +144,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务</param>
         /// <param name="connectionString">连接字符串</param>
         /// <param name="poolSize">池大小</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddSqlServerPool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100)
+        public static IServiceCollection AddSqlServerPool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
             if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddSqlServerPool<TDbContext, DbContextLocator>(connectionString, poolSize);
+            return services.AddSqlServerPool<TDbContext, DbContextLocator>(connectionString, poolSize, interceptors);
         }
 
         /// <summary>
@@ -185,15 +186,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <typeparam name="TDbContext">数据库上下文</typeparam>
         /// <param name="services">服务</param>
         /// <param name="connectionString">连接字符串</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddSqlServer<TDbContext>(this IServiceCollection services, string connectionString = default)
+        public static IServiceCollection AddSqlServer<TDbContext>(this IServiceCollection services, string connectionString = default, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
             if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddSqlServer<TDbContext, DbContextLocator>(connectionString);
+            return services.AddSqlServer<TDbContext, DbContextLocator>(connectionString, interceptors);
         }
 
         /// <summary>
@@ -267,15 +269,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务</param>
         /// <param name="connectionString">连接字符串</param>
         /// <param name="poolSize">池大小</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddSqlitePool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100)
+        public static IServiceCollection AddSqlitePool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
             if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddSqlitePool<TDbContext, DbContextLocator>(connectionString, poolSize);
+            return services.AddSqlitePool<TDbContext, DbContextLocator>(connectionString, poolSize, interceptors);
         }
 
         /// <summary>
@@ -308,15 +311,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <typeparam name="TDbContext">数据库上下文</typeparam>
         /// <param name="services">服务</param>
         /// <param name="connectionString">连接字符串</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddSqlite<TDbContext>(this IServiceCollection services, string connectionString = default)
+        public static IServiceCollection AddSqlite<TDbContext>(this IServiceCollection services, string connectionString = default, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
             if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddSqlite<TDbContext, DbContextLocator>(connectionString);
+            return services.AddSqlite<TDbContext, DbContextLocator>(connectionString, interceptors);
         }
 
         /// <summary>
@@ -390,15 +394,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务</param>
         /// <param name="connectionString">连接字符串</param>
         /// <param name="poolSize">池大小</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddCosmosPool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100)
+        public static IServiceCollection AddCosmosPool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
             if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddCosmosPool<TDbContext, DbContextLocator>(connectionString, poolSize);
+            return services.AddCosmosPool<TDbContext, DbContextLocator>(connectionString, poolSize, interceptors);
         }
 
         /// <summary>
@@ -431,15 +436,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <typeparam name="TDbContext">数据库上下文</typeparam>
         /// <param name="services">服务</param>
         /// <param name="connectionString">连接字符串</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddCosmos<TDbContext>(this IServiceCollection services, string connectionString = default)
+        public static IServiceCollection AddCosmos<TDbContext>(this IServiceCollection services, string connectionString = default, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
             if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddCosmos<TDbContext, DbContextLocator>(connectionString);
+            return services.AddCosmos<TDbContext, DbContextLocator>(connectionString, interceptors);
         }
 
         /// <summary>
@@ -513,15 +519,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务</param>
         /// <param name="connectionString">连接字符串</param>
         /// <param name="poolSize">池大小</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddInMemoryPool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100)
+        public static IServiceCollection AddInMemoryPool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
             if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddInMemoryPool<TDbContext, DbContextLocator>(connectionString, poolSize);
+            return services.AddInMemoryPool<TDbContext, DbContextLocator>(connectionString, poolSize, interceptors);
         }
 
         /// <summary>
@@ -554,15 +561,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <typeparam name="TDbContext">数据库上下文</typeparam>
         /// <param name="services">服务</param>
         /// <param name="connectionString">连接字符串</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddInMemory<TDbContext>(this IServiceCollection services, string connectionString = default)
+        public static IServiceCollection AddInMemory<TDbContext>(this IServiceCollection services, string connectionString = default, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
             if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddInMemory<TDbContext, DbContextLocator>(connectionString);
+            return services.AddInMemory<TDbContext, DbContextLocator>(connectionString, interceptors);
         }
 
         /// <summary>
@@ -636,15 +644,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务</param>
         /// <param name="connectionString">连接字符串</param>
         /// <param name="poolSize">池大小</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddMySqlPool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100)
+        public static IServiceCollection AddMySqlPool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
             if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddMySqlPool<TDbContext, DbContextLocator>(connectionString, poolSize);
+            return services.AddMySqlPool<TDbContext, DbContextLocator>(connectionString, poolSize, interceptors);
         }
 
         /// <summary>
@@ -677,15 +686,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <typeparam name="TDbContext">数据库上下文</typeparam>
         /// <param name="services">服务</param>
         /// <param name="connectionString">连接字符串</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddMySql<TDbContext>(this IServiceCollection services, string connectionString = default)
+        public static IServiceCollection AddMySql<TDbContext>(this IServiceCollection services, string connectionString = default, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
             if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddMySql<TDbContext, DbContextLocator>(connectionString);
+            return services.AddMySql<TDbContext, DbContextLocator>(connectionString, interceptors);
         }
 
         /// <summary>
@@ -759,15 +769,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务</param>
         /// <param name="connectionString">连接字符串</param>
         /// <param name="poolSize">池大小</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddPostgreSQLPool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100)
+        public static IServiceCollection AddPostgreSQLPool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
             if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddPostgreSQLPool<TDbContext, DbContextLocator>(connectionString, poolSize);
+            return services.AddPostgreSQLPool<TDbContext, DbContextLocator>(connectionString, poolSize, interceptors);
         }
 
         /// <summary>
@@ -800,15 +811,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <typeparam name="TDbContext">数据库上下文</typeparam>
         /// <param name="services">服务</param>
         /// <param name="connectionString">连接字符串</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddPostgreSQL<TDbContext>(this IServiceCollection services, string connectionString = default)
+        public static IServiceCollection AddPostgreSQL<TDbContext>(this IServiceCollection services, string connectionString = default, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
             if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddPostgreSQL<TDbContext, DbContextLocator>(connectionString);
+            return services.AddPostgreSQL<TDbContext, DbContextLocator>(connectionString, interceptors);
         }
 
         /// <summary>
@@ -882,15 +894,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务</param>
         /// <param name="connectionString">连接字符串</param>
         /// <param name="poolSize">池大小</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddOraclePool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100)
+        public static IServiceCollection AddOraclePool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
             if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddOraclePool<TDbContext, DbContextLocator>(connectionString, poolSize);
+            return services.AddOraclePool<TDbContext, DbContextLocator>(connectionString, poolSize, interceptors);
         }
 
         /// <summary>
@@ -923,15 +936,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <typeparam name="TDbContext">数据库上下文</typeparam>
         /// <param name="services">服务</param>
         /// <param name="connectionString">连接字符串</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddOracle<TDbContext>(this IServiceCollection services, string connectionString = default)
+        public static IServiceCollection AddOracle<TDbContext>(this IServiceCollection services, string connectionString = default, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
             if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddOracle<TDbContext, DbContextLocator>(connectionString);
+            return services.AddOracle<TDbContext, DbContextLocator>(connectionString, interceptors);
         }
 
         /// <summary>

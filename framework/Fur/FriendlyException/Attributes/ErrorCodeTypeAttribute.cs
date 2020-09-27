@@ -18,7 +18,7 @@ namespace Fur.FriendlyException
     /// <summary>
     /// 错误代码类型特性
     /// </summary>
-    [NonBeScan, AttributeUsage(AttributeTargets.Enum)]
+    [SkipScan, AttributeUsage(AttributeTargets.Enum)]
     public sealed class ErrorCodeTypeAttribute : Attribute
     {
     }

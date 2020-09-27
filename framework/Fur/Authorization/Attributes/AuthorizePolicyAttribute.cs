@@ -19,7 +19,7 @@ namespace Fur.Authorization
     /// <summary>
     /// 策略授权特性
     /// </summary>
-    [NonBeScan, AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Method)]
+    [SkipScan, AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Method)]
     public sealed class AuthorizePolicyAttribute : AuthorizeAttribute
     {
         /// <summary>

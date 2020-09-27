@@ -18,7 +18,7 @@ namespace Fur.DynamicApiController
     /// <summary>
     /// 接口参数位置设置
     /// </summary>
-    [NonBeScan, AttributeUsage(AttributeTargets.Parameter)]
+    [SkipScan, AttributeUsage(AttributeTargets.Parameter)]
     public class ApiSeatAttribute : Attribute
     {
         /// <summary>

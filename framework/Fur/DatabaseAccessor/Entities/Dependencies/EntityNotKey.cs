@@ -17,7 +17,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库无键实体依赖基接口
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public abstract class EntityNotKey : EntityNotKey<DbContextLocator>
     {
         /// <summary>
@@ -33,7 +33,7 @@ namespace Fur.DatabaseAccessor
     /// 数据库无键实体依赖基接口
     /// </summary>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
-    [NonBeScan]
+    [SkipScan]
     public abstract class EntityNotKey<TDbContextLocator1> : EntityNotKeyDependency
         where TDbContextLocator1 : class, IDbContextLocator
     {
@@ -51,7 +51,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
-    [NonBeScan]
+    [SkipScan]
     public abstract class EntityNotKey<TDbContextLocator1, TDbContextLocator2> : EntityNotKeyDependency
         where TDbContextLocator2 : class, IDbContextLocator
     {
@@ -70,7 +70,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
-    [NonBeScan]
+    [SkipScan]
     public abstract class EntityNotKey<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3> : EntityNotKeyDependency
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
@@ -92,7 +92,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
-    [NonBeScan]
+    [SkipScan]
     public abstract class EntityNotKey<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4> : EntityNotKeyDependency
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
@@ -116,7 +116,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
-    [NonBeScan]
+    [SkipScan]
     public abstract class EntityNotKey<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5> : EntityNotKeyDependency
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
@@ -142,7 +142,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
-    [NonBeScan]
+    [SkipScan]
     public abstract class EntityNotKey<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6> : EntityNotKeyDependency
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
@@ -170,7 +170,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
-    [NonBeScan]
+    [SkipScan]
     public abstract class EntityNotKey<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7> : EntityNotKeyDependency
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
@@ -200,7 +200,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator8">数据库上下文定位器</typeparam>
-    [NonBeScan]
+    [SkipScan]
     public abstract class EntityNotKey<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7, TDbContextLocator8> : EntityNotKeyDependency
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
@@ -223,7 +223,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库无键实体基类（禁止外部继承）
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public abstract class EntityNotKeyDependency : IEntityNotKeyDependency
     {
         /// <summary>

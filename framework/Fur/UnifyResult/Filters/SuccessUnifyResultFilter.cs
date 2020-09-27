@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace Fur.UnifyResult
 {
-    [NonBeScan]
+    [SkipScan]
     public class SuccessUnifyResultFilter : IAsyncActionFilter, IOrderedFilter
     {
         /// <summary>

@@ -15,7 +15,7 @@ using System;
 
 namespace Fur.DatabaseAccessor
 {
-    [NonBeScan, AttributeUsage(AttributeTargets.Method)]
+    [SkipScan, AttributeUsage(AttributeTargets.Method)]
     public class SqlFunctionAttribute : SqlObjectProxyAttribute
     {
         /// <summary>

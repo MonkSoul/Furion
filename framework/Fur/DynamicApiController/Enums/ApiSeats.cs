@@ -17,7 +17,7 @@ namespace Fur.DynamicApiController
     /// <summary>
     /// 接口参数位置
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public enum ApiSeats
     {
         /// <summary>

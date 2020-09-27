@@ -18,7 +18,7 @@ namespace Fur.FriendlyException
     /// <summary>
     /// 异常复写特性
     /// </summary>
-    [NonBeScan, AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
+    [SkipScan, AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
     public sealed class IfExceptionAttribute : Attribute
     {
         /// <summary>

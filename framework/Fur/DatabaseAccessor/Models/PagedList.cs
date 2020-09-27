@@ -19,7 +19,7 @@ namespace Fur.DatabaseAccessor
     /// 分页泛型集合
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    [NonBeScan]
+    [SkipScan]
     public class PagedList<TEntity>
         where TEntity : class, new()
     {

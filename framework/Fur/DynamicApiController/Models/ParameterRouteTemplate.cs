@@ -18,7 +18,7 @@ namespace Fur.DynamicApiController
     /// <summary>
     /// 参数路由模板
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     internal class ParameterRouteTemplate
     {
         /// <summary>

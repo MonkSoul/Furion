@@ -20,7 +20,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// Sql 代理方法元数据
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     internal sealed class SqlProxyMethod
     {
         /// <summary>

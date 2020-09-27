@@ -21,7 +21,7 @@ namespace Fur.Authorization
     /// <summary>
     /// 授权策略提供器
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     internal sealed class AuthorizePolicyProvider : IAuthorizationPolicyProvider
     {
         /// <summary>

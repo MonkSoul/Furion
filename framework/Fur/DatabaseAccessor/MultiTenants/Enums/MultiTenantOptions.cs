@@ -17,7 +17,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 多租户选项
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public enum MultiTenantPattern
     {
         /// <summary>

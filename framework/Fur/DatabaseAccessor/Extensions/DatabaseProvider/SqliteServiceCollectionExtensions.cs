@@ -21,7 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     /// Sqlite 数据库服务拓展
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class SqliteServiceCollectionExtensions
     {
         /// <summary>
@@ -31,15 +31,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务</param>
         /// <param name="connectionString">连接字符串</param>
         /// <param name="poolSize">池大小</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddSqlitePool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100)
+        public static IServiceCollection AddSqlitePool<TDbContext>(this IServiceCollection services, string connectionString = default, int poolSize = 100, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
             if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddSqlitePool<TDbContext, DbContextLocator>(connectionString, poolSize);
+            return services.AddSqlitePool<TDbContext, DbContextLocator>(connectionString, poolSize, interceptors);
         }
 
         /// <summary>
@@ -72,15 +73,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <typeparam name="TDbContext">数据库上下文</typeparam>
         /// <param name="services">服务</param>
         /// <param name="connectionString">连接字符串</param>
+        /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddSqlite<TDbContext>(this IServiceCollection services, string connectionString = default)
+        public static IServiceCollection AddSqlite<TDbContext>(this IServiceCollection services, string connectionString = default, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
             if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddSqlite<TDbContext, DbContextLocator>(connectionString);
+            return services.AddSqlite<TDbContext, DbContextLocator>(connectionString, interceptors);
         }
 
         /// <summary>

@@ -17,7 +17,7 @@ namespace Fur.DependencyInjection
     /// <summary>
     /// 依赖注入全局模块
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public abstract class AppStartup
     {
         /// <summary>

@@ -25,7 +25,7 @@ namespace Fur
     /// <summary>
     /// 对象拓展类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     internal static class ObjectExtensions
     {
         /// <summary>

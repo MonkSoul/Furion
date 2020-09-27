@@ -19,7 +19,7 @@ namespace Fur.DynamicApiController
     /// <summary>
     /// 接口描述设置
     /// </summary>
-    [NonBeScan, AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Method)]
+    [SkipScan, AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Method)]
     public sealed class ApiDescriptionSettingsAttribute : ApiExplorerSettingsAttribute
     {
         /// <summary>

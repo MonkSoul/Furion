@@ -18,7 +18,7 @@ namespace Microsoft.AspNetCore.Builder
     /// <summary>
     /// 规范化文档中间件拓展
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class SpecificationDocumentApplicationBuilderExtensions
     {
         public static IApplicationBuilder UseSpecificationDocuments(this IApplicationBuilder app)

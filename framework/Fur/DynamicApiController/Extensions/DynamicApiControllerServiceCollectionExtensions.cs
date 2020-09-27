@@ -22,7 +22,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     ///动态接口控制器拓展类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public static class DynamicApiControllerServiceCollectionExtensions
     {
         /// <summary>

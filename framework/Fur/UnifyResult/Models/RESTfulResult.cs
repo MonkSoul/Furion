@@ -17,7 +17,7 @@ namespace Fur.UnifyResult
     /// <summary>
     /// RESTful 风格结果集
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public class RESTfulResult
     {
         /// <summary>

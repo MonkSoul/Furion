@@ -22,7 +22,7 @@ namespace Microsoft.AspNetCore.Mvc.Filters
     /// <summary>
     /// 友好异常拦截器
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public sealed class FriendlyExceptionFilter : IAsyncExceptionFilter
     {
         /// <summary>

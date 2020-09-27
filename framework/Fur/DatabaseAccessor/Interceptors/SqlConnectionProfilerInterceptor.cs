@@ -22,7 +22,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库连接拦截分析器
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     internal sealed class SqlConnectionProfilerInterceptor : DbConnectionInterceptor
     {
         /// <summary>

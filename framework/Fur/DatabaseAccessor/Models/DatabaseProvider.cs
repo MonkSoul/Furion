@@ -21,7 +21,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库提供器选项
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     internal static class DatabaseProvider
     {
         /// <summary>

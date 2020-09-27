@@ -19,7 +19,7 @@ namespace Fur.ViewEngine
     /// <summary>
     /// 视图模板实现类
     /// </summary>
-    [NonBeScan]
+    [SkipScan]
     public abstract class ViewEngineTemplate : IViewEngineTemplate
     {
         /// <summary>
@@ -117,7 +117,7 @@ namespace Fur.ViewEngine
     /// 视图模板实现类
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [NonBeScan]
+    [SkipScan]
     public abstract class ViewEngineTemplateBase<T> : ViewEngineTemplate
     {
         /// <summary>

@@ -23,7 +23,7 @@ using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    [NonBeScan]
+    [SkipScan]
     public static class ConfigurableOptionsServiceCollectionExtensions
     {
         /// <summary>
