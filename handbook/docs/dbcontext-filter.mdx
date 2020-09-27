@@ -3,3 +3,16 @@ id: dbcontext-filter
 title: 8.22 实体/全局查询过滤器
 sidebar_label: 8.22 实体/全局查询过滤器
 ---
+
+## 8.22.1 查询过滤器
+
+通常，我们系统中有一些维护字段，如 `IsDeleted` 字段，这个字段用来标识用户已经删除的数据，那么我们需要每次查询数据的时候带上这个字段，避免查询出不该出现的数据。
+
+`Fur` 提供非常灵活方便的全局查询过滤器，能够应用到每一次查询中。
+
+## 8.22.2 `IModelBuilderFilter` 接口
+
+`IModelBuilderFilter` 接口提供两个方法：
+
+- `OnCreating`：实体构建之前，通常在这里定义全局过滤器
+- `OnCreated`：实体构建之后

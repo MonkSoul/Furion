@@ -82,7 +82,7 @@ namespace Fur.DatabaseAccessor
         internal static void ConfigureDbContextEntity(ModelBuilder modelBuilder, DbContext dbContext, Type dbContextLocator)
         {
             // 获取当前数据库上下文关联的类型
-            var dbContextCorrelationType = GetDbContextCorrelationType(dbContextLocator);
+            var dbContextCorrelationType = GetDbContextCorrelationType(dbContext, dbContextLocator);
 
             // 如果没有数据，则跳过
             if (!dbContextCorrelationType.EntityTypes.Any()) goto EntityFunctions;
@@ -356,9 +356,10 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 获取当前数据库上下文关联类型
         /// </summary>
+        /// <param name="dbContext">数据库上下文</param>
         /// <param name="dbContextLocator">数据库上下文定位器</param>
         /// <returns>DbContextCorrelationType</returns>
-        private static DbContextCorrelationType GetDbContextCorrelationType(Type dbContextLocator)
+        private static DbContextCorrelationType GetDbContextCorrelationType(DbContext dbContext, Type dbContextLocator)
         {
             var result = new DbContextCorrelationType { DbContextLocator = dbContextLocator };
 
@@ -393,7 +394,9 @@ namespace Fur.DatabaseAccessor
                     if (entityCorrelationType.HasImplementedRawGeneric(typeof(IModelBuilderFilterDependency)))
                     {
                         result.ModelBuilderFilterTypes.Add(entityCorrelationType);
-                        result.ModelBuilderFilterInstances.Add(Activator.CreateInstance(entityCorrelationType) as IModelBuilderFilterDependency);
+
+                        // 支持 DbContext 继承全局过滤接口
+                        result.ModelBuilderFilterInstances.Add((entityCorrelationType == dbContext.GetType() ? dbContext : Activator.CreateInstance(entityCorrelationType)) as IModelBuilderFilterDependency);
                     }
 
                     // 添加种子数据
