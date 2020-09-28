@@ -33,10 +33,7 @@ namespace Fur.Web.Entry
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseApp(options =>
-            {
-                options.UseSpecificationDocuments();
-            });
+            app.UseSpecificationDocuments();
 
             app.UseEndpoints(endpoints =>
             {

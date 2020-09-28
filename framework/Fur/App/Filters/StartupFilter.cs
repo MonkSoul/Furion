@@ -28,7 +28,11 @@ namespace Fur
     {
         public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next)
         {
-            return builder => next(builder);
+            return builder =>
+            {
+                builder.UseApp();
+                next(builder);
+            };
         }
     }
 }
