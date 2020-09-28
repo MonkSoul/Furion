@@ -493,19 +493,19 @@ namespace Fur.Application
 
 ```cs
 // ISqlRepository 方法
-ProcedureOutputResult result = _sqlRepository.SqlProcedureOutput("proc_Complex");
+ProcedureOutputResult result = _sqlRepository.SqlProcedureOutput("proc_Complex", new ProcOutputModel{});
 
 // ISqlDispatchProxy 方式
-ProcedureOutputResult result = _sqlExecuteProxy.Complex();  // 推荐方式
+ProcedureOutputResult result = _sqlExecuteProxy.Complex(new ProcOutputModel{});  // 推荐方式
 
 // 实体仓储方式
-ProcedureOutputResult result = _personRepository.SqlProcedureOutput("proc_Complex");
+ProcedureOutputResult result = _personRepository.SqlProcedureOutput("proc_Complex", new ProcOutputModel{});
 
 // IRepository 非泛型方式
-ProcedureOutputResult result = _repository.Sql().SqlProcedureOutput("proc_Complex");
+ProcedureOutputResult result = _repository.Sql().SqlProcedureOutput("proc_Complex", new ProcOutputModel{});
 
 // 变态懒人方式，直接通过存储过程名执行
-ProcedureOutputResult result = "proc_Complex".SqlProcedureOutput();
+ProcedureOutputResult result = "proc_Complex".SqlProcedureOutput(new ProcOutputModel{});
 ```
 
 ```cs
@@ -523,19 +523,19 @@ var dataSet = result.Result;
 
 ```cs
 // ISqlRepository 方法
-ProcedureOutputResult<(List<Test>, List<Test>)> result = _sqlRepository.SqlProcedureOutput<(List<Test>, List<Test>)>("proc_Complex");
+ProcedureOutputResult<(List<Test>, List<Test>)> result = _sqlRepository.SqlProcedureOutput<(List<Test>, List<Test>)>("proc_Complex", new ProcOutputModel{});
 
 // ISqlDispatchProxy 方式
-ProcedureOutputResult<(List<Test>, List<Test>)> result = _sqlExecuteProxy.Complex();  // 推荐方式
+ProcedureOutputResult<(List<Test>, List<Test>)> result = _sqlExecuteProxy.Complex(new ProcOutputModel{});  // 推荐方式
 
 // 实体仓储方式
-ProcedureOutputResult<(List<Test>, List<Test>)> result = _personRepository.SqlProcedureOutput<(List<Test>, List<Test>)>("proc_Complex");
+ProcedureOutputResult<(List<Test>, List<Test>)> result = _personRepository.SqlProcedureOutput<(List<Test>, List<Test>)>("proc_Complex", new ProcOutputModel{});
 
 // IRepository 非泛型方式
-ProcedureOutputResult<(List<Test>, List<Test>)> result = _repository.Sql().SqlProcedureOutput<(List<Test>, List<Test>)>("proc_Complex");
+ProcedureOutputResult<(List<Test>, List<Test>)> result = _repository.Sql().SqlProcedureOutput<(List<Test>, List<Test>)>("proc_Complex", new ProcOutputModel{});
 
 // 变态懒人方式，直接通过存储过程名执行
-ProcedureOutputResult<(List<Test>, List<Test>)> result = "proc_Complex".SqlProcedureOutput<(List<Test>, List<Test>)>();
+ProcedureOutputResult<(List<Test>, List<Test>)> result = "proc_Complex".SqlProcedureOutput<(List<Test>, List<Test>)>(new ProcOutputModel{});
 ```
 
 ```cs

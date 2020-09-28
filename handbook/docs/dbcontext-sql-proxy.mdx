@@ -391,13 +391,13 @@ namespace Fur.Application
     public class ISql : ISqlDispatchProxy
     {
         [SqlProcedure("PROC_Name")]
-        ProcedureOutputResult GetOutput(MyParam dto);
+        ProcedureOutputResult GetOutput(ProcOutputModel pams);
 
         [SqlProcedure("PROC_Name")]
-        ProcedureOutputResult GetOutput(int id);
+        ProcedureOutputResult GetOutput(ProcOutputModel pams);
 
         [SqlProcedure("PROC_Name")]
-        ProcedureOutputResult<(List<Person>, List<Student>)> GetOutput(int id, string name);
+        ProcedureOutputResult<(List<Person>, List<Student>)> GetOutput(ProcOutputModel pams);
     }
 }
 ```
