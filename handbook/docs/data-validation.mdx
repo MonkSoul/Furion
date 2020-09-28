@@ -213,7 +213,6 @@ namespace Fur.Web.Entry
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApp();
             services.AddControllers()
                     .AddDataValidation();    // 可通过 .AddDataValidation(false) 关闭全局验证处理
         }
@@ -228,7 +227,7 @@ namespace Fur.Web.Entry
 
 :::important 特别注意
 
-`.AddDataValidation()` 需在 `services.AddControllers()` 之后注册。同时 `services.AddApp()` 总是最先注册。
+`.AddDataValidation()` 需在 `services.AddControllers()` 之后注册。
 
 :::
 
@@ -678,7 +677,6 @@ namespace Fur.Web.Entry
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApp();
             services.AddControllers()
                     .AddDataValidation<MyValidationTypeMessageProvider>();
         }

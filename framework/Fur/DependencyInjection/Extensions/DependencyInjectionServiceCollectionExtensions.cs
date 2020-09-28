@@ -42,8 +42,20 @@ namespace Microsoft.Extensions.DependencyInjection
             // 注册自定义 starup
             foreach (var type in startups)
             {
+                // 获取所有符合依赖注入格式的方法，如返回值void，且第一个参数是 IServiceCollection 类型
+                var serviceMethods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                    .Where(u => u.ReturnType == typeof(void)
+                        && u.GetParameters().Length > 0
+                        && u.GetParameters().First().ParameterType == typeof(IServiceCollection));
+
+                if (!serviceMethods.Any()) continue;
+
                 var startup = Activator.CreateInstance(type) as AppStartup;
-                startup.ConfigureServices(services);
+                // 自动安装属性调用
+                foreach (var method in serviceMethods)
+                {
+                    method.Invoke(startup, new[] { services });
+                }
             }
 
             // 添加自动扫描注入
@@ -260,9 +272,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>int</returns>
         private static int GetOrder(Type type)
         {
-            return !type.IsDefined(typeof(StartupOrderAttribute), true)
+            return !type.IsDefined(typeof(StartupAttribute), true)
                 ? 0
-                : type.GetCustomAttribute<StartupOrderAttribute>(true).Order;
+                : type.GetCustomAttribute<StartupAttribute>(true).Order;
         }
     }
 }

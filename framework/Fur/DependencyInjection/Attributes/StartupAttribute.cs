@@ -18,13 +18,13 @@ namespace Fur.DependencyInjection
     /// 注册服务启动配置
     /// </summary>
     [SkipScan, AttributeUsage(AttributeTargets.Class)]
-    public class StartupOrderAttribute : Attribute
+    public class StartupAttribute : Attribute
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="order"></param>
-        public StartupOrderAttribute(int order)
+        public StartupAttribute(int order)
         {
             Order = order;
         }
@@ -33,5 +33,10 @@ namespace Fur.DependencyInjection
         /// 排序
         /// </summary>
         public int Order { get; set; }
+
+        /// <summary>
+        /// 服务列表
+        /// </summary>
+        public string[] Services { get; set; }
     }
 }

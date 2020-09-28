@@ -88,10 +88,7 @@ namespace Fur.Web.Entry
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApp(options =>
-            {
-                options.AddConfigurableOptions<AppInfoOptions>();
-            });
+            services.AddConfigurableOptions<AppInfoOptions>();
             // Other Codes...
         }
 
@@ -102,19 +99,6 @@ namespace Fur.Web.Entry
     }
 }
 ```
-
-:::caution 特别注意
-
-`services.AddConfigurableOptions<AppInfoOptions>()` 只能在 `services.AddApp()` **之后或参数内**注册。
-
-**下面代码是无效的**：
-
-```cs
-services.AddConfigurableOptions<AppInfoOptions>();
-services.AddApp();
-```
-
-:::
 
 :::note 应用注册说明
 

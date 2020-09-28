@@ -132,48 +132,24 @@ namespace Fur.EntityFramework.Core
 
 ### 2.2.4 配置数据库上下文
 
-在 `Fur.Web.Entry` 的 `Startup` 中配置数据库上下文，代码如下：
+在 `Fur.EntityFramework.Core` 的 `FurEntityFrameworkCoreStartup` 中配置数据库上下文，代码如下：
 
-```cs {5,29-33} title="Fur\framework\Fur.Web.Entry\Startup.cs"
-using Fur.EntityFramework.Core;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+```cs {12-14} title="Fur\framework\Fur.EntityFramework.Core\FurEntityFrameworkCoreStartup.cs"
+using Fur.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
-namespace Fur.Web.Entry
+namespace Fur.EntityFramework.Core
 {
-    public class Startup
+    [Startup(600)]
+    public sealed class FurEntityFrameworkCoreStartup : AppStartup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApp(options =>
+            // 配置数据库上下文，支持N个数据库
+            services.AddDatabaseAccessor(options =>
             {
-                options.AddSpecificationDocuments();
-                options.AddControllers()
-                           .AddDynamicApiControllers()
-                           .AddFriendlyException()
-                           .AddDataValidation();
-
-                // 配置数据库上下文，支持N个数据库
-                options.AddDatabaseAccessor(options =>
-                {
-                    options.AddSqlServerPool<FurDbContext>();
-                });
+                options.AddSqlServerPool<FurDbContext>();
             });
-        }
-
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            // 其他代码
         }
     }
 }

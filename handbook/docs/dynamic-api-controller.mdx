@@ -127,7 +127,7 @@ namespace Fur.Web.Entry.Controllers
 
 在 `Fur` 框架中，动态 `WebAPI` 服务需要在 `Fur.Web.Entry/Startup.cs` 中注册。如：
 
-```cs {4,20-21} title="Fur.Web.Entry/Startup.cs"
+```cs {4,19-20} title="Fur.Web.Entry/Startup.cs"
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -146,7 +146,6 @@ namespace Fur.Web.Entry
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApp();
             services.AddControllers()
                     .AddDynamicApiControllers();
             // Other Codes...

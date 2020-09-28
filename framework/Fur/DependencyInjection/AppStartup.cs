@@ -10,8 +10,6 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
-using Microsoft.Extensions.DependencyInjection;
-
 namespace Fur.DependencyInjection
 {
     /// <summary>
@@ -20,12 +18,5 @@ namespace Fur.DependencyInjection
     [SkipScan]
     public abstract class AppStartup
     {
-        /// <summary>
-        /// 配置启动服务
-        /// </summary>
-        /// <param name="services"></param>
-        public virtual void ConfigureServices(IServiceCollection services)
-        {
-        }
     }
 }

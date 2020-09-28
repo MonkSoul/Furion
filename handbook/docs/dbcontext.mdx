@@ -100,44 +100,26 @@ namespace Fur.EntityFramework.Core
 
 ### 8.1.5.1 `Startup` 方式配置
 
-```cs {5,23-26}
-using Fur.EntityFramework.Core;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+```cs {12-18} title="Fur\framework\Fur.EntityFramework.Core\FurEntityFrameworkCoreStartup.cs"
+using Fur.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
-namespace Fur.Web.Entry
+namespace Fur.EntityFramework.Core
 {
-    public class Startup
+    [Startup(600)]
+    public sealed class FurEntityFrameworkCoreStartup : AppStartup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApp(options =>
+            // 配置数据库上下文，支持N个数据库
+            services.AddDatabaseAccessor(options =>
             {
-                // 配置数据库上下文，支持N个数据库
-                options.AddDatabaseAccessor(options =>
-                {
-                    // 配置默认数据库
-                    options.AddSqlServerPool<FurDbContext>();
+                // 配置默认数据库
+                options.AddSqlServerPool<FurDbContext>();
 
-                    // 配置多个数据库，多个数据库必须指定数据库上下文定位器
-                    options.AddSqlitePool<SqliteDbContext, SqliteDbContextLocaotr>();
-                });
+                // 配置多个数据库，多个数据库必须指定数据库上下文定位器
+                options.AddSqlitePool<SqliteDbContext, SqliteDbContextLocaotr>();
             });
-        }
-
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            // 其他代码
         }
     }
 }

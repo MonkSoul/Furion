@@ -14,7 +14,7 @@ using Fur.DependencyInjection;
 
 namespace Fur
 {
-    [StartupOrder(1000)]
+    [Startup(1000)]
     public sealed class FurStartup : AppStartup
     {
     }
