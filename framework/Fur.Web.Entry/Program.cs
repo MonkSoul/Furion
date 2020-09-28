@@ -15,7 +15,9 @@ namespace Fur.Web.Entry
             return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder
+                        .UseSetting(WebHostDefaults.HostingStartupAssembliesKey, nameof(Fur))
+                        .UseStartup<Startup>();
                 });
         }
     }

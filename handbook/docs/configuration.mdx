@@ -236,7 +236,7 @@ var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern3..
 
 ### 在 `Program.cs` 中添加配置文件
 
-```cs {2,16-19} title="Fur.Web.Entry/Program.cs"
+```cs {2,20} title="Fur.Web.Entry/Program.cs"
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -252,13 +252,12 @@ namespace Fur.Web.Entry
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration(configurationBuilder =>
-                {
-                    configurationBuilder.AddJsonFile("emailsetting.json", optional: true, reloadOnChange: true);
-                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder
+                        // 启动自动扫描配置文件并注入，无需手动添加配置
+                        .UseSetting(WebHostDefaults.HostingStartupAssembliesKey, nameof(Fur)) 
+                        .UseStartup<Startup>();
                 });
     }
 }
