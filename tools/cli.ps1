@@ -91,6 +91,7 @@ $ProjectName = $DefaultProject.ProjectName;
 # 判断项目是否设置为 Fur.Core
 if ($ProjectName -ne $CoreProject){
     Write-Warning "$FurTools 请将默认项目设置为：$CoreProject";
+    return;
 }
 
 # 定义临时目录
@@ -391,6 +392,7 @@ $fileHeader = @"
 
 using $Product.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
 
 "@;
 
