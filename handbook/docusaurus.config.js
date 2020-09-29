@@ -1,8 +1,8 @@
 module.exports = {
   title: "Fur",
   tagline: "Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。",
-  url: "https://furos.cn",
-  baseUrl: "/fur/",
+  url: "http://chinadot.net",
+  baseUrl: "/",
   onBrokenLinks: "throw",
   favicon: "img/favicon.ico",
   organizationName: "Baiqian Co.,Ltd.",

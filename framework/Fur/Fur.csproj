@@ -6,7 +6,7 @@
     <Company>Baiqian Co.,Ltd.</Company>
     <Copyright>© 2020 Fur, Baiqian Co.,Ltd.</Copyright>
     <Description>Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。</Description>
-    <PackageProjectUrl>https://furos.cn</PackageProjectUrl>
+    <PackageProjectUrl>http://chinadot.net</PackageProjectUrl>
     <RepositoryUrl>https://gitee.com/monksoul/Fur</RepositoryUrl>
     <RepositoryType>Gitee</RepositoryType>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
