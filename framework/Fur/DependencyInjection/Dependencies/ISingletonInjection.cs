@@ -6,47 +6,47 @@
 // 框架作者：百小僧
 // 框架版本：1.0.0
 // 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
-// 				    Github：https://github.com/monksoul/Fur 
+// 源码地址：Gitee：https://gitee.com/monksoul/Fur
+// 				    Github：https://github.com/monksoul/Fur
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
 namespace Fur.DependencyInjection
 {
     /// <summary>
-    /// 作用域服务注册依赖
+    /// 单例服务注册依赖
     /// </summary>
-    public interface IScopedDependency : IScoped
+    public interface ISingletonInjection : ISingletonDependency
     {
     }
 
     /// <summary>
-    /// 作用域服务注册依赖
+    /// 单例服务注册依赖
     /// </summary>
     /// <typeparam name="TService1">服务类型</typeparam>
-    public interface IScopedDependency<TService1> : IScoped
+    public interface ISingletonInjection<TService1> : ISingletonDependency
         where TService1 : class
     {
     }
 
     /// <summary>
-    /// 作用域服务注册依赖
+    /// 单例服务注册依赖
     /// </summary>
     /// <typeparam name="TService1">服务类型</typeparam>
     /// <typeparam name="TService2">服务类型</typeparam>
-    public interface IScopedDependency<TService1, TService2> : IScoped
+    public interface ISingletonInjection<TService1, TService2> : ISingletonDependency
         where TService1 : class
         where TService2 : class
     {
     }
 
     /// <summary>
-    /// 作用域服务注册依赖
+    /// 单例服务注册依赖
     /// </summary>
     /// <typeparam name="TService1">服务类型</typeparam>
     /// <typeparam name="TService2">服务类型</typeparam>
     /// <typeparam name="TService3">服务类型</typeparam>
-    public interface IScopedDependency<TService1, TService2, TService3> : IScoped
+    public interface ISingletonInjection<TService1, TService2, TService3> : ISingletonDependency
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -54,13 +54,13 @@ namespace Fur.DependencyInjection
     }
 
     /// <summary>
-    /// 作用域服务注册依赖
+    /// 单例服务注册依赖
     /// </summary>
     /// <typeparam name="TService1">服务类型</typeparam>
     /// <typeparam name="TService2">服务类型</typeparam>
     /// <typeparam name="TService3">服务类型</typeparam>
     /// <typeparam name="TService4">服务类型</typeparam>
-    public interface IScopedDependency<TService1, TService2, TService3, TService4> : IScoped
+    public interface ISingletonInjection<TService1, TService2, TService3, TService4> : ISingletonDependency
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -69,14 +69,14 @@ namespace Fur.DependencyInjection
     }
 
     /// <summary>
-    /// 作用域服务注册依赖
+    /// 单例服务注册依赖
     /// </summary>
     /// <typeparam name="TService1">服务类型</typeparam>
     /// <typeparam name="TService2">服务类型</typeparam>
     /// <typeparam name="TService3">服务类型</typeparam>
     /// <typeparam name="TService4">服务类型</typeparam>
     /// <typeparam name="TService5">服务类型</typeparam>
-    public interface IScopedDependency<TService1, TService2, TService3, TService4, TService5> : IScoped
+    public interface ISingletonInjection<TService1, TService2, TService3, TService4, TService5> : ISingletonDependency
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -86,7 +86,7 @@ namespace Fur.DependencyInjection
     }
 
     /// <summary>
-    /// 作用域服务注册依赖
+    /// 单例服务注册依赖
     /// </summary>
     /// <typeparam name="TService1">服务类型</typeparam>
     /// <typeparam name="TService2">服务类型</typeparam>
@@ -94,7 +94,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService4">服务类型</typeparam>
     /// <typeparam name="TService5">服务类型</typeparam>
     /// <typeparam name="TService6">服务类型</typeparam>
-    public interface IScopedDependency<TService1, TService2, TService3, TService4, TService5, TService6> : IScoped
+    public interface ISingletonInjection<TService1, TService2, TService3, TService4, TService5, TService6> : ISingletonDependency
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -105,7 +105,7 @@ namespace Fur.DependencyInjection
     }
 
     /// <summary>
-    /// 作用域服务注册依赖
+    /// 单例服务注册依赖
     /// </summary>
     /// <typeparam name="TService1">服务类型</typeparam>
     /// <typeparam name="TService2">服务类型</typeparam>
@@ -114,7 +114,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService5">服务类型</typeparam>
     /// <typeparam name="TService6">服务类型</typeparam>
     /// <typeparam name="TService7">服务类型</typeparam>
-    public interface IScopedDependency<TService1, TService2, TService3, TService4, TService5, TService6, TService7> : IScoped
+    public interface ISingletonInjection<TService1, TService2, TService3, TService4, TService5, TService6, TService7> : ISingletonDependency
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -126,7 +126,7 @@ namespace Fur.DependencyInjection
     }
 
     /// <summary>
-    /// 作用域服务注册依赖
+    /// 单例服务注册依赖
     /// </summary>
     /// <typeparam name="TService1">服务类型</typeparam>
     /// <typeparam name="TService2">服务类型</typeparam>
@@ -136,7 +136,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService6">服务类型</typeparam>
     /// <typeparam name="TService7">服务类型</typeparam>
     /// <typeparam name="TService8">服务类型</typeparam>
-    public interface IScopedDependency<TService1, TService2, TService3, TService4, TService5, TService6, TService7, TService8> : IScoped
+    public interface ISingletonInjection<TService1, TService2, TService3, TService4, TService5, TService6, TService7, TService8> : ISingletonDependency
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -149,9 +149,9 @@ namespace Fur.DependencyInjection
     }
 
     /// <summary>
-    /// 作用域服务注册依赖（禁止外部继承）
+    /// 单例服务注册依赖（禁止外部继承）
     /// </summary>
-    public interface IScoped : IDependency
+    public interface ISingletonDependency : IDependencyInjection
     {
     }
 }

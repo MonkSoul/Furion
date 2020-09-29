@@ -6,8 +6,8 @@
 // 框架作者：百小僧
 // 框架版本：1.0.0
 // 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
-// 				    Github：https://github.com/monksoul/Fur 
+// 源码地址：Gitee：https://gitee.com/monksoul/Fur
+// 				    Github：https://github.com/monksoul/Fur
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
@@ -74,7 +74,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             // 查找所有需要依赖注入的类型
             var injectTypes = App.CanBeScanTypes
-                .Where(u => typeof(IDependency).IsAssignableFrom(u) && u.IsClass && !u.IsInterface && !u.IsAbstract);
+                .Where(u => typeof(IDependencyInjection).IsAssignableFrom(u) && u.IsClass && !u.IsInterface && !u.IsAbstract);
 
             // 执行依赖注入
             foreach (var type in injectTypes)
@@ -83,20 +83,20 @@ namespace Microsoft.Extensions.DependencyInjection
                 var injectionAttribute = !type.IsDefined(typeof(InjectionAttribute)) ? new InjectionAttribute() : type.GetCustomAttribute<InjectionAttribute>();
 
                 // 获取所有能注册的接口
-                var canInjectInterfaces = type.GetInterfaces().Where(u => !typeof(IDependency).IsAssignableFrom(u));
+                var canInjectInterfaces = type.GetInterfaces().Where(u => !typeof(IDependencyInjection).IsAssignableFrom(u));
 
                 // 注册暂时服务
-                if (typeof(ITransient).IsAssignableFrom(type))
+                if (typeof(ITransientDependency).IsAssignableFrom(type))
                 {
                     RegisterService(services, Fur.DependencyInjection.RegisterType.Transient, type, injectionAttribute, canInjectInterfaces);
                 }
                 // 注册作用域服务
-                else if (typeof(IScoped).IsAssignableFrom(type))
+                else if (typeof(IScopedDependency).IsAssignableFrom(type))
                 {
                     RegisterService(services, Fur.DependencyInjection.RegisterType.Scoped, type, injectionAttribute, canInjectInterfaces);
                 }
                 // 注册单例服务
-                else if (typeof(ISingleton).IsAssignableFrom(type))
+                else if (typeof(ISingletonDependency).IsAssignableFrom(type))
                 {
                     RegisterService(services, Fur.DependencyInjection.RegisterType.Singleton, type, injectionAttribute, canInjectInterfaces);
                 }
