@@ -275,7 +275,7 @@ if($options -eq "G")
     loadConnectionSettings("$rootPath\.\$EntryProject\appsettings.json");
     
     # dbsettings.json 内容
-    loadConnectionSettings("$rootPath\.\Fur.EntityFramework.Core\dbsettings.json");
+    loadConnectionSettings("$rootPath\.\$Product.EntityFramework.Core\dbsettings.json");
     # [结束] 
     # -----------------------------------------------------------------------------
 
