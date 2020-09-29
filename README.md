@@ -65,7 +65,7 @@
 
 ## 🍟 文档地址
 
-[http://chinadot.net](http://chinadot.net)
+[https://chinadot.net](https://chinadot.net)
 
 ## 🌭 开源地址
 

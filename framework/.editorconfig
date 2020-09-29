@@ -124,4 +124,4 @@ dotnet_style_qualification_for_method = false:suggestion
 dotnet_style_qualification_for_property = false:suggestion
 
 # Add file header
-file_header_template = -----------------------------------------------------------------------------\nFur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。\nCopyright © 2020 Fur, Baiqian Co.,Ltd.\n\n框架名称：Fur\n框架作者：百小僧\n框架版本：1.0.0\n官方网站：http://chinadot.net\n源码地址：Gitee：https://gitee.com/monksoul/Fur \n				    Github：https://github.com/monksoul/Fur \n开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）\n-----------------------------------------------------------------------------
+file_header_template = -----------------------------------------------------------------------------\nFur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。\nCopyright © 2020 Fur, Baiqian Co.,Ltd.\n\n框架名称：Fur\n框架作者：百小僧\n框架版本：1.0.0\n官方网站：https://chinadot.net\n源码地址：Gitee：https://gitee.com/monksoul/Fur \n				    Github：https://github.com/monksoul/Fur \n开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）\n-----------------------------------------------------------------------------
