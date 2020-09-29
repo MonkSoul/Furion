@@ -115,8 +115,8 @@ namespace Fur.Application
         [NonTransact]
         public async Task<List<PersonDto>> Search([FromQuery] string name, [FromQuery] int age)
         {
-            var persons = _personRepository.WhereIf(!string.IsNullOrEmpty(name), u => u.Name.Contains(name))
-                                                                .WhereIf(age > 18, u => u.Age > 18)
+            var persons = _personRepository.Where(!string.IsNullOrEmpty(name), u => u.Name.Contains(name))
+                                                                .Where(age > 18, u => u.Age > 18)
                                                                 .ProjectToType<PersonDto>();
 
             return await persons.ToListAsync();

@@ -151,9 +151,9 @@ namespace Fur.LinqBuilder
         /// <param name="condition">布尔条件</param>
         /// <param name="expression">表达式</param>
         /// <returns>新的集合对象</returns>
-        public static IQueryable<TSource> WhereIf<TSource>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, bool>> expression)
+        public static IQueryable<TSource> Where<TSource>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, bool>> expression)
         {
-            return condition ? sources.Where(expression) : sources;
+            return condition ? Queryable.Where(sources, expression) : sources;
         }
 
         /// <summary>
@@ -164,9 +164,9 @@ namespace Fur.LinqBuilder
         /// <param name="condition">布尔条件</param>
         /// <param name="expression">表达式</param>
         /// <returns>新的集合对象</returns>
-        public static IQueryable<TSource> WhereIf<TSource>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, int, bool>> expression)
+        public static IQueryable<TSource> Where<TSource>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, int, bool>> expression)
         {
-            return condition ? sources.Where(expression) : sources;
+            return condition ? Queryable.Where(sources, expression) : sources;
         }
 
         /// <summary>
@@ -178,7 +178,7 @@ namespace Fur.LinqBuilder
         /// <param name="condition">布尔条件</param>
         /// <param name="expression">新的集合对象表达式</param>
         /// <returns></returns>
-        public static IQueryable<TSource> IncludeIf<TSource, TProperty>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, TProperty>> expression) where TSource : class
+        public static IQueryable<TSource> Include<TSource, TProperty>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, TProperty>> expression) where TSource : class
         {
             return condition ? sources.Include(expression) : sources;
         }
@@ -190,17 +190,17 @@ namespace Fur.LinqBuilder
         /// <param name="sources">集合对象</param>
         /// <param name="expressions">表达式数组</param>
         /// <returns>新的集合对象</returns>
-        public static IQueryable<TSource> WhereOr<TSource>(this IQueryable<TSource> sources, params Expression<Func<TSource, bool>>[] expressions)
+        public static IQueryable<TSource> Where<TSource>(this IQueryable<TSource> sources, params Expression<Func<TSource, bool>>[] expressions)
         {
             if (expressions == null || !expressions.Any()) return sources;
-            if (expressions.Length == 1) return sources.Where(expressions[0]);
+            if (expressions.Length == 1) return Queryable.Where(sources, expressions[0]);
 
             var expression = LinqExpression.Or<TSource>();
             foreach (var _expression in expressions)
             {
                 expression = expression.Or(_expression);
             }
-            return sources.Where(expression);
+            return Queryable.Where(sources, expression);
         }
 
         /// <summary>
@@ -210,17 +210,17 @@ namespace Fur.LinqBuilder
         /// <param name="sources">集合对象</param>
         /// <param name="expressions">表达式数组</param>
         /// <returns>新的集合对象</returns>
-        public static IQueryable<TSource> WhereOr<TSource>(this IQueryable<TSource> sources, params Expression<Func<TSource, int, bool>>[] expressions)
+        public static IQueryable<TSource> Where<TSource>(this IQueryable<TSource> sources, params Expression<Func<TSource, int, bool>>[] expressions)
         {
             if (expressions == null || !expressions.Any()) return sources;
-            if (expressions.Length == 1) return sources.Where(expressions[0]);
+            if (expressions.Length == 1) return Queryable.Where(sources, expressions[0]);
 
             var expression = LinqExpression.IndexOr<TSource>();
             foreach (var _expression in expressions)
             {
                 expression = expression.Or(_expression);
             }
-            return sources.Where(expression);
+            return Queryable.Where(sources, expression);
         }
 
         /// <summary>
@@ -230,14 +230,14 @@ namespace Fur.LinqBuilder
         /// <param name="sources">集合对象</param>
         /// <param name="conditionExpressions">条件表达式</param>
         /// <returns>新的集合对象</returns>
-        public static IQueryable<TSource> WhereOrIf<TSource>(this IQueryable<TSource> sources, params (bool condition, Expression<Func<TSource, bool>> expression)[] conditionExpressions)
+        public static IQueryable<TSource> Where<TSource>(this IQueryable<TSource> sources, params (bool condition, Expression<Func<TSource, bool>> expression)[] conditionExpressions)
         {
             var expressions = new List<Expression<Func<TSource, bool>>>();
             foreach (var (condition, expression) in conditionExpressions)
             {
                 if (condition) expressions.Add(expression);
             }
-            return WhereOr(sources, expressions.ToArray());
+            return Where(sources, expressions.ToArray());
         }
 
         /// <summary>
@@ -247,14 +247,14 @@ namespace Fur.LinqBuilder
         /// <param name="sources">集合对象</param>
         /// <param name="conditionExpressions">条件表达式</param>
         /// <returns>新的集合对象</returns>
-        public static IQueryable<TSource> WhereOrIf<TSource>(this IQueryable<TSource> sources, params (bool condition, Expression<Func<TSource, int, bool>> expression)[] conditionExpressions)
+        public static IQueryable<TSource> Where<TSource>(this IQueryable<TSource> sources, params (bool condition, Expression<Func<TSource, int, bool>> expression)[] conditionExpressions)
         {
             var expressions = new List<Expression<Func<TSource, int, bool>>>();
             foreach (var (condition, expression) in conditionExpressions)
             {
                 if (condition) expressions.Add(expression);
             }
-            return WhereOr(sources, expressions.ToArray());
+            return Where(sources, expressions.ToArray());
         }
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace Fur.LinqBuilder
         /// <param name="condition">布尔条件</param>
         /// <param name="expression">表达式</param>
         /// <returns>新的集合对象</returns>
-        public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> sources, bool condition, Func<TSource, bool> expression)
+        public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> sources, bool condition, Func<TSource, bool> expression)
         {
             return condition ? sources.Where(expression) : sources;
         }
@@ -278,7 +278,7 @@ namespace Fur.LinqBuilder
         /// <param name="condition">布尔条件</param>
         /// <param name="expression">表达式</param>
         /// <returns>新的集合对象</returns>
-        public static IEnumerable<TSource> WhereIf<TSource>(this IEnumerable<TSource> sources, bool condition, Func<TSource, int, bool> expression)
+        public static IEnumerable<TSource> Where<TSource>(this IEnumerable<TSource> sources, bool condition, Func<TSource, int, bool> expression)
         {
             return condition ? sources.Where(expression) : sources;
         }

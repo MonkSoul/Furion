@@ -370,9 +370,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
         /// <returns>数据库中的多个实体</returns>
-        public virtual IQueryable<TEntity> WhereIf(bool condition, Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false)
+        public virtual IQueryable<TEntity> Where(bool condition, Expression<Func<TEntity, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false)
         {
-            return AsQueryable(default(Expression<Func<TEntity, bool>>), noTracking, ignoreQueryFilters).WhereIf(condition, predicate);
+            return AsQueryable(default(Expression<Func<TEntity, bool>>), noTracking, ignoreQueryFilters).Where(condition, predicate);
         }
 
         /// <summary>
@@ -383,9 +383,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
         /// <returns>数据库中的多个实体</returns>
-        public virtual IQueryable<TEntity> WhereIf(bool condition, Expression<Func<TEntity, int, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false)
+        public virtual IQueryable<TEntity> Where(bool condition, Expression<Func<TEntity, int, bool>> predicate, bool noTracking = true, bool ignoreQueryFilters = false)
         {
-            return AsQueryable(default(Expression<Func<TEntity, int, bool>>), noTracking, ignoreQueryFilters).WhereIf(condition, predicate);
+            return AsQueryable(default(Expression<Func<TEntity, int, bool>>), noTracking, ignoreQueryFilters).Where(condition, predicate);
         }
 
         /// <summary>
@@ -393,31 +393,9 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="predicates">表达式集合</param>
         /// <returns>数据库中的多个实体</returns>
-        public virtual IQueryable<TEntity> WhereOr(params Expression<Func<TEntity, bool>>[] predicates)
+        public virtual IQueryable<TEntity> Where(params Expression<Func<TEntity, bool>>[] predicates)
         {
-            return AsQueryable(default(Expression<Func<TEntity, bool>>)).WhereOr(predicates);
-        }
-
-        /// <summary>
-        /// 根据条件执行表达式查询多条记录
-        /// </summary>
-        /// <param name="predicates">表达式集合</param>
-        /// <param name="noTracking">是否跟踪实体</param>
-        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
-        /// <returns>数据库中的多个实体</returns>
-        public virtual IQueryable<TEntity> WhereOr(Expression<Func<TEntity, bool>>[] predicates, bool noTracking = true, bool ignoreQueryFilters = false)
-        {
-            return AsQueryable(default(Expression<Func<TEntity, bool>>), noTracking, ignoreQueryFilters).WhereOr(predicates);
-        }
-
-        /// <summary>
-        /// 根据条件执行表达式查询多条记录
-        /// </summary>
-        /// <param name="predicates">表达式集合</param>
-        /// <returns>数据库中的多个实体</returns>
-        public virtual IQueryable<TEntity> WhereOr(params Expression<Func<TEntity, int, bool>>[] predicates)
-        {
-            return AsQueryable(default(Expression<Func<TEntity, int, bool>>)).WhereOr(predicates);
+            return AsQueryable(default(Expression<Func<TEntity, bool>>)).Where(predicates);
         }
 
         /// <summary>
@@ -427,9 +405,31 @@ namespace Fur.DatabaseAccessor
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
         /// <returns>数据库中的多个实体</returns>
-        public virtual IQueryable<TEntity> WhereOr(Expression<Func<TEntity, int, bool>>[] predicates, bool noTracking = true, bool ignoreQueryFilters = false)
+        public virtual IQueryable<TEntity> Where(Expression<Func<TEntity, bool>>[] predicates, bool noTracking = true, bool ignoreQueryFilters = false)
         {
-            return AsQueryable(default(Expression<Func<TEntity, int, bool>>), noTracking, ignoreQueryFilters).WhereOr(predicates);
+            return AsQueryable(default(Expression<Func<TEntity, bool>>), noTracking, ignoreQueryFilters).Where(predicates);
+        }
+
+        /// <summary>
+        /// 根据条件执行表达式查询多条记录
+        /// </summary>
+        /// <param name="predicates">表达式集合</param>
+        /// <returns>数据库中的多个实体</returns>
+        public virtual IQueryable<TEntity> Where(params Expression<Func<TEntity, int, bool>>[] predicates)
+        {
+            return AsQueryable(default(Expression<Func<TEntity, int, bool>>)).Where(predicates);
+        }
+
+        /// <summary>
+        /// 根据条件执行表达式查询多条记录
+        /// </summary>
+        /// <param name="predicates">表达式集合</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <returns>数据库中的多个实体</returns>
+        public virtual IQueryable<TEntity> Where(Expression<Func<TEntity, int, bool>>[] predicates, bool noTracking = true, bool ignoreQueryFilters = false)
+        {
+            return AsQueryable(default(Expression<Func<TEntity, int, bool>>), noTracking, ignoreQueryFilters).Where(predicates);
         }
 
         /// <summary>
@@ -437,9 +437,9 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="conditionPredicates">条件表达式集合</param>
         /// <returns>数据库中的多个实体</returns>
-        public virtual IQueryable<TEntity> WhereOrIf(params (bool condition, Expression<Func<TEntity, bool>> expression)[] conditionPredicates)
+        public virtual IQueryable<TEntity> Where(params (bool condition, Expression<Func<TEntity, bool>> expression)[] conditionPredicates)
         {
-            return AsQueryable(default(Expression<Func<TEntity, bool>>)).WhereOrIf(conditionPredicates);
+            return AsQueryable(default(Expression<Func<TEntity, bool>>)).Where(conditionPredicates);
         }
 
         /// <summary>
@@ -449,9 +449,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
         /// <returns>数据库中的多个实体</returns>
-        public virtual IQueryable<TEntity> WhereOrIf((bool condition, Expression<Func<TEntity, bool>> expression)[] conditionPredicates, bool noTracking = true, bool ignoreQueryFilters = false)
+        public virtual IQueryable<TEntity> Where((bool condition, Expression<Func<TEntity, bool>> expression)[] conditionPredicates, bool noTracking = true, bool ignoreQueryFilters = false)
         {
-            return AsQueryable(default(Expression<Func<TEntity, bool>>), noTracking, ignoreQueryFilters).WhereOrIf(conditionPredicates);
+            return AsQueryable(default(Expression<Func<TEntity, bool>>), noTracking, ignoreQueryFilters).Where(conditionPredicates);
         }
 
         /// <summary>
@@ -459,9 +459,9 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="conditionPredicates">条件表达式集合</param>
         /// <returns>数据库中的多个实体</returns>
-        public virtual IQueryable<TEntity> WhereOrIf(params (bool condition, Expression<Func<TEntity, int, bool>> expression)[] conditionPredicates)
+        public virtual IQueryable<TEntity> Where(params (bool condition, Expression<Func<TEntity, int, bool>> expression)[] conditionPredicates)
         {
-            return AsQueryable(default(Expression<Func<TEntity, int, bool>>)).WhereOrIf(conditionPredicates);
+            return AsQueryable(default(Expression<Func<TEntity, int, bool>>)).Where(conditionPredicates);
         }
 
         /// <summary>
@@ -471,9 +471,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
         /// <returns>数据库中的多个实体</returns>
-        public virtual IQueryable<TEntity> WhereOrIf((bool condition, Expression<Func<TEntity, int, bool>> expression)[] conditionPredicates, bool noTracking = true, bool ignoreQueryFilters = false)
+        public virtual IQueryable<TEntity> Where((bool condition, Expression<Func<TEntity, int, bool>> expression)[] conditionPredicates, bool noTracking = true, bool ignoreQueryFilters = false)
         {
-            return AsQueryable(default(Expression<Func<TEntity, int, bool>>), noTracking, ignoreQueryFilters).WhereOrIf(conditionPredicates);
+            return AsQueryable(default(Expression<Func<TEntity, int, bool>>), noTracking, ignoreQueryFilters).Where(conditionPredicates);
         }
 
         /// <summary>
@@ -496,9 +496,9 @@ namespace Fur.DatabaseAccessor
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
         /// <returns>数据库中的多个实体</returns>
-        public virtual IQueryable<TEntity> IncludeIf<TProperty>(bool condition, Expression<Func<TEntity, TProperty>> predicate, bool noTracking = true, bool ignoreQueryFilters = false)
+        public virtual IQueryable<TEntity> Include<TProperty>(bool condition, Expression<Func<TEntity, TProperty>> predicate, bool noTracking = true, bool ignoreQueryFilters = false)
         {
-            return AsQueryable(default(Expression<Func<TEntity, bool>>), noTracking, ignoreQueryFilters).IncludeIf(condition, predicate);
+            return AsQueryable(default(Expression<Func<TEntity, bool>>), noTracking, ignoreQueryFilters).Include(condition, predicate);
         }
 
         /// <summary>
