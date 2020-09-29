@@ -26,9 +26,11 @@ namespace Fur.Web.Entry
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCorsAccessor();
 
             app.UseAuthentication();
             app.UseAuthorization();

@@ -10,29 +10,33 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur;
+using Fur.CorsAccessor;
 using Fur.DependencyInjection;
-using Fur.SpecificationDocument;
 
 namespace Microsoft.AspNetCore.Builder
 {
     /// <summary>
-    /// 规范化文档中间件拓展
+    /// 跨域中间件拓展
     /// </summary>
     [SkipScan]
-    public static class SpecificationDocumentApplicationBuilderExtensions
+    public static class CorsAccessorApplicationBuilderExtensions
     {
         /// <summary>
-        /// 添加规范化文档中间件
+        /// 添加跨域中间件
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseSpecificationDocuments(this IApplicationBuilder app)
+        public static IApplicationBuilder UseCorsAccessor(this IApplicationBuilder app)
         {
-            // 配置 Swagger 全局参数
-            app.UseSwagger(options => SpecificationDocumentBuilder.Build(options));
+            // 获取选项
+            var corsAccessorSettings = App.GetOptions<CorsAccessorSettingsOptions>();
 
-            // 配置 Swagger UI 参数
-            app.UseSwaggerUI(options => SpecificationDocumentBuilder.BuildUI(options));
+            // 配置跨域中间件
+            app.UseCors(corsAccessorSettings.PolicyName);
+
+            // 添加压缩缓存
+            app.UseResponseCaching();
 
             return app;
         }

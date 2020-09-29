@@ -161,6 +161,42 @@ if($options -eq "G")
         }
     }
 
+    # 加载连接设置
+    function loadConnectionSettings($settingsPath){
+        # 读取 Web 入口的 appsetting.json 配置的链接字符串
+        # -----------------------------------------------------------------------------
+        # [开始] 
+        # appsetting.json 内容
+        $appsetting = Get-Content $settingsPath -raw;
+
+        # 获取 appsetting.json 定义的节点
+        $connectionDefine = [regex]::Matches($appsetting, '"ConnectionStrings"\s*.\s+\{(?<define>[\s\S]*?)\}');
+        if($connectionDefine.Count -eq 0)
+        {
+            Write-Warning "$FurTools 未找到 $settingsPath 中定义的数据库连接字符串！";
+            Write-Warning "$FurTools 程序终止！";
+            return;
+        }
+
+        # 获取连接字符串所有定义
+        $connectionDefineContent = $connectionDefine[0].Groups.Value[1];
+
+        # 解析出每一个链接字符串
+        $connections = [regex]::Matches($connectionDefineContent, '"(.*?)"\s*.\s*"(?<connectionStr>.*?)"');
+
+        # 生成下拉
+        for ($i = 0; $i -le $connections.Count - 1; $i++){
+           $key = $connections[$i].Groups.Value[1];
+           $value = $connections[$i].Groups.Value[2];
+           if($connDic.ContainsKey($value) -eq $false){
+               $result = $comboBox.Items.Add($value);
+               $connDic.Add($value,$key);
+           }
+        }
+        # [结束] 
+        # -----------------------------------------------------------------------------
+    }
+
     # 添加 Winform 应用程序
     Add-Type -AssemblyName System.Windows.Forms;
     Add-Type -AssemblyName System.Drawing;
@@ -236,32 +272,10 @@ if($options -eq "G")
     # -----------------------------------------------------------------------------
     # [开始] 
     # appsetting.json 内容
-    $appsetting = Get-Content "$rootPath\.\$EntryProject\appsettings.json" -raw;
-
-    # 获取 appsetting.json 定义的节点
-    $connectionDefine = [regex]::Matches($appsetting, '"ConnectionStrings"\s*.\s+\{(?<define>[\s\S]*?)\}');
-    if($connectionDefine.Count -eq 0)
-    {
-        Write-Warning "$FurTools 未找到 appsetting.json 中定义的数据库连接字符串！";
-        Write-Warning "$FurTools 程序终止！";
-        return;
-    }
-
-    # 获取连接字符串所有定义
-    $connectionDefineContent = $connectionDefine[0].Groups.Value[1];
-
-    # 解析出每一个链接字符串
-    $connections = [regex]::Matches($connectionDefineContent, '"(.*?)"\s*.\s*"(?<connectionStr>.*?)"');
-
-    # 生成下拉
-    for ($i = 0; $i -le $connections.Count - 1; $i++){
-       $key = $connections[$i].Groups.Value[1];
-       $value = $connections[$i].Groups.Value[2];
-       if($connDic.ContainsKey($value) -eq $false){
-           $result = $comboBox.Items.Add($value);
-           $connDic.Add($value,$key);
-       }
-    }
+    loadConnectionSettings("$rootPath\.\$EntryProject\appsettings.json");
+    
+    # dbsettings.json 内容
+    loadConnectionSettings("$rootPath\.\Fur.EntityFramework.Core\dbsettings.json");
     # [结束] 
     # -----------------------------------------------------------------------------
 
