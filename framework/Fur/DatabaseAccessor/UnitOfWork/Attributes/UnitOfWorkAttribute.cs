@@ -35,6 +35,15 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
+        /// <param name="enabled">是否启用工作单元</param>
+        public UnitOfWorkAttribute(bool enabled)
+        {
+            Enabled = enabled;
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         /// <remarks>
         /// <para>支持传入事务隔离级别 <see cref="IsolationLevel"/> 参数值</para>
         /// </remarks>
@@ -57,6 +66,11 @@ namespace Fur.DatabaseAccessor
             ScopeOption = scopeOption;
             IsolationLevel = isolationLevel;
         }
+
+        /// <summary>
+        /// 是否启用工作单元
+        /// </summary>
+        public bool Enabled { get; set; }
 
         /// <summary>
         /// 事务范围

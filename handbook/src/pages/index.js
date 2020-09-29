@@ -35,7 +35,7 @@ const features = [
     ),
   },
   {
-    title: <>一杯咖啡的时间</>,
+    title: <>冲一杯咖啡的时间</>,
     imageUrl: "img/undraw_docusaurus_react.svg",
     description: (
       <>

@@ -67,6 +67,20 @@ namespace Fur.DatabaseAccessor
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
             var method = actionDescriptor.MethodInfo;
 
+            // 工作单元特性
+            UnitOfWorkAttribute unitOfWorkAttribute = null;
+
+            // 判断是否禁用了工作单元
+            if (method.IsDefined(typeof(UnitOfWorkAttribute), true))
+            {
+                unitOfWorkAttribute = method.GetCustomAttribute<UnitOfWorkAttribute>(true);
+                if (!unitOfWorkAttribute.Enabled)
+                {
+                    App.PrintToMiniProfiler("UnitOfWork", "Disabled !");
+                    return;
+                }
+            }
+
             // 如果方法贴了 [NonTransact] 则跳过事务
             var disabledTransact = method.IsDefined(typeof(NonTransactAttribute), true);
 
@@ -83,9 +97,7 @@ namespace Fur.DatabaseAccessor
                 App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning");
 
                 // 获取工作单元特性
-                UnitOfWorkAttribute unitOfWorkAttribute = null;
-                if (!method.IsDefined(typeof(UnitOfWorkAttribute), true)) unitOfWorkAttribute ??= new UnitOfWorkAttribute();
-                else unitOfWorkAttribute = method.GetCustomAttribute<UnitOfWorkAttribute>();
+                unitOfWorkAttribute ??= method.GetCustomAttribute<UnitOfWorkAttribute>() ?? new UnitOfWorkAttribute();
 
                 // 开启分布式事务
                 transaction = new TransactionScope(unitOfWorkAttribute.ScopeOption

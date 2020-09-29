@@ -1,0 +1,25 @@
+﻿{
+  "AppSettings": {
+    "SpecificationDocumentSettings": {
+      "DocumentTitle": "Fur | 数据库操作演示",
+      "GroupOpenApiInfos": [
+        {
+          "Group": "Demo",
+          "Title": "数据库操作演示",
+          "Description": "这里列举了常见数据库操作方法，方便大家学习。",
+          "Version": "1.0.0",
+          "TermsOfService": "https://furos.cn",
+          "Contact": {
+            "Name": "百小僧",
+            "Url": "https://gitee.com/monksoul",
+            "Email": "monksoul@outlook.com"
+          },
+          "License": {
+            "Name": "Apache-2.0",
+            "Url": "https://gitee.com/monksoul/Fur/blob/rc1/LICENSE"
+          }
+        }
+      ]
+    }
+  }
+}

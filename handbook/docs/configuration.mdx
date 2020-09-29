@@ -234,7 +234,7 @@ var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern3..
 
 `ASP.NET Core` 提供了非常灵活的方式支持多个配置文件配置及读取，配置如下：
 
-### 在 `Program.cs` 中添加配置文件
+### 在 配置自动扫描配置文件
 
 ```cs {2,20} title="Fur.Web.Entry/Program.cs"
 using Microsoft.AspNetCore.Hosting;
@@ -256,7 +256,7 @@ namespace Fur.Web.Entry
                 {
                     webBuilder
                         // 启动自动扫描配置文件并注入，无需手动添加配置
-                        .UseSetting(WebHostDefaults.HostingStartupAssembliesKey, nameof(Fur)) 
+                        .UseSetting(WebHostDefaults.HostingStartupAssembliesKey, nameof(Fur))
                         .UseStartup<Startup>();
                 });
     }

@@ -1,0 +1,6 @@
+﻿{
+  "ConnectionStrings": {
+    "DbConnectionString": "Server=localhost;Database=Fur;User=sa;Password=000000;MultipleActiveResultSets=True;",
+    "Sqlite3ConnectionString": "Data Source=./Fur.db"
+  }
+}

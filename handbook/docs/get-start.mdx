@@ -111,21 +111,13 @@ namespace Fur.EntityFramework.Core
 
 ### 2.2.3 配置数据库连接字符串
 
-在 `Fur.Web.Entry` 的 `appsettings.json` 中配置数据库连接字符串，代码如下：
+在 `Fur.EntityFramework.Core` 的 `dbsettings.json` 中配置数据库连接字符串，代码如下：
 
-```json {11-13} title="Fur\framework\Fur.Web.Entry\appsettings.json"
+```json {2-4} title="Fur\framework\Fur.EntityFramework.Core\dbsettings.json"
 {
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft": "Warning",
-      "Microsoft.Hosting.Lifetime": "Information",
-      "Microsoft.EntityFrameworkCore": "Information"
-    }
-  },
-  "AllowedHosts": "*",
   "ConnectionStrings": {
-    "DbConnectionString": "Server=localhost;Database=Fur;User=sa;Password=000000;MultipleActiveResultSets=True;"
+    "DbConnectionString": "Server=localhost;Database=Fur;User=sa;Password=000000;MultipleActiveResultSets=True;",
+    "Sqlite3ConnectionString": "Data Source=./Fur.db"
   }
 }
 ```

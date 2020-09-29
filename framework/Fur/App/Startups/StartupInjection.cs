@@ -14,6 +14,7 @@ using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.IO;
 using System.Linq;
 
@@ -54,9 +55,13 @@ namespace Fur
         /// <param name="configurationBuilder"></param>
         private static void AutoAddJsonFile(IConfigurationBuilder configurationBuilder)
         {
-            // 获取启动目录所有配置文件并排除 asp.net core 自带配置
-            var jsonNames = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.json", SearchOption.TopDirectoryOnly)
-                .Where(u => !excludeJsons.Contains(Path.GetFileName(u)));
+            // 获取程序目录下的所有配置文件
+            var jsonNames = Directory.GetFiles(AppContext.BaseDirectory, "*.json", SearchOption.TopDirectoryOnly)
+                .Union(
+                    Directory.GetFiles(Directory.GetCurrentDirectory(), "*.json", SearchOption.TopDirectoryOnly)
+                )
+                .Where(u => !excludeJsons.Contains(Path.GetFileName(u)) && !runtimeJsonSuffixs.Any(j => u.EndsWith(j)));
+
             if (!jsonNames.Any()) return;
 
             // 自动加载配置文件
@@ -72,7 +77,18 @@ namespace Fur
         private static readonly string[] excludeJsons = new[] {
             "appsettings.json",
             "appsettings.Development.json",
-            "appsettings.Production.json"
+            "appsettings.Production.json",
+        };
+
+        /// <summary>
+        /// 运行时 Json 后缀
+        /// </summary>
+        private static readonly string[] runtimeJsonSuffixs = new[]
+        {
+            "deps.json",
+            "runtimeconfig.dev.json",
+            "runtimeconfig.prod.json",
+            "runtimeconfig.json"
         };
     }
 }
