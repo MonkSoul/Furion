@@ -14,6 +14,8 @@ Param(
     [string]$EntryProject,
     # 实体项目
     [string]$CoreProject,
+    # 数据库上下文定位器
+    [string] $DbContextLocators,
     # 默认前缀
     [string]$Product
 )
@@ -70,6 +72,10 @@ if ($Context -eq $null -or $Context -eq ""){
 
 if ($ConnectionName -eq $null -or $ConnectionName -eq ""){
     $ConnectionName = "DbConnectionString";
+}
+
+if ($DbContextLocators -eq $null -or $DbContextLocators -eq ""){
+    $DbContextLocators = "DbContextLocator";
 }
 
 if ($OutputDir -eq $null -or $OutputDir -eq ""){
@@ -169,7 +175,7 @@ if($options -eq "G")
     $baseSetting = New-Object System.Windows.Forms.GroupBox;
     $baseSetting.SuspendLayout();
     $baseSetting.Location = New-Object System.Drawing.Point(15, 15);
-    $baseSetting.Size = New-Object System.Drawing.Size(760, 75);
+    $baseSetting.Size = New-Object System.Drawing.Size(760, 120);
     $baseSetting.Text = "基础设置";
     $baseSetting.TabIndex = 10;
     $baseSetting.TabStop = $false;
@@ -185,6 +191,23 @@ if($options -eq "G")
     $label.Text = '选择数据库连接字符串：';
     $label.TabIndex = 9;
     $baseSetting.Controls.Add($label);
+
+    # 构建多数据库上下定位器文字符提示
+    $locatorLabel = New-Object System.Windows.Forms.Label;
+    $locatorLabel.Location = New-Object System.Drawing.Point(15,80);
+    $locatorLabel.AutoSize = $true;
+    $locatorLabel.Size = New-Object System.Drawing.Size(280,20);
+    $locatorLabel.Text = '多数据库上下文定位器：';
+    $locatorLabel.TabIndex = 9;
+    $baseSetting.Controls.Add($locatorLabel);
+
+    # 数据库上下文定位器文本框
+    $locatorTextBox = New-Object System.Windows.Forms.TextBox;
+    $locatorTextBox.Location = New-Object System.Drawing.Point(200,75);
+    $locatorTextBox.Size = New-Object System.Drawing.Size(370,20);
+    $locatorTextBox.TabIndex = 9;
+    $locatorTextBox.Text = $DbContextLocators;
+    $baseSetting.Controls.Add($locatorTextBox);
 
     # 连接字典
     $connDic = New-Object -TypeName 'System.Collections.Generic.Dictionary[System.String, System.String]';
@@ -234,8 +257,10 @@ if($options -eq "G")
     for ($i = 0; $i -le $connections.Count - 1; $i++){
        $key = $connections[$i].Groups.Value[1];
        $value = $connections[$i].Groups.Value[2];
-       $result = $comboBox.Items.Add($value);
-       $connDic.Add($value,$key);
+       if($connDic.ContainsKey($value) -eq $false){
+           $result = $comboBox.Items.Add($value);
+           $connDic.Add($value,$key);
+       }
     }
     # [结束] 
     # -----------------------------------------------------------------------------
@@ -248,6 +273,9 @@ if($options -eq "G")
     $btnLoad.Text = "加载数据库表和视图";
     # 绑定按钮事件
     $btnLoadClickEventHandler = [System.EventHandler] {
+        # 保存数据库上下文定位器
+        $DbContextLocators = $locatorTextBox.Text;
+
         Try{   
             Write-Warning "$FurTools 正在加载数据库表和视图......"
             loadDbTable;
@@ -263,8 +291,8 @@ if($options -eq "G")
     # 创建表和视图面板
     $tableSetting = New-Object System.Windows.Forms.GroupBox;
     $tableSetting.SuspendLayout();
-    $tableSetting.Location = New-Object System.Drawing.Point(15, 110);
-    $tableSetting.Size = New-Object System.Drawing.Size(760, 390);
+    $tableSetting.Location = New-Object System.Drawing.Point(15, 155);
+    $tableSetting.Size = New-Object System.Drawing.Size(760, 345);
     $tableSetting.Text = "数据库表和视图";
     $tableSetting.TabIndex = 10;
     $tableSetting.TabStop = $false;
@@ -279,7 +307,7 @@ if($options -eq "G")
     $listBox.ItemHeight = 20;
     $listBox.TabIndex = 9;
     $listBox.Location = New-Object System.Drawing.Point(15,35);
-    $listBox.Size = New-Object System.Drawing.Size(730,340);
+    $listBox.Size = New-Object System.Drawing.Size(730,295);
     $listBox.SelectionMode = "MultiExtended";
     $tableSetting.Controls.Add($listBox);
 
@@ -391,8 +419,8 @@ $fileHeader = @"
 // -----------------------------------------------------------------------------
 
 using $Product.DatabaseAccessor;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 "@;
 
@@ -433,11 +461,11 @@ for ($i = 0; $i -le $files.Count - 1; $i++){
     # 获取类属性定义
     $propsContent = [regex]::Match($entityContent, $propRegex).Groups.Value[2];
 
-    $extents = " : IEntity";
+    $extents = " : IEntity<$DbContextLocators>";
     $newPropsContent = $propsContent;
 # 判断模型配置中是否包含配置
     if ($dic.ContainsKey($fileName)){
-        $extents += ", IEntityTypeBuilder<$fileName>";
+        $extents += ", IEntityTypeBuilder<$fileName, $DbContextLocators>";
 
         # 添加实体配置内容
         $newPropsContent = $propsContent + ($entityConfigure.Replace("#Table#",$fileName).Replace("#Code#",$dic[$fileName]));
