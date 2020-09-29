@@ -29,16 +29,22 @@ namespace Fur.DatabaseAccessor
     internal static class Penetrates
     {
         /// <summary>
-        /// 数据库上下文定位器集合
+        /// 数据库上下文和定位器缓存
         /// </summary>
-        internal static readonly ConcurrentDictionary<Type, Type> DbContextLocators;
+        internal static readonly ConcurrentDictionary<Type, Type> DbContextWithLocatorCached;
+
+        /// <summary>
+        /// 数据库上下文定位器缓存
+        /// </summary>
+        internal static readonly ConcurrentDictionary<string, Type> DbContextLocatorTypeCached;
 
         /// <summary>
         /// 构造函数
         /// </summary>
         static Penetrates()
         {
-            DbContextLocators = new ConcurrentDictionary<Type, Type>();
+            DbContextWithLocatorCached = new ConcurrentDictionary<Type, Type>();
+            DbContextLocatorTypeCached = new ConcurrentDictionary<string, Type>();
         }
 
         /// <summary>

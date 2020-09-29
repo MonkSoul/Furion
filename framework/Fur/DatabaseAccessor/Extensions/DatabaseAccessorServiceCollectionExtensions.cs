@@ -63,7 +63,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 DbContext dbContextResolve(Type locator)
                 {
                     // 判断定位器是否绑定了数据库上下文
-                    var isRegistered = Penetrates.DbContextLocators.TryGetValue(locator, out var dbContextType);
+                    var isRegistered = Penetrates.DbContextWithLocatorCached.TryGetValue(locator, out var dbContextType);
                     if (!isRegistered) throw new InvalidOperationException("The DbContext for locator binding was not found");
 
                     // 动态解析数据库上下文
@@ -91,8 +91,12 @@ namespace Microsoft.Extensions.DependencyInjection
             where TDbContext : DbContext
             where TDbContextLocator : class, IDbContextLocator
         {
+            var dbContextLocatorType = (typeof(TDbContextLocator));
+
             // 将数据库上下文和定位器一一保存起来
-            var isSuccess = Penetrates.DbContextLocators.TryAdd(typeof(TDbContextLocator), typeof(TDbContext));
+            var isSuccess = Penetrates.DbContextWithLocatorCached.TryAdd(dbContextLocatorType, typeof(TDbContext));
+            Penetrates.DbContextLocatorTypeCached.TryAdd(dbContextLocatorType.FullName, dbContextLocatorType);
+
             if (!isSuccess) throw new InvalidOperationException("The locator is bound to another DbContext");
 
             // 注册数据库上下文

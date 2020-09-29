@@ -11,6 +11,7 @@
 // -----------------------------------------------------------------------------
 
 using Fur.DependencyInjection;
+using Fur.FriendlyException;
 using Mapster;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
@@ -19,7 +20,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -2498,39 +2498,19 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         private static DatabaseFacade GetSqlRepositoryDatabase(ref string sql)
         {
-            // 分隔符
-            Type dbContextLocator;
-            if (sql.Contains(dbContextLocatorSqlSplit))
-            {
-                // 数据库上下文定位器完整类型名称
-                var dbContextLocatorFullName = sql.Split(dbContextLocatorSqlSplit).First();
+            // 数据库上下文定位器完整类型名称
+            var dbContextLocatorFullName = sql.Split(dbContextLocatorSqlSplit).First();
+            sql = sql[(sql.IndexOf(dbContextLocatorSqlSplit) + dbContextLocatorSqlSplit.Length)..];
 
-                // 查找缓存
-                var isCached = DbContextLocatorTypesCached.TryGetValue(dbContextLocatorFullName, out var dbContextLocatorType);
-                dbContextLocator = isCached ? dbContextLocatorType : GetDbContextLocator(dbContextLocatorFullName);
-
-                sql = sql[(sql.IndexOf(dbContextLocatorSqlSplit) + dbContextLocatorSqlSplit.Length)..];
-            }
-            else dbContextLocator = typeof(DbContextLocator);
+            // 获取数据库上下文定位器类型
+            var dbContextLocator = Penetrates.DbContextLocatorTypeCached.GetValueOrDefault(dbContextLocatorFullName)
+                ?? throw Oops.Oh("Failed to load \"{0}\" DbContextLocator Type.", dbContextLocatorFullName);
 
             // 创建Sql仓储
             var sqlRepositoryType = typeof(ISqlRepository<>).MakeGenericType(dbContextLocator);
             var sqlRepository = App.RequestServiceProvider.GetService(sqlRepositoryType);
 
             return sqlRepositoryType.GetProperty(nameof(ISqlRepository.Database)).GetValue(sqlRepository) as DatabaseFacade;
-
-            // 本地函数
-            static Type GetDbContextLocator(string dbContextLocatorFullName)
-            {
-                // 数据库上下文定位器所在程序集
-                var dbContextLocator = Assembly.Load(dbContextLocatorFullName.Substring(0, dbContextLocatorFullName.LastIndexOf(".")))
-                                                                      .GetType(dbContextLocatorFullName);
-
-                // 缓存数据库上下文定位器
-                DbContextLocatorTypesCached.TryAdd(dbContextLocatorFullName, dbContextLocator);
-
-                return dbContextLocator;
-            }
         }
 
         // 分隔符
