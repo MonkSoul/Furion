@@ -67,8 +67,21 @@ namespace Fur.DatabaseAccessor
             var connStr = dbContextAttribute.ConnectionString;
 
             if (string.IsNullOrEmpty(connStr)) return default;
-            if (connStr.Contains(";")) return connStr;
-            else return App.Configuration.GetConnectionString(connStr);
+            // 如果包含 = 符号，那么认为是连接字符串
+            if (connStr.Contains("=")) return connStr;
+            else
+            {
+                var configuration = App.Configuration;
+
+                // 如果包含 : 符号，那么认为是一个 Key 路径
+                if (connStr.Contains(":")) return configuration[connStr];
+                else
+                {
+                    // 首先查找 DbConnectionString 键，如果没有找到，则当成 Key 去查找
+                    var connStrValue = configuration.GetConnectionString(connStr);
+                    return !string.IsNullOrEmpty(connStrValue) ? connStrValue : configuration[connStrValue];
+                }
+            }
         }
 
         /// <summary>
