@@ -65,7 +65,7 @@
 
 ## 🍟 文档地址
 
-[https://monksoul.gitee.io/fur/](https://monksoul.gitee.io/fur/) 临时的
+[http://chinadot.net](http://chinadot.net)
 
 ## 🌭 开源地址
 
