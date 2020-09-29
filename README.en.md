@@ -7,7 +7,7 @@
 
 <div align="center">
 
-[![star](https://gitee.com/monksoul/Fur/badge/star.svg?theme=dark)](https://gitee.com/monksoul/Fur/stargazers) [![fork](https://gitee.com/monksoul/Fur/badge/fork.svg?theme=dark)](https://gitee.com/monksoul/Fur/members) [![GitHub stars](https://img.shields.io/github/stars/MonkSoul/Fur?logo=github)](https://github.com/MonkSoul/Fur/stargazers) [![GitHub forks](https://img.shields.io/github/forks/MonkSoul/Fur?logo=github)](https://github.com/MonkSoul/Fur/network) [![GitHub license](https://img.shields.io/github/license/MonkSoul/Fur)](https://github.com/MonkSoul/Fur/blob/rc1/LICENSE) [![QQ群-592844340](https://img.shields.io/badge/QQ%E7%BE%A4-592844340-blue)](https://qm.qq.com/cgi-bin/qm/qr?k=PzLMVFTwHlW0Y4HNmLKVKM3BKpzpTHMF&jump_from=webapi)
+[![star](https://gitee.com/monksoul/Fur/badge/star.svg?theme=dark)](https://gitee.com/monksoul/Fur/stargazers) [![fork](https://gitee.com/monksoul/Fur/badge/fork.svg?theme=dark)](https://gitee.com/monksoul/Fur/members) [![GitHub stars](https://img.shields.io/github/stars/MonkSoul/Fur?logo=github)](https://github.com/MonkSoul/Fur/stargazers) [![GitHub forks](https://img.shields.io/github/forks/MonkSoul/Fur?logo=github)](https://github.com/MonkSoul/Fur/network) [![GitHub license](https://img.shields.io/github/license/MonkSoul/Fur)](https://github.com/MonkSoul/Fur/blob/main/LICENSE) [![QQ群-592844340](https://img.shields.io/badge/QQ%E7%BE%A4-592844340-blue)](https://qm.qq.com/cgi-bin/qm/qr?k=PzLMVFTwHlW0Y4HNmLKVKM3BKpzpTHMF&jump_from=webapi)
 
 </div>
 
