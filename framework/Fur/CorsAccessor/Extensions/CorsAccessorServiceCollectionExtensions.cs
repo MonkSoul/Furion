@@ -37,12 +37,17 @@ namespace Microsoft.Extensions.DependencyInjection
             // 获取选项
             var corsAccessorSettings = App.GetOptions<CorsAccessorSettingsOptions>();
 
+            // 添加跨域服务
             services.AddCors(options =>
             {
+                // 添加策略跨域
                 options.AddPolicy(name: corsAccessorSettings.PolicyName, builder =>
                 {
+                    // 判断是否设置了来源，因为 AllowAnyOrigin 不能和 AllowCredentials一起公用
+                    var isNotSetOrigins = corsAccessorSettings.WithOrigins == null || corsAccessorSettings.WithOrigins.Length == 0;
+
                     // 如果没有配置来源，则允许所有来源
-                    if (corsAccessorSettings.WithOrigins == null || corsAccessorSettings.WithOrigins.Length == 0) builder.AllowAnyOrigin();
+                    if (isNotSetOrigins) builder.AllowAnyOrigin();
                     else builder.WithOrigins(corsAccessorSettings.WithOrigins)
                                       .SetIsOriginAllowedToAllowWildcardSubdomains();
 
@@ -55,7 +60,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     else builder.WithMethods(corsAccessorSettings.WithMethods);
 
                     // 配置跨域凭据
-                    if (corsAccessorSettings.AllowCredentials == true) builder.AllowCredentials();
+                    if (corsAccessorSettings.AllowCredentials == true && !isNotSetOrigins) builder.AllowCredentials();
 
                     // 配置响应头
                     if (corsAccessorSettings.WithExposedHeaders != null && corsAccessorSettings.WithExposedHeaders.Length > 0) builder.WithExposedHeaders();

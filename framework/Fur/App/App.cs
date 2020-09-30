@@ -98,7 +98,8 @@ namespace Fur
         static App()
         {
             Assemblies = GetAssemblies();
-            CanBeScanTypes = Assemblies.SelectMany(u => u.GetTypes().Where(u => u.IsPublic && !u.IsDefined(typeof(SkipScanAttribute), false)));
+            CanBeScanTypes = Assemblies.SelectMany(u => u.GetTypes()
+                .Where(u => u.IsPublic && !u.IsDefined(typeof(SkipScanAttribute), false)));
         }
 
         /// <summary>
@@ -246,16 +247,16 @@ namespace Fur
         /// <returns>IEnumerable<Assembly></returns>
         private static IEnumerable<Assembly> GetAssemblies()
         {
-            // 需排除的程序集名称
+            // 需排除的程序集猴嘴
             var excludeAssemblyNames = new string[] {
-                "Fur.Database.Migrations"
+                "Database.Migrations"
             };
 
             var dependencyContext = DependencyContext.Default;
 
-            // 读取项目程序集或Fur官方发布的包
+            // 读取项目程序集或Fur官方发布的包，或手动添加引用的dll
             return dependencyContext.CompileLibraries
-                .Where(u => (u.Type == "project" && !excludeAssemblyNames.Contains(u.Name))
+                .Where(u => (u.Type == "project" && !excludeAssemblyNames.Any(j => u.Name.EndsWith(j)))
                     || (u.Type == "package" && u.Name.StartsWith(nameof(Fur)))
                     || (u.Type == "reference"))
                 .Select(u => AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(u.Name)));
