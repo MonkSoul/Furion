@@ -31,37 +31,10 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 添加依赖注入接口
         /// </summary>
         /// <param name="services">服务集合</param>
-        /// <param name="autoScan">自动扫描注入</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddDependencyInjection(this IServiceCollection services, bool autoScan = true)
+        public static IServiceCollection AddDependencyInjection(this IServiceCollection services)
         {
-            // 扫描所有继承 AppStartup 的类
-            var startups = App.CanBeScanTypes
-                .Where(u => typeof(AppStartup).IsAssignableFrom(u) && u.IsClass && !u.IsAbstract && !u.IsGenericType)
-                .OrderByDescending(u => GetOrder(u));
-
-            // 注册自定义 starup
-            foreach (var type in startups)
-            {
-                // 获取所有符合依赖注入格式的方法，如返回值void，且第一个参数是 IServiceCollection 类型
-                var serviceMethods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                    .Where(u => u.ReturnType == typeof(void)
-                        && u.GetParameters().Length > 0
-                        && u.GetParameters().First().ParameterType == typeof(IServiceCollection));
-
-                if (!serviceMethods.Any()) continue;
-
-                var startup = Activator.CreateInstance(type) as AppStartup;
-                // 自动安装属性调用
-                foreach (var method in serviceMethods)
-                {
-                    method.Invoke(startup, new[] { services });
-                }
-            }
-
-            // 添加自动扫描注入
-            if (autoScan) services.AddAutoScanInjection();
-
+            services.AddAutoScanInjection();
             return services;
         }
 
@@ -155,7 +128,7 @@ namespace Microsoft.Extensions.DependencyInjection
         private static void RegisterService(IServiceCollection services, RegisterType registerType, Type type, InjectionAttribute injectionAttribute, IEnumerable<Type> canInjectInterfaces)
         {
             // 注册自己
-            if (injectionAttribute.InjectionScope is InjectionScopeOptions.Self or InjectionScopeOptions.All)
+            if (injectionAttribute.Scope is InjectionScopeOptions.Self or InjectionScopeOptions.All)
             {
                 RegisterType(services, registerType, type, injectionAttribute);
             }
@@ -163,12 +136,12 @@ namespace Microsoft.Extensions.DependencyInjection
             if (!canInjectInterfaces.Any()) return;
 
             // 只注册第一个接口
-            if (injectionAttribute.InjectionScope == InjectionScopeOptions.FirstOneInterface)
+            if (injectionAttribute.Scope == InjectionScopeOptions.FirstOneInterface)
             {
                 RegisterType(services, registerType, type, injectionAttribute, canInjectInterfaces.First());
             }
             // 注册多个接口
-            else if (injectionAttribute.InjectionScope is InjectionScopeOptions.ImplementedInterfaces or InjectionScopeOptions.All)
+            else if (injectionAttribute.Scope is InjectionScopeOptions.ImplementedInterfaces or InjectionScopeOptions.All)
             {
                 foreach (var inter in canInjectInterfaces)
                 {
@@ -200,7 +173,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="inter">接口</param>
         private static void RegisterTransientType(IServiceCollection services, Type type, InjectionAttribute injectionAttribute, Type inter = null)
         {
-            switch (injectionAttribute.Injection)
+            switch (injectionAttribute.Pattern)
             {
                 case InjectionOptions.TryAdd:
                     if (inter == null) services.TryAddTransient(type);
@@ -225,7 +198,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="inter">接口</param>
         private static void RegisterScopeType(IServiceCollection services, Type type, InjectionAttribute injectionAttribute, Type inter = null)
         {
-            switch (injectionAttribute.Injection)
+            switch (injectionAttribute.Pattern)
             {
                 case InjectionOptions.TryAdd:
                     if (inter == null) services.TryAddScoped(type);
@@ -250,7 +223,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="inter">接口</param>
         private static void RegisterSingletonType(IServiceCollection services, Type type, InjectionAttribute injectionAttribute, Type inter = null)
         {
-            switch (injectionAttribute.Injection)
+            switch (injectionAttribute.Pattern)
             {
                 case InjectionOptions.TryAdd:
                     if (inter == null) services.TryAddSingleton(type);
@@ -264,18 +237,6 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 default: break;
             }
-        }
-
-        /// <summary>
-        /// 获取 Startup 排序
-        /// </summary>
-        /// <param name="type">排序类型</param>
-        /// <returns>int</returns>
-        private static int GetOrder(Type type)
-        {
-            return !type.IsDefined(typeof(StartupAttribute), true)
-                ? 0
-                : type.GetCustomAttribute<StartupAttribute>(true).Order;
         }
     }
 }

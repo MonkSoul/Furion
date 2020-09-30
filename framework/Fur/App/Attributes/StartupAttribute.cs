@@ -12,23 +12,33 @@
 // -----------------------------------------------------------------------------
 
 using Fur.DependencyInjection;
+using System;
 
 namespace Fur
 {
     /// <summary>
-    /// 应用类型
+    /// 注册服务启动配置
     /// </summary>
-    [SkipScan]
-    public enum ProjectType
+    [SkipScan, AttributeUsage(AttributeTargets.Class)]
+    public class StartupAttribute : Attribute
     {
         /// <summary>
-        /// RESTful API
+        /// 构造函数
         /// </summary>
-        RESTfulAPI,
+        /// <param name="order"></param>
+        public StartupAttribute(int order)
+        {
+            Order = order;
+        }
 
         /// <summary>
-        /// Web应用
+        /// 排序
         /// </summary>
-        WebApplication
+        public int Order { get; set; }
+
+        /// <summary>
+        /// 服务列表
+        /// </summary>
+        public string[] Services { get; set; }
     }
 }

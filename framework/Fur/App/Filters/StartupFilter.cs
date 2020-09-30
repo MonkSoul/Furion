@@ -37,6 +37,7 @@ namespace Fur
                 // 调用默认中间件
                 builder.UseApp();
 
+                // 调用 Fur.Web.Entry 中的 Startup
                 next(builder);
             };
         }

@@ -16,7 +16,8 @@ namespace Fur.DependencyInjection
     /// <summary>
     /// 注册类型
     /// </summary>
-    public enum RegisterType
+    [SkipScan]
+    internal enum RegisterType
     {
         /// <summary>
         /// 瞬时

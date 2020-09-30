@@ -20,7 +20,7 @@ using System.IO;
 using System.Linq;
 
 /// 注入启动
-[assembly: HostingStartup(typeof(Fur.StartupInjection))]
+[assembly: HostingStartup(typeof(Fur.HostingStartup))]
 
 namespace Fur
 {
@@ -28,7 +28,7 @@ namespace Fur
     /// 配置程序启动时自动注入
     /// </summary>
     [SkipScan]
-    public class StartupInjection : IHostingStartup
+    public sealed class HostingStartup : IHostingStartup
     {
         /// <summary>
         /// 配置应用启动

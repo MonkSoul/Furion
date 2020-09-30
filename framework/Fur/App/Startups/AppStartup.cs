@@ -11,33 +11,15 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
-using System;
+using Fur.DependencyInjection;
 
-namespace Fur.DependencyInjection
+namespace Fur
 {
     /// <summary>
-    /// 注册服务启动配置
+    /// 依赖注入全局模块
     /// </summary>
-    [SkipScan, AttributeUsage(AttributeTargets.Class)]
-    public class StartupAttribute : Attribute
+    [SkipScan]
+    public abstract class AppStartup
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="order"></param>
-        public StartupAttribute(int order)
-        {
-            Order = order;
-        }
-
-        /// <summary>
-        /// 排序
-        /// </summary>
-        public int Order { get; set; }
-
-        /// <summary>
-        /// 服务列表
-        /// </summary>
-        public string[] Services { get; set; }
     }
 }

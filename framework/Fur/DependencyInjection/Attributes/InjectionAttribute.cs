@@ -26,27 +26,27 @@ namespace Fur.DependencyInjection
         /// </summary>
         public InjectionAttribute()
         {
-            Injection = InjectionOptions.TryAdd;
-            InjectionScope = InjectionScopeOptions.FirstOneInterface;
+            Pattern = InjectionOptions.TryAdd;
+            Scope = InjectionScopeOptions.FirstOneInterface;
         }
 
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="injection">注册方式</param>
-        public InjectionAttribute(InjectionOptions injection)
+        /// <param name="pattern">注册方式</param>
+        public InjectionAttribute(InjectionOptions pattern)
         {
-            Injection = injection;
+            Pattern = pattern;
         }
 
         /// <summary>
         /// 注册方式
         /// </summary>
-        public InjectionOptions Injection { get; set; }
+        public InjectionOptions Pattern { get; set; }
 
         /// <summary>
         /// 注册访问
         /// </summary>
-        public InjectionScopeOptions InjectionScope { get; set; }
+        public InjectionScopeOptions Scope { get; set; }
     }
 }

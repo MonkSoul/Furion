@@ -14,22 +14,29 @@
 using Fur;
 using Fur.DependencyInjection;
 using System;
+using System.Linq;
+using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
-    /// 应用服务集合拓展类
+    /// 应用服务集合拓展类（由框架内部调用）
     /// </summary>
     [SkipScan]
-    public static class AppServiceCollectionExtensions
+    internal static class AppServiceCollectionExtensions
     {
+        /// <summary>
+        /// MiniProfiler 插件路径
+        /// </summary>
+        private const string MiniProfilerRouteBasePath = "/index-mini-profiler";
+
         /// <summary>
         /// 添加应用配置
         /// </summary>
         /// <param name="services">服务集合</param>
         /// <param name="configure">服务配置</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddApp(this IServiceCollection services, Action<IServiceCollection> configure = null)
+        internal static IServiceCollection AddApp(this IServiceCollection services, Action<IServiceCollection> configure = null)
         {
             App.Services = services;
 
@@ -42,6 +49,9 @@ namespace Microsoft.Extensions.DependencyInjection
             // 注册分布式内存缓存
             services.AddDistributedMemoryCache();
 
+            // 注册全局 Startup 扫描
+            services.AddAppStartup();
+
             // 注册对象映射
             services.AddObjectMapper();
 
@@ -50,7 +60,7 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 services.AddMiniProfiler(options =>
                 {
-                    options.RouteBasePath = AppSettingsOptions.MiniProfilerRouteBasePath;
+                    options.RouteBasePath = MiniProfilerRouteBasePath;
                 }).AddEntityFramework();
             }
 
@@ -61,6 +71,56 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddDependencyInjection();
 
             return services;
+        }
+
+        /// <summary>
+        /// 添加 Startup 自动扫描
+        /// </summary>
+        /// <param name="services">服务集合</param>
+        /// <param name="autoScan">自动扫描注入</param>
+        /// <returns>服务集合</returns>
+        internal static IServiceCollection AddAppStartup(this IServiceCollection services, bool autoScan = true)
+        {
+            // 扫描所有继承 AppStartup 的类
+            var startups = App.CanBeScanTypes
+                .Where(u => typeof(AppStartup).IsAssignableFrom(u) && u.IsClass && !u.IsAbstract && !u.IsGenericType)
+                .OrderByDescending(u => GetOrder(u));
+
+            // 注册自定义 starup
+            foreach (var type in startups)
+            {
+                // 获取所有符合依赖注入格式的方法，如返回值void，且第一个参数是 IServiceCollection 类型
+                var serviceMethods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                    .Where(u => u.ReturnType == typeof(void)
+                        && u.GetParameters().Length > 0
+                        && u.GetParameters().First().ParameterType == typeof(IServiceCollection));
+
+                if (!serviceMethods.Any()) continue;
+
+                var startup = Activator.CreateInstance(type) as AppStartup;
+                // 自动安装属性调用
+                foreach (var method in serviceMethods)
+                {
+                    method.Invoke(startup, new[] { services });
+                }
+            }
+
+            // 添加自动扫描注入
+            if (autoScan) services.AddAutoScanInjection();
+
+            return services;
+        }
+
+        /// <summary>
+        /// 获取 Startup 排序
+        /// </summary>
+        /// <param name="type">排序类型</param>
+        /// <returns>int</returns>
+        private static int GetOrder(Type type)
+        {
+            return !type.IsDefined(typeof(StartupAttribute), true)
+                ? 0
+                : type.GetCustomAttribute<StartupAttribute>(true).Order;
         }
     }
 }

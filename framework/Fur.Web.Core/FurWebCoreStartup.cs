@@ -1,5 +1,4 @@
-﻿using Fur.DependencyInjection;
-using Fur.UnifyResult;
+﻿using Fur.UnifyResult;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Fur.Web.Core

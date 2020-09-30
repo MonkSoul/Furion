@@ -1,5 +1,4 @@
-﻿using Fur.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Fur.EntityFramework.Core
 {
