@@ -31,7 +31,12 @@ namespace Fur
         {
             return builder =>
             {
+                // 设置应用服务提供器
+                App.ApplicationServices = builder.ApplicationServices;
+
+                // 调用默认中间件
                 builder.UseApp();
+
                 next(builder);
             };
         }

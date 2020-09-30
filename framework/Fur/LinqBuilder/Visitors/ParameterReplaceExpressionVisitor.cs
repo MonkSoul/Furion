@@ -18,7 +18,7 @@ using System.Linq.Expressions;
 namespace Fur.LinqBuilder
 {
     /// <summary>
-    /// 自定义参数表达式访问器
+    /// 处理 Lambda 参数不一致问题
     /// </summary>
     [SkipScan]
     internal sealed class ParameterReplaceExpressionVisitor : ExpressionVisitor

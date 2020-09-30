@@ -264,7 +264,7 @@ namespace Fur.DataValidation
                 .Where(u => u.IsDefined(typeof(ValidationMessageTypeAttribute), true) && u.IsEnum).ToList();
 
             // 加载自定义验证消息类型提供器
-            var validationMessageTypeProvider = App.TransientServiceProvider.GetService<IValidationMessageTypeProvider>();
+            var validationMessageTypeProvider = App.TransientServices.GetService<IValidationMessageTypeProvider>();
             if (validationMessageTypeProvider is { Definitions: not null }) validationMessageTypes.AddRange(validationMessageTypeProvider.Definitions);
 
             return validationMessageTypes.Distinct();
