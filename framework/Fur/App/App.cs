@@ -247,7 +247,7 @@ namespace Fur
         /// <returns>IEnumerable<Assembly></returns>
         private static IEnumerable<Assembly> GetAssemblies()
         {
-            // 需排除的程序集猴嘴
+            // 需排除的程序集后缀
             var excludeAssemblyNames = new string[] {
                 "Database.Migrations"
             };
