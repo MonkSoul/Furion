@@ -217,7 +217,7 @@ docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-2020.09.29
 ## 🥔 QQ 交流群
 
 <p>
-<img src="./handbook/static/img/dotnetchina.jpg" height="240"/>
+<img src="./handbook/static/img/dotnetchina.jpg" height="300"/>
 </p>
 
 ## 🧆 友情链接
