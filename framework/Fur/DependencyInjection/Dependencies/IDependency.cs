@@ -14,29 +14,9 @@
 namespace Fur.DependencyInjection
 {
     /// <summary>
-    /// 注册范围
+    /// 依赖空接口（禁止外部继承）
     /// </summary>
-    [SkipScan]
-    public enum InjectionScopeOptions
+    public interface IDependency
     {
-        /// <summary>
-        /// 只注册自己
-        /// </summary>
-        Self,
-
-        /// <summary>
-        /// 第一个接口，默认值
-        /// </summary>
-        FirstOneInterface,
-
-        /// <summary>
-        /// 所有接口
-        /// </summary>
-        ImplementedInterfaces,
-
-        /// <summary>
-        /// 注册自己包括所有接口
-        /// </summary>
-        All
     }
 }

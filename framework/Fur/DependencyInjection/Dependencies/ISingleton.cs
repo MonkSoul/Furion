@@ -16,7 +16,7 @@ namespace Fur.DependencyInjection
     /// <summary>
     /// 单例服务注册依赖
     /// </summary>
-    public interface ISingletonInjection : ISingletonDependency
+    public interface ISingleton : ISingletonDependency
     {
     }
 
@@ -24,7 +24,7 @@ namespace Fur.DependencyInjection
     /// 单例服务注册依赖
     /// </summary>
     /// <typeparam name="TService1">服务类型</typeparam>
-    public interface ISingletonInjection<TService1> : ISingletonDependency
+    public interface ISingleton<TService1> : ISingletonDependency
         where TService1 : class
     {
     }
@@ -34,7 +34,7 @@ namespace Fur.DependencyInjection
     /// </summary>
     /// <typeparam name="TService1">服务类型</typeparam>
     /// <typeparam name="TService2">服务类型</typeparam>
-    public interface ISingletonInjection<TService1, TService2> : ISingletonDependency
+    public interface ISingleton<TService1, TService2> : ISingletonDependency
         where TService1 : class
         where TService2 : class
     {
@@ -46,7 +46,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService1">服务类型</typeparam>
     /// <typeparam name="TService2">服务类型</typeparam>
     /// <typeparam name="TService3">服务类型</typeparam>
-    public interface ISingletonInjection<TService1, TService2, TService3> : ISingletonDependency
+    public interface ISingleton<TService1, TService2, TService3> : ISingletonDependency
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -60,7 +60,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService2">服务类型</typeparam>
     /// <typeparam name="TService3">服务类型</typeparam>
     /// <typeparam name="TService4">服务类型</typeparam>
-    public interface ISingletonInjection<TService1, TService2, TService3, TService4> : ISingletonDependency
+    public interface ISingleton<TService1, TService2, TService3, TService4> : ISingletonDependency
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -76,7 +76,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService3">服务类型</typeparam>
     /// <typeparam name="TService4">服务类型</typeparam>
     /// <typeparam name="TService5">服务类型</typeparam>
-    public interface ISingletonInjection<TService1, TService2, TService3, TService4, TService5> : ISingletonDependency
+    public interface ISingleton<TService1, TService2, TService3, TService4, TService5> : ISingletonDependency
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -94,7 +94,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService4">服务类型</typeparam>
     /// <typeparam name="TService5">服务类型</typeparam>
     /// <typeparam name="TService6">服务类型</typeparam>
-    public interface ISingletonInjection<TService1, TService2, TService3, TService4, TService5, TService6> : ISingletonDependency
+    public interface ISingleton<TService1, TService2, TService3, TService4, TService5, TService6> : ISingletonDependency
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -114,7 +114,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService5">服务类型</typeparam>
     /// <typeparam name="TService6">服务类型</typeparam>
     /// <typeparam name="TService7">服务类型</typeparam>
-    public interface ISingletonInjection<TService1, TService2, TService3, TService4, TService5, TService6, TService7> : ISingletonDependency
+    public interface ISingleton<TService1, TService2, TService3, TService4, TService5, TService6, TService7> : ISingletonDependency
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -136,7 +136,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService6">服务类型</typeparam>
     /// <typeparam name="TService7">服务类型</typeparam>
     /// <typeparam name="TService8">服务类型</typeparam>
-    public interface ISingletonInjection<TService1, TService2, TService3, TService4, TService5, TService6, TService7, TService8> : ISingletonDependency
+    public interface ISingleton<TService1, TService2, TService3, TService4, TService5, TService6, TService7, TService8> : ISingletonDependency
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -151,7 +151,7 @@ namespace Fur.DependencyInjection
     /// <summary>
     /// 单例服务注册依赖（禁止外部继承）
     /// </summary>
-    public interface ISingletonDependency : IDependencyInjection
+    public interface ISingletonDependency : IDependency
     {
     }
 }

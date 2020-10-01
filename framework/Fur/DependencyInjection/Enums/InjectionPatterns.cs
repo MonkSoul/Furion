@@ -14,19 +14,34 @@
 namespace Fur.DependencyInjection
 {
     /// <summary>
-    /// 服务注册方式
+    /// 注册范围
     /// </summary>
     [SkipScan]
-    public enum InjectionOptions
+    public enum InjectionPatterns
     {
         /// <summary>
-        /// 如果存在则覆盖
+        /// 只注册自己
         /// </summary>
-        Add,
+        Self,
 
         /// <summary>
-        /// 如果存在则跳过，默认方式
+        /// 第一个接口，默认值
         /// </summary>
-        TryAdd
+        FirstInterface,
+
+        /// <summary>
+        /// 自己和第一个接口，默认值
+        /// </summary>
+        SelfWithFirstInterface,
+
+        /// <summary>
+        /// 所有接口
+        /// </summary>
+        ImplementedInterfaces,
+
+        /// <summary>
+        /// 注册自己包括所有接口
+        /// </summary>
+        All
     }
 }

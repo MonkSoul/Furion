@@ -26,27 +26,39 @@ namespace Fur.DependencyInjection
         /// </summary>
         public InjectionAttribute()
         {
-            Pattern = InjectionOptions.TryAdd;
-            Scope = InjectionScopeOptions.FirstOneInterface;
+            Action = InjectionActions.Add;
+            Pattern = InjectionPatterns.SelfWithFirstInterface;
+            Order = 0;
         }
 
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="pattern">注册方式</param>
-        public InjectionAttribute(InjectionOptions pattern)
+        public InjectionAttribute(InjectionActions pattern)
         {
-            Pattern = pattern;
+            Action = pattern;
         }
 
         /// <summary>
-        /// 注册方式
+        /// 添加服务方式，存在不添加，或继续添加
         /// </summary>
-        public InjectionOptions Pattern { get; set; }
+        public InjectionActions Action { get; set; }
 
         /// <summary>
-        /// 注册访问
+        /// 注册选项
         /// </summary>
-        public InjectionScopeOptions Scope { get; set; }
+        public InjectionPatterns Pattern { get; set; }
+
+        /// <summary>
+        /// 注册别名
+        /// </summary>
+        /// <remarks>多服务时使用</remarks>
+        public string Named { get; set; }
+
+        /// <summary>
+        /// 排序，排序越大，则在后面注册
+        /// </summary>
+        public int Order { get; set; }
     }
 }

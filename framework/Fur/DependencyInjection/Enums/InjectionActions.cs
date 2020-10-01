@@ -14,9 +14,19 @@
 namespace Fur.DependencyInjection
 {
     /// <summary>
-    /// 依赖空接口（禁止外部继承）
+    /// 服务注册方式
     /// </summary>
-    public interface IDependencyInjection
+    [SkipScan]
+    public enum InjectionActions
     {
+        /// <summary>
+        /// 如果存在则覆盖
+        /// </summary>
+        Add,
+
+        /// <summary>
+        /// 如果存在则跳过，默认方式
+        /// </summary>
+        TryAdd
     }
 }

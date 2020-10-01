@@ -16,7 +16,7 @@ namespace Fur.DependencyInjection
     /// <summary>
     /// 暂时服务注册依赖
     /// </summary>
-    public interface ITransientInjection : ITransientDependency
+    public interface ITransient : ITransientDependency
     {
     }
 
@@ -24,7 +24,7 @@ namespace Fur.DependencyInjection
     /// 暂时服务注册依赖
     /// </summary>
     /// <typeparam name="TService1">服务类型</typeparam>
-    public interface ITransientInjection<TService1> : ITransientDependency
+    public interface ITransient<TService1> : ITransientDependency
         where TService1 : class
     {
     }
@@ -34,7 +34,7 @@ namespace Fur.DependencyInjection
     /// </summary>
     /// <typeparam name="TService1">服务类型</typeparam>
     /// <typeparam name="TService2">服务类型</typeparam>
-    public interface ITransientInjection<TService1, TService2> : ITransientDependency
+    public interface ITransient<TService1, TService2> : ITransientDependency
         where TService1 : class
         where TService2 : class
     {
@@ -46,7 +46,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService1">服务类型</typeparam>
     /// <typeparam name="TService2">服务类型</typeparam>
     /// <typeparam name="TService3">服务类型</typeparam>
-    public interface ITransientInjection<TService1, TService2, TService3> : ITransientDependency
+    public interface ITransient<TService1, TService2, TService3> : ITransientDependency
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -60,7 +60,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService2">服务类型</typeparam>
     /// <typeparam name="TService3">服务类型</typeparam>
     /// <typeparam name="TService4">服务类型</typeparam>
-    public interface ITransientInjection<TService1, TService2, TService3, TService4> : ITransientDependency
+    public interface ITransient<TService1, TService2, TService3, TService4> : ITransientDependency
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -76,7 +76,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService3">服务类型</typeparam>
     /// <typeparam name="TService4">服务类型</typeparam>
     /// <typeparam name="TService5">服务类型</typeparam>
-    public interface ITransientInjection<TService1, TService2, TService3, TService4, TService5> : ITransientDependency
+    public interface ITransient<TService1, TService2, TService3, TService4, TService5> : ITransientDependency
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -94,7 +94,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService4">服务类型</typeparam>
     /// <typeparam name="TService5">服务类型</typeparam>
     /// <typeparam name="TService6">服务类型</typeparam>
-    public interface ITransientInjection<TService1, TService2, TService3, TService4, TService5, TService6> : ITransientDependency
+    public interface ITransient<TService1, TService2, TService3, TService4, TService5, TService6> : ITransientDependency
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -114,7 +114,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService5">服务类型</typeparam>
     /// <typeparam name="TService6">服务类型</typeparam>
     /// <typeparam name="TService7">服务类型</typeparam>
-    public interface ITransientInjection<TService1, TService2, TService3, TService4, TService5, TService6, TService7> : ITransientDependency
+    public interface ITransient<TService1, TService2, TService3, TService4, TService5, TService6, TService7> : ITransientDependency
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -136,7 +136,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService6">服务类型</typeparam>
     /// <typeparam name="TService7">服务类型</typeparam>
     /// <typeparam name="TService8">服务类型</typeparam>
-    public interface ITransientInjection<TService1, TService2, TService3, TService4, TService5, TService6, TService7, TService8> : ITransientDependency
+    public interface ITransient<TService1, TService2, TService3, TService4, TService5, TService6, TService7, TService8> : ITransientDependency
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -151,7 +151,7 @@ namespace Fur.DependencyInjection
     /// <summary>
     /// 暂时服务注册依赖（禁止外部继承）
     /// </summary>
-    public interface ITransientDependency : IDependencyInjection
+    public interface ITransientDependency : IDependency
     {
     }
 }

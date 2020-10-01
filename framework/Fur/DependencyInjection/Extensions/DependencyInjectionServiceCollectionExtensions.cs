@@ -15,6 +15,7 @@ using Fur;
 using Fur.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -47,7 +48,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             // 查找所有需要依赖注入的类型
             var injectTypes = App.CanBeScanTypes
-                .Where(u => typeof(IDependencyInjection).IsAssignableFrom(u) && u.IsClass && !u.IsInterface && !u.IsAbstract);
+                .Where(u => typeof(IDependency).IsAssignableFrom(u) && u.IsClass && !u.IsInterface && !u.IsAbstract)
+                 .OrderBy(u => GetOrder(u));
 
             // 执行依赖注入
             foreach (var type in injectTypes)
@@ -56,7 +58,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 var injectionAttribute = !type.IsDefined(typeof(InjectionAttribute)) ? new InjectionAttribute() : type.GetCustomAttribute<InjectionAttribute>();
 
                 // 获取所有能注册的接口
-                var canInjectInterfaces = type.GetInterfaces().Where(u => !typeof(IDependencyInjection).IsAssignableFrom(u));
+                var canInjectInterfaces = type.GetInterfaces().Where(u => !typeof(IDependency).IsAssignableFrom(u));
 
                 // 注册暂时服务
                 if (typeof(ITransientDependency).IsAssignableFrom(type))
@@ -73,7 +75,14 @@ namespace Microsoft.Extensions.DependencyInjection
                 {
                     RegisterService(services, Fur.DependencyInjection.RegisterType.Singleton, type, injectionAttribute, canInjectInterfaces);
                 }
+
+                // 缓存类型注册
+                var typeNamed = injectionAttribute.Named ?? type.Name;
+                TypeNamedCollection.TryAdd(typeNamed, type);
             }
+
+            // 注册命名服务
+            RegisterNamed(services);
 
             return services;
         }
@@ -128,7 +137,7 @@ namespace Microsoft.Extensions.DependencyInjection
         private static void RegisterService(IServiceCollection services, RegisterType registerType, Type type, InjectionAttribute injectionAttribute, IEnumerable<Type> canInjectInterfaces)
         {
             // 注册自己
-            if (injectionAttribute.Scope is InjectionScopeOptions.Self or InjectionScopeOptions.All)
+            if (injectionAttribute.Pattern is InjectionPatterns.Self or InjectionPatterns.All or InjectionPatterns.SelfWithFirstInterface)
             {
                 RegisterType(services, registerType, type, injectionAttribute);
             }
@@ -136,12 +145,12 @@ namespace Microsoft.Extensions.DependencyInjection
             if (!canInjectInterfaces.Any()) return;
 
             // 只注册第一个接口
-            if (injectionAttribute.Scope == InjectionScopeOptions.FirstOneInterface)
+            if (injectionAttribute.Pattern is InjectionPatterns.FirstInterface or InjectionPatterns.SelfWithFirstInterface)
             {
                 RegisterType(services, registerType, type, injectionAttribute, canInjectInterfaces.First());
             }
             // 注册多个接口
-            else if (injectionAttribute.Scope is InjectionScopeOptions.ImplementedInterfaces or InjectionScopeOptions.All)
+            else if (injectionAttribute.Pattern is InjectionPatterns.ImplementedInterfaces or InjectionPatterns.All)
             {
                 foreach (var inter in canInjectInterfaces)
                 {
@@ -173,16 +182,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="inter">接口</param>
         private static void RegisterTransientType(IServiceCollection services, Type type, InjectionAttribute injectionAttribute, Type inter = null)
         {
-            switch (injectionAttribute.Pattern)
+            switch (injectionAttribute.Action)
             {
-                case InjectionOptions.TryAdd:
-                    if (inter == null) services.TryAddTransient(type);
-                    else services.TryAddTransient(inter, type);
-                    break;
-
-                case InjectionOptions.Add:
+                case InjectionActions.Add:
                     if (inter == null) services.AddTransient(type);
                     else services.AddTransient(inter, type);
+                    break;
+
+                case InjectionActions.TryAdd:
+                    if (inter == null) services.TryAddTransient(type);
+                    else services.TryAddTransient(inter, type);
                     break;
 
                 default: break;
@@ -198,16 +207,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="inter">接口</param>
         private static void RegisterScopeType(IServiceCollection services, Type type, InjectionAttribute injectionAttribute, Type inter = null)
         {
-            switch (injectionAttribute.Pattern)
+            switch (injectionAttribute.Action)
             {
-                case InjectionOptions.TryAdd:
-                    if (inter == null) services.TryAddScoped(type);
-                    else services.TryAddScoped(inter, type);
-                    break;
-
-                case InjectionOptions.Add:
+                case InjectionActions.Add:
                     if (inter == null) services.AddScoped(type);
                     else services.AddScoped(inter, type);
+                    break;
+
+                case InjectionActions.TryAdd:
+                    if (inter == null) services.TryAddScoped(type);
+                    else services.TryAddScoped(inter, type);
                     break;
 
                 default: break;
@@ -223,20 +232,85 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="inter">接口</param>
         private static void RegisterSingletonType(IServiceCollection services, Type type, InjectionAttribute injectionAttribute, Type inter = null)
         {
-            switch (injectionAttribute.Pattern)
+            switch (injectionAttribute.Action)
             {
-                case InjectionOptions.TryAdd:
-                    if (inter == null) services.TryAddSingleton(type);
-                    else services.TryAddSingleton(inter, type);
-                    break;
-
-                case InjectionOptions.Add:
+                case InjectionActions.Add:
                     if (inter == null) services.AddSingleton(type);
                     else services.AddSingleton(inter, type);
                     break;
 
+                case InjectionActions.TryAdd:
+                    if (inter == null) services.TryAddSingleton(type);
+                    else services.TryAddSingleton(inter, type);
+                    break;
+
                 default: break;
             }
+        }
+
+        /// <summary>
+        /// 注册命名服务
+        /// </summary>
+        /// <param name="services">服务集合</param>
+        private static void RegisterNamed(IServiceCollection services)
+        {
+            // 注册暂时命名服务
+            services.AddTransient(provider =>
+            {
+                object ResolveService(string named, ITransient transient)
+                {
+                    var isRegister = TypeNamedCollection.TryGetValue(named, out var serviceType);
+                    return isRegister ? provider.GetService(serviceType) : null;
+                }
+                return (Func<string, ITransient, object>)ResolveService;
+            });
+
+            // 注册作用域命名服务
+            services.AddScoped(provider =>
+            {
+                object ResolveService(string named, IScoped scoped)
+                {
+                    var isRegister = TypeNamedCollection.TryGetValue(named, out var serviceType);
+                    return isRegister ? provider.GetService(serviceType) : null;
+                }
+                return (Func<string, IScoped, object>)ResolveService;
+            });
+
+            // 注册单例命名服务
+            services.AddSingleton(provider =>
+            {
+                object ResolveService(string named, ISingleton singleton)
+                {
+                    var isRegister = TypeNamedCollection.TryGetValue(named, out var serviceType);
+                    return isRegister ? provider.GetService(serviceType) : null;
+                }
+                return (Func<string, ISingleton, object>)ResolveService;
+            });
+        }
+
+        /// <summary>
+        /// 获取 注册 排序
+        /// </summary>
+        /// <param name="type">排序类型</param>
+        /// <returns>int</returns>
+        private static int GetOrder(Type type)
+        {
+            return !type.IsDefined(typeof(InjectionAttribute), true)
+                ? 0
+                : type.GetCustomAttribute<InjectionAttribute>(true).Order;
+        }
+
+        /// <summary>
+        /// 类型名称集合
+        /// </summary>
+        private static readonly ConcurrentDictionary<string, Type> TypeNamedCollection;
+
+        /// <summary>
+        /// 静态构造函数
+        /// </summary>
+        static DependencyInjectionServiceCollectionExtensions()
+        {
+            TypeNamedCollection = new ConcurrentDictionary<string, Type>();
         }
     }
 }
