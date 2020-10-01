@@ -36,17 +36,23 @@ namespace Fur
         /// <param name="builder"></param>
         public void Configure(IWebHostBuilder builder)
         {
-            // 自动注入 AddApp() 服务
-            builder.ConfigureServices(services =>
-            {
-                services.AddTransient<IStartupFilter, StartupFilter>();
-                services.AddApp();
-            });
-
             // 自动装载配置
             builder.ConfigureAppConfiguration(configurationBuilder =>
             {
                 AutoAddJsonFile(configurationBuilder);
+            });
+
+            // 自动注入 AddApp() 服务
+            builder.ConfigureServices(services =>
+            {
+                // 注册 Startup 过滤器
+                services.AddTransient<IStartupFilter, StartupFilter>();
+
+                // 存储服务提供器
+                App.Services = services;
+
+                // 初始化应用服务
+                services.AddApp();
             });
         }
 

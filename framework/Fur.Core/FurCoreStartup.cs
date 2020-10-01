@@ -1,6 +1,4 @@
-﻿using Fur.DependencyInjection;
-
-namespace Fur.Core
+﻿namespace Fur.Core
 {
     [Startup(700)]
     public sealed class FurCoreStartup : AppStartup

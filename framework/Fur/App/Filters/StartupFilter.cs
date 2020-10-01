@@ -27,18 +27,29 @@ namespace Fur
     [SkipScan]
     public class StartupFilter : IStartupFilter
     {
+        /// <summary>
+        /// 配置中间件
+        /// </summary>
+        /// <param name="next"></param>
+        /// <returns></returns>
         public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next)
         {
-            return builder =>
+            return app =>
             {
+                var applicationServices = app.ApplicationServices;
+
                 // 设置应用服务提供器
-                App.ApplicationServices = builder.ApplicationServices;
+                App.ApplicationServices = applicationServices;
 
                 // 调用默认中间件
-                builder.UseApp();
+                app.UseApp();
+
+                // 获取环境和配置
+                //var env = applicationServices.GetRequiredService<IWebHostEnvironment>();
+                //var config = applicationServices.GetRequiredService<IConfiguration>();
 
                 // 调用 Fur.Web.Entry 中的 Startup
-                next(builder);
+                next(app);
             };
         }
     }
