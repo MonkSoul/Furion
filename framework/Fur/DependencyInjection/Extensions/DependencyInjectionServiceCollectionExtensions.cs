@@ -49,7 +49,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // 查找所有需要依赖注入的类型
             var injectTypes = App.CanBeScanTypes
                 .Where(u => typeof(IDependency).IsAssignableFrom(u) && u.IsClass && !u.IsInterface && !u.IsAbstract)
-                 .OrderBy(u => GetOrder(u));
+                .OrderBy(u => GetOrder(u));
 
             // 执行依赖注入
             foreach (var type in injectTypes)

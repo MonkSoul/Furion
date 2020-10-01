@@ -34,10 +34,10 @@ namespace Fur.DependencyInjection
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="pattern">注册方式</param>
-        public InjectionAttribute(InjectionActions pattern)
+        /// <param name="action">添加服务方式</param>
+        public InjectionAttribute(InjectionActions action)
         {
-            Action = pattern;
+            Action = action;
         }
 
         /// <summary>
