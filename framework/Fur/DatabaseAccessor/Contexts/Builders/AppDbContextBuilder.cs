@@ -275,17 +275,17 @@ namespace Fur.DatabaseAccessor
 
             if (!entitySeedDataTypes.Any()) return;
 
-            var datas = new List<object>();
+            var data = new List<object>();
 
             // 调用数据库实体自定义配置
             foreach (var entitySeedDataType in entitySeedDataTypes)
             {
                 var instance = Activator.CreateInstance(entitySeedDataType);
                 var hasDataMethod = entitySeedDataType.GetMethod("HasData");
-                datas.AddRange(hasDataMethod.Invoke(instance, new object[] { dbContext, dbContextLocator }).Adapt<IEnumerable<object>>());
+                data.AddRange(hasDataMethod.Invoke(instance, new object[] { dbContext, dbContextLocator }).Adapt<IEnumerable<object>>());
             }
 
-            entityBuilder.HasData(datas.ToArray());
+            entityBuilder.HasData(data.ToArray());
         }
 
         /// <summary>
