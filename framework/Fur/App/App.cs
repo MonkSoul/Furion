@@ -47,6 +47,7 @@ namespace Fur
         /// </summary>
         public static AppSettingsOptions Settings
         {
+            // 避免重复解析
             get
             {
                 if (_settings == null)
