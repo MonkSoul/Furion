@@ -277,7 +277,7 @@ namespace Fur.DatabaseAccessor
 
             var data = new List<object>();
 
-            // 调用数据库实体自定义配置
+            // 加载种子配置数据
             foreach (var entitySeedDataType in entitySeedDataTypes)
             {
                 var instance = Activator.CreateInstance(entitySeedDataType);
@@ -348,7 +348,7 @@ namespace Fur.DatabaseAccessor
             // 如果数据库上下文定位器为默认定位器且该函数没有定义数据库上下文定位器，则返回 true
             if (dbContextLocator == typeof(DbContextLocator) && queryableFunctionAttribute.DbContextLocators.Length == 0) return true;
 
-            // 判断是否保护
+            // 判断是否包含当前数据库上下文
             if (queryableFunctionAttribute.DbContextLocators.Contains(dbContextLocator)) return true;
 
             return false;
