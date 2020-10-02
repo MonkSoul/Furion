@@ -210,8 +210,7 @@ namespace Fur.DataValidation
         /// <returns></returns>
         private static (string ValidationName, ValidationItemMetadataAttribute ValidationItemMetadata) GetValidationTypeValidationItemMetadata(object validationType)
         {
-            var isCached = GetValidationTypeValidationItemMetadataCached.TryGetValue(validationType, out var validation);
-            if (isCached) return validation;
+            return GetValidationTypeValidationItemMetadataCached.GetOrAdd(validationType, Function);
 
             // 本地函数
             static (string, ValidationItemMetadataAttribute) Function(object validationType)
@@ -235,11 +234,6 @@ namespace Fur.DataValidation
 
                 return (validationName, validationItemMetadataAttribute);
             }
-
-            // 调用本地函数
-            validation = Function(validationType);
-            GetValidationTypeValidationItemMetadataCached.TryAdd(validationType, validation);
-            return validation;
         }
 
         /// <summary>
