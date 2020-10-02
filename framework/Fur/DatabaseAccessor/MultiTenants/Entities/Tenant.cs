@@ -22,6 +22,17 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     public class Tenant : IEntityDependency
     {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public Tenant()
+        {
+            CreatedTime = DateTime.Now;
+        }
+
+        /// <summary>
+        /// 租户Id
+        /// </summary>
         [Key]
         [ScaffoldColumn(false)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -53,15 +64,5 @@ namespace Fur.DatabaseAccessor
         /// 创建时间
         /// </summary>
         public DateTime CreatedTime { get; set; }
-
-        /// <summary>
-        /// 更新时间
-        /// </summary>
-        public DateTime? UpdatedTime { get; set; }
-
-        /// <summary>
-        /// 软删除
-        /// </summary>
-        public bool IsDeleted { get; set; }
     }
 }
