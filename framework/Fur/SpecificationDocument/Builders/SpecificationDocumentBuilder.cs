@@ -306,19 +306,13 @@ namespace Fur.SpecificationDocument
         /// <returns></returns>
         private static SpecificationOpenApiInfo GetGroupOpenApiInfo(string group)
         {
-            var isCached = GetGroupOpenApiInfoCached.TryGetValue(group, out var specificationOpenApiInfo);
-            if (isCached) return specificationOpenApiInfo;
+            return GetGroupOpenApiInfoCached.GetOrAdd(group, Function);
 
             // 本地函数
             static SpecificationOpenApiInfo Function(string group)
             {
                 return _specificationDocumentSettings.GroupOpenApiInfos.FirstOrDefault(u => u.Group == group) ?? new SpecificationOpenApiInfo { Group = group };
             }
-
-            // 调用本地函数
-            specificationOpenApiInfo = Function(group);
-            GetGroupOpenApiInfoCached.TryAdd(group, specificationOpenApiInfo);
-            return specificationOpenApiInfo;
         }
 
         /// <summary>
@@ -364,8 +358,7 @@ namespace Fur.SpecificationDocument
         /// <returns></returns>
         private static IEnumerable<GroupOrder> GetControllerGroups(Type type)
         {
-            var isCached = GetControllerGroupsCached.TryGetValue(type, out var groups);
-            if (isCached) return groups;
+            return GetControllerGroupsCached.GetOrAdd(type, Function);
 
             // 本地函数
             static IEnumerable<GroupOrder> Function(Type type)
@@ -386,11 +379,6 @@ namespace Fur.SpecificationDocument
 
                 return groupOrders;
             }
-
-            // 调用本地函数
-            groups = Function(type);
-            GetControllerGroupsCached.TryAdd(type, groups);
-            return groups;
         }
 
         /// <summary>
@@ -405,8 +393,7 @@ namespace Fur.SpecificationDocument
         /// <returns></returns>
         private static IEnumerable<GroupOrder> GetActionGroups(MethodInfo method)
         {
-            var isCached = GetActionGroupsCached.TryGetValue(method, out var groups);
-            if (isCached) return groups;
+            return GetActionGroupsCached.GetOrAdd(method, Function);
 
             // 本地函数
             static IEnumerable<GroupOrder> Function(MethodInfo method)
@@ -427,11 +414,6 @@ namespace Fur.SpecificationDocument
 
                 return groupOrders;
             }
-
-            // 调用本地函数
-            groups = Function(method);
-            GetActionGroupsCached.TryAdd(method, groups);
-            return groups;
         }
 
         /// <summary>
@@ -446,8 +428,7 @@ namespace Fur.SpecificationDocument
         /// <returns></returns>
         private static string GetControllerTag(ControllerActionDescriptor controllerActionDescriptor)
         {
-            var isCached = GetControllerTagCached.TryGetValue(controllerActionDescriptor, out var tag);
-            if (isCached) return tag;
+            return GetControllerTagCached.GetOrAdd(controllerActionDescriptor, Function);
 
             // 本地函数
             static string Function(ControllerActionDescriptor controllerActionDescriptor)
@@ -460,11 +441,6 @@ namespace Fur.SpecificationDocument
                 var apiDescriptionSettings = type.GetCustomAttribute<ApiDescriptionSettingsAttribute>(true);
                 return string.IsNullOrEmpty(apiDescriptionSettings.Tag) ? controllerActionDescriptor.ControllerName : apiDescriptionSettings.Tag;
             }
-
-            // 调用本地函数
-            tag = Function(controllerActionDescriptor);
-            GetControllerTagCached.TryAdd(controllerActionDescriptor, tag);
-            return tag;
         }
 
         /// <summary>
@@ -479,8 +455,7 @@ namespace Fur.SpecificationDocument
         /// <returns></returns>
         private static string GetActionTag(ApiDescription apiDescription)
         {
-            var isCached = GetActionTagCached.TryGetValue(apiDescription, out var tag);
-            if (isCached) return tag;
+            return GetActionTagCached.GetOrAdd(apiDescription, Function);
 
             // 本地函数
             static string Function(ApiDescription apiDescription)
@@ -497,11 +472,6 @@ namespace Fur.SpecificationDocument
                 var apiDescriptionSettings = method.GetCustomAttribute<ApiDescriptionSettingsAttribute>(true);
                 return string.IsNullOrEmpty(apiDescriptionSettings.Tag) ? GetControllerTag(controllerActionDescriptor) : apiDescriptionSettings.Tag;
             }
-
-            // 调用本地函数
-            tag = Function(apiDescription);
-            GetActionTagCached.TryAdd(apiDescription, tag);
-            return tag;
         }
 
         /// <summary>

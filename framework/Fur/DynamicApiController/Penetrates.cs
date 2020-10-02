@@ -83,8 +83,7 @@ namespace Fur.DynamicApiController
         /// <returns></returns>
         internal static bool IsController(Type type)
         {
-            var isCached = IsControllerCached.TryGetValue(type, out var isControllerType);
-            if (isCached) return isControllerType;
+            return IsControllerCached.GetOrAdd(type, Function);
 
             // 本地静态方法
             static bool Function(Type type)
@@ -102,11 +101,6 @@ namespace Fur.DynamicApiController
                 }
                 return false;
             }
-
-            // 调用本地静态方法
-            isControllerType = Function(type);
-            IsControllerCached.TryAdd(type, isControllerType);
-            return isControllerType;
         }
 
         /// <summary>
