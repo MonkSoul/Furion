@@ -28,6 +28,11 @@ namespace Fur
     public class StartupFilter : IStartupFilter
     {
         /// <summary>
+        /// dotnet 框架响应报文头
+        /// </summary>
+        private const string DotNetFrameworkResponseHeader = "dotnet-framework";
+
+        /// <summary>
         /// 配置中间件
         /// </summary>
         /// <param name="next"></param>
@@ -40,6 +45,13 @@ namespace Fur
 
                 // 设置应用服务提供器
                 App.ApplicationServices = applicationServices;
+
+                // 设置响应报文头信息，标记框架类型
+                app.Use(async (context, next) =>
+                {
+                    context.Response.Headers[DotNetFrameworkResponseHeader] = nameof(Fur);
+                    await next.Invoke();
+                });
 
                 // 调用默认中间件
                 app.UseApp();
