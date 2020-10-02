@@ -49,7 +49,7 @@ namespace Fur
                 // 设置响应报文头信息，标记框架类型
                 app.Use(async (context, next) =>
                 {
-                    context.Response.Headers[DotNetFrameworkResponseHeader] = nameof(Fur);
+                    context.Response.Headers[DotNetFrameworkResponseHeader] = "Fur";
                     await next.Invoke();
                 });
 
