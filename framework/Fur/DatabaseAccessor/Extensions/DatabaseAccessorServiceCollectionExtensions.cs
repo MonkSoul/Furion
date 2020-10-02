@@ -55,6 +55,15 @@ namespace Microsoft.Extensions.DependencyInjection
             // 注册泛型仓储
             services.TryAddScoped(typeof(IRepository<>), typeof(EFCoreRepository<>));
 
+            // 注册主从库仓储
+            services.TryAddScoped(typeof(IAdjustableRepository<,>), typeof(AdjustableRepository<,>));
+            services.TryAddScoped(typeof(IAdjustableRepository<,,>), typeof(AdjustableRepository<,,>));
+            services.TryAddScoped(typeof(IAdjustableRepository<,,,>), typeof(AdjustableRepository<,,,>));
+            services.TryAddScoped(typeof(IAdjustableRepository<,,,,>), typeof(AdjustableRepository<,,,,>));
+            services.TryAddScoped(typeof(IAdjustableRepository<,,,,,>), typeof(AdjustableRepository<,,,,,>));
+            services.TryAddScoped(typeof(IAdjustableRepository<,,,,,,>), typeof(AdjustableRepository<,,,,,,>));
+            services.TryAddScoped(typeof(IAdjustableRepository<,,,,,,,>), typeof(AdjustableRepository<,,,,,,,>));
+
             // 注册非泛型仓储
             services.TryAddScoped<IRepository, EFCoreRepository>();
 
