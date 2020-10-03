@@ -11,6 +11,8 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Microsoft.EntityFrameworkCore;
+
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
@@ -147,9 +149,10 @@ namespace Fur.DatabaseAccessor
     public interface IEntityMutableTableDependency
     {
         /// <summary>
-        /// 获取表名
+        /// 获取当前表名
         /// </summary>
-        /// <returns></returns>
-        string GetTableName();
+        /// <param name="dbContext">数据库上下文</param>
+        /// <returns>当前表明</returns>
+        string CurrentTableName(DbContext dbContext);
     }
 }
