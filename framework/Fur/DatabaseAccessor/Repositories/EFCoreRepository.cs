@@ -526,10 +526,10 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 动态改变连接字符串
+        /// 动态改变数据库
         /// </summary>
         /// <param name="connectionString">连接字符串</param>
-        public virtual void ChangeConnectionString(string connectionString)
+        public virtual void ChangeDatabase(string connectionString)
         {
             DbConnection.ConnectionString = connectionString;
         }

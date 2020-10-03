@@ -337,10 +337,10 @@ namespace Fur.DatabaseAccessor
         void ChangeTable(string tableName);
 
         /// <summary>
-        /// 动态改变连接字符串
+        /// 动态改变数据库
         /// </summary>
         /// <param name="connectionString">连接字符串</param>
-        void ChangeConnectionString(string connectionString);
+        void ChangeDatabase(string connectionString);
 
         /// <summary>
         /// 判断是否是 SqlServer 数据库
