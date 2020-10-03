@@ -79,6 +79,10 @@ sidebar_label: 8.4 关于仓储
 - `ISqlExecutableRepository`：默认数据库只允许 `Sql` 非查询仓储接口
 - `ISqlExecutableRepository<TDbContextLocator>`：多数据库只允许 `Sql` 非查询仓储实现
 
+### 8.4.1.14 读写分离仓储
+
+- `IAdjustableRepository`：最多支持 **一主7从** 仓储
+
 ## 8.4.2 仓储使用
 
 `Fur` 提供了非常多的方式创建仓储，目的是为了让大家可以在不同的场景中使用。

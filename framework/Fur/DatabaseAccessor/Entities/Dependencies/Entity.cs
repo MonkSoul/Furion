@@ -20,7 +20,7 @@ namespace Fur.DatabaseAccessor
     /// 数据库实体依赖基类
     /// </summary>
     [SkipScan]
-    public abstract class Entity : Entity<int, DbContextLocator>
+    public abstract class Entity : Entity<int, MasterDbContextLocator>
     {
     }
 

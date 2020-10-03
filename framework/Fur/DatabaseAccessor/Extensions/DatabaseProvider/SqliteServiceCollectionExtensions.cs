@@ -38,10 +38,10 @@ namespace Microsoft.Extensions.DependencyInjection
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
-            if (Penetrates.DbContextWithLocatorCached.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+            if (Penetrates.DbContextWithLocatorCached.ContainsKey(typeof(MasterDbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddSqlitePool<TDbContext, DbContextLocator>(connectionString, poolSize, interceptors);
+            return services.AddSqlitePool<TDbContext, MasterDbContextLocator>(connectionString, poolSize, interceptors);
         }
 
         /// <summary>
@@ -80,10 +80,10 @@ namespace Microsoft.Extensions.DependencyInjection
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
-            if (Penetrates.DbContextWithLocatorCached.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+            if (Penetrates.DbContextWithLocatorCached.ContainsKey(typeof(MasterDbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddSqlite<TDbContext, DbContextLocator>(connectionString, interceptors);
+            return services.AddSqlite<TDbContext, MasterDbContextLocator>(connectionString, interceptors);
         }
 
         /// <summary>

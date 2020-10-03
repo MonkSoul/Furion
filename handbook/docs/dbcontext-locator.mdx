@@ -43,7 +43,7 @@ namespace Fur.Core
 
 ## 8.2.4 默认数据库上下文定位器
 
-在 `Fur` 框架中已经提供了 `DbContextLocator` 默认数据库上下文定位器，所以默认数据库上下文只需继承 `AppDbContext<TDbContext>` 即可。
+在 `Fur` 框架中已经提供了 `MasterDbContextLocator` 默认数据库上下文定位器，所以默认数据库上下文只需继承 `AppDbContext<TDbContext>` 即可。
 
 `AppDbContext<TDbContext>` 定义代码如下：
 
@@ -58,7 +58,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TDbContext">数据库上下文</typeparam>
     [NonBeScan]
-    public abstract class AppDbContext<TDbContext> : AppDbContext<TDbContext, DbContextLocator>
+    public abstract class AppDbContext<TDbContext> : AppDbContext<TDbContext, MasterDbContextLocator>
         where TDbContext : DbContext
     {
         /// <summary>

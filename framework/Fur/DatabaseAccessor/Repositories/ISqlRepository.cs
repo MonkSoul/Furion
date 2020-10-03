@@ -18,7 +18,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// Sql 操作仓储接口
     /// </summary>
-    public interface ISqlRepository : ISqlRepository<DbContextLocator>
+    public interface ISqlRepository : ISqlRepository<MasterDbContextLocator>
     {
     }
 

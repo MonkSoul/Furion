@@ -21,7 +21,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TDbContext">数据库上下文</typeparam>
     [SkipScan]
-    public abstract class AppDbContext<TDbContext> : AppDbContext<TDbContext, DbContextLocator>
+    public abstract class AppDbContext<TDbContext> : AppDbContext<TDbContext, MasterDbContextLocator>
         where TDbContext : DbContext
     {
         /// <summary>

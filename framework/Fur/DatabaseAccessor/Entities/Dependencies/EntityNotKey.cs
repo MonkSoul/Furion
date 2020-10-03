@@ -19,7 +19,7 @@ namespace Fur.DatabaseAccessor
     /// 数据库无键实体依赖基接口
     /// </summary>
     [SkipScan]
-    public abstract class EntityNotKey : EntityNotKey<DbContextLocator>
+    public abstract class EntityNotKey : EntityNotKey<MasterDbContextLocator>
     {
         /// <summary>
         /// 构造函数

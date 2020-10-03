@@ -22,7 +22,7 @@ namespace Fur.DatabaseAccessor
     /// 可插入仓储接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial interface IInsertableRepository<TEntity> : IInsertableRepository<TEntity, DbContextLocator>
+    public partial interface IInsertableRepository<TEntity> : IInsertableRepository<TEntity, MasterDbContextLocator>
         where TEntity : class, IEntityDependency, new()
     {
     }

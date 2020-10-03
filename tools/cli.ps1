@@ -75,7 +75,7 @@ if ($ConnectionName -eq $null -or $ConnectionName -eq ""){
 }
 
 if ($DbContextLocators -eq $null -or $DbContextLocators -eq ""){
-    $DbContextLocators = "DbContextLocator";
+    $DbContextLocators = "MasterDbContextLocator";
 }
 
 if ($OutputDir -eq $null -or $OutputDir -eq ""){

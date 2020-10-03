@@ -67,7 +67,7 @@ using System.Linq.Expressions;
 namespace Fur.EntityFramework.Core
 {
     [DbContext("Sqlite3ConnectionString")]
-    public class FurDbContext : AppDbContext<FurDbContext>, IModelBuilderFilter<DbContextLocator>
+    public class FurDbContext : AppDbContext<FurDbContext>, IModelBuilderFilter<MasterDbContextLocator>
     {
         public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
         {

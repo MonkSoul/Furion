@@ -21,7 +21,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     public partial interface IWritableRepository<TEntity>
-        : IWritableRepository<TEntity, DbContextLocator>
+        : IWritableRepository<TEntity, MasterDbContextLocator>
         , IInsertableRepository<TEntity>
         , IUpdateableRepository<TEntity>
         , IDeletableRepository<TEntity>

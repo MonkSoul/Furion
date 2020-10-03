@@ -22,7 +22,7 @@ namespace Fur.DatabaseAccessor
     /// 可删除仓储接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial interface IDeletableRepository<TEntity> : IDeletableRepository<TEntity, DbContextLocator>
+    public partial interface IDeletableRepository<TEntity> : IDeletableRepository<TEntity, MasterDbContextLocator>
         where TEntity : class, IEntityDependency, new()
     {
     }

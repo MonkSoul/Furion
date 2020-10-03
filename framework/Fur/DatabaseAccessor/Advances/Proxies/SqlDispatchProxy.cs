@@ -242,7 +242,7 @@ namespace Fur.DatabaseAccessor
             var dbContextResolver = ServiceProvider.GetService<Func<Type, DbContext>>();
 
             // 解析数据库上下文
-            var dbContext = dbContextResolver(dbContextLocator ?? typeof(DbContextLocator));
+            var dbContext = dbContextResolver(dbContextLocator ?? typeof(MasterDbContextLocator));
 
             // 添加数据库上下文到池中
             dbContextPool.AddToPool(dbContext);

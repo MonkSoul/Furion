@@ -23,7 +23,7 @@ namespace Fur.DatabaseAccessor
     /// Sql 操作仓储实现
     /// </summary>
     [SkipScan]
-    public partial class SqlRepository : SqlRepository<DbContextLocator>, ISqlRepository
+    public partial class SqlRepository : SqlRepository<MasterDbContextLocator>, ISqlRepository
     {
         /// <summary>
         /// 构造函数

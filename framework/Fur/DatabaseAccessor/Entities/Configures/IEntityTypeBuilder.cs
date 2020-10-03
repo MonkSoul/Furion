@@ -21,7 +21,7 @@ namespace Fur.DatabaseAccessor
     /// 数据库实体类型配置依赖接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public interface IEntityTypeBuilder<TEntity> : IEntityTypeBuilder<TEntity, DbContextLocator>
+    public interface IEntityTypeBuilder<TEntity> : IEntityTypeBuilder<TEntity, MasterDbContextLocator>
         where TEntity : class, IEntityDependency, new()
     {
     }

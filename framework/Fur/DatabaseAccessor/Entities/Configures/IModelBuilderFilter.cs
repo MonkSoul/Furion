@@ -20,7 +20,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库模型构建筛选器依赖接口
     /// </summary>
-    public interface IModelBuilderFilter : IModelBuilderFilter<DbContextLocator>
+    public interface IModelBuilderFilter : IModelBuilderFilter<MasterDbContextLocator>
     {
     }
 

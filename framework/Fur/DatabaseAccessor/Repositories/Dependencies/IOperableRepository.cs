@@ -25,7 +25,7 @@ namespace Fur.DatabaseAccessor
     /// 可操作性仓储接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial interface IOperableRepository<TEntity> : IOperableRepository<TEntity, DbContextLocator>
+    public partial interface IOperableRepository<TEntity> : IOperableRepository<TEntity, MasterDbContextLocator>
         where TEntity : class, IEntityDependency, new()
     {
     }

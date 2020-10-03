@@ -30,7 +30,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     public partial interface IRepository<TEntity>
-        : IRepository<TEntity, DbContextLocator>
+        : IRepository<TEntity, MasterDbContextLocator>
         , IWritableRepository<TEntity>
         , IReadableRepository<TEntity>
         , ISqlRepository

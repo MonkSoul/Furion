@@ -22,7 +22,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// Sql 查询仓储接口
     /// </summary>
-    public interface ISqlReaderRepository : ISqlQueryableRepository<DbContextLocator>
+    public interface ISqlReaderRepository : ISqlQueryableRepository<MasterDbContextLocator>
     {
     }
 

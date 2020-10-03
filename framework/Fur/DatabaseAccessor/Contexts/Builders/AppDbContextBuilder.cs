@@ -317,7 +317,7 @@ namespace Fur.DatabaseAccessor
             var interfaces = entityCorrelationType.GetInterfaces().Where(u => typeof(IEntityDependency).IsAssignableFrom(u) || typeof(IModelBuilderDependency).IsAssignableFrom(u));
 
             // 默认数据库上下文情况
-            if (dbContextLocator == typeof(DbContextLocator))
+            if (dbContextLocator == typeof(MasterDbContextLocator))
             {
                 // 父类继承 IEntityDependency 类型且不是泛型
                 if (typeof(IEntityDependency).IsAssignableFrom(baseType) && !baseType.IsGenericType) return true;
@@ -346,7 +346,7 @@ namespace Fur.DatabaseAccessor
             var queryableFunctionAttribute = method.GetCustomAttribute<QueryableFunctionAttribute>(true);
 
             // 如果数据库上下文定位器为默认定位器且该函数没有定义数据库上下文定位器，则返回 true
-            if (dbContextLocator == typeof(DbContextLocator) && queryableFunctionAttribute.DbContextLocators.Length == 0) return true;
+            if (dbContextLocator == typeof(MasterDbContextLocator) && queryableFunctionAttribute.DbContextLocators.Length == 0) return true;
 
             // 判断是否包含当前数据库上下文
             if (queryableFunctionAttribute.DbContextLocators.Contains(dbContextLocator)) return true;

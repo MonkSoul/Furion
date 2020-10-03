@@ -150,10 +150,10 @@ namespace Microsoft.Extensions.DependencyInjection
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
-            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(MasterDbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddSqlServerPool<TDbContext, DbContextLocator>(connectionString, poolSize, interceptors);
+            return services.AddSqlServerPool<TDbContext, MasterDbContextLocator>(connectionString, poolSize, interceptors);
         }
 
         /// <summary>
@@ -192,10 +192,10 @@ namespace Microsoft.Extensions.DependencyInjection
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
-            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(MasterDbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddSqlServer<TDbContext, DbContextLocator>(connectionString, interceptors);
+            return services.AddSqlServer<TDbContext, MasterDbContextLocator>(connectionString, interceptors);
         }
 
         /// <summary>
@@ -275,10 +275,10 @@ namespace Microsoft.Extensions.DependencyInjection
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
-            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(MasterDbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddSqlitePool<TDbContext, DbContextLocator>(connectionString, poolSize, interceptors);
+            return services.AddSqlitePool<TDbContext, MasterDbContextLocator>(connectionString, poolSize, interceptors);
         }
 
         /// <summary>
@@ -317,10 +317,10 @@ namespace Microsoft.Extensions.DependencyInjection
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
-            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(MasterDbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddSqlite<TDbContext, DbContextLocator>(connectionString, interceptors);
+            return services.AddSqlite<TDbContext, MasterDbContextLocator>(connectionString, interceptors);
         }
 
         /// <summary>
@@ -400,10 +400,10 @@ namespace Microsoft.Extensions.DependencyInjection
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
-            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(MasterDbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddCosmosPool<TDbContext, DbContextLocator>(connectionString, poolSize, interceptors);
+            return services.AddCosmosPool<TDbContext, MasterDbContextLocator>(connectionString, poolSize, interceptors);
         }
 
         /// <summary>
@@ -442,10 +442,10 @@ namespace Microsoft.Extensions.DependencyInjection
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
-            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(MasterDbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddCosmos<TDbContext, DbContextLocator>(connectionString, interceptors);
+            return services.AddCosmos<TDbContext, MasterDbContextLocator>(connectionString, interceptors);
         }
 
         /// <summary>
@@ -525,10 +525,10 @@ namespace Microsoft.Extensions.DependencyInjection
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
-            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(MasterDbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddInMemoryPool<TDbContext, DbContextLocator>(connectionString, poolSize, interceptors);
+            return services.AddInMemoryPool<TDbContext, MasterDbContextLocator>(connectionString, poolSize, interceptors);
         }
 
         /// <summary>
@@ -567,10 +567,10 @@ namespace Microsoft.Extensions.DependencyInjection
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
-            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(MasterDbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddInMemory<TDbContext, DbContextLocator>(connectionString, interceptors);
+            return services.AddInMemory<TDbContext, MasterDbContextLocator>(connectionString, interceptors);
         }
 
         /// <summary>
@@ -650,10 +650,10 @@ namespace Microsoft.Extensions.DependencyInjection
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
-            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(MasterDbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddMySqlPool<TDbContext, DbContextLocator>(connectionString, poolSize, interceptors);
+            return services.AddMySqlPool<TDbContext, MasterDbContextLocator>(connectionString, poolSize, interceptors);
         }
 
         /// <summary>
@@ -692,10 +692,10 @@ namespace Microsoft.Extensions.DependencyInjection
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
-            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(MasterDbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddMySql<TDbContext, DbContextLocator>(connectionString, interceptors);
+            return services.AddMySql<TDbContext, MasterDbContextLocator>(connectionString, interceptors);
         }
 
         /// <summary>
@@ -775,10 +775,10 @@ namespace Microsoft.Extensions.DependencyInjection
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
-            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(MasterDbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddPostgreSQLPool<TDbContext, DbContextLocator>(connectionString, poolSize, interceptors);
+            return services.AddPostgreSQLPool<TDbContext, MasterDbContextLocator>(connectionString, poolSize, interceptors);
         }
 
         /// <summary>
@@ -817,10 +817,10 @@ namespace Microsoft.Extensions.DependencyInjection
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
-            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(MasterDbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddPostgreSQL<TDbContext, DbContextLocator>(connectionString, interceptors);
+            return services.AddPostgreSQL<TDbContext, MasterDbContextLocator>(connectionString, interceptors);
         }
 
         /// <summary>
@@ -900,10 +900,10 @@ namespace Microsoft.Extensions.DependencyInjection
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
-            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(MasterDbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddOraclePool<TDbContext, DbContextLocator>(connectionString, poolSize, interceptors);
+            return services.AddOraclePool<TDbContext, MasterDbContextLocator>(connectionString, poolSize, interceptors);
         }
 
         /// <summary>
@@ -942,10 +942,10 @@ namespace Microsoft.Extensions.DependencyInjection
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
-            if (Penetrates.DbContextLocators.ContainsKey(typeof(DbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
+            if (Penetrates.DbContextLocators.ContainsKey(typeof(MasterDbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddOracle<TDbContext, DbContextLocator>(connectionString, interceptors);
+            return services.AddOracle<TDbContext, MasterDbContextLocator>(connectionString, interceptors);
         }
 
         /// <summary>
