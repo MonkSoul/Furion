@@ -45,7 +45,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="repository">非泛型仓储</param>
         /// <param name="serviceProvider">服务提供器</param>
         public EFCoreRepository(
-            Func<Type, DbContext> dbContextResolve
+            Func<Type, IScoped, DbContext> dbContextResolve
             , IDbContextPool dbContextPool
             , IRepository repository
             , IServiceProvider serviceProvider) : base(dbContextResolve, dbContextPool, repository, serviceProvider)
@@ -146,13 +146,13 @@ namespace Fur.DatabaseAccessor
         /// <param name="repository">非泛型仓储</param>
         /// <param name="serviceProvider">服务提供器</param>
         public EFCoreRepository(
-            Func<Type, DbContext> dbContextResolve
+            Func<Type, IScoped, DbContext> dbContextResolve
             , IDbContextPool dbContextPool
             , IRepository repository
             , IServiceProvider serviceProvider) : base(dbContextResolve, dbContextPool, serviceProvider)
         {
             // 解析数据库上下文
-            var dbContext = dbContextResolve(typeof(TDbContextLocator));
+            var dbContext = dbContextResolve(typeof(TDbContextLocator), default);
 
             _dbContextPool = dbContextPool;
             // 保存当前数据库上下文到池中

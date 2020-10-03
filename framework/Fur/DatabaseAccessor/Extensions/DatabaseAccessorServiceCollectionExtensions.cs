@@ -70,7 +70,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // 解析数据库上下文
             services.AddScoped(provider =>
             {
-                DbContext dbContextResolve(Type locator)
+                DbContext dbContextResolve(Type locator, IScoped scoped)
                 {
                     // 判断定位器是否绑定了数据库上下文
                     var isRegistered = Penetrates.DbContextWithLocatorCached.TryGetValue(locator, out var dbContextType);
@@ -79,7 +79,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     // 动态解析数据库上下文
                     return provider.GetService(dbContextType) as DbContext;
                 }
-                return (Func<Type, DbContext>)dbContextResolve;
+                return (Func<Type, IScoped, DbContext>)dbContextResolve;
             });
 
             // 注册 Sql 代理接口

@@ -32,7 +32,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="dbContextPool">数据库上下文池</param>
         /// <param name="serviceProvider">服务提供器</param>
         public SqlRepository(
-            Func<Type, DbContext> dbContextResolve
+            Func<Type, IScoped, DbContext> dbContextResolve
             , IDbContextPool dbContextPool
             , IServiceProvider serviceProvider) : base(dbContextResolve, dbContextPool, serviceProvider)
         {
@@ -59,12 +59,12 @@ namespace Fur.DatabaseAccessor
         /// <param name="dbContextPool">数据库上下文池</param>
         /// <param name="serviceProvider">服务提供器</param>
         public SqlRepository(
-            Func<Type, DbContext> dbContextResolve
+            Func<Type, IScoped, DbContext> dbContextResolve
             , IDbContextPool dbContextPool
             , IServiceProvider serviceProvider)
         {
             // 解析数据库上下文
-            var dbContext = dbContextResolve(typeof(TDbContextLocator));
+            var dbContext = dbContextResolve(typeof(TDbContextLocator), default);
 
             // 保存当前数据库上下文到池中
             dbContextPool.AddToPool(dbContext);

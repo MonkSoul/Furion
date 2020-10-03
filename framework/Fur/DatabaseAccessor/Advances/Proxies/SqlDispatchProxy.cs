@@ -239,10 +239,10 @@ namespace Fur.DatabaseAccessor
         {
             // 解析数据库上下文池和数据库上下文解析器
             var dbContextPool = ServiceProvider.GetService<IDbContextPool>();
-            var dbContextResolver = ServiceProvider.GetService<Func<Type, DbContext>>();
+            var dbContextResolver = ServiceProvider.GetService<Func<Type, IScoped, DbContext>>();
 
             // 解析数据库上下文
-            var dbContext = dbContextResolver(dbContextLocator ?? typeof(MasterDbContextLocator));
+            var dbContext = dbContextResolver(dbContextLocator ?? typeof(MasterDbContextLocator), default);
 
             // 添加数据库上下文到池中
             dbContextPool.AddToPool(dbContext);
