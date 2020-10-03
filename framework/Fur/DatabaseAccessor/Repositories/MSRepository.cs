@@ -21,7 +21,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TMasterDbContextLocator">主库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator1">从库</typeparam>
     [SkipScan]
-    public class AdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1> : IAdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1>
+    public class MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1> : IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1>
         where TMasterDbContextLocator : class, IDbContextLocator
         where TSlaveDbContextLocator1 : class, IDbContextLocator
     {
@@ -34,7 +34,7 @@ namespace Fur.DatabaseAccessor
         /// 构造函数
         /// </summary>
         /// <param name="repository">非泛型仓储</param>
-        public AdjustableRepository(IRepository repository)
+        public MSRepository(IRepository repository)
         {
             _repository = repository;
         }
@@ -69,9 +69,9 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TSlaveDbContextLocator1">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator2">从库</typeparam>
     [SkipScan]
-    public class AdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2>
-        : AdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1>
-        , IAdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2>
+    public class MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2>
+        : MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1>
+        , IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2>
         where TMasterDbContextLocator : class, IDbContextLocator
         where TSlaveDbContextLocator1 : class, IDbContextLocator
         where TSlaveDbContextLocator2 : class, IDbContextLocator
@@ -85,7 +85,7 @@ namespace Fur.DatabaseAccessor
         /// 构造函数
         /// </summary>
         /// <param name="repository">非泛型仓储</param>
-        public AdjustableRepository(IRepository repository) : base(repository)
+        public MSRepository(IRepository repository) : base(repository)
         {
             _repository = repository;
         }
@@ -110,9 +110,9 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TSlaveDbContextLocator2">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator3">从库</typeparam>
     [SkipScan]
-    public class AdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3>
-        : AdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2>
-        , IAdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3>
+    public class MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3>
+        : MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2>
+        , IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3>
         where TMasterDbContextLocator : class, IDbContextLocator
         where TSlaveDbContextLocator1 : class, IDbContextLocator
         where TSlaveDbContextLocator2 : class, IDbContextLocator
@@ -127,7 +127,7 @@ namespace Fur.DatabaseAccessor
         /// 构造函数
         /// </summary>
         /// <param name="repository">非泛型仓储</param>
-        public AdjustableRepository(IRepository repository) : base(repository)
+        public MSRepository(IRepository repository) : base(repository)
         {
             _repository = repository;
         }
@@ -153,9 +153,9 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TSlaveDbContextLocator3">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator4">从库</typeparam>
     [SkipScan]
-    public class AdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4>
-        : AdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3>
-        , IAdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4>
+    public class MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4>
+        : MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3>
+        , IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4>
         where TMasterDbContextLocator : class, IDbContextLocator
         where TSlaveDbContextLocator1 : class, IDbContextLocator
         where TSlaveDbContextLocator2 : class, IDbContextLocator
@@ -171,7 +171,7 @@ namespace Fur.DatabaseAccessor
         /// 构造函数
         /// </summary>
         /// <param name="repository">非泛型仓储</param>
-        public AdjustableRepository(IRepository repository) : base(repository)
+        public MSRepository(IRepository repository) : base(repository)
         {
             _repository = repository;
         }
@@ -198,9 +198,9 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TSlaveDbContextLocator4">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator5">从库</typeparam>
     [SkipScan]
-    public class AdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5>
-        : AdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4>
-        , IAdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5>
+    public class MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5>
+        : MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4>
+        , IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5>
         where TMasterDbContextLocator : class, IDbContextLocator
         where TSlaveDbContextLocator1 : class, IDbContextLocator
         where TSlaveDbContextLocator2 : class, IDbContextLocator
@@ -217,7 +217,7 @@ namespace Fur.DatabaseAccessor
         /// 构造函数
         /// </summary>
         /// <param name="repository">非泛型仓储</param>
-        public AdjustableRepository(IRepository repository) : base(repository)
+        public MSRepository(IRepository repository) : base(repository)
         {
             _repository = repository;
         }
@@ -245,9 +245,9 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TSlaveDbContextLocator5">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator6">从库</typeparam>
     [SkipScan]
-    public class AdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6>
-        : AdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5>
-        , IAdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6>
+    public class MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6>
+        : MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5>
+        , IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6>
         where TMasterDbContextLocator : class, IDbContextLocator
         where TSlaveDbContextLocator1 : class, IDbContextLocator
         where TSlaveDbContextLocator2 : class, IDbContextLocator
@@ -265,7 +265,7 @@ namespace Fur.DatabaseAccessor
         /// 构造函数
         /// </summary>
         /// <param name="repository">非泛型仓储</param>
-        public AdjustableRepository(IRepository repository) : base(repository)
+        public MSRepository(IRepository repository) : base(repository)
         {
             _repository = repository;
         }
@@ -294,9 +294,9 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TSlaveDbContextLocator6">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator7">从库</typeparam>
     [SkipScan]
-    public class AdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6, TSlaveDbContextLocator7>
-        : AdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6>
-        , IAdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6, TSlaveDbContextLocator7>
+    public class MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6, TSlaveDbContextLocator7>
+        : MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6>
+        , IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6, TSlaveDbContextLocator7>
         where TMasterDbContextLocator : class, IDbContextLocator
         where TSlaveDbContextLocator1 : class, IDbContextLocator
         where TSlaveDbContextLocator2 : class, IDbContextLocator
@@ -315,7 +315,7 @@ namespace Fur.DatabaseAccessor
         /// 构造函数
         /// </summary>
         /// <param name="repository">非泛型仓储</param>
-        public AdjustableRepository(IRepository repository) : base(repository)
+        public MSRepository(IRepository repository) : base(repository)
         {
             _repository = repository;
         }

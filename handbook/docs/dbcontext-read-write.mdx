@@ -28,7 +28,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 `Fur` 在数据库模块设计之初，就考虑了读写分离这种情况，所以从底层就支持动态切换数据库上下文及读写操作方法约束。
 
-读写分离操作主要使用 `IAdjustableRepository` 仓储，该仓储已经为开发者提供方便的操作调用。当然也可以不使用该仓储。
+读写分离操作主要使用 `IMSRepository` 仓储，该仓储已经为开发者提供方便的操作调用。当然也可以不使用该仓储。
 
 下面就给大家演示如何读写多库读写操作。
 
@@ -214,15 +214,15 @@ namespace Fur.Application
         /// <summary>
         /// 可调配仓储（读写分离）
         /// </summary>
-        private readonly IAdjustableRepository<MasterDbContextLocator, SlaveDbContextLocator> _adjustableRepository;
+        private readonly IMSRepository<MasterDbContextLocator, SlaveDbContextLocator> _msRepository;
 
         /// <summary>
         /// 构造函数初始化
         /// </summary>
-        /// <param name="adjustableRepository"></param>
-        public PersonService(IAdjustableRepository<MasterDbContextLocator, SlaveDbContextLocator> adjustableRepository)
+        /// <param name="msRepository"></param>
+        public PersonService(IMSRepository<MasterDbContextLocator, SlaveDbContextLocator> msRepository)
         {
-            _adjustableRepository = adjustableRepository;
+            _msRepository = msRepository;
         }
 
         /// <summary>
@@ -232,7 +232,7 @@ namespace Fur.Application
         /// <returns></returns>
         public void Insert(Person person)
         {
-            _adjustableRepository.Master<Person>().Insert(person);
+            _msRepository.Master<Person>().Insert(person);
         }
 
         /// <summary>
@@ -241,7 +241,7 @@ namespace Fur.Application
         /// <returns></returns>
         public List<Person> Get()
         {
-            return _adjustableRepository.Slave1<Person>().AsEnumerable();
+            return _msRepository.Slave1<Person>().AsEnumerable();
         }
     }
 }

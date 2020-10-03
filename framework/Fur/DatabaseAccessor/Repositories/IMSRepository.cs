@@ -18,7 +18,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TMasterDbContextLocator">主库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator1">从库</typeparam>
-    public interface IAdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1>
+    public interface IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1>
         where TMasterDbContextLocator : class, IDbContextLocator
         where TSlaveDbContextLocator1 : class, IDbContextLocator
     {
@@ -45,8 +45,8 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TMasterDbContextLocator">主库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator1">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator2">从库</typeparam>
-    public interface IAdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2>
-        : IAdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1>
+    public interface IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2>
+        : IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1>
         where TMasterDbContextLocator : class, IDbContextLocator
         where TSlaveDbContextLocator1 : class, IDbContextLocator
         where TSlaveDbContextLocator2 : class, IDbContextLocator
@@ -67,8 +67,8 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TSlaveDbContextLocator1">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator2">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator3">从库</typeparam>
-    public interface IAdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3>
-        : IAdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2>
+    public interface IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3>
+        : IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2>
         where TMasterDbContextLocator : class, IDbContextLocator
         where TSlaveDbContextLocator1 : class, IDbContextLocator
         where TSlaveDbContextLocator2 : class, IDbContextLocator
@@ -91,8 +91,8 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TSlaveDbContextLocator2">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator3">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator4">从库</typeparam>
-    public interface IAdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4>
-        : IAdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3>
+    public interface IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4>
+        : IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3>
         where TMasterDbContextLocator : class, IDbContextLocator
         where TSlaveDbContextLocator1 : class, IDbContextLocator
         where TSlaveDbContextLocator2 : class, IDbContextLocator
@@ -117,8 +117,8 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TSlaveDbContextLocator3">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator4">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator5">从库</typeparam>
-    public interface IAdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5>
-        : IAdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4>
+    public interface IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5>
+        : IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4>
         where TMasterDbContextLocator : class, IDbContextLocator
         where TSlaveDbContextLocator1 : class, IDbContextLocator
         where TSlaveDbContextLocator2 : class, IDbContextLocator
@@ -145,8 +145,8 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TSlaveDbContextLocator4">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator5">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator6">从库</typeparam>
-    public interface IAdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6>
-        : IAdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5>
+    public interface IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6>
+        : IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5>
         where TMasterDbContextLocator : class, IDbContextLocator
         where TSlaveDbContextLocator1 : class, IDbContextLocator
         where TSlaveDbContextLocator2 : class, IDbContextLocator
@@ -175,8 +175,8 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TSlaveDbContextLocator5">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator6">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator7">从库</typeparam>
-    public interface IAdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6, TSlaveDbContextLocator7>
-        : IAdjustableRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6>
+    public interface IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6, TSlaveDbContextLocator7>
+        : IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6>
         where TMasterDbContextLocator : class, IDbContextLocator
         where TSlaveDbContextLocator1 : class, IDbContextLocator
         where TSlaveDbContextLocator2 : class, IDbContextLocator

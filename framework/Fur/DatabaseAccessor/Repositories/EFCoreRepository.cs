@@ -151,15 +151,12 @@ namespace Fur.DatabaseAccessor
             , IRepository repository
             , IServiceProvider serviceProvider) : base(dbContextResolve, dbContextPool, serviceProvider)
         {
+            _dbContextPool = dbContextPool;
+
             // 解析数据库上下文
             var dbContext = dbContextResolve(typeof(TDbContextLocator), default);
-
-            _dbContextPool = dbContextPool;
             // 保存当前数据库上下文到池中
             _dbContextPool.AddToPool(dbContext);
-
-            // 非泛型仓储
-            _repository = repository;
 
             // 配置数据库上下文
             DbContext = dbContext;
@@ -178,6 +175,9 @@ namespace Fur.DatabaseAccessor
 
             // 初始化服务提供器
             ServiceProvider = serviceProvider;
+
+            // 非泛型仓储
+            _repository = repository;
         }
 
         /// <summary>
