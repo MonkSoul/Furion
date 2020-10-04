@@ -115,10 +115,10 @@ namespace Fur.EntityFramework.Core
             services.AddDatabaseAccessor(options =>
             {
                 // 配置默认数据库
-                options.AddSqlServerPool<FurDbContext>();
+                options.AddDbPool<FurDbContext>(DbProvider.SqlServer);
 
                 // 配置多个数据库，多个数据库必须指定数据库上下文定位器
-                options.AddSqlitePool<SqliteDbContext, SqliteDbContextLocaotr>();
+                options.AddDbPool<SqliteDbContext, SqliteDbContextLocaotr>(DbProvider.Sqlite);
             });
         }
     }

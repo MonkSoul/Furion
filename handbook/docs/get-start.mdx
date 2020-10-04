@@ -85,7 +85,7 @@ namespace Fur.Core
 }
 ```
 
-### 2.2.1 创建数据库上下文
+### 2.2.2 创建数据库上下文
 
 在 `Fur.EntityFramework.Core` 中添加 `FurDbContext` 数据库上下文，代码如下：
 
@@ -127,7 +127,7 @@ namespace Fur.EntityFramework.Core
 在 `Fur.EntityFramework.Core` 的 `FurEntityFrameworkCoreStartup` 中配置数据库上下文，代码如下：
 
 ```cs {12-14} title="Fur\framework\Fur.EntityFramework.Core\FurEntityFrameworkCoreStartup.cs"
-using Fur.DependencyInjection;
+using Fur.DatabaseAccessor;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Fur.EntityFramework.Core
@@ -140,7 +140,7 @@ namespace Fur.EntityFramework.Core
             // 配置数据库上下文，支持N个数据库
             services.AddDatabaseAccessor(options =>
             {
-                options.AddSqlServerPool<FurDbContext>();
+                options.AddDbPool<FurDbContext>(DbProvider.Sqlite);
             });
         }
     }

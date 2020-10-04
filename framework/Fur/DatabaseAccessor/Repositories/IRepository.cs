@@ -371,7 +371,7 @@ namespace Fur.DatabaseAccessor
         /// 判断是否是 内存中 数据库
         /// </summary>
         /// <returns>bool</returns>
-        bool IsInMemory();
+        bool InMemoryDatabase();
 
         /// <summary>
         /// 判断是否是 MySql 数据库

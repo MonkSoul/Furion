@@ -138,7 +138,7 @@ namespace Fur.DatabaseAccessor
         internal static string GenerateFunctionSql(string providerName, DbFunctionType dbFunctionType, string funcName, params DbParameter[] parameters)
         {
             // 检查是否支持函数
-            DatabaseProvider.CheckFunctionSupported(providerName, dbFunctionType);
+            DbProvider.CheckFunctionSupported(providerName, dbFunctionType);
 
             parameters ??= Array.Empty<DbParameter>();
 
@@ -175,7 +175,7 @@ namespace Fur.DatabaseAccessor
         internal static string GenerateFunctionSql(string providerName, DbFunctionType dbFunctionType, string funcName, object model)
         {
             // 检查是否支持函数
-            DatabaseProvider.CheckFunctionSupported(providerName, dbFunctionType);
+            DbProvider.CheckFunctionSupported(providerName, dbFunctionType);
 
             var modelType = model?.GetType();
             // 处理字典类型参数
@@ -219,7 +219,7 @@ namespace Fur.DatabaseAccessor
         internal static string GenerateFunctionSql(string providerName, DbFunctionType dbFunctionType, string funcName, Dictionary<string, object> keyValues)
         {
             // 检查是否支持函数
-            DatabaseProvider.CheckFunctionSupported(providerName, dbFunctionType);
+            DbProvider.CheckFunctionSupported(providerName, dbFunctionType);
 
             var stringBuilder = new StringBuilder();
             stringBuilder.Append($"SELECT{(dbFunctionType == DbFunctionType.Table ? " * FROM" : "")} {funcName}(");

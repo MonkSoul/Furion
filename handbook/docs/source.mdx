@@ -287,14 +287,14 @@ Fur
 |          ├─Extensions
 |          |     └DependencyInjectionServiceCollectionExtensions.cs
 |          ├─Enums
-|          |   ├─InjectionOptions.cs
-|          |   ├─InjectionScopeOptions.cs
+|          |   ├─InjectionActions.cs
+|          |   ├─InjectionPatterns.cs
 |          |   └RegisterType.cs
 |          ├─Dependencies
-|          |      ├─IDependencyInjection.cs
-|          |      ├─IScopedInjection.cs
-|          |      ├─ISingletonInjection.cs
-|          |      ├─ITransientInjection.cs
+|          |      ├─IDependency.cs
+|          |      ├─IScoped.cs
+|          |      ├─ISingleton.cs
+|          |      ├─ITransient.cs
 |          |      ├─Aop
 |          |      |  └IDispatchProxy.cs
 |          ├─Attributes
@@ -324,6 +324,10 @@ Fur
 |       |     ├─ValidationMessageAttribute.cs
 |       |     ├─ValidationMessageTypeAttribute.cs
 |       |     └ValidationTypeAttribute.cs
+├─DataEncryption
+|       ├─AESEncryption.cs
+|       ├─DESCEncryption.cs
+|       └MD5Encryption.cs
 ├─DatabaseAccessor
 |        ├─UnitOfWork
 |        |     ├─Filters
@@ -333,8 +337,10 @@ Fur
 |        |     |     └UnitOfWorkAttribute.cs
 |        ├─Repositories
 |        |      ├─EFCoreRepository.cs
+|        |      ├─IMSRepository.cs
 |        |      ├─IRepository.cs
 |        |      ├─ISqlRepository.cs
+|        |      ├─MSRepository.cs
 |        |      ├─SqlRepository.cs
 |        |      ├─Implantations
 |        |      |       ├─DeletableRepository.cs
@@ -362,7 +368,10 @@ Fur
 |        |    └DatabaseAccessorSettingsOptions.cs
 |        ├─MultiTenants
 |        |      ├─Providers
-|        |      |     └IMultiTenantProvider.cs
+|        |      |     ├─IMultiTenantOnDatabaseProvider.cs
+|        |      |     ├─IMultiTenantOnSchemaProvider.cs
+|        |      |     ├─IMultiTenantOnTableProvider.cs
+|        |      |     └IMultiTenantProviderDependency.cs
 |        |      ├─Locators
 |        |      |    └MultiTenantDbContextLocator.cs
 |        |      ├─Enums
@@ -370,13 +379,13 @@ Fur
 |        |      ├─Entities
 |        |      |    └Tenant.cs
 |        ├─Models
-|        |   ├─DatabaseProvider.cs
+|        |   ├─DbProvider.cs
 |        |   ├─PagedList.cs
 |        |   ├─ProcedureOutputResult.cs
 |        |   └ProcedureOutputValue.cs
 |        ├─Locators
-|        |    ├─MasterDbContextLocator.cs
-|        |    └IDbContextLocator.cs
+|        |    ├─IDbContextLocator.cs
+|        |    └MasterDbContextLocator.cs
 |        ├─Interceptors
 |        |      ├─DbContextSaveChangesInterceptor.cs
 |        |      ├─SqlCommandProfilerInterceptor.cs
@@ -391,9 +400,8 @@ Fur
 |        |     |      ├─IEntityExtensions.cs
 |        |     |      └SqlExtensions.cs
 |        |     ├─DatabaseProvider
-|        |     |        ├─Penetrates.cs
-|        |     |        ├─SqliteServiceCollectionExtensions.cs
-|        |     |        └SqlServerServiceCollectionExtensions.cs
+|        |     |        ├─DatabaseProviderServiceCollectionExtensions.cs
+|        |     |        └Penetrates.cs
 |        |     ├─DatabaseFacade
 |        |     |       ├─DbDataConvertExtensions.cs
 |        |     |       ├─DbObjectExtensions.cs
@@ -418,6 +426,9 @@ Fur
 |        |    |     ├─FakeDeleteAttribute.cs
 |        |    |     ├─NonAutomaticAttribute.cs
 |        |    |     └QueryableFunctionAttribute.cs
+|        ├─DynamicModels
+|        |       ├─DynamicModelCacheKeyFactory.cs
+|        |       └IEntityMutableTable.cs
 |        ├─Contexts
 |        |    ├─AppDbContext.cs
 |        |    ├─Builders

@@ -31,10 +31,10 @@ namespace Fur.DatabaseAccessor
         private static int cacheKey;
 
         /// <summary>
-        /// 刷新实体类型
+        /// 重写构建模型
         /// </summary>
         /// <remarks>动态切换表之后需要调用该方法</remarks>
-        public static void RefreshEntityType()
+        public static void RebuildModels()
         {
             Interlocked.Increment(ref cacheKey);
         }

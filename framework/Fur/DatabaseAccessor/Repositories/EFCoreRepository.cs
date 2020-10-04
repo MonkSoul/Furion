@@ -559,7 +559,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsSqlServer()
         {
-            return ProviderName.Equals(DatabaseProvider.SqlServer, StringComparison.Ordinal);
+            return ProviderName.Equals(DbProvider.SqlServer, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -568,7 +568,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsSqlite()
         {
-            return ProviderName.Equals(DatabaseProvider.Sqlite, StringComparison.Ordinal);
+            return ProviderName.Equals(DbProvider.Sqlite, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -577,16 +577,16 @@ namespace Fur.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsCosmos()
         {
-            return ProviderName.Equals(DatabaseProvider.Cosmos, StringComparison.Ordinal);
+            return ProviderName.Equals(DbProvider.Cosmos, StringComparison.Ordinal);
         }
 
         /// <summary>
         /// 判断是否是 内存中 数据库
         /// </summary>
         /// <returns>bool</returns>
-        public virtual bool IsInMemory()
+        public virtual bool InMemoryDatabase()
         {
-            return ProviderName.Equals(DatabaseProvider.InMemory, StringComparison.Ordinal);
+            return ProviderName.Equals(DbProvider.InMemoryDatabase, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -595,7 +595,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsMySql()
         {
-            return ProviderName.Equals(DatabaseProvider.MySql, StringComparison.Ordinal);
+            return ProviderName.Equals(DbProvider.MySql, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -604,7 +604,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsNpgsql()
         {
-            return ProviderName.Equals(DatabaseProvider.PostgreSQL, StringComparison.Ordinal);
+            return ProviderName.Equals(DbProvider.Npgsql, StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -613,7 +613,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsOracle()
         {
-            return ProviderName.Equals(DatabaseProvider.Oracle, StringComparison.Ordinal);
+            return ProviderName.Equals(DbProvider.Oracle, StringComparison.Ordinal);
         }
 
         /// <summary>

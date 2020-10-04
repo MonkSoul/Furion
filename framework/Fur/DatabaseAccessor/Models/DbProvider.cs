@@ -13,9 +13,12 @@
 
 using Fur.DependencyInjection;
 using Fur.FriendlyException;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 
 namespace Fur.DatabaseAccessor
 {
@@ -23,42 +26,42 @@ namespace Fur.DatabaseAccessor
     /// 数据库提供器选项
     /// </summary>
     [SkipScan]
-    internal static class DatabaseProvider
+    public static class DbProvider
     {
         /// <summary>
         /// SqlServer 提供器程序集
         /// </summary>
-        internal const string SqlServer = "Microsoft.EntityFrameworkCore.SqlServer";
+        public const string SqlServer = "Microsoft.EntityFrameworkCore.SqlServer";
 
         /// <summary>
         /// Sqlite 提供器程序集
         /// </summary>
-        internal const string Sqlite = "Microsoft.EntityFrameworkCore.Sqlite";
+        public const string Sqlite = "Microsoft.EntityFrameworkCore.Sqlite";
 
         /// <summary>
         /// Cosmos 提供器程序集
         /// </summary>
-        internal const string Cosmos = "Microsoft.EntityFrameworkCore.Cosmos";
+        public const string Cosmos = "Microsoft.EntityFrameworkCore.Cosmos";
 
         /// <summary>
         /// 内存数据库 提供器程序集
         /// </summary>
-        internal const string InMemory = "Microsoft.EntityFrameworkCore.InMemory";
+        public const string InMemoryDatabase = "Microsoft.EntityFrameworkCore.InMemory";
 
         /// <summary>
         /// MySql 提供器程序集
         /// </summary>
-        internal const string MySql = "Pomelo.EntityFrameworkCore.MySql";
+        public const string MySql = "Pomelo.EntityFrameworkCore.MySql";
 
         /// <summary>
         /// PostgreSQL 提供器程序集
         /// </summary>
-        internal const string PostgreSQL = "Npgsql.EntityFrameworkCore.PostgreSQL";
+        internal const string Npgsql = "Npgsql.EntityFrameworkCore.PostgreSQL";
 
         /// <summary>
         /// Oracle 提供器程序集
         /// </summary>
-        internal const string Oracle = "Citms.EntityFrameworkCore.Oracle";
+        public const string Oracle = "Citms.EntityFrameworkCore.Oracle";
 
         /// <summary>
         /// 不支持存储过程的数据库
@@ -83,32 +86,69 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
-        static DatabaseProvider()
+        static DbProvider()
         {
             NotSupportStoredProcedureDatabases = new[]
             {
                 Sqlite,
-                InMemory
+                InMemoryDatabase
             };
 
             NotSupportFunctionDatabases = new[]
             {
                 Sqlite,
-                InMemory
+                InMemoryDatabase
             };
 
             NotSupportTableFunctionDatabases = new[]
             {
                 Sqlite,
-                InMemory,
+                InMemoryDatabase,
                 MySql
             };
 
             NotSupportTransactionScopeDatabase = new[]
             {
                 Sqlite,
-                InMemory,
+                InMemoryDatabase,
             };
+        }
+
+        /// <summary>
+        /// 获取数据库上下文连接字符串
+        /// </summary>
+        /// <typeparam name="TDbContext"></typeparam>
+        /// <param name="connectionString"></param>
+        /// <returns></returns>
+        public static string GetDbContextConnectionString<TDbContext>(string connectionString = default)
+            where TDbContext : DbContext
+        {
+            if (!string.IsNullOrEmpty(connectionString)) return connectionString;
+
+            // 如果没有配置数据库连接字符串，那么查找特性
+            var dbContextType = typeof(TDbContext);
+            if (!dbContextType.IsDefined(typeof(DbContextAttribute), true)) return default;
+
+            // 获取配置特性
+            var dbContextAttribute = dbContextType.GetCustomAttribute<DbContextAttribute>(true);
+            var connStr = dbContextAttribute.ConnectionString;
+
+            if (string.IsNullOrEmpty(connStr)) return default;
+            // 如果包含 = 符号，那么认为是连接字符串
+            if (connStr.Contains("=")) return connStr;
+            else
+            {
+                var configuration = App.Configuration;
+
+                // 如果包含 : 符号，那么认为是一个 Key 路径
+                if (connStr.Contains(":")) return configuration[connStr];
+                else
+                {
+                    // 首先查找 DbConnectionString 键，如果没有找到，则当成 Key 去查找
+                    var connStrValue = configuration.GetConnectionString(connStr);
+                    return !string.IsNullOrEmpty(connStrValue) ? connStrValue : configuration[connStrValue];
+                }
+            }
         }
 
         /// <summary>

@@ -118,7 +118,7 @@ docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-2020.10.04
   - Azure Cosmos
   - MySql
   - PostgreSQL
-  - InMemory
+  - InMemoryDatabase
   - Oracle
 
 ## 🍖 关于性能

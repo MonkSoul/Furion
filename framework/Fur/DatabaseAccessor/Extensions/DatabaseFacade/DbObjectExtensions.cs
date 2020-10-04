@@ -237,7 +237,7 @@ namespace Fur.DatabaseAccessor
         private static (DbConnection dbConnection, DbCommand dbCommand) CreateDbCommand(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text)
         {
             // 检查是否支持存储过程
-            DatabaseProvider.CheckStoredProcedureSupported(databaseFacade.ProviderName, commandType);
+            DbProvider.CheckStoredProcedureSupported(databaseFacade.ProviderName, commandType);
 
             // 判断是否启用 MiniProfiler 组件，如果有，则包装链接
             var dbConnection = InjectMiniProfiler ? new ProfiledDbConnection(databaseFacade.GetDbConnection(), MiniProfiler.Current) : databaseFacade.GetDbConnection();
@@ -262,7 +262,7 @@ namespace Fur.DatabaseAccessor
         private static (DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter) CreateDbDataAdapter(this DatabaseFacade databaseFacade, string sql, CommandType commandType = CommandType.Text)
         {
             // 检查是否支持存储过程
-            DatabaseProvider.CheckStoredProcedureSupported(databaseFacade.ProviderName, commandType);
+            DbProvider.CheckStoredProcedureSupported(databaseFacade.ProviderName, commandType);
 
             // 获取数据库连接字符串
             var dbConnection = databaseFacade.GetDbConnection();
