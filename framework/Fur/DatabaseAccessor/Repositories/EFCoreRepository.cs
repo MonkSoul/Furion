@@ -21,6 +21,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
@@ -159,8 +160,7 @@ namespace Fur.DatabaseAccessor
             _dbContextPool.AddToPool(dbContext);
 
             // 配置数据库上下文
-            DbContext = dbContext;
-            DynamicDbContext = dbContext;
+            DynamicDbContext = DbContext = dbContext;
 
             // 初始化数据库相关数据
             DbConnection = Database.GetDbConnection();
@@ -531,7 +531,26 @@ namespace Fur.DatabaseAccessor
         /// <param name="connectionString">连接字符串</param>
         public virtual void ChangeDatabase(string connectionString)
         {
-            DbConnection.ConnectionString = connectionString;
+            if (DbConnection.State.HasFlag(ConnectionState.Open)) DbConnection.ChangeDatabase(connectionString);
+            else DbConnection.ConnectionString = connectionString;
+        }
+
+        /// <summary>
+        /// 动态改变数据库
+        /// </summary>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        public virtual async Task ChangeDatabaseAsync(string connectionString, CancellationToken cancellationToken = default)
+        {
+            if (DbConnection.State.HasFlag(ConnectionState.Open))
+            {
+                await DbConnection.ChangeDatabaseAsync(connectionString, cancellationToken);
+            }
+            else
+            {
+                DbConnection.ConnectionString = connectionString;
+                await Task.CompletedTask;
+            }
         }
 
         /// <summary>

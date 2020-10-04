@@ -343,6 +343,13 @@ namespace Fur.DatabaseAccessor
         void ChangeDatabase(string connectionString);
 
         /// <summary>
+        /// 动态改变数据库
+        /// </summary>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        Task ChangeDatabaseAsync(string connectionString, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// 判断是否是 SqlServer 数据库
         /// </summary>
         /// <returns>bool</returns>

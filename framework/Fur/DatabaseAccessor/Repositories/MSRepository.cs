@@ -16,7 +16,7 @@ using Fur.DependencyInjection;
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 可调配仓储
+    /// 主从库仓储
     /// </summary>
     /// <typeparam name="TMasterDbContextLocator">主库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator1">从库</typeparam>
@@ -63,7 +63,7 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 可调配仓储
+    /// 主从库仓储
     /// </summary>
     /// <typeparam name="TMasterDbContextLocator">主库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator1">从库</typeparam>
@@ -103,7 +103,7 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 可调配仓储
+    /// 主从库仓储
     /// </summary>
     /// <typeparam name="TMasterDbContextLocator">主库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator1">从库</typeparam>
@@ -145,7 +145,7 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 可调配仓储
+    /// 主从库仓储
     /// </summary>
     /// <typeparam name="TMasterDbContextLocator">主库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator1">从库</typeparam>
@@ -189,7 +189,7 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 可调配仓储
+    /// 主从库仓储
     /// </summary>
     /// <typeparam name="TMasterDbContextLocator">主库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator1">从库</typeparam>
@@ -235,7 +235,7 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 可调配仓储
+    /// 主从库仓储
     /// </summary>
     /// <typeparam name="TMasterDbContextLocator">主库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator1">从库</typeparam>
@@ -283,7 +283,7 @@ namespace Fur.DatabaseAccessor
     }
 
     /// <summary>
-    /// 可调配仓储
+    /// 主从库仓储
     /// </summary>
     /// <typeparam name="TMasterDbContextLocator">主库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator1">从库</typeparam>
