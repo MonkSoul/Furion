@@ -8,6 +8,8 @@ namespace Fur.Web.Core
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCorsAccessor();
+
             services.AddSpecificationDocuments();
             services.AddControllers()
                        .AddDynamicApiControllers()
