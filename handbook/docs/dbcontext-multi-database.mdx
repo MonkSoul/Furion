@@ -1,20 +1,20 @@
 ---
 id: dbcontext-multi-database
-title: 8.17 多数据库操作
-sidebar_label: 8.17 多数据库操作
+title: 8.18 多数据库操作
+sidebar_label: 8.18 多数据库操作
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-## 8.17.1 `Fur` 支持数据库提供器
+## 8.18.1 `Fur` 支持数据库提供器
 
 | SqlServer | Sqlite | Cosmos | InMemoryDatabase | MySql | PostgreSQL | Oracle |
 | --------- | ------ | ------ | ---------------- | ----- | ---------- | ------ |
 | ✔         | ✔      | ✔      | ✔                | ✔     | ✔          | ✔      |
 
-### 8.17.1.1 数据库提供器对应包
+### 8.18.1.1 数据库提供器对应包
 
 - `SqlServer`：`Microsoft.EntityFrameworkCore.SqlServer`
 - `Sqlite`：`Microsoft.EntityFrameworkCore.Sqlite`
@@ -24,7 +24,7 @@ import TabItem from "@theme/TabItem";
 - `PostgreSQL`：`Npgsql.EntityFrameworkCore.PostgreSQL`
 - `Oracle`：`Citms.EntityFrameworkCore.Oracle`
 
-## 8.17.2 多数据库服务注册
+## 8.18.2 多数据库服务注册
 
 ```cs
 // 注册 SqlServer
@@ -49,13 +49,13 @@ options.AddDb<FurDbContext>(DbProvider.Npgsql);
 options.AddDbPool<FurDbContext>(DbProvider.Oracle);
 ```
 
-## 8.17.3 多数据库使用方式
+## 8.18.3 多数据库使用方式
 
 `Fur` 通过独创的 `数据库上下文定位器` 实现多数据库灵活操作切换。只需要为每一种数据库绑定唯一的数据库上下文定位器即可。
 
 以下是 `Fur` 支持多数据库操作的实例：
 
-### 8.17.3.1 实体仓储方式
+### 8.18.3.1 实体仓储方式
 
 ```cs
 // 切换到 MSSQL 操作 Person表
@@ -69,7 +69,7 @@ var sqliteRepository = personRepository.Change<Person, SqliteDbContextLocator>()
 
 ```
 
-### 8.17.3.2 非泛型仓储方式
+### 8.18.3.2 非泛型仓储方式
 
 ```cs
 // 切换到 MSSQL 操作 Person表
@@ -82,7 +82,7 @@ var mysqlRepository = repository.Change<Person, MySqlDbContextLocator>();
 var sqliteRepository = repository.Change<Person, SqliteDbContextLocator>();
 ```
 
-### 8.17.3.3 `Sql` 仓储方式
+### 8.18.3.3 `Sql` 仓储方式
 
 ```cs
 // 切换到 MSSQL 操作 Person表
@@ -95,7 +95,7 @@ var mysqlRepository = sqlRepository.Change<MySqlDbContextLocator>();
 var sqliteRepository = sqlRepository.Change<SqliteDbContextLocator>();
 ```
 
-### 8.17.3.4 实体定义方式
+### 8.18.3.4 实体定义方式
 
 ```cs
 
@@ -118,7 +118,7 @@ public class Person: IEntity<MySqlDbContextLocator, SqliteDbContextLocator>
 
 :::
 
-### 8.17.3.5 Linq 函数方式
+### 8.18.3.5 Linq 函数方式
 
 ```cs
 public static class QueryFunctions
@@ -128,7 +128,7 @@ public static class QueryFunctions
 }
 ```
 
-## 8.17.4 反馈与建议
+## 8.18.4 反馈与建议
 
 :::note 与我们交流
 

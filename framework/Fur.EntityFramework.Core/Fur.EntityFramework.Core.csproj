@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <None Remove="dbsettings.json" />
+    <None Remove="sqlsettings.json" />
   </ItemGroup>
 
   <ItemGroup>

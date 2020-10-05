@@ -760,6 +760,9 @@ namespace Fur.DatabaseAccessor
         /// <returns>IQueryable<TEntity></returns>
         public virtual IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters)
         {
+            // 获取真实运行 Sql
+            sql = DbHelpers.ResolveSqlConfiguration(sql);
+
             return Entities.FromSqlRaw(sql, parameters);
         }
 
@@ -773,6 +776,9 @@ namespace Fur.DatabaseAccessor
         /// <returns>IQueryable<TEntity></returns>
         public virtual IQueryable<TEntity> FromSqlInterpolated(FormattableString sql)
         {
+            // 获取真实运行 Sql
+            //sql = DbHelpers.ResolveSqlConfiguration(sql);
+
             return Entities.FromSqlInterpolated(sql);
         }
     }

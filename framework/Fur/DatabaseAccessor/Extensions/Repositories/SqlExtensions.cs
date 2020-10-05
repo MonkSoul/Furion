@@ -2500,12 +2500,17 @@ namespace Fur.DatabaseAccessor
         private static DatabaseFacade GetSqlRepositoryDatabase(ref string sql)
         {
             // 数据库上下文定位器完整类型名称
-            var dbContextLocatorFullName = sql.Split(dbContextLocatorSqlSplit).First();
-            sql = sql[(sql.IndexOf(dbContextLocatorSqlSplit) + dbContextLocatorSqlSplit.Length)..];
+            string dbContextLocatorFullName;
+            if (sql.Contains(dbContextLocatorSqlSplit))
+            {
+                dbContextLocatorFullName = sql.Split(dbContextLocatorSqlSplit).First();
+                sql = sql[(sql.IndexOf(dbContextLocatorSqlSplit) + dbContextLocatorSqlSplit.Length)..];
+            }
+            else dbContextLocatorFullName = typeof(MasterDbContextLocator).FullName;
 
             // 获取数据库上下文定位器类型
             var dbContextLocator = Penetrates.DbContextLocatorTypeCached.GetValueOrDefault(dbContextLocatorFullName)
-                ?? throw Oops.Oh("Failed to load \"{0}\" DbContextLocator Type.", dbContextLocatorFullName);
+            ?? throw Oops.Oh("Failed to load \"{0}\" DbContextLocator Type.", dbContextLocatorFullName);
 
             // 创建Sql仓储
             var sqlRepositoryType = typeof(ISqlRepository<>).MakeGenericType(dbContextLocator);

@@ -12,6 +12,7 @@
 // -----------------------------------------------------------------------------
 
 using Fur.DependencyInjection;
+using Fur.FriendlyException;
 using Mapster;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Fur.DatabaseAccessor
 {
@@ -304,6 +306,37 @@ namespace Fur.DatabaseAccessor
             return procedureOutputResult;
         }
 
+
+        /// <summary>
+        /// 解析 Sql 配置信息
+        /// </summary>
+        /// <param name="sqlTemplate">sql或sql模板</param>
+        /// <returns></returns>
+        internal static string ResolveSqlConfiguration(string sqlTemplate)
+        {
+            var matches = SqlTemplateRegex.Matches(sqlTemplate);
+            if (!matches.Any()) return sqlTemplate;
+
+            foreach (Match match in matches)
+            {
+                // 获取路径
+                var path = match.Groups["path"].Value;
+
+                // 读取配置
+                var realSql = App.Configuration[path];
+                if (string.IsNullOrEmpty(realSql))
+                {
+                    var sqlConfiguration = App.GetOptions<SqlTemplate>(path) ?? throw Oops.Oh($"Not found {path} configuration information");
+                    realSql = sqlConfiguration.Sql;
+                }
+
+                sqlTemplate = sqlTemplate.Replace($"#({path})", realSql);
+            }
+
+            return sqlTemplate;
+        }
+
+
         /// <summary>
         /// 读取输出返回值
         /// </summary>
@@ -323,6 +356,19 @@ namespace Fur.DatabaseAccessor
 
             // 查询返回值
             returnValue = parameters.FirstOrDefault(u => u.Direction == ParameterDirection.ReturnValue)?.Value;
+        }
+
+        /// <summary>
+        /// Sql 模板正在表达式
+        /// </summary>
+        private static readonly Regex SqlTemplateRegex;
+
+        /// <summary>
+        /// 静态构造函数
+        /// </summary>
+        static DbHelpers()
+        {
+            SqlTemplateRegex = new Regex(@"\#\((?<path>.*?)\)");
         }
     }
 }

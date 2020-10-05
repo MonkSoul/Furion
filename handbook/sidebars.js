@@ -49,6 +49,7 @@ module.exports = {
         "dbcontext-proc",
         "dbcontext-function",
         "dbcontext-sql",
+        "dbcontext-sql-template",
         "dbcontext-sql-proxy",
         "dbcontext-multi-database",
         "dbcontext-db-first",
