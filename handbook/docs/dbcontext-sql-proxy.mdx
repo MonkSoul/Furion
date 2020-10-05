@@ -93,6 +93,30 @@ namespace Fur.Application
 }
 ```
 
+:::important 关于参数
+
+`Sql` 代理参数查找规则：
+
+如果方法的参数是 `基元类型`（或 `string`、`值类型`），则自动将这些类型组合成 `Dictionary<string, object>` 作为 `Sql` 参数。命令参数可使用方法同名参数加 `@` 符号。
+
+如果方法的参数是 `类类型`，那么自动遍历该类公开实例属性生成 `DbParameter[]` 数组，每一个属性名都将是命令参数，不区分大小写，如：
+
+```cs
+public class MyModel
+{
+    public int Id {get;set;}
+    public string Name {get; set;}
+}
+```
+
+那么 `sql` 语句可以直接使用属性名作为参数：
+
+```sql
+select * from person where id > @id and name = @name;
+```
+
+:::
+
 ### 8.16.4.2 返回 `T 或 List<T>`
 
 ```cs {8,12,16,20}
