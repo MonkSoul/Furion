@@ -17,6 +17,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 
+// reference：https://github.com/adoconnection/RazorEngineCore
 namespace Fur.ViewEngine
 {
     /// <summary>
