@@ -213,7 +213,7 @@ var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern3..
 
 ## 3.1.4 自定义配置文件
 
-大多情况下，我们的配置只需要在 `appsettings.json` 中配置即可，但一些特殊情况下，我们希望某些组件或功能拥有独立的配置，比如邮件配置：
+大多情况下，我们的配置只需要在 `appsettings.json` 中配置即可，但一些特殊情况下，我们希望某些组件或功能拥有独立的配置，自定义配置文件支持 `.json` 和 `.xml` 两种方式，比如配置：
 
 ```json {2-13} title="Fur.Web.Entry/emailsetting.json"
 {
@@ -230,6 +230,23 @@ var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern3..
     }
   }
 }
+```
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <MyKey>MyXMLFile Value</MyKey>
+  <Position>
+    <Title>Title from  MyXMLFile</Title>
+    <Name>Name from MyXMLFile</Name>
+  </Position>
+  <Logging>
+    <LogLevel>
+      <Default>Information</Default>
+      <Microsoft>Warning</Microsoft>
+    </LogLevel>
+  </Logging>
+</configuration>
 ```
 
 `ASP.NET Core` 提供了非常灵活的方式支持多个配置文件配置及读取，配置如下：

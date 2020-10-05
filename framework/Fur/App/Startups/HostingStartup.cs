@@ -40,6 +40,7 @@ namespace Fur
             builder.ConfigureAppConfiguration(configurationBuilder =>
             {
                 AutoAddJsonFile(configurationBuilder);
+                AutoAddXmlFile(configurationBuilder);
             });
 
             // 自动注入 AddApp() 服务
@@ -57,7 +58,7 @@ namespace Fur
         }
 
         /// <summary>
-        /// 自动加载自定义配置文件
+        /// 自动加载自定义 .json 配置文件
         /// </summary>
         /// <param name="configurationBuilder"></param>
         private static void AutoAddJsonFile(IConfigurationBuilder configurationBuilder)
@@ -75,6 +76,28 @@ namespace Fur
             foreach (var jsonName in jsonNames)
             {
                 configurationBuilder.AddJsonFile(jsonName, optional: true, reloadOnChange: true);
+            }
+        }
+
+        /// <summary>
+        /// 自动加载自定义 .xml 配置文件
+        /// </summary>
+        /// <param name="configurationBuilder"></param>
+        private static void AutoAddXmlFile(IConfigurationBuilder configurationBuilder)
+        {
+            // 获取程序目录下的所有配置文件
+            var xmlNames = Directory.GetFiles(AppContext.BaseDirectory, "*.xml", SearchOption.TopDirectoryOnly)
+                .Union(
+                    Directory.GetFiles(Directory.GetCurrentDirectory(), "*.xml", SearchOption.TopDirectoryOnly)
+                )
+                .Where(u => !App.Assemblies.Any(a => a.GetName().Name.Equals(Path.GetFileNameWithoutExtension(u))));
+
+            if (!xmlNames.Any()) return;
+
+            // 自动加载配置文件
+            foreach (var xmlName in xmlNames)
+            {
+                configurationBuilder.AddXmlFile(xmlName, optional: true, reloadOnChange: true);
             }
         }
 
