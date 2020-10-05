@@ -21,7 +21,7 @@ using Fur.DatabaseAccessor;
 
 namespace Fur.Application
 {
-    public class ISql : ISqlDispatchProxy
+    public interface ISql : ISqlDispatchProxy
     {
     }
 }
@@ -68,7 +68,7 @@ using Fur.DatabaseAccessor;
 
 namespace Fur.Application
 {
-    public class ISql : ISqlDispatchProxy
+    public interface ISql : ISqlDispatchProxy
     {
         // 执行sql并传入参数，基元类型
         [SqlExecute("select * from person where id >@id and name like %@name%")]
@@ -100,7 +100,7 @@ using Fur.DatabaseAccessor;
 
 namespace Fur.Application
 {
-    public class ISql : ISqlDispatchProxy
+    public interface ISql : ISqlDispatchProxy
     {
         // 执行sql并传入参数，基元类型
         [SqlExecute("select * from person where id >@id and name like %@name%")]
@@ -132,7 +132,7 @@ using Fur.DatabaseAccessor;
 
 namespace Fur.Application
 {
-    public class ISql : ISqlDispatchProxy
+    public interface ISql : ISqlDispatchProxy
     {
         // 执行sql并传入参数，基元类型
         [SqlExecute(@"
@@ -175,7 +175,7 @@ using Fur.DatabaseAccessor;
 
 namespace Fur.Application
 {
-    public class ISql : ISqlDispatchProxy
+    public interface ISql : ISqlDispatchProxy
     {
         // 执行sql并传入参数，基元类型
         [SqlExecute(@"
@@ -218,7 +218,7 @@ using Fur.DatabaseAccessor;
 
 namespace Fur.Application
 {
-    public class ISql : ISqlDispatchProxy
+    public interface ISql : ISqlDispatchProxy
     {
         [SqlExecute("select Name from person where id = @id")]
         string GetValue(int id);
@@ -239,7 +239,7 @@ using Fur.DatabaseAccessor;
 
 namespace Fur.Application
 {
-    public class ISql : ISqlDispatchProxy
+    public interface ISql : ISqlDispatchProxy
     {
         [SqlExecute("insert into person(Name,Age) values(@name,@age)")]
         void Insert(MyParam dto);
@@ -262,7 +262,7 @@ using Fur.DatabaseAccessor;
 
 namespace Fur.Application
 {
-    public class ISql : ISqlDispatchProxy
+    public interface ISql : ISqlDispatchProxy
     {
         [SqlProcedure("PROC_Name")]
         DataTable GetPersons(MyParam dto);
@@ -283,7 +283,7 @@ using Fur.DatabaseAccessor;
 
 namespace Fur.Application
 {
-    public class ISql : ISqlDispatchProxy
+    public interface ISql : ISqlDispatchProxy
     {
         [SqlProcedure("PROC_Name")]
         List<Person> GetPersons(MyParam dto);
@@ -304,7 +304,7 @@ using Fur.DatabaseAccessor;
 
 namespace Fur.Application
 {
-    public class ISql : ISqlDispatchProxy
+    public interface ISql : ISqlDispatchProxy
     {
         [SqlProcedure("PROC_Name")]
         DataSet GetData(MyParam dto);
@@ -325,7 +325,7 @@ using Fur.DatabaseAccessor;
 
 namespace Fur.Application
 {
-    public class ISql : ISqlDispatchProxy
+    public interface ISql : ISqlDispatchProxy
     {
         [SqlProcedure("PROC_Name")]
         (List<Person>, List<Student>) GetData(MyParam dto);
@@ -346,7 +346,7 @@ using Fur.DatabaseAccessor;
 
 namespace Fur.Application
 {
-    public class ISql : ISqlDispatchProxy
+    public interface ISql : ISqlDispatchProxy
     {
         [SqlProcedure("PROC_Name")]
         object GetValue(MyParam dto);
@@ -367,7 +367,7 @@ using Fur.DatabaseAccessor;
 
 namespace Fur.Application
 {
-    public class ISql : ISqlDispatchProxy
+    public interface ISql : ISqlDispatchProxy
     {
         [SqlProcedure("PROC_Name")]
         void GetValue(MyParam dto);
@@ -388,7 +388,7 @@ using Fur.DatabaseAccessor;
 
 namespace Fur.Application
 {
-    public class ISql : ISqlDispatchProxy
+    public interface ISql : ISqlDispatchProxy
     {
         [SqlProcedure("PROC_Name")]
         ProcedureOutputResult GetOutput(ProcOutputModel pams);
@@ -409,7 +409,7 @@ using Fur.DatabaseAccessor;
 
 namespace Fur.Application
 {
-    public class ISql : ISqlDispatchProxy
+    public interface ISql : ISqlDispatchProxy
     {
         [SqlFunction("FN_Name")]    // 标量函数
         string GetValue(MyParam dto);
