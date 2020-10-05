@@ -617,6 +617,15 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
+        /// 判断是否是 Firebird 数据库
+        /// </summary>
+        /// <returns>bool</returns>
+        public virtual bool IsFirebird()
+        {
+            return ProviderName.Equals(DbProvider.Firebird, StringComparison.Ordinal);
+        }
+
+        /// <summary>
         /// 判断是否是关系型数据库
         /// </summary>
         /// <returns>bool</returns>

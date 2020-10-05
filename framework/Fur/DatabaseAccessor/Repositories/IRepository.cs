@@ -392,6 +392,12 @@ namespace Fur.DatabaseAccessor
         bool IsOracle();
 
         /// <summary>
+        /// 判断是否是 Firebird 数据库
+        /// </summary>
+        /// <returns>bool</returns>
+        bool IsFirebird();
+
+        /// <summary>
         /// 判断是否是关系型数据库
         /// </summary>
         /// <returns>bool</returns>

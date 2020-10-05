@@ -270,6 +270,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     DbProvider.MySql => "MySqlDbContextOptionsExtensions",
                     DbProvider.Npgsql => "NpgsqlDbContextOptionsBuilderExtensions",
                     DbProvider.Oracle => "OracleDbContextOptionsExtensions",
+                    DbProvider.Firebird => "FbDbContextOptionsBuilderExtensions",
                     _ => null
                 };
 
@@ -286,6 +287,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     DbProvider.MySql => $"Use{nameof(DbProvider.MySql)}",
                     DbProvider.Npgsql => $"Use{nameof(DbProvider.Npgsql)}",
                     DbProvider.Oracle => $"Use{nameof(DbProvider.Oracle)}",
+                    DbProvider.Firebird => $"Use{nameof(DbProvider.Firebird)}",
                     _ => null
                 };
 
