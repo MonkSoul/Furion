@@ -13,7 +13,6 @@
 
 using Fur.DependencyInjection;
 using Fur.FriendlyException;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -258,7 +257,7 @@ namespace Fur.DataValidation
                 .Where(u => u.IsDefined(typeof(ValidationMessageTypeAttribute), true) && u.IsEnum).ToList();
 
             // 加载自定义验证消息类型提供器
-            var validationMessageTypeProvider = App.TransientServices.GetService<IValidationMessageTypeProvider>();
+            var validationMessageTypeProvider = App.GetService<IValidationMessageTypeProvider>();
             if (validationMessageTypeProvider is { Definitions: not null }) validationMessageTypes.AddRange(validationMessageTypeProvider.Definitions);
 
             return validationMessageTypes.Distinct();

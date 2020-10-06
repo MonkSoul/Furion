@@ -2514,7 +2514,7 @@ namespace Fur.DatabaseAccessor
 
             // 创建Sql仓储
             var sqlRepositoryType = typeof(ISqlRepository<>).MakeGenericType(dbContextLocator);
-            var sqlRepository = App.RequestServices.GetService(sqlRepositoryType);
+            var sqlRepository = App.GetRequestService(sqlRepositoryType);
 
             return sqlRepositoryType.GetProperty(nameof(ISqlRepository.Database)).GetValue(sqlRepository) as DatabaseFacade;
         }

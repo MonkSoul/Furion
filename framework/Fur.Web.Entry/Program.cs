@@ -16,7 +16,7 @@ namespace Fur.Web.Entry
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder
-                        .UseSetting(WebHostDefaults.HostingStartupAssembliesKey, nameof(Fur))
+                        .UseSetting(WebHostDefaults.HostingStartupAssembliesKey, nameof(Fur))   // 必须设置这一句
                         .UseStartup<Startup>();
                 });
         }

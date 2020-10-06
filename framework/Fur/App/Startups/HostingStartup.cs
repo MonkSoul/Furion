@@ -50,7 +50,7 @@ namespace Fur
                 services.AddTransient<IStartupFilter, StartupFilter>();
 
                 // 存储服务提供器
-                App.Services = services;
+                App.InternalServices = services;
 
                 // 初始化应用服务
                 services.AddApp();

@@ -8,7 +8,6 @@ namespace Fur.EntityFramework.Core
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            // 配置数据库上下文，支持N个数据库
             services.AddDatabaseAccessor(options =>
             {
                 options.AddDbPool<FurDbContext>(DbProvider.Sqlite);

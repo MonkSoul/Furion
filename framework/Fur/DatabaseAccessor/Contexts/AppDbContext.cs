@@ -124,11 +124,11 @@ namespace Fur.DatabaseAccessor
                 var host = httpContextAccessor.HttpContext.Request.Host.Value;
 
                 // 从内存缓存中读取或查询数据库
-                var memoryCache = App.GetRequireService<IMemoryCache>();
+                var memoryCache = App.GetRequestService<IMemoryCache>();
                 return memoryCache.GetOrCreate($"{host}:{nameof(Entity.TenantId)}", cache =>
                 {
                     // 读取数据库
-                    var tenantDbContext = App.GetTransientDbContext<MultiTenantDbContextLocator>();
+                    var tenantDbContext = App.GetDbContext<MultiTenantDbContextLocator>();
                     return tenantDbContext.Set<Tenant>().FirstOrDefault(u => u.Host == host)?.TenantId ?? default;
                 });
             }
