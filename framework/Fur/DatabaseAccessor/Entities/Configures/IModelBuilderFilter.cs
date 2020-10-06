@@ -173,6 +173,6 @@ namespace Fur.DatabaseAccessor
         /// <param name="entityBuilder">实体构建器</param>
         /// <param name="dbContext">数据库上下文</param>
         /// <param name="dbContextLocator">数据库上下文定位器</param>
-        void OnCreated(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator);
+        void OnCreated(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator) { }
     }
 }

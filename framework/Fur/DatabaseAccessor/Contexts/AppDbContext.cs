@@ -12,7 +12,13 @@
 // -----------------------------------------------------------------------------
 
 using Fur.DependencyInjection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.Extensions.Caching.Memory;
+using System;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Fur.DatabaseAccessor
 {
@@ -101,6 +107,53 @@ namespace Fur.DatabaseAccessor
 
             // 配置数据库上下文实体
             AppDbContextBuilder.ConfigureDbContextEntity(modelBuilder, this, typeof(TDbContextLocator));
+        }
+
+        /// <summary>
+        /// 获取租户Id
+        /// </summary>
+        protected virtual Guid? TenantId
+        {
+            get
+            {
+                // 判断 HttpContext 是否存在
+                var httpContextAccessor = App.GetService<IHttpContextAccessor>();
+                if (httpContextAccessor == null || httpContextAccessor.HttpContext == null) return default;
+
+                // 获取主机地址
+                var host = httpContextAccessor.HttpContext.Request.Host.Value;
+
+                // 从内存缓存中读取或查询数据库
+                var memoryCache = App.GetRequireService<IMemoryCache>();
+                return memoryCache.GetOrCreate($"{host}:{nameof(Entity.TenantId)}", cache =>
+                {
+                    // 读取数据库
+                    var tenantDbContext = App.GetTransientDbContext<MultiTenantDbContextLocator>();
+                    return tenantDbContext.Set<Tenant>().FirstOrDefault(u => u.Host == host)?.TenantId ?? default;
+                });
+            }
+        }
+
+        /// <summary>
+        /// 构建租户Id 查询过滤器表达式
+        /// </summary>
+        /// <param name="entityBuilder">实体类型构建器</param>
+        /// <param name="tenantId">租户Id</param>
+        /// <returns>表达式</returns>
+        protected virtual LambdaExpression TenantIdQueryFilterExpression(EntityTypeBuilder entityBuilder, Guid tenantId)
+        {
+            // 获取实体构建器元数据
+            var metadata = entityBuilder.Metadata;
+            if (metadata.FindProperty(nameof(Entity.TenantId)) == null) return default;
+
+            // 创建表达式元素
+            var parameter = Expression.Parameter(metadata.ClrType, "u");
+            var properyName = Expression.Constant(nameof(Entity.TenantId));
+            var propertyValue = Expression.Constant(tenantId);
+
+            var expressionBody = Expression.Equal(Expression.Call(typeof(EF), nameof(EF.Property), new[] { typeof(Guid) }, parameter, properyName), propertyValue);
+            var expression = Expression.Lambda(expressionBody, parameter);
+            return expression;
         }
     }
 }

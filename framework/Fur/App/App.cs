@@ -110,6 +110,26 @@ namespace Fur
         }
 
         /// <summary>
+        /// 获取瞬时服务
+        /// </summary>
+        /// <typeparam name="TService">服务</typeparam>
+        /// <returns></returns>
+        public static TService GetService<TService>()
+        {
+            return TransientServices.GetService<TService>();
+        }
+
+        /// <summary>
+        /// 获取作用域服务
+        /// </summary>
+        /// <typeparam name="TService"></typeparam>
+        /// <returns></returns>
+        public static TService GetRequireService<TService>()
+        {
+            return RequestServices.GetService<TService>();
+        }
+
+        /// <summary>
         /// 获取选项
         /// </summary>
         /// <typeparam name="TOptions">强类型选项类</typeparam>
@@ -129,7 +149,7 @@ namespace Fur
         public static TOptions GetOptions<TOptions>()
             where TOptions : class, new()
         {
-            return TransientServices.GetService<IOptions<TOptions>>().Value;
+            return GetService<IOptions<TOptions>>().Value;
         }
 
         /// <summary>
@@ -140,7 +160,7 @@ namespace Fur
         public static TOptions GetOptionsMonitor<TOptions>()
             where TOptions : class, new()
         {
-            return TransientServices.GetService<IOptionsMonitor<TOptions>>().CurrentValue;
+            return GetService<IOptionsMonitor<TOptions>>().CurrentValue;
         }
 
         /// <summary>
@@ -151,7 +171,7 @@ namespace Fur
         public static TOptions GetOptionsSnapshot<TOptions>()
             where TOptions : class, new()
         {
-            return TransientServices.GetService<IOptionsSnapshot<TOptions>>().Value;
+            return GetService<IOptionsSnapshot<TOptions>>().Value;
         }
 
         /// <summary>
@@ -165,7 +185,7 @@ namespace Fur
         /// <typeparam name="TEntity">实体类型</typeparam>
         public static IRepository GetRepository()
         {
-            return RequestServices.GetService<IRepository>()
+            return GetRequireService<IRepository>()
                 ?? throw Oops.Oh(NotSupportedResolveMessage, typeof(NotSupportedException), nameof(IRepository));
         }
 
@@ -177,7 +197,7 @@ namespace Fur
         public static IRepository<TEntity> GetRepository<TEntity>()
             where TEntity : class, IPrivateEntity, new()
         {
-            return RequestServices.GetService<IRepository<TEntity>>()
+            return GetRequireService<IRepository<TEntity>>()
                 ?? throw Oops.Oh(NotSupportedResolveMessage, typeof(NotSupportedException), nameof(IRepository<TEntity>));
         }
 
@@ -191,7 +211,7 @@ namespace Fur
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return RequestServices.GetService<IRepository<TEntity, TDbContextLocator>>()
+            return GetRequireService<IRepository<TEntity, TDbContextLocator>>()
                 ?? throw Oops.Oh(NotSupportedResolveMessage, typeof(NotSupportedException), nameof(IRepository<TEntity, TDbContextLocator>));
         }
 
@@ -201,7 +221,7 @@ namespace Fur
         /// <returns>ISqlRepository</returns>
         public static ISqlRepository GetSqlRepository()
         {
-            return RequestServices.GetService<ISqlRepository>()
+            return GetRequireService<ISqlRepository>()
                 ?? throw Oops.Oh(NotSupportedResolveMessage, typeof(NotSupportedException), nameof(ISqlRepository));
         }
 
@@ -213,7 +233,7 @@ namespace Fur
         public static ISqlRepository<TDbContextLocator> GetSqlRepository<TDbContextLocator>()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return RequestServices.GetService<ISqlRepository<TDbContextLocator>>()
+            return GetRequireService<ISqlRepository<TDbContextLocator>>()
                 ?? throw Oops.Oh(NotSupportedResolveMessage, typeof(NotSupportedException), nameof(ISqlRepository<TDbContextLocator>));
         }
 
@@ -224,7 +244,7 @@ namespace Fur
         public static TSqlDispatchProxy GetSqlDispatchProxy<TSqlDispatchProxy>()
             where TSqlDispatchProxy : class, ISqlDispatchProxy
         {
-            return RequestServices.GetService<TSqlDispatchProxy>()
+            return GetRequireService<TSqlDispatchProxy>()
                 ?? throw Oops.Oh(NotSupportedResolveMessage, typeof(NotSupportedException), nameof(ISqlDispatchProxy));
         }
 
@@ -236,7 +256,7 @@ namespace Fur
         public static DbContext GetTransientDbContext<TDbContextLocator>()
             where TDbContextLocator : class, IDbContextLocator
         {
-            var dbContextResolve = TransientServices.GetService<Func<Type, ITransient, DbContext>>();
+            var dbContextResolve = GetService<Func<Type, ITransient, DbContext>>();
             return dbContextResolve(typeof(TDbContextLocator), default);
         }
 
@@ -248,7 +268,7 @@ namespace Fur
         public static DbContext GetScopedDbContext<TDbContextLocator>()
             where TDbContextLocator : class, IDbContextLocator
         {
-            var dbContextResolve = RequestServices.GetService<Func<Type, IScoped, DbContext>>();
+            var dbContextResolve = GetRequireService<Func<Type, IScoped, DbContext>>();
             return dbContextResolve(typeof(TDbContextLocator), default);
         }
 
