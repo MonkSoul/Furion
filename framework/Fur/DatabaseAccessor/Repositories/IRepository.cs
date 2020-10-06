@@ -398,6 +398,12 @@ namespace Fur.DatabaseAccessor
         bool IsFirebird();
 
         /// <summary>
+        /// 判断是否是 Dm 数据库
+        /// </summary>
+        /// <returns>bool</returns>
+        bool IsDm();
+
+        /// <summary>
         /// 判断是否是关系型数据库
         /// </summary>
         /// <returns>bool</returns>

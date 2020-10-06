@@ -64,9 +64,14 @@ namespace Fur.DatabaseAccessor
         public const string Oracle = "Citms.EntityFrameworkCore.Oracle";
 
         /// <summary>
-        /// Firebird 提供其程序集
+        /// Firebird 提供器程序集
         /// </summary>
         public const string Firebird = "FirebirdSql.EntityFrameworkCore.Firebird";
+
+        /// <summary>
+        /// Dm 提供器程序集
+        /// </summary>
+        public const string Dm = "Microsoft.EntityFrameworkCore.Dm";
 
         /// <summary>
         /// 不支持存储过程的数据库
@@ -103,7 +108,8 @@ namespace Fur.DatabaseAccessor
             {
                 Sqlite,
                 InMemoryDatabase,
-                Firebird
+                Firebird,
+                Dm,
             };
 
             NotSupportTableFunctionDatabases = new[]
@@ -111,14 +117,14 @@ namespace Fur.DatabaseAccessor
                 Sqlite,
                 InMemoryDatabase,
                 MySql,
-                Firebird
+                Firebird,
+                Dm
             };
 
             NotSupportTransactionScopeDatabase = new[]
             {
                 Sqlite,
-                InMemoryDatabase,
-                Firebird
+                InMemoryDatabase
             };
         }
 

@@ -626,6 +626,15 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
+        /// 判断是否是 Dm 数据库
+        /// </summary>
+        /// <returns>bool</returns>
+        public virtual bool IsDm()
+        {
+            return ProviderName.Equals(DbProvider.Dm, StringComparison.Ordinal);
+        }
+
+        /// <summary>
         /// 判断是否是关系型数据库
         /// </summary>
         /// <returns>bool</returns>
