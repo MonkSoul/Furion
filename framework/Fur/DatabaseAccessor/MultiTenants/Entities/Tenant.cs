@@ -20,7 +20,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 租户实体
     /// </summary>
-    public class Tenant : IEntityDependency
+    public class Tenant : IEntity<MultiTenantDbContextLocator>
     {
         /// <summary>
         /// 构造函数

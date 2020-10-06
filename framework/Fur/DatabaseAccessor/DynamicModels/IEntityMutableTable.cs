@@ -19,7 +19,7 @@ namespace Fur.DatabaseAccessor
     /// 实体动态表依赖接口
     /// </summary>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
-    public interface IEntityMutableTable<TDbContextLocator1> : IEntityMutableTableDependency
+    public interface IEntityMutableTable<TDbContextLocator1> : IPrivateEntityMutableTable
         where TDbContextLocator1 : class, IDbContextLocator
     {
     }
@@ -29,7 +29,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
-    public interface IEntityMutableTable<TDbContextLocator1, TDbContextLocator2> : IEntityMutableTableDependency
+    public interface IEntityMutableTable<TDbContextLocator1, TDbContextLocator2> : IPrivateEntityMutableTable
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
     {
@@ -41,7 +41,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
-    public interface IEntityMutableTable<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3> : IEntityMutableTableDependency
+    public interface IEntityMutableTable<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3> : IPrivateEntityMutableTable
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
         where TDbContextLocator3 : class, IDbContextLocator
@@ -55,7 +55,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
-    public interface IEntityMutableTable<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4> : IEntityMutableTableDependency
+    public interface IEntityMutableTable<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4> : IPrivateEntityMutableTable
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
         where TDbContextLocator3 : class, IDbContextLocator
@@ -71,7 +71,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
-    public interface IEntityMutableTable<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5> : IEntityMutableTableDependency
+    public interface IEntityMutableTable<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5> : IPrivateEntityMutableTable
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
         where TDbContextLocator3 : class, IDbContextLocator
@@ -89,7 +89,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
-    public interface IEntityMutableTable<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6> : IEntityMutableTableDependency
+    public interface IEntityMutableTable<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6> : IPrivateEntityMutableTable
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
         where TDbContextLocator3 : class, IDbContextLocator
@@ -109,7 +109,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
-    public interface IEntityMutableTable<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7> : IEntityMutableTableDependency
+    public interface IEntityMutableTable<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7> : IPrivateEntityMutableTable
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
         where TDbContextLocator3 : class, IDbContextLocator
@@ -131,7 +131,7 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator8">数据库上下文定位器</typeparam>
-    public interface IEntityMutableTable<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7, TDbContextLocator8> : IEntityMutableTableDependency
+    public interface IEntityMutableTable<TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7, TDbContextLocator8> : IPrivateEntityMutableTable
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
         where TDbContextLocator3 : class, IDbContextLocator
@@ -146,7 +146,7 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 实体动态表依赖接口依赖（禁止外部继承）
     /// </summary>
-    public interface IEntityMutableTableDependency
+    public interface IPrivateEntityMutableTable
     {
         /// <summary>
         /// 获取当前表名

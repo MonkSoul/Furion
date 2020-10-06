@@ -306,7 +306,6 @@ namespace Fur.DatabaseAccessor
             return procedureOutputResult;
         }
 
-
         /// <summary>
         /// 解析 Sql 配置信息
         /// </summary>
@@ -335,7 +334,6 @@ namespace Fur.DatabaseAccessor
 
             return sqlTemplate;
         }
-
 
         /// <summary>
         /// 读取输出返回值

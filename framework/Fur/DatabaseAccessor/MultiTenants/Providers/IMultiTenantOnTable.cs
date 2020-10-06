@@ -11,17 +11,19 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using System;
+
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 基于多个数据库多租户模式
+    /// 基于数据库表的多租户模式
     /// </summary>
-    public interface IMultiTenantOnDatabaseProvider : IMultiTenantProviderDependency
+    public interface IMultiTenantOnTable : IPrivateMultiTenant
     {
         /// <summary>
-        /// 获取数据库连接字符串
+        /// 获取租户Id
         /// </summary>
         /// <returns></returns>
-        string GetDatabaseConnectionString();
+        Guid? GetTenantId();
     }
 }

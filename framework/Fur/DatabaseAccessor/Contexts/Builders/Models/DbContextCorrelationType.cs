@@ -34,7 +34,7 @@ namespace Fur.DatabaseAccessor
             EntityTypeBuilderTypes = new List<Type>();
             EntitySeedDataTypes = new List<Type>();
             ModelBuilderFilterTypes = new List<Type>();
-            ModelBuilderFilterInstances = new List<IModelBuilderFilterDependency>();
+            ModelBuilderFilterInstances = new List<IPrivateModelBuilderFilter>();
             DbFunctionMethods = new List<MethodInfo>();
         }
 
@@ -81,6 +81,6 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 模型构建器筛选器实例
         /// </summary>
-        internal List<IModelBuilderFilterDependency> ModelBuilderFilterInstances { get; set; }
+        internal List<IPrivateModelBuilderFilter> ModelBuilderFilterInstances { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace Fur.DependencyInjection
     /// <summary>
     /// 作用域服务注册依赖
     /// </summary>
-    public interface IScoped : IScopedDependency
+    public interface IScoped : IPrivateScoped
     {
     }
 
@@ -24,7 +24,7 @@ namespace Fur.DependencyInjection
     /// 作用域服务注册依赖
     /// </summary>
     /// <typeparam name="TService1">服务类型</typeparam>
-    public interface IScoped<TService1> : IScopedDependency
+    public interface IScoped<TService1> : IPrivateScoped
         where TService1 : class
     {
     }
@@ -34,7 +34,7 @@ namespace Fur.DependencyInjection
     /// </summary>
     /// <typeparam name="TService1">服务类型</typeparam>
     /// <typeparam name="TService2">服务类型</typeparam>
-    public interface IScoped<TService1, TService2> : IScopedDependency
+    public interface IScoped<TService1, TService2> : IPrivateScoped
         where TService1 : class
         where TService2 : class
     {
@@ -46,7 +46,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService1">服务类型</typeparam>
     /// <typeparam name="TService2">服务类型</typeparam>
     /// <typeparam name="TService3">服务类型</typeparam>
-    public interface IScoped<TService1, TService2, TService3> : IScopedDependency
+    public interface IScoped<TService1, TService2, TService3> : IPrivateScoped
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -60,7 +60,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService2">服务类型</typeparam>
     /// <typeparam name="TService3">服务类型</typeparam>
     /// <typeparam name="TService4">服务类型</typeparam>
-    public interface IScoped<TService1, TService2, TService3, TService4> : IScopedDependency
+    public interface IScoped<TService1, TService2, TService3, TService4> : IPrivateScoped
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -76,7 +76,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService3">服务类型</typeparam>
     /// <typeparam name="TService4">服务类型</typeparam>
     /// <typeparam name="TService5">服务类型</typeparam>
-    public interface IScoped<TService1, TService2, TService3, TService4, TService5> : IScopedDependency
+    public interface IScoped<TService1, TService2, TService3, TService4, TService5> : IPrivateScoped
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -94,7 +94,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService4">服务类型</typeparam>
     /// <typeparam name="TService5">服务类型</typeparam>
     /// <typeparam name="TService6">服务类型</typeparam>
-    public interface IScoped<TService1, TService2, TService3, TService4, TService5, TService6> : IScopedDependency
+    public interface IScoped<TService1, TService2, TService3, TService4, TService5, TService6> : IPrivateScoped
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -114,7 +114,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService5">服务类型</typeparam>
     /// <typeparam name="TService6">服务类型</typeparam>
     /// <typeparam name="TService7">服务类型</typeparam>
-    public interface IScoped<TService1, TService2, TService3, TService4, TService5, TService6, TService7> : IScopedDependency
+    public interface IScoped<TService1, TService2, TService3, TService4, TService5, TService6, TService7> : IPrivateScoped
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -136,7 +136,7 @@ namespace Fur.DependencyInjection
     /// <typeparam name="TService6">服务类型</typeparam>
     /// <typeparam name="TService7">服务类型</typeparam>
     /// <typeparam name="TService8">服务类型</typeparam>
-    public interface IScoped<TService1, TService2, TService3, TService4, TService5, TService6, TService7, TService8> : IScopedDependency
+    public interface IScoped<TService1, TService2, TService3, TService4, TService5, TService6, TService7, TService8> : IPrivateScoped
         where TService1 : class
         where TService2 : class
         where TService3 : class
@@ -151,7 +151,7 @@ namespace Fur.DependencyInjection
     /// <summary>
     /// 作用域服务注册依赖（禁止外部继承）
     /// </summary>
-    public interface IScopedDependency : IDependency
+    public interface IPrivateScoped : IPrivateDependency
     {
     }
 }

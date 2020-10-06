@@ -19,13 +19,13 @@ namespace Fur.DatabaseAccessor
     /// 数据库上下文配置特性
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
-    public class DbContextAttribute : Attribute
+    public class AppDbContextAttribute : Attribute
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="connectionString"></param>
-        public DbContextAttribute(string connectionString)
+        public AppDbContextAttribute(string connectionString)
         {
             ConnectionString = connectionString;
         }

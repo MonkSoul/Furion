@@ -271,7 +271,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     DbProvider.Npgsql => "NpgsqlDbContextOptionsBuilderExtensions",
                     DbProvider.Oracle => "OracleDbContextOptionsExtensions",
                     DbProvider.Firebird => "FbDbContextOptionsBuilderExtensions",
-                    DbProvider.Dm => "DmDbContextOptionsBuilderExtensions",
+                    DbProvider.Dm => "DmDbContextOptionsExtensions",
                     _ => null
                 };
 

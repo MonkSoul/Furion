@@ -50,7 +50,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fur.EntityFramework.Core
 {
-    [DbContext("连接字符串或appsetting.json 键")]
+    [AppDbContext("连接字符串或appsetting.json 键")]
     public class FurDbContext : AppDbContext<FurDbContext>  // 继承 AppDbContext<> 类
     {
         /// <summary>
@@ -72,7 +72,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fur.EntityFramework.Core
 {
-    [DbContext("连接字符串或appsetting.json 键")]
+    [AppDbContext("连接字符串或appsetting.json 键")]
     public class FurOtherDbContext : AppDbContext<FurOtherDbContext, FurOtherDbContextLocator>  // 继承 AppDbContext<> 类
     {
         /// <summary>
@@ -95,7 +95,7 @@ namespace Fur.EntityFramework.Core
 `Fur` 框架提供多种数据库连接字符串配置方式：
 
 - 在 `Startup` 中添加服务：`AddSqlServerPool<TDbContext>("连接字符串")` 方式
-- 使用 `[DbContext("连接字符串/Key")]` 特性方式（只在 `AppDbContext 实现类有效`）**推荐**
+- 使用 `[AppDbContext("连接字符串/Key")]` 特性方式（只在 `AppDbContext 实现类有效`）**推荐**
 - 通过重写 `OnConfiguring(DbContextOptionsBuilder optionsBuilder)` 配置
 
 ### 8.1.5.1 `Startup` 方式配置
@@ -125,7 +125,7 @@ namespace Fur.EntityFramework.Core
 }
 ```
 
-### 8.1.5.2 `[DbContext]` 方式配置
+### 8.1.5.2 `[AppDbContext]` 方式配置
 
 ```cs {1,6}
 using Fur.DatabaseAccessor;
@@ -133,7 +133,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fur.EntityFramework.Core
 {
-    [DbContext("DbConnectionString")]   // 支持 `appsetting.json` 名或 连接字符串
+    [AppDbContext("DbConnectionString")]   // 支持 `appsetting.json` 名或 连接字符串
     public class FurDbContext : AppDbContext<FurDbContext>
     {
         /// <summary>
@@ -153,7 +153,7 @@ namespace Fur.EntityFramework.Core
 
 :::
 
-**`[DbContext]`** 内置属性：
+**`[AppDbContext]`** 内置属性：
 
 - `ConnectionString`：数据库连接字符串，或配置文件中的路径（支持自定义配置查找），或 `appsetting.json` 的 `ConnectionStrings` 配置字符串
 - `TablePrefix`：当前数据库上下文表统一前缀

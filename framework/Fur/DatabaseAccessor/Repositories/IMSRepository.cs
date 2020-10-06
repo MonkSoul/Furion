@@ -28,7 +28,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns></returns>
         IRepository<TEntity, TMasterDbContextLocator> Master<TEntity>()
-             where TEntity : class, IEntityDependency, new();
+             where TEntity : class, IPrivateEntity, new();
 
         /// <summary>
         /// 获取从库仓储
@@ -36,7 +36,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns></returns>
         IReadableRepository<TEntity, TSlaveDbContextLocator1> Slave1<TEntity>()
-            where TEntity : class, IEntityDependency, new();
+            where TEntity : class, IPrivateEntity, new();
     }
 
     /// <summary>
@@ -57,7 +57,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns></returns>
         IReadableRepository<TEntity, TSlaveDbContextLocator2> Slave2<TEntity>()
-            where TEntity : class, IEntityDependency, new();
+            where TEntity : class, IPrivateEntity, new();
     }
 
     /// <summary>
@@ -80,7 +80,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns></returns>
         IReadableRepository<TEntity, TSlaveDbContextLocator3> Slave3<TEntity>()
-            where TEntity : class, IEntityDependency, new();
+            where TEntity : class, IPrivateEntity, new();
     }
 
     /// <summary>
@@ -105,7 +105,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns></returns>
         IReadableRepository<TEntity, TSlaveDbContextLocator4> Slave4<TEntity>()
-            where TEntity : class, IEntityDependency, new();
+            where TEntity : class, IPrivateEntity, new();
     }
 
     /// <summary>
@@ -132,7 +132,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns></returns>
         IReadableRepository<TEntity, TSlaveDbContextLocator5> Slave5<TEntity>()
-            where TEntity : class, IEntityDependency, new();
+            where TEntity : class, IPrivateEntity, new();
     }
 
     /// <summary>
@@ -161,7 +161,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns></returns>
         IReadableRepository<TEntity, TSlaveDbContextLocator6> Slave6<TEntity>()
-            where TEntity : class, IEntityDependency, new();
+            where TEntity : class, IPrivateEntity, new();
     }
 
     /// <summary>
@@ -192,6 +192,6 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns></returns>
         IReadableRepository<TEntity, TSlaveDbContextLocator7> Slave7<TEntity>()
-            where TEntity : class, IEntityDependency, new();
+            where TEntity : class, IPrivateEntity, new();
     }
 }

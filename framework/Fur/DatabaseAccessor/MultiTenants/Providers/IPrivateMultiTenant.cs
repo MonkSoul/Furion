@@ -14,9 +14,9 @@
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 多租户提供器依赖接口（禁止外部继承）
+    /// 多租户依赖接口（禁止外部继承）
     /// </summary>
-    public interface IMultiTenantProviderDependency
+    public interface IPrivateMultiTenant
     {
     }
 }

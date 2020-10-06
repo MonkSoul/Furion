@@ -141,10 +141,10 @@ namespace Fur.DatabaseAccessor
 
             // 如果没有配置数据库连接字符串，那么查找特性
             var dbContextType = typeof(TDbContext);
-            if (!dbContextType.IsDefined(typeof(DbContextAttribute), true)) return default;
+            if (!dbContextType.IsDefined(typeof(AppDbContextAttribute), true)) return default;
 
             // 获取配置特性
-            var dbContextAttribute = dbContextType.GetCustomAttribute<DbContextAttribute>(true);
+            var dbContextAttribute = dbContextType.GetCustomAttribute<AppDbContextAttribute>(true);
             var connStr = dbContextAttribute.ConnectionString;
 
             if (string.IsNullOrEmpty(connStr)) return default;

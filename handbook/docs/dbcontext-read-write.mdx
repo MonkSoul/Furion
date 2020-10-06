@@ -43,7 +43,7 @@ namespace Fur.EntityFramework.Core
     /// <summary>
     /// 主库数据库上下文
     /// </summary>
-    [DbContext("MasterConnectionString")]
+    [AppDbContext("MasterConnectionString")]
     public class MasterDbContext : AppDbContext<MasterDbContext>
     {
         public MasterDbContext(DbContextOptions<MasterDbContext> options) : base(options)
@@ -75,7 +75,7 @@ namespace Fur.EntityFramework.Core
     /// <summary>
     /// 从库数据库上下文
     /// </summary>
-    [DbContext("SlaveConnectionString")]
+    [AppDbContext("SlaveConnectionString")]
     public class SlaveDbContext : AppDbContext<SlaveDbContext, SlaveDbContextLocator>
     {
         public SlaveDbContext(DbContextOptions<SlaveDbContext> options) : base(options)

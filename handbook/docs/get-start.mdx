@@ -95,7 +95,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fur.EntityFramework.Core
 {
-    [DbContext("DbConnectionString")]   // 配置连接字符串
+    [AppDbContext("DbConnectionString")]   // 配置连接字符串
     public class FurDbContext : AppDbContext<FurDbContext>  // 继承 AppDbContext<> 类
     {
         /// <summary>

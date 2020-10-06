@@ -48,7 +48,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             // 查找所有需要依赖注入的类型
             var injectTypes = App.CanBeScanTypes
-                .Where(u => typeof(IDependency).IsAssignableFrom(u) && u.IsClass && !u.IsInterface && !u.IsAbstract)
+                .Where(u => typeof(IPrivateDependency).IsAssignableFrom(u) && u.IsClass && !u.IsInterface && !u.IsAbstract)
                 .OrderBy(u => GetOrder(u));
 
             // 执行依赖注入
@@ -58,20 +58,20 @@ namespace Microsoft.Extensions.DependencyInjection
                 var injectionAttribute = !type.IsDefined(typeof(InjectionAttribute)) ? new InjectionAttribute() : type.GetCustomAttribute<InjectionAttribute>();
 
                 // 获取所有能注册的接口
-                var canInjectInterfaces = type.GetInterfaces().Where(u => !typeof(IDependency).IsAssignableFrom(u));
+                var canInjectInterfaces = type.GetInterfaces().Where(u => !typeof(IPrivateDependency).IsAssignableFrom(u));
 
                 // 注册暂时服务
-                if (typeof(ITransientDependency).IsAssignableFrom(type))
+                if (typeof(IPrivateTransient).IsAssignableFrom(type))
                 {
                     RegisterService(services, Fur.DependencyInjection.RegisterType.Transient, type, injectionAttribute, canInjectInterfaces);
                 }
                 // 注册作用域服务
-                else if (typeof(IScopedDependency).IsAssignableFrom(type))
+                else if (typeof(IPrivateScoped).IsAssignableFrom(type))
                 {
                     RegisterService(services, Fur.DependencyInjection.RegisterType.Scoped, type, injectionAttribute, canInjectInterfaces);
                 }
                 // 注册单例服务
-                else if (typeof(ISingletonDependency).IsAssignableFrom(type))
+                else if (typeof(IPrivateSingleton).IsAssignableFrom(type))
                 {
                     RegisterService(services, Fur.DependencyInjection.RegisterType.Singleton, type, injectionAttribute, canInjectInterfaces);
                 }

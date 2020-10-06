@@ -34,9 +34,6 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>服务集合</returns>
         public static IServiceCollection AddDatabaseAccessor(this IServiceCollection services, Action<IServiceCollection> configure = null)
         {
-            // 添加数据库选项配置支持
-            services.AddConfigurableOptions<DatabaseAccessorSettingsOptions>();
-
             // 配置数据库上下文
             configure?.Invoke(services);
 
@@ -68,6 +65,20 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddScoped<IRepository, EFCoreRepository>();
 
             // 解析数据库上下文
+            services.AddTransient(provider =>
+            {
+                DbContext dbContextResolve(Type locator, ITransient transient)
+                {
+                    // 判断定位器是否绑定了数据库上下文
+                    var isRegistered = Penetrates.DbContextWithLocatorCached.TryGetValue(locator, out var dbContextType);
+                    if (!isRegistered) throw new InvalidOperationException("The DbContext for locator binding was not found");
+
+                    // 动态解析数据库上下文
+                    return provider.GetService(dbContextType) as DbContext;
+                }
+                return (Func<Type, ITransient, DbContext>)dbContextResolve;
+            });
+
             services.AddScoped(provider =>
             {
                 DbContext dbContextResolve(Type locator, IScoped scoped)

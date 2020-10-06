@@ -14,12 +14,14 @@
 namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 数据库模型构建器依赖（禁止直接继承）
+    /// 基于多个数据库多租户模式
     /// </summary>
-    /// <remarks>
-    /// 对应 <see cref="Microsoft.EntityFrameworkCore.DbContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)"/>
-    /// </remarks>
-    public interface IModelBuilderDependency
+    public interface IMultiTenantOnDatabase : IPrivateMultiTenant
     {
+        /// <summary>
+        /// 获取数据库连接字符串
+        /// </summary>
+        /// <returns></returns>
+        string GetDatabaseConnectionString();
     }
 }

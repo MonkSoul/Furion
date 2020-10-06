@@ -265,7 +265,7 @@ using System.Linq;
 
 namespace Fur.EntityFramework.Core
 {
-    [DbContext("Sqlite3ConnectionString")]
+    [AppDbContext("Sqlite3ConnectionString")]
     public class FurDbContext : AppDbContext<FurDbContext>
     {
         public IQueryable<F_Person> GetPersons(int id) => FromExpression(() => GetPersons(id));

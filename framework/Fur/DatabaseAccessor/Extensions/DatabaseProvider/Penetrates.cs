@@ -68,7 +68,8 @@ namespace Fur.DatabaseAccessor
                 // 添加拦截器
                 AddInterceptors(interceptors, options);
 
-                //options.UseInternalServiceProvider(serviceProvider);
+                // .NET 5 版本已不再起作用
+                // options.UseInternalServiceProvider(serviceProvider);
             };
         }
 

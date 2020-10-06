@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fur.EntityFramework.Core
 {
-    [DbContext("Sqlite3ConnectionString")]
+    [AppDbContext("Sqlite3ConnectionString")]
     public class FurDbContext : AppDbContext<FurDbContext>
     {
         /// <summary>
