@@ -1,10 +1,10 @@
 ---
 id: dbcontext-update
-title: 8.6 更新操作
-sidebar_label: 8.6 更新操作
+title: 9.6 更新操作
+sidebar_label: 9.6 更新操作
 ---
 
-## 8.6.1 更新全部列（不立即提交）
+## 9.6.1 更新全部列（不立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -30,7 +30,7 @@ await repository.UpdateAsync(user);
 await user.UpdateAsync();
 ```
 
-## 8.6.2 更新全部列（立即提交）
+## 9.6.2 更新全部列（立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -50,7 +50,7 @@ await repository.UpdateNowAsync(user);
 await user.UpdateNowAsync();
 ```
 
-## 8.6.3 更新部分列（不立即提交）
+## 9.6.3 更新部分列（不立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -106,7 +106,7 @@ await user.UpdateIncludeAsync(new[] { u=>u.Name, u=>u.Age});
 await user.UpdateIncludeAsync(new[] {"Age", "Name"});
 ```
 
-## 8.6.4 更新部分列（立即提交）
+## 9.6.4 更新部分列（立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -162,7 +162,7 @@ await user.UpdateIncludeNowAsync(new[] { u=>u.Name, u=>u.Age});
 await user.UpdateIncludeNowAsync(new[] {"Age", "Name"});
 ```
 
-## 8.6.5 排除特定列更新（不立即提交）
+## 9.6.5 排除特定列更新（不立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -218,7 +218,7 @@ await user.UpdateExcludeAsync(new[] { u=>u.Name, u=>u.Age});
 await user.UpdateExcludeAsync(new[] {"Age", "Name"});
 ```
 
-## 8.6.6 排除特定列更新（立即提交）
+## 9.6.6 排除特定列更新（立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -274,7 +274,7 @@ await user.UpdateExcludeNowAsync(new[] { u=>u.Name, u=>u.Age});
 await user.UpdateExcludeNowAsync(new[] {"Age", "Name"});
 ```
 
-## 8.6.7 数据存在才更新所有列（不立即提交）
+## 9.6.7 数据存在才更新所有列（不立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -294,7 +294,7 @@ await repository.UpdateExistsAsync(user);
 await user.UpdateExistsAsync();
 ```
 
-## 8.6.8 数据存在才更新所有列（立即提交）
+## 9.6.8 数据存在才更新所有列（立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -314,7 +314,7 @@ await repository.UpdateExistsNowAsync(user);
 await user.UpdateExistsNowAsync();
 ```
 
-## 8.6.9 数据存在才更新部分列（不立即提交）
+## 9.6.9 数据存在才更新部分列（不立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -370,7 +370,7 @@ await user.UpdateIncludeExistsAsync(new[] { u=>u.Name, u=>u.Age});
 await user.UpdateIncludeExistsAsync(new[] {"Age", "Name"});
 ```
 
-## 8.6.10 数据存在才更新部分列（立即提交）
+## 9.6.10 数据存在才更新部分列（立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -426,7 +426,7 @@ await user.UpdateIncludeExistsNowAsync(new[] { u=>u.Name, u=>u.Age});
 await user.UpdateIncludeExistsNowAsync(new[] {"Age", "Name"});
 ```
 
-## 8.6.11 数据存在才排除特定部分列更新（不立即提交）
+## 9.6.11 数据存在才排除特定部分列更新（不立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -482,7 +482,7 @@ await user.UpdateExcludeExistsAsync(new[] { u=>u.Name, u=>u.Age});
 await user.UpdateExcludeExistsAsync(new[] {"Age", "Name"});
 ```
 
-## 8.6.12 数据存在才排除特定部分列更新（立即提交）
+## 9.6.12 数据存在才排除特定部分列更新（立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -538,7 +538,7 @@ await user.UpdateExcludeExistsNowAsync(new[] { u=>u.Name, u=>u.Age});
 await user.UpdateExcludeExistsNowAsync(new[] {"Age", "Name"});
 ```
 
-## 8.6.13 更新多条记录（不立即提交）
+## 9.6.13 更新多条记录（不立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -564,7 +564,7 @@ await repository.UpdateAsync(new List<User> { user, user2 });
 await repository.UpdateAsync(new[] {user, user2 });
 ```
 
-## 8.6.14 更新多条记录（立即提交）
+## 9.6.14 更新多条记录（立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -596,7 +596,7 @@ await repository.UpdateNowAsync(new[] {user, user2 });
 
 :::
 
-## 8.6.15 反馈与建议
+## 9.6.15 反馈与建议
 
 :::note 与我们交流
 

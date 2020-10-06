@@ -1,22 +1,22 @@
 ---
 id: dbcontext-sql
-title: 8.15 Sql 操作
-sidebar_label: 8.15 Sql 操作
+title: 9.15 Sql 操作
+sidebar_label: 9.15 Sql 操作
 ---
 
 :::important 温馨提示
 
-推荐使用 《[8.15 Sql 高级代理](dbcontext-sql-proxy.mdx)》代替本章节功能。`Sql 高级代理` 能够提供更容易且更易维护的方式。
+推荐使用 《[9.15 Sql 高级代理](dbcontext-sql-proxy.mdx)》代替本章节功能。`Sql 高级代理` 能够提供更容易且更易维护的方式。
 
 :::
 
-## 8.15.1 关于 `Sql`
+## 9.15.1 关于 `Sql`
 
 `Fur` 框架提供非常多且灵活的 `sql` 操作方法，且性能不输于 `dapper`，同时逼近 `ADO.NET` 原生操作。
 
-## 8.15.2 懒人无敌 `Sql` 🐮
+## 9.15.2 懒人无敌 `Sql` 🐮
 
-### 8.15.2.1 返回 `DataTable`
+### 9.15.2.1 返回 `DataTable`
 
 ```cs
 // ==== 同步操作 ====
@@ -78,7 +78,7 @@ left join personDetail pd on p.Id == pd.pid
 where p.Id > @id;".SqlQueryAsync(new {id = 10});
 ```
 
-### 8.15.2.2 返回 `List<T>`
+### 9.15.2.2 返回 `List<T>`
 
 ```cs
 // ==== 同步操作 ====
@@ -140,7 +140,7 @@ left join personDetail pd on p.Id == pd.pid
 where p.Id > @id;".SqlQueryAsync<Person>(new {id = 10});
 ```
 
-### 8.15.2.3 返回 `DataSet`
+### 9.15.2.3 返回 `DataSet`
 
 ```cs
 // ==== 同步操作 ====
@@ -182,7 +182,7 @@ select 'Fur';
 select * from FN_GetPerson(@id);".SqlQueriesAsync(new {id = 1});
 ```
 
-### 8.15.2.4 返回 `Tuple<T1,...T8>`
+### 9.15.2.4 返回 `Tuple<T1,...T8>`
 
 ```cs
 // ==== 同步操作 ====
@@ -224,7 +224,7 @@ select 'Fur';
 select * from FN_GetPerson(@id);".SqlQueriesAsync<Person, Student, string, PersonDto>(new {id = 1});
 ```
 
-### 8.15.2.5 返回 单行单列
+### 9.15.2.5 返回 单行单列
 
 ```cs
 // ==== 同步操作 ====
@@ -250,7 +250,7 @@ var value = await "select Name from person where id = @id".SqlScalarAsync<string
 var value = await "select Age from person where id = @id".SqlScalarAsync<int>(new {id = 1});
 ```
 
-### 8.15.2.6 返回 受影响行数
+### 9.15.2.6 返回 受影响行数
 
 ```cs
 // ==== 同步操作 ====
@@ -286,9 +286,9 @@ var rowEffects = await "update person set name=@name where id=@id".SqlNonQueryAs
 var rowEffects = await "delete from person where @id > 10".SqlNonQueryAsync(new {id=1});
 ```
 
-## 8.15.3 懒人无敌 `存储过程` 🐮
+## 9.15.3 懒人无敌 `存储过程` 🐮
 
-### 8.15.3.1 返回 `DataTable`
+### 9.15.3.1 返回 `DataTable`
 
 ```cs
 // ==== 同步操作 ====
@@ -314,7 +314,7 @@ var dataTable = await "PROC_Name".SqlProcedureQueryAsync(new {id = 1});
 var dataTable = await "PROC_Name".SqlProcedureQueryAsync(new {id = 1, age = 27});
 ```
 
-### 8.15.3.2 返回 `List<T>`
+### 9.15.3.2 返回 `List<T>`
 
 ```cs
 // ==== 同步操作 ====
@@ -340,7 +340,7 @@ var persons = await "PROC_Name".SqlProcedureQueryAsync<Person>(new {id = 1});
 var persons = await "PROC_Name".SqlProcedureQueryAsync<Person>(new {id = 1, age = 27});
 ```
 
-### 8.15.3.3 返回 `DataSet`
+### 9.15.3.3 返回 `DataSet`
 
 ```cs
 // ==== 同步操作 ====
@@ -366,7 +366,7 @@ var dataSet = await "PROC_Name".SqlProcedureQueriesAsync(new {id = 1});
 var dataSet = await "PROC_Name".SqlProcedureQueriesAsync(new {id = 1, age = 27});
 ```
 
-### 8.15.3.4 返回 `Tuple<T1,...T8>`
+### 9.15.3.4 返回 `Tuple<T1,...T8>`
 
 ```cs
 // ==== 同步操作 ====
@@ -398,7 +398,7 @@ var (persons,students,string) = await "PROC_Name".SqlProcedureQueriesAsync<Perso
 var (persons,students,personDetail,string) = await "PROC_Name".SqlProcedureQueriesAsync<Person,Student,PersonDetail,string>(new {id = 1, age = 27});
 ```
 
-### 8.15.3.5 返回 单行单列
+### 9.15.3.5 返回 单行单列
 
 ```cs
 // ==== 同步操作 ====
@@ -424,7 +424,7 @@ var value = await "PROC_Name".SqlProcedureScalarAsync<string>(new {id = 1, name 
 var value = await "PROC_Name".SqlProcedureScalarAsync<int>(new {id = 1,  address ="广东省中山市"});
 ```
 
-### 8.15.3.6 返回 受影响行数
+### 9.15.3.6 返回 受影响行数
 
 ```cs
 // ==== 同步操作 ====
@@ -456,7 +456,7 @@ var rowEffects = await "PROC_Name".SqlProcedureNonQueryAsync(new {id=1, name="�
 var rowEffects = await "PROC_Name".SqlProcedureNonQueryAsync(new {id=1});
 ```
 
-### 8.15.3.7 带 `OUTPUT/RETURN` 返回
+### 9.15.3.7 带 `OUTPUT/RETURN` 返回
 
 ```sql {3,4,10-12,15-17,22}
 CREATE PROC PROC_Output
@@ -529,9 +529,9 @@ ProcedureOutputResult result = await "PROC_Name".SqlProcedureOutputAsync();
 ProcedureOutputResult<(List<Person>, List<Student>)> result = await "PROC_Name".SqlProcedureOutputAsync<(List<Person>, List<Student>)>();
 ```
 
-## 8.15.4 懒人无敌 `函数` 🐮
+## 9.15.4 懒人无敌 `函数` 🐮
 
-### 8.15.4.1 `标量函数`
+### 9.15.4.1 `标量函数`
 
 ```cs
 // ==== 同步操作 ====
@@ -563,7 +563,7 @@ var value = await "FN_Name".SqlFunctionScalarAsync<string>();
 var value = await "FN_Name".SqlFunctionScalarAsync<int>(new {id = 1});
 ```
 
-### 8.15.4.2 `表值函数`
+### 9.15.4.2 `表值函数`
 
 ```cs
 // ==== 同步操作 ====
@@ -595,7 +595,7 @@ var persons = await "FN_Name".SqlFunctionQueryAsync<Person>();
 var persons = await "FN_Name".SqlFunctionQueryAsync<Person>(new {id = 1});
 ```
 
-## 8.15.5 `ISqlRepository` 操作
+## 9.15.5 `ISqlRepository` 操作
 
 `ISqlRepository` 仓储是专门处理 `Sql` 操作的，无需实体方式，所有接口和 `懒人无敌` 方式一样：
 
@@ -644,7 +644,7 @@ var persons = sqlRepository.SqlQuery<Person>("select * from person where id > @i
 
 :::
 
-## 8.15.6 `IRepository` 操作
+## 9.15.6 `IRepository` 操作
 
 `IRepository` 也能操作 `sql`，调用方法也是和上面一致的，如：
 
@@ -658,7 +658,7 @@ var dataTable = repository.Sql().SqlQuery("select * from person");
 
 :::
 
-## 8.15.7 `IRepository<TEntity>` 操作
+## 9.15.7 `IRepository<TEntity>` 操作
 
 `IRepository<TEntity>` 也能操作 `sql`，调用方法也是和上面一致的，如：
 
@@ -672,7 +672,7 @@ var dataTable = personRepository.SqlQuery("select * from person");
 
 :::
 
-## 8.15.8 关于 `Sql` 参数
+## 9.15.8 关于 `Sql` 参数
 
 所有 `sql`、`存储过程`，`函数` 参数都支持四种方式：
 
@@ -687,11 +687,11 @@ var dataTable = personRepository.SqlQuery("select * from person");
 
 :::
 
-## 8.15.9 多数据库 `Sql` 操作 💯 💛
+## 9.15.9 多数据库 `Sql` 操作 💯 💛
 
 `Fur` 框架拥有非常灵活的多数据库操作方式，只需通过多**数据库上下文定位器**即可动态切换数据库。
 
-### 8.15.9.1 懒人无敌 🐮 方式
+### 9.15.9.1 懒人无敌 🐮 方式
 
 ```cs
 var dataTable = "select * from person".Change<MySqlDbContextLocator>().SqlQuery();
@@ -705,19 +705,19 @@ var persons = "select * from person whre id > @id".Change<SqliteDbContextLocator
 
 :::
 
-### 8.15.9.2 `ISqlRepository` 方式
+### 9.15.9.2 `ISqlRepository` 方式
 
 只需要通过 `ISqlRepository<TDbContextLocator>` 注入或通过 `sqlRepository.Change<TDbContextLocator>()` 切换。
 
-### 8.15.9.3 `IRepository` 方式
+### 9.15.9.3 `IRepository` 方式
 
 只需要通过 `repository.Change<TDbContextLocator>()` 获取即可。
 
-### 8.15.9.4 `IRepository<TEntity>` 方式
+### 9.15.9.4 `IRepository<TEntity>` 方式
 
 只需要通过 `IRepository<TEntity, TDbContextLocator>` 注入或通过 `personRepository.Change<TEntity, TDbContextLocator>()` 切换。
 
-## 8.15.10 反馈与建议
+## 9.15.10 反馈与建议
 
 :::note 与我们交流
 

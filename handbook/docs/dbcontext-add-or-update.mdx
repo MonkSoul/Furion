@@ -1,10 +1,10 @@
 ---
 id: dbcontext-add-or-update
-title: 8.7 新增或更新操作
-sidebar_label: 8.7 新增或更新操作
+title: 9.7 新增或更新操作
+sidebar_label: 9.7 新增或更新操作
 ---
 
-## 8.7.1 新增或更新（不立即提交）
+## 9.7.1 新增或更新（不立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -24,7 +24,7 @@ await repository.InsertOrUpdateAsync(user);
 await user.InsertOrUpdateAsync();
 ```
 
-## 8.7.2 新增或更新（立即提交）
+## 9.7.2 新增或更新（立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -44,7 +44,7 @@ await repository.InsertOrUpdateNowAsync(user);
 await user.InsertOrUpdateNowAsync();
 ```
 
-## 8.7.3 新增或更新部分列（不立即提交）
+## 9.7.3 新增或更新部分列（不立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -100,7 +100,7 @@ await user.InsertOrUpdateIncludeAsync(new[] { u=>u.Name, u=>u.Age});
 await user.InsertOrUpdateIncludeAsync(new[] {"Age", "Name"});
 ```
 
-## 8.7.4 新增或更新部分列（立即提交）
+## 9.7.4 新增或更新部分列（立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -156,7 +156,7 @@ await user.InsertOrUpdateIncludeNowAsync(new[] { u=>u.Name, u=>u.Age});
 await user.InsertOrUpdateIncludeNowAsync(new[] {"Age", "Name"});
 ```
 
-## 8.7.5 新增或更新排除特定列（不立即提交）
+## 9.7.5 新增或更新排除特定列（不立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -212,7 +212,7 @@ await user.InsertOrUpdateExcludeAsync(new[] { u=>u.Name, u=>u.Age});
 await user.InsertOrUpdateExcludeAsync(new[] {"Age", "Name"});
 ```
 
-## 8.7.6 新增或更新排除特定列（立即提交）
+## 9.7.6 新增或更新排除特定列（立即提交）
 
 ```cs
 // ==== 同步操作 ====
@@ -268,7 +268,7 @@ await user.InsertOrUpdateExcludeNowAsync(new[] { u=>u.Name, u=>u.Age});
 await user.InsertOrUpdateExcludeNowAsync(new[] {"Age", "Name"});
 ```
 
-## 8.5.7 反馈与建议
+## 9.5.7 反馈与建议
 
 :::note 与我们交流
 

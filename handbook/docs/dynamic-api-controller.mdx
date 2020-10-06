@@ -1,14 +1,14 @@
 ---
 id: dynamic-api-controller
-title: 4. 动态 WebAPI
-sidebar_label: 4. 动态 WebAPI
+title: 5. 动态 WebAPI
+sidebar_label: 5. 动态 WebAPI
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-## 4.1 什么是控制器
+## 5.1 什么是控制器
 
 简单来说，控制器是一个承上启下的作用，根据用户输入，执行响应行为（动作方法），同时在行为中调用模型的业务逻辑，返回给用户结果（视图）。
 
@@ -73,11 +73,11 @@ namespace Fur.Web.Entry.Controllers
 
 `Mvc` 控制器和 `WebAPI` 控制器最大的区别是 `WebAPI` 控制器不带 **视图** 和通过 **请求谓词和路由地址响应行为**。
 
-## 4.2 `Mvc 控制器` 约定和缺点
+## 5.2 `Mvc 控制器` 约定和缺点
 
 在学习动态 `WebAPI` 控制器之前，首先了解 `ASP.NET Core` 中 `WebAPI` 的一些约定和注意事项。
 
-### 4.2.1 `WebAPI` 约定
+### 5.2.1 `WebAPI` 约定
 
 在 `ASP.NET Core` 应用中，一个 `WebAPI` 控制器需遵循以下约定：
 
@@ -90,7 +90,7 @@ namespace Fur.Web.Entry.Controllers
 
 除了上述约定外，`WebAPI` 路由地址**基本靠手工完成**，不利于书写，不利于维护，再者，在移动应用对接中难以进行多版本控制。
 
-### 4.2.2 `.NET Core WebAPI` 缺点
+### 5.2.2 `.NET Core WebAPI` 缺点
 
 通过上一章节可以看出，`ASP.NET Core` 应用实现 `WebAPI` 需要遵循种种约定，而且容易出错。
 
@@ -103,7 +103,7 @@ namespace Fur.Web.Entry.Controllers
 - 不支持控制器热拔插插件化
 - 难以实现复杂自定义的 `RESTful API` 风格
 
-## 4.3 动态 `WebAPI` 控制器
+## 5.3 动态 `WebAPI` 控制器
 
 针对以上 `ASP.NET Core` 提供的 `WebAPI` 必须遵循的约定和不可避免的缺点，`Fur` 框架创造出一种更加灵活创建 `WebAPI` 控制器的方式。
 
@@ -121,9 +121,9 @@ namespace Fur.Web.Entry.Controllers
 - 支持 `GET、HEAD` 请求自动转换 `类类型参数`
 - 支持生成 `OAS3` 接口规范
 
-## 4.4 动态 `WebAPI` 使用
+## 5.4 动态 `WebAPI` 使用
 
-### 4.4.1 注册动态 `WebAPI` 服务
+### 5.4.1 注册动态 `WebAPI` 服务
 
 在 `Fur` 框架中，动态 `WebAPI` 服务需要在 `Fur.Web.Entry/Startup.cs` 中注册。如：
 
@@ -165,7 +165,7 @@ namespace Fur.Web.Entry
 
 :::
 
-## 4.5 第一个例子
+## 5.5 第一个例子
 
 创建一个 `FurAppService` 类继承 `IDynamicApiController` 接口 或 贴 `[DynamicApiController]` 特性，并在这个类中编写一个 `Get` 方法。
 
@@ -208,31 +208,31 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/dyglz.gif")} />
 
-## 4.6 动态 `WebAPI` 原理解析
+## 5.6 动态 `WebAPI` 原理解析
 
-### 4.6.1 控制器特性提供器
+### 5.6.1 控制器特性提供器
 
 `Fur` 框架会在应用启动时注册 `DynamicApiControllerFeatureProvider` 控制器特性提供器，该提供器继承自 `ControllerFeatureProvider` 类。
 
 接着重写 `bool IsController(TypeInfo typeInfo)` 方法，用来标识控制器类型。在 `Fur` 框架中，**继承自 `ControllerBase` 类或 `IDynamicApiController` 接口或 `[DynamicApiController]` 特性都会被标记为控制器类型。**
 
-### 4.6.2 应用模型转换器
+### 5.6.2 应用模型转换器
 
 `Fur` 框架同时在应用启动时注册 `DynamicApiControllerApplicationModelConvention` 应用模型转换器，该转换器继承自 `IApplicationModelConvention` 接口。
 
 接着实现 `void Apply(ApplicationModel application)` 接口方法。在该方法中配置控制器名称、路由、导出可见性及动作方法名称、路由、导出可见性等。
 
-实际上该方法做的就是按照 **[WebAPI 约定](#321-webapi-约定)** 提前帮我们配置好路由、请求谓词等信息。避免了手动配置的同时还增加了许多新特性，如**版本控制。**
+实际上该方法做的就是按照 **[WebAPI 约定](#521-webapi-约定)** 提前帮我们配置好路由、请求谓词等信息。避免了手动配置的同时还增加了许多新特性，如**版本控制。**
 
-## 4.7 动态 `WebAPI` 配置约定
+## 5.7 动态 `WebAPI` 配置约定
 
-### 4.7.1 控制器默认约定
+### 5.7.1 控制器默认约定
 
 - 生成控制器名称默认去除以 `AppServices，AppService，ApiController，Controller，Services，Service` 作为前后缀的字符串。见第一个例子中的 `FurAppService -> Fur` **支持自定义配置**
 - 控制器名称带 `V[0-9_]` 结尾的，会自动生成控制器版本号，如 `FurAppServiceV2 -> Fur@2`，`FurAppServiceV1_1_0 -> Fur@1.1.0`。**支持版本分隔符配置**
 - 控制名称以 `骆驼命名（CamelCase）` 会自动切割成多个单词 `-` 连接。**支持自定义配置**
 
-### 4.7.2 动作方法默认约定
+### 5.7.2 动作方法默认约定
 
 - 生成的动作方法名称默认去除以 `Post/Add/Create/Insert/Submit，GetAll/GetList/Get/Find/Fetch/Query/Search，Put/Update，Delete/Remove/Clear，Patch` 开头的字符串。**支持自定义配置**
 - 生成的动作方法名称默认去除以 `Async` 作为前后缀的字符串。**支持自定义配置**
@@ -240,7 +240,7 @@ namespace Fur.Application
 - 动作方法名称以 `骆驼命名（CamelCase）` 会自动切割成多个单词 `-` 连接。**支持自定义配置**
 - 动作方法参数将自动转为小写。**支持自定义配置**
 
-### 4.7.3 请求谓词默认约定
+### 5.7.3 请求谓词默认约定
 
 - 动作方法名
   - 以 `Post/Add/Create/Insert/Submit` 开头，则添加 `[HttpPost]` 特性。
@@ -251,21 +251,21 @@ namespace Fur.Application
   - **支持自定义配置**
 - 如果不在上面约定中，则默认添加 `[HttpPost]` 特性。**支持自定义配置**
 
-### 4.7.4 路由地址默认约定
+### 5.7.4 路由地址默认约定
 
 - 默认以 `api` 开头。**支持自定义配置**
 - 默认转换为小写路由地址。**支持自定义配置**
 - 生成控制器路由模板格式为：`api/前置参数列表/模块名或默认区域名/[controller@版本号]/后置参数列表`
 - 生成动作方法路由模板格式为：`前置参数列表/模块名/[action@版本号]/后置参数列表`
 
-### 4.7.5 其他约定
+### 5.7.5 其他约定
 
 - 默认不处理 `ControllerBase` 控制器类型。**支持自定义配置**
 - 默认不处理 `GET，HEAD` 请求的引用类型参数。**支持自定义配置**
 
-## 4.8 更多例子
+## 5.8 更多例子
 
-### 4.8.1 多种请求谓词方法
+### 5.8.1 多种请求谓词方法
 
 ```cs {7,12,17,22,27}
 using Fur.DynamicApiController;
@@ -306,7 +306,7 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/dgqqwc.png")} />
 
-### 4.8.2 多个自定义动作方法
+### 5.8.2 多个自定义动作方法
 
 ```cs {7,12,17}
 using Fur.DynamicApiController;
@@ -337,7 +337,7 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/dzmc.png")} />
 
-### 4.8.3 带参数动作方法
+### 5.8.3 带参数动作方法
 
 ```cs {7,12,17}
 using Fur.DynamicApiController;
@@ -368,7 +368,7 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/dcsff.gif")} />
 
-### 4.8.5 `GET/HEAD` 类类型参数
+### 5.8.5 `GET/HEAD` 类类型参数
 
 默认情况下，`ASP.NET Core` 会将 `GET/HEAD` 请求中的 `类类型参数` 设置为 `[FromBody]` 绑定，如：
 
@@ -446,7 +446,7 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/modeltoquery.png")} />
 
-### 4.8.6 自定义参数位置
+### 5.8.6 自定义参数位置
 
 `Fur` 框架提供了非常方便的自定义参数位置的特性 `[ApiSeat]`，通过 `[ApiSeat]` 可配置参数位置，支持以下四种位置：
 
@@ -499,7 +499,7 @@ namespace Fur.Application
 
 :::
 
-### 4.8.7 自定义请求谓词
+### 5.8.7 自定义请求谓词
 
 ```cs {2,8}
 using Fur.DynamicApiController;
@@ -522,7 +522,7 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/zdywc.png")} />
 
-### 4.8.8 支持多个谓词
+### 5.8.8 支持多个谓词
 
 ```cs {2,8}
 using Fur.DynamicApiController;
@@ -551,7 +551,7 @@ namespace Fur.Application
 
 :::
 
-### 4.8.9 支持自定义路由
+### 5.8.9 支持自定义路由
 
 支持控制器和动作方法自定义路由：
 
@@ -681,7 +681,7 @@ namespace Fur.Application
 
 :::
 
-### 4.8.10 多路由随意组合
+### 5.8.10 多路由随意组合
 
 `Fur` 框架提供了非常灵活的各种路由组合方式，支持一对多，多对多路由组合：
 
@@ -718,7 +718,7 @@ namespace Fur.Application
 
 :::
 
-### 4.8.11 支持版本控制
+### 5.8.11 支持版本控制
 
 <Tabs
   defaultValue="kzqbb"
@@ -823,7 +823,7 @@ public string GetV1()
 
 :::
 
-### 4.8.12 不公开控制器或动作方法
+### 5.8.12 不公开控制器或动作方法
 
 有些时候，我们无需导出某个动作方法或控制器，只需要添加 `[ApiDescriptionSettings(false)]` 或 `[ApiExplorerSettings(IgnoreApi = true)]`即可。
 
@@ -835,11 +835,11 @@ public string GetV1()
 
 :::
 
-## 4.9 `[ApiDescriptionSettings]`
+## 5.9 `[ApiDescriptionSettings]`
 
 除了上述 `ASP.NET Core` 提供的配置外，`Fur` 框架还提供了非常强大且灵活的 `[ApiDescriptionSettings]` 特性。
 
-### 4.9.1 内置配置
+### 5.9.1 内置配置
 
 - `Name`：自定义控制器/动作方法名称，`string`，默认 `null`
 - `KeepName`：是否保持原有名称不处理，`bool`，默认 `false`
@@ -852,7 +852,7 @@ public string GetV1()
 - `Tags`：接口标签，可结合 `Swagger` 一起使用，`string[]`，默认 `null`
 - `AuthPolicies`：授权策略，可结合 `授权，JWT` 一起使用，`string[]`，默认 `null`
 
-### 4.9.2 `Name` 配置
+### 5.9.2 `Name` 配置
 
 `Name` 参数可以覆盖动态 `WebAPI` 自动生成的控制器或动作方法名称。如：
 
@@ -877,7 +877,7 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/namepz.png")} />
 
-### 4.9.3 `KeepName` 配置
+### 5.9.3 `KeepName` 配置
 
 `KeepName` 参数可以保留原有的控制器或动作方法名称。如：
 
@@ -902,7 +902,7 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/keepnamepz.png")} />
 
-### 4.9.4 `SplitCamelCase` 配置
+### 5.9.4 `SplitCamelCase` 配置
 
 `SplitCamelCase` 参数默认将骆驼命名切割成多个单词并通过指定 `占位符` 连接起来。默认 `占位符` 为 `-`。默认为 `true`。如：
 
@@ -933,7 +933,7 @@ namespace Fur.Application
 
 :::
 
-### 4.9.5 `KeepVerb` 配置
+### 5.9.5 `KeepVerb` 配置
 
 `KeepVerb` 参数作用于动作方法，标识是否保留动作谓词。如：
 
@@ -957,7 +957,7 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/keepverbpz.png")} />
 
-### 4.9.6 `Enabled` 配置
+### 5.9.6 `Enabled` 配置
 
 `Enabled` 参数配置接口是否导出。通常用于动作方法，如果用于控制器实际作用不大。
 
@@ -986,7 +986,7 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/enablepz.png")} />
 
-### 4.9.7 `Module` 配置
+### 5.9.7 `Module` 配置
 
 `Module` 参数可以配置路由分离，类似于 `Mvc 区域` 的作用。
 
@@ -1011,7 +1011,7 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/modulepz.png")} />
 
-### 4.9.8 `Version` 配置
+### 5.9.8 `Version` 配置
 
 `Version` 参数可以配置接口版本，同时又可以复写特殊版本命名配置。默认版本号分隔符为 `@`。如：
 
@@ -1037,7 +1037,7 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/versionpz.png")} />
 
-### 4.9.9 `Groups` 配置
+### 5.9.9 `Groups` 配置
 
 `Groups` 配置主要用于配置 `Swagger` 分组信息。
 
@@ -1069,7 +1069,7 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/dfz.gif")} />
 
-### 4.9.10 `Tag` 配置
+### 5.9.10 `Tag` 配置
 
 `Tag` 配置主要用于配置 `Swagger` 标签分组信息及合并标签。也就是 `组中组`:
 
@@ -1212,7 +1212,7 @@ namespace Fur.Application
 
 :::
 
-## 4.10 `DynamicApiControllerSettings` 配置
+## 5.10 `DynamicApiControllerSettings` 配置
 
 `Fur` 还提供动态 `WebAPI` 接口一些全局配置选项，如：
 
@@ -1235,7 +1235,7 @@ namespace Fur.Application
 - `AbandonActionAffixes`：默认去除动作方法名称前后缀列表名，`string[]`，默认：
   - `Async`
 
-### 4.10.1 支持 `Mvc 控制器` 动态配置
+### 5.10.1 支持 `Mvc 控制器` 动态配置
 
 默认情况下，`Fur` 动态 `WebAPI` 接口不对 `ControllerBase` 类型进行任何处理。当然，我们也可以手动启用 `ControllerBase` 支持。
 
@@ -1275,7 +1275,7 @@ namespace Fur.Web.Entry.Controllers
 
 :::
 
-## 4.11 反馈与建议
+## 5.11 反馈与建议
 
 :::note 与我们交流
 

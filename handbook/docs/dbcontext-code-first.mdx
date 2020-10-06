@@ -1,12 +1,12 @@
 ---
 id: dbcontext-code-first
-title: 8.20 模型生成数据库
-sidebar_label: 8.20 模型生成数据库
+title: 9.20 模型生成数据库
+sidebar_label: 9.20 模型生成数据库
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
-## 8.20.1 数据库开发方式
+## 9.20.1 数据库开发方式
 
 `Fur` 提供两种主要方法来 **保持实体模型和数据库架构同步**。
 
@@ -18,9 +18,9 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 本章节是 **正向工程（Code First）** 的相关内容。
 
-## 8.20.2 操作指南
+## 9.20.2 操作指南
 
-### 8.20.2.1 创建实体模型 `Person`
+### 9.20.2.1 创建实体模型 `Person`
 
 ```cs {1,6,8}
 using Fur.DatabaseAccessor;
@@ -66,17 +66,17 @@ namespace Fur.Core
 
 :::
 
-### 8.20.2.2 打开 `程序包管理控制台`
+### 9.20.2.2 打开 `程序包管理控制台`
 
 <img src={useBaseUrl("img/dbfirst1.png")} />
 
-### 8.20.2.3 切换默认项目
+### 9.20.2.3 切换默认项目
 
 将 `程序包管理控制台` 默认项目设置为 `Fur.Database.Migrations`
 
 <img src={useBaseUrl("img/codefirst1.png")} />
 
-### 8.20.2.4 创建模型版本
+### 9.20.2.4 创建模型版本
 
 ```shell
 Add-Migration v1.0.0
@@ -106,7 +106,7 @@ PM>
 
 <img src={useBaseUrl("img/codefirst3.png")} />
 
-### 8.20.2.5 更新到数据库
+### 9.20.2.5 更新到数据库
 
 ```shell
 Update-Database
@@ -126,7 +126,7 @@ Update-Database v0.0.3
 
 :::
 
-## 8.20.3 更新模型
+## 9.20.3 更新模型
 
 如果模型改变了，重复上面操作即可，如：
 
@@ -138,7 +138,7 @@ Add-Migration v1.0.1
 Update-Database
 ```
 
-## 8.20.4 导出 `Sql`
+## 9.20.4 导出 `Sql`
 
 有些时候，我们没有直接更新数据库的权限，或者怕出问题，我们都会先生成 `Sql` 看看，这时候只需要通过 `Script-Migration` 导出即可，如：
 
@@ -148,7 +148,7 @@ Script-Migration
 
 <img src={useBaseUrl("img/codefirst2.png")} />
 
-## 8.20.5 反馈与建议
+## 9.20.5 反馈与建议
 
 :::note 与我们交流
 

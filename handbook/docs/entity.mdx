@@ -1,10 +1,10 @@
 ---
 id: entity
-title: 8.3 数据库实体
-sidebar_label: 8.3 数据库实体
+title: 9.3 数据库实体
+sidebar_label: 9.3 数据库实体
 ---
 
-## 8.3.1 数据库实体
+## 9.3.1 数据库实体
 
 在面向对象开发思想中，最重要尤为**对象**二字，在 .NET 开发过去，操作数据库往往采用 `DataTable` 和 `DataSet` 来接收数据库返回结果集，而操作数据库也离不开手写 `sql` 语句。
 
@@ -25,7 +25,7 @@ sidebar_label: 8.3 数据库实体
 
 简单来说，数据库实体就是数据库表的类表现，通过一定的规则使这个类能够一一对应表结构。通常这样的类也称为：`POCO` 贫血模型，也就是只有定义，没有行为。
 
-## 8.3.2 如何定义实体
+## 9.3.2 如何定义实体
 
 `Fur` 框架提供多种定义实体的接口依赖：
 
@@ -41,14 +41,14 @@ sidebar_label: 8.3 数据库实体
 
 :::
 
-### 8.3.2.1 实体继承选用原则
+### 9.3.2.1 实体继承选用原则
 
 - 如果你不需要 `Fur` 为实体添加任何内置特性，选用 `IEntity`，无键实体选用 `IEntityNotKey`
 - 如果你只需要 `Id` 属性，选用 `EntityBase`
 - 如果你需要 `Fur` 为你自动添加常用字段，则选用 `Entity`
 - 如果你需要视图、存储过程、函数可以通过 `DbSet` 操作，则继承 `EntityNotKey`
 
-### 8.3.2.2 `IEntity` 示范：
+### 9.3.2.2 `IEntity` 示范：
 
 ```cs {1,5}
 using Fur.DatabaseAccessor;
@@ -70,7 +70,7 @@ namespace Fur.Core
 }
 ```
 
-### 8.3.2.2 `EntityBase` 示范：
+### 9.3.2.2 `EntityBase` 示范：
 
 ```cs {1,5}
 using Fur.DatabaseAccessor;
@@ -89,7 +89,7 @@ namespace Fur.Core
 }
 ```
 
-### 8.3.2.3 `Entity` 示范：
+### 9.3.2.3 `Entity` 示范：
 
 ```cs {1,5}
 using Fur.DatabaseAccessor;
@@ -109,7 +109,7 @@ namespace Fur.Core
 }
 ```
 
-### 8.3.2.4 `EntityNotKey` 示范：
+### 9.3.2.4 `EntityNotKey` 示范：
 
 ```cs {1,5,7-9}
 using Fur.DatabaseAccessor;
@@ -141,13 +141,13 @@ namespace Fur.Core
 
 :::
 
-## 8.3.3 数据库实体配置
+## 9.3.3 数据库实体配置
 
 在过去的 `EF Core` 项目开发中，数据库实体配置需要在 `DbContext` 的 `OnModelCreating` 中配置。`Fur` 为了简化配置和提高开发效率，抽象出了 `IEntityTypeBuilder<TEntity>` 接口。
 
 通过 `IEntityTypeBuilder<TEntity>` 接口，我们无需在 `DbContext` 的 `OnModelCreating` 中配置，可在任意地方配置。
 
-### 8.3.3.1 在数据库实体中配置
+### 9.3.3.1 在数据库实体中配置
 
 ```cs {1,5,20-25}
 using Fur.DatabaseAccessor;
@@ -179,7 +179,7 @@ namespace Fur.Core
 }
 ```
 
-### 8.3.3.2 在任何实例类中配置
+### 9.3.3.2 在任何实例类中配置
 
 ```cs {1,8,10-14}
 using Fur.DatabaseAccessor;
@@ -202,13 +202,13 @@ namespace Fur.Core
 
 如，上面例子，通过 `SomeClass` 配置 `User` 数据库实体。
 
-## 8.3.4 数据库实体配置说明
+## 9.3.4 数据库实体配置说明
 
 `Fur` 框架会自动扫描所有继承 `IEntity` 接口的类进行 `DbSet<TEntity>` 注册，也就是实现自动配置 `DbContext` 的 `OnModelCreating`。
 
 如果需要跳过自动注册，只需要贴 `[NonAutomatic]` 或 `[NonBeScan]` 特性即可。一旦贴了次特性，那么就需要手动配置 `DbContext` 的 `OnModelCreating`
 
-## 8.3.5 反馈与建议
+## 9.3.5 反馈与建议
 
 :::note 与我们交流
 

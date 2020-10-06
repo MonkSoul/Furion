@@ -10,8 +10,12 @@ module.exports = {
       id: "get-start",
     },
     {
+      type: "doc",
+      id: "appstartup",
+    },
+    {
       type: "category",
-      label: "3. 配置与选项",
+      label: "4. 配置与选项",
       items: ["configuration", "options"],
     },
     {
@@ -32,7 +36,7 @@ module.exports = {
     },
     {
       type: "category",
-      label: "8. 数据库操作指南",
+      label: "9. 数据库操作指南",
       items: [
         "dbcontext",
         "dbcontext-locator",
@@ -121,6 +125,10 @@ module.exports = {
     },
     {
       type: "doc",
+      id: "grpc",
+    },
+    {
+      type: "doc",
       id: "deploy",
     },
     {
@@ -129,7 +137,7 @@ module.exports = {
     },
     {
       type: "category",
-      label: "25. 测试指南",
+      label: "27. 测试指南",
       items: ["unittest", "performance"],
     },
     {

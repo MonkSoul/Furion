@@ -1,18 +1,18 @@
 ---
 id: dbcontext-function
-title: 8.14 函数操作
-sidebar_label: 8.14 函数操作
+title: 9.14 函数操作
+sidebar_label: 9.14 函数操作
 ---
 
 :::important 温馨提示
 
-推荐使用 《[8.15 Sql 高级代理](dbcontext-sql-proxy.mdx)》代替本章节功能。`Sql 高级代理` 能够提供更容易且更易维护的方式。
+推荐使用 《[9.15 Sql 高级代理](dbcontext-sql-proxy.mdx)》代替本章节功能。`Sql 高级代理` 能够提供更容易且更易维护的方式。
 
 :::
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
-## 8.14.1 数据库函数
+## 9.14.1 数据库函数
 
 引用百度百科：
 
@@ -20,28 +20,28 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 简单来说，数据库函数就是用于子计算的函数。其计算的结果可以用于构建 `sql` 语句。
 
-### 8.14.1.1 支持标量函数的数据库
+### 9.14.1.1 支持标量函数的数据库
 
 | SqlServer | Sqlite | Cosmos | InMemoryDatabase | MySql | PostgreSQL | Oracle | Firebird | Dm  |
 | --------- | ------ | ------ | ---------------- | ----- | ---------- | ------ | -------- | --- |
 | ✔         |        | ✔      |                  | ✔     | ✔          | ✔      |          |     |
 
-### 8.14.1.2 支持表值函数的数据库
+### 9.14.1.2 支持表值函数的数据库
 
 | SqlServer | Sqlite | Cosmos | InMemoryDatabase | MySql | PostgreSQL | Oracle | Firebird | Dm  |
 | --------- | ------ | ------ | ---------------- | ----- | ---------- | ------ | -------- | --- |
 | ✔         |        | ✔      |                  |       | ✔          | ✔      |          |     |
 
-## 8.14.2 数据库函数类型
+## 9.14.2 数据库函数类型
 
 在关系型数据库中，数据库函数有这两种类型：
 
 - `标量函数`：只能返回单个值
 - `表值函数`：只能返回一个结果集
 
-## 8.14.3 函数的使用
+## 9.14.3 函数的使用
 
-### 8.14.3.1 标量函数返回 `object`
+### 9.14.3.1 标量函数返回 `object`
 
 ```cs
 // ISqlRepository 方法
@@ -66,7 +66,7 @@ var value = "func_GetValue".SqlFunctionScalar();
 
 :::
 
-### 8.14.3.2 标量函数返回 `T`
+### 9.14.3.2 标量函数返回 `T`
 
 ```cs
 // ISqlRepository 方法
@@ -91,7 +91,7 @@ var value = "func_GetValue".SqlFunctionScalar<string>();
 
 :::
 
-### 8.14.3.3 表值函数返回 `DataTable`
+### 9.14.3.3 表值函数返回 `DataTable`
 
 ```cs
 // ISqlRepository 方法
@@ -116,7 +116,7 @@ var value = "func_GetTable".SqlFunctionQuery();
 
 :::
 
-### 8.14.3.4 表值函数返回 `List<T>`
+### 9.14.3.4 表值函数返回 `List<T>`
 
 ```cs
 // ISqlRepository 方法
@@ -141,7 +141,7 @@ var value = "func_GetTable".SqlFunctionQuery<Person>();
 
 :::
 
-## 8.14.4 在 `Linq` 中使用 `标量函数`
+## 9.14.4 在 `Linq` 中使用 `标量函数`
 
 `Fur` 框架提供非常灵活的在 `Linq` 中使用标量函数的方法。如果像使用这样的方式，需要满足以下两个条件：
 
@@ -150,7 +150,7 @@ var value = "func_GetTable".SqlFunctionQuery<Person>();
 
 示例如下：
 
-### 8.14.4.1 创建标量函数
+### 9.14.4.1 创建标量函数
 
 ```sql
 CREATE FUNCTION FN_GetId
@@ -164,7 +164,7 @@ BEGIN
 END;
 ```
 
-### 8.14.4.2 创建静态类和静态方法
+### 9.14.4.2 创建静态类和静态方法
 
 创建静态类，如 `QueryFunctions`，将该 `标量函数` 放在静态类中：
 
@@ -184,7 +184,7 @@ namespace Fur.Application
 }
 ```
 
-### 8.14.4.3 在 `Linq` 中使用
+### 9.14.4.3 在 `Linq` 中使用
 
 ```cs
 _personRepository.Where(u => u.Id > QueryFunctions.GetId(1)).ToList();
@@ -198,13 +198,13 @@ WHERE [p].[Id] > [dbo].[FN_GetId](1)    // 💥 注意这里
 
 <img src={useBaseUrl("img/fn1.png")} />
 
-## 8.14.5 在 `Linq` 中使用 `表值函数`
+## 9.14.5 在 `Linq` 中使用 `表值函数`
 
 `EF Core 5.0` 版本支持在 `Linq` 中操作 `表值函数`，操作有点类似 `视图操作`
 
 示例如下：
 
-### 8.14.5.1 创建表值函数
+### 9.14.5.1 创建表值函数
 
 ```sql
 CREATE FUNCTION dbo.GetPersons
@@ -224,7 +224,7 @@ RETURN
 );
 ```
 
-### 8.14.5.2 创建表值函数模型
+### 9.14.5.2 创建表值函数模型
 
 ```cs
 namespace Fur.Core
@@ -254,7 +254,7 @@ namespace Fur.Core
 }
 ```
 
-### 8.14.5.3 表值函数配置
+### 9.14.5.3 表值函数配置
 
 在 `DbContext` 类中定义方法：
 
@@ -285,7 +285,7 @@ namespace Fur.EntityFramework.Core
 }
 ```
 
-### 8.14.5.4 在 `Linq` 中使用
+### 9.14.5.4 在 `Linq` 中使用
 
 ```cs
 IQueryable<F_Person> query = _repository.DynamicDbContext.GetPersons(1);
@@ -300,7 +300,7 @@ FROM dbo.GetPersons(1) AS [g]
 WHERE [g].Name == N'Fur';
 ```
 
-## 8.14.6 在 `EF Core` 内置函数
+## 9.14.6 在 `EF Core` 内置函数
 
 `EF Core` 为我们提供了很多常用的内置函数，可以在 `Lambda` 条件中使用，主要是通过 EF.Functions 调用，如：
 
@@ -318,7 +318,7 @@ WHERE DATEDIFF(HOUR, [a].[CREATED_DT], GETDATE()) > 8
 
 `EF Core` 内置函数就不一一列出了，可以通过 `EF.Functions` 查看更多，如果不能满足自己的需求，那么可以自定义 `Linq` 标量函数
 
-## 8.14.7 反馈与建议
+## 9.14.7 反馈与建议
 
 :::note 与我们交流
 

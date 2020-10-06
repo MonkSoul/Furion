@@ -1,27 +1,27 @@
 ---
 id: friendly-exception
-title: 6. 友好异常处理
-sidebar_label: 6. 友好异常处理
+title: 7. 友好异常处理
+sidebar_label: 7. 友好异常处理
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
-## 6.1 什么是异常
+## 7.1 什么是异常
 
 异常一般是指运行期（此处特指 `Exception` 类）会发生的导致程序意外中止的问题，是一种对问题的描述后的封装对象。
 
 在过去开发中，通常异常由系统运行时出错抛出，但现在的开发过程中，我们应在程序开发中合理的抛出异常，比如更新一条不存在的实体，或查询一个不存在的数据等等。
 
-## 6.2 处理异常方式
+## 7.2 处理异常方式
 
 - 不处理，直接中断程序执行（不推荐）
 - 通过 `try catch finally` 处理（不推荐）
 - 全局统一处理，并记录异常信息**（推荐）**
 - 异常注解方式处理，支持**本地化** **（推荐）**
 
-## 6.3 什么是友好异常处理
+## 7.3 什么是友好异常处理
 
-### 6.3.1 非友好异常处理
+### 7.3.1 非友好异常处理
 
 在了解友好异常处理之前可以看看非友好异常处理：
 
@@ -35,7 +35,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - 不支持异常传播
 - 返回的异常格式杂乱
 
-### 6.3.2 友好异常处理
+### 7.3.2 友好异常处理
 
 - 对终端用户提示友好
 - 对后端开发人员提供详细的异常堆栈
@@ -49,11 +49,11 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - 支持内部异常外部传播
 - 支持返回统一的异常格式数据
 
-## 6.4 友好异常处理使用示例
+## 7.4 友好异常处理使用示例
 
 `Fur` 框架提供了非常灵活的友好异常处理方式。
 
-### 6.4.1 注册友好异常服务
+### 7.4.1 注册友好异常服务
 
 ```cs {3,15} title="Fur.Web.Entry/Startup.cs"
 using Microsoft.AspNetCore.Builder;
@@ -86,7 +86,7 @@ namespace Fur.Web.Entry
 
 :::
 
-### 6.4.2 两个例子
+### 7.4.2 两个例子
 
 #### 简单抛个异常
 
@@ -143,15 +143,15 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/yhyc2.png")} />
 
-## 6.5 关于 Oops.Oh
+## 7.5 关于 Oops.Oh
 
 通过上面的例子可以看出，`Oops.Oh(errorMessage)` 可以结合 `throw` 抛出异常。对于熟悉`C#`的人员来说，`throw` 后面只能 `Exception` 实例。`Oops.Oh(...)` 方法返回正是 `Exception` 实例。
 
-### 6.6.1 为什么起这个名字？
+### 7.6.1 为什么起这个名字？
 
 这个名字来源于一个英语句子：`Oh, Oops!`，意思是 **噢（哎），出错了！**，所以就有了 `Oops.Oh`。
 
-### 6.6.2 `Oops.Oh` 重载方法
+### 7.6.2 `Oops.Oh` 重载方法
 
 ```cs {13,22,30,39}
 using System;
@@ -197,11 +197,11 @@ namespace Fur.FriendlyException
 }
 ```
 
-## 6.6 最佳实践 🤗
+## 7.6 最佳实践 🤗
 
 在 `Fur` 框架中，提供了非常灵活且规范化的友好异常处理方式，通过这个方式可以方便管理异常状态码、异常信息及异常本地化。
 
-### 6.6.1 创建异常信息类型
+### 7.6.1 创建异常信息类型
 
 实现自定义异常信息类型必须遵循以下配置：
 
@@ -238,13 +238,13 @@ namespace Fur.Application
 
 :::
 
-### 6.6.2 关于 `[ErrorCodeItemMetadata]`
+### 7.6.2 关于 `[ErrorCodeItemMetadata]`
 
 `Fur` 框架提供了`[ErrorCodeItemMetadata]` 特性用来标识**枚举字段**异常元数据，该特性支持传入 `消息内容` 和 `格式化参数`。最终会使用 `String.Format(消息内容，格式化参数)` 进行格式化。
 
 如果消息内容中包含`格式化占位符`但未指定`格式化参数`，那么会查找异常所在方法是否贴有 `[IfException]` 特性且含有格式化参数，接着就会查找 `Oops.Oh` 中指定的 `格式化参数`。
 
-### 6.6.3 静态异常类使用
+### 7.6.3 静态异常类使用
 
 ```cs {2,12}
 using Fur.DynamicApiController;
@@ -271,7 +271,7 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/yhyc3.gif")} />
 
-### 6.6.4 更多例子
+### 7.6.4 更多例子
 
 ```cs
 throw Oops.Oh(1000);
@@ -281,7 +281,7 @@ throw Oops.Oh(errorCode: "x1001");
 throw Oops.Oh(1000, typeof(Exception));
 ```
 
-## 6.7 多个异常信息类型
+## 7.7 多个异常信息类型
 
 ```cs {5-6,21-22}
 using Fur.FriendlyException;
@@ -322,7 +322,7 @@ namespace Fur.Application
 
 :::
 
-## 6.8 `IErrorCodeTypeProvider` 提供器
+## 7.8 `IErrorCodeTypeProvider` 提供器
 
 在 `Fur` 框架中，还提供了 `IErrorCodeTypeProvider` 异常消息提供器接口，方便在不能贴 `[ErrorCodeType]` 特性情况下使用：
 
@@ -375,7 +375,7 @@ namespace Fur.Web.Entry
 
 :::
 
-## 6.9 `appsetting.json` 中配置
+## 7.9 `appsetting.json` 中配置
 
 `Fur` 框架还提供了非常灵活的配置文件配置异常，通过这种方式可以实现异常信息后期配置，也就是无需在开发阶段预先定义。
 
@@ -424,7 +424,7 @@ namespace Fur.Application
 
 :::
 
-## 6.10 `[IfException]` 使用
+## 7.10 `[IfException]` 使用
 
 `Fur` 框架提供了 `[IfException]` 特性可以**覆盖默认消息配置**。也就是覆盖 `异常消息类型` 和 `appsettings.json` 中的配置。
 
@@ -434,7 +434,7 @@ namespace Fur.Application
 
 :::
 
-### 6.10.1 使用示例
+### 7.10.1 使用示例
 
 - 异常消息类定义
 
@@ -475,7 +475,7 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/yhyc4.png")} />
 
-### 6.10.2 更多例子
+### 7.10.2 更多例子
 
 ```cs {2,8-11}
 using Fur.DynamicApiController;
@@ -508,28 +508,28 @@ namespace Fur.Application
 
 :::
 
-## 6.11 异常消息优先级
+## 7.11 异常消息优先级
 
 `[ErrorCodeItemMetadata]` -> `appsettings.json` -> `[IfException]`。**（低 -> 高）**
 
 - `[IfException]` 会覆盖 `appsettings.json` 定义的状态码消息。
 - `appsettings.json` 会覆盖 `[ErrorCodeItemMetadata]` 定义的消息。
 
-## 6.12 多语言支持
+## 7.12 多语言支持
 
 文档整理中...
 
-## 6.13 异常模型提供器
+## 7.13 异常模型提供器
 
 文档整理中...
 
-## 6.14 `Fur` 内置异常
+## 7.14 `Fur` 内置异常
 
 - `EFCoreErrorCodes`：`EF Core` 操作异常
   - `DataNotFound`：未找到数据
   - `KeyNotSet`：没有设置主键
 
-## 6.15 反馈与建议
+## 7.15 反馈与建议
 
 :::note 与我们交流
 

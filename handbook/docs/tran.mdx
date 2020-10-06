@@ -1,14 +1,14 @@
 ---
 id: tran
-title: 8.25 事务和工作单元
-sidebar_label: 8.25 事务和工作单元
+title: 9.25 事务和工作单元
+sidebar_label: 9.25 事务和工作单元
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-## 8.25.1 事务
+## 9.25.1 事务
 
 事务指作为单个逻辑工作单元执行的一系列操作，要么**完全地执行，要么完全地不执行**。
 
@@ -21,7 +21,7 @@ import TabItem from "@theme/TabItem";
 
 **默认情况下，`Fur` 框架为每一次请求都开启了分布式事务，保证了每一次请求都是一个完整的 `工作单元`**。当然，我们也可以手动管理事务。
 
-## 8.25.2 工作单元
+## 9.25.2 工作单元
 
 简单来说，就是为了保证一次完整的功能操作所产生的一些列提交数据的完整性，起着事务的作用。在计算机领域中，工作单元通常用 `UnitOfWork` 名称表示。
 
@@ -29,13 +29,13 @@ import TabItem from "@theme/TabItem";
 
 默认情况下，在 `Fur` 框架中，工作单元无需我们手动维护，框架会自动保证了每一次请求都是一个 `工作单元`，要么同时成功，要么同时失败。
 
-## 8.25.3 如何使用
+## 9.25.3 如何使用
 
-### 8.25.3.1 自动管理
+### 9.25.3.1 自动管理
 
 在 `Fur` 框架中，工作单元无需我们手动维护，框架会自动保证了每一次请求都是一个 `工作单元`，要么同时成功，要么同时失败。所以无需操作。
 
-### 8.25.3.2 手动管理
+### 9.25.3.2 手动管理
 
 <Tabs
   defaultValue="one"
@@ -171,9 +171,9 @@ using (var scope = new TransactionScope(
 </Tabs>
 
 
-## 8.25.4 工作单元特性说明
+## 9.25.4 工作单元特性说明
 
-### 8.25.4.1 `[UnitOfWork]`
+### 9.25.4.1 `[UnitOfWork]`
 
 `[UnitOfWork]` 特性用来标记事务信息，如作用范围，隔离级别等。
 
@@ -188,17 +188,17 @@ using (var scope = new TransactionScope(
 
 :::
 
-### 8.25.4.2 `[NonTransact]`
+### 9.25.4.2 `[NonTransact]`
 
 一但方法或类贴了 `[NonTransact]` 特性，那么**将关闭事务操作，但是还是会自动保存数据库到数据。**
 
-## 8.25.5 常见错误
+## 9.25.5 常见错误
 
 - `A TransactionScope must be disposed on the same thread that it was created.`
 
 只需要在当前操作方法上贴 `[NonTransact]` 特性即可。
 
-## 8.25.6 反馈与建议
+## 9.25.6 反馈与建议
 
 :::note 与我们交流
 

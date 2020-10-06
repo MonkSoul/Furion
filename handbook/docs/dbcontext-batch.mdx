@@ -1,16 +1,16 @@
 ---
 id: dbcontext-batch
-title: 8.9 批量操作
-sidebar_label: 8.9 批量操作
+title: 9.9 批量操作
+sidebar_label: 9.9 批量操作
 ---
 
-## 8.9.1 关于批量操作
+## 9.9.1 关于批量操作
 
 `Fur` 框架中，默认只提供小数据（100 以内）批量数据操作，如果需要更大的数据批量处理，推荐使用第三方包 [EFCore.BulkExtensions](https://github.com/borisdj/EFCore.BulkExtensions)，支持和 `Fur` 无缝衔接。
 
-## 8.9.2 `EFCore.BulkExtensions` 使用
+## 9.9.2 `EFCore.BulkExtensions` 使用
 
-### 8.9.2.1 常见批量操作
+### 9.9.2.1 常见批量操作
 
 ```cs
 // 批量插入
@@ -42,7 +42,7 @@ repository.DbContext.Truncate<Entity>();
 repository.DbContext.TruncateAsync<Entity>();
 ```
 
-### 8.9.2.2 查询后批量操作
+### 9.9.2.2 查询后批量操作
 
 ```cs
 // 根据条件批量删除
@@ -60,7 +60,7 @@ var q = repository.Where(a => a.ItemId <= 500);
 int affected = q.BatchUpdate(new Item { Description = "Updated" }, updateColumns);
 ```
 
-## 8.9.3 批量操作性能
+## 9.9.3 批量操作性能
 
 | Operations\Rows   |   100,000 EF |   100,000 EFBulk |   1,000,000 EFBulk |
 | ----------------- | -----------: | ---------------: | -----------------: |
@@ -70,7 +70,7 @@ int affected = q.BatchUpdate(new Item { Description = "Updated" }, updateColumns
 | ----------------- | ------------ | ---------------- | ------------------ |
 | **Together**      |      70.70 s |           5.88 s |            56.84 s |
 
-## 8.9.4 反馈与建议
+## 9.9.4 反馈与建议
 
 :::note 与我们交流
 

@@ -1,44 +1,44 @@
 ---
 id: specification-document
-title: 5. 规范化接口文档
-sidebar_label: 5. 规范化接口文档
+title: 6. 规范化接口文档
+sidebar_label: 6. 规范化接口文档
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-## 5.1 什么是接口文档
+## 6.1 什么是接口文档
 
 在现在移动为王、多端互辅、前端百花齐放的开放时代，不再是一人包揽式开发，大家各司其职，后端工程师负责接口开发，前端负责接口联调，也就是互联网现在流行的前后端分离架构。
 
 所以就需要由前后端工程师共同定义接口，编写接口文档，之后大家按照这个接口文档进行开发、维护及开放给第三方。
 
-## 5.2 为什么要写接口文档
+## 6.2 为什么要写接口文档
 
 - 能够让前端开发与后台开发人员更好的配合，提高工作效率
 - 项目迭代或者项目人员更迭时，方便后期人员查看和维护
 - 方便测试人员进行接口测试
 
-## 5.3 为什么需要规范化文档
+## 6.3 为什么需要规范化文档
 
 由于每个公司后端人员技术参差不齐，技术文档能力也不例外，导致接口定义及文档五花八门，不同项目或不同公司对接极其困难，而且体验糟糕。所以，无规矩不成方圆，为了开发人员间更好的配合，迫切需要整理出一套规范。
 
 通常接口规范分为六个部分：
 
-### 5.3.1 协议规范
+### 6.3.1 协议规范
 
 为了确保不同系统/模块间的数据交互，需要事先约定好通讯协议，如：TCP、HTTP、HTTPS 协议。为了确保数据交互安全，建议使用 HTTPS 协议
 
-### 5.3.2 接口路径规范
+### 6.3.2 接口路径规范
 
 作为接口路径，为了方便清晰的区分来自不同的系统，可以采用不同系统/模块名作为接口路径前缀，如：支付模块：`/pay/xxx`，订单模块：`/order/xxx`
 
-### 5.3.3 版本控制规范
+### 6.3.3 版本控制规范
 
 为了便于后期接口的升级和维护，建议在接口路径中加入版本号，便于管理，实现接口多版本的可维护性。如：接口路径中添加类似"`v1`"、"`v2`"等版本号
 
-### 5.3.4 接口命名规范
+### 6.3.4 接口命名规范
 
 和 C# 命名规范一样，好的、统一的接口命名规范，不仅可以增强其可读性，而且还会减少很多不必要的口头/书面上的解释。，可使用"驼峰命名法"按照实现接口的**业务类型、业务场景**等命名，有必要时可采取多级目录命名，但目录不宜过长，两级目录较为适宜
 
@@ -51,17 +51,17 @@ import TabItem from "@theme/TabItem";
     - `PATCH`：在服务器更新资源（客户端提供改变的属性）
     - `DELETE`：从服务器删除资源
 
-### 5.3.5 请求参数规范
+### 6.3.5 请求参数规范
 
 - `请求方式`：按照 `GET、POST、PUT` 等含义定义，避免出现不一致现象，对人造成误解、歧义
   - `请求头`：请求头根据项目需求添加配置参数。如：请求数据格式，`accept=application/json` 等。如有需要，请求头可根据项目需求要求传入用户 token、唯一验签码等加密数据
   - `请求参数/请求体`： 请求参数字段，尽可能与数据库表字段、对象属性名等保持一致，因为保持一致最省事，最舒服的一件事
 
-### 5.3.6 返回数据规范
+### 6.3.6 返回数据规范
 
 统一规范返回数据的格式，对己对彼都有好处，此处以 json 格式为例。返回数据应包含：**返回状态码、返回状态信息、具体数据**。**返回数据中的状态码、状态信息，常指具体的业务状态，不建议和 HTTP 状态码混在一起**。HTTP 状态，是用来体现 HTTP 链路状态情况，如：404-Not Found。HTTP 状态码和 json 结果中的状态码，并存尚可，用于体现不同维度的状态。
 
-## 5.4 什么是 Swagger
+## 6.4 什么是 Swagger
 
 相信无论是前端还是后端开发，都或多或少地被接口文档折磨过。前端经常抱怨后端给的接口文档与实际情况不一致。后端又觉得编写及维护接口文档会耗费不少精力，经常来不及更新。
 
@@ -77,11 +77,11 @@ import TabItem from "@theme/TabItem";
 
 总体目标是使客户端和文件系统作为服务器以同样的速度来更新。文件的方法、参数和模型紧密集成到服务器端的代码，允许 API 来始终保持同步。`Swagger` 让部署管理和使用功能强大的 `API` 从未如此简单。
 
-## 5.5 Swagger 使用
+## 6.5 Swagger 使用
 
 `Fur` 框架提供了非常方便且灵活的 `Swagger` 配置，无需增加额外学习成本。
 
-### 5.5.1 注册服务
+### 6.5.1 注册服务
 
 ```cs {4,13-16,18,30-33} title="Fur.Web.Entry/Startup.cs"
 using Microsoft.AspNetCore.Builder;
@@ -124,7 +124,7 @@ namespace Fur.Web.Entry
 
 :::
 
-### 5.5.2 默认地址
+### 6.5.2 默认地址
 
 在 `Fur` 框架中，默认 `规范化文档` 地址为主机根目录，**支持自定义配置**。
 
@@ -132,11 +132,11 @@ namespace Fur.Web.Entry
 
 <img src={useBaseUrl("img/swagger1.png")} />
 
-### 5.5.3 默认分组
+### 6.5.3 默认分组
 
 `Fur` 框架中默认分组名为 `Default`，**支持自定义配置**。
 
-### 5.5.4 文档注释
+### 6.5.4 文档注释
 
 规范化文档默认扫描 `Fur.Application`，`Fur.Web.Core`，`Fur.Web.Entry` 三个程序集`.xml` 注释文件，**支持自定义配置**。
 
@@ -178,7 +178,7 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/swagger2.png")} />
 
-### 5.5.5 多分组支持
+### 6.5.5 多分组支持
 
 多分组是一个系统中必备功能，我们可以将系统划分为多个模块，每个模块都独立的 `api` 配置。在 `Fur` 框架中，实现多分组非常简单。如：
 
@@ -227,7 +227,7 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/swagger3.gif")} />
 
-### 5.5.6 多分组排序
+### 6.5.6 多分组排序
 
 <Tabs
   defaultValue="fz1"
@@ -314,7 +314,7 @@ namespace Fur.Application
 
 :::
 
-### 5.5.7 多分组信息配置
+### 6.5.7 多分组信息配置
 
 `Fur` 框架提供了可通过 `appsetting.json` 配置分组信息：
 
@@ -349,7 +349,7 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/swagger5.png")} />
 
-### 5.5.8 组中组（标签）
+### 6.5.8 组中组（标签）
 
 `Tag` 配置主要用于配置 `Swagger` 标签分组信息及合并标签。也就是 `组中组`:
 
@@ -492,7 +492,7 @@ namespace Fur.Application
 
 :::
 
-### 5.5.9 默认展开所有文档
+### 6.5.9 默认展开所有文档
 
 ```json {2-5} title="Fur.Web.Entry/appsettings.json"
 {
@@ -514,7 +514,7 @@ namespace Fur.Application
 - `Full`：完全展开
 - `None`：列表式（不展开子类）
 
-### 5.5.10 配置文档标题
+### 6.5.10 配置文档标题
 
 ```json {2-5} title="Fur.Web.Entry/appsettings.json"
 {
@@ -530,7 +530,7 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/swagger7.png")} />
 
-### 5.5.11 授权控制
+### 6.5.11 授权控制
 
 待整理...
 
@@ -566,13 +566,13 @@ namespace Fur.Application
 }
 ```
 
-### 5.5.12 在线测试
+### 6.5.12 在线测试
 
 如下图所示：
 
 <img src={useBaseUrl("img/swagger8.gif")} />
 
-### 5.5.13 性能监视 `MiniProfiler`
+### 6.5.13 性能监视 `MiniProfiler`
 
 规范化文档默认集成了 `MiniProfiler` 第三方性能组件，通过该组件可以方便查看请求性能、异常堆栈、数据库操作等信息。默认在 `Swagger` 首页左上角显示。
 
@@ -586,7 +586,7 @@ namespace Fur.Application
 
 :::
 
-### 5.5.14 定义接口输出类型
+### 6.5.14 定义接口输出类型
 
 ```cs {2,8-9}
 using Fur.DynamicApiController;
@@ -610,7 +610,7 @@ namespace Fur.Application
 
 <img src={useBaseUrl("img/fhzlx.png")} />
 
-## 5.6 `SpecificationDocumentSettings` 配置
+## 6.6 `SpecificationDocumentSettings` 配置
 
 除了上述例子外，`Fur` 提供了一些配置选项，如：
 
@@ -627,7 +627,7 @@ namespace Fur.Application
 - `GroupOpenApiInfos`：分组信息配置，`SpecificationOpenApiInfo[]`，默认 `{ 'Group': 'Default'}`
 - `SecurityDefinitions`：安全策略定义配置，`SpecificationOpenApiSecurityScheme[]`，默认 `[]`
 
-## 5.7 反馈与建议
+## 6.7 反馈与建议
 
 :::note 与我们交流
 

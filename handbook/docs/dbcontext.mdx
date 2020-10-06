@@ -1,16 +1,16 @@
 ---
 id: dbcontext
-title: 8.1 数据库上下文
-sidebar_label: 8.1 数据库上下文
+title: 9.1 数据库上下文
+sidebar_label: 9.1 数据库上下文
 ---
 
-## 8.1.1 数据库上下文
+## 9.1.1 数据库上下文
 
 简单来说，数据库上下文是负责和数据库交互的对象，提供程序对数据库存取提供了大量的方法。
 
 在 `Fur` 框架中，默认集成了微软亲儿子：`EntityFramework Core` ，也就是通常数据库上下文指的是 `DbContext` 类或它的实现类。
 
-## 8.1.2 `AppDbContext`
+## 9.1.2 `AppDbContext`
 
 在我们实际项目开发过程中，使用 `EFCore` 提供的 `DbContext` 操作对象操作数据库有些繁琐和复杂，且默认不具备读写分离、多库等操作功能。
 
@@ -20,7 +20,7 @@ sidebar_label: 8.1 数据库上下文
 后续章节，皆采用 `EFCore` 代替 `EntityFramework Core`。
 :::
 
-## 8.1.3 `AppDbContext` 和 `DbContext` 区别
+## 9.1.3 `AppDbContext` 和 `DbContext` 区别
 
 - `AppDbContext` 继承自 `DbContext`，具备 `DbContext` 所有功能。
 - `AppDbContext` 支持多数据库操作泛型版本，如：`AppDbContext<TDbContext, TDbContextLocator>`
@@ -31,7 +31,7 @@ sidebar_label: 8.1 数据库上下文
 - `AppDbContext` 提供更加强大的模型操作能力，如果 `Sql` 操作，读写分离等
 - `AppDbContext` 能够得到 `Fur` 框架更多的功能支持
 
-## 8.1.4 如何定义数据库上下文
+## 9.1.4 如何定义数据库上下文
 
 在 `Fur` 框架中了，提供了两种 `AppDbContext` 定义方式：
 
@@ -42,7 +42,7 @@ sidebar_label: 8.1 数据库上下文
 
 下面是数据库上下文创建的多个例子：
 
-### 8.1.4.1 创建默认数据库上下文
+### 9.1.4.1 创建默认数据库上下文
 
 ```cs {1,6,12}
 using Fur.DatabaseAccessor;
@@ -64,7 +64,7 @@ namespace Fur.EntityFramework.Core
 }
 ```
 
-### 8.1.4.2 创建其他数据库上下文
+### 9.1.4.2 创建其他数据库上下文
 
 ```cs {1,6,12}
 using Fur.DatabaseAccessor;
@@ -87,10 +87,10 @@ namespace Fur.EntityFramework.Core
 ```
 
 :::important 特别注意
-所有数据库上下文都应该在 `Fur.EntityFramework.Core` 项目中创建。关于 `TDbContextLocator` 将在下一章节 《[8.2 数据库上下文定位器](dbcontext-locator)》阐述。
+所有数据库上下文都应该在 `Fur.EntityFramework.Core` 项目中创建。关于 `TDbContextLocator` 将在下一章节 《[9.2 数据库上下文定位器](dbcontext-locator)》阐述。
 :::
 
-## 8.1.5 配置连接字符串
+## 9.1.5 配置连接字符串
 
 `Fur` 框架提供多种数据库连接字符串配置方式：
 
@@ -98,7 +98,7 @@ namespace Fur.EntityFramework.Core
 - 使用 `[AppDbContext("连接字符串/Key")]` 特性方式（只在 `AppDbContext 实现类有效`）**推荐**
 - 通过重写 `OnConfiguring(DbContextOptionsBuilder optionsBuilder)` 配置
 
-### 8.1.5.1 `Startup` 方式配置
+### 9.1.5.1 `Startup` 方式配置
 
 ```cs {12-19} title="Fur\framework\Fur.EntityFramework.Core\FurEntityFrameworkCoreStartup.cs"
 using Fur.DependencyInjection;
@@ -125,7 +125,7 @@ namespace Fur.EntityFramework.Core
 }
 ```
 
-### 8.1.5.2 `[AppDbContext]` 方式配置
+### 9.1.5.2 `[AppDbContext]` 方式配置
 
 ```cs {1,6}
 using Fur.DatabaseAccessor;
@@ -159,7 +159,7 @@ namespace Fur.EntityFramework.Core
 - `TablePrefix`：当前数据库上下文表统一前缀
 - `TableSuffix`：当前数据库上下文表统一后缀
 
-### 8.1.5.3 `OnConfiguring` 方式配置
+### 9.1.5.3 `OnConfiguring` 方式配置
 
 ```cs {16-20}
 using Fur.DatabaseAccessor;
@@ -187,7 +187,7 @@ namespace Fur.EntityFramework.Core
 }
 ```
 
-## 8.1.6 数据库上下文定义位置
+## 9.1.6 数据库上下文定义位置
 
 :::important 特别注意
 
@@ -195,7 +195,7 @@ namespace Fur.EntityFramework.Core
 
 :::
 
-## 8.1.7 动态数据库上下文对象
+## 9.1.7 动态数据库上下文对象
 
 在 `Fur` 框架中，数据库上下文是定义在 `Fur.EntityFramework.Core` 项目层，并且该层不被 `Fur.Application` 和 `Fur.Core` 等层引用。
 
@@ -221,7 +221,7 @@ var users = respository.DynamicDbContext.Users;
 
 这样就可以直接操作 `MyDbContext` 定义的属性和方法了。
 
-## 8.1.8 反馈与建议
+## 9.1.8 反馈与建议
 
 :::note 与我们交流
 
