@@ -4,6 +4,8 @@ title: 9. SaaS 多租户
 sidebar_label: 9. SaaS 多租户
 ---
 
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
 ## 9.1 什么是 `SaaS`
 
 > SaaS 是 Software-as-a-Service（软件即服务）的简称，随着互联网技术的发展和应用软件的成熟， 在 21 世纪开始兴起的一种完全创新的软件应用模式。它与“on-demand software”，the application service provider(ASP，应用服务提供商)，hosted software(托管软件)所具有相似的含义。
@@ -52,4 +54,235 @@ sidebar_label: 9. SaaS 多租户
 
 ## 9.4 多租户使用方案
 
-`Fur` 框架支持以上三种多租户实现方案，使用简单且容维护。
+`Fur` 框架支持以上三种多租户实现方案，使用简单且容易维护。下面分别使用三种不同方式演示多租户方案用法。
+
+## 9.5 基于 `TenantId` 的方式
+
+此方式在中小型企业系统中最为常用，维护成本低，购置成本低。
+
+### 9.5.1 创建租户数据库上下文
+
+```cs {6-7} title="Fur.EntityFramework.Core\DbContexts\MultiTenantDbContext.cs"
+using Fur.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+
+namespace Fur.EntityFramework.Core
+{
+    [AppDbContext("Sqlite3ConnectionString")]
+    public class MultiTenantDbContext : AppDbContext<MultiTenantDbContext, MultiTenantDbContextLocator>
+    {
+        public MultiTenantDbContext(DbContextOptions<MultiTenantDbContext> options) : base(options)
+        {
+        }
+    }
+}
+```
+
+:::important 特别注意
+
+多租户操作建议单独一个数据库上下文，而且需指定 `MultiTenantDbContextLocator` 数据库上下文定位器。
+
+:::
+
+### 9.5.2 注册多租户数据库上下文
+
+```cs {14}
+using Fur.DatabaseAccessor;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Fur.EntityFramework.Core
+{
+    [Startup(600)]
+    public sealed class FurEntityFrameworkCoreStartup : AppStartup
+    {
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddDatabaseAccessor(options =>
+            {
+                options.AddDbPool<FurDbContext>(DbProvider.Sqlite);
+                options.AddDbPool<MultiTenantDbContext, MultiTenantDbContextLocator>(DbProvider.Sqlite);
+            });
+        }
+    }
+}
+```
+
+### 9.5.3 添加 `Tenant` 种子数据
+
+```cs {8,12-28} title="Fur.EntityFramework.Core\SeedDatas\TenantSeedData.cs"
+using Fur.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+
+namespace Fur.EntityFramework.Core
+{
+    public class TenantSeedData : IEntitySeedData<Tenant, MultiTenantDbContextLocator>
+    {
+        public IEnumerable<Tenant> HasData(DbContext dbContext, Type dbContextLocator)
+        {
+            return new List<Tenant>
+            {
+                new Tenant
+                {
+                    TenantId=Guid.Parse("383AFB88-F519-FFF8-B364-6D563BF3687F"),
+                    Name="默认租户",
+                    Host="localhost:44313",
+                    CreatedTime=DateTime.Parse("2020-10-06 20:19:07")
+                },
+                new Tenant
+                {
+                    TenantId=Guid.Parse("C5798CB6-16D6-0F42-EB56-59C695353BC0"),
+                    Name="其他租户",
+                    Host="localhost:5000",
+                    CreatedTime=DateTime.Parse("2020-10-06 20:20:32")
+                }
+            };
+        }
+    }
+}
+```
+
+:::note 特别说明
+
+该步骤只在 `Code First` 方式执行，`Database First` 无需配置种子数据。
+
+:::
+
+### 9.5.4 根据模型创建 `Tenant` 表
+
+```shell
+Add-Migration add_tenant_table -Context MultiTenantDbContext
+```
+
+```shell
+Update-Database -Context MultiTenantDbContext
+```
+
+### 9.5.6 实现 `IMultiTenantOnTable` 接口
+
+在需要多租户的数据库上下文中实现 `IMultiTenantOnTable` 接口，如：
+
+```cs {8,14-17}
+using Fur.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+using System;
+
+namespace Fur.EntityFramework.Core
+{
+    [AppDbContext("Sqlite3ConnectionString")]
+    public class FurDbContext : AppDbContext<FurDbContext>, IMultiTenantOnTable, IModelBuilderFilter
+    {
+        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
+        {
+        }
+
+        public Guid? GetTenantId()
+        {
+            return base.TenantId;
+        }
+    }
+}
+```
+
+在 `GetTenantId()` 方法中，首先获取请求的 `主机地址`，然后根据主机地址查询对应的租户 `TenantIdId`，避免多次查询数据库，这里使用了 `IMemoryCache` 内存缓存。
+
+### 9.5.7 实现 `IModelBuilderFilter` 接口
+
+`IModelBuilderFilter` 接口是全局查询过滤器实现接口，所以我们需要配置实体 `TenantId` 过滤器
+
+```cs {9,20-23}
+using Fur.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+
+namespace Fur.EntityFramework.Core
+{
+    [AppDbContext("Sqlite3ConnectionString")]
+    public class FurDbContext : AppDbContext<FurDbContext>, IMultiTenantOnTable, IModelBuilderFilter
+    {
+        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
+        {
+        }
+
+        public Guid? GetTenantId()
+        {
+            return base.TenantId;
+        }
+
+        public void OnCreating(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator)
+        {
+            entityBuilder.HasQueryFilter(TenantIdQueryFilterExpression(entityBuilder, GetTenantId().Value));
+        }
+    }
+}
+```
+
+### 9.5.8 重写 `SavingChangesEvent` 事件方法
+
+通过上面的步骤，我们已经解决了 `查询` 租户过滤功能，但是 `新增` 和 `更新` 还未处理。
+
+- `新增` 数据的时候自动设置 `TenantId` 的值
+- `更新` 数据的时候排除 `TenantId` 属性更新
+
+实现上面的步骤很简单，只需要重写 `SavingChangesEvent` 事件方法即可。
+
+```cs {26-48}
+using Fur.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Linq;
+
+namespace Fur.EntityFramework.Core
+{
+    [AppDbContext("Sqlite3ConnectionString")]
+    public class FurDbContext : AppDbContext<FurDbContext>, IMultiTenantOnTable, IModelBuilderFilter
+    {
+        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
+        {
+        }
+
+        public Guid? GetTenantId()
+        {
+            return base.TenantId;
+        }
+
+        public void OnCreating(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator)
+        {
+            entityBuilder.HasQueryFilter(TenantIdQueryFilterExpression(entityBuilder, GetTenantId().Value));
+        }
+
+        protected override void SavingChangesEvent(object sender, SavingChangesEventArgs e)
+        {
+            // 获取当前事件对应上下文
+            var dbContext = sender as FurDbContext;
+
+            // 获取所有新增和更新的实体
+            var entities = dbContext.ChangeTracker.Entries().Where(u => u.State == EntityState.Added || u.State == EntityState.Modified);
+
+            foreach (var entity in entities)
+            {
+                switch (entity.State)
+                {
+                    // 自动设置租户Id
+                    case EntityState.Added:
+                        entity.Property(nameof(Entity.TenantId)).CurrentValue = base.TenantId;
+                        break;
+                    // 排除租户Id
+                    case EntityState.Modified:
+                        entity.Property(nameof(Entity.TenantId)).IsModified = false;
+                        break;
+                }
+            }
+        }
+    }
+}
+```
+
+<img src={useBaseUrl("img/saas1.png")} />
+
+## 9.6 基于 `Database` 的方式
+
+此方式在中大型企业系统中最为常用，一个租户（客户）一个独立的数据库。

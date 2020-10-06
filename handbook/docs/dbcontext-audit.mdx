@@ -66,7 +66,7 @@ namespace Fur.EntityFramework.Core
                 .Where(u => u.Entity.GetType() != typeof(Audit) && (u.State == EntityState.Modified || u.State == EntityState.Deleted || u.State == EntityState.Added));
 
             // 通过请求中获取当前操作人
-            var userId = dbContext.GetService<IHttpContextAccessor>().HttpContext.Items["UserId"];
+            var userId = App.GetService<IHttpContextAccessor>().HttpContext.Items["UserId"];
 
             // 获取所有已更改的实体
             foreach (var entity in entities)
