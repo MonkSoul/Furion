@@ -89,7 +89,7 @@ namespace Fur.DatabaseAccessor
             if (disabledTransact) App.PrintToMiniProfiler(MiniProfilerCategory, "Disabled !");
 
             // 判断是否支持环境事务
-            var isSupportTransactionScope = _dbContextPool.GetDbContexts().Any(u => !DbProvider.NotSupportTransactionScopeDatabase.Contains(u.Database.ProviderName));
+            var isSupportTransactionScope = !_dbContextPool.GetDbContexts().Any(u => DbProvider.NotSupportTransactionScopeDatabase.Contains(u.Database.ProviderName));
             TransactionScope transaction = null;
 
             if (isSupportTransactionScope && !disabledTransact)
