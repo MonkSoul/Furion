@@ -11,6 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Fur.Application\Fur.Application.csproj" />
+    <ProjectReference Include="..\Fur.Database.Migrations\Fur.Database.Migrations.csproj" />
     <ProjectReference Include="..\Fur.EntityFramework.Core\Fur.EntityFramework.Core.csproj" />
   </ItemGroup>
 

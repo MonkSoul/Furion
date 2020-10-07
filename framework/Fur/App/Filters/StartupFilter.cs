@@ -14,7 +14,10 @@
 using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
+using System.Reflection;
 
 namespace Fur
 {
@@ -56,13 +59,45 @@ namespace Fur
                 // 调用默认中间件
                 app.UseApp();
 
-                // 获取环境和配置
-                //var env = applicationServices.GetRequiredService<IWebHostEnvironment>();
-                //var config = applicationServices.GetRequiredService<IConfiguration>();
+                UseStartup(app, applicationServices);
 
                 // 调用 Fur.Web.Entry 中的 Startup
                 next(app);
             };
+        }
+
+        /// <summary>
+        /// 配置 Startup 的 Configure
+        /// </summary>
+        /// <param name="app">应用构建器</param>
+        /// <param name="applicationServices">服务提供器</param>
+        private static void UseStartup(IApplicationBuilder app, IServiceProvider applicationServices)
+        {
+            var startups = App.Startups;
+            if (!startups.Any()) return;
+
+            // 获取环境和配置
+            var env = applicationServices.GetRequiredService<IWebHostEnvironment>();
+
+            foreach (var startup in startups)
+            {
+                var type = startup.GetType();
+
+                // 获取所有符合依赖注入格式的方法，如返回值void，且第一个参数是 IApplicationBuilder 类型，第二个参数是 IWebHostEnvironment
+                var configureMethods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                    .Where(u => u.ReturnType == typeof(void)
+                        && u.GetParameters().Length > 1
+                        && u.GetParameters()[0].ParameterType == typeof(IApplicationBuilder)
+                        && u.GetParameters()[1].ParameterType == typeof(IWebHostEnvironment));
+
+                if (!configureMethods.Any()) continue;
+
+                // 自动安装属性调用
+                foreach (var method in configureMethods)
+                {
+                    method.Invoke(startup, new object[] { app, env });
+                }
+            }
         }
     }
 }

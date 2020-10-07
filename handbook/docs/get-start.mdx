@@ -95,7 +95,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fur.EntityFramework.Core
 {
-    [AppDbContext("DbConnectionString")]   // 配置连接字符串
+    [AppDbContext("Data Source=./Fur.db")]   // 配置连接字符串
     public class FurDbContext : AppDbContext<FurDbContext>  // 继承 AppDbContext<> 类
     {
         /// <summary>
@@ -109,24 +109,11 @@ namespace Fur.EntityFramework.Core
 }
 ```
 
-### 2.2.3 配置数据库连接字符串
-
-在 `Fur.EntityFramework.Core` 的 `dbsettings.json` 中配置数据库连接字符串，代码如下：
-
-```json {2-4} title="Fur\framework\Fur.EntityFramework.Core\dbsettings.json"
-{
-  "ConnectionStrings": {
-    "DbConnectionString": "Server=localhost;Database=Fur;User=sa;Password=000000;MultipleActiveResultSets=True;",
-    "Sqlite3ConnectionString": "Data Source=./Fur.db"
-  }
-}
-```
-
-### 2.2.4 配置数据库上下文
+### 2.2.3 配置数据库上下文
 
 在 `Fur.EntityFramework.Core` 的 `FurEntityFrameworkCoreStartup` 中配置数据库上下文，代码如下：
 
-```cs {12-14} title="Fur\framework\Fur.EntityFramework.Core\FurEntityFrameworkCoreStartup.cs"
+```cs {11-14} title="Fur\framework\Fur.EntityFramework.Core\FurEntityFrameworkCoreStartup.cs"
 using Fur.DatabaseAccessor;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -137,7 +124,6 @@ namespace Fur.EntityFramework.Core
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            // 配置数据库上下文，支持N个数据库
             services.AddDatabaseAccessor(options =>
             {
                 options.AddDbPool<FurDbContext>(DbProvider.Sqlite);
@@ -155,7 +141,7 @@ namespace Fur.EntityFramework.Core
 
 :::
 
-### 2.2.5 通过命令创建数据库表
+### 2.2.4 通过命令创建数据库表
 
 打开 `程序包管理控制台`，如下图所示：
 

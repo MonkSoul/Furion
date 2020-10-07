@@ -87,6 +87,9 @@ namespace Microsoft.Extensions.DependencyInjection
             // 注册自定义 starup
             foreach (var type in startups)
             {
+                var startup = Activator.CreateInstance(type) as AppStartup;
+                App.Startups.Add(startup);
+
                 // 获取所有符合依赖注入格式的方法，如返回值void，且第一个参数是 IServiceCollection 类型
                 var serviceMethods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
                     .Where(u => u.ReturnType == typeof(void)
@@ -95,7 +98,6 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 if (!serviceMethods.Any()) continue;
 
-                var startup = Activator.CreateInstance(type) as AppStartup;
                 // 自动安装属性调用
                 foreach (var method in serviceMethods)
                 {

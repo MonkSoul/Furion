@@ -24,6 +24,7 @@ using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.Options;
 using StackExchange.Profiling;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -100,6 +101,11 @@ namespace Fur
         internal static IServiceCollection InternalServices;
 
         /// <summary>
+        /// 应用所有启动配置对象
+        /// </summary>
+        internal static ConcurrentBag<AppStartup> Startups;
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         static App()
@@ -107,6 +113,8 @@ namespace Fur
             Assemblies = GetAssemblies();
             CanBeScanTypes = Assemblies.SelectMany(u => u.GetTypes()
                 .Where(u => u.IsPublic && !u.IsDefined(typeof(SkipScanAttribute), false)));
+
+            Startups = new ConcurrentBag<AppStartup>();
         }
 
         /// <summary>
