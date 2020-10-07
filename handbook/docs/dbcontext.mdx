@@ -115,10 +115,10 @@ namespace Fur.EntityFramework.Core
             services.AddDatabaseAccessor(options =>
             {
                 // 配置默认数据库
-                options.AddDbPool<FurDbContext>(DbProvider.SqlServer);
+                options.AddDbPool<FurDbContext>(DbProvider.SqlServer, "连接字符串");
 
                 // 配置多个数据库，多个数据库必须指定数据库上下文定位器
-                options.AddDbPool<SqliteDbContext, SqliteDbContextLocaotr>(DbProvider.Sqlite);
+                options.AddDbPool<SqliteDbContext, SqliteDbContextLocaotr>(DbProvider.Sqlite, "连接字符串");
             });
         }
     }
@@ -187,6 +187,14 @@ namespace Fur.EntityFramework.Core
 }
 ```
 
+:::important 特别注意
+
+这三种方式可以同时使用，但是有优先级：`[AppDbContext]` -> `Startup` -> `OnConfiguring`（低到高）
+
+也就是 `OnConfiguring` 配置会覆盖 `Startup` 配置，`Startup` 配置会覆盖 `[AppDbContext]` 配置所配置的连接字符串。
+
+:::
+
 ## 9.1.6 数据库上下文定义位置
 
 :::important 特别注意
@@ -195,7 +203,41 @@ namespace Fur.EntityFramework.Core
 
 :::
 
-## 9.1.7 动态数据库上下文对象
+## 9.1.7 数据库上下文注册
+
+数据库上下文配置好数据库连接字符串后，需要注册改数据库上下文，并指定数据库类型，如：
+
+```cs {11-13} title="Fur\framework\Fur.EntityFramework.Core\FurEntityFrameworkCoreStartup.cs"
+using Fur.DatabaseAccessor;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Fur.EntityFramework.Core
+{
+    [Startup(600)]
+    public sealed class FurEntityFrameworkCoreStartup : AppStartup
+    {
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddDatabaseAccessor(options =>
+            {
+                options.AddDbPool<FurDbContext>(DbProvider.Sqlite);
+            });
+        }
+    }
+}
+```
+
+如果有多个数据库操作，**那么从第二个起，就需要绑定数据库上下文定位器**，如：
+
+```cs
+options.AddDbPool<FurDbContext>(DbProvider.Sqlite); // 第一个数据库
+
+options.AddDbPool<SecondDbContext, SecondDbContextDbContextLocator>(DbProvider.SqlServer);  // 第二个数据库
+
+options.AddDbPool<ThirdDbContext, ThirdDbContextDbContextLocator>(DbProvider.SqlServer);  // 第三个数据库
+```
+
+## 9.1.8 动态数据库上下文对象
 
 在 `Fur` 框架中，数据库上下文是定义在 `Fur.EntityFramework.Core` 项目层，并且该层不被 `Fur.Application` 和 `Fur.Core` 等层引用。
 
@@ -221,7 +263,7 @@ var users = respository.DynamicDbContext.Users;
 
 这样就可以直接操作 `MyDbContext` 定义的属性和方法了。
 
-## 9.1.8 反馈与建议
+## 9.1.9 反馈与建议
 
 :::note 与我们交流
 
