@@ -22,11 +22,11 @@ namespace Microsoft.AspNetCore.Hosting
         /// Web 主机注入StartupFilter 和 HostStartup
         /// </summary>
         /// <param name="webBuilder">Web主机构建器</param>
-        /// <param name="keyValue"></param>
+        /// <param name="assemblyName">外部程序集名称</param>
         /// <returns>IWebHostBuilder</returns>
-        public static IWebHostBuilder Inject(this IWebHostBuilder webBuilder, string keyValue = nameof(Fur))
+        public static IWebHostBuilder Inject(this IWebHostBuilder webBuilder, string assemblyName = nameof(Fur))
         {
-            webBuilder.UseSetting(WebHostDefaults.HostingStartupAssembliesKey, keyValue);
+            webBuilder.UseSetting(WebHostDefaults.HostingStartupAssembliesKey, assemblyName);
             return webBuilder;
         }
     }
