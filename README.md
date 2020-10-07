@@ -26,7 +26,7 @@
 - **安装最新的 v5.0.0-rc.1**：https://dotnet.microsoft.com/download/dotnet/5.0
 - **安装最新的 Visual Studio 2019 Preview**：https://visualstudio.microsoft.com/zh-hans/vs/preview/ 或使用 **Visual Studio Code** 打开 `framework` 目录
 
-<img src="./handbook/static/img/demo.gif" />
+<img src="https://gitee.com/monksoul/Fur/raw/main/handbook/static/img/demo.gif" />
 
 <p></p>
 <p></p>
@@ -56,7 +56,7 @@
 `Fur` LOGO 设计由 `F` `U` `R` 三个单词组成：
 
 <p>
-<img src="./handbook/static/img/logo2.png" height="120"/>
+<img src="https://gitee.com/monksoul/Fur/raw/main/handbook/static/img/logo2.png" height="120"/>
 </p>
 
 我相信很多人看到 `Fur` 的 LOGO 时都会问：“为什么选择奶牛？”，因为 **那些年吹过的牛逼都实现了 🐮**。
@@ -87,7 +87,7 @@ docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-2020.10.07
 ## 🥝 功能模块
 
 <p align="center">
-<img src="./handbook/static/img/furfunctions.png"/>
+<img src="https://gitee.com/monksoul/Fur/raw/main/handbook/static/img/furfunctions.png"/>
 </p>
 
 ## 🥐 框架依赖
@@ -128,7 +128,7 @@ docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-2020.10.07
 
 `Fur` 目前采用 `Visual Studio 2019 Preview 16.8` 自带性能测试和 `JMeter` 进行测试，由于篇幅有限，只贴部分测试图，测试结果如下：
 
-<img src="./handbook/static/img/xncs.png"/>
+<img src="https://gitee.com/monksoul/Fur/raw/main/handbook/static/img/xncs.png"/>
 
 ---
 
@@ -198,7 +198,7 @@ docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-2020.10.07
 ## 🥔 QQ 交流群
 
 <p>
-<img src="./handbook/static/img/dotnetchina.jpg" height="300"/>
+<img src="https://gitee.com/monksoul/Fur/raw/main/handbook/static/img/dotnetchina.jpg" height="300"/>
 </p>
 
 ## 🧆 友情链接
