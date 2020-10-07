@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Fur.Web.Core
 {
-    [Startup(800)]
+    [AppStartup(800)]
     public sealed class FurWebCoreStartup : AppStartup
     {
         public void ConfigureServices(IServiceCollection services)

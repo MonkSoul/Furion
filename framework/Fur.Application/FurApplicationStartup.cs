@@ -1,6 +1,6 @@
 ﻿namespace Fur.Application
 {
-    [Startup(900)]
+    [AppStartup(900)]
     public sealed class FurApplicationStartup : AppStartup
     {
     }

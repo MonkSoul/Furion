@@ -13,7 +13,7 @@
 
 namespace Fur
 {
-    [Startup(1000)]
+    [AppStartup(1000)]
     public sealed class FurStartup : AppStartup
     {
     }

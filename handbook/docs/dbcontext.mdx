@@ -106,7 +106,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Fur.EntityFramework.Core
 {
-    [Startup(600)]
+    [AppStartup(600)]
     public sealed class FurEntityFrameworkCoreStartup : AppStartup
     {
         public void ConfigureServices(IServiceCollection services)
@@ -205,7 +205,7 @@ namespace Fur.EntityFramework.Core
 
 ## 9.1.7 数据库上下文注册
 
-数据库上下文配置好数据库连接字符串后，需要注册改数据库上下文，并指定数据库类型，如：
+数据库上下文配置好数据库连接字符串后，需要注册该数据库上下文，并指定数据库类型，如：
 
 ```cs {11-13} title="Fur\framework\Fur.EntityFramework.Core\FurEntityFrameworkCoreStartup.cs"
 using Fur.DatabaseAccessor;
@@ -213,7 +213,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Fur.EntityFramework.Core
 {
-    [Startup(600)]
+    [AppStartup(600)]
     public sealed class FurEntityFrameworkCoreStartup : AppStartup
     {
         public void ConfigureServices(IServiceCollection services)

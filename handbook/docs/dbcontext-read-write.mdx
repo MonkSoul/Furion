@@ -125,7 +125,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Fur.EntityFramework.Core
 {
-    [Startup(600)]
+    [AppStartup(600)]
     public sealed class FurEntityFrameworkCoreStartup : AppStartup
     {
         public void ConfigureServices(IServiceCollection services)

@@ -118,9 +118,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>int</returns>
         private static int GetOrder(Type type)
         {
-            return !type.IsDefined(typeof(StartupAttribute), true)
+            return !type.IsDefined(typeof(AppStartupAttribute), true)
                 ? 0
-                : type.GetCustomAttribute<StartupAttribute>(true).Order;
+                : type.GetCustomAttribute<AppStartupAttribute>(true).Order;
         }
     }
 }
