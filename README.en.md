@@ -149,6 +149,7 @@ docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-2020.10.07
 <a href="https://gitee.com/LkyQiuFeng" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/195/586044_LkyQiuFeng_1594628004.png!avatar100" height="40"/></a>
 <a href="https://gitee.com/yzyk126" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/237/711378_yzyk126_1600742932.png!avatar100" height="40"/></a>
 <a href="https://gitee.com/lindexi" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/262/787628_lindexi_1600869623.png!avatar100" height="40"/></a>
+<a href="https://gitee.com/www.fengyunmy.com" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/33/101022_www.fengyunmy.com_1602044110.png!avatar100" height="40"/></a>
 
 <p></p>
 
