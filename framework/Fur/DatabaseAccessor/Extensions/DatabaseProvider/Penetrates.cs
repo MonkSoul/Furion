@@ -28,7 +28,7 @@ namespace Fur.DatabaseAccessor
     internal static class Penetrates
     {
         /// <summary>
-        /// 默认Code First 程序集名称
+        /// 迁移类库名称
         /// </summary>
         internal static string MigrationAssemblyName = "Fur.Database.Migrations";
 

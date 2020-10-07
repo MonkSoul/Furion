@@ -31,11 +31,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services">服务集合</param>
         /// <param name="configure">配置</param>
-        /// <param name="migrationAssemblyName">默认维护程序集名称</param>
+        /// <param name="migrationAssemblyName">迁移类库名称</param>
         /// <returns>服务集合</returns>
         public static IServiceCollection AddDatabaseAccessor(this IServiceCollection services, Action<IServiceCollection> configure = null, string migrationAssemblyName = default)
         {
-            // 设置Code first程序集名称
+            // 设置迁移类库名称
             if (!string.IsNullOrEmpty(migrationAssemblyName)) Penetrates.MigrationAssemblyName = migrationAssemblyName;
 
             // 配置数据库上下文
