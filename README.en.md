@@ -2,7 +2,7 @@
 <p></p>
 
 <p align="center">
-<img src="./handbook/static/img/furlogo.png" height="80"/>
+<img src="https://gitee.com/monksoul/Fur/raw/main/handbook/static/img/furlogo.png" height="80"/>
 </p>
 
 <div align="center">
