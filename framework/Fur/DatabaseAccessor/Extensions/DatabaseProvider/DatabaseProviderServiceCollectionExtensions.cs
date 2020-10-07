@@ -242,7 +242,9 @@ namespace Microsoft.Extensions.DependencyInjection
         static DatabaseProviderServiceCollectionExtensions()
         {
             DatabaseProviderUseMethodCollection = new ConcurrentDictionary<string, MethodInfo>();
-            MigrationsAssemblyAction = options => options.GetType().GetMethod("MigrationsAssembly").Invoke(options, new[] { "Fur.Database.Migrations" });
+            MigrationsAssemblyAction = options => options.GetType()
+                .GetMethod("MigrationsAssembly")
+                .Invoke(options, new[] { Penetrates.MigrationAssemblyName });
         }
 
         /// <summary>
