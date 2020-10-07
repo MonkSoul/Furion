@@ -82,13 +82,13 @@ namespace Fur.DatabaseAccessor
 
             // 获取当前数据库上下文的 [DbContextAttributes] 特性
             var dbContextType = dbContext.GetType();
-            var dbContextAttribute = dbContextType.IsDefined(typeof(AppDbContextAttribute), true) ? dbContextType.GetCustomAttribute<AppDbContextAttribute>() : null;
+            var appDbContextAttribute = dbContextType.IsDefined(typeof(AppDbContextAttribute), true) ? dbContextType.GetCustomAttribute<AppDbContextAttribute>() : null;
 
             // 初始化所有类型
             foreach (var entityType in dbContextCorrelationType.EntityTypes)
             {
                 // 创建实体类型
-                var entityBuilder = CreateEntityTypeBuilder(entityType, modelBuilder, dbContextType, dbContextLocator, dbContextAttribute);
+                var entityBuilder = CreateEntityTypeBuilder(entityType, modelBuilder, dbContext, dbContextType, dbContextLocator, appDbContextAttribute);
                 if (entityBuilder == null) continue;
 
                 // 配置无键实体构建器
@@ -116,20 +116,23 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="type">数据库关联类型</param>
         /// <param name="modelBuilder">模型构建器</param>
+        /// <param name="dbContext">数据库上下文</param>
         /// <param name="dbContextType">数据库上下文类型</param>
         /// <param name="dbContextLocator">数据库上下文定位器</param>
-        /// <param name="dbContextAttribute">数据库上下文特性</param>
+        /// <param name="appDbContextAttribute">数据库上下文特性</param>
         /// <returns>EntityTypeBuilder</returns>
-        private static EntityTypeBuilder CreateEntityTypeBuilder(Type type, ModelBuilder modelBuilder, Type dbContextType, Type dbContextLocator, AppDbContextAttribute dbContextAttribute = null)
+        private static EntityTypeBuilder CreateEntityTypeBuilder(Type type, ModelBuilder modelBuilder, DbContext dbContext, Type dbContextType, Type dbContextLocator, AppDbContextAttribute appDbContextAttribute = null)
         {
             // 反射创建实体类型构建器
             var entityTypeBuilder = ModelBuildEntityMethod.MakeGenericMethod(type).Invoke(modelBuilder, null) as EntityTypeBuilder;
 
             // 添加表前后缀
-            AddTableAffixes(type, dbContextAttribute, entityTypeBuilder);
+            AddTableAffixes(type, appDbContextAttribute, entityTypeBuilder, dbContext, dbContextType);
 
-            // 如果未启用多租户支持，则忽略多租户字段，另外还需要排除多租户数据库上下文定位器
-            if (dbContextLocator != typeof(MultiTenantDbContextLocator) && !typeof(IPrivateMultiTenant).IsAssignableFrom(dbContextType) && type.GetProperty(nameof(Tenant.TenantId)) != null)
+            // 如果未启用多租户支持或租户设置为OnDatabase 或 OnSchema 方案，则忽略多租户字段，另外还需要排除多租户数据库上下文定位器
+            if (dbContextLocator != typeof(MultiTenantDbContextLocator)
+                && (!typeof(IPrivateMultiTenant).IsAssignableFrom(dbContextType) || typeof(IMultiTenantOnDatabase).IsAssignableFrom(dbContextType) || typeof(IMultiTenantOnSchema).IsAssignableFrom(dbContextType))
+                && type.GetProperty(nameof(Tenant.TenantId)) != null)
             {
                 entityTypeBuilder.Ignore(nameof(Tenant.TenantId));
             }
@@ -140,30 +143,43 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 添加表前后缀
         /// </summary>
-        /// <param name="type">数据库关联类型</param>
-        /// <param name="modelBuilder">模型构建器</param>
-        /// <param name="dbContextAttribute">数据库上下文特性</param>
-        private static void AddTableAffixes(Type type, AppDbContextAttribute dbContextAttribute, EntityTypeBuilder entityTypeBuilder)
+        /// <param name="type">实体类型</param>
+        /// <param name="appDbContextAttribute">数据库上下文特性</param>
+        /// <param name="entityTypeBuilder">实体类型构建器</param>
+        /// <param name="dbContext">数据库上下文</param>
+        /// <param name="dbContextType">数据库上下文类型</param>
+        private static void AddTableAffixes(Type type, AppDbContextAttribute appDbContextAttribute, EntityTypeBuilder entityTypeBuilder, DbContext dbContext, Type dbContextType)
         {
-            // 添加表统一前后缀，排除视图
-            if (!type.IsDefined(typeof(TableAttribute), true)
-                && dbContextAttribute != null && (!string.IsNullOrEmpty(dbContextAttribute.TableSuffix) || !string.IsNullOrEmpty(dbContextAttribute.TableSuffix))
-                && !typeof(IPrivateEntityNotKey).IsAssignableFrom(type))
-            {
-                var tablePrefix = dbContextAttribute.TablePrefix;
-                var tableSuffix = dbContextAttribute.TableSuffix;
+            if (typeof(IPrivateEntityNotKey).IsAssignableFrom(type) || !string.IsNullOrEmpty(type.GetCustomAttribute<TableAttribute>(true)?.Schema)) return;
 
-                if (!string.IsNullOrEmpty(tablePrefix))
+            // 获取 多租户 Schema
+            var dynamicSchema = !typeof(IMultiTenantOnSchema).IsAssignableFrom(dbContextType)
+                ? default
+                : dbContextType.GetMethod(nameof(IMultiTenantOnSchema.GetSchemaName)).Invoke(dbContext, null).ToString();
+
+            if (appDbContextAttribute == null) entityTypeBuilder.ToTable($"{type.Name}", dynamicSchema);
+            else
+            {
+                // 添加表统一前后缀，排除视图
+                if (!string.IsNullOrEmpty(appDbContextAttribute.TableSuffix) || !string.IsNullOrEmpty(appDbContextAttribute.TableSuffix))
                 {
-                    // 如果前缀中找到 . 字符
-                    if (tablePrefix.IndexOf(".") > 0)
+                    var tablePrefix = appDbContextAttribute.TablePrefix;
+                    var tableSuffix = appDbContextAttribute.TableSuffix;
+
+                    if (!string.IsNullOrEmpty(tablePrefix))
                     {
-                        var schema = tablePrefix.EndsWith(".") ? tablePrefix[0..^1] : tablePrefix;
-                        entityTypeBuilder.ToTable($"{type.Name}{tableSuffix}", schema: schema);
+                        // 如果前缀中找到 . 字符
+                        if (tablePrefix.IndexOf(".") > 0)
+                        {
+                            var schema = tablePrefix.EndsWith(".") ? tablePrefix[0..^1] : tablePrefix;
+                            entityTypeBuilder.ToTable($"{type.Name}{tableSuffix}", schema: schema);
+                        }
+                        else entityTypeBuilder.ToTable($"{tablePrefix}{type.Name}{tableSuffix}", dynamicSchema);
                     }
-                    else entityTypeBuilder.ToTable($"{tablePrefix}{type.Name}{tableSuffix}");
+                    else entityTypeBuilder.ToTable($"{type.Name}{tableSuffix}", dynamicSchema);
+
+                    return;
                 }
-                else entityTypeBuilder.ToTable($"{type.Name}{tableSuffix}");
             }
         }
 

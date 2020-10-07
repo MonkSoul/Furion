@@ -217,9 +217,13 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="dynamicDbContext">动态数据库上下文，用于分表分库用</param>
         private static void ConfigureDatabase(string providerName, string connectionString, DbContextOptionsBuilder options, bool dynamicDbContext = false)
         {
-            // 调用对应数据库程序集
-            var dbContextOptionsBuilder = GetDatabaseProviderUseMethod(providerName)
-                .Invoke(null, new object[] { options, connectionString, MigrationsAssemblyAction }) as DbContextOptionsBuilder;
+            var dbContextOptionsBuilder = options;
+            if (!string.IsNullOrEmpty(connectionString))
+            {
+                // 调用对应数据库程序集
+                dbContextOptionsBuilder = GetDatabaseProviderUseMethod(providerName)
+                    .Invoke(null, new object[] { options, connectionString, MigrationsAssemblyAction }) as DbContextOptionsBuilder;
+            }
 
             // 解决分表分库
             if (dynamicDbContext) dbContextOptionsBuilder

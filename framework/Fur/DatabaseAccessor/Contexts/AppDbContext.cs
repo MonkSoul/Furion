@@ -110,12 +110,15 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 获取租户Id
+        /// 获取租户信息
         /// </summary>
-        protected virtual Guid? TenantId
+        public virtual Tenant Tenant
         {
             get
             {
+                // 如果没有实现多租户方式，则无需查询
+                if (!typeof(IPrivateMultiTenant).IsAssignableFrom(GetType())) return default;
+
                 // 判断 HttpContext 是否存在
                 var httpContextAccessor = App.GetService<IHttpContextAccessor>();
                 if (httpContextAccessor == null || httpContextAccessor.HttpContext == null) return default;
@@ -125,11 +128,11 @@ namespace Fur.DatabaseAccessor
 
                 // 从内存缓存中读取或查询数据库
                 var memoryCache = App.GetRequestService<IMemoryCache>();
-                return memoryCache.GetOrCreate($"{host}:{nameof(Entity.TenantId)}", cache =>
+                return memoryCache.GetOrCreate($"{host}:MultiTenants", cache =>
                 {
                     // 读取数据库
                     var tenantDbContext = App.GetDbContext<MultiTenantDbContextLocator>();
-                    return tenantDbContext.Set<Tenant>().FirstOrDefault(u => u.Host == host)?.TenantId ?? default;
+                    return tenantDbContext.Set<Tenant>().FirstOrDefault(u => u.Host == host);
                 });
             }
         }

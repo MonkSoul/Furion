@@ -166,6 +166,7 @@ namespace Fur.DatabaseAccessor
             DbConnection = Database.GetDbConnection();
             ChangeTracker = dbContext.ChangeTracker;
             Model = dbContext.Model;
+            Tenant = DynamicDbContext.Tenant;
             ProviderName = Database.ProviderName;
 
             //初始化实体
@@ -219,6 +220,11 @@ namespace Fur.DatabaseAccessor
         /// 实体模型
         /// </summary>
         public virtual IModel Model { get; }
+
+        /// <summary>
+        /// 租户信息
+        /// </summary>
+        public virtual Tenant Tenant { get; }
 
         /// <summary>
         /// 数据库提供器名

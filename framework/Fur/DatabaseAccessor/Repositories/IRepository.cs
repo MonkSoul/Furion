@@ -128,6 +128,11 @@ namespace Fur.DatabaseAccessor
         IModel Model { get; }
 
         /// <summary>
+        /// 租户信息
+        /// </summary>
+        Tenant Tenant { get; }
+
+        /// <summary>
         /// 数据库提供器名
         /// </summary>
         string ProviderName { get; }

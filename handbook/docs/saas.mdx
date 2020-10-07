@@ -159,7 +159,7 @@ Add-Migration add_tenant_table -Context MultiTenantDbContext
 Update-Database -Context MultiTenantDbContext
 ```
 
-### 10.5.6 实现 `IMultiTenantOnTable` 接口
+### 10.5.5 实现 `IMultiTenantOnTable` 接口
 
 在需要多租户的数据库上下文中实现 `IMultiTenantOnTable` 接口，如：
 
@@ -179,7 +179,7 @@ namespace Fur.EntityFramework.Core
 
         public Guid? GetTenantId()
         {
-            return base.TenantId;
+            return base.Tenant.TenantId;
         }
     }
 }
@@ -187,7 +187,7 @@ namespace Fur.EntityFramework.Core
 
 在 `GetTenantId()` 方法中，首先获取请求的 `主机地址`，然后根据主机地址查询对应的租户 `TenantIdId`，避免多次查询数据库，这里使用了 `IMemoryCache` 内存缓存。
 
-### 10.5.7 实现 `IModelBuilderFilter` 接口
+### 10.5.6 实现 `IModelBuilderFilter` 接口
 
 `IModelBuilderFilter` 接口是全局查询过滤器实现接口，所以我们需要配置实体 `TenantId` 过滤器
 
@@ -208,7 +208,7 @@ namespace Fur.EntityFramework.Core
 
         public Guid? GetTenantId()
         {
-            return base.TenantId;
+            return base.Tenant.TenantId;
         }
 
         public void OnCreating(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator)
@@ -219,7 +219,7 @@ namespace Fur.EntityFramework.Core
 }
 ```
 
-### 10.5.8 重写 `SavingChangesEvent` 事件方法
+### 10.5.7 重写 `SavingChangesEvent` 事件方法
 
 通过上面的步骤，我们已经解决了 `查询` 租户过滤功能，但是 `新增` 和 `更新` 还未处理。
 
@@ -246,7 +246,7 @@ namespace Fur.EntityFramework.Core
 
         public Guid? GetTenantId()
         {
-            return base.TenantId;
+            return base.Tenant.TenantId;
         }
 
         public void OnCreating(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator)
@@ -286,3 +286,323 @@ namespace Fur.EntityFramework.Core
 ## 10.6 基于 `Database` 的方式
 
 此方式在中大型企业系统中最为常用，一个租户（客户）一个独立的数据库。
+
+### 10.6.1 创建租户数据库上下文
+
+```cs {6-7} title="Fur.EntityFramework.Core\DbContexts\MultiTenantDbContext.cs"
+using Fur.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+
+namespace Fur.EntityFramework.Core
+{
+    [AppDbContext("Sqlite3ConnectionString")]
+    public class MultiTenantDbContext : AppDbContext<MultiTenantDbContext, MultiTenantDbContextLocator>
+    {
+        public MultiTenantDbContext(DbContextOptions<MultiTenantDbContext> options) : base(options)
+        {
+        }
+    }
+}
+```
+
+:::important 特别注意
+
+多租户操作建议单独一个数据库上下文，而且需指定 `MultiTenantDbContextLocator` 数据库上下文定位器。
+
+:::
+
+### 10.6.2 注册多租户数据库上下文
+
+```cs {13,14}
+using Fur.DatabaseAccessor;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Fur.EntityFramework.Core
+{
+    [Startup(600)]
+    public sealed class FurEntityFrameworkCoreStartup : AppStartup
+    {
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddDatabaseAccessor(options =>
+            {
+                options.AddDb<FurDbContext>(DbProvider.Sqlite);
+                options.AddDbPool<MultiTenantDbContext, MultiTenantDbContextLocator>(DbProvider.Sqlite);
+            });
+        }
+    }
+}
+```
+
+:::caution 特别注意
+
+需要 `Database` 多租户方案的数据库上下文需要采用 `AddDb` 注册，而不是 `AddDbPool`。原因是 `AddDbPool` 方式注册后续不支持 `OnConfiguring` 重写！！！
+
+:::
+
+### 10.6.3 添加 `Tenant` 种子数据
+
+```cs {8,12-30} title="Fur.EntityFramework.Core\SeedDatas\TenantSeedData.cs"
+using Fur.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+
+namespace Fur.EntityFramework.Core
+{
+    public class TenantSeedData : IEntitySeedData<Tenant, MultiTenantDbContextLocator>
+    {
+        public IEnumerable<Tenant> HasData(DbContext dbContext, Type dbContextLocator)
+        {
+            return new List<Tenant>
+            {
+                new Tenant
+                {
+                    TenantId=Guid.Parse("383AFB88-F519-FFF8-B364-6D563BF3687F"),
+                    Name="默认租户",
+                    Host="localhost:44313",
+                    CreatedTime=DateTime.Parse("2020-10-06 20:19:07"),
+                    ConnectionString="Data Source=./Fur.db" // 配置连接字符串
+                },
+                new Tenant
+                {
+                    TenantId=Guid.Parse("C5798CB6-16D6-0F42-EB56-59C695353BC0"),
+                    Name="其他租户",
+                    Host="localhost:5000",
+                    CreatedTime=DateTime.Parse("2020-10-06 20:20:32"),
+                    ConnectionString="Data Source=./Fur2.db" // 配置连接字符串
+                }
+            };
+        }
+    }
+}
+```
+
+:::note 特别说明
+
+该步骤只在 `Code First` 方式执行，`Database First` 无需配置种子数据。
+
+:::
+
+### 10.6.4 根据模型创建 `Tenant` 表
+
+```shell
+Add-Migration add_tenant_table -Context MultiTenantDbContext
+```
+
+```shell
+Update-Database -Context MultiTenantDbContext
+```
+
+### 10.6.5 实现 `IMultiTenantOnDatabase` 接口
+
+在需要多租户的数据库上下文中实现 `IMultiTenantOnDatabase` 接口，如：
+
+```cs {6,12-15}
+using Fur.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+
+namespace Fur.EntityFramework.Core
+{
+    public class FurDbContext : AppDbContext<FurDbContext>, IMultiTenantOnDatabase
+    {
+        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
+        {
+        }
+
+        public string GetDatabaseConnectionString()
+        {
+            return base.Tenant.ConnectionString;
+        }
+    }
+}
+```
+
+### 10.6.6 重写 `OnConfiguring` 方法
+
+在需要多租户的数据库上下文中重写 `OnConfiguring` 方法并配置连接字符串：
+
+```cs {12-17}
+using Fur.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+
+namespace Fur.EntityFramework.Core
+{
+    public class FurDbContext : AppDbContext<FurDbContext>, IMultiTenantOnDatabase
+    {
+        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
+        {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite(GetDatabaseConnectionString());
+
+            base.OnConfiguring(optionsBuilder);
+        }
+
+        public string GetDatabaseConnectionString()
+        {
+            return base.Tenant.ConnectionString;
+        }
+    }
+}
+```
+
+<img src={useBaseUrl("img/saas2.png")} />
+
+## 10.7 基于 `Schema` 的方式
+
+此方式在中小型企业系统中也不少见，一个租户（客户）共享数据库且不同 `Schema`。
+
+### 10.7.1 创建租户数据库上下文
+
+```cs {6-7} title="Fur.EntityFramework.Core\DbContexts\MultiTenantDbContext.cs"
+using Fur.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+
+namespace Fur.EntityFramework.Core
+{
+    [AppDbContext("Sqlite3ConnectionString")]
+    public class MultiTenantDbContext : AppDbContext<MultiTenantDbContext, MultiTenantDbContextLocator>
+    {
+        public MultiTenantDbContext(DbContextOptions<MultiTenantDbContext> options) : base(options)
+        {
+        }
+    }
+}
+```
+
+:::important 特别注意
+
+多租户操作建议单独一个数据库上下文，而且需指定 `MultiTenantDbContextLocator` 数据库上下文定位器。
+
+:::
+
+### 10.7.2 注册多租户数据库上下文
+
+```cs {14}
+using Fur.DatabaseAccessor;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Fur.EntityFramework.Core
+{
+    [Startup(600)]
+    public sealed class FurEntityFrameworkCoreStartup : AppStartup
+    {
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddDatabaseAccessor(options =>
+            {
+                options.AddDbPool<FurDbContext>(DbProvider.Sqlite);
+                options.AddDbPool<MultiTenantDbContext, MultiTenantDbContextLocator>(DbProvider.Sqlite);
+            });
+        }
+    }
+}
+```
+
+### 10.7.3 添加 `Tenant` 种子数据
+
+```cs {8,12-30} title="Fur.EntityFramework.Core\SeedDatas\TenantSeedData.cs"
+using Fur.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+
+namespace Fur.EntityFramework.Core
+{
+    public class TenantSeedData : IEntitySeedData<Tenant, MultiTenantDbContextLocator>
+    {
+        public IEnumerable<Tenant> HasData(DbContext dbContext, Type dbContextLocator)
+        {
+            return new List<Tenant>
+            {
+                new Tenant
+                {
+                    TenantId=Guid.Parse("383AFB88-F519-FFF8-B364-6D563BF3687F"),
+                    Name="默认租户",
+                    Host="localhost:44313",
+                    CreatedTime=DateTime.Parse("2020-10-06 20:19:07"),
+                    Schema="dbo" // Schema
+                },
+                new Tenant
+                {
+                    TenantId=Guid.Parse("C5798CB6-16D6-0F42-EB56-59C695353BC0"),
+                    Name="其他租户",
+                    Host="localhost:5000",
+                    CreatedTime=DateTime.Parse("2020-10-06 20:20:32"),
+                    Schema="fur" // Schema
+                }
+            };
+        }
+    }
+}
+```
+
+:::note 特别说明
+
+该步骤只在 `Code First` 方式执行，`Database First` 无需配置种子数据。
+
+:::
+
+### 10.7.4 根据模型创建 `Tenant` 表
+
+```shell
+Add-Migration add_tenant_table -Context MultiTenantDbContext
+```
+
+```shell
+Update-Database -Context MultiTenantDbContext
+```
+
+### 10.7.5 实现 `IMultiTenantOnSchema` 接口
+
+在需要多租户的数据库上下文中实现 `IMultiTenantOnSchema` 接口，如：
+
+```cs {6,12-15}
+using Fur.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+
+namespace Fur.EntityFramework.Core
+{
+    [AppDbContext("Sqlite3ConnectionString")]
+    public class FurDbContext : AppDbContext<FurDbContext>, IMultiTenantOnSchema
+    {
+        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
+        {
+        }
+
+        public string GetSchemaName()
+        {
+            return base.Tenant.Schema;
+        }
+    }
+}
+```
+
+### 10.7.6 关于 `Code First 数据迁移`
+
+基于 `Schema` 方式比较特别，生成数据迁移的时候没办法获取租户信息，所以建议**分开多次迁移**，如：
+
+```cs
+public string GetSchemaName()
+{
+    return base.Tenant.Schema?? "租户一Schema";
+}
+```
+
+```cs
+public string GetSchemaName()
+{
+    return base.Tenant.Schema?? "租户二Schema";
+}
+```
+
+这样就可以在迁移的时候生成多次迁移了。
+
+## 10.8 反馈与建议
+
+:::note 与我们交流
+
+给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
