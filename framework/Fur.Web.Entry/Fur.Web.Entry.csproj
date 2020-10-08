@@ -22,4 +22,10 @@
     <ProjectReference Include="..\Fur.Web.Core\Fur.Web.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Fur.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
