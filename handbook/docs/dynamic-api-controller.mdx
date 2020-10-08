@@ -121,39 +121,20 @@ namespace Fur.Web.Entry.Controllers
 - 支持 `GET、HEAD` 请求自动转换 `类类型参数`
 - 支持生成 `OAS3` 接口规范
 
-## 5.4 动态 `WebAPI` 使用
+## 5.4 注册动态 `WebAPI` 服务
 
-### 5.4.1 注册动态 `WebAPI` 服务
-
-在 `Fur` 框架中，动态 `WebAPI` 服务需要在 `Fur.Web.Entry/Startup.cs` 中注册。如：
-
-```cs {4,19-20} title="Fur.Web.Entry/Startup.cs"
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+```cs {11} title="Fur.Web.Core\FurWebCoreStartup.cs"
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.Web.Entry
+namespace Fur.Web.Core
 {
-    public class Startup
+    [AppStartup(800)]
+    public sealed class FurWebCoreStartup : AppStartup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers()
                     .AddDynamicApiControllers();
-            // Other Codes...
-        }
-
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            // Other Codes...
         }
     }
 }

@@ -94,13 +94,13 @@ namespace Fur.EntityFramework.Core
 
 `Fur` 框架提供多种数据库连接字符串配置方式：
 
-- 在 `Startup` 中添加服务：`AddSqlServerPool<TDbContext>("连接字符串")` 方式
+- 在注册数据库服务时配置：`AddSqlServerPool<TDbContext>("连接字符串")` 方式
 - 使用 `[AppDbContext("连接字符串/Key")]` 特性方式（只在 `AppDbContext 实现类有效`）**推荐**
 - 通过重写 `OnConfiguring(DbContextOptionsBuilder optionsBuilder)` 配置
 
-### 9.1.5.1 `Startup` 方式配置
+### 9.1.5.1 在注册数据库服务时配置
 
-```cs {12-19} title="Fur\framework\Fur.EntityFramework.Core\FurEntityFrameworkCoreStartup.cs"
+```cs {12-19} title="Fur.EntityFramework.Core\FurEntityFrameworkCoreStartup.cs"
 using Fur.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -189,9 +189,9 @@ namespace Fur.EntityFramework.Core
 
 :::important 特别注意
 
-这三种方式可以同时使用，但是有优先级：`[AppDbContext]` -> `Startup` -> `OnConfiguring`（低到高）
+这三种方式可以同时使用，但是有优先级：`[AppDbContext]` -> `在注册数据库服务时配置` -> `OnConfiguring`（低到高）
 
-也就是 `OnConfiguring` 配置会覆盖 `Startup` 配置，`Startup` 配置会覆盖 `[AppDbContext]` 配置所配置的连接字符串。
+也就是 `OnConfiguring` 配置会覆盖 `在注册数据库服务时配置` 配置，`在注册数据库服务时配置` 配置会覆盖 `[AppDbContext]` 配置所配置的连接字符串。
 
 :::
 

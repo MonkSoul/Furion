@@ -28,7 +28,7 @@ import TabItem from "@theme/TabItem";
 
 假设我们需要在系统运行时获取**系统名称、版本号及版权信息**，这些信息可能随时变化而且需要在多个地方使用。这时就需要将这些信息配置起来。具体步骤如下：
 
-### 配置 `appsettings.json` 信息
+### 4.1.2.1 配置 `appsettings.json` 信息
 
 ```json {2-6}
 {
@@ -40,7 +40,7 @@ import TabItem from "@theme/TabItem";
 }
 ```
 
-### 读取 `appsettings.json` 信息
+### 4.1.2.2 读取 `appsettings.json` 信息
 
 在 `Fur` 框架中，提供了两种读取方式：
 
@@ -139,12 +139,12 @@ public IConfiguration Configuration { get; set; }
 
 :::
 
-### 如何选择读取方式
+### 4.1.2.3 如何选择读取方式
 
 - 在可依赖注入类中，依赖注入 `IConfiguration` 读取
 - 在静态类/非依赖注入类中，选择 `App.Configuration[jsonKey]` 读取
 
-## 4.1.3 分层读取数据
+## 4.1.3 `路径符` 查找节点
 
 在 `ASP.NET Core` 中，配置采用 `:` 分隔符来读取分层配置数据。如上述例子中的 `AppInfo:Name`。如有更多层级数据则只需要通过 `:` 进入下一层节点即可。
 
@@ -213,7 +213,7 @@ var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern3..
 
 ## 4.1.4 自定义配置文件
 
-大多情况下，我们的配置只需要在 `appsettings.json` 中配置即可，但一些特殊情况下，我们希望某些组件或功能拥有独立的配置，自定义配置文件支持 `.json` 和 `.xml` 两种方式，比如配置：
+大多情况下，我们的配置只需要在 `appsettings.json` 中配置即可，但一些特殊情况下，我们希望某些组件或功能拥有独立的配置，这个时候就需要用到自定义配置，`Fur` 目前支持 `.json` 和 `.xml` 两种方式配置，如：
 
 ```json {2-13} title="Fur.Web.Entry/emailsetting.json"
 {
@@ -249,38 +249,9 @@ var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern3..
 </configuration>
 ```
 
-`ASP.NET Core` 提供了非常灵活的方式支持多个配置文件配置及读取，配置如下：
+同时 `Fur` 提供了非常灵活的方式支持自定义配置文件读取，如：
 
-### 在 配置自动扫描配置文件
-
-```cs {2,20} title="Fur.Web.Entry/Program.cs"
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-
-namespace Fur.Web.Entry
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder
-                        // 启动自动扫描配置文件并注入，无需手动添加配置
-                        .UseSetting(WebHostDefaults.HostingStartupAssembliesKey, nameof(Fur))
-                        .UseStartup<Startup>();
-                });
-    }
-}
-```
-
-### 读取 `emailsetting.json` 配置
+### 4.1.4.1 读取 `emailsetting.json` 配置
 
 读取自定义配置文件和读取 `appsettings.json` 一致，系统会自动从多个配置文件中读取输入，如：
 
@@ -308,6 +279,12 @@ var smtpServer = _configuration["outlook:smtp:server"]; // => smtp.office365.com
   </TabItem>
 </Tabs>
 
+
+:::important 特别说明
+
+`Fur` 框架会在启动时自动扫描每一个项目层根目录下的 `*.json` 和 `*.xml` 文件加入配置中。所以无需收工配置。
+
+:::
 
 ## 4.1.5 不同环境读取
 
@@ -339,19 +316,19 @@ ChangeToken.OnChange(() => appInfoConfiguration.GetReloadToken(), () =>
 
 ## 4.1.7 配置的优缺点
 
-### 优点
+- 优点
 
-- 能够在系统运行时快速读取
-- 无需额外配置
+  - 能够在系统运行时快速读取
+  - 无需额外配置
 
-### 缺点
+- 缺点
 
-- 存在重复读取
-- 通过硬编码字符串读取，容易出错
-- 不能设置默认值
-- 不能在运行环境中动态配置
-- 不能验证配置有效性
-- 不支持更改通知
+  - 存在重复读取
+  - 通过硬编码字符串读取，容易出错
+  - 不能设置默认值
+  - 不能在运行环境中动态配置
+  - 不能验证配置有效性
+  - 不支持更改通知
 
 ## 4.1.8 配置使用场景
 

@@ -55,26 +55,18 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ### 7.4.1 注册友好异常服务
 
-```cs {3,15} title="Fur.Web.Entry/Startup.cs"
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+```cs {11} title="Fur.Web.Core\FurWebCoreStartup.cs"
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.Web.Entry
+namespace Fur.Web.Core
 {
-    public class Startup
+    [AppStartup(800)]
+    public sealed class FurWebCoreStartup : AppStartup
     {
-        // Other Codes...
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers()
-                    .AddFriendlyException();    // 可通过 .AddFriendlyException(false) 关闭全局异常处理
-        }
-
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            // Other Codes...
+                    .AddFriendlyException();
         }
     }
 }
@@ -342,28 +334,20 @@ namespace Fur.Application
 }
 ```
 
-使用 `IErrorCodeTypeProvider` 方式需要在 `Startup.cs` 中注册：
+启用 `IErrorCodeTypeProvider` 提供器：
 
-```cs {3,15} title="Fur.Web.Entry/Startup.cs"
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+```cs {11} title="Fur.Web.Core\FurWebCoreStartup.cs"
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.Web.Entry
+namespace Fur.Web.Core
 {
-    public class Startup
+    [AppStartup(800)]
+    public sealed class FurWebCoreStartup : AppStartup
     {
-        // Other Codes...
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers()
                     .AddFriendlyException<CustomErrorCodeTypeProvider>();
-        }
-
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            // Other Codes...
         }
     }
 }
