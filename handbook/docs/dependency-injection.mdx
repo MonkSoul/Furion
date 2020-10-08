@@ -3,3 +3,470 @@ id: dependency-injection
 title: 11. 依赖注入/控制反转
 sidebar_label: 11. 依赖注入/控制反转
 ---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+## 11.1 依赖注入
+
+所谓依赖注入，是指程序运行过程中，如果需要调用另一个对象协助时，无须在代码中创建被调用者，而是依赖于外部的注入。
+
+通俗来讲，就是把有依赖关系的类放到容器中，然后在我们需要这些类时，容器自动解析出这些类的实例。
+
+依赖注入最大的好处时实现类的解耦，利于程序拓展、单元测试、自动化模拟测试等。
+
+依赖注入的英文为：`Dependency Injection`，简称 `DI`
+
+## 11.2 控制反转
+
+控制反转只是一个概念，也就是将创建对象实例的控制权（原本是程序员）从代码控制权剥离到 `IOC 容器` 中控制。
+
+控制反转的英文为：`Inversion of Control`，简称 `IOC`
+
+## 11.3 `IOC/DI` 优缺点
+
+传统的代码，每个对象负责管理与自己需要依赖的对象，导致如果需要切换依赖对象的实现类时，需要修改多处地方。同时，过度耦合也使得对象难以进行单元测试。
+
+- 优点
+
+  - 依赖注入把对象的创造交给外部去管理,很好的解决了代码紧耦合（tight couple）的问题，是一种让代码实现松耦合（loose couple）的机制
+  - 松耦合让代码更具灵活性，能更好地应对需求变动，以及方便单元测试
+
+- 缺点
+
+  - 目前主流的 `IOC/DI` 基本采用反射的方式来实现依赖注入，在一定程度会影响性能
+
+:::important 特别说明
+
+在本章节不打算细讲 `依赖注入/控制反转` 具体实现和应用场景，想了解更多知识，可查阅 【[ASP.NET Core 依赖注入](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0)】 官方文档。
+
+:::
+
+## 11.4 依赖注入的三种方式
+
+### 11.4.1 构造方法注入
+
+目前构造方法注入是依赖注入推荐使用方式。
+
+- 优点
+
+  - 在构造方法中体现出对其他类的依赖，一眼就能看出这个类需要其他那些类才能工作
+  - 脱离了 IOC 框架，这个类仍然可以工作，POJO 的概念
+  - 一旦对象初始化成功了，这个对象的状态肯定是正确的
+
+- 缺点
+
+  - 构造函数会有很多参数（Bad smell）
+  - 有些类是需要默认构造函数的，比如 MVC 框架的 Controller 类，一旦使用构造函数注入，就无法使用默认构造函数
+  - 这个类里面的有些方法并不需要用到这些依赖（Bad smell）
+
+代码示例：
+
+```cs {4}
+public class FurService
+{
+    private readonly IRepository _repository;
+    public FurService(IRepository repository)
+    {
+        _repository = repository;
+    }
+}
+```
+
+### 11.4.2 属性方式注入
+
+**通过属性方式注入容易和类的实例属性混淆，不建议使用。**
+
+- 优点
+
+  - 在对象的整个生命周期内，可以随时动态的改变依赖
+  - 非常灵活
+
+- 缺点
+
+  - 对象在创建后，被设置依赖对象之前这段时间状态是不对的
+  - 不直观，无法清晰地表示哪些属性是必须的
+
+```cs {3}
+public class FurService
+{
+    public IRepository Repository { get; set; }
+}
+```
+
+### 11.4.3 方法参数注入
+
+方法参数注入的意思是在创建对象后，通过自动调用某个方法来注入依赖。
+
+- 优点：
+
+  - 比较灵活
+
+- 缺点：
+
+  - 新加入依赖时会破坏原有的方法签名，如果这个方法已经被其他很多模块用到就很麻烦
+  - 与构造方法注入一样，会有很多参数
+
+```cs {3}
+public class FurService
+{
+    public Person GetById([FromServices]IRepository repository, int id)
+    {
+        return repository.Find(id);
+    }
+}
+```
+
+## 11.5 注册对象生存期
+
+### 11.5.1 `暂时/瞬时` 生存期
+
+暂时生存期服务是每次从服务容器进行请求时创建的。 这种生存期适合轻量级、 无状态的服务。
+
+在处理请求的应用中，在请求结束时会释放暂时服务。
+
+通常我们使用 `ITransient` 接口依赖表示该生命周期。
+
+### 11.5.2 `作用域` 生存期
+
+作用域生存期服务针对每个客户端请求（连接）创建一次。在处理请求的应用中，在请求结束时会释放有作用域的服务。
+
+通常我们使用 `IScoped` 接口依赖表示该生命周期。
+
+### 11.5.3 `单例` 生存期
+
+在首次请求它们时进行创建，之后每个后续请求都使用相同的实例。
+
+通常我们使用 `ISingleton` 接口依赖表示该生命周期。
+
+:::note 了解更多
+
+想了解更多 `服务生存期` 知识可查阅 [ASP.NET Core - 依赖注入 - 服务生存期](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0#service-lifetimes) 章节。
+
+:::
+
+## 11.6 内置依赖接口
+
+`Fur` 框架提供三个接口依赖分别对应不同的服务生存期：
+
+- `ITransient`：对应暂时/瞬时作用域服务生存期
+- `IScoped`：对应请求作用域服务生存期
+- `ISingleton`：对应单例作用域服务生存期
+
+## 11.7 常见使用
+
+### 11.7.2 第一个例子
+
+创建 `IBusinessService` 接口和 `BusinessService` 实现类，代码如下：
+
+```cs {7,12}
+using Fur.Core;
+using Fur.DatabaseAccessor;
+using Fur.DependencyInjection;
+
+namespace Fur.Application
+{
+    public interface IBusinessService
+    {
+        Person Get(int id);
+    }
+
+    public class BusinessService : IBusinessService, ITransient
+    {
+        private readonly IRepository<Person> _personRepository;
+
+        public BusinessService(IRepository<Person> personRepository)
+        {
+            _personRepository = personRepository;
+        }
+
+        public Person Get(int id)
+        {
+            return _personRepository.Find(id);
+        }
+    }
+}
+```
+
+创建 `PersonController` 控制器，代码如下：
+
+```cs {11,19}
+using Fur.Application;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Fur.Web.Entry.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class PersonController : ControllerBase
+    {
+        private readonly IBusinessService _businessService;
+        public PersonController(IBusinessService businessService)
+        {
+            _businessService = businessService;
+        }
+
+        [HttpGet]
+        public IActionResult Get(int id)
+        {
+            var person = _businessService.Get(id);
+            return new JsonResult(person);
+        }
+    }
+}
+```
+
+<img src={useBaseUrl("img/di1.gif")} />
+
+---
+
+**例子解说**
+
+`Fur` 框架提供了非常灵活且方便的实现依赖注入的方式，只需要实例类继承对应生存期的接口即可，这里继承了 `ITransient`，也就表明了这是一个 `暂时/瞬时` 作用域实例类。该类就可以作为被注入对象，同时也能注入其他接口对象。
+
+上面的例子中，`BusinessService` 注入了 `IRepository<Person>` 仓储接口，同时 `PersonController` 控制器注入了 `IBusinessService` 接口。
+
+这样 `PersonController` 和 `BusinessService` 之间就实现了解耦，不再依赖于具体的 `BusinessService` 实例。
+
+这就是依赖注入/控制反转最经典的例子。
+
+### 11.7.3 注册泛型实例
+
+创建 `IBusinessService<T>` 接口和 `BusinessService<T>` 实现类，代码如下：
+
+```cs {7,12}
+using Fur.Core;
+using Fur.DatabaseAccessor;
+using Fur.DependencyInjection;
+
+namespace Fur.Application
+{
+    public interface IBusinessService<T>
+    {
+        Person Get(int id);
+    }
+
+    public class BusinessService<T> : IBusinessService<T>, ITransient
+    {
+        private readonly IRepository<Person> _personRepository;
+
+        public BusinessService(IRepository<Person> personRepository)
+        {
+            _personRepository = personRepository;
+        }
+
+        public Person Get(int id)
+        {
+            return _personRepository.Find(id);
+        }
+    }
+}
+```
+
+创建 `PersonController` 控制器，代码如下：
+
+```cs {11,19}
+using Fur.Application;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Fur.Web.Entry.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class PersonController : ControllerBase
+    {
+        private readonly IBusinessService<int> _businessService;
+        public PersonController(IBusinessService<int> businessService)
+        {
+            _businessService = businessService;
+        }
+
+        [HttpGet]
+        public IActionResult Get(int id)
+        {
+            var person = _businessService.Get(id);
+            return new JsonResult(person);
+        }
+    }
+}
+```
+
+### 11.7.4 一个接口多个实现
+
+默认情况下，一个接口只对应一个实现类，但有些特殊情况，需要需要多个实现类注册同一个接口，如 `DbContext` 多数据库情况。
+
+这个时候我们可以通过依赖注入 `Func<string, IPrivateDependency, object>` 委托来解析多个实例，其中委托的参数分别为：
+
+- 参数 1：`string` 类型，不同实现类唯一标识，默认为 `nameof(实现类)` 名称
+- 参数 2：`Type` 类型，`IPrivateDependency` 派生接口，也就是 `ITransient`、`IScoped`、`ISingleton`
+- 返回值：`object` 类型，返回具体的实现类实例
+
+创建 `IBusinessService` 接口和 `BusinessService`、`OtherBusinessService` 两个实现类，代码如下：
+
+```cs {5,10,18}
+using Fur.DependencyInjection;
+
+namespace Fur.Application
+{
+    public interface IBusinessService
+    {
+        string GetName();
+    }
+
+    public class BusinessService : IBusinessService, ITransient
+    {
+        public string GetName()
+        {
+            return "我是：" + nameof(BusinessService);
+        }
+    }
+
+    public class OtherBusinessService : IBusinessService, ITransient
+    {
+        public string GetName()
+        {
+            return "我是：" + nameof(OtherBusinessService);
+        }
+    }
+}
+```
+
+创建 `ValueController` 控制器，代码如下：
+
+```cs {15,17,18}
+using Fur.Application;
+using Fur.DependencyInjection;
+using Microsoft.AspNetCore.Mvc;
+using System;
+
+namespace Fur.Web.Entry.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ValueController : ControllerBase
+    {
+        private readonly IBusinessService _businessService;
+        private readonly IBusinessService _otherBusinessService;
+
+        public ValueController(Func<string, ITransient, object> resolveNamed)
+        {
+            _businessService = resolveNamed("BusinessService", default) as IBusinessService;
+            _otherBusinessService = resolveNamed("OtherBusinessService", default) as IBusinessService;
+        }
+
+        [HttpGet]
+        public string GetName()
+        {
+            return _businessService.GetName() + "----------" + _otherBusinessService.GetName();
+        }
+    }
+}
+```
+
+<img src={useBaseUrl("img/di2.gif")} />
+
+:::tip 小知识
+
+如果需要自定义解析名称，只需要贴 `[Injection(Named = "名称")]` 即可，如：
+
+```cs {5,11}
+using Fur.DependencyInjection;
+
+namespace Fur.Application
+{
+    [Injection(Named = "BusName1")]
+    public class BusinessService : IBusinessService, ITransient
+    {
+        // ...
+    }
+
+    [Injection(Named = "BusName2")]
+    public class OtherBusinessService : IBusinessService, ITransient
+    {
+        // ...
+    }
+}
+```
+
+解析服务：
+
+```cs
+_businessService = resolveNamed("BusName1", default) as IBusinessService;
+_otherBusinessService = resolveNamed("BusName2", default) as IBusinessService;
+```
+
+:::
+
+### 11.7.5 无接口方式
+
+有些时候，我们不想定义接口，而是想把实例类作为可依赖注入的对象，如 MVC 中的控制器。
+
+创建 `SelfService` 实例类，代码如下：
+
+```cs {7,11}
+using Fur.Core;
+using Fur.DatabaseAccessor;
+using Fur.DependencyInjection;
+
+namespace Fur.Application
+{
+    public class SelfService : ITransient
+    {
+        private readonly IRepository<Person> _personRepository;
+
+        public SelfService(IRepository<Person> personRepository)
+        {
+            _personRepository = personRepository;
+        }
+
+        public Person Get(int id)
+        {
+            return _personRepository.Find(id);
+        }
+    }
+}
+```
+
+创建 `ValueController` 控制器，代码如下：
+
+```cs {13,21}
+using Fur.Application;
+using Fur.Core;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Fur.Web.Entry.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ValueController : ControllerBase
+    {
+        private readonly SelfService _selfService;
+
+        public ValueController(SelfService selfService)
+        {
+            _selfService = selfService;
+        }
+
+        [HttpGet]
+        public Person Get(int id)
+        {
+            return _selfService.Get(id);
+        }
+    }
+}
+```
+
+## 11.8 `[Injection]` 特性配置
+
+## 11.9 自定义高级注册
+
+## 11.10 `appsettings.json` 配置注册
+
+## 11.11 `Aop` 注册拦截
+
+## 11.12 反馈与建议
+
+:::note 与我们交流
+
+给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+
+:::

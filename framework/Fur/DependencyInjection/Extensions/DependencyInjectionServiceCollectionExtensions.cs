@@ -61,17 +61,17 @@ namespace Microsoft.Extensions.DependencyInjection
                 var canInjectInterfaces = type.GetInterfaces().Where(u => !typeof(IPrivateDependency).IsAssignableFrom(u));
 
                 // 注册暂时服务
-                if (typeof(IPrivateTransient).IsAssignableFrom(type))
+                if (typeof(ITransient).IsAssignableFrom(type))
                 {
                     RegisterService(services, Fur.DependencyInjection.RegisterType.Transient, type, injectionAttribute, canInjectInterfaces);
                 }
                 // 注册作用域服务
-                else if (typeof(IPrivateScoped).IsAssignableFrom(type))
+                else if (typeof(IScoped).IsAssignableFrom(type))
                 {
                     RegisterService(services, Fur.DependencyInjection.RegisterType.Scoped, type, injectionAttribute, canInjectInterfaces);
                 }
                 // 注册单例服务
-                else if (typeof(IPrivateSingleton).IsAssignableFrom(type))
+                else if (typeof(ISingleton).IsAssignableFrom(type))
                 {
                     RegisterService(services, Fur.DependencyInjection.RegisterType.Singleton, type, injectionAttribute, canInjectInterfaces);
                 }
@@ -168,9 +168,13 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="inter">接口</param>
         private static void RegisterType(IServiceCollection services, RegisterType registerType, Type type, InjectionAttribute injectionAttribute, Type inter = null)
         {
-            if (registerType == Fur.DependencyInjection.RegisterType.Transient) RegisterTransientType(services, type, injectionAttribute, inter);
-            if (registerType == Fur.DependencyInjection.RegisterType.Scoped) RegisterScopeType(services, type, injectionAttribute, inter);
-            if (registerType == Fur.DependencyInjection.RegisterType.Singleton) RegisterSingletonType(services, type, injectionAttribute, inter);
+            // 修复泛型注册类型
+            var fixedType = FixedGenericType(type);
+            var fixedInter = inter == null ? null : FixedGenericType(inter);
+
+            if (registerType == Fur.DependencyInjection.RegisterType.Transient) RegisterTransientType(services, fixedType, injectionAttribute, fixedInter);
+            if (registerType == Fur.DependencyInjection.RegisterType.Scoped) RegisterScopeType(services, fixedType, injectionAttribute, fixedInter);
+            if (registerType == Fur.DependencyInjection.RegisterType.Singleton) RegisterSingletonType(services, fixedType, injectionAttribute, fixedInter);
         }
 
         /// <summary>
@@ -286,6 +290,18 @@ namespace Microsoft.Extensions.DependencyInjection
                 }
                 return (Func<string, ISingleton, object>)ResolveService;
             });
+        }
+
+        /// <summary>
+        /// 修复泛型类型注册类型问题
+        /// </summary>
+        /// <param name="type">类型</param>
+        /// <returns></returns>
+        private static Type FixedGenericType(Type type)
+        {
+            if (!type.IsGenericType) return type;
+
+            return type.Assembly.GetType($"{type.Namespace}.{type.Name}", true, true);
         }
 
         /// <summary>
