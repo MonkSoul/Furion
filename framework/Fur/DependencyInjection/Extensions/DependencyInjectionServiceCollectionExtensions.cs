@@ -88,21 +88,21 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// 添加代理
+        /// 添加接口代理
         /// </summary>
         /// <typeparam name="TDispatchProxy">代理类</typeparam>
-        /// <typeparam name="TITDispatchProxy">被代理接口依赖</typeparam>
+        /// <typeparam name="TIDispatchProxy">被代理接口依赖</typeparam>
         /// <param name="services">服务集合</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddDispatchProxy<TDispatchProxy, TITDispatchProxy>(this IServiceCollection services)
+        public static IServiceCollection AddInterfaceDispatchProxy<TDispatchProxy, TIDispatchProxy>(this IServiceCollection services)
             where TDispatchProxy : DispatchProxy, IDispatchProxy
-            where TITDispatchProxy : class
+            where TIDispatchProxy : class
         {
             // 注册代理类
             services.AddScoped<DispatchProxy, TDispatchProxy>();
 
             // 代理依赖接口类型
-            var typeDependency = typeof(TITDispatchProxy);
+            var typeDependency = typeof(TIDispatchProxy);
 
             // 获取所有的代理接口类型
             var sqlDispatchProxyInterfaceTypes = App.CanBeScanTypes
