@@ -75,9 +75,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 添加 Startup 自动扫描
         /// </summary>
         /// <param name="services">服务集合</param>
-        /// <param name="autoScan">自动扫描注入</param>
         /// <returns>服务集合</returns>
-        internal static IServiceCollection AddStartup(this IServiceCollection services, bool autoScan = true)
+        internal static IServiceCollection AddStartup(this IServiceCollection services)
         {
             // 扫描所有继承 AppStartup 的类
             var startups = App.CanBeScanTypes
@@ -104,9 +103,6 @@ namespace Microsoft.Extensions.DependencyInjection
                     method.Invoke(startup, new[] { services });
                 }
             }
-
-            // 添加自动扫描注入
-            if (autoScan) services.AddAutoScanInjection();
 
             return services;
         }

@@ -33,6 +33,11 @@ namespace Fur.DatabaseAccessor
     public class SqlDispatchProxy : DispatchProxy, IDispatchProxy
     {
         /// <summary>
+        /// 实例对象
+        /// </summary>
+        public object Target { get; set; }
+
+        /// <summary>
         /// 服务提供器
         /// </summary>
         public IServiceProvider ServiceProvider { get; set; }

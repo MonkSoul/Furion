@@ -98,7 +98,7 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             // 注册 Sql 代理接口
-            services.AddInterfaceDispatchProxy<SqlDispatchProxy, ISqlDispatchProxy>();
+            services.AddScopedDispatchProxyForInterface<SqlDispatchProxy, ISqlDispatchProxy>();
 
             // 注册全局工作单元过滤器
             services.Configure<MvcOptions>(options => options.Filters.Add<UnitOfWorkFilter>());

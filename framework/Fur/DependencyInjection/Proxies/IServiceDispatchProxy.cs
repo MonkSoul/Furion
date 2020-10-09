@@ -12,22 +12,25 @@
 // -----------------------------------------------------------------------------
 
 using System;
+using System.Reflection;
 
 namespace Fur.DependencyInjection
 {
-    /// <summary>
-    /// 代理拦截依赖接口
-    /// </summary>
-    public interface IDispatchProxy
+    public class IServiceDispatchProxy : DispatchProxy, IDispatchProxy
     {
         /// <summary>
-        /// 实例
+        /// 实例对象
         /// </summary>
-        object Target { get; set; }
+        public object Target { get; set; }
 
         /// <summary>
         /// 服务提供器
         /// </summary>
-        IServiceProvider ServiceProvider { get; set; }
+        public IServiceProvider ServiceProvider { get; set; }
+
+        protected override object Invoke(MethodInfo targetMethod, object[] args)
+        {
+            return targetMethod.Invoke(Target, args);
+        }
     }
 }

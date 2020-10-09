@@ -60,5 +60,10 @@ namespace Fur.DependencyInjection
         /// 排序，排序越大，则在后面注册
         /// </summary>
         public int Order { get; set; }
+
+        /// <summary>
+        /// 代理类型，必须继承 DispatchProxy、IDispatchProxy
+        /// </summary>
+        public Type Proxy { get; set; }
     }
 }

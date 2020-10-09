@@ -94,7 +94,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <typeparam name="TIDispatchProxy">被代理接口依赖</typeparam>
         /// <param name="services">服务集合</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddInterfaceDispatchProxy<TDispatchProxy, TIDispatchProxy>(this IServiceCollection services)
+        public static IServiceCollection AddScopedDispatchProxyForInterface<TDispatchProxy, TIDispatchProxy>(this IServiceCollection services)
             where TDispatchProxy : DispatchProxy, IDispatchProxy
             where TIDispatchProxy : class
         {
@@ -102,25 +102,17 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<DispatchProxy, TDispatchProxy>();
 
             // 代理依赖接口类型
+            var proxyType = typeof(TDispatchProxy);
             var typeDependency = typeof(TIDispatchProxy);
 
             // 获取所有的代理接口类型
-            var sqlDispatchProxyInterfaceTypes = App.CanBeScanTypes
+            var dispatchProxyInterfaceTypes = App.CanBeScanTypes
                 .Where(u => typeDependency.IsAssignableFrom(u) && u.IsInterface && u != typeDependency);
 
-            // 获取代理创建方法
-            var dispatchCreateMethod = typeof(DispatchProxy).GetMethod(nameof(DispatchProxy.Create));
-
             // 注册代理类型
-            foreach (var interfaceType in sqlDispatchProxyInterfaceTypes)
+            foreach (var interfaceType in dispatchProxyInterfaceTypes)
             {
-                services.AddScoped(interfaceType, provider =>
-                {
-                    var proxy = dispatchCreateMethod.MakeGenericMethod(interfaceType, typeof(TDispatchProxy)).Invoke(null, null);
-                    ((TDispatchProxy)proxy).ServiceProvider = provider;
-
-                    return proxy;
-                });
+                AddScopedDispatchProxy(services, default, proxyType, interfaceType, false);
             }
 
             return services;
@@ -190,7 +182,11 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 case InjectionActions.Add:
                     if (inter == null) services.AddTransient(type);
-                    else services.AddTransient(inter, type);
+                    else
+                    {
+                        services.AddTransient(inter, type);
+                        AddTransientDispatchProxy(services, type, injectionAttribute.Proxy, inter, true);
+                    }
                     break;
 
                 case InjectionActions.TryAdd:
@@ -215,7 +211,11 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 case InjectionActions.Add:
                     if (inter == null) services.AddScoped(type);
-                    else services.AddScoped(inter, type);
+                    else
+                    {
+                        services.AddScoped(inter, type);
+                        AddScopedDispatchProxy(services, type, injectionAttribute.Proxy, inter, true);
+                    }
                     break;
 
                 case InjectionActions.TryAdd:
@@ -240,7 +240,11 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 case InjectionActions.Add:
                     if (inter == null) services.AddSingleton(type);
-                    else services.AddSingleton(inter, type);
+                    else
+                    {
+                        services.AddSingleton(inter, type);
+                        AddSingletonDispatchProxy(services, type, injectionAttribute.Proxy, inter, true);
+                    }
                     break;
 
                 case InjectionActions.TryAdd:
@@ -250,6 +254,107 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 default: break;
             }
+        }
+
+        /// <summary>
+        /// 创建暂时瞬时代理
+        /// </summary>
+        /// <param name="services">服务集合</param>
+        /// <param name="type">被代理类型</param>
+        /// <param name="injectionAttribute">特性配置</param>
+        /// <param name="inter">拦截接口</param>
+        private static void AddTransientDispatchProxy(IServiceCollection services, Type type, Type proxyType, Type inter, bool hasTarget = true)
+        {
+            if (proxyType == null) return;
+
+            RegisterDispatchProxy(services, typeof(ITransient), proxyType);
+            services.AddTransient(inter, provider =>
+            {
+                dynamic proxy = DispatchCreateMethod.MakeGenericMethod(inter, proxyType).Invoke(null, null);
+                proxy.ServiceProvider = provider;
+                if (hasTarget)
+                {
+                    proxy.Target = provider.GetService(type);
+                }
+
+                return proxy;
+            });
+        }
+
+        /// <summary>
+        /// 创建作用域代理
+        /// </summary>
+        /// <param name="services">服务集合</param>
+        /// <param name="type">被代理类型</param>
+        /// <param name="injectionAttribute">特性配置</param>
+        /// <param name="inter">拦截接口</param>
+        private static void AddScopedDispatchProxy(IServiceCollection services, Type type, Type proxyType, Type inter, bool hasTarget = true)
+        {
+            if (proxyType == null) return;
+
+            RegisterDispatchProxy(services, typeof(IScoped), proxyType);
+            services.AddScoped(inter, provider =>
+            {
+                dynamic proxy = DispatchCreateMethod.MakeGenericMethod(inter, proxyType).Invoke(null, null);
+                proxy.ServiceProvider = provider;
+                if (hasTarget)
+                {
+                    proxy.Target = provider.GetService(type);
+                }
+
+                return proxy;
+            });
+        }
+
+        /// <summary>
+        /// 创建作用域代理
+        /// </summary>
+        /// <param name="services">服务集合</param>
+        /// <param name="type">被代理类型</param>
+        /// <param name="injectionAttribute">特性配置</param>
+        /// <param name="inter">拦截接口</param>
+        private static void AddSingletonDispatchProxy(IServiceCollection services, Type type, Type proxyType, Type inter, bool hasTarget = true)
+        {
+            if (proxyType == null) return;
+
+            RegisterDispatchProxy(services, typeof(ISingleton), proxyType);
+            services.AddSingleton(inter, provider =>
+            {
+                dynamic proxy = DispatchCreateMethod.MakeGenericMethod(inter, proxyType).Invoke(null, null);
+                proxy.ServiceProvider = provider;
+                if (hasTarget)
+                {
+                    proxy.Target = provider.GetService(type);
+                }
+
+                return proxy;
+            });
+        }
+
+        /// <summary>
+        /// 注册代理类型
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="proxyType"></param>
+        private static void RegisterDispatchProxy(IServiceCollection services, Type lifetime, Type proxyType)
+        {
+            if (RegisterDispatchProxies.Contains((lifetime, proxyType))) return;
+
+            if (lifetime == typeof(ITransient))
+            {
+                services.AddTransient(typeof(DispatchProxy), proxyType);
+            }
+            else if (lifetime == typeof(IScoped))
+            {
+                services.AddScoped(typeof(DispatchProxy), proxyType);
+            }
+            else if (lifetime == typeof(ISingleton))
+            {
+                services.AddSingleton(typeof(DispatchProxy), proxyType);
+            }
+            else { }
+
+            RegisterDispatchProxies.Add((lifetime, proxyType));
         }
 
         /// <summary>
@@ -322,11 +427,23 @@ namespace Microsoft.Extensions.DependencyInjection
         private static readonly ConcurrentDictionary<string, Type> TypeNamedCollection;
 
         /// <summary>
+        /// 已经注册的代理类
+        /// </summary>
+        private static readonly ConcurrentBag<(Type, Type)> RegisterDispatchProxies;
+
+        /// <summary>
+        /// 创建代理方法
+        /// </summary>
+        private static readonly MethodInfo DispatchCreateMethod;
+
+        /// <summary>
         /// 静态构造函数
         /// </summary>
         static DependencyInjectionServiceCollectionExtensions()
         {
             TypeNamedCollection = new ConcurrentDictionary<string, Type>();
+            DispatchCreateMethod = typeof(DispatchProxy).GetMethod(nameof(DispatchProxy.Create));
+            RegisterDispatchProxies = new ConcurrentBag<(Type, Type)>();
         }
     }
 }
