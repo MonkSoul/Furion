@@ -5,7 +5,7 @@ namespace Fur.Application.Persons
     public class CityDto
     {
         /// <summary>
-        /// 逐渐
+        /// 主键
         /// </summary>
         public int Id { get; set; }
 

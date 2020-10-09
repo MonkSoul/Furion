@@ -41,6 +41,9 @@ namespace Fur
             {
                 AutoAddJsonFile(configurationBuilder);
                 AutoAddXmlFile(configurationBuilder);
+
+                // 存储配置
+                InternalApp.ConfigurationBuilder = configurationBuilder;
             });
 
             // 自动注入 AddApp() 服务
@@ -49,8 +52,8 @@ namespace Fur
                 // 注册 Startup 过滤器
                 services.AddTransient<IStartupFilter, StartupFilter>();
 
-                // 存储服务提供器
-                App.InternalServices = services;
+                // 添加全局配置和存储服务提供器
+                InternalApp.InternalServices = services;
 
                 // 初始化应用服务
                 services.AddApp();
@@ -85,12 +88,12 @@ namespace Fur
         /// <param name="configurationBuilder"></param>
         private static void AutoAddXmlFile(IConfigurationBuilder configurationBuilder)
         {
-            // 获取程序目录下的所有配置文件
+            // 获取程序目录下的所有配置文件，必须以 .config.xml 结尾
             var xmlNames = Directory.GetFiles(AppContext.BaseDirectory, "*.xml", SearchOption.TopDirectoryOnly)
                 .Union(
                     Directory.GetFiles(Directory.GetCurrentDirectory(), "*.xml", SearchOption.TopDirectoryOnly)
                 )
-                .Where(u => !App.Assemblies.Any(a => a.GetName().Name.Equals(Path.GetFileNameWithoutExtension(u))));
+                .Where(u => u.EndsWith(".config.xml", StringComparison.OrdinalIgnoreCase));
 
             if (!xmlNames.Any()) return;
 

@@ -36,7 +36,7 @@
         </member>
         <member name="P:Fur.Application.Persons.CityDto.Id">
             <summary>
-            逐渐
+            主键
             </summary>
         </member>
         <member name="P:Fur.Application.Persons.CityDto.Name">

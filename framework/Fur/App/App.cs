@@ -61,7 +61,7 @@ namespace Fur
         /// <summary>
         /// 瞬时服务提供器，每次都是不一样的实例
         /// </summary>
-        public static IServiceProvider Services => InternalServices.BuildServiceProvider();
+        public static IServiceProvider Services => InternalApp.InternalServices.BuildServiceProvider();
 
         /// <summary>
         /// 应用服务提供器
@@ -78,7 +78,7 @@ namespace Fur
         /// <summary>
         /// 全局配置选项
         /// </summary>
-        public static IConfiguration Configuration => GetService<IConfiguration>();
+        public static readonly IConfiguration Configuration;
 
         /// <summary>
         /// 应用环境
@@ -96,11 +96,6 @@ namespace Fur
         public static readonly IEnumerable<Type> CanBeScanTypes;
 
         /// <summary>
-        /// 应用服务
-        /// </summary>
-        internal static IServiceCollection InternalServices;
-
-        /// <summary>
         /// 应用所有启动配置对象
         /// </summary>
         internal static ConcurrentBag<AppStartup> Startups;
@@ -110,6 +105,8 @@ namespace Fur
         /// </summary>
         static App()
         {
+            Configuration = InternalApp.ConfigurationBuilder.Build();
+
             Assemblies = GetAssemblies();
             CanBeScanTypes = Assemblies.SelectMany(u => u.GetTypes()
                 .Where(u => u.IsPublic && !u.IsDefined(typeof(SkipScanAttribute), false)));
@@ -324,21 +321,51 @@ namespace Fur
         /// 获取应用有效程序集
         /// </summary>
         /// <returns>IEnumerable<Assembly></returns>
-        private static IEnumerable<Assembly> GetAssemblies()
+        internal static IEnumerable<Assembly> GetAssemblies()
         {
             // 需排除的程序集后缀
             var excludeAssemblyNames = new string[] {
                 "Database.Migrations"
             };
 
-            var dependencyContext = DependencyContext.Default;
+            // 加载外部配置
+            var settings = GetOptions<AppSettingsOptions>("AppSettings") ?? new AppSettingsOptions { };
 
+            var dependencyContext = DependencyContext.Default;
             // 读取项目程序集或 Fur 官方发布的包，或手动添加引用的dll
-            return dependencyContext.CompileLibraries
+            var scanAssemblies = dependencyContext.CompileLibraries
                 .Where(u => (u.Type == "project" && !excludeAssemblyNames.Any(j => u.Name.EndsWith(j)))
                     || (u.Type == "package" && u.Name.StartsWith(nameof(Fur)))
-                    || (u.Type == "reference"))
-                .Select(u => AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(u.Name)));
+                    || (settings.EnabledReferenceAssemblyScan == true && u.Type == "reference"))    // 判断是否启用引用程序集扫描
+                .Select(u => AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(u.Name)))
+                .ToList();
+
+            // 加载 `appsetting.json` 配置的外部程序集
+            if (settings.ExternalAssemblies != null && settings.ExternalAssemblies.Any())
+            {
+                foreach (var externalAssembly in settings.ExternalAssemblies)
+                {
+                    scanAssemblies.Add(Assembly.Load(externalAssembly));
+                }
+            }
+
+            return scanAssemblies;
         }
+    }
+
+    /// <summary>
+    /// 内部 App 副本
+    /// </summary>
+    internal static class InternalApp
+    {
+        /// <summary>
+        /// 应用服务
+        /// </summary>
+        internal static IServiceCollection InternalServices;
+
+        /// <summary>
+        /// 全局配置构建器
+        /// </summary>
+        internal static IConfigurationBuilder ConfigurationBuilder;
     }
 }
