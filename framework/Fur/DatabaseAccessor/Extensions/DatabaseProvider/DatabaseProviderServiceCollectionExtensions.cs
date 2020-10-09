@@ -61,14 +61,14 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="dynamicDbContext">动态数据库上下文，用于分表分库用</param>
         /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddDbPool<TDbContext>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionBuilder, int poolSize = 100, bool dynamicDbContext = false, params IInterceptor[] interceptors)
+        public static IServiceCollection AddDbPool<TDbContext>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionBuilder, int poolSize = 100, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
             if (Penetrates.DbContextWithLocatorCached.ContainsKey(typeof(MasterDbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddDbPool<TDbContext, MasterDbContextLocator>(optionBuilder, poolSize, dynamicDbContext, interceptors);
+            return services.AddDbPool<TDbContext, MasterDbContextLocator>(optionBuilder, poolSize, interceptors);
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="dynamicDbContext">动态数据库上下文，用于分表分库用</param>
         /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddDbPool<TDbContext, TDbContextLocator>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionBuilder, int poolSize = 100, bool dynamicDbContext = false, params IInterceptor[] interceptors)
+        public static IServiceCollection AddDbPool<TDbContext, TDbContextLocator>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionBuilder, int poolSize = 100, params IInterceptor[] interceptors)
             where TDbContext : DbContext
             where TDbContextLocator : class, IDbContextLocator
         {
@@ -150,14 +150,14 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="interceptors">拦截器</param>
         /// <param name="dynamicDbContext">动态数据库上下文，用于分表分库用</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddDb<TDbContext>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionBuilder, bool dynamicDbContext = false, params IInterceptor[] interceptors)
+        public static IServiceCollection AddDb<TDbContext>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionBuilder, params IInterceptor[] interceptors)
             where TDbContext : DbContext
         {
             // 避免重复注册默认数据库上下文
             if (Penetrates.DbContextWithLocatorCached.ContainsKey(typeof(MasterDbContextLocator))) throw new InvalidOperationException("Prevent duplicate registration of default DbContext");
 
             // 注册数据库上下文
-            return services.AddDb<TDbContext, MasterDbContextLocator>(optionBuilder, dynamicDbContext, interceptors);
+            return services.AddDb<TDbContext, MasterDbContextLocator>(optionBuilder, interceptors);
         }
 
         /// <summary>
@@ -195,7 +195,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="dynamicDbContext">动态数据库上下文，用于分表分库用</param>
         /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddDb<TDbContext, TDbContextLocator>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionBuilder, bool dynamicDbContext = false, params IInterceptor[] interceptors)
+        public static IServiceCollection AddDb<TDbContext, TDbContextLocator>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionBuilder, params IInterceptor[] interceptors)
             where TDbContext : DbContext
             where TDbContextLocator : class, IDbContextLocator
         {

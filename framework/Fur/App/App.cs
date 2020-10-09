@@ -328,10 +328,11 @@ namespace Fur
                 "Database.Migrations"
             };
 
-            // 加载外部配置
+            // 读取应用配置
             var settings = GetOptions<AppSettingsOptions>("AppSettings") ?? new AppSettingsOptions { };
 
             var dependencyContext = DependencyContext.Default;
+
             // 读取项目程序集或 Fur 官方发布的包，或手动添加引用的dll
             var scanAssemblies = dependencyContext.CompileLibraries
                 .Where(u => (u.Type == "project" && !excludeAssemblyNames.Any(j => u.Name.EndsWith(j)))
