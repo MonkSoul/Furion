@@ -13,6 +13,7 @@
 
 using Fur;
 using Fur.DependencyInjection;
+using Mapster;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Concurrent;
@@ -35,7 +36,41 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>服务集合</returns>
         public static IServiceCollection AddDependencyInjection(this IServiceCollection services)
         {
+            // 添加外部程序集配置
+            services.AddConfigurableOptions<DependencyInjectionSettingsOptions>();
+
             services.AddAutoScanInjection();
+            return services;
+        }
+
+        /// <summary>
+        /// 添加接口代理
+        /// </summary>
+        /// <typeparam name="TDispatchProxy">代理类</typeparam>
+        /// <typeparam name="TIDispatchProxy">被代理接口依赖</typeparam>
+        /// <param name="services">服务集合</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddScopedDispatchProxyForInterface<TDispatchProxy, TIDispatchProxy>(this IServiceCollection services)
+            where TDispatchProxy : DispatchProxy, IDispatchProxy
+            where TIDispatchProxy : class
+        {
+            // 注册代理类
+            services.AddScoped<DispatchProxy, TDispatchProxy>();
+
+            // 代理依赖接口类型
+            var proxyType = typeof(TDispatchProxy);
+            var typeDependency = typeof(TIDispatchProxy);
+
+            // 获取所有的代理接口类型
+            var dispatchProxyInterfaceTypes = App.CanBeScanTypes
+                .Where(u => typeDependency.IsAssignableFrom(u) && u.IsInterface && u != typeDependency);
+
+            // 注册代理类型
+            foreach (var interfaceType in dispatchProxyInterfaceTypes)
+            {
+                AddScopedDispatchProxy(services, default, proxyType, interfaceType, false);
+            }
+
             return services;
         }
 
@@ -44,7 +79,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services">服务集合</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddAutoScanInjection(this IServiceCollection services)
+        private static IServiceCollection AddAutoScanInjection(this IServiceCollection services)
         {
             // 查找所有需要依赖注入的类型
             var injectTypes = App.CanBeScanTypes
@@ -81,39 +116,11 @@ namespace Microsoft.Extensions.DependencyInjection
                 TypeNamedCollection.TryAdd(typeNamed, type);
             }
 
+            // 注册外部服务（appsetting.json）
+            RegisterExternalServices(services);
+
             // 注册命名服务
             RegisterNamed(services);
-
-            return services;
-        }
-
-        /// <summary>
-        /// 添加接口代理
-        /// </summary>
-        /// <typeparam name="TDispatchProxy">代理类</typeparam>
-        /// <typeparam name="TIDispatchProxy">被代理接口依赖</typeparam>
-        /// <param name="services">服务集合</param>
-        /// <returns>服务集合</returns>
-        public static IServiceCollection AddScopedDispatchProxyForInterface<TDispatchProxy, TIDispatchProxy>(this IServiceCollection services)
-            where TDispatchProxy : DispatchProxy, IDispatchProxy
-            where TIDispatchProxy : class
-        {
-            // 注册代理类
-            services.AddScoped<DispatchProxy, TDispatchProxy>();
-
-            // 代理依赖接口类型
-            var proxyType = typeof(TDispatchProxy);
-            var typeDependency = typeof(TIDispatchProxy);
-
-            // 获取所有的代理接口类型
-            var dispatchProxyInterfaceTypes = App.CanBeScanTypes
-                .Where(u => typeDependency.IsAssignableFrom(u) && u.IsInterface && u != typeDependency);
-
-            // 注册代理类型
-            foreach (var interfaceType in dispatchProxyInterfaceTypes)
-            {
-                AddScopedDispatchProxy(services, default, proxyType, interfaceType, false);
-            }
 
             return services;
         }
@@ -398,6 +405,29 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
+        /// 注册外部服务
+        /// </summary>
+        /// <param name="services"></param>
+        private static void RegisterExternalServices(IServiceCollection services)
+        {
+            var externalServices = App.GetOptions<DependencyInjectionSettingsOptions>();
+            if (externalServices is { Definitions: not null })
+            {
+                foreach (var externalService in externalServices.Definitions)
+                {
+                    var injectionAttribute = externalService.Adapt<InjectionAttribute>();
+                    // 加载代理拦截
+                    if (!string.IsNullOrEmpty(externalService.Proxy)) injectionAttribute.Proxy = LoadStringType(externalService.Proxy);
+
+                    RegisterService(services, externalService.RegisterType,
+                        LoadStringType(externalService.Service),
+                        injectionAttribute,
+                        new[] { LoadStringType(externalService.Interface) });
+                }
+            }
+        }
+
+        /// <summary>
         /// 修复泛型类型注册类型问题
         /// </summary>
         /// <param name="type">类型</param>
@@ -419,6 +449,18 @@ namespace Microsoft.Extensions.DependencyInjection
             return !type.IsDefined(typeof(InjectionAttribute), true)
                 ? 0
                 : type.GetCustomAttribute<InjectionAttribute>(true).Order;
+        }
+
+        /// <summary>
+        /// 加载字符串类型
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        private static Type LoadStringType(string str)
+        {
+            var typeDefinitions = str.Split(";");
+            var assembly = App.Assemblies.First(u => u.GetName().Name == typeDefinitions[0]);
+            return assembly.GetType(typeDefinitions[1], true, true);
         }
 
         /// <summary>

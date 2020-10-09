@@ -6,32 +6,18 @@
 // 框架作者：百小僧
 // 框架版本：1.0.0
 // 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur
-// 				    Github：https://github.com/monksoul/Fur
+// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
+// 				    Github：https://github.com/monksoul/Fur 
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
-namespace Fur.DependencyInjection
+namespace Fur.Application
 {
-    /// <summary>
-    /// 注册类型
-    /// </summary>
-    [SkipScan]
-    public enum RegisterType
+    public interface ITestService
     {
-        /// <summary>
-        /// 瞬时
-        /// </summary>
-        Transient,
+    }
 
-        /// <summary>
-        /// 作用域
-        /// </summary>
-        Scoped,
-
-        /// <summary>
-        /// 单例
-        /// </summary>
-        Singleton
+    public class TestService : ITestService
+    {
     }
 }

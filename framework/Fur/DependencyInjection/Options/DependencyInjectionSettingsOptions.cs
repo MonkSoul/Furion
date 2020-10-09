@@ -11,27 +11,28 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
+using Fur.ConfigurableOptions;
+using Microsoft.Extensions.Configuration;
+using System;
+
 namespace Fur.DependencyInjection
 {
-    /// <summary>
-    /// 注册类型
-    /// </summary>
-    [SkipScan]
-    public enum RegisterType
+    [OptionsSettings("AppSettings:DependencyInjectionSettings")]
+    public sealed class DependencyInjectionSettingsOptions : IConfigurableOptions<DependencyInjectionSettingsOptions>
     {
         /// <summary>
-        /// 瞬时
+        /// 外部注册定义
         /// </summary>
-        Transient,
+        public ExternalService[] Definitions { get; set; }
 
         /// <summary>
-        /// 作用域
+        /// 后期配置
         /// </summary>
-        Scoped,
-
-        /// <summary>
-        /// 单例
-        /// </summary>
-        Singleton
+        /// <param name="options"></param>
+        /// <param name="configuration"></param>
+        public void PostConfigure(DependencyInjectionSettingsOptions options, IConfiguration configuration)
+        {
+            options.Definitions ??= Array.Empty<ExternalService>();
+        }
     }
 }

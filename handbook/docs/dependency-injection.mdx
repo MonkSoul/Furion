@@ -457,7 +457,47 @@ namespace Fur.Web.Entry.Controllers
 
 ## 11.8 `[Injection]` 特性配置
 
+`Fur` 框架提供 `[Injection]` 特性可以改变注册方式，同时还能配置 `AOP` 拦截。
+
+`[Injection]` 提供以下配置支持：
+
+- `Action`：配置注册行为，`InjectionActions` 类型，可选值：
+  - `Add`：**默认值**，表示无限制添加注册服务，该方式支持一个接口多个实现
+  - `TryAdd`：表示注册已存在则跳过注册
+- `Pattern`：配置注册选项，`InjectionPatterns` 类型，可选值：
+  - `Self`：只注册自己
+  - `FirstInterface`：只注册第一个接口
+  - `SelfWithFirstInterface`：注册自己和第一个接口，**默认值**
+  - `ImplementedInterfaces`：注册所有接口
+  - `All`：注册自己包括所有接口
+- `Named`：配置实例别名，通过别名可以解析接口，如同一个接口有多个实现，那么可以通过别名解析不同的实现，默认只为实现类的类名
+- `Order`：注册排序，数字越大，则越在最后注册，默认 `0`
+- `Proxy`：配置代理拦截类型，也就是 `AOP`，**代理类型必须继承 `DispatchProxy` 类和 `IDispatchProxy` 接口**，无默认值
+
 ## 11.9 自定义高级注册
+
+默认情况下，`Fur` 提供的注册方式可以满足大多数依赖注入的需求，如有特别注册需求，只需要在 `Startup` 中配置即可，如：
+
+```cs
+services.AddScoped(typeof(ISpecService), provider = > {
+    // 自定义任何创建实例的方式
+    var instance = new SpecService();  // 或者可以通过 AOP插件返回代理实例
+
+    return instance;
+});
+```
+
+:::note 补充说明
+
+`Fur` 框架中的 `AppDbContext` 数据库上下文哈有 `ISqlDispatchProxy` 都是通过这种方式创建的。
+
+:::
+
+:::tip 知识导航
+
+想了解更多自定义高级中注册，可查阅 【[ASP.NET Core 依赖注入](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0)】 官方文档。
+
+:::
 
 ## 11.10 `appsettings.json` 配置注册
 
