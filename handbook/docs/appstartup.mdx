@@ -130,7 +130,7 @@ namespace Fur.EntityFramework.Core
 
 默认情况下，`AppStartup` 配置顺序由所在程序集的名称进行正序调用，如果我们需要配置执行顺序，只需要在 `AppStartup` 派生类中贴 `[AppStartup(order)]` 特性即可。
 
-`order` 数值越大，约在前面调用，如：
+`order` 数值越大，越在前面调用，如：
 
 ```cs {5}
 using Microsoft.Extensions.DependencyInjection;
