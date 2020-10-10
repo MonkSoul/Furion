@@ -179,7 +179,7 @@ namespace Fur.EntityFramework.Core
 
         public Guid? GetTenantId()
         {
-            return base.Tenant.TenantId;
+            base.Tenant?.TenantId ?? Guid.Empty;
         }
     }
 }
@@ -208,7 +208,7 @@ namespace Fur.EntityFramework.Core
 
         public Guid? GetTenantId()
         {
-            return base.Tenant.TenantId;
+            base.Tenant?.TenantId ?? Guid.Empty;
         }
 
         public void OnCreating(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator)
@@ -246,7 +246,7 @@ namespace Fur.EntityFramework.Core
 
         public Guid? GetTenantId()
         {
-            return base.Tenant.TenantId;
+            base.Tenant?.TenantId ?? Guid.Empty;
         }
 
         public void OnCreating(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator)
@@ -412,7 +412,7 @@ namespace Fur.EntityFramework.Core
 
         public string GetDatabaseConnectionString()
         {
-            return base.Tenant.ConnectionString;
+            return base.Tenant?.ConnectionString;
         }
     }
 }
@@ -443,7 +443,7 @@ namespace Fur.EntityFramework.Core
 
         public string GetDatabaseConnectionString()
         {
-            return base.Tenant.ConnectionString;
+            return base.Tenant?.ConnectionString;
         }
     }
 }
@@ -575,7 +575,7 @@ namespace Fur.EntityFramework.Core
 
         public string GetSchemaName()
         {
-            return base.Tenant.Schema;
+            return base.Tenant?.Schema;
         }
     }
 }
@@ -588,14 +588,14 @@ namespace Fur.EntityFramework.Core
 ```cs
 public string GetSchemaName()
 {
-    return base.Tenant.Schema?? "租户一Schema";
+    return base.Tenant?.Schema?? "租户一Schema";
 }
 ```
 
 ```cs
 public string GetSchemaName()
 {
-    return base.Tenant.Schema?? "租户二Schema";
+    return base.Tenant?.Schema?? "租户二Schema";
 }
 ```
 
