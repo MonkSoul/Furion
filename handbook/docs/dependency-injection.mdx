@@ -552,13 +552,13 @@ services.AddScoped(typeof(ISpecService), provider = > {
 
 :::
 
-## 11.12 注册顺序和优先级
+## 11.11 注册顺序和优先级
 
 `Fur` 框架中，默认注册顺序是按照程序集扫描顺序进行注册，如果需要改变注册顺序，可通过 `[Injection(Order)]` 特性指定，`Order` 值越大，则越在最后注册。
 
 另外 `appsettings.json` 配置的优先级最大，`appsettings.json` 配置的注册会覆盖之前所有注册。
 
-## 11.13 `Aop` 注册拦截
+## 11.12 `Aop` 注册拦截
 
 `AOP` 是非常重要的思想和技术，也就是 `面向切面` 编程，可以让我们在不改动原来代码的情况下进行动态篡改业务代码。
 
@@ -641,7 +641,7 @@ public class TestService: ITestService, ITransient
 
 之后 `SayHello` 方法被调用的时候就可以实现动态拦截了，比如这里写日志。
 
-### 11.13.1 `AOP` 的作用
+### 11.12.1 `AOP` 的作用
 
 这种面向切面的能力（动态拦截/代理）可以实现很多很多功能，如：
 
@@ -655,7 +655,7 @@ public class TestService: ITestService, ITransient
 还可以做更多更多的事情。
 
 
-## 11.14 反馈与建议
+## 11.13 反馈与建议
 
 :::note 与我们交流
 
