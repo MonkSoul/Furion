@@ -268,7 +268,7 @@ namespace Fur.EntityFramework.Core
                 {
                     // 自动设置租户Id
                     case EntityState.Added:
-                        entity.Property(nameof(Entity.TenantId)).CurrentValue = base.TenantId;
+                        entity.Property(nameof(Entity.TenantId)).CurrentValue = GetTenantId();
                         break;
                     // 排除租户Id
                     case EntityState.Modified:
