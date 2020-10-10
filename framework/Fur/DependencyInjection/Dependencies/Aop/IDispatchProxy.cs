@@ -28,6 +28,6 @@ namespace Fur.DependencyInjection
         /// <summary>
         /// 服务提供器
         /// </summary>
-        IServiceProvider ServiceProvider { get; set; }
+        IServiceProvider Services { get; set; }
     }
 }

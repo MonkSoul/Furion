@@ -40,7 +40,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 服务提供器
         /// </summary>
-        public IServiceProvider ServiceProvider { get; set; }
+        public IServiceProvider Services { get; set; }
 
         /// <summary>
         /// 拦截
@@ -243,8 +243,8 @@ namespace Fur.DatabaseAccessor
         private DbContext GetDbContext(Type dbContextLocator = null)
         {
             // 解析数据库上下文池和数据库上下文解析器
-            var dbContextPool = ServiceProvider.GetService<IDbContextPool>();
-            var dbContextResolver = ServiceProvider.GetService<Func<Type, IScoped, DbContext>>();
+            var dbContextPool = Services.GetService<IDbContextPool>();
+            var dbContextResolver = Services.GetService<Func<Type, IScoped, DbContext>>();
 
             // 解析数据库上下文
             var dbContext = dbContextResolver(dbContextLocator ?? typeof(MasterDbContextLocator), default);
