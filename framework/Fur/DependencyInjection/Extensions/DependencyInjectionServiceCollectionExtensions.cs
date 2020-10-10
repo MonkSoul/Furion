@@ -413,7 +413,9 @@ namespace Microsoft.Extensions.DependencyInjection
             var externalServices = App.GetOptions<DependencyInjectionSettingsOptions>();
             if (externalServices is { Definitions: not null })
             {
-                foreach (var externalService in externalServices.Definitions)
+                // 排序
+                var extServices = externalServices.Definitions.OrderBy(u => u.Order);
+                foreach (var externalService in extServices)
                 {
                     var injectionAttribute = externalService.Adapt<InjectionAttribute>();
                     // 加载代理拦截

@@ -501,9 +501,161 @@ services.AddScoped(typeof(ISpecService), provider = > {
 
 ## 11.10 `appsettings.json` 配置注册
 
-## 11.11 `Aop` 注册拦截
+除了在代码中实现依赖注入，也可以实现动态依赖注入，无需修改代码或重新编译即可实现热拔插（插件）效果。配置如下：
 
-## 11.12 反馈与建议
+```json {3}
+{
+  "AppSettings": {
+    "DependencyInjectionSettings": {
+      "Definitions": [
+        {
+          "Interface": "Fur.Application;Fur.Application.ITestService",
+          "Service": "Fur.Application;Fur.Application.TestService",
+          "RegisterType": "Transient",
+          "Action": "Add",
+          "Pattern": "SelfWithFirstInterface",
+          "Named": "TestService",
+          "Order": 1,
+          "Proxy": "Fur.Application;Fur.Application.LogDispathProxy"
+        }
+      ]
+    }
+  }
+}
+```
+
+配置说明：
+
+- `DependencyInjectionSettings`：依赖注入配置根节点
+  - `Definitions`：动态依赖注入配置节点，`ExternalService` 数组类型
+    - `ExternalService`：配置单个依赖注入信息
+      - `Interface`：配置依赖接口信息，格式：`程序集名称;接口完整名称`，如：`Fur.Application;Fur.Application.ITestService`
+      - `Service`：配置接口实现信息，格式同上
+      - `RegisterType`：配置依赖注入的对象生存期，取值：`Transient`，`Scoped`，`Singleton`
+      - `Action`：注册行为，可选值：`Add`，`TryAdd`，参见 [#118-injection-特性配置](#118-injection-特性配置)
+      - `Pattern`：注册选项，参见 [#118-injection-特性配置](#118-injection-特性配置)
+      - `Named`：注册别名，参见 [#118-injection-特性配置](#118-injection-特性配置)
+      - `Order`：注册排序，参见 [#118-injection-特性配置](#118-injection-特性配置)
+      - `Proxy`：配置代理拦截，，格式：`程序集名称;代理类完整名称`，参见 [#118-injection-特性配置](#118-injection-特性配置)
+
+:::important 关于外部程序集
+
+如果动态注入的对象是外部程序集，那么首先先注册外部程序集：
+
+```json
+{
+  "AppSettings": {
+    "ExternalAssemblies": ["外部程序集名称", "Taobao.Pay"] // 支持多个
+  }
+}
+```
+
+:::
+
+## 11.12 注册顺序和优先级
+
+`Fur` 框架中，默认注册顺序是按照程序集扫描顺序进行注册，如果需要改变注册顺序，可通过 `[Injection(Order)]` 特性指定，`Order` 值越大，则越在最后注册。
+
+另外 `appsettings.json` 配置的优先级最大，`appsettings.json` 配置的注册会覆盖之前所有注册。
+
+## 11.13 `Aop` 注册拦截
+
+`AOP` 是非常重要的思想和技术，也就是 `面向切面` 编程，可以让我们在不改动原来代码的情况下进行动态篡改业务代码。
+
+在 `Fur` 框架中，实现 `Aop` 非常简单，如：
+
+假设我们有 `ITestService` 和 `TestService` 两个类型：
+
+```cs
+public class ITestService
+{
+    string SayHello(string word);
+}
+```
+
+```cs
+public class TestService: ITestService, ITransient
+{
+    public string SayHello(string word)
+    {
+        return $"Hello {word}";
+    }
+}
+```
+
+现在我们有一个需求，我们希望调用 `SayHello` 的时候可以记录日志和权限控制（之前没有考虑到的需求）。
+
+这个时候我们只需要创建一个代理类即可，如 `LogDispatchProxy` 
+
+```cs {1,3,7,25}
+using Fur.DependencyInjection;
+using System;
+using System.Reflection;
+
+namespace Fur.Application
+{
+    public class LogDispatchProxy : DispatchProxy, IDispatchProxy
+    {
+        /// <summary>
+        /// 当前服务实例
+        /// </summary>
+        public object Target { get; set; }
+
+        /// <summary>
+        /// 服务提供器，可以用来解析服务，如：ServiceProvider.GetService()
+        /// </summary>
+        public IServiceProvider ServiceProvider { get; set; }
+
+        /// <summary>
+        /// 拦截方法
+        /// </summary>
+        /// <param name="targetMethod"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        protected override object Invoke(MethodInfo targetMethod, object[] args)
+        {
+            Console.WriteLine("SayHello 方法被调用了");
+
+            var result = targetMethod.Invoke(targetMethod, args);
+
+            Console.WriteLine("SayHello 方法返回值：" + result);
+
+            return result;
+        }
+    }
+}
+```
+
+之后我们只需要为 `TestService` 增加 `[Injection]` 特性即可，如：
+
+```cs {1}
+[Injection(Proxy = typeof(LogDispatchProxy))]
+public class TestService: ITestService, ITransient
+{
+    public string SayHello(string word)
+    {
+        return $"Hello {word}";
+    }
+}
+```
+
+之后 `SayHello` 方法被调用的时候就可以实现动态拦截了，比如这里写日志。
+
+### 11.13.1 `AOP` 的作用
+
+这种面向切面的能力（动态拦截/代理）可以实现很多很多功能，如：
+
+- 动态日志记录
+- 动态修改参数
+- 动态修改返回值
+- 动态方法重定向
+- 动态修改代码逻辑
+- 动态实现异常监听
+
+还可以做更多更多的事情。
+
+
+## 11.14 反馈与建议
 
 :::note 与我们交流
 
