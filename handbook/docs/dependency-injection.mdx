@@ -616,7 +616,7 @@ namespace Fur.Application
         {
             Console.WriteLine("SayHello 方法被调用了");
 
-            var result = targetMethod.Invoke(targetMethod, args);
+            var result = targetMethod.Invoke(Target, args);
 
             Console.WriteLine("SayHello 方法返回值：" + result);
 
