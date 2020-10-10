@@ -158,7 +158,7 @@ var persons = repository.Where(u => u.Name == "Fur",
                                  u => u.Name == "MonkSoul");
 
 // 示例七
-var persons = repository.Where(u => u.Id > 10).Where(u => u.Name.Equals("Fur"));
+var persons = repository.Where(u => u.Id > 10).Where(u => u.Name.Equals("Fur"))
                         .Where(age > 18, u => u.Name.Containes("百小僧"))
                         .Where(u => u.Name == "Fur",
                                  u => u.Name == "百小僧",
@@ -169,7 +169,7 @@ var persons = repository.Where((age > 18, u => u.Name == "Fur"),
                                    (!string.IsNullOrEmpty(name), u => u.Id > 10));
 
 // 示例九
-var persons = repository.Where(u => u.Id > 10).Where(u => u.Name.Equals("Fur"));
+var persons = repository.Where(u => u.Id > 10).Where(u => u.Name.Equals("Fur"))
                         .Where(age > 18, u => u.Name.Containes("百小僧"))
                         .Where(u => u.Name == "Fur",
                                  u => u.Name == "百小僧",
