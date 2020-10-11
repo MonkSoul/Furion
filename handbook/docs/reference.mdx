@@ -1,0 +1,64 @@
+---
+id: reference
+title: 1.4 项目引用
+sidebar_label: 1.4 项目引用
+---
+
+## 1.4.1 关于项目引用
+
+`Fur` 框架默认采用多层项目设计架构，每一个项目层的依赖分别是：
+
+- `Fur`：核心层，无项目依赖
+- `Fur.Application`：添加 `Fur.Core` 引用
+- `Fur.Core`：添加 `Fur` 引用
+- `Fur.Database.Migrations`：添加 `Fur.EntityFramework.Core` 引用
+- `Fur.EntityFramework.Core`：添加 `Fur.Core` 引用
+- `Fur.Web.Core`：添加 `Fur.Application`，`Fur.Database.Migrations`，`Fur.EntityFramework.Core` 引用
+- `Fur.Web.Entry`：添加 `Fur.Web.Core` 引用 和 `Microsoft.EntityFrameworkCore.Tools` 包
+
+## 1.4.2 创建项目注意事项
+
+`Fur` 框架采用最新的 `.NET 5` 共享包设计方式，所以，所有新建的 `项目` 都需要修改 `.csproj` 文件，并添加以下代码：
+
+```xml title="Fur.Core\Fur.Core.csproj"
+<ItemGroup>
+  <FrameworkReference Include="Microsoft.AspNetCore.App" />
+</ItemGroup>
+```
+
+完整代码如下：
+
+```xml {17-19}
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>Fur.Core.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fur.Core.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fur\Fur.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+</Project>
+
+```
+
+所有新建项目都需添加 `上述高亮代码`，方可使用 `Fur` 全部功能。
+
+## 1.4.3 反馈与建议
+
+:::note 与我们交流
+
+给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+
+:::

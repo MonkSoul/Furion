@@ -304,16 +304,17 @@ namespace Fur.Web.Core
 
 ## 3.6 神奇的 `Inject()`
 
-`Inject()` 方法是 `Fur` 框架提供的最小侵入式的方法，可以让任何 `ASP.NET Core` Web项目瞬间支持所有 `Fur` 框架特性。
+`Inject()` 方法是 `Fur` 框架提供的最小侵入式的方法，可以让任何 `ASP.NET Core` Web 项目瞬间支持所有 `Fur` 框架特性。
 
-我们创建了新的 `Web 项目`，只需要两个步骤即可：
+我们创建了新的 `Web 项目`，只需要三个步骤即可：
 
 - 添加 `Fur.Web.Core` 项目引用
 - 在 `Program.cs` 中调用即可
+- 将 `Startup.cs` 代码迁移到 `Fur.Web.Core` 项目的 `FurWebCoreStartup.cs` 中
 
 如：
 
-```cs {18}
+```cs {18} title="Fur.Web.Entry\Program.cs"
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -338,6 +339,32 @@ namespace Fur.Web.Entry
     }
 }
 ```
+
+```cs title="Fur.Web.Entry\Startup.cs"
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Fur.Web.Entry
+{
+    public class Startup
+    {
+        public void ConfigureServices(IServiceCollection services)
+        {
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+        }
+    }
+}
+```
+
+:::important `Startup.cs` 代码迁移
+
+只需要将 `ConfigureServices` 和 `Configure` 方法代码迁移到 `FurWebCoreStartup.cs` 中即可，而 `Startup.cs` 中两个方法留空即可。
+
+:::
 
 非常简单吧。我们后续创建任何 `MVC`，`RazorPages`，`Blazor` 项目只需要添加 `Fur.Web.Core` 引用和调用 `Inject()` 即可。
 

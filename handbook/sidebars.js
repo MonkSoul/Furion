@@ -3,7 +3,7 @@ module.exports = {
     {
       type: "category",
       label: "1. 框架介绍",
-      items: ["introduce", "source", "author"],
+      items: ["introduce", "author", "source", "reference"],
     },
     {
       type: "doc",
