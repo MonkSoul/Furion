@@ -8,11 +8,12 @@ sidebar_label: 9.24 数据库操作拦截器
 
 `Fur` 框架提供三种数据库操作拦截器，可以通过拦截器动态修该数据库连接字符串，动态修改sql，动态更改参数等操作。
 
-目前支持这三种拦截器：
+`Fur` 支持这四种拦截器：
 
 - `DbConnectionInterceptor`：数据库连接拦截器
 - `DbCommandInterceptor`：数据库执行 `Sql` 拦截器
 - `SaveChangesInterceptor`：提交到数据库拦截器
+- 在数据库上下文中重写 `SavedChangesEvent` 相关事件
 
 ## 9.24.2 支持拦截类型
 
@@ -253,6 +254,43 @@ namespace Fur.DatabaseAccessor
         public override Task SaveChangesFailedAsync(DbContextErrorEventData eventData, CancellationToken cancellationToken = default)
         {
             return base.SaveChangesFailedAsync(eventData, cancellationToken);
+        }
+    }
+}
+```
+
+### 9.24.2.4 `SavedChangesEvent` 拦截
+
+`Fur` 框架中为所有 `AppDbContext` 子类都提供了三个可重写的方法，这三个方法分别由三个事件触发：
+
+- `提交更改之前 SavingChanges 事件`：触发 `void SavingChangesEvent(object sender, SavingChangesEventArgs e)` 方法
+- `提交更改之后 SavedChanges 事件`：触发 `void SavedChangesEvent(object sender, SavedChangesEventArgs e)` 方法
+- `提交更改失败 SaveChangesFailed 事件`：触发 `void SaveChangesFailedEvent(object sender, SaveChangesFailedEventArgs e)` 方法
+
+通过这三个事件我们可以**在数据库做增、删、改的之后做拦截，比如设置创建时间、更新时间或其他默认操作**。
+
+如自动添加租户Id：
+
+```cs
+protected override void SavingChangesEvent(object sender, SavingChangesEventArgs e)
+{
+    // 获取当前事件对应上下文
+    var dbContext = sender as FurDbContext;
+    // 获取所有新增和更新的实体
+    var entities = dbContext.ChangeTracker.Entries()
+                .Where(u => u.State == EntityState.Added || u.State == EntityState.Modified);
+    foreach (var entity in entities)
+    {
+        switch (entity.State)
+        {
+            // 自动设置租户Id
+            case EntityState.Added:
+                entity.Property(nameof(Entity.TenantId)).CurrentValue = GetTenantId();
+                break;
+            // 排除租户Id
+            case EntityState.Modified:
+                entity.Property(nameof(Entity.TenantId)).IsModified = false;
+                break;
         }
     }
 }

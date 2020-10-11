@@ -20,6 +20,16 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 9.19.2 操作指南
 
+:::important 操作之前注意事项
+
+目前 `Fur Tools` 生成工具**默认不支持任何数据库**生成，所以如需生成特定数据库的代码，只需要在 `Fur.EntityFrameworkCore.Core` 安装对应的数据库包即可：
+
+各个数据库的包可查阅：[多数据库操作-数据库提供器对应包](dbcontext-multi-database#91811-数据库提供器对应包)
+
+另外，只有 `SqlServer` 数据库支持可视化 `GUI` 操作，其他的只能命令行操作。
+
+:::
+
 ### 9.19.2.1 打开 `程序包管理控制台`
 
 <img src={useBaseUrl("img/dbfirst1.png")} />
