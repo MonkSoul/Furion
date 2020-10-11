@@ -36,6 +36,16 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
  &"../tools/cli.ps1"
 ```
 
+:::important 关于数据库命名
+
+如果需要保持和数据库一模一样的命名，则使用 `-UseDatabaseNames` 参数指定，如：
+
+```cs
+ &"../tools/cli.ps1" -UseDatabaseNames
+```
+
+:::
+
 <img src={useBaseUrl("img/dbfirst3.png")} />
 
 :::important 等待输入
@@ -65,7 +75,7 @@ Fur Tools v1.0.0 您的输入是:
 
 <img src={useBaseUrl("img/dbfirst4.png")} />
 
-这时，`Fur Tools` 会自动将 `Fur.Web.Entry` 的 `appsetting.json` 配置数据库连接字符串自动加载进来，`appsetting.json` 配置代码：
+这时，`Fur Tools` 会自动查找所有数据库配置连接字符串的 `.json` 文件：
 
 ```json {12-13}
 {
@@ -321,6 +331,7 @@ PM>
 - `-CoreProject`：实体项目层名，默认 `Fur.Core`
 - `-DbContextLocators`：多数据库上下文定位器，默认 `MasterDbContextLocator`，支持多个，如：`MasterDbContextLocator,MySqlDbContextLocator`
 - `-Product`：解决方案默认前缀，如 `Fur`
+- `-UseDatabaseNames`：是否保持生成和数据库、表一致的名称
 
 ## 9.13.5 反馈与建议
 

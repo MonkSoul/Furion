@@ -18,6 +18,8 @@ Param(
     [string] $DbContextLocators,
     # 默认前缀
     [string]$Product
+    # 是否数据库命名
+    #[string]$UseDatabaseNames
 )
 
 $FurTools = "Fur Tools v1.0.0";
@@ -80,6 +82,12 @@ if ($DbContextLocators -eq $null -or $DbContextLocators -eq ""){
 
 if ($OutputDir -eq $null -or $OutputDir -eq ""){
     $OutputDir = "$rootPath\$CoreProject\Entities";
+}
+
+# 判断是否需要使用数据库命名
+$UseDatabaseNames = $false;
+if($args.Contains("-UseDatabaseNames")){
+    $UseDatabaseNames = $true;
 }
 
 # 输出工具广告
@@ -173,8 +181,8 @@ if($options -eq "G")
         $connectionDefine = [regex]::Matches($appsetting, '"ConnectionStrings"\s*.\s+\{(?<define>[\s\S]*?)\}');
         if($connectionDefine.Count -eq 0)
         {
-            Write-Warning "$FurTools 未找到 $settingsPath 中定义的数据库连接字符串！";
-            Write-Warning "$FurTools 程序终止！";
+            # Write-Warning "$FurTools 未找到 $settingsPath 中定义的数据库连接字符串！";
+            # Write-Warning "$FurTools 程序终止！";
             return;
         }
 
@@ -268,14 +276,16 @@ if($options -eq "G")
     $comboBox.Add_SelectedIndexChanged($comboBoxClickEventHandler);
     $baseSetting.Controls.Add($comboBox);
 
-    # 读取 Web 入口的 appsetting.json 配置的链接字符串
+    # 读取 所有配置文件
     # -----------------------------------------------------------------------------
     # [开始] 
-    # appsetting.json 内容
-    loadConnectionSettings("$rootPath\.\$EntryProject\appsettings.json");
-    
-    # dbsettings.json 内容
-    loadConnectionSettings("$rootPath\.\$Product.EntityFramework.Core\dbsettings.json");
+    $jsons = Get-ChildItem $rootPath -Include "*.json" -Recurse;
+    for ($i = 0; $i -le $jsons.Count - 1; $i++){
+        $json = $jsons[$i];
+        if(!($json.DirectoryName.Contains("bin") -or $json.DirectoryName.Contains("obj") -or $json.DirectoryName.Contains(".vscode"))){
+          loadConnectionSettings($json.FullName);
+        }
+    }
     # [结束] 
     # -----------------------------------------------------------------------------
 
@@ -399,11 +409,24 @@ else{
 Write-Output "$FurTools 正在编译解决方案代码......";
 
 if ($Tables.Count -eq 0){
-    Scaffold-DbContext Name=$ConnectionName $DbProvider -Context $Context -Namespace $CoreProject -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -Force;
+    if($UseDatabaseNames)
+    {
+        Scaffold-DbContext Name=$ConnectionName $DbProvider -Context $Context -Namespace $CoreProject -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -UseDatabaseNames -Force;
+    }
+    else{
+        Scaffold-DbContext Name=$ConnectionName $DbProvider -Context $Context -Namespace $CoreProject -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -Force;
+    }
 }
 else
 {
-    Scaffold-DbContext Name=$ConnectionName $DbProvider -Context $Context -Tables $Tables -Namespace $CoreProject -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -Force;
+    if($UseDatabaseNames)
+    {
+        Scaffold-DbContext Name=$ConnectionName $DbProvider -Context $Context -Tables $Tables -Namespace $CoreProject -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -UseDatabaseNames -Force;
+    }
+    else
+    {
+        Scaffold-DbContext Name=$ConnectionName $DbProvider -Context $Context -Tables $Tables -Namespace $CoreProject -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -Force;
+    }
 }
 
 Write-Output "$FurTools 编译成功！";
