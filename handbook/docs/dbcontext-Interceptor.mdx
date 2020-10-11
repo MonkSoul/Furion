@@ -6,7 +6,7 @@ sidebar_label: 9.24 数据库操作拦截器
 
 ## 9.24.1 数据库拦截器
 
-`Fur` 框架提供三种数据库操作拦截器，可以通过拦截器动态修该数据库连接字符串，动态修改sql，动态更改参数等操作。
+`Fur` 框架提供四种数据库操作拦截器，可以通过拦截器动态修该数据库连接字符串，动态修改sql，动态更改参数等操作。
 
 `Fur` 支持这四种拦截器：
 
@@ -267,7 +267,7 @@ namespace Fur.DatabaseAccessor
 - `提交更改之后 SavedChanges 事件`：触发 `void SavedChangesEvent(object sender, SavedChangesEventArgs e)` 方法
 - `提交更改失败 SaveChangesFailed 事件`：触发 `void SaveChangesFailedEvent(object sender, SaveChangesFailedEventArgs e)` 方法
 
-通过这三个事件我们可以**在数据库做增、删、改的之后做拦截，比如设置创建时间、更新时间或其他默认操作**。
+通过这三个事件我们可以**在数据库做增、删、改时候做拦截，比如设置创建时间、更新时间或其他默认操作**。
 
 如自动添加租户Id：
 
