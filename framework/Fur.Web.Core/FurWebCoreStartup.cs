@@ -13,12 +13,8 @@ namespace Fur.Web.Core
         {
             services.AddCorsAccessor();
 
-            services.AddSpecificationDocuments();
-            services.AddControllers()
-                       .AddDynamicApiControllers()
-                       .AddDataValidation()
-                       .AddFriendlyException()
-                       .AddUnifyResult<RESTfulResult, RESTfulResultProvider>();
+            services.AddControllers().AddInject()
+                .AddUnifyResult<RESTfulResult, RESTfulResultProvider>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -37,7 +33,7 @@ namespace Fur.Web.Core
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseSpecificationDocuments();
+            app.UseInject();
 
             app.UseEndpoints(endpoints =>
             {

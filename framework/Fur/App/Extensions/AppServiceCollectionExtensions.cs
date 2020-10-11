@@ -6,8 +6,8 @@
 // 框架作者：百小僧
 // 框架版本：1.0.0-rc1
 // 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
-// 				    Github：https://github.com/monksoul/Fur 
+// 源码地址：Gitee：https://gitee.com/monksoul/Fur
+// 				    Github：https://github.com/monksoul/Fur
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
@@ -23,12 +23,30 @@ namespace Microsoft.Extensions.DependencyInjection
     /// 应用服务集合拓展类（由框架内部调用）
     /// </summary>
     [SkipScan]
-    internal static class AppServiceCollectionExtensions
+    public static class AppServiceCollectionExtensions
     {
         /// <summary>
         /// MiniProfiler 插件路径
         /// </summary>
         private const string MiniProfilerRouteBasePath = "/index-mini-profiler";
+
+        /// <summary>
+        /// 注入基础配置
+        /// </summary>
+        /// <param name="mvcBuilder">Mvc构建起</param>
+        /// <returns>IMvcBuilder</returns>
+        public static IMvcBuilder AddInject(this IMvcBuilder mvcBuilder)
+        {
+            var services = mvcBuilder.Services;
+
+            services.AddSpecificationDocuments();
+
+            mvcBuilder.AddDynamicApiControllers()
+                              .AddDataValidation()
+                              .AddFriendlyException();
+
+            return mvcBuilder;
+        }
 
         /// <summary>
         /// 添加应用配置

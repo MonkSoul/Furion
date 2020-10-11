@@ -6,8 +6,8 @@
 // 框架作者：百小僧
 // 框架版本：1.0.0-rc1
 // 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
-// 				    Github：https://github.com/monksoul/Fur 
+// 源码地址：Gitee：https://gitee.com/monksoul/Fur
+// 				    Github：https://github.com/monksoul/Fur
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
@@ -21,8 +21,19 @@ namespace Microsoft.AspNetCore.Builder
     /// 应用中间件拓展类（由框架内部调用）
     /// </summary>
     [SkipScan]
-    internal static class AppApplicationBuilderExtensions
+    public static class AppApplicationBuilderExtensions
     {
+        /// <summary>
+        /// 注入基础中间件
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseInject(this IApplicationBuilder app)
+        {
+            app.UseSpecificationDocuments();
+            return app;
+        }
+
         /// <summary>
         /// 添加应用中间件
         /// </summary>
