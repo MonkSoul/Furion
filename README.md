@@ -178,6 +178,7 @@ docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-2020.10.10
 - 深圳市易胜科技有限公司
 - 重庆虫儿飞科技有限公司
 - 重庆林木森科技有限公司
+- 深圳市品立方科技有限公司
 
 如果您的项目使用到 `Fur` 开发，可以告诉我们。
 
@@ -213,4 +214,4 @@ docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-2020.10.10
 
 ## 🧆 友情链接
 
-👉 **[Fur](https://gitee.com/monksoul/Fur)** 👉 **[SqlSugar](https://github.com/sunkaixuan/SqlSugar)** 👉 **[Layx](https://gitee.com/monksoul/LayX)** 👉 **[t-io](https://gitee.com/tywo45/t-io)** 👉 **[ThinkPHP](http://www.thinkphp.cn/)** 👉 **[Hutool](https://hutool.cn/)**
+👉 **[Fur](https://gitee.com/monksoul/Fur)** 👉 **[SqlSugar](https://github.com/sunkaixuan/SqlSugar)** 👉 **[Layx](https://gitee.com/monksoul/LayX)** 👉 **[t-io](https://gitee.com/tywo45/t-io)** 👉 **[ThinkPHP](http://www.thinkphp.cn/)** 👉 **[Hutool](https://hutool.cn/)** 👉 **[BootstrapAdmin](https://gitee.com/LongbowEnterprise/BootstrapAdmin)**
