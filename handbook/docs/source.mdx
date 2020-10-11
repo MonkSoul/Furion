@@ -284,6 +284,10 @@ Fur
 |          |     ├─ApiSeatAttribute.cs
 |          |     └DynamicApiControllerAttribute.cs
 ├─DependencyInjection
+|          ├─Options
+|          |    └DependencyInjectionSettingsOptions.cs
+|          ├─Models
+|          |   └ExternalService.cs
 |          ├─Extensions
 |          |     └DependencyInjectionServiceCollectionExtensions.cs
 |          ├─Enums
@@ -291,12 +295,12 @@ Fur
 |          |   ├─InjectionPatterns.cs
 |          |   └RegisterType.cs
 |          ├─Dependencies
-|          |      ├─IDependency.cs
+|          |      ├─IPrivateDependency.cs
 |          |      ├─IScoped.cs
 |          |      ├─ISingleton.cs
 |          |      ├─ITransient.cs
-|          |      ├─Aop
-|          |      |  └IDispatchProxy.cs
+|          |      ├─Proxies
+|          |      |    └IDispatchProxy.cs
 |          ├─Attributes
 |          |     ├─InjectionAttribute.cs
 |          |     └SkipScanAttribute.cs
@@ -364,25 +368,25 @@ Fur
 |        ├─Pools
 |        |   ├─DbContextPool.cs
 |        |   └IDbContextPool.cs
-|        ├─Options
-|        |    └DatabaseAccessorSettingsOptions.cs
 |        ├─MultiTenants
-|        |      ├─Providers
-|        |      |     ├─IMultiTenantOnDatabaseProvider.cs
-|        |      |     ├─IMultiTenantOnSchemaProvider.cs
-|        |      |     ├─IMultiTenantOnTableProvider.cs
-|        |      |     └IMultiTenantProviderDependency.cs
 |        |      ├─Locators
 |        |      |    └MultiTenantDbContextLocator.cs
 |        |      ├─Enums
 |        |      |   └MultiTenantOptions.cs
 |        |      ├─Entities
 |        |      |    └Tenant.cs
+|        |      ├─Dependencies
+|        |      |      ├─IMultiTenantOnDatabase.cs
+|        |      |      ├─IMultiTenantOnSchema.cs
+|        |      |      ├─IMultiTenantOnTable.cs
+|        |      |      └IPrivateMultiTenant.cs
 |        ├─Models
 |        |   ├─DbProvider.cs
 |        |   ├─PagedList.cs
 |        |   ├─ProcedureOutputResult.cs
-|        |   └ProcedureOutputValue.cs
+|        |   ├─ProcedureOutputValue.cs
+|        |   ├─SqlTemplate.cs
+|        |   └SqlTemplateParameter.cs
 |        ├─Locators
 |        |    ├─IDbContextLocator.cs
 |        |    └MasterDbContextLocator.cs
@@ -396,8 +400,8 @@ Fur
 |        |     ├─DatabaseAccessorServiceCollectionExtensions.cs
 |        |     ├─PagedQueryableExtensions.cs
 |        |     ├─Repositories
-|        |     |      ├─IEntityDbContextLocatorExtensions.cs
 |        |     |      ├─IEntityExtensions.cs
+|        |     |      ├─IEntityWithDbContextLocatorExtensions.cs
 |        |     |      └SqlExtensions.cs
 |        |     ├─DatabaseProvider
 |        |     |        ├─DatabaseProviderServiceCollectionExtensions.cs
@@ -420,8 +424,8 @@ Fur
 |        |    ├─Configures
 |        |    |     ├─IEntitySeedData.cs
 |        |    |     ├─IEntityTypeBuilder.cs
-|        |    |     ├─IModelBuilderDependency.cs
-|        |    |     └IModelBuilderFilter.cs
+|        |    |     ├─IModelBuilderFilter.cs
+|        |    |     └IPrivateModelBuilder.cs
 |        |    ├─Attributes
 |        |    |     ├─FakeDeleteAttribute.cs
 |        |    |     ├─NonAutomaticAttribute.cs
@@ -436,7 +440,7 @@ Fur
 |        |    |    ├─Models
 |        |    |    |   └DbContextCorrelationType.cs
 |        |    ├─Attributes
-|        |    |     └DbContextAttribute.cs
+|        |    |     └AppDbContextAttribute.cs
 |        ├─Attributes
 |        |     └DbParameterAttribute.cs
 |        ├─Advances
@@ -493,9 +497,11 @@ Fur
 |  ├─Extensions
 |  |     ├─AppApplicationBuilderExtensions.cs
 |  |     ├─AppServiceCollectionExtensions.cs
-|  |     └ObjectExtensions.cs
+|  |     ├─WebHostBuilderExtensions.cs
+|  |     ├─Types
+|  |     |   └ObjectExtensions.cs
 |  ├─Attributes
-|  |     └StartupAttribute.cs
+|  |     └AppStartupAttribute.cs
 ```
 
 ## 1.2.5 `Fur.Application` 业务应用层
