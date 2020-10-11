@@ -103,7 +103,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 9.27.4 数据分片规则
 
-我们我们考虑去水平切分表，将一张表水平切分成多张表，这就涉及到数据分片的规则，比较常见的有：Hash 取模分表、数值 Range 分表、一致性 Hash 算法分表。
+我们考虑去水平切分表，将一张表水平切分成多张表，这就涉及到数据分片的规则，比较常见的有：Hash 取模分表、数值 Range 分表、一致性 Hash 算法分表。
 
 ### 9.27.4.1 Hash 取模分表
 
@@ -125,7 +125,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ### 9.27.4.2 数值 Range 分表
 
-按照时间区间或 ID 区间来切分。例如：将 goods_id 为 11000 的记录分到第一个表，10012000 的分到第二个表，以此类推。
+按照时间区间或 ID 区间来切分。例如：将 goods_id 为 1-1000 的记录分到第一个表，1000-2000 的分到第二个表，以此类推。
 
 <img src={useBaseUrl("img/dbsplit6.jpg")} />
 
