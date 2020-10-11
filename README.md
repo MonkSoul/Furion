@@ -77,7 +77,7 @@
 ## 🍿 Docker 镜像
 
 ```shell
-docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-2020.10.08
+docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-2020.10.10
 ```
 
 ## 🥞 架构设计
