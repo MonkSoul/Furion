@@ -1,5 +1,4 @@
-﻿using Fur.Core;
-using Fur.UnifyResult;
+﻿using Fur.UnifyResult;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
