@@ -262,5 +262,17 @@
             <param name="age"></param>
             <returns></returns>
         </member>
+        <member name="M:Fur.Application.PersonService.GetToken">
+            <summary>
+            生成Token
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.Application.PersonService.GetEmail">
+            <summary>
+            需要授权才能访问
+            </summary>
+            <returns></returns>
+        </member>
     </members>
 </doc>

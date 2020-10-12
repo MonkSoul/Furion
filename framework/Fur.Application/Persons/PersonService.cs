@@ -1,12 +1,18 @@
 ﻿using Fur.Application.Persons;
+using Fur.Authorization;
 using Fur.Core;
 using Fur.DatabaseAccessor;
 using Fur.DynamicApiController;
 using Fur.LinqBuilder;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
 
 namespace Fur.Application
@@ -17,12 +23,14 @@ namespace Fur.Application
     [ApiDescriptionSettings("Demo")]
     public class PersonService : IDynamicApiController
     {
-        // 初始化仓储
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IRepository<Person> _personRepository;
 
-        public PersonService(IRepository<Person> personRepository)
+        public PersonService(IRepository<Person> personRepository
+            , IHttpContextAccessor httpContextAccessor)
         {
             _personRepository = personRepository;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
@@ -120,6 +128,43 @@ namespace Fur.Application
                                                                 .ProjectToType<PersonDto>();
 
             return await persons.ToListAsync();
+        }
+
+        /// <summary>
+        /// 生成Token
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        public string GetToken()
+        {
+            var jwtSettings = App.GetOptions<JWTSettingsOptions>();
+
+            var datetimeOffset = new DateTimeOffset(DateTime.Now);
+            var token = JWTEncryption.Encrypt(jwtSettings.IssuerSigningKey, new JObject()
+            {
+                { JwtRegisteredClaimNames.UniqueName, 1 },
+                { JwtRegisteredClaimNames.NameId,"百小僧" },
+                { JwtRegisteredClaimNames.Iat, datetimeOffset.ToUnixTimeSeconds() },
+                { JwtRegisteredClaimNames.Nbf, datetimeOffset.ToUnixTimeSeconds() },
+                { JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now.AddSeconds(jwtSettings.ExpiredTime.Value*60)).ToUnixTimeSeconds() },
+                { JwtRegisteredClaimNames.Iss, jwtSettings.ValidIssuer},
+                { JwtRegisteredClaimNames.Aud, jwtSettings.ValidAudience }
+            });
+
+            // 设置 Swagger 刷新自动授权
+            _httpContextAccessor.HttpContext.Response.Headers["access-token"] = token;
+
+            return token;
+        }
+
+        /// <summary>
+        /// 需要授权才能访问
+        /// </summary>
+        /// <returns></returns>
+        [AuthorizePolicy]
+        public string GetEmail()
+        {
+            return "fur@chinadot.net";
         }
     }
 }

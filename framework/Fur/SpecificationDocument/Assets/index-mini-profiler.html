@@ -51,13 +51,21 @@
         };
 
         window.onload = function () {
+            var tokenKey = "access-token";
+
             var configObject = JSON.parse('%(ConfigObject)');
-            //configObject.requestInterceptor = function (request) {
-            //    //request.headers.Authorization = "Bearer ";
-            //}
-            //configObject.onComplete = function () {
-            //    ui.preauthorizeApiKey("Bearer", "dfdfdfdfd");
-            //};
+            configObject.responseInterceptor = function (rep) {
+                var accessToken = rep.headers[tokenKey];
+                if (accessToken) {
+                    window.sessionStorage.setItem(tokenKey, accessToken);
+                }
+            }
+            configObject.onComplete = function () {
+                var accessToken = window.sessionStorage.getItem(tokenKey);
+                if (accessToken) {
+                    ui.preauthorizeApiKey("Bearer", accessToken);
+                }
+            };
             var oauthConfigObject = JSON.parse('%(OAuthConfigObject)');
 
             // If validatorUrl is not explicitly provided, disable the feature by setting to null
