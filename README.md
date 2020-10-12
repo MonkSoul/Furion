@@ -65,7 +65,8 @@
 
 ## 🍟 文档地址
 
-[https://chinadot.net](https://chinadot.net)
+- 国内文档：[https://monksoul.gitee.io/fur/](https://monksoul.gitee.io/fur/)
+- 国外文档：[https://chinadot.net](https://chinadot.net)
 
 ## 🌭 开源地址
 
@@ -113,6 +114,7 @@ docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-2020.10.10
   - Linux
   - MacOS
   - Docker/K8S/K3S/Rancher
+  - Xamarin/MAUI
 - 数据库
   - SqlServer
   - Sqlite
