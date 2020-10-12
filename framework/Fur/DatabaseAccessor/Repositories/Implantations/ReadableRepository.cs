@@ -4,14 +4,13 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc2
+// 框架版本：1.0.0-rc2.2020.10.12
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur 
 // 				    Github：https://github.com/monksoul/Fur 
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
-using Fur.FriendlyException;
 using Fur.LinqBuilder;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -39,7 +38,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>数据库中的实体</returns>
         public virtual TEntity Find(object key)
         {
-            var entity = FindOrDefault(key) ?? throw Oops.Oh(EFCoreErrorCodes.DataNotFound, typeof(InvalidOperationException), key);
+            var entity = FindOrDefault(key) ?? throw DbHelpers.DataNotFoundException();
             return entity;
         }
 
@@ -50,7 +49,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>数据库中的实体</returns>
         public virtual TEntity Find(params object[] keyValues)
         {
-            var entity = FindOrDefault(keyValues) ?? throw Oops.Oh(EFCoreErrorCodes.DataNotFound, typeof(InvalidOperationException), keyValues);
+            var entity = FindOrDefault(keyValues) ?? throw DbHelpers.DataNotFoundException();
             return entity;
         }
 
@@ -63,7 +62,7 @@ namespace Fur.DatabaseAccessor
         public virtual async Task<TEntity> FindAsync(object key, CancellationToken cancellationToken = default)
         {
             var entity = await FindOrDefaultAsync(key, cancellationToken);
-            return entity ?? throw Oops.Oh(EFCoreErrorCodes.DataNotFound, typeof(InvalidOperationException), key);
+            return entity ?? throw DbHelpers.DataNotFoundException();
         }
 
         /// <summary>
@@ -74,7 +73,7 @@ namespace Fur.DatabaseAccessor
         public virtual async Task<TEntity> FindAsync(params object[] keyValues)
         {
             var entity = await FindOrDefaultAsync(keyValues);
-            return entity ?? throw Oops.Oh(EFCoreErrorCodes.DataNotFound, typeof(InvalidOperationException), keyValues);
+            return entity ?? throw DbHelpers.DataNotFoundException();
         }
 
         /// <summary>
@@ -86,7 +85,7 @@ namespace Fur.DatabaseAccessor
         public virtual async Task<TEntity> FindAsync(object[] keyValues, CancellationToken cancellationToken = default)
         {
             var entity = await FindOrDefaultAsync(keyValues, cancellationToken);
-            return entity ?? throw Oops.Oh(EFCoreErrorCodes.DataNotFound, typeof(InvalidOperationException), keyValues);
+            return entity ?? throw DbHelpers.DataNotFoundException();
         }
 
         /// <summary>

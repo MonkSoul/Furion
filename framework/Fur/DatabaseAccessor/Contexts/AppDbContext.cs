@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc2
+// 框架版本：1.0.0-rc2.2020.10.12
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur 
 // 				    Github：https://github.com/monksoul/Fur 
@@ -131,7 +131,7 @@ namespace Fur.DatabaseAccessor
                 return memoryCache.GetOrCreate($"{host}:MultiTenants", cache =>
                 {
                     // 读取数据库
-                    var tenantDbContext = App.GetDbContext<MultiTenantDbContextLocator>();
+                    var tenantDbContext = Db.GetDbContext<MultiTenantDbContextLocator>();
                     return tenantDbContext.Set<Tenant>().FirstOrDefault(u => u.Host == host);
                 });
             }

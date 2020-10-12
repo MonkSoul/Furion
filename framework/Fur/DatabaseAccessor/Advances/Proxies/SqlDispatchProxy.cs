@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc2
+// 框架版本：1.0.0-rc2.2020.10.12
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur 
 // 				    Github：https://github.com/monksoul/Fur 
@@ -12,7 +12,6 @@
 // -----------------------------------------------------------------------------
 
 using Fur.DependencyInjection;
-using Fur.FriendlyException;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -179,7 +178,7 @@ namespace Fur.DatabaseAccessor
         private SqlProxyMethod GetProxyMethod(MethodInfo method, object[] args)
         {
             // 判断方法是否贴了注解
-            if (!method.IsDefined(typeof(SqlProxyAttribute), true)) throw Oops.Oh("The method is missing the [SqlProxy] annotation", typeof(InvalidOperationException));
+            if (!method.IsDefined(typeof(SqlProxyAttribute), true)) throw new InvalidOperationException("The method is missing the [SqlProxy] annotation");
 
             // 获取 Sql 代理特性
             var sqlProxyAttribute = method.GetCustomAttribute<SqlProxyAttribute>(true);
@@ -221,7 +220,7 @@ namespace Fur.DatabaseAccessor
                 finalSql = sqlExecuteAttribute.Sql;
                 commandType = sqlExecuteAttribute.CommandType;
             }
-            else throw Oops.Oh($"{sqlProxyAttribute.GetType().FullName} is an invalid annotation", typeof(NotSupportedException));
+            else throw new NotSupportedException($"{sqlProxyAttribute.GetType().FullName} is an invalid annotation");
 
             // 返回
             return new SqlProxyMethod
@@ -268,7 +267,7 @@ namespace Fur.DatabaseAccessor
 
             // 只支持要么全是基元类型，或全部都是类类型
             if (!parameters.All(u => u.ParameterType.IsRichPrimitive()) && !parameters.All(u => u.ParameterType.IsClass))
-                throw Oops.Oh("Invalid type cast", typeof(InvalidOperationException));
+                throw new InvalidOperationException("Invalid type cast");
 
             if (parameters.All(u => u.ParameterType.IsRichPrimitive()))
             {

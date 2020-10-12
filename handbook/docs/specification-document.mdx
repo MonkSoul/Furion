@@ -624,7 +624,92 @@ namespace Fur.Application
 - `GroupOpenApiInfos`：分组信息配置，`SpecificationOpenApiInfo[]`，默认 `{ 'Group': 'Default'}`
 - `SecurityDefinitions`：安全策略定义配置，`SpecificationOpenApiSecurityScheme[]`，默认 `[]`
 
-## 6.7 反馈与建议
+## 6.7 统一返回值模型
+
+`Fur` 框架提供 `规范化结果` 功能，可以通过实现 `IUnifyResultProvider` 提供器实现统一规范化返回值定制，如：`RESTfulResultProvider`：
+
+```cs
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Collections.Generic;
+
+namespace Fur.UnifyResult
+{
+    /// <summary>
+    /// RESTful 风格返回值
+    /// </summary>
+    public class RESTfulResultProvider : IUnifyResultProvider
+    {
+        /// <summary>
+        /// 异常返回值
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public IActionResult OnException(ExceptionContext context)
+        {
+            return new JsonResult(new RESTfulResult
+            {
+                StatusCode = StatusCodes.Status500InternalServerError,
+                Successed = false,
+                Data = null,
+                Errors = context.Exception.Message
+            });
+        }
+
+        /// <summary>
+        /// 成功返回值
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public IActionResult OnSuccessed(ActionExecutedContext context)
+        {
+            object data;
+            // 处理内容结果
+            if (context.Result is ContentResult contentResult) data = contentResult.Content;
+            // 处理对象结果
+            else if (context.Result is ObjectResult objectResult) data = objectResult.Value;
+            else return null;
+
+            return new JsonResult(new RESTfulResult
+            {
+                StatusCode = context.Result is EmptyResult ? StatusCodes.Status204NoContent : StatusCodes.Status200OK,
+                Successed = true,
+                Data = data,
+                Errors = null
+            });
+        }
+
+        /// <summary>
+        /// 验证失败返回值
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="modelStates"></param>
+        /// <param name="validationResults"></param>
+        /// <param name="validateFaildMessage"></param>
+        /// <returns></returns>
+        public IActionResult OnValidateFailed(ActionExecutingContext context, ModelStateDictionary modelStates, Dictionary<string, IEnumerable<string>> validationResults, string validateFaildMessage)
+        {
+            return new JsonResult(new RESTfulResult
+            {
+                StatusCode = StatusCodes.Status400BadRequest,
+                Successed = false,
+                Data = null,
+                Errors = validationResults
+            });
+        }
+    }
+}
+```
+
+之后在 `Startup.cs` 中注册即可：
+
+```cs
+services.AddControllers().AddUnifyResult<RESTfulResult, RESTfulResultProvider>();
+```
+
+## 6.8 反馈与建议
 
 :::note 与我们交流
 

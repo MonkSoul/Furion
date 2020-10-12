@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc2
+// 框架版本：1.0.0-rc2.2020.10.12
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur 
 // 				    Github：https://github.com/monksoul/Fur 
@@ -12,7 +12,6 @@
 // -----------------------------------------------------------------------------
 
 using Fur.DependencyInjection;
-using Fur.FriendlyException;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -119,7 +118,7 @@ namespace Fur.DataValidation
         public static bool TryValidateValue(object value, string regexPattern, RegexOptions regexOptions = RegexOptions.None)
         {
             return value == null
-                ? throw Oops.Oh($"Value cannot be null", typeof(ArgumentNullException))
+                ? throw new ArgumentNullException($"Value cannot be null")
                 : Regex.IsMatch(value.ToString(), regexPattern, regexOptions);
         }
 
@@ -219,14 +218,14 @@ namespace Fur.DataValidation
 
                 // 判断是否是有效的验证类型
                 if (!ValidationTypes.Any(u => u == type))
-                    throw Oops.Oh($"{type.Name} is not a valid validation type", typeof(InvalidOperationException));
+                    throw new InvalidOperationException($"{type.Name} is not a valid validation type");
 
                 // 获取对应的枚举名称
                 var validationName = Enum.GetName(type, validationType);
 
                 // 判断是否配置验证正则表达式
                 if (!ValidationItemMetadatas.ContainsKey(validationName))
-                    throw Oops.Oh($"No ${validationName} validation type metadata exists", typeof(InvalidOperationException));
+                    throw new InvalidOperationException($"No ${validationName} validation type metadata exists");
 
                 // 获取对应的验证选项
                 var validationItemMetadataAttribute = ValidationItemMetadatas[validationName];

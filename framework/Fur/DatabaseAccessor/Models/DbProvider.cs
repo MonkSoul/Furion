@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc2
+// 框架版本：1.0.0-rc2.2020.10.12
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur 
 // 				    Github：https://github.com/monksoul/Fur 
@@ -12,7 +12,6 @@
 // -----------------------------------------------------------------------------
 
 using Fur.DependencyInjection;
-using Fur.FriendlyException;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -179,7 +178,7 @@ namespace Fur.DatabaseAccessor
         {
             if (commandType == CommandType.StoredProcedure && NotSupportStoredProcedureDatabases.Contains(providerName))
             {
-                throw Oops.Oh(NotSupportException, typeof(NotSupportedException), "stored procedure");
+                throw new NotSupportedException(string.Format(NotSupportException, "stored procedure"));
             }
         }
 
@@ -192,12 +191,12 @@ namespace Fur.DatabaseAccessor
         {
             if (NotSupportFunctionDatabases.Contains(providerName))
             {
-                throw Oops.Oh(NotSupportException, typeof(NotSupportedException), "function");
+                throw new NotSupportedException(string.Format(NotSupportException, "function"));
             }
 
             if (dbFunctionType == DbFunctionType.Table && NotSupportTableFunctionDatabases.Contains(providerName))
             {
-                throw Oops.Oh(NotSupportException, typeof(NotSupportedException), "table function");
+                throw new NotSupportedException(string.Format(NotSupportException, "table function"));
             }
         }
     }

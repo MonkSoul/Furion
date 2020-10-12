@@ -4,14 +4,13 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc2
+// 框架版本：1.0.0-rc2.2020.10.12
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur 
 // 				    Github：https://github.com/monksoul/Fur 
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
-using Fur.FriendlyException;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
@@ -329,7 +328,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="key">主键</param>
         public virtual void DeleteExists(object key)
         {
-            var entity = FindOrDefault(key) ?? throw Oops.Oh(EFCoreErrorCodes.DataNotFound, key);
+            var entity = FindOrDefault(key) ?? throw DbHelpers.DataNotFoundException();
             Delete(entity);
         }
 
@@ -342,7 +341,7 @@ namespace Fur.DatabaseAccessor
         public virtual async Task DeleteExistsAsync(object key, CancellationToken cancellationToken = default)
         {
             var entity = await FindOrDefaultAsync(key, cancellationToken);
-            if (entity == null) throw Oops.Oh(EFCoreErrorCodes.DataNotFound, key);
+            if (entity == null) throw DbHelpers.DataNotFoundException();
 
             await DeleteAsync(entity);
         }
@@ -586,7 +585,7 @@ namespace Fur.DatabaseAccessor
             var fakeDeleteProperty = EntityType.ClrType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                     .FirstOrDefault(u => u.IsDefined(typeof(FakeDeleteAttribute), true));
 
-            if (fakeDeleteProperty == null) throw Oops.Oh(EFCoreErrorCodes.FakeDeleteNotFound);
+            if (fakeDeleteProperty == null) throw new InvalidOperationException("No attributes marked as fake deleted were found");
 
             // 读取假删除的名和属性
             var fakeDeleteAttribute = fakeDeleteProperty.GetCustomAttribute<FakeDeleteAttribute>(true);

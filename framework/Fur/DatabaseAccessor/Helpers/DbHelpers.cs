@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc2
+// 框架版本：1.0.0-rc2.2020.10.12
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur 
 // 				    Github：https://github.com/monksoul/Fur 
@@ -12,7 +12,6 @@
 // -----------------------------------------------------------------------------
 
 using Fur.DependencyInjection;
-using Fur.FriendlyException;
 using Mapster;
 using System;
 using System.Collections.Generic;
@@ -325,7 +324,7 @@ namespace Fur.DatabaseAccessor
                 var realSql = App.Configuration[path];
                 if (string.IsNullOrEmpty(realSql))
                 {
-                    var sqlConfiguration = App.GetOptions<SqlTemplate>(path) ?? throw Oops.Oh($"Not found {path} configuration information");
+                    var sqlConfiguration = App.GetOptions<SqlTemplate>(path) ?? throw new InvalidOperationException($"Not found {path} configuration information");
                     realSql = sqlConfiguration.Sql;
                 }
 
@@ -333,6 +332,15 @@ namespace Fur.DatabaseAccessor
             }
 
             return sqlTemplate;
+        }
+
+        /// <summary>
+        /// 数据没找到异常
+        /// </summary>
+        /// <returns></returns>
+        internal static InvalidOperationException DataNotFoundException()
+        {
+            return new InvalidOperationException("Sequence contains no elements");
         }
 
         /// <summary>

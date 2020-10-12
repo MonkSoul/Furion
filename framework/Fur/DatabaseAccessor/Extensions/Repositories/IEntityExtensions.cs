@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc2
+// 框架版本：1.0.0-rc2.2020.10.12
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur 
 // 				    Github：https://github.com/monksoul/Fur 
@@ -36,7 +36,7 @@ namespace Fur.DatabaseAccessor
         public static DbSet<TEntity> Ethnics<TEntity>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().Entities;
+            return Db.GetRepository<TEntity>().Entities;
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> Insert<TEntity>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().Insert(entity);
+            return Db.GetRepository<TEntity>().Insert(entity);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertAsync(entity, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertAsync(entity, cancellationToken);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertNow<TEntity>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertNow(entity);
+            return Db.GetRepository<TEntity>().InsertNow(entity);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertNow(entity, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().InsertNow(entity, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertNowAsync(entity, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertNowAsync(entity, cancellationToken);
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> Update<TEntity>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().Update(entity);
+            return Db.GetRepository<TEntity>().Update(entity);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateAsync<TEntity>(this TEntity entity)
              where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateAsync(entity);
+            return Db.GetRepository<TEntity>().UpdateAsync(entity);
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateNow<TEntity>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateNow(entity);
+            return Db.GetRepository<TEntity>().UpdateNow(entity);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
              where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateNow(entity, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().UpdateNow(entity, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateNowAsync(entity, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateNowAsync(entity, cancellationToken);
         }
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateInclude(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateInclude(entity, propertyNames);
         }
 
         /// <summary>
@@ -210,7 +210,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateInclude(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateInclude(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateInclude(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateInclude(entity, propertyNames);
         }
 
         /// <summary>
@@ -236,7 +236,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateInclude(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateInclude(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -249,7 +249,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyNames);
         }
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -275,7 +275,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyNames);
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -301,7 +301,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames);
         }
 
         /// <summary>
@@ -315,7 +315,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -328,7 +328,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -342,7 +342,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -355,7 +355,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames);
         }
 
         /// <summary>
@@ -369,7 +369,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess)
              where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -382,7 +382,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -396,7 +396,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -409,7 +409,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames);
         }
 
         /// <summary>
@@ -423,7 +423,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -438,7 +438,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -451,7 +451,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -465,7 +465,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -480,7 +480,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -494,7 +494,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -509,7 +509,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -523,7 +523,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -538,7 +538,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -551,7 +551,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExclude(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateExclude(entity, propertyNames);
         }
 
         /// <summary>
@@ -564,7 +564,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExclude(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateExclude(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -577,7 +577,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExclude(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateExclude(entity, propertyNames);
         }
 
         /// <summary>
@@ -590,7 +590,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExclude(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateExclude(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -603,7 +603,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyNames);
         }
 
         /// <summary>
@@ -616,7 +616,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -629,7 +629,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyNames);
         }
 
         /// <summary>
@@ -642,7 +642,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -655,7 +655,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames);
         }
 
         /// <summary>
@@ -669,7 +669,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -682,7 +682,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -696,7 +696,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -709,7 +709,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames);
         }
 
         /// <summary>
@@ -723,7 +723,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess)
              where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -736,7 +736,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -750,7 +750,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -763,7 +763,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames);
         }
 
         /// <summary>
@@ -777,7 +777,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -792,7 +792,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -805,7 +805,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -819,7 +819,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -834,7 +834,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -848,7 +848,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -863,7 +863,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -877,7 +877,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -892,7 +892,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -904,7 +904,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> Delete<TEntity>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().Delete(entity);
+            return Db.GetRepository<TEntity>().Delete(entity);
         }
 
         /// <summary>
@@ -916,7 +916,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> DeleteAsync<TEntity>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().DeleteAsync(entity);
+            return Db.GetRepository<TEntity>().DeleteAsync(entity);
         }
 
         /// <summary>
@@ -928,7 +928,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> DeleteNow<TEntity>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().DeleteNow(entity);
+            return Db.GetRepository<TEntity>().DeleteNow(entity);
         }
 
         /// <summary>
@@ -941,7 +941,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> DeleteNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().DeleteNow(entity, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().DeleteNow(entity, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -954,7 +954,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> DeleteNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().DeleteNowAsync(entity, cancellationToken);
+            return Db.GetRepository<TEntity>().DeleteNowAsync(entity, cancellationToken);
         }
 
         /// <summary>
@@ -968,7 +968,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> DeleteNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().DeleteNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().DeleteNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -980,7 +980,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdate<TEntity>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdate(entity);
+            return Db.GetRepository<TEntity>().InsertOrUpdate(entity);
         }
 
         /// <summary>
@@ -993,7 +993,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateAsync(entity, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateAsync(entity, cancellationToken);
         }
 
         /// <summary>
@@ -1005,7 +1005,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateNow<TEntity>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateNow(entity);
+            return Db.GetRepository<TEntity>().InsertOrUpdateNow(entity);
         }
 
         /// <summary>
@@ -1018,7 +1018,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateNow(entity, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().InsertOrUpdateNow(entity, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1031,7 +1031,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateNowAsync(entity, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateNowAsync(entity, cancellationToken);
         }
 
         /// <summary>
@@ -1045,7 +1045,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1058,7 +1058,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateInclude<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateInclude(entity, propertyNames);
+            return Db.GetRepository<TEntity>().InsertOrUpdateInclude(entity, propertyNames);
         }
 
         /// <summary>
@@ -1071,7 +1071,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateInclude<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateInclude(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().InsertOrUpdateInclude(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1084,7 +1084,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateInclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateInclude(entity, propertyNames);
+            return Db.GetRepository<TEntity>().InsertOrUpdateInclude(entity, propertyNames);
         }
 
         /// <summary>
@@ -1097,7 +1097,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateInclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateInclude(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().InsertOrUpdateInclude(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1110,7 +1110,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyNames);
         }
 
         /// <summary>
@@ -1124,7 +1124,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1137,7 +1137,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1151,7 +1151,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1165,7 +1165,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1179,7 +1179,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1192,7 +1192,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyNames);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyNames);
         }
 
         /// <summary>
@@ -1206,7 +1206,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1219,7 +1219,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1233,7 +1233,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1246,7 +1246,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyNames);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyNames);
         }
 
         /// <summary>
@@ -1260,7 +1260,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1273,7 +1273,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1287,7 +1287,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1300,7 +1300,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames);
         }
 
         /// <summary>
@@ -1314,7 +1314,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1329,7 +1329,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1342,7 +1342,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1356,7 +1356,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1371,7 +1371,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1385,7 +1385,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1400,7 +1400,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1414,7 +1414,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1429,7 +1429,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1442,7 +1442,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateExclude<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExclude(entity, propertyNames);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExclude(entity, propertyNames);
         }
 
         /// <summary>
@@ -1455,7 +1455,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateExclude<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExclude(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExclude(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1468,7 +1468,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateExclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExclude(entity, propertyNames);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExclude(entity, propertyNames);
         }
 
         /// <summary>
@@ -1481,7 +1481,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateExclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExclude(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExclude(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1494,7 +1494,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyNames);
         }
 
         /// <summary>
@@ -1508,7 +1508,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1521,7 +1521,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1535,7 +1535,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1549,7 +1549,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1563,7 +1563,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1576,7 +1576,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyNames);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyNames);
         }
 
         /// <summary>
@@ -1590,7 +1590,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1603,7 +1603,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1617,7 +1617,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1630,7 +1630,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyNames);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyNames);
         }
 
         /// <summary>
@@ -1644,7 +1644,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1657,7 +1657,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1671,7 +1671,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1684,7 +1684,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames);
         }
 
         /// <summary>
@@ -1698,7 +1698,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1713,7 +1713,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1726,7 +1726,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1740,7 +1740,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1755,7 +1755,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1769,7 +1769,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1784,7 +1784,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1798,7 +1798,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1813,7 +1813,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1825,7 +1825,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> FakeDelete<TEntity>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().FakeDelete(entity);
+            return Db.GetRepository<TEntity>().FakeDelete(entity);
         }
 
         /// <summary>
@@ -1837,7 +1837,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> FakeDeleteAsync<TEntity>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().FakeDeleteAsync(entity);
+            return Db.GetRepository<TEntity>().FakeDeleteAsync(entity);
         }
 
         /// <summary>
@@ -1849,7 +1849,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> FakeDeleteNow<TEntity>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().FakeDeleteNow(entity);
+            return Db.GetRepository<TEntity>().FakeDeleteNow(entity);
         }
 
         /// <summary>
@@ -1862,7 +1862,7 @@ namespace Fur.DatabaseAccessor
         public static EntityEntry<TEntity> FakeDeleteNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().FakeDeleteNow(entity, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().FakeDeleteNow(entity, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1875,7 +1875,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> FakeDeleteNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().FakeDeleteNowAsync(entity, cancellationToken);
+            return Db.GetRepository<TEntity>().FakeDeleteNowAsync(entity, cancellationToken);
         }
 
         /// <summary>
@@ -1889,7 +1889,7 @@ namespace Fur.DatabaseAccessor
         public static Task<EntityEntry<TEntity>> FakeDeleteNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
              where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetRepository<TEntity>().FakeDeleteNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().FakeDeleteNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
         }
     }
 }

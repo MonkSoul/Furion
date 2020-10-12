@@ -107,22 +107,22 @@ public async Task<List<PersonDto>> GetAll([FromServices] IRepository<Person> rep
 }
 ```
 
-### 9.4.2.3 `App.GetRepository` 获取
+### 9.4.2.3 `Db.GetRepository` 获取
 
 ```cs
 // 非泛型仓储
-var repository = App.GetRepository();
+var repository = Db.GetRepository();
 
 // 泛型仓储
-var repository = App.GetRepository<Person>();
+var repository = Db.GetRepository<Person>();
 
 // Sql 仓储
-var sqlRepository = App.GetSqlRepository();
+var sqlRepository = Db.GetSqlRepository();
 ```
 
 :::important 特别说明
 
-不管采用那种方式，`Fur` 都保证了仓储一次请求唯一性。同时 `App.GetRepository<TEntity>()` 方式支持任何静态类中使用。
+不管采用那种方式，`Fur` 都保证了仓储一次请求唯一性。同时 `Db.GetRepository<TEntity>()` 方式支持任何静态类中使用。
 
 :::
 

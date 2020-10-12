@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc2
+// 框架版本：1.0.0-rc2.2020.10.12
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur 
 // 				    Github：https://github.com/monksoul/Fur 
@@ -13,7 +13,6 @@
 
 using Fur.DatabaseAccessor;
 using Fur.DependencyInjection;
-using Fur.FriendlyException;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -264,7 +263,7 @@ namespace Microsoft.Extensions.DependencyInjection
             static MethodInfo Function(string providerName)
             {
                 // 加载对应的数据库提供器程序集
-                var databaseProviderAssembly = Assembly.Load(providerName) ?? throw Oops.Oh($"{providerName} assembly not found");
+                var databaseProviderAssembly = Assembly.Load(providerName);
 
                 // 数据库提供器服务拓展类型名
                 var databaseProviderServiceExtensionTypeName = providerName switch

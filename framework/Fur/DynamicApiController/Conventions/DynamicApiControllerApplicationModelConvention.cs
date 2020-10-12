@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc2
+// 框架版本：1.0.0-rc2.2020.10.12
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur 
 // 				    Github：https://github.com/monksoul/Fur 
@@ -12,7 +12,6 @@
 // -----------------------------------------------------------------------------
 
 using Fur.DependencyInjection;
-using Fur.FriendlyException;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
@@ -184,7 +183,7 @@ namespace Fur.DynamicApiController
                 "PUT" => new HttpPutAttribute(),
                 "DELETE" => new HttpDeleteAttribute(),
                 "PATCH" => new HttpPatchAttribute(),
-                _ => throw Oops.Oh($"{verb}", typeof(NotSupportedException))
+                _ => throw new NotSupportedException($"{verb}")
             };
 
             selectorModel.EndpointMetadata.Add(httpMethodAttribute);

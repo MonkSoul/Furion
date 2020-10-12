@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc2
+// 框架版本：1.0.0-rc2.2020.10.12
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur 
 // 				    Github：https://github.com/monksoul/Fur 
@@ -38,7 +38,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().Entities;
+            return Db.GetRepository<TEntity, TDbContextLocator>().Entities;
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().Insert(entity);
+            return Db.GetRepository<TEntity, TDbContextLocator>().Insert(entity);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertAsync(entity, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertAsync(entity, cancellationToken);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertNow(entity);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertNow(entity);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertNow(entity, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertNow(entity, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertNowAsync(entity, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertNowAsync(entity, cancellationToken);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().Update(entity);
+            return Db.GetRepository<TEntity, TDbContextLocator>().Update(entity);
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace Fur.DatabaseAccessor
              where TEntity : class, IPrivateEntity, new()
              where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateAsync(entity);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateAsync(entity);
         }
 
         /// <summary>
@@ -164,7 +164,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateNow(entity);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateNow(entity);
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace Fur.DatabaseAccessor
              where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateNow(entity, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateNow(entity, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateNowAsync(entity, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateNowAsync(entity, cancellationToken);
         }
 
         /// <summary>
@@ -210,7 +210,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateInclude(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateInclude(entity, propertyNames);
         }
 
         /// <summary>
@@ -240,7 +240,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateInclude(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateInclude(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -255,7 +255,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateInclude(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateInclude(entity, propertyNames);
         }
 
         /// <summary>
@@ -270,7 +270,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateInclude(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateInclude(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeAsync(entity, propertyNames);
         }
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeAsync(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -315,7 +315,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeAsync(entity, propertyNames);
         }
 
         /// <summary>
@@ -330,7 +330,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeAsync(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -345,7 +345,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyNames);
         }
 
         /// <summary>
@@ -361,7 +361,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -376,7 +376,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -392,7 +392,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -407,7 +407,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyNames);
         }
 
         /// <summary>
@@ -423,7 +423,7 @@ namespace Fur.DatabaseAccessor
              where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -438,7 +438,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -454,7 +454,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -469,7 +469,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyNames);
         }
 
         /// <summary>
@@ -485,7 +485,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -502,7 +502,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -517,7 +517,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -533,7 +533,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -550,7 +550,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -566,7 +566,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -583,7 +583,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -599,7 +599,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -616,7 +616,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -631,7 +631,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExclude(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExclude(entity, propertyNames);
         }
 
         /// <summary>
@@ -646,7 +646,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExclude(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExclude(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -661,7 +661,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExclude(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExclude(entity, propertyNames);
         }
 
         /// <summary>
@@ -676,7 +676,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExclude(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExclude(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -691,7 +691,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeAsync(entity, propertyNames);
         }
 
         /// <summary>
@@ -706,7 +706,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeAsync(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -721,7 +721,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeAsync(entity, propertyNames);
         }
 
         /// <summary>
@@ -736,7 +736,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeAsync(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -751,7 +751,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyNames);
         }
 
         /// <summary>
@@ -767,7 +767,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -782,7 +782,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -798,7 +798,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -813,7 +813,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyNames);
         }
 
         /// <summary>
@@ -829,7 +829,7 @@ namespace Fur.DatabaseAccessor
              where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -844,7 +844,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -860,7 +860,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -875,7 +875,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyNames);
         }
 
         /// <summary>
@@ -891,7 +891,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -908,7 +908,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -923,7 +923,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -939,7 +939,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -956,7 +956,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -972,7 +972,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -989,7 +989,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1005,7 +1005,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1022,7 +1022,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1036,7 +1036,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().Delete(entity);
+            return Db.GetRepository<TEntity, TDbContextLocator>().Delete(entity);
         }
 
         /// <summary>
@@ -1050,7 +1050,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().DeleteAsync(entity);
+            return Db.GetRepository<TEntity, TDbContextLocator>().DeleteAsync(entity);
         }
 
         /// <summary>
@@ -1064,7 +1064,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().DeleteNow(entity);
+            return Db.GetRepository<TEntity, TDbContextLocator>().DeleteNow(entity);
         }
 
         /// <summary>
@@ -1079,7 +1079,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().DeleteNow(entity, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().DeleteNow(entity, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1094,7 +1094,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().DeleteNowAsync(entity, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().DeleteNowAsync(entity, cancellationToken);
         }
 
         /// <summary>
@@ -1110,7 +1110,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().DeleteNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().DeleteNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1124,7 +1124,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdate(entity);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdate(entity);
         }
 
         /// <summary>
@@ -1139,7 +1139,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateAsync(entity, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateAsync(entity, cancellationToken);
         }
 
         /// <summary>
@@ -1153,7 +1153,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateNow(entity);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateNow(entity);
         }
 
         /// <summary>
@@ -1168,7 +1168,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateNow(entity, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateNow(entity, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1183,7 +1183,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateNowAsync(entity, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateNowAsync(entity, cancellationToken);
         }
 
         /// <summary>
@@ -1199,7 +1199,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1214,7 +1214,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateInclude(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateInclude(entity, propertyNames);
         }
 
         /// <summary>
@@ -1229,7 +1229,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateInclude(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateInclude(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1244,7 +1244,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateInclude(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateInclude(entity, propertyNames);
         }
 
         /// <summary>
@@ -1259,7 +1259,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateInclude(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateInclude(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1274,7 +1274,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyNames);
         }
 
         /// <summary>
@@ -1290,7 +1290,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1305,7 +1305,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1321,7 +1321,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1337,7 +1337,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1353,7 +1353,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1368,7 +1368,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyNames);
         }
 
         /// <summary>
@@ -1384,7 +1384,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1399,7 +1399,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1415,7 +1415,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1430,7 +1430,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyNames);
         }
 
         /// <summary>
@@ -1446,7 +1446,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1461,7 +1461,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1477,7 +1477,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1492,7 +1492,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyNames);
         }
 
         /// <summary>
@@ -1508,7 +1508,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1525,7 +1525,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1540,7 +1540,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1556,7 +1556,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1573,7 +1573,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1589,7 +1589,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1606,7 +1606,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1622,7 +1622,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1639,7 +1639,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1654,7 +1654,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExclude(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExclude(entity, propertyNames);
         }
 
         /// <summary>
@@ -1669,7 +1669,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExclude(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExclude(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1684,7 +1684,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExclude(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExclude(entity, propertyNames);
         }
 
         /// <summary>
@@ -1699,7 +1699,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExclude(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExclude(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1714,7 +1714,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyNames);
         }
 
         /// <summary>
@@ -1730,7 +1730,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1745,7 +1745,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1761,7 +1761,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1777,7 +1777,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1793,7 +1793,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1808,7 +1808,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyNames);
         }
 
         /// <summary>
@@ -1824,7 +1824,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1839,7 +1839,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1855,7 +1855,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1870,7 +1870,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyNames);
         }
 
         /// <summary>
@@ -1886,7 +1886,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1901,7 +1901,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1917,7 +1917,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1932,7 +1932,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyNames);
         }
 
         /// <summary>
@@ -1948,7 +1948,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1965,7 +1965,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1980,7 +1980,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates);
         }
 
         /// <summary>
@@ -1996,7 +1996,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -2013,7 +2013,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -2029,7 +2029,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -2046,7 +2046,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -2062,7 +2062,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -2079,7 +2079,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -2093,7 +2093,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().FakeDelete(entity);
+            return Db.GetRepository<TEntity, TDbContextLocator>().FakeDelete(entity);
         }
 
         /// <summary>
@@ -2107,7 +2107,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().FakeDeleteAsync(entity);
+            return Db.GetRepository<TEntity, TDbContextLocator>().FakeDeleteAsync(entity);
         }
 
         /// <summary>
@@ -2121,7 +2121,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().FakeDeleteNow(entity);
+            return Db.GetRepository<TEntity, TDbContextLocator>().FakeDeleteNow(entity);
         }
 
         /// <summary>
@@ -2136,7 +2136,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().FakeDeleteNow(entity, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity, TDbContextLocator>().FakeDeleteNow(entity, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -2151,7 +2151,7 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().FakeDeleteNowAsync(entity, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().FakeDeleteNowAsync(entity, cancellationToken);
         }
 
         /// <summary>
@@ -2167,7 +2167,7 @@ namespace Fur.DatabaseAccessor
              where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetRepository<TEntity, TDbContextLocator>().FakeDeleteNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity, TDbContextLocator>().FakeDeleteNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
         }
     }
 }
