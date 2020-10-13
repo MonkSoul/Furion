@@ -179,7 +179,7 @@ namespace Fur.EntityFramework.Core
 
         public Guid? GetTenantId()
         {
-            base.Tenant?.TenantId ?? Guid.Empty;
+           return base.Tenant?.TenantId ?? Guid.Empty;
         }
     }
 }
