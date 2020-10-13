@@ -13,6 +13,7 @@
 
 using Fur.DependencyInjection;
 using Fur.DynamicApiController;
+using Fur.SpecificationDocument.Builders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -29,6 +30,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+
 
 namespace Fur.SpecificationDocument
 {
@@ -108,8 +110,9 @@ namespace Fur.SpecificationDocument
             ConfigureSchemaId(swaggerGenOptions);
 
             // 使用内部枚举定义模型，无需创建 SchemaId
-            swaggerGenOptions.UseInlineDefinitionsForEnums();
-
+            // swaggerGenOptions.UseInlineDefinitionsForEnums();
+            //使得Swagger能够正确地显示Enum的对应关系
+            swaggerGenOptions.SchemaFilter<EnumSchemaFilter>();
             // 配置动作方法标签
             ConfigureTagsAction(swaggerGenOptions);
 
