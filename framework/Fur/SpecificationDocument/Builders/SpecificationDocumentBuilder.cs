@@ -6,14 +6,13 @@
 // 框架作者：百小僧
 // 框架版本：1.0.0-rc2.2020.10.14
 // 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
-// 				    Github：https://github.com/monksoul/Fur 
+// 源码地址：Gitee：https://gitee.com/monksoul/Fur
+// 				    Github：https://github.com/monksoul/Fur
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
 using Fur.DependencyInjection;
 using Fur.DynamicApiController;
-using Fur.SpecificationDocument.Builders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -30,7 +29,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-
 
 namespace Fur.SpecificationDocument
 {
@@ -109,10 +107,9 @@ namespace Fur.SpecificationDocument
             // 配置 Swagger SchemaId
             ConfigureSchemaId(swaggerGenOptions);
 
-            // 使用内部枚举定义模型，无需创建 SchemaId
-            // swaggerGenOptions.UseInlineDefinitionsForEnums();
             //使得Swagger能够正确地显示Enum的对应关系
             swaggerGenOptions.SchemaFilter<EnumSchemaFilter>();
+
             // 配置动作方法标签
             ConfigureTagsAction(swaggerGenOptions);
 
