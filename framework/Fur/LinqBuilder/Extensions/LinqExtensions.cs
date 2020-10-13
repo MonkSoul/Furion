@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。
 // Copyright © 2020 Fur, Baiqian Co.,Ltd.
 //
@@ -13,6 +13,7 @@
 
 using Fur.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -179,9 +180,9 @@ namespace Fur.LinqBuilder
         /// <param name="condition">布尔条件</param>
         /// <param name="expression">新的集合对象表达式</param>
         /// <returns></returns>
-        public static IQueryable<TSource> Include<TSource, TProperty>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, TProperty>> expression) where TSource : class
+        public static IIncludableQueryable<TSource,TProperty> Include<TSource, TProperty>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, TProperty>> expression) where TSource : class
         {
-            return condition ? sources.Include(expression) : sources;
+            return condition ? sources.Include(expression) : (IIncludableQueryable<TSource,TProperty>)sources;
         }
 
         /// <summary>
