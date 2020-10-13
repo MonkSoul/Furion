@@ -4,10 +4,10 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc2.2020.10.13
+// 框架版本：1.0.0-rc2.2020.10.14
 // 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur
-// 				    Github：https://github.com/monksoul/Fur
+// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
+// 				    Github：https://github.com/monksoul/Fur 
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
@@ -484,11 +484,11 @@ namespace Fur.DatabaseAccessor
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
         /// <returns>数据库中的多个实体</returns>
-        public virtual IIncludableQueryable<TEntity,TProperty> Include<TProperty>(Expression<Func<TEntity, TProperty>> predicate, bool noTracking = true, bool ignoreQueryFilters = false)
+        public virtual IIncludableQueryable<TEntity, TProperty> Include<TProperty>(Expression<Func<TEntity, TProperty>> predicate, bool noTracking = true, bool ignoreQueryFilters = false)
         {
             return AsQueryable(default(Expression<Func<TEntity, bool>>), noTracking, ignoreQueryFilters).Include(predicate);
         }
-     
+
         /// <summary>
         /// 根据条件加载关联数据
         /// </summary>
@@ -497,7 +497,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
         /// <returns>数据库中的多个实体</returns>
-        public virtual IIncludableQueryable<TEntity,TProperty> Include<TProperty>(bool condition, Expression<Func<TEntity, TProperty>> predicate, bool noTracking = true, bool ignoreQueryFilters = false)
+        public virtual IIncludableQueryable<TEntity, TProperty> Include<TProperty>(bool condition, Expression<Func<TEntity, TProperty>> predicate, bool noTracking = true, bool ignoreQueryFilters = false)
         {
             return AsQueryable(default(Expression<Func<TEntity, bool>>), noTracking, ignoreQueryFilters).Include(condition, predicate);
         }

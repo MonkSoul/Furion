@@ -4,10 +4,10 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc2.2020.10.13
+// 框架版本：1.0.0-rc2.2020.10.14
 // 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur
-// 				    Github：https://github.com/monksoul/Fur
+// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
+// 				    Github：https://github.com/monksoul/Fur 
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
@@ -180,9 +180,9 @@ namespace Fur.LinqBuilder
         /// <param name="condition">布尔条件</param>
         /// <param name="expression">新的集合对象表达式</param>
         /// <returns></returns>
-        public static IIncludableQueryable<TSource,TProperty> Include<TSource, TProperty>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, TProperty>> expression) where TSource : class
+        public static IIncludableQueryable<TSource, TProperty> Include<TSource, TProperty>(this IQueryable<TSource> sources, bool condition, Expression<Func<TSource, TProperty>> expression) where TSource : class
         {
-            return condition ? sources.Include(expression) : (IIncludableQueryable<TSource,TProperty>)sources;
+            return condition ? sources.Include(expression) : (IIncludableQueryable<TSource, TProperty>)sources;
         }
 
         /// <summary>

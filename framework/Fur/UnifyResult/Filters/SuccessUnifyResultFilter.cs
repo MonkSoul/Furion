@@ -4,14 +4,16 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc2.2020.10.13
+// 框架版本：1.0.0-rc2.2020.10.14
 // 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur
-// 				    Github：https://github.com/monksoul/Fur
+// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
+// 				    Github：https://github.com/monksoul/Fur 
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
 using Fur.DependencyInjection;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -54,6 +56,14 @@ namespace Fur.UnifyResult
         /// <returns></returns>
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
+            // 排除 Mvc 视图
+            var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
+            if (actionDescriptor.ControllerTypeInfo.BaseType == typeof(Controller))
+            {
+                await next();
+                return;
+            }
+
             var actionExecutedContext = await next();
 
             // 处理规范化结果

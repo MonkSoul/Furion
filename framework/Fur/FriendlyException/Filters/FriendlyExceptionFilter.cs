@@ -4,16 +4,17 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc2.2020.10.13
+// 框架版本：1.0.0-rc2.2020.10.14
 // 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur
-// 				    Github：https://github.com/monksoul/Fur
+// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
+// 				    Github：https://github.com/monksoul/Fur 
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
 using Fur.DependencyInjection;
 using Fur.FriendlyException;
 using Fur.UnifyResult;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
@@ -47,6 +48,10 @@ namespace Microsoft.AspNetCore.Mvc.Filters
         /// <returns></returns>
         public Task OnExceptionAsync(ExceptionContext context)
         {
+            // 排除 Mvc 视图
+            var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
+            if (actionDescriptor.ControllerTypeInfo.BaseType == typeof(Controller)) return Task.CompletedTask;
+
             // 标识异常已经被处理
             context.ExceptionHandled = true;
 

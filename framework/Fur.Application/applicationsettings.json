@@ -1,6 +1,7 @@
 ﻿{
   "AppSettings": {
     "SpecificationDocumentSettings": {
+      "RoutePrefix": "api",
       "DocumentTitle": "Fur | 数据库操作演示",
       "GroupOpenApiInfos": [
         {

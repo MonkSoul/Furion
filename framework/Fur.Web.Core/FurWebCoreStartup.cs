@@ -13,7 +13,7 @@ namespace Fur.Web.Core
         {
             services.AddCorsAccessor();
 
-            services.AddControllers().AddInject()
+            services.AddControllersWithViews().AddInject()
                 .AddUnifyResult<RESTfulResult, RESTfulResultProvider>();
         }
 
@@ -25,6 +25,7 @@ namespace Fur.Web.Core
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
             app.UseRouting();
 
@@ -37,7 +38,9 @@ namespace Fur.Web.Core
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

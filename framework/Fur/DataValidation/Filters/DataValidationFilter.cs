@@ -4,10 +4,10 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc2.2020.10.13
+// 框架版本：1.0.0-rc2.2020.10.14
 // 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur
-// 				    Github：https://github.com/monksoul/Fur
+// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
+// 				    Github：https://github.com/monksoul/Fur 
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
@@ -71,8 +71,10 @@ namespace Fur.DataValidation
         /// <param name="context"></param>
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            // 获取动作方法描述器
+            // 排除 Mvc 视图
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
+            if (actionDescriptor.ControllerTypeInfo.BaseType == typeof(Controller)) return;
+
             var method = actionDescriptor.MethodInfo;
             var modelState = context.ModelState;
 
