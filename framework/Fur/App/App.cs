@@ -63,6 +63,16 @@ namespace Fur
         /// <summary>
         /// 应用服务提供器
         /// </summary>
+        /// <remarks>
+        /// 通过它可以获取第三方容器注入的服务，也就是不是 asp.net core 托管的，或者自己实现 Ioc/di 的方式
+        /// 如采用 autofac 替换默认 IOC 容器，这样就可以通过 Application.GetAutofacRoot() 获取 Autofac容器对象，无需采用静态类手工存储该容器
+        /// </remarks>
+        /// <example>
+        /// <code>
+        /// var container = Application.GetAutofacRoot();
+        /// var service = container.Resolve(typeof(TService));
+        /// </code>
+        /// </example>
         public static IServiceProvider ApplicationServices { get; internal set; }
 
         /// <summary>
@@ -78,7 +88,7 @@ namespace Fur
         public static readonly IConfiguration Configuration;
 
         /// <summary>
-        /// 应用环境
+        /// 应用环境，如，是否是开发环境，生产环境等
         /// </summary>
         public static IWebHostEnvironment HostEnvironment => GetService<IWebHostEnvironment>();
 

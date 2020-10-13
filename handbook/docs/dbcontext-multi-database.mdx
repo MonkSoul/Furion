@@ -51,7 +51,7 @@ options.AddDbPool<FurDbContext>(DbProvider.InMemoryDatabase);
 options.AddDbPool<FurDbContext>(DbProvider.MySql);
 
 // 注册 PostgreSQL
-options.AddDb<FurDbContext>(DbProvider.Npgsql);
+options.AddDbPool<FurDbContext>(DbProvider.Npgsql);
 
 // 注册 Oracle
 options.AddDbPool<FurDbContext>(DbProvider.Oracle);
