@@ -6,8 +6,8 @@
 // 框架作者：百小僧
 // 框架版本：1.0.0-rc.final
 // 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
-// 				    Github：https://github.com/monksoul/Fur 
+// 源码地址：Gitee：https://gitee.com/monksoul/Fur
+// 				    Github：https://github.com/monksoul/Fur
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
@@ -15,6 +15,7 @@ using Fur.ConfigurableOptions;
 using Microsoft.Extensions.Configuration;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
+using System.Linq;
 
 namespace Fur.SpecificationDocument
 {
@@ -80,7 +81,6 @@ namespace Fur.SpecificationDocument
             options.FormatAsV2 ??= false;
             options.RoutePrefix ??= "api";
             options.DocExpansionState ??= DocExpansion.List;
-            //加载扫描后符合邀请的程序集名称
             XmlComments ??= App.Assemblies.Select(t => t.GetName().Name).ToArray();
             GroupOpenApiInfos ??= new SpecificationOpenApiInfo[]
             {
