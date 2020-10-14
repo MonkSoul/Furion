@@ -12,7 +12,6 @@ namespace Fur.Application.Persons
     /// <summary>
     /// 关联数据演示
     /// </summary>
-    [ApiDescriptionSettings("Demo")]
     public class PersonRelationshipService : IDynamicApiController
     {
         private readonly IReadableRepository<V_Person> _readableRepository;

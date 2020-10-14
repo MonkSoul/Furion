@@ -16,7 +16,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 <div style={{textAlign:"center",marginTop:25}}>
 
 
-[![star](https://gitee.com/monksoul/Fur/badge/star.svg?theme=gvp)](https://gitee.com/monksoul/Fur/stargazers) [![fork](https://gitee.com/monksoul/Fur/badge/fork.svg?theme=gvp)](https://gitee.com/monksoul/Fur/members) [![GitHub stars](https://img.shields.io/github/stars/MonkSoul/Fur?logo=github)](https://github.com/MonkSoul/Fur/stargazers) [![GitHub forks](https://img.shields.io/github/forks/MonkSoul/Fur?logo=github)](https://github.com/MonkSoul/Fur/network) [![GitHub license](https://img.shields.io/github/license/MonkSoul/Fur)](https://github.com/MonkSoul/Fur/blob/main/LICENSE) [![nuget](https://img.shields.io/badge/Nuget-1.0.0--rc2-brightgreen)](https://www.nuget.org/packages/Fur)
+[![star](https://gitee.com/monksoul/Fur/badge/star.svg?theme=gvp)](https://gitee.com/monksoul/Fur/stargazers) [![fork](https://gitee.com/monksoul/Fur/badge/fork.svg?theme=gvp)](https://gitee.com/monksoul/Fur/members) [![GitHub stars](https://img.shields.io/github/stars/MonkSoul/Fur?logo=github)](https://github.com/MonkSoul/Fur/stargazers) [![GitHub forks](https://img.shields.io/github/forks/MonkSoul/Fur?logo=github)](https://github.com/MonkSoul/Fur/network) [![GitHub license](https://img.shields.io/github/license/MonkSoul/Fur)](https://github.com/MonkSoul/Fur/blob/main/LICENSE) [![nuget](https://img.shields.io/badge/Nuget-1.0.0--rc.final-blue)](https://www.nuget.org/packages/Fur)
 
 </div>
 
@@ -77,7 +77,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - `Docker Hub` 线上镜像
 
 ```shell
-docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-2020.10.14
+docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-rc.final
 ```
 
 - `手动` 打包镜像
@@ -85,13 +85,13 @@ docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-2020.10.14
 打开 `CMD/Shell/PowerShell` 进入 `Fur` 项目根目录打包 `Fur` 镜像：
 
 ```shell
-docker build -t fur:v1.0.0-2020.10.14 .
+docker build -t fur:v1.0.0-rc.final .
 ```
 
 打包成功后，直接 `docker run`：
 
 ```shell
-docker run --name fur -p 5000:80 fur:v1.0.0-2020.10.14
+docker run --name fur -p 5000:80 fur:v1.0.0-rc.final
 ```
 
 ## 🥞 架构设计

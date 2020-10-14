@@ -15,8 +15,4 @@
     <ProjectReference Include="..\Fur.Database.Migrations\Fur.Database.Migrations.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
 </Project>

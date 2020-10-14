@@ -7,7 +7,7 @@
 
 <div align="center">
 
-[![star](https://gitee.com/monksoul/Fur/badge/star.svg?theme=gvp)](https://gitee.com/monksoul/Fur/stargazers) [![fork](https://gitee.com/monksoul/Fur/badge/fork.svg?theme=gvp)](https://gitee.com/monksoul/Fur/members) [![GitHub stars](https://img.shields.io/github/stars/MonkSoul/Fur?logo=github)](https://github.com/MonkSoul/Fur/stargazers) [![GitHub forks](https://img.shields.io/github/forks/MonkSoul/Fur?logo=github)](https://github.com/MonkSoul/Fur/network) [![GitHub license](https://img.shields.io/github/license/MonkSoul/Fur)](https://github.com/MonkSoul/Fur/blob/main/LICENSE) [![nuget](https://img.shields.io/badge/Nuget-1.0.0--rc2-brightgreen)](https://www.nuget.org/packages/Fur)
+[![star](https://gitee.com/monksoul/Fur/badge/star.svg?theme=gvp)](https://gitee.com/monksoul/Fur/stargazers) [![fork](https://gitee.com/monksoul/Fur/badge/fork.svg?theme=gvp)](https://gitee.com/monksoul/Fur/members) [![GitHub stars](https://img.shields.io/github/stars/MonkSoul/Fur?logo=github)](https://github.com/MonkSoul/Fur/stargazers) [![GitHub forks](https://img.shields.io/github/forks/MonkSoul/Fur?logo=github)](https://github.com/MonkSoul/Fur/network) [![GitHub license](https://img.shields.io/github/license/MonkSoul/Fur)](https://github.com/MonkSoul/Fur/blob/main/LICENSE) [![nuget](https://img.shields.io/badge/Nuget-1.0.0--rc.final-blue)](https://www.nuget.org/packages/Fur)
 
 </div>
 
@@ -19,11 +19,11 @@
 
 ## ✨ 立即尝鲜 ✨
 
-`Fur` **是基于最新的 .NET 5 RC1 构建，目的是为了尽早体验新功能，对即将到来的 .NET 5 正式版做出最快的响应。** ✈
+`Fur` **是基于最新的 .NET 5 RC2 构建，目的是为了尽早体验新功能，对即将到来的 .NET 5 正式版做出最快的响应。** ✈
 
 所以运行 `Fur` 需要以下两个条件：
 
-- **安装最新的 v5.0.0-rc.1**：https://dotnet.microsoft.com/download/dotnet/5.0
+- **安装最新的 v5.0.0-rc.2**：https://dotnet.microsoft.com/download/dotnet/5.0
 - **安装最新的 Visual Studio 2019 Preview**：https://visualstudio.microsoft.com/zh-hans/vs/preview/ 或使用 **Visual Studio Code** 打开 `framework` 目录
 
 <img src="https://gitee.com/monksoul/Fur/raw/main/handbook/static/img/demo.gif" />
@@ -81,7 +81,7 @@
 - `Docker Hub` 线上镜像
 
 ```shell
-docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-2020.10.14
+docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-rc.final
 ```
 
 - `手动` 打包镜像
@@ -89,13 +89,13 @@ docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-2020.10.14
 打开 `CMD/Shell/PowerShell` 进入 `Fur` 项目根目录打包 `Fur` 镜像：
 
 ```shell
-docker build -t fur:v1.0.0-2020.10.14 .
+docker build -t fur:v1.0.0-rc.final .
 ```
 
 打包成功后，直接 `docker run`：
 
 ```shell
-docker run --name fur -p 5000:80 fur:v1.0.0-2020.10.14
+docker run --name fur -p 5000:80 fur:v1.0.0-rc.final
 ```
 
 ## 🥞 架构设计

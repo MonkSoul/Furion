@@ -16,44 +16,37 @@ sidebar_label: 1.4 项目引用
 - `Fur.Web.Core`：添加 `Fur.Application`，`Fur.Database.Migrations` 引用
 - `Fur.Web.Entry`：添加 `Fur.Web.Core` 引用 和 `Microsoft.EntityFrameworkCore.Tools` 包
 
-## 1.4.2 创建项目注意事项
+如果开发者搭建自己的项目，则只需要在 `Fur.Core` 层引用 `Nuget` 中最新的 `Fur` 包即可。
 
-`Fur` 框架采用最新的 `.NET 5` 共享包设计方式，所以，所有新建的 `项目` 都需要修改 `.csproj` 文件，并添加以下代码：
+## 1.4.2 集成 `Fur` 功能
 
-```xml title="Fur.Core\Fur.Core.csproj"
-<ItemGroup>
-  <FrameworkReference Include="Microsoft.AspNetCore.App" />
-</ItemGroup>
+项目搭建好之后，集成 `Fur` 框架只需要在 `Program.cs` 中 添加 `Inject()` 方法即可：
+
+```cs {18}
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+
+namespace Fur.Web.Entry
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.Inject()
+                        .UseStartup<Startup>();
+                });
+        }
+    }
+}
 ```
-
-完整代码如下：
-
-```xml {17-19}
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <NoWarn>1701;1702;1591</NoWarn>
-    <DocumentationFile>Fur.Core.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Fur.Core.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Fur\Fur.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
-</Project>
-
-```
-
-所有新建项目都需添加 `上述高亮代码`，方可使用 `Fur` 全部功能。
 
 ## 1.4.3 反馈与建议
 

@@ -20,7 +20,6 @@ namespace Fur.Application
     /// <summary>
     /// 用户管理
     /// </summary>
-    [ApiDescriptionSettings("Demo")]
     public class PersonService : IDynamicApiController
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
