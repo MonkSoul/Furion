@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。
 // Copyright © 2020 Fur, Baiqian Co.,Ltd.
 //
@@ -80,12 +80,8 @@ namespace Fur.SpecificationDocument
             options.FormatAsV2 ??= false;
             options.RoutePrefix ??= "api";
             options.DocExpansionState ??= DocExpansion.List;
-            XmlComments ??= new string[]
-           {
-                "Fur.Application",
-                "Fur.Web.Entry",
-                "Fur.Web.Core"
-           };
+            //加载扫描后符合邀请的程序集名称
+            XmlComments ??= App.Assemblies.Select(t => t.GetName().Name).ToArray();
             GroupOpenApiInfos ??= new SpecificationOpenApiInfo[]
             {
                 new SpecificationOpenApiInfo()
