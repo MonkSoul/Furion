@@ -73,7 +73,7 @@ namespace Fur.Application
 `Mapster` 除了提供 `Adapt` 拓展方法以外，同时还提供依赖注入的方式。
 
 ```cs
-public class Person(IMapper mapper)
+public  Person(IMapper mapper)
 {
   var dto =  _mapper.Map<Dto>(entity);
 }
