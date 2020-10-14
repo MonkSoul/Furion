@@ -64,7 +64,7 @@ namespace Fur
         /// 应用服务提供器
         /// </summary>
         /// <remarks>
-        /// 通过它可以获取第三方容器注入的服务，也就是不是 asp.net core 托管的，或者自己实现 Ioc/di 的方式
+        /// 通过它可以获取第三方容器注入的服务，也就是不是 asp.net core 托管的，或者自己实现 Ioc/DI 的方式
         /// 如采用 autofac 替换默认 IOC 容器，这样就可以通过 Application.GetAutofacRoot() 获取 Autofac容器对象，无需采用静态类手工存储该容器
         /// </remarks>
         /// <example>
