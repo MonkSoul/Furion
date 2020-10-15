@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.3
+// 框架版本：1.0.0-rc.final.4
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -17,6 +17,9 @@ using System;
 
 namespace Fur.DependencyInjection
 {
+    /// <summary>
+    /// 依赖注入配置选项
+    /// </summary>
     [OptionsSettings("AppSettings:DependencyInjectionSettings")]
     public sealed class DependencyInjectionSettingsOptions : IConfigurableOptions<DependencyInjectionSettingsOptions>
     {

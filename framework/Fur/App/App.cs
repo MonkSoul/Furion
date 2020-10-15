@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.3
+// 框架版本：1.0.0-rc.final.4
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -229,7 +229,7 @@ namespace Fur
         /// <summary>
         /// 获取应用有效程序集
         /// </summary>
-        /// <returns>IEnumerable<Assembly></returns>
+        /// <returns>IEnumerable</returns>
         internal static IEnumerable<Assembly> GetAssemblies()
         {
             // 需排除的程序集后缀

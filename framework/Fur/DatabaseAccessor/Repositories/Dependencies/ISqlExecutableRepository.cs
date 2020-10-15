@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.3
+// 框架版本：1.0.0-rc.final.4
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -974,6 +974,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TResult">数据集结果</typeparam>
         /// <param name="procName">存储过程名</param>
         /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>ProcedureOutput</returns>
         Task<ProcedureOutputResult<TResult>> SqlProcedureOutputAsync<TResult>(string procName, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
@@ -992,6 +993,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TResult">数据集结果</typeparam>
         /// <param name="procName">存储过程名</param>
         /// <param name="model">命令模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>ProcedureOutput</returns>
         Task<ProcedureOutputResult<TResult>> SqlProcedureOutputAsync<TResult>(string procName, object model, CancellationToken cancellationToken = default);
 

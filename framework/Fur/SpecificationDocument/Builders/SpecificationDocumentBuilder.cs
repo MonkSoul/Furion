@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.3
+// 框架版本：1.0.0-rc.final.4
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -424,7 +424,7 @@ namespace Fur.SpecificationDocument
         /// <summary>
         /// 获取控制器标签
         /// </summary>
-        /// <param name="apiDescription">控制器接口描述器</param>
+        /// <param name="controllerActionDescriptor">控制器接口描述器</param>
         /// <returns></returns>
         private static string GetControllerTag(ControllerActionDescriptor controllerActionDescriptor)
         {
@@ -497,7 +497,7 @@ namespace Fur.SpecificationDocument
         /// <summary>
         /// 解析分组名称中的排序
         /// </summary>
-        /// <param name="name">分组名</param>
+        /// <param name="group">分组名</param>
         /// <returns></returns>
         private static GroupOrder ResolveGroupOrder(string group)
         {

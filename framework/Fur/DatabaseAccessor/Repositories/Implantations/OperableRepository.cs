@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.3
+// 框架版本：1.0.0-rc.final.4
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -757,7 +757,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
-        /// <returns>IQueryable<TEntity></returns>
+        /// <returns>IQueryable</returns>
         public virtual IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters)
         {
             // 获取真实运行 Sql
@@ -773,7 +773,7 @@ namespace Fur.DatabaseAccessor
         /// 支持字符串内插语法
         /// </remarks>
         /// <param name="sql">sql 语句</param>
-        /// <returns>IQueryable<TEntity></returns>
+        /// <returns>IQueryable</returns>
         public virtual IQueryable<TEntity> FromSqlInterpolated(FormattableString sql)
         {
             // 获取真实运行 Sql
