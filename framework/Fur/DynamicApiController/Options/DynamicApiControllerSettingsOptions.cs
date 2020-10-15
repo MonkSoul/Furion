@@ -4,10 +4,10 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.1
+// 框架版本：1.0.0-rc.final.2
 // 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur
-// 				    Github：https://github.com/monksoul/Fur
+// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
+// 				    Github：https://github.com/monksoul/Fur 
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
@@ -50,6 +50,11 @@ namespace Fur.DynamicApiController
         public bool? KeepVerb { get; set; }
 
         /// <summary>
+        /// 保留名称
+        /// </summary>
+        public bool? KeepName { get; set; }
+
+        /// <summary>
         /// 骆驼命名分隔符
         /// </summary>
         public string CamelCaseSeparator { get; set; }
@@ -90,6 +95,7 @@ namespace Fur.DynamicApiController
             options.DefaultHttpMethod ??= "POST";
             options.LowercaseRoute ??= true;
             options.KeepVerb ??= false;
+            options.KeepName ??= false;
             options.CamelCaseSeparator ??= "-";
             options.VersionSeparator ??= "@";
             options.ModelToQuery ??= false;
