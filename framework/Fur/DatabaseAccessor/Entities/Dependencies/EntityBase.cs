@@ -191,7 +191,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public TKey Id { get; set; }
 
         /// <summary>
         /// 租户Id
