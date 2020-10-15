@@ -22,7 +22,7 @@ const features = [
     ),
   },
   {
-    title: <>“六级” 架构</>,
+    title: <>“六极” 架构</>,
     imageUrl: "img/undraw_docusaurus_tree.svg",
     description: (
       <>
