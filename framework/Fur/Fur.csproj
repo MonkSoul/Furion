@@ -5,13 +5,18 @@
     <Authors>百小僧/MonkSoul</Authors>
     <Company>Baiqian Co.,Ltd.</Company>
     <Copyright>© 2020 Fur, Baiqian Co.,Ltd.</Copyright>
-    <Description>Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。</Description>
+    <Description>Fur 是 .NET 5 平台下企业应用开发最佳实践框架。</Description>
     <PackageProjectUrl>https://chinadot.net</PackageProjectUrl>
     <RepositoryUrl>https://gitee.com/monksoul/Fur</RepositoryUrl>
     <RepositoryType>Gitee</RepositoryType>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <Version>1.0.0-rc.final.2</Version>
+    <Version>1.0.0-rc.final.3</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>Fur.xml</DocumentationFile>
+    <Optimize>true</Optimize>
   </PropertyGroup>
 
   <ItemGroup>
