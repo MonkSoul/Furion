@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.5
+// 框架版本：1.0.0-rc.final.6
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -37,11 +37,6 @@ namespace Fur.DataValidation
         private const string MiniProfilerCategory = "validation";
 
         /// <summary>
-        /// 过滤器排序
-        /// </summary>
-        internal const int FilterOrder = -2000;
-
-        /// <summary>
         /// 服务提供器
         /// </summary>
         private readonly IServiceProvider _serviceProvider;
@@ -56,7 +51,12 @@ namespace Fur.DataValidation
         }
 
         /// <summary>
-        /// 排序
+        /// 过滤器排序
+        /// </summary>
+        internal const int FilterOrder = -1000;
+
+        /// <summary>
+        /// 排序属性
         /// </summary>
         public int Order => FilterOrder;
 

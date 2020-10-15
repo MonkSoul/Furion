@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.5
+// 框架版本：1.0.0-rc.final.6
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -33,11 +33,6 @@ namespace Fur.DatabaseAccessor
         private const string MiniProfilerCategory = "transaction";
 
         /// <summary>
-        /// 过滤器排序
-        /// </summary>
-        internal const int FilterOrder = -1000;
-
-        /// <summary>
         /// 数据库上下文池
         /// </summary>
         private readonly IDbContextPool _dbContextPool;
@@ -50,6 +45,11 @@ namespace Fur.DatabaseAccessor
         {
             _dbContextPool = dbContextPool;
         }
+
+        /// <summary>
+        /// 过滤器排序
+        /// </summary>
+        internal const int FilterOrder = 9999;
 
         /// <summary>
         /// 排序属性
@@ -68,6 +68,14 @@ namespace Fur.DatabaseAccessor
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
             var method = actionDescriptor.MethodInfo;
 
+            // 如果没有在构造函数中初始化上下文，则跳过
+            var dbContexts = _dbContextPool.GetDbContexts();
+            if (!dbContexts.Any())
+            {
+                await next();
+                return;
+            }
+
             // 工作单元特性
             UnitOfWorkAttribute unitOfWorkAttribute = null;
 
@@ -78,6 +86,7 @@ namespace Fur.DatabaseAccessor
                 if (!unitOfWorkAttribute.Enabled)
                 {
                     App.PrintToMiniProfiler("UnitOfWork", "Disabled !");
+                    await next();
                     return;
                 }
             }
@@ -89,7 +98,7 @@ namespace Fur.DatabaseAccessor
             if (disabledTransact) App.PrintToMiniProfiler(MiniProfilerCategory, "Disabled !");
 
             // 判断是否支持环境事务
-            var isSupportTransactionScope = !_dbContextPool.GetDbContexts().Any(u => DbProvider.NotSupportTransactionScopeDatabase.Contains(u.Database.ProviderName));
+            var isSupportTransactionScope = !dbContexts.Any(u => DbProvider.NotSupportTransactionScopeDatabase.Contains(u.Database.ProviderName));
             TransactionScope transaction = null;
 
             if (isSupportTransactionScope && !disabledTransact)
