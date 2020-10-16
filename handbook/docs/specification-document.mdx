@@ -83,6 +83,14 @@ import TabItem from "@theme/TabItem";
 
 ### 6.5.1 注册服务
 
+:::important 备注
+
+`.AddSpecificationDocuments()` 默认已经继承在 `AddInject()` 中了，无需再次注册。
+
+另外 `.UseInject()` 也已经包含了 `.UseSpecificationDocuments()` 注册，无需再次注册。
+
+:::
+
 ```cs {11,21} title="Fur.Web.Core\FurWebCoreStartup.cs"
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

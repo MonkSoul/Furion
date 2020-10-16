@@ -123,6 +123,12 @@ namespace Fur.Web.Entry.Controllers
 
 ## 5.4 注册动态 `WebAPI` 服务
 
+:::important 备注
+
+`.AddDynamicApiControllers()` 默认已经继承在 `AddInject()` 中了，无需再次注册。也就是下列代码可不配置。
+
+:::
+
 ```cs {11} title="Fur.Web.Core\FurWebCoreStartup.cs"
 using Microsoft.Extensions.DependencyInjection;
 

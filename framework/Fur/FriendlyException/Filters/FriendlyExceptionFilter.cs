@@ -4,10 +4,10 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.8
+// 框架版本：1.0.0-rc.final.10
 // 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
-// 				    Github：https://github.com/monksoul/Fur 
+// 源码地址：Gitee：https://gitee.com/monksoul/Fur
+// 				    Github：https://github.com/monksoul/Fur
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
@@ -46,11 +46,18 @@ namespace Microsoft.AspNetCore.Mvc.Filters
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public Task OnExceptionAsync(ExceptionContext context)
+        public async Task OnExceptionAsync(ExceptionContext context)
         {
+            // 解析异常处理服务，实现自定义异常额外操作，如记录日志等
+            var globalExceptionHandler = _serviceProvider.GetService<IGlobalExceptionHandler>();
+            if (globalExceptionHandler != null)
+            {
+                await globalExceptionHandler.OnExceptionAsync(context);
+            }
+
             // 排除 Mvc 视图
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
-            if (actionDescriptor.ControllerTypeInfo.BaseType == typeof(Controller)) return Task.CompletedTask;
+            if (actionDescriptor.ControllerTypeInfo.BaseType == typeof(Controller)) return;
 
             // 标识异常已经被处理
             context.ExceptionHandled = true;
@@ -64,8 +71,6 @@ namespace Microsoft.AspNetCore.Mvc.Filters
 
             // 打印错误到 MiniProfiler 中
             Oops.PrintToMiniProfiler(context.Exception);
-
-            return Task.CompletedTask;
         }
     }
 }

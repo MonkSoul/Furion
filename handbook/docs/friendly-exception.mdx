@@ -53,6 +53,12 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 `Fur` 框架提供了非常灵活的友好异常处理方式。
 
+:::important 备注
+
+`.AddFriendlyException()` 默认已经继承在 `AddInject()` 中了，无需再次注册。也就是 `7.4.1` 章节可不配置。
+
+:::
+
 ### 7.4.1 注册友好异常服务
 
 ```cs {11} title="Fur.Web.Core\FurWebCoreStartup.cs"

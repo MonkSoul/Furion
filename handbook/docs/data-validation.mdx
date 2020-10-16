@@ -198,6 +198,12 @@ public class DtoModel : IValidatableObject
 
 ## 8.5 `DataValidation` 使用
 
+:::important 备注
+
+`.AddDataValidation()` 默认已经继承在 `AddInject()` 中了，无需再次注册。也就是 `8.5.1` 章节可不配置。
+
+:::
+
 ### 8.5.1 注册验证服务
 
 ```cs {11} title="Fur.Web.Core\FurWebCoreStartup.cs"
