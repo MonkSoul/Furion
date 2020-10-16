@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.10
+// 框架版本：1.0.0-rc.final.11
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -399,11 +399,11 @@ namespace Fur.SpecificationDocument
             static IEnumerable<GroupOrder> Function(MethodInfo method)
             {
                 // 如果动作方法没有定义 [ApiDescriptionSettings] 特性，则返回所在控制器分组
-                if (!method.IsDefined(typeof(ApiDescriptionSettingsAttribute), true)) return GetControllerGroups(method.DeclaringType);
+                if (!method.IsDefined(typeof(ApiDescriptionSettingsAttribute), true)) return GetControllerGroups(method.ReflectedType);
 
                 // 读取分组
                 var apiDescriptionSettings = method.GetCustomAttribute<ApiDescriptionSettingsAttribute>(true);
-                if (apiDescriptionSettings.Groups == null || apiDescriptionSettings.Groups.Length == 0) return GetControllerGroups(method.DeclaringType);
+                if (apiDescriptionSettings.Groups == null || apiDescriptionSettings.Groups.Length == 0) return GetControllerGroups(method.ReflectedType);
 
                 // 处理排序
                 var groupOrders = new List<GroupOrder>();
@@ -478,15 +478,15 @@ namespace Fur.SpecificationDocument
         /// 是否是动作方法
         /// </summary>
         /// <param name="method">方法</param>
-        /// <param name="declaringType">声明类型</param>
+        /// <param name="ReflectedType">声明类型</param>
         /// <returns></returns>
-        private static bool IsAction(MethodInfo method, Type declaringType)
+        private static bool IsAction(MethodInfo method, Type ReflectedType)
         {
             // 不是非公开、抽象、静态、泛型方法
             if (!method.IsPublic || method.IsAbstract || method.IsStatic || method.IsGenericMethod) return false;
 
             // 如果所在类型不是控制器，则该行为也被忽略
-            if (method.DeclaringType != declaringType) return false;
+            if (method.ReflectedType != ReflectedType) return false;
 
             // 不是能被导出忽略的接方法
             if (method.IsDefined(typeof(ApiExplorerSettingsAttribute), true) && method.GetCustomAttribute<ApiExplorerSettingsAttribute>(true).IgnoreApi) return false;

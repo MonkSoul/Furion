@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.10
+// 框架版本：1.0.0-rc.final.11
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -84,7 +84,7 @@ namespace Fur.DataValidation
             // 如果贴了 [NonValidation] 特性 或 所在类型贴了 [NonValidation] 特性，则跳过验证
             if (actionDescriptor.Parameters.Count == 0 ||
                 method.IsDefined(nonValidationAttributeType, true) ||
-                method.DeclaringType.IsDefined(nonValidationAttributeType, true))
+                method.ReflectedType.IsDefined(nonValidationAttributeType, true))
             {
                 // 打印验证跳过消息
                 App.PrintToMiniProfiler(MiniProfilerCategory, "Skipped");
