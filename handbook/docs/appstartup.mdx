@@ -79,7 +79,7 @@ namespace Fur.Web.Entry
 
 - `Startup` 类默认和 `Web 应用层` 绑定在一起，这样就会导致如果我创建了新的 `Web 应用层`，`Startup` 又要重新配置
 - 随着业务的增长，需要集成越来越多的第三方服务，这时候 `Startup` 类就会变得越来越臃肿，难以维护
-- `Startup` 类无法其他项目类型进行共用
+- `Startup` 类无法与其他项目类型进行共用
 
 所以，`Fur` 提供了更加灵活的配置方式：`AppStartup`。
 
