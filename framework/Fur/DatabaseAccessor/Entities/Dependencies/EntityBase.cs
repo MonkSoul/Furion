@@ -184,7 +184,6 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TKey">主键类型</typeparam>
     [SkipScan]
     public abstract class PrivateEntityBase<TKey> : IPrivateEntity
-        where TKey : struct
     {
         /// <summary>
         /// 主键Id
