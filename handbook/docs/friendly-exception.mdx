@@ -363,16 +363,14 @@ namespace Fur.Web.Core
 
 `Fur` 框架还提供了非常灵活的配置文件配置异常，通过这种方式可以实现异常信息后期配置，也就是无需在开发阶段预先定义。
 
-```json {2-9} title="Fur.Web.Entry/appsettings.json"
+```json {2-8} title="Fur.Web.Entry/appsettings.json"
 {
-  "AppSettings": {
-    "ErrorCodeMessageSettings": {
-      "Definitions": [
-        [5000, "{0} 不能小于 {1}"],
-        [5001, "我叫 {0} 名字", "百小僧"],
-        [5002, "Oops! 出错了"]
-      ]
-    }
+  "ErrorCodeMessageSettings": {
+    "Definitions": [
+      [5000, "{0} 不能小于 {1}"],
+      [5001, "我叫 {0} 名字", "百小僧"],
+      [5002, "Oops! 出错了"]
+    ]
   }
 }
 ```

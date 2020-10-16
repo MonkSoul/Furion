@@ -192,13 +192,21 @@ using (var scope = new TransactionScope(
 
 一但方法或类贴了 `[NonTransact]` 特性，那么**将关闭事务操作，但是还是会自动保存数据库到数据。**
 
-## 9.25.5 常见错误
+## 9.25.5 注意事项
+
+:::important 事务开启规则
+
+目前工作单元/事务只有通过 `构造函数` 或 `方法参数` 注入的 `IRepository` 才会自动开启事务，通过 `Db.GetRepository<>` 或 `"".SqlQuery<>` 方式是不会启动事务，需手动开启事务。
+
+:::
+
+## 9.25.6 常见错误
 
 - `A TransactionScope must be disposed on the same thread that it was created.`
 
 只需要在当前操作方法上贴 `[NonTransact]` 特性即可。
 
-## 9.25.6 反馈与建议
+## 9.25.7 反馈与建议
 
 :::note 与我们交流
 

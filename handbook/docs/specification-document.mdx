@@ -274,25 +274,23 @@ namespace Fur.Application
 
 **通过配置文件配置排序**
 
-```json {2,3,4-17} title="Fur.Web.Entry/appsettings.json"
+```json {2-17} title="Fur.Web.Entry/appsettings.json"
 {
-  "AppSettings": {
-    "SpecificationDocumentSettings": {
-      "GroupOpenApiInfos": [
-        {
-          "Group": "Group1",
-          "Order": 1
-        },
-        {
-          "Group": "Group2",
-          "Order": 2
-        },
-        {
-          "Group": "Group3",
-          "Order": 0
-        }
-      ]
-    }
+  "SpecificationDocumentSettings": {
+    "GroupOpenApiInfos": [
+      {
+        "Group": "Group1",
+        "Order": 1
+      },
+      {
+        "Group": "Group2",
+        "Order": 2
+      },
+      {
+        "Group": "Group3",
+        "Order": 0
+      }
+    ]
   }
 }
 ```
@@ -315,29 +313,27 @@ namespace Fur.Application
 
 `Fur` 框架提供了可通过 `appsetting.json` 配置分组信息：
 
-```json {3,4-20} title="Fur.Web.Entry/appsettings.json"
+```json {3-20} title="Fur.Web.Entry/appsettings.json"
 {
-  "AppSettings": {
-    "SpecificationDocumentSettings": {
-      "GroupOpenApiInfos": [
-        {
-          "Group": "Group1",
-          "Title": "分组标题",
-          "Description": "这里是分组描述",
-          "Version": "版本号",
-          "TermsOfService": "https://chinadot.net",
-          "Contact": {
-            "Name": "百小僧",
-            "Url": "https://gitee.com/monksoul",
-            "Email": "monksoul@outlook.com"
-          },
-          "License": {
-            "Name": "Apache-2.0",
-            "Url": "https://gitee.com/monksoul/Fur/blob/alpha/LICENSE"
-          }
+  "SpecificationDocumentSettings": {
+    "GroupOpenApiInfos": [
+      {
+        "Group": "Group1",
+        "Title": "分组标题",
+        "Description": "这里是分组描述",
+        "Version": "版本号",
+        "TermsOfService": "https://chinadot.net",
+        "Contact": {
+          "Name": "百小僧",
+          "Url": "https://gitee.com/monksoul",
+          "Email": "monksoul@outlook.com"
+        },
+        "License": {
+          "Name": "Apache-2.0",
+          "Url": "https://gitee.com/monksoul/Fur/blob/alpha/LICENSE"
         }
-      ]
-    }
+      }
+    ]
   }
 }
 ```
@@ -491,12 +487,10 @@ namespace Fur.Application
 
 ### 6.5.9 默认展开所有文档
 
-```json {2-5} title="Fur.Web.Entry/appsettings.json"
+```json {2-4} title="Fur.Web.Entry/appsettings.json"
 {
-  "AppSettings": {
-    "SpecificationDocumentSettings": {
-      "DocExpansionState": "Full"
-    }
+  "SpecificationDocumentSettings": {
+    "DocExpansionState": "Full"
   }
 }
 ```
@@ -513,12 +507,10 @@ namespace Fur.Application
 
 ### 6.5.10 配置文档标题
 
-```json {2-5} title="Fur.Web.Entry/appsettings.json"
+```json {2-4} title="Fur.Web.Entry/appsettings.json"
 {
-  "AppSettings": {
-    "SpecificationDocumentSettings": {
-      "DocumentTitle": "我是自定义标题"
-    }
+  "SpecificationDocumentSettings": {
+    "DocumentTitle": "我是自定义标题"
   }
 }
 ```
@@ -533,32 +525,30 @@ namespace Fur.Application
 
 ```json title="Fur.Web.Entry/appsettings.json"
 {
-  "AppSettings": {
-    "SpecificationDocumentSettings": {
-      "EnableAuthorized": true,
+  "SpecificationDocumentSettings": {
+    "EnableAuthorized": true,
 
-      "SecurityDefinitions": [
-        {
-          "Id": "Bearer",
-          "Type": "Http",
-          "Name": "Authorization",
-          "Description": "JWT Authorization header using the Bearer scheme.",
-          "BearerFormat": "JWT",
-          "Scheme": "bearer",
-          "In": "Header",
+    "SecurityDefinitions": [
+      {
+        "Id": "Bearer",
+        "Type": "Http",
+        "Name": "Authorization",
+        "Description": "JWT Authorization header using the Bearer scheme.",
+        "BearerFormat": "JWT",
+        "Scheme": "bearer",
+        "In": "Header",
 
-          "Requirement": {
-            "Scheme": {
-              "Reference": {
-                "Id": "Bearer",
-                "Type": "SecurityScheme"
-              },
-              "Accesses": null
-            }
+        "Requirement": {
+          "Scheme": {
+            "Reference": {
+              "Id": "Bearer",
+              "Type": "SecurityScheme"
+            },
+            "Accesses": []
           }
         }
-      ]
-    }
+      }
+    ]
   }
 }
 ```
@@ -615,7 +605,7 @@ namespace Fur.Application
 - `DefaultGroupName`：默认分组名，`string`，默认 `Default`
 - `EnableAuthorized`：是否启用权限控制，`bool`，默认 `true`
 - `FormatAsV2`：采用 `Swagger 2.0` 版本，`bool`，默认 `false`
-- `RoutePrefix`：规范化文档地址，`string`，默认 `string`
+- `RoutePrefix`：规范化文档地址，`string`，默认 `/api`，**如果希望在首页，改为空字符串即可**。
 - `DocExpansionState`：文档显示方式，`DocExpansion`，默认 `List`，取值：
   - `List`：列表式（展开子类），**默认值**
   - `Full`：完全展开

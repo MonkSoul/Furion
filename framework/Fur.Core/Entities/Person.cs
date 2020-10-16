@@ -12,7 +12,7 @@ namespace Fur.Core
         /// </summary>
         public Person()
         {
-            CreatedTime = DateTime.Now;
+            CreatedTime = DateTimeOffset.UtcNow;
             IsDeleted = false;
         }
 

@@ -503,23 +503,21 @@ services.AddScoped(typeof(ISpecService), provider = > {
 
 除了在代码中实现依赖注入，也可以实现动态依赖注入，无需修改代码或重新编译即可实现热拔插（插件）效果。配置如下：
 
-```json {3}
+```json {2}
 {
-  "AppSettings": {
-    "DependencyInjectionSettings": {
-      "Definitions": [
-        {
-          "Interface": "Fur.Application;Fur.Application.ITestService",
-          "Service": "Fur.Application;Fur.Application.TestService",
-          "RegisterType": "Transient",
-          "Action": "Add",
-          "Pattern": "SelfWithFirstInterface",
-          "Named": "TestService",
-          "Order": 1,
-          "Proxy": "Fur.Application;Fur.Application.LogDispathProxy"
-        }
-      ]
-    }
+  "DependencyInjectionSettings": {
+    "Definitions": [
+      {
+        "Interface": "Fur.Application;Fur.Application.ITestService",
+        "Service": "Fur.Application;Fur.Application.TestService",
+        "RegisterType": "Transient",
+        "Action": "Add",
+        "Pattern": "SelfWithFirstInterface",
+        "Named": "TestService",
+        "Order": 1,
+        "Proxy": "Fur.Application;Fur.Application.LogDispathProxy"
+      }
+    ]
   }
 }
 ```
@@ -585,7 +583,7 @@ public class TestService: ITestService, ITransient
 
 现在我们有一个需求，我们希望调用 `SayHello` 的时候可以记录日志和权限控制（之前没有考虑到的需求）。
 
-这个时候我们只需要创建一个代理类即可，如 `LogDispatchProxy` 
+这个时候我们只需要创建一个代理类即可，如 `LogDispatchProxy`
 
 ```cs {1,3,7,25}
 using Fur.DependencyInjection;
@@ -653,7 +651,6 @@ public class TestService: ITestService, ITransient
 - 动态实现异常监听
 
 还可以做更多更多的事情。
-
 
 ## 11.13 反馈与建议
 

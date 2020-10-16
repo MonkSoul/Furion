@@ -4,10 +4,10 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.6
+// 框架版本：1.0.0-rc.final.8
 // 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur
-// 				    Github：https://github.com/monksoul/Fur
+// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
+// 				    Github：https://github.com/monksoul/Fur 
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
@@ -396,12 +396,12 @@ namespace Fur.DynamicApiController
                 tempName = name;
                 apiVersion ??= version;
 
+                // 清除指定前后缀
+                tempName = Penetrates.ClearStringAffixes(tempName, affixes: affixes);
+
                 // 判断是否保留原有名称
                 if ((apiDescriptionSettings?.KeepName == null || apiDescriptionSettings.KeepName == false) && _dynamicApiControllerSettings?.KeepName != true)
                 {
-                    // 清除指定前后缀
-                    tempName = Penetrates.ClearStringAffixes(tempName, affixes: affixes);
-
                     // 自定义配置
                     tempName = configure.Invoke(tempName);
 

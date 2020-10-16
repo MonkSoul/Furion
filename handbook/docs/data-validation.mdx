@@ -681,17 +681,15 @@ namespace Fur.Web.Core
 
 - **`appsettings.json` 方式**
 
-```json {2-11} title="Fur.Web.Entry/appsettings.json"
+```json {2-9} title="Fur.Web.Entry/appsettings.json"
 {
-  "AppSettings": {
-    "ValidationTypeMessageSettings": {
-      "Definitions": [
-        ["Required", "值不能为空或Null"],
-        ["Numeric", "必须是数值类型"],
+  "ValidationTypeMessageSettings": {
+    "Definitions": [
+      ["Required", "值不能为空或Null"],
+      ["Numeric", "必须是数值类型"],
 
-        ["StrongPassword", "密码太简单了!!!"]
-      ]
-    }
+      ["StrongPassword", "密码太简单了!!!"]
+    ]
   }
 }
 ```

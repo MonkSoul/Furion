@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.6
+// 框架版本：1.0.0-rc.final.8
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -22,7 +22,7 @@ namespace Fur.SpecificationDocument
     /// <summary>
     /// 规范化文档配置选项
     /// </summary>
-    [OptionsSettings("AppSettings:SpecificationDocumentSettings")]
+    [OptionsSettings("SpecificationDocumentSettings")]
     public sealed class SpecificationDocumentSettingsOptions : IConfigurableOptions<SpecificationDocumentSettingsOptions>
     {
         /// <summary>
@@ -82,7 +82,7 @@ namespace Fur.SpecificationDocument
             options.FormatAsV2 ??= false;
             options.RoutePrefix ??= "api";
             options.DocExpansionState ??= DocExpansion.List;
-            XmlComments ??= App.Assemblies.Select(t => t.GetName().Name).ToArray();
+            XmlComments ??= App.Assemblies.Where(u => u.GetName().Name != "Fur").Select(t => t.GetName().Name).ToArray();
             GroupOpenApiInfos ??= new SpecificationOpenApiInfo[]
             {
                 new SpecificationOpenApiInfo()

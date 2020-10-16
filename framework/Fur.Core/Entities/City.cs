@@ -16,7 +16,7 @@ namespace Fur.Core
         /// </summary>
         public City()
         {
-            CreatedTime = DateTime.Now;
+            CreatedTime = DateTimeOffset.UtcNow;
             IsDeleted = false;
         }
 
@@ -65,11 +65,11 @@ namespace Fur.Core
         {
             return new List<City>
             {
-                new City { Id=1,CreatedTime =DateTime.Parse("2020-08-20 15:30:20"),IsDeleted=false,Name="中国" },
-                new City { Id=2,CreatedTime =DateTime.Parse("2020-08-20 15:30:20"),IsDeleted=false,Name="广东省",ParentId=1 },
-                new City { Id=3,CreatedTime =DateTime.Parse("2020-08-20 15:30:20"),IsDeleted=false,Name="中山市",ParentId=2 },
-                new City { Id=4,CreatedTime =DateTime.Parse("2020-08-20 15:30:20"),IsDeleted=false,Name="珠海市",ParentId=2 },
-                new City { Id=5,CreatedTime =DateTime.Parse("2020-08-20 15:30:20"),IsDeleted=false,Name="浙江省",ParentId=1 },
+                new City { Id=1,CreatedTime =DateTimeOffset.Parse("2020-08-20 15:30:20"),IsDeleted=false,Name="中国" },
+                new City { Id=2,CreatedTime =DateTimeOffset.Parse("2020-08-20 15:30:20"),IsDeleted=false,Name="广东省",ParentId=1 },
+                new City { Id=3,CreatedTime =DateTimeOffset.Parse("2020-08-20 15:30:20"),IsDeleted=false,Name="中山市",ParentId=2 },
+                new City { Id=4,CreatedTime =DateTimeOffset.Parse("2020-08-20 15:30:20"),IsDeleted=false,Name="珠海市",ParentId=2 },
+                new City { Id=5,CreatedTime =DateTimeOffset.Parse("2020-08-20 15:30:20"),IsDeleted=false,Name="浙江省",ParentId=1 },
             };
         }
     }

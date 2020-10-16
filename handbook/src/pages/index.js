@@ -67,8 +67,8 @@ function Home() {
   const { siteConfig = {} } = context;
   return (
     <Layout
-      title={`Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。 ${siteConfig.title}`}
-      description="Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。"
+      title={`Fur 是 .NET 5 平台下企业应用开发最佳实践框架。 ${siteConfig.title}`}
+      description="Fur 是 .NET 5 平台下企业应用开发最佳实践框架。"
     >
       <header className={clsx("hero hero--primary", styles.heroBanner)}>
         <div className="container">
