@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Fur 是 .NET 5 平台下企业应用开发最佳实践框架。
 // Copyright © 2020 Fur, Baiqian Co.,Ltd.
 //
@@ -159,7 +159,7 @@ namespace Fur.DatabaseAccessor
                 {
                     // 首先查找 DbConnectionString 键，如果没有找到，则当成 Key 去查找
                     var connStrValue = configuration.GetConnectionString(connStr);
-                    return !string.IsNullOrEmpty(connStrValue) ? connStrValue : configuration[connStrValue];
+                    return !string.IsNullOrEmpty(connStrValue) ? connStrValue : configuration[connStr];
                 }
             }
         }
