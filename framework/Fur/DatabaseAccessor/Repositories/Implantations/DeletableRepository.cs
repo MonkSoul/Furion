@@ -470,7 +470,7 @@ namespace Fur.DatabaseAccessor
         public virtual EntityEntry<TEntity> FakeDelete(object key)
         {
             var deletedEntity = BuildDeletedEntity(key, false);
-            if (deletedEntity != null) return default;
+            if (deletedEntity == null) return default;
 
             var fakeDeleteProperty = SetFakePropertyValue(deletedEntity);
             return UpdateInclude(deletedEntity, fakeDeleteProperty.Name);
@@ -484,7 +484,7 @@ namespace Fur.DatabaseAccessor
         public virtual Task<EntityEntry<TEntity>> FakeDeleteAsync(object key)
         {
             var deletedEntity = BuildDeletedEntity(key, false);
-            if (deletedEntity != null) return default;
+            if (deletedEntity == null) return default;
 
             var fakeDeleteProperty = SetFakePropertyValue(deletedEntity);
             return UpdateIncludeAsync(deletedEntity, fakeDeleteProperty.Name);
@@ -498,7 +498,7 @@ namespace Fur.DatabaseAccessor
         public virtual EntityEntry<TEntity> FakeDeleteNow(object key)
         {
             var deletedEntity = BuildDeletedEntity(key, false);
-            if (deletedEntity != null) return default;
+            if (deletedEntity == null) return default;
 
             var fakeDeleteProperty = SetFakePropertyValue(deletedEntity);
             return UpdateIncludeNow(deletedEntity, fakeDeleteProperty.Name);
@@ -513,7 +513,7 @@ namespace Fur.DatabaseAccessor
         public virtual EntityEntry<TEntity> FakeDeleteNow(object key, bool acceptAllChangesOnSuccess)
         {
             var deletedEntity = BuildDeletedEntity(key, false);
-            if (deletedEntity != null) return default;
+            if (deletedEntity == null) return default;
 
             var fakeDeleteProperty = SetFakePropertyValue(deletedEntity);
             return UpdateIncludeNow(deletedEntity, new[] { fakeDeleteProperty.Name }, acceptAllChangesOnSuccess);
@@ -528,7 +528,7 @@ namespace Fur.DatabaseAccessor
         public virtual Task<EntityEntry<TEntity>> FakeDeleteNowAsync(object key, CancellationToken cancellationToken = default)
         {
             var deletedEntity = BuildDeletedEntity(key, false);
-            if (deletedEntity != null) return default;
+            if (deletedEntity == null) return default;
 
             var fakeDeleteProperty = SetFakePropertyValue(deletedEntity);
             return UpdateIncludeNowAsync(deletedEntity, new[] { fakeDeleteProperty.Name }, cancellationToken);
@@ -544,7 +544,7 @@ namespace Fur.DatabaseAccessor
         public virtual Task<EntityEntry<TEntity>> FakeDeleteNowAsync(object key, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             var deletedEntity = BuildDeletedEntity(key, false);
-            if (deletedEntity != null) return default;
+            if (deletedEntity == null) return default;
 
             var fakeDeleteProperty = SetFakePropertyValue(deletedEntity);
             return UpdateIncludeNowAsync(deletedEntity, new[] { fakeDeleteProperty.Name }, acceptAllChangesOnSuccess, cancellationToken);
