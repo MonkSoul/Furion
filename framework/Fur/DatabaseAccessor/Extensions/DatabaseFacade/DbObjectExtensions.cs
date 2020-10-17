@@ -243,7 +243,8 @@ namespace Fur.DatabaseAccessor
             var dbConnection = InjectMiniProfiler ? new ProfiledDbConnection(databaseFacade.GetDbConnection(), MiniProfiler.Current) : databaseFacade.GetDbConnection();
 
             // 创建数据库命令对象
-            var dbCommand = dbConnection.CreateCommand();
+            var dbCommand = InjectMiniProfiler ? new ProfiledDbCommand(dbConnection.CreateCommand(), null, MiniProfiler.Current) : dbConnection.CreateCommand();
+
             // 设置基本参数
             dbCommand.CommandType = commandType;
             dbCommand.CommandText = sql;
