@@ -280,7 +280,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient(inter, provider =>
             {
                 dynamic proxy = DispatchCreateMethod.MakeGenericMethod(inter, proxyType).Invoke(null, null);
-                proxy.ServiceProvider = provider;
+                proxy.Services = provider;
                 if (hasTarget)
                 {
                     proxy.Target = provider.GetService(type);
@@ -306,7 +306,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped(inter, provider =>
             {
                 dynamic proxy = DispatchCreateMethod.MakeGenericMethod(inter, proxyType).Invoke(null, null);
-                proxy.ServiceProvider = provider;
+                proxy.Services = provider;
                 if (hasTarget)
                 {
                     proxy.Target = provider.GetService(type);
@@ -332,7 +332,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton(inter, provider =>
             {
                 dynamic proxy = DispatchCreateMethod.MakeGenericMethod(inter, proxyType).Invoke(null, null);
-                proxy.ServiceProvider = provider;
+                proxy.Services = provider;
                 if (hasTarget)
                 {
                     proxy.Target = provider.GetService(type);
