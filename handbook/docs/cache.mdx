@@ -13,3 +13,56 @@ sidebar_label: 13. 分布式缓存
 - 内存缓存：顾名思义，就是缓存在应用部署所在服务器的内存中
 - 分布式缓存：分布式缓存是由多个应用服务器共享的缓存
 - 响应缓存：缓存服务器端 `Not Modified` 的数据
+
+## 13.3 内存缓存使用
+
+内存缓存是最常用的缓存方式，具有存取快，效率高特点。
+
+内存缓存通过注入 `IMemoryCache` 方式注入即可。
+
+### 13.3.1 基本使用
+
+如，缓存当前时间：
+
+```cs {13,20,25}
+using Fur.DynamicApiController;
+using Microsoft.Extensions.Caching.Memory;
+using System;
+
+namespace Fur.Application.Persons
+{
+    public class TestService : IDynamicApiController
+    {
+        private const string _timeCacheKey = "cache_time";
+
+        private readonly IMemoryCache _memoryCache;
+
+        public TestService(IMemoryCache memoryCache)
+        {
+            _memoryCache = memoryCache;
+        }
+
+        public void SetTimeCache()
+        {
+            _memoryCache.Set(_timeCacheKey, DateTimeOffset.UtcNow);
+        }
+
+        public DateTimeOffset GetTimeCache()
+        {
+            return _memoryCache.Get<DateTimeOffset>(_timeCacheKey);
+        }
+    }
+}
+```
+
+```cs
+var timeData = _cache.GetOrCreate(_timeCacheKey, entry =>
+{
+    entry.SlidingExpiration = TimeSpan.FromSeconds(3);
+    return DateTimeOffset.UtcNow;
+});
+```
+
+### 13.3.2 设置缓存选项
+
+内存缓存支持设置缓存时间、缓存大小、及绝对缓存过期时间等

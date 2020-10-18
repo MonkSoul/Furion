@@ -592,7 +592,31 @@ namespace Fur.UnifyResult
 services.AddControllers().AddUnifyResult<RESTfulResult, RESTfulResultProvider>();
 ```
 
-## 7.14 反馈与建议
+## 7.14 全局异常处理提供器
+
+通常我们需要在异常捕获的时候写日志，这时候就需要使用到 `IGlobalExceptionHandler` 异常定义处理程序，如：
+
+```cs {8}
+using Fur.DependencyInjection;
+using Fur.FriendlyException;
+using Microsoft.AspNetCore.Mvc.Filters;
+using System.Threading.Tasks;
+
+namespace Fur.Application
+{
+    public class LogExceptionHandler : IGlobalExceptionHandler, ISingleton
+    {
+        public Task OnExceptionAsync(ExceptionContext context)
+        {
+            // 写日志
+
+            return Task.CompletedTask;
+        }
+    }
+}
+```
+
+## 7.15 反馈与建议
 
 :::note 与我们交流
 
