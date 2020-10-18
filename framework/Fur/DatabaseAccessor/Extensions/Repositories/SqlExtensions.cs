@@ -15,7 +15,6 @@ using Fur.DependencyInjection;
 using Mapster;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -2535,12 +2534,6 @@ namespace Fur.DatabaseAccessor
         static SqlExtensions()
         {
             dbContextLocatorSqlSplit = "-=>";
-            DbContextLocatorTypesCached = new ConcurrentDictionary<string, Type>();
         }
-
-        /// <summary>
-        /// 数据库上下文定位器缓存
-        /// </summary>
-        private static readonly ConcurrentDictionary<string, Type> DbContextLocatorTypesCached;
     }
 }
