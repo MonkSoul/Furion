@@ -68,6 +68,8 @@
 - 国内文档：[https://monksoul.gitee.io/fur/](https://monksoul.gitee.io/fur/)
 - 国外文档：[https://chinadot.net](https://chinadot.net)
 
+目前文档正在逐步完善中。
+
 ## 🌭 开源地址
 
 - Gitee：[https://gitee.com/monksoul/Fur](https://gitee.com/monksoul/Fur)

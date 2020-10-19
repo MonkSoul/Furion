@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.14
+// 框架版本：1.0.0-rc.final.15
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -118,7 +118,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
-        TEntity Single(bool noTracking = false);
+        TEntity Single(bool noTracking = true);
 
         /// <summary>
         /// 根据表达式查询一条记录
@@ -126,14 +126,14 @@ namespace Fur.DatabaseAccessor
         /// <param name="predicate">表达式</param>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
-        TEntity Single(Expression<Func<TEntity, bool>> predicate, bool noTracking = false);
+        TEntity Single(Expression<Func<TEntity, bool>> predicate, bool noTracking = true);
 
         /// <summary>
         /// 查询一条记录
         /// </summary>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
-        TEntity SingleOrDefault(bool noTracking = false);
+        TEntity SingleOrDefault(bool noTracking = true);
 
         /// <summary>
         /// 根据表达式查询一条记录
@@ -141,54 +141,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="predicate">表达式</param>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
-        TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking = false);
-
-        /// <summary>
-        /// 查询一条记录
-        /// </summary>
-        /// <param name="noTracking">是否跟踪实体</param>
-        /// <param name="cancellationToken">取消异步令牌</param>
-        /// <returns>数据库中的实体</returns>
-        Task<TEntity> SingleAsync(bool noTracking = false, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 根据表达式查询一条记录
-        /// </summary>
-        /// <param name="predicate">表达式</param>
-        /// <param name="noTracking">是否跟踪实体</param>
-        /// <param name="cancellationToken">取消异步令牌</param>
-        /// <returns>数据库中的实体</returns>
-        Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = false, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 查询一条记录
-        /// </summary>
-        /// <param name="noTracking">是否跟踪实体</param>
-        /// <returns>数据库中的实体</returns>
-        TEntity First(bool noTracking = false);
-
-        /// <summary>
-        /// 根据表达式查询一条记录
-        /// </summary>
-        /// <param name="predicate">表达式</param>
-        /// <param name="noTracking">是否跟踪实体</param>
-        /// <returns>数据库中的实体</returns>
-        TEntity First(Expression<Func<TEntity, bool>> predicate, bool noTracking = false);
-
-        /// <summary>
-        /// 查询一条记录
-        /// </summary>
-        /// <param name="noTracking">是否跟踪实体</param>
-        /// <returns>数据库中的实体</returns>
-        TEntity FirstOrDefault(bool noTracking = false);
-
-        /// <summary>
-        /// 根据表达式查询一条记录
-        /// </summary>
-        /// <param name="predicate">表达式</param>
-        /// <param name="noTracking">是否跟踪实体</param>
-        /// <returns>数据库中的实体</returns>
-        TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking = false);
+        TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking = true);
 
         /// <summary>
         /// 查询一条记录
@@ -196,7 +149,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        Task<TEntity> FirstAsync(bool noTracking = false, CancellationToken cancellationToken = default);
+        Task<TEntity> SingleAsync(bool noTracking = true, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 根据表达式查询一条记录
@@ -205,14 +158,14 @@ namespace Fur.DatabaseAccessor
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = false, CancellationToken cancellationToken = default);
+        Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 查询一条记录
         /// </summary>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
-        TEntity Last(bool noTracking = false);
+        TEntity First(bool noTracking = true);
 
         /// <summary>
         /// 根据表达式查询一条记录
@@ -220,14 +173,14 @@ namespace Fur.DatabaseAccessor
         /// <param name="predicate">表达式</param>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
-        TEntity Last(Expression<Func<TEntity, bool>> predicate, bool noTracking = false);
+        TEntity First(Expression<Func<TEntity, bool>> predicate, bool noTracking = true);
 
         /// <summary>
         /// 查询一条记录
         /// </summary>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
-        TEntity LastOrDefault(bool noTracking = false);
+        TEntity FirstOrDefault(bool noTracking = true);
 
         /// <summary>
         /// 根据表达式查询一条记录
@@ -235,7 +188,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="predicate">表达式</param>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
-        TEntity LastOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking = false);
+        TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking = true);
 
         /// <summary>
         /// 查询一条记录
@@ -243,7 +196,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        Task<TEntity> LastAsync(bool noTracking = false, CancellationToken cancellationToken = default);
+        Task<TEntity> FirstAsync(bool noTracking = true, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 根据表达式查询一条记录
@@ -252,7 +205,54 @@ namespace Fur.DatabaseAccessor
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        Task<TEntity> LastAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = false, CancellationToken cancellationToken = default);
+        Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 查询一条记录
+        /// </summary>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
+        TEntity Last(bool noTracking = true);
+
+        /// <summary>
+        /// 根据表达式查询一条记录
+        /// </summary>
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
+        TEntity Last(Expression<Func<TEntity, bool>> predicate, bool noTracking = true);
+
+        /// <summary>
+        /// 查询一条记录
+        /// </summary>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
+        TEntity LastOrDefault(bool noTracking = true);
+
+        /// <summary>
+        /// 根据表达式查询一条记录
+        /// </summary>
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
+        TEntity LastOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking = true);
+
+        /// <summary>
+        /// 查询一条记录
+        /// </summary>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<TEntity> LastAsync(bool noTracking = true, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 根据表达式查询一条记录
+        /// </summary>
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        Task<TEntity> LastAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 根据表达式查询多条记录
