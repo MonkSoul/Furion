@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.12
+// 框架版本：1.0.0-rc.final.13
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -20,13 +20,13 @@ namespace Fur.Authorization
     /// 策略对应的需求
     /// </summary>
     [SkipScan]
-    public sealed class AuthorizePolicyRequirement : IAuthorizationRequirement
+    public sealed class AppAuthorizeRequirement : IAuthorizationRequirement
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="policies"></param>
-        public AuthorizePolicyRequirement(params string[] policies)
+        public AppAuthorizeRequirement(params string[] policies)
         {
             Policies = policies;
         }

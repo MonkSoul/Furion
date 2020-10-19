@@ -12,7 +12,7 @@ namespace Fur.Core
     /// <remarks>
     /// 可以在这里自定义自己的权限
     /// </remarks>
-    public class JWTAuthorizationHandler : AuthorizePolicyHandler
+    public class JWTAuthorizationHandler : AppAuthorizeHandler
     {
         /// <summary>
         /// JWT 配置

@@ -130,8 +130,9 @@ namespace Fur.Application
         }
 
         /// <summary>
-        /// 生成Token
+        /// 生成Token，已经实现自动登录，无需手动贴
         /// </summary>
+        /// <remarks>登录成功后会自动添加授权，无需复制token手动操作</remarks>
         /// <returns></returns>
         [AllowAnonymous]
         public string GetToken()
@@ -160,7 +161,7 @@ namespace Fur.Application
         /// 需要授权才能访问
         /// </summary>
         /// <returns></returns>
-        [AuthorizePolicy]
+        [AppAuthorize]
         public string GetEmail()
         {
             return "fur@chinadot.net";

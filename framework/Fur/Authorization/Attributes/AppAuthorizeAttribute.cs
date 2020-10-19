@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.12
+// 框架版本：1.0.0-rc.final.13
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -21,13 +21,13 @@ namespace Fur.Authorization
     /// 策略授权特性
     /// </summary>
     [SkipScan, AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Method)]
-    public sealed class AuthorizePolicyAttribute : AuthorizeAttribute
+    public sealed class AppAuthorizeAttribute : AuthorizeAttribute
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="policies">多个策略</param>
-        public AuthorizePolicyAttribute(params string[] policies)
+        public AppAuthorizeAttribute(params string[] policies)
         {
             Policies = policies;
         }
@@ -38,7 +38,7 @@ namespace Fur.Authorization
         public string[] Policies
         {
             get => Policy[Penetrates.AuthorizePolicyPrefix.Length..].Split(',', StringSplitOptions.RemoveEmptyEntries);
-            internal set => Policy = $"{Penetrates.AuthorizePolicyPrefix}${string.Join(',', value)}";
+            internal set => Policy = $"{Penetrates.AuthorizePolicyPrefix}{string.Join(',', value)}";
         }
     }
 }

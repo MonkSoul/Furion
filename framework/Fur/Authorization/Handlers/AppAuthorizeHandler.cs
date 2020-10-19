@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.12
+// 框架版本：1.0.0-rc.final.13
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -23,7 +23,7 @@ namespace Fur.Authorization
     /// 授权策略执行程序
     /// </summary>
     [SkipScan]
-    public abstract class AuthorizePolicyHandler : IAuthorizationHandler
+    public abstract class AppAuthorizeHandler : IAuthorizationHandler
     {
         /// <summary>
         /// 授权验证核心方法

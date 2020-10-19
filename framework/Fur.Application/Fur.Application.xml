@@ -264,8 +264,9 @@
         </member>
         <member name="M:Fur.Application.PersonService.GetToken">
             <summary>
-            生成Token
+            生成Token，已经实现自动登录，无需手动贴
             </summary>
+            <remarks>登录成功后会自动添加授权，无需复制token手动操作</remarks>
             <returns></returns>
         </member>
         <member name="M:Fur.Application.PersonService.GetEmail">

@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.12
+// 框架版本：1.0.0-rc.final.13
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -23,7 +23,7 @@ namespace Fur.Authorization
     /// 授权策略提供器
     /// </summary>
     [SkipScan]
-    internal sealed class AuthorizePolicyProvider : IAuthorizationPolicyProvider
+    internal sealed class AppAuthorizeProvider : IAuthorizationPolicyProvider
     {
         /// <summary>
         /// 默认回退策略
@@ -34,7 +34,7 @@ namespace Fur.Authorization
         /// 构造函数
         /// </summary>
         /// <param name="options"></param>
-        public AuthorizePolicyProvider(IOptions<AuthorizationOptions> options)
+        public AppAuthorizeProvider(IOptions<AuthorizationOptions> options)
         {
             FallbackPolicyProvider = new DefaultAuthorizationPolicyProvider(options);
         }
@@ -72,7 +72,7 @@ namespace Fur.Authorization
 
                 // 添加策略需求
                 var policy = new AuthorizationPolicyBuilder();
-                policy.AddRequirements(new AuthorizePolicyRequirement(policies));
+                policy.AddRequirements(new AppAuthorizeRequirement(policies));
 
                 return Task.FromResult(policy.Build());
             }

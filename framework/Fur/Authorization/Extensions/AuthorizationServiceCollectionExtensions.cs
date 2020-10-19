@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.12
+// 框架版本：1.0.0-rc.final.13
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -25,7 +25,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// 策略授权服务拓展类
     /// </summary>
     [SkipScan]
-    public static class PolicyAuthorizationServiceCollectionExtensions
+    public static class AuthorizationServiceCollectionExtensions
     {
         /// <summary>
         /// 添加策略授权服务
@@ -39,7 +39,7 @@ namespace Microsoft.Extensions.DependencyInjection
             where TAuthorizationHandler : class, IAuthorizationHandler
         {
             // 注册授权策略提供器
-            services.TryAddSingleton<IAuthorizationPolicyProvider, AuthorizePolicyProvider>();
+            services.TryAddSingleton<IAuthorizationPolicyProvider, AppAuthorizeProvider>();
 
             // 注册策略授权处理程序
             services.TryAddSingleton<IAuthorizationHandler, TAuthorizationHandler>();
