@@ -1,5 +1,4 @@
 ﻿using Fur.Application.Persons;
-using Fur.Authorization;
 using Fur.Core;
 using Fur.DatabaseAccessor;
 using Fur.DynamicApiController;
@@ -9,10 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
 
 namespace Fur.Application
@@ -20,6 +16,7 @@ namespace Fur.Application
     /// <summary>
     /// 用户管理
     /// </summary>
+    [AllowAnonymous, ApiDescriptionSettings("Default@1")]
     public class PersonService : IDynamicApiController
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -127,44 +124,6 @@ namespace Fur.Application
                                                                 .ProjectToType<PersonDto>();
 
             return await persons.ToListAsync();
-        }
-
-        /// <summary>
-        /// 生成Token，已经实现自动登录，无需手动贴
-        /// </summary>
-        /// <remarks>登录成功后会自动添加授权，无需复制token手动操作</remarks>
-        /// <returns></returns>
-        [AllowAnonymous]
-        public string GetToken()
-        {
-            var jwtSettings = App.GetOptions<JWTSettingsOptions>();
-
-            var datetimeOffset = new DateTimeOffset(DateTime.Now);
-            var token = JWTEncryption.Encrypt(jwtSettings.IssuerSigningKey, new JObject()
-            {
-                { JwtRegisteredClaimNames.UniqueName, 1 },
-                { JwtRegisteredClaimNames.NameId,"百小僧" },
-                { JwtRegisteredClaimNames.Iat, datetimeOffset.ToUnixTimeSeconds() },
-                { JwtRegisteredClaimNames.Nbf, datetimeOffset.ToUnixTimeSeconds() },
-                { JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now.AddSeconds(jwtSettings.ExpiredTime.Value*60)).ToUnixTimeSeconds() },
-                { JwtRegisteredClaimNames.Iss, jwtSettings.ValidIssuer},
-                { JwtRegisteredClaimNames.Aud, jwtSettings.ValidAudience }
-            });
-
-            // 设置 Swagger 刷新自动授权
-            _httpContextAccessor.HttpContext.Response.Headers["access-token"] = token;
-
-            return token;
-        }
-
-        /// <summary>
-        /// 需要授权才能访问
-        /// </summary>
-        /// <returns></returns>
-        [AppAuthorize]
-        public string GetEmail()
-        {
-            return "fur@chinadot.net";
         }
     }
 }

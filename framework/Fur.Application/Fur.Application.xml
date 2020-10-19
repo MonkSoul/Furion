@@ -262,18 +262,119 @@
             <param name="age"></param>
             <returns></returns>
         </member>
-        <member name="M:Fur.Application.PersonService.GetToken">
+        <member name="T:Fur.Application.LoginInput">
             <summary>
-            生成Token，已经实现自动登录，无需手动贴
+            登录输入参数
             </summary>
-            <remarks>登录成功后会自动添加授权，无需复制token手动操作</remarks>
+        </member>
+        <member name="P:Fur.Application.LoginInput.Account">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:Fur.Application.LoginInput.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="T:Fur.Application.LoginOutput">
+            <summary>
+            登录输出参数
+            </summary>
+        </member>
+        <member name="P:Fur.Application.LoginOutput.Id">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:Fur.Application.LoginOutput.Account">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:Fur.Application.LoginOutput.AccessToken">
+            <summary>
+            Token
+            </summary>
+        </member>
+        <member name="P:Fur.Application.RoleDto.Name">
+            <summary>
+            角色名称
+            </summary>
+        </member>
+        <member name="P:Fur.Application.RoleDto.Remark">
+            <summary>
+            角色描述
+            </summary>
+        </member>
+        <member name="P:Fur.Application.RoleInput.Name">
+            <summary>
+            角色名称
+            </summary>
+        </member>
+        <member name="P:Fur.Application.RoleInput.Remark">
+            <summary>
+            角色描述
+            </summary>
+        </member>
+        <member name="P:Fur.Application.SecurityDto.Id">
+            <summary>
+            权限Id
+            </summary>
+        </member>
+        <member name="P:Fur.Application.SecurityDto.UniqueName">
+            <summary>
+            权限唯一名（每一个接口）
+            </summary>
+        </member>
+        <member name="T:Fur.Application.RABCService">
+            <summary>
+            角色管理服务
+            </summary>
+        </member>
+        <member name="M:Fur.Application.RABCService.Login(Fur.Application.LoginInput)">
+            <summary>
+            登录（免授权）
+            </summary>
+            <param name="input"></param>
+            <remarks>管理员：admin/admin；普通用户：Fur/dotnetchina</remarks>
             <returns></returns>
         </member>
-        <member name="M:Fur.Application.PersonService.GetEmail">
+        <member name="M:Fur.Application.RABCService.ViewRoles">
             <summary>
-            需要授权才能访问
+            查看用户角色
+            </summary>
+        </member>
+        <member name="M:Fur.Application.RABCService.ViewSecuries">
+            <summary>
+            查看用户权限
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:Fur.Application.RABCService.GetRoles">
+            <summary>
+            角色列表
+            </summary>
+        </member>
+        <member name="M:Fur.Application.RABCService.InsertRole(Fur.Application.RoleInput)">
+            <summary>
+            新增角色
+            </summary>
+        </member>
+        <member name="M:Fur.Application.RABCService.GiveUserRole(System.Int32[])">
+            <summary>
+            为用户分配角色
+            </summary>
+        </member>
+        <member name="M:Fur.Application.RABCService.GetSecurities">
+            <summary>
+            查看系统所有的权限（免授权）
+            </summary>
+        </member>
+        <member name="M:Fur.Application.RABCService.GiveRoleSecurity(System.Int32,System.Int32[])">
+            <summary>
+            为角色分配权限
+            </summary>
         </member>
     </members>
 </doc>

@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.13
+// 框架版本：1.0.0-rc.final.14
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -14,7 +14,6 @@
 using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Controllers;
 using System.Threading.Tasks;
 
 namespace Fur.Authorization
@@ -35,15 +34,8 @@ namespace Fur.Authorization
             // 获取所有未成功验证的需求
             var pendingRequirements = context.PendingRequirements;
 
-            // 获取动作方法描述器
-            ControllerActionDescriptor actionDescriptor = null;
-            if (context.Resource is Endpoint endpoint)
-            {
-                actionDescriptor = endpoint.Metadata.GetMetadata<ControllerActionDescriptor>();
-            }
-
             // 调用子类管道
-            var pipeline = Pipeline(context, actionDescriptor);
+            var pipeline = Pipeline(context, context.Resource as DefaultHttpContext);
             if (!pipeline) return Task.CompletedTask;
 
             // 通过授权验证
@@ -59,9 +51,9 @@ namespace Fur.Authorization
         /// 验证管道
         /// </summary>
         /// <param name="context">授权上下文</param>
-        /// <param name="actionDescriptor">动作方法描述器</param>
+        /// <param name="endpointMetadata">终点路由元数据</param>
         /// <returns></returns>
-        public virtual bool Pipeline(AuthorizationHandlerContext context, ControllerActionDescriptor actionDescriptor)
+        public virtual bool Pipeline(AuthorizationHandlerContext context, DefaultHttpContext httpContext)
         {
             return true;
         }
