@@ -20,7 +20,7 @@ namespace Fur.Application
     /// 角色管理服务
     /// </summary>
     [AppAuthorize, ApiDescriptionSettings("角色管理")]
-    public class RABCService : IDynamicApiController
+    public class RBACService : IDynamicApiController
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IRepository<User> _userRepository;
@@ -30,7 +30,7 @@ namespace Fur.Application
         private readonly IRepository<Security> _securityRepository;
         private readonly IAuthorizationManager _authorizationManager;
 
-        public RABCService(IHttpContextAccessor httpContextAccessor
+        public RBACService(IHttpContextAccessor httpContextAccessor
             , IRepository<User> userRepository
             , IRepository<Role> roleRepository
             , IRepository<UserRole> userRoleRepository

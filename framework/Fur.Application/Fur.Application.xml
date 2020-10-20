@@ -327,12 +327,12 @@
             权限唯一名（每一个接口）
             </summary>
         </member>
-        <member name="T:Fur.Application.RABCService">
+        <member name="T:Fur.Application.RBACService">
             <summary>
             角色管理服务
             </summary>
         </member>
-        <member name="M:Fur.Application.RABCService.Login(Fur.Application.LoginInput)">
+        <member name="M:Fur.Application.RBACService.Login(Fur.Application.LoginInput)">
             <summary>
             登录（免授权）
             </summary>
@@ -340,38 +340,38 @@
             <remarks>管理员：admin/admin；普通用户：Fur/dotnetchina</remarks>
             <returns></returns>
         </member>
-        <member name="M:Fur.Application.RABCService.ViewRoles">
+        <member name="M:Fur.Application.RBACService.ViewRoles">
             <summary>
             查看用户角色
             </summary>
         </member>
-        <member name="M:Fur.Application.RABCService.ViewSecuries">
+        <member name="M:Fur.Application.RBACService.ViewSecuries">
             <summary>
             查看用户权限
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Fur.Application.RABCService.GetRoles">
+        <member name="M:Fur.Application.RBACService.GetRoles">
             <summary>
             角色列表
             </summary>
         </member>
-        <member name="M:Fur.Application.RABCService.InsertRole(Fur.Application.RoleInput)">
+        <member name="M:Fur.Application.RBACService.InsertRole(Fur.Application.RoleInput)">
             <summary>
             新增角色
             </summary>
         </member>
-        <member name="M:Fur.Application.RABCService.GiveUserRole(System.Int32[])">
+        <member name="M:Fur.Application.RBACService.GiveUserRole(System.Int32[])">
             <summary>
             为用户分配角色
             </summary>
         </member>
-        <member name="M:Fur.Application.RABCService.GetSecurities">
+        <member name="M:Fur.Application.RBACService.GetSecurities">
             <summary>
             查看系统所有的权限（免授权）
             </summary>
         </member>
-        <member name="M:Fur.Application.RABCService.GiveRoleSecurity(System.Int32,System.Int32[])">
+        <member name="M:Fur.Application.RBACService.GiveRoleSecurity(System.Int32,System.Int32[])">
             <summary>
             为角色分配权限
             </summary>
