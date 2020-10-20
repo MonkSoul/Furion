@@ -288,7 +288,7 @@ var smtpServer = _configuration["outlook:smtp:server"]; // => smtp.office365.com
 
 :::important 特别说明
 
-`Fur` 框架会在启动时自动扫描每一个项目层根目录下的 `*.json` 和 `*.xml` 文件加入配置中。所以无需手工配置。
+`Fur` 框架会在启动时自动扫描每一个项目层根目录下的 `*.json` 和 `*.xml` 文件加入配置中，所以无需手工配置。新增`*.json` 和 `*.xml` 文件的属性`复制到输出目录`设置为始终复制，否则会扫描不到。
 
 :::
 
