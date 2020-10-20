@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.16
+// 框架版本：1.0.0-rc.final.17
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -65,10 +65,10 @@ namespace Fur.Authorization
         public Task<AuthorizationPolicy> GetPolicyAsync(string policyName)
         {
             // 判断是否是包含授权策略前缀
-            if (policyName.StartsWith(Penetrates.AuthorizePolicyPrefix))
+            if (policyName.StartsWith(Penetrates.AppAuthorizePrefix))
             {
                 // 解析策略名并获取策略参数
-                var policies = policyName[Penetrates.AuthorizePolicyPrefix.Length..].Split(',', StringSplitOptions.RemoveEmptyEntries);
+                var policies = policyName[Penetrates.AppAuthorizePrefix.Length..].Split(',', StringSplitOptions.RemoveEmptyEntries);
 
                 // 添加策略需求
                 var policy = new AuthorizationPolicyBuilder();

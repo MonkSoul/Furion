@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.16
+// 框架版本：1.0.0-rc.final.17
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -35,7 +35,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="configure">自定义配置</param>
         /// <param name="enableGlobalAuthorize">是否启用全局授权</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddPolicyAuthorization<TAuthorizationHandler>(this IServiceCollection services, Action<IServiceCollection> configure = null, bool enableGlobalAuthorize = false)
+        public static IServiceCollection AddAppAuthorization<TAuthorizationHandler>(this IServiceCollection services, Action<IServiceCollection> configure = null, bool enableGlobalAuthorize = false)
             where TAuthorizationHandler : class, IAuthorizationHandler
         {
             // 注册授权策略提供器

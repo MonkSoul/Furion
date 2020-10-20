@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.16
+// 框架版本：1.0.0-rc.final.17
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -24,6 +24,6 @@ namespace Fur.Authorization
         /// <summary>
         /// 授权策略前缀
         /// </summary>
-        internal const string AuthorizePolicyPrefix = "<Fur.Authorization.AppAuthorizeRequirement>";
+        internal const string AppAuthorizePrefix = "<Fur.Authorization.AppAuthorizeRequirement>";
     }
 }
