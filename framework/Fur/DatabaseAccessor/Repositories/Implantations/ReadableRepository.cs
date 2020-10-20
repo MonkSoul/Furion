@@ -149,7 +149,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
-        public virtual TEntity Single(bool noTracking = true)
+        public virtual TEntity Single(bool noTracking = false)
         {
             return AsQueryable(noTracking).Single();
         }
@@ -160,7 +160,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="predicate">表达式</param>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
-        public virtual TEntity Single(Expression<Func<TEntity, bool>> predicate, bool noTracking = true)
+        public virtual TEntity Single(Expression<Func<TEntity, bool>> predicate, bool noTracking = false)
         {
             return AsQueryable(noTracking).Single(predicate);
         }
@@ -170,7 +170,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
-        public virtual TEntity SingleOrDefault(bool noTracking = true)
+        public virtual TEntity SingleOrDefault(bool noTracking = false)
         {
             return AsQueryable(noTracking).SingleOrDefault();
         }
@@ -181,7 +181,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="predicate">表达式</param>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
-        public virtual TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking = true)
+        public virtual TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking = false)
         {
             return AsQueryable(noTracking).SingleOrDefault(predicate);
         }
@@ -192,7 +192,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        public virtual Task<TEntity> SingleAsync(bool noTracking = true, CancellationToken cancellationToken = default)
+        public virtual Task<TEntity> SingleAsync(bool noTracking = false, CancellationToken cancellationToken = default)
         {
             return AsQueryable(noTracking).SingleAsync(cancellationToken);
         }
@@ -204,7 +204,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        public virtual Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, CancellationToken cancellationToken = default)
+        public virtual Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = false, CancellationToken cancellationToken = default)
         {
             return AsQueryable(noTracking).SingleAsync(predicate, cancellationToken);
         }
@@ -214,7 +214,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
-        public virtual TEntity First(bool noTracking = true)
+        public virtual TEntity First(bool noTracking = false)
         {
             return AsQueryable(noTracking).First();
         }
@@ -225,7 +225,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="predicate">表达式</param>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
-        public virtual TEntity First(Expression<Func<TEntity, bool>> predicate, bool noTracking = true)
+        public virtual TEntity First(Expression<Func<TEntity, bool>> predicate, bool noTracking = false)
         {
             return AsQueryable(noTracking).First(predicate);
         }
@@ -235,7 +235,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
-        public virtual TEntity FirstOrDefault(bool noTracking = true)
+        public virtual TEntity FirstOrDefault(bool noTracking = false)
         {
             return AsQueryable(noTracking).FirstOrDefault();
         }
@@ -246,7 +246,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="predicate">表达式</param>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
-        public virtual TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking = true)
+        public virtual TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking = false)
         {
             return AsQueryable(noTracking).FirstOrDefault(predicate);
         }
@@ -257,7 +257,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        public virtual Task<TEntity> FirstAsync(bool noTracking = true, CancellationToken cancellationToken = default)
+        public virtual Task<TEntity> FirstAsync(bool noTracking = false, CancellationToken cancellationToken = default)
         {
             return AsQueryable(noTracking).FirstAsync(cancellationToken);
         }
@@ -269,7 +269,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        public virtual Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, CancellationToken cancellationToken = default)
+        public virtual Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = false, CancellationToken cancellationToken = default)
         {
             return AsQueryable(noTracking).FirstAsync(predicate, cancellationToken);
         }
@@ -279,7 +279,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
-        public virtual TEntity Last(bool noTracking = true)
+        public virtual TEntity Last(bool noTracking = false)
         {
             return AsQueryable(noTracking).Last();
         }
@@ -290,7 +290,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="predicate">表达式</param>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
-        public virtual TEntity Last(Expression<Func<TEntity, bool>> predicate, bool noTracking = true)
+        public virtual TEntity Last(Expression<Func<TEntity, bool>> predicate, bool noTracking = false)
         {
             return AsQueryable(noTracking).Last(predicate);
         }
@@ -300,7 +300,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
-        public virtual TEntity LastOrDefault(bool noTracking = true)
+        public virtual TEntity LastOrDefault(bool noTracking = false)
         {
             return AsQueryable(noTracking).LastOrDefault();
         }
@@ -311,7 +311,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="predicate">表达式</param>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
-        public virtual TEntity LastOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking = true)
+        public virtual TEntity LastOrDefault(Expression<Func<TEntity, bool>> predicate, bool noTracking = false)
         {
             return AsQueryable(noTracking).LastOrDefault(predicate);
         }
@@ -322,7 +322,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        public virtual Task<TEntity> LastAsync(bool noTracking = true, CancellationToken cancellationToken = default)
+        public virtual Task<TEntity> LastAsync(bool noTracking = false, CancellationToken cancellationToken = default)
         {
             return AsQueryable(noTracking).LastAsync(cancellationToken);
         }
@@ -334,7 +334,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="noTracking">是否跟踪实体</param>
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        public virtual Task<TEntity> LastAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = true, CancellationToken cancellationToken = default)
+        public virtual Task<TEntity> LastAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = false, CancellationToken cancellationToken = default)
         {
             return AsQueryable(noTracking).LastAsync(predicate, cancellationToken);
         }
