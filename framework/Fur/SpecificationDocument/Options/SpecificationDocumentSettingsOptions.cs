@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.18
+// 框架版本：1.0.0-rc.final.19
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -80,7 +80,7 @@ namespace Fur.SpecificationDocument
             options.DocumentTitle ??= "Specification Api Document";
             options.DefaultGroupName ??= "Default";
             options.FormatAsV2 ??= false;
-            options.RoutePrefix ??= "api";
+            //options.RoutePrefix ??= "api";
             options.DocExpansionState ??= DocExpansion.List;
             XmlComments ??= App.Assemblies.Where(u => u.GetName().Name != "Fur").Select(t => t.GetName().Name).ToArray();
             GroupOpenApiInfos ??= new SpecificationOpenApiInfo[]

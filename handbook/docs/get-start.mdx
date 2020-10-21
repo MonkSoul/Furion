@@ -6,6 +6,108 @@ sidebar_label: 2. 一分钟入门
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
+## 2.1 创建 `Web` 项目
+
+### 2.1.1 创建 `ASP.NET Core Web 应用程序`
+
+- 打开 `Visual Studio 2019` 并创建 `Web` 项目
+
+<img src={useBaseUrl("img/rm1.png")} />
+
+- 配置项目名称
+
+<img src={useBaseUrl("img/rm2.png")} />
+
+- 选择 `WebAPI` 项目
+
+<img src={useBaseUrl("img/rm3.png")} />
+
+## 2.2 添加 `Fur` 依赖包
+
+<img src={useBaseUrl("img/rm4.png")} />
+
+## 2.3 `Fur` 基本配置
+
+## 2.3.1 `Program.cs` 添加 `Inject()`
+
+```cs {18}
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+
+namespace FurStart
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder
+                    .Inject()   // 添加这一行
+                    .UseStartup<Startup>();
+                });
+    }
+}
+```
+
+## 2.3.2 在 `Startup.cs` 中添加两个 `Inejct()`
+
+```cs {20,36}
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+namespace FurStart
+{
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddControllers().AddInject();  // 添加 AddInject();
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseHttpsRedirection();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseInject(); // 添加这一行
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+        }
+    }
+}
+```
+
+## 2.4 启动浏览器
+
+启动浏览器并访问 `/api` 路径
+
 ## 2.1 Hello Fur
 
 ### 2.1.1 创建 `FurService` 类

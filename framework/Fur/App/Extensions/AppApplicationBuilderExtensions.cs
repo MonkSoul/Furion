@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.18
+// 框架版本：1.0.0-rc.final.19
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -27,10 +27,11 @@ namespace Microsoft.AspNetCore.Builder
         /// 注入基础中间件
         /// </summary>
         /// <param name="app"></param>
+        /// <param name="routePrefix"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseInject(this IApplicationBuilder app)
+        public static IApplicationBuilder UseInject(this IApplicationBuilder app, string routePrefix = default)
         {
-            app.UseSpecificationDocuments();
+            app.UseSpecificationDocuments(routePrefix);
             return app;
         }
 

@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.18
+// 框架版本：1.0.0-rc.final.19
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -127,7 +127,8 @@ namespace Fur.SpecificationDocument
         /// Swagger UI 构建
         /// </summary>
         /// <param name="swaggerUIOptions"></param>
-        internal static void BuildUI(SwaggerUIOptions swaggerUIOptions)
+        /// <param name="routePrefix"></param>
+        internal static void BuildUI(SwaggerUIOptions swaggerUIOptions, string routePrefix = default)
         {
             // 配置分组终点路由
             CreateGroupEndpoint(swaggerUIOptions);
@@ -136,7 +137,7 @@ namespace Fur.SpecificationDocument
             swaggerUIOptions.DocumentTitle = _specificationDocumentSettings.DocumentTitle;
 
             // 配置UI地址
-            swaggerUIOptions.RoutePrefix = _specificationDocumentSettings.RoutePrefix;
+            swaggerUIOptions.RoutePrefix = _specificationDocumentSettings.RoutePrefix ?? routePrefix ?? "api";
 
             // 文档展开设置
             swaggerUIOptions.DocExpansion(_specificationDocumentSettings.DocExpansionState.Value);
