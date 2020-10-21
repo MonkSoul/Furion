@@ -167,7 +167,35 @@ Script-Migration
 
 <img src={useBaseUrl("img/codefirst2.png")} />
 
-## 9.20.5 反馈与建议
+## 9.20.5 `VS Code` 方式
+
+### 9.20.5.1 安装 `dotnet ef`
+
+```shell
+dotnet tool install --global dotnet-ef --version 5.0.0-rc.2.20475.6
+```
+
+### 9.20.5.2 `cd` 目录
+
+通过 `VS Code` 打开 `.sln` 所在的目录，如：`framework`。
+
+之后进入 `Fur.Database.Migrations` 目录
+
+```shell
+cd Fur.Database.Migrations
+```
+
+### 9.20.5.3 执行命令
+
+```shell
+dotnet ef migrations add v1.0.0 -s "../Fur.Web.Entry"
+```
+
+```shell
+dotnet ef database update -s "../Fur.Web.Entry"
+```
+
+## 9.20.6 反馈与建议
 
 :::note 与我们交流
 

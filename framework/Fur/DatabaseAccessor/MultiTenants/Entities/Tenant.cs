@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.12
+// 框架版本：1.0.0-rc.final.20
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -47,8 +47,19 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 来源主机地址
         /// </summary>
-        [Required]
         public string Host { get; set; }
+
+        /// <summary>
+        /// 电子邮箱
+        /// </summary>
+        [EmailAddress]
+        public string EmailAddress { get; set; }
+
+        /// <summary>
+        /// 手机号码
+        /// </summary>
+        [Phone]
+        public string PhoneNumber { get; set; }
 
         /// <summary>
         /// 架构名

@@ -58,6 +58,7 @@
                 var accessToken = rep.headers[tokenKey];
                 if (accessToken) {
                     window.sessionStorage.setItem(tokenKey, accessToken);
+                    ui.preauthorizeApiKey("Bearer", accessToken);
                 }
             }
             configObject.onComplete = function () {

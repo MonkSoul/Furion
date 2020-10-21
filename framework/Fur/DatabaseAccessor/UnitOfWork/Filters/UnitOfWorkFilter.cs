@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.12
+// 框架版本：1.0.0-rc.final.20
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -68,13 +68,13 @@ namespace Fur.DatabaseAccessor
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
             var method = actionDescriptor.MethodInfo;
 
+            TransactionScope transaction = null;
+            var isSupportTransactionScope = true;
+            var disabledTransact = false;
+
             // 如果没有在构造函数中初始化上下文，则跳过
             var dbContexts = _dbContextPool.GetDbContexts();
-            if (!dbContexts.Any())
-            {
-                await next();
-                return;
-            }
+            if (!dbContexts.Any()) goto Continue;
 
             // 工作单元特性
             UnitOfWorkAttribute unitOfWorkAttribute = null;
@@ -92,14 +92,13 @@ namespace Fur.DatabaseAccessor
             }
 
             // 如果方法贴了 [NonTransact] 则跳过事务
-            var disabledTransact = method.IsDefined(typeof(NonTransactAttribute), true);
+            disabledTransact = method.IsDefined(typeof(NonTransactAttribute), true);
 
             // 打印验禁止事务信息
             if (disabledTransact) App.PrintToMiniProfiler(MiniProfilerCategory, "Disabled !");
 
             // 判断是否支持环境事务
-            var isSupportTransactionScope = !dbContexts.Any(u => DbProvider.NotSupportTransactionScopeDatabase.Contains(u.Database.ProviderName));
-            TransactionScope transaction = null;
+            isSupportTransactionScope = !dbContexts.Any(u => DbProvider.NotSupportTransactionScopeDatabase.Contains(u.Database.ProviderName));
 
             if (isSupportTransactionScope && !disabledTransact)
             {
@@ -117,8 +116,8 @@ namespace Fur.DatabaseAccessor
             // 打印不支持事务
             else if (!isSupportTransactionScope && !disabledTransact) { App.PrintToMiniProfiler(MiniProfilerCategory, "NotSupported !"); }
 
-            // 继续执行
-            var resultContext = await next();
+        // 继续执行
+        Continue: var resultContext = await next();
 
             // 判断是否出现异常
             if (resultContext.Exception == null)

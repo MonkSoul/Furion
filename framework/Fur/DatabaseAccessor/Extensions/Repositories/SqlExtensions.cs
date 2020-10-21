@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.12
+// 框架版本：1.0.0-rc.final.20
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -15,7 +15,6 @@ using Fur.DependencyInjection;
 using Mapster;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -2535,12 +2534,6 @@ namespace Fur.DatabaseAccessor
         static SqlExtensions()
         {
             dbContextLocatorSqlSplit = "-=>";
-            DbContextLocatorTypesCached = new ConcurrentDictionary<string, Type>();
         }
-
-        /// <summary>
-        /// 数据库上下文定位器缓存
-        /// </summary>
-        private static readonly ConcurrentDictionary<string, Type> DbContextLocatorTypesCached;
     }
 }

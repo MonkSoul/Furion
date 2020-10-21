@@ -6,289 +6,108 @@ sidebar_label: 2. 一分钟入门
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
-## 2.1 Hello Fur
+## 2.1 创建 `Web` 项目
 
-### 2.1.1 创建 `FurService` 类
+### 2.1.1 创建 `ASP.NET Core Web 应用程序`
 
-设置 `Fur.Web.Entry` 为启动项，并在 `Fur.Application` 中创建 `FurService` 类，并输入以下内容:
+- 打开 `Visual Studio 2019` 并创建 `Web` 项目
 
-```cs {1,5,6,12}
-using Fur.DynamicApiController;
+<img src={useBaseUrl("img/rm1.png")} />
 
-namespace Fur.Application
+- 配置项目名称
+
+<img src={useBaseUrl("img/rm2.png")} />
+
+- 选择 `WebAPI` 项目
+
+<img src={useBaseUrl("img/rm3.png")} />
+
+## 2.2 添加 `Fur` 依赖包
+
+<img src={useBaseUrl("img/rm4.png")} />
+
+## 2.3 `Fur` 基本配置
+
+### 2.3.1 `Program.cs` 添加 `Inject()`
+
+```cs {18}
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+
+namespace FurStart
 {
-    [DynamicApiController] // 这里使用特性方式
-    public class FurService /*: IDynamicApiController*/ // 也可以使用接口方式
+    public class Program
     {
-        /// <summary>
-        /// 向世界问好
-        /// </summary>
-        /// <returns></returns>
-        public string SayHello()
+        public static void Main(string[] args)
         {
-            return $"Hello {nameof(Fur)}";
+            CreateHostBuilder(args).Build().Run();
         }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder
+                    .Inject()   // 添加这一行
+                    .UseStartup<Startup>();
+                });
     }
 }
 ```
 
-### 2.1.2 在浏览器中查看效果
+### 2.3.2 在 `Startup.cs` 中添加两个 `Inejct()`
 
-在 `Fur.Web.Entry` 项目中选择 `wwwroot` 右键选择在 `浏览器中查看`
-
-<img src={useBaseUrl("img/getstart1.png")} style={{ height: 400 }} />
-
-效果如下：
-
-<img src={useBaseUrl("img/getstart2.gif")} />
-
-## 2.2 添加数据库支持
-
-### 2.2.1 添加 `Person` 实体类
-
-在 `Fur.Core` 中新建 `Person` 实体类，代码如下：
-
-```cs {1,7}
-using Fur.DatabaseAccessor;
-using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace Fur.Core
-{
-    public class Person : Entity    // 继承自 Entity 抽象类
-    {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public Person()
-        {
-            CreatedTime = DateTime.Now;
-            IsDeleted = false;
-        }
-
-        /// <summary>
-        /// 姓名
-        /// </summary>
-        [MaxLength(32)]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// 年龄
-        /// </summary>
-        public int Age { get; set; }
-
-        /// <summary>
-        /// 住址
-        /// </summary>
-        public string Address { get; set; }
-    }
-}
-```
-
-### 2.2.2 创建数据库上下文
-
-在 `Fur.EntityFramework.Core` 中添加 `FurDbContext` 数据库上下文，代码如下：
-
-```cs {1-2,6-7,13}
-using Fur.DatabaseAccessor;
-using Microsoft.EntityFrameworkCore;
-
-namespace Fur.EntityFramework.Core
-{
-    [AppDbContext("Data Source=./Fur.db")]   // 配置连接字符串
-    public class FurDbContext : AppDbContext<FurDbContext>  // 继承 AppDbContext<> 类
-    {
-        /// <summary>
-        /// 继承父类构造函数
-        /// </summary>
-        /// <param name="options"></param>
-        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
-        {
-        }
-    }
-}
-```
-
-### 2.2.3 配置数据库上下文
-
-在 `Fur.EntityFramework.Core` 的 `FurEntityFrameworkCoreStartup` 中配置数据库上下文，代码如下：
-
-```cs {11-14} title="Fur\framework\Fur.EntityFramework.Core\FurEntityFrameworkCoreStartup.cs"
-using Fur.DatabaseAccessor;
+```cs {20,36}
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-namespace Fur.EntityFramework.Core
+namespace FurStart
 {
-    [AppStartup(600)]
-    public sealed class FurEntityFrameworkCoreStartup : AppStartup
+    public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDatabaseAccessor(options =>
+            services.AddControllers().AddInject();  // 添加 AddInject();
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
             {
-                options.AddDbPool<FurDbContext>(DbProvider.Sqlite);
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseHttpsRedirection();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
+            app.UseInject(string.Empty); // 添加这一行，如果是 MVC和API共存项目，无需添加 string.Empty
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
             });
         }
     }
 }
 ```
 
-:::important 特别说明
+## 2.4 启动浏览器
 
-`Fur` 演示示例中，默认已经在 `Fur.EntityFramework.Core` 层安装了 `Microsoft.EntityFrameworkCore.Sqlite` 包。
+启动浏览器查看效果。
 
-如果你需要安装对应的数据库版本，可以查阅 【[9.18 多数据库操作](dbcontext-multi-database)】 章节。
-
-:::
-
-### 2.2.4 通过命令创建数据库表
-
-打开 `程序包管理控制台`，如下图所示：
-
-<img src={useBaseUrl("img/getstart3.png")} style={{ height: 400 }} />
-
-选择 `默认项目为`：`Fur.Database.Migrations`，如下图所示：
-
-<img src={useBaseUrl("img/getstart4.png")} />
-
-**输入以下命令**：
-
-```
-Add-Migration v0.0.1
-```
-
-<img src={useBaseUrl("img/getstart5.png")} />
-
-**提交到数据库更改**
-
-```
-Update-Database
-```
-
-<img src={useBaseUrl("img/getstart6.png")} />
-
-<img src={useBaseUrl("img/getstart7.png")} style={{ height: 400 }} />
-
-## 2.3 增删查改分页例子
-
-```cs {14-19}
-using Fur.Core;
-using Fur.DatabaseAccessor;
-using Fur.DynamicApiController;
-using Mapster;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace Fur.Application
-{
-    [DynamicApiController] // 这里使用特性方式
-    public class FurService /*: IDynamicApiController*/ // 也可以使用接口方式
-    {
-        // 初始化仓储
-        private readonly IRepository<Person> _personRepository;
-        public FurService(IRepository<Person> personRepository)
-        {
-            _personRepository = personRepository;
-        }
-
-        /// <summary>
-        /// 新增一条
-        /// </summary>
-        public async Task<int> Insert(PersonDto personDto)
-        {
-            // 如果不需要返回自增Id，使用 InsertAsync即可
-            var newEntity = await _personRepository.InsertNowAsync(personDto.Adapt<Person>());
-            return newEntity.Entity.Id;
-
-            // 还可以直接操作
-            // await personDto.Adapt<Person>().InsertNowAsync();
-        }
-
-        /// <summary>
-        /// 更新一条
-        /// </summary>
-        /// <param name="personDto"></param>
-        public async Task Update(PersonDto personDto)
-        {
-            await _personRepository.UpdateAsync(personDto.Adapt<Person>());
-
-            // 还可以直接操作
-            // await personDto.Adapt<Person>().UpdateAsync();
-        }
-
-        /// <summary>
-        /// 删除一条
-        /// </summary>
-        /// <param name="id"></param>
-        public async Task Delete(int id)
-        {
-            await _personRepository.DeleteAsync(id);
-        }
-
-        /// <summary>
-        /// 查询一条
-        /// </summary>
-        /// <param name="id"></param>
-        public async Task<PersonDto> Find(int id)
-        {
-            var person = await _personRepository.FindAsync(id);
-            return person.Adapt<PersonDto>();
-        }
-
-        /// <summary>
-        /// 查询所有
-        /// </summary>
-        /// <returns></returns>
-        public async Task<List<PersonDto>> GetAll()
-        {
-            var persons = await _personRepository.AsAsyncEnumerable();
-            return persons.Adapt<List<PersonDto>>();
-        }
-
-        /// <summary>
-        /// 分页查询
-        /// </summary>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        public async Task<PagedList<PersonDto>> GetAllByPage(int pageIndex = 1, int pageSize = 10)
-        {
-            var pageResult = await _personRepository.AsQueryable().ToPagedListAsync(pageIndex, pageSize);
-            return pageResult.Adapt<PagedList<PersonDto>>();
-        }
-    }
-}
-```
-
-<img src={useBaseUrl("img/getstart8.gif")} />
-
-### 附上 `PersonDto`
-
-```cs
-using System.ComponentModel.DataAnnotations;
-
-namespace Fur.Application
-{
-    public class PersonDto
-    {
-        /// <summary>
-        /// Id
-        /// </summary>
-        public int? Id { get; set; }
-
-        /// <summary>
-        /// 姓名
-        /// </summary>
-        [StringLength(32, MinimumLength = 2)]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// 年龄
-        /// </summary>
-        public int Age { get; set; }
-    }
-}
-```
+<img src={useBaseUrl("img/rm5.png")} />
 
 说好一分钟入门，你们用了多长时间。😁
