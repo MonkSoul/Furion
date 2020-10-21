@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.19
+// 框架版本：1.0.0-rc.final.20
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -14,6 +14,7 @@
 using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System.Threading.Tasks;
 
 namespace Fur.Authorization
@@ -34,8 +35,15 @@ namespace Fur.Authorization
             // 获取所有未成功验证的需求
             var pendingRequirements = context.PendingRequirements;
 
+            DefaultHttpContext httpContext;
+
+            // 修复全局权限过滤器bug
+            if (context.Resource is AuthorizationFilterContext filterContext) httpContext = (DefaultHttpContext)filterContext.HttpContext;
+            else if (context.Resource is DefaultHttpContext defaultHttpContext) httpContext = defaultHttpContext;
+            else httpContext = null;
+
             // 调用子类管道
-            var pipeline = Pipeline(context, context.Resource as DefaultHttpContext);
+            var pipeline = Pipeline(context, httpContext);
             if (!pipeline) return Task.CompletedTask;
 
             // 通过授权验证

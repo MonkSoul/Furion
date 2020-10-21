@@ -19,7 +19,7 @@ namespace Fur.Application
     /// <summary>
     /// 角色管理服务
     /// </summary>
-    [AppAuthorize, ApiDescriptionSettings("角色管理")]
+    [ApiDescriptionSettings("角色管理")]
     public class RBACService : IDynamicApiController
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
