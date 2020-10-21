@@ -54,7 +54,7 @@ namespace Fur.Core
         /// <param name="httpContext"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        private bool CheckAuthorzie(DefaultHttpContext httpContext, JsonWebToken token)
+        private static bool CheckAuthorzie(DefaultHttpContext httpContext, JsonWebToken token)
         {
             // 获取权限特性
             var securityDefineAttribute = httpContext.GetEndpoint().Metadata.GetMetadata<SecurityDefineAttribute>();
@@ -63,7 +63,7 @@ namespace Fur.Core
             // 获取用户Id
             var userId = token.GetPayloadValue<int>("UserId");
 
-            // ====================== 后续这里应该缓存起来
+            // ====================== 后续这里应该缓存起来（目前只是演示） ======================
 
             // 查询用户拥有的权限
             var securities = Db.GetRepository<User>()
@@ -74,7 +74,7 @@ namespace Fur.Core
                     .SelectMany(u => u.Securities))
                 .Select(u => u.UniqueName);
 
-            if (!securities.Contains(securityDefineAttribute.Name)) return false;
+            if (!securities.Contains(securityDefineAttribute.ResourceId)) return false;
 
             return true;
         }

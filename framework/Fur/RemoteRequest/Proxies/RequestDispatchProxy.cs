@@ -11,17 +11,37 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
-namespace Fur.DatabaseAccessor
+using Fur.DependencyInjection;
+using System;
+using System.Reflection;
+
+namespace Fur.RemoteRequest
 {
     /// <summary>
-    /// 基于多个数据库多租户模式
+    /// 请求拦截代理
     /// </summary>
-    public interface IMultiTenantOnDatabase : IPrivateMultiTenant
+    [SkipScan]
+    public class RequestDispatchProxy : DispatchProxy, IDispatchProxy
     {
         /// <summary>
-        /// 获取数据库连接字符串
+        /// 实例对象
         /// </summary>
+        public object Target { get; set; }
+
+        /// <summary>
+        /// 服务提供器
+        /// </summary>
+        public IServiceProvider Services { get; set; }
+
+        /// <summary>
+        /// 拦截
+        /// </summary>
+        /// <param name="targetMethod"></param>
+        /// <param name="args"></param>
         /// <returns></returns>
-        string GetDatabaseConnectionString();
+        protected override object Invoke(MethodInfo targetMethod, object[] args)
+        {
+            return default;
+        }
     }
 }

@@ -11,17 +11,15 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
-namespace Fur.DatabaseAccessor
+using Fur.ConfigurableOptions;
+
+namespace Fur.RemoteRequest
 {
     /// <summary>
-    /// 基于多个数据库多租户模式
+    /// 远程请求设置
     /// </summary>
-    public interface IMultiTenantOnDatabase : IPrivateMultiTenant
+    [OptionsSettings("RemoteRequestSettings")]
+    public sealed class RemoteRequestSettingsOptions : IConfigurableOptions
     {
-        /// <summary>
-        /// 获取数据库连接字符串
-        /// </summary>
-        /// <returns></returns>
-        string GetDatabaseConnectionString();
     }
 }

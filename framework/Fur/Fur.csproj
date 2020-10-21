@@ -10,7 +10,7 @@
     <RepositoryUrl>https://gitee.com/monksoul/Fur</RepositoryUrl>
     <RepositoryType>Gitee</RepositoryType>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <Version>1.0.0-rc.final.17</Version>
+    <Version>1.0.0-rc.final.18</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon></PackageIcon>
   </PropertyGroup>
@@ -26,25 +26,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="MessageCenter\README.md" />
-    <None Remove="RemoteRequest\Options\README.md" />
-    <None Remove="RemoteRequest\Proxies\README.md" />
     <None Remove="SpecificationDocument\Assets\index-mini-profiler.html" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="MessageCenter\README.md">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="RemoteRequest\Options\README.md">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="RemoteRequest\Proxies\README.md">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>

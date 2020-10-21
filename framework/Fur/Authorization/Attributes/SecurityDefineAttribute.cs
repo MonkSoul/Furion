@@ -4,7 +4,7 @@
 //
 // 框架名称：Fur
 // 框架作者：百小僧
-// 框架版本：1.0.0-rc.final.17
+// 框架版本：1.0.0-rc.final.18
 // 官方网站：https://chinadot.net
 // 源码地址：Gitee：https://gitee.com/monksoul/Fur
 // 				    Github：https://github.com/monksoul/Fur
@@ -26,14 +26,14 @@ namespace Fur.Authorization
         /// 构造函数
         /// </summary>
         /// <param name="name"></param>
-        public SecurityDefineAttribute(string name)
+        public SecurityDefineAttribute(string resourceId)
         {
-            Name = name;
+            ResourceId = resourceId;
         }
 
         /// <summary>
-        /// 名称，必须是系统唯一
+        /// 资源Id，必须是唯一的
         /// </summary>
-        public string Name { get; set; }
+        public string ResourceId { get; set; }
     }
 }

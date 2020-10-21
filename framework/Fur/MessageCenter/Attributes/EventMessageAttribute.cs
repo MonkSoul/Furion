@@ -11,17 +11,26 @@
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 
-namespace Fur.DatabaseAccessor
+using Fur.DependencyInjection;
+using System;
+
+namespace Fur.MessageCenter
 {
-    /// <summary>
-    /// 基于多个数据库多租户模式
-    /// </summary>
-    public interface IMultiTenantOnDatabase : IPrivateMultiTenant
+    [SkipScan, AttributeUsage(AttributeTargets.Method)]
+    public sealed class EventMessageAttribute : Attribute
     {
         /// <summary>
-        /// 获取数据库连接字符串
+        /// 构造函数
         /// </summary>
-        /// <returns></returns>
-        string GetDatabaseConnectionString();
+        /// <param name="messageId"></param>
+        public EventMessageAttribute(string messageId)
+        {
+            MessageId = messageId;
+        }
+
+        /// <summary>
+        /// 消息Id
+        /// </summary>
+        public string MessageId { get; set; }
     }
 }
