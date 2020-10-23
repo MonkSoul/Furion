@@ -230,7 +230,7 @@ namespace Microsoft.Extensions.DependencyInjection
             DatabaseProviderUseMethodCollection = new ConcurrentDictionary<string, MethodInfo>();
             MigrationsAssemblyAction = options => options.GetType()
                 .GetMethod("MigrationsAssembly")
-                .Invoke(options, new[] { Penetrates.MigrationAssemblyName });
+                .Invoke(options, new[] { Db.MigrationAssemblyName });
         }
 
         /// <summary>

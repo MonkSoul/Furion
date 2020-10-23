@@ -11,6 +11,11 @@ namespace Fur.DatabaseAccessor
     public static class Db
     {
         /// <summary>
+        /// 迁移类库名称
+        /// </summary>
+        internal static string MigrationAssemblyName = "Fur.Database.Migrations";
+
+        /// <summary>
         /// 是否启用自定义租户类型
         /// </summary>
         internal static bool CustomizeMultiTenants;

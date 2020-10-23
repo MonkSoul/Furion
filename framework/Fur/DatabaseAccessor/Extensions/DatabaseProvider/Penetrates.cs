@@ -15,11 +15,6 @@ namespace Fur.DatabaseAccessor
     internal static class Penetrates
     {
         /// <summary>
-        /// 迁移类库名称
-        /// </summary>
-        internal static string MigrationAssemblyName = "Fur.Database.Migrations";
-
-        /// <summary>
         /// 数据库上下文和定位器缓存
         /// </summary>
         internal static readonly ConcurrentDictionary<Type, Type> DbContextWithLocatorCached;

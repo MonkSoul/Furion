@@ -23,7 +23,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddDatabaseAccessor(this IServiceCollection services, Action<IServiceCollection> configure = null, string migrationAssemblyName = default)
         {
             // 设置迁移类库名称
-            if (!string.IsNullOrEmpty(migrationAssemblyName)) Penetrates.MigrationAssemblyName = migrationAssemblyName;
+            if (!string.IsNullOrEmpty(migrationAssemblyName)) Db.MigrationAssemblyName = migrationAssemblyName;
 
             // 配置数据库上下文
             configure?.Invoke(services);
