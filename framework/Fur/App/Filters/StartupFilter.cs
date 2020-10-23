@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -73,18 +74,35 @@ namespace Fur
                 // 获取所有符合依赖注入格式的方法，如返回值void，且第一个参数是 IApplicationBuilder 类型，第二个参数是 IWebHostEnvironment
                 var configureMethods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
                     .Where(u => u.ReturnType == typeof(void)
-                        && u.GetParameters().Length > 1
-                        && u.GetParameters()[0].ParameterType == typeof(IApplicationBuilder)
-                        && u.GetParameters()[1].ParameterType == typeof(IWebHostEnvironment));
+                        && u.GetParameters().Length > 0
+                        && u.GetParameters().First().ParameterType == typeof(IApplicationBuilder));
 
                 if (!configureMethods.Any()) continue;
 
                 // 自动安装属性调用
                 foreach (var method in configureMethods)
                 {
-                    method.Invoke(startup, new object[] { app, env });
+                    method.Invoke(startup, ResolveMethodParameterInstances(app, applicationServices, method).ToArray());
                 }
             }
+        }
+
+        /// <summary>
+        /// 解析方法参数实例
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="applicationServices"></param>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        private static List<object> ResolveMethodParameterInstances(IApplicationBuilder app, IServiceProvider applicationServices, MethodInfo method)
+        {
+            var parameterInstances = new List<object>() { app };
+            var methodParams = method.GetParameters().Skip(1);
+            foreach (var parameterInfo in methodParams)
+            {
+                parameterInstances.Add(applicationServices.GetRequiredService(parameterInfo.ParameterType));
+            }
+            return parameterInstances;
         }
     }
 }
