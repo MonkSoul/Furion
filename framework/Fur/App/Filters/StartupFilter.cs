@@ -71,7 +71,7 @@ namespace Fur
             {
                 var type = startup.GetType();
 
-                // 获取所有符合依赖注入格式的方法，如返回值void，且第一个参数是 IApplicationBuilder 类型，第二个参数是 IWebHostEnvironment
+                // 获取所有符合依赖注入格式的方法，如返回值void，且第一个参数是 IApplicationBuilder 类型
                 var configureMethods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
                     .Where(u => u.ReturnType == typeof(void)
                         && u.GetParameters().Length > 0
