@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Caching.Memory;
-using System;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -104,7 +103,7 @@ namespace Fur.DatabaseAccessor
             get
             {
                 // 如果没有实现多租户方式，则无需查询
-                if (!typeof(IPrivateMultiTenant).IsAssignableFrom(GetType())) return default;
+                if (Db.CustomizeMultiTenants || !typeof(IPrivateMultiTenant).IsAssignableFrom(GetType())) return default;
 
                 // 判断 HttpContext 是否存在
                 var httpContextAccessor = App.GetService<IHttpContextAccessor>();
@@ -129,19 +128,22 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entityBuilder">实体类型构建器</param>
         /// <param name="tenantId">租户Id</param>
+        /// <param name="onTableTenantId">多租户Id属性名</param>
         /// <returns>表达式</returns>
-        protected virtual LambdaExpression TenantIdQueryFilterExpression(EntityTypeBuilder entityBuilder, Guid tenantId)
+        protected virtual LambdaExpression TenantIdQueryFilterExpression(EntityTypeBuilder entityBuilder, object tenantId, string onTableTenantId = default)
         {
+            onTableTenantId ??= Db.OnTableTenantId;
+
             // 获取实体构建器元数据
             var metadata = entityBuilder.Metadata;
-            if (metadata.FindProperty(nameof(Entity.TenantId)) == null) return default;
+            if (metadata.FindProperty(onTableTenantId) == null) return default;
 
             // 创建表达式元素
             var parameter = Expression.Parameter(metadata.ClrType, "u");
-            var properyName = Expression.Constant(nameof(Entity.TenantId));
+            var properyName = Expression.Constant(onTableTenantId);
             var propertyValue = Expression.Constant(tenantId);
 
-            var expressionBody = Expression.Equal(Expression.Call(typeof(EF), nameof(EF.Property), new[] { typeof(Guid) }, parameter, properyName), propertyValue);
+            var expressionBody = Expression.Equal(Expression.Call(typeof(EF), nameof(EF.Property), new[] { tenantId.GetType() }, parameter, properyName), propertyValue);
             var expression = Expression.Lambda(expressionBody, parameter);
             return expression;
         }

@@ -11,6 +11,16 @@ namespace Fur.DatabaseAccessor
     public static class Db
     {
         /// <summary>
+        /// 是否启用自定义租户类型
+        /// </summary>
+        internal static bool CustomizeMultiTenants;
+
+        /// <summary>
+        /// 基于表的多租户外键名
+        /// </summary>
+        internal static string OnTableTenantId = nameof(Entity.TenantId);
+
+        /// <summary>
         /// 不支持解析服务错误提示
         /// </summary>
         private const string NotSupportedResolveMessage = "Reading {0} instances on non HTTP requests is not supported.";

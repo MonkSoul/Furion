@@ -152,7 +152,10 @@ namespace Fur.DatabaseAccessor
             DbConnection = Database.GetDbConnection();
             ChangeTracker = dbContext.ChangeTracker;
             Model = dbContext.Model;
+
+            // 内置多租户
             Tenant = DynamicDbContext.Tenant;
+
             ProviderName = Database.ProviderName;
 
             //初始化实体

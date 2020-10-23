@@ -1,5 +1,6 @@
 ﻿using Fur.ConfigurableOptions;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Fur.CorsAccessor
@@ -7,7 +8,6 @@ namespace Fur.CorsAccessor
     /// <summary>
     /// 跨域配置选项
     /// </summary>
-    [OptionsSettings("CorsAccessorSettings")]
     public sealed class CorsAccessorSettingsOptions : IConfigurableOptions<CorsAccessorSettingsOptions>
     {
         /// <summary>
@@ -53,7 +53,7 @@ namespace Fur.CorsAccessor
         /// <param name="configuration"></param>
         public void PostConfigure(CorsAccessorSettingsOptions options, IConfiguration configuration)
         {
-            PolicyName ??= "FurAllowSpecificOrigins";
+            PolicyName ??= "FurCorsAccessor";
             WithOrigins ??= new[] { "http://localhost:4200" };
             AllowCredentials ??= true;
         }

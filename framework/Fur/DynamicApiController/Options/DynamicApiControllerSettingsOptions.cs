@@ -7,7 +7,6 @@ namespace Fur.DynamicApiController
     /// <summary>
     /// 动态接口控制器配置
     /// </summary>
-    [OptionsSettings("DynamicApiControllerSettings")]
     public sealed class DynamicApiControllerSettingsOptions : IConfigurableOptions<DynamicApiControllerSettingsOptions>
     {
         /// <summary>

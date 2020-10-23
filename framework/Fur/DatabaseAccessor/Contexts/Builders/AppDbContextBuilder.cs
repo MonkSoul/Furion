@@ -119,9 +119,9 @@ namespace Fur.DatabaseAccessor
             // 如果未启用多租户支持或租户设置为OnDatabase 或 OnSchema 方案，则忽略多租户字段，另外还需要排除多租户数据库上下文定位器
             if (dbContextLocator != typeof(MultiTenantDbContextLocator)
                 && (!typeof(IPrivateMultiTenant).IsAssignableFrom(dbContextType) || typeof(IMultiTenantOnDatabase).IsAssignableFrom(dbContextType) || typeof(IMultiTenantOnSchema).IsAssignableFrom(dbContextType))
-                && type.GetProperty(nameof(Tenant.TenantId)) != null)
+                && type.GetProperty(Db.OnTableTenantId) != null)
             {
-                entityTypeBuilder.Ignore(nameof(Tenant.TenantId));
+                entityTypeBuilder.Ignore(Db.OnTableTenantId);
             }
 
             return entityTypeBuilder;
@@ -305,6 +305,9 @@ namespace Fur.DatabaseAccessor
         /// <returns>bool</returns>
         private static bool IsInThisDbContext(Type dbContextLocator, Type entityCorrelationType)
         {
+            // 处理自定义多租户的情况
+            if (dbContextLocator == typeof(MultiTenantDbContextLocator) && Db.CustomizeMultiTenants && entityCorrelationType == typeof(Tenant)) return false;
+
             // 获取类型父类型及接口
             var baseType = entityCorrelationType.BaseType;
             var interfaces = entityCorrelationType.GetInterfaces().Where(u => typeof(IPrivateEntity).IsAssignableFrom(u) || typeof(IPrivateModelBuilder).IsAssignableFrom(u));

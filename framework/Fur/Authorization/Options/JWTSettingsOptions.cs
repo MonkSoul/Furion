@@ -6,7 +6,6 @@ namespace Fur.Authorization
     /// <summary>
     /// Jwt
     /// </summary>
-    [OptionsSettings("JWTSettings")]
     public sealed class JWTSettingsOptions : IConfigurableOptions<JWTSettingsOptions>
     {
         /// <summary>

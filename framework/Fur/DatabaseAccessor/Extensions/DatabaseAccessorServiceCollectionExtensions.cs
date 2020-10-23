@@ -94,14 +94,28 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
+        /// 启动自定义租户类型
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="onTableTenantId">基于表的多租户Id名称</param>
+        /// <returns></returns>
+        public static IServiceCollection CustomizeMultiTenants(this IServiceCollection services, string onTableTenantId = default)
+        {
+            Db.CustomizeMultiTenants = true;
+            if (!string.IsNullOrEmpty(onTableTenantId)) Db.OnTableTenantId = onTableTenantId;
+
+            return services;
+        }
+
+        /// <summary>
         /// 注册数据库上下文
         /// </summary>
         /// <typeparam name="TDbContext">数据库上下文</typeparam>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <param name="services">服务提供器</param>
         public static IServiceCollection RegisterDbContext<TDbContext, TDbContextLocator>(this IServiceCollection services)
-            where TDbContext : DbContext
-            where TDbContextLocator : class, IDbContextLocator
+        where TDbContext : DbContext
+        where TDbContextLocator : class, IDbContextLocator
         {
             var dbContextLocatorType = (typeof(TDbContextLocator));
 

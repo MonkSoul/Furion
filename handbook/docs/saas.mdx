@@ -457,6 +457,19 @@ namespace Fur.EntityFramework.Core
 
 <img src={useBaseUrl("img/saas2.png")} />
 
+:::caution 特别注意
+
+基于 `Database` 方式做 `Code First` 的时候，需要手动指定迁移程序名称，如：
+
+```cs
+optionsBuilder.UseSqlite(GetDatabaseConnectionString(), options=>
+{
+    options.MigrationsAssembly("My.Migrations");
+});
+```
+
+:::
+
 ## 10.7 基于 `Schema` 的方式
 
 此方式在中小型企业系统中也不少见，一个租户（客户）共享数据库且不同 `Schema`。
@@ -607,7 +620,48 @@ public string GetSchemaName()
 
 这样就可以在迁移的时候生成多次迁移了。
 
-## 10.8 反馈与建议
+## 10.8 自定义 `Tenant` 类型
+
+默认情况下，`Fur` 框架提供了内置的 `Tenant` 类型，方便大家快速实现 `SaaS` 多租户功能，如果需要自定义多租户 `Tenant` 类型，只需要启用以下配置即可：
+
+### 10.8.1 启动自定义多租户类型配置
+
+```cs {3}
+services.AddDatabaseAccessor(options =>
+{
+    options.CustomizeMultiTenants();    // 启用自定义多租户类型，有一个默认参数，配置多租户表字段名
+    options.AddDbPool<FurDbContext>(DbProvider.Sqlite);
+});
+```
+
+### 10.8.2 自定义租户类
+
+```cs {6}
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Fur.Core
+{
+    public class MyTenant : IEntity<MultiTenantDbContextLocator>
+    {
+        [Key]
+        public Guid TenantId { get; set; }
+
+        public string Name { get; set; }
+
+        public string Host { get; set; }
+    }
+}
+```
+
+如果需要查询该租户信息，可通过以下代码获取，如：
+
+```cs
+var tenantDbContext = Db.GetDbContext<MultiTenantDbContextLocator>();
+var myTenant = tenantDbContext.Set<MyTenant>();
+```
+
+## 10.9 反馈与建议
 
 :::note 与我们交流
 

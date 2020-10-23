@@ -7,7 +7,6 @@ namespace Fur.DependencyInjection
     /// <summary>
     /// 依赖注入配置选项
     /// </summary>
-    [OptionsSettings("DependencyInjectionSettings")]
     public sealed class DependencyInjectionSettingsOptions : IConfigurableOptions<DependencyInjectionSettingsOptions>
     {
         /// <summary>

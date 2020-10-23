@@ -9,7 +9,6 @@ namespace Fur.SpecificationDocument
     /// <summary>
     /// 规范化文档配置选项
     /// </summary>
-    [OptionsSettings("SpecificationDocumentSettings")]
     public sealed class SpecificationDocumentSettingsOptions : IConfigurableOptions<SpecificationDocumentSettingsOptions>
     {
         /// <summary>

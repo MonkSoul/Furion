@@ -96,7 +96,7 @@ namespace Fur.DynamicApiController
             ConfigureActionApiExplorer(action);
 
             // 配置动作方法名称
-            ConfigureActionName(action, apiDescriptionSettings);
+            ConfigureActionName(action, apiDescriptionSettings, controllerApiDescriptionSettings);
 
             // 配置动作方法请求谓词特性
             ConfigureActionHttpMethodAttribute(action);
@@ -122,7 +122,8 @@ namespace Fur.DynamicApiController
         /// </summary>
         /// <param name="action">动作方法模型</param>
         /// <param name="apiDescriptionSettings">接口描述配置</param>
-        private void ConfigureActionName(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings)
+        /// <param name="controllerApiDescriptionSettings"></param>
+        private void ConfigureActionName(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
         {
             action.ActionName = ConfigureControllerAndActionName(apiDescriptionSettings, action.ActionName, _dynamicApiControllerSettings.AbandonActionAffixes, (tempName) =>
             {
@@ -140,7 +141,7 @@ namespace Fur.DynamicApiController
                 }
 
                 return tempName;
-            });
+            }, controllerApiDescriptionSettings);
         }
 
         /// <summary>
@@ -367,8 +368,9 @@ namespace Fur.DynamicApiController
         /// <param name="orignalName"></param>
         /// <param name="affixes"></param>
         /// <param name="configure"></param>
+        /// <param name="controllerApiDescriptionSettings"></param>
         /// <returns></returns>
-        private string ConfigureControllerAndActionName(ApiDescriptionSettingsAttribute apiDescriptionSettings, string orignalName, string[] affixes, Func<string, string> configure)
+        private string ConfigureControllerAndActionName(ApiDescriptionSettingsAttribute apiDescriptionSettings, string orignalName, string[] affixes, Func<string, string> configure, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings = default)
         {
             // 获取版本号
             var apiVersion = apiDescriptionSettings?.Version;
@@ -387,13 +389,13 @@ namespace Fur.DynamicApiController
                 tempName = Penetrates.ClearStringAffixes(tempName, affixes: affixes);
 
                 // 判断是否保留原有名称
-                if ((apiDescriptionSettings?.KeepName == null || apiDescriptionSettings.KeepName == false) && _dynamicApiControllerSettings?.KeepName != true)
+                if (!CheckIsKeepName(apiDescriptionSettings, controllerApiDescriptionSettings))
                 {
                     // 自定义配置
                     tempName = configure.Invoke(tempName);
 
                     // 处理骆驼命名
-                    if ((apiDescriptionSettings?.SplitCamelCase ?? true) != false)
+                    if (CheckIsSplitCamelCase(apiDescriptionSettings, controllerApiDescriptionSettings))
                     {
                         tempName = string.Join(_dynamicApiControllerSettings.CamelCaseSeparator, Penetrates.SplitCamelCase(tempName));
                     }
@@ -403,6 +405,48 @@ namespace Fur.DynamicApiController
             // 拼接名称和版本号
             var newName = $"{tempName}{(string.IsNullOrEmpty(apiVersion) ? null : $"{_dynamicApiControllerSettings.VersionSeparator}{apiVersion}")}";
             return _dynamicApiControllerSettings.LowercaseRoute.Value ? newName.ToLower() : newName;
+        }
+
+        /// <summary>
+        /// 检查是否设置了 KeepName参数
+        /// </summary>
+        /// <param name="apiDescriptionSettings"></param>
+        /// <param name="controllerApiDescriptionSettings"></param>
+        /// <returns></returns>
+        private bool CheckIsKeepName(ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
+        {
+            var isKeepName = false;
+            if (controllerApiDescriptionSettings == null)
+            {
+                if (apiDescriptionSettings?.KeepName == true) isKeepName = true;
+            }
+            else
+            {
+                if (apiDescriptionSettings == null && controllerApiDescriptionSettings?.KeepName == true) isKeepName = true;
+            }
+
+            return _dynamicApiControllerSettings?.KeepName == true || isKeepName;
+        }
+
+        /// <summary>
+        /// 判断切割命名参数是否配置
+        /// </summary>
+        /// <param name="apiDescriptionSettings"></param>
+        /// <param name="controllerApiDescriptionSettings"></param>
+        /// <returns></returns>
+        private static bool CheckIsSplitCamelCase(ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
+        {
+            var isSplitCamelCase = true;
+            if (controllerApiDescriptionSettings == null)
+            {
+                if (apiDescriptionSettings?.SplitCamelCase == false) isSplitCamelCase = false;
+            }
+            else
+            {
+                if (apiDescriptionSettings == null && controllerApiDescriptionSettings?.SplitCamelCase == false) isSplitCamelCase = false;
+            }
+
+            return isSplitCamelCase;
         }
 
         /// <summary>

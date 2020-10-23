@@ -5,7 +5,6 @@ namespace Fur.DataValidation
     /// <summary>
     /// 验证消息配置选项
     /// </summary>
-    [OptionsSettings("ValidationTypeMessageSettings")]
     public sealed class ValidationTypeMessageSettingsOptions : IConfigurableOptions
     {
         /// <summary>
