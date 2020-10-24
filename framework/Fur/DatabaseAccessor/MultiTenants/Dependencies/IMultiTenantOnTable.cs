@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Fur.DatabaseAccessor
+﻿namespace Fur.DatabaseAccessor
 {
     /// <summary>
     /// 基于数据库表的多租户模式
@@ -11,6 +9,6 @@ namespace Fur.DatabaseAccessor
         /// 获取租户Id
         /// </summary>
         /// <returns></returns>
-        Guid? GetTenantId();
+        object GetTenantId();
     }
 }

@@ -107,6 +107,9 @@ namespace Fur.DatabaseAccessor
         public static DbContext GetDbContext<TDbContextLocator>()
             where TDbContextLocator : class, IDbContextLocator
         {
+            // 判断是否注册了数据库上下文
+            if (!Penetrates.DbContextWithLocatorCached.ContainsKey(typeof(TDbContextLocator))) return default;
+
             var dbContextResolve = App.GetService<Func<Type, ITransient, DbContext>>();
             return dbContextResolve(typeof(TDbContextLocator), default);
         }
