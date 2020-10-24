@@ -183,7 +183,7 @@ namespace Fur.EntityFramework.Core
         {
         }
 
-        public Guid? GetTenantId()
+        public object GetTenantId()
         {
            return base.Tenant?.TenantId ?? Guid.Empty;
         }
@@ -212,14 +212,14 @@ namespace Fur.EntityFramework.Core
         {
         }
 
-        public Guid? GetTenantId()
+        public object GetTenantId()
         {
             base.Tenant?.TenantId ?? Guid.Empty;
         }
 
         public void OnCreating(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator)
         {
-            entityBuilder.HasQueryFilter(TenantIdQueryFilterExpression(entityBuilder, GetTenantId().Value));
+            entityBuilder.HasQueryFilter(TenantIdQueryFilterExpression(entityBuilder, dbContext));
         }
     }
 }
@@ -250,14 +250,14 @@ namespace Fur.EntityFramework.Core
         {
         }
 
-        public Guid? GetTenantId()
+        public object GetTenantId()
         {
             base.Tenant?.TenantId ?? Guid.Empty;
         }
 
         public void OnCreating(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator)
         {
-            entityBuilder.HasQueryFilter(TenantIdQueryFilterExpression(entityBuilder, GetTenantId().Value));
+            entityBuilder.HasQueryFilter(TenantIdQueryFilterExpression(entityBuilder, dbContext));
         }
 
         protected override void SavingChangesEvent(object sender, SavingChangesEventArgs e)
