@@ -3,7 +3,6 @@ using Fur.Core;
 using Fur.DatabaseAccessor;
 using Fur.DynamicApiController;
 using Fur.FriendlyException;
-using Fur.LinqBuilder;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
