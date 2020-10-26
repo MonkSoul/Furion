@@ -200,6 +200,27 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
+        public virtual Task<TEntity> SingleOrDefaultAsync(bool noTracking = false, CancellationToken cancellationToken = default)
+        {
+            return AsQueryable(noTracking).SingleOrDefaultAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 根据表达式查询一条记录
+        /// </summary>
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
+        public virtual Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = false, CancellationToken cancellationToken = default)
+        {
+            return AsQueryable(noTracking).SingleOrDefaultAsync(predicate, cancellationToken);
+        }
+
+        /// <summary>
+        /// 查询一条记录
+        /// </summary>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
         public virtual TEntity First(bool noTracking = false)
         {
             return AsQueryable(noTracking).First();
@@ -265,6 +286,27 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="noTracking">是否跟踪实体</param>
         /// <returns>数据库中的实体</returns>
+        public virtual Task<TEntity> FirstOrDefaultAsync(bool noTracking = false, CancellationToken cancellationToken = default)
+        {
+            return AsQueryable(noTracking).FirstOrDefaultAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 根据表达式查询一条记录
+        /// </summary>
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
+        public virtual Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = false, CancellationToken cancellationToken = default)
+        {
+            return AsQueryable(noTracking).FirstOrDefaultAsync(predicate, cancellationToken);
+        }
+
+        /// <summary>
+        /// 查询一条记录
+        /// </summary>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
         public virtual TEntity Last(bool noTracking = false)
         {
             return AsQueryable(noTracking).Last();
@@ -323,6 +365,27 @@ namespace Fur.DatabaseAccessor
         public virtual Task<TEntity> LastAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = false, CancellationToken cancellationToken = default)
         {
             return AsQueryable(noTracking).LastAsync(predicate, cancellationToken);
+        }
+
+        /// <summary>
+        /// 查询一条记录
+        /// </summary>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
+        public virtual Task<TEntity> LastOrDefaultAsync(bool noTracking = false, CancellationToken cancellationToken = default)
+        {
+            return AsQueryable(noTracking).LastOrDefaultAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 根据表达式查询一条记录
+        /// </summary>
+        /// <param name="predicate">表达式</param>
+        /// <param name="noTracking">是否跟踪实体</param>
+        /// <returns>数据库中的实体</returns>
+        public virtual Task<TEntity> LastOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, bool noTracking = false, CancellationToken cancellationToken = default)
+        {
+            return AsQueryable(noTracking).LastOrDefaultAsync(predicate, cancellationToken);
         }
 
         /// <summary>
