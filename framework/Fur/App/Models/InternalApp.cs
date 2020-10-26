@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Fur.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
@@ -9,6 +10,7 @@ namespace Fur
     /// <summary>
     /// 内部 App 副本
     /// </summary>
+    [SkipScan]
     internal static class InternalApp
     {
         /// <summary>

@@ -26,9 +26,9 @@ namespace Fur.DatabaseAccessor
         internal static string OnTableTenantId = nameof(Entity.TenantId);
 
         /// <summary>
-        /// 不支持解析服务错误提示
+        /// 未找到服务错误消息
         /// </summary>
-        private const string NotSupportedResolveMessage = "Reading {0} instances on non HTTP requests is not supported.";
+        private const string NotFoundServiceErrorMessage = "{0} Service not registered or uninstalled.";
 
         /// <summary>
         /// 获取非泛型仓储
@@ -37,7 +37,8 @@ namespace Fur.DatabaseAccessor
         public static IRepository GetRepository()
         {
             return App.GetRequestService<IRepository>()
-                ?? throw new NotSupportedException(string.Format(NotSupportedResolveMessage, nameof(IRepository)));
+                ?? App.GetService<IRepository>()
+                ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(IRepository)));
         }
 
         /// <summary>
@@ -49,7 +50,8 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
         {
             return App.GetRequestService<IRepository<TEntity>>()
-                ?? throw new NotSupportedException(string.Format(NotSupportedResolveMessage, nameof(IRepository<TEntity>)));
+                ?? App.GetService<IRepository<TEntity>>()
+                ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(IRepository<TEntity>)));
         }
 
         /// <summary>
@@ -63,7 +65,8 @@ namespace Fur.DatabaseAccessor
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRequestService<IRepository<TEntity, TDbContextLocator>>()
-                ?? throw new NotSupportedException(string.Format(NotSupportedResolveMessage, nameof(IRepository<TEntity, TDbContextLocator>)));
+                ?? App.GetService<IRepository<TEntity, TDbContextLocator>>()
+                ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(IRepository<TEntity, TDbContextLocator>)));
         }
 
         /// <summary>
@@ -73,7 +76,8 @@ namespace Fur.DatabaseAccessor
         public static ISqlRepository GetSqlRepository()
         {
             return App.GetRequestService<ISqlRepository>()
-                ?? throw new NotSupportedException(string.Format(NotSupportedResolveMessage, nameof(ISqlRepository)));
+                ?? App.GetService<ISqlRepository>()
+                ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(ISqlRepository)));
         }
 
         /// <summary>
@@ -85,7 +89,8 @@ namespace Fur.DatabaseAccessor
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetRequestService<ISqlRepository<TDbContextLocator>>()
-                ?? throw new NotSupportedException(string.Format(NotSupportedResolveMessage, nameof(ISqlRepository<TDbContextLocator>)));
+                ?? App.GetService<ISqlRepository<TDbContextLocator>>()
+                ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(ISqlRepository<TDbContextLocator>)));
         }
 
         /// <summary>
@@ -96,7 +101,8 @@ namespace Fur.DatabaseAccessor
             where TSqlDispatchProxy : class, ISqlDispatchProxy
         {
             return App.GetRequestService<TSqlDispatchProxy>()
-                ?? throw new NotSupportedException(string.Format(NotSupportedResolveMessage, nameof(ISqlDispatchProxy)));
+                ?? App.GetService<TSqlDispatchProxy>()
+                ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(ISqlDispatchProxy)));
         }
 
         /// <summary>
