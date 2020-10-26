@@ -1,7 +1,6 @@
 ﻿using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
@@ -77,7 +76,7 @@ namespace Fur
         /// <summary>
         /// 应用环境，如，是否是开发环境，生产环境等
         /// </summary>
-        public static IWebHostEnvironment HostEnvironment => GetService<IWebHostEnvironment>();
+        public static IWebHostEnvironment WebHostEnvironment => GetService<IWebHostEnvironment>();
 
         /// <summary>
         /// 应用有效程序集
@@ -248,21 +247,5 @@ namespace Fur
 
             return scanAssemblies;
         }
-    }
-
-    /// <summary>
-    /// 内部 App 副本
-    /// </summary>
-    internal static class InternalApp
-    {
-        /// <summary>
-        /// 应用服务
-        /// </summary>
-        internal static IServiceCollection InternalServices;
-
-        /// <summary>
-        /// 全局配置构建器
-        /// </summary>
-        internal static IConfigurationBuilder ConfigurationBuilder;
     }
 }

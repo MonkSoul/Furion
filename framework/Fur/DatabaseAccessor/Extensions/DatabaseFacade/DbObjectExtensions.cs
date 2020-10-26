@@ -38,7 +38,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         static DbObjectExtensions()
         {
-            IsDevelopment = App.HostEnvironment.IsDevelopment();
+            IsDevelopment = App.WebHostEnvironment.IsDevelopment();
             InjectMiniProfiler = App.Settings.InjectMiniProfiler.Value;
         }
 

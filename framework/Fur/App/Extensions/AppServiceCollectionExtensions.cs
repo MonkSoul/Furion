@@ -18,7 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
         private const string MiniProfilerRouteBasePath = "/index-mini-profiler";
 
         /// <summary>
-        /// 注入基础配置
+        /// Mvc 注入基础配置
         /// </summary>
         /// <param name="mvcBuilder">Mvc构建起</param>
         /// <returns>IMvcBuilder</returns>
@@ -36,18 +36,39 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
+        /// 非 Web 主机注入基础配置
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddInject(this IServiceCollection services)
+        {
+            // 添加全局配置和存储服务提供器
+            InternalApp.InternalServices = services;
+
+            // 初始化应用服务
+            services.AddApp();
+
+            return services;
+        }
+
+        /// <summary>
         /// 添加应用配置
         /// </summary>
         /// <param name="services">服务集合</param>
         /// <param name="configure">服务配置</param>
+        /// <param name="isWebHost">是否是Web主机</param>
         /// <returns>服务集合</returns>
         internal static IServiceCollection AddApp(this IServiceCollection services, Action<IServiceCollection> configure = null)
         {
             // 注册全局配置选项
             services.AddConfigurableOptions<AppSettingsOptions>();
 
+            // 判断是否是Web主机
+            //if (App.WebHostEnvironment != null)
+            //{
             // 注册 IHttpContextAccessor
             services.AddHttpContextAccessor();
+            //}
 
             // 注册分布式内存缓存
             services.AddDistributedMemoryCache();

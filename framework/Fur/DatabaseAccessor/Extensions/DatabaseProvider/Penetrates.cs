@@ -43,7 +43,7 @@ namespace Fur.DatabaseAccessor
         {
             return (serviceProvider, options) =>
             {
-                if (App.HostEnvironment.IsDevelopment())
+                if (App.WebHostEnvironment.IsDevelopment())
                 {
                     options/*.UseLazyLoadingProxies()*/
                                 .EnableDetailedErrors()

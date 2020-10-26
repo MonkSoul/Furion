@@ -28,7 +28,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         public SqlConnectionProfilerInterceptor()
         {
-            IsDevelopment = App.HostEnvironment.IsDevelopment();
+            IsDevelopment = App.WebHostEnvironment.IsDevelopment();
         }
 
         /// <summary>
