@@ -1,7 +1,8 @@
 ﻿using Fur.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using System.Collections.Concurrent;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,11 +19,6 @@ namespace Fur.DatabaseAccessor
         /// 线程安全的数据库上下文集合
         /// </summary>
         private readonly ConcurrentBag<DbContext> dbContexts;
-
-        /// <summary>
-        /// 数据库上下文事务
-        /// </summary>
-        public IDbContextTransaction DbContextTransaction { get; private set; }
 
         /// <summary>
         /// 构造函数
@@ -50,10 +46,6 @@ namespace Fur.DatabaseAccessor
             // 排除已经存在的数据库上下文
             if (!dbContexts.Contains(dbContext))
             {
-                // 开启并记录共享事务
-                if (DbContextTransaction != null) dbContext.Database.UseTransaction(DbContextTransaction.GetDbTransaction());
-                else DbContextTransaction = dbContext.Database.BeginTransaction();
-
                 dbContexts.Add(dbContext);
             }
         }
@@ -62,17 +54,10 @@ namespace Fur.DatabaseAccessor
         /// 保存数据库上下文（异步）
         /// </summary>
         /// <param name="dbContext"></param>
-        public async Task AddToPoolAsync(DbContext dbContext)
+        public Task AddToPoolAsync(DbContext dbContext)
         {
-            // 排除已经存在的数据库上下文
-            if (!dbContexts.Contains(dbContext))
-            {
-                // 开启并记录共享事务
-                if (DbContextTransaction != null) await dbContext.Database.UseTransactionAsync(DbContextTransaction.GetDbTransaction());
-                else DbContextTransaction = await dbContext.Database.BeginTransactionAsync();
-
-                dbContexts.Add(dbContext);
-            }
+            AddToPool(dbContext);
+            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -133,6 +118,23 @@ namespace Fur.DatabaseAccessor
             // 等待所有异步完成
             var results = await Task.WhenAll(tasks);
             return results.Length;
+        }
+
+        /// <summary>
+        /// 设置数据库上下文共享事务
+        /// </summary>
+        /// <param name="skipCount"></param>
+        /// <param name="transaction"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task SetTransactionSharedToDbContextAsync(int skipCount, DbTransaction transaction, CancellationToken cancellationToken = default)
+        {
+            // 跳过第一个数据库上下文并设置贡献事务
+            var tasks = dbContexts
+                .Skip(skipCount)
+                .Select(u => u.Database.UseTransactionAsync(transaction, cancellationToken));
+
+            await Task.WhenAll(tasks);
         }
     }
 }

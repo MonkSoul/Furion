@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using System.Collections.Concurrent;
+using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,11 +11,6 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     public interface IDbContextPool
     {
-        /// <summary>
-        /// 数据库上下文事务
-        /// </summary>
-        IDbContextTransaction DbContextTransaction { get; }
-
         /// <summary>
         /// 获取所有数据库上下文
         /// </summary>
@@ -62,5 +57,14 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<int> SavePoolNowAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 设置数据库上下文共享事务
+        /// </summary>
+        /// <param name="skipCount"></param>
+        /// <param name="transaction"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task SetTransactionSharedToDbContextAsync(int skipCount, DbTransaction transaction, CancellationToken cancellationToken = default);
     }
 }

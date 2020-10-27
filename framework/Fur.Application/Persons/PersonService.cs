@@ -87,7 +87,6 @@ namespace Fur.Application
         /// 查询所有
         /// </summary>
         /// <returns></returns>
-        [NonTransact]
         public async Task<List<PersonDto>> GetAll()
         {
             var persons = _personRepository.AsQueryable()
@@ -101,7 +100,6 @@ namespace Fur.Application
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        [NonTransact]
         public async Task<PagedList<PersonDto>> GetAllByPage(int pageIndex = 1, int pageSize = 10)
         {
             var pageResult = _personRepository.AsQueryable()
@@ -116,7 +114,6 @@ namespace Fur.Application
         /// <param name="name"></param>
         /// <param name="age"></param>
         /// <returns></returns>
-        [NonTransact]
         public async Task<List<PersonDto>> Search([FromQuery] string name, [FromQuery] int age)
         {
             var persons = _personRepository.Where(!string.IsNullOrEmpty(name), u => u.Name.Contains(name))

@@ -108,16 +108,39 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 获取瞬时数据库上下文
         /// </summary>
+        /// <returns></returns>
+        public static DbContext GetDbContext(Type dbContextLocator)
+        {
+            // 判断是否注册了数据库上下文
+            if (!Penetrates.DbContextWithLocatorCached.ContainsKey(dbContextLocator)) return default;
+
+            var dbContextResolve = App.GetService<Func<Type, ITransient, DbContext>>();
+            return dbContextResolve(dbContextLocator, default);
+        }
+
+        /// <summary>
+        /// 获取瞬时数据库上下文
+        /// </summary>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <returns></returns>
         public static DbContext GetDbContext<TDbContextLocator>()
             where TDbContextLocator : class, IDbContextLocator
         {
-            // 判断是否注册了数据库上下文
-            if (!Penetrates.DbContextWithLocatorCached.ContainsKey(typeof(TDbContextLocator))) return default;
+            return GetDbContext(typeof(TDbContextLocator));
+        }
 
-            var dbContextResolve = App.GetService<Func<Type, ITransient, DbContext>>();
-            return dbContextResolve(typeof(TDbContextLocator), default);
+        /// <summary>
+        /// 获取作用域数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <returns></returns>
+        public static DbContext GetRequestDbContext(Type dbContextLocator)
+        {
+            // 判断是否注册了数据库上下文
+            if (!Penetrates.DbContextWithLocatorCached.ContainsKey(dbContextLocator)) return default;
+
+            var dbContextResolve = App.GetRequestService<Func<Type, IScoped, DbContext>>();
+            return dbContextResolve(dbContextLocator, default);
         }
 
         /// <summary>
@@ -128,8 +151,7 @@ namespace Fur.DatabaseAccessor
         public static DbContext GetRequestDbContext<TDbContextLocator>()
             where TDbContextLocator : class, IDbContextLocator
         {
-            var dbContextResolve = App.GetRequestService<Func<Type, IScoped, DbContext>>();
-            return dbContextResolve(typeof(TDbContextLocator), default);
+            return GetRequestDbContext(typeof(TDbContextLocator));
         }
     }
 }

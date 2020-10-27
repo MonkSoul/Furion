@@ -1,5 +1,8 @@
 ﻿using Fur.DependencyInjection;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore.Storage;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Fur.DatabaseAccessor
@@ -47,34 +50,67 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            // 打印事务开始消息
-            App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning");
+            // 获取动作方法描述器
+            var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
+            var method = actionDescriptor.MethodInfo;
 
-            var resultContext = await next();
-
-            // 判断是否异常
-            if (resultContext.Exception == null)
+            // 判断是否贴有工作单元特性
+            if (!method.IsDefined(typeof(UnitOfWorkAttribute), true))
             {
-                // 将所有数据库上下文修改 SaveChanges();
-                var hasChangesCount = await _dbContextPool.SavePoolNowAsync();
+                // 调用方法
+                var resultContext = await next();
 
-                // 提交共享事务
-                if (_dbContextPool.DbContextTransaction == null) return;
-                await _dbContextPool.DbContextTransaction.CommitAsync();
-                await _dbContextPool.DbContextTransaction.DisposeAsync();
-
-                // 打印事务提交消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Completed", $"Transaction Completed! Has {hasChangesCount} DbContext Changes.");
+                // 判断是否异常
+                if (resultContext.Exception == null) await _dbContextPool.SavePoolNowAsync();
             }
             else
             {
-                // 回滚事务
-                if (_dbContextPool.DbContextTransaction == null) return;
-                await _dbContextPool.DbContextTransaction.RollbackAsync();
-                await _dbContextPool.DbContextTransaction.DisposeAsync();
+                // 打印事务开始消息
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning");
 
-                // 打印事务回滚消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
+                var dbContexts = _dbContextPool.GetDbContexts();
+                IDbContextTransaction dbContextTransaction;
+
+                // 判断 dbContextPool 中是否包含DbContext，如果是，则使用第一个数据库上下文开启事务，并应用于其他数据库上下文
+                if (dbContexts.Any())
+                {
+                    var firstDbContext = dbContexts.First();
+                    dbContextTransaction = await firstDbContext.Database.BeginTransactionAsync();
+                    await _dbContextPool.SetTransactionSharedToDbContextAsync(1, dbContextTransaction.GetDbTransaction());
+                }
+                // 创建临时数据库上下文
+                else
+                {
+                    var newDbContext = Db.GetDbContext(Penetrates.DbContextWithLocatorCached.Keys.First());
+                    dbContextTransaction = await newDbContext.Database.BeginTransactionAsync();
+                    await _dbContextPool.SetTransactionSharedToDbContextAsync(0, dbContextTransaction.GetDbTransaction());
+                }
+
+                // 调用方法
+                var resultContext = await next();
+
+                // 判断是否异常
+                if (resultContext.Exception == null)
+                {
+                    // 将所有数据库上下文修改 SaveChanges();
+                    var hasChangesCount = await _dbContextPool.SavePoolNowAsync();
+
+                    // 提交共享事务
+                    await dbContextTransaction.CommitAsync();
+
+                    // 打印事务提交消息
+                    App.PrintToMiniProfiler(MiniProfilerCategory, "Completed", $"Transaction Completed! Has {hasChangesCount} DbContext Changes.");
+                }
+                else
+                {
+                    // 回滚事务
+                    await dbContextTransaction.RollbackAsync();
+
+                    // 打印事务回滚消息
+                    App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
+                }
+
+                await dbContextTransaction.DisposeAsync();
             }
         }
     }
