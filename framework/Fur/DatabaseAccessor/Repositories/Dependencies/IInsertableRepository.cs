@@ -19,7 +19,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-    public partial interface IInsertableRepository<TEntity, TDbContextLocator> : IRepositoryDependency
+    public partial interface IInsertableRepository<TEntity, TDbContextLocator> : IPrivateRepository
     where TEntity : class, IPrivateEntity, new()
     where TDbContextLocator : class, IDbContextLocator
     {

@@ -22,7 +22,7 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-    public interface IReadableRepository<TEntity, TDbContextLocator> : IRepositoryDependency
+    public interface IReadableRepository<TEntity, TDbContextLocator> : IPrivateRepository
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {

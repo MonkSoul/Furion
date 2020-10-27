@@ -668,10 +668,10 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TRestrainRepository">特定仓储</typeparam>
         /// <returns>TRestrainRepository</returns>
         public virtual TRestrainRepository Constraint<TRestrainRepository>()
-            where TRestrainRepository : class, IRepositoryDependency
+            where TRestrainRepository : class, IPrivateRepository
         {
             var type = typeof(TRestrainRepository);
-            if (!type.IsInterface || typeof(IRepositoryDependency) == type || type.Name.Equals(nameof(IRepository)) || (type.IsGenericType && type.GetGenericTypeDefinition().Name.Equals(nameof(IRepository))))
+            if (!type.IsInterface || typeof(IPrivateRepository) == type || type.Name.Equals(nameof(IRepository)) || (type.IsGenericType && type.GetGenericTypeDefinition().Name.Equals(nameof(IRepository))))
             {
                 throw new InvalidCastException("Invalid type conversion");
             }

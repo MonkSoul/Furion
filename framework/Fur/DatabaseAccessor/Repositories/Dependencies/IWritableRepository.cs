@@ -27,7 +27,7 @@ namespace Fur.DatabaseAccessor
         , IUpdateableRepository<TEntity, TDbContextLocator>
         , IDeletableRepository<TEntity, TDbContextLocator>
         , IOperableRepository<TEntity, TDbContextLocator>
-        , IRepositoryDependency
+        , IPrivateRepository
     where TEntity : class, IPrivateEntity, new()
     where TDbContextLocator : class, IDbContextLocator
     {

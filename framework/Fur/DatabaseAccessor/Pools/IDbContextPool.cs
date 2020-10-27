@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,6 +11,11 @@ namespace Fur.DatabaseAccessor
     /// </summary>
     public interface IDbContextPool
     {
+        /// <summary>
+        /// 数据库上下文事务
+        /// </summary>
+        IDbContextTransaction DbContextTransaction { get; }
+
         /// <summary>
         /// 获取所有数据库上下文
         /// </summary>

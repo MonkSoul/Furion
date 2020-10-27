@@ -17,7 +17,7 @@ namespace Fur.DatabaseAccessor
     /// Sql 查询仓储接口
     /// </summary>
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-    public interface ISqlQueryableRepository<TDbContextLocator> : IRepositoryDependency
+    public interface ISqlQueryableRepository<TDbContextLocator> : IPrivateRepository
         where TDbContextLocator : class, IDbContextLocator
     {
         /// <summary>

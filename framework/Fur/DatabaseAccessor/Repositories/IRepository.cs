@@ -425,6 +425,6 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TRestrainRepository">特定仓储</typeparam>
         /// <returns>TRestrainRepository</returns>
         TRestrainRepository Constraint<TRestrainRepository>()
-            where TRestrainRepository : class, IRepositoryDependency;
+            where TRestrainRepository : class, IPrivateRepository;
     }
 }

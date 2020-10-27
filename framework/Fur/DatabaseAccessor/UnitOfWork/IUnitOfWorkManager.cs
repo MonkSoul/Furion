@@ -1,9 +1,9 @@
 ﻿namespace Fur.DatabaseAccessor
 {
     /// <summary>
-    /// 仓储依赖空接口
+    /// 工作单元管理器
     /// </summary>
-    public interface IRepositoryDependency
+    public interface IUnitOfWorkManager
     {
     }
 }

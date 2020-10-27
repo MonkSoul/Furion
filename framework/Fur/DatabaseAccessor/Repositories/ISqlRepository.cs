@@ -16,7 +16,7 @@ namespace Fur.DatabaseAccessor
     public interface ISqlRepository<TDbContextLocator>
         : ISqlExecutableRepository<TDbContextLocator>
         , ISqlQueryableRepository<TDbContextLocator>
-        , IRepositoryDependency
+        , IPrivateRepository
        where TDbContextLocator : class, IDbContextLocator
     {
         /// <summary>

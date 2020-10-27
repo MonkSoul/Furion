@@ -1,5 +1,6 @@
 ﻿using Fur.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading;
@@ -17,6 +18,11 @@ namespace Fur.DatabaseAccessor
         /// 线程安全的数据库上下文集合
         /// </summary>
         private readonly ConcurrentBag<DbContext> dbContexts;
+
+        /// <summary>
+        /// 数据库上下文事务
+        /// </summary>
+        public IDbContextTransaction DbContextTransaction { get; private set; }
 
         /// <summary>
         /// 构造函数
@@ -44,6 +50,10 @@ namespace Fur.DatabaseAccessor
             // 排除已经存在的数据库上下文
             if (!dbContexts.Contains(dbContext))
             {
+                // 开启并记录共享事务
+                if (DbContextTransaction != null) dbContext.Database.UseTransaction(DbContextTransaction.GetDbTransaction());
+                else DbContextTransaction = dbContext.Database.BeginTransaction();
+
                 dbContexts.Add(dbContext);
             }
         }
@@ -52,10 +62,17 @@ namespace Fur.DatabaseAccessor
         /// 保存数据库上下文（异步）
         /// </summary>
         /// <param name="dbContext"></param>
-        public Task AddToPoolAsync(DbContext dbContext)
+        public async Task AddToPoolAsync(DbContext dbContext)
         {
-            AddToPool(dbContext);
-            return Task.CompletedTask;
+            // 排除已经存在的数据库上下文
+            if (!dbContexts.Contains(dbContext))
+            {
+                // 开启并记录共享事务
+                if (DbContextTransaction != null) dbContext.Database.UseTransaction(DbContextTransaction.GetDbTransaction());
+                else DbContextTransaction = await dbContext.Database.BeginTransactionAsync();
+
+                dbContexts.Add(dbContext);
+            }
         }
 
         /// <summary>
