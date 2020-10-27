@@ -68,7 +68,7 @@ namespace Fur.DatabaseAccessor
             if (!dbContexts.Contains(dbContext))
             {
                 // 开启并记录共享事务
-                if (DbContextTransaction != null) dbContext.Database.UseTransaction(DbContextTransaction.GetDbTransaction());
+                if (DbContextTransaction != null) await dbContext.Database.UseTransactionAsync(DbContextTransaction.GetDbTransaction());
                 else DbContextTransaction = await dbContext.Database.BeginTransactionAsync();
 
                 dbContexts.Add(dbContext);

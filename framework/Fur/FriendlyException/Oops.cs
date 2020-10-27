@@ -54,7 +54,7 @@ namespace Fur.FriendlyException
         /// <returns>异常实例</returns>
         public static Exception Oh(string errorMessage, params object[] args)
         {
-            errorMessage = $"[Unknown] {errorMessage}";
+            errorMessage = $"{errorMessage}";
             return new Exception(FormatErrorMessage(errorMessage, args));
         }
 
@@ -67,7 +67,7 @@ namespace Fur.FriendlyException
         /// <returns>异常实例</returns>
         public static Exception Oh(string errorMessage, Type exceptionType, params object[] args)
         {
-            errorMessage = $"[Unknown] {errorMessage}";
+            errorMessage = $"{errorMessage}";
             return Activator.CreateInstance(exceptionType, new object[] { FormatErrorMessage(errorMessage, args) }) as Exception;
         }
 
@@ -160,7 +160,7 @@ namespace Fur.FriendlyException
             errorCodeMessage = FormatErrorMessage(errorCodeMessage, ifExceptionAttribute?.Args);
 
             // 拼接状态码
-            errorCodeMessage = $"[{errorCode}] {errorCodeMessage}";
+            errorCodeMessage = $"{errorCodeMessage}";
 
             // 字符串格式化
             return FormatErrorMessage(errorCodeMessage, args);
