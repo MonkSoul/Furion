@@ -6,7 +6,16 @@ namespace Fur.UnifyResult
     /// RESTful 风格结果集
     /// </summary>
     [SkipScan]
-    public class RESTfulResult
+    public class RESTfulResult : RESTfulResult<object>
+    {
+    }
+
+    /// <summary>
+    /// RESTful 风格结果集
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    [SkipScan]
+    public class RESTfulResult<T>
     {
         /// <summary>
         /// 状态码
@@ -16,7 +25,7 @@ namespace Fur.UnifyResult
         /// <summary>
         /// 数据
         /// </summary>
-        public object Data { get; set; }
+        public T Data { get; set; }
 
         /// <summary>
         /// 执行成功
