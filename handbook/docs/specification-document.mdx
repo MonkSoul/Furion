@@ -185,7 +185,7 @@ namespace Fur.Application
 
 :::note 小提示
 
-如果文档注释没有显示，请检查项目 `属性->生成->输出` 中XML文档是否配置输出路径。
+如果文档注释没有显示，请检查项目 `属性->生成->输出` 中 XML 文档是否配置输出路径。
 
 :::
 
@@ -712,6 +712,12 @@ namespace Fur.UnifyResult
 ```cs
 services.AddControllers().AddUnifyResult<RESTfulResult, RESTfulResultProvider>();
 ```
+
+:::important 特别注意
+
+由于使用了规范化结果之后， `Swagger` 不能显示真实的数据类型，所以需要在 `Action` 上面贴 `[UnifyResult(返回值类型)]` 即可。
+
+:::
 
 ## 6.8 反馈与建议
 
