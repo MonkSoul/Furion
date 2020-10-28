@@ -2,7 +2,7 @@
 # Update:20201012
 # NetCore SDK
 # https://hub.docker.com/_/microsoft-dotnet-nightly-sdk/
-FROM mcr.microsoft.com/dotnet/nightly/sdk:5.0-alpine AS build
+FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS build
 WORKDIR /source
 
 # Download Source
