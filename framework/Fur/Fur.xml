@@ -20382,19 +20382,117 @@
             设置请问报文头
             </summary>
         </member>
+        <member name="M:Fur.RemoteRequest.HeadersAttribute.#ctor(System.String,System.String)">
+            <summary>
+            构造演示
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="P:Fur.RemoteRequest.HeadersAttribute.Key">
+            <summary>
+            键
+            </summary>
+        </member>
+        <member name="P:Fur.RemoteRequest.HeadersAttribute.Value">
+            <summary>
+            值
+            </summary>
+        </member>
         <member name="T:Fur.RemoteRequest.HttpMethodAttribute">
             <summary>
             HTTP 请求谓词基类
             </summary>
+        </member>
+        <member name="M:Fur.RemoteRequest.HttpMethodAttribute.#ctor(System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="url"></param>
         </member>
         <member name="P:Fur.RemoteRequest.HttpMethodAttribute.Url">
             <summary>
             远程地址
             </summary>
         </member>
+        <member name="T:Fur.RemoteRequest.HttpDeleteAttribute">
+            <summary>
+            HttpDelete 请求
+            </summary>
+        </member>
+        <member name="M:Fur.RemoteRequest.HttpDeleteAttribute.#ctor(System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="url"></param>
+        </member>
+        <member name="T:Fur.RemoteRequest.HttpGetAttribute">
+            <summary>
+            HttpGet 请求
+            </summary>
+        </member>
+        <member name="M:Fur.RemoteRequest.HttpGetAttribute.#ctor(System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="url"></param>
+        </member>
+        <member name="T:Fur.RemoteRequest.HttpPatchAttribute">
+            <summary>
+            HttpPatch 请求
+            </summary>
+        </member>
+        <member name="M:Fur.RemoteRequest.HttpPatchAttribute.#ctor(System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="url"></param>
+        </member>
+        <member name="T:Fur.RemoteRequest.HttpPostAttribute">
+            <summary>
+            HttpPost 请求
+            </summary>
+        </member>
+        <member name="M:Fur.RemoteRequest.HttpPostAttribute.#ctor(System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="url"></param>
+        </member>
+        <member name="T:Fur.RemoteRequest.HttpPutAttribute">
+            <summary>
+            HttpPut 请求
+            </summary>
+        </member>
+        <member name="M:Fur.RemoteRequest.HttpPutAttribute.#ctor(System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="url"></param>
+        </member>
+        <member name="T:Fur.RemoteRequest.HttpClientConfigure">
+            <summary>
+            远程客户端配置
+            </summary>
+        </member>
+        <member name="P:Fur.RemoteRequest.HttpClientConfigure.BaseAddress">
+            <summary>
+            基础地址
+            </summary>
+        </member>
+        <member name="P:Fur.RemoteRequest.HttpClientConfigure.DefaultRequestHeaders">
+            <summary>
+            默认请求头
+            </summary>
+        </member>
         <member name="T:Fur.RemoteRequest.RemoteRequestSettingsOptions">
             <summary>
             远程请求设置
+            </summary>
+        </member>
+        <member name="P:Fur.RemoteRequest.RemoteRequestSettingsOptions.HttpClientDefinitions">
+            <summary>
+            客户端定义
             </summary>
         </member>
         <member name="T:Fur.RemoteRequest.RequestDispatchProxy">
@@ -22202,6 +22300,18 @@
             添加对象映射
             </summary>
             <param name="services">服务集合</param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.RemoteRequestServiceCollectionExtensions">
+            <summary>
+            远程请求服务拓展类
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.RemoteRequestServiceCollectionExtensions.AddRemoteRequest(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            注册远程请求
+            </summary>
+            <param name="services"></param>
             <returns></returns>
         </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.SpecificationDocumentServiceCollectionExtensions">

@@ -4,23 +4,17 @@ using System;
 namespace Fur.RemoteRequest
 {
     /// <summary>
-    /// HTTP 请求谓词基类
+    /// HttpPatch 请求
     /// </summary>
     [SkipScan, AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class HttpMethodAttribute : Attribute
+    public class HttpPatchAttribute : HttpMethodAttribute
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="url"></param>
-        public HttpMethodAttribute(string url)
+        public HttpPatchAttribute(string url) : base(url)
         {
-            Url = url;
         }
-
-        /// <summary>
-        /// 远程地址
-        /// </summary>
-        public string Url { get; set; }
     }
 }
