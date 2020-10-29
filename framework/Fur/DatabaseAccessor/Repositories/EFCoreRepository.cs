@@ -97,7 +97,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 获取多数据库上下文 Sql 操作仓储
         /// </summary>
-        /// <returns>ISqlRepository<TDbContextLocator></returns>
+        /// <returns>ISqlRepository{TDbContextLocator}</returns>
         public virtual ISqlRepository<TDbContextLocator> Sql<TDbContextLocator>()
              where TDbContextLocator : class, IDbContextLocator
         {
@@ -108,8 +108,6 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 多数据库上下文仓储
     /// </summary>
-    /// <typeparam name="TEntity">实体类型</typeparam>
-    /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
     [SkipScan]
     public partial class EFCoreRepository<TEntity, TDbContextLocator> : SqlRepository<TDbContextLocator>, IRepository<TEntity, TDbContextLocator>
         where TEntity : class, IPrivateEntity, new()
@@ -331,7 +329,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="entityState">实体状态</param>
-        /// <returns>EntityEntry<TEntity></returns>
+        /// <returns>EntityEntry{TEntity}</returns>
         public virtual EntityEntry<TEntity> ChangeEntityState(TEntity entity, EntityState entityState)
         {
             var entityEntry = Entry(entity);
@@ -356,7 +354,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entityEntry">实体条目</param>
         /// <param name="entityState">实体状态</param>
-        /// <returns>EntityEntry<TEntity></returns>
+        /// <returns>EntityEntry{TEntity}</returns>
         public virtual EntityEntry<TEntity> ChangeEntityState(EntityEntry<TEntity> entityEntry, EntityState entityState)
         {
             entityEntry.State = entityState;
@@ -460,7 +458,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 获取所有数据库上下文
         /// </summary>
-        /// <returns>ConcurrentBag<DbContext></returns>
+        /// <returns>ConcurrentBag{DbContext}</returns>
         public ConcurrentBag<DbContext> GetDbContexts()
         {
             return _dbContextPool.GetDbContexts();

@@ -3,6 +3,9 @@ using System;
 
 namespace Fur.MessageCenter
 {
+    /// <summary>
+    /// 事件消息特性
+    /// </summary>
     [SkipScan, AttributeUsage(AttributeTargets.Method)]
     public sealed class EventMessageAttribute : Attribute
     {

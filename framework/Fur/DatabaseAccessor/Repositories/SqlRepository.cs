@@ -29,7 +29,6 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// Sql 操作仓储实现
     /// </summary>
-    /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
     [SkipScan]
     public partial class SqlRepository<TDbContextLocator> : ISqlRepository<TDbContextLocator>
         where TDbContextLocator : class, IDbContextLocator

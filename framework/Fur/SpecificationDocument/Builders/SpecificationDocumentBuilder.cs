@@ -283,7 +283,7 @@ namespace Fur.SpecificationDocument
         }
 
         /// <summary>
-        /// <see cref="GetControllerGroups(MethodInfo)"/> 缓存集合
+        /// 获取分组信息缓存集合
         /// </summary>
         private static readonly ConcurrentDictionary<string, SpecificationOpenApiInfo> GetGroupOpenApiInfoCached;
 
@@ -335,7 +335,7 @@ namespace Fur.SpecificationDocument
         }
 
         /// <summary>
-        /// <see cref="GetControllerGroups(MethodInfo)"/> 缓存集合
+        /// 获取控制器组缓存集合
         /// </summary>
         private static readonly ConcurrentDictionary<Type, IEnumerable<GroupOrder>> GetControllerGroupsCached;
 

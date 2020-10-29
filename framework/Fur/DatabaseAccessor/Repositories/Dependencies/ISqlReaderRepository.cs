@@ -41,7 +41,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
-        /// <returns>Task<DataTable></returns>
+        /// <returns>Task{DataTable}</returns>
         Task<DataTable> SqlQueryAsync(string sql, params DbParameter[] parameters);
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>Task<DataTable></returns>
+        /// <returns>Task{DataTable}</returns>
         Task<DataTable> SqlQueryAsync(string sql, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>Task<DataTable></returns>
+        /// <returns>Task{DataTable}</returns>
         Task<DataTable> SqlQueryAsync(string sql, object model, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="T">返回类型</typeparam>
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
-        /// <returns>List<T></returns>
+        /// <returns>List{T}</returns>
         List<T> SqlQuery<T>(string sql, params DbParameter[] parameters);
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="T">返回类型</typeparam>
         /// <param name="sql">sql 语句</param>
         /// <param name="model">参数模型</param>
-        /// <returns>List<T></returns>
+        /// <returns>List{T}</returns>
         List<T> SqlQuery<T>(string sql, object model);
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="T">返回类型</typeparam>
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
-        /// <returns>Task<List<T>></returns>
+        /// <returns>Task{List{T}}</returns>
         Task<List<T>> SqlQueryAsync<T>(string sql, params DbParameter[] parameters);
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>Task<List<T>></returns>
+        /// <returns>Task{List{T}}</returns>
         Task<List<T>> SqlQueryAsync<T>(string sql, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>Task<List<T>></returns>
+        /// <returns>Task{List{T}}</returns>
         Task<List<T>> SqlQueryAsync<T>(string sql, object model, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
-        /// <returns>Task<DataSet></returns>
+        /// <returns>Task{DataSet}</returns>
         Task<DataSet> SqlQueriesAsync(string sql, params DbParameter[] parameters);
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>Task<DataSet></returns>
+        /// <returns>Task{DataSet}</returns>
         Task<DataSet> SqlQueriesAsync(string sql, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>Task<DataSet></returns>
+        /// <returns>Task{DataSet}</returns>
         Task<DataSet> SqlQueriesAsync(string sql, object model, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="T1">返回类型</typeparam>
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
-        /// <returns>List<T1></returns>
+        /// <returns>List{T1}</returns>
         List<T1> SqlQueries<T1>(string sql, params DbParameter[] parameters);
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="T1">返回类型</typeparam>
         /// <param name="sql">sql 语句</param>
         /// <param name="model">参数模型</param>
-        /// <returns>List<T1></returns>
+        /// <returns>List{T1}</returns>
         List<T1> SqlQueries<T1>(string sql, object model);
 
         /// <summary>
@@ -357,7 +357,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="T1">返回类型</typeparam>
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
-        /// <returns>Task<List<T1>></returns>
+        /// <returns>Task{List{T1}}</returns>
         Task<List<T1>> SqlQueriesAsync<T1>(string sql, params DbParameter[] parameters);
 
         /// <summary>
@@ -367,7 +367,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>Task<List<T1>></returns>
+        /// <returns>Task{List{T1}}</returns>
         Task<List<T1>> SqlQueriesAsync<T1>(string sql, DbParameter[] parameters, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -566,7 +566,7 @@ namespace Fur.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>List<T1></returns>
+        /// <returns>List{T1}</returns>
         Task<List<T1>> SqlQueriesAsync<T1>(string sql, object model, CancellationToken cancellationToken = default);
 
         /// <summary>

@@ -21,7 +21,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <typeparam name="T">返回值类型</typeparam>
         /// <param name="dataTable">DataTable</param>
-        /// <returns>List<T></returns>
+        /// <returns>List{T}</returns>
         public static List<T> ToList<T>(this DataTable dataTable)
         {
             return dataTable.ToList(typeof(List<T>)).Adapt<List<T>>();
@@ -32,7 +32,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <typeparam name="T">返回值类型</typeparam>
         /// <param name="dataTable">DataTable</param>
-        /// <returns>List<T></returns>
+        /// <returns>List{T}</returns>
         public static async Task<List<T>> ToListAsync<T>(this DataTable dataTable)
         {
             var list = await dataTable.ToListAsync(typeof(List<T>));

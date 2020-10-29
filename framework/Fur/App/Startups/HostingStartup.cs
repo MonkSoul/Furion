@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-/// 注入启动
 [assembly: HostingStartup(typeof(Fur.HostingStartup))]
 
 namespace Fur

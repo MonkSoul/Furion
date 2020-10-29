@@ -27,7 +27,7 @@ namespace Fur.DatabaseAccessor
         private static readonly List<MethodInfo> DbFunctionMethods;
 
         /// <summary>
-        /// 模型构建器 Entity<TEntity> 方法 <see cref="ModelBuilder.Entity{TEntity}"/>
+        /// 创建数据库实体方法
         /// </summary>
         private static readonly MethodInfo ModelBuildEntityMethod;
 

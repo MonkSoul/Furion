@@ -566,7 +566,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
-        /// <returns>IQueryable<TEntity></returns>
+        /// <returns>IQueryable{TEntity}</returns>
         IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters);
 
         /// <summary>
@@ -576,7 +576,7 @@ namespace Fur.DatabaseAccessor
         /// 支持字符串内插语法
         /// </remarks>
         /// <param name="sql">sql 语句</param>
-        /// <returns>IQueryable<TEntity></returns>
+        /// <returns>IQueryable{TEntity}</returns>
         IQueryable<TEntity> FromSqlInterpolated(FormattableString sql);
     }
 }

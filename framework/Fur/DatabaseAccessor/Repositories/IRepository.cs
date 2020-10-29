@@ -57,7 +57,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 获取多数据库上下文 Sql 操作仓储
         /// </summary>
-        /// <returns>ISqlRepository<TDbContextLocator></returns>
+        /// <returns>ISqlRepository{TDbContextLocator}</returns>
         ISqlRepository<TDbContextLocator> Sql<TDbContextLocator>()
              where TDbContextLocator : class, IDbContextLocator;
     }
@@ -206,7 +206,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="entityState">实体状态</param>
-        /// <returns>EntityEntry<TEntity></returns>
+        /// <returns>EntityEntry{TEntity}</returns>
         EntityEntry<TEntity> ChangeEntityState(TEntity entity, EntityState entityState);
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entityEntry">实体条目</param>
         /// <param name="entityState">实体状态</param>
-        /// <returns>EntityEntry<TEntity></returns>
+        /// <returns>EntityEntry{TEntity}</returns>
         EntityEntry<TEntity> ChangeEntityState(EntityEntry<TEntity> entityEntry, EntityState entityState);
 
         /// <summary>
@@ -292,7 +292,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 获取所有数据库上下文
         /// </summary>
-        /// <returns>ConcurrentBag<DbContext></returns>
+        /// <returns>ConcurrentBag{DbContext}</returns>
         public ConcurrentBag<DbContext> GetDbContexts();
 
         /// <summary>

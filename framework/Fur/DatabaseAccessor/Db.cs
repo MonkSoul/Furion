@@ -33,7 +33,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 获取非泛型仓储
         /// </summary>
-        /// <typeparam name="TEntity">实体类型</typeparam>
+        /// <returns></returns>
         public static IRepository GetRepository()
         {
             return App.GetRequestService<IRepository>()
@@ -45,7 +45,7 @@ namespace Fur.DatabaseAccessor
         /// 获取实体仓储
         /// </summary>
         /// <typeparam name="TEntity">实体类型</typeparam>
-        /// <returns>IRepository<TEntity></returns>
+        /// <returns>IRepository{TEntity}</returns>
         public static IRepository<TEntity> GetRepository<TEntity>()
             where TEntity : class, IPrivateEntity, new()
         {
@@ -59,7 +59,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-        /// <returns>IRepository<TEntity, TDbContextLocator></returns>
+        /// <returns>IRepository{TEntity, TDbContextLocator}</returns>
         public static IRepository<TEntity, TDbContextLocator> GetRepository<TEntity, TDbContextLocator>()
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
@@ -84,7 +84,7 @@ namespace Fur.DatabaseAccessor
         /// 获取Sql仓储
         /// </summary>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-        /// <returns>ISqlRepository<TDbContextLocator></returns>
+        /// <returns>ISqlRepository{TDbContextLocator}</returns>
         public static ISqlRepository<TDbContextLocator> GetSqlRepository<TDbContextLocator>()
             where TDbContextLocator : class, IDbContextLocator
         {
@@ -132,7 +132,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 获取作用域数据库上下文
         /// </summary>
-        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <param name="dbContextLocator">数据库上下文定位器</param>
         /// <returns></returns>
         public static DbContext GetRequestDbContext(Type dbContextLocator)
         {

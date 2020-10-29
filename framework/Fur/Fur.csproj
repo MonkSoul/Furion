@@ -10,19 +10,23 @@
     <RepositoryUrl>https://gitee.com/monksoul/Fur</RepositoryUrl>
     <RepositoryType>Gitee</RepositoryType>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <Version>1.0.0-rc.final.31</Version>
+    <Version>1.0.0-rc.final.32</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon></PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
+    <DocumentationFile>Fur.xml</DocumentationFile>
     <Optimize>false</Optimize>
   </PropertyGroup>
 
   <PropertyGroup>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>Fur.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

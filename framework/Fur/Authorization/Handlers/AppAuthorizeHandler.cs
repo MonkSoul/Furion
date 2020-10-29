@@ -45,8 +45,8 @@ namespace Fur.Authorization
         /// <summary>
         /// 验证管道
         /// </summary>
-        /// <param name="context">授权上下文</param>
-        /// <param name="endpointMetadata">终点路由元数据</param>
+        /// <param name="context"></param>
+        /// <param name="httpContext"></param>
         /// <returns></returns>
         public virtual bool Pipeline(AuthorizationHandlerContext context, DefaultHttpContext httpContext)
         {

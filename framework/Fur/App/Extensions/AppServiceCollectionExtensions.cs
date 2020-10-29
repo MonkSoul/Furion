@@ -56,7 +56,6 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services">服务集合</param>
         /// <param name="configure">服务配置</param>
-        /// <param name="isWebHost">是否是Web主机</param>
         /// <returns>服务集合</returns>
         internal static IServiceCollection AddApp(this IServiceCollection services, Action<IServiceCollection> configure = null)
         {

@@ -12,7 +12,7 @@ namespace Fur.Authorization
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="resourceId"></param>
         public SecurityDefineAttribute(string resourceId)
         {
             ResourceId = resourceId;

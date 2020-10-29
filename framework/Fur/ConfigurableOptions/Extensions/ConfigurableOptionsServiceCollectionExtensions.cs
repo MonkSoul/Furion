@@ -22,7 +22,6 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="TOptions">选项类型</typeparam>
         /// <param name="services">服务集合</param>
-        /// <param name="options">选项实例</param>
         /// <returns>服务集合</returns>
         public static IServiceCollection AddConfigurableOptions<TOptions>(this IServiceCollection services)
             where TOptions : class, IConfigurableOptions

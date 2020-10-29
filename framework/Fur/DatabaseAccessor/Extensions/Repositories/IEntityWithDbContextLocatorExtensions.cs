@@ -20,7 +20,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <typeparam name="TEntity">实体</typeparam>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-        /// <returns>DbSet<TEntity></returns>
+        /// <returns>DbSet{TEntity}</returns>
         public static DbSet<TEntity> Ethnics<TEntity, TDbContextLocator>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
@@ -48,6 +48,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <param name="entity">实体</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>代理的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertAsync<TEntity, TDbContextLocator>(this TEntity entity, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
@@ -76,6 +77,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有提交更改</param>
         /// <returns>数据库中的实体</returns>
         public static EntityEntry<TEntity> InsertNow<TEntity, TDbContextLocator>(this TEntity entity, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
@@ -90,6 +92,7 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <param name="entity">实体</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertNowAsync<TEntity, TDbContextLocator>(this TEntity entity, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
@@ -104,6 +107,8 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <param name="entity">实体</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有提交更改</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> InsertNowAsync<TEntity, TDbContextLocator>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()

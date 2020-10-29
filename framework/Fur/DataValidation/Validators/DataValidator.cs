@@ -184,7 +184,7 @@ namespace Fur.DataValidation
         }
 
         /// <summary>
-        /// <see cref="GetValidationValidationItemMetadata"/> 缓存集合
+        /// 获取验证类型验证Item集合
         /// </summary>
         private static readonly ConcurrentDictionary<object, (string, ValidationItemMetadataAttribute)> GetValidationTypeValidationItemMetadataCached;
 
