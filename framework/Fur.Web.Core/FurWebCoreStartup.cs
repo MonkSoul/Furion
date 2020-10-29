@@ -11,6 +11,9 @@ namespace Fur.Web.Core
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            // 注册 JWT 授权
+            services.AddJWTAuthorization<JWTAuthorizationHandler>();
+
             services.AddCorsAccessor();
 
             services.AddControllersWithViews().AddInject()

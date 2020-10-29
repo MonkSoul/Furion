@@ -17,5 +17,12 @@
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         T GetUserId<T>();
+
+        /// <summary>
+        /// 检查授权
+        /// </summary>
+        /// <param name="resourceId"></param>
+        /// <returns></returns>
+        bool CheckSecurity(string resourceId);
     }
 }

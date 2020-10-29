@@ -18772,6 +18772,42 @@
             <param name="skey">密钥</param>
             <returns></returns>
         </member>
+        <member name="T:Fur.DataEncryption.JWTEncryption">
+            <summary>
+            JWT 加解密
+            </summary>
+        </member>
+        <member name="M:Fur.DataEncryption.JWTEncryption.Encrypt(System.String,Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            生成 Token
+            </summary>
+            <param name="issuerSigningKey"></param>
+            <param name="payload"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.DataEncryption.JWTEncryption.Encrypt(System.String,System.String)">
+            <summary>
+            生成 Token
+            </summary>
+            <param name="issuerSigningKey"></param>
+            <param name="payload"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.DataEncryption.JWTEncryption.Validate(System.String,Fur.Authorization.JWTSettingsOptions)">
+            <summary>
+            验证 Token
+            </summary>
+            <param name="accessToken"></param>
+            <param name="jwtSettings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.DataEncryption.JWTEncryption.CreateTokenValidationParameters(Fur.Authorization.JWTSettingsOptions)">
+            <summary>
+            生成Token验证参数
+            </summary>
+            <param name="jwtSettings"></param>
+            <returns></returns>
+        </member>
         <member name="T:Fur.DataEncryption.MD5Encryption">
             <summary>
             MD5 加密
@@ -21808,7 +21844,7 @@
         </member>
         <member name="M:Microsoft.AspNetCore.Mvc.Core.UnifyResultAttribute.WrapType(System.Type)">
             <summary>
-            保证类型
+            包装类型
             </summary>
             <param name="type"></param>
         </member>
@@ -21872,6 +21908,29 @@
             <param name="configure">自定义配置</param>
             <param name="enableGlobalAuthorize">是否启用全局授权</param>
             <returns>服务集合</returns>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.JWTAuthorizationServiceCollectionExtensions">
+            <summary>
+            JWT 授权服务拓展类
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.JWTAuthorizationServiceCollectionExtensions.AddJWTAuthorization``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Boolean,Microsoft.IdentityModel.Tokens.TokenValidationParameters)">
+            <summary>
+            添加 JWT 授权
+            </summary>
+            <typeparam name="TAuthorizationHandler"></typeparam>
+            <param name="services"></param>
+            <param name="enableGlobalAuthorize"></param>
+            <param name="tokenValidationParameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.JWTAuthorizationServiceCollectionExtensions.AddJWTAuthorization(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.IdentityModel.Tokens.TokenValidationParameters)">
+            <summary>
+            添加 JWT 授权
+            </summary>
+            <param name="services"></param>
+            <param name="tokenValidationParameters">token 验证参数</param>
+            <returns></returns>
         </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.ConfigurableOptionsServiceCollectionExtensions">
             <summary>

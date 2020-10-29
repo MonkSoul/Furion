@@ -6,10 +6,10 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Text;
 
-namespace Fur.Core
+namespace Fur.DataEncryption
 {
     /// <summary>
-    /// JWT 加密
+    /// JWT 加解密
     /// </summary>
     [SkipScan]
     public class JWTEncryption
@@ -48,12 +48,15 @@ namespace Fur.Core
         /// <returns></returns>
         public static (bool IsValid, JsonWebToken Token) Validate(string accessToken, JWTSettingsOptions jwtSettings)
         {
+            // 加密Key
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.IssuerSigningKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+            // 创建Token验证参数
             var tokenValidationParameters = CreateTokenValidationParameters(jwtSettings);
             if (tokenValidationParameters.IssuerSigningKey == null) tokenValidationParameters.IssuerSigningKey = creds.Key;
 
+            // 验证 Token
             var tokenHandler = new JsonWebTokenHandler();
             try
             {
@@ -74,7 +77,7 @@ namespace Fur.Core
         /// </summary>
         /// <param name="jwtSettings"></param>
         /// <returns></returns>
-        internal static TokenValidationParameters CreateTokenValidationParameters(JWTSettingsOptions jwtSettings)
+        public static TokenValidationParameters CreateTokenValidationParameters(JWTSettingsOptions jwtSettings)
         {
             return new TokenValidationParameters
             {

@@ -180,69 +180,6 @@
             住址
             </summary>
         </member>
-        <member name="T:Fur.Core.JWTAuthorizationHandler">
-            <summary>
-            JWT 授权自定义处理程序
-            </summary>
-            <remarks>
-            可以在这里自定义自己的权限
-            </remarks>
-        </member>
-        <member name="F:Fur.Core.JWTAuthorizationHandler._jwtSettings">
-            <summary>
-            JWT 配置
-            </summary>
-        </member>
-        <member name="M:Fur.Core.JWTAuthorizationHandler.#ctor(Microsoft.Extensions.Options.IOptions{Fur.Authorization.JWTSettingsOptions})">
-            <summary>
-            构造函数
-            </summary>
-            <param name="options"></param>
-        </member>
-        <member name="M:Fur.Core.JWTAuthorizationHandler.CheckAuthorzie(Microsoft.AspNetCore.Http.DefaultHttpContext,Microsoft.IdentityModel.JsonWebTokens.JsonWebToken)">
-            <summary>
-            检查权限
-            </summary>
-            <param name="httpContext"></param>
-            <param name="token"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Fur.Core.JWTEncryption">
-            <summary>
-            JWT 加密
-            </summary>
-        </member>
-        <member name="M:Fur.Core.JWTEncryption.Encrypt(System.String,Newtonsoft.Json.Linq.JObject)">
-            <summary>
-            生成 Token
-            </summary>
-            <param name="issuerSigningKey"></param>
-            <param name="payload"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Fur.Core.JWTEncryption.Encrypt(System.String,System.String)">
-            <summary>
-            生成 Token
-            </summary>
-            <param name="issuerSigningKey"></param>
-            <param name="payload"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Fur.Core.JWTEncryption.Validate(System.String,Fur.Authorization.JWTSettingsOptions)">
-            <summary>
-            验证 Token
-            </summary>
-            <param name="accessToken"></param>
-            <param name="jwtSettings"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Fur.Core.JWTEncryption.CreateTokenValidationParameters(Fur.Authorization.JWTSettingsOptions)">
-            <summary>
-            生成Token验证参数
-            </summary>
-            <param name="jwtSettings"></param>
-            <returns></returns>
-        </member>
         <member name="T:Fur.Core.Role">
             <summary>
             角色表
@@ -403,12 +340,13 @@
             请求上下文访问器
             </summary>
         </member>
-        <member name="M:Fur.Core.AuthorizationManager.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor,Microsoft.Extensions.Options.IOptions{Fur.Authorization.JWTSettingsOptions})">
+        <member name="M:Fur.Core.AuthorizationManager.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor,Microsoft.Extensions.Options.IOptions{Fur.Authorization.JWTSettingsOptions},Fur.DatabaseAccessor.IRepository{Fur.Core.User})">
             <summary>
             构造函数
             </summary>
             <param name="httpContextAccessor"></param>
             <param name="options"></param>
+            <param name="userRepository"></param>
         </member>
         <member name="M:Fur.Core.AuthorizationManager.GetUserId">
             <summary>
@@ -421,6 +359,13 @@
             获取用户Id
             </summary>
             <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.Core.AuthorizationManager.CheckSecurity(System.String)">
+            <summary>
+            检查权限
+            </summary>
+            <param name="resourceId"></param>
             <returns></returns>
         </member>
         <member name="M:Fur.Core.AuthorizationManager.ReadToken">
@@ -447,22 +392,17 @@
             <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
+        <member name="M:Fur.Core.IAuthorizationManager.CheckSecurity(System.String)">
+            <summary>
+            检查授权
+            </summary>
+            <param name="resourceId"></param>
+            <returns></returns>
+        </member>
         <member name="T:Fur.Core.SecurityConst">
             <summary>
             权限常量
             </summary>
-        </member>
-        <member name="T:Microsoft.Extensions.DependencyInjection.JWTAuthorizationServiceCollectionExtensions">
-            <summary>
-            JWT 授权服务拓展类
-            </summary>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.JWTAuthorizationServiceCollectionExtensions.AddJWTAuthorization(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            添加 JWT 授权
-            </summary>
-            <param name="services"></param>
-            <returns></returns>
         </member>
     </members>
 </doc>

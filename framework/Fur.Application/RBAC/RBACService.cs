@@ -1,6 +1,7 @@
 ﻿using Fur.Authorization;
 using Fur.Core;
 using Fur.DatabaseAccessor;
+using Fur.DataEncryption;
 using Fur.DynamicApiController;
 using Fur.FriendlyException;
 using Mapster;

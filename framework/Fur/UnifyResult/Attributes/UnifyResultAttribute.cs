@@ -40,7 +40,7 @@ namespace Microsoft.AspNetCore.Mvc.Core
         }
 
         /// <summary>
-        /// 保证类型
+        /// 包装类型
         /// </summary>
         /// <param name="type"></param>
         private void WrapType(Type type)

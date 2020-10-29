@@ -4,5 +4,26 @@
         <name>Fur.Web.Core</name>
     </assembly>
     <members>
+        <member name="T:Fur.Web.Core.JWTAuthorizationHandler">
+            <summary>
+            JWT 授权自定义处理程序
+            </summary>
+        </member>
+        <member name="M:Fur.Web.Core.JWTAuthorizationHandler.Pipeline(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,Microsoft.AspNetCore.Http.DefaultHttpContext)">
+            <summary>
+            请求管道
+            </summary>
+            <param name="context"></param>
+            <param name="httpContext"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.Web.Core.JWTAuthorizationHandler.CheckAuthorzie(Microsoft.AspNetCore.Http.DefaultHttpContext,Microsoft.IdentityModel.JsonWebTokens.JsonWebToken)">
+            <summary>
+            检查权限
+            </summary>
+            <param name="httpContext"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

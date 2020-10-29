@@ -10,7 +10,7 @@
     <RepositoryUrl>https://gitee.com/monksoul/Fur</RepositoryUrl>
     <RepositoryType>Gitee</RepositoryType>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <Version>1.0.0-rc.final.34</Version>
+    <Version>1.0.0-rc.final.35</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon></PackageIcon>
   </PropertyGroup>
@@ -43,6 +43,7 @@
 
   <ItemGroup>
     <PackageReference Include="Mapster" Version="6.5.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.0-rc.2.20475.17" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.0-rc.2.20475.17" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="5.0.0-rc.2.20475.17" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0-5.final" />

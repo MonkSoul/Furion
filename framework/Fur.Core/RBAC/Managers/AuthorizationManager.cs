@@ -1,9 +1,13 @@
 ﻿using Fur.Authorization;
+using Fur.DatabaseAccessor;
+using Fur.DataEncryption;
 using Fur.DependencyInjection;
 using Fur.FriendlyException;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
+using System.Linq;
 
 namespace Fur.Core
 {
@@ -19,16 +23,21 @@ namespace Fur.Core
         /// </summary>
         private readonly IHttpContextAccessor _httpContextAccessor;
 
+        private readonly IRepository<User> _userRepository;
+
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="httpContextAccessor"></param>
         /// <param name="options"></param>
+        /// <param name="userRepository"></param>
         public AuthorizationManager(IHttpContextAccessor httpContextAccessor
-            , IOptions<JWTSettingsOptions> options)
+            , IOptions<JWTSettingsOptions> options
+            , IRepository<User> userRepository)
         {
             _httpContextAccessor = httpContextAccessor;
             _jwtSettings = options.Value;
+            _userRepository = userRepository;
         }
 
         /// <summary>
@@ -37,7 +46,7 @@ namespace Fur.Core
         /// <returns></returns>
         public object GetUserId()
         {
-            return ReadToken().GetPayloadValue<object>("UserId");
+            return GetUserId<object>();
         }
 
         /// <summary>
@@ -48,6 +57,30 @@ namespace Fur.Core
         public T GetUserId<T>()
         {
             return ReadToken().GetPayloadValue<T>("UserId");
+        }
+
+        /// <summary>
+        /// 检查权限
+        /// </summary>
+        /// <param name="resourceId"></param>
+        /// <returns></returns>
+        public bool CheckSecurity(string resourceId)
+        {
+            var userId = GetUserId<int>();
+
+            // ========= 以下代码应该缓存起来 ===========
+            // 查询用户拥有的权限
+            var securities = _userRepository
+                .Include(u => u.Roles)
+                    .ThenInclude(u => u.Securities)
+                .Where(u => u.Id == userId)
+                .SelectMany(u => u.Roles
+                    .SelectMany(u => u.Securities))
+                .Select(u => u.UniqueName);
+
+            if (!securities.Contains(resourceId)) return false;
+
+            return true;
         }
 
         /// <summary>
