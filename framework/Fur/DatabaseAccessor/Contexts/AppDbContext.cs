@@ -45,6 +45,12 @@ namespace Fur.DatabaseAccessor
             this.SavingChanges += SavingChangesEvent;
             this.SavedChanges += SavedChangesEvent;
             this.SaveChangesFailed += SaveChangesFailedEvent;
+
+            //获取程序集中定义但尚未应用到目标数据库的所有迁移。
+            if (base.Database.GetPendingMigrations().Any())
+            {
+                base.Database.Migrate(); //执行迁移
+            }
         }
 
         /// <summary>
