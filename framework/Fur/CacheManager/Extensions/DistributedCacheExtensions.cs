@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fur.DependencyInjection;
+using System;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace Microsoft.Extensions.Caching.Distributed
     /// <summary>
     /// 分布式缓存扩展方法
     /// </summary>
+    [SkipScan]
     public static class DistributedCacheExtensions
     {
         /// <summary>
@@ -25,16 +27,17 @@ namespace Microsoft.Extensions.Caching.Distributed
 
                 if (string.IsNullOrEmpty(valueString))
                 {
-                    return default(TEntity);
+                    return default;
                 }
 
                 return JsonSerializer.Deserialize<TEntity>(valueString);
             }
             catch
             {
-                return default(TEntity);
+                return default;
             }
         }
+
         /// <summary>
         /// 根据缓存key获取缓存信息
         /// </summary>
@@ -43,7 +46,7 @@ namespace Microsoft.Extensions.Caching.Distributed
         /// <param name="key">缓存key</param>
         /// <param name="token">取消异步令牌</param>
         /// <returns>缓存结果信息</returns>
-        public static async Task<TEntity> GetAsync<TEntity>(this IDistributedCache cache, string key, CancellationToken token = default(CancellationToken))
+        public static async Task<TEntity> GetAsync<TEntity>(this IDistributedCache cache, string key, CancellationToken token = default)
         {
             try
             {
@@ -51,16 +54,17 @@ namespace Microsoft.Extensions.Caching.Distributed
 
                 if (string.IsNullOrEmpty(valueString))
                 {
-                    return default(TEntity);
+                    return default;
                 }
 
                 return JsonSerializer.Deserialize<TEntity>(valueString);
             }
             catch
             {
-                return default(TEntity);
+                return default;
             }
         }
+
         /// <summary>
         /// 根据缓存key获取缓存信息
         /// </summary>
@@ -77,9 +81,10 @@ namespace Microsoft.Extensions.Caching.Distributed
                 value = JsonSerializer.Deserialize<TEntity>(valueString);
                 return true;
             }
-            value = default(TEntity);
+            value = default;
             return false;
         }
+
         /// <summary>
         /// 根据缓存key设置缓存信息
         /// </summary>
@@ -91,6 +96,7 @@ namespace Microsoft.Extensions.Caching.Distributed
         {
             cache.SetString(key, JsonSerializer.Serialize(value));
         }
+
         /// <summary>
         /// 根据缓存key设置缓存信息
         /// </summary>
@@ -103,6 +109,7 @@ namespace Microsoft.Extensions.Caching.Distributed
         {
             cache.SetString(key, JsonSerializer.Serialize(value), options);
         }
+
         /// <summary>
         /// 根据缓存key设置缓存信息
         /// </summary>
@@ -112,10 +119,11 @@ namespace Microsoft.Extensions.Caching.Distributed
         /// <param name="value">待缓存信息</param>
         /// <param name="token">取消异步令牌</param>
         /// <returns></returns>
-        public static async Task SetAsync<TEntity>(this IDistributedCache cache, string key, TEntity value, CancellationToken token = default(CancellationToken))
+        public static async Task SetAsync<TEntity>(this IDistributedCache cache, string key, TEntity value, CancellationToken token = default)
         {
             await cache.SetStringAsync(key, JsonSerializer.Serialize(value), token);
         }
+
         /// <summary>
         /// 根据缓存key设置缓存信息
         /// </summary>
@@ -126,10 +134,11 @@ namespace Microsoft.Extensions.Caching.Distributed
         /// <param name="options">缓存过期配置</param>
         /// <param name="token">取消异步令牌</param>
         /// <returns></returns>
-        public static async Task SetAsync<TEntity>(this IDistributedCache cache, string key, TEntity value, DistributedCacheEntryOptions options, CancellationToken token = default(CancellationToken))
+        public static async Task SetAsync<TEntity>(this IDistributedCache cache, string key, TEntity value, DistributedCacheEntryOptions options, CancellationToken token = default)
         {
             await cache.SetStringAsync(key, JsonSerializer.Serialize(value), options, token);
         }
+
         /// <summary>
         /// 根据缓存key获取缓存信息，若不存在则创建缓存
         /// </summary>
@@ -145,8 +154,9 @@ namespace Microsoft.Extensions.Caching.Distributed
                 obj = factory();
                 cache.Set(key, obj);
             }
-            return (TEntity)obj;
+            return obj;
         }
+
         /// <summary>
         /// 根据缓存key获取缓存信息，若不存在则创建缓存
         /// </summary>
@@ -163,8 +173,9 @@ namespace Microsoft.Extensions.Caching.Distributed
                 obj = factory();
                 cache.Set(key, obj, options);
             }
-            return (TEntity)obj;
+            return obj;
         }
+
         /// <summary>
         /// 根据缓存key获取缓存信息，若不存在则创建缓存
         /// </summary>
@@ -180,8 +191,9 @@ namespace Microsoft.Extensions.Caching.Distributed
                 obj = await factory();
                 await cache.SetAsync(key, obj);
             }
-            return (TEntity)obj;
+            return obj;
         }
+
         /// <summary>
         /// 根据缓存key获取缓存信息，若不存在则创建缓存
         /// </summary>
@@ -198,7 +210,7 @@ namespace Microsoft.Extensions.Caching.Distributed
                 obj = await factory();
                 await cache.SetAsync(key, obj, options);
             }
-            return (TEntity)obj;
+            return obj;
         }
     }
 }

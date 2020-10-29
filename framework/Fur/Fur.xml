@@ -22361,6 +22361,124 @@
             <param name="hostBuilder"></param>
             <returns></returns>
         </member>
+        <member name="T:Microsoft.Extensions.Caching.Distributed.DistributedCacheExtensions">
+            <summary>
+            分布式缓存扩展方法
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.Caching.Distributed.DistributedCacheExtensions.Get``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String)">
+            <summary>
+            根据缓存key获取缓存信息
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="cache">分布式缓存对象</param>
+            <param name="key">缓存key</param>
+            <returns>缓存结果信息</returns>
+        </member>
+        <member name="M:Microsoft.Extensions.Caching.Distributed.DistributedCacheExtensions.GetAsync``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String,System.Threading.CancellationToken)">
+            <summary>
+            根据缓存key获取缓存信息
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="cache">分布式缓存对象</param>
+            <param name="key">缓存key</param>
+            <param name="token">取消异步令牌</param>
+            <returns>缓存结果信息</returns>
+        </member>
+        <member name="M:Microsoft.Extensions.Caching.Distributed.DistributedCacheExtensions.TryGetValue``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String,``0@)">
+            <summary>
+            根据缓存key获取缓存信息
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="cache">分布式缓存对象</param>
+            <param name="key">缓存key</param>
+            <param name="value"></param>
+            <returns>缓存结果信息</returns>
+        </member>
+        <member name="M:Microsoft.Extensions.Caching.Distributed.DistributedCacheExtensions.Set``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String,``0)">
+            <summary>
+            根据缓存key设置缓存信息
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="cache">分布式缓存对象</param>
+            <param name="key">缓存key</param>
+            <param name="value">待缓存信息</param>
+        </member>
+        <member name="M:Microsoft.Extensions.Caching.Distributed.DistributedCacheExtensions.Set``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String,``0,Microsoft.Extensions.Caching.Distributed.DistributedCacheEntryOptions)">
+            <summary>
+            根据缓存key设置缓存信息
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="cache">分布式缓存对象</param>
+            <param name="key">缓存key</param>
+            <param name="value">待缓存信息</param>
+            <param name="options">缓存过期配置</param>
+        </member>
+        <member name="M:Microsoft.Extensions.Caching.Distributed.DistributedCacheExtensions.SetAsync``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String,``0,System.Threading.CancellationToken)">
+            <summary>
+            根据缓存key设置缓存信息
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="cache">分布式缓存对象</param>
+            <param name="key">缓存key</param>
+            <param name="value">待缓存信息</param>
+            <param name="token">取消异步令牌</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.Caching.Distributed.DistributedCacheExtensions.SetAsync``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String,``0,Microsoft.Extensions.Caching.Distributed.DistributedCacheEntryOptions,System.Threading.CancellationToken)">
+            <summary>
+            根据缓存key设置缓存信息
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="cache">分布式缓存对象</param>
+            <param name="key">缓存key</param>
+            <param name="value">待缓存信息</param>
+            <param name="options">缓存过期配置</param>
+            <param name="token">取消异步令牌</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.Caching.Distributed.DistributedCacheExtensions.GetOrCreate``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String,System.Func{``0})">
+            <summary>
+            根据缓存key获取缓存信息，若不存在则创建缓存
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="cache">分布式缓存对象</param>
+            <param name="key">缓存key</param>
+            <param name="factory">获取数据委托</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.Caching.Distributed.DistributedCacheExtensions.GetOrCreate``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String,System.Func{``0},Microsoft.Extensions.Caching.Distributed.DistributedCacheEntryOptions)">
+            <summary>
+            根据缓存key获取缓存信息，若不存在则创建缓存
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="cache">分布式缓存对象</param>
+            <param name="key">缓存key</param>
+            <param name="factory">获取数据委托</param>
+            <param name="options">缓存过期配置</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.Caching.Distributed.DistributedCacheExtensions.GetOrCreateAsync``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String,System.Func{System.Threading.Tasks.Task{``0}})">
+            <summary>
+            根据缓存key获取缓存信息，若不存在则创建缓存
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="cache">分布式缓存对象</param>
+            <param name="key">缓存key</param>
+            <param name="factory">获取数据委托</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.Caching.Distributed.DistributedCacheExtensions.GetOrCreateAsync``1(Microsoft.Extensions.Caching.Distributed.IDistributedCache,System.String,System.Func{System.Threading.Tasks.Task{``0}},Microsoft.Extensions.Caching.Distributed.DistributedCacheEntryOptions)">
+            <summary>
+            根据缓存key获取缓存信息，若不存在则创建缓存
+            </summary>
+            <typeparam name="TEntity">实体类型</typeparam>
+            <param name="cache">分布式缓存对象</param>
+            <param name="key">缓存key</param>
+            <param name="factory">获取数据委托</param>
+            <param name="options">缓存过期配置</param>
+            <returns></returns>
+        </member>
         <member name="T:Microsoft.EntityFrameworkCore.EntityFrameworkCoreExtensions">
             <summary>
             Microsoft.EntityFrameworkCore 拓展
