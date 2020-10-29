@@ -76,5 +76,25 @@ namespace Fur.DatabaseAccessor
         {
             return _serviceProvider.GetService<ISqlRepository<TChangeDbContextLocator>>();
         }
+
+        /// <summary>
+        /// 解析服务
+        /// </summary>
+        /// <typeparam name="TService"></typeparam>
+        /// <returns></returns>
+        public virtual TService GetService<TService>()
+        {
+            return _serviceProvider.GetService<TService>();
+        }
+
+        /// <summary>
+        /// 解析服务
+        /// </summary>
+        /// <typeparam name="TService"></typeparam>
+        /// <returns></returns>
+        public virtual TService GetRequiredService<TService>()
+        {
+            return _serviceProvider.GetRequiredService<TService>();
+        }
     }
 }

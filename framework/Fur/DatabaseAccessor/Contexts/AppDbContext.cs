@@ -1,4 +1,4 @@
-﻿using Fur.DependencyInjection;
+using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
