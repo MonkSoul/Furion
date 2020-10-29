@@ -86,6 +86,26 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
+        /// 解析服务
+        /// </summary>
+        /// <typeparam name="TService"></typeparam>
+        /// <returns></returns>
+        public virtual TService GetService<TService>()
+        {
+            return _serviceProvider.GetService<TService>();
+        }
+
+        /// <summary>
+        /// 解析服务
+        /// </summary>
+        /// <typeparam name="TService"></typeparam>
+        /// <returns></returns>
+        public virtual TService GetRequiredService<TService>()
+        {
+            return _serviceProvider.GetRequiredService<TService>();
+        }
+
+        /// <summary>
         /// 获取 Sql 操作仓储
         /// </summary>
         /// <returns>ISqlRepository</returns>
@@ -658,6 +678,26 @@ namespace Fur.DatabaseAccessor
             where TChangeDbContextLocator : class, IDbContextLocator
         {
             return _repository.Change<TChangeEntity, TChangeDbContextLocator>();
+        }
+
+        /// <summary>
+        /// 解析服务
+        /// </summary>
+        /// <typeparam name="TService"></typeparam>
+        /// <returns></returns>
+        public virtual TService GetService<TService>()
+        {
+            return _repository.GetService<TService>();
+        }
+
+        /// <summary>
+        /// 解析服务
+        /// </summary>
+        /// <typeparam name="TService"></typeparam>
+        /// <returns></returns>
+        public virtual TService GetRequiredService<TService>()
+        {
+            return _repository.GetRequiredService<TService>();
         }
 
         /// <summary>

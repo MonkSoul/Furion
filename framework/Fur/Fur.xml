@@ -12851,6 +12851,20 @@
             <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
             <returns>仓储</returns>
         </member>
+        <member name="M:Fur.DatabaseAccessor.EFCoreRepository.GetService``1">
+            <summary>
+            解析服务
+            </summary>
+            <typeparam name="TService"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.EFCoreRepository.GetRequiredService``1">
+            <summary>
+            解析服务
+            </summary>
+            <typeparam name="TService"></typeparam>
+            <returns></returns>
+        </member>
         <member name="M:Fur.DatabaseAccessor.EFCoreRepository.Sql">
             <summary>
             获取 Sql 操作仓储
@@ -13248,6 +13262,20 @@
             <typeparam name="TChangeEntity">实体类型</typeparam>
             <typeparam name="TChangeDbContextLocator">数据库上下文定位器</typeparam>
             <returns>仓储</returns>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.GetService``1">
+            <summary>
+            解析服务
+            </summary>
+            <typeparam name="TService"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.GetRequiredService``1">
+            <summary>
+            解析服务
+            </summary>
+            <typeparam name="TService"></typeparam>
+            <returns></returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.Constraint``1">
             <summary>
@@ -18056,6 +18084,20 @@
             <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
             <returns>仓储</returns>
         </member>
+        <member name="M:Fur.DatabaseAccessor.IRepository.GetService``1">
+            <summary>
+            解析服务
+            </summary>
+            <typeparam name="TService"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.IRepository.GetRequiredService``1">
+            <summary>
+            解析服务
+            </summary>
+            <typeparam name="TService"></typeparam>
+            <returns></returns>
+        </member>
         <member name="M:Fur.DatabaseAccessor.IRepository.Sql">
             <summary>
             获取 Sql 操作仓储
@@ -18416,6 +18458,20 @@
             <typeparam name="TChangeEntity">实体类型</typeparam>
             <typeparam name="TChangeDbContextLocator">数据库上下文定位器</typeparam>
             <returns>仓储</returns>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.IRepository`2.GetService``1">
+            <summary>
+            解析服务
+            </summary>
+            <typeparam name="TService"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.IRepository`2.GetRequiredService``1">
+            <summary>
+            解析服务
+            </summary>
+            <typeparam name="TService"></typeparam>
+            <returns></returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.IRepository`2.Constraint``1">
             <summary>
