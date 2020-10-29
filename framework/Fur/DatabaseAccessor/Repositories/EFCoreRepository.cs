@@ -681,26 +681,6 @@ namespace Fur.DatabaseAccessor
         }
 
         /// <summary>
-        /// 解析服务
-        /// </summary>
-        /// <typeparam name="TService"></typeparam>
-        /// <returns></returns>
-        public virtual TService GetService<TService>()
-        {
-            return _repository.GetService<TService>();
-        }
-
-        /// <summary>
-        /// 解析服务
-        /// </summary>
-        /// <typeparam name="TService"></typeparam>
-        /// <returns></returns>
-        public virtual TService GetRequiredService<TService>()
-        {
-            return _repository.GetRequiredService<TService>();
-        }
-
-        /// <summary>
         /// 将仓储约束为特定仓储
         /// </summary>
         /// <typeparam name="TRestrainRepository">特定仓储</typeparam>

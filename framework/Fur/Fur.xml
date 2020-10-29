@@ -13263,20 +13263,6 @@
             <typeparam name="TChangeDbContextLocator">数据库上下文定位器</typeparam>
             <returns>仓储</returns>
         </member>
-        <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.GetService``1">
-            <summary>
-            解析服务
-            </summary>
-            <typeparam name="TService"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.GetRequiredService``1">
-            <summary>
-            解析服务
-            </summary>
-            <typeparam name="TService"></typeparam>
-            <returns></returns>
-        </member>
         <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.Constraint``1">
             <summary>
             将仓储约束为特定仓储
@@ -17932,6 +17918,20 @@
             <typeparam name="TChangeDbContextLocator">数据库上下文定位器</typeparam>
             <returns>仓储</returns>
         </member>
+        <member name="M:Fur.DatabaseAccessor.SqlRepository`1.GetService``1">
+            <summary>
+            解析服务
+            </summary>
+            <typeparam name="TService"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.SqlRepository`1.GetRequiredService``1">
+            <summary>
+            解析服务
+            </summary>
+            <typeparam name="TService"></typeparam>
+            <returns></returns>
+        </member>
         <member name="T:Fur.DatabaseAccessor.IMSRepository`2">
             <summary>
             主从库仓储
@@ -18459,20 +18459,6 @@
             <typeparam name="TChangeDbContextLocator">数据库上下文定位器</typeparam>
             <returns>仓储</returns>
         </member>
-        <member name="M:Fur.DatabaseAccessor.IRepository`2.GetService``1">
-            <summary>
-            解析服务
-            </summary>
-            <typeparam name="TService"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:Fur.DatabaseAccessor.IRepository`2.GetRequiredService``1">
-            <summary>
-            解析服务
-            </summary>
-            <typeparam name="TService"></typeparam>
-            <returns></returns>
-        </member>
         <member name="M:Fur.DatabaseAccessor.IRepository`2.Constraint``1">
             <summary>
             将仓储约束为特定仓储
@@ -18502,6 +18488,20 @@
             </summary>
             <typeparam name="TChangeDbContextLocator">数据库上下文定位器</typeparam>
             <returns>仓储</returns>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.ISqlRepository`1.GetService``1">
+            <summary>
+            解析服务
+            </summary>
+            <typeparam name="TService"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.ISqlRepository`1.GetRequiredService``1">
+            <summary>
+            解析服务
+            </summary>
+            <typeparam name="TService"></typeparam>
+            <returns></returns>
         </member>
         <member name="T:Fur.DatabaseAccessor.MSRepository`2">
             <summary>

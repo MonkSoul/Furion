@@ -434,20 +434,6 @@ namespace Fur.DatabaseAccessor
             where TChangeDbContextLocator : class, IDbContextLocator;
 
         /// <summary>
-        /// 解析服务
-        /// </summary>
-        /// <typeparam name="TService"></typeparam>
-        /// <returns></returns>
-        TService GetService<TService>();
-
-        /// <summary>
-        /// 解析服务
-        /// </summary>
-        /// <typeparam name="TService"></typeparam>
-        /// <returns></returns>
-        TService GetRequiredService<TService>();
-
-        /// <summary>
         /// 将仓储约束为特定仓储
         /// </summary>
         /// <typeparam name="TRestrainRepository">特定仓储</typeparam>
