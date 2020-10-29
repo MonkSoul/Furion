@@ -15,6 +15,7 @@ namespace Fur.SpecificationDocument
         /// </summary>
         public SpecificationOpenApiInfo()
         {
+            Version = "1.0.0";
         }
 
         /// <summary>

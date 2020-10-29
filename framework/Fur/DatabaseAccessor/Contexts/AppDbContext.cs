@@ -42,9 +42,9 @@ namespace Fur.DatabaseAccessor
         public AppDbContext(DbContextOptions<TDbContext> options) : base(options)
         {
             // 定义数据库上下文提交更改事件
-            this.SavingChanges += SavingChangesEvent;
-            this.SavedChanges += SavedChangesEvent;
-            this.SaveChangesFailed += SaveChangesFailedEvent;
+            SavingChanges += SavingChangesEvent;
+            SavedChanges += SavedChangesEvent;
+            SaveChangesFailed += SaveChangesFailedEvent;
         }
 
         /// <summary>

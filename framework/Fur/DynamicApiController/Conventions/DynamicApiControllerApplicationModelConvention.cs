@@ -1,9 +1,11 @@
 ﻿using Fur.DependencyInjection;
+using Fur.UnifyResult;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Mvc.Core;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Routing;
 using System;
@@ -29,12 +31,18 @@ namespace Fur.DynamicApiController
         private readonly Regex _nameVersionRegex;
 
         /// <summary>
+        /// 是否启动规范化文档
+        /// </summary>
+        private readonly bool _enabledUnifyResult;
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         public DynamicApiControllerApplicationModelConvention()
         {
             _dynamicApiControllerSettings = App.GetOptions<DynamicApiControllerSettingsOptions>();
             _nameVersionRegex = new Regex(@"V(?<version>[0-9_]+$)");
+            _enabledUnifyResult = App.GetService<IUnifyResultProvider>() != null;
         }
 
         /// <summary>
@@ -108,9 +116,11 @@ namespace Fur.DynamicApiController
             // 配置动作方法路由特性
             ConfigureActionRouteAttribute(action, apiDescriptionSettings, controllerApiDescriptionSettings);
 
-            //给action添加ProducesResponseTypeAttribute
-            ConfigureActionProducesResponseTypeAttribute(action);
-
+            // 配置动作方法规范化特性
+            if (_enabledUnifyResult)
+            {
+                ConfigureActionUnifyResultAttribute(action);
+            }
         }
 
         /// <summary>
@@ -455,6 +465,29 @@ namespace Fur.DynamicApiController
         }
 
         /// <summary>
+        /// 配置规范化结果类型
+        /// </summary>
+        /// <param name="action"></param>
+        private static void ConfigureActionUnifyResultAttribute(ActionModel action)
+        {
+            // 判断是否手动添加了标注
+            if (action.Attributes.Any(x => typeof(ProducesResponseTypeAttribute).IsAssignableFrom(x.GetType())
+                || typeof(IApiResponseMetadataProvider).IsAssignableFrom(x.GetType()))) return;
+
+            // 判断是否是异步方法
+            var isAsyncMethod = action.ActionMethod.IsAsync();
+
+            // 获取真实类型
+            var returnType = action.ActionMethod.ReturnType;
+            returnType = isAsyncMethod ? (returnType.GenericTypeArguments.FirstOrDefault() ?? typeof(void)) : returnType;
+
+            if (returnType == typeof(void)) return;
+
+            // 添加规范化结果特性
+            action.Filters.Add(new UnifyResultAttribute(returnType, StatusCodes.Status200OK));
+        }
+
+        /// <summary>
         /// 解析名称中的版本号
         /// </summary>
         /// <param name="name">名称</param>
@@ -466,26 +499,6 @@ namespace Fur.DynamicApiController
             var version = _nameVersionRegex.Match(name).Groups["version"].Value.Replace("_", ".");
             return (_nameVersionRegex.Replace(name, ""), version);
         }
-        /// <summary>
-        /// 给action添加ProducesResponseTypeAttribute
-        /// </summary>
-        /// <param name="action">动作方法模型</param>
-        private void ConfigureActionProducesResponseTypeAttribute(ActionModel action)
-        {
-            //已手动标注
-            if (action.Attributes.Any(x => typeof(ProducesResponseTypeAttribute).IsAssignableFrom(x.GetType()) || typeof(IApiResponseMetadataProvider).IsAssignableFrom(x.GetType())))
-            {
-                return;
-            }
-            // 取到 action 返回的类型
-            Type[] returnTypes = action.ActionMethod.ReturnType.GenericTypeArguments;
-            if (returnTypes.Length == 0) return;
-            //不支持 Tuple  
-            Type[] typeGenericArguments = returnTypes[0].GetGenericArguments();
-            Type returnType = (typeGenericArguments.Length > 0) ? typeGenericArguments[0] : returnTypes[0];
-            //打上标注
-            action.Filters.Add(new ProducesResponseTypeAttribute(returnType, StatusCodes.Status200OK));
 
-        }
     }
 }

@@ -18,7 +18,7 @@ namespace Fur.UnifyResult
         /// <returns></returns>
         public IActionResult OnException(ExceptionContext context)
         {
-            return new JsonResult(new RESTfulResult
+            return new JsonResult(new RESTfulResult<object>
             {
                 StatusCode = StatusCodes.Status500InternalServerError,
                 Successed = false,
@@ -41,7 +41,7 @@ namespace Fur.UnifyResult
             else if (context.Result is ObjectResult objectResult) data = objectResult.Value;
             else return null;
 
-            return new JsonResult(new RESTfulResult
+            return new JsonResult(new RESTfulResult<object>
             {
                 StatusCode = context.Result is EmptyResult ? StatusCodes.Status204NoContent : StatusCodes.Status200OK,
                 Successed = true,
@@ -60,7 +60,7 @@ namespace Fur.UnifyResult
         /// <returns></returns>
         public IActionResult OnValidateFailed(ActionExecutingContext context, ModelStateDictionary modelStates, Dictionary<string, IEnumerable<string>> validationResults, string validateFaildMessage)
         {
-            return new JsonResult(new RESTfulResult
+            return new JsonResult(new RESTfulResult<object>
             {
                 StatusCode = StatusCodes.Status400BadRequest,
                 Successed = false,

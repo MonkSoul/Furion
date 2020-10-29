@@ -6,7 +6,6 @@ using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Core;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -88,7 +87,6 @@ namespace Fur.Application
         /// 查询所有
         /// </summary>
         /// <returns></returns>
-        [UnifyResult(typeof(List<PersonDto>))]
         public async Task<List<PersonDto>> GetAll()
         {
             var persons = _personRepository.AsQueryable()

@@ -19700,6 +19700,11 @@
             带版本的名称正则表达式
             </summary>
         </member>
+        <member name="F:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention._enabledUnifyResult">
+            <summary>
+            是否启动规范化文档
+            </summary>
+        </member>
         <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.#ctor">
             <summary>
             构造函数
@@ -19808,6 +19813,12 @@
             <param name="apiDescriptionSettings"></param>
             <param name="controllerApiDescriptionSettings"></param>
             <returns></returns>
+        </member>
+        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.ConfigureActionUnifyResultAttribute(Microsoft.AspNetCore.Mvc.ApplicationModels.ActionModel)">
+            <summary>
+            配置规范化结果类型
+            </summary>
+            <param name="action"></param>
         </member>
         <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.ResolveNameVersion(System.String)">
             <summary>
@@ -20975,11 +20986,6 @@
             <param name="next"></param>
             <returns></returns>
         </member>
-        <member name="T:Fur.UnifyResult.RESTfulResult">
-            <summary>
-            RESTful 风格结果集
-            </summary>
-        </member>
         <member name="T:Fur.UnifyResult.RESTfulResult`1">
             <summary>
             RESTful 风格结果集
@@ -21063,6 +21069,16 @@
             <param name="validationResults"></param>
             <param name="validateFaildMessage"></param>
             <returns></returns>
+        </member>
+        <member name="T:Fur.UnifyResult.UnifyResultContext">
+            <summary>
+            规范化结果上下文
+            </summary>
+        </member>
+        <member name="F:Fur.UnifyResult.UnifyResultContext.RESTfulResultType">
+            <summary>
+            规范化结果类型
+            </summary>
         </member>
         <member name="T:Fur.ViewEngine.IViewEngineCompilationOptionsBuilder">
             <summary>
@@ -21921,6 +21937,13 @@
             <param name="mvcBuilder">Mvc构建起</param>
             <returns>IMvcBuilder</returns>
         </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.AppServiceCollectionExtensions.AddInjectWithUnifyResult(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+            <summary>
+            Mvc 注入基础配置和规范化结果
+            </summary>
+            <param name="mvcBuilder"></param>
+            <returns></returns>
+        </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.AppServiceCollectionExtensions.AddInject(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             非 Web 主机注入基础配置
@@ -22447,13 +22470,21 @@
             规范化结果服务拓展
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.UnifyResultServiceCollectionExtensions.AddUnifyResult``2(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.UnifyResultServiceCollectionExtensions.AddUnifyResult(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Type)">
             <summary>
             添加规范化结果服务
             </summary>
-            <typeparam name="TResult"></typeparam>
+            <param name="mvcBuilder"></param>
+            <param name="restfulResultType">RESTful结果类型，泛型类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.UnifyResultServiceCollectionExtensions.AddUnifyResult``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Type)">
+            <summary>
+            添加规范化结果服务
+            </summary>
             <typeparam name="TUnifyResultProvider"></typeparam>
             <param name="mvcBuilder"></param>
+            <param name="restfulResultType">RESTful结果类型，泛型类型</param>
             <returns></returns>
         </member>
         <member name="T:Microsoft.Extensions.Hosting.HostBuilderExtensions">

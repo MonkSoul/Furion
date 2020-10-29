@@ -5,14 +5,6 @@ namespace Fur.UnifyResult
     /// <summary>
     /// RESTful 风格结果集
     /// </summary>
-    [SkipScan]
-    public class RESTfulResult : RESTfulResult<object>
-    {
-    }
-
-    /// <summary>
-    /// RESTful 风格结果集
-    /// </summary>
     /// <typeparam name="T"></typeparam>
     [SkipScan]
     public class RESTfulResult<T>

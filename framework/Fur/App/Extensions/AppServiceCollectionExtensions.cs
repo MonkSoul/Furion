@@ -36,6 +36,18 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
+        /// Mvc 注入基础配置和规范化结果
+        /// </summary>
+        /// <param name="mvcBuilder"></param>
+        /// <returns></returns>
+        public static IMvcBuilder AddInjectWithUnifyResult(this IMvcBuilder mvcBuilder)
+        {
+            mvcBuilder.AddInject().AddUnifyResult();
+
+            return mvcBuilder;
+        }
+
+        /// <summary>
         /// 非 Web 主机注入基础配置
         /// </summary>
         /// <param name="services"></param>

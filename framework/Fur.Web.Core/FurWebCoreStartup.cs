@@ -1,5 +1,4 @@
-﻿using Fur.UnifyResult;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,8 +15,7 @@ namespace Fur.Web.Core
 
             services.AddCorsAccessor();
 
-            services.AddControllersWithViews().AddInject()
-                .AddUnifyResult<RESTfulResult, RESTfulResultProvider>();
+            services.AddControllersWithViews().AddInjectWithUnifyResult();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

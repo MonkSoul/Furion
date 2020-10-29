@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Web;
 
 namespace Fur.SpecificationDocument
 {
@@ -262,7 +263,7 @@ namespace Fur.SpecificationDocument
             {
                 var groupOpenApiInfo = GetGroupOpenApiInfo(group);
 
-                swaggerUIOptions.SwaggerEndpoint($"/swagger/{group}/swagger.json", groupOpenApiInfo?.Title ?? group);
+                swaggerUIOptions.SwaggerEndpoint($"/swagger/{HttpUtility.UrlEncode(group)}/swagger.json", groupOpenApiInfo?.Title ?? group);
             }
         }
 
