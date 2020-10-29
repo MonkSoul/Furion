@@ -42,7 +42,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// PostgreSQL 提供器程序集
         /// </summary>
-        internal const string Npgsql = "Npgsql.EntityFrameworkCore.PostgreSQL";
+        public const string Npgsql = "Npgsql.EntityFrameworkCore.PostgreSQL";
 
         /// <summary>
         /// Oracle 提供器程序集
