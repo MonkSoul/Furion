@@ -1,19 +1,8 @@
-﻿// -----------------------------------------------------------------------------
-// Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。
-// Copyright © 2020 Fur, Baiqian Co.,Ltd.
-//
-// 框架名称：Fur
-// 框架作者：百小僧
-// 框架版本：1.0.0-rc.final
-// 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
-// 				    Github：https://github.com/monksoul/Fur 
-// 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
-// -----------------------------------------------------------------------------
-
-using Fur.DependencyInjection;
+﻿using Fur.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -129,6 +118,23 @@ namespace Fur.DatabaseAccessor
             // 等待所有异步完成
             var results = await Task.WhenAll(tasks);
             return results.Length;
+        }
+
+        /// <summary>
+        /// 设置数据库上下文共享事务
+        /// </summary>
+        /// <param name="skipCount"></param>
+        /// <param name="transaction"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task SetTransactionSharedToDbContextAsync(int skipCount, DbTransaction transaction, CancellationToken cancellationToken = default)
+        {
+            // 跳过第一个数据库上下文并设置贡献事务
+            var tasks = dbContexts
+                .Skip(skipCount)
+                .Select(u => u.Database.UseTransactionAsync(transaction, cancellationToken));
+
+            await Task.WhenAll(tasks);
         }
     }
 }

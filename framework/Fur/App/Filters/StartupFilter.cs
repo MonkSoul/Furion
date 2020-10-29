@@ -1,21 +1,9 @@
-﻿// -----------------------------------------------------------------------------
-// Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。
-// Copyright © 2020 Fur, Baiqian Co.,Ltd.
-//
-// 框架名称：Fur
-// 框架作者：百小僧
-// 框架版本：1.0.0-rc.final
-// 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
-// 				    Github：https://github.com/monksoul/Fur 
-// 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
-// -----------------------------------------------------------------------------
-
-using Fur.DependencyInjection;
+﻿using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -83,21 +71,38 @@ namespace Fur
             {
                 var type = startup.GetType();
 
-                // 获取所有符合依赖注入格式的方法，如返回值void，且第一个参数是 IApplicationBuilder 类型，第二个参数是 IWebHostEnvironment
+                // 获取所有符合依赖注入格式的方法，如返回值void，且第一个参数是 IApplicationBuilder 类型
                 var configureMethods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
                     .Where(u => u.ReturnType == typeof(void)
-                        && u.GetParameters().Length > 1
-                        && u.GetParameters()[0].ParameterType == typeof(IApplicationBuilder)
-                        && u.GetParameters()[1].ParameterType == typeof(IWebHostEnvironment));
+                        && u.GetParameters().Length > 0
+                        && u.GetParameters().First().ParameterType == typeof(IApplicationBuilder));
 
                 if (!configureMethods.Any()) continue;
 
                 // 自动安装属性调用
                 foreach (var method in configureMethods)
                 {
-                    method.Invoke(startup, new object[] { app, env });
+                    method.Invoke(startup, ResolveMethodParameterInstances(app, applicationServices, method).ToArray());
                 }
             }
+        }
+
+        /// <summary>
+        /// 解析方法参数实例
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="applicationServices"></param>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        private static List<object> ResolveMethodParameterInstances(IApplicationBuilder app, IServiceProvider applicationServices, MethodInfo method)
+        {
+            var parameterInstances = new List<object>() { app };
+            var methodParams = method.GetParameters().Skip(1);
+            foreach (var parameterInfo in methodParams)
+            {
+                parameterInstances.Add(applicationServices.GetRequiredService(parameterInfo.ParameterType));
+            }
+            return parameterInstances;
         }
     }
 }

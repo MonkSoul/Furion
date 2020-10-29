@@ -10,7 +10,7 @@ namespace Fur.Core
         /// </summary>
         public Children()
         {
-            CreatedTime = DateTime.Now;
+            CreatedTime = DateTimeOffset.UtcNow;
             IsDeleted = false;
         }
 

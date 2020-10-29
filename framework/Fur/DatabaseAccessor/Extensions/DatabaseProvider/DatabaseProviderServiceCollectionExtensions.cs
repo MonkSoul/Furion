@@ -1,17 +1,4 @@
-﻿// -----------------------------------------------------------------------------
-// Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。
-// Copyright © 2020 Fur, Baiqian Co.,Ltd.
-//
-// 框架名称：Fur
-// 框架作者：百小僧
-// 框架版本：1.0.0-rc.final
-// 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
-// 				    Github：https://github.com/monksoul/Fur 
-// 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
-// -----------------------------------------------------------------------------
-
-using Fur.DatabaseAccessor;
+﻿using Fur.DatabaseAccessor;
 using Fur.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -57,7 +44,6 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务</param>
         /// <param name="optionBuilder">自定义配置</param>
         /// <param name="poolSize">池大小</param>
-        /// <param name="dynamicDbContext">动态数据库上下文，用于分表分库用</param>
         /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
         public static IServiceCollection AddDbPool<TDbContext>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionBuilder, int poolSize = 100, params IInterceptor[] interceptors)
@@ -104,7 +90,6 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务</param>
         /// <param name="optionBuilder">自定义配置</param>
         /// <param name="poolSize">池大小</param>
-        /// <param name="dynamicDbContext">动态数据库上下文，用于分表分库用</param>
         /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
         public static IServiceCollection AddDbPool<TDbContext, TDbContextLocator>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionBuilder, int poolSize = 100, params IInterceptor[] interceptors)
@@ -147,7 +132,6 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务</param>
         /// <param name="optionBuilder">自定义配置</param>
         /// <param name="interceptors">拦截器</param>
-        /// <param name="dynamicDbContext">动态数据库上下文，用于分表分库用</param>
         /// <returns>服务集合</returns>
         public static IServiceCollection AddDb<TDbContext>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionBuilder, params IInterceptor[] interceptors)
             where TDbContext : DbContext
@@ -191,7 +175,6 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <param name="services">服务</param>
         /// <param name="optionBuilder">自定义配置</param>
-        /// <param name="dynamicDbContext">动态数据库上下文，用于分表分库用</param>
         /// <param name="interceptors">拦截器</param>
         /// <returns>服务集合</returns>
         public static IServiceCollection AddDb<TDbContext, TDbContextLocator>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionBuilder, params IInterceptor[] interceptors)
@@ -247,7 +230,7 @@ namespace Microsoft.Extensions.DependencyInjection
             DatabaseProviderUseMethodCollection = new ConcurrentDictionary<string, MethodInfo>();
             MigrationsAssemblyAction = options => options.GetType()
                 .GetMethod("MigrationsAssembly")
-                .Invoke(options, new[] { Penetrates.MigrationAssemblyName });
+                .Invoke(options, new[] { Db.MigrationAssemblyName });
         }
 
         /// <summary>

@@ -20,6 +20,25 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 9.20.2 操作指南
 
+:::important 特别注意
+
+`Fur` 框架默认数据迁移的程序集为：`Fur.Database.Migrations`，所以如果您改了程序集名称或通过 `Nuget` 方式安装的 `Fur` 包，则需要配置迁移程序集名称：
+
+```cs {4}
+services.AddDatabaseAccessor(options =>
+{
+    options.AddDbPool<FurDbContext>(DbProvider.Sqlite);
+}, "自定义迁移名称");
+```
+
+另外，如果应用中配置了多个数据库上下文，那么所有的 `迁移命令` 都需要指定 `-Context 数据库上下文名称` 参数。如：
+
+```shell
+Add-Migration v1.0.0 -Context FurDbContext
+```
+
+:::
+
 ### 9.20.2.1 创建实体模型 `Person`
 
 ```cs {1,6,8}
@@ -148,7 +167,35 @@ Script-Migration
 
 <img src={useBaseUrl("img/codefirst2.png")} />
 
-## 9.20.5 反馈与建议
+## 9.20.5 `VS Code` 方式
+
+### 9.20.5.1 安装 `dotnet ef`
+
+```shell
+dotnet tool install --global dotnet-ef --version 5.0.0-rc.2.20475.6
+```
+
+### 9.20.5.2 `cd` 目录
+
+通过 `VS Code` 打开 `.sln` 所在的目录，如：`framework`。
+
+之后进入 `Fur.Database.Migrations` 目录
+
+```shell
+cd Fur.Database.Migrations
+```
+
+### 9.20.5.3 执行命令
+
+```shell
+dotnet ef migrations add v1.0.0 -s "../Fur.Web.Entry"
+```
+
+```shell
+dotnet ef database update -s "../Fur.Web.Entry"
+```
+
+## 9.20.6 反馈与建议
 
 :::note 与我们交流
 

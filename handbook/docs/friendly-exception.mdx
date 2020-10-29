@@ -53,6 +53,12 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 `Fur` 框架提供了非常灵活的友好异常处理方式。
 
+:::important 备注
+
+`.AddFriendlyException()` 默认已经继承在 `AddInject()` 中了，无需再次注册。也就是 `7.4.1` 章节可不配置。
+
+:::
+
 ### 7.4.1 注册友好异常服务
 
 ```cs {11} title="Fur.Web.Core\FurWebCoreStartup.cs"
@@ -363,16 +369,14 @@ namespace Fur.Web.Core
 
 `Fur` 框架还提供了非常灵活的配置文件配置异常，通过这种方式可以实现异常信息后期配置，也就是无需在开发阶段预先定义。
 
-```json {2-9} title="Fur.Web.Entry/appsettings.json"
+```json {2-8} title="Fur.Web.Entry/appsettings.json"
 {
-  "AppSettings": {
-    "ErrorCodeMessageSettings": {
-      "Definitions": [
-        [5000, "{0} 不能小于 {1}"],
-        [5001, "我叫 {0} 名字", "百小僧"],
-        [5002, "Oops! 出错了"]
-      ]
-    }
+  "ErrorCodeMessageSettings": {
+    "Definitions": [
+      [5000, "{0} 不能小于 {1}"],
+      [5001, "我叫 {0} 名字", "百小僧"],
+      [5002, "Oops! 出错了"]
+    ]
   }
 }
 ```
@@ -588,7 +592,31 @@ namespace Fur.UnifyResult
 services.AddControllers().AddUnifyResult<RESTfulResult, RESTfulResultProvider>();
 ```
 
-## 7.14 反馈与建议
+## 7.14 全局异常处理提供器
+
+通常我们需要在异常捕获的时候写日志，这时候就需要使用到 `IGlobalExceptionHandler` 异常定义处理程序，如：
+
+```cs {8}
+using Fur.DependencyInjection;
+using Fur.FriendlyException;
+using Microsoft.AspNetCore.Mvc.Filters;
+using System.Threading.Tasks;
+
+namespace Fur.Application
+{
+    public class LogExceptionHandler : IGlobalExceptionHandler, ISingleton
+    {
+        public Task OnExceptionAsync(ExceptionContext context)
+        {
+            // 写日志
+
+            return Task.CompletedTask;
+        }
+    }
+}
+```
+
+## 7.15 反馈与建议
 
 :::note 与我们交流
 

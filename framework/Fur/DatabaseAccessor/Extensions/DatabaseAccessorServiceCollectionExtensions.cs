@@ -1,17 +1,4 @@
-﻿// -----------------------------------------------------------------------------
-// Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。
-// Copyright © 2020 Fur, Baiqian Co.,Ltd.
-//
-// 框架名称：Fur
-// 框架作者：百小僧
-// 框架版本：1.0.0-rc.final
-// 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
-// 				    Github：https://github.com/monksoul/Fur 
-// 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
-// -----------------------------------------------------------------------------
-
-using Fur.DatabaseAccessor;
+﻿using Fur.DatabaseAccessor;
 using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +23,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddDatabaseAccessor(this IServiceCollection services, Action<IServiceCollection> configure = null, string migrationAssemblyName = default)
         {
             // 设置迁移类库名称
-            if (!string.IsNullOrEmpty(migrationAssemblyName)) Penetrates.MigrationAssemblyName = migrationAssemblyName;
+            if (!string.IsNullOrEmpty(migrationAssemblyName)) Db.MigrationAssemblyName = migrationAssemblyName;
 
             // 配置数据库上下文
             configure?.Invoke(services);
@@ -107,14 +94,28 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
+        /// 启动自定义租户类型
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="onTableTenantId">基于表的多租户Id名称</param>
+        /// <returns></returns>
+        public static IServiceCollection CustomizeMultiTenants(this IServiceCollection services, string onTableTenantId = default)
+        {
+            Db.CustomizeMultiTenants = true;
+            if (!string.IsNullOrEmpty(onTableTenantId)) Db.OnTableTenantId = onTableTenantId;
+
+            return services;
+        }
+
+        /// <summary>
         /// 注册数据库上下文
         /// </summary>
         /// <typeparam name="TDbContext">数据库上下文</typeparam>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <param name="services">服务提供器</param>
         public static IServiceCollection RegisterDbContext<TDbContext, TDbContextLocator>(this IServiceCollection services)
-            where TDbContext : DbContext
-            where TDbContextLocator : class, IDbContextLocator
+        where TDbContext : DbContext
+        where TDbContextLocator : class, IDbContextLocator
         {
             var dbContextLocatorType = (typeof(TDbContextLocator));
 

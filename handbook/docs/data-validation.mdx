@@ -198,6 +198,12 @@ public class DtoModel : IValidatableObject
 
 ## 8.5 `DataValidation` 使用
 
+:::important 备注
+
+`.AddDataValidation()` 默认已经继承在 `AddInject()` 中了，无需再次注册。也就是 `8.5.1` 章节可不配置。
+
+:::
+
 ### 8.5.1 注册验证服务
 
 ```cs {11} title="Fur.Web.Core\FurWebCoreStartup.cs"
@@ -681,24 +687,22 @@ namespace Fur.Web.Core
 
 - **`appsettings.json` 方式**
 
-```json {2-11} title="Fur.Web.Entry/appsettings.json"
+```json {2-9} title="Fur.Web.Entry/appsettings.json"
 {
-  "AppSettings": {
-    "ValidationTypeMessageSettings": {
-      "Definitions": [
-        ["Required", "值不能为空或Null"],
-        ["Numeric", "必须是数值类型"],
+  "ValidationTypeMessageSettings": {
+    "Definitions": [
+      ["Required", "值不能为空或Null"],
+      ["Numeric", "必须是数值类型"],
 
-        ["StrongPassword", "密码太简单了!!!"]
-      ]
-    }
+      ["StrongPassword", "密码太简单了!!!"]
+    ]
   }
 }
 ```
 
 :::important
 
-`appsettings.json` 中相同的 `Key` 或覆盖 `IValidationMessageTypeProvider` 提供相同 `Key` 的值。
+`appsettings.json` 中相同的 `Key` 会覆盖 `IValidationMessageTypeProvider` 提供相同 `Key` 的值。
 
 :::
 

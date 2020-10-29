@@ -1,22 +1,8 @@
-﻿// -----------------------------------------------------------------------------
-// Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。
-// Copyright © 2020 Fur, Baiqian Co.,Ltd.
-//
-// 框架名称：Fur
-// 框架作者：百小僧
-// 框架版本：1.0.0-rc.final
-// 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
-// 				    Github：https://github.com/monksoul/Fur 
-// 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
-// -----------------------------------------------------------------------------
-
-using Fur.DependencyInjection;
+﻿using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Caching.Memory;
-using System;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -123,7 +109,7 @@ namespace Fur.DatabaseAccessor
             get
             {
                 // 如果没有实现多租户方式，则无需查询
-                if (!typeof(IPrivateMultiTenant).IsAssignableFrom(GetType())) return default;
+                if (Db.CustomizeMultiTenants || !typeof(IPrivateMultiTenant).IsAssignableFrom(GetType())) return default;
 
                 // 判断 HttpContext 是否存在
                 var httpContextAccessor = App.GetService<IHttpContextAccessor>();
@@ -138,29 +124,34 @@ namespace Fur.DatabaseAccessor
                 {
                     // 读取数据库
                     var tenantDbContext = Db.GetDbContext<MultiTenantDbContextLocator>();
+                    if (tenantDbContext == null) return default;
+
                     return tenantDbContext.Set<Tenant>().FirstOrDefault(u => u.Host == host);
                 });
             }
         }
 
         /// <summary>
-        /// 构建租户Id 查询过滤器表达式
+        /// 构建基于表租户查询过滤器表达式
         /// </summary>
         /// <param name="entityBuilder">实体类型构建器</param>
-        /// <param name="tenantId">租户Id</param>
+        /// <param name="dbContext">数据库上下文</param>
+        /// <param name="onTableTenantId">多租户Id属性名</param>
         /// <returns>表达式</returns>
-        protected virtual LambdaExpression TenantIdQueryFilterExpression(EntityTypeBuilder entityBuilder, Guid tenantId)
+        protected virtual LambdaExpression TenantIdQueryFilterExpression(EntityTypeBuilder entityBuilder, DbContext dbContext, string onTableTenantId = default)
         {
+            onTableTenantId ??= Db.OnTableTenantId;
+
             // 获取实体构建器元数据
             var metadata = entityBuilder.Metadata;
-            if (metadata.FindProperty(nameof(Entity.TenantId)) == null) return default;
+            if (metadata.FindProperty(onTableTenantId) == null) return default;
 
             // 创建表达式元素
             var parameter = Expression.Parameter(metadata.ClrType, "u");
-            var properyName = Expression.Constant(nameof(Entity.TenantId));
-            var propertyValue = Expression.Constant(tenantId);
+            var properyName = Expression.Constant(onTableTenantId);
+            var propertyValue = Expression.Call(Expression.Constant(dbContext), dbContext.GetType().GetMethod(nameof(IMultiTenantOnTable.GetTenantId)));
 
-            var expressionBody = Expression.Equal(Expression.Call(typeof(EF), nameof(EF.Property), new[] { typeof(Guid) }, parameter, properyName), propertyValue);
+            var expressionBody = Expression.Equal(Expression.Call(typeof(EF), nameof(EF.Property), new[] { typeof(object) }, parameter, properyName), propertyValue);
             var expression = Expression.Lambda(expressionBody, parameter);
             return expression;
         }

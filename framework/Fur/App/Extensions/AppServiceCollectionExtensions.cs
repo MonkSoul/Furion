@@ -1,17 +1,4 @@
-﻿// -----------------------------------------------------------------------------
-// Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。
-// Copyright © 2020 Fur, Baiqian Co.,Ltd.
-//
-// 框架名称：Fur
-// 框架作者：百小僧
-// 框架版本：1.0.0-rc.final
-// 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
-// 				    Github：https://github.com/monksoul/Fur 
-// 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
-// -----------------------------------------------------------------------------
-
-using Fur;
+﻿using Fur;
 using Fur.DependencyInjection;
 using System;
 using System.Linq;
@@ -31,7 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
         private const string MiniProfilerRouteBasePath = "/index-mini-profiler";
 
         /// <summary>
-        /// 注入基础配置
+        /// Mvc 注入基础配置
         /// </summary>
         /// <param name="mvcBuilder">Mvc构建起</param>
         /// <returns>IMvcBuilder</returns>
@@ -49,6 +36,22 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
+        /// 非 Web 主机注入基础配置
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddInject(this IServiceCollection services)
+        {
+            // 添加全局配置和存储服务提供器
+            InternalApp.InternalServices = services;
+
+            // 初始化应用服务
+            services.AddApp();
+
+            return services;
+        }
+
+        /// <summary>
         /// 添加应用配置
         /// </summary>
         /// <param name="services">服务集合</param>
@@ -59,8 +62,12 @@ namespace Microsoft.Extensions.DependencyInjection
             // 注册全局配置选项
             services.AddConfigurableOptions<AppSettingsOptions>();
 
+            // 判断是否是Web主机
+            //if (App.WebHostEnvironment != null)
+            //{
             // 注册 IHttpContextAccessor
             services.AddHttpContextAccessor();
+            //}
 
             // 注册分布式内存缓存
             services.AddDistributedMemoryCache();

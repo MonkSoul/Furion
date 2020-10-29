@@ -1,6 +1,6 @@
 module.exports = {
   title: "Fur",
-  tagline: "Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。",
+  tagline: "Fur 是 .NET 5 平台下企业应用开发最佳实践框架。",
   url: "https://chinadot.net",
   baseUrl: "/fur/",
   onBrokenLinks: "throw",

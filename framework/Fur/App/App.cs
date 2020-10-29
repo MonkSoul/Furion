@@ -1,20 +1,6 @@
-﻿// -----------------------------------------------------------------------------
-// Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。
-// Copyright © 2020 Fur, Baiqian Co.,Ltd.
-//
-// 框架名称：Fur
-// 框架作者：百小僧
-// 框架版本：1.0.0-rc.final
-// 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
-// 				    Github：https://github.com/monksoul/Fur 
-// 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
-// -----------------------------------------------------------------------------
-
-using Fur.DependencyInjection;
+﻿using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
@@ -64,7 +50,7 @@ namespace Fur
         /// 应用服务提供器
         /// </summary>
         /// <remarks>
-        /// 通过它可以获取第三方容器注入的服务，也就是不是 asp.net core 托管的，或者自己实现 Ioc/di 的方式
+        /// 通过它可以获取第三方容器注入的服务，也就是不是 asp.net core 托管的，或者自己实现 Ioc/DI 的方式
         /// 如采用 autofac 替换默认 IOC 容器，这样就可以通过 Application.GetAutofacRoot() 获取 Autofac容器对象，无需采用静态类手工存储该容器
         /// </remarks>
         /// <example>
@@ -90,7 +76,7 @@ namespace Fur
         /// <summary>
         /// 应用环境，如，是否是开发环境，生产环境等
         /// </summary>
-        public static IWebHostEnvironment HostEnvironment => GetService<IWebHostEnvironment>();
+        public static IWebHostEnvironment WebHostEnvironment => GetService<IWebHostEnvironment>();
 
         /// <summary>
         /// 应用有效程序集
@@ -229,7 +215,7 @@ namespace Fur
         /// <summary>
         /// 获取应用有效程序集
         /// </summary>
-        /// <returns>IEnumerable<Assembly></returns>
+        /// <returns>IEnumerable</returns>
         internal static IEnumerable<Assembly> GetAssemblies()
         {
             // 需排除的程序集后缀
@@ -261,21 +247,5 @@ namespace Fur
 
             return scanAssemblies;
         }
-    }
-
-    /// <summary>
-    /// 内部 App 副本
-    /// </summary>
-    internal static class InternalApp
-    {
-        /// <summary>
-        /// 应用服务
-        /// </summary>
-        internal static IServiceCollection InternalServices;
-
-        /// <summary>
-        /// 全局配置构建器
-        /// </summary>
-        internal static IConfigurationBuilder ConfigurationBuilder;
     }
 }

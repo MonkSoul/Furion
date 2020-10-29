@@ -1,17 +1,4 @@
-﻿// -----------------------------------------------------------------------------
-// Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。
-// Copyright © 2020 Fur, Baiqian Co.,Ltd.
-//
-// 框架名称：Fur
-// 框架作者：百小僧
-// 框架版本：1.0.0-rc.final
-// 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
-// 				    Github：https://github.com/monksoul/Fur 
-// 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
-// -----------------------------------------------------------------------------
-
-using Fur.DependencyInjection;
+﻿using Fur.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -110,7 +97,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 获取多数据库上下文 Sql 操作仓储
         /// </summary>
-        /// <returns>ISqlRepository<TDbContextLocator></returns>
+        /// <returns>ISqlRepository{TDbContextLocator}</returns>
         public virtual ISqlRepository<TDbContextLocator> Sql<TDbContextLocator>()
              where TDbContextLocator : class, IDbContextLocator
         {
@@ -121,8 +108,6 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 多数据库上下文仓储
     /// </summary>
-    /// <typeparam name="TEntity">实体类型</typeparam>
-    /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
     [SkipScan]
     public partial class EFCoreRepository<TEntity, TDbContextLocator> : SqlRepository<TDbContextLocator>, IRepository<TEntity, TDbContextLocator>
         where TEntity : class, IPrivateEntity, new()
@@ -165,7 +150,10 @@ namespace Fur.DatabaseAccessor
             DbConnection = Database.GetDbConnection();
             ChangeTracker = dbContext.ChangeTracker;
             Model = dbContext.Model;
+
+            // 内置多租户
             Tenant = DynamicDbContext.Tenant;
+
             ProviderName = Database.ProviderName;
 
             //初始化实体
@@ -341,7 +329,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="entityState">实体状态</param>
-        /// <returns>EntityEntry<TEntity></returns>
+        /// <returns>EntityEntry{TEntity}</returns>
         public virtual EntityEntry<TEntity> ChangeEntityState(TEntity entity, EntityState entityState)
         {
             var entityEntry = Entry(entity);
@@ -366,7 +354,7 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="entityEntry">实体条目</param>
         /// <param name="entityState">实体状态</param>
-        /// <returns>EntityEntry<TEntity></returns>
+        /// <returns>EntityEntry{TEntity}</returns>
         public virtual EntityEntry<TEntity> ChangeEntityState(EntityEntry<TEntity> entityEntry, EntityState entityState)
         {
             entityEntry.State = entityState;
@@ -470,7 +458,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 获取所有数据库上下文
         /// </summary>
-        /// <returns>ConcurrentBag<DbContext></returns>
+        /// <returns>ConcurrentBag{DbContext}</returns>
         public ConcurrentBag<DbContext> GetDbContexts()
         {
             return _dbContextPool.GetDbContexts();
@@ -678,10 +666,10 @@ namespace Fur.DatabaseAccessor
         /// <typeparam name="TRestrainRepository">特定仓储</typeparam>
         /// <returns>TRestrainRepository</returns>
         public virtual TRestrainRepository Constraint<TRestrainRepository>()
-            where TRestrainRepository : class, IRepositoryDependency
+            where TRestrainRepository : class, IPrivateRepository
         {
             var type = typeof(TRestrainRepository);
-            if (!type.IsInterface || typeof(IRepositoryDependency) == type || type.Name.Equals(nameof(IRepository)) || (type.IsGenericType && type.GetGenericTypeDefinition().Name.Equals(nameof(IRepository))))
+            if (!type.IsInterface || typeof(IPrivateRepository) == type || type.Name.Equals(nameof(IRepository)) || (type.IsGenericType && type.GetGenericTypeDefinition().Name.Equals(nameof(IRepository))))
             {
                 throw new InvalidCastException("Invalid type conversion");
             }

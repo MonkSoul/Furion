@@ -123,6 +123,12 @@ namespace Fur.Web.Entry.Controllers
 
 ## 5.4 注册动态 `WebAPI` 服务
 
+:::important 备注
+
+`.AddDynamicApiControllers()` 默认已经继承在 `AddInject()` 中了，无需再次注册。也就是下列代码可不配置。
+
+:::
+
 ```cs {11} title="Fur.Web.Core\FurWebCoreStartup.cs"
 using Microsoft.Extensions.DependencyInjection;
 
@@ -411,10 +417,8 @@ namespace Fur.Application
 
 ```json {2-4} title="Fur.Web.Entry/appsettings.json"
 {
-  "AppSettings": {
-    "DynamicApiControllerSettings": {
-      "ModelToQuery": true
-    }
+  "DynamicApiControllerSettings": {
+    "ModelToQuery": true
   }
 }
 ```
@@ -1202,6 +1206,7 @@ namespace Fur.Application
 - `DefaultModule`：默认模块名称（区域），可用作接口版本，`string`，默认：`v1`
 - `LowercaseRoute`：小写路由格式，`bool`，默认：`true`
 - `KeepVerb`：是否保留动作谓词，`bool`，默认：`false`
+- `KeepName`：是非保留默认名称，`bool`，默认：`fasle`
 - `CamelCaseSeparator`：骆驼命名分隔符，`string`，默认：`-`
 - `VersionSeparator`：版本分隔符，`string`，默认：`@`
 - `ModelToQuery`：`GET/HEAD` 请求将 `类类型参数转查询参数`，`bool`，默认 `false`
@@ -1222,10 +1227,8 @@ namespace Fur.Application
 
 ```json {2-4} title="Fur.Web.Entry/appsettings.json"
 {
-  "AppSettings": {
-    "DynamicApiControllerSettings": {
-      "SupportedMvcController": true
-    }
+  "DynamicApiControllerSettings": {
+    "SupportedMvcController": true
   }
 }
 ```

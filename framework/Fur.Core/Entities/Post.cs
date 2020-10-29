@@ -11,7 +11,7 @@ namespace Fur.Core
         /// </summary>
         public Post()
         {
-            CreatedTime = DateTime.Now;
+            CreatedTime = DateTimeOffset.UtcNow;
             IsDeleted = false;
         }
 

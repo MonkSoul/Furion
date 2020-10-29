@@ -1,17 +1,4 @@
-﻿// -----------------------------------------------------------------------------
-// Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。
-// Copyright © 2020 Fur, Baiqian Co.,Ltd.
-//
-// 框架名称：Fur
-// 框架作者：百小僧
-// 框架版本：1.0.0-rc.final
-// 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
-// 				    Github：https://github.com/monksoul/Fur 
-// 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
-// -----------------------------------------------------------------------------
-
-using Fur.DependencyInjection;
+﻿using Fur.DependencyInjection;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -197,7 +184,7 @@ namespace Fur.DataValidation
         }
 
         /// <summary>
-        /// <see cref="GetValidationValidationItemMetadata"/> 缓存集合
+        /// 获取验证类型验证Item集合
         /// </summary>
         private static readonly ConcurrentDictionary<object, (string, ValidationItemMetadataAttribute)> GetValidationTypeValidationItemMetadataCached;
 
@@ -298,7 +285,7 @@ namespace Fur.DataValidation
         /// 替换默认验证失败消息
         /// </summary>
         /// <param name="name">验证唯一名称</param>
-        /// <param name="type"></param>
+        /// <param name="field"></param>
         /// <param name="customErrorMessages"></param>
         private static ValidationItemMetadataAttribute ReplaceValidateErrorMessage(string name, FieldInfo field, Dictionary<string, string> customErrorMessages)
         {

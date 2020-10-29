@@ -1,6 +1,7 @@
 ﻿{
   "ConnectionStrings": {
-    "DbConnectionString": "Server=localhost;Database=Fur;User=sa;Password=000000;MultipleActiveResultSets=True;",
-    "Sqlite3ConnectionString": "Data Source=./Fur.db"
+    "SqlServerConnectionString": "Server=localhost;Database=Fur;User=sa;Password=000000;MultipleActiveResultSets=True;",
+    "Sqlite3ConnectionString": "Data Source=./Fur.db",
+    "MySqlConnectionString": "Data Source=localhost;Database=Fur;User ID=root;Password=q1w2e3;pooling=true;port=3306;sslmode=none;CharSet=utf8;"
   }
 }

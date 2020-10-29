@@ -1,17 +1,4 @@
-﻿// -----------------------------------------------------------------------------
-// Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。
-// Copyright © 2020 Fur, Baiqian Co.,Ltd.
-//
-// 框架名称：Fur
-// 框架作者：百小僧
-// 框架版本：1.0.0-rc.final
-// 官方网站：https://chinadot.net
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur 
-// 				    Github：https://github.com/monksoul/Fur 
-// 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
-// -----------------------------------------------------------------------------
-
-using Fur;
+﻿using Fur;
 using Fur.DependencyInjection;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -162,6 +149,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 注册类型
         /// </summary>
         /// <param name="services">服务</param>
+        /// <param name="registerType">注册类型</param>
         /// <param name="type">类型</param>
         /// <param name="injectionAttribute">注入特性</param>
         /// <param name="inter">接口</param>
@@ -267,9 +255,10 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 创建暂时瞬时代理
         /// </summary>
         /// <param name="services">服务集合</param>
-        /// <param name="type">被代理类型</param>
-        /// <param name="injectionAttribute">特性配置</param>
-        /// <param name="inter">拦截接口</param>
+        /// <param name="type">拦截的类型</param>
+        /// <param name="proxyType">代理类型</param>
+        /// <param name="inter">代理接口</param>
+        /// <param name="hasTarget">是否有实现类</param>
         private static void AddTransientDispatchProxy(IServiceCollection services, Type type, Type proxyType, Type inter, bool hasTarget = true)
         {
             if (proxyType == null) return;
@@ -278,7 +267,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddTransient(inter, provider =>
             {
                 dynamic proxy = DispatchCreateMethod.MakeGenericMethod(inter, proxyType).Invoke(null, null);
-                proxy.ServiceProvider = provider;
+                proxy.Services = provider;
                 if (hasTarget)
                 {
                     proxy.Target = provider.GetService(type);
@@ -293,8 +282,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services">服务集合</param>
         /// <param name="type">被代理类型</param>
-        /// <param name="injectionAttribute">特性配置</param>
+        /// <param name="proxyType">代理类型</param>
         /// <param name="inter">拦截接口</param>
+        /// <param name="hasTarget">是否有实例</param>
         private static void AddScopedDispatchProxy(IServiceCollection services, Type type, Type proxyType, Type inter, bool hasTarget = true)
         {
             if (proxyType == null) return;
@@ -303,7 +293,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped(inter, provider =>
             {
                 dynamic proxy = DispatchCreateMethod.MakeGenericMethod(inter, proxyType).Invoke(null, null);
-                proxy.ServiceProvider = provider;
+                proxy.Services = provider;
                 if (hasTarget)
                 {
                     proxy.Target = provider.GetService(type);
@@ -318,8 +308,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services">服务集合</param>
         /// <param name="type">被代理类型</param>
-        /// <param name="injectionAttribute">特性配置</param>
+        /// <param name="proxyType">代理类型</param>
         /// <param name="inter">拦截接口</param>
+        /// <param name="hasTarget">是否有实例</param>
         private static void AddSingletonDispatchProxy(IServiceCollection services, Type type, Type proxyType, Type inter, bool hasTarget = true)
         {
             if (proxyType == null) return;
@@ -328,7 +319,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton(inter, provider =>
             {
                 dynamic proxy = DispatchCreateMethod.MakeGenericMethod(inter, proxyType).Invoke(null, null);
-                proxy.ServiceProvider = provider;
+                proxy.Services = provider;
                 if (hasTarget)
                 {
                     proxy.Target = provider.GetService(type);
@@ -342,6 +333,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 注册代理类型
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="lifetime"></param>
         /// <param name="proxyType"></param>
         private static void RegisterDispatchProxy(IServiceCollection services, Type lifetime, Type proxyType)
         {

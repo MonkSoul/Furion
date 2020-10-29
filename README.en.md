@@ -13,7 +13,7 @@
 
 <div align="center">
 
-`Fur` 是 `.NET 5` 平台下极易入门、极速开发的 Web 应用框架。
+`Fur` 是 `.NET 5` 平台下企业应用开发最佳实践框架。
 
 </div>
 
@@ -68,20 +68,26 @@
 - 国内文档：[https://monksoul.gitee.io/fur/](https://monksoul.gitee.io/fur/)
 - 国外文档：[https://chinadot.net](https://chinadot.net)
 
+**目前文档正在逐步完善中。**
+
+## 🥦 系列教程
+
+- Fur 使用例子：[https://gitee.com/monksoul/fur-samples](https://gitee.com/monksoul/fur-samples)
+- Fur 系列教程：[《学 .NET 5 从 Fur 开始》](https://gitee.com/monksoul/Fur/blob/main/tutorials) 系列
+
 ## 🌭 开源地址
 
 - Gitee：[https://gitee.com/monksoul/Fur](https://gitee.com/monksoul/Fur)
 - GitHub：[https://github.com/monksoul/Fur](https://github.com/monksoul/Fur)
 - Docker：[https://hub.docker.com/r/monksoul/fur](https://hub.docker.com/r/monksoul/fur)
 - Nuget：[https://www.nuget.org/packages/Fur](https://www.nuget.org/packages/Fur)
-- 博客园：[https://www.cnblogs.com/dotnetchina](https://www.cnblogs.com/dotnetchina)
 
 ## 🍿 Docker 镜像
 
 - `Docker Hub` 线上镜像
 
 ```shell
-docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-rc.final
+docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-rc.final.34
 ```
 
 - `手动` 打包镜像
@@ -89,14 +95,24 @@ docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-rc.final
 打开 `CMD/Shell/PowerShell` 进入 `Fur` 项目根目录打包 `Fur` 镜像：
 
 ```shell
-docker build -t fur:v1.0.0-rc.final .
+docker build -t fur:v1.0.0-rc.final.34 .
 ```
 
 打包成功后，直接 `docker run`：
 
 ```shell
-docker run --name fur -p 5000:80 fur:v1.0.0-rc.final
+docker run --name fur -p 5000:80 fur:v1.0.0-rc.final.34
 ```
+
+## 🍎 框架特点
+
+- 全新面貌：基于 `.NET 5` 平台，没有历史包袱
+- 极易入门：只需要一个 `Inject()` 即可完成配置
+- 极速开发：内置丰富的企业应用开发功能
+- 极少依赖：框架只依赖三个第三方包
+- 极其灵活：轻松面对多变复杂的需求
+- 极易维护：采用独特的架构思想，只为长久维护设计
+- 完整文档：提供完善的开发文档
 
 ## 🥞 架构设计
 
@@ -184,6 +200,7 @@ docker run --name fur -p 5000:80 fur:v1.0.0-rc.final
 <a href="https://gitee.com/yqyx" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/458/1374721_yqyx_1602561388.png!avatar200" height="40"/></a>
 <a href="https://gitee.com/ZYX315" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/285/856214_ZYX315_1602561602.png!avatar200" height="40"/></a>
 <a href="https://gitee.com/hdying" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/660/1982081_hdying_1602561538.png!avatar200" height="40"/></a>
+<a href="https://gitee.com/vincywindy" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/313/939875_vincywindy_1602575487.png!avatar200" height="40"/></a>
 
 <p></p>
 
@@ -203,6 +220,7 @@ docker run --name fur -p 5000:80 fur:v1.0.0-rc.final
 - 重庆虫儿飞科技有限公司
 - 重庆林木森科技有限公司
 - 深圳市品立方科技有限公司
+- 上海奥达科股份有限公司
 
 如果您的项目使用到 `Fur` 开发，可以告诉我们。
 
@@ -216,19 +234,23 @@ docker run --name fur -p 5000:80 fur:v1.0.0-rc.final
 
 注：排序按捐赠顺序书写
 
-| 捐赠人昵称      | 捐赠金额（元） | 附语                                               |
-| --------------- | -------------- | -------------------------------------------------- |
-| 🤴 爱吃油麦菜   | **100**        | 感谢您的开源项目！                                 |
-| 👳‍♂️ 麦壳饼       | **200**        | 感谢您的开源项目！                                 |
-| 👨 Sun          | **100**        | 感谢您的开源项目！                                 |
-| 👶 d617617      | **20**         | 感谢您的开源项目！                                 |
-| 👦 Diqiguoji008 | **16.66**      | 见贤思齐                                           |
-| 👲 nodyang      | **100**        | 感谢您的开源项目！                                 |
-| 👳‍♀️ mictxd       | **100**        | 吹过的牛都实现。                                   |
-| 🧓 欧流全       | **10**         | 希望将来超越 Spring                                |
-| 👨‍⚕️ lionkon      | **10**         | ...看了框架感觉拿来学习是很不错的...               |
-| 😤 好人！       | **10**         | ...Nice 的小僧，我们的 dotnetchina 马上火起来了... |
-| 😮 木木 Woody   | **10**         | 感谢您的开源项目！                                 |
+| 捐赠人昵称      | 捐赠金额（元）        | 附语                                         |
+| --------------- | --------------------- | -------------------------------------------- |
+| 🤴 爱吃油麦菜   | **100**               | 感谢您的开源项目！                           |
+| 👳‍♂️ 麦壳饼       | **200**               | 感谢您的开源项目！                           |
+| 👨 Sun          | **100**               | 感谢您的开源项目！                           |
+| 👶 d617617      | **20**                | 感谢您的开源项目！                           |
+| 👦 Diqiguoji008 | **16.66**             | 见贤思齐                                     |
+| 👲 nodyang      | **100**               | 感谢您的开源项目！                           |
+| 👳‍♀️ mictxd       | **100**               | 吹过的牛都实现。                             |
+| 🧓 欧流全       | **10**                | 希望将来超越 Spring                          |
+| 👨‍⚕️ lionkon      | **10**                | ...看了框架感觉拿来学习是很不错的...         |
+| 😤 好人！       | **10**                | Nice 的小僧，我们的 dotnetchina 马上火起来了 |
+| 😮 木木 Woody   | **10**                | 感谢您的开源项目！                           |
+| 😚 Joker Hou    | **QQ 超级会员一个月** |                                              |
+| 🤠 ccdfz        | **QQ 专属红包 199**   |                                              |
+| 🌝 天夫李总     | **支付宝 6666**       | Fur 非常有意思，持续关注                     |
+| 😝 六尘子       | **微信红包 199**      | 公司已经使用，小小敬意                       |
 
 非常感谢您们的支持，正是因为您们，中国开源才可以越走越远，`Fur` 越走越远。
 
@@ -240,4 +262,4 @@ docker run --name fur -p 5000:80 fur:v1.0.0-rc.final
 
 ## 🧆 友情链接
 
-👉 **[Fur](https://gitee.com/monksoul/Fur)** 👉 **[SqlSugar](https://github.com/sunkaixuan/SqlSugar)** 👉 **[Layx](https://gitee.com/monksoul/LayX)** 👉 **[t-io](https://gitee.com/tywo45/t-io)** 👉 **[ThinkPHP](http://www.thinkphp.cn/)** 👉 **[Hutool](https://hutool.cn/)** 👉 **[BootstrapAdmin](https://gitee.com/LongbowEnterprise/BootstrapAdmin)** 👉 **[BootstrapBlazor](https://blazor.sdgxgz.com/)**
+👉 **[Fur](https://gitee.com/monksoul/Fur)** 👉 **[SqlSugar](https://github.com/sunkaixuan/SqlSugar)** 👉 **[Layx](https://gitee.com/monksoul/LayX)** 👉 **[t-io](https://gitee.com/tywo45/t-io)** 👉 **[ThinkPHP](http://www.thinkphp.cn/)** 👉 **[Hutool](https://hutool.cn/)** 👉 **[BootstrapAdmin](https://gitee.com/LongbowEnterprise/BootstrapAdmin)** 👉 **[BootstrapBlazor](https://blazor.sdgxgz.com/)** 👉 **[IoTSharp](https://gitee.com/IoTSharp/IoTSharp)**
