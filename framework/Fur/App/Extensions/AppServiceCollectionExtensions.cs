@@ -39,10 +39,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Mvc 注入基础配置和规范化结果
         /// </summary>
         /// <param name="mvcBuilder"></param>
+        /// <param name="restfulResultType">RESTful结果类型，泛型类型</param>
         /// <returns></returns>
-        public static IMvcBuilder AddInjectWithUnifyResult(this IMvcBuilder mvcBuilder)
+        public static IMvcBuilder AddInjectWithUnifyResult(this IMvcBuilder mvcBuilder, Type restfulResultType = default)
         {
-            mvcBuilder.AddInject().AddUnifyResult();
+            mvcBuilder.AddInject().AddUnifyResult(restfulResultType);
 
             return mvcBuilder;
         }
