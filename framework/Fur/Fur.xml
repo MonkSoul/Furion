@@ -22352,6 +22352,12 @@
             <param name="services"></param>
             <returns>Mvc构建器</returns>
         </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.DynamicApiControllerServiceCollectionExtensions.AddBaseServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加基础服务
+            </summary>
+            <param name="services"></param>
+        </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.FriendlyExceptionServiceCollectionExtensions">
             <summary>
             友好异常服务拓展类

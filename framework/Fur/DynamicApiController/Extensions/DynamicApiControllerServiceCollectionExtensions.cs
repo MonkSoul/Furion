@@ -21,16 +21,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>Mvc构建器</returns>
         public static IMvcBuilder AddDynamicApiControllers(this IMvcBuilder mvcBuilder)
         {
-            var services = mvcBuilder.Services;
-
-            var partManager = services.FirstOrDefault(s => s.ServiceType == typeof(ApplicationPartManager)).ImplementationInstance as ApplicationPartManager
-                ?? throw new InvalidOperationException($"`{nameof(AddDynamicApiControllers)}` must be invoked after `{nameof(MvcServiceCollectionExtensions.AddControllers)}`");
-
-            // 添加控制器特性提供器
-            partManager.FeatureProviders.Add(new DynamicApiControllerFeatureProvider());
-
-            // 添加配置
-            services.AddConfigurableOptions<DynamicApiControllerSettingsOptions>();
+            // 添加基础服务
+            AddBaseServices(mvcBuilder.Services);
 
             // 配置 Mvc 选项
             mvcBuilder.AddMvcOptions(options =>
@@ -55,14 +47,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>Mvc构建器</returns>
         public static IServiceCollection AddDynamicApiControllers(this IServiceCollection services)
         {
-            var partManager = services.FirstOrDefault(s => s.ServiceType == typeof(ApplicationPartManager)).ImplementationInstance as ApplicationPartManager
-                ?? throw new InvalidOperationException($"`{nameof(AddDynamicApiControllers)}` must be invoked after `{nameof(MvcServiceCollectionExtensions.AddControllers)}`");
-
-            // 添加控制器特性提供器
-            partManager.FeatureProviders.Add(new DynamicApiControllerFeatureProvider());
-
-            // 添加配置
-            services.AddConfigurableOptions<DynamicApiControllerSettingsOptions>();
+            // 添加基础服务
+            AddBaseServices(services);
 
             services.Configure<MvcOptions>(options =>
             {
@@ -77,6 +63,22 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             return services;
+        }
+
+        /// <summary>
+        /// 添加基础服务
+        /// </summary>
+        /// <param name="services"></param>
+        private static void AddBaseServices(IServiceCollection services)
+        {
+            var partManager = services.FirstOrDefault(s => s.ServiceType == typeof(ApplicationPartManager)).ImplementationInstance as ApplicationPartManager
+                ?? throw new InvalidOperationException($"`{nameof(AddDynamicApiControllers)}` must be invoked after `{nameof(MvcServiceCollectionExtensions.AddControllers)}`");
+
+            // 添加控制器特性提供器
+            partManager.FeatureProviders.Add(new DynamicApiControllerFeatureProvider());
+
+            // 添加配置
+            services.AddConfigurableOptions<DynamicApiControllerSettingsOptions>();
         }
     }
 }
