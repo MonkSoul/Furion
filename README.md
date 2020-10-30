@@ -87,7 +87,7 @@
 - `Docker Hub` 线上镜像
 
 ```shell
-docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-rc.final.50
+docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-rc.final.52
 ```
 
 - `手动` 打包镜像
@@ -95,13 +95,13 @@ docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-rc.final.50
 打开 `CMD/Shell/PowerShell` 进入 `Fur` 项目根目录打包 `Fur` 镜像：
 
 ```shell
-docker build -t fur:v1.0.0-rc.final.50 .
+docker build -t fur:v1.0.0-rc.final.52 .
 ```
 
 打包成功后，直接 `docker run`：
 
 ```shell
-docker run --name fur -p 5000:80 fur:v1.0.0-rc.final.50
+docker run --name fur -p 5000:80 fur:v1.0.0-rc.final.52
 ```
 
 ## 🥜 Fur 官方包
