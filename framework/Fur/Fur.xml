@@ -235,6 +235,16 @@
             <param name="obj">对象</param>
             <returns></returns>
         </member>
+        <member name="T:Fur.AppExtra">
+            <summary>
+            官方包定义
+            </summary>
+        </member>
+        <member name="F:Fur.AppExtra.AUTHENTICATION_JWTBEARER">
+            <summary>
+            Jwt 验证包
+            </summary>
+        </member>
         <member name="T:Fur.StartupFilter">
             <summary>
             应用启动时自动注册中间件
@@ -340,16 +350,6 @@
             </summary>
             <param name="options"></param>
             <param name="configuration"></param>
-        </member>
-        <member name="T:Fur.AppPackage">
-            <summary>
-            官方包定义
-            </summary>
-        </member>
-        <member name="F:Fur.AppPackage.AUTHENTICATION_JWTBEARER">
-            <summary>
-            Jwt 验证包
-            </summary>
         </member>
         <member name="T:Fur.IDispatchProxy">
             <summary>

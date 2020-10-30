@@ -23,7 +23,7 @@ namespace Microsoft.Extensions.DependencyInjection
             where TAuthorizationHandler : class, IAuthorizationHandler
         {
             // 加载程序集
-            var jwtExtraAssembly = Assembly.Load(AppPackage.AUTHENTICATION_JWTBEARER);
+            var jwtExtraAssembly = Assembly.Load(AppExtra.AUTHENTICATION_JWTBEARER);
 
             // 加载 jwt 拓展类型和拓展方法
             var jwtAuthorizationServiceCollectionExtensionsType = jwtExtraAssembly.GetType($"Microsoft.Extensions.DependencyInjection.JWTAuthorizationServiceCollectionExtensions");
