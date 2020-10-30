@@ -216,7 +216,7 @@ namespace Fur
         /// 获取应用有效程序集
         /// </summary>
         /// <returns>IEnumerable</returns>
-        internal static IEnumerable<Assembly> GetAssemblies()
+        private static IEnumerable<Assembly> GetAssemblies()
         {
             // 需排除的程序集后缀
             var excludeAssemblyNames = new string[] {

@@ -8,7 +8,6 @@ using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -65,7 +64,7 @@ namespace Fur.Application
             var jwtSettings = App.GetOptions<JWTSettingsOptions>();
             var datetimeOffset = new DateTimeOffset(DateTime.Now);
 
-            output.AccessToken = JWTEncryption.Encrypt(jwtSettings.IssuerSigningKey, new JObject()
+            output.AccessToken = JWTEncryption.Encrypt(jwtSettings.IssuerSigningKey, new Dictionary<string, object>()
             {
                 { "UserId", user.Id },  // 存储Id
                 { "Account",user.Account }, // 存储用户名

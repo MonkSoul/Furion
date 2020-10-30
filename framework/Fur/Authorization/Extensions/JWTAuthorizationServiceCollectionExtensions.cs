@@ -1,10 +1,7 @@
 ﻿using Fur;
-using Fur.Authorization;
-using Fur.DataEncryption;
 using Fur.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.Tokens;
+using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -22,34 +19,21 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="enableGlobalAuthorize"></param>
         /// <param name="tokenValidationParameters"></param>
         /// <returns></returns>
-        public static IServiceCollection AddJWTAuthorization<TAuthorizationHandler>(this IServiceCollection services, bool enableGlobalAuthorize = false, TokenValidationParameters tokenValidationParameters = default)
+        public static IServiceCollection AddJWTAuthorization<TAuthorizationHandler>(this IServiceCollection services, bool enableGlobalAuthorize = false, object tokenValidationParameters = default)
             where TAuthorizationHandler : class, IAuthorizationHandler
         {
-            services.AddAppAuthorization<TAuthorizationHandler>(options => options.AddJWTAuthorization(), enableGlobalAuthorize);
+            // 加载程序集
+            var jwtExtraAssembly = Assembly.Load(AppPackage.AUTHENTICATION_JWTBEARER);
 
-            return services;
-        }
+            // 加载 jwt 拓展类型和拓展方法
+            var jwtAuthorizationServiceCollectionExtensionsType = jwtExtraAssembly.GetType($"Microsoft.Extensions.DependencyInjection.JWTAuthorizationServiceCollectionExtensions");
+            var addJWTAuthorizationMethod = jwtAuthorizationServiceCollectionExtensionsType.GetMethod("AddJWTAuthorization", BindingFlags.Public | BindingFlags.Static);
 
-        /// <summary>
-        /// 添加 JWT 授权
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="tokenValidationParameters">token 验证参数</param>
-        /// <returns></returns>
-        public static IServiceCollection AddJWTAuthorization(this IServiceCollection services, TokenValidationParameters tokenValidationParameters = default)
-        {
-            // 注册 JWT 配置
-            services.AddConfigurableOptions<JWTSettingsOptions>();
-
-            // 添加默认授权
-            services.AddAuthentication(options =>
+            // 添加 JWT 授权
+            services.AddAppAuthorization<TAuthorizationHandler>(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = tokenValidationParameters ?? JWTEncryption.CreateTokenValidationParameters(App.GetOptions<JWTSettingsOptions>());
-            });
+                addJWTAuthorizationMethod.Invoke(null, new object[] { services, tokenValidationParameters });
+            }, enableGlobalAuthorize);
 
             return services;
         }

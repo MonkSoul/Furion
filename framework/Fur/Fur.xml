@@ -341,6 +341,16 @@
             <param name="options"></param>
             <param name="configuration"></param>
         </member>
+        <member name="T:Fur.AppPackage">
+            <summary>
+            官方包定义
+            </summary>
+        </member>
+        <member name="F:Fur.AppPackage.AUTHENTICATION_JWTBEARER">
+            <summary>
+            Jwt 验证包
+            </summary>
+        </member>
         <member name="T:Fur.IDispatchProxy">
             <summary>
             代理拦截依赖接口
@@ -423,63 +433,6 @@
             <param name="context"></param>
             <param name="httpContext"></param>
             <returns></returns>
-        </member>
-        <member name="T:Fur.Authorization.JWTSettingsOptions">
-            <summary>
-            Jwt
-            </summary>
-        </member>
-        <member name="P:Fur.Authorization.JWTSettingsOptions.ValidateIssuerSigningKey">
-            <summary>
-            验证签发方密钥
-            </summary>
-        </member>
-        <member name="P:Fur.Authorization.JWTSettingsOptions.IssuerSigningKey">
-            <summary>
-            签发方密钥
-            </summary>
-        </member>
-        <member name="P:Fur.Authorization.JWTSettingsOptions.ValidateIssuer">
-            <summary>
-            验证签发方
-            </summary>
-        </member>
-        <member name="P:Fur.Authorization.JWTSettingsOptions.ValidIssuer">
-            <summary>
-            签发方
-            </summary>
-        </member>
-        <member name="P:Fur.Authorization.JWTSettingsOptions.ValidateAudience">
-            <summary>
-            验证签收方
-            </summary>
-        </member>
-        <member name="P:Fur.Authorization.JWTSettingsOptions.ValidAudience">
-            <summary>
-            签收方
-            </summary>
-        </member>
-        <member name="P:Fur.Authorization.JWTSettingsOptions.ValidateLifetime">
-            <summary>
-            验证生存期
-            </summary>
-        </member>
-        <member name="P:Fur.Authorization.JWTSettingsOptions.ClockSkew">
-            <summary>
-            过期时间容错值，解决服务器端时间不同步问题（秒）
-            </summary>
-        </member>
-        <member name="P:Fur.Authorization.JWTSettingsOptions.ExpiredTime">
-            <summary>
-            过期时间（分钟）
-            </summary>
-        </member>
-        <member name="M:Fur.Authorization.JWTSettingsOptions.PostConfigure(Fur.Authorization.JWTSettingsOptions,Microsoft.Extensions.Configuration.IConfiguration)">
-            <summary>
-            选项后期配置
-            </summary>
-            <param name="options"></param>
-            <param name="configuration"></param>
         </member>
         <member name="T:Fur.Authorization.Penetrates">
             <summary>
@@ -1751,6 +1704,12 @@
             数据库实体依赖基类
             </summary>
         </member>
+        <member name="T:Fur.DatabaseAccessor.Entity`1">
+            <summary>
+            数据库实体依赖基类
+            </summary>
+            <typeparam name="TKey">主键类型</typeparam>
+        </member>
         <member name="T:Fur.DatabaseAccessor.Entity`2">
             <summary>
             数据库实体依赖基类
@@ -1860,6 +1819,12 @@
             <summary>
             数据库实体依赖基类
             </summary>
+        </member>
+        <member name="T:Fur.DatabaseAccessor.EntityBase`1">
+            <summary>
+            数据库实体依赖基类
+            </summary>
+            <typeparam name="TKey">主键类型</typeparam>
         </member>
         <member name="T:Fur.DatabaseAccessor.EntityBase`2">
             <summary>
@@ -18828,42 +18793,6 @@
             <param name="skey">密钥</param>
             <returns></returns>
         </member>
-        <member name="T:Fur.DataEncryption.JWTEncryption">
-            <summary>
-            JWT 加解密
-            </summary>
-        </member>
-        <member name="M:Fur.DataEncryption.JWTEncryption.Encrypt(System.String,Newtonsoft.Json.Linq.JObject)">
-            <summary>
-            生成 Token
-            </summary>
-            <param name="issuerSigningKey"></param>
-            <param name="payload"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Fur.DataEncryption.JWTEncryption.Encrypt(System.String,System.String)">
-            <summary>
-            生成 Token
-            </summary>
-            <param name="issuerSigningKey"></param>
-            <param name="payload"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Fur.DataEncryption.JWTEncryption.Validate(System.String,Fur.Authorization.JWTSettingsOptions)">
-            <summary>
-            验证 Token
-            </summary>
-            <param name="accessToken"></param>
-            <param name="jwtSettings"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Fur.DataEncryption.JWTEncryption.CreateTokenValidationParameters(Fur.Authorization.JWTSettingsOptions)">
-            <summary>
-            生成Token验证参数
-            </summary>
-            <param name="jwtSettings"></param>
-            <returns></returns>
-        </member>
         <member name="T:Fur.DataEncryption.MD5Encryption">
             <summary>
             MD5 加密
@@ -21994,7 +21923,7 @@
             JWT 授权服务拓展类
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.JWTAuthorizationServiceCollectionExtensions.AddJWTAuthorization``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Boolean,Microsoft.IdentityModel.Tokens.TokenValidationParameters)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.JWTAuthorizationServiceCollectionExtensions.AddJWTAuthorization``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Boolean,System.Object)">
             <summary>
             添加 JWT 授权
             </summary>
@@ -22002,14 +21931,6 @@
             <param name="services"></param>
             <param name="enableGlobalAuthorize"></param>
             <param name="tokenValidationParameters"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.JWTAuthorizationServiceCollectionExtensions.AddJWTAuthorization(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.IdentityModel.Tokens.TokenValidationParameters)">
-            <summary>
-            添加 JWT 授权
-            </summary>
-            <param name="services"></param>
-            <param name="tokenValidationParameters">token 验证参数</param>
             <returns></returns>
         </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.ConfigurableOptionsServiceCollectionExtensions">

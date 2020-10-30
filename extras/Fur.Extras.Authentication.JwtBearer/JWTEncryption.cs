@@ -1,17 +1,16 @@
 ﻿using Fur.Authorization;
-using Fur.DependencyInjection;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Text;
+using System.Text.Json;
 
 namespace Fur.DataEncryption
 {
     /// <summary>
     /// JWT 加解密
     /// </summary>
-    [SkipScan]
     public class JWTEncryption
     {
         /// <summary>
@@ -20,9 +19,9 @@ namespace Fur.DataEncryption
         /// <param name="issuerSigningKey"></param>
         /// <param name="payload"></param>
         /// <returns></returns>
-        public static string Encrypt(string issuerSigningKey, JObject payload)
+        public static string Encrypt(string issuerSigningKey, Dictionary<string, object> payload)
         {
-            return Encrypt(issuerSigningKey, payload.ToString());
+            return Encrypt(issuerSigningKey, JsonSerializer.Serialize(payload));
         }
 
         /// <summary>

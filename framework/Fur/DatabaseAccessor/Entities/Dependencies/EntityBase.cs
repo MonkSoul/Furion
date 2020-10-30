@@ -17,10 +17,18 @@ namespace Fur.DatabaseAccessor
     /// 数据库实体依赖基类
     /// </summary>
     /// <typeparam name="TKey">主键类型</typeparam>
+    [SkipScan]
+    public abstract class EntityBase<TKey> : EntityBase<TKey, MasterDbContextLocator>
+    {
+    }
+
+    /// <summary>
+    /// 数据库实体依赖基类
+    /// </summary>
+    /// <typeparam name="TKey">主键类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     [SkipScan]
     public abstract class EntityBase<TKey, TDbContextLocator1> : PrivateEntityBase<TKey>
-        where TKey : struct
         where TDbContextLocator1 : class, IDbContextLocator
     {
     }
@@ -33,7 +41,6 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     [SkipScan]
     public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2> : PrivateEntityBase<TKey>
-        where TKey : struct
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
     {
@@ -48,7 +55,6 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     [SkipScan]
     public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3> : PrivateEntityBase<TKey>
-        where TKey : struct
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
         where TDbContextLocator3 : class, IDbContextLocator
@@ -65,7 +71,6 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     [SkipScan]
     public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4> : PrivateEntityBase<TKey>
-        where TKey : struct
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
         where TDbContextLocator3 : class, IDbContextLocator
@@ -84,7 +89,6 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     [SkipScan]
     public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5> : PrivateEntityBase<TKey>
-        where TKey : struct
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
         where TDbContextLocator3 : class, IDbContextLocator
@@ -105,7 +109,6 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     [SkipScan]
     public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6> : PrivateEntityBase<TKey>
-        where TKey : struct
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
         where TDbContextLocator3 : class, IDbContextLocator
@@ -128,7 +131,6 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
     [SkipScan]
     public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7> : PrivateEntityBase<TKey>
-        where TKey : struct
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
         where TDbContextLocator3 : class, IDbContextLocator
@@ -153,7 +155,6 @@ namespace Fur.DatabaseAccessor
     /// <typeparam name="TDbContextLocator8">数据库上下文定位器</typeparam>
     [SkipScan]
     public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7, TDbContextLocator8> : PrivateEntityBase<TKey>
-        where TKey : struct
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
         where TDbContextLocator3 : class, IDbContextLocator
