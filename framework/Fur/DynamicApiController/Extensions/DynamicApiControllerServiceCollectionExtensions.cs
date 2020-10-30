@@ -40,9 +40,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 //options.ReturnHttpNotAcceptable = true;
             });
 
-            // 添加丰富类型支持
-            mvcBuilder.AddNewtonsoftJson();
-
             // 添加 Xml 支持
             mvcBuilder.AddXmlDataContractSerializerFormatters();
 

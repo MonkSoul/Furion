@@ -499,6 +499,5 @@ namespace Fur.DynamicApiController
             var version = _nameVersionRegex.Match(name).Groups["version"].Value.Replace("_", ".");
             return (_nameVersionRegex.Replace(name, ""), version);
         }
-
     }
 }
