@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Net.Mime;
+using System.Text.Json;
 
 namespace Fur.DataValidation
 {
@@ -103,7 +103,7 @@ namespace Fur.DataValidation
         {
             // 将验证错误信息转换成字典并序列化成 Json
             var validationResults = modelState.ToDictionary(u => u.Key, u => modelState[u.Key].Errors.Select(c => c.ErrorMessage));
-            var validateFaildMessage = JsonConvert.SerializeObject(validationResults, Formatting.Indented);
+            var validateFaildMessage = JsonSerializer.Serialize(validationResults, new JsonSerializerOptions { WriteIndented = true });
 
             // 处理规范化结果
             var unifyResult = _serviceProvider.GetService<IUnifyResultProvider>();
