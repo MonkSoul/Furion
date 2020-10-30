@@ -83,7 +83,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - `Docker Hub` 线上镜像
 
 ```shell
-docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-rc.final.34
+docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-rc.final.50
 ```
 
 - `手动` 打包镜像
@@ -91,14 +91,21 @@ docker run --name fur -p 5000:80 monksoul/fur:v1.0.0-rc.final.34
 打开 `CMD/Shell/PowerShell` 进入 `Fur` 项目根目录打包 `Fur` 镜像：
 
 ```shell
-docker build -t fur:v1.0.0-rc.final.34 .
+docker build -t fur:v1.0.0-rc.final.50 .
 ```
 
 打包成功后，直接 `docker run`：
 
 ```shell
-docker run --name fur -p 5000:80 fur:v1.0.0-rc.final.34
+docker run --name fur -p 5000:80 fur:v1.0.0-rc.final.50
 ```
+
+## 🥜 Fur 官方包
+
+| 包类型                                                                                                                                  | 名称                                | 版本               | 描述           |
+| --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | ------------------ | -------------- |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.0--rc.final-blue)](https://www.nuget.org/packages/Fur)                                 | Fur                                 | v1.0.0-rc.final.50 | Fur 总包       |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.0--rc.final-blue)](https://www.nuget.org/packages/Fur.Extras.Authentication.JwtBearer) | Fur.Extras.Authentication.JwtBearer | v1.0.0-rc.final.50 | Fur Jwt 拓展包 |
 
 ## 🍎 框架特点
 
