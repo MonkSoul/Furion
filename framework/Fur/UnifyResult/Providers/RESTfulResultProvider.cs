@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Fur.DependencyInjection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -9,6 +10,7 @@ namespace Fur.UnifyResult
     /// <summary>
     /// RESTful 风格返回值
     /// </summary>
+    [SkipScan, UnifyModel(typeof(RESTfulResult<>))]
     public class RESTfulResultProvider : IUnifyResultProvider
     {
         /// <summary>
@@ -43,7 +45,7 @@ namespace Fur.UnifyResult
 
             return new JsonResult(new RESTfulResult<object>
             {
-                StatusCode = context.Result is EmptyResult ? StatusCodes.Status204NoContent : StatusCodes.Status200OK,
+                StatusCode = context.Result is EmptyResult ? StatusCodes.Status204NoContent : StatusCodes.Status200OK,  // 处理没有返回值情况 204 
                 Successed = true,
                 Data = data,
                 Errors = null

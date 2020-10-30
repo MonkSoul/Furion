@@ -1,5 +1,6 @@
 ﻿using Fur;
 using Fur.DependencyInjection;
+using Fur.UnifyResult;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -39,11 +40,24 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Mvc 注入基础配置和规范化结果
         /// </summary>
         /// <param name="mvcBuilder"></param>
-        /// <param name="restfulResultType">RESTful结果类型，泛型类型</param>
         /// <returns></returns>
-        public static IMvcBuilder AddInjectWithUnifyResult(this IMvcBuilder mvcBuilder, Type restfulResultType = default)
+        public static IMvcBuilder AddInjectWithUnifyResult(this IMvcBuilder mvcBuilder)
         {
-            mvcBuilder.AddInject().AddUnifyResult(restfulResultType);
+            mvcBuilder.AddInject().AddUnifyResult();
+
+            return mvcBuilder;
+        }
+
+        /// <summary>
+        /// Mvc 注入基础配置和规范化结果
+        /// </summary>
+        /// <typeparam name="TUnifyResultProvider"></typeparam>
+        /// <param name="mvcBuilder"></param>
+        /// <returns></returns>
+        public static IMvcBuilder AddInjectWithUnifyResult<TUnifyResultProvider>(this IMvcBuilder mvcBuilder)
+            where TUnifyResultProvider : class, IUnifyResultProvider
+        {
+            mvcBuilder.AddInject().AddUnifyResult<TUnifyResultProvider>();
 
             return mvcBuilder;
         }

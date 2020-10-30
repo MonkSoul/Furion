@@ -20881,6 +20881,22 @@
             <param name="options"></param>
             <param name="configuration"></param>
         </member>
+        <member name="T:Fur.UnifyResult.UnifyModelAttribute">
+            <summary>
+            规范化模型特性
+            </summary>
+        </member>
+        <member name="M:Fur.UnifyResult.UnifyModelAttribute.#ctor(System.Type)">
+            <summary>
+            规范化模型
+            </summary>
+            <param name="modelType"></param>
+        </member>
+        <member name="P:Fur.UnifyResult.UnifyModelAttribute.ModelType">
+            <summary>
+            模型类型（泛型）
+            </summary>
+        </member>
         <member name="T:Fur.UnifyResult.SuccessUnifyResultFilter">
             <summary>
             规范化结构（请求成功）过滤器
@@ -21866,12 +21882,19 @@
             <param name="mvcBuilder">Mvc构建起</param>
             <returns>IMvcBuilder</returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.AppServiceCollectionExtensions.AddInjectWithUnifyResult(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Type)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.AppServiceCollectionExtensions.AddInjectWithUnifyResult(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
             <summary>
             Mvc 注入基础配置和规范化结果
             </summary>
             <param name="mvcBuilder"></param>
-            <param name="restfulResultType">RESTful结果类型，泛型类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.AppServiceCollectionExtensions.AddInjectWithUnifyResult``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+            <summary>
+            Mvc 注入基础配置和规范化结果
+            </summary>
+            <typeparam name="TUnifyResultProvider"></typeparam>
+            <param name="mvcBuilder"></param>
             <returns></returns>
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.AppServiceCollectionExtensions.AddInject(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
@@ -22439,21 +22462,19 @@
             规范化结果服务拓展
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.UnifyResultServiceCollectionExtensions.AddUnifyResult(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Type)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.UnifyResultServiceCollectionExtensions.AddUnifyResult(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
             <summary>
             添加规范化结果服务
             </summary>
             <param name="mvcBuilder"></param>
-            <param name="restfulResultType">RESTful结果类型，泛型类型</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.UnifyResultServiceCollectionExtensions.AddUnifyResult``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Type)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.UnifyResultServiceCollectionExtensions.AddUnifyResult``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
             <summary>
             添加规范化结果服务
             </summary>
             <typeparam name="TUnifyResultProvider"></typeparam>
             <param name="mvcBuilder"></param>
-            <param name="restfulResultType">RESTful结果类型，泛型类型</param>
             <returns></returns>
         </member>
         <member name="T:Microsoft.Extensions.Hosting.HostBuilderExtensions">
