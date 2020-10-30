@@ -1,5 +1,6 @@
 ﻿using Fur.DataValidation;
 using Fur.DependencyInjection;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -34,6 +35,25 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// 添加全局数据验证
         /// </summary>
+        /// <typeparam name="TValidationMessageTypeProvider">验证类型消息提供器</typeparam>
+        /// <param name="services"></param>
+        /// <param name="enabledGlobalDataValidationFilter">启用全局验证过滤器</param>
+        /// <returns></returns>
+        public static IServiceCollection AddDataValidation<TValidationMessageTypeProvider>(this IServiceCollection services, bool enabledGlobalDataValidationFilter = true)
+            where TValidationMessageTypeProvider : class, IValidationMessageTypeProvider
+        {
+            // 添加全局数据验证
+            services.AddDataValidation(enabledGlobalDataValidationFilter);
+
+            // 单例注册验证消息提供器
+            services.TryAddSingleton<IValidationMessageTypeProvider, TValidationMessageTypeProvider>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// 添加全局数据验证
+        /// </summary>
         /// <param name="mvcBuilder"></param>
         /// <param name="enabledGlobalDataValidationFilter">启用全局验证过滤器</param>
         /// <returns></returns>
@@ -58,6 +78,36 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             return mvcBuilder;
+        }
+
+        /// <summary>
+        /// 添加全局数据验证
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="enabledGlobalDataValidationFilter">启用全局验证过滤器</param>
+        /// <returns></returns>
+        public static IServiceCollection AddDataValidation(this IServiceCollection services, bool enabledGlobalDataValidationFilter = true)
+        {
+            // 添加验证配置文件支持
+            services.AddConfigurableOptions<ValidationTypeMessageSettingsOptions>();
+
+            // 判断是否启用全局
+            if (enabledGlobalDataValidationFilter)
+            {
+                // 添加自定义验证
+                services.Configure<ApiBehaviorOptions>(options =>
+                {
+                    options.SuppressModelStateInvalidFilter = true;
+                });
+
+                // 添加全局验证
+                services.Configure<MvcOptions>(options =>
+                {
+                    options.Filters.Add<DataValidationFilter>();
+                });
+            }
+
+            return services;
         }
     }
 }
