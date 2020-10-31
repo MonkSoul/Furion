@@ -632,7 +632,7 @@ namespace Fur.Application
 
 `Fur` 框架提供 `规范化结果` 功能，可以通过实现 `IUnifyResultProvider` 提供器实现统一规范化返回值定制，如：`RESTfulResultProvider`：
 
-```cs
+```cs {12,13}
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -644,6 +644,7 @@ namespace Fur.UnifyResult
     /// <summary>
     /// RESTful 风格返回值
     /// </summary>
+    [UnifyModel(typeof(RESTfulResult<>))]
     public class RESTfulResultProvider : IUnifyResultProvider
     {
         /// <summary>
@@ -653,7 +654,7 @@ namespace Fur.UnifyResult
         /// <returns></returns>
         public IActionResult OnException(ExceptionContext context)
         {
-            return new JsonResult(new RESTfulResult
+            return new JsonResult(new RESTfulResult<object>
             {
                 StatusCode = StatusCodes.Status500InternalServerError,
                 Successed = false,
@@ -676,9 +677,9 @@ namespace Fur.UnifyResult
             else if (context.Result is ObjectResult objectResult) data = objectResult.Value;
             else return null;
 
-            return new JsonResult(new RESTfulResult
+            return new JsonResult(new RESTfulResult<object>
             {
-                StatusCode = context.Result is EmptyResult ? StatusCodes.Status204NoContent : StatusCodes.Status200OK,
+                StatusCode = context.Result is EmptyResult ? StatusCodes.Status204NoContent : StatusCodes.Status200OK,  // 处理没有返回值情况 204
                 Successed = true,
                 Data = data,
                 Errors = null
@@ -695,7 +696,7 @@ namespace Fur.UnifyResult
         /// <returns></returns>
         public IActionResult OnValidateFailed(ActionExecutingContext context, ModelStateDictionary modelStates, Dictionary<string, IEnumerable<string>> validationResults, string validateFaildMessage)
         {
-            return new JsonResult(new RESTfulResult
+            return new JsonResult(new RESTfulResult<object>
             {
                 StatusCode = StatusCodes.Status400BadRequest,
                 Successed = false,
@@ -710,14 +711,8 @@ namespace Fur.UnifyResult
 之后在 `Startup.cs` 中注册即可：
 
 ```cs
-services.AddControllers().AddUnifyResult<RESTfulResult, RESTfulResultProvider>();
+services.AddControllers().AddUnifyResult<RESTfulResultProvider>();
 ```
-
-:::important 特别注意
-
-由于使用了规范化结果之后， `Swagger` 不能显示真实的数据类型，所以需要在 `Action` 上面贴 `[UnifyResult(返回值类型)]` 即可。
-
-:::
 
 ## 6.8 反馈与建议
 
