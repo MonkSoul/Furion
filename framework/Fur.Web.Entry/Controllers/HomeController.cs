@@ -10,10 +10,5 @@ namespace Fur.Web.Entry.Controllers
         {
             return View();
         }
-
-        public IActionResult Login()
-        {
-            return Content("登录页面");
-        }
     }
 }
