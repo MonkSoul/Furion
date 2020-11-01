@@ -92,14 +92,31 @@ namespace Fur.DatabaseAccessor
                 // 判断是否异常
                 if (resultContext.Exception == null)
                 {
-                    // 将所有数据库上下文修改 SaveChanges();
-                    var hasChangesCount = await _dbContextPool.SavePoolNowAsync();
+                    try
+                    {
+                        // 将所有数据库上下文修改 SaveChanges();
+                        var hasChangesCount = await _dbContextPool.SavePoolNowAsync();
 
-                    // 提交共享事务
-                    await dbContextTransaction.CommitAsync();
+                        // 提交共享事务
+                        await dbContextTransaction.CommitAsync();
 
-                    // 打印事务提交消息
-                    App.PrintToMiniProfiler(MiniProfilerCategory, "Completed", $"Transaction Completed! Has {hasChangesCount} DbContext Changes.");
+                        // 打印事务提交消息
+                        App.PrintToMiniProfiler(MiniProfilerCategory, "Completed", $"Transaction Completed! Has {hasChangesCount} DbContext Changes.");
+                    }
+                    catch
+                    {
+                        // 回滚事务
+                        await dbContextTransaction.RollbackAsync();
+
+                        // 打印事务回滚消息
+                        App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
+
+                        throw;
+                    }
+                    finally
+                    {
+                        await dbContextTransaction.DisposeAsync();
+                    }
                 }
                 else
                 {

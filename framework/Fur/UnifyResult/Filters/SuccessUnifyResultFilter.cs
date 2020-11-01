@@ -56,12 +56,16 @@ namespace Fur.UnifyResult
 
             var actionExecutedContext = await next();
 
-            // 处理规范化结果
-            var unifyResult = _serviceProvider.GetService<IUnifyResultProvider>();
-            if (unifyResult != null && context.Result == null)
+            // 如果没有异常再执行
+            if (actionExecutedContext.Exception == null)
             {
-                var result = unifyResult.OnSuccessed(actionExecutedContext);
-                if (result != null) actionExecutedContext.Result = result;
+                // 处理规范化结果
+                var unifyResult = _serviceProvider.GetService<IUnifyResultProvider>();
+                if (unifyResult != null && context.Result == null)
+                {
+                    var result = unifyResult.OnSuccessed(actionExecutedContext);
+                    if (result != null) actionExecutedContext.Result = result;
+                }
             }
         }
     }
