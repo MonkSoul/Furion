@@ -4,16 +4,16 @@ using System;
 namespace Fur.RemoteRequest
 {
     /// <summary>
-    /// HttpDelete 请求
+    /// HttpGet 请求
     /// </summary>
     [SkipScan, AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class HttpDeleteAttribute : HttpMethodAttribute
+    public class GetAttribute : HttpMethodAttribute
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="url"></param>
-        public HttpDeleteAttribute(string url) : base(url)
+        public GetAttribute(string url) : base(url)
         {
         }
     }

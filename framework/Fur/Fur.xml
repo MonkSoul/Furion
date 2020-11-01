@@ -221,13 +221,6 @@
             <param name="generic">泛型类型</param>
             <returns>bool</returns>
         </member>
-        <member name="M:Fur.ObjectExtensions.ToExpando(System.Object)">
-            <summary>
-            将对象转成动态类型
-            </summary>
-            <param name="obj"></param>
-            <returns></returns>
-        </member>
         <member name="M:Fur.ObjectExtensions.IsAnonymous(System.Object)">
             <summary>
             判断是否是匿名类型
@@ -20447,60 +20440,65 @@
             远程地址
             </summary>
         </member>
-        <member name="T:Fur.RemoteRequest.HttpDeleteAttribute">
+        <member name="T:Fur.RemoteRequest.DeleteAttribute">
             <summary>
             HttpDelete 请求
             </summary>
         </member>
-        <member name="M:Fur.RemoteRequest.HttpDeleteAttribute.#ctor(System.String)">
+        <member name="M:Fur.RemoteRequest.DeleteAttribute.#ctor(System.String)">
             <summary>
             构造函数
             </summary>
             <param name="url"></param>
         </member>
-        <member name="T:Fur.RemoteRequest.HttpGetAttribute">
+        <member name="T:Fur.RemoteRequest.GetAttribute">
             <summary>
             HttpGet 请求
             </summary>
         </member>
-        <member name="M:Fur.RemoteRequest.HttpGetAttribute.#ctor(System.String)">
+        <member name="M:Fur.RemoteRequest.GetAttribute.#ctor(System.String)">
             <summary>
             构造函数
             </summary>
             <param name="url"></param>
         </member>
-        <member name="T:Fur.RemoteRequest.HttpPatchAttribute">
+        <member name="T:Fur.RemoteRequest.PatchAttribute">
             <summary>
             HttpPatch 请求
             </summary>
         </member>
-        <member name="M:Fur.RemoteRequest.HttpPatchAttribute.#ctor(System.String)">
+        <member name="M:Fur.RemoteRequest.PatchAttribute.#ctor(System.String)">
             <summary>
             构造函数
             </summary>
             <param name="url"></param>
         </member>
-        <member name="T:Fur.RemoteRequest.HttpPostAttribute">
+        <member name="T:Fur.RemoteRequest.PostAttribute">
             <summary>
             HttpPost 请求
             </summary>
         </member>
-        <member name="M:Fur.RemoteRequest.HttpPostAttribute.#ctor(System.String)">
+        <member name="M:Fur.RemoteRequest.PostAttribute.#ctor(System.String)">
             <summary>
             构造函数
             </summary>
             <param name="url"></param>
         </member>
-        <member name="T:Fur.RemoteRequest.HttpPutAttribute">
+        <member name="T:Fur.RemoteRequest.PutAttribute">
             <summary>
             HttpPut 请求
             </summary>
         </member>
-        <member name="M:Fur.RemoteRequest.HttpPutAttribute.#ctor(System.String)">
+        <member name="M:Fur.RemoteRequest.PutAttribute.#ctor(System.String)">
             <summary>
             构造函数
             </summary>
             <param name="url"></param>
+        </member>
+        <member name="T:Fur.RemoteRequest.IHttpDispatchProxy">
+            <summary>
+            Http 代理请求
+            </summary>
         </member>
         <member name="T:Fur.RemoteRequest.HttpClientConfigure">
             <summary>
@@ -20527,22 +20525,22 @@
             客户端定义
             </summary>
         </member>
-        <member name="T:Fur.RemoteRequest.RequestDispatchProxy">
+        <member name="T:Fur.RemoteRequest.HttpDispatchProxy">
             <summary>
             请求拦截代理
             </summary>
         </member>
-        <member name="P:Fur.RemoteRequest.RequestDispatchProxy.Target">
+        <member name="P:Fur.RemoteRequest.HttpDispatchProxy.Target">
             <summary>
             实例对象
             </summary>
         </member>
-        <member name="P:Fur.RemoteRequest.RequestDispatchProxy.Services">
+        <member name="P:Fur.RemoteRequest.HttpDispatchProxy.Services">
             <summary>
             服务提供器
             </summary>
         </member>
-        <member name="M:Fur.RemoteRequest.RequestDispatchProxy.Invoke(System.Reflection.MethodInfo,System.Object[])">
+        <member name="M:Fur.RemoteRequest.HttpDispatchProxy.Invoke(System.Reflection.MethodInfo,System.Object[])">
             <summary>
             拦截
             </summary>
@@ -21811,6 +21809,47 @@
             <param name="app"></param>
             <param name="routePrefix"></param>
             <returns></returns>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Http.HttpContextExtensions">
+            <summary>
+            Http 拓展类
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.GetJWTToken(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            获取 JWT Token
+            </summary>
+            <param name="httpContext"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.GetJWTToken(Microsoft.AspNetCore.Http.IHttpContextAccessor)">
+            <summary>
+            获取 JWT Token
+            </summary>
+            <param name="httpContextAccessor"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.GetMetadata``1(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            获取 Action 特性
+            </summary>
+            <typeparam name="TAttribute"></typeparam>
+            <param name="httpContext"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.SigninToSwagger(Microsoft.AspNetCore.Http.HttpContext,System.String)">
+            <summary>
+            设置规范化文档自动登录
+            </summary>
+            <param name="httpContext"></param>
+            <param name="accessToken"></param>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.SigninToSwagger(Microsoft.AspNetCore.Http.IHttpContextAccessor,System.String)">
+            <summary>
+            设置规范化文档自动登录
+            </summary>
+            <param name="httpContextAccessor"></param>
+            <param name="accessToken"></param>
         </member>
         <member name="T:Microsoft.AspNetCore.Mvc.Filters.FriendlyExceptionFilter">
             <summary>

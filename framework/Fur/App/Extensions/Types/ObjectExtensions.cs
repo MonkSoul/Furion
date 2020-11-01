@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -138,24 +137,6 @@ namespace Fur
 
             // 判断逻辑
             bool IsTheRawGenericType(Type type) => generic == (type.IsGenericType ? type.GetGenericTypeDefinition() : type);
-        }
-
-        /// <summary>
-        /// 将对象转成动态类型
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        internal static ExpandoObject ToExpando(this object obj)
-        {
-            var expando = new ExpandoObject();
-            IDictionary<string, object> dictionary = expando;
-
-            foreach (var property in obj.GetType().GetProperties())
-            {
-                dictionary.Add(property.Name, property.GetValue(obj));
-            }
-
-            return expando;
         }
 
         /// <summary>

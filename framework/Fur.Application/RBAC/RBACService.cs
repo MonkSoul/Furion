@@ -77,7 +77,7 @@ namespace Fur.Application
             });
 
             // 设置 Swagger 刷新自动授权
-            _httpContextAccessor.HttpContext.Response.Headers["access-token"] = output.AccessToken;
+            _httpContextAccessor.SigninToSwagger(output.AccessToken);
 
             return output;
         }

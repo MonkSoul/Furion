@@ -8,7 +8,7 @@ namespace Fur.RemoteRequest
     /// 请求拦截代理
     /// </summary>
     [SkipScan]
-    public class RequestDispatchProxy : DispatchProxy, IDispatchProxy
+    public class HttpDispatchProxy : DispatchProxy, IDispatchProxy
     {
         /// <summary>
         /// 实例对象

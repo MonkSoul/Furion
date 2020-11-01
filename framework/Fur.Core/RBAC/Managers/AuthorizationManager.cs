@@ -90,12 +90,8 @@ namespace Fur.Core
         [IfException(1001, ErrorMessage = "非法操作")]
         private JsonWebToken ReadToken()
         {
-            // 判断请求报文头中是否有 "Authorization" 报文头
-            var bearerToken = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString();
-            if (string.IsNullOrEmpty(bearerToken)) throw Oops.Oh(1001);
-
             // 获取 token
-            var accessToken = bearerToken[7..];
+            var accessToken = _httpContextAccessor.GetJWTToken() ?? throw Oops.Oh(1001);
 
             // 验证token
             var (IsValid, Token) = JWTEncryption.Validate(accessToken, _jwtSettings);
