@@ -4,12 +4,12 @@
         <name>Fur.Web.Core</name>
     </assembly>
     <members>
-        <member name="T:Fur.Web.Core.JWTAuthorizationHandler">
+        <member name="T:Fur.Web.Core.JwtHandler">
             <summary>
             JWT 授权自定义处理程序
             </summary>
         </member>
-        <member name="M:Fur.Web.Core.JWTAuthorizationHandler.Pipeline(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,Microsoft.AspNetCore.Http.DefaultHttpContext)">
+        <member name="M:Fur.Web.Core.JwtHandler.Pipeline(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,Microsoft.AspNetCore.Http.DefaultHttpContext)">
             <summary>
             请求管道
             </summary>
@@ -17,7 +17,7 @@
             <param name="httpContext"></param>
             <returns></returns>
         </member>
-        <member name="M:Fur.Web.Core.JWTAuthorizationHandler.CheckAuthorzie(Microsoft.AspNetCore.Http.DefaultHttpContext)">
+        <member name="M:Fur.Web.Core.JwtHandler.CheckAuthorzie(Microsoft.AspNetCore.Http.DefaultHttpContext)">
             <summary>
             检查权限
             </summary>

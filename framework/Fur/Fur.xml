@@ -375,38 +375,6 @@
             </summary>
             <param name="builder"></param>
         </member>
-        <member name="T:Fur.Authorization.AppAuthorizeAttribute">
-            <summary>
-            策略授权特性
-            </summary>
-        </member>
-        <member name="M:Fur.Authorization.AppAuthorizeAttribute.#ctor(System.String[])">
-            <summary>
-            构造函数
-            </summary>
-            <param name="policies">多个策略</param>
-        </member>
-        <member name="P:Fur.Authorization.AppAuthorizeAttribute.Policies">
-            <summary>
-            策略
-            </summary>
-        </member>
-        <member name="T:Fur.Authorization.SecurityDefineAttribute">
-            <summary>
-            安全定义特性
-            </summary>
-        </member>
-        <member name="M:Fur.Authorization.SecurityDefineAttribute.#ctor(System.String)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="resourceId"></param>
-        </member>
-        <member name="P:Fur.Authorization.SecurityDefineAttribute.ResourceId">
-            <summary>
-            资源Id，必须是唯一的
-            </summary>
-        </member>
         <member name="T:Fur.Authorization.AppAuthorizeHandler">
             <summary>
             授权策略执行程序
@@ -21851,6 +21819,38 @@
             <param name="httpContextAccessor"></param>
             <param name="accessToken"></param>
         </member>
+        <member name="T:Microsoft.AspNetCore.Authorization.AppAuthorizeAttribute">
+            <summary>
+            策略授权特性
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authorization.AppAuthorizeAttribute.#ctor(System.String[])">
+            <summary>
+            构造函数
+            </summary>
+            <param name="policies">多个策略</param>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authorization.AppAuthorizeAttribute.Policies">
+            <summary>
+            策略
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authorization.SecurityDefineAttribute">
+            <summary>
+            安全定义特性
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authorization.SecurityDefineAttribute.#ctor(System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="resourceId"></param>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authorization.SecurityDefineAttribute.ResourceId">
+            <summary>
+            资源Id，必须是唯一的
+            </summary>
+        </member>
         <member name="T:Microsoft.AspNetCore.Mvc.Filters.FriendlyExceptionFilter">
             <summary>
             友好异常拦截器
@@ -21985,12 +21985,13 @@
             JWT 授权服务拓展类
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.JWTAuthorizationServiceCollectionExtensions.AddJWTAuthorization``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Boolean,System.Object)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.JWTAuthorizationServiceCollectionExtensions.AddJwt``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Microsoft.AspNetCore.Authentication.AuthenticationOptions},System.Object,System.Boolean)">
             <summary>
             添加 JWT 授权
             </summary>
             <typeparam name="TAuthorizationHandler"></typeparam>
             <param name="services"></param>
+            <param name="configureOptions"></param>
             <param name="enableGlobalAuthorize"></param>
             <param name="tokenValidationParameters"></param>
             <returns></returns>

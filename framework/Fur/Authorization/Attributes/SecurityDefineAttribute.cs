@@ -1,7 +1,7 @@
 ﻿using Fur.DependencyInjection;
 using System;
 
-namespace Fur.Authorization
+namespace Microsoft.AspNetCore.Authorization
 {
     /// <summary>
     /// 安全定义特性

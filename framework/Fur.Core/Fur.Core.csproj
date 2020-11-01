@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fur.Extras.Authentication.JwtBearer" Version="1.0.0-rc.4" />
+    <PackageReference Include="Fur.Extras.Authentication.JwtBearer" Version="1.0.0-rc.6" />
   </ItemGroup>
 
   <ItemGroup>

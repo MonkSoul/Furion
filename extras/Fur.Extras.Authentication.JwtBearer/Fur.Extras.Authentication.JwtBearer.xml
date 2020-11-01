@@ -9,13 +9,28 @@
             JWT 授权服务拓展类
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.JWTAuthorizationServiceCollectionExtensions.AddJWTAuthorization(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Object)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.JWTAuthorizationServiceCollectionExtensions.AddJwt(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.Object)">
+            <summary>
+            添加 JWT 授权
+            </summary>
+            <param name="authenticationBuilder"></param>
+            <param name="tokenValidationParameters">token 验证参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.JWTAuthorizationServiceCollectionExtensions.AddJwt(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Microsoft.AspNetCore.Authentication.AuthenticationOptions},System.Object)">
             <summary>
             添加 JWT 授权
             </summary>
             <param name="services"></param>
+            <param name="configureOptions">授权配置</param>
             <param name="tokenValidationParameters">token 验证参数</param>
             <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.JWTAuthorizationServiceCollectionExtensions.ConfigureJWTOptions(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加 JWT 授权
+            </summary>
+            <param name="services"></param>
         </member>
         <member name="T:Fur.DataEncryption.JWTEncryption">
             <summary>

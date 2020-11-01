@@ -9,7 +9,7 @@ namespace Fur.Web.Core
     /// <summary>
     /// JWT 授权自定义处理程序
     /// </summary>
-    public class JWTAuthorizationHandler : AppAuthorizeHandler
+    public class JwtHandler : AppAuthorizeHandler
     {
         /// <summary>
         /// 请求管道

@@ -1,8 +1,8 @@
-﻿using Fur.DependencyInjection;
-using Microsoft.AspNetCore.Authorization;
+﻿using Fur.Authorization;
+using Fur.DependencyInjection;
 using System;
 
-namespace Fur.Authorization
+namespace Microsoft.AspNetCore.Authorization
 {
     /// <summary>
     /// 策略授权特性
