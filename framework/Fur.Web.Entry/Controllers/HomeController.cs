@@ -3,15 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fur.Web.Entry.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
-        [Authorize]
         public IActionResult Index()
         {
             return View();
         }
 
-        [AllowAnonymous]
         public IActionResult Login()
         {
             return Content("登录页面");
