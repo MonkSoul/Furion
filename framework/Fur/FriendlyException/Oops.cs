@@ -305,7 +305,8 @@ namespace Fur.FriendlyException
                 if (typeof(ControllerBase).IsAssignableFrom(methodReflectedType) || typeof(IDynamicApiController).IsAssignableFrom(methodReflectedType)) break;
             }
 
-            return errorMethods.SelectMany(u => u.GetCustomAttributes<IfExceptionAttribute>());
+            return errorMethods.Where(u => u.IsDefined(typeof(IfExceptionAttribute), true))
+                .SelectMany(u => u.GetCustomAttributes<IfExceptionAttribute>(true));
         }
 
         /// <summary>
