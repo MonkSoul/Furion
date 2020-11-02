@@ -77,6 +77,22 @@ namespace Fur.SpecificationDocument
         {
             // 生成V2版本
             swaggerOptions.SerializeAsV2 = _specificationDocumentSettings.FormatAsV2 == true;
+
+            // 判断是否启用 Server
+            if (_specificationDocumentSettings.HideServers != true)
+            {
+                // 启动服务器 Servers
+                swaggerOptions.PreSerializeFilters.Add((swagger, request) =>
+                {
+                    // 默认 Server
+                    var servers = new List<OpenApiServer> {
+                        new OpenApiServer { Url = $"{request.Scheme}://{request.Host.Value}",Description="Default" }
+                    };
+                    servers.AddRange(_specificationDocumentSettings.Servers);
+
+                    swagger.Servers = servers;
+                });
+            }
         }
 
         /// <summary>

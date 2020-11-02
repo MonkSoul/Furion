@@ -1,5 +1,6 @@
 using Fur.ConfigurableOptions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using System.Linq;
@@ -57,6 +58,16 @@ namespace Fur.SpecificationDocument
         public SpecificationOpenApiSecurityScheme[] SecurityDefinitions { get; set; }
 
         /// <summary>
+        /// 配置 Servers
+        /// </summary>
+        public OpenApiServer[] Servers { get; set; }
+
+        /// <summary>
+        /// 隐藏 Servers
+        /// </summary>
+        public bool? HideServers { get; set; }
+
+        /// <summary>
         /// 后期配置
         /// </summary>
         /// <param name="options"></param>
@@ -77,6 +88,8 @@ namespace Fur.SpecificationDocument
                 }
             };
             SecurityDefinitions ??= Array.Empty<SpecificationOpenApiSecurityScheme>();
+            Servers ??= Array.Empty<OpenApiServer>();
+            HideServers ??= false;
         }
     }
 }

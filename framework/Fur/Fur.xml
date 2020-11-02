@@ -20847,6 +20847,16 @@
             安全定义
             </summary>
         </member>
+        <member name="P:Fur.SpecificationDocument.SpecificationDocumentSettingsOptions.Servers">
+            <summary>
+            配置 Servers
+            </summary>
+        </member>
+        <member name="P:Fur.SpecificationDocument.SpecificationDocumentSettingsOptions.HideServers">
+            <summary>
+            隐藏 Servers
+            </summary>
+        </member>
         <member name="M:Fur.SpecificationDocument.SpecificationDocumentSettingsOptions.PostConfigure(Fur.SpecificationDocument.SpecificationDocumentSettingsOptions,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             后期配置
