@@ -3,6 +3,8 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
+using System.ComponentModel;
+using System.Reflection;
 using System.Text;
 
 namespace Fur.SpecificationDocument
@@ -33,8 +35,13 @@ namespace Fur.SpecificationDocument
                 foreach (var option in enumValues)
                 {
                     var value = (int)option;
+
+                    // 获取枚举成员特性
+                    var fieldinfo = type.GetField(Enum.GetName(type, value));
+                    var descriptionAttribute = fieldinfo.GetCustomAttribute<DescriptionAttribute>(true);
+
                     model.Enum.Add(new OpenApiInteger(value));
-                    stringBuilder.Append($"{option} = {value}<br />");
+                    stringBuilder.Append($"{descriptionAttribute?.Description} {option} = {value}<br />");
                 }
                 model.Description = stringBuilder.ToString();
             }
