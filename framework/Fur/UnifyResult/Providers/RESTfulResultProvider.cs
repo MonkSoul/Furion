@@ -45,7 +45,7 @@ namespace Fur.UnifyResult
 
             return new JsonResult(new RESTfulResult<object>
             {
-                StatusCode = context.Result is EmptyResult ? StatusCodes.Status204NoContent : StatusCodes.Status200OK,  // 处理没有返回值情况 204 
+                StatusCode = context.Result is EmptyResult ? StatusCodes.Status204NoContent : StatusCodes.Status200OK,  // 处理没有返回值情况 204
                 Successed = true,
                 Data = data,
                 Errors = null

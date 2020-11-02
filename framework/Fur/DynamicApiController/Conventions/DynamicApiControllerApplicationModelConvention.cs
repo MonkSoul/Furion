@@ -117,10 +117,7 @@ namespace Fur.DynamicApiController
             ConfigureActionRouteAttribute(action, apiDescriptionSettings, controllerApiDescriptionSettings);
 
             // 配置动作方法规范化特性
-            if (_enabledUnifyResult)
-            {
-                ConfigureActionUnifyResultAttribute(action);
-            }
+            if (_enabledUnifyResult) ConfigureActionUnifyResultAttribute(action);
         }
 
         /// <summary>
@@ -474,13 +471,8 @@ namespace Fur.DynamicApiController
             if (action.Attributes.Any(x => typeof(ProducesResponseTypeAttribute).IsAssignableFrom(x.GetType())
                 || typeof(IApiResponseMetadataProvider).IsAssignableFrom(x.GetType()))) return;
 
-            // 判断是否是异步方法
-            var isAsyncMethod = action.ActionMethod.IsAsync();
-
             // 获取真实类型
-            var returnType = action.ActionMethod.ReturnType;
-            returnType = isAsyncMethod ? (returnType.GenericTypeArguments.FirstOrDefault() ?? typeof(void)) : returnType;
-
+            var returnType = action.ActionMethod.GetMethodRealReturnType();
             if (returnType == typeof(void)) return;
 
             // 添加规范化结果特性

@@ -170,12 +170,8 @@ namespace Fur.DatabaseAccessor
             // 获取 Sql 代理特性
             var sqlProxyAttribute = method.GetCustomAttribute<SqlProxyAttribute>(true);
 
-            // 判断是否是异步方法
-            var isAsyncMethod = method.IsAsync();
-
-            // 获取类型返回值并处理 Task 和 Task<T> 类型返回值
-            var returnType = method.ReturnType;
-            returnType = isAsyncMethod ? (returnType.GenericTypeArguments.FirstOrDefault() ?? typeof(void)) : returnType;
+            // 获取方法真实返回值类型
+            var returnType = method.GetMethodRealReturnType();
 
             // 获取数据库上下文
             var dbContext = GetDbContext(sqlProxyAttribute.DbContextLocator);
@@ -215,7 +211,7 @@ namespace Fur.DatabaseAccessor
                 ParameterModel = parameters,
                 DbContext = dbContext,
                 ReturnType = returnType,
-                IsAsync = isAsyncMethod,
+                IsAsync = method.IsAsync(),
                 CommandType = commandType,
                 FinalSql = finalSql
             };

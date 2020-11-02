@@ -153,5 +153,20 @@ namespace Fur
                    && (type.Name.StartsWith("<>") || type.Name.StartsWith("VB$"))
                    && type.Attributes.HasFlag(TypeAttributes.NotPublic);
         }
+
+        /// <summary>
+        /// 获取方法真实返回类型
+        /// </summary>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        internal static Type GetMethodRealReturnType(this MethodInfo method)
+        {
+            // 判断是否是异步方法
+            var isAsyncMethod = method.IsAsync();
+
+            // 获取类型返回值并处理 Task 和 Task<T> 类型返回值
+            var returnType = method.ReturnType;
+            return isAsyncMethod ? (returnType.GenericTypeArguments.FirstOrDefault() ?? typeof(void)) : returnType;
+        }
     }
 }
