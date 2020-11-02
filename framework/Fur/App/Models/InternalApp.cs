@@ -29,8 +29,8 @@ namespace Fur
         /// <param name="configurationBuilder"></param>
         internal static void AddConfigureFiles(IConfigurationBuilder configurationBuilder)
         {
-            AutoAddJsonFile(configurationBuilder);
-            AutoAddXmlFile(configurationBuilder);
+            AutoAddJsonFiles(configurationBuilder);
+            AutoAddXmlFiles(configurationBuilder);
 
             // 存储配置
             ConfigurationBuilder = configurationBuilder;
@@ -40,7 +40,7 @@ namespace Fur
         /// 自动加载自定义 .json 配置文件
         /// </summary>
         /// <param name="configurationBuilder"></param>
-        private static void AutoAddJsonFile(IConfigurationBuilder configurationBuilder)
+        private static void AutoAddJsonFiles(IConfigurationBuilder configurationBuilder)
         {
             // 获取程序目录下的所有配置文件
             var jsonNames = Directory.GetFiles(AppContext.BaseDirectory, "*.json", SearchOption.TopDirectoryOnly)
@@ -62,7 +62,7 @@ namespace Fur
         /// 自动加载自定义 .xml 配置文件
         /// </summary>
         /// <param name="configurationBuilder"></param>
-        private static void AutoAddXmlFile(IConfigurationBuilder configurationBuilder)
+        private static void AutoAddXmlFiles(IConfigurationBuilder configurationBuilder)
         {
             // 获取程序目录下的所有配置文件，必须以 .config.xml 结尾
             var xmlNames = Directory.GetFiles(AppContext.BaseDirectory, "*.xml", SearchOption.TopDirectoryOnly)

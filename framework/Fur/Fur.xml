@@ -302,13 +302,13 @@
             </summary>
             <param name="configurationBuilder"></param>
         </member>
-        <member name="M:Fur.InternalApp.AutoAddJsonFile(Microsoft.Extensions.Configuration.IConfigurationBuilder)">
+        <member name="M:Fur.InternalApp.AutoAddJsonFiles(Microsoft.Extensions.Configuration.IConfigurationBuilder)">
             <summary>
             自动加载自定义 .json 配置文件
             </summary>
             <param name="configurationBuilder"></param>
         </member>
-        <member name="M:Fur.InternalApp.AutoAddXmlFile(Microsoft.Extensions.Configuration.IConfigurationBuilder)">
+        <member name="M:Fur.InternalApp.AutoAddXmlFiles(Microsoft.Extensions.Configuration.IConfigurationBuilder)">
             <summary>
             自动加载自定义 .xml 配置文件
             </summary>
