@@ -30,9 +30,9 @@ namespace Microsoft.Extensions.Hosting
         /// <returns></returns>
         public static IHostBuilder Inject(this IHostBuilder hostBuilder)
         {
-            hostBuilder.ConfigureAppConfiguration(configurationBuilder =>
+            hostBuilder.ConfigureAppConfiguration((hostingContext, config) =>
             {
-                InternalApp.AddConfigureFiles(configurationBuilder);
+                InternalApp.AddConfigureFiles(config, hostingContext.HostingEnvironment);
             });
 
             // 自动注入 AddApp() 服务

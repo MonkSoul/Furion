@@ -1,7 +1,9 @@
 ﻿using Fur.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -26,58 +28,89 @@ namespace Fur
         /// <summary>
         /// 添加配置文件
         /// </summary>
-        /// <param name="configurationBuilder"></param>
-        internal static void AddConfigureFiles(IConfigurationBuilder configurationBuilder)
+        /// <param name="config"></param>
+        /// <param name="env"></param>
+        internal static void AddConfigureFiles(IConfigurationBuilder config, IHostEnvironment env)
         {
-            AutoAddJsonFiles(configurationBuilder);
-            AutoAddXmlFiles(configurationBuilder);
+            AutoAddJsonFiles(config, env);
+            AutoAddXmlFiles(config, env);
 
             // 存储配置
-            ConfigurationBuilder = configurationBuilder;
+            ConfigurationBuilder = config;
         }
 
         /// <summary>
         /// 自动加载自定义 .json 配置文件
         /// </summary>
-        /// <param name="configurationBuilder"></param>
-        private static void AutoAddJsonFiles(IConfigurationBuilder configurationBuilder)
+        /// <param name="config"></param>
+        /// <param name="env"></param>
+        private static void AutoAddJsonFiles(IConfigurationBuilder config, IHostEnvironment env)
         {
             // 获取程序目录下的所有配置文件
-            var jsonNames = Directory.GetFiles(AppContext.BaseDirectory, "*.json", SearchOption.TopDirectoryOnly)
+            var jsonFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.json", SearchOption.TopDirectoryOnly)
                 .Union(
                     Directory.GetFiles(Directory.GetCurrentDirectory(), "*.json", SearchOption.TopDirectoryOnly)
                 )
                 .Where(u => !excludeJsons.Contains(Path.GetFileName(u)) && !runtimeJsonSuffixs.Any(j => u.EndsWith(j)));
 
-            if (!jsonNames.Any()) return;
+            if (!jsonFiles.Any()) return;
+
+            // 获取环境变量名
+            var envName = env.EnvironmentName;
+            var envFiles = new List<string>();
 
             // 自动加载配置文件
-            foreach (var jsonName in jsonNames)
+            foreach (var jsonFile in jsonFiles)
             {
-                configurationBuilder.AddJsonFile(jsonName, optional: true, reloadOnChange: true);
+                // 处理带环境的配置文件
+                if (Path.GetFileNameWithoutExtension(jsonFile).EndsWith($".{envName}"))
+                {
+                    envFiles.Add(jsonFile);
+                    continue;
+                }
+
+                config.AddJsonFile(jsonFile, optional: true, reloadOnChange: true);
             }
+
+            // 配置带环境的配置文件
+            envFiles.ForEach(u => config.AddJsonFile(u, optional: true, reloadOnChange: true));
         }
 
         /// <summary>
         /// 自动加载自定义 .xml 配置文件
         /// </summary>
-        /// <param name="configurationBuilder"></param>
-        private static void AutoAddXmlFiles(IConfigurationBuilder configurationBuilder)
+        /// <param name="config"></param>
+        /// <param name="env"></param>
+        private static void AutoAddXmlFiles(IConfigurationBuilder config, IHostEnvironment env)
         {
             // 获取程序目录下的所有配置文件，必须以 .config.xml 结尾
-            var xmlNames = Directory.GetFiles(AppContext.BaseDirectory, "*.xml", SearchOption.TopDirectoryOnly)
+            var xmlFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.xml", SearchOption.TopDirectoryOnly)
                 .Union(
                     Directory.GetFiles(Directory.GetCurrentDirectory(), "*.xml", SearchOption.TopDirectoryOnly)
                 )
                 .Where(u => u.EndsWith(".config.xml", StringComparison.OrdinalIgnoreCase));
 
-            if (!xmlNames.Any()) return;
+            if (!xmlFiles.Any()) return;
+
+            // 获取环境变量名
+            var envName = env.EnvironmentName;
+            var envFiles = new List<string>();
 
             // 自动加载配置文件
-            foreach (var xmlName in xmlNames)
+            foreach (var xmlFile in xmlFiles)
             {
-                configurationBuilder.AddXmlFile(xmlName, optional: true, reloadOnChange: true);
+                // 处理带环境的配置文件
+                if (Path.GetFileNameWithoutExtension(xmlFile).EndsWith($".{envName}.config"))
+                {
+                    envFiles.Add(xmlFile);
+                    continue;
+                }
+
+                config.AddXmlFile(xmlFile, optional: true, reloadOnChange: true);
             }
+
+            // 配置带环境的配置文件
+            envFiles.ForEach(u => config.AddXmlFile(u, optional: true, reloadOnChange: true));
         }
 
         /// <summary>

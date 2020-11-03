@@ -19,9 +19,9 @@ namespace Fur
         public void Configure(IWebHostBuilder builder)
         {
             // 自动装载配置
-            builder.ConfigureAppConfiguration(configurationBuilder =>
+            builder.ConfigureAppConfiguration((hostingContext, config) =>
             {
-                InternalApp.AddConfigureFiles(configurationBuilder);
+                InternalApp.AddConfigureFiles(config, hostingContext.HostingEnvironment);
             });
 
             // 自动注入 AddApp() 服务
