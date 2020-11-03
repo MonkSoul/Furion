@@ -1,4 +1,5 @@
-﻿using Fur.DependencyInjection;
+﻿using Fur;
+using Fur.DependencyInjection;
 using Fur.FriendlyException;
 using Fur.UnifyResult;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -52,12 +53,23 @@ namespace Microsoft.AspNetCore.Mvc.Filters
             // 设置异常结果
             var exception = context.Exception;
 
+            // 解析验证异常
+            var validationFlag = "[Validation]";
+            var errorMessage = exception.Message.StartsWith(validationFlag) ? exception.Message[validationFlag.Length..] : exception.Message;
+
             // 处理规范化结果
             var unifyResult = _serviceProvider.GetService<IUnifyResultProvider>();
-            context.Result = unifyResult == null ? new ContentResult { Content = exception.Message } : unifyResult.OnException(context);
+            context.Result = unifyResult == null
+                ? new ContentResult { Content = errorMessage }
+                : unifyResult.OnException(context);
 
+            // 处理验证异常，打印验证失败信息
+            if (exception.Message.StartsWith(validationFlag))
+            {
+                App.PrintToMiniProfiler("validation", "Failed", $"Exception Validation Failed:\r\n{errorMessage}", true);
+            }
             // 打印错误到 MiniProfiler 中
-            Oops.PrintToMiniProfiler(context.Exception);
+            else Oops.PrintToMiniProfiler(context.Exception);
         }
     }
 }

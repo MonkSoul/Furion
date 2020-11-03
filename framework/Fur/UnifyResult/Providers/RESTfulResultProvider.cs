@@ -20,12 +20,15 @@ namespace Fur.UnifyResult
         /// <returns></returns>
         public IActionResult OnException(ExceptionContext context)
         {
+            // 解析异常信息
+            var (ErrorCode, ErrorObject) = UnifyResultContext.GetExceptionMetadata(context);
+
             return new JsonResult(new RESTfulResult<object>
             {
-                StatusCode = StatusCodes.Status500InternalServerError,
+                StatusCode = ErrorCode,
                 Successed = false,
                 Data = null,
-                Errors = context.Exception.Message
+                Errors = ErrorObject
             });
         }
 

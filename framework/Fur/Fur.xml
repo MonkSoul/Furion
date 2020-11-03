@@ -19077,15 +19077,6 @@
             <param name="validationAttributes">验证特性</param>
             <returns></returns>
         </member>
-        <member name="M:Fur.DataValidation.DataValidationExtensions.TryValidate(System.Object,System.String,System.Text.RegularExpressions.RegexOptions)">
-            <summary>
-            拓展方法，验证单个值
-            </summary>
-            <param name="value">单个值</param>
-            <param name="regexPattern">正则表达式</param>
-            <param name="regexOptions">正则表达式选项</param>
-            <returns></returns>
-        </member>
         <member name="M:Fur.DataValidation.DataValidationExtensions.TryValidate(System.Object,System.Object[])">
             <summary>
             拓展方法，验证单个值
@@ -19102,6 +19093,50 @@
             <param name="validationOptionss">验证逻辑</param>
             <param name="validationTypes">验证类型</param>
             <returns></returns>
+        </member>
+        <member name="M:Fur.DataValidation.DataValidationExtensions.Validate(System.Object,System.Boolean)">
+            <summary>
+            拓展方法，验证类类型对象
+            </summary>
+            <param name="obj">对象实例</param>
+            <param name="validateAllProperties">是否验证所有属性</param>
+        </member>
+        <member name="M:Fur.DataValidation.DataValidationExtensions.Validate(System.Object,System.ComponentModel.DataAnnotations.ValidationAttribute[])">
+            <summary>
+            拓展方法，验证单个值
+            </summary>
+            <param name="value">单个值</param>
+            <param name="validationAttributes">验证特性</param>
+        </member>
+        <member name="M:Fur.DataValidation.DataValidationExtensions.Validate(System.Object,System.Object[])">
+            <summary>
+            拓展方法，验证单个值
+            </summary>
+            <param name="value">单个值</param>
+            <param name="validationTypes">验证类型</param>
+        </member>
+        <member name="M:Fur.DataValidation.DataValidationExtensions.Validate(System.Object,Fur.DataValidation.ValidationPattern,System.Object[])">
+            <summary>
+            拓展方法，验证单个值
+            </summary>
+            <param name="value">单个值</param>
+            <param name="validationOptionss">验证逻辑</param>
+            <param name="validationTypes">验证类型</param>
+        </member>
+        <member name="M:Fur.DataValidation.DataValidationExtensions.TryValidate(System.Object,System.String,System.Text.RegularExpressions.RegexOptions)">
+            <summary>
+            拓展方法，验证单个值
+            </summary>
+            <param name="value">单个值</param>
+            <param name="regexPattern">正则表达式</param>
+            <param name="regexOptions">正则表达式选项</param>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.DataValidation.DataValidationExtensions.ThrowIf(Fur.DataValidation.DataValidationResult)">
+            <summary>
+            如果有异常则抛出
+            </summary>
+            <param name="dataValidationResult"></param>
         </member>
         <member name="T:Fur.DataValidation.DataValidationFilter">
             <summary>
@@ -21007,6 +21042,13 @@
             <summary>
             规范化结果类型
             </summary>
+        </member>
+        <member name="M:Fur.UnifyResult.UnifyResultContext.GetExceptionMetadata(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
+            <summary>
+            获取异常元数据
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
         </member>
         <member name="T:Fur.ViewEngine.IViewEngineCompilationOptionsBuilder">
             <summary>
