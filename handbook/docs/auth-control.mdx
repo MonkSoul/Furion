@@ -35,3 +35,132 @@ OAuth 协议又有 1.0 和 2.0 两个版本。相比较 1.0 版，2.0 版整个�
 
 ## 14.2 如何使用
 
+### 14.2.1 添加 `Cookie` 授权
+
+```cs
+// Cookies单独授权
+services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, b =>
+        {
+            b.LoginPath = "/Home/Login";
+        });
+```
+
+### 14.2.2 添加 `Jwt` 授权
+
+```cs
+services.AddJwt();
+```
+
+:::important 特别注意
+
+`JWT` 鉴权并未包含在 `Fur` 框架中，需要安装 `Fur` 框架提供的 `Fur.Extras.Authentication.JwtBearer` 拓展包。
+
+:::
+
+### 14.2.3 混合授权
+
+```cs
+// JWT 和 Cookies 同时授权
+services.AddJwt(options =>
+{
+      options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+      options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
+.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, b =>
+{
+       b.LoginPath = "/Home/Login";
+});
+```
+
+## 14.3 高级自定义授权
+
+`Fur` 框架提供了非常灵活的高级策略鉴权和授权方式，通过该策略授权方式可以实现任何自定义授权。
+
+### 14.3.1 `AppAuthorizeHandler`
+
+`Fur` 框架提供了 `AppAuthorizeHandler` 策略授权处理程序提供基类，只需要创建自己的 `Handler` 继承它节可。如：`JwtHandler`：
+
+```cs {20,12}
+using Fur.Authorization;
+using Fur.Core;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.JsonWebTokens;
+
+namespace Fur.Web.Core
+{
+    /// <summary>
+    /// JWT 授权自定义处理程序
+    /// </summary>
+    public class JwtHandler : AppAuthorizeHandler
+    {
+        /// <summary>
+        /// 请求管道
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
+        public override bool Pipeline(AuthorizationHandlerContext context, DefaultHttpContext httpContext)
+        {
+            var isValid = context.ValidateJwtBearer(httpContext, out JsonWebToken token);
+            if (!isValid) return false;
+
+            // 检查权限
+            return CheckAuthorzie(httpContext);
+        }
+
+        /// <summary>
+        /// 检查权限
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
+        private static bool CheckAuthorzie(DefaultHttpContext httpContext)
+        {
+            // 获取权限特性
+            var securityDefineAttribute = httpContext.GetMetadata<SecurityDefineAttribute>();
+            if (securityDefineAttribute == null) return true;
+
+            return App.GetService<IAuthorizationManager>().CheckSecurity(securityDefineAttribute.ResourceId);
+        }
+    }
+}
+```
+
+之后注册 `JwtHandler` 即可：
+
+```cs
+services.AddJwt<JwtHandler>();
+```
+
+## 14.4 授权特性及全局授权
+
+默认情况下，所有的路由都是允许匿名访问的，所以如果需要对某个 `Action` 或 `Controller` 设定授权访问，只需要在 `Action` 或 `Controller` 贴 `[AppAuthorize]` 或 `[Authorize]` 特性即可。
+
+如果需要对特定的 `Action` 或 `Controller` 允许匿名访问，则贴 `[AllowAnonymous]` 即可。
+
+### 14.4.1 全局授权
+
+```cs
+services.AddJwt<JwtHandler>(enableGlobalAuthorize:true);
+```
+
+### 14.4.2 匿名访问
+
+如果需要对特定的 `Action` 或 `Controller` 允许匿名访问，则贴 `[AllowAnonymous]` 即可。
+
+## 14.5 反馈与建议
+
+:::note 与我们交流
+
+给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+
+:::
+
+---
+
+:::note 了解更多
+
+想了解更多 `鉴权授权` 知识可查阅 [ASP.NET Core - 安全和标识](https://docs.microsoft.com/zh-cn/aspnet/core/security/?view=aspnetcore-5.0) 章节。
+
+:::

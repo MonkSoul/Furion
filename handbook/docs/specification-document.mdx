@@ -634,19 +634,20 @@ namespace Fur.Application
 
 `Fur` 框架提供 `规范化结果` 功能，可以通过实现 `IUnifyResultProvider` 提供器实现统一规范化返回值定制，如：`RESTfulResultProvider`：
 
-```cs {12,13}
+```cs {13,14}
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Fur.UnifyResult
 {
     /// <summary>
     /// RESTful 风格返回值
     /// </summary>
-    [SkipScan, UnifyModel(typeof(RESTfulResult<>))]
+    [UnifyModel(typeof(RESTfulResult<>))]
     public class RESTfulResultProvider : IUnifyResultProvider
     {
         /// <summary>
@@ -709,6 +710,42 @@ namespace Fur.UnifyResult
                 Errors = validationResults
             });
         }
+
+        /// <summary>
+        /// 处理输出状态码
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="statusCode"></param>
+        /// <returns></returns>
+        public async Task OnResponseStatusCodes(HttpContext context, int statusCode)
+        {
+            switch (statusCode)
+            {
+                // 处理 401 状态码
+                case StatusCodes.Status401Unauthorized:
+                    await context.Response.WriteAsJsonAsync(new RESTfulResult<object>
+                    {
+                        StatusCode = StatusCodes.Status401Unauthorized,
+                        Successed = false,
+                        Data = null,
+                        Errors = "401 Unauthorized"
+                    });
+                    break;
+                // 处理 403 状态码
+                case StatusCodes.Status403Forbidden:
+                    await context.Response.WriteAsJsonAsync(new RESTfulResult<object>
+                    {
+                        StatusCode = StatusCodes.Status403Forbidden,
+                        Successed = false,
+                        Data = null,
+                        Errors = "403 Forbidden"
+                    });
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }
 }
 ```
@@ -716,7 +753,8 @@ namespace Fur.UnifyResult
 之后在 `Startup.cs` 中注册即可：
 
 ```cs
-services.AddControllers().AddUnifyResult<RESTfulResultProvider>();
+services.AddControllers()
+        .AddInjectWithUnifyResult<RESTfulResultProvider>();
 ```
 
 ## 6.8 反馈与建议

@@ -93,11 +93,11 @@ module.exports = {
     },
     {
       type: "doc",
-      id: "local-language",
+      id: "view-engine",
     },
     {
       type: "doc",
-      id: "view-engine",
+      id: "local-language",
     },
     {
       type: "doc",
