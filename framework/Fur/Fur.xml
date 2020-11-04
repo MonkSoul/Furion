@@ -235,6 +235,14 @@
             <param name="method"></param>
             <returns></returns>
         </member>
+        <member name="M:Fur.ObjectExtensions.GetSimilarityWith(System.String,System.String)">
+            <summary>
+            获取两个字符串的相似度
+            </summary>
+            <param name="sourceString"></param>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
         <member name="T:Fur.AppExtra">
             <summary>
             官方包定义

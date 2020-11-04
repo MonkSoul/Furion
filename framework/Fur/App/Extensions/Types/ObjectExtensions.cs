@@ -168,5 +168,22 @@ namespace Fur
             var returnType = method.ReturnType;
             return isAsyncMethod ? (returnType.GenericTypeArguments.FirstOrDefault() ?? typeof(void)) : returnType;
         }
+
+        /// <summary>
+        /// 获取两个字符串的相似度
+        /// </summary>
+        /// <param name="sourceString"></param>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        internal static decimal GetSimilarityWith(this string sourceString, string str)
+        {
+            decimal Kq = 2, Kr = 1, Ks = 1;
+            char[] ss = sourceString.ToCharArray(), st = str.ToCharArray();
+
+            //获取交集数量
+            int q = ss.Intersect(st).Count(), s = ss.Length - q, r = st.Length - q;
+
+            return Kq * q / (Kq * q + Kr * r + Ks * s);
+        }
     }
 }
