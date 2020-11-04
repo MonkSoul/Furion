@@ -20952,6 +20952,35 @@
             <param name="next"></param>
             <returns></returns>
         </member>
+        <member name="T:Fur.UnifyResult.UnifyResultStatusCodesMiddleware">
+            <summary>
+            状态码中间件
+            </summary>
+        </member>
+        <member name="F:Fur.UnifyResult.UnifyResultStatusCodesMiddleware._next">
+            <summary>
+            请求委托
+            </summary>
+        </member>
+        <member name="F:Fur.UnifyResult.UnifyResultStatusCodesMiddleware._serviceProvider">
+            <summary>
+            服务提供器
+            </summary>
+        </member>
+        <member name="M:Fur.UnifyResult.UnifyResultStatusCodesMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,System.IServiceProvider)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="next"></param>
+            <param name="serviceProvider"></param>
+        </member>
+        <member name="M:Fur.UnifyResult.UnifyResultStatusCodesMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            中间件执行方法
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
         <member name="T:Fur.UnifyResult.RESTfulResult`1">
             <summary>
             RESTful 风格结果集
@@ -21007,6 +21036,14 @@
             <param name="validateFaildMessage"></param>
             <returns></returns>
         </member>
+        <member name="M:Fur.UnifyResult.IUnifyResultProvider.OnResponseStatusCodes(Microsoft.AspNetCore.Http.HttpContext,System.Int32)">
+            <summary>
+            拦截返回状态码
+            </summary>
+            <param name="context"></param>
+            <param name="statusCode"></param>
+            <returns></returns>
+        </member>
         <member name="T:Fur.UnifyResult.RESTfulResultProvider">
             <summary>
             RESTful 风格返回值
@@ -21034,6 +21071,14 @@
             <param name="modelStates"></param>
             <param name="validationResults"></param>
             <param name="validateFaildMessage"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.UnifyResult.RESTfulResultProvider.OnResponseStatusCodes(Microsoft.AspNetCore.Http.HttpContext,System.Int32)">
+            <summary>
+            处理输出状态码
+            </summary>
+            <param name="context"></param>
+            <param name="statusCode"></param>
             <returns></returns>
         </member>
         <member name="T:Fur.UnifyResult.UnifyResultContext">
@@ -21838,6 +21883,18 @@
             </summary>
             <param name="app"></param>
             <param name="routePrefix"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Builder.UnifyResultMiddlewareExtensions">
+            <summary>
+            状态码中间件拓展
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.UnifyResultMiddlewareExtensions.UseUnifyResultStatusCodes(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            添加状态码拦截中间件
+            </summary>
+            <param name="builder"></param>
             <returns></returns>
         </member>
         <member name="T:Microsoft.AspNetCore.Authorization.AppAuthorizeAttribute">

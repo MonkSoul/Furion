@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Fur.UnifyResult
 {
@@ -33,5 +35,13 @@ namespace Fur.UnifyResult
         /// <param name="validateFaildMessage"></param>
         /// <returns></returns>
         IActionResult OnValidateFailed(ActionExecutingContext context, ModelStateDictionary modelStates, Dictionary<string, IEnumerable<string>> validationResults, string validateFaildMessage);
+
+        /// <summary>
+        /// 拦截返回状态码
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="statusCode"></param>
+        /// <returns></returns>
+        Task OnResponseStatusCodes(HttpContext context, int statusCode);
     }
 }

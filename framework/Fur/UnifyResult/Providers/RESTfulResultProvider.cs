@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Fur.UnifyResult
 {
@@ -72,6 +73,42 @@ namespace Fur.UnifyResult
                 Data = null,
                 Errors = validationResults
             });
+        }
+
+        /// <summary>
+        /// 处理输出状态码
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="statusCode"></param>
+        /// <returns></returns>
+        public async Task OnResponseStatusCodes(HttpContext context, int statusCode)
+        {
+            switch (statusCode)
+            {
+                // 处理 401 状态码
+                case StatusCodes.Status401Unauthorized:
+                    await context.Response.WriteAsJsonAsync(new RESTfulResult<object>
+                    {
+                        StatusCode = StatusCodes.Status401Unauthorized,
+                        Successed = false,
+                        Data = null,
+                        Errors = "401 Unauthorized"
+                    });
+                    break;
+                // 处理 403 状态码
+                case StatusCodes.Status403Forbidden:
+                    await context.Response.WriteAsJsonAsync(new RESTfulResult<object>
+                    {
+                        StatusCode = StatusCodes.Status403Forbidden,
+                        Successed = false,
+                        Data = null,
+                        Errors = "403 Forbidden"
+                    });
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
 }
