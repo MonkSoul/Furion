@@ -12,7 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// JWT 授权服务拓展类
     /// </summary>
     [SkipScan]
-    public static class JWTAuthorizationServiceCollectionExtensions
+    public static class JwtAuthorizationServiceCollectionExtensions
     {
         /// <summary>
         /// 添加 JWT 授权

@@ -9,30 +9,6 @@ namespace Microsoft.AspNetCore.Http
     public static class HttpContextExtensions
     {
         /// <summary>
-        /// 获取 JWT Token
-        /// </summary>
-        /// <param name="httpContext"></param>
-        /// <returns></returns>
-        public static string GetJWTToken(this HttpContext httpContext)
-        {
-            // 判断请求报文头中是否有 "Authorization" 报文头
-            var bearerToken = httpContext.Request.Headers["Authorization"].ToString();
-            if (string.IsNullOrEmpty(bearerToken)) return default;
-
-            return bearerToken[7..];
-        }
-
-        /// <summary>
-        /// 获取 JWT Token
-        /// </summary>
-        /// <param name="httpContextAccessor"></param>
-        /// <returns></returns>
-        public static string GetJWTToken(this IHttpContextAccessor httpContextAccessor)
-        {
-            return httpContextAccessor.HttpContext.GetJWTToken();
-        }
-
-        /// <summary>
         /// 获取 Action 特性
         /// </summary>
         /// <typeparam name="TAttribute"></typeparam>

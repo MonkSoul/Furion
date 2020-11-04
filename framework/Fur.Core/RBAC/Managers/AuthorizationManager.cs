@@ -91,7 +91,7 @@ namespace Fur.Core
         private JsonWebToken ReadToken()
         {
             // 获取 token
-            var accessToken = _httpContextAccessor.GetJWTToken() ?? throw Oops.Oh(1001);
+            var accessToken = _httpContextAccessor.GetJwtToken() ?? throw Oops.Oh(1001);
 
             // 验证token
             var (IsValid, Token) = JWTEncryption.Validate(accessToken, _jwtSettings);

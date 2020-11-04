@@ -16,7 +16,7 @@ namespace Microsoft.AspNetCore.Authorization
         /// <param name="policies">多个策略</param>
         public AppAuthorizeAttribute(params string[] policies)
         {
-            Policies = policies;
+            if (policies != null && policies.Length > 0) Policies = policies;
         }
 
         /// <summary>

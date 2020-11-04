@@ -1,8 +1,8 @@
 ﻿using Fur.Authorization;
 using Fur.Core;
-using Fur.DataEncryption;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace Fur.Web.Core
 {
@@ -19,13 +19,8 @@ namespace Fur.Web.Core
         /// <returns></returns>
         public override bool Pipeline(AuthorizationHandlerContext context, DefaultHttpContext httpContext)
         {
-            // 获取 token
-            var accessToken = httpContext.GetJWTToken();
-            if (string.IsNullOrEmpty(accessToken)) return false;
-
-            // 验证token
-            var (IsValid, _) = JWTEncryption.Validate(accessToken, App.GetOptions<JWTSettingsOptions>());
-            if (!IsValid) return false;
+            var isValid = context.ValidateJwtBearer(httpContext, out JsonWebToken token);
+            if (!isValid) return false;
 
             // 检查权限
             return CheckAuthorzie(httpContext);

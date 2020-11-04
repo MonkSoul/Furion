@@ -24,19 +24,21 @@ namespace Fur.Authorization
 
             DefaultHttpContext httpContext;
 
-            // 修复全局权限过滤器bug
+            // 获取 httpContext 对象
             if (context.Resource is AuthorizationFilterContext filterContext) httpContext = (DefaultHttpContext)filterContext.HttpContext;
             else if (context.Resource is DefaultHttpContext defaultHttpContext) httpContext = defaultHttpContext;
             else httpContext = null;
 
             // 调用子类管道
             var pipeline = Pipeline(context, httpContext);
-            if (!pipeline) return Task.CompletedTask;
-
-            // 通过授权验证
-            foreach (var requirement in pendingRequirements)
+            if (!pipeline) context.Fail();
+            else
             {
-                context.Succeed(requirement);
+                // 通过授权验证
+                foreach (var requirement in pendingRequirements)
+                {
+                    context.Succeed(requirement);
+                }
             }
 
             return Task.CompletedTask;
