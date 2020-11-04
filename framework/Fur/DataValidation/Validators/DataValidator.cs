@@ -60,7 +60,8 @@ namespace Fur.DataValidation
             if (obj.GetType().IsDefined(typeof(NonValidationAttribute), true))
                 return new DataValidationResult
                 {
-                    IsValid = true
+                    IsValid = true,
+                    Value = obj
                 };
 
             // 存储验证结果
@@ -71,7 +72,8 @@ namespace Fur.DataValidation
             return new DataValidationResult
             {
                 IsValid = isValid,
-                ValidationResults = results
+                ValidationResults = results,
+                Value = obj
             };
         }
 
@@ -91,7 +93,8 @@ namespace Fur.DataValidation
             return new DataValidationResult
             {
                 IsValid = isValid,
-                ValidationResults = results
+                ValidationResults = results,
+                Value = value
             };
         }
 
@@ -141,7 +144,8 @@ namespace Fur.DataValidation
                 return new DataValidationResult
                 {
                     IsValid = false,
-                    ValidationResults = results
+                    ValidationResults = results,
+                    Value = value
                 };
             }
 
@@ -179,7 +183,8 @@ namespace Fur.DataValidation
             return new DataValidationResult
             {
                 IsValid = isValid ?? true,
-                ValidationResults = results
+                ValidationResults = results,
+                Value = value
             };
         }
 

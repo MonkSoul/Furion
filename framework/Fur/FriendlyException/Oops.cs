@@ -24,17 +24,22 @@ namespace Fur.FriendlyException
         /// <summary>
         /// 方法错误异常特性
         /// </summary>
-        internal static readonly ConcurrentDictionary<MethodInfo, MethodIfException> ErrorMethods;
+        private static readonly ConcurrentDictionary<MethodInfo, MethodIfException> ErrorMethods;
 
         /// <summary>
         /// 错误代码类型
         /// </summary>
-        internal static readonly IEnumerable<Type> ErrorCodeTypes;
+        private static readonly IEnumerable<Type> ErrorCodeTypes;
 
         /// <summary>
         /// 错误消息字典
         /// </summary>
-        internal static readonly Dictionary<string, string> ErrorCodeMessages;
+        private static readonly Dictionary<string, string> ErrorCodeMessages;
+
+        /// <summary>
+        /// 友好异常设置
+        /// </summary>
+        private static readonly FriendlyExceptionSettingsOptions _friendlyExceptionSettings;
 
         /// <summary>
         /// 构造函数
@@ -42,6 +47,7 @@ namespace Fur.FriendlyException
         static Oops()
         {
             ErrorMethods = new ConcurrentDictionary<MethodInfo, MethodIfException>();
+            _friendlyExceptionSettings = App.GetOptions<FriendlyExceptionSettingsOptions>();
             ErrorCodeTypes = GetErrorCodeTypes();
             ErrorCodeMessages = GetErrorCodeMessages();
         }
@@ -54,8 +60,7 @@ namespace Fur.FriendlyException
         /// <returns>异常实例</returns>
         public static Exception Oh(string errorMessage, params object[] args)
         {
-            errorMessage = $"{errorMessage}";
-            return new Exception(FormatErrorMessage(errorMessage, args));
+            return new Exception(FormatErrorMessage(MontageErrorMessage(errorMessage), args));
         }
 
         /// <summary>
@@ -67,8 +72,7 @@ namespace Fur.FriendlyException
         /// <returns>异常实例</returns>
         public static Exception Oh(string errorMessage, Type exceptionType, params object[] args)
         {
-            errorMessage = $"{errorMessage}";
-            return Activator.CreateInstance(exceptionType, new object[] { FormatErrorMessage(errorMessage, args) }) as Exception;
+            return Activator.CreateInstance(exceptionType, new object[] { FormatErrorMessage(MontageErrorMessage(errorMessage), args) }) as Exception;
         }
 
         /// <summary>
@@ -153,17 +157,14 @@ namespace Fur.FriendlyException
 
             // 获取错误码消息
             var errorCodeMessage = ifExceptionAttribute == null || string.IsNullOrEmpty(ifExceptionAttribute.ErrorMessage)
-                ? (ErrorCodeMessages.GetValueOrDefault(errorCode.ToString()) ?? "Internal Server Error")
+                ? (ErrorCodeMessages.GetValueOrDefault(errorCode.ToString()) ?? _friendlyExceptionSettings.DefaultErrorMessage)
                 : ifExceptionAttribute.ErrorMessage;
 
             // 采用 [IfException] 格式化参数覆盖
             errorCodeMessage = FormatErrorMessage(errorCodeMessage, ifExceptionAttribute?.Args);
 
-            // 拼接状态码
-            errorCodeMessage = $"{errorCodeMessage}";
-
             // 字符串格式化
-            return FormatErrorMessage(errorCodeMessage, args);
+            return FormatErrorMessage(MontageErrorMessage(errorCodeMessage, errorCode.ToString()), args);
         }
 
         /// <summary>
@@ -318,6 +319,19 @@ namespace Fur.FriendlyException
         {
             var errorCodeItemMetadata = fieldInfo.GetCustomAttribute<ErrorCodeItemMetadataAttribute>();
             return (errorCodeItemMetadata.ErrorCode ?? fieldInfo.Name, errorCodeItemMetadata.ErrorMessage);
+        }
+
+        /// <summary>
+        /// 获取错误码字符串
+        /// </summary>
+        /// <param name="errorMessage"></param>
+        /// <param name="errorCode"></param>
+        /// <returns></returns>
+        private static string MontageErrorMessage(string errorMessage, string errorCode = default)
+        {
+            if (errorMessage.StartsWith("[Validation]")) return errorMessage;
+
+            return (_friendlyExceptionSettings.HideErrorCode == true ? string.Empty : $"[{errorCode ?? _friendlyExceptionSettings.DefaultErrorCode}] ") + errorMessage;
         }
     }
 }

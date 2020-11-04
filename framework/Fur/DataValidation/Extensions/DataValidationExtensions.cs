@@ -120,7 +120,11 @@ namespace Fur.DataValidation
             if (!dataValidationResult.IsValid)
                 throw Oops.Oh("[Validation]" + JsonSerializer.Serialize(
                     dataValidationResult.ValidationResults
-                    .Where(u => u.MemberNames.Any())
+                    .Select(u => new
+                    {
+                        MemberNames = u.MemberNames.Any() ? u.MemberNames : new[] { $"{dataValidationResult.Value}" },
+                        u.ErrorMessage
+                    })
                     .OrderBy(u => u.MemberNames.First())
                     .GroupBy(u => u.MemberNames.First())
                     .ToDictionary(u => u.Key, u => u.Select(c => c.ErrorMessage)), new JsonSerializerOptions { WriteIndented = true }));

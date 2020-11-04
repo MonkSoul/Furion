@@ -19219,6 +19219,11 @@
             验证结果
             </summary>
         </member>
+        <member name="P:Fur.DataValidation.DataValidationResult.Value">
+            <summary>
+            被验证的值
+            </summary>
+        </member>
         <member name="T:Fur.DataValidation.ValidationTypeMessageSettingsOptions">
             <summary>
             验证消息配置选项
@@ -20080,6 +20085,11 @@
             错误消息字典
             </summary>
         </member>
+        <member name="F:Fur.FriendlyException.Oops._friendlyExceptionSettings">
+            <summary>
+            友好异常设置
+            </summary>
+        </member>
         <member name="M:Fur.FriendlyException.Oops.#cctor">
             <summary>
             构造函数
@@ -20190,6 +20200,14 @@
             <param name="fieldInfo">字段对象</param>
             <returns>(object key, object value)</returns>
         </member>
+        <member name="M:Fur.FriendlyException.Oops.MontageErrorMessage(System.String,System.String)">
+            <summary>
+            获取错误码字符串
+            </summary>
+            <param name="errorMessage"></param>
+            <param name="errorCode"></param>
+            <returns></returns>
+        </member>
         <member name="T:Fur.FriendlyException.ErrorCodeMessageSettingsOptions">
             <summary>
             异常配置选项，最优的方式是采用后期配置，也就是所有异常状态码先不设置（推荐）
@@ -20199,6 +20217,33 @@
             <summary>
             异常状态码配置列表
             </summary>
+        </member>
+        <member name="T:Fur.FriendlyException.FriendlyExceptionSettingsOptions">
+            <summary>
+            友好异常配置选项
+            </summary>
+        </member>
+        <member name="P:Fur.FriendlyException.FriendlyExceptionSettingsOptions.HideErrorCode">
+            <summary>
+            隐藏错误码
+            </summary>
+        </member>
+        <member name="P:Fur.FriendlyException.FriendlyExceptionSettingsOptions.DefaultErrorCode">
+            <summary>
+            默认错误码
+            </summary>
+        </member>
+        <member name="P:Fur.FriendlyException.FriendlyExceptionSettingsOptions.DefaultErrorMessage">
+            <summary>
+            默认错误消息
+            </summary>
+        </member>
+        <member name="M:Fur.FriendlyException.FriendlyExceptionSettingsOptions.PostConfigure(Fur.FriendlyException.FriendlyExceptionSettingsOptions,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            选项后期配置
+            </summary>
+            <param name="options"></param>
+            <param name="configuration"></param>
         </member>
         <member name="T:Fur.FriendlyException.IErrorCodeTypeProvider">
             <summary>

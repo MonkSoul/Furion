@@ -19,5 +19,10 @@ namespace Fur.DataValidation
         /// 验证结果
         /// </summary>
         public ICollection<ValidationResult> ValidationResults { get; set; }
+
+        /// <summary>
+        /// 被验证的值
+        /// </summary>
+        public object Value { get; set; }
     }
 }

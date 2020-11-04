@@ -62,6 +62,9 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             var services = mvcBuilder.Services;
 
+            // 添加友好异常配置文件支持
+            services.AddConfigurableOptions<FriendlyExceptionSettingsOptions>();
+
             // 添加异常配置文件支持
             services.AddConfigurableOptions<ErrorCodeMessageSettingsOptions>();
 

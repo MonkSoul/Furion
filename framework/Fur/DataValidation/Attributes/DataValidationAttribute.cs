@@ -41,6 +41,7 @@ namespace Fur.DataValidation
         {
             // 执行值验证
             var dataValidationResult = value.TryValidate(ValidationPattern, ValidationTypes);
+            dataValidationResult.Value = validationContext.MemberName;
 
             // 验证失败
             if (!dataValidationResult.IsValid)
