@@ -320,6 +320,9 @@ namespace Fur.DatabaseAccessor
 
                 // 接口等于 IEntityDependency 或 IModelBuilderFilter 类型
                 if (interfaces.Any(u => u == typeof(IEntity) || u == typeof(IModelBuilderFilter))) return true;
+
+                // 解决继承内部 Entity和EntityBase问题
+                if (baseType.HasImplementedRawGeneric(typeof(PrivateEntityBase<>))) return true;
             }
 
             // 父类是泛型且泛型参数包含数据库上下文定位器
