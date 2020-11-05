@@ -1,5 +1,6 @@
 ﻿using Fur.DependencyInjection;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Fur.DatabaseAccessor
 {
@@ -184,7 +185,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 软删除
         /// </summary>
-        [FakeDelete(true)]
+        [JsonIgnore, FakeDelete(true)]
         public bool IsDeleted { get; set; }
     }
 }

@@ -21191,12 +21191,28 @@
             规范化结果类型
             </summary>
         </member>
+        <member name="F:Fur.UnifyResult.UnifyResultContext.UnifyResultExtrasKey">
+            <summary>
+            规范化结果额外数据键
+            </summary>
+        </member>
         <member name="M:Fur.UnifyResult.UnifyResultContext.GetExceptionMetadata(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
             <summary>
             获取异常元数据
             </summary>
             <param name="context"></param>
             <returns></returns>
+        </member>
+        <member name="M:Fur.UnifyResult.UnifyResultContext.Fill(System.Object)">
+            <summary>
+            填充附加信息
+            </summary>
+            <param name="extras"></param>
+        </member>
+        <member name="M:Fur.UnifyResult.UnifyResultContext.Take">
+            <summary>
+            读取附加信息
+            </summary>
         </member>
         <member name="T:Fur.ViewEngine.IViewEngineCompilationOptionsBuilder">
             <summary>

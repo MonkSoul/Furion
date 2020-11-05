@@ -29,7 +29,8 @@ namespace Fur.UnifyResult
                 StatusCode = ErrorCode,
                 Successed = false,
                 Data = null,
-                Errors = ErrorObject
+                Errors = ErrorObject,
+                Extras = UnifyResultContext.Take()
             });
         }
 
@@ -52,7 +53,8 @@ namespace Fur.UnifyResult
                 StatusCode = context.Result is EmptyResult ? StatusCodes.Status204NoContent : StatusCodes.Status200OK,  // 处理没有返回值情况 204
                 Successed = true,
                 Data = data,
-                Errors = null
+                Errors = null,
+                Extras = UnifyResultContext.Take()
             });
         }
 
@@ -71,7 +73,8 @@ namespace Fur.UnifyResult
                 StatusCode = StatusCodes.Status400BadRequest,
                 Successed = false,
                 Data = null,
-                Errors = validationResults
+                Errors = validationResults,
+                Extras = UnifyResultContext.Take()
             });
         }
 
@@ -92,7 +95,8 @@ namespace Fur.UnifyResult
                         StatusCode = StatusCodes.Status401Unauthorized,
                         Successed = false,
                         Data = null,
-                        Errors = "401 Unauthorized"
+                        Errors = "401 Unauthorized",
+                        Extras = UnifyResultContext.Take()
                     });
                     break;
                 // 处理 403 状态码
@@ -102,7 +106,8 @@ namespace Fur.UnifyResult
                         StatusCode = StatusCodes.Status403Forbidden,
                         Successed = false,
                         Data = null,
-                        Errors = "403 Forbidden"
+                        Errors = "403 Forbidden",
+                        Extras = UnifyResultContext.Take()
                     });
                     break;
 

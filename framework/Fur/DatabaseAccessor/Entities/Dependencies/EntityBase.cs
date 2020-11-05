@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Fur.DatabaseAccessor
 {
@@ -183,6 +184,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 租户Id
         /// </summary>
+        [JsonIgnore]
         public Guid? TenantId { get; set; }
     }
 }
