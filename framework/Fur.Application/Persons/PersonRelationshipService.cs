@@ -37,7 +37,7 @@ namespace Fur.Application.Persons
         /// <returns></returns>
         public async Task<List<PersonDto>> OneToOne()
         {
-            var persons = await _personRepository.DetachedEntities.Include(u => u.PersonDetail)
+            var persons = await _personRepository.Include(u => u.PersonDetail, false)
                                                                           .ToListAsync();
 
             return persons.Adapt<List<PersonDto>>();
@@ -49,7 +49,7 @@ namespace Fur.Application.Persons
         /// <returns></returns>
         public async Task<List<PersonDto>> OneToMany()
         {
-            var persons = await _personRepository.DetachedEntities.Include(u => u.PersonDetail)
+            var persons = await _personRepository.Include(u => u.PersonDetail, false)
                                                                           .Include(u => u.Childrens)
                                                                           .ToListAsync();
 
@@ -62,7 +62,7 @@ namespace Fur.Application.Persons
         /// <returns></returns>
         public async Task<List<PersonDto>> ManyToMany()
         {
-            var persons = await _personRepository.DetachedEntities.Include(u => u.PersonDetail)
+            var persons = await _personRepository.Include(u => u.PersonDetail, false)
                                                                           .Include(u => u.Childrens)
                                                                           .Include(u => u.Posts)
                                                                           .ToListAsync();

@@ -71,8 +71,7 @@ namespace Fur.Core
             // ========= 以下代码应该缓存起来 ===========
             // 查询用户拥有的权限
             var securities = _userRepository
-                .DetachedEntities
-                .Include(u => u.Roles)
+                .Include(u => u.Roles, false)
                     .ThenInclude(u => u.Securities)
                 .Where(u => u.Id == userId)
                 .SelectMany(u => u.Roles

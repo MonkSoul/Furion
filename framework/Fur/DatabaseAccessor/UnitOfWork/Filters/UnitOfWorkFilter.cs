@@ -81,7 +81,7 @@ namespace Fur.DatabaseAccessor
                 // 创建临时数据库上下文
                 else
                 {
-                    var newDbContext = Db.GetDbContext(Penetrates.DbContextWithLocatorCached.Keys.First());
+                    var newDbContext = Db.GetRequestDbContext(Penetrates.DbContextWithLocatorCached.Keys.First());
                     dbContextTransaction = await newDbContext.Database.BeginTransactionAsync();
                     await _dbContextPool.SetTransactionSharedToDbContextAsync(0, dbContextTransaction.GetDbTransaction());
                 }
@@ -90,6 +90,7 @@ namespace Fur.DatabaseAccessor
                 var resultContext = await next();
 
                 // 判断是否异常
+
                 if (resultContext.Exception == null)
                 {
                     try

@@ -51,7 +51,7 @@ namespace Fur.Application
         /// <returns></returns>
         public async Task Update(PersonInputDto input)
         {
-            var person = await _personRepository.DetachedEntities.Include(u => u.PersonDetail)
+            var person = await _personRepository.Include(u => u.PersonDetail, false)
                                                                                      .Include(u => u.Childrens)
                                                                                      .Include(u => u.Posts)
                                                                                      .SingleAsync(u => u.Id == input.Id.Value);
@@ -116,7 +116,7 @@ namespace Fur.Application
         /// <returns></returns>
         public async Task<List<PersonDto>> Search([FromQuery] string name, [FromQuery] int age)
         {
-            var persons = _personRepository.DetachedEntities.Where(!string.IsNullOrEmpty(name), u => u.Name.Contains(name))
+            var persons = _personRepository.Where(!string.IsNullOrEmpty(name), u => u.Name.Contains(name), false)
                                                                 .Where(age > 18, u => u.Age > 18)
                                                                 .ProjectToType<PersonDto>();
 

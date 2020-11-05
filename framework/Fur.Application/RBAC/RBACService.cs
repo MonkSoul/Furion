@@ -56,7 +56,7 @@ namespace Fur.Application
         public LoginOutput Login(LoginInput input)
         {
             // 验证用户名和密码
-            var user = _userRepository.FirstOrDefault(u => u.Account.Equals(input.Account) && u.Password.Equals(input.Password)) ?? throw Oops.Oh(1000);
+            var user = _userRepository.FirstOrDefault(u => u.Account.Equals(input.Account) && u.Password.Equals(input.Password), false) ?? throw Oops.Oh(1000);
 
             var output = user.Adapt<LoginOutput>();
 
@@ -112,8 +112,7 @@ namespace Fur.Application
             var userId = _authorizationManager.GetUserId<int>();
 
             var securities = _userRepository
-                .DetachedEntities
-                .Include(u => u.Roles)
+                .Include(u => u.Roles, false)
                     .ThenInclude(u => u.Securities)
                 .Where(u => u.Id == userId)
                 .SelectMany(u => u.Roles
