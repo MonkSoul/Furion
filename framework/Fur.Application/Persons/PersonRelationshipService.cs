@@ -37,7 +37,7 @@ namespace Fur.Application.Persons
         /// <returns></returns>
         public async Task<List<PersonDto>> OneToOne()
         {
-            var persons = await _personRepository.Include(u => u.PersonDetail)
+            var persons = await _personRepository.DetachedEntities.Include(u => u.PersonDetail)
                                                                           .ToListAsync();
 
             return persons.Adapt<List<PersonDto>>();
@@ -49,7 +49,7 @@ namespace Fur.Application.Persons
         /// <returns></returns>
         public async Task<List<PersonDto>> OneToMany()
         {
-            var persons = await _personRepository.Include(u => u.PersonDetail)
+            var persons = await _personRepository.DetachedEntities.Include(u => u.PersonDetail)
                                                                           .Include(u => u.Childrens)
                                                                           .ToListAsync();
 
@@ -62,7 +62,7 @@ namespace Fur.Application.Persons
         /// <returns></returns>
         public async Task<List<PersonDto>> ManyToMany()
         {
-            var persons = await _personRepository.Include(u => u.PersonDetail)
+            var persons = await _personRepository.DetachedEntities.Include(u => u.PersonDetail)
                                                                           .Include(u => u.Childrens)
                                                                           .Include(u => u.Posts)
                                                                           .ToListAsync();
@@ -76,8 +76,8 @@ namespace Fur.Application.Persons
         /// <returns></returns>
         public async Task<List<PersonDto>> InnerJoin()
         {
-            var query = from p in _personRepository.AsQueryable()
-                        join d in _personRepository.Change<PersonDetail>().AsQueryable() on p.Id equals d.PersonId
+            var query = from p in _personRepository.AsQueryable(false)
+                        join d in _personRepository.Change<PersonDetail>().AsQueryable(false) on p.Id equals d.PersonId
                         select new PersonDto
                         {
                             PhoneNumber = p.PersonDetail.PhoneNumber,
@@ -97,8 +97,8 @@ namespace Fur.Application.Persons
         /// <returns></returns>
         public async Task<List<PersonDto>> LeftJoin()
         {
-            var query = from p in _personRepository.AsQueryable()
-                        join d in _personRepository.Change<PersonDetail>().AsQueryable() on p.Id equals d.PersonId into results
+            var query = from p in _personRepository.AsQueryable(false)
+                        join d in _personRepository.Change<PersonDetail>().AsQueryable(false) on p.Id equals d.PersonId into results
                         from d in results.DefaultIfEmpty()
                         select new PersonDto
                         {
@@ -119,8 +119,8 @@ namespace Fur.Application.Persons
         /// <returns></returns>
         public async Task<List<PersonDto>> RightJoin()
         {
-            var query = from d in _personRepository.Change<PersonDetail>().AsQueryable()
-                        join p in _personRepository.AsQueryable() on d.PersonId equals p.Id into results
+            var query = from d in _personRepository.Change<PersonDetail>().AsQueryable(false)
+                        join p in _personRepository.AsQueryable(false) on d.PersonId equals p.Id into results
                         from p in results.DefaultIfEmpty()
                         select new PersonDto
                         {
@@ -141,7 +141,7 @@ namespace Fur.Application.Persons
         /// <returns></returns>
         public async Task<List<CityDto>> TreeSelect()
         {
-            var cities = await _personRepository.Change<City>().AsQueryable()
+            var cities = await _personRepository.Change<City>().AsQueryable(false)
                                                              .Include(u => u.Childrens)
                                                              .Where(u => u.Id == 1)
                                                              .ToListAsync();
@@ -155,7 +155,7 @@ namespace Fur.Application.Persons
         /// <returns></returns>
         public async Task<List<V_Person>> GetVPerson()
         {
-            var list = await _readableRepository.AsAsyncEnumerable();
+            var list = await _readableRepository.AsAsyncEnumerable(false);
             return list;
         }
     }

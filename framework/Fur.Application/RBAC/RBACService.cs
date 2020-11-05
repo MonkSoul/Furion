@@ -92,6 +92,7 @@ namespace Fur.Application
             var userId = _authorizationManager.GetUserId<int>();
 
             var roles = _userRepository
+                .DetachedEntities
                 .Include(u => u.Roles)
                 .Where(u => u.Id == userId)
                 .SelectMany(u => u.Roles)
@@ -111,6 +112,7 @@ namespace Fur.Application
             var userId = _authorizationManager.GetUserId<int>();
 
             var securities = _userRepository
+                .DetachedEntities
                 .Include(u => u.Roles)
                     .ThenInclude(u => u.Securities)
                 .Where(u => u.Id == userId)
@@ -127,7 +129,7 @@ namespace Fur.Application
         [SecurityDefine(SecurityConst.GetRoles)]
         public List<RoleDto> GetRoles()
         {
-            return _roleRepository.AsEnumerable().Adapt<List<RoleDto>>();
+            return _roleRepository.AsEnumerable(false).Adapt<List<RoleDto>>();
         }
 
         /// <summary>
@@ -149,7 +151,7 @@ namespace Fur.Application
             var userId = _authorizationManager.GetUserId<int>();
 
             roleIds ??= Array.Empty<int>();
-            _userRoleRepository.Delete(_userRoleRepository.Where(u => u.UserId == userId).ToList());
+            _userRoleRepository.Delete(_userRoleRepository.Where(u => u.UserId == userId, false).ToList());
 
             var list = new List<UserRole>();
             foreach (var roleid in roleIds)
@@ -166,7 +168,7 @@ namespace Fur.Application
         [AllowAnonymous]
         public List<SecurityDto> GetSecurities()
         {
-            return _securityRepository.AsEnumerable().Adapt<List<SecurityDto>>();
+            return _securityRepository.AsEnumerable(false).Adapt<List<SecurityDto>>();
         }
 
         /// <summary>
@@ -176,7 +178,7 @@ namespace Fur.Application
         public void GiveRoleSecurity(int roleId, int[] securityIds)
         {
             securityIds ??= Array.Empty<int>();
-            _roleSecurityRepository.Delete(_roleSecurityRepository.Where(u => u.RoleId == roleId).ToList());
+            _roleSecurityRepository.Delete(_roleSecurityRepository.Where(u => u.RoleId == roleId, false).ToList());
 
             var list = new List<RoleSecurity>();
             foreach (var securityId in securityIds)

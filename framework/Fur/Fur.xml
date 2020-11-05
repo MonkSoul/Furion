@@ -1199,6 +1199,48 @@
             <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
             <returns></returns>
         </member>
+        <member name="T:Fur.DatabaseAccessor.RelationalDiagnosticListener">
+            <summary>
+            监听 EFCore 操作进程
+            </summary>
+        </member>
+        <member name="P:Fur.DatabaseAccessor.RelationalDiagnosticListener.ListenerName">
+            <summary>
+            监听进程名
+            </summary>
+        </member>
+        <member name="F:Fur.DatabaseAccessor.RelationalDiagnosticListener._commands">
+            <summary>
+            操作命令集合
+            </summary>
+        </member>
+        <member name="F:Fur.DatabaseAccessor.RelationalDiagnosticListener._opening">
+            <summary>
+            操作命令集合
+            </summary>
+        </member>
+        <member name="F:Fur.DatabaseAccessor.RelationalDiagnosticListener._closing">
+            <summary>
+            操作命令集合
+            </summary>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.RelationalDiagnosticListener.OnCompleted">
+            <summary>
+            操作完成监听
+            </summary>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.RelationalDiagnosticListener.OnError(System.Exception)">
+            <summary>
+            操作错误监听
+            </summary>
+            <param name="error"></param>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.RelationalDiagnosticListener.OnNext(System.Collections.Generic.KeyValuePair{System.String,System.Object})">
+            <summary>
+            操作过程监听
+            </summary>
+            <param name="kv"></param>
+        </member>
         <member name="T:Fur.DatabaseAccessor.DynamicModelCacheKeyFactory">
             <summary>
             动态模型缓存工厂
@@ -9214,7 +9256,7 @@
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.IReadableRepository`2.Single(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean)">
@@ -9222,14 +9264,14 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.IReadableRepository`2.SingleOrDefault(System.Boolean)">
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.IReadableRepository`2.SingleOrDefault(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean)">
@@ -9237,14 +9279,14 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.IReadableRepository`2.SingleAsync(System.Boolean,System.Threading.CancellationToken)">
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -9253,7 +9295,7 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -9261,7 +9303,7 @@
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">异步取消令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -9270,7 +9312,7 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">异步取消令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -9278,7 +9320,7 @@
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.IReadableRepository`2.First(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean)">
@@ -9286,14 +9328,14 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.IReadableRepository`2.FirstOrDefault(System.Boolean)">
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.IReadableRepository`2.FirstOrDefault(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean)">
@@ -9301,14 +9343,14 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.IReadableRepository`2.FirstAsync(System.Boolean,System.Threading.CancellationToken)">
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -9317,7 +9359,7 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -9325,7 +9367,7 @@
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">异步取消令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -9334,7 +9376,7 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">异步取消令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -9342,7 +9384,7 @@
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.IReadableRepository`2.Last(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean)">
@@ -9350,14 +9392,14 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.IReadableRepository`2.LastOrDefault(System.Boolean)">
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.IReadableRepository`2.LastOrDefault(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean)">
@@ -9365,14 +9407,14 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.IReadableRepository`2.LastAsync(System.Boolean,System.Threading.CancellationToken)">
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -9381,7 +9423,7 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -9389,7 +9431,7 @@
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">异步取消令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -9398,7 +9440,7 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">异步取消令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -9407,7 +9449,7 @@
             根据表达式查询多条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>数据库中的多个实体</returns>
         </member>
@@ -9416,7 +9458,7 @@
             根据表达式查询多条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>数据库中的多个实体</returns>
         </member>
@@ -9426,7 +9468,7 @@
             </summary>
             <param name="condition">条件</param>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>数据库中的多个实体</returns>
         </member>
@@ -9436,7 +9478,7 @@
             </summary>
             <param name="condition">条件</param>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>数据库中的多个实体</returns>
         </member>
@@ -9452,7 +9494,7 @@
             根据条件执行表达式查询多条记录
             </summary>
             <param name="predicates">表达式集合</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>数据库中的多个实体</returns>
         </member>
@@ -9468,7 +9510,7 @@
             根据条件执行表达式查询多条记录
             </summary>
             <param name="predicates">表达式集合</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>数据库中的多个实体</returns>
         </member>
@@ -9484,7 +9526,7 @@
             根据条件执行表达式查询多条记录
             </summary>
             <param name="conditionPredicates">条件表达式集合</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>数据库中的多个实体</returns>
         </member>
@@ -9500,7 +9542,7 @@
             根据条件执行表达式查询多条记录
             </summary>
             <param name="conditionPredicates">条件表达式集合</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>数据库中的多个实体</returns>
         </member>
@@ -9509,7 +9551,7 @@
             加载关联数据
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>数据库中的多个实体</returns>
         </member>
@@ -9519,7 +9561,7 @@
             </summary>
             <param name="condition">条件</param>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>数据库中的多个实体</returns>
         </member>
@@ -9527,7 +9569,7 @@
             <summary>
             判断记录是否存在
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>bool</returns>
         </member>
@@ -9536,7 +9578,7 @@
             根据表达式判断记录是否存在
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>bool</returns>
         </member>
@@ -9544,7 +9586,7 @@
             <summary>
             判断记录是否存在
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>bool</returns>
@@ -9554,7 +9596,7 @@
             根据表达式判断记录是否存在
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>bool</returns>
@@ -9564,7 +9606,7 @@
             根据表达式判断记录是否全部满足条件
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>bool</returns>
         </member>
@@ -9573,7 +9615,7 @@
             根据表达式判断记录是否全部满足条件
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>bool</returns>
@@ -9582,7 +9624,7 @@
             <summary>
             查看记录条数
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>int</returns>
         </member>
@@ -9591,7 +9633,7 @@
             根据表达式查询记录条数
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>int</returns>
         </member>
@@ -9599,7 +9641,7 @@
             <summary>
             查看记录条数
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>int</returns>
@@ -9609,7 +9651,7 @@
             根据表达式查询记录条数
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>int</returns>
@@ -9618,7 +9660,7 @@
             <summary>
             查看最小记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>实体</returns>
         </member>
@@ -9628,7 +9670,7 @@
             </summary>
             <typeparam name="TResult">最小值类型</typeparam>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>TResult</returns>
         </member>
@@ -9636,7 +9678,7 @@
             <summary>
             查看最小记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>实体</returns>
@@ -9647,7 +9689,7 @@
             </summary>
             <typeparam name="TResult">最小值类型</typeparam>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>TResult</returns>
@@ -9656,7 +9698,7 @@
             <summary>
             查看最大记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>实体</returns>
         </member>
@@ -9666,7 +9708,7 @@
             </summary>
             <typeparam name="TResult">最小值类型</typeparam>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>TResult</returns>
         </member>
@@ -9674,7 +9716,7 @@
             <summary>
             查看最大记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>实体</returns>
@@ -9685,7 +9727,7 @@
             </summary>
             <typeparam name="TResult">最小值类型</typeparam>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>TResult</returns>
@@ -9694,7 +9736,7 @@
             <summary>
             构建查询分析器
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>IQueryable{TEntity}</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.IReadableRepository`2.AsQueryable(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean,System.Boolean)">
@@ -9702,7 +9744,7 @@
             构建查询分析器
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>IQueryable{TEntity}</returns>
         </member>
@@ -9711,7 +9753,7 @@
             构建查询分析器
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>IQueryable{TEntity}</returns>
         </member>
@@ -9719,7 +9761,7 @@
             <summary>
             直接返回数据库结果
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>List{TEntity}</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.IReadableRepository`2.AsEnumerable(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean,System.Boolean)">
@@ -9727,7 +9769,7 @@
             直接返回数据库结果
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>List{TEntity}</returns>
         </member>
@@ -9736,7 +9778,7 @@
             直接返回数据库结果
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>List{TEntity}</returns>
         </member>
@@ -9744,7 +9786,7 @@
             <summary>
             直接返回数据库结果
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">异步取消令牌</param>
             <returns>List{TEntity}</returns>
         </member>
@@ -9753,7 +9795,7 @@
             直接返回数据库结果
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">异步取消令牌</param>
             <returns>List{TEntity}</returns>
@@ -9763,7 +9805,7 @@
             直接返回数据库结果
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">异步取消令牌</param>
             <returns>List{TEntity}</returns>
@@ -14319,7 +14361,7 @@
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.Single(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean)">
@@ -14327,14 +14369,14 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.SingleOrDefault(System.Boolean)">
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.SingleOrDefault(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean)">
@@ -14342,14 +14384,14 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.SingleAsync(System.Boolean,System.Threading.CancellationToken)">
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -14358,7 +14400,7 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -14366,7 +14408,7 @@
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
             <param name="cancellationToken">异步取消令牌</param>
         </member>
@@ -14375,7 +14417,7 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">异步取消令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -14383,7 +14425,7 @@
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.First(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean)">
@@ -14391,14 +14433,14 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.FirstOrDefault(System.Boolean)">
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.FirstOrDefault(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean)">
@@ -14406,14 +14448,14 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.FirstAsync(System.Boolean,System.Threading.CancellationToken)">
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -14422,7 +14464,7 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -14430,7 +14472,7 @@
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">异步取消令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -14439,7 +14481,7 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">异步取消令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -14447,7 +14489,7 @@
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.Last(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean)">
@@ -14455,14 +14497,14 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.LastOrDefault(System.Boolean)">
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.LastOrDefault(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean)">
@@ -14470,14 +14512,14 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>数据库中的实体</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.LastAsync(System.Boolean,System.Threading.CancellationToken)">
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -14486,7 +14528,7 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -14494,7 +14536,7 @@
             <summary>
             查询一条记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">异步取消令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -14503,7 +14545,7 @@
             根据表达式查询一条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">异步取消令牌</param>
             <returns>数据库中的实体</returns>
         </member>
@@ -14512,7 +14554,7 @@
             根据表达式查询多条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>数据库中的多个实体</returns>
         </member>
@@ -14521,7 +14563,7 @@
             根据表达式查询多条记录
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>数据库中的多个实体</returns>
         </member>
@@ -14531,7 +14573,7 @@
             </summary>
             <param name="condition">条件</param>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>数据库中的多个实体</returns>
         </member>
@@ -14541,7 +14583,7 @@
             </summary>
             <param name="condition">条件</param>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>数据库中的多个实体</returns>
         </member>
@@ -14557,7 +14599,7 @@
             根据条件执行表达式查询多条记录
             </summary>
             <param name="predicates">表达式集合</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>数据库中的多个实体</returns>
         </member>
@@ -14573,7 +14615,7 @@
             根据条件执行表达式查询多条记录
             </summary>
             <param name="predicates">表达式集合</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>数据库中的多个实体</returns>
         </member>
@@ -14589,7 +14631,7 @@
             根据条件执行表达式查询多条记录
             </summary>
             <param name="conditionPredicates">条件表达式集合</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>数据库中的多个实体</returns>
         </member>
@@ -14605,7 +14647,7 @@
             根据条件执行表达式查询多条记录
             </summary>
             <param name="conditionPredicates">条件表达式集合</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>数据库中的多个实体</returns>
         </member>
@@ -14614,7 +14656,7 @@
             加载关联数据
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>数据库中的多个实体</returns>
         </member>
@@ -14624,7 +14666,7 @@
             </summary>
             <param name="condition">条件</param>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>数据库中的多个实体</returns>
         </member>
@@ -14632,7 +14674,7 @@
             <summary>
             判断记录是否存在
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>bool</returns>
         </member>
@@ -14641,7 +14683,7 @@
             根据表达式判断记录是否存在
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>bool</returns>
         </member>
@@ -14649,7 +14691,7 @@
             <summary>
             判断记录是否存在
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>bool</returns>
@@ -14659,7 +14701,7 @@
             根据表达式判断记录是否存在
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>bool</returns>
@@ -14669,7 +14711,7 @@
             根据表达式判断记录是否全部满足条件
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>bool</returns>
         </member>
@@ -14678,7 +14720,7 @@
             根据表达式判断记录是否全部满足条件
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>bool</returns>
@@ -14687,7 +14729,7 @@
             <summary>
             查看记录条数
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>int</returns>
         </member>
@@ -14696,7 +14738,7 @@
             根据表达式查询记录条数
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>int</returns>
         </member>
@@ -14704,7 +14746,7 @@
             <summary>
             查看记录条数
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>int</returns>
@@ -14714,7 +14756,7 @@
             根据表达式查询记录条数
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>int</returns>
@@ -14723,7 +14765,7 @@
             <summary>
             查看最小记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>实体</returns>
         </member>
@@ -14733,7 +14775,7 @@
             </summary>
             <typeparam name="TResult">最小值类型</typeparam>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>TResult</returns>
         </member>
@@ -14741,7 +14783,7 @@
             <summary>
             查看最小记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>实体</returns>
@@ -14752,7 +14794,7 @@
             </summary>
             <typeparam name="TResult">最小值类型</typeparam>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>TResult</returns>
@@ -14761,7 +14803,7 @@
             <summary>
             查看最大记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>实体</returns>
         </member>
@@ -14771,7 +14813,7 @@
             </summary>
             <typeparam name="TResult">最小值类型</typeparam>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>TResult</returns>
         </member>
@@ -14779,7 +14821,7 @@
             <summary>
             查看最大记录
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>实体</returns>
@@ -14790,7 +14832,7 @@
             </summary>
             <typeparam name="TResult">最小值类型</typeparam>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">取消异步令牌</param>
             <returns>TResult</returns>
@@ -14799,7 +14841,7 @@
             <summary>
             构建查询分析器
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>IQueryable{TEntity}</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.AsQueryable(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean,System.Boolean)">
@@ -14807,7 +14849,7 @@
             构建查询分析器
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>IQueryable{TEntity}</returns>
         </member>
@@ -14816,7 +14858,7 @@
             构建查询分析器
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>IQueryable{TEntity}</returns>
         </member>
@@ -14824,7 +14866,7 @@
             <summary>
             直接返回数据库结果
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <returns>List{TEntity}</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.AsEnumerable(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Boolean,System.Boolean)">
@@ -14832,7 +14874,7 @@
             直接返回数据库结果
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>List{TEntity}</returns>
         </member>
@@ -14841,7 +14883,7 @@
             直接返回数据库结果
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <returns>List{TEntity}</returns>
         </member>
@@ -14849,7 +14891,7 @@
             <summary>
             直接返回数据库结果
             </summary>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="cancellationToken">异步取消令牌</param>
             <returns>List{TEntity}</returns>
         </member>
@@ -14858,7 +14900,7 @@
             直接返回数据库结果
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">异步取消令牌</param>
             <returns>List{TEntity}</returns>
@@ -14868,7 +14910,7 @@
             直接返回数据库结果
             </summary>
             <param name="predicate">表达式</param>
-            <param name="noTracking">是否跟踪实体</param>
+            <param name="tracking">是否跟踪实体</param>
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">异步取消令牌</param>
             <returns>List{TEntity}</returns>
@@ -19219,9 +19261,9 @@
             验证结果
             </summary>
         </member>
-        <member name="P:Fur.DataValidation.DataValidationResult.Value">
+        <member name="P:Fur.DataValidation.DataValidationResult.MemberOrValue">
             <summary>
-            被验证的值
+            成员或值
             </summary>
         </member>
         <member name="T:Fur.DataValidation.ValidationTypeMessageSettingsOptions">
@@ -21060,6 +21102,11 @@
             错误信息
             </summary>
         </member>
+        <member name="P:Fur.UnifyResult.RESTfulResult`1.Extras">
+            <summary>
+            附加数据
+            </summary>
+        </member>
         <member name="T:Fur.UnifyResult.IUnifyResultProvider">
             <summary>
             规范化结果提供器
@@ -22347,6 +22394,18 @@
             获取数据库提供器对应的 useXXX 方法
             </summary>
             <param name="providerName">数据库提供器</param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.MiniProfilerServiceCollectionExtensions">
+            <summary>
+            MiniProfiler 服务拓展类
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.MiniProfilerServiceCollectionExtensions.AddEntityFramework(Microsoft.Extensions.DependencyInjection.IMiniProfilerBuilder)">
+            <summary>
+            添加 EF Core 监听拓展
+            </summary>
+            <param name="builder"></param>
             <returns></returns>
         </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.DataValidationServiceCollectionExtensions">

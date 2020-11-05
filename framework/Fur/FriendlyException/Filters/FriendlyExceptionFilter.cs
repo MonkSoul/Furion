@@ -2,6 +2,7 @@
 using Fur.DependencyInjection;
 using Fur.FriendlyException;
 using Fur.UnifyResult;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -60,7 +61,11 @@ namespace Microsoft.AspNetCore.Mvc.Filters
             // 处理规范化结果
             var unifyResult = _serviceProvider.GetService<IUnifyResultProvider>();
             context.Result = unifyResult == null
-                ? new ContentResult { Content = errorMessage }
+                ? new ContentResult
+                {
+                    Content = errorMessage,
+                    StatusCode = exception.Message.StartsWith(validationFlag) ? StatusCodes.Status400BadRequest : StatusCodes.Status500InternalServerError
+                }
                 : unifyResult.OnException(context);
 
             // 处理验证异常，打印验证失败信息

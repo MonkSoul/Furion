@@ -61,7 +61,7 @@ namespace Fur.DataValidation
                 return new DataValidationResult
                 {
                     IsValid = true,
-                    Value = obj
+                    MemberOrValue = obj
                 };
 
             // 存储验证结果
@@ -73,7 +73,7 @@ namespace Fur.DataValidation
             {
                 IsValid = isValid,
                 ValidationResults = results,
-                Value = obj
+                MemberOrValue = obj
             };
         }
 
@@ -94,7 +94,7 @@ namespace Fur.DataValidation
             {
                 IsValid = isValid,
                 ValidationResults = results,
-                Value = value
+                MemberOrValue = value
             };
         }
 
@@ -145,7 +145,7 @@ namespace Fur.DataValidation
                 {
                     IsValid = false,
                     ValidationResults = results,
-                    Value = value
+                    MemberOrValue = value
                 };
             }
 
@@ -184,7 +184,7 @@ namespace Fur.DataValidation
             {
                 IsValid = isValid ?? true,
                 ValidationResults = results,
-                Value = value
+                MemberOrValue = value
             };
         }
 

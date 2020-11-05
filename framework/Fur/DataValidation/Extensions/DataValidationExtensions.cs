@@ -122,7 +122,7 @@ namespace Fur.DataValidation
                     dataValidationResult.ValidationResults
                     .Select(u => new
                     {
-                        MemberNames = u.MemberNames.Any() ? u.MemberNames : new[] { $"{dataValidationResult.Value}" },
+                        MemberNames = u.MemberNames.Any() ? u.MemberNames : new[] { $"{dataValidationResult.MemberOrValue}" },
                         u.ErrorMessage
                     })
                     .OrderBy(u => u.MemberNames.First())

@@ -26,13 +26,14 @@ namespace Fur.UnifyResult
         {
             var errorCode = StatusCodes.Status500InternalServerError;
             var errorMessage = context.Exception.Message;
+            var validationFlag = "[Validation]";
 
             // 处理验证失败异常
             object errorObject;
-            if (errorMessage.StartsWith("[Validation]"))
+            if (errorMessage.StartsWith(validationFlag))
             {
                 // 处理结果
-                errorObject = JsonSerializer.Deserialize<object>(errorMessage["[Validation]".Length..]);
+                errorObject = JsonSerializer.Deserialize<object>(errorMessage[validationFlag.Length..]);
 
                 errorCode = StatusCodes.Status400BadRequest;
             }

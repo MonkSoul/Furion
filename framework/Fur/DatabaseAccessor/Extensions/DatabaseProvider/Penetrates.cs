@@ -72,7 +72,9 @@ namespace Fur.DatabaseAccessor
             // 添加拦截器
             var interceptorList = new List<IInterceptor>
             {
-                new SqlConnectionProfilerInterceptor()
+                new SqlConnectionProfilerInterceptor(),
+                new SqlCommandProfilerInterceptor(),
+                new DbContextSaveChangesInterceptor()
             };
             if (interceptors != null || interceptors.Length > 0)
             {
