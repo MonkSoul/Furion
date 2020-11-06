@@ -19185,7 +19185,7 @@
             <param name="regexOptions">正则表达式选项</param>
             <returns></returns>
         </member>
-        <member name="M:Fur.DataValidation.DataValidationExtensions.ThrowIf(Fur.DataValidation.DataValidationResult)">
+        <member name="M:Fur.DataValidation.DataValidationExtensions.AddError(Fur.DataValidation.DataValidationResult)">
             <summary>
             如果有异常则抛出
             </summary>
@@ -22285,13 +22285,14 @@
             Sqlite 数据库服务拓展
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.DatabaseProviderServiceCollectionExtensions.AddDbPool``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.String,System.Int32,System.Boolean,Microsoft.EntityFrameworkCore.Diagnostics.IInterceptor[])">
+        <member name="M:Microsoft.Extensions.DependencyInjection.DatabaseProviderServiceCollectionExtensions.AddDbPool``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.String,System.Int32,System.Boolean,Microsoft.EntityFrameworkCore.Diagnostics.IInterceptor[])">
             <summary>
             添加默认数据库上下文
             </summary>
             <typeparam name="TDbContext">数据库上下文</typeparam>
             <param name="services">服务</param>
             <param name="providerName">数据库提供器</param>
+            <param name="optionBuilder"></param>
             <param name="connectionString">连接字符串</param>
             <param name="poolSize">池大小</param>
             <param name="dynamicDbContext">动态数据库上下文，用于分表分库用</param>
@@ -22309,7 +22310,7 @@
             <param name="interceptors">拦截器</param>
             <returns>服务集合</returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.DatabaseProviderServiceCollectionExtensions.AddDbPool``2(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.String,System.Int32,System.Boolean,Microsoft.EntityFrameworkCore.Diagnostics.IInterceptor[])">
+        <member name="M:Microsoft.Extensions.DependencyInjection.DatabaseProviderServiceCollectionExtensions.AddDbPool``2(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.String,System.Int32,System.Boolean,Microsoft.EntityFrameworkCore.Diagnostics.IInterceptor[])">
             <summary>
             添加其他数据库上下文
             </summary>
@@ -22317,6 +22318,7 @@
             <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
             <param name="services">服务</param>
             <param name="providerName">数据库提供器</param>
+            <param name="optionBuilder"></param>
             <param name="connectionString">连接字符串</param>
             <param name="poolSize">池大小</param>
             <param name="dynamicDbContext">动态数据库上下文，用于分表分库用</param>
@@ -22335,13 +22337,14 @@
             <param name="interceptors">拦截器</param>
             <returns>服务集合</returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.DatabaseProviderServiceCollectionExtensions.AddDb``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.String,System.Boolean,Microsoft.EntityFrameworkCore.Diagnostics.IInterceptor[])">
+        <member name="M:Microsoft.Extensions.DependencyInjection.DatabaseProviderServiceCollectionExtensions.AddDb``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.String,System.Boolean,Microsoft.EntityFrameworkCore.Diagnostics.IInterceptor[])">
             <summary>
              添加默认数据库上下文
             </summary>
             <typeparam name="TDbContext">数据库上下文</typeparam>
             <param name="services">服务</param>
             <param name="providerName">数据库提供器</param>
+            <param name="optionBuilder"></param>
             <param name="connectionString">连接字符串</param>
             <param name="interceptors">拦截器</param>
             <param name="dynamicDbContext">动态数据库上下文，用于分表分库用</param>
@@ -22357,7 +22360,7 @@
             <param name="interceptors">拦截器</param>
             <returns>服务集合</returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.DatabaseProviderServiceCollectionExtensions.AddDb``2(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.String,System.Boolean,Microsoft.EntityFrameworkCore.Diagnostics.IInterceptor[])">
+        <member name="M:Microsoft.Extensions.DependencyInjection.DatabaseProviderServiceCollectionExtensions.AddDb``2(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,System.Action{Microsoft.EntityFrameworkCore.DbContextOptionsBuilder},System.String,System.Boolean,Microsoft.EntityFrameworkCore.Diagnostics.IInterceptor[])">
             <summary>
             添加数据库上下文
             </summary>
@@ -22365,6 +22368,7 @@
             <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
             <param name="services">服务</param>
             <param name="providerName">数据库提供器</param>
+            <param name="optionBuilder"></param>
             <param name="connectionString">连接字符串</param>
             <param name="dynamicDbContext">动态数据库上下文，用于分表分库用</param>
             <param name="interceptors">拦截器</param>

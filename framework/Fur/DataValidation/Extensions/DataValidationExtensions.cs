@@ -66,7 +66,7 @@ namespace Fur.DataValidation
         /// <param name="validateAllProperties">是否验证所有属性</param>
         public static void Validate(this object obj, bool validateAllProperties = true)
         {
-            DataValidator.TryValidateObject(obj, validateAllProperties).ThrowIf();
+            DataValidator.TryValidateObject(obj, validateAllProperties).AddError();
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Fur.DataValidation
         /// <param name="validationAttributes">验证特性</param>
         public static void Validate(this object value, params ValidationAttribute[] validationAttributes)
         {
-            DataValidator.TryValidateValue(value, validationAttributes).ThrowIf();
+            DataValidator.TryValidateValue(value, validationAttributes).AddError();
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Fur.DataValidation
         /// <param name="validationTypes">验证类型</param>
         public static void Validate(this object value, params object[] validationTypes)
         {
-            DataValidator.TryValidateValue(value, validationTypes).ThrowIf();
+            DataValidator.TryValidateValue(value, validationTypes).AddError();
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Fur.DataValidation
         /// <param name="validationTypes">验证类型</param>
         public static void Validate(this object value, ValidationPattern validationOptionss, params object[] validationTypes)
         {
-            DataValidator.TryValidateValue(value, validationOptionss, validationTypes).ThrowIf();
+            DataValidator.TryValidateValue(value, validationOptionss, validationTypes).AddError();
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Fur.DataValidation
         /// 如果有异常则抛出
         /// </summary>
         /// <param name="dataValidationResult"></param>
-        public static void ThrowIf(this DataValidationResult dataValidationResult)
+        public static void AddError(this DataValidationResult dataValidationResult)
         {
             if (!dataValidationResult.IsValid)
                 throw Oops.Oh("[Validation]" + JsonSerializer.Serialize(
