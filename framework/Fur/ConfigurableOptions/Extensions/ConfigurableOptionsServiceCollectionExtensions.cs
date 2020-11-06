@@ -33,7 +33,8 @@ namespace Microsoft.Extensions.DependencyInjection
             var jsonKey = GetOptionsJsonKey(optionsSettings, optionsType);
 
             // 配置选项（含验证信息）
-            var optionsConfiguration = App.Configuration.GetSection(jsonKey);
+            var configurationRoot = App.Configuration;
+            var optionsConfiguration = configurationRoot.GetSection(jsonKey);
 
             // 配置选项监听
             if (typeof(IConfigurableOptionsListener<TOptions>).IsAssignableFrom(optionsType))
@@ -41,7 +42,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 var onListenerMethod = optionsType.GetMethod(nameof(IConfigurableOptionsListener<TOptions>.OnListener));
                 if (onListenerMethod != null)
                 {
-                    ChangeToken.OnChange(() => optionsConfiguration.GetReloadToken(), () =>
+                    ChangeToken.OnChange(() => configurationRoot.GetReloadToken(), () =>
                     {
                         var options = optionsConfiguration.Get<TOptions>();
                         onListenerMethod.Invoke(options, new object[] { options, optionsConfiguration });
@@ -50,7 +51,10 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             services.AddOptions<TOptions>()
-                .Bind(optionsConfiguration)
+                .Bind(optionsConfiguration, options =>
+                {
+                    options.BindNonPublicProperties = true; // 绑定私有变量
+                })
                 .ValidateDataAnnotations();
 
             // 配置复杂验证后后期配置
