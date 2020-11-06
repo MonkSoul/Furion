@@ -90,7 +90,7 @@ namespace Fur.DynamicApiController
         /// <param name="apiDescriptionSettings">接口描述配置</param>
         private void ConfigureControllerName(ControllerModel controller, ApiDescriptionSettingsAttribute apiDescriptionSettings)
         {
-            controller.ControllerName = ConfigureControllerAndActionName(apiDescriptionSettings, controller.ControllerName, _dynamicApiControllerSettings.AbandonControllerAffixes, _ => _);
+            controller.ControllerName = ConfigureControllerAndActionName(apiDescriptionSettings, controller.ControllerType.Name, _dynamicApiControllerSettings.AbandonControllerAffixes, _ => _);
         }
 
         /// <summary>
