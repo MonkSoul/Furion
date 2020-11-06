@@ -19796,6 +19796,14 @@
             <param name="controllerApiDescriptionSettings"></param>
             <returns></returns>
         </member>
+        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.CheckIsKeepVerb(Fur.DynamicApiController.ApiDescriptionSettingsAttribute,Fur.DynamicApiController.ApiDescriptionSettingsAttribute)">
+            <summary>
+            检查是否设置了 KeepVerb 参数
+            </summary>
+            <param name="apiDescriptionSettings"></param>
+            <param name="controllerApiDescriptionSettings"></param>
+            <returns></returns>
+        </member>
         <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.CheckIsSplitCamelCase(Fur.DynamicApiController.ApiDescriptionSettingsAttribute,Fur.DynamicApiController.ApiDescriptionSettingsAttribute)">
             <summary>
             判断切割命名参数是否配置

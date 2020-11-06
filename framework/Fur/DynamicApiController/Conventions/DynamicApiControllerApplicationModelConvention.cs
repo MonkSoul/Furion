@@ -140,7 +140,7 @@ namespace Fur.DynamicApiController
             action.ActionName = ConfigureControllerAndActionName(apiDescriptionSettings, action.ActionName, _dynamicApiControllerSettings.AbandonActionAffixes, (tempName) =>
             {
                 // 处理动作方法名称谓词
-                if (apiDescriptionSettings?.KeepVerb != true)
+                if (!CheckIsKeepVerb(apiDescriptionSettings, controllerApiDescriptionSettings))
                 {
                     var words = Penetrates.SplitCamelCase(tempName);
                     var verbKey = words.First().ToLower();
@@ -438,6 +438,27 @@ namespace Fur.DynamicApiController
             }
 
             return _dynamicApiControllerSettings?.KeepName == true || isKeepName;
+        }
+
+        /// <summary>
+        /// 检查是否设置了 KeepVerb 参数
+        /// </summary>
+        /// <param name="apiDescriptionSettings"></param>
+        /// <param name="controllerApiDescriptionSettings"></param>
+        /// <returns></returns>
+        private bool CheckIsKeepVerb(ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
+        {
+            var isKeepVerb = false;
+            if (controllerApiDescriptionSettings == null)
+            {
+                if (apiDescriptionSettings?.KeepVerb == true) isKeepVerb = true;
+            }
+            else
+            {
+                if (apiDescriptionSettings == null && controllerApiDescriptionSettings?.KeepVerb == true) isKeepVerb = true;
+            }
+
+            return _dynamicApiControllerSettings?.KeepVerb == true || isKeepVerb;
         }
 
         /// <summary>
