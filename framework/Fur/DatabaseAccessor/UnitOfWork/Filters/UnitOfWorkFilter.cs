@@ -75,6 +75,8 @@ namespace Fur.DatabaseAccessor
                 if (dbContexts.Any())
                 {
                     var firstDbContext = dbContexts.First();
+
+                    // 开启事务
                     dbContextTransaction = await firstDbContext.Database.BeginTransactionAsync();
                     await _dbContextPool.SetTransactionSharedToDbContextAsync(1, dbContextTransaction.GetDbTransaction());
                 }
@@ -82,8 +84,11 @@ namespace Fur.DatabaseAccessor
                 else
                 {
                     var newDbContext = Db.GetRequestDbContext(Penetrates.DbContextWithLocatorCached.Keys.First());
+                    await _dbContextPool.AddToPoolAsync(newDbContext);
+
+                    // 开启事务
                     dbContextTransaction = await newDbContext.Database.BeginTransactionAsync();
-                    await _dbContextPool.SetTransactionSharedToDbContextAsync(0, dbContextTransaction.GetDbTransaction());
+                    await _dbContextPool.SetTransactionSharedToDbContextAsync(1, dbContextTransaction.GetDbTransaction());
                 }
 
                 // 调用方法
