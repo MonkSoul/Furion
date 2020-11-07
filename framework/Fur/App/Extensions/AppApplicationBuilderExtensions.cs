@@ -11,7 +11,7 @@ namespace Microsoft.AspNetCore.Builder
     public static class AppApplicationBuilderExtensions
     {
         /// <summary>
-        /// 注入基础中间件
+        /// 注入基础中间件（带Swagger）
         /// </summary>
         /// <param name="app"></param>
         /// <param name="routePrefix"></param>
@@ -19,6 +19,16 @@ namespace Microsoft.AspNetCore.Builder
         public static IApplicationBuilder UseInject(this IApplicationBuilder app, string routePrefix = default)
         {
             app.UseSpecificationDocuments(routePrefix);
+            return app;
+        }
+
+        /// <summary>
+        /// 注入基础中间件
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseInjectBase(this IApplicationBuilder app)
+        {
             return app;
         }
 

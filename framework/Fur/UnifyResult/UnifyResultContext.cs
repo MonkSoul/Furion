@@ -1,8 +1,12 @@
 ﻿using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
+using System.Reflection;
 using System.Text.Json;
 
 namespace Fur.UnifyResult
@@ -67,6 +71,52 @@ namespace Fur.UnifyResult
             object extras = null;
             App.ApplicationServices.GetService<IHttpContextAccessor>()?.HttpContext?.Items?.TryGetValue(UnifyResultExtrasKey, out extras);
             return extras;
+        }
+
+        /// <summary>
+        /// 是否跳过成功结果规范处理
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="unifyResult"></param>
+        /// <returns></returns>
+        internal static bool IsSkipOnSuccessUnifyHandler(MethodInfo method, out IUnifyResultProvider unifyResult)
+        {
+            // 判断是否手动添加了标注或跳过规范化处理
+            var isSkip = method.CustomAttributes.Any(x => typeof(NonUnifyAttribute).IsAssignableFrom(x.AttributeType) || typeof(ProducesResponseTypeAttribute).IsAssignableFrom(x.AttributeType)
+                  || typeof(IApiResponseMetadataProvider).IsAssignableFrom(x.AttributeType));
+
+            unifyResult = isSkip ? null : App.GetService<IUnifyResultProvider>();
+            return unifyResult == null || isSkip;
+        }
+
+        /// <summary>
+        /// 是否跳过规范化处理
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="unifyResult"></param>
+        /// <returns></returns>
+        internal static bool IsSkipUnifyHandler(MethodInfo method, out IUnifyResultProvider unifyResult)
+        {
+            // 判断是否跳过规范化处理
+            var isSkip = method.CustomAttributes.Any(x => typeof(NonUnifyAttribute).IsAssignableFrom(x.AttributeType));
+
+            unifyResult = isSkip ? null : App.GetService<IUnifyResultProvider>();
+            return unifyResult == null || isSkip;
+        }
+
+        /// <summary>
+        /// 是否跳过规范化处理
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="unifyResult"></param>
+        /// <returns></returns>
+        internal static bool IsSkipUnifyHandler(HttpContext context, out IUnifyResultProvider unifyResult)
+        {
+            // 判断是否跳过规范化处理
+            var isSkip = context.GetMetadata<NonUnifyAttribute>() != null;
+
+            unifyResult = isSkip ? null : App.GetService<IUnifyResultProvider>();
+            return unifyResult == null || isSkip;
         }
     }
 }

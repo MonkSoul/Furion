@@ -3,9 +3,7 @@ using Fur.UnifyResult;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using Microsoft.AspNetCore.Mvc.Core;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Routing;
 using System;
@@ -488,9 +486,8 @@ namespace Fur.DynamicApiController
         /// <param name="action"></param>
         private static void ConfigureActionUnifyResultAttribute(ActionModel action)
         {
-            // 判断是否手动添加了标注
-            if (action.Attributes.Any(x => typeof(ProducesResponseTypeAttribute).IsAssignableFrom(x.GetType())
-                || typeof(IApiResponseMetadataProvider).IsAssignableFrom(x.GetType()))) return;
+            // 判断是否手动添加了标注或跳过规范化处理
+            if (UnifyResultContext.IsSkipOnSuccessUnifyHandler(action.ActionMethod, out var _)) return;
 
             // 获取真实类型
             var returnType = action.ActionMethod.GetMethodRealReturnType();

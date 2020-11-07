@@ -4,7 +4,7 @@ using Fur.UnifyResult;
 using Microsoft.AspNetCore.Http;
 using System;
 
-namespace Microsoft.AspNetCore.Mvc.Core
+namespace Microsoft.AspNetCore.Mvc
 {
     /// <summary>
     /// 规范化结果配置

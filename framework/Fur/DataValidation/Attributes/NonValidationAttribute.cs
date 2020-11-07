@@ -1,7 +1,7 @@
 ﻿using Fur.DependencyInjection;
 using System;
 
-namespace Fur.DataValidation
+namespace Microsoft.AspNetCore.Mvc
 {
     /// <summary>
     /// 跳过验证

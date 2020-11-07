@@ -58,15 +58,16 @@ namespace Microsoft.AspNetCore.Mvc.Filters
             var validationFlag = "[Validation]";
             var errorMessage = exception.Message.StartsWith(validationFlag) ? exception.Message[validationFlag.Length..] : exception.Message;
 
-            // 处理规范化结果
-            var unifyResult = _serviceProvider.GetService<IUnifyResultProvider>();
-            context.Result = unifyResult == null
-                ? new ContentResult
+            // 判断是否跳过规范化结果
+            if (UnifyResultContext.IsSkipUnifyHandler(actionDescriptor.MethodInfo, out var unifyResult))
+            {
+                context.Result = new ContentResult
                 {
                     Content = errorMessage,
                     StatusCode = exception.Message.StartsWith(validationFlag) ? StatusCodes.Status400BadRequest : StatusCodes.Status500InternalServerError
-                }
-                : unifyResult.OnException(context);
+                };
+            }
+            else context.Result = unifyResult.OnException(context);
 
             // 处理验证异常，打印验证失败信息
             if (exception.Message.StartsWith(validationFlag))

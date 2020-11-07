@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 
@@ -57,10 +56,9 @@ namespace Fur.UnifyResult
             var actionExecutedContext = await next();
 
             // 如果没有异常再执行
-            if (actionExecutedContext.Exception == null)
+            if (actionExecutedContext.Exception == null && !UnifyResultContext.IsSkipOnSuccessUnifyHandler(actionDescriptor.MethodInfo, out var unifyResult))
             {
                 // 处理规范化结果
-                var unifyResult = _serviceProvider.GetService<IUnifyResultProvider>();
                 if (unifyResult != null && context.Result == null)
                 {
                     var result = unifyResult.OnSuccessed(actionExecutedContext);

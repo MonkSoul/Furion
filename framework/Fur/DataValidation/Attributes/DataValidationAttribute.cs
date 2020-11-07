@@ -1,8 +1,8 @@
-﻿using Fur.DependencyInjection;
-using System.ComponentModel.DataAnnotations;
+﻿using Fur.DataValidation;
+using Fur.DependencyInjection;
 using System.Linq;
 
-namespace Fur.DataValidation
+namespace System.ComponentModel.DataAnnotations
 {
     /// <summary>
     /// 数据类型验证特性

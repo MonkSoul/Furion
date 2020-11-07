@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using System.Net.Mime;
@@ -91,7 +90,7 @@ namespace Fur.DataValidation
             if (context.Result == null && !modelState.IsValid)
             {
                 // 设置验证失败结果
-                SetValidateFailedResult(context, modelState);
+                SetValidateFailedResult(context, modelState, actionDescriptor);
             }
         }
 
@@ -100,7 +99,8 @@ namespace Fur.DataValidation
         /// </summary>
         /// <param name="context">动作方法执行上下文</param>
         /// <param name="modelState">模型验证状态</param>
-        private void SetValidateFailedResult(ActionExecutingContext context, ModelStateDictionary modelState)
+        /// <param name="actionDescriptor"></param>
+        private void SetValidateFailedResult(ActionExecutingContext context, ModelStateDictionary modelState, ControllerActionDescriptor actionDescriptor)
         {
             // 将验证错误信息转换成字典并序列化成 Json
             var validationResults = modelState.ToDictionary(u => u.Key, u => modelState[u.Key].Errors.Select(c => c.ErrorMessage));
@@ -110,13 +110,8 @@ namespace Fur.DataValidation
                 WriteIndented = true
             });
 
-            // 处理规范化结果
-            var unifyResult = _serviceProvider.GetService<IUnifyResultProvider>();
-            if (unifyResult != null)
-            {
-                context.Result = unifyResult.OnValidateFailed(context, modelState, validationResults, validateFaildMessage);
-            }
-            else
+            // 判断是否跳过规范化结果
+            if (UnifyResultContext.IsSkipUnifyHandler(actionDescriptor.MethodInfo, out var unifyResult))
             {
                 // 返回 400 错误
                 var result = new BadRequestObjectResult(modelState);
@@ -127,6 +122,7 @@ namespace Fur.DataValidation
 
                 context.Result = result;
             }
+            else context.Result = unifyResult.OnValidateFailed(context, modelState, validationResults, validateFaildMessage);
 
             // 打印验证失败信息
             App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", $"Validation Failed:\r\n{validateFaildMessage}", true);

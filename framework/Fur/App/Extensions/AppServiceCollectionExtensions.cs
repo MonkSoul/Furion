@@ -19,7 +19,7 @@ namespace Microsoft.Extensions.DependencyInjection
         private const string MiniProfilerRouteBasePath = "/index-mini-profiler";
 
         /// <summary>
-        /// Mvc 注入基础配置
+        /// Mvc 注入基础配置（带Swagger）
         /// </summary>
         /// <param name="mvcBuilder">Mvc构建起</param>
         /// <returns>IMvcBuilder</returns>
@@ -29,6 +29,20 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddSpecificationDocuments();
 
+            mvcBuilder.AddDynamicApiControllers()
+                              .AddDataValidation()
+                              .AddFriendlyException();
+
+            return mvcBuilder;
+        }
+
+        /// <summary>
+        /// Mvc 注入基础配置
+        /// </summary>
+        /// <param name="mvcBuilder">Mvc构建起</param>
+        /// <returns>IMvcBuilder</returns>
+        public static IMvcBuilder AddInjectBase(this IMvcBuilder mvcBuilder)
+        {
             mvcBuilder.AddDynamicApiControllers()
                               .AddDataValidation()
                               .AddFriendlyException();

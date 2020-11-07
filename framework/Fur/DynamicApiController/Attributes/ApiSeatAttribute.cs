@@ -1,7 +1,7 @@
 ﻿using Fur.DependencyInjection;
 using System;
 
-namespace Fur.DynamicApiController
+namespace Microsoft.AspNetCore.Mvc
 {
     /// <summary>
     /// 接口参数位置设置

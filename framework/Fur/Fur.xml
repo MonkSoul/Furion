@@ -18834,47 +18834,6 @@
             <param name="text">加密文本</param>
             <returns></returns>
         </member>
-        <member name="T:Fur.DataValidation.DataValidationAttribute">
-            <summary>
-            数据类型验证特性
-            </summary>
-        </member>
-        <member name="M:Fur.DataValidation.DataValidationAttribute.#ctor(Fur.DataValidation.ValidationPattern,System.Object[])">
-            <summary>
-            构造函数
-            </summary>
-            <param name="validationPattern">验证逻辑</param>
-            <param name="validationTypes"></param>
-        </member>
-        <member name="M:Fur.DataValidation.DataValidationAttribute.#ctor(System.Object[])">
-            <summary>
-            构造函数
-            </summary>
-            <param name="validationTypes"></param>
-        </member>
-        <member name="M:Fur.DataValidation.DataValidationAttribute.IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)">
-            <summary>
-            验证逻辑
-            </summary>
-            <param name="value"></param>
-            <param name="validationContext"></param>
-            <returns></returns>
-        </member>
-        <member name="P:Fur.DataValidation.DataValidationAttribute.ValidationTypes">
-            <summary>
-            验证类型
-            </summary>
-        </member>
-        <member name="P:Fur.DataValidation.DataValidationAttribute.ValidationPattern">
-            <summary>
-            验证逻辑
-            </summary>
-        </member>
-        <member name="T:Fur.DataValidation.NonValidationAttribute">
-            <summary>
-            跳过验证
-            </summary>
-        </member>
         <member name="T:Fur.DataValidation.ValidationItemMetadataAttribute">
             <summary>
             验证项元数据
@@ -18927,21 +18886,6 @@
         <member name="T:Fur.DataValidation.ValidationTypeAttribute">
             <summary>
             验证类型特性
-            </summary>
-        </member>
-        <member name="T:Fur.DataValidation.ValidationPattern">
-            <summary>
-            验证逻辑
-            </summary>
-        </member>
-        <member name="F:Fur.DataValidation.ValidationPattern.AllOfThem">
-            <summary>
-            全部都要验证通过
-            </summary>
-        </member>
-        <member name="F:Fur.DataValidation.ValidationPattern.AtLeastOne">
-            <summary>
-            至少一个验证通过
             </summary>
         </member>
         <member name="T:Fur.DataValidation.ValidationTypes">
@@ -19138,7 +19082,7 @@
             <param name="validationTypes">验证类型</param>
             <returns></returns>
         </member>
-        <member name="M:Fur.DataValidation.DataValidationExtensions.TryValidate(System.Object,Fur.DataValidation.ValidationPattern,System.Object[])">
+        <member name="M:Fur.DataValidation.DataValidationExtensions.TryValidate(System.Object,System.ComponentModel.DataAnnotations.ValidationPattern,System.Object[])">
             <summary>
             拓展方法，验证单个值
             </summary>
@@ -19168,7 +19112,7 @@
             <param name="value">单个值</param>
             <param name="validationTypes">验证类型</param>
         </member>
-        <member name="M:Fur.DataValidation.DataValidationExtensions.Validate(System.Object,Fur.DataValidation.ValidationPattern,System.Object[])">
+        <member name="M:Fur.DataValidation.DataValidationExtensions.Validate(System.Object,System.ComponentModel.DataAnnotations.ValidationPattern,System.Object[])">
             <summary>
             拓展方法，验证单个值
             </summary>
@@ -19233,12 +19177,13 @@
             </summary>
             <param name="context"></param>
         </member>
-        <member name="M:Fur.DataValidation.DataValidationFilter.SetValidateFailedResult(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary)">
+        <member name="M:Fur.DataValidation.DataValidationFilter.SetValidateFailedResult(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary,Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)">
             <summary>
             设置验证失败结果
             </summary>
             <param name="context">动作方法执行上下文</param>
             <param name="modelState">模型验证状态</param>
+            <param name="actionDescriptor"></param>
         </member>
         <member name="M:Fur.DataValidation.DataValidationFilter.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
             <summary>
@@ -19344,7 +19289,7 @@
             <param name="validationTypes"></param>
             <returns></returns>
         </member>
-        <member name="M:Fur.DataValidation.DataValidator.TryValidateValue(System.Object,Fur.DataValidation.ValidationPattern,System.Object[])">
+        <member name="M:Fur.DataValidation.DataValidator.TryValidateValue(System.Object,System.ComponentModel.DataAnnotations.ValidationPattern,System.Object[])">
             <summary>
             验证类型验证
             </summary>
@@ -19587,89 +19532,6 @@
             <param name="options"></param>
             <param name="configuration"></param>
         </member>
-        <member name="T:Fur.DynamicApiController.ApiDescriptionSettingsAttribute">
-            <summary>
-            接口描述设置
-            </summary>
-        </member>
-        <member name="M:Fur.DynamicApiController.ApiDescriptionSettingsAttribute.#ctor">
-            <summary>
-            构造函数
-            </summary>
-        </member>
-        <member name="M:Fur.DynamicApiController.ApiDescriptionSettingsAttribute.#ctor(System.Boolean)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="enabled">是否启用</param>
-        </member>
-        <member name="M:Fur.DynamicApiController.ApiDescriptionSettingsAttribute.#ctor(System.String[])">
-            <summary>
-            构造函数
-            </summary>
-            <param name="groups">分组列表</param>
-        </member>
-        <member name="P:Fur.DynamicApiController.ApiDescriptionSettingsAttribute.Name">
-            <summary>
-            自定义名称
-            </summary>
-        </member>
-        <member name="P:Fur.DynamicApiController.ApiDescriptionSettingsAttribute.KeepName">
-            <summary>
-            保留原有名称
-            </summary>
-        </member>
-        <member name="P:Fur.DynamicApiController.ApiDescriptionSettingsAttribute.SplitCamelCase">
-            <summary>
-            切割骆驼命名
-            </summary>
-        </member>
-        <member name="P:Fur.DynamicApiController.ApiDescriptionSettingsAttribute.KeepVerb">
-            <summary>
-            保留路由谓词
-            </summary>
-        </member>
-        <member name="P:Fur.DynamicApiController.ApiDescriptionSettingsAttribute.Enabled">
-            <summary>
-            是否启用
-            </summary>
-        </member>
-        <member name="P:Fur.DynamicApiController.ApiDescriptionSettingsAttribute.Module">
-            <summary>
-            模块名
-            </summary>
-        </member>
-        <member name="P:Fur.DynamicApiController.ApiDescriptionSettingsAttribute.Version">
-            <summary>
-            版本号
-            </summary>
-        </member>
-        <member name="P:Fur.DynamicApiController.ApiDescriptionSettingsAttribute.Groups">
-            <summary>
-            分组
-            </summary>
-        </member>
-        <member name="P:Fur.DynamicApiController.ApiDescriptionSettingsAttribute.Tag">
-            <summary>
-            标签
-            </summary>
-        </member>
-        <member name="T:Fur.DynamicApiController.ApiSeatAttribute">
-            <summary>
-            接口参数位置设置
-            </summary>
-        </member>
-        <member name="M:Fur.DynamicApiController.ApiSeatAttribute.#ctor(Fur.DynamicApiController.ApiSeats)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="seat"></param>
-        </member>
-        <member name="P:Fur.DynamicApiController.ApiSeatAttribute.Seat">
-            <summary>
-            参数位置
-            </summary>
-        </member>
         <member name="T:Fur.DynamicApiController.DynamicApiControllerAttribute">
             <summary>
             动态 WebApi特性接口
@@ -19706,21 +19568,21 @@
             </summary>
             <param name="application">引用模型</param>
         </member>
-        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.ConfigureController(Microsoft.AspNetCore.Mvc.ApplicationModels.ControllerModel,Fur.DynamicApiController.ApiDescriptionSettingsAttribute)">
+        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.ConfigureController(Microsoft.AspNetCore.Mvc.ApplicationModels.ControllerModel,Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute)">
             <summary>
             配置控制器
             </summary>
             <param name="controller">控制器模型</param>
             <param name="apiDescriptionSettings">接口描述配置</param>
         </member>
-        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.ConfigureControllerName(Microsoft.AspNetCore.Mvc.ApplicationModels.ControllerModel,Fur.DynamicApiController.ApiDescriptionSettingsAttribute)">
+        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.ConfigureControllerName(Microsoft.AspNetCore.Mvc.ApplicationModels.ControllerModel,Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute)">
             <summary>
             配置控制器名称
             </summary>
             <param name="controller">控制器模型</param>
             <param name="apiDescriptionSettings">接口描述配置</param>
         </member>
-        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.ConfigureAction(Microsoft.AspNetCore.Mvc.ApplicationModels.ActionModel,Fur.DynamicApiController.ApiDescriptionSettingsAttribute,Fur.DynamicApiController.ApiDescriptionSettingsAttribute)">
+        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.ConfigureAction(Microsoft.AspNetCore.Mvc.ApplicationModels.ActionModel,Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute,Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute)">
             <summary>
             配置动作方法
             </summary>
@@ -19734,7 +19596,7 @@
             </summary>
             <param name="action">动作方法模型</param>
         </member>
-        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.ConfigureActionName(Microsoft.AspNetCore.Mvc.ApplicationModels.ActionModel,Fur.DynamicApiController.ApiDescriptionSettingsAttribute,Fur.DynamicApiController.ApiDescriptionSettingsAttribute)">
+        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.ConfigureActionName(Microsoft.AspNetCore.Mvc.ApplicationModels.ActionModel,Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute,Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute)">
             <summary>
             配置动作方法名称
             </summary>
@@ -19754,7 +19616,7 @@
             </summary>
             <param name="action"></param>
         </member>
-        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.ConfigureActionRouteAttribute(Microsoft.AspNetCore.Mvc.ApplicationModels.ActionModel,Fur.DynamicApiController.ApiDescriptionSettingsAttribute,Fur.DynamicApiController.ApiDescriptionSettingsAttribute)">
+        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.ConfigureActionRouteAttribute(Microsoft.AspNetCore.Mvc.ApplicationModels.ActionModel,Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute,Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute)">
             <summary>
             配置动作方法路由特性
             </summary>
@@ -19762,7 +19624,7 @@
             <param name="apiDescriptionSettings">接口描述配置</param>
             <param name="controllerApiDescriptionSettingsAttribute">控制器接口描述配置</param>
         </member>
-        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.GenerateControllerRouteTemplate(Microsoft.AspNetCore.Mvc.ApplicationModels.ControllerModel,Fur.DynamicApiController.ApiDescriptionSettingsAttribute,Fur.DynamicApiController.ParameterRouteTemplate)">
+        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.GenerateControllerRouteTemplate(Microsoft.AspNetCore.Mvc.ApplicationModels.ControllerModel,Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute,Fur.DynamicApiController.ParameterRouteTemplate)">
             <summary>
             生成控制器路由模板
             </summary>
@@ -19777,7 +19639,7 @@
             </summary>
             <param name="action">动作方法模型</param>
         </member>
-        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.ConfigureControllerAndActionName(Fur.DynamicApiController.ApiDescriptionSettingsAttribute,System.String,System.String[],System.Func{System.String,System.String},Fur.DynamicApiController.ApiDescriptionSettingsAttribute)">
+        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.ConfigureControllerAndActionName(Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute,System.String,System.String[],System.Func{System.String,System.String},Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute)">
             <summary>
             配置控制器和动作方法名称
             </summary>
@@ -19788,7 +19650,7 @@
             <param name="controllerApiDescriptionSettings"></param>
             <returns></returns>
         </member>
-        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.CheckIsKeepName(Fur.DynamicApiController.ApiDescriptionSettingsAttribute,Fur.DynamicApiController.ApiDescriptionSettingsAttribute)">
+        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.CheckIsKeepName(Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute,Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute)">
             <summary>
             检查是否设置了 KeepName参数
             </summary>
@@ -19796,7 +19658,7 @@
             <param name="controllerApiDescriptionSettings"></param>
             <returns></returns>
         </member>
-        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.CheckIsKeepVerb(Fur.DynamicApiController.ApiDescriptionSettingsAttribute,Fur.DynamicApiController.ApiDescriptionSettingsAttribute)">
+        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.CheckIsKeepVerb(Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute,Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute)">
             <summary>
             检查是否设置了 KeepVerb 参数
             </summary>
@@ -19804,7 +19666,7 @@
             <param name="controllerApiDescriptionSettings"></param>
             <returns></returns>
         </member>
-        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.CheckIsSplitCamelCase(Fur.DynamicApiController.ApiDescriptionSettingsAttribute,Fur.DynamicApiController.ApiDescriptionSettingsAttribute)">
+        <member name="M:Fur.DynamicApiController.DynamicApiControllerApplicationModelConvention.CheckIsSplitCamelCase(Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute,Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute)">
             <summary>
             判断切割命名参数是否配置
             </summary>
@@ -19828,31 +19690,6 @@
         <member name="T:Fur.DynamicApiController.IDynamicApiController">
             <summary>
             动态接口控制器依赖接口
-            </summary>
-        </member>
-        <member name="T:Fur.DynamicApiController.ApiSeats">
-            <summary>
-            接口参数位置
-            </summary>
-        </member>
-        <member name="F:Fur.DynamicApiController.ApiSeats.ControllerStart">
-            <summary>
-            控制器之前
-            </summary>
-        </member>
-        <member name="F:Fur.DynamicApiController.ApiSeats.ControllerEnd">
-            <summary>
-            控制器之后
-            </summary>
-        </member>
-        <member name="F:Fur.DynamicApiController.ApiSeats.ActionStart">
-            <summary>
-            行为之前
-            </summary>
-        </member>
-        <member name="F:Fur.DynamicApiController.ApiSeats.ActionEnd">
-            <summary>
-            行为之后
             </summary>
         </member>
         <member name="T:Fur.DynamicApiController.ParameterRouteTemplate">
@@ -21222,6 +21059,30 @@
             读取附加信息
             </summary>
         </member>
+        <member name="M:Fur.UnifyResult.UnifyResultContext.IsSkipOnSuccessUnifyHandler(System.Reflection.MethodInfo,Fur.UnifyResult.IUnifyResultProvider@)">
+            <summary>
+            是否跳过成功结果规范处理
+            </summary>
+            <param name="method"></param>
+            <param name="unifyResult"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.UnifyResult.UnifyResultContext.IsSkipUnifyHandler(System.Reflection.MethodInfo,Fur.UnifyResult.IUnifyResultProvider@)">
+            <summary>
+            是否跳过规范化处理
+            </summary>
+            <param name="method"></param>
+            <param name="unifyResult"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.UnifyResult.UnifyResultContext.IsSkipUnifyHandler(Microsoft.AspNetCore.Http.HttpContext,Fur.UnifyResult.IUnifyResultProvider@)">
+            <summary>
+            是否跳过规范化处理
+            </summary>
+            <param name="context"></param>
+            <param name="unifyResult"></param>
+            <returns></returns>
+        </member>
         <member name="T:Fur.ViewEngine.IViewEngineCompilationOptionsBuilder">
             <summary>
             视图编译构建器
@@ -21970,10 +21831,17 @@
         </member>
         <member name="M:Microsoft.AspNetCore.Builder.AppApplicationBuilderExtensions.UseInject(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)">
             <summary>
-            注入基础中间件
+            注入基础中间件（带Swagger）
             </summary>
             <param name="app"></param>
             <param name="routePrefix"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.AppApplicationBuilderExtensions.UseInjectBase(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            注入基础中间件
+            </summary>
+            <param name="app"></param>
             <returns></returns>
         </member>
         <member name="M:Microsoft.AspNetCore.Builder.AppApplicationBuilderExtensions.UseApp(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Action{Microsoft.AspNetCore.Builder.IApplicationBuilder})">
@@ -22080,6 +21948,119 @@
             <param name="httpContextAccessor"></param>
             <param name="accessToken"></param>
         </member>
+        <member name="T:Microsoft.AspNetCore.Mvc.NonValidationAttribute">
+            <summary>
+            跳过验证
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute">
+            <summary>
+            接口描述设置
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute.#ctor(System.Boolean)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="enabled">是否启用</param>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute.#ctor(System.String[])">
+            <summary>
+            构造函数
+            </summary>
+            <param name="groups">分组列表</param>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute.Name">
+            <summary>
+            自定义名称
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute.KeepName">
+            <summary>
+            保留原有名称
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute.SplitCamelCase">
+            <summary>
+            切割骆驼命名
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute.KeepVerb">
+            <summary>
+            保留路由谓词
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute.Enabled">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute.Module">
+            <summary>
+            模块名
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute.Version">
+            <summary>
+            版本号
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute.Groups">
+            <summary>
+            分组
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute.Tag">
+            <summary>
+            标签
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Mvc.ApiSeatAttribute">
+            <summary>
+            接口参数位置设置
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Mvc.ApiSeatAttribute.#ctor(Microsoft.AspNetCore.Mvc.ApiSeats)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="seat"></param>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Mvc.ApiSeatAttribute.Seat">
+            <summary>
+            参数位置
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Mvc.ApiSeats">
+            <summary>
+            接口参数位置
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Mvc.ApiSeats.ControllerStart">
+            <summary>
+            控制器之前
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Mvc.ApiSeats.ControllerEnd">
+            <summary>
+            控制器之后
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Mvc.ApiSeats.ActionStart">
+            <summary>
+            行为之前
+            </summary>
+        </member>
+        <member name="F:Microsoft.AspNetCore.Mvc.ApiSeats.ActionEnd">
+            <summary>
+            行为之后
+            </summary>
+        </member>
         <member name="T:Microsoft.AspNetCore.Mvc.Filters.FriendlyExceptionFilter">
             <summary>
             友好异常拦截器
@@ -22103,31 +22084,36 @@
             <param name="context"></param>
             <returns></returns>
         </member>
-        <member name="T:Microsoft.AspNetCore.Mvc.Core.UnifyResultAttribute">
+        <member name="T:Microsoft.AspNetCore.Mvc.NonUnifyAttribute">
+            <summary>
+            禁止规范化处理
+            </summary>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Mvc.UnifyResultAttribute">
             <summary>
             规范化结果配置
             </summary>
         </member>
-        <member name="M:Microsoft.AspNetCore.Mvc.Core.UnifyResultAttribute.#ctor(System.Int32)">
+        <member name="M:Microsoft.AspNetCore.Mvc.UnifyResultAttribute.#ctor(System.Int32)">
             <summary>
             构造函数
             </summary>
             <param name="statusCode"></param>
         </member>
-        <member name="M:Microsoft.AspNetCore.Mvc.Core.UnifyResultAttribute.#ctor(System.Type)">
+        <member name="M:Microsoft.AspNetCore.Mvc.UnifyResultAttribute.#ctor(System.Type)">
             <summary>
             构造函数
             </summary>
             <param name="type"></param>
         </member>
-        <member name="M:Microsoft.AspNetCore.Mvc.Core.UnifyResultAttribute.#ctor(System.Type,System.Int32)">
+        <member name="M:Microsoft.AspNetCore.Mvc.UnifyResultAttribute.#ctor(System.Type,System.Int32)">
             <summary>
             构造函数
             </summary>
             <param name="type"></param>
             <param name="statusCode"></param>
         </member>
-        <member name="M:Microsoft.AspNetCore.Mvc.Core.UnifyResultAttribute.WrapType(System.Type)">
+        <member name="M:Microsoft.AspNetCore.Mvc.UnifyResultAttribute.WrapType(System.Type)">
             <summary>
             包装类型
             </summary>
@@ -22144,6 +22130,13 @@
             </summary>
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.AppServiceCollectionExtensions.AddInject(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+            <summary>
+            Mvc 注入基础配置（带Swagger）
+            </summary>
+            <param name="mvcBuilder">Mvc构建起</param>
+            <returns>IMvcBuilder</returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.AppServiceCollectionExtensions.AddInjectBase(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
             <summary>
             Mvc 注入基础配置
             </summary>
@@ -22915,6 +22908,57 @@
             <param name="condition">布尔条件</param>
             <param name="expression">新的集合对象表达式</param>
             <returns></returns>
+        </member>
+        <member name="T:System.ComponentModel.DataAnnotations.DataValidationAttribute">
+            <summary>
+            数据类型验证特性
+            </summary>
+        </member>
+        <member name="M:System.ComponentModel.DataAnnotations.DataValidationAttribute.#ctor(System.ComponentModel.DataAnnotations.ValidationPattern,System.Object[])">
+            <summary>
+            构造函数
+            </summary>
+            <param name="validationPattern">验证逻辑</param>
+            <param name="validationTypes"></param>
+        </member>
+        <member name="M:System.ComponentModel.DataAnnotations.DataValidationAttribute.#ctor(System.Object[])">
+            <summary>
+            构造函数
+            </summary>
+            <param name="validationTypes"></param>
+        </member>
+        <member name="M:System.ComponentModel.DataAnnotations.DataValidationAttribute.IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)">
+            <summary>
+            验证逻辑
+            </summary>
+            <param name="value"></param>
+            <param name="validationContext"></param>
+            <returns></returns>
+        </member>
+        <member name="P:System.ComponentModel.DataAnnotations.DataValidationAttribute.ValidationTypes">
+            <summary>
+            验证类型
+            </summary>
+        </member>
+        <member name="P:System.ComponentModel.DataAnnotations.DataValidationAttribute.ValidationPattern">
+            <summary>
+            验证逻辑
+            </summary>
+        </member>
+        <member name="T:System.ComponentModel.DataAnnotations.ValidationPattern">
+            <summary>
+            验证逻辑
+            </summary>
+        </member>
+        <member name="F:System.ComponentModel.DataAnnotations.ValidationPattern.AllOfThem">
+            <summary>
+            全部都要验证通过
+            </summary>
+        </member>
+        <member name="F:System.ComponentModel.DataAnnotations.ValidationPattern.AtLeastOne">
+            <summary>
+            至少一个验证通过
+            </summary>
         </member>
         <member name="T:System.Linq.SystemLinqExtensions">
             <summary>

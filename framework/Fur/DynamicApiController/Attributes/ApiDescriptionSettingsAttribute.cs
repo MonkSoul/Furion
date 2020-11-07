@@ -1,8 +1,8 @@
 ﻿using Fur.DependencyInjection;
-using Microsoft.AspNetCore.Mvc;
+using Fur.DynamicApiController;
 using System;
 
-namespace Fur.DynamicApiController
+namespace Microsoft.AspNetCore.Mvc
 {
     /// <summary>
     /// 接口描述设置

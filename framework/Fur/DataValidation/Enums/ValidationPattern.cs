@@ -1,6 +1,6 @@
 ﻿using Fur.DependencyInjection;
 
-namespace Fur.DataValidation
+namespace System.ComponentModel.DataAnnotations
 {
     /// <summary>
     /// 验证逻辑

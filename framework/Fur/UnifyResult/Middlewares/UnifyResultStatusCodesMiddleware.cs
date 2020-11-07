@@ -1,6 +1,5 @@
 ﻿using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 
@@ -44,8 +43,7 @@ namespace Fur.UnifyResult
             await _next(context);
 
             // 处理规范化结果
-            var unifyResult = _serviceProvider.GetService<IUnifyResultProvider>();
-            if (unifyResult != null)
+            if (!UnifyResultContext.IsSkipUnifyHandler(context, out var unifyResult))
             {
                 await unifyResult.OnResponseStatusCodes(context, context.Response.StatusCode);
             }

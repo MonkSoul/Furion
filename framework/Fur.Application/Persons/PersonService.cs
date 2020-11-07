@@ -87,6 +87,7 @@ namespace Fur.Application
         /// 查询所有
         /// </summary>
         /// <returns></returns>
+        //[NonUnify]
         public async Task<List<PersonDto>> GetAll()
         {
             var persons = _personRepository.AsQueryable(false)

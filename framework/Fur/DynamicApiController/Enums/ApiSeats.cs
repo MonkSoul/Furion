@@ -1,6 +1,6 @@
 ﻿using Fur.DependencyInjection;
 
-namespace Fur.DynamicApiController
+namespace Microsoft.AspNetCore.Mvc
 {
     /// <summary>
     /// 接口参数位置
