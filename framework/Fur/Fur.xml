@@ -22136,11 +22136,26 @@
             <param name="mvcBuilder">Mvc构建器</param>
             <returns>IMvcBuilder</returns>
         </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.AppServiceCollectionExtensions.AddInject(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            服务注入基础配置（带Swagger）
+            </summary>
+            <param name="services">服务集合</param>
+            <returns>IMvcBuilder</returns>
+        </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.AppServiceCollectionExtensions.AddInjectBase(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Boolean)">
             <summary>
             Mvc 注入基础配置
             </summary>
             <param name="mvcBuilder">Mvc构建器</param>
+            <param name="includeDynamicApiController"></param>
+            <returns>IMvcBuilder</returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.AppServiceCollectionExtensions.AddInjectBase(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Boolean)">
+            <summary>
+            Mvc 注入基础配置
+            </summary>
+            <param name="services">服务集合</param>
             <param name="includeDynamicApiController"></param>
             <returns>IMvcBuilder</returns>
         </member>
@@ -22151,6 +22166,13 @@
             <param name="mvcBuilder"></param>
             <returns></returns>
         </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.AppServiceCollectionExtensions.AddInjectWithUnifyResult(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            注入基础配置和规范化结果
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.AppServiceCollectionExtensions.AddInjectWithUnifyResult``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
             <summary>
             Mvc 注入基础配置和规范化结果
@@ -22159,7 +22181,15 @@
             <param name="mvcBuilder"></param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.AppServiceCollectionExtensions.AddInject(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.AppServiceCollectionExtensions.AddInjectWithUnifyResult``1(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Mvc 注入基础配置和规范化结果
+            </summary>
+            <typeparam name="TUnifyResultProvider"></typeparam>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.AppServiceCollectionExtensions.AddHostInject(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             非 Web 主机注入基础配置
             </summary>
@@ -22736,6 +22766,14 @@
             <param name="configure">自定义配置</param>
             <returns>服务集合</returns>
         </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.SpecificationDocumentServiceCollectionExtensions.AddSpecificationDocuments(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Action{Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions})">
+            <summary>
+            添加规范化文档服务
+            </summary>
+            <param name="mvcBuilder">Mvc 构建器</param>
+            <param name="configure">自定义配置</param>
+            <returns>服务集合</returns>
+        </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.UnifyResultServiceCollectionExtensions">
             <summary>
             规范化结果服务拓展
@@ -22748,12 +22786,27 @@
             <param name="mvcBuilder"></param>
             <returns></returns>
         </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.UnifyResultServiceCollectionExtensions.AddUnifyResult(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加规范化结果服务
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.UnifyResultServiceCollectionExtensions.AddUnifyResult``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
             <summary>
             添加规范化结果服务
             </summary>
             <typeparam name="TUnifyResultProvider"></typeparam>
             <param name="mvcBuilder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.UnifyResultServiceCollectionExtensions.AddUnifyResult``1(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加规范化结果服务
+            </summary>
+            <typeparam name="TUnifyResultProvider"></typeparam>
+            <param name="services"></param>
             <returns></returns>
         </member>
         <member name="T:Microsoft.Extensions.Hosting.HostBuilderExtensions">

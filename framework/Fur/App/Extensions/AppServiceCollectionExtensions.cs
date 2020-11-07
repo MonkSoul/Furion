@@ -25,15 +25,27 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>IMvcBuilder</returns>
         public static IMvcBuilder AddInject(this IMvcBuilder mvcBuilder)
         {
-            var services = mvcBuilder.Services;
-
-            services.AddSpecificationDocuments();
-
-            mvcBuilder.AddDynamicApiControllers()
+            mvcBuilder.AddSpecificationDocuments()
+                              .AddDynamicApiControllers()
                               .AddDataValidation()
                               .AddFriendlyException();
 
             return mvcBuilder;
+        }
+
+        /// <summary>
+        /// 服务注入基础配置（带Swagger）
+        /// </summary>
+        /// <param name="services">服务集合</param>
+        /// <returns>IMvcBuilder</returns>
+        public static IServiceCollection AddInject(this IServiceCollection services)
+        {
+            services.AddSpecificationDocuments()
+                        .AddDynamicApiControllers()
+                        .AddDataValidation()
+                        .AddFriendlyException();
+
+            return services;
         }
 
         /// <summary>
@@ -53,15 +65,45 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
+        /// Mvc 注入基础配置
+        /// </summary>
+        /// <param name="services">服务集合</param>
+        /// <param name="includeDynamicApiController"></param>
+        /// <returns>IMvcBuilder</returns>
+        public static IServiceCollection AddInjectBase(this IServiceCollection services, bool includeDynamicApiController = true)
+        {
+            if (includeDynamicApiController) services.AddDynamicApiControllers();
+
+            services.AddDataValidation()
+                        .AddFriendlyException();
+
+            return services;
+        }
+
+        /// <summary>
         /// Mvc 注入基础配置和规范化结果
         /// </summary>
         /// <param name="mvcBuilder"></param>
         /// <returns></returns>
         public static IMvcBuilder AddInjectWithUnifyResult(this IMvcBuilder mvcBuilder)
         {
-            mvcBuilder.AddInject().AddUnifyResult();
+            mvcBuilder.AddInject()
+                              .AddUnifyResult();
 
             return mvcBuilder;
+        }
+
+        /// <summary>
+        /// 注入基础配置和规范化结果
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddInjectWithUnifyResult(this IServiceCollection services)
+        {
+            services.AddInject()
+                        .AddUnifyResult();
+
+            return services;
         }
 
         /// <summary>
@@ -73,9 +115,25 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IMvcBuilder AddInjectWithUnifyResult<TUnifyResultProvider>(this IMvcBuilder mvcBuilder)
             where TUnifyResultProvider : class, IUnifyResultProvider
         {
-            mvcBuilder.AddInject().AddUnifyResult<TUnifyResultProvider>();
+            mvcBuilder.AddInject()
+                              .AddUnifyResult<TUnifyResultProvider>();
 
             return mvcBuilder;
+        }
+
+        /// <summary>
+        /// Mvc 注入基础配置和规范化结果
+        /// </summary>
+        /// <typeparam name="TUnifyResultProvider"></typeparam>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddInjectWithUnifyResult<TUnifyResultProvider>(this IServiceCollection services)
+            where TUnifyResultProvider : class, IUnifyResultProvider
+        {
+            services.AddInject()
+                        .AddUnifyResult<TUnifyResultProvider>();
+
+            return services;
         }
 
         /// <summary>
@@ -83,7 +141,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddInject(this IServiceCollection services)
+        public static IServiceCollection AddHostInject(this IServiceCollection services)
         {
             // 添加全局配置和存储服务提供器
             InternalApp.InternalServices = services;
