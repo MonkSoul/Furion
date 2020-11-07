@@ -21,7 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// Mvc 注入基础配置（带Swagger）
         /// </summary>
-        /// <param name="mvcBuilder">Mvc构建起</param>
+        /// <param name="mvcBuilder">Mvc构建器</param>
         /// <returns>IMvcBuilder</returns>
         public static IMvcBuilder AddInject(this IMvcBuilder mvcBuilder)
         {
@@ -39,12 +39,14 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// Mvc 注入基础配置
         /// </summary>
-        /// <param name="mvcBuilder">Mvc构建起</param>
+        /// <param name="mvcBuilder">Mvc构建器</param>
+        /// <param name="includeDynamicApiController"></param>
         /// <returns>IMvcBuilder</returns>
-        public static IMvcBuilder AddInjectBase(this IMvcBuilder mvcBuilder)
+        public static IMvcBuilder AddInjectBase(this IMvcBuilder mvcBuilder, bool includeDynamicApiController = true)
         {
-            mvcBuilder.AddDynamicApiControllers()
-                              .AddDataValidation()
+            if (includeDynamicApiController) mvcBuilder.AddDynamicApiControllers();
+
+            mvcBuilder.AddDataValidation()
                               .AddFriendlyException();
 
             return mvcBuilder;
