@@ -107,7 +107,8 @@ namespace Fur.DataValidation
             var validateFaildMessage = JsonSerializer.Serialize(validationResults, new JsonSerializerOptions
             {
                 Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-                WriteIndented = true
+                WriteIndented = true,
+                PropertyNameCaseInsensitive = true
             });
 
             // 判断是否跳过规范化结果

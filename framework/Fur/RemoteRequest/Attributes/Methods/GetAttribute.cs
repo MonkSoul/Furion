@@ -1,5 +1,6 @@
 ﻿using Fur.DependencyInjection;
 using System;
+using System.Net.Http;
 
 namespace Fur.RemoteRequest
 {
@@ -15,6 +16,7 @@ namespace Fur.RemoteRequest
         /// <param name="url"></param>
         public GetAttribute(string url) : base(url)
         {
+            base.Method = HttpMethod.Get;
         }
     }
 }

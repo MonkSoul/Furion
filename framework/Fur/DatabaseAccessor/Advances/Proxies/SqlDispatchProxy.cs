@@ -84,7 +84,7 @@ namespace Fur.DatabaseAccessor
                     : database.DataAdapterFillAsync(sql, parameterModel, commandType).GetAwaiter().GetResult();
 
                 var result = ConvertValueTuple(returnType, dataSet);
-                return !isAsync ? result : Task.FromResult(result);
+                return !isAsync ? result : result.ToTaskResult(returnType);
             }
             // 处理 基元类型 返回值
             else if (returnType.IsRichPrimitive())
@@ -93,7 +93,7 @@ namespace Fur.DatabaseAccessor
                     ? database.ExecuteScalar(sql, parameterModel, commandType)
                     : database.ExecuteScalarAsync(sql, parameterModel, commandType).GetAwaiter().GetResult();
 
-                return !isAsync ? result : Task.FromResult(result);
+                return !isAsync ? result : result.ToTaskResult(returnType);
             }
             // 处理 存储过程带输出类型 返回值
             else if (returnType == typeof(ProcedureOutputResult) || (returnType.IsGenericType && typeof(ProcedureOutputResult<>).IsAssignableFrom(returnType.GetGenericTypeDefinition())))
@@ -103,7 +103,7 @@ namespace Fur.DatabaseAccessor
                     : database.DataAdapterFillAsync(sql, parameterModel, commandType).GetAwaiter().GetResult();
 
                 var result = ConvertProcedureOutputResult(returnType, dbParameters, dataSet);
-                return !isAsync ? result : Task.FromResult(result);
+                return !isAsync ? result : result.ToTaskResult(returnType);
             }
             else
             {
@@ -117,7 +117,7 @@ namespace Fur.DatabaseAccessor
                 {
                     var list = dataTable.ToList(returnType);
                     var result = list.Adapt(list.GetType(), returnType);
-                    return !isAsync ? result : Task.FromResult(result);
+                    return !isAsync ? result : result.ToTaskResult(returnType);
                 }
             }
         }

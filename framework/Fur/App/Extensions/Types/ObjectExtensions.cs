@@ -1,7 +1,6 @@
 ﻿using Fur.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -50,37 +49,6 @@ namespace Fur
             }
 
             return dic;
-        }
-
-        /// <summary>
-        /// 转换值到为指定类型
-        /// </summary>
-        /// <param name="value">值</param>
-        /// <param name="type">最终类型</param>
-        /// <returns>object</returns>
-        internal static object ChangeType(this object value, Type type)
-        {
-            // 如果值为默认值，则返回默认值
-            if (value == null || (value.GetType().IsValueType && (value.Equals(0) || value.Equals(Guid.Empty)))) return default;
-
-            // 属性真实类型
-            Type underlyingType = null;
-
-            // 判断属性类型是否是可空类型
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
-            {
-                underlyingType = new NullableConverter(type).UnderlyingType;
-            }
-            underlyingType ??= type;
-
-            // 枚举类型处理
-            if (typeof(Enum).IsAssignableFrom(underlyingType))
-            {
-                return Enum.Parse(underlyingType, value.ToString());
-            }
-
-            // 执行转换
-            return Convert.ChangeType(value, underlyingType);
         }
 
         /// <summary>
@@ -184,6 +152,17 @@ namespace Fur
             int q = ss.Intersect(st).Count(), s = ss.Length - q, r = st.Length - q;
 
             return Kq * q / (Kq * q + Kr * r + Ks * s);
+        }
+
+        /// <summary>
+        /// 返回异步类型
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="realType"></param>
+        /// <returns></returns>
+        internal static object ToTaskResult(this object obj, Type realType)
+        {
+            return typeof(Task).GetMethod(nameof(Task.FromResult)).MakeGenericMethod(realType).Invoke(null, new object[] { obj });
         }
     }
 }

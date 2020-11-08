@@ -7,14 +7,14 @@ namespace Fur.RemoteRequest
     /// 设置请问报文头
     /// </summary>
     [SkipScan, AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public class HeadersAttribute : Attribute
+    public class HeaderAttribute : Attribute
     {
         /// <summary>
         /// 构造演示
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        public HeadersAttribute(string key, string value)
+        public HeaderAttribute(string key, string value)
         {
             Key = key;
             Value = value;

@@ -63,7 +63,7 @@ namespace Fur.Application
 
             // 生成 token
             var jwtSettings = App.GetOptions<JWTSettingsOptions>();
-            var datetimeOffset = new DateTimeOffset(DateTime.Now);
+            var datetimeOffset = DateTimeOffset.UtcNow;
 
             output.AccessToken = JWTEncryption.Encrypt(jwtSettings.IssuerSigningKey, new Dictionary<string, object>()
             {
@@ -72,7 +72,7 @@ namespace Fur.Application
 
                 { JwtRegisteredClaimNames.Iat, datetimeOffset.ToUnixTimeSeconds() },
                 { JwtRegisteredClaimNames.Nbf, datetimeOffset.ToUnixTimeSeconds() },
-                { JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now.AddSeconds(jwtSettings.ExpiredTime.Value*60)).ToUnixTimeSeconds() },
+                { JwtRegisteredClaimNames.Exp, DateTimeOffset.UtcNow.AddSeconds(jwtSettings.ExpiredTime.Value*60).ToUnixTimeSeconds() },
                 { JwtRegisteredClaimNames.Iss, jwtSettings.ValidIssuer},
                 { JwtRegisteredClaimNames.Aud, jwtSettings.ValidAudience }
             });

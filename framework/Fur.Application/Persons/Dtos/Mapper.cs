@@ -17,7 +17,7 @@ namespace Fur.Application.Persons
                 .Map(dest => dest.PersonDetail.PersonId, src => src.Id.Value)
                 .Map(dest => dest.PersonDetail.PhoneNumber, src => src.PhoneNumber)
                 .Map(dest => dest.PersonDetail.QQ, src => src.QQ)
-                .Map(dest => dest.UpdatedTime, src => DateTime.Now);
+                .Map(dest => dest.UpdatedTime, src => DateTimeOffset.UtcNow);
         }
     }
 }

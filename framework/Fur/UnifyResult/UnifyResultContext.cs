@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 
 namespace Fur.UnifyResult
@@ -43,7 +44,12 @@ namespace Fur.UnifyResult
             if (errorMessage.StartsWith(validationFlag))
             {
                 // 处理结果
-                errorObject = JsonSerializer.Deserialize<object>(errorMessage[validationFlag.Length..]);
+                errorObject = JsonSerializer.Deserialize<object>(errorMessage[validationFlag.Length..], new JsonSerializerOptions
+                {
+                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                    WriteIndented = true,
+                    PropertyNameCaseInsensitive = true
+                });
 
                 errorCode = StatusCodes.Status400BadRequest;
             }

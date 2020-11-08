@@ -1,5 +1,6 @@
 ﻿using Fur.DependencyInjection;
 using System;
+using System.Net.Http;
 
 namespace Fur.RemoteRequest
 {
@@ -22,5 +23,15 @@ namespace Fur.RemoteRequest
         /// 远程地址
         /// </summary>
         public string Url { get; set; }
+
+        /// <summary>
+        /// 指定客户端命名
+        /// </summary>
+        public string Client { get; set; }
+
+        /// <summary>
+        /// 请求方式
+        /// </summary>
+        public HttpMethod Method { get; protected set; }
     }
 }

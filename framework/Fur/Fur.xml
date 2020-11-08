@@ -184,14 +184,6 @@
             <param name="newDic">新字典</param>
             <returns></returns>
         </member>
-        <member name="M:Fur.ObjectExtensions.ChangeType(System.Object,System.Type)">
-            <summary>
-            转换值到为指定类型
-            </summary>
-            <param name="value">值</param>
-            <param name="type">最终类型</param>
-            <returns>object</returns>
-        </member>
         <member name="M:Fur.ObjectExtensions.IsValueTuple(System.Type)">
             <summary>
             判断是否是元组类型
@@ -241,6 +233,14 @@
             </summary>
             <param name="sourceString"></param>
             <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.ObjectExtensions.ToTaskResult(System.Object,System.Type)">
+            <summary>
+            返回异步类型
+            </summary>
+            <param name="obj"></param>
+            <param name="realType"></param>
             <returns></returns>
         </member>
         <member name="T:Fur.AppExtra">
@@ -19236,6 +19236,11 @@
             数据验证器
             </summary>
         </member>
+        <member name="F:Fur.DataValidation.DataValidator.MiniProfilerCategory">
+            <summary>
+            MiniProfiler 分类名
+            </summary>
+        </member>
         <member name="F:Fur.DataValidation.DataValidator.ValidationTypes">
             <summary>
             所有验证类型
@@ -20355,24 +20360,24 @@
             自定义对象映射依赖接口
             </summary>
         </member>
-        <member name="T:Fur.RemoteRequest.HeadersAttribute">
+        <member name="T:Fur.RemoteRequest.HeaderAttribute">
             <summary>
             设置请问报文头
             </summary>
         </member>
-        <member name="M:Fur.RemoteRequest.HeadersAttribute.#ctor(System.String,System.String)">
+        <member name="M:Fur.RemoteRequest.HeaderAttribute.#ctor(System.String,System.String)">
             <summary>
             构造演示
             </summary>
             <param name="key"></param>
             <param name="value"></param>
         </member>
-        <member name="P:Fur.RemoteRequest.HeadersAttribute.Key">
+        <member name="P:Fur.RemoteRequest.HeaderAttribute.Key">
             <summary>
             键
             </summary>
         </member>
-        <member name="P:Fur.RemoteRequest.HeadersAttribute.Value">
+        <member name="P:Fur.RemoteRequest.HeaderAttribute.Value">
             <summary>
             值
             </summary>
@@ -20391,6 +20396,16 @@
         <member name="P:Fur.RemoteRequest.HttpMethodAttribute.Url">
             <summary>
             远程地址
+            </summary>
+        </member>
+        <member name="P:Fur.RemoteRequest.HttpMethodAttribute.Client">
+            <summary>
+            指定客户端命名
+            </summary>
+        </member>
+        <member name="P:Fur.RemoteRequest.HttpMethodAttribute.Method">
+            <summary>
+            请求方式
             </summary>
         </member>
         <member name="T:Fur.RemoteRequest.DeleteAttribute">
@@ -20453,6 +20468,17 @@
             Http 代理请求
             </summary>
         </member>
+        <member name="T:Fur.RemoteRequest.Http">
+            <summary>
+            请求静态类
+            </summary>
+        </member>
+        <member name="M:Fur.RemoteRequest.Http.GetHttpDispatchProxy``1">
+            <summary>
+            获取 Http 代理
+            </summary>
+            <returns>ISqlRepository</returns>
+        </member>
         <member name="T:Fur.RemoteRequest.HttpClientConfigure">
             <summary>
             远程客户端配置
@@ -20481,6 +20507,11 @@
         <member name="T:Fur.RemoteRequest.HttpDispatchProxy">
             <summary>
             请求拦截代理
+            </summary>
+        </member>
+        <member name="F:Fur.RemoteRequest.HttpDispatchProxy.MiniProfilerCategory">
+            <summary>
+            MiniProfiler 分类名
             </summary>
         </member>
         <member name="P:Fur.RemoteRequest.HttpDispatchProxy.Target">
@@ -22728,6 +22759,18 @@
             <param name="services"></param>
             <param name="enabledGlobalExceptionFilter">是否启用全局异常过滤器</param>
             <returns></returns>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.MvcBuilderServiceCollectionExtensions">
+            <summary>
+            Mvc 拓展类
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.MvcBuilderServiceCollectionExtensions.AddJsonSerializerPascalPropertyNaming(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+            <summary>
+            添加 JsonSerializer 序列化
+            </summary>
+            <param name="mvcBuilder">Mvc构建器</param>
+            <returns>Mvc构建器</returns>
         </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.ObjectMapperServiceCollectionExtensions">
             <summary>

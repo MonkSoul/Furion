@@ -131,7 +131,8 @@ namespace Fur.DataValidation
                     .ToDictionary(u => u.Key, u => u.Select(c => c.ErrorMessage)), new JsonSerializerOptions
                     {
                         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-                        WriteIndented = true
+                        WriteIndented = true,
+                        PropertyNameCaseInsensitive = true
                     }));
         }
     }

@@ -17,6 +17,11 @@ namespace Fur.DataValidation
     public static class DataValidator
     {
         /// <summary>
+        /// MiniProfiler 分类名
+        /// </summary>
+        private const string MiniProfilerCategory = "http";
+
+        /// <summary>
         /// 所有验证类型
         /// </summary>
         private static readonly IEnumerable<Type> ValidationTypes;
