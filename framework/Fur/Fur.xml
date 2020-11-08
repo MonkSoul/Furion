@@ -19925,6 +19925,19 @@
             格式化参数
             </summary>
         </member>
+        <member name="T:Fur.FriendlyException.ExceptionExtensions">
+            <summary>
+            异常拓展
+            </summary>
+        </member>
+        <member name="M:Fur.FriendlyException.ExceptionExtensions.ErrorCode(System.Exception,System.Int32)">
+            <summary>
+            设置异常状态码
+            </summary>
+            <param name="exception"></param>
+            <param name="statusCode"></param>
+            <returns></returns>
+        </member>
         <member name="T:Fur.FriendlyException.IGlobalExceptionHandler">
             <summary>
             全局异常处理
@@ -21072,6 +21085,11 @@
             规范化结果额外数据键
             </summary>
         </member>
+        <member name="F:Fur.UnifyResult.UnifyResultContext.UnifyResultStatusCodeKey">
+            <summary>
+            规范化结果状态码
+            </summary>
+        </member>
         <member name="M:Fur.UnifyResult.UnifyResultContext.GetExceptionMetadata(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
             <summary>
             获取异常元数据
@@ -21089,6 +21107,20 @@
             <summary>
             读取附加信息
             </summary>
+        </member>
+        <member name="M:Fur.UnifyResult.UnifyResultContext.Set(System.String,System.Object)">
+            <summary>
+            设置规范化结果信息
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Fur.UnifyResult.UnifyResultContext.Get(System.String)">
+            <summary>
+            读取规范化结果信息
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
         </member>
         <member name="M:Fur.UnifyResult.UnifyResultContext.IsSkipOnSuccessUnifyHandler(System.Reflection.MethodInfo,Fur.UnifyResult.IUnifyResultProvider@)">
             <summary>

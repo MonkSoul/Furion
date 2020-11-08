@@ -29,13 +29,19 @@ namespace Fur.UnifyResult
         internal static string UnifyResultExtrasKey = "UNIFY_RESULT_EXTRAS";
 
         /// <summary>
+        /// 规范化结果状态码
+        /// </summary>
+        internal static string UnifyResultStatusCodeKey = "UNIFY_RESULT_STATUS_CODE";
+
+        /// <summary>
         /// 获取异常元数据
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
         public static (int ErrorCode, object ErrorObject) GetExceptionMetadata(ExceptionContext context)
         {
-            var errorCode = StatusCodes.Status500InternalServerError;
+            var errorCode = Get(UnifyResultStatusCodeKey) ?? StatusCodes.Status500InternalServerError;
+
             var errorMessage = context.Exception.Message;
             var validationFlag = "[Validation]";
 
@@ -55,7 +61,7 @@ namespace Fur.UnifyResult
             }
             else errorObject = errorMessage;
 
-            return (errorCode, errorObject);
+            return ((int)errorCode, errorObject);
         }
 
         /// <summary>
@@ -77,6 +83,30 @@ namespace Fur.UnifyResult
             object extras = null;
             App.ApplicationServices.GetService<IHttpContextAccessor>()?.HttpContext?.Items?.TryGetValue(UnifyResultExtrasKey, out extras);
             return extras;
+        }
+
+        /// <summary>
+        /// 设置规范化结果信息
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public static void Set(string key, object value)
+        {
+            var items = App.ApplicationServices.GetService<IHttpContextAccessor>()?.HttpContext?.Items;
+            if (items.ContainsKey(key)) items.Remove(key);
+            items.Add(key, value);
+        }
+
+        /// <summary>
+        /// 读取规范化结果信息
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static object Get(string key)
+        {
+            object value = null;
+            App.ApplicationServices.GetService<IHttpContextAccessor>()?.HttpContext?.Items?.TryGetValue(key, out value);
+            return value;
         }
 
         /// <summary>
