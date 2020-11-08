@@ -8,7 +8,7 @@
     <Product>Fur</Product>
     <Copyright>© 2020 Fur, Baiqian Co.,Ltd.</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageProjectUrl>https://chinadot.net</PackageProjectUrl>
+    <PackageProjectUrl>https://furos.cn</PackageProjectUrl>
     <Description>Fur Jwt 授权验证拓展插件。</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon>icon.png</PackageIcon>

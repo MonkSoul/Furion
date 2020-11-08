@@ -14,11 +14,11 @@ sidebar_label: 15. CORS 跨域
 
 | 当前页面 url                  | 被请求页面 url                      | 是否跨域 | 原因                           |
 | ----------------------------- | ----------------------------------- | -------- | ------------------------------ |
-| http://www.chinadot.net/      | http://www.chinadot.net/index.html  | 否       | 同源（协议、域名、端口号相同） |
-| http://www.chinadot.net/      | https://www.chinadot.net/index.html | 跨域     | 协议不同（http/https）         |
-| http://www.chinadot.net/      | http://www.baidu.com/               | 跨域     | 主域名不同（chinadot/baidu）   |
-| http://www.chinadot.net/      | http://blog.chinadot.net/           | 跨域     | 子域名不同（www/blog）         |
-| http://www.chinadot.net:8080/ | http://www.chinadot.net:7001/       | 跨域     | 端口号不同（8080/7001）        |
+| http://www.furos.cn/      | http://www.furos.cn/index.html  | 否       | 同源（协议、域名、端口号相同） |
+| http://www.furos.cn/      | https://www.furos.cn/index.html | 跨域     | 协议不同（http/https）         |
+| http://www.furos.cn/      | http://www.baidu.com/               | 跨域     | 主域名不同（chinadot/baidu）   |
+| http://www.furos.cn/      | http://blog.furos.cn/           | 跨域     | 子域名不同（www/blog）         |
+| http://www.furos.cn:8080/ | http://www.furos.cn:7001/       | 跨域     | 端口号不同（8080/7001）        |
 
 ## 15.3 什么是 CORS
 
@@ -87,7 +87,7 @@ namespace Fur.Web.Core
 {
   "CorsAccessorSettings": {
     "PolicyName": "自定义跨域策略名",
-    "WithOrigins": ["http://localhost:4200", "https://chinadot.net"]
+    "WithOrigins": ["http://localhost:4200", "https://furos.cn"]
   }
 }
 ```

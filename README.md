@@ -49,7 +49,7 @@
 >
 > 所以，**`Fur`** 就诞生了。
 >
-> 之后就有了 **“小僧不才，略懂皮毛（Fur）。”** 广告语 和 **[chinadot.net](https://chinadot.net)** 域名。
+> 之后就有了 **“小僧不才，略懂皮毛（Fur）。”** 广告语 和 **[furos.cn](https://furos.cn)** 域名。
 
 ## 🍔 关于 LOGO
 
@@ -66,7 +66,7 @@
 ## 🍟 文档地址
 
 - 国内文档：[https://monksoul.gitee.io/fur/](https://monksoul.gitee.io/fur/)
-- 国外文档：[https://chinadot.net](https://chinadot.net)
+- 国外文档：[https://furos.cn](https://furos.cn)
 
 **目前文档正在逐步完善中。**
 
