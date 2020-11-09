@@ -17,7 +17,7 @@ namespace Fur.FriendlyException
         /// <param name="exception"></param>
         /// <param name="statusCode"></param>
         /// <returns></returns>
-        public static Exception ErrorCode(this Exception exception, int statusCode = StatusCodes.Status500InternalServerError)
+        public static Exception StatusCode(this Exception exception, int statusCode = StatusCodes.Status500InternalServerError)
         {
             UnifyResultContext.Set(UnifyResultContext.UnifyResultStatusCodeKey, statusCode);
             return exception;

@@ -64,7 +64,7 @@ namespace Microsoft.AspNetCore.Mvc.Filters
                 context.Result = new ContentResult
                 {
                     Content = errorMessage,
-                    StatusCode = exception.Message.StartsWith(validationFlag) ? StatusCodes.Status400BadRequest : StatusCodes.Status500InternalServerError
+                    StatusCode = exception.Message.StartsWith(validationFlag) ? StatusCodes.Status400BadRequest : (int)(UnifyResultContext.Get(UnifyResultContext.UnifyResultStatusCodeKey) ?? StatusCodes.Status500InternalServerError)
                 };
             }
             else context.Result = unifyResult.OnException(context);

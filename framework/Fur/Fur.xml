@@ -19859,7 +19859,7 @@
             异常拓展
             </summary>
         </member>
-        <member name="M:Fur.FriendlyException.ExceptionExtensions.ErrorCode(System.Exception,System.Int32)">
+        <member name="M:Fur.FriendlyException.ExceptionExtensions.StatusCode(System.Exception,System.Int32)">
             <summary>
             设置异常状态码
             </summary>
