@@ -7982,14 +7982,24 @@
             数据库上下文池
             </summary>
         </member>
-        <member name="F:Fur.DatabaseAccessor.DbContextPool.dbContexts">
+        <member name="F:Fur.DatabaseAccessor.DbContextPool.lazy">
             <summary>
-            线程安全的数据库上下文集合
+            惰性加载
+            </summary>
+        </member>
+        <member name="P:Fur.DatabaseAccessor.DbContextPool.Instance">
+            <summary>
+            配置实例
             </summary>
         </member>
         <member name="M:Fur.DatabaseAccessor.DbContextPool.#ctor">
             <summary>
-            构造函数
+            私有化构造函数
+            </summary>
+        </member>
+        <member name="F:Fur.DatabaseAccessor.DbContextPool.dbContexts">
+            <summary>
+            线程安全的数据库上下文集合
             </summary>
         </member>
         <member name="M:Fur.DatabaseAccessor.DbContextPool.GetDbContexts">
@@ -8047,66 +8057,10 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="T:Fur.DatabaseAccessor.IDbContextPool">
+        <member name="M:Fur.DatabaseAccessor.DbContextPool.ClearDbContextsAsync">
             <summary>
-            数据库上下文池
+            清除 DbContext
             </summary>
-        </member>
-        <member name="M:Fur.DatabaseAccessor.IDbContextPool.GetDbContexts">
-            <summary>
-            获取所有数据库上下文
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Fur.DatabaseAccessor.IDbContextPool.AddToPool(Microsoft.EntityFrameworkCore.DbContext)">
-            <summary>
-            保存数据库上下文
-            </summary>
-            <param name="dbContext"></param>
-        </member>
-        <member name="M:Fur.DatabaseAccessor.IDbContextPool.AddToPoolAsync(Microsoft.EntityFrameworkCore.DbContext)">
-            <summary>
-            异步保存数据库上下文
-            </summary>
-            <param name="dbContext"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Fur.DatabaseAccessor.IDbContextPool.SavePoolNow">
-            <summary>
-            保存数据库上下文池中所有已更改的数据库上下文
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Fur.DatabaseAccessor.IDbContextPool.SavePoolNow(System.Boolean)">
-            <summary>
-            保存数据库上下文池中所有已更改的数据库上下文
-            </summary>
-            <param name="acceptAllChangesOnSuccess"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Fur.DatabaseAccessor.IDbContextPool.SavePoolNowAsync(System.Threading.CancellationToken)">
-            <summary>
-            保存数据库上下文池中所有已更改的数据库上下文（异步）
-            </summary>
-            <param name="cancellationToken"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Fur.DatabaseAccessor.IDbContextPool.SavePoolNowAsync(System.Boolean,System.Threading.CancellationToken)">
-            <summary>
-            保存数据库上下文池中所有已更改的数据库上下文（异步）
-            </summary>
-            <param name="acceptAllChangesOnSuccess"></param>
-            <param name="cancellationToken"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Fur.DatabaseAccessor.IDbContextPool.SetTransactionSharedToDbContextAsync(System.Int32,System.Data.Common.DbTransaction,System.Threading.CancellationToken)">
-            <summary>
-            设置数据库上下文共享事务
-            </summary>
-            <param name="skipCount"></param>
-            <param name="transaction"></param>
-            <param name="cancellationToken"></param>
-            <returns></returns>
         </member>
         <member name="T:Fur.DatabaseAccessor.IDeletableRepository`1">
             <summary>
@@ -12797,12 +12751,11 @@
             </summary>
             <typeparam name="TEntity">实体类型</typeparam>
         </member>
-        <member name="M:Fur.DatabaseAccessor.EFCoreRepository`1.#ctor(System.Func{System.Type,Fur.DependencyInjection.IScoped,Microsoft.EntityFrameworkCore.DbContext},Fur.DatabaseAccessor.IDbContextPool,Fur.DatabaseAccessor.IRepository,System.IServiceProvider)">
+        <member name="M:Fur.DatabaseAccessor.EFCoreRepository`1.#ctor(System.Func{System.Type,Fur.DependencyInjection.IScoped,Microsoft.EntityFrameworkCore.DbContext},Fur.DatabaseAccessor.IRepository,System.IServiceProvider)">
             <summary>
             构造函数
             </summary>
             <param name="dbContextResolve">数据库上下文解析器</param>
-            <param name="dbContextPool">数据库上下文池</param>
             <param name="repository">非泛型仓储</param>
             <param name="serviceProvider">服务提供器</param>
         </member>
@@ -12893,17 +12846,11 @@
             非泛型仓储
             </summary>
         </member>
-        <member name="F:Fur.DatabaseAccessor.EFCoreRepository`2._dbContextPool">
-            <summary>
-            数据库上下文池
-            </summary>
-        </member>
-        <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.#ctor(System.Func{System.Type,Fur.DependencyInjection.IScoped,Microsoft.EntityFrameworkCore.DbContext},Fur.DatabaseAccessor.IDbContextPool,Fur.DatabaseAccessor.IRepository,System.IServiceProvider)">
+        <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.#ctor(System.Func{System.Type,Fur.DependencyInjection.IScoped,Microsoft.EntityFrameworkCore.DbContext},Fur.DatabaseAccessor.IRepository,System.IServiceProvider)">
             <summary>
             构造函数
             </summary>
             <param name="dbContextResolve">数据库上下文解析器</param>
-            <param name="dbContextPool">数据库上下文池</param>
             <param name="repository">非泛型仓储</param>
             <param name="serviceProvider">服务提供器</param>
         </member>
@@ -17884,12 +17831,11 @@
             服务提供器
             </summary>
         </member>
-        <member name="M:Fur.DatabaseAccessor.SqlRepository`1.#ctor(System.Func{System.Type,Fur.DependencyInjection.IScoped,Microsoft.EntityFrameworkCore.DbContext},Fur.DatabaseAccessor.IDbContextPool,System.IServiceProvider)">
+        <member name="M:Fur.DatabaseAccessor.SqlRepository`1.#ctor(System.Func{System.Type,Fur.DependencyInjection.IScoped,Microsoft.EntityFrameworkCore.DbContext},System.IServiceProvider)">
             <summary>
             构造函数
             </summary>
             <param name="dbContextResolve">数据库上下文解析器</param>
-            <param name="dbContextPool">数据库上下文池</param>
             <param name="serviceProvider">服务提供器</param>
         </member>
         <member name="P:Fur.DatabaseAccessor.SqlRepository`1.Database">
@@ -18697,12 +18643,11 @@
             Sql 操作仓储实现
             </summary>
         </member>
-        <member name="M:Fur.DatabaseAccessor.SqlRepository.#ctor(System.Func{System.Type,Fur.DependencyInjection.IScoped,Microsoft.EntityFrameworkCore.DbContext},Fur.DatabaseAccessor.IDbContextPool,System.IServiceProvider)">
+        <member name="M:Fur.DatabaseAccessor.SqlRepository.#ctor(System.Func{System.Type,Fur.DependencyInjection.IScoped,Microsoft.EntityFrameworkCore.DbContext},System.IServiceProvider)">
             <summary>
             构造函数
             </summary>
             <param name="dbContextResolve">数据库上下文解析器</param>
-            <param name="dbContextPool">数据库上下文池</param>
             <param name="serviceProvider">服务提供器</param>
         </member>
         <member name="T:Fur.DatabaseAccessor.UnitOfWorkAttribute">
@@ -18742,17 +18687,6 @@
             <summary>
             MiniProfiler 分类名
             </summary>
-        </member>
-        <member name="F:Fur.DatabaseAccessor.UnitOfWorkFilter._dbContextPool">
-            <summary>
-            数据库上下文池
-            </summary>
-        </member>
-        <member name="M:Fur.DatabaseAccessor.UnitOfWorkFilter.#ctor(Fur.DatabaseAccessor.IDbContextPool)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="dbContextPool">数据库上下文池</param>
         </member>
         <member name="F:Fur.DatabaseAccessor.UnitOfWorkFilter.FilterOrder">
             <summary>

@@ -28,14 +28,12 @@ namespace Fur.DatabaseAccessor
         /// 构造函数
         /// </summary>
         /// <param name="dbContextResolve">数据库上下文解析器</param>
-        /// <param name="dbContextPool">数据库上下文池</param>
         /// <param name="repository">非泛型仓储</param>
         /// <param name="serviceProvider">服务提供器</param>
         public EFCoreRepository(
             Func<Type, IScoped, DbContext> dbContextResolve
-            , IDbContextPool dbContextPool
             , IRepository repository
-            , IServiceProvider serviceProvider) : base(dbContextResolve, dbContextPool, repository, serviceProvider)
+            , IServiceProvider serviceProvider) : base(dbContextResolve, repository, serviceProvider)
         {
         }
     }
@@ -139,29 +137,18 @@ namespace Fur.DatabaseAccessor
         private readonly IRepository _repository;
 
         /// <summary>
-        /// 数据库上下文池
-        /// </summary>
-        private readonly IDbContextPool _dbContextPool;
-
-        /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="dbContextResolve">数据库上下文解析器</param>
-        /// <param name="dbContextPool">数据库上下文池</param>
         /// <param name="repository">非泛型仓储</param>
         /// <param name="serviceProvider">服务提供器</param>
         public EFCoreRepository(
             Func<Type, IScoped, DbContext> dbContextResolve
-            , IDbContextPool dbContextPool
             , IRepository repository
-            , IServiceProvider serviceProvider) : base(dbContextResolve, dbContextPool, serviceProvider)
+            , IServiceProvider serviceProvider) : base(dbContextResolve, serviceProvider)
         {
-            _dbContextPool = dbContextPool;
-
             // 解析数据库上下文
             var dbContext = dbContextResolve(typeof(TDbContextLocator), default);
-            // 保存当前数据库上下文到池中
-            _dbContextPool.AddToPool(dbContext);
 
             // 配置数据库上下文
             DynamicDbContext = DbContext = dbContext;
@@ -481,7 +468,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>ConcurrentBag{DbContext}</returns>
         public ConcurrentBag<DbContext> GetDbContexts()
         {
-            return _dbContextPool.GetDbContexts();
+            return DbContextPool.Instance.GetDbContexts();
         }
 
         /// <summary>

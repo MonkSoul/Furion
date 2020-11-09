@@ -93,12 +93,12 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.ValidateIssuer ??= true;
                 if (options.ValidateIssuer == true)
                 {
-                    options.ValidIssuer = "dotnetchina";
+                    options.ValidIssuer ??= "dotnetchina";
                 }
                 options.ValidateAudience ??= true;
                 if (options.ValidateAudience == true)
                 {
-                    options.ValidAudience = "powerby Fur";
+                    options.ValidAudience ??= "powerby Fur";
                 }
                 options.ValidateLifetime ??= true;
                 if (options.ValidateLifetime == true)

@@ -28,9 +28,6 @@ namespace Microsoft.Extensions.DependencyInjection
             // 配置数据库上下文
             configure?.Invoke(services);
 
-            // 注册数据库上下文池
-            services.TryAddScoped<IDbContextPool, DbContextPool>();
-
             // 注册 Sql 仓储
             services.TryAddScoped(typeof(ISqlRepository<>), typeof(SqlRepository<>));
 
@@ -65,7 +62,12 @@ namespace Microsoft.Extensions.DependencyInjection
                     if (!isRegistered) throw new InvalidOperationException("The DbContext for locator binding was not found");
 
                     // 动态解析数据库上下文
-                    return provider.GetService(dbContextType) as DbContext;
+                    var dbContext = provider.GetService(dbContextType) as DbContext;
+
+                    // 添加数据库上下文到池中
+                    DbContextPool.Instance.AddToPool(dbContext);
+
+                    return dbContext;
                 }
                 return (Func<Type, ITransient, DbContext>)dbContextResolve;
             });
@@ -79,7 +81,12 @@ namespace Microsoft.Extensions.DependencyInjection
                     if (!isRegistered) throw new InvalidOperationException("The DbContext for locator binding was not found");
 
                     // 动态解析数据库上下文
-                    return provider.GetService(dbContextType) as DbContext;
+                    var dbContext = provider.GetService(dbContextType) as DbContext;
+
+                    // 添加数据库上下文到池中
+                    DbContextPool.Instance.AddToPool(dbContext);
+
+                    return dbContext;
                 }
                 return (Func<Type, IScoped, DbContext>)dbContextResolve;
             });

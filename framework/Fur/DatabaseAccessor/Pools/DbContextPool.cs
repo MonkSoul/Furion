@@ -1,7 +1,6 @@
-﻿using Fur.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Concurrent;
-using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Threading;
@@ -12,21 +11,36 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库上下文池
     /// </summary>
-    [SkipScan]
-    public sealed class DbContextPool : IDbContextPool
+    public sealed class DbContextPool
     {
+        /// <summary>
+        /// 惰性加载
+        /// </summary>
+        private static readonly Lazy<DbContextPool> lazy = new Lazy<DbContextPool>(() => new DbContextPool());
+
+        /// <summary>
+        /// 配置实例
+        /// </summary>
+        public static DbContextPool Instance
+        {
+            get
+            {
+                return lazy.Value;
+            }
+        }
+
+        /// <summary>
+        /// 私有化构造函数
+        /// </summary>
+        private DbContextPool()
+        {
+            dbContexts = new ConcurrentBag<DbContext>();
+        }
+
         /// <summary>
         /// 线程安全的数据库上下文集合
         /// </summary>
         private readonly ConcurrentBag<DbContext> dbContexts;
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public DbContextPool()
-        {
-            dbContexts = new ConcurrentBag<DbContext>();
-        }
 
         /// <summary>
         /// 获取所有数据库上下文
@@ -135,6 +149,15 @@ namespace Fur.DatabaseAccessor
                 .Select(u => u.Database.UseTransactionAsync(transaction, cancellationToken));
 
             await Task.WhenAll(tasks);
+        }
+
+        /// <summary>
+        /// 清除 DbContext
+        /// </summary>
+        internal Task ClearDbContextsAsync()
+        {
+            dbContexts.Clear();
+            return Task.CompletedTask;
         }
     }
 }
