@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -560,23 +559,5 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 执行 Sql 返回 IQueryable
-        /// </summary>
-        /// <param name="sql">sql 语句</param>
-        /// <param name="parameters">命令参数</param>
-        /// <returns>IQueryable{TEntity}</returns>
-        IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters);
-
-        /// <summary>
-        /// 执行 Sql 返回 IQueryable
-        /// </summary>
-        /// <remarks>
-        /// 支持字符串内插语法
-        /// </remarks>
-        /// <param name="sql">sql 语句</param>
-        /// <returns>IQueryable{TEntity}</returns>
-        IQueryable<TEntity> FromSqlInterpolated(FormattableString sql);
     }
 }

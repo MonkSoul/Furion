@@ -657,5 +657,23 @@ namespace Fur.DatabaseAccessor
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>List{TEntity}</returns>
         Task<List<TEntity>> AsAsyncEnumerable(Expression<Func<TEntity, int, bool>> predicate, bool tracking = true, bool ignoreQueryFilters = false, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 执行 Sql 返回 IQueryable
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>IQueryable{TEntity}</returns>
+        IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters);
+
+        /// <summary>
+        /// 执行 Sql 返回 IQueryable
+        /// </summary>
+        /// <remarks>
+        /// 支持字符串内插语法
+        /// </remarks>
+        /// <param name="sql">sql 语句</param>
+        /// <returns>IQueryable{TEntity}</returns>
+        IQueryable<TEntity> FromSqlInterpolated(FormattableString sql);
     }
 }

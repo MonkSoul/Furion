@@ -331,7 +331,7 @@ namespace Fur.FriendlyException
         {
             if (errorMessage.StartsWith("[Validation]")) return errorMessage;
 
-            return (_friendlyExceptionSettings.HideErrorCode == true ? string.Empty : $"[{errorCode ?? _friendlyExceptionSettings.DefaultErrorCode}] ") + errorMessage;
+            return (_friendlyExceptionSettings.HideErrorCode == true || string.IsNullOrEmpty(errorCode) ? string.Empty : $"[{errorCode}] ") + errorMessage;
         }
     }
 }

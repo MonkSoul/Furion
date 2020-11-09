@@ -888,5 +888,35 @@ namespace Fur.DatabaseAccessor
         {
             return AsQueryable(predicate, tracking, ignoreQueryFilters).ToListAsync(cancellationToken);
         }
+
+        /// <summary>
+        /// 执行 Sql 返回 IQueryable
+        /// </summary>
+        /// <param name="sql">sql 语句</param>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>IQueryable</returns>
+        public virtual IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters)
+        {
+            // 获取真实运行 Sql
+            sql = DbHelpers.ResolveSqlConfiguration(sql);
+
+            return Entities.FromSqlRaw(sql, parameters);
+        }
+
+        /// <summary>
+        /// 执行 Sql 返回 IQueryable
+        /// </summary>
+        /// <remarks>
+        /// 支持字符串内插语法
+        /// </remarks>
+        /// <param name="sql">sql 语句</param>
+        /// <returns>IQueryable</returns>
+        public virtual IQueryable<TEntity> FromSqlInterpolated(FormattableString sql)
+        {
+            // 获取真实运行 Sql
+            //sql = DbHelpers.ResolveSqlConfiguration(sql);
+
+            return Entities.FromSqlInterpolated(sql);
+        }
     }
 }

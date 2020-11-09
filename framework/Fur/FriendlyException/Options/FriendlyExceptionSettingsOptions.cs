@@ -31,7 +31,7 @@ namespace Fur.FriendlyException
         public void PostConfigure(FriendlyExceptionSettingsOptions options, IConfiguration configuration)
         {
             options.HideErrorCode ??= false;
-            options.DefaultErrorCode ??= "Unknown";
+            options.DefaultErrorCode ??= string.Empty;
             options.DefaultErrorMessage ??= "Internal Server Error";
         }
     }

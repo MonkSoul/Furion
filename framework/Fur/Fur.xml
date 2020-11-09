@@ -9142,24 +9142,6 @@
             <param name="cancellationToken">取消异步令牌</param>
             <returns>数据库中的实体</returns>
         </member>
-        <member name="M:Fur.DatabaseAccessor.IOperableRepository`2.FromSqlRaw(System.String,System.Object[])">
-            <summary>
-            执行 Sql 返回 IQueryable
-            </summary>
-            <param name="sql">sql 语句</param>
-            <param name="parameters">命令参数</param>
-            <returns>IQueryable{TEntity}</returns>
-        </member>
-        <member name="M:Fur.DatabaseAccessor.IOperableRepository`2.FromSqlInterpolated(System.FormattableString)">
-            <summary>
-            执行 Sql 返回 IQueryable
-            </summary>
-            <remarks>
-            支持字符串内插语法
-            </remarks>
-            <param name="sql">sql 语句</param>
-            <returns>IQueryable{TEntity}</returns>
-        </member>
         <member name="T:Fur.DatabaseAccessor.IPrivateRepository">
             <summary>
             仓储依赖空接口
@@ -9809,6 +9791,24 @@
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">异步取消令牌</param>
             <returns>List{TEntity}</returns>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.IReadableRepository`2.FromSqlRaw(System.String,System.Object[])">
+            <summary>
+            执行 Sql 返回 IQueryable
+            </summary>
+            <param name="sql">sql 语句</param>
+            <param name="parameters">命令参数</param>
+            <returns>IQueryable{TEntity}</returns>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.IReadableRepository`2.FromSqlInterpolated(System.FormattableString)">
+            <summary>
+            执行 Sql 返回 IQueryable
+            </summary>
+            <remarks>
+            支持字符串内插语法
+            </remarks>
+            <param name="sql">sql 语句</param>
+            <returns>IQueryable{TEntity}</returns>
         </member>
         <member name="T:Fur.DatabaseAccessor.ISqlExecutableRepository">
             <summary>
@@ -14265,24 +14265,6 @@
             <param name="cancellationToken">取消异步令牌</param>
             <returns>数据库中的实体</returns>
         </member>
-        <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.FromSqlRaw(System.String,System.Object[])">
-            <summary>
-            执行 Sql 返回 IQueryable
-            </summary>
-            <param name="sql">sql 语句</param>
-            <param name="parameters">命令参数</param>
-            <returns>IQueryable</returns>
-        </member>
-        <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.FromSqlInterpolated(System.FormattableString)">
-            <summary>
-            执行 Sql 返回 IQueryable
-            </summary>
-            <remarks>
-            支持字符串内插语法
-            </remarks>
-            <param name="sql">sql 语句</param>
-            <returns>IQueryable</returns>
-        </member>
         <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.Find(System.Object)">
             <summary>
             根据键查询一条记录
@@ -14914,6 +14896,24 @@
             <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
             <param name="cancellationToken">异步取消令牌</param>
             <returns>List{TEntity}</returns>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.FromSqlRaw(System.String,System.Object[])">
+            <summary>
+            执行 Sql 返回 IQueryable
+            </summary>
+            <param name="sql">sql 语句</param>
+            <param name="parameters">命令参数</param>
+            <returns>IQueryable</returns>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.FromSqlInterpolated(System.FormattableString)">
+            <summary>
+            执行 Sql 返回 IQueryable
+            </summary>
+            <remarks>
+            支持字符串内插语法
+            </remarks>
+            <param name="sql">sql 语句</param>
+            <returns>IQueryable</returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.Update(`0)">
             <summary>
