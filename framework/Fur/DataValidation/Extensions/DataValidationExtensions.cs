@@ -2,7 +2,6 @@
 using Fur.FriendlyException;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -128,12 +127,7 @@ namespace Fur.DataValidation
                     })
                     .OrderBy(u => u.MemberNames.First())
                     .GroupBy(u => u.MemberNames.First())
-                    .ToDictionary(u => u.Key, u => u.Select(c => c.ErrorMessage)), new JsonSerializerOptions
-                    {
-                        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-                        WriteIndented = true,
-                        PropertyNameCaseInsensitive = true
-                    }));
+                    .ToDictionary(u => u.Key, u => u.Select(c => c.ErrorMessage))));
         }
     }
 }

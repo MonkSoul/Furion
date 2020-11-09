@@ -143,6 +143,7 @@ namespace Fur.Application.Persons
         {
             var cities = await _personRepository.Change<City>().AsQueryable(false)
                                                              .Include(u => u.Childrens)
+                                                                .ThenInclude(u => u.Childrens)
                                                              .Where(u => u.Id == 1)
                                                              .ToListAsync();
 

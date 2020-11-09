@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 using System.Reflection;
-using System.Text.Encodings.Web;
 using System.Text.Json;
 
 namespace Fur.RemoteRequest
@@ -79,13 +78,7 @@ namespace Fur.RemoteRequest
                     // 读取数据并序列化返回
                     using var responseStream = response.Content.ReadAsStreamAsync().GetAwaiter().GetResult();
                     var result = JsonSerializer.DeserializeAsync(responseStream
-                        , returnType
-                        , new JsonSerializerOptions
-                        {
-                            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-                            WriteIndented = true,
-                            PropertyNameCaseInsensitive = true
-                        }).GetAwaiter().GetResult();
+                        , returnType).GetAwaiter().GetResult();
 
                     return !targetMethod.IsAsync() ? result : result.ToTaskResult(returnType);
                 }

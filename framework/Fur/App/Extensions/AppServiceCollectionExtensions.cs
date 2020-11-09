@@ -28,7 +28,8 @@ namespace Microsoft.Extensions.DependencyInjection
             mvcBuilder.AddSpecificationDocuments()
                               .AddDynamicApiControllers()
                               .AddDataValidation()
-                              .AddFriendlyException();
+                              .AddFriendlyException()
+                              .AddBaseJsonOptions();
 
             return mvcBuilder;
         }

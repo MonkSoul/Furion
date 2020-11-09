@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Linq;
 using System.Net.Mime;
-using System.Text.Encodings.Web;
 using System.Text.Json;
 
 namespace Fur.DataValidation
@@ -104,12 +103,7 @@ namespace Fur.DataValidation
         {
             // 将验证错误信息转换成字典并序列化成 Json
             var validationResults = modelState.ToDictionary(u => u.Key, u => modelState[u.Key].Errors.Select(c => c.ErrorMessage));
-            var validateFaildMessage = JsonSerializer.Serialize(validationResults, new JsonSerializerOptions
-            {
-                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-                WriteIndented = true,
-                PropertyNameCaseInsensitive = true
-            });
+            var validateFaildMessage = JsonSerializer.Serialize(validationResults);
 
             // 判断是否跳过规范化结果
             if (UnifyResultContext.IsSkipUnifyHandler(actionDescriptor.MethodInfo, out var unifyResult))

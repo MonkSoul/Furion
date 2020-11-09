@@ -22753,6 +22753,12 @@
             </summary>
             <param name="services"></param>
         </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.DynamicApiControllerServiceCollectionExtensions.ConfigureMvcBuilder(Microsoft.AspNetCore.Mvc.MvcOptions)">
+            <summary>
+            配置 Mvc 构建器
+            </summary>
+            <param name="options"></param>
+        </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.FriendlyExceptionServiceCollectionExtensions">
             <summary>
             友好异常服务拓展类
@@ -22797,9 +22803,16 @@
             Mvc 拓展类
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.MvcBuilderServiceCollectionExtensions.AddJsonSerializerPascalPropertyNaming(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.MvcBuilderServiceCollectionExtensions.AddBaseJsonOptions(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
             <summary>
             添加 JsonSerializer 序列化
+            </summary>
+            <param name="mvcBuilder">Mvc构建器</param>
+            <returns>Mvc构建器</returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.MvcBuilderServiceCollectionExtensions.AddJsonSerializerPascalPropertyNaming(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
+            <summary>
+            配置 Json 序列化属性名大写
             </summary>
             <param name="mvcBuilder">Mvc构建器</param>
             <returns>Mvc构建器</returns>
