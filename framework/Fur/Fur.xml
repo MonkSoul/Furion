@@ -8057,11 +8057,6 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="M:Fur.DatabaseAccessor.DbContextPool.ClearDbContextsAsync">
-            <summary>
-            清除 DbContext
-            </summary>
-        </member>
         <member name="T:Fur.DatabaseAccessor.IDeletableRepository`1">
             <summary>
             可删除仓储接口

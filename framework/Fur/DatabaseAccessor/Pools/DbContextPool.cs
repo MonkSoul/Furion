@@ -82,7 +82,7 @@ namespace Fur.DatabaseAccessor
         {
             // 查找所有已改变的数据库上下文并保存更改
             return dbContexts
-                .Where(u => u.ChangeTracker.HasChanges())
+                .Where(u => u != null && u.ChangeTracker.HasChanges())
                 .Select(u => u.SaveChanges()).Count();
         }
 
@@ -95,7 +95,7 @@ namespace Fur.DatabaseAccessor
         {
             // 查找所有已改变的数据库上下文并保存更改
             return dbContexts
-                .Where(u => u.ChangeTracker.HasChanges())
+                .Where(u => u != null && u.ChangeTracker.HasChanges())
                 .Select(u => u.SaveChanges(acceptAllChangesOnSuccess)).Count();
         }
 
@@ -108,7 +108,7 @@ namespace Fur.DatabaseAccessor
         {
             // 查找所有已改变的数据库上下文并保存更改
             var tasks = dbContexts
-                .Where(u => u.ChangeTracker.HasChanges())
+                .Where(u => u != null && u.ChangeTracker.HasChanges())
                 .Select(u => u.SaveChangesAsync(cancellationToken));
 
             // 等待所有异步完成
@@ -126,7 +126,7 @@ namespace Fur.DatabaseAccessor
         {
             // 查找所有已改变的数据库上下文并保存更改
             var tasks = dbContexts
-                .Where(u => u.ChangeTracker.HasChanges())
+                .Where(u => u != null && u.ChangeTracker.HasChanges())
                 .Select(u => u.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken));
 
             // 等待所有异步完成
@@ -145,19 +145,11 @@ namespace Fur.DatabaseAccessor
         {
             // 跳过第一个数据库上下文并设置贡献事务
             var tasks = dbContexts
+                .Where(u => u != null)
                 .Skip(skipCount)
                 .Select(u => u.Database.UseTransactionAsync(transaction, cancellationToken));
 
             await Task.WhenAll(tasks);
-        }
-
-        /// <summary>
-        /// 清除 DbContext
-        /// </summary>
-        internal Task ClearDbContextsAsync()
-        {
-            dbContexts.Clear();
-            return Task.CompletedTask;
         }
     }
 }

@@ -50,7 +50,6 @@ namespace Fur.DatabaseAccessor
                 if (resultContext.Exception == null)
                 {
                     await DbContextPool.Instance.SavePoolNowAsync();
-                    await DbContextPool.Instance.ClearDbContextsAsync();
                 }
             }
             else
@@ -111,14 +110,12 @@ namespace Fur.DatabaseAccessor
                     finally
                     {
                         await dbContextTransaction.DisposeAsync();
-                        await DbContextPool.Instance.ClearDbContextsAsync();
                     }
                 }
                 else
                 {
                     // 回滚事务
                     await dbContextTransaction.RollbackAsync();
-                    await DbContextPool.Instance.ClearDbContextsAsync();
 
                     // 打印事务回滚消息
                     App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
