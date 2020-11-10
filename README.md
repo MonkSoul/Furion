@@ -17,10 +17,6 @@
 
 </div>
 
-<img src="https://gitee.com/monksoul/Fur/raw/main/handbook/static/img/demo.gif" />
-
----
-
 ## 🍕 名字的由来
 
 > 故事是这样子的：
@@ -92,8 +88,8 @@ docker run --name fur -p 5000:80 fur:v1.0.0
 
 ## 🥜 Fur 官方包
 
-| 包类型                                                                                                                                      | 名称                                    | 版本               | 描述                            |
-| ------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ------------------ | ------------------------------- |
+| 包类型                                                                                                                            | 名称                                    | 版本               | 描述                            |
+| --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ------------------ | ------------------------------- |
 | [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Fur)                                     | Fur                                     | v1.0.0-rc.final.50 | Fur 总包                        |
 | [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Fur.Extras.Authentication.JwtBearer)     | Fur.Extras.Authentication.JwtBearer     | v1.0.0-rc.final.50 | Fur Jwt 拓展包                  |
 | [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Fur.Extras.DependencyModel.CodeAnalysis) | Fur.Extras.DependencyModel.CodeAnalysis | 1.0.0-rc.1         | Fur 程序集扫描和动态编译 拓展包 |
