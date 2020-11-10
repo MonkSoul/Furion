@@ -2,6 +2,9 @@
 
 namespace Fur.Core
 {
+    /// <summary>
+    /// 性别
+    /// </summary>
     public enum Gender
     {
         /// <summary>

@@ -111,9 +111,6 @@ namespace Fur.SpecificationDocument
             // 配置 Swagger SchemaId
             ConfigureSchemaId(swaggerGenOptions);
 
-            //使得Swagger能够正确地显示Enum的对应关系
-            swaggerGenOptions.SchemaFilter<EnumSchemaFilter>();
-
             // 配置动作方法标签
             ConfigureTagsAction(swaggerGenOptions);
 
@@ -122,6 +119,9 @@ namespace Fur.SpecificationDocument
 
             // 配置授权
             ConfigureSecurities(swaggerGenOptions);
+
+            //使得Swagger能够正确地显示Enum的对应关系
+            swaggerGenOptions.SchemaFilter<EnumSchemaFilter>();
 
             // 自定义配置
             configure?.Invoke(swaggerGenOptions);

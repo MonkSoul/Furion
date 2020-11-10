@@ -75,6 +75,11 @@
             <param name="dbContextLocator"></param>
             <returns></returns>
         </member>
+        <member name="T:Fur.Core.Gender">
+            <summary>
+            性别
+            </summary>
+        </member>
         <member name="F:Fur.Core.Gender.Male">
             <summary>
             男

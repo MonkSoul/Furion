@@ -30,6 +30,7 @@ namespace Fur.SpecificationDocument
             {
                 model.Enum.Clear();
                 var stringBuilder = new StringBuilder();
+                stringBuilder.Append($"{model.Description}<br />");
 
                 var enumValues = Enum.GetValues(type);
                 foreach (var option in enumValues)
@@ -41,7 +42,7 @@ namespace Fur.SpecificationDocument
                     var descriptionAttribute = fieldinfo.GetCustomAttribute<DescriptionAttribute>(true);
 
                     model.Enum.Add(new OpenApiInteger(value));
-                    stringBuilder.Append($"{descriptionAttribute?.Description} {option} = {value}<br />");
+                    stringBuilder.Append($"&nbsp;{descriptionAttribute?.Description} {option} = {value}<br />");
                 }
                 model.Description = stringBuilder.ToString();
             }
