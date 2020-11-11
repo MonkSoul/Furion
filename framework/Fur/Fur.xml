@@ -22457,38 +22457,42 @@
             友好异常服务拓展类
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.DataValidationServiceCollectionExtensions.AddDataValidation``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Boolean)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.DataValidationServiceCollectionExtensions.AddDataValidation``1(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Boolean,System.Boolean)">
             <summary>
             添加全局数据验证
             </summary>
             <typeparam name="TValidationMessageTypeProvider">验证类型消息提供器</typeparam>
             <param name="mvcBuilder"></param>
             <param name="enabledGlobalDataValidationFilter">启用全局验证过滤器</param>
+            <param name="suppressImplicitRequiredAttributeForNonNullableReferenceTypes">禁止C# 8.0 验证非可空引用类型</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.DataValidationServiceCollectionExtensions.AddDataValidation``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Boolean)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.DataValidationServiceCollectionExtensions.AddDataValidation``1(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Boolean,System.Boolean)">
             <summary>
             添加全局数据验证
             </summary>
             <typeparam name="TValidationMessageTypeProvider">验证类型消息提供器</typeparam>
             <param name="services"></param>
             <param name="enabledGlobalDataValidationFilter">启用全局验证过滤器</param>
+            <param name="suppressImplicitRequiredAttributeForNonNullableReferenceTypes">禁止C# 8.0 验证非可空引用类型</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.DataValidationServiceCollectionExtensions.AddDataValidation(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Boolean)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.DataValidationServiceCollectionExtensions.AddDataValidation(Microsoft.Extensions.DependencyInjection.IMvcBuilder,System.Boolean,System.Boolean)">
             <summary>
             添加全局数据验证
             </summary>
             <param name="mvcBuilder"></param>
             <param name="enabledGlobalDataValidationFilter">启用全局验证过滤器</param>
+            <param name="suppressImplicitRequiredAttributeForNonNullableReferenceTypes">禁止C# 8.0 验证非可空引用类型</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.DataValidationServiceCollectionExtensions.AddDataValidation(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Boolean)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.DataValidationServiceCollectionExtensions.AddDataValidation(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Boolean,System.Boolean)">
             <summary>
             添加全局数据验证
             </summary>
             <param name="services"></param>
             <param name="enabledGlobalDataValidationFilter">启用全局验证过滤器</param>
+            <param name="suppressImplicitRequiredAttributeForNonNullableReferenceTypes">禁止C# 8.0 验证非可空引用类型</param>
             <returns></returns>
         </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.DependencyInjectionServiceCollectionExtensions">
