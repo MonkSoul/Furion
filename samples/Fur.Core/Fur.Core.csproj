@@ -15,4 +15,8 @@
     <PackageReference Include="Fur.Extras.Authentication.JwtBearer" Version="1.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\framework\Fur\Fur.csproj" />
+  </ItemGroup>
+
 </Project>
