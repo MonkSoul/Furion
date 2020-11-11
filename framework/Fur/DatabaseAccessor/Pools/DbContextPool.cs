@@ -139,9 +139,24 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         /// <param name="skipCount"></param>
         /// <param name="transaction"></param>
+        /// <returns></returns>
+        public void ShareTransaction(int skipCount, DbTransaction transaction)
+        {
+            // 跳过第一个数据库上下文并设置贡献事务
+            dbContexts
+                .Where(u => u != null)
+                .Skip(skipCount)
+                .Select(u => u.Database.UseTransaction(transaction));
+        }
+
+        /// <summary>
+        /// 设置数据库上下文共享事务
+        /// </summary>
+        /// <param name="skipCount"></param>
+        /// <param name="transaction"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task SetTransactionSharedToDbContextAsync(int skipCount, DbTransaction transaction, CancellationToken cancellationToken = default)
+        public async Task ShareTransactionAsync(int skipCount, DbTransaction transaction, CancellationToken cancellationToken = default)
         {
             // 跳过第一个数据库上下文并设置贡献事务
             var tasks = dbContexts

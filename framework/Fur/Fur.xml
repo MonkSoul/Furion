@@ -8048,7 +8048,15 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="M:Fur.DatabaseAccessor.DbContextPool.SetTransactionSharedToDbContextAsync(System.Int32,System.Data.Common.DbTransaction,System.Threading.CancellationToken)">
+        <member name="M:Fur.DatabaseAccessor.DbContextPool.ShareTransaction(System.Int32,System.Data.Common.DbTransaction)">
+            <summary>
+            设置数据库上下文共享事务
+            </summary>
+            <param name="skipCount"></param>
+            <param name="transaction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.DbContextPool.ShareTransactionAsync(System.Int32,System.Data.Common.DbTransaction,System.Threading.CancellationToken)">
             <summary>
             设置数据库上下文共享事务
             </summary>

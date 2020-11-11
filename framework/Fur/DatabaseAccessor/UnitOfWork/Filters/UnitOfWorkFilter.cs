@@ -47,10 +47,7 @@ namespace Fur.DatabaseAccessor
                 var resultContext = await next();
 
                 // 判断是否异常
-                if (resultContext.Exception == null)
-                {
-                    await DbContextPool.Instance.SavePoolNowAsync();
-                }
+                if (resultContext.Exception == null) DbContextPool.Instance.SavePoolNow();
             }
             else
             {
@@ -66,8 +63,8 @@ namespace Fur.DatabaseAccessor
                     var firstDbContext = dbContexts.First();
 
                     // 开启事务
-                    dbContextTransaction = await firstDbContext.Database.BeginTransactionAsync();
-                    await DbContextPool.Instance.SetTransactionSharedToDbContextAsync(1, dbContextTransaction.GetDbTransaction());
+                    dbContextTransaction = firstDbContext.Database.BeginTransaction();
+                    DbContextPool.Instance.ShareTransaction(1, dbContextTransaction.GetDbTransaction());
                 }
                 // 创建临时数据库上下文
                 else
@@ -75,8 +72,8 @@ namespace Fur.DatabaseAccessor
                     var newDbContext = Db.GetRequestDbContext(Penetrates.DbContextWithLocatorCached.Keys.First());
 
                     // 开启事务
-                    dbContextTransaction = await newDbContext.Database.BeginTransactionAsync();
-                    await DbContextPool.Instance.SetTransactionSharedToDbContextAsync(1, dbContextTransaction.GetDbTransaction());
+                    dbContextTransaction = newDbContext.Database.BeginTransaction();
+                    DbContextPool.Instance.ShareTransaction(1, dbContextTransaction.GetDbTransaction());
                 }
 
                 // 调用方法
@@ -89,10 +86,10 @@ namespace Fur.DatabaseAccessor
                     try
                     {
                         // 将所有数据库上下文修改 SaveChanges();
-                        var hasChangesCount = await DbContextPool.Instance.SavePoolNowAsync();
+                        var hasChangesCount = DbContextPool.Instance.SavePoolNow();
 
                         // 提交共享事务
-                        await dbContextTransaction.CommitAsync();
+                        dbContextTransaction?.Commit();
 
                         // 打印事务提交消息
                         App.PrintToMiniProfiler(MiniProfilerCategory, "Completed", $"Transaction Completed! Has {hasChangesCount} DbContext Changes.");
@@ -100,7 +97,7 @@ namespace Fur.DatabaseAccessor
                     catch
                     {
                         // 回滚事务
-                        await dbContextTransaction.RollbackAsync();
+                        dbContextTransaction?.Rollback();
 
                         // 打印事务回滚消息
                         App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
@@ -109,19 +106,18 @@ namespace Fur.DatabaseAccessor
                     }
                     finally
                     {
-                        await dbContextTransaction.DisposeAsync();
+                        dbContextTransaction?.Dispose();
                     }
                 }
                 else
                 {
                     // 回滚事务
-                    await dbContextTransaction.RollbackAsync();
+                    dbContextTransaction?.Rollback();
+                    dbContextTransaction?.Dispose();
 
                     // 打印事务回滚消息
                     App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
                 }
-
-                await dbContextTransaction.DisposeAsync();
             }
         }
     }
