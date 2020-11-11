@@ -1,5 +1,6 @@
 ﻿using Fur.DependencyInjection;
 using System;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -9,8 +10,17 @@ namespace Fur.DataEncryption
     /// MD5 加密
     /// </summary>
     [SkipScan]
-    public class MD5Encryption
+    public unsafe class MD5Encryption
     {
+        private const uint LOWERCASING = 0x2020U;
+
+        private static readonly delegate* managed<ReadOnlySpan<byte>, Span<char>, uint, void> _EncodeToUtf16Ptr;
+
+        static MD5Encryption()
+        {
+            _EncodeToUtf16Ptr = (delegate* managed<ReadOnlySpan<byte>, Span<char>, uint, void>)typeof(uint).Assembly.GetType("System.HexConverter").GetMethod("EncodeToUtf16", BindingFlags.Static | BindingFlags.Public).MethodHandle.GetFunctionPointer();
+        }
+
         /// <summary>
         /// 字符串 MD5 比较
         /// </summary>
@@ -22,8 +32,7 @@ namespace Fur.DataEncryption
             using var md5Hash = MD5.Create();
             var hashOfInput = Encrypt(text);
             var comparer = StringComparer.OrdinalIgnoreCase;
-            if (0 == comparer.Compare(hashOfInput, hash)) return true;
-            else return false;
+            return 0 == comparer.Compare(hashOfInput, hash);
         }
 
         /// <summary>
@@ -35,13 +44,9 @@ namespace Fur.DataEncryption
         {
             using var md5Hash = MD5.Create();
             var data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(text));
-
-            var sBuilder = new StringBuilder();
-            for (var i = 0; i < data.Length; i++)
-            {
-                sBuilder.Append(data[i].ToString("x2"));
-            }
-            return sBuilder.ToString();
+            Span<char> output = stackalloc char[32];
+            _EncodeToUtf16Ptr(data, output, LOWERCASING);
+            return new string(output);
         }
     }
 }

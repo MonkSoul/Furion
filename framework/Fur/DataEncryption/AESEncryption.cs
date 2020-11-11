@@ -1,6 +1,8 @@
 ﻿using Fur.DependencyInjection;
 using System;
+using System.Buffers.Text;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -25,21 +27,25 @@ namespace Fur.DataEncryption
             using var aesAlg = Aes.Create();
             using var encryptor = aesAlg.CreateEncryptor(encryptKey, aesAlg.IV);
             using var msEncrypt = new MemoryStream();
-            using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+            using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write, true))
 
-            using (var swEncrypt = new StreamWriter(csEncrypt))
+            using (var swEncrypt = new StreamWriter(csEncrypt, leaveOpen: true))
             {
                 swEncrypt.Write(text);
             }
 
             var iv = aesAlg.IV;
-            var decryptedContent = msEncrypt.ToArray();
-            var result = new byte[iv.Length + decryptedContent.Length];
+            var dataLength = iv.Length + (int)msEncrypt.Length;
+            var decryptedContent = msEncrypt.GetBuffer();
+            var base64Length = Base64.GetMaxEncodedToUtf8Length(dataLength);
+            var result = new byte[base64Length];
 
-            Buffer.BlockCopy(iv, 0, result, 0, iv.Length);
-            Buffer.BlockCopy(decryptedContent, 0, result, iv.Length, decryptedContent.Length);
+            Unsafe.CopyBlock(ref result[0], ref iv[0], (uint)iv.Length);
+            Unsafe.CopyBlock(ref result[iv.Length], ref decryptedContent[0], (uint)msEncrypt.Length);
 
-            return Convert.ToBase64String(result);
+            Base64.EncodeToUtf8InPlace(result, dataLength, out base64Length);
+
+            return Encoding.ASCII.GetString(result.AsSpan()[..base64Length]);
         }
 
         /// <summary>
@@ -55,22 +61,16 @@ namespace Fur.DataEncryption
             var iv = new byte[16];
             var cipher = new byte[fullCipher.Length - iv.Length];
 
-            Buffer.BlockCopy(fullCipher, 0, iv, 0, iv.Length);
-            Buffer.BlockCopy(fullCipher, iv.Length, cipher, 0, fullCipher.Length - iv.Length);
+            Unsafe.CopyBlock(ref iv[0], ref fullCipher[0], (uint)iv.Length);
+            Unsafe.CopyBlock(ref cipher[0], ref fullCipher[iv.Length], (uint)(fullCipher.Length - iv.Length));
             var decryptKey = Encoding.UTF8.GetBytes(skey);
 
             using var aesAlg = Aes.Create();
             using var decryptor = aesAlg.CreateDecryptor(decryptKey, iv);
-            string result;
-            using (var msDecrypt = new MemoryStream(cipher))
-            {
-                using var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
-                using var srDecrypt = new StreamReader(csDecrypt);
-
-                result = srDecrypt.ReadToEnd();
-            }
-
-            return result;
+            using var msDecrypt = new MemoryStream(cipher);
+            using var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
+            using var srDecrypt = new StreamReader(csDecrypt);
+            return srDecrypt.ReadToEnd();
         }
     }
 }
