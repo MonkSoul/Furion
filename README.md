@@ -17,6 +17,13 @@
 
 </div>
 
+<p></p>
+<p></p>
+
+## 🍓 开发初衷
+
+> 无私奉献不是天方夜谭，有时候，我们也可以做到。
+
 ## 🍕 名字的由来
 
 > 故事是这样子的：
@@ -88,11 +95,11 @@ docker run --name fur -p 5000:80 fur:v1.0.0
 
 ## 🥜 Fur 官方包
 
-| 包类型                                                                                                                            | 名称                                    | 版本               | 描述                            |
-| --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ------------------ | ------------------------------- |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Fur)                                     | Fur                                     | v1.0.0-rc.final.50 | Fur 总包                        |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Fur.Extras.Authentication.JwtBearer)     | Fur.Extras.Authentication.JwtBearer     | v1.0.0-rc.final.50 | Fur Jwt 拓展包                  |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Fur.Extras.DependencyModel.CodeAnalysis) | Fur.Extras.DependencyModel.CodeAnalysis | 1.0.0-rc.1         | Fur 程序集扫描和动态编译 拓展包 |
+| 包类型                                                                                                                            | 名称                                    | 版本   | 描述                            |
+| --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ------ | ------------------------------- |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Fur)                                     | Fur                                     | v1.0.0 | Fur 总包                        |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Fur.Extras.Authentication.JwtBearer)     | Fur.Extras.Authentication.JwtBearer     | v1.0.0 | Fur Jwt 拓展包                  |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Fur.Extras.DependencyModel.CodeAnalysis) | Fur.Extras.DependencyModel.CodeAnalysis | 1.0.0  | Fur 程序集扫描和动态编译 拓展包 |
 
 ## 🍎 框架特点
 
@@ -191,6 +198,8 @@ docker run --name fur -p 5000:80 fur:v1.0.0
 <a href="https://gitee.com/ZYX315" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/285/856214_ZYX315_1602561602.png!avatar200" height="40"/></a>
 <a href="https://gitee.com/hdying" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/660/1982081_hdying_1602561538.png!avatar200" height="40"/></a>
 <a href="https://gitee.com/vincywindy" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/313/939875_vincywindy_1602575487.png!avatar200" height="40"/></a>
+<a href="https://gitee.com/Executor-Cheng" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/2178/6536098_Executor-Cheng_1583720242.png!avatar200" height="40"/></a>
+<a href="https://gitee.com/luzjoyme" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/1838/5516692_luzjoyme_1605065396.png!avatar200" height="40"/></a>
 
 <p></p>
 
@@ -243,6 +252,7 @@ docker run --name fur -p 5000:80 fur:v1.0.0
 | 😝 六尘子       | **微信红包 199**      | 公司已经使用，小小敬意                       |
 | 🤠 ccdfz        | **QQ 专属红包 200**   | 赞助一根内存条                               |
 | 🤑 邓亮灯       | **28.88**             | 感谢您的开源项目！                           |
+| 😬 天道酬勤     | **微信二维码 188**    | 小小心意                                     |
 
 非常感谢您们的支持，正是因为您们，中国开源才可以越走越远，`Fur` 越走越远。
 
