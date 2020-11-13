@@ -48,7 +48,7 @@
 
   <ItemGroup>
     <PackageReference Include="Fur.Extras.DependencyModel.CodeAnalysis" Version="1.0.0" />
-    <PackageReference Include="Mapster" Version="6.5.1" />
+    <PackageReference Include="Mapster" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.0" />
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.1" />
