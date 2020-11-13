@@ -37,6 +37,7 @@ namespace Fur.DataEncryption
 
             return ByteToString(MD5Instances.Instance.ComputeHash(bytes));
         }
+
         /// <summary>
         /// 创建MD5实例
         /// </summary>
@@ -47,6 +48,7 @@ namespace Fur.DataEncryption
             /// </summary>
             [ThreadStatic]
             private static MD5 instance;
+
             /// <summary>
             /// MD5实例
             /// </summary>
@@ -60,6 +62,7 @@ namespace Fur.DataEncryption
                 return instance;
             }
         }
+
         /// <summary>
         /// 重写ToString方法
         /// </summary>

@@ -18830,6 +18830,28 @@
             <param name="text">加密文本</param>
             <returns></returns>
         </member>
+        <member name="T:Fur.DataEncryption.MD5Encryption.MD5Instances">
+            <summary>
+            创建MD5实例
+            </summary>
+        </member>
+        <member name="F:Fur.DataEncryption.MD5Encryption.MD5Instances.instance">
+            <summary>
+            线程静态变量
+            </summary>
+        </member>
+        <member name="P:Fur.DataEncryption.MD5Encryption.MD5Instances.Instance">
+            <summary>
+            MD5实例
+            </summary>
+        </member>
+        <member name="M:Fur.DataEncryption.MD5Encryption.ByteToString(System.Byte[])">
+            <summary>
+            重写ToString方法
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
         <member name="T:Fur.DataValidation.ValidationItemMetadataAttribute">
             <summary>
             验证项元数据
