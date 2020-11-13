@@ -21,6 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // 扫描所有继承  IRegister 接口的对象映射配置
             TypeAdapterConfig.GlobalSettings.Scan(App.Assemblies.ToArray());
 
+            // 配置默认全局映射（支持覆盖）
             TypeAdapterConfig.GlobalSettings.Default
                 .NameMatchingStrategy(NameMatchingStrategy.Flexible)
                 .PreserveReference(true);
