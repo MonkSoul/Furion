@@ -44,9 +44,9 @@
             能够被扫描的类型
             </summary>
         </member>
-        <member name="M:Fur.App.#cctor">
+        <member name="P:Fur.App.ServiceProvider">
             <summary>
-            构造函数
+            瞬时服务提供器，每次都是不一样的实例
             </summary>
         </member>
         <member name="M:Fur.App.GetService``1">
@@ -101,14 +101,14 @@
             <param name="message">消息</param>
             <param name="isError">是否为警告消息</param>
         </member>
+        <member name="M:Fur.App.#cctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
         <member name="F:Fur.App.AppStartups">
             <summary>
             应用所有启动配置对象
-            </summary>
-        </member>
-        <member name="P:Fur.App.Services">
-            <summary>
-            瞬时服务提供器，每次都是不一样的实例
             </summary>
         </member>
         <member name="M:Fur.App.GetDuplicateService``1">

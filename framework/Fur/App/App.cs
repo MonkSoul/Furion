@@ -75,18 +75,9 @@ namespace Fur
         public static readonly IEnumerable<Type> CanBeScanTypes;
 
         /// <summary>
-        /// 构造函数
+        /// 瞬时服务提供器，每次都是不一样的实例
         /// </summary>
-        static App()
-        {
-            Configuration = InternalApp.ConfigurationBuilder.Build();
-
-            Assemblies = GetAssemblies();
-            CanBeScanTypes = Assemblies.SelectMany(u => u.GetTypes()
-                .Where(u => u.IsPublic && !u.IsDefined(typeof(SkipScanAttribute), false)));
-
-            AppStartups = new ConcurrentBag<AppStartup>();
-        }
+        public static IServiceProvider ServiceProvider => InternalApp.InternalServices.BuildServiceProvider();
 
         /// <summary>
         /// 获取请求生命周期的服务
@@ -176,14 +167,23 @@ namespace Fur
         }
 
         /// <summary>
+        /// 构造函数
+        /// </summary>
+        static App()
+        {
+            Configuration = InternalApp.ConfigurationBuilder.Build();
+
+            Assemblies = GetAssemblies();
+            CanBeScanTypes = Assemblies.SelectMany(u => u.GetTypes()
+                .Where(u => u.IsPublic && !u.IsDefined(typeof(SkipScanAttribute), false)));
+
+            AppStartups = new ConcurrentBag<AppStartup>();
+        }
+
+        /// <summary>
         /// 应用所有启动配置对象
         /// </summary>
         internal static ConcurrentBag<AppStartup> AppStartups;
-
-        /// <summary>
-        /// 瞬时服务提供器，每次都是不一样的实例
-        /// </summary>
-        internal static IServiceProvider Services => InternalApp.InternalServices.BuildServiceProvider();
 
         /// <summary>
         /// 获取副本服务
@@ -203,7 +203,7 @@ namespace Fur
         /// <returns></returns>
         internal static object GetDuplicateService(Type type)
         {
-            return Services.GetService(type);
+            return ServiceProvider.GetService(type);
         }
 
         /// <summary>
