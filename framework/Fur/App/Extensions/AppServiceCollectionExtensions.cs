@@ -215,7 +215,7 @@ namespace Microsoft.Extensions.DependencyInjection
             foreach (var type in startups)
             {
                 var startup = Activator.CreateInstance(type) as AppStartup;
-                App.Startups.Add(startup);
+                App.AppStartups.Add(startup);
 
                 // 获取所有符合依赖注入格式的方法，如返回值void，且第一个参数是 IServiceCollection 类型
                 var serviceMethods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)

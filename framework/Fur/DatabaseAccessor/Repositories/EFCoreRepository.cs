@@ -30,10 +30,12 @@ namespace Fur.DatabaseAccessor
         /// <param name="dbContextResolve">数据库上下文解析器</param>
         /// <param name="repository">非泛型仓储</param>
         /// <param name="serviceProvider">服务提供器</param>
+        /// <param name="dbContextPool"></param>
         public EFCoreRepository(
             Func<Type, IScoped, DbContext> dbContextResolve
             , IRepository repository
-            , IServiceProvider serviceProvider) : base(dbContextResolve, repository, serviceProvider)
+            , IServiceProvider serviceProvider
+            , IDbContextPool dbContextPool) : base(dbContextResolve, repository, serviceProvider, dbContextPool)
         {
         }
     }
@@ -137,18 +139,26 @@ namespace Fur.DatabaseAccessor
         private readonly IRepository _repository;
 
         /// <summary>
+        /// 数据库上下文池
+        /// </summary>
+        private readonly IDbContextPool _dbContextPool;
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="dbContextResolve">数据库上下文解析器</param>
         /// <param name="repository">非泛型仓储</param>
         /// <param name="serviceProvider">服务提供器</param>
+        /// <param name="dbContextPool"></param>
         public EFCoreRepository(
             Func<Type, IScoped, DbContext> dbContextResolve
             , IRepository repository
-            , IServiceProvider serviceProvider) : base(dbContextResolve, serviceProvider)
+            , IServiceProvider serviceProvider
+            , IDbContextPool dbContextPool) : base(dbContextResolve, serviceProvider)
         {
             // 解析数据库上下文
             var dbContext = dbContextResolve(typeof(TDbContextLocator), default);
+            _dbContextPool = dbContextPool;
 
             // 配置数据库上下文
             DynamicDbContext = DbContext = dbContext;
@@ -468,7 +478,7 @@ namespace Fur.DatabaseAccessor
         /// <returns>ConcurrentBag{DbContext}</returns>
         public ConcurrentBag<DbContext> GetDbContexts()
         {
-            return DbContextPool.Instance.GetDbContexts();
+            return _dbContextPool.GetDbContexts();
         }
 
         /// <summary>

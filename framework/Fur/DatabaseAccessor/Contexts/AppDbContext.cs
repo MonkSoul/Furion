@@ -106,14 +106,14 @@ namespace Fur.DatabaseAccessor
                 if (Db.CustomizeMultiTenants || !typeof(IPrivateMultiTenant).IsAssignableFrom(GetType())) return default;
 
                 // 判断 HttpContext 是否存在
-                var httpContextAccessor = App.GetService<IHttpContextAccessor>();
+                var httpContextAccessor = App.GetDuplicateService<IHttpContextAccessor>();
                 if (httpContextAccessor == null || httpContextAccessor.HttpContext == null) return default;
 
                 // 获取主机地址
                 var host = httpContextAccessor.HttpContext.Request.Host.Value;
 
                 // 从内存缓存中读取或查询数据库
-                var memoryCache = App.GetRequestService<IMemoryCache>();
+                var memoryCache = App.GetService<IMemoryCache>();
                 return memoryCache.GetOrCreate($"{host}:MultiTenants", cache =>
                 {
                     // 读取数据库

@@ -40,7 +40,7 @@ namespace Fur.DynamicApiController
         {
             _dynamicApiControllerSettings = App.GetOptions<DynamicApiControllerSettingsOptions>();
             _nameVersionRegex = new Regex(@"V(?<version>[0-9_]+$)");
-            _enabledUnifyResult = App.GetService<IUnifyResultProvider>() != null;
+            _enabledUnifyResult = App.GetDuplicateService<IUnifyResultProvider>() != null;
         }
 
         /// <summary>

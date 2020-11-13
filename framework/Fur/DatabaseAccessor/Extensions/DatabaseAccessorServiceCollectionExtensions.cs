@@ -1,4 +1,5 @@
-﻿using Fur.DatabaseAccessor;
+﻿using Fur;
+using Fur.DatabaseAccessor;
 using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,9 @@ namespace Microsoft.Extensions.DependencyInjection
 
             // 配置数据库上下文
             configure?.Invoke(services);
+
+            // 注册数据库上下文池
+            services.TryAddScoped<IDbContextPool, DbContextPool>();
 
             // 注册 Sql 仓储
             services.TryAddScoped(typeof(ISqlRepository<>), typeof(SqlRepository<>));
@@ -63,9 +67,10 @@ namespace Microsoft.Extensions.DependencyInjection
 
                     // 动态解析数据库上下文
                     var dbContext = provider.GetService(dbContextType) as DbContext;
+                    var dbContextPool = App.GetService<IDbContextPool>();
 
                     // 添加数据库上下文到池中
-                    DbContextPool.Instance.AddToPool(dbContext);
+                    dbContextPool.AddToPool(dbContext);
 
                     return dbContext;
                 }
@@ -82,9 +87,10 @@ namespace Microsoft.Extensions.DependencyInjection
 
                     // 动态解析数据库上下文
                     var dbContext = provider.GetService(dbContextType) as DbContext;
+                    var dbContextPool = App.GetService<IDbContextPool>();
 
                     // 添加数据库上下文到池中
-                    DbContextPool.Instance.AddToPool(dbContext);
+                    dbContextPool.AddToPool(dbContext);
 
                     return dbContext;
                 }

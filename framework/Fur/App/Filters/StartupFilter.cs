@@ -32,11 +32,6 @@ namespace Fur
         {
             return app =>
             {
-                var applicationServices = app.ApplicationServices;
-
-                // 设置应用服务提供器
-                App.ApplicationServices = applicationServices;
-
                 // 设置响应报文头信息，标记框架类型
                 app.Use(async (context, next) =>
                 {
@@ -47,7 +42,7 @@ namespace Fur
                 // 调用默认中间件
                 app.UseApp();
 
-                UseStartup(app, applicationServices);
+                UseStartup(app, app.ApplicationServices);
 
                 // 调用 Fur.Web.Entry 中的 Startup
                 next(app);
@@ -61,7 +56,7 @@ namespace Fur
         /// <param name="applicationServices">服务提供器</param>
         private static void UseStartup(IApplicationBuilder app, IServiceProvider applicationServices)
         {
-            var startups = App.Startups;
+            var startups = App.AppStartups;
             if (!startups.Any()) return;
 
             // 获取环境和配置

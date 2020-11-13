@@ -29,6 +29,20 @@ namespace Fur.DatabaseAccessor
         public int Order => FilterOrder;
 
         /// <summary>
+        /// 数据库上下文池
+        /// </summary>
+        private readonly IDbContextPool _dbContextPool;
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="dbContextPool"></param>
+        public UnitOfWorkFilter(IDbContextPool dbContextPool)
+        {
+            _dbContextPool = dbContextPool;
+        }
+
+        /// <summary>
         /// 拦截请求
         /// </summary>
         /// <param name="context">动作方法上下文</param>
@@ -47,14 +61,14 @@ namespace Fur.DatabaseAccessor
                 var resultContext = await next();
 
                 // 判断是否异常
-                if (resultContext.Exception == null) DbContextPool.Instance.SavePoolNow();
+                if (resultContext.Exception == null) _dbContextPool.SavePoolNow();
             }
             else
             {
                 // 打印事务开始消息
                 App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning");
 
-                var dbContexts = DbContextPool.Instance.GetDbContexts();
+                var dbContexts = _dbContextPool.GetDbContexts();
                 IDbContextTransaction dbContextTransaction;
 
                 // 判断 dbContextPool 中是否包含DbContext，如果是，则使用第一个数据库上下文开启事务，并应用于其他数据库上下文
@@ -64,7 +78,7 @@ namespace Fur.DatabaseAccessor
 
                     // 开启事务
                     dbContextTransaction = firstDbContext.Database.BeginTransaction();
-                    DbContextPool.Instance.ShareTransaction(1, dbContextTransaction.GetDbTransaction());
+                    _dbContextPool.ShareTransaction(1, dbContextTransaction.GetDbTransaction());
                 }
                 // 创建临时数据库上下文
                 else
@@ -73,7 +87,7 @@ namespace Fur.DatabaseAccessor
 
                     // 开启事务
                     dbContextTransaction = newDbContext.Database.BeginTransaction();
-                    DbContextPool.Instance.ShareTransaction(1, dbContextTransaction.GetDbTransaction());
+                    _dbContextPool.ShareTransaction(1, dbContextTransaction.GetDbTransaction());
                 }
 
                 // 调用方法
@@ -86,7 +100,7 @@ namespace Fur.DatabaseAccessor
                     try
                     {
                         // 将所有数据库上下文修改 SaveChanges();
-                        var hasChangesCount = DbContextPool.Instance.SavePoolNow();
+                        var hasChangesCount = _dbContextPool.SavePoolNow();
 
                         // 提交共享事务
                         dbContextTransaction?.Commit();

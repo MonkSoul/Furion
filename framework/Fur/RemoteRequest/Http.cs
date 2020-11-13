@@ -15,7 +15,7 @@ namespace Fur.RemoteRequest
         public static THttpDispatchProxy GetHttpDispatchProxy<THttpDispatchProxy>()
             where THttpDispatchProxy : class, IHttpDispatchProxy
         {
-            return App.GetService<THttpDispatchProxy>();
+            return App.GetDuplicateService<THttpDispatchProxy>();
         }
     }
 }

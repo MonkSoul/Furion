@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Fur.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Concurrent;
 using System.Data.Common;
@@ -11,28 +12,13 @@ namespace Fur.DatabaseAccessor
     /// <summary>
     /// 数据库上下文池
     /// </summary>
-    public sealed class DbContextPool
+    [SkipScan]
+    public class DbContextPool : IDbContextPool
     {
         /// <summary>
-        /// 惰性加载
+        /// 构造函数
         /// </summary>
-        private static readonly Lazy<DbContextPool> lazy = new(() => new DbContextPool());
-
-        /// <summary>
-        /// 配置实例
-        /// </summary>
-        public static DbContextPool Instance
-        {
-            get
-            {
-                return lazy.Value;
-            }
-        }
-
-        /// <summary>
-        /// 私有化构造函数
-        /// </summary>
-        private DbContextPool()
+        public DbContextPool()
         {
             dbContexts = new ConcurrentBag<DbContext>();
         }

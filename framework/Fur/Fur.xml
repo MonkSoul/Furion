@@ -19,36 +19,14 @@
             应用全局配置
             </summary>
         </member>
-        <member name="P:Fur.App.Services">
-            <summary>
-            瞬时服务提供器，每次都是不一样的实例
-            </summary>
-        </member>
-        <member name="P:Fur.App.ApplicationServices">
-            <summary>
-            应用服务提供器
-            </summary>
-            <remarks>
-            通过它可以获取第三方容器注入的服务，也就是不是 asp.net core 托管的，或者自己实现 Ioc/DI 的方式
-            如采用 autofac 替换默认 IOC 容器，这样就可以通过 Application.GetAutofacRoot() 获取 Autofac容器对象，无需采用静态类手工存储该容器
-            </remarks>
-            <example>
-            <code>
-            var container = Application.GetAutofacRoot();
-            var service = container.Resolve(typeof(TService));
-            </code>
-            </example>
-        </member>
-        <member name="P:Fur.App.RequestServices">
-            <summary>
-            请求服务提供器，相当于使用构造函数注入方式
-            </summary>
-            <remarks>每一个请求一个作用域，由于基于请求，所以可能有空异常</remarks>
-            <exception cref="T:System.ArgumentNullException">空异常</exception>
-        </member>
         <member name="F:Fur.App.Configuration">
             <summary>
             全局配置选项
+            </summary>
+        </member>
+        <member name="F:Fur.App._webHostEnvironment">
+            <summary>
+            私有环境变量，避免重复解析
             </summary>
         </member>
         <member name="P:Fur.App.WebHostEnvironment">
@@ -66,11 +44,6 @@
             能够被扫描的类型
             </summary>
         </member>
-        <member name="F:Fur.App.Startups">
-            <summary>
-            应用所有启动配置对象
-            </summary>
-        </member>
         <member name="M:Fur.App.#cctor">
             <summary>
             构造函数
@@ -78,28 +51,14 @@
         </member>
         <member name="M:Fur.App.GetService``1">
             <summary>
-            获取瞬时服务
-            </summary>
-            <typeparam name="TService">服务</typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:Fur.App.GetRequestService``1">
-            <summary>
-            获取作用域服务
+            获取请求生命周期的服务
             </summary>
             <typeparam name="TService"></typeparam>
             <returns></returns>
         </member>
         <member name="M:Fur.App.GetService(System.Type)">
             <summary>
-            获取瞬时服务
-            </summary>
-            <param name="type">类型</param>
-            <returns></returns>
-        </member>
-        <member name="M:Fur.App.GetRequestService(System.Type)">
-            <summary>
-            获取作用域服务
+            获取请求生命周期的服务
             </summary>
             <param name="type"></param>
             <returns></returns>
@@ -141,6 +100,30 @@
             <param name="state">状态</param>
             <param name="message">消息</param>
             <param name="isError">是否为警告消息</param>
+        </member>
+        <member name="F:Fur.App.AppStartups">
+            <summary>
+            应用所有启动配置对象
+            </summary>
+        </member>
+        <member name="P:Fur.App.Services">
+            <summary>
+            瞬时服务提供器，每次都是不一样的实例
+            </summary>
+        </member>
+        <member name="M:Fur.App.GetDuplicateService``1">
+            <summary>
+            获取副本服务
+            </summary>
+            <typeparam name="TService">服务</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.App.GetDuplicateService(System.Type)">
+            <summary>
+            获取副本服务
+            </summary>
+            <param name="type">类型</param>
+            <returns></returns>
         </member>
         <member name="M:Fur.App.GetAssemblies">
             <summary>
@@ -7982,19 +7965,9 @@
             数据库上下文池
             </summary>
         </member>
-        <member name="F:Fur.DatabaseAccessor.DbContextPool.lazy">
-            <summary>
-            惰性加载
-            </summary>
-        </member>
-        <member name="P:Fur.DatabaseAccessor.DbContextPool.Instance">
-            <summary>
-            配置实例
-            </summary>
-        </member>
         <member name="M:Fur.DatabaseAccessor.DbContextPool.#ctor">
             <summary>
-            私有化构造函数
+            构造函数
             </summary>
         </member>
         <member name="F:Fur.DatabaseAccessor.DbContextPool.dbContexts">
@@ -8057,6 +8030,74 @@
             <returns></returns>
         </member>
         <member name="M:Fur.DatabaseAccessor.DbContextPool.ShareTransactionAsync(System.Int32,System.Data.Common.DbTransaction,System.Threading.CancellationToken)">
+            <summary>
+            设置数据库上下文共享事务
+            </summary>
+            <param name="skipCount"></param>
+            <param name="transaction"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Fur.DatabaseAccessor.IDbContextPool">
+            <summary>
+            数据库上下文池
+            </summary>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.IDbContextPool.GetDbContexts">
+            <summary>
+            获取所有数据库上下文
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.IDbContextPool.AddToPool(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            保存数据库上下文
+            </summary>
+            <param name="dbContext"></param>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.IDbContextPool.AddToPoolAsync(Microsoft.EntityFrameworkCore.DbContext)">
+            <summary>
+            保存数据库上下文（异步）
+            </summary>
+            <param name="dbContext"></param>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.IDbContextPool.SavePoolNow">
+            <summary>
+            保存数据库上下文池中所有已更改的数据库上下文
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.IDbContextPool.SavePoolNow(System.Boolean)">
+            <summary>
+            保存数据库上下文池中所有已更改的数据库上下文
+            </summary>
+            <param name="acceptAllChangesOnSuccess"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.IDbContextPool.SavePoolNowAsync(System.Threading.CancellationToken)">
+            <summary>
+            保存数据库上下文池中所有已更改的数据库上下文
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.IDbContextPool.SavePoolNowAsync(System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            保存数据库上下文池中所有已更改的数据库上下文（异步）
+            </summary>
+            <param name="acceptAllChangesOnSuccess"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.IDbContextPool.ShareTransaction(System.Int32,System.Data.Common.DbTransaction)">
+            <summary>
+            设置数据库上下文共享事务
+            </summary>
+            <param name="skipCount"></param>
+            <param name="transaction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.IDbContextPool.ShareTransactionAsync(System.Int32,System.Data.Common.DbTransaction,System.Threading.CancellationToken)">
             <summary>
             设置数据库上下文共享事务
             </summary>
@@ -12754,13 +12795,14 @@
             </summary>
             <typeparam name="TEntity">实体类型</typeparam>
         </member>
-        <member name="M:Fur.DatabaseAccessor.EFCoreRepository`1.#ctor(System.Func{System.Type,Fur.DependencyInjection.IScoped,Microsoft.EntityFrameworkCore.DbContext},Fur.DatabaseAccessor.IRepository,System.IServiceProvider)">
+        <member name="M:Fur.DatabaseAccessor.EFCoreRepository`1.#ctor(System.Func{System.Type,Fur.DependencyInjection.IScoped,Microsoft.EntityFrameworkCore.DbContext},Fur.DatabaseAccessor.IRepository,System.IServiceProvider,Fur.DatabaseAccessor.IDbContextPool)">
             <summary>
             构造函数
             </summary>
             <param name="dbContextResolve">数据库上下文解析器</param>
             <param name="repository">非泛型仓储</param>
             <param name="serviceProvider">服务提供器</param>
+            <param name="dbContextPool"></param>
         </member>
         <member name="T:Fur.DatabaseAccessor.EFCoreRepository">
             <summary>
@@ -12849,13 +12891,19 @@
             非泛型仓储
             </summary>
         </member>
-        <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.#ctor(System.Func{System.Type,Fur.DependencyInjection.IScoped,Microsoft.EntityFrameworkCore.DbContext},Fur.DatabaseAccessor.IRepository,System.IServiceProvider)">
+        <member name="F:Fur.DatabaseAccessor.EFCoreRepository`2._dbContextPool">
+            <summary>
+            数据库上下文池
+            </summary>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.EFCoreRepository`2.#ctor(System.Func{System.Type,Fur.DependencyInjection.IScoped,Microsoft.EntityFrameworkCore.DbContext},Fur.DatabaseAccessor.IRepository,System.IServiceProvider,Fur.DatabaseAccessor.IDbContextPool)">
             <summary>
             构造函数
             </summary>
             <param name="dbContextResolve">数据库上下文解析器</param>
             <param name="repository">非泛型仓储</param>
             <param name="serviceProvider">服务提供器</param>
+            <param name="dbContextPool"></param>
         </member>
         <member name="P:Fur.DatabaseAccessor.EFCoreRepository`2.DbContext">
             <summary>
@@ -18700,6 +18748,17 @@
             <summary>
             排序属性
             </summary>
+        </member>
+        <member name="F:Fur.DatabaseAccessor.UnitOfWorkFilter._dbContextPool">
+            <summary>
+            数据库上下文池
+            </summary>
+        </member>
+        <member name="M:Fur.DatabaseAccessor.UnitOfWorkFilter.#ctor(Fur.DatabaseAccessor.IDbContextPool)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="dbContextPool"></param>
         </member>
         <member name="M:Fur.DatabaseAccessor.UnitOfWorkFilter.OnActionExecutionAsync(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Microsoft.AspNetCore.Mvc.Filters.ActionExecutionDelegate)">
             <summary>

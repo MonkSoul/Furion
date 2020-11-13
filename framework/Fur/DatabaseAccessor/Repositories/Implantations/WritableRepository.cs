@@ -24,7 +24,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public int SavePoolNow()
         {
-            return DbContextPool.Instance.SavePoolNow();
+            return _dbContextPool.SavePoolNow();
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public int SavePoolNow(bool acceptAllChangesOnSuccess)
         {
-            return DbContextPool.Instance.SavePoolNow(acceptAllChangesOnSuccess);
+            return _dbContextPool.SavePoolNow(acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public Task<int> SavePoolNowAsync(CancellationToken cancellationToken = default)
         {
-            return DbContextPool.Instance.SavePoolNowAsync(cancellationToken);
+            return _dbContextPool.SavePoolNowAsync(cancellationToken);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Fur.DatabaseAccessor
         /// <returns></returns>
         public Task<int> SavePoolNowAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
-            return DbContextPool.Instance.SavePoolNowAsync(acceptAllChangesOnSuccess, cancellationToken);
+            return _dbContextPool.SavePoolNowAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
