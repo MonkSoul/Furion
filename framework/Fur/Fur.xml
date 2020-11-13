@@ -22481,6 +22481,13 @@
             <param name="providerName">数据库提供器</param>
             <returns></returns>
         </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.DatabaseProviderServiceCollectionExtensions.ReadProviderInfo(System.String)">
+            <summary>
+            解析数据库提供器信息
+            </summary>
+            <param name="providerName"></param>
+            <returns></returns>
+        </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.MiniProfilerServiceCollectionExtensions">
             <summary>
             MiniProfiler 服务拓展类
