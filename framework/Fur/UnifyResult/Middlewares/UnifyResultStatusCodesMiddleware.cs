@@ -1,6 +1,5 @@
 ﻿using Fur.DependencyInjection;
 using Microsoft.AspNetCore.Http;
-using System;
 using System.Threading.Tasks;
 
 namespace Fur.UnifyResult
@@ -17,20 +16,12 @@ namespace Fur.UnifyResult
         private readonly RequestDelegate _next;
 
         /// <summary>
-        /// 服务提供器
-        /// </summary>
-        private readonly IServiceProvider _serviceProvider;
-
-        /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="next"></param>
-        /// <param name="serviceProvider"></param>
-        public UnifyResultStatusCodesMiddleware(RequestDelegate next
-            , IServiceProvider serviceProvider)
+        public UnifyResultStatusCodesMiddleware(RequestDelegate next)
         {
             _next = next;
-            _serviceProvider = serviceProvider;
         }
 
         /// <summary>

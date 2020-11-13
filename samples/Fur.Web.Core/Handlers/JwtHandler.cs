@@ -2,7 +2,6 @@
 using Fur.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace Fur.Web.Core
 {
@@ -19,7 +18,7 @@ namespace Fur.Web.Core
         /// <returns></returns>
         public override bool Pipeline(AuthorizationHandlerContext context, DefaultHttpContext httpContext)
         {
-            var isValid = context.ValidateJwtBearer(httpContext, out JsonWebToken token);
+            var isValid = context.ValidateJwtBearer(httpContext, out _);
             if (!isValid) return false;
 
             // 检查权限

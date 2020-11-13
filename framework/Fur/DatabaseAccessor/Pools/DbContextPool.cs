@@ -16,7 +16,7 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 惰性加载
         /// </summary>
-        private static readonly Lazy<DbContextPool> lazy = new Lazy<DbContextPool>(() => new DbContextPool());
+        private static readonly Lazy<DbContextPool> lazy = new(() => new DbContextPool());
 
         /// <summary>
         /// 配置实例
@@ -143,10 +143,10 @@ namespace Fur.DatabaseAccessor
         public void ShareTransaction(int skipCount, DbTransaction transaction)
         {
             // 跳过第一个数据库上下文并设置贡献事务
-            dbContexts
-                .Where(u => u != null)
-                .Skip(skipCount)
-                .Select(u => u.Database.UseTransaction(transaction));
+            _ = dbContexts
+                   .Where(u => u != null)
+                   .Skip(skipCount)
+                   .Select(u => u.Database.UseTransaction(transaction));
         }
 
         /// <summary>

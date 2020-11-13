@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System;
 using System.Linq;
 using System.Net.Mime;
 using System.Text.Json;
@@ -21,20 +20,6 @@ namespace Fur.DataValidation
         /// MiniProfiler 分类名
         /// </summary>
         private const string MiniProfilerCategory = "validation";
-
-        /// <summary>
-        /// 服务提供器
-        /// </summary>
-        private readonly IServiceProvider _serviceProvider;
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="serviceProvider">服务提供器</param>
-        public DataValidationFilter(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-        }
 
         /// <summary>
         /// 过滤器排序
@@ -99,7 +84,7 @@ namespace Fur.DataValidation
         /// <param name="context">动作方法执行上下文</param>
         /// <param name="modelState">模型验证状态</param>
         /// <param name="actionDescriptor"></param>
-        private void SetValidateFailedResult(ActionExecutingContext context, ModelStateDictionary modelState, ControllerActionDescriptor actionDescriptor)
+        private static void SetValidateFailedResult(ActionExecutingContext context, ModelStateDictionary modelState, ControllerActionDescriptor actionDescriptor)
         {
             // 将验证错误信息转换成字典并序列化成 Json
             var validationResults = modelState.ToDictionary(u => u.Key, u => modelState[u.Key].Errors.Select(c => c.ErrorMessage));

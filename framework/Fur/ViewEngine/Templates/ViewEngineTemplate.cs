@@ -14,7 +14,7 @@ namespace Fur.ViewEngine
         /// <summary>
         /// 字符串构建器
         /// </summary>
-        private readonly StringBuilder stringBuilder = new StringBuilder();
+        private readonly StringBuilder stringBuilder = new();
 
         /// <summary>
         /// 特性后缀

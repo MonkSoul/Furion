@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System;
 using System.Threading.Tasks;
 
 namespace Fur.UnifyResult
@@ -13,20 +12,6 @@ namespace Fur.UnifyResult
     [SkipScan]
     public class SuccessUnifyResultFilter : IAsyncActionFilter, IOrderedFilter
     {
-        /// <summary>
-        /// 服务提供器
-        /// </summary>
-        private readonly IServiceProvider _serviceProvider;
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="serviceProvider">服务提供器</param>
-        public SuccessUnifyResultFilter(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-        }
-
         /// <summary>
         /// 过滤器排序
         /// </summary>

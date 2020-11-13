@@ -25,12 +25,12 @@ namespace Fur.DatabaseAccessor
         /// 操作命令集合
         /// </summary>
         private readonly ConcurrentDictionary<Guid, CustomTiming>
-            _commands = new ConcurrentDictionary<Guid, CustomTiming>(),
-            _opening = new ConcurrentDictionary<Guid, CustomTiming>(),
-            _closing = new ConcurrentDictionary<Guid, CustomTiming>();
+            _commands = new(),
+            _opening = new(),
+            _closing = new();
 
         private readonly ConcurrentDictionary<Guid, CustomTiming>
-            _readers = new ConcurrentDictionary<Guid, CustomTiming>();
+            _readers = new();
 
         /// <summary>
         /// 操作完成监听

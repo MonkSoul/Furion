@@ -4,7 +4,6 @@ using Fur.DatabaseAccessor;
 using Fur.DynamicApiController;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -19,14 +18,11 @@ namespace Fur.Application
     [AllowAnonymous, ApiDescriptionSettings("Default@1")]
     public class PersonService : IDynamicApiController
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IRepository<Person> _personRepository;
 
-        public PersonService(IRepository<Person> personRepository
-            , IHttpContextAccessor httpContextAccessor)
+        public PersonService(IRepository<Person> personRepository)
         {
             _personRepository = personRepository;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
