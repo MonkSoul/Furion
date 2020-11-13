@@ -79,6 +79,11 @@
             QQ 号码
             </summary>
         </member>
+        <member name="P:Fur.Application.Persons.PersonDto.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
         <member name="P:Fur.Application.Persons.PersonDto.Childrens">
             <summary>
             孩子

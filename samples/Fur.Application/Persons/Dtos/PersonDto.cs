@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Fur.Application.Persons
 {
@@ -33,6 +34,11 @@ namespace Fur.Application.Persons
         /// QQ 号码
         /// </summary>
         public string QQ { get; set; }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTimeOffset CreatedTime { get; set; }
 
         /// <summary>
         /// 孩子
