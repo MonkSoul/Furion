@@ -2,6 +2,7 @@
 using Fur.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Fur.Web.Core
 {
@@ -36,7 +37,7 @@ namespace Fur.Web.Core
             var securityDefineAttribute = httpContext.GetMetadata<SecurityDefineAttribute>();
             if (securityDefineAttribute == null) return true;
 
-            return App.GetService<IAuthorizationManager>().CheckSecurity(securityDefineAttribute.ResourceId);
+            return httpContext.RequestServices.GetService<IAuthorizationManager>().CheckSecurity(securityDefineAttribute.ResourceId);
         }
     }
 }
