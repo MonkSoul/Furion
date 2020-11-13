@@ -60,13 +60,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IMvcBuilder AddFriendlyException(this IMvcBuilder mvcBuilder, bool enabledGlobalExceptionFilter = true)
         {
-            var services = mvcBuilder.Services;
-
-            // 添加友好异常配置文件支持
-            services.AddConfigurableOptions<FriendlyExceptionSettingsOptions>();
-
-            // 添加异常配置文件支持
-            services.AddConfigurableOptions<ErrorCodeMessageSettingsOptions>();
+            // 新增基础配置
+            AddBaseConfigure(mvcBuilder.Services);
 
             // 添加全局异常过滤器
             if (enabledGlobalExceptionFilter)
@@ -83,8 +78,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IServiceCollection AddFriendlyException(this IServiceCollection services, bool enabledGlobalExceptionFilter = true)
         {
-            // 添加异常配置文件支持
-            services.AddConfigurableOptions<ErrorCodeMessageSettingsOptions>();
+            // 新增基础配置
+            AddBaseConfigure(services);
 
             // 添加全局异常过滤器
             if (enabledGlobalExceptionFilter)
@@ -96,6 +91,19 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             return services;
+        }
+
+        /// <summary>
+        /// 新增基础配置
+        /// </summary>
+        /// <param name="services"></param>
+        private static void AddBaseConfigure(IServiceCollection services)
+        {
+            // 添加友好异常配置文件支持
+            services.AddConfigurableOptions<FriendlyExceptionSettingsOptions>();
+
+            // 添加异常配置文件支持
+            services.AddConfigurableOptions<ErrorCodeMessageSettingsOptions>();
         }
     }
 }

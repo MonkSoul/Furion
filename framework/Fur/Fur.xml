@@ -22739,6 +22739,12 @@
             <param name="enabledGlobalExceptionFilter">是否启用全局异常过滤器</param>
             <returns></returns>
         </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.FriendlyExceptionServiceCollectionExtensions.AddBaseConfigure(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            新增基础配置
+            </summary>
+            <param name="services"></param>
+        </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.MvcBuilderServiceCollectionExtensions">
             <summary>
             Mvc 拓展类

@@ -116,7 +116,7 @@ namespace Fur.DatabaseAccessor
                 else
                 {
                     var list = dataTable.ToList(returnType);
-                    var result = list.Adapt(list.GetType(), returnType);
+                    var result = list?.Adapt(list.GetType(), returnType);
                     return !isAsync ? result : result.ToTaskResult(returnType);
                 }
             }
@@ -131,7 +131,7 @@ namespace Fur.DatabaseAccessor
         private static object ConvertValueTuple(Type returnType, DataSet dataSet)
         {
             var tupleList = dataSet.ToList(returnType);
-            var result = tupleList.Adapt(tupleList.GetType(), returnType);
+            var result = tupleList?.Adapt(tupleList.GetType(), returnType);
             return result;
         }
 
@@ -152,7 +152,7 @@ namespace Fur.DatabaseAccessor
             else
             {
                 var result = DbHelpers.WrapperProcedureOutput(parameters, dataSet, returnType.GenericTypeArguments.First());
-                return result.Adapt(result.GetType(), returnType);
+                return result?.Adapt(result.GetType(), returnType);
             }
         }
 
