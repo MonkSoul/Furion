@@ -22986,13 +22986,6 @@
             <param name="assemblyName">外部程序集名称</param>
             <returns>IWebHostBuilder</returns>
         </member>
-        <member name="M:Microsoft.Extensions.Hosting.HostBuilderExtensions.Inject(Microsoft.Extensions.Hosting.IHostBuilder)">
-            <summary>
-            非 Web 主机注入
-            </summary>
-            <param name="hostBuilder"></param>
-            <returns></returns>
-        </member>
         <member name="T:Microsoft.Extensions.Caching.Distributed.DistributedCacheExtensions">
             <summary>
             分布式缓存扩展方法
