@@ -125,6 +125,19 @@ namespace Fur.EntityFramework.Core
 }
 ```
 
+:::caution 新版 MySQL 注意
+
+`MySQL` 在新版本包中注册有所修改，所以注册方式为：
+
+```cs
+services.AddDatabaseAccessor(options =>
+{
+    options.AddDbPool<FurDbContext>($"{DbProvider.MySql}@8.0.22");
+});
+```
+
+:::
+
 ### 9.1.5.2 `[AppDbContext]` 方式配置
 
 ```cs {1,6}

@@ -152,6 +152,7 @@ docker run --name fur -p 5000:80 fur:v1.0.0
   - Sqlite
   - Azure Cosmos
   - MySql
+  - MariaDB
   - PostgreSQL
   - InMemoryDatabase
   - Oracle

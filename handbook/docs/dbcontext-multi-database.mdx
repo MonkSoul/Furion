@@ -47,8 +47,8 @@ options.AddDbPool<FurDbContext>(DbProvider.Cosmos);
 // 注册 InMemoryDatabase
 options.AddDbPool<FurDbContext>(DbProvider.InMemoryDatabase);
 
-// 注册 MySql
-options.AddDbPool<FurDbContext>(DbProvider.MySql);
+// 注册 MySql，必须指定版本号
+options.AddDbPool<FurDbContext>($"{DbProvider.MySql}@8.0.22");
 
 // 注册 PostgreSQL
 options.AddDbPool<FurDbContext>(DbProvider.Npgsql);
@@ -62,6 +62,19 @@ options.AddDbPool<FurDbContext>(DbProvider.Firebird);
 // 注册 Dm
 options.AddDbPool<FurDbContext>(DbProvider.Dm);
 ```
+
+:::caution 新版 MySQL 注意
+
+`MySQL` 在新版本包中注册有所修改，所以注册方式为：
+
+```cs
+services.AddDatabaseAccessor(options =>
+{
+    options.AddDbPool<FurDbContext>($"{DbProvider.MySql}@8.0.22");
+});
+```
+
+:::
 
 ## 9.18.3 多数据库使用方式
 

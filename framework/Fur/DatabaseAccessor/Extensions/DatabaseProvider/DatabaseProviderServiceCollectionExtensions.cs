@@ -328,7 +328,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
                     // 解析mysql版本类型
                     var mysqlVersionType = databaseProviderAssembly.GetType("Microsoft.EntityFrameworkCore.MySqlServerVersion");
-                    mySqlVersionInstance = Activator.CreateInstance(mysqlVersionType, new object[] { version });
+                    mySqlVersionInstance = Activator.CreateInstance(mysqlVersionType, new object[] { new Version(version) });
                 }
                 else
                 {
