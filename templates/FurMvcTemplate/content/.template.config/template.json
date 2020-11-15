@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "百小僧/MonkSoul",
+  "classifications": ["Fur", "Mvc"],
+  "name": "Fur Mvc",
+  "identity": "Fur.Template.Mvc",
+  "shortName": "furmvc",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "FurMvc",
+  "preferNameDirectory": true
+}

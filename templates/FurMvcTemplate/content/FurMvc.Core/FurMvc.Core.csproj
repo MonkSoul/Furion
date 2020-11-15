@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>FurMvc.Core.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="FurMvc.Core.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Fur" Version="1.0.2.1" />
+  </ItemGroup>
+
+</Project>
