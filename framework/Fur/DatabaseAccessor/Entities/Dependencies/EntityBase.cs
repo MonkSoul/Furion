@@ -179,12 +179,12 @@ namespace Fur.DatabaseAccessor
         /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public TKey Id { get; set; }
+        public virtual TKey Id { get; set; }
 
         /// <summary>
         /// 租户Id
         /// </summary>
         [JsonIgnore]
-        public Guid? TenantId { get; set; }
+        public virtual Guid? TenantId { get; set; }
     }
 }

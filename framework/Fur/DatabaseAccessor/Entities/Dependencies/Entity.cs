@@ -175,17 +175,17 @@ namespace Fur.DatabaseAccessor
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTimeOffset CreatedTime { get; set; }
+        public virtual DateTimeOffset CreatedTime { get; set; }
 
         /// <summary>
         /// 更新时间
         /// </summary>
-        public DateTimeOffset? UpdatedTime { get; set; }
+        public virtual DateTimeOffset? UpdatedTime { get; set; }
 
         /// <summary>
         /// 软删除
         /// </summary>
         [JsonIgnore, FakeDelete(true)]
-        public bool IsDeleted { get; set; }
+        public virtual bool IsDeleted { get; set; }
     }
 }
