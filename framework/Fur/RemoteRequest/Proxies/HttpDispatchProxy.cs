@@ -43,11 +43,24 @@ namespace Fur.RemoteRequest
             // 判断是否贴了 [HttpMethod] 特性
             if (!targetMethod.IsDefined(typeof(HttpMethodAttribute), true)) throw new InvalidOperationException("The method is missing the [HttpMethod] annotation");
 
-            // 处理参数
-
             // 获取请求方式
             var httpMethodAttribute = targetMethod.GetCustomAttribute<HttpMethodAttribute>(true);
-            var request = new HttpRequestMessage(httpMethodAttribute.Method, httpMethodAttribute.Url);
+
+            // 处理参数
+            var methodParameters = targetMethod.GetParameters();
+            var realUrl = httpMethodAttribute.Url;
+            for (int i = 0; i < methodParameters.Length; i++)
+            {
+                var parameter = methodParameters[i];
+                var value = args[i];
+                if (value != null)
+                {
+                    realUrl = realUrl.Replace($"{{{parameter.Name}}}", args[i].ToString(), StringComparison.OrdinalIgnoreCase);
+                }
+            }
+
+            // 创建请求消息对象
+            var request = new HttpRequestMessage(httpMethodAttribute.Method, realUrl);
 
             // 获取请求报文头
             var headerAttributes = targetMethod.GetCustomAttributes<HeaderAttribute>(true);
@@ -62,6 +75,7 @@ namespace Fur.RemoteRequest
             // 创建 HttpClient 对象
             var clientFactory = Services.GetService<IHttpClientFactory>();
             var httpClient = clientFactory.CreateClient();
+
             // 发送请求
             var response = httpClient.SendAsync(request).GetAwaiter().GetResult();
 

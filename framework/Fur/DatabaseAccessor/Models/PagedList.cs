@@ -1,7 +1,6 @@
 ﻿using Fur.DependencyInjection;
-using System.Collections.Generic;
 
-namespace Fur.DatabaseAccessor
+namespace System.Collections.Generic
 {
     /// <summary>
     /// 分页泛型集合
