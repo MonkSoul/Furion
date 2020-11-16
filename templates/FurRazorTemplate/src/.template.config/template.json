@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "百小僧/MonkSoul",
+  "classifications": ["Fur", "Razor", "Pages"],
+  "name": "Fur Razor",
+  "identity": "Fur.Template.Razor",
+  "shortName": "furrazor",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "FurRazor",
+  "preferNameDirectory": true
+}
