@@ -1,0 +1,44 @@
+﻿{
+  "SpecificationDocumentSettings": {
+    "DocumentTitle": "Fur | 规范化接口",
+    "GroupOpenApiInfos": [
+      {
+        "Group": "Default",
+        "Title": "规范化接口演示",
+        "Description": "Fur 是 .NET 5 平台下企业应用开发最佳实践框架。",
+        "Version": "1.0.0",
+        "TermsOfService": "https://furos.cn",
+        "Contact": {
+          "Name": "百小僧",
+          "Url": "https://gitee.com/monksoul",
+          "Email": "monksoul@outlook.com"
+        },
+        "License": {
+          "Name": "Apache-2.0",
+          "Url": "https://gitee.com/monksoul/Fur/blob/rc1/LICENSE"
+        }
+      }
+    ],
+    "EnableAuthorized": true,
+    "SecurityDefinitions": [
+      {
+        "Id": "Bearer",
+        "Type": "Http",
+        "Name": "Authorization",
+        "Description": "JWT Authorization header using the Bearer scheme.",
+        "BearerFormat": "JWT",
+        "Scheme": "bearer",
+        "In": "Header",
+        "Requirement": {
+          "Scheme": {
+            "Reference": {
+              "Id": "Bearer",
+              "Type": "SecurityScheme"
+            },
+            "Accesses": []
+          }
+        }
+      }
+    ]
+  }
+}

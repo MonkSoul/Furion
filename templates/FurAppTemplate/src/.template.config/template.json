@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "百小僧/MonkSoul",
+  "classifications": ["Fur", "Mvc", "WebApi", "Api", "App"],
+  "name": "Fur App",
+  "identity": "Fur.Template.App",
+  "shortName": "furapp",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "FurApp",
+  "preferNameDirectory": true
+}

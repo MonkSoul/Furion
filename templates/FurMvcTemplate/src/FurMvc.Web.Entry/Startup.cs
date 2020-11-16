@@ -16,12 +16,12 @@ namespace FurMvc.Web.Entry
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // 代码迁移至 FurMvc.Web.Core/WebStartup.cs
+            // 代码迁移至 FurMvc.Web.Core/WebConfigureStartup.cs
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // 代码迁移至 FurMvc.Web.Core/WebStartup.cs
+            // 代码迁移至 FurMvc.Web.Core/WebConfigureStartup.cs
         }
     }
 }
