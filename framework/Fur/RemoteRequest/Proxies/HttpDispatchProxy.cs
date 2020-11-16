@@ -78,7 +78,10 @@ namespace Fur.RemoteRequest
                     // 读取数据并序列化返回
                     using var responseStream = response.Content.ReadAsStreamAsync().GetAwaiter().GetResult();
                     var result = JsonSerializer.DeserializeAsync(responseStream
-                        , returnType).GetAwaiter().GetResult();
+                        , returnType, new JsonSerializerOptions
+                        {
+                            PropertyNameCaseInsensitive = true
+                        }).GetAwaiter().GetResult();
 
                     return !targetMethod.IsAsync() ? result : result.ToTaskResult(returnType);
                 }

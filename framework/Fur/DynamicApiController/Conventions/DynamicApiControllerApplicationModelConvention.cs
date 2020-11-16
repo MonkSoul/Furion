@@ -305,7 +305,7 @@ namespace Fur.DynamicApiController
 
             // 拼接控制器路由模板
             var controllerStartTemplate = parameterRouteTemplate.ControllerStartTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ControllerStartTemplates);
-            var controllerEndTemplate = parameterRouteTemplate.ControllerStartTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ControllerEndTemplates);
+            var controllerEndTemplate = parameterRouteTemplate.ControllerEndTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ControllerEndTemplates);
             var template = $"{(string.IsNullOrEmpty(routePrefix) ? null : $"{routePrefix}/")}{(string.IsNullOrEmpty(module) ? null : $"{module}/")}{controllerStartTemplate}/[controller]/{controllerEndTemplate}";
 
             return template;
