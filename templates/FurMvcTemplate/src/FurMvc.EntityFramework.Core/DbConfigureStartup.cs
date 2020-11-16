@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FurMvc.EntityFramework.Core
 {
-    public class DatabaseConfigureStartup : AppStartup
+    public class DbConfigureStartup : AppStartup
     {
         public void ConfigureServices(IServiceCollection services)
         {

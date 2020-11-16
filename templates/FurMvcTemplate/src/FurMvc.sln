@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FurMvc.Core", "FurMvc.Core\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FurMvc.Database.Migrations", "FurMvc.Database.Migrations\FurMvc.Database.Migrations.csproj", "{EA769D36-9D55-47A6-945F-1687EA95179F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FurMvc.Web.Entry", "FurMvc.Web.Entry\FurMvc.Web.Entry.csproj", "{F31BF6DE-6357-43D6-811A-9B15EF5A9D9C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FurMvc.Web.Entry", "FurMvc.Web.Entry\FurMvc.Web.Entry.csproj", "{F00DACED-A3D1-4F48-AA22-52BE6D368A31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,10 @@ Global
 		{EA769D36-9D55-47A6-945F-1687EA95179F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA769D36-9D55-47A6-945F-1687EA95179F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA769D36-9D55-47A6-945F-1687EA95179F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F31BF6DE-6357-43D6-811A-9B15EF5A9D9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F31BF6DE-6357-43D6-811A-9B15EF5A9D9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F31BF6DE-6357-43D6-811A-9B15EF5A9D9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F31BF6DE-6357-43D6-811A-9B15EF5A9D9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F00DACED-A3D1-4F48-AA22-52BE6D368A31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F00DACED-A3D1-4F48-AA22-52BE6D368A31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F00DACED-A3D1-4F48-AA22-52BE6D368A31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F00DACED-A3D1-4F48-AA22-52BE6D368A31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

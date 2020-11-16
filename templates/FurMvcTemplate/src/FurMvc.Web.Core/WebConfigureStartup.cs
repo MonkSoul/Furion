@@ -6,12 +6,12 @@ using Microsoft.Extensions.Hosting;
 
 namespace FurMvc.Web.Core
 {
-    public class WebStartup : AppStartup
+    public class WebConfigureStartup : AppStartup
     {
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews()
-                        .AddInject();
+                        .AddInjectBase(false);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -20,16 +20,20 @@ namespace FurMvc.Web.Core
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
+            }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseInject();
+            app.UseInjectBase();
 
             app.UseEndpoints(endpoints =>
             {
