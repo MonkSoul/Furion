@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FurMvc.Web.Entry
+namespace FurApi.Web.Entry
 {
     public class Startup
     {
@@ -16,12 +16,12 @@ namespace FurMvc.Web.Entry
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // 代码迁移至 FurMvc.Web.Core/WebStartup.cs
+            // 代码迁移至 FurApi.Web.Core/WebStartup.cs
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // 代码迁移至 FurMvc.Web.Core/WebStartup.cs
+            // 代码迁移至 FurApi.Web.Core/WebStartup.cs
         }
     }
 }
