@@ -54,7 +54,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 10.4 多租户使用方案
 
-`Fur` 框架支持以上三种多租户实现方案，使用简单且容易维护。下面分别使用三种不同方式演示多租户方案用法。
+`Furion` 框架支持以上三种多租户实现方案，使用简单且容易维护。下面分别使用三种不同方式演示多租户方案用法。
 
 :::important 特别说明
 
@@ -68,11 +68,11 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ### 10.5.1 创建租户数据库上下文
 
-```cs {6-7} title="Fur.EntityFramework.Core\DbContexts\MultiTenantDbContext.cs"
-using Fur.DatabaseAccessor;
+```cs {6-7} title="Furion.EntityFramework.Core\DbContexts\MultiTenantDbContext.cs"
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppDbContext("Sqlite3ConnectionString")]
     public class MultiTenantDbContext : AppDbContext<MultiTenantDbContext, MultiTenantDbContextLocator>
@@ -93,10 +93,10 @@ namespace Fur.EntityFramework.Core
 ### 10.5.2 注册多租户数据库上下文
 
 ```cs {14}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppStartup(600)]
     public sealed class FurEntityFrameworkCoreStartup : AppStartup
@@ -115,13 +115,13 @@ namespace Fur.EntityFramework.Core
 
 ### 10.5.3 添加 `Tenant` 种子数据
 
-```cs {8,12-28} title="Fur.EntityFramework.Core\SeedDatas\TenantSeedData.cs"
-using Fur.DatabaseAccessor;
+```cs {8,12-28} title="Furion.EntityFramework.Core\SeedDatas\TenantSeedData.cs"
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     public class TenantSeedData : IEntitySeedData<Tenant, MultiTenantDbContextLocator>
     {
@@ -170,11 +170,11 @@ Update-Database -Context MultiTenantDbContext
 在需要多租户的数据库上下文中实现 `IMultiTenantOnTable` 接口，如：
 
 ```cs {8,14-17}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppDbContext("Sqlite3ConnectionString")]
     public class FurDbContext : AppDbContext<FurDbContext>, IMultiTenantOnTable, IModelBuilderFilter
@@ -198,12 +198,12 @@ namespace Fur.EntityFramework.Core
 `IModelBuilderFilter` 接口是全局查询过滤器实现接口，所以我们需要配置实体 `TenantId` 过滤器
 
 ```cs {9,20-23}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppDbContext("Sqlite3ConnectionString")]
     public class FurDbContext : AppDbContext<FurDbContext>, IMultiTenantOnTable, IModelBuilderFilter
@@ -235,13 +235,13 @@ namespace Fur.EntityFramework.Core
 实现上面的步骤很简单，只需要重写 `SavingChangesEvent` 事件方法即可。
 
 ```cs {26-48}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Linq;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppDbContext("Sqlite3ConnectionString")]
     public class FurDbContext : AppDbContext<FurDbContext>, IMultiTenantOnTable, IModelBuilderFilter
@@ -295,11 +295,11 @@ namespace Fur.EntityFramework.Core
 
 ### 10.6.1 创建租户数据库上下文
 
-```cs {6-7} title="Fur.EntityFramework.Core\DbContexts\MultiTenantDbContext.cs"
-using Fur.DatabaseAccessor;
+```cs {6-7} title="Furion.EntityFramework.Core\DbContexts\MultiTenantDbContext.cs"
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppDbContext("Sqlite3ConnectionString")]
     public class MultiTenantDbContext : AppDbContext<MultiTenantDbContext, MultiTenantDbContextLocator>
@@ -320,10 +320,10 @@ namespace Fur.EntityFramework.Core
 ### 10.6.2 注册多租户数据库上下文
 
 ```cs {13,14}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppStartup(600)]
     public sealed class FurEntityFrameworkCoreStartup : AppStartup
@@ -348,13 +348,13 @@ namespace Fur.EntityFramework.Core
 
 ### 10.6.3 添加 `Tenant` 种子数据
 
-```cs {8,12-30} title="Fur.EntityFramework.Core\SeedDatas\TenantSeedData.cs"
-using Fur.DatabaseAccessor;
+```cs {8,12-30} title="Furion.EntityFramework.Core\SeedDatas\TenantSeedData.cs"
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     public class TenantSeedData : IEntitySeedData<Tenant, MultiTenantDbContextLocator>
     {
@@ -368,7 +368,7 @@ namespace Fur.EntityFramework.Core
                     Name = "默认租户",
                     Host = "localhost:44313",
                     CreatedTime = DateTime.Parse("2020-10-06 20:19:07"),
-                    ConnectionString = "Data Source=./Fur.db" // 配置连接字符串
+                    ConnectionString = "Data Source=./Furion.db" // 配置连接字符串
                 },
                 new Tenant
                 {
@@ -405,10 +405,10 @@ Update-Database -Context MultiTenantDbContext
 在需要多租户的数据库上下文中实现 `IMultiTenantOnDatabase` 接口，如：
 
 ```cs {6,12-15}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     public class FurDbContext : AppDbContext<FurDbContext>, IMultiTenantOnDatabase
     {
@@ -429,10 +429,10 @@ namespace Fur.EntityFramework.Core
 在需要多租户的数据库上下文中重写 `OnConfiguring` 方法并配置连接字符串：
 
 ```cs {12-17}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     public class FurDbContext : AppDbContext<FurDbContext>, IMultiTenantOnDatabase
     {
@@ -476,11 +476,11 @@ optionsBuilder.UseSqlite(GetDatabaseConnectionString(), options=>
 
 ### 10.7.1 创建租户数据库上下文
 
-```cs {6-7} title="Fur.EntityFramework.Core\DbContexts\MultiTenantDbContext.cs"
-using Fur.DatabaseAccessor;
+```cs {6-7} title="Furion.EntityFramework.Core\DbContexts\MultiTenantDbContext.cs"
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppDbContext("Sqlite3ConnectionString")]
     public class MultiTenantDbContext : AppDbContext<MultiTenantDbContext, MultiTenantDbContextLocator>
@@ -501,10 +501,10 @@ namespace Fur.EntityFramework.Core
 ### 10.7.2 注册多租户数据库上下文
 
 ```cs {14}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppStartup(600)]
     public sealed class FurEntityFrameworkCoreStartup : AppStartup
@@ -523,13 +523,13 @@ namespace Fur.EntityFramework.Core
 
 ### 10.7.3 添加 `Tenant` 种子数据
 
-```cs {8,12-30} title="Fur.EntityFramework.Core\SeedDatas\TenantSeedData.cs"
-using Fur.DatabaseAccessor;
+```cs {8,12-30} title="Furion.EntityFramework.Core\SeedDatas\TenantSeedData.cs"
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     public class TenantSeedData : IEntitySeedData<Tenant, MultiTenantDbContextLocator>
     {
@@ -580,10 +580,10 @@ Update-Database -Context MultiTenantDbContext
 在需要多租户的数据库上下文中实现 `IMultiTenantOnSchema` 接口，如：
 
 ```cs {6,12-15}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppDbContext("Sqlite3ConnectionString")]
     public class FurDbContext : AppDbContext<FurDbContext>, IMultiTenantOnSchema
@@ -622,7 +622,7 @@ public string GetSchemaName()
 
 ## 10.8 自定义 `Tenant` 类型
 
-默认情况下，`Fur` 框架提供了内置的 `Tenant` 类型，方便大家快速实现 `SaaS` 多租户功能，如果需要自定义多租户 `Tenant` 类型，只需要启用以下配置即可：
+默认情况下，`Furion` 框架提供了内置的 `Tenant` 类型，方便大家快速实现 `SaaS` 多租户功能，如果需要自定义多租户 `Tenant` 类型，只需要启用以下配置即可：
 
 ### 10.8.1 启动自定义多租户类型配置
 
@@ -640,7 +640,7 @@ services.AddDatabaseAccessor(options =>
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public class MyTenant : IEntity<MultiTenantDbContextLocator>
     {
@@ -665,4 +665,4 @@ var myTenant = tenantDbContext.Set<MyTenant>();
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。

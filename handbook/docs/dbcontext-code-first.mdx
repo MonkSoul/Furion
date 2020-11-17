@@ -8,7 +8,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 9.20.1 数据库开发方式
 
-`Fur` 提供两种主要方法来 **保持实体模型和数据库架构同步**。
+`Furion` 提供两种主要方法来 **保持实体模型和数据库架构同步**。
 
 至于我们应该选用哪个方法，请确定你是希望以实体模型为准还是以数据库为准：
 
@@ -22,7 +22,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::important 特别注意
 
-`Fur` 框架默认数据迁移的程序集为：`Fur.Database.Migrations`，所以如果您改了程序集名称或通过 `Nuget` 方式安装的 `Fur` 包，则需要配置迁移程序集名称：
+`Furion` 框架默认数据迁移的程序集为：`Furion.Database.Migrations`，所以如果您改了程序集名称或通过 `Nuget` 方式安装的 `Furion` 包，则需要配置迁移程序集名称：
 
 ```cs {4}
 services.AddDatabaseAccessor(options =>
@@ -42,12 +42,12 @@ Add-Migration v1.0.0 -Context FurDbContext
 ### 9.20.2.1 创建实体模型 `Person`
 
 ```cs {1,6,8}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public class Person : Entity
     {
@@ -91,7 +91,7 @@ namespace Fur.Core
 
 ### 9.20.2.3 切换默认项目
 
-将 `程序包管理控制台` 默认项目设置为 `Fur.Database.Migrations`
+将 `程序包管理控制台` 默认项目设置为 `Furion.Database.Migrations`
 
 <img src={useBaseUrl("img/codefirst1.png")} />
 
@@ -116,12 +116,12 @@ Build succeeded.
 Microsoft.EntityFrameworkCore.Model.Validation[10400]
       Sensitive data logging is enabled. Log entries and exception messages may include sensitive application data, this mode should only be enabled during development.
 Microsoft.EntityFrameworkCore.Infrastructure[10403]
-      Entity Framework Core 5.0.0-rc.1.20451.13 initialized 'FurDbContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: SensitiveDataLoggingEnabled DetailedErrorsEnabled MaxPoolSize=100 MigrationsAssembly=Fur.Database.Migrations
+      Entity Framework Core 5.0.0-rc.1.20451.13 initialized 'FurDbContext' using provider 'Microsoft.EntityFrameworkCore.Sqlite' with options: SensitiveDataLoggingEnabled DetailedErrorsEnabled MaxPoolSize=100 MigrationsAssembly=Furion.Database.Migrations
 To undo this action, use Remove-Migration.
 PM>
 ```
 
-生成成功后，`Fur.Database.Migrations` 项目下会新增 `Migrations` 文件夹（如果没有），同时本次的架构生成文件，如：
+生成成功后，`Furion.Database.Migrations` 项目下会新增 `Migrations` 文件夹（如果没有），同时本次的架构生成文件，如：
 
 <img src={useBaseUrl("img/codefirst3.png")} />
 
@@ -179,27 +179,27 @@ dotnet tool install --global dotnet-ef --version 5.0.0-rc.2.20475.6
 
 通过 `VS Code` 打开 `.sln` 所在的目录，如：`framework`。
 
-之后进入 `Fur.Database.Migrations` 目录
+之后进入 `Furion.Database.Migrations` 目录
 
 ```shell
-cd Fur.Database.Migrations
+cd Furion.Database.Migrations
 ```
 
 ### 9.20.5.3 执行命令
 
 ```shell
-dotnet ef migrations add v1.0.0 -s "../Fur.Web.Entry"
+dotnet ef migrations add v1.0.0 -s "../Furion.Web.Entry"
 ```
 
 ```shell
-dotnet ef database update -s "../Fur.Web.Entry"
+dotnet ef database update -s "../Furion.Web.Entry"
 ```
 
 ## 9.20.6 反馈与建议
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::
 

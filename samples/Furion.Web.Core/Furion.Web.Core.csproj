@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>Furion.Web.Core.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fur.Web.Core.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Furion.Application\Furion.Application.csproj" />
+    <ProjectReference Include="..\Furion.Database.Migrations\Furion.Database.Migrations.csproj" />
+  </ItemGroup>
+
+</Project>

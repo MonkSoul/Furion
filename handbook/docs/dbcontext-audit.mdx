@@ -18,7 +18,7 @@ sidebar_label: 9.22 审计日志
 
 ## 9.22.2 关于 `SaveChanges` 事件
 
-`Fur` 框架中为所有 `AppDbContext` 子类都提供了三个可重写的方法，这三个方法分别由三个事件触发：
+`Furion` 框架中为所有 `AppDbContext` 子类都提供了三个可重写的方法，这三个方法分别由三个事件触发：
 
 - `提交更改之前 SavingChanges 事件`：触发 `void SavingChangesEvent(object sender, SavingChangesEventArgs e)` 方法
 - `提交更改之后 SavedChanges 事件`：触发 `void SavedChangesEvent(object sender, SavedChangesEventArgs e)` 方法
@@ -31,7 +31,7 @@ sidebar_label: 9.22 审计日志
 我们只需要在 `AppDbContext` 子类中重写 `SavingChanges` 事件对应方法即可：
 
 ```cs {23}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -39,7 +39,7 @@ using System;
 using System.Linq;
 using System.Security.AccessControl;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppDbContext("Sqlite3ConnectionString")]
     public class FurDbContext : AppDbContext<FurDbContext>
@@ -158,6 +158,6 @@ logger.Information(JsonConvert.SerializeObject(new Audit
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::

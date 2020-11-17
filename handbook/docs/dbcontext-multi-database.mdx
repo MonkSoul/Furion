@@ -8,7 +8,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-## 9.18.1 `Fur` 支持数据库提供器
+## 9.18.1 `Furion` 支持数据库提供器
 
 | SqlServer | Sqlite | Cosmos | InMemoryDatabase | MySql | PostgreSQL | Oracle | Firebird | Dm  |
 | --------- | ------ | ------ | ---------------- | ----- | ---------- | ------ | -------- | --- |
@@ -28,7 +28,7 @@ import TabItem from "@theme/TabItem";
 
 :::tip 小知识
 
-这些数据库包应该安装在 `Fur.EntityFramework.Core` 层。
+这些数据库包应该安装在 `Furion.EntityFramework.Core` 层。
 
 :::
 
@@ -78,9 +78,9 @@ services.AddDatabaseAccessor(options =>
 
 ## 9.18.3 多数据库使用方式
 
-`Fur` 通过独创的 `数据库上下文定位器` 实现多数据库灵活操作切换。只需要为每一种数据库绑定唯一的数据库上下文定位器即可。
+`Furion` 通过独创的 `数据库上下文定位器` 实现多数据库灵活操作切换。只需要为每一种数据库绑定唯一的数据库上下文定位器即可。
 
-以下是 `Fur` 支持多数据库操作的实例：
+以下是 `Furion` 支持多数据库操作的实例：
 
 ### 9.18.3.1 实体仓储方式
 
@@ -159,6 +159,6 @@ public static class QueryFunctions
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::

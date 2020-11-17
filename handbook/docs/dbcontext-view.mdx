@@ -10,7 +10,7 @@ sidebar_label: 9.12 视图操作
 
 ## 9.12.2 视图的使用
 
-在 `Fur` 中实现视图的操作非常简单，只需要创建视图模型，并继承 `EntityNotKey` 基类即可。代码如下：
+在 `Furion` 中实现视图的操作非常简单，只需要创建视图模型，并继承 `EntityNotKey` 基类即可。代码如下：
 
 ### 9.12.2.1 创建视图 `SQL`
 
@@ -22,9 +22,9 @@ SELECT Id,Name,Age,Address FROM person
 ### 9.12.2.2 视图模型
 
 ```cs {5,10}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public class V_Person : EntityNotKey
     {
@@ -77,13 +77,13 @@ var vEntities = v_repository.Where(u => u.Id >10).ToList();
 由于视图是虚拟表，不应该对其进行写操作，所以应该采用 `只读仓储初始化视图`：
 
 ```cs {11,13,16}
-using Fur.Core;
-using Fur.DatabaseAccessor;
-using Fur.DynamicApiController;
+using Furion.Core;
+using Furion.DatabaseAccessor;
+using Furion.DynamicApiController;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Fur.Application.Persons
+namespace Furion.Application.Persons
 {
     public class FurService : IDynamicApiController
     {
@@ -118,6 +118,6 @@ namespace Fur.Application.Persons
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::

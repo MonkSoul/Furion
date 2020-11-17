@@ -51,7 +51,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 7.4 友好异常处理使用示例
 
-`Fur` 框架提供了非常灵活的友好异常处理方式。
+`Furion` 框架提供了非常灵活的友好异常处理方式。
 
 :::important 备注
 
@@ -61,10 +61,10 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ### 7.4.1 注册友好异常服务
 
-```cs {11} title="Fur.Web.Core\FurWebCoreStartup.cs"
+```cs {11} title="Furion.Web.Core\FurWebCoreStartup.cs"
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.Web.Core
+namespace Furion.Web.Core
 {
     [AppStartup(800)]
     public sealed class FurWebCoreStartup : AppStartup
@@ -89,10 +89,10 @@ namespace Fur.Web.Core
 #### 简单抛个异常
 
 ```cs {2,12}
-using Fur.DynamicApiController;
-using Fur.FriendlyException;
+using Furion.DynamicApiController;
+using Furion.FriendlyException;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
@@ -116,11 +116,11 @@ namespace Fur.Application
 #### 抛出特定类型异常
 
 ```cs {2,13}
-using Fur.DynamicApiController;
-using Fur.FriendlyException;
+using Furion.DynamicApiController;
+using Furion.FriendlyException;
 using System;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
@@ -154,7 +154,7 @@ namespace Fur.Application
 ```cs {13,22,30,39}
 using System;
 
-namespace Fur.FriendlyException
+namespace Furion.FriendlyException
 {
     public static class Oops
     {
@@ -197,7 +197,7 @@ namespace Fur.FriendlyException
 
 ## 7.6 最佳实践 🤗
 
-在 `Fur` 框架中，提供了非常灵活且规范化的友好异常处理方式，通过这个方式可以方便管理异常状态码、异常信息及异常本地化。
+在 `Furion` 框架中，提供了非常灵活且规范化的友好异常处理方式，通过这个方式可以方便管理异常状态码、异常信息及异常本地化。
 
 ### 7.6.1 创建异常信息类型
 
@@ -208,9 +208,9 @@ namespace Fur.FriendlyException
 - 枚举中每一项必须贴有 `[ErrorCodeItemMetadata]` 特性
 
 ```cs {1,5,8,11,14,17}
-using Fur.FriendlyException;
+using Furion.FriendlyException;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     [ErrorCodeType]
     public enum ErrorCodes
@@ -232,23 +232,23 @@ namespace Fur.Application
 
 :::important
 
-`Fur` 框架提供了 `[ErrorCodeType]` 特性和 `IErrorCodeTypeProvider` 提供器接口来提供异常信息扫描，这里用的是 `[ErrorCodeType]` 特性类。
+`Furion` 框架提供了 `[ErrorCodeType]` 特性和 `IErrorCodeTypeProvider` 提供器接口来提供异常信息扫描，这里用的是 `[ErrorCodeType]` 特性类。
 
 :::
 
 ### 7.6.2 关于 `[ErrorCodeItemMetadata]`
 
-`Fur` 框架提供了`[ErrorCodeItemMetadata]` 特性用来标识**枚举字段**异常元数据，该特性支持传入 `消息内容` 和 `格式化参数`。最终会使用 `String.Format(消息内容，格式化参数)` 进行格式化。
+`Furion` 框架提供了`[ErrorCodeItemMetadata]` 特性用来标识**枚举字段**异常元数据，该特性支持传入 `消息内容` 和 `格式化参数`。最终会使用 `String.Format(消息内容，格式化参数)` 进行格式化。
 
 如果消息内容中包含`格式化占位符`但未指定`格式化参数`，那么会查找异常所在方法是否贴有 `[IfException]` 特性且含有格式化参数，接着就会查找 `Oops.Oh` 中指定的 `格式化参数`。
 
 ### 7.6.3 静态异常类使用
 
 ```cs {2,12}
-using Fur.DynamicApiController;
-using Fur.FriendlyException;
+using Furion.DynamicApiController;
+using Furion.FriendlyException;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
@@ -282,9 +282,9 @@ throw Oops.Oh(1000, typeof(Exception));
 ## 7.7 多个异常信息类型
 
 ```cs {5-6,21-22}
-using Fur.FriendlyException;
+using Furion.FriendlyException;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     [ErrorCodeType]
     public enum ErrorCodes
@@ -322,13 +322,13 @@ namespace Fur.Application
 
 ## 7.8 `IErrorCodeTypeProvider` 提供器
 
-在 `Fur` 框架中，还提供了 `IErrorCodeTypeProvider` 异常消息提供器接口，方便在不能贴 `[ErrorCodeType]` 特性情况下使用：
+在 `Furion` 框架中，还提供了 `IErrorCodeTypeProvider` 异常消息提供器接口，方便在不能贴 `[ErrorCodeType]` 特性情况下使用：
 
 ```cs {2,6,8-11}
-using Fur.FriendlyException;
+using Furion.FriendlyException;
 using System;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class CustomErrorCodeTypeProvider : IErrorCodeTypeProvider
     {
@@ -342,10 +342,10 @@ namespace Fur.Application
 
 启用 `IErrorCodeTypeProvider` 提供器：
 
-```cs {11} title="Fur.Web.Core\FurWebCoreStartup.cs"
+```cs {11} title="Furion.Web.Core\FurWebCoreStartup.cs"
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.Web.Core
+namespace Furion.Web.Core
 {
     [AppStartup(800)]
     public sealed class FurWebCoreStartup : AppStartup
@@ -367,9 +367,9 @@ namespace Fur.Web.Core
 
 ## 7.9 `appsetting.json` 中配置
 
-`Fur` 框架还提供了非常灵活的配置文件配置异常，通过这种方式可以实现异常信息后期配置，也就是无需在开发阶段预先定义。
+`Furion` 框架还提供了非常灵活的配置文件配置异常，通过这种方式可以实现异常信息后期配置，也就是无需在开发阶段预先定义。
 
-```json {2-8} title="Fur.Web.Entry/appsettings.json"
+```json {2-8} title="Furion.Web.Entry/appsettings.json"
 {
   "ErrorCodeMessageSettings": {
     "Definitions": [
@@ -386,10 +386,10 @@ namespace Fur.Web.Core
 #### 使用示例
 
 ```cs {2,12}
-using Fur.DynamicApiController;
-using Fur.FriendlyException;
+using Furion.DynamicApiController;
+using Furion.FriendlyException;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
@@ -414,7 +414,7 @@ namespace Fur.Application
 
 ## 7.10 `[IfException]` 使用
 
-`Fur` 框架提供了 `[IfException]` 特性可以**覆盖默认消息配置**。也就是覆盖 `异常消息类型` 和 `appsettings.json` 中的配置。
+`Furion` 框架提供了 `[IfException]` 特性可以**覆盖默认消息配置**。也就是覆盖 `异常消息类型` 和 `appsettings.json` 中的配置。
 
 :::caution 特别注意
 
@@ -438,10 +438,10 @@ public static class ErrorCodes
 - 覆盖默认配置
 
 ```cs {8}
-using Fur.DynamicApiController;
-using Fur.FriendlyException;
+using Furion.DynamicApiController;
+using Furion.FriendlyException;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
@@ -466,10 +466,10 @@ namespace Fur.Application
 ### 7.10.2 更多例子
 
 ```cs {2,8-11}
-using Fur.DynamicApiController;
-using Fur.FriendlyException;
+using Furion.DynamicApiController;
+using Furion.FriendlyException;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
@@ -509,7 +509,7 @@ namespace Fur.Application
 
 ## 7.13 异常模型提供器
 
-`Fur` 框架提供 `规范化结果` 功能，可以通过实现 `IUnifyResultProvider` 提供器实现异常返回值定制，如：`RESTfulResultProvider`：
+`Furion` 框架提供 `规范化结果` 功能，可以通过实现 `IUnifyResultProvider` 提供器实现异常返回值定制，如：`RESTfulResultProvider`：
 
 ```cs
 using Microsoft.AspNetCore.Http;
@@ -518,7 +518,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
 
-namespace Fur.UnifyResult
+namespace Furion.UnifyResult
 {
     /// <summary>
     /// RESTful 风格返回值
@@ -597,12 +597,12 @@ services.AddControllers().AddUnifyResult<RESTfulResult, RESTfulResultProvider>()
 通常我们需要在异常捕获的时候写日志，这时候就需要使用到 `IGlobalExceptionHandler` 异常定义处理程序，如：
 
 ```cs {8}
-using Fur.DependencyInjection;
-using Fur.FriendlyException;
+using Furion.DependencyInjection;
+using Furion.FriendlyException;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Threading.Tasks;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class LogExceptionHandler : IGlobalExceptionHandler, ISingleton
     {
@@ -620,6 +620,6 @@ namespace Fur.Application
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::

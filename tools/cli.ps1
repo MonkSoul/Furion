@@ -22,26 +22,26 @@ Param(
     #[string]$UseDatabaseNames
 )
 
-$FurTools = "Fur Tools v1.0.0";
+$FurTools = "Furion Tools v1.0.0";
 
 # 输出信息
 $copyright = @"
 // -----------------------------------------------------------------------------
-//   ______            _______          _     
-//  |  ____|          |__   __|        | |    
-//  | |__ _   _ _ __     | | ___   ___ | |___ 
-//  |  __| | | | '__|    | |/ _ \ / _ \| / __|
-//  | |  | |_| | |       | | (_) | (_) | \__ \
-//  |_|   \__,_|_|       |_|\___/ \___/|_|___/
-//                                            
-// -----------------------------------------------------------------------------
-// Fur 是 .NET 5 平台下极易入门、极速开发的 Web 应用框架。
-// Copyright © 2020 Fur, Baiqian Co.,Ltd.
+// ______          _               _______          _     
+// |  ____|        (_)             |__   __|        | |    
+// | |__ _   _ _ __ _  ___  _ __      | | ___   ___ | |___ 
+// |  __| | | | '__| |/ _ \| '_ \     | |/ _ \ / _ \| / __|
+// | |  | |_| | |  | | (_) | | | |    | | (_) | (_) | \__ \
+// |_|   \__,_|_|  |_|\___/|_| |_|    |_|\___/ \___/|_|___/
+//                                                         
+// // --------------------------------------------------------------------------
+// Furion 是 .NET 5 平台下企业应用开发最佳实践框架。
+// Copyright © 2020 Furion, Baiqian Co.,Ltd.
 //
-// 框架名称：Fur
+// 框架名称：Furion
 // 框架作者：百小僧
 // 框架版本：1.0.0
-// 源码地址：https://gitee.com/monksoul/Fur
+// 源码地址：https://gitee.com/monksoul/Furion
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 "@;
@@ -53,7 +53,7 @@ $rootPath = $pwd.Path;
 # 初始化默认值
 
 if ($Product -eq $null -or $Product -eq ""){
-    $Product = "Fur";
+    $Product = "Furion";
 }
 
 if ($EntryProject -eq $null -or $EntryProject -eq ""){
@@ -102,7 +102,7 @@ $DefaultProject = Project;
 # 获取程序员包设置的默认项目名
 $ProjectName = $DefaultProject.ProjectName;
 
-# 判断项目是否设置为 Fur.Core
+# 判断项目是否设置为 Furion.Core
 if ($ProjectName -ne $CoreProject){
     Write-Warning "$FurTools 请将默认项目设置为：$CoreProject";
     return;
@@ -211,7 +211,7 @@ if($options -eq "G")
 
     # 创建一个 Winform 窗口
     $mainForm = New-Object System.Windows.Forms.Form;
-    $mainForm.Text = "Fur Tools v1.0.0";
+    $mainForm.Text = "Furion Tools v1.0.0";
     $mainForm.Size = New-Object System.Drawing.Size(800,600);
     $mainForm.StartPosition = "CenterScreen";
 

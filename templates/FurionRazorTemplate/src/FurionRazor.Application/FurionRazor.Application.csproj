@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>FurionRazor.Application.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="FurionRazor.Application.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FurionRazor.Core\FurionRazor.Core.csproj" />
+  </ItemGroup>
+
+</Project>

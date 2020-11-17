@@ -54,7 +54,7 @@ services.AddJwt();
 
 :::important 特别注意
 
-`JWT` 鉴权并未包含在 `Fur` 框架中，需要安装 `Fur` 框架提供的 `Fur.Extras.Authentication.JwtBearer` 拓展包。
+`JWT` 鉴权并未包含在 `Furion` 框架中，需要安装 `Furion` 框架提供的 `Furion.Extras.Authentication.JwtBearer` 拓展包。
 
 :::
 
@@ -75,20 +75,20 @@ services.AddJwt(options =>
 
 ## 14.3 高级自定义授权
 
-`Fur` 框架提供了非常灵活的高级策略鉴权和授权方式，通过该策略授权方式可以实现任何自定义授权。
+`Furion` 框架提供了非常灵活的高级策略鉴权和授权方式，通过该策略授权方式可以实现任何自定义授权。
 
 ### 14.3.1 `AppAuthorizeHandler`
 
-`Fur` 框架提供了 `AppAuthorizeHandler` 策略授权处理程序提供基类，只需要创建自己的 `Handler` 继承它节可。如：`JwtHandler`：
+`Furion` 框架提供了 `AppAuthorizeHandler` 策略授权处理程序提供基类，只需要创建自己的 `Handler` 继承它节可。如：`JwtHandler`：
 
 ```cs {20,12}
-using Fur.Authorization;
-using Fur.Core;
+using Furion.Authorization;
+using Furion.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.JsonWebTokens;
 
-namespace Fur.Web.Core
+namespace Furion.Web.Core
 {
     /// <summary>
     /// JWT 授权自定义处理程序
@@ -153,7 +153,7 @@ services.AddJwt<JwtHandler>(enableGlobalAuthorize:true);
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::
 

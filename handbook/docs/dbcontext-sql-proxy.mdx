@@ -6,20 +6,20 @@ sidebar_label: 9.17 Sql 高级代理
 
 ## 9.17.1 关于 `Sql` 代理
 
-`Sql` 代理是 `Fur` 框架中对 `Sql` 操作一个非常重要的概念，通过这种方式可以大大提高 `Sql` 书写效率，而且后期极易维护。
+`Sql` 代理是 `Furion` 框架中对 `Sql` 操作一个非常重要的概念，通过这种方式可以大大提高 `Sql` 书写效率，而且后期极易维护。
 
-`Sql` 代理属于 `Fur` 框架中一个高级功能。
+`Sql` 代理属于 `Furion` 框架中一个高级功能。
 
 ## 9.17.2 了解 `ISqlDispatchProxy`
 
-`ISqlDispatchProxy` 接口是 `Fur` 实现**被代理接口**的唯一依赖，任何公开的接口一旦集成了 `ISqlDispatchProxy` 接口，那么这个接口就是**被托管拦截**的 `Sql` 操作接口。
+`ISqlDispatchProxy` 接口是 `Furion` 实现**被代理接口**的唯一依赖，任何公开的接口一旦集成了 `ISqlDispatchProxy` 接口，那么这个接口就是**被托管拦截**的 `Sql` 操作接口。
 
 简单定义一个 **Sql 代理接口**
 
 ```cs {1,5}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public interface ISql : ISqlDispatchProxy
     {
@@ -64,9 +64,9 @@ var sql = App.GetSqlDispatchProxy<ISql>();
 ### 9.17.4.1 返回 `DataTable`
 
 ```cs {8,12,16,20}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public interface ISql : ISqlDispatchProxy
     {
@@ -120,9 +120,9 @@ select * from person where id > @id and name = @name;
 ### 9.17.4.2 返回 `T 或 List<T>`
 
 ```cs {8,12,16,20}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public interface ISql : ISqlDispatchProxy
     {
@@ -152,9 +152,9 @@ namespace Fur.Application
 ### 9.17.4.3 返回 `DataSet`
 
 ```cs {8-10,14-16,20-22,26-28,32-35}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public interface ISql : ISqlDispatchProxy
     {
@@ -195,9 +195,9 @@ namespace Fur.Application
 ### 9.17.4.4 返回 `Tuple<T1,...T8>`
 
 ```cs {8-10,14-16,20-22,26-28,32-35}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public interface ISql : ISqlDispatchProxy
     {
@@ -238,9 +238,9 @@ namespace Fur.Application
 ### 9.17.4.5 返回 `单行单列`
 
 ```cs {7,10,13}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public interface ISql : ISqlDispatchProxy
     {
@@ -259,9 +259,9 @@ namespace Fur.Application
 ### 9.17.4.6 无返回值
 
 ```cs {7,10,13}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public interface ISql : ISqlDispatchProxy
     {
@@ -282,9 +282,9 @@ namespace Fur.Application
 ### 9.17.5.1 返回 `DataTable`
 
 ```cs {7,10,13}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public interface ISql : ISqlDispatchProxy
     {
@@ -303,9 +303,9 @@ namespace Fur.Application
 ### 9.17.5.2 返回 `T 或 List<T>`
 
 ```cs {7,10,13}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public interface ISql : ISqlDispatchProxy
     {
@@ -324,9 +324,9 @@ namespace Fur.Application
 ### 9.17.5.3 返回 `DataSet`
 
 ```cs {7,10,13}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public interface ISql : ISqlDispatchProxy
     {
@@ -345,9 +345,9 @@ namespace Fur.Application
 ### 9.17.5.4 返回 `Tuple(T1,...T8)`
 
 ```cs {7,10,13}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public interface ISql : ISqlDispatchProxy
     {
@@ -366,9 +366,9 @@ namespace Fur.Application
 ### 9.17.5.4 返回 `单行单列`
 
 ```cs {7,10,13}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public interface ISql : ISqlDispatchProxy
     {
@@ -387,9 +387,9 @@ namespace Fur.Application
 ### 9.17.5.6 无返回值
 
 ```cs {7,10,13}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public interface ISql : ISqlDispatchProxy
     {
@@ -408,9 +408,9 @@ namespace Fur.Application
 ### 9.17.5.7 带 `OUTPUT/RETURN` 返回
 
 ```cs {7,10,13}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public interface ISql : ISqlDispatchProxy
     {
@@ -429,9 +429,9 @@ namespace Fur.Application
 ## 9.17.5 `函数` 操作
 
 ```cs {7,10}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public interface ISql : ISqlDispatchProxy
     {
@@ -460,6 +460,6 @@ namespace Fur.Application
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::

@@ -62,7 +62,7 @@ var value = "func_GetValue".SqlFunctionScalar();
 
 :::note 关于异步
 
-`Fur` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
+`Furion` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
 
 :::
 
@@ -87,7 +87,7 @@ var value = "func_GetValue".SqlFunctionScalar<string>();
 
 :::note 关于异步
 
-`Fur` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
+`Furion` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
 
 :::
 
@@ -112,7 +112,7 @@ var value = "func_GetTable".SqlFunctionQuery();
 
 :::note 关于异步
 
-`Fur` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
+`Furion` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
 
 :::
 
@@ -137,13 +137,13 @@ var value = "func_GetTable".SqlFunctionQuery<Person>();
 
 :::note 关于异步
 
-`Fur` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
+`Furion` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
 
 :::
 
 ## 9.14.4 在 `Linq` 中使用 `标量函数`
 
-`Fur` 框架提供非常灵活的在 `Linq` 中使用标量函数的方法。如果像使用这样的方式，需要满足以下两个条件：
+`Furion` 框架提供非常灵活的在 `Linq` 中使用标量函数的方法。如果像使用这样的方式，需要满足以下两个条件：
 
 - 标量函数必须定义在**公开静态类**中，且自己也是**公开静态方法**
 - 该**公开静态方法**必须贴有 `[QueryableFunction]` 特性
@@ -169,10 +169,10 @@ END;
 创建静态类，如 `QueryFunctions`，将该 `标量函数` 放在静态类中：
 
 ```cs {1, 7, 10-11}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using System;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     // 必须是公开静态的
     public static class QueryFunctions
@@ -227,7 +227,7 @@ RETURN
 ### 9.14.5.2 创建表值函数模型
 
 ```cs
-namespace Fur.Core
+namespace Furion.Core
 {
     public class F_Person
     {
@@ -259,11 +259,11 @@ namespace Fur.Core
 在 `DbContext` 类中定义方法：
 
 ```cs {3,10,20-21}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppDbContext("Sqlite3ConnectionString")]
     public class FurDbContext : AppDbContext<FurDbContext>
@@ -289,7 +289,7 @@ namespace Fur.EntityFramework.Core
 
 ```cs
 IQueryable<F_Person> query = _repository.DynamicDbContext.GetPersons(1);
-var result = query.Where(u => u.Name.Equals("Fur")).ToList();
+var result = query.Where(u => u.Name.Equals("Furion")).ToList();
 ```
 
 最终生成 `Sql`
@@ -297,7 +297,7 @@ var result = query.Where(u => u.Name.Equals("Fur")).ToList();
 ```sql
 SELECT [g].Id, [g].Name, [g].Age, [g].Address
 FROM dbo.GetPersons(1) AS [g]
-WHERE [g].Name == N'Fur';
+WHERE [g].Name == N'Furion';
 ```
 
 ## 9.14.6 在 `EF Core` 内置函数
@@ -322,6 +322,6 @@ WHERE DATEDIFF(HOUR, [a].[CREATED_DT], GETDATE()) > 8
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::

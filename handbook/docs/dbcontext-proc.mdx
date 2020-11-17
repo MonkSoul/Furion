@@ -34,7 +34,7 @@ import TabItem from "@theme/TabItem";
 
 ## 9.13.2 存储过程使用
 
-`Fur` 框架中提供了多种存储过程操作方式：
+`Furion` 框架中提供了多种存储过程操作方式：
 
 - `ISqlRepository`：`Sql` 操作仓储，可通过 `依赖注入`
 - `ISqlDispatchProxy`：`Sql` 代理方式（高级用法，推荐）
@@ -57,10 +57,10 @@ import TabItem from "@theme/TabItem";
 
 
 ```cs {1,9-12}
-using Fur.DatabaseAccessor;
-using Fur.DynamicApiController;
+using Furion.DatabaseAccessor;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     [DynamicApiController]
     public class SqlService
@@ -79,11 +79,11 @@ namespace Fur.Application
 
 
 ```cs {2,7,9-10}
-using Fur.Core;
-using Fur.DatabaseAccessor;
+using Furion.Core;
+using Furion.DatabaseAccessor;
 using System.Collections.Generic;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public interface ISqlExecuteProxy : ISqlDispatchProxy
     {
@@ -94,10 +94,10 @@ namespace Fur.Application
 ```
 
 ```cs {9-12}
-using Fur.DatabaseAccessor;
-using Fur.DynamicApiController;
+using Furion.DatabaseAccessor;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     [DynamicApiController]
     public class SqlService
@@ -154,7 +154,7 @@ var dataTable = "proc_GetPersons".SqlProcedureQuery();
 
 :::note 关于异步
 
-`Fur` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
+`Furion` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
 
 :::
 
@@ -179,7 +179,7 @@ var dataSet = "proc_GetPersons".SqlProcedureQueries();
 
 :::note 关于异步
 
-`Fur` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
+`Furion` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
 
 :::
 
@@ -204,13 +204,13 @@ var list = "proc_GetPersons".SqlProcedureQuery<Person>();
 
 :::note 关于异步
 
-`Fur` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
+`Furion` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
 
 :::
 
 ### 9.13.2.5 返回 `Tuple<T1,...T8>`
 
-`Fur` 框架大大利用了 `Tuple` 的特性，将返回多个结果集转成 `Tuple<T1,...T8>` 类型
+`Furion` 框架大大利用了 `Tuple` 的特性，将返回多个结果集转成 `Tuple<T1,...T8>` 类型
 
 ```cs
 // ISqlRepository 方法
@@ -354,7 +354,7 @@ var (list1, list2, list3, list4, list5, list6, list7, list8) = "proc_GetPersons"
 
 :::note 关于异步
 
-`Fur` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
+`Furion` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
 
 :::
 
@@ -379,7 +379,7 @@ var value = "proc_GetName".SqlProcedureScalar();
 
 :::note 关于异步
 
-`Fur` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
+`Furion` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
 
 :::
 
@@ -404,7 +404,7 @@ var value = "proc_GetName".SqlProcedureScalar<string>();
 
 :::note 关于异步
 
-`Fur` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
+`Furion` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
 
 :::
 
@@ -429,7 +429,7 @@ _repository.Sql().SqlProcedureNonQuery("proc_UpdateData");
 
 :::note 关于异步
 
-`Fur` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
+`Furion` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
 
 :::
 
@@ -444,7 +444,7 @@ CREATE PROC PROC_Output
     @Age INT OUTPUT // 输出参数
 AS
 BEGIN
-    SET @Name = 'Fur Output';
+    SET @Name = 'Furion Output';
 
     // 输出结果集
     SELECT *
@@ -466,10 +466,10 @@ END;
 ### 9.13.3.1 创建参数模型
 
 ```cs {1,10,13,16}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using System.Data;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class ProcOutputModel
     {
@@ -551,7 +551,7 @@ var (list1,list2) = result.Result;
 
 :::note 关于异步
 
-`Fur` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
+`Furion` 框架每一个数据库操作都支持异步方式，由于篇幅有限，就不列举异步方式了。
 
 :::
 
@@ -586,6 +586,6 @@ var (list1,list2) = result.Result;
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::

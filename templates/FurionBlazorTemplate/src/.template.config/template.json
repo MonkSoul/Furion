@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "百小僧/MonkSoul",
+  "classifications": ["Furion", "Blazor"],
+  "name": "Furion Blazor",
+  "identity": "Furion.Template.Blazor",
+  "shortName": "furionblazor",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "FurionBlazor",
+  "preferNameDirectory": true
+}

@@ -33,7 +33,7 @@ import TabItem from "@theme/TabItem";
 ```json {2-6}
 {
   "AppInfo": {
-    "Name": "Fur",
+    "Name": "Furion",
     "Version": "1.0.0",
     "Company": "Baiqian"
   }
@@ -48,7 +48,7 @@ import TabItem from "@theme/TabItem";
 
 ### 4.1.2.2 读取 `appsettings.json` 信息
 
-在 `Fur` 框架中，提供了两种读取方式：
+在 `Furion` 框架中，提供了两种读取方式：
 
 - 依赖注入 `IConfiguration` 对象读取
 - 通过 `App.Configuration[jsonKey]` 读取
@@ -69,7 +69,7 @@ import TabItem from "@theme/TabItem";
 ```cs {11-13}
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fur.Web.Entry.Controllers
+namespace Furion.Web.Entry.Controllers
 {
     [Route("api/[controller]")]
     public class DefaultController : ControllerBase
@@ -93,7 +93,7 @@ namespace Fur.Web.Entry.Controllers
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
-namespace Fur.Web.Entry.Controllers
+namespace Furion.Web.Entry.Controllers
 {
     [Route("api/[controller]")]
     public class DefaultController : ControllerBase
@@ -159,7 +159,7 @@ public IConfiguration Configuration { get; set; }
 ```json {5-12}
 {
   "AppInfo": {
-    "Name": "Fur",
+    "Name": "Furion",
     "Version": "1.0.0",
     "Company": {
       "Name": "Baiqian",
@@ -186,7 +186,7 @@ public IConfiguration Configuration { get; set; }
 
 
 ```cs
-var companyName = App.Configuration["AppInfo:Name"]; // => Fur
+var companyName = App.Configuration["AppInfo:Name"]; // => Furion
 ```
 
   </TabItem>
@@ -219,9 +219,9 @@ var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern3..
 
 ## 4.1.4 自定义配置文件
 
-大多情况下，我们的配置只需要在 `appsettings.json` 中配置即可，但一些特殊情况下，我们希望某些组件或功能拥有独立的配置，这个时候就需要用到自定义配置，`Fur` 目前支持 `.json` 和 `.xml` 两种方式配置，如：
+大多情况下，我们的配置只需要在 `appsettings.json` 中配置即可，但一些特殊情况下，我们希望某些组件或功能拥有独立的配置，这个时候就需要用到自定义配置，`Furion` 目前支持 `.json` 和 `.xml` 两种方式配置，如：
 
-```json {2-13} title="Fur.Web.Entry/emailsetting.json"
+```json {2-13} title="Furion.Web.Entry/emailsetting.json"
 {
   "outlook": {
     "smtp": {
@@ -261,7 +261,7 @@ var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern3..
 
 :::
 
-同时 `Fur` 提供了非常灵活的方式支持自定义配置文件读取，如：
+同时 `Furion` 提供了非常灵活的方式支持自定义配置文件读取，如：
 
 ### 4.1.4.1 读取 `emailsetting.json` 配置
 
@@ -294,7 +294,7 @@ var smtpServer = _configuration["outlook:smtp:server"]; // => smtp.office365.com
 
 :::important 特别说明
 
-`Fur` 框架会在启动时自动扫描每一个项目层根目录下的 `*.json` 和 `*.xml` 文件加入配置中，所以无需手工配置。新增`*.json` 和 `*.xml` 文件的属性`复制到输出目录`设置为始终复制，否则会扫描不到。
+`Furion` 框架会在启动时自动扫描每一个项目层根目录下的 `*.json` 和 `*.xml` 文件加入配置中，所以无需手工配置。新增`*.json` 和 `*.xml` 文件的属性`复制到输出目录`设置为始终复制，否则会扫描不到。
 
 另外在 `类库` 项目中，不能起名和 `启动项目` 一样的配置文件名，不然会相互覆盖。
 
@@ -352,7 +352,7 @@ ChangeToken.OnChange(() => appInfoConfiguration.GetReloadToken(), () =>
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::
 

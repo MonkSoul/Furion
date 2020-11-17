@@ -26,7 +26,7 @@ dto.IdCard = entity.IdCard.Replace("1234", "****");
 
 上面的例子似乎没有任何问题，但是如果很多地方需要这样的赋值操作、或者相同的赋值操作在多个地方使用，又或者一个类中含有非常多的属性或自定义赋值操作。那么这样的操作效率极低，容易出错，且代码非常臃肿和冗余。
 
-所以，实现自动映射赋值和支持特殊配置的需求就有了。目前 `C#` 平台有两个优秀的对象映射工具：`Mapster` 和 `AutoMapper`。**在 `Fur` 框架中，默认集成的是 [Mapster](https://github.com/MapsterMapper/Mapster)，[Mapster](https://github.com/MapsterMapper/Mapster) 是一款极易使用且超高性能的对象映射框架。**
+所以，实现自动映射赋值和支持特殊配置的需求就有了。目前 `C#` 平台有两个优秀的对象映射工具：`Mapster` 和 `AutoMapper`。**在 `Furion` 框架中，默认集成的是 [Mapster](https://github.com/MapsterMapper/Mapster)，[Mapster](https://github.com/MapsterMapper/Mapster) 是一款极易使用且超高性能的对象映射框架。**
 
 ## 12.3 `Mapster` 使用
 
@@ -44,11 +44,11 @@ var dto = entity.Adapt<Dto>();
 ### 12.3.2 自定义映射规则
 
 ```cs {1,7,11-13}
-using Fur.ObjectMapper;
+using Furion.ObjectMapper;
 using Mapster;
 using System;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class Mapper : IObjectMapper
     {
@@ -64,7 +64,7 @@ namespace Fur.Application
 
 :::tip 小知识
 
-该映射文件 `Mapper.cs` 可以放在任何项目或文件夹中，`Fur` 会在程序启动的时候自动扫描并注入配置。
+该映射文件 `Mapper.cs` 可以放在任何项目或文件夹中，`Furion` 会在程序启动的时候自动扫描并注入配置。
 
 :::
 
@@ -104,7 +104,7 @@ var destinations = context.Sources
 
 ## 12.5 全局默认配置
 
-`Fur` 提供全局默认映射配置选项 `TypeAdapterConfig.GlobalSettings.Default`，可在 `Startup` 中配置即可，如：
+`Furion` 提供全局默认映射配置选项 `TypeAdapterConfig.GlobalSettings.Default`，可在 `Startup` 中配置即可，如：
 
 ```cs
 TypeAdapterConfig.GlobalSettings.Default
@@ -115,13 +115,13 @@ TypeAdapterConfig.GlobalSettings.Default
 
 在使用 `Mapster` 映射实体的时候，如果实体包含 一对多、多对多的导航属性时候，当执行数据库 `Update` 更新操作的时候，默认就做了全量更新，会影响性能。
 
-所以，社区开发者提供了新的解决方案，可以解决这个问题，代码传送门：[TypeAdapterBuilderExtensions.cs](https://gitee.com/monksoul/Fur/blob/0d3d1dd7768727938a498977057511abc501f75f/framework/Fur.Application/Mapper/TypeAdapterBuilderExtensions.cs)
+所以，社区开发者提供了新的解决方案，可以解决这个问题，代码传送门：[TypeAdapterBuilderExtensions.cs](https://gitee.com/monksoul/Furion/blob/0d3d1dd7768727938a498977057511abc501f75f/framework/Furion.Application/Mapper/TypeAdapterBuilderExtensions.cs)
 
 ## 12.7 反馈与建议
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::
 

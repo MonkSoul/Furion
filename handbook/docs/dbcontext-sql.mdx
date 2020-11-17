@@ -12,7 +12,7 @@ sidebar_label: 9.15 Sql 操作
 
 ## 9.15.1 关于 `Sql`
 
-`Fur` 框架提供非常多且灵活的 `sql` 操作方法，且性能不输于 `dapper`，同时逼近 `ADO.NET` 原生操作。
+`Furion` 框架提供非常多且灵活的 `sql` 操作方法，且性能不输于 `dapper`，同时逼近 `ADO.NET` 原生操作。
 
 ## 9.15.2 懒人无敌 `Sql` 🐮
 
@@ -28,13 +28,13 @@ var dataTable = "select * from person".SqlQuery();
 var dataTable = "select top 10 * from person where id > @id".SqlQuery(new {id = 10});
 
 // 示例三
-var dataTable = "select Id, Name, Age from person where name like %@name%".SqlQuery(new Dictionary<string,object>{ {"name", "Fur"} });
+var dataTable = "select Id, Name, Age from person where name like %@name%".SqlQuery(new Dictionary<string,object>{ {"name", "Furion"} });
 
 // 示例四
-var dataTable = "select * from person where name=@name limit 1,10".SqlQuery(new []{ new MySqlParameter("name","Fur") });
+var dataTable = "select * from person where name=@name limit 1,10".SqlQuery(new []{ new MySqlParameter("name","Furion") });
 
 // 示例五
-var dataTable = "select * from person where id>@id and name like %@name%".SqlQuery(new YourModel { Id = 1, Name = "Fur" });
+var dataTable = "select * from person where id>@id and name like %@name%".SqlQuery(new YourModel { Id = 1, Name = "Furion" });
 
 // 示例六
 var dataTable = "exec PROC_GetPerson @id".SqlQuery(new {id = 10});
@@ -57,13 +57,13 @@ var dataTable = await "select * from person".SqlQueryAsync();
 var dataTable = await "select top 10 * from person where id > @id".SqlQueryAsync(new {id = 10});
 
 // 示例三
-var dataTable = await "select Id, Name, Age from person where name like %@name%".SqlQueryAsync(new Dictionary<string,object>{ {"name", "Fur"} });
+var dataTable = await "select Id, Name, Age from person where name like %@name%".SqlQueryAsync(new Dictionary<string,object>{ {"name", "Furion"} });
 
 // 示例四
-var dataTable = await "select * from person where name=@name limit 1,10".SqlQueryAsync(new []{ new MySqlParameter("name","Fur") });
+var dataTable = await "select * from person where name=@name limit 1,10".SqlQueryAsync(new []{ new MySqlParameter("name","Furion") });
 
 // 示例五
-var dataTable = await "select * from person where id>@id and name like %@name%".SqlQueryAsync(new YourModel { Id = 1, Name = "Fur" });
+var dataTable = await "select * from person where id>@id and name like %@name%".SqlQueryAsync(new YourModel { Id = 1, Name = "Furion" });
 
 // 示例六
 var dataTable = await "exec PROC_GetPerson @id".SqlQueryAsync(new {id = 10});
@@ -90,13 +90,13 @@ var persons = "select * from person".SqlQuery<Person>();
 var persons = "select top 10 * from person where id > @id".SqlQuery<Person>(new {id = 10});
 
 // 示例三
-var persons = "select Id, Name, Age from person where name like %@name%".SqlQuery<Person>(new Dictionary<string,object>{ {"name", "Fur"} });
+var persons = "select Id, Name, Age from person where name like %@name%".SqlQuery<Person>(new Dictionary<string,object>{ {"name", "Furion"} });
 
 // 示例四
-var persons = "select * from person where name=@name limit 1,10".SqlQuery<Person>(new []{ new MySqlParameter("name","Fur") });
+var persons = "select * from person where name=@name limit 1,10".SqlQuery<Person>(new []{ new MySqlParameter("name","Furion") });
 
 // 示例五
-var persons = "select * from person where id>@id and name like %@name%".SqlQuery<Person>(new YourModel { Id = 1, Name = "Fur" });
+var persons = "select * from person where id>@id and name like %@name%".SqlQuery<Person>(new YourModel { Id = 1, Name = "Furion" });
 
 // 示例六
 var persons = "exec PROC_GetPerson @id".SqlQuery<Person>(new {id = 10});
@@ -119,13 +119,13 @@ var persons = await "select * from person".SqlQueryAsync<Person>();
 var persons = await "select top 10 * from person where id > @id".SqlQueryAsync<Person>(new {id = 10});
 
 // 示例三
-var persons = await "select Id, Name, Age from person where name like %@name%".SqlQueryAsync<Person>(new Dictionary<string,object>{ {"name", "Fur"} });
+var persons = await "select Id, Name, Age from person where name like %@name%".SqlQueryAsync<Person>(new Dictionary<string,object>{ {"name", "Furion"} });
 
 // 示例四
-var persons = await "select * from person where name=@name limit 1,10".SqlQueryAsync<Person>(new []{ new MySqlParameter("name","Fur") });
+var persons = await "select * from person where name=@name limit 1,10".SqlQueryAsync<Person>(new []{ new MySqlParameter("name","Furion") });
 
 // 示例五
-var persons = await "select * from person where id>@id and name like %@name%".SqlQueryAsync<Person>(new YourModel { Id = 1, Name = "Fur" });
+var persons = await "select * from person where id>@id and name like %@name%".SqlQueryAsync<Person>(new YourModel { Id = 1, Name = "Furion" });
 
 // 示例六
 var persons = await "exec PROC_GetPerson @id".SqlQueryAsync<Person>(new {id = 10});
@@ -159,7 +159,7 @@ select * from student where Name like %@name%;".SqlQueries(new {id = 1, name = "
 var dataSet = @"
 select * from person;
 exec PROC_GetStudents(@id);
-select 'Fur';
+select 'Furion';
 select * from FN_GetPerson(@id);".SqlQueries(new {id = 1});
 
 // ==== 异步操作 ====
@@ -178,7 +178,7 @@ select * from student where Name like %@name%;".SqlQueriesAsync(new {id = 1, nam
 var dataSet = await @"
 select * from person;
 exec PROC_GetStudents(@id);
-select 'Fur';
+select 'Furion';
 select * from FN_GetPerson(@id);".SqlQueriesAsync(new {id = 1});
 ```
 
@@ -201,7 +201,7 @@ select * from student where Name like %@name%;".SqlQueries<Person,Student>(new {
 var (persons, students, string, PersonDto) = @"
 select * from person;
 exec PROC_GetStudents(@id);
-select 'Fur';
+select 'Furion';
 select * from FN_GetPerson(@id);".SqlQueries<Person, Student, string, PersonDto>(new {id = 1});
 
 // ==== 异步操作 ====
@@ -220,7 +220,7 @@ select * from student where Name like %@name%;".SqlQueriesAsync<Person,Student>(
 var (persons, students, string, PersonDto) = await @"
 select * from person;
 exec PROC_GetStudents(@id);
-select 'Fur';
+select 'Furion';
 select * from FN_GetPerson(@id);".SqlQueriesAsync<Person, Student, string, PersonDto>(new {id = 1});
 ```
 
@@ -465,7 +465,7 @@ CREATE PROC PROC_Output
     @Age INT OUTPUT // 输出参数
 AS
 BEGIN
-    SET @Name = 'Fur Output';
+    SET @Name = 'Furion Output';
 
     // 输出结果集
     SELECT *
@@ -485,10 +485,10 @@ END;
 ```
 
 ```cs {1,10,13,16}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using System.Data;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class ProcOutputModel
     {
@@ -689,7 +689,7 @@ var dataTable = personRepository.SqlQuery("select * from person");
 
 ## 9.15.9 多数据库 `Sql` 操作 💯 💛
 
-`Fur` 框架拥有非常灵活的多数据库操作方式，只需通过多**数据库上下文定位器**即可动态切换数据库。
+`Furion` 框架拥有非常灵活的多数据库操作方式，只需通过多**数据库上下文定位器**即可动态切换数据库。
 
 ### 9.15.9.1 懒人无敌 🐮 方式
 
@@ -721,6 +721,6 @@ var persons = "select * from person whre id > @id".Change<SqliteDbContextLocator
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::

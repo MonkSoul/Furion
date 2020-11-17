@@ -8,7 +8,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 9.19.1 数据库开发方式
 
-`Fur` 提供两种主要方法来 **保持实体模型和数据库架构同步**。
+`Furion` 提供两种主要方法来 **保持实体模型和数据库架构同步**。
 
 至于我们应该选用哪个方法，请确定你是希望以实体模型为准还是以数据库为准：
 
@@ -22,7 +22,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::important 操作之前注意事项
 
-目前 `Fur Tools` 生成工具**默认不支持任何数据库**生成，所以如需生成特定数据库的代码，只需要在 `Fur.EntityFrameworkCore.Core` 安装对应的数据库包即可：
+目前 `Furion Tools` 生成工具**默认不支持任何数据库**生成，所以如需生成特定数据库的代码，只需要在 `Furion.EntityFrameworkCore.Core` 安装对应的数据库包即可：
 
 各个数据库的包可查阅：[多数据库操作-数据库提供器对应包](dbcontext-multi-database#91811-数据库提供器对应包)
 
@@ -32,13 +32,13 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ### 9.19.2.1 打开 `程序包管理控制台`
 
-注意：开始之前先把 `Fur.Web.Entry` 设为启动项目。
+注意：开始之前先把 `Furion.Web.Entry` 设为启动项目。
 
 <img src={useBaseUrl("img/dbfirst1.png")} />
 
 ### 9.19.2.2 切换默认项目
 
-将 `程序包管理控制台` 默认项目设置为 `Fur.Core`，如果您是其他名字，则切换对应即可。
+将 `程序包管理控制台` 默认项目设置为 `Furion.Core`，如果您是其他名字，则切换对应即可。
 
 <img src={useBaseUrl("img/dbfirst2.png")} />
 
@@ -65,8 +65,8 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 执行上面命令后，此时，`Cli` 有一个等待输入提示：
 
 ```shell
-Fur Tools v1.0.0 请键入操作类型：[G] 界面操作，[任意字符] 命令行操作
-Fur Tools v1.0.0 您的输入是:
+Furion Tools v1.0.0 请键入操作类型：[G] 界面操作，[任意字符] 命令行操作
+Furion Tools v1.0.0 您的输入是:
 ```
 
 **输入大写 `G` 进入界面操作模式，其他任意字符进入命令行操作模式。**
@@ -87,7 +87,7 @@ Fur Tools v1.0.0 您的输入是:
 
 <img src={useBaseUrl("img/dbfirst4.png")} />
 
-这时，`Fur Tools` 会自动查找所有数据库配置连接字符串的 `.json` 文件：
+这时，`Furion Tools` 会自动查找所有数据库配置连接字符串的 `.json` 文件：
 
 ```json {12-13}
 {
@@ -101,8 +101,8 @@ Fur Tools v1.0.0 您的输入是:
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "DbConnectionString": "Server=localhost;Database=Fur;User=sa;Password=000000;MultipleActiveResultSets=True;",
-    "Sqlite3ConnectionString": "Data Source=./Fur.db"
+    "DbConnectionString": "Server=localhost;Database=Furion;User=sa;Password=000000;MultipleActiveResultSets=True;",
+    "Sqlite3ConnectionString": "Data Source=./Furion.db"
   }
 }
 ```
@@ -123,7 +123,7 @@ Fur Tools v1.0.0 您的输入是:
 
 ### 9.13.3.4 选择保存目录
 
-点击 `立即生成` 按钮后，会弹出实体保存选择目录资源管理器，默认实体只能保存在 `Fur.Core` 层：
+点击 `立即生成` 按钮后，会弹出实体保存选择目录资源管理器，默认实体只能保存在 `Furion.Core` 层：
 
 <img src={useBaseUrl("img/dbfirst7.png")} />
 
@@ -146,41 +146,41 @@ PM> &"../tools/cli.ps1"
 //  |_|   \__,_|_|       |_|\___/ \___/|_|___/
 //
 // -----------------------------------------------------------------------------
-// Fur 是 .NET 5 平台下企业应用开发最佳实践框架。
-// Copyright © 2020 Fur, Baiqian Co.,Ltd.
+// Furion 是 .NET 5 平台下企业应用开发最佳实践框架。
+// Copyright © 2020 Furion, Baiqian Co.,Ltd.
 //
-// 框架名称：Fur
+// 框架名称：Furion
 // 框架作者：百小僧
 // 框架版本：1.0.0
-// 源码地址：https://gitee.com/monksoul/Fur
+// 源码地址：https://gitee.com/monksoul/Furion
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
-Fur Tools v1.0.0 启动中......
-Fur Tools v1.0.0 启动成功！
-Fur Tools v1.0.0 请键入操作类型：[G] 界面操作，[任意字符] 命令行操作
-Fur Tools v1.0.0 您的输入是: G
-Fur Tools v1.0.0 正在加载数据库表和视图......
-Fur Tools v1.0.0 加载成功！
-Fur Tools v1.0.0 正在编译解决方案代码......
+Furion Tools v1.0.0 启动中......
+Furion Tools v1.0.0 启动成功！
+Furion Tools v1.0.0 请键入操作类型：[G] 界面操作，[任意字符] 命令行操作
+Furion Tools v1.0.0 您的输入是: G
+Furion Tools v1.0.0 正在加载数据库表和视图......
+Furion Tools v1.0.0 加载成功！
+Furion Tools v1.0.0 正在编译解决方案代码......
 Build started...
 Build succeeded.
 For foreign key FK_PersonDetail_Person_PersonId on table dbo.PersonDetail, unable to model the end of the foreign key on principal table dbo.Person. This is usually because the principal table was not included in the selection set.
-Fur Tools v1.0.0 编译成功！
-Fur Tools v1.0.0 开始生成实体文件......
-Fur Tools v1.0.0 正在生成 City.cs 实体代码......
-Fur Tools v1.0.0 成功生成 City.cs 实体代码
+Furion Tools v1.0.0 编译成功！
+Furion Tools v1.0.0 开始生成实体文件......
+Furion Tools v1.0.0 正在生成 City.cs 实体代码......
+Furion Tools v1.0.0 成功生成 City.cs 实体代码
 // -----------------------------------------------------------------------------
-// 以下代码由 Fur Tools v1.0.0 生成
+// 以下代码由 Furion Tools v1.0.0 生成
 // -----------------------------------------------------------------------------
 
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 
 #nullable disable
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public partial class City : IEntity, IEntityTypeBuilder<City>
     {
@@ -213,20 +213,20 @@ namespace Fur.Core
     }
 }
 
-Fur Tools v1.0.0 正在生成 PersonDetail.cs 实体代码......
-Fur Tools v1.0.0 成功生成 PersonDetail.cs 实体代码
+Furion Tools v1.0.0 正在生成 PersonDetail.cs 实体代码......
+Furion Tools v1.0.0 成功生成 PersonDetail.cs 实体代码
 // -----------------------------------------------------------------------------
-// 以下代码由 Fur Tools v1.0.0 生成
+// 以下代码由 Furion Tools v1.0.0 生成
 // -----------------------------------------------------------------------------
 
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 
 #nullable disable
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public partial class PersonDetail : IEntity, IEntityTypeBuilder<PersonDetail>
     {
@@ -248,20 +248,20 @@ namespace Fur.Core
     }
 }
 
-Fur Tools v1.0.0 正在生成 Post.cs 实体代码......
-Fur Tools v1.0.0 成功生成 Post.cs 实体代码
+Furion Tools v1.0.0 正在生成 Post.cs 实体代码......
+Furion Tools v1.0.0 成功生成 Post.cs 实体代码
 // -----------------------------------------------------------------------------
-// 以下代码由 Fur Tools v1.0.0 生成
+// 以下代码由 Furion Tools v1.0.0 生成
 // -----------------------------------------------------------------------------
 
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 
 #nullable disable
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public partial class Post : IEntity
     {
@@ -275,20 +275,20 @@ namespace Fur.Core
     }
 }
 
-Fur Tools v1.0.0 正在生成 VPerson.cs 实体代码......
-Fur Tools v1.0.0 成功生成 VPerson.cs 实体代码
+Furion Tools v1.0.0 正在生成 VPerson.cs 实体代码......
+Furion Tools v1.0.0 成功生成 VPerson.cs 实体代码
 // -----------------------------------------------------------------------------
-// 以下代码由 Fur Tools v1.0.0 生成
+// 以下代码由 Furion Tools v1.0.0 生成
 // -----------------------------------------------------------------------------
 
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 
 #nullable disable
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public partial class VPerson : IEntity, IEntityTypeBuilder<VPerson>
     {
@@ -313,13 +313,13 @@ namespace Fur.Core
     }
 }
 
-Fur Tools v1.0.0 全部实体生成成功！
+Furion Tools v1.0.0 全部实体生成成功！
 PM>
 ```
 
 ## 9.13.4 命令参数配置
 
-`Fur Tools Cli` 支持多个参数配置，使用方法只需要在命令后面添加即可，如：
+`Furion Tools Cli` 支持多个参数配置，使用方法只需要在命令后面添加即可，如：
 
 ```shell
  &"../tools/cli.ps1" -Context 数据库上下文名 -ConnectionName 连接字符串Key
@@ -330,7 +330,7 @@ PM>
 - `-Tables`：配置要生成的数据库表，数组类型，如果为空，则生成数据库所有表和视图。如：`-Tables Person,PersonDetails`
 - `-Context`：配置数据库上下文，默认 `FurDbContext`，如果有多个数据库上下文，则此参数必须配置
 - `-ConnectionName`：配置数据库连接字符串，对于 `appsetting.json` 中的 `Key`
-- `-OutputDir`：生成实体代码输出目录，默认为：`./Fur.Core/Entities/`
+- `-OutputDir`：生成实体代码输出目录，默认为：`./Furion.Core/Entities/`
 - `-DbProvider`：数据库提供器，默认是 `Microsoft.EntityFrameworkCore.SqlServer`，其他数据库请指定对应程序集
   - `SqlServer`：`Microsoft.EntityFrameworkCore.SqlServer`
   - `Sqlite`：`Microsoft.EntityFrameworkCore.Sqlite`
@@ -340,16 +340,16 @@ PM>
   - `PostgreSQL`：`Npgsql.EntityFrameworkCore.PostgreSQL`
   - `Oracle`：`Citms.EntityFrameworkCore.Oracle`
   - `Dm`：`Microsoft.EntityFrameworkCore.Dm`
-- `-EntryProject`：Web 启用项目层名，默认 `Fur.Web.Entry`
-- `-CoreProject`：实体项目层名，默认 `Fur.Core`
+- `-EntryProject`：Web 启用项目层名，默认 `Furion.Web.Entry`
+- `-CoreProject`：实体项目层名，默认 `Furion.Core`
 - `-DbContextLocators`：多数据库上下文定位器，默认 `MasterDbContextLocator`，支持多个，如：`MasterDbContextLocator,MySqlDbContextLocator`
-- `-Product`：解决方案默认前缀，如 `Fur`
+- `-Product`：解决方案默认前缀，如 `Furion`
 - `-UseDatabaseNames`：是否保持生成和数据库、表一致的名称
 
 ## 9.13.5 反馈与建议
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::

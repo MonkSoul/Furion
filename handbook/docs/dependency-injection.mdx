@@ -146,7 +146,7 @@ public class FurService
 
 ## 11.6 内置依赖接口
 
-`Fur` 框架提供三个接口依赖分别对应不同的服务生存期：
+`Furion` 框架提供三个接口依赖分别对应不同的服务生存期：
 
 - `ITransient`：对应暂时/瞬时作用域服务生存期
 - `IScoped`：对应请求作用域服务生存期
@@ -159,11 +159,11 @@ public class FurService
 创建 `IBusinessService` 接口和 `BusinessService` 实现类，代码如下：
 
 ```cs {7,12}
-using Fur.Core;
-using Fur.DatabaseAccessor;
-using Fur.DependencyInjection;
+using Furion.Core;
+using Furion.DatabaseAccessor;
+using Furion.DependencyInjection;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public interface IBusinessService
     {
@@ -190,10 +190,10 @@ namespace Fur.Application
 创建 `PersonController` 控制器，代码如下：
 
 ```cs {11,19}
-using Fur.Application;
+using Furion.Application;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fur.Web.Entry.Controllers
+namespace Furion.Web.Entry.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -221,7 +221,7 @@ namespace Fur.Web.Entry.Controllers
 
 **例子解说**
 
-`Fur` 框架提供了非常灵活且方便的实现依赖注入的方式，只需要实例类继承对应生存期的接口即可，这里继承了 `ITransient`，也就表明了这是一个 `暂时/瞬时` 作用域实例类。该类就可以作为被注入对象，同时也能注入其他接口对象。
+`Furion` 框架提供了非常灵活且方便的实现依赖注入的方式，只需要实例类继承对应生存期的接口即可，这里继承了 `ITransient`，也就表明了这是一个 `暂时/瞬时` 作用域实例类。该类就可以作为被注入对象，同时也能注入其他接口对象。
 
 上面的例子中，`BusinessService` 注入了 `IRepository<Person>` 仓储接口，同时 `PersonController` 控制器注入了 `IBusinessService` 接口。
 
@@ -234,11 +234,11 @@ namespace Fur.Web.Entry.Controllers
 创建 `IBusinessService<T>` 接口和 `BusinessService<T>` 实现类，代码如下：
 
 ```cs {7,12}
-using Fur.Core;
-using Fur.DatabaseAccessor;
-using Fur.DependencyInjection;
+using Furion.Core;
+using Furion.DatabaseAccessor;
+using Furion.DependencyInjection;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public interface IBusinessService<T>
     {
@@ -265,10 +265,10 @@ namespace Fur.Application
 创建 `PersonController` 控制器，代码如下：
 
 ```cs {11,19}
-using Fur.Application;
+using Furion.Application;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fur.Web.Entry.Controllers
+namespace Furion.Web.Entry.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -303,9 +303,9 @@ namespace Fur.Web.Entry.Controllers
 创建 `IBusinessService` 接口和 `BusinessService`、`OtherBusinessService` 两个实现类，代码如下：
 
 ```cs {5,10,18}
-using Fur.DependencyInjection;
+using Furion.DependencyInjection;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public interface IBusinessService
     {
@@ -333,12 +333,12 @@ namespace Fur.Application
 创建 `ValueController` 控制器，代码如下：
 
 ```cs {15,17,18}
-using Fur.Application;
-using Fur.DependencyInjection;
+using Furion.Application;
+using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace Fur.Web.Entry.Controllers
+namespace Furion.Web.Entry.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -369,9 +369,9 @@ namespace Fur.Web.Entry.Controllers
 如果需要自定义解析名称，只需要贴 `[Injection(Named = "名称")]` 即可，如：
 
 ```cs {5,11}
-using Fur.DependencyInjection;
+using Furion.DependencyInjection;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     [Injection(Named = "BusName1")]
     public class BusinessService : IBusinessService, ITransient
@@ -403,11 +403,11 @@ _otherBusinessService = resolveNamed("BusName2", default) as IBusinessService;
 创建 `SelfService` 实例类，代码如下：
 
 ```cs {7,11}
-using Fur.Core;
-using Fur.DatabaseAccessor;
-using Fur.DependencyInjection;
+using Furion.Core;
+using Furion.DatabaseAccessor;
+using Furion.DependencyInjection;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class SelfService : ITransient
     {
@@ -429,11 +429,11 @@ namespace Fur.Application
 创建 `ValueController` 控制器，代码如下：
 
 ```cs {13,21}
-using Fur.Application;
-using Fur.Core;
+using Furion.Application;
+using Furion.Core;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fur.Web.Entry.Controllers
+namespace Furion.Web.Entry.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -457,7 +457,7 @@ namespace Fur.Web.Entry.Controllers
 
 ## 11.8 `[Injection]` 特性配置
 
-`Fur` 框架提供 `[Injection]` 特性可以改变注册方式，同时还能配置 `AOP` 拦截。
+`Furion` 框架提供 `[Injection]` 特性可以改变注册方式，同时还能配置 `AOP` 拦截。
 
 `[Injection]` 提供以下配置支持：
 
@@ -476,7 +476,7 @@ namespace Fur.Web.Entry.Controllers
 
 ## 11.9 自定义高级注册
 
-默认情况下，`Fur` 提供的注册方式可以满足大多数依赖注入的需求，如有特别注册需求，只需要在 `Startup` 中配置即可，如：
+默认情况下，`Furion` 提供的注册方式可以满足大多数依赖注入的需求，如有特别注册需求，只需要在 `Startup` 中配置即可，如：
 
 ```cs
 services.AddScoped(typeof(ISpecService), provider = > {
@@ -489,7 +489,7 @@ services.AddScoped(typeof(ISpecService), provider = > {
 
 :::note 补充说明
 
-`Fur` 框架中的 `AppDbContext` 数据库上下文还有 `ISqlDispatchProxy` 都是通过这种方式创建的。
+`Furion` 框架中的 `AppDbContext` 数据库上下文还有 `ISqlDispatchProxy` 都是通过这种方式创建的。
 
 :::
 
@@ -508,14 +508,14 @@ services.AddScoped(typeof(ISpecService), provider = > {
   "DependencyInjectionSettings": {
     "Definitions": [
       {
-        "Interface": "Fur.Application;Fur.Application.ITestService",
-        "Service": "Fur.Application;Fur.Application.TestService",
+        "Interface": "Furion.Application;Furion.Application.ITestService",
+        "Service": "Furion.Application;Furion.Application.TestService",
         "RegisterType": "Transient",
         "Action": "Add",
         "Pattern": "SelfWithFirstInterface",
         "Named": "TestService",
         "Order": 1,
-        "Proxy": "Fur.Application;Fur.Application.LogDispathProxy"
+        "Proxy": "Furion.Application;Furion.Application.LogDispathProxy"
       }
     ]
   }
@@ -527,7 +527,7 @@ services.AddScoped(typeof(ISpecService), provider = > {
 - `DependencyInjectionSettings`：依赖注入配置根节点
   - `Definitions`：动态依赖注入配置节点，`ExternalService` 数组类型
     - `ExternalService`：配置单个依赖注入信息
-      - `Interface`：配置依赖接口信息，格式：`程序集名称;接口完整名称`，如：`Fur.Application;Fur.Application.ITestService`
+      - `Interface`：配置依赖接口信息，格式：`程序集名称;接口完整名称`，如：`Furion.Application;Furion.Application.ITestService`
       - `Service`：配置接口实现信息，格式同上
       - `RegisterType`：配置依赖注入的对象生存期，取值：`Transient`，`Scoped`，`Singleton`
       - `Action`：注册行为，可选值：`Add`，`TryAdd`，参见 [#118-injection-特性配置](#118-injection-特性配置)
@@ -552,7 +552,7 @@ services.AddScoped(typeof(ISpecService), provider = > {
 
 ## 11.11 注册顺序和优先级
 
-`Fur` 框架中，默认注册顺序是按照程序集扫描顺序进行注册，如果需要改变注册顺序，可通过 `[Injection(Order)]` 特性指定，`Order` 值越大，则越在最后注册。
+`Furion` 框架中，默认注册顺序是按照程序集扫描顺序进行注册，如果需要改变注册顺序，可通过 `[Injection(Order)]` 特性指定，`Order` 值越大，则越在最后注册。
 
 另外 `appsettings.json` 配置的优先级最大，`appsettings.json` 配置的注册会覆盖之前所有注册。
 
@@ -560,7 +560,7 @@ services.AddScoped(typeof(ISpecService), provider = > {
 
 `AOP` 是非常重要的思想和技术，也就是 `面向切面` 编程，可以让我们在不改动原来代码的情况下进行动态篡改业务代码。
 
-在 `Fur` 框架中，实现 `Aop` 非常简单，如：
+在 `Furion` 框架中，实现 `Aop` 非常简单，如：
 
 假设我们有 `ITestService` 和 `TestService` 两个类型：
 
@@ -586,11 +586,11 @@ public class TestService: ITestService, ITransient
 这个时候我们只需要创建一个代理类即可，如 `LogDispatchProxy`
 
 ```cs {1,3,7,25}
-using Fur.DependencyInjection;
+using Furion.DependencyInjection;
 using System;
 using System.Reflection;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class LogDispatchProxy : DispatchProxy, IDispatchProxy
     {
@@ -656,6 +656,6 @@ public class TestService: ITestService, ITransient
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::

@@ -26,7 +26,7 @@ const features = [
     imageUrl: "img/undraw_docusaurus_tree.svg",
     description: (
       <>
-        Fur 在设计之初就秉承着 “六极” ：
+        Furion 在设计之初就秉承着 “六极” ：
         <strong>
           极易入门、极速开发、极少依赖、极少配置、极其灵活、极易维护
         </strong>{" "}
@@ -39,7 +39,7 @@ const features = [
     imageUrl: "img/undraw_docusaurus_react.svg",
     description: (
       <>
-        Fur
+        Furion
         除了独具创新的设计理念和灵活的架构设计以外，同时还结合了主流的敏捷开发模式打造的一款极速开发框架。
         <strong>只需冲制一杯咖啡的时间便可完成工作</strong>。
       </>
@@ -67,8 +67,8 @@ function Home() {
   const { siteConfig = {} } = context;
   return (
     <Layout
-      title={`Fur 是 .NET 5 平台下企业应用开发最佳实践框架。 ${siteConfig.title}`}
-      description="Fur 是 .NET 5 平台下企业应用开发最佳实践框架。"
+      title={`Furion 是 .NET 5 平台下企业应用开发最佳实践框架。 ${siteConfig.title}`}
+      description="Furion 是 .NET 5 平台下企业应用开发最佳实践框架。"
     >
       <header className={clsx("hero hero--primary", styles.heroBanner)}>
         <div className="container">

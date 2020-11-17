@@ -1,20 +1,20 @@
 module.exports = {
-  title: "Fur",
-  tagline: "Fur 是 .NET 5 平台下企业应用开发最佳实践框架。",
+  title: "Furion",
+  tagline: "Furion 是 .NET 5 平台下企业应用开发最佳实践框架。",
   url: "https://furos.cn",
-  baseUrl: "/fur/",
+  baseUrl: "/furion/",
   onBrokenLinks: "throw",
   favicon: "img/favicon.ico",
   organizationName: "Baiqian Co.,Ltd.",
-  projectName: "Fur",
+  projectName: "Furion",
   themeConfig: {
     prism: {
       additionalLanguages: ["powershell", "csharp", "sql"],
     },
     navbar: {
-      title: "Fur",
+      title: "Furion",
       logo: {
-        alt: "Fur Logo",
+        alt: "Furion Logo",
         src: "img/logo.png",
       },
       hideOnScroll: false,
@@ -46,7 +46,7 @@ module.exports = {
           ],
         },
         {
-          href: "https://gitee.com/monksoul/Fur/board",
+          href: "https://gitee.com/monksoul/Furion/board",
           label: "看板",
           position: "right",
         },
@@ -56,11 +56,11 @@ module.exports = {
           items: [
             {
               label: "Gitee",
-              href: "https://gitee.com/monksoul/Fur",
+              href: "https://gitee.com/monksoul/Furion",
             },
             {
               label: "GitHub",
-              href: "https://github.com/MonkSoul/Fur",
+              href: "https://github.com/MonkSoul/Furion",
             },
           ],
         },
@@ -87,11 +87,11 @@ module.exports = {
           items: [
             {
               label: "讨论",
-              href: "https://gitee.com/monksoul/Fur/issues",
+              href: "https://gitee.com/monksoul/Furion/issues",
             },
             {
               label: "看板",
-              href: "https://gitee.com/monksoul/Fur/board",
+              href: "https://gitee.com/monksoul/Furion/board",
             },
           ],
         },
@@ -104,12 +104,12 @@ module.exports = {
             },
             {
               label: "仓库",
-              href: "https://gitee.com/monksoul/Fur",
+              href: "https://gitee.com/monksoul/Furion",
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Fur, Baiqian Co.,Ltd.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Furion, Baiqian Co.,Ltd.`,
     },
   },
   presets: [
@@ -118,11 +118,11 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
-          editUrl: "https://gitee.com/monksoul/Fur/tree/main/handbook/",
+          editUrl: "https://gitee.com/monksoul/Furion/tree/main/handbook/",
         },
         blog: {
           showReadingTime: true,
-          editUrl: "https://gitee.com/monksoul/Fur/tree/main/handbook/",
+          editUrl: "https://gitee.com/monksoul/Furion/tree/main/handbook/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),

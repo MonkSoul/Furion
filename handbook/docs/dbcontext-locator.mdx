@@ -12,7 +12,7 @@ sidebar_label: 9.2 数据库上下文定位器
 
 由于 `EF Core` 本身支持多个数据库上下文操作，但是通过 `依赖注入` 的方式默认只初始化一个数据库上下文，也就是如果我们想要操作多个数据库上下文，那么 `构造函数` 注入方式就会变得复杂。
 
-所以，`Fur` 实现了一套 `定位器` 功能，通过这个 `定位器` ，我们就能够通过 `依赖注入` 等多个方式定位到数据库上下文并初始化。
+所以，`Furion` 实现了一套 `定位器` 功能，通过这个 `定位器` ，我们就能够通过 `依赖注入` 等多个方式定位到数据库上下文并初始化。
 
 ## 9.2.2 数据库上下文定位器作用
 
@@ -31,9 +31,9 @@ sidebar_label: 9.2 数据库上下文定位器
 数据库上下文定位器定义代码如下：
 
 ```cs {1,5}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public sealed class FurDbContextLocator : IDbContextLocator
     {
@@ -43,15 +43,15 @@ namespace Fur.Core
 
 ## 9.2.4 默认数据库上下文定位器
 
-在 `Fur` 框架中已经提供了 `MasterDbContextLocator` 默认数据库上下文定位器，所以默认数据库上下文只需继承 `AppDbContext<TDbContext>` 即可。
+在 `Furion` 框架中已经提供了 `MasterDbContextLocator` 默认数据库上下文定位器，所以默认数据库上下文只需继承 `AppDbContext<TDbContext>` 即可。
 
 `AppDbContext<TDbContext>` 定义代码如下：
 
 ```cs {11}
-using Fur.DependencyInjection;
+using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fur.DatabaseAccessor
+namespace Furion.DatabaseAccessor
 {
     /// <summary>
     /// 默认应用数据库上下文
@@ -92,6 +92,6 @@ namespace Fur.DatabaseAccessor
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::

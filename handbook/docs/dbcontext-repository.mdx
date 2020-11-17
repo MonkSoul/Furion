@@ -12,7 +12,7 @@ sidebar_label: 9.4 仓储模式
 
 ## 9.4.1 内置仓储
 
-`Fur` 框架内置了一个数据库操作的仓储，方便大家拓展和集成：
+`Furion` 框架内置了一个数据库操作的仓储，方便大家拓展和集成：
 
 ### 9.4.1.1 非泛型超级仓储
 
@@ -85,7 +85,7 @@ sidebar_label: 9.4 仓储模式
 
 ## 9.4.2 仓储使用
 
-`Fur` 提供了非常多的方式创建仓储，目的是为了让大家可以在不同的场景中使用。
+`Furion` 提供了非常多的方式创建仓储，目的是为了让大家可以在不同的场景中使用。
 
 ### 9.4.2.1 构造函数注入
 
@@ -122,7 +122,7 @@ var sqlRepository = Db.GetSqlRepository();
 
 :::important 特别说明
 
-不管采用那种方式，`Fur` 都保证了仓储一次请求唯一性。同时 `Db.GetRepository<TEntity>()` 方式支持任何静态类中使用。
+不管采用那种方式，`Furion` 都保证了仓储一次请求唯一性。同时 `Db.GetRepository<TEntity>()` 方式支持任何静态类中使用。
 
 :::
 
@@ -160,7 +160,7 @@ var sqlRepository = repository.Sql();
 
 ## 9.4.4 多数据库操作
 
-`Fur` 通过 `DbContextLocator` 数据库上下文定位器实现多种数据库操作，可以随意切换数据库
+`Furion` 通过 `DbContextLocator` 数据库上下文定位器实现多种数据库操作，可以随意切换数据库
 
 ### 9.4.4.1 动态切换多个数据库
 
@@ -221,6 +221,6 @@ string GetName()=> throw Oops.Oh("不支持该数据库操作");
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::

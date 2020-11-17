@@ -8,11 +8,11 @@ sidebar_label: 3. 应用启动
 
 `Startup` 类是 `ASP.NET Core` 应用程序启动默认调用的类，该类是在 `Program.cs` 中配置：
 
-```cs {19} title="Fur.Web.Entry\Program.cs"
+```cs {19} title="Furion.Web.Entry\Program.cs"
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Fur.Web.Entry
+namespace Furion.Web.Entry
 {
     public class Program
     {
@@ -43,12 +43,12 @@ namespace Fur.Web.Entry
 
 默认代码如下：
 
-```cs {9,13} title="Fur.Web.Entry\Startup.cs"
+```cs {9,13} title="Furion.Web.Entry\Startup.cs"
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.Web.Entry
+namespace Furion.Web.Entry
 {
     public class Startup
     {
@@ -73,7 +73,7 @@ namespace Fur.Web.Entry
 
 ## 3.2 `AppStartup`
 
-在 `Fur` 框架中，提供了更为灵活的 `Startup` 类配置方式，无需在 `Web 启用层` 中配置，可将配置放到任何项目层。
+在 `Furion` 框架中，提供了更为灵活的 `Startup` 类配置方式，无需在 `Web 启用层` 中配置，可将配置放到任何项目层。
 
 可能会有读者有疑问，为什么要多此一举呢？原因有几点：
 
@@ -81,7 +81,7 @@ namespace Fur.Web.Entry
 - 随着业务的增长，需要集成越来越多的第三方服务，这时候 `Startup` 类就会变得越来越臃肿，难以维护
 - `Startup` 类无法与其他项目类型进行共用
 
-所以，`Fur` 提供了更加灵活的配置方式：`AppStartup`。
+所以，`Furion` 提供了更加灵活的配置方式：`AppStartup`。
 
 ### 3.2.1 如何配置 `AppStartup`
 
@@ -99,7 +99,7 @@ namespace Fur.Web.Entry
 ```cs {5,7,12,18,23}
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     public class MyStartup : AppStartup
     {
@@ -135,7 +135,7 @@ namespace Fur.EntityFramework.Core
 ```cs {5}
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppStartup(10)]
     public class FirstStartup : AppStartup
@@ -154,7 +154,7 @@ namespace Fur.EntityFramework.Core
 ```cs {5}
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppStartup(9)]
     public class SecondStartup : AppStartup
@@ -178,9 +178,9 @@ namespace Fur.EntityFramework.Core
 
 ## 3.3 框架默认 `AppStartup` 实现
 
-`Fur` 框架默认在每一个项目层中都创建了一个 `AppStartup` 派生类，方便大家配置。如：
+`Furion` 框架默认在每一个项目层中都创建了一个 `AppStartup` 派生类，方便大家配置。如：
 
-- `FurStartup.cs`：`Fur` 框架核心启动类（通常无需配置）
+- `FurStartup.cs`：`Furion` 框架核心启动类（通常无需配置）
 - `FurApplicationStartup.cs`：业务服务启动类
 - `FurCoreStartup.cs`：应用核心功能启动类
 - `FurEntityFrameworkCoreStartup.cs`：数据库相关启动类
@@ -190,12 +190,12 @@ namespace Fur.EntityFramework.Core
 
 建议 `Web` 启动层的 `Startup.cs` 保持为空方法体，如：
 
-```cs title="Fur.Web.Entry\Startup.cs"
+```cs title="Furion.Web.Entry\Startup.cs"
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.Web.Entry
+namespace Furion.Web.Entry
 {
     public class Startup
     {
@@ -212,14 +212,14 @@ namespace Fur.Web.Entry
 
 将所有 `Web 应用层` 配置迁移到 `FurWebCoreStartup.cs` 中，如：
 
-```cs title="Fur.Web.Core\FurWebCoreStartup.cs"
-using Fur.UnifyResult;
+```cs title="Furion.Web.Core\FurWebCoreStartup.cs"
+using Furion.UnifyResult;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Fur.Web.Core
+namespace Furion.Web.Core
 {
     [AppStartup(800)]
     public sealed class FurWebCoreStartup : AppStartup
@@ -269,17 +269,17 @@ namespace Fur.Web.Core
 
 在默认情况下，`ASP.NET Core` 配置放在 `appsettings.json` 中配置，但是这样的方式和 `Startup.cs` 配置一样的道理，一旦我们更换了 `Web 应用层`，那么 `appsettings.json` 又要重新配置一次。
 
-所以，`Fur` 框架提供了更加灵活的方式配置 `appsettings.json`，**只需要在任何项目层根目录下创建 `.json` 文件即可**
+所以，`Furion` 框架提供了更加灵活的方式配置 `appsettings.json`，**只需要在任何项目层根目录下创建 `.json` 文件即可**
 
-**`Fur` 框架最后会自动合并所有分散的配置文件。**
+**`Furion` 框架最后会自动合并所有分散的配置文件。**
 
-如我们在 `Fur.EntityFramework.Core` 层创建 `dbsettings.json` 配置数据库连接字符串，如：
+如我们在 `Furion.EntityFramework.Core` 层创建 `dbsettings.json` 配置数据库连接字符串，如：
 
-```json title="Fur.EntityFramework.Core\dbsettings.json"
+```json title="Furion.EntityFramework.Core\dbsettings.json"
 {
   "ConnectionStrings": {
-    "DbConnectionString": "Server=localhost;Database=Fur;User=sa;Password=000000;MultipleActiveResultSets=True;",
-    "Sqlite3ConnectionString": "Data Source=./Fur.db"
+    "DbConnectionString": "Server=localhost;Database=Furion;User=sa;Password=000000;MultipleActiveResultSets=True;",
+    "Sqlite3ConnectionString": "Data Source=./Furion.db"
   }
 }
 ```
@@ -304,21 +304,21 @@ namespace Fur.Web.Core
 
 ## 3.6 神奇的 `Inject()`
 
-`Inject()` 方法是 `Fur` 框架提供的最小侵入式的方法，可以让任何 `ASP.NET Core` Web 项目瞬间支持所有 `Fur` 框架特性。
+`Inject()` 方法是 `Furion` 框架提供的最小侵入式的方法，可以让任何 `ASP.NET Core` Web 项目瞬间支持所有 `Furion` 框架特性。
 
 我们创建了新的 `Web 项目`，只需要三个步骤即可：
 
-- 添加 `Fur.Web.Core` 项目引用
+- 添加 `Furion.Web.Core` 项目引用
 - 在 `Program.cs` 中调用即可
-- 将 `Startup.cs` 代码迁移到 `Fur.Web.Core` 项目的 `FurWebCoreStartup.cs` 中
+- 将 `Startup.cs` 代码迁移到 `Furion.Web.Core` 项目的 `FurWebCoreStartup.cs` 中
 
 如：
 
-```cs {18} title="Fur.Web.Entry\Program.cs"
+```cs {18} title="Furion.Web.Entry\Program.cs"
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Fur.Web.Entry
+namespace Furion.Web.Entry
 {
     public class Program
     {
@@ -340,12 +340,12 @@ namespace Fur.Web.Entry
 }
 ```
 
-```cs title="Fur.Web.Entry\Startup.cs"
+```cs title="Furion.Web.Entry\Startup.cs"
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.Web.Entry
+namespace Furion.Web.Entry
 {
     public class Startup
     {
@@ -366,12 +366,12 @@ namespace Fur.Web.Entry
 
 :::
 
-非常简单吧。我们后续创建任何 `MVC`，`RazorPages`，`Blazor` 项目只需要添加 `Fur.Web.Core` 引用和调用 `Inject()` 即可。
+非常简单吧。我们后续创建任何 `MVC`，`RazorPages`，`Blazor` 项目只需要添加 `Furion.Web.Core` 引用和调用 `Inject()` 即可。
 
 ## 3.7 反馈与建议
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::

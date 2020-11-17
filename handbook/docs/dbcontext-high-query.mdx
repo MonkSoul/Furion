@@ -23,12 +23,12 @@ import TabItem from "@theme/TabItem";
 
 
 ```cs {38,43,48}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public class Person : Entity
     {
@@ -80,9 +80,9 @@ namespace Fur.Core
 
 
 ```cs {25}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public class PersonDetail : EntityBase
     {
@@ -114,10 +114,10 @@ namespace Fur.Core
 
 
 ```cs {35}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using System;
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public class Children : Entity
     {
@@ -160,11 +160,11 @@ namespace Fur.Core
 
 
 ```cs {26}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using System;
 using System.Collections.Generic;
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public class Post : Entity
     {
@@ -385,13 +385,13 @@ var query = repository.AsQueryable()
 
 
 ```cs {12,36,41,49-55}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 
-namespace Fur.Core
+namespace Furion.Core
 {
     /// <summary>
     /// 城市
@@ -470,7 +470,7 @@ namespace Fur.Core
 ```cs
 using System.Collections.Generic;
 
-namespace Fur.Application.Persons
+namespace Furion.Application.Persons
 {
     public class CityDto
     {
@@ -507,9 +507,9 @@ var dtos = cities.Adapt<List<CityDto>>();
 
 ## 9.11.10 动态 `Sql` 查询
 
-`Fur` 默认不支持 动态 `Sql` 查询功能，不过可以通过第三方实现：
+`Furion` 默认不支持 动态 `Sql` 查询功能，不过可以通过第三方实现：
 
-在 `Fur` 项目层安装 `System.Linq.Dynamic.Core` 包 [https://github.com/zzzprojects/System.Linq.Dynamic.Core](https://github.com/zzzprojects/System.Linq.Dynamic.Core)
+在 `Furion` 项目层安装 `System.Linq.Dynamic.Core` 包 [https://github.com/zzzprojects/System.Linq.Dynamic.Core](https://github.com/zzzprojects/System.Linq.Dynamic.Core)
 
 ### 9.11.10.1 动态 `Sql`
 
@@ -522,7 +522,7 @@ var query = repository.AsQueryable()
 
 // 示例二
 var list = repository.AsQueryable()
-                     .Where("Name.Contains(@0)","Fur")
+                     .Where("Name.Contains(@0)","Furion")
                      .ToList();
 
 // 示例三，支持 ? 语法
@@ -552,7 +552,7 @@ var e = DynamicExpressionParser.ParseLambda(
 
 默认情况下，`EF Core` 会跟踪所有实体，也就是任何数据改变都会引起数据检查，所以如果只做查询操作，建议关闭实体跟踪功能。
 
-`Fur` 框架提供了以下高性能实体集合：
+`Furion` 框架提供了以下高性能实体集合：
 
 - `DetachedEntities`：脱轨/不追踪实体
 - `AsQueryable()`：不追踪实体
@@ -563,13 +563,13 @@ var e = DynamicExpressionParser.ParseLambda(
 ## 9.11.12 分表查询小例子
 
 ```cs
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public class Person : Entity, IEntityTypeBuilder<Person>
     {
@@ -600,6 +600,6 @@ var posts = repository.Where(u => u.Id > 10).ToList();
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::

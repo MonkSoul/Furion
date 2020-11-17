@@ -33,7 +33,7 @@ import TabItem from "@theme/TabItem";
 ```json {2-6}
 {
   "AppInfo": {
-    "Name": "Fur",
+    "Name": "Furion",
     "Version": "1.0.0",
     "Company": "Baiqian"
   }
@@ -43,9 +43,9 @@ import TabItem from "@theme/TabItem";
 ### 4.2.3.2 创建 `AppInfoOptions` 强类型类
 
 ```cs {1,5}
-using Fur.ConfigurableOptions;
+using Furion.ConfigurableOptions;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class AppInfoOptions : IConfigurableOptions
     {
@@ -60,7 +60,7 @@ namespace Fur.Application
 
 建议所有选项类都应该以 **`Options`** 命名结尾。
 
-另外，`Fur` 框架提供了非常灵活的注册选项服务的方法，只需要继承 **`IConfigurableOptions`** 接口即可，该接口位于 **`Fur.ConfigurableOptions`** 命名空间下。
+另外，`Furion` 框架提供了非常灵活的注册选项服务的方法，只需要继承 **`IConfigurableOptions`** 接口即可，该接口位于 **`Furion.ConfigurableOptions`** 命名空间下。
 
 :::
 
@@ -68,12 +68,12 @@ namespace Fur.Application
 
 **选项不同于配置，需在应用启动时注册**
 
-```cs {12} title="Fur.Web.Core\FurWebCoreStartup.cs"
+```cs {12} title="Furion.Web.Core\FurWebCoreStartup.cs"
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.Web.Core
+namespace Furion.Web.Core
 {
     [AppStartup(800)]
     public sealed class FurWebCoreStartup : AppStartup
@@ -88,7 +88,7 @@ namespace Fur.Web.Core
 
 ### 4.2.3.4 读取 `AppInfoOptions` 信息
 
-在 `Fur` 框架中，提供了多种读取方式：
+在 `Furion` 框架中，提供了多种读取方式：
 
 - 通过 `App.GetOptions<TOptions>(jsonKey)` 读取（**不推荐**）
 - 通过依赖注入以下实例读取：
@@ -115,10 +115,10 @@ namespace Fur.Web.Core
 
 
 ```cs {13-16}
-using Fur.Application;
+using Furion.Application;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fur.Web.Entry.Controllers
+namespace Furion.Web.Entry.Controllers
 {
     [Route("api/[controller]")]
     public class DefaultController : ControllerBase
@@ -141,11 +141,11 @@ namespace Fur.Web.Entry.Controllers
 
 
 ```cs {3,15-17,27-29,31-33,35-37}
-using Fur.Application;
+using Furion.Application;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-namespace Fur.Web.Entry.Controllers
+namespace Furion.Web.Entry.Controllers
 {
     [Route("api/[controller]")]
     public class DefaultController : ControllerBase
@@ -191,10 +191,10 @@ namespace Fur.Web.Entry.Controllers
 
 
 ```cs {12-15,17-20,22-25}
-using Fur.Application;
+using Furion.Application;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fur.Web.Entry.Controllers
+namespace Furion.Web.Entry.Controllers
 {
     [Route("api/[controller]")]
     public class DefaultController : ControllerBase
@@ -233,12 +233,12 @@ namespace Fur.Web.Entry.Controllers
 
 两者源码如下：
 
-```cs {18-20,27-29} title="Fur/App/App.cs"
+```cs {18-20,27-29} title="Furion/App/App.cs"
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace Fur
+namespace Furion
 {
     /// <summary>
     /// 全局应用类
@@ -309,7 +309,7 @@ namespace Fur
 
 ## 4.2.5 选项自定义配置
 
-我们知道，选项实际上需要和配置文件特定键值挂钩，那 `Fur` 是如何准确的找到配置文件中的键值的呢？
+我们知道，选项实际上需要和配置文件特定键值挂钩，那 `Furion` 是如何准确的找到配置文件中的键值的呢？
 
 ### 4.2.5.1 选项查找键流程
 
@@ -395,7 +395,7 @@ public class AppInfoSettings : IConfigurableOptions
 
 ## 4.2.7 选项验证
 
-选项支持验证配置有效性，在 `Fur` 框架中，通过 `services.AddConfigurableOptions<TOptions>()` 注册选项默认启用了验证支持。
+选项支持验证配置有效性，在 `Furion` 框架中，通过 `services.AddConfigurableOptions<TOptions>()` 注册选项默认启用了验证支持。
 
 包括：
 
@@ -413,10 +413,10 @@ public class AppInfoSettings : IConfigurableOptions
 
 
 ```cs {2,8,10,12}
-using Fur.ConfigurableOptions;
+using Furion.ConfigurableOptions;
 using System.ComponentModel.DataAnnotations;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class AppInfoOptions : IConfigurableOptions
     {
@@ -440,7 +440,7 @@ namespace Fur.Application
 using Microsoft.Extensions.Options;
 using System.Text.RegularExpressions;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class AppInfoValidation : IValidateOptions<AppInfoOptions>
     {
@@ -460,10 +460,10 @@ namespace Fur.Application
 - 选项类继承 `IConfigurableOptions<TOptions, TOptionsValidation>` 接口，并实现该接口。
 
 ```cs {6,16-18}
-using Fur.ConfigurableOptions;
+using Furion.ConfigurableOptions;
 using System.ComponentModel.DataAnnotations;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class AppInfoOptions : IConfigurableOptions<AppInfoOptions, AppInfoValidation>
     {
@@ -485,12 +485,12 @@ namespace Fur.Application
 - 完整代码如下：
 
 ```cs {4,9,19,25,27,31,34}
-using Fur.ConfigurableOptions;
+using Furion.ConfigurableOptions;
 using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     // 继承 IConfigurableOptions<TOptions, TOptionsValidation> 接口
     public class AppInfoOptions : IConfigurableOptions<AppInfoOptions, AppInfoValidation>
@@ -538,14 +538,14 @@ namespace Fur.Application
 
 选项后期配置通俗一点来说，可以在运行时解析值或设定默认值/后期配置等。
 
-在 `Fur` 框架中，配置选项后期配置很简单，只需要继承 `IConfigurableOptions<TOptions` 接口并实现 `PostConfigure(TOptions options)` 方法。
+在 `Furion` 框架中，配置选项后期配置很简单，只需要继承 `IConfigurableOptions<TOptions` 接口并实现 `PostConfigure(TOptions options)` 方法。
 
 ```cs {7,16-21}
-using Fur.ConfigurableOptions;
+using Furion.ConfigurableOptions;
 using Microsoft.Extensions.Configuration;
 using System.ComponentModel.DataAnnotations;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class AppInfoOptions : IConfigurableOptions<AppInfoOptions>
     {
@@ -558,7 +558,7 @@ namespace Fur.Application
 
         public void PostConfigure(AppInfoOptions options, IConfiguration configuration)
         {
-            options.Name ??= "Fur";
+            options.Name ??= "Furion";
             options.Version ??= "1.0.0";
             options.Version ??= "Baiqian";
         }
@@ -574,14 +574,14 @@ namespace Fur.Application
 
 ## 4.2.9 选项更改通知（`热更新`）
 
-`Fur` 框架提供了非常简单且灵活的方式监听选项更改，也就是 **`appsettings.json` 或 自定义配置文件发生任何更改都会触发处理方法**。
+`Furion` 框架提供了非常简单且灵活的方式监听选项更改，也就是 **`appsettings.json` 或 自定义配置文件发生任何更改都会触发处理方法**。
 
 使用非常简单，只需要继承 `IConfigurableOptionsListener<TOptions>` 接口并实现 `void OnListener(TOptions options, IConfiguration configuration)` 方法即可。
 
 ```cs {5,12-16}
-using Fur.ConfigurableOptions;
+using Furion.ConfigurableOptions;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class AppInfoOptions : IConfigurableOptionsListener<AppInfoOptions>
     {
@@ -630,7 +630,7 @@ namespace Fur.Application
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::
 

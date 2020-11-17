@@ -2,18 +2,18 @@
 <p></p>
 
 <p align="center">
-<img src="https://gitee.com/monksoul/Fur/raw/main/handbook/static/img/furlogo.png" height="80"/>
+<img src="https://gitee.com/monksoul/Furion/raw/main/handbook/static/img/furlogo.png" height="80"/>
 </p>
 
 <div align="center">
 
-[![star](https://gitee.com/monksoul/Fur/badge/star.svg?theme=gvp)](https://gitee.com/monksoul/Fur/stargazers) [![fork](https://gitee.com/monksoul/Fur/badge/fork.svg?theme=gvp)](https://gitee.com/monksoul/Fur/members) [![GitHub stars](https://img.shields.io/github/stars/MonkSoul/Fur?logo=github)](https://github.com/MonkSoul/Fur/stargazers) [![GitHub forks](https://img.shields.io/github/forks/MonkSoul/Fur?logo=github)](https://github.com/MonkSoul/Fur/network) [![GitHub license](https://img.shields.io/github/license/MonkSoul/Fur)](https://github.com/MonkSoul/Fur/blob/main/LICENSE) [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Fur)
+[![star](https://gitee.com/monksoul/Furion/badge/star.svg?theme=gvp)](https://gitee.com/monksoul/Furion/stargazers) [![fork](https://gitee.com/monksoul/Furion/badge/fork.svg?theme=gvp)](https://gitee.com/monksoul/Furion/members) [![GitHub stars](https://img.shields.io/github/stars/MonkSoul/Furion?logo=github)](https://github.com/MonkSoul/Furion/stargazers) [![GitHub forks](https://img.shields.io/github/forks/MonkSoul/Furion?logo=github)](https://github.com/MonkSoul/Furion/network) [![GitHub license](https://img.shields.io/github/license/MonkSoul/Furion)](https://github.com/MonkSoul/Furion/blob/main/LICENSE) [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion)
 
 </div>
 
 <div align="center">
 
-`Fur` 是 `.NET 5` 平台下企业应用开发最佳实践框架。
+`Furion` 是 `.NET 5` 平台下企业应用开发最佳实践框架。
 
 </div>
 
@@ -36,23 +36,23 @@
 >
 > 刚好有一次我在博客园中帮一个博友解答问题，解决后博友赞扬我对 `.NET Core` 颇有了解，我就顺嘴回答了一句：**“略懂皮毛”**。
 >
-> 就这时，脑瓜子灵机一动，干脆起名为：**“皮毛”**？英文单词 **“`Fur` [fɜː(r)]”**，单词又短而且中文读音既俗气又顺口。😄😎
+> 就这时，脑瓜子灵机一动，干脆起名为：**“皮毛”**？英文单词 **“`Furion` [fɜː(r)]”**，单词又短而且中文读音既俗气又顺口。😄😎
 >
-> 所以，**`Fur`** 就诞生了。
+> 所以，**`Furion`** 就诞生了。
 >
 > 之后就有了 **“小僧不才，略懂皮毛（Fur）。”** 广告语 和 **[furos.cn](https://furos.cn)** 域名。
 
 ## 🍔 关于 LOGO
 
-`Fur` LOGO 设计由 `F` `U` `R` 三个单词组成：
+`Furion` LOGO 设计由 `F` `U` `R` 三个单词组成：
 
 <p>
-<img src="https://gitee.com/monksoul/Fur/raw/main/handbook/static/img/logo2.png" height="120"/>
+<img src="https://gitee.com/monksoul/Furion/raw/main/handbook/static/img/logo2.png" height="120"/>
 </p>
 
-我相信很多人看到 `Fur` 的 LOGO 时都会问：“为什么选择奶牛？”，因为 **那些年吹过的牛逼都实现了 🐮**。
+我相信很多人看到 `Furion` 的 LOGO 时都会问：“为什么选择奶牛？”，因为 **那些年吹过的牛逼都实现了 🐮**。
 
-之所以选择 **奶牛** 是因为 `牛` 具有脚踏实地，任劳任怨的做事风格，同时 **奶牛** 意味着丰富的营养价值，正如 `Fur` 所能带给你的。
+之所以选择 **奶牛** 是因为 `牛` 具有脚踏实地，任劳任怨的做事风格，同时 **奶牛** 意味着丰富的营养价值，正如 `Furion` 所能带给你的。
 
 ## 🍟 文档地址
 
@@ -63,16 +63,16 @@
 
 ## 🥦 系列教程
 
-- **Fur 视频教程：[https://space.bilibili.com/695987967](https://space.bilibili.com/695987967)**
-- Fur 使用例子：[https://gitee.com/monksoul/fur-samples](https://gitee.com/monksoul/fur-samples)
-- Fur 系列教程：[《学 .NET 5 从 Fur 开始》](https://gitee.com/monksoul/Fur/blob/main/tutorials) 系列
+- **Furion 视频教程：[https://space.bilibili.com/695987967](https://space.bilibili.com/695987967)**
+- Furion 使用例子：[https://gitee.com/monksoul/fur-samples](https://gitee.com/monksoul/fur-samples)
+- Furion 系列教程：[《学 .NET 5 从 Furion 开始》](https://gitee.com/monksoul/Furion/blob/main/tutorials) 系列
 
 ## 🌭 开源地址
 
-- Gitee：[https://gitee.com/monksoul/Fur](https://gitee.com/monksoul/Fur)
-- GitHub：[https://github.com/monksoul/Fur](https://github.com/monksoul/Fur)
+- Gitee：[https://gitee.com/monksoul/Furion](https://gitee.com/monksoul/Furion)
+- GitHub：[https://github.com/monksoul/Furion](https://github.com/monksoul/Furion)
 - Docker：[https://hub.docker.com/r/monksoul/fur](https://hub.docker.com/r/monksoul/fur)
-- Nuget：[https://www.nuget.org/packages/Fur](https://www.nuget.org/packages/Fur)
+- Nuget：[https://www.nuget.org/packages/Furion](https://www.nuget.org/packages/Furion)
 
 ## 🍿 Docker 镜像
 
@@ -84,7 +84,7 @@ docker run --name fur -p 5000:80 monksoul/fur:v1.0.0
 
 - `手动` 打包镜像
 
-打开 `CMD/Shell/PowerShell` 进入 `Fur` 项目根目录打包 `Fur` 镜像：
+打开 `CMD/Shell/PowerShell` 进入 `Furion` 项目根目录打包 `Furion` 镜像：
 
 ```shell
 docker build -t fur:v1.0.0 .
@@ -96,23 +96,23 @@ docker build -t fur:v1.0.0 .
 docker run --name fur -p 5000:80 fur:v1.0.0
 ```
 
-## 🥥 Fur 官方包
+## 🥥 Furion 官方包
 
 | 包类型                                                                                                                            | 名称                                    | 版本   | 描述                |
 | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ------ | ------------------- |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Fur)                                     | Fur                                     | v1.0.2 | Fur 总包            |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Fur.Extras.Authentication.JwtBearer)     | Fur.Extras.Authentication.JwtBearer     | v1.0.0 | Fur Jwt 拓展包      |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Fur.Extras.DependencyModel.CodeAnalysis) | Fur.Extras.DependencyModel.CodeAnalysis | 1.0.1  | Fur 动态反射 拓展包 |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion)                                     | Furion                                     | v1.0.2 | Furion 总包            |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion.Extras.Authentication.JwtBearer)     | Furion.Extras.Authentication.JwtBearer     | v1.0.0 | Furion Jwt 拓展包      |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion.Extras.DependencyModel.CodeAnalysis) | Furion.Extras.DependencyModel.CodeAnalysis | 1.0.1  | Furion 动态反射 拓展包 |
 
-## 🍄 Fur 脚手架
+## 🍄 Furion 脚手架
 
 | 模板类型                                                                                                         | 名称                | 版本   | 描述             |
 | ---------------------------------------------------------------------------------------------------------------- | ------------------- | ------ | ---------------- |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Fur.Template.Mvc/)    | Fur.Template.Mvc    | v1.0.3 | Mvc 模板         |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Fur.Template.Api/)    | Fur.Template.Api    | v1.0.3 | WebApi 模板      |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Fur.Template.App/)    | Fur.Template.App    | v1.0.3 | Mvc/WebApi 模板  |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Fur.Template.Razor/)  | Fur.Template.Razor  | v1.0.3 | Razar Pages 模板 |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Fur.Template.Blazor/) | Fur.Template.Blazor | v1.0.3 | Blazor 模板      |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Mvc/)    | Furion.Template.Mvc    | v1.0.3 | Mvc 模板         |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Api/)    | Furion.Template.Api    | v1.0.3 | WebApi 模板      |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.App/)    | Furion.Template.App    | v1.0.3 | Mvc/WebApi 模板  |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Razor/)  | Furion.Template.Razor  | v1.0.3 | Razar Pages 模板 |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Blazor/) | Furion.Template.Blazor | v1.0.3 | Blazor 模板      |
 
 ## 🍎 框架特点
 
@@ -131,18 +131,18 @@ docker run --name fur -p 5000:80 fur:v1.0.0
 ## 🥝 功能模块
 
 <p align="center">
-<img src="https://gitee.com/monksoul/Fur/raw/main/handbook/static/img/furfunctions.png"/>
+<img src="https://gitee.com/monksoul/Furion/raw/main/handbook/static/img/furfunctions.png"/>
 </p>
 
 ## 🥐 框架依赖
 
-`Fur` 为了追求极速入门，极致性能，尽可能的不使用或减少第三方依赖。目前 `Fur` 仅集成了以下三个依赖：
+`Furion` 为了追求极速入门，极致性能，尽可能的不使用或减少第三方依赖。目前 `Furion` 仅集成了以下三个依赖：
 
 - [Mapster](https://github.com/MapsterMapper/Mapster)：比 `AutoMapper` 还高性能的对象映射
 - [MiniProfiler](https://github.com/MiniProfiler/dotnet)：性能分析和监听必备
 - [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)：`Swagger` 接口文档
 
-麻雀虽小五脏俱全。`Fur` 即使只集成了这三个依赖，但是主流的 `依赖注入/控制反转`，`AOP` 面向切面编程，`事件总线`，`数据验证`，`数据库操作` 等等一个都不少。
+麻雀虽小五脏俱全。`Furion` 即使只集成了这三个依赖，但是主流的 `依赖注入/控制反转`，`AOP` 面向切面编程，`事件总线`，`数据验证`，`数据库操作` 等等一个都不少。
 
 ## 🥗 环境要求
 
@@ -182,9 +182,9 @@ docker run --name fur -p 5000:80 fur:v1.0.0
 
 ## 🍖 关于性能
 
-`Fur` 目前采用 `Visual Studio 2019 Preview 16.8` 自带性能测试和 `JMeter` 进行测试，由于篇幅有限，只贴部分测试图，测试结果如下：
+`Furion` 目前采用 `Visual Studio 2019 Preview 16.8` 自带性能测试和 `JMeter` 进行测试，由于篇幅有限，只贴部分测试图，测试结果如下：
 
-<img src="https://gitee.com/monksoul/Fur/raw/main/handbook/static/img/xncs.png"/>
+<img src="https://gitee.com/monksoul/Furion/raw/main/handbook/static/img/xncs.png"/>
 
 ---
 
@@ -217,7 +217,7 @@ docker run --name fur -p 5000:80 fur:v1.0.0
 
 <p></p>
 
-🎈 欢迎更多的开发者加入 `Fur` 大家庭。
+🎈 欢迎更多的开发者加入 `Furion` 大家庭。
 
 ## 🍝 他们都在用
 
@@ -235,11 +235,11 @@ docker run --name fur -p 5000:80 fur:v1.0.0
 - 深圳市品立方科技有限公司
 - 上海奥达科股份有限公司
 
-如果您的项目使用到 `Fur` 开发，可以告诉我们。
+如果您的项目使用到 `Furion` 开发，可以告诉我们。
 
 ## 🍻 贡献代码
 
-`Fur` 遵循 `Apache-2.0` 开源协议，欢迎大家提交 `PR` 或 `Issue`。
+`Furion` 遵循 `Apache-2.0` 开源协议，欢迎大家提交 `PR` 或 `Issue`。
 
 如果要为项目做出贡献，请查看贡献指南。
 
@@ -262,7 +262,7 @@ docker run --name fur -p 5000:80 fur:v1.0.0
 | 😮 木木 Woody   | **10**                | 感谢您的开源项目！                           |
 | 😚 Joker Hou    | **QQ 超级会员一个月** |                                              |
 | 🤠 ccdfz        | **QQ 专属红包 199**   |                                              |
-| 🌝 天夫李总     | **支付宝 6666**       | Fur 非常有意思，持续关注                     |
+| 🌝 天夫李总     | **支付宝 6666**       | Furion 非常有意思，持续关注                     |
 | 😝 六尘子       | **微信红包 199**      | 公司已经使用，小小敬意                       |
 | 🤠 ccdfz        | **QQ 专属红包 200**   | 赞助一根内存条                               |
 | 🤑 邓亮灯       | **28.88**             | 感谢您的开源项目！                           |
@@ -272,14 +272,14 @@ docker run --name fur -p 5000:80 fur:v1.0.0
 | 😬 散客行       | **微信二维码 666**    | 终于找到一个不错的框架                       |
 | 😌 本心         | **100**               | 项目功能很强大                               |
 
-非常感谢您们的支持，正是因为您们，中国开源才可以越走越远，`Fur` 越走越远。
+非常感谢您们的支持，正是因为您们，中国开源才可以越走越远，`Furion` 越走越远。
 
 ## 🥔 QQ 交流群
 
 <p>
-<img src="https://gitee.com/monksoul/Fur/raw/main/handbook/static/img/dotnetchina.jpg" height="300"/>
+<img src="https://gitee.com/monksoul/Furion/raw/main/handbook/static/img/dotnetchina.jpg" height="300"/>
 </p>
 
 ## 🧆 友情链接
 
-👉 **[Fur](https://gitee.com/monksoul/Fur)** 👉 **[SqlSugar](https://github.com/sunkaixuan/SqlSugar)** 👉 **[Layx](https://gitee.com/monksoul/LayX)** 👉 **[t-io](https://gitee.com/tywo45/t-io)** 👉 **[ThinkPHP](http://www.thinkphp.cn/)** 👉 **[Hutool](https://hutool.cn/)** 👉 **[BootstrapAdmin](https://gitee.com/LongbowEnterprise/BootstrapAdmin)** 👉 **[BootstrapBlazor](https://blazor.sdgxgz.com/)** 👉 **[IoTSharp](https://gitee.com/IoTSharp/IoTSharp)**
+👉 **[Furion](https://gitee.com/monksoul/Furion)** 👉 **[SqlSugar](https://github.com/sunkaixuan/SqlSugar)** 👉 **[Layx](https://gitee.com/monksoul/LayX)** 👉 **[t-io](https://gitee.com/tywo45/t-io)** 👉 **[ThinkPHP](http://www.thinkphp.cn/)** 👉 **[Hutool](https://hutool.cn/)** 👉 **[BootstrapAdmin](https://gitee.com/LongbowEnterprise/BootstrapAdmin)** 👉 **[BootstrapBlazor](https://blazor.sdgxgz.com/)** 👉 **[IoTSharp](https://gitee.com/IoTSharp/IoTSharp)**

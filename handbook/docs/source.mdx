@@ -6,23 +6,23 @@ sidebar_label: 1.3 源码结构
 
 ## 1.2.1 源码架构
 
-`Fur` 创建采用多层分层设计，主要设计是 `自动抽象工厂` 和 `DDD 领域驱动设计` 相结合。
+`Furion` 创建采用多层分层设计，主要设计是 `自动抽象工厂` 和 `DDD 领域驱动设计` 相结合。
 
-`Fur` 框架项目结构如下：
+`Furion` 框架项目结构如下：
 
-- `Fur.Tests`：测试层
+- `Furion.Tests`：测试层
 - `Solution Items`：解决方案配置层
-- `Fur`：框架核心层
-- `Fur.Application`：业务应用层
-- `Fur.Core`：仓储实体层
-- `Fur.Database.Migrations`：架构维护层
-- `Fur.EntityFramework.Core`：EF Core 配置层
-- `Fur.Web.Core`：Web 核心层
-- `Fur.Web.Entry`：Web 入口层/启动层
+- `Furion`：框架核心层
+- `Furion.Application`：业务应用层
+- `Furion.Core`：仓储实体层
+- `Furion.Database.Migrations`：架构维护层
+- `Furion.EntityFramework.Core`：EF Core 配置层
+- `Furion.Web.Core`：Web 核心层
+- `Furion.Web.Entry`：Web 入口层/启动层
 
-## 1.2.2 `Fur.Tests` 测试层
+## 1.2.2 `Furion.Tests` 测试层
 
-`Fur.Tests` 是项目的测试层，目前还未整理完成。
+`Furion.Tests` 是项目的测试层，目前还未整理完成。
 
 ## 1.2.3 `Solution Items` 解决方案配置层
 
@@ -37,14 +37,14 @@ Solution Items
 
 ```cs
 // -----------------------------------------------------------------------------
-// Fur 是 .NET 5 平台下企业应用开发最佳实践框架。
-// Copyright © 2020 Fur, Baiqian Co.,Ltd.
+// Furion 是 .NET 5 平台下企业应用开发最佳实践框架。
+// Copyright © 2020 Furion, Baiqian Co.,Ltd.
 //
-// 框架名称：Fur
+// 框架名称：Furion
 // 框架作者：百小僧
 // 框架版本：1.0.0
-// 源码地址：Gitee：https://gitee.com/monksoul/Fur
-// 				   Github：https://github.com/monksoul/Fur
+// 源码地址：Gitee：https://gitee.com/monksoul/Furion
+// 				   Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 ```
@@ -52,7 +52,7 @@ Solution Items
 相关配置在 `.editorconfig` 最后面一行，如：
 
 ```cs {127}
-# Rules in this file were initially inferred by Visual Studio IntelliCode from the D:\MONK\Fur\framework codebase based on best match to current usage at 2020/9/2
+# Rules in this file were initially inferred by Visual Studio IntelliCode from the D:\MONK\Furion\framework codebase based on best match to current usage at 2020/9/2
 # You can modify the rules from these initially generated values to suit your own policies
 # You can learn more about editorconfig here: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference
 [*.cs]
@@ -178,19 +178,19 @@ dotnet_style_qualification_for_method = false:suggestion
 dotnet_style_qualification_for_property = false:suggestion
 
 # Add file header
-file_header_template = -----------------------------------------------------------------------------\nFur 是 .NET 5 平台下企业应用开发最佳实践框架。\nCopyright © 2020 Fur, Baiqian Co.,Ltd.\n\n框架名称：Fur\n框架作者：百小僧\n框架版本：1.0.0\n源码地址：Gitee：https://gitee.com/monksoul/Fur \n				   Github：https://github.com/monksoul/Fur \n开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）\n-----------------------------------------------------------------------------
+file_header_template = -----------------------------------------------------------------------------\nFur 是 .NET 5 平台下企业应用开发最佳实践框架。\nCopyright © 2020 Furion, Baiqian Co.,Ltd.\n\n框架名称：Furion\n框架作者：百小僧\n框架版本：1.0.0\n源码地址：Gitee：https://gitee.com/monksoul/Furion \n				   Github：https://github.com/monksoul/Furion \n开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）\n-----------------------------------------------------------------------------
 ```
 
-## 1.2.4 `Fur` 核心层
+## 1.2.4 `Furion` 核心层
 
-`Fur` 核心层是 `Fur` 框架的中心，也是 `Fur` 能够支撑起来的必备层。
+`Furion` 核心层是 `Furion` 框架的中心，也是 `Furion` 能够支撑起来的必备层。
 
 源码结构：
 
 ```
-Fur
-├─Fur.csproj
-├─Fur.csproj.user
+Furion
+├─Furion.csproj
+├─Furion.csproj.user
 ├─FurStartup.cs
 ├─ViewEngine
 |     ├─IViewEngine.cs
@@ -504,78 +504,78 @@ Fur
 |  |     └AppStartupAttribute.cs
 ```
 
-## 1.2.5 `Fur.Application` 业务应用层
+## 1.2.5 `Furion.Application` 业务应用层
 
-`Fur.Application` 业务应用层是最常用的层，几乎所有的业务代码都在这个层中编写。
+`Furion.Application` 业务应用层是最常用的层，几乎所有的业务代码都在这个层中编写。
 
 源码结构：
 
 ```cs
-Fur.Application
-├─Fur.Application.Core.csproj
-├─Fur.Application.Core.xml
+Furion.Application
+├─Furion.Application.Core.csproj
+├─Furion.Application.Core.xml
 └FurApplicationStartup.cs
 ```
 
-## 1.2.6 `Fur.Core` 仓储实体层
+## 1.2.6 `Furion.Core` 仓储实体层
 
-`Fur.Core` 主要是存储自定义仓储和定义实体的层。
+`Furion.Core` 主要是存储自定义仓储和定义实体的层。
 
 源码结构：
 
 ```cs
-Fur.Core
-├─Fur.Core.csproj
+Furion.Core
+├─Furion.Core.csproj
 └FurCoreStartup.cs
 ```
 
-## 1.2.7 `Fur.Database.Migrations` 数据库架构维护层
+## 1.2.7 `Furion.Database.Migrations` 数据库架构维护层
 
-`Fur.Database.Migrations` 主要是用来存放 `Database First` 和 `Code First` 生成的维护文件。
+`Furion.Database.Migrations` 主要是用来存放 `Database First` 和 `Code First` 生成的维护文件。
 
 源码结构：
 
 ```cs
-Fur.Database.Migrations
-└Fur.Database.Migrations.csproj
+Furion.Database.Migrations
+└Furion.Database.Migrations.csproj
 ```
 
-## 1.2.8 `Fur.EntityFramework.Core` 数据库上下文配置层
+## 1.2.8 `Furion.EntityFramework.Core` 数据库上下文配置层
 
-`Fur.EntityFramework.Core` 主要是用来配置数据库上下文和其他数据库相关配置信息的。
+`Furion.EntityFramework.Core` 主要是用来配置数据库上下文和其他数据库相关配置信息的。
 
 源码结构：
 
 ```cs
-Fur.EntityFramework.Core
-└Fur.EntityFramework.Core.csproj
+Furion.EntityFramework.Core
+└Furion.EntityFramework.Core.csproj
 ```
 
-## 1.2.9 `Fur.Web.Core` 应用核心层
+## 1.2.9 `Furion.Web.Core` 应用核心层
 
-`Fur.Web.Core` 主要是用来配置 Web 入口一些代码，如 `Filter`，`Middlewares` 等。
+`Furion.Web.Core` 主要是用来配置 Web 入口一些代码，如 `Filter`，`Middlewares` 等。
 
 源码结构：
 
 ```cs
-Fur.Web.Core
-├─Fur.Web.Core.xml
+Furion.Web.Core
+├─Furion.Web.Core.xml
 └FurWebCoreStartup.cs
 ```
 
-## 1.2.10 `Fur.Web.Entry` 应用入口层
+## 1.2.10 `Furion.Web.Entry` 应用入口层
 
-`Fur.Web.Entry` 是我们的应用层，也就是我们的 `Web` 项目层，发布层。
+`Furion.Web.Entry` 是我们的应用层，也就是我们的 `Web` 项目层，发布层。
 
 源码结构：
 
 ```cs
-Fur.Web.Entry
+Furion.Web.Entry
 ├─appsettings.Development.json
 ├─appsettings.json
-├─Fur.Web.Entry.csproj
-├─Fur.Web.Entry.csproj.user
-├─Fur.Web.Entry.xml
+├─Furion.Web.Entry.csproj
+├─Furion.Web.Entry.csproj.user
+├─Furion.Web.Entry.xml
 ├─Program.cs
 ├─Startup.cs
 ├─wwwroot

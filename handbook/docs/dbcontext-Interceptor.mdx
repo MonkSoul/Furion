@@ -6,9 +6,9 @@ sidebar_label: 9.24 数据库操作拦截器
 
 ## 9.24.1 数据库拦截器
 
-`Fur` 框架提供四种数据库操作拦截器，可以通过拦截器动态修该数据库连接字符串，动态修改sql，动态更改参数等操作。
+`Furion` 框架提供四种数据库操作拦截器，可以通过拦截器动态修该数据库连接字符串，动态修改sql，动态更改参数等操作。
 
-`Fur` 支持这四种拦截器：
+`Furion` 支持这四种拦截器：
 
 - `DbConnectionInterceptor`：数据库连接拦截器
 - `DbCommandInterceptor`：数据库执行 `Sql` 拦截器
@@ -25,7 +25,7 @@ using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Fur.DatabaseAccessor.Interceptors
+namespace Furion.DatabaseAccessor.Interceptors
 {
     public class SqlConnectionInterceptor : DbConnectionInterceptor
     {
@@ -100,7 +100,7 @@ using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Fur.DatabaseAccessor
+namespace Furion.DatabaseAccessor
 {
     internal sealed class SqlCommandProfilerInterceptor : DbCommandInterceptor
     {
@@ -216,7 +216,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Fur.DatabaseAccessor
+namespace Furion.DatabaseAccessor
 {
     public class DbContextSaveChangesInterceptor : SaveChangesInterceptor
     {
@@ -261,7 +261,7 @@ namespace Fur.DatabaseAccessor
 
 ### 9.24.2.4 `SavedChangesEvent` 拦截
 
-`Fur` 框架中为所有 `AppDbContext` 子类都提供了三个可重写的方法，这三个方法分别由三个事件触发：
+`Furion` 框架中为所有 `AppDbContext` 子类都提供了三个可重写的方法，这三个方法分别由三个事件触发：
 
 - `提交更改之前 SavingChanges 事件`：触发 `void SavingChangesEvent(object sender, SavingChangesEventArgs e)` 方法
 - `提交更改之后 SavedChanges 事件`：触发 `void SavedChangesEvent(object sender, SavedChangesEventArgs e)` 方法
@@ -312,6 +312,6 @@ services.AddSqlitePool<FurDbContext>(interceptors: new IInterceptor[] {
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::

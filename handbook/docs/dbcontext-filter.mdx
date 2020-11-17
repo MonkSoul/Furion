@@ -8,7 +8,7 @@ sidebar_label: 9.23 实体/全局查询筛选器
 
 通常，我们系统中有一些维护字段，如 `IsDeleted` 字段，这个字段用来标识用户已经删除的数据，那么我们需要每次查询数据的时候带上这个字段，避免查询出不该出现的数据。
 
-`Fur` 提供非常灵活方便的全局查询筛选器，能够应用到每一次查询中。
+`Furion` 提供非常灵活方便的全局查询筛选器，能够应用到每一次查询中。
 
 ## 9.23.2 多种筛选器配置
 
@@ -17,12 +17,12 @@ sidebar_label: 9.23 实体/全局查询筛选器
 单表筛选器就是只针对特定实体进行筛选操作，使用简单，只需要在继承 `IEntityTypeBuilder<TEntity>` 接口并实现即可，如：
 
 ```cs {8,24}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public class Person : Entity, IEntityTypeBuilder<Person>
     {
@@ -58,13 +58,13 @@ namespace Fur.Core
 通过实现这两个方法即可配置全局过滤器，如：
 
 ```cs {10,18-19,21,24}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Linq.Expressions;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppDbContext("Sqlite3ConnectionString")]
     public class FurDbContext : AppDbContext<FurDbContext>, IModelBuilderFilter<MasterDbContextLocator>
@@ -120,6 +120,6 @@ namespace Fur.EntityFramework.Core
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::

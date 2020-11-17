@@ -43,72 +43,72 @@ var person = await repository.Entities.FindAsync(1);
 // ==== 同步操作 ====
 
 // 示例一
-var person = repository.Single(u => u.Name == "Fur");
+var person = repository.Single(u => u.Name == "Furion");
 
 // 示例二
-var person = repository.SingleOrDefault(u => u.Name == "Fur");
+var person = repository.SingleOrDefault(u => u.Name == "Furion");
 
 // 示例三
-var person = repository.First(u => u.Name == "Fur");
+var person = repository.First(u => u.Name == "Furion");
 
 // 示例四
-var person = repository.FirstOrDefault(u => u.Name == "Fur");
+var person = repository.FirstOrDefault(u => u.Name == "Furion");
 
 // 示例五
-var person = repository.Last(u => u.Name == "Fur");
+var person = repository.Last(u => u.Name == "Furion");
 
 // 示例六
-var person = repository.LastOrDefault(u => u.Name == "Fur");
+var person = repository.LastOrDefault(u => u.Name == "Furion");
 
 // 示例七
-var person = repository.Entities.Single(u => u.Name == "Fur");
+var person = repository.Entities.Single(u => u.Name == "Furion");
 
 // 示例八
-var person = repository.Entities.First(u => u.Name == "Fur");
+var person = repository.Entities.First(u => u.Name == "Furion");
 
 // 示例九
-var person = repository.Entities.FirstOrDefault(u => u.Name == "Fur");
+var person = repository.Entities.FirstOrDefault(u => u.Name == "Furion");
 
 // 示例十
-var person = repository.Entities.Last(u => u.Name == "Fur");
+var person = repository.Entities.Last(u => u.Name == "Furion");
 
 // 示例十一
-var person = repository.Entities.LastOrDefault(u => u.Name == "Fur");
+var person = repository.Entities.LastOrDefault(u => u.Name == "Furion");
 
 // ==== 异步操作 ====
 
 // 示例一
-var person = await repository.SingleAsync(u => u.Name == "Fur");
+var person = await repository.SingleAsync(u => u.Name == "Furion");
 
 // 示例二
-var person = await repository.SingleOrDefaultAsync(u => u.Name == "Fur");
+var person = await repository.SingleOrDefaultAsync(u => u.Name == "Furion");
 
 // 示例三
-var person = await repository.FirstAsync(u => u.Name == "Fur");
+var person = await repository.FirstAsync(u => u.Name == "Furion");
 
 // 示例四
-var person = await repository.FirstOrDefaultAsync(u => u.Name == "Fur");
+var person = await repository.FirstOrDefaultAsync(u => u.Name == "Furion");
 
 // 示例五
-var person = await repository.LastAsync(u => u.Name == "Fur");
+var person = await repository.LastAsync(u => u.Name == "Furion");
 
 // 示例六
-var person = await repository.LastOrDefaultAsync(u => u.Name == "Fur");
+var person = await repository.LastOrDefaultAsync(u => u.Name == "Furion");
 
 // 示例七
-var person = await repository.Entities.SingleAsync(u => u.Name == "Fur");
+var person = await repository.Entities.SingleAsync(u => u.Name == "Furion");
 
 // 示例八
-var person = await repository.Entities.FirstAsync(u => u.Name == "Fur");
+var person = await repository.Entities.FirstAsync(u => u.Name == "Furion");
 
 // 示例九
-var person = await repository.Entities.FirstOrDefaultAsync(u => u.Name == "Fur");
+var person = await repository.Entities.FirstOrDefaultAsync(u => u.Name == "Furion");
 
 // 示例十
-var person = await repository.Entities.LastAsync(u => u.Name == "Fur");
+var person = await repository.Entities.LastAsync(u => u.Name == "Furion");
 
 // 示例十一
-var person = await repository.Entities.LastOrDefaultAsync(u => u.Name == "Fur");
+var person = await repository.Entities.LastOrDefaultAsync(u => u.Name == "Furion");
 ```
 
 ## 9.10.3 查询所有数据
@@ -139,13 +139,13 @@ var persons = await AsAsyncEnumerable();
 var persons = repository.Where(u => u.Id > 10);
 
 // 示例二
-var persons = repository.Where(u => u.Id > 10 && u.Name.Equals("Fur"));
+var persons = repository.Where(u => u.Id > 10 && u.Name.Equals("Furion"));
 
 // 示例三
-var persons = repository.Where(u => u.Id > 10).Where(u => u.Name.Equals("Fur"));
+var persons = repository.Where(u => u.Id > 10).Where(u => u.Name.Equals("Furion"));
 
 // 示例四
-var persons = repository.Where(!string.IsNullOrEmpty(name), u => u.Id > 10 && u.Name.Equals("Fur"));
+var persons = repository.Where(!string.IsNullOrEmpty(name), u => u.Id > 10 && u.Name.Equals("Furion"));
 
 // 示例五
 var persons = repository.Where(!string.IsNullOrEmpty(name), u => u.Id > 10)
@@ -153,28 +153,28 @@ var persons = repository.Where(!string.IsNullOrEmpty(name), u => u.Id > 10)
                         .Where(u => u.Age > 18);
 
 // 示例六
-var persons = repository.Where(u => u.Name == "Fur",
+var persons = repository.Where(u => u.Name == "Furion",
                                  u => u.Name == "百小僧",
                                  u => u.Name == "MonkSoul");
 
 // 示例七
-var persons = repository.Where(u => u.Id > 10).Where(u => u.Name.Equals("Fur"))
+var persons = repository.Where(u => u.Id > 10).Where(u => u.Name.Equals("Furion"))
                         .Where(age > 18, u => u.Name.Containes("百小僧"))
-                        .Where(u => u.Name == "Fur",
+                        .Where(u => u.Name == "Furion",
                                  u => u.Name == "百小僧",
                                  u => u.Name == "MonkSoul");
 
 // 示例八
-var persons = repository.Where((age > 18, u => u.Name == "Fur"),
+var persons = repository.Where((age > 18, u => u.Name == "Furion"),
                                    (!string.IsNullOrEmpty(name), u => u.Id > 10));
 
 // 示例九
-var persons = repository.Where(u => u.Id > 10).Where(u => u.Name.Equals("Fur"))
+var persons = repository.Where(u => u.Id > 10).Where(u => u.Name.Equals("Furion"))
                         .Where(age > 18, u => u.Name.Containes("百小僧"))
-                        .Where(u => u.Name == "Fur",
+                        .Where(u => u.Name == "Furion",
                                  u => u.Name == "百小僧",
                                  u => u.Name == "MonkSoul")
-                        .Where((age > 18, u => u.Name == "Fur"),
+                        .Where((age > 18, u => u.Name == "Furion"),
                                    (!string.IsNullOrEmpty(name), u => u.Id > 10));
 
 // 示例十
@@ -185,7 +185,7 @@ var persons = repository.Entities.Where(u => u.Id > 10)
 var persons = repository.DetachedEntities.Where(u => u.Id > 20);
 
 // 示例十二
-var persons = repository.AsQueryable(u => u.Id > 20).Where(u => u.Name == "Fur");
+var persons = repository.AsQueryable(u => u.Id > 20).Where(u => u.Name == "Furion");
 ```
 
 ## 9.10.5 分页查询
@@ -426,13 +426,13 @@ var query = repository.Where(u => u.CreatedDt >= starDate && u.CreatedDt <= endD
 
 ```cs
 // 示例一
-repository.Where(u => u.Name.StartWith("Fur"));
+repository.Where(u => u.Name.StartWith("Furion"));
 
 // 示例二
-_testRepository.Where(u => u.Name.EndWith("Fur"));
+_testRepository.Where(u => u.Name.EndWith("Furion"));
 
 // 示例三
-_testRepository.Where(u => u.Name.Contains("Fur"));
+_testRepository.Where(u => u.Name.Contains("Furion"));
 ```
 
 ### 9.10.6.9 `Case When`
@@ -443,6 +443,6 @@ _testRepository.Where(u => u.Name.Contains("Fur"));
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::

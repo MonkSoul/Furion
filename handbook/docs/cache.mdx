@@ -22,7 +22,7 @@ sidebar_label: 13. 分布式缓存
 
 :::important 备注
 
-在 `Fur` 框架中，内存缓存服务已经默认注册，无需手动注册。
+在 `Furion` 框架中，内存缓存服务已经默认注册，无需手动注册。
 
 :::
 
@@ -31,11 +31,11 @@ sidebar_label: 13. 分布式缓存
 如，缓存当前时间：
 
 ```cs {13,21-24}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class CacheServices : IDynamicApiController
     {
@@ -204,7 +204,7 @@ private static void DependentEvictionCallback(object key, object value,
 
 :::important 备注
 
-在 `Fur` 框架中，分布式内存缓存服务已经默认注册，无需手动调用 `services.AddDistributedMemoryCache();` 注册。
+在 `Furion` 框架中，分布式内存缓存服务已经默认注册，无需手动调用 `services.AddDistributedMemoryCache();` 注册。
 
 :::
 
@@ -321,7 +321,7 @@ public class IndexModel : PageModel
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::
 

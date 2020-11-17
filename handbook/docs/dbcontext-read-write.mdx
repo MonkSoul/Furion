@@ -26,7 +26,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 9.26.2 如何实现
 
-`Fur` 在数据库模块设计之初，就考虑了读写分离这种情况，所以从底层就支持动态切换数据库上下文及读写操作方法约束。
+`Furion` 在数据库模块设计之初，就考虑了读写分离这种情况，所以从底层就支持动态切换数据库上下文及读写操作方法约束。
 
 读写分离操作主要使用 `IMSRepository` 仓储，该仓储已经为开发者提供方便的操作调用。当然也可以不使用该仓储。
 
@@ -35,10 +35,10 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 ### 9.26.2.1 创建 `主库` 数据库上下文
 
 ```cs
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     /// <summary>
     /// 主库数据库上下文
@@ -58,7 +58,7 @@ namespace Fur.EntityFramework.Core
 ```json
 {
   "ConnectionStrings": {
-    "MasterConnectionString": "Server=localhost;Database=Fur;User=sa;Password=000000;MultipleActiveResultSets=True;"
+    "MasterConnectionString": "Server=localhost;Database=Furion;User=sa;Password=000000;MultipleActiveResultSets=True;"
   }
 }
 ```
@@ -66,11 +66,11 @@ namespace Fur.EntityFramework.Core
 ### 9.26.2.2 创建 `从库` 数据库上下文
 
 ```cs {11}
-using Fur.Core;
-using Fur.DatabaseAccessor;
+using Furion.Core;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     /// <summary>
     /// 从库数据库上下文
@@ -94,9 +94,9 @@ namespace Fur.EntityFramework.Core
 **从库数据库上下文定位器：**
 
 ```cs {8}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Core
+namespace Furion.Core
 {
     /// <summary>
     /// 从库数据库上下文定位器
@@ -120,10 +120,10 @@ namespace Fur.Core
 ### 9.26.2.3 注册 `主从库` 数据库上下文
 
 ```cs {13-14}
-using Fur.Core;
+using Furion.Core;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppStartup(600)]
     public sealed class FurEntityFrameworkCoreStartup : AppStartup
@@ -145,11 +145,11 @@ namespace Fur.EntityFramework.Core
 由于 `主从库` 具有相同的数据库结构，所以实体也必须声明 `主从库`：
 
 ```cs {7}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public class Person : IEntity<MasterDbContextLocator, SlaveDbContextLocator>
     {
@@ -202,12 +202,12 @@ Update-Database -Context SlaveDbContext
 ### 9.26.2.6 使用例子
 
 ```cs {13,19,31,40}
-using Fur.Core;
-using Fur.DatabaseAccessor;
-using Fur.DynamicApiController;
+using Furion.Core;
+using Furion.DatabaseAccessor;
+using Furion.DynamicApiController;
 using System.Collections.Generic;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class PersonService : IDynamicApiController
     {
@@ -368,4 +368,4 @@ namespace Fur.Application
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。

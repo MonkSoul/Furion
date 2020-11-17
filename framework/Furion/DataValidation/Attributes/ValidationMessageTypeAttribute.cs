@@ -1,0 +1,13 @@
+﻿using Furion.DependencyInjection;
+using System;
+
+namespace Furion.DataValidation
+{
+    /// <summary>
+    /// 验证消息类型特性
+    /// </summary>
+    [SkipScan, AttributeUsage(AttributeTargets.Enum)]
+    public sealed class ValidationMessageTypeAttribute : Attribute
+    {
+    }
+}

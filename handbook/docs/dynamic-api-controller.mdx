@@ -34,7 +34,7 @@ import TabItem from "@theme/TabItem";
 ```cs {1,5,7}
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fur.Web.Entry.Controllers
+namespace Furion.Web.Entry.Controllers
 {
     public class MvcController : Controller
     {
@@ -53,7 +53,7 @@ namespace Fur.Web.Entry.Controllers
 ```cs {1,5,6,8,9}
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fur.Web.Entry.Controllers
+namespace Furion.Web.Entry.Controllers
 {
     [Route("api/[controller]")]
     public class WebApiController : ControllerBase
@@ -61,7 +61,7 @@ namespace Fur.Web.Entry.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Content(nameof(Fur));
+            return Content(nameof(Furion));
         }
     }
 }
@@ -105,7 +105,7 @@ namespace Fur.Web.Entry.Controllers
 
 ## 5.3 动态 `WebAPI` 控制器
 
-针对以上 `ASP.NET Core` 提供的 `WebAPI` 必须遵循的约定和不可避免的缺点，`Fur` 框架创造出一种更加灵活创建 `WebAPI` 控制器的方式。
+针对以上 `ASP.NET Core` 提供的 `WebAPI` 必须遵循的约定和不可避免的缺点，`Furion` 框架创造出一种更加灵活创建 `WebAPI` 控制器的方式。
 
 这个方式在继承了 `ASP.NET Core WebAPI` 所有优点，同时进行了大量拓展和优化。优化后的 `WebAPI` 具有以下优点：
 
@@ -129,10 +129,10 @@ namespace Fur.Web.Entry.Controllers
 
 :::
 
-```cs {11} title="Fur.Web.Core\FurWebCoreStartup.cs"
+```cs {11} title="Furion.Web.Core\FurWebCoreStartup.cs"
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.Web.Core
+namespace Furion.Web.Core
 {
     [AppStartup(800)]
     public sealed class FurWebCoreStartup : AppStartup
@@ -159,15 +159,15 @@ namespace Fur.Web.Core
 - **`IDynamicApiController` 方式**
 
 ```cs {1,5,7}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
         public string Get()
         {
-            return $"Hello {nameof(Fur)}";
+            return $"Hello {nameof(Furion)}";
         }
     }
 }
@@ -176,16 +176,16 @@ namespace Fur.Application
 - **`[DynamicApiController]` 方式**
 
 ```cs {1,5,8}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     [DynamicApiController]
     public class FurAppService
     {
         public string Get()
         {
-            return $"Hello {nameof(Fur)}";
+            return $"Hello {nameof(Furion)}";
         }
     }
 }
@@ -199,13 +199,13 @@ namespace Fur.Application
 
 ### 5.6.1 控制器特性提供器
 
-`Fur` 框架会在应用启动时注册 `DynamicApiControllerFeatureProvider` 控制器特性提供器，该提供器继承自 `ControllerFeatureProvider` 类。
+`Furion` 框架会在应用启动时注册 `DynamicApiControllerFeatureProvider` 控制器特性提供器，该提供器继承自 `ControllerFeatureProvider` 类。
 
-接着重写 `bool IsController(TypeInfo typeInfo)` 方法，用来标识控制器类型。在 `Fur` 框架中，**继承自 `ControllerBase` 类或 `IDynamicApiController` 接口或 `[DynamicApiController]` 特性都会被标记为控制器类型。**
+接着重写 `bool IsController(TypeInfo typeInfo)` 方法，用来标识控制器类型。在 `Furion` 框架中，**继承自 `ControllerBase` 类或 `IDynamicApiController` 接口或 `[DynamicApiController]` 特性都会被标记为控制器类型。**
 
 ### 5.6.2 应用模型转换器
 
-`Fur` 框架同时在应用启动时注册 `DynamicApiControllerApplicationModelConvention` 应用模型转换器，该转换器继承自 `IApplicationModelConvention` 接口。
+`Furion` 框架同时在应用启动时注册 `DynamicApiControllerApplicationModelConvention` 应用模型转换器，该转换器继承自 `IApplicationModelConvention` 接口。
 
 接着实现 `void Apply(ApplicationModel application)` 接口方法。在该方法中配置控制器名称、路由、导出可见性及动作方法名称、路由、导出可见性等。
 
@@ -215,8 +215,8 @@ namespace Fur.Application
 
 ### 5.7.1 控制器默认约定
 
-- 生成控制器名称默认去除以 `AppServices，AppService，ApiController，Controller，Services，Service` 作为前后缀的字符串。见第一个例子中的 `FurAppService -> Fur` **支持自定义配置**
-- 控制器名称带 `V[0-9_]` 结尾的，会自动生成控制器版本号，如 `FurAppServiceV2 -> Fur@2`，`FurAppServiceV1_1_0 -> Fur@1.1.0`。**支持版本分隔符配置**
+- 生成控制器名称默认去除以 `AppServices，AppService，ApiController，Controller，Services，Service` 作为前后缀的字符串。见第一个例子中的 `FurAppService -> Furion` **支持自定义配置**
+- 控制器名称带 `V[0-9_]` 结尾的，会自动生成控制器版本号，如 `FurAppServiceV2 -> Furion@2`，`FurAppServiceV1_1_0 -> Furion@1.1.0`。**支持版本分隔符配置**
 - 控制名称以 `骆驼命名（CamelCase）` 会自动切割成多个单词 `-` 连接。**支持自定义配置**
 
 ### 5.7.2 动作方法默认约定
@@ -255,9 +255,9 @@ namespace Fur.Application
 ### 5.8.1 多种请求谓词方法
 
 ```cs {7,12,17,22,27}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
@@ -296,9 +296,9 @@ namespace Fur.Application
 ### 5.8.2 多个自定义动作方法
 
 ```cs {7,12,17}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
@@ -327,9 +327,9 @@ namespace Fur.Application
 ### 5.8.3 带参数动作方法
 
 ```cs {7,12,17}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
@@ -360,9 +360,9 @@ namespace Fur.Application
 默认情况下，`ASP.NET Core` 会将 `GET/HEAD` 请求中的 `类类型参数` 设置为 `[FromBody]` 绑定，如：
 
 ```cs {7}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
@@ -380,7 +380,7 @@ namespace Fur.Application
 
 但是，`GET、HEAD` 请求不支持 `From Body` 绑定。所以我们需要转换为 `Query` 查询参数。
 
-`Fur` 框架支持以下两种方式配置：
+`Furion` 框架支持以下两种方式配置：
 
 <Tabs
   defaultValue="fromquery"
@@ -396,10 +396,10 @@ namespace Fur.Application
 
 
 ```cs {2,8}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
@@ -415,7 +415,7 @@ namespace Fur.Application
   <TabItem value="DynamicApiControllerSettings">
 
 
-```json {2-4} title="Fur.Web.Entry/appsettings.json"
+```json {2-4} title="Furion.Web.Entry/appsettings.json"
 {
   "DynamicApiControllerSettings": {
     "ModelToQuery": true
@@ -433,7 +433,7 @@ namespace Fur.Application
 
 ### 5.8.6 自定义参数位置
 
-`Fur` 框架提供了非常方便的自定义参数位置的特性 `[ApiSeat]`，通过 `[ApiSeat]` 可配置参数位置，支持以下四种位置：
+`Furion` 框架提供了非常方便的自定义参数位置的特性 `[ApiSeat]`，通过 `[ApiSeat]` 可配置参数位置，支持以下四种位置：
 
 - `ApiSeats.ControllerStart`：控制器之前
 - `ApiSeats.ControllerEnd`：控制器之后
@@ -441,10 +441,10 @@ namespace Fur.Application
 - `ApiSeats.ActionEnd`：动作方法之后。**默认值**
 
 ```cs {8-9,15-20}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 using System;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
@@ -487,10 +487,10 @@ namespace Fur.Application
 ### 5.8.7 自定义请求谓词
 
 ```cs {2,8}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
@@ -510,10 +510,10 @@ namespace Fur.Application
 ### 5.8.8 支持多个谓词
 
 ```cs {2,8}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
@@ -553,10 +553,10 @@ namespace Fur.Application
 
 
 ```cs {2,6}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     [Route("customapi/mobile/[controller]")]
     public class FurAppService : IDynamicApiController
@@ -578,10 +578,10 @@ namespace Fur.Application
 
 
 ```cs {2,8}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
@@ -603,10 +603,10 @@ namespace Fur.Application
 
 
 ```cs {2,6,9}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     [Route("customapi/mobile/[controller]")]
     public class FurAppService : IDynamicApiController
@@ -629,10 +629,10 @@ namespace Fur.Application
 
 
 ```cs {9}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     [Route("api/[controller]")]
     public class FurAppService : IDynamicApiController
@@ -668,13 +668,13 @@ namespace Fur.Application
 
 ### 5.8.10 多路由随意组合
 
-`Fur` 框架提供了非常灵活的各种路由组合方式，支持一对多，多对多路由组合：
+`Furion` 框架提供了非常灵活的各种路由组合方式，支持一对多，多对多路由组合：
 
 ```cs {6-8,11-14}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     [Route("api/[controller]")]
     [Route("api/[controller]/second")]
@@ -716,15 +716,15 @@ namespace Fur.Application
 
 
 ```cs {5,13,21}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppServiceV1 : IDynamicApiController
     {
         public string Get()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
     }
 
@@ -732,7 +732,7 @@ namespace Fur.Application
     {
         public string Get()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
     }
 
@@ -740,7 +740,7 @@ namespace Fur.Application
     {
         public string Get()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
     }
 }
@@ -755,24 +755,24 @@ namespace Fur.Application
 
 
 ```cs {7,12,16}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
         public string Get()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
 
         public string GetV1()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
         public string GetV2_1()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
     }
 }
@@ -788,7 +788,7 @@ namespace Fur.Application
 
 :::note 版本生成原理
 
-**`V[0-9_]`** 结尾的命名自动解析成版本号，如 **`FurAppServiceV2 -> Fur@2`**。
+**`V[0-9_]`** 结尾的命名自动解析成版本号，如 **`FurAppServiceV2 -> Furion@2`**。
 
 :::
 
@@ -800,7 +800,7 @@ namespace Fur.Application
 [ApiDescriptionSettings(Version = "4.0")]
 public string GetV1()
 {
-    return nameof(Fur);
+    return nameof(Furion);
 }
 ```
 
@@ -822,7 +822,7 @@ public string GetV1()
 
 ## 5.9 `[ApiDescriptionSettings]`
 
-除了上述 `ASP.NET Core` 提供的配置外，`Fur` 框架还提供了非常强大且灵活的 `[ApiDescriptionSettings]` 特性。
+除了上述 `ASP.NET Core` 提供的配置外，`Furion` 框架还提供了非常强大且灵活的 `[ApiDescriptionSettings]` 特性。
 
 ### 5.9.1 内置配置
 
@@ -842,9 +842,9 @@ public string GetV1()
 `Name` 参数可以覆盖动态 `WebAPI` 自动生成的控制器或动作方法名称。如：
 
 ```cs {5,8}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     [ApiDescriptionSettings(Name = "MyFur")]
     public class FurAppService : IDynamicApiController
@@ -852,7 +852,7 @@ namespace Fur.Application
         [ApiDescriptionSettings(Name = "MyGet")]
         public string Get()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
     }
 }
@@ -867,9 +867,9 @@ namespace Fur.Application
 `KeepName` 参数可以保留原有的控制器或动作方法名称。如：
 
 ```cs {5,8}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     [ApiDescriptionSettings(KeepName = true)]
     public class FurAppService : IDynamicApiController
@@ -877,7 +877,7 @@ namespace Fur.Application
         [ApiDescriptionSettings(KeepName = true)]
         public string Get()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
     }
 }
@@ -892,9 +892,9 @@ namespace Fur.Application
 `SplitCamelCase` 参数默认将骆驼命名切割成多个单词并通过指定 `占位符` 连接起来。默认 `占位符` 为 `-`。默认为 `true`。如：
 
 ```cs {5,8}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     [ApiDescriptionSettings(SplitCamelCase = false)]
     public class MyFurAppService : IDynamicApiController
@@ -902,7 +902,7 @@ namespace Fur.Application
         [ApiDescriptionSettings(SplitCamelCase = true)]
         public string ChangeUserName()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
     }
 }
@@ -923,16 +923,16 @@ namespace Fur.Application
 `KeepVerb` 参数作用于动作方法，标识是否保留动作谓词。如：
 
 ```cs {7}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
         [ApiDescriptionSettings(KeepVerb = true)]
         public string GetVersion()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
     }
 }
@@ -947,21 +947,21 @@ namespace Fur.Application
 `Enabled` 参数配置接口是否导出。通常用于动作方法，如果用于控制器实际作用不大。
 
 ```cs {12}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
         public string GetVersion()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
 
         [ApiDescriptionSettings(false)]
         public string NoExport()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
     }
 }
@@ -976,9 +976,9 @@ namespace Fur.Application
 `Module` 参数可以配置路由分离，类似于 `Mvc 区域` 的作用。
 
 ```cs {5,8}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     [ApiDescriptionSettings(Module = "mobile")]
     public class FurAppService : IDynamicApiController
@@ -986,7 +986,7 @@ namespace Fur.Application
         [ApiDescriptionSettings(Module = "user")]
         public string GetVersion()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
     }
 }
@@ -1001,9 +1001,9 @@ namespace Fur.Application
 `Version` 参数可以配置接口版本，同时又可以复写特殊版本命名配置。默认版本号分隔符为 `@`。如：
 
 ```cs {5,9-10}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     [ApiDescriptionSettings(Version = "1.0")]
     public class FurAppService : IDynamicApiController
@@ -1012,7 +1012,7 @@ namespace Fur.Application
         [ApiDescriptionSettings(Version = "2.1.1")]
         public string GetVersionV2_0_0()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
     }
 }
@@ -1029,16 +1029,16 @@ namespace Fur.Application
 通过配置 `Groups` 参数可以将`控制器和动作方法` 进行归类和多个分组直接共享。可通过 `[ApiDescriptionSettings(params Groups)]` 构造函数传入或指定 `Groups` 参数配置接口是否导出。通常用于动作方法，如果用于控制器实际作用不大。
 
 ```cs {5,13}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     [ApiDescriptionSettings("Default", "Common")]
     public class FurAppService : IDynamicApiController
     {
         public string Get()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
 
         [ApiDescriptionSettings("Custom")]
@@ -1071,15 +1071,15 @@ namespace Fur.Application
 #### 未贴标签之前
 
 ```cs
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
         public string Get()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
 
         public int Get(int id)
@@ -1092,7 +1092,7 @@ namespace Fur.Application
     {
         public string Get()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
 
         public int Get(int id)
@@ -1106,16 +1106,16 @@ namespace Fur.Application
 #### 贴标签之后
 
 ```cs {5,19}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     [ApiDescriptionSettings(Tag = "分组一")]
     public class FurAppService : IDynamicApiController
     {
         public string Get()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
 
         public int Get(int id)
@@ -1129,7 +1129,7 @@ namespace Fur.Application
     {
         public string Get()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
 
         public int Get(int id)
@@ -1149,16 +1149,16 @@ namespace Fur.Application
 
 
 ```cs {5,19}
-using Fur.DynamicApiController;
+using Furion.DynamicApiController;
 
-namespace Fur.Application
+namespace Furion.Application
 {
     [ApiDescriptionSettings(Tag = "合并所有标签")]
     public class FurAppService : IDynamicApiController
     {
         public string Get()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
 
         public int Get(int id)
@@ -1172,7 +1172,7 @@ namespace Fur.Application
     {
         public string Get()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
 
         public int Get(int id)
@@ -1199,7 +1199,7 @@ namespace Fur.Application
 
 ## 5.10 `DynamicApiControllerSettings` 配置
 
-`Fur` 还提供动态 `WebAPI` 接口一些全局配置选项，如：
+`Furion` 还提供动态 `WebAPI` 接口一些全局配置选项，如：
 
 - `DefaultRoutePrefix`：默认路由前缀，`string`，默认 `api`
 - `DefaultHttpMethod`：默认请求谓词，`string`，默认：`POST`
@@ -1223,9 +1223,9 @@ namespace Fur.Application
 
 ### 5.10.1 支持 `Mvc 控制器` 动态配置
 
-默认情况下，`Fur` 动态 `WebAPI` 接口不对 `ControllerBase` 类型进行任何处理。当然，我们也可以手动启用 `ControllerBase` 支持。
+默认情况下，`Furion` 动态 `WebAPI` 接口不对 `ControllerBase` 类型进行任何处理。当然，我们也可以手动启用 `ControllerBase` 支持。
 
-```json {2-4} title="Fur.Web.Entry/appsettings.json"
+```json {2-4} title="Furion.Web.Entry/appsettings.json"
 {
   "DynamicApiControllerSettings": {
     "SupportedMvcController": true
@@ -1238,13 +1238,13 @@ namespace Fur.Application
 ```cs {5}
 using Microsoft.AspNetCore.Mvc;
 
-namespace Fur.Web.Entry.Controllers
+namespace Furion.Web.Entry.Controllers
 {
     public class MvcController : ControllerBase
     {
         public string Get()
         {
-            return nameof(Fur);
+            return nameof(Furion);
         }
     }
 }
@@ -1263,6 +1263,6 @@ namespace Fur.Web.Entry.Controllers
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::

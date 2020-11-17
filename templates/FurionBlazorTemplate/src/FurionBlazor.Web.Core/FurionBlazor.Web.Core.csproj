@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>FurionBlazor.Web.Core.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="FurionBlazor.Web.Core.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FurionBlazor.Application\FurionBlazor.Application.csproj" />
+    <ProjectReference Include="..\FurionBlazor.Database.Migrations\FurionBlazor.Database.Migrations.csproj" />
+  </ItemGroup>
+
+</Project>

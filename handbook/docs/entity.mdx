@@ -27,7 +27,7 @@ sidebar_label: 9.3 数据库实体
 
 ## 9.3.2 如何定义实体
 
-`Fur` 框架提供多种定义实体的接口依赖：
+`Furion` 框架提供多种定义实体的接口依赖：
 
 - `IEntity`：实体基接口，是所有实体的基接口
 - `IEntityNotKey`：无键实体接口，也就是视图、存储过程、函数依赖接口
@@ -37,23 +37,23 @@ sidebar_label: 9.3 数据库实体
 
 :::important 实体定义位置
 
-`Fur` 框架中有约定，实体统一定义在 `Fur.Core` 层。
+`Furion` 框架中有约定，实体统一定义在 `Furion.Core` 层。
 
 :::
 
 ### 9.3.2.1 实体继承选用原则
 
-- 如果你不需要 `Fur` 为实体添加任何内置特性，选用 `IEntity`，无键实体选用 `IEntityNotKey`
+- 如果你不需要 `Furion` 为实体添加任何内置特性，选用 `IEntity`，无键实体选用 `IEntityNotKey`
 - 如果你只需要 `Id` 属性，选用 `EntityBase`
-- 如果你需要 `Fur` 为你自动添加常用字段，则选用 `Entity`
+- 如果你需要 `Furion` 为你自动添加常用字段，则选用 `Entity`
 - 如果你需要视图、存储过程、函数可以通过 `DbSet` 操作，则继承 `EntityNotKey`
 
 ### 9.3.2.2 `IEntity` 示范：
 
 ```cs {1,5}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public class User : IEntity
     {
@@ -73,9 +73,9 @@ namespace Fur.Core
 ### 9.3.2.2 `EntityBase` 示范：
 
 ```cs {1,5}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public class User : EntityBase
     {
@@ -92,9 +92,9 @@ namespace Fur.Core
 ### 9.3.2.3 `Entity` 示范：
 
 ```cs {1,5}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public class User : Entity
     {
@@ -112,9 +112,9 @@ namespace Fur.Core
 ### 9.3.2.4 `EntityNotKey` 示范：
 
 ```cs {1,5,7-9}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public class UserView : EntityNotKey
     {
@@ -137,25 +137,25 @@ namespace Fur.Core
 
 :::note 特别注意
 
-在 `Fur` 框架中，数据库实体必须直接或间接继承 `IEntity` 才能进行仓储等操作。
+在 `Furion` 框架中，数据库实体必须直接或间接继承 `IEntity` 才能进行仓储等操作。
 
 :::
 
 ## 9.3.3 数据库实体配置
 
-在过去的 `EF Core` 项目开发中，数据库实体配置需要在 `DbContext` 的 `OnModelCreating` 中配置。`Fur` 为了简化配置和提高开发效率，抽象出了 `IEntityTypeBuilder<TEntity>` 接口。
+在过去的 `EF Core` 项目开发中，数据库实体配置需要在 `DbContext` 的 `OnModelCreating` 中配置。`Furion` 为了简化配置和提高开发效率，抽象出了 `IEntityTypeBuilder<TEntity>` 接口。
 
 通过 `IEntityTypeBuilder<TEntity>` 接口，我们无需在 `DbContext` 的 `OnModelCreating` 中配置，可在任意地方配置。
 
 ### 9.3.3.1 在数据库实体中配置
 
 ```cs {1,5,20-25}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public class User : Entity, IEntityTypeBuilder<User>
     {
@@ -182,12 +182,12 @@ namespace Fur.Core
 ### 9.3.3.2 在任何实例类中配置
 
 ```cs {1,8,10-14}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 
-namespace Fur.Core
+namespace Furion.Core
 {
     public class SomeClass : IEntityTypeBuilder<User>
     {
@@ -204,7 +204,7 @@ namespace Fur.Core
 
 ## 9.3.4 数据库实体配置说明
 
-`Fur` 框架会自动扫描所有继承 `IEntity` 接口的类进行 `DbSet<TEntity>` 注册，也就是实现自动配置 `DbContext` 的 `OnModelCreating`。
+`Furion` 框架会自动扫描所有继承 `IEntity` 接口的类进行 `DbSet<TEntity>` 注册，也就是实现自动配置 `DbContext` 的 `OnModelCreating`。
 
 如果需要跳过自动注册，只需要贴 `[NonAutomatic]` 或 `[SkipScan]` 特性即可。一旦贴了此特性，那么就需要手动配置 `DbContext` 的 `OnModelCreating`
 
@@ -212,6 +212,6 @@ namespace Fur.Core
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::

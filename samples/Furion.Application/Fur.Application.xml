@@ -1,0 +1,385 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Furion.Application</name>
+    </assembly>
+    <members>
+        <member name="P:Furion.Application.Persons.ChildrenDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.ChildrenDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.ChildrenDto.Gender">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.ChildrenInputDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.ChildrenInputDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.ChildrenInputDto.Gender">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.CityDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.CityDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.CityDto.Childrens">
+            <summary>
+            子集
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PersonDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PersonDto.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PersonDto.Age">
+            <summary>
+            年龄
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PersonDto.Address">
+            <summary>
+            住址
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PersonDto.PhoneNumber">
+            <summary>
+            电话号码
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PersonDto.QQ">
+            <summary>
+            QQ 号码
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PersonDto.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PersonDto.Childrens">
+            <summary>
+            孩子
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PersonDto.Posts">
+            <summary>
+            孩子
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PersonInputDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PersonInputDto.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PersonInputDto.Age">
+            <summary>
+            年龄
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PersonInputDto.Address">
+            <summary>
+            住址
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PersonInputDto.PhoneNumber">
+            <summary>
+            电话号码
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PersonInputDto.QQ">
+            <summary>
+            QQ 号码
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PersonInputDto.Childrens">
+            <summary>
+            孩子
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PersonInputDto.Posts">
+            <summary>
+            孩子
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PostInputDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PostInputDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PostDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:Furion.Application.Persons.PostDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="T:Furion.Application.Persons.PersonRelationshipService">
+            <summary>
+            关联数据演示
+            </summary>
+        </member>
+        <member name="M:Furion.Application.Persons.PersonRelationshipService.#ctor(Furion.DatabaseAccessor.IRepository{Furion.Core.Person},Furion.DatabaseAccessor.IRepository{Furion.Core.V_Person})">
+            <summary>
+            构造函数
+            </summary>
+            <param name="personRepository"></param>
+            <param name="repository"></param>
+        </member>
+        <member name="M:Furion.Application.Persons.PersonRelationshipService.OneToOne">
+            <summary>
+            一对一
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.Persons.PersonRelationshipService.OneToMany">
+            <summary>
+            一对多
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.Persons.PersonRelationshipService.ManyToMany">
+            <summary>
+            多对多
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.Persons.PersonRelationshipService.InnerJoin">
+            <summary>
+            内连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.Persons.PersonRelationshipService.LeftJoin">
+            <summary>
+            左连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.Persons.PersonRelationshipService.RightJoin">
+            <summary>
+            右连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.Persons.PersonRelationshipService.TreeSelect">
+            <summary>
+            树形/递归查询
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.Persons.PersonRelationshipService.GetVPerson">
+            <summary>
+            读取视图
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Furion.Application.PersonService">
+            <summary>
+            用户管理
+            </summary>
+        </member>
+        <member name="M:Furion.Application.PersonService.Insert(Furion.Application.Persons.PersonInputDto)">
+            <summary>
+            新增一条
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.PersonService.Update(Furion.Application.Persons.PersonInputDto)">
+            <summary>
+            更新一条
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.PersonService.Delete(System.Int32)">
+            <summary>
+            删除一条
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:Furion.Application.PersonService.Find(System.Int32)">
+            <summary>
+            查询一条
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:Furion.Application.PersonService.GetAll">
+            <summary>
+            查询所有
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.PersonService.GetAllByPage(System.Int32,System.Int32)">
+            <summary>
+            分页查询
+            </summary>
+            <param name="pageIndex"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.PersonService.Search(System.String,System.Int32)">
+            <summary>
+            搜索数据
+            </summary>
+            <param name="name"></param>
+            <param name="age"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Furion.Application.LoginInput">
+            <summary>
+            登录输入参数
+            </summary>
+        </member>
+        <member name="P:Furion.Application.LoginInput.Account">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:Furion.Application.LoginInput.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="T:Furion.Application.LoginOutput">
+            <summary>
+            登录输出参数
+            </summary>
+        </member>
+        <member name="P:Furion.Application.LoginOutput.Id">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:Furion.Application.LoginOutput.Account">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:Furion.Application.LoginOutput.AccessToken">
+            <summary>
+            Token
+            </summary>
+        </member>
+        <member name="P:Furion.Application.RoleDto.Name">
+            <summary>
+            角色名称
+            </summary>
+        </member>
+        <member name="P:Furion.Application.RoleDto.Remark">
+            <summary>
+            角色描述
+            </summary>
+        </member>
+        <member name="P:Furion.Application.RoleInput.Name">
+            <summary>
+            角色名称
+            </summary>
+        </member>
+        <member name="P:Furion.Application.RoleInput.Remark">
+            <summary>
+            角色描述
+            </summary>
+        </member>
+        <member name="P:Furion.Application.SecurityDto.Id">
+            <summary>
+            权限Id
+            </summary>
+        </member>
+        <member name="P:Furion.Application.SecurityDto.UniqueName">
+            <summary>
+            权限唯一名（每一个接口）
+            </summary>
+        </member>
+        <member name="T:Furion.Application.RBACService">
+            <summary>
+            角色管理服务
+            </summary>
+        </member>
+        <member name="M:Furion.Application.RBACService.Login(Furion.Application.LoginInput)">
+            <summary>
+            登录（免授权）
+            </summary>
+            <param name="input"></param>
+            <remarks>管理员：admin/admin；普通用户：Furion/dotnetchina</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.RBACService.ViewRoles">
+            <summary>
+            查看用户角色
+            </summary>
+        </member>
+        <member name="M:Furion.Application.RBACService.ViewSecuries">
+            <summary>
+            查看用户权限
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.RBACService.GetRoles">
+            <summary>
+            角色列表
+            </summary>
+        </member>
+        <member name="M:Furion.Application.RBACService.InsertRole(Furion.Application.RoleInput)">
+            <summary>
+            新增角色
+            </summary>
+        </member>
+        <member name="M:Furion.Application.RBACService.GiveUserRole(System.Int32[])">
+            <summary>
+            为用户分配角色
+            </summary>
+        </member>
+        <member name="M:Furion.Application.RBACService.GetSecurities">
+            <summary>
+            查看系统所有的权限（免授权）
+            </summary>
+        </member>
+        <member name="M:Furion.Application.RBACService.GiveRoleSecurity(System.Int32,System.Int32[])">
+            <summary>
+            为角色分配权限
+            </summary>
+        </member>
+    </members>
+</doc>

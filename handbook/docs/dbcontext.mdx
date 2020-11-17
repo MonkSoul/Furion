@@ -8,13 +8,13 @@ sidebar_label: 9.1 数据库上下文
 
 简单来说，数据库上下文是负责和数据库交互的对象，提供程序对数据库存取提供了大量的方法。
 
-在 `Fur` 框架中，默认集成了微软亲儿子：`EntityFramework Core` ，也就是通常数据库上下文指的是 `DbContext` 类或它的实现类。
+在 `Furion` 框架中，默认集成了微软亲儿子：`EntityFramework Core` ，也就是通常数据库上下文指的是 `DbContext` 类或它的实现类。
 
 ## 9.1.2 `AppDbContext`
 
 在我们实际项目开发过程中，使用 `EFCore` 提供的 `DbContext` 操作对象操作数据库有些繁琐和复杂，且默认不具备读写分离、多库等操作功能。
 
-所以，`Fur` 框架提供了 `AppDbContext<TDbContext, TDbContextLocator>` 数据库上下文，该上下文继承自 `DbContext`。
+所以，`Furion` 框架提供了 `AppDbContext<TDbContext, TDbContextLocator>` 数据库上下文，该上下文继承自 `DbContext`。
 
 :::note 特别说明
 后续章节，皆采用 `EFCore` 代替 `EntityFramework Core`。
@@ -29,11 +29,11 @@ sidebar_label: 9.1 数据库上下文
 - `AppDbContext` 支持全局模型配置拦截器
 - `AppDbContext` 支持数据提交更改多个事件
 - `AppDbContext` 提供更加强大的模型操作能力，如 `Sql` 操作，读写分离等
-- `AppDbContext` 能够得到 `Fur` 框架更多的功能支持
+- `AppDbContext` 能够得到 `Furion` 框架更多的功能支持
 
 ## 9.1.4 如何定义数据库上下文
 
-在 `Fur` 框架中了，提供了两种 `AppDbContext` 定义方式：
+在 `Furion` 框架中了，提供了两种 `AppDbContext` 定义方式：
 
 - `AppDbContext<TDbContext>` 操作默认数据库
 - `AppDbContext<TDbContext, TDbContextLocator>` 操作 N 个数据库
@@ -45,10 +45,10 @@ sidebar_label: 9.1 数据库上下文
 ### 9.1.4.1 创建默认数据库上下文
 
 ```cs {1,6,12}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppDbContext("连接字符串或appsetting.json 键")]
     public class FurDbContext : AppDbContext<FurDbContext>  // 继承 AppDbContext<> 类
@@ -67,10 +67,10 @@ namespace Fur.EntityFramework.Core
 ### 9.1.4.2 创建其他数据库上下文
 
 ```cs {1,6,12}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppDbContext("连接字符串或appsetting.json 键")]
     public class FurOtherDbContext : AppDbContext<FurOtherDbContext, FurOtherDbContextLocator>  // 继承 AppDbContext<> 类
@@ -87,12 +87,12 @@ namespace Fur.EntityFramework.Core
 ```
 
 :::important 特别注意
-所有数据库上下文都应该在 `Fur.EntityFramework.Core` 项目中创建。关于 `TDbContextLocator` 将在下一章节 《[9.2 数据库上下文定位器](dbcontext-locator)》阐述。
+所有数据库上下文都应该在 `Furion.EntityFramework.Core` 项目中创建。关于 `TDbContextLocator` 将在下一章节 《[9.2 数据库上下文定位器](dbcontext-locator)》阐述。
 :::
 
 ## 9.1.5 配置连接字符串
 
-`Fur` 框架提供多种数据库连接字符串配置方式：
+`Furion` 框架提供多种数据库连接字符串配置方式：
 
 - 在注册数据库服务时配置：`AddSqlServerPool<TDbContext>("连接字符串")` 方式
 - 使用 `[AppDbContext("连接字符串/Key")]` 特性方式（只在 `AppDbContext 实现类有效`）**推荐**
@@ -100,11 +100,11 @@ namespace Fur.EntityFramework.Core
 
 ### 9.1.5.1 在注册数据库服务时配置
 
-```cs {12-19} title="Fur.EntityFramework.Core\FurEntityFrameworkCoreStartup.cs"
-using Fur.DependencyInjection;
+```cs {12-19} title="Furion.EntityFramework.Core\FurEntityFrameworkCoreStartup.cs"
+using Furion.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppStartup(600)]
     public sealed class FurEntityFrameworkCoreStartup : AppStartup
@@ -141,10 +141,10 @@ services.AddDatabaseAccessor(options =>
 ### 9.1.5.2 `[AppDbContext]` 方式配置
 
 ```cs {1,6}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppDbContext("DbConnectionString")]   // 支持 `appsetting.json` 名或 连接字符串
     public class FurDbContext : AppDbContext<FurDbContext>
@@ -162,7 +162,7 @@ namespace Fur.EntityFramework.Core
 
 :::tip 小提示
 
-`Fur` 推荐使用此方式配置数据库连接字符串。
+`Furion` 推荐使用此方式配置数据库连接字符串。
 
 :::
 
@@ -175,10 +175,10 @@ namespace Fur.EntityFramework.Core
 ### 9.1.5.3 `OnConfiguring` 方式配置
 
 ```cs {16-20}
-using Fur.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     public class FurDbContext : AppDbContext<FurDbContext>
     {
@@ -212,7 +212,7 @@ namespace Fur.EntityFramework.Core
 
 :::important 特别注意
 
-在 `Fur` 框架中，数据库上下文需定义在 `Fur.EntityFramework.Core` 中，且每一个数据库上下文都必须拥有唯一的 `DbContextLocator` 定位器
+在 `Furion` 框架中，数据库上下文需定义在 `Furion.EntityFramework.Core` 中，且每一个数据库上下文都必须拥有唯一的 `DbContextLocator` 定位器
 
 :::
 
@@ -220,11 +220,11 @@ namespace Fur.EntityFramework.Core
 
 数据库上下文配置好数据库连接字符串后，需要注册该数据库上下文，并指定数据库类型，如：
 
-```cs {11-13} title="Fur\framework\Fur.EntityFramework.Core\FurEntityFrameworkCoreStartup.cs"
-using Fur.DatabaseAccessor;
+```cs {11-13} title="Furion\framework\Furion.EntityFramework.Core\FurEntityFrameworkCoreStartup.cs"
+using Furion.DatabaseAccessor;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fur.EntityFramework.Core
+namespace Furion.EntityFramework.Core
 {
     [AppStartup(600)]
     public sealed class FurEntityFrameworkCoreStartup : AppStartup
@@ -252,11 +252,11 @@ options.AddDbPool<ThirdDbContext, ThirdDbContextDbContextLocator>(DbProvider.Sql
 
 ## 9.1.8 动态数据库上下文对象
 
-在 `Fur` 框架中，数据库上下文是定义在 `Fur.EntityFramework.Core` 项目层，并且该层不被 `Fur.Application` 和 `Fur.Core` 等层引用。
+在 `Furion` 框架中，数据库上下文是定义在 `Furion.EntityFramework.Core` 项目层，并且该层不被 `Furion.Application` 和 `Furion.Core` 等层引用。
 
-所以就不能直接在 `Fur.Application` 项目层直接使用 `Fur.EntityFramework.Core` 定义的数据库上下文。
+所以就不能直接在 `Furion.Application` 项目层直接使用 `Furion.EntityFramework.Core` 定义的数据库上下文。
 
-`Fur` 为了解决这个问题，提供了两种方式处理：
+`Furion` 为了解决这个问题，提供了两种方式处理：
 
 - `respository.DbContext` ：当前数据库上下文对象，返回是 `DbContext` 抽象类型
 - `respository.DynamicDbContext`：当前数据库上下文对象，返回的是 `dynamic` 类型
@@ -280,7 +280,7 @@ var users = respository.DynamicDbContext.Users;
 
 :::note 与我们交流
 
-给 Fur 提 [Issue](https://gitee.com/monksoul/Fur/issues/new?issue)。
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
 :::
 
