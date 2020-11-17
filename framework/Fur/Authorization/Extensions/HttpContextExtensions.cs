@@ -17,7 +17,7 @@ namespace Microsoft.AspNetCore.Http
         public static TAttribute GetMetadata<TAttribute>(this HttpContext httpContext)
             where TAttribute : class
         {
-            return httpContext.GetEndpoint()?.Metadata.GetMetadata<TAttribute>();
+            return httpContext.GetEndpoint()?.Metadata?.GetMetadata<TAttribute>();
         }
 
         /// <summary>
