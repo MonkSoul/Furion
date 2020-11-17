@@ -63,6 +63,7 @@
 
 ## 🥦 系列教程
 
+- **🍩 Fur 视频教程：[https://space.bilibili.com/695987967](https://space.bilibili.com/695987967)**
 - Fur 使用例子：[https://gitee.com/monksoul/fur-samples](https://gitee.com/monksoul/fur-samples)
 - Fur 系列教程：[《学 .NET 5 从 Fur 开始》](https://gitee.com/monksoul/Fur/blob/main/tutorials) 系列
 
