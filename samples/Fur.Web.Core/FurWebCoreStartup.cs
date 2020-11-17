@@ -26,7 +26,7 @@ namespace Fur.Web.Core
             }
 
             // 添加规范化结果状态码，需要在这里注册
-            //app.UseUnifyResultStatusCodes();
+            app.UseUnifyResultStatusCodes();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
