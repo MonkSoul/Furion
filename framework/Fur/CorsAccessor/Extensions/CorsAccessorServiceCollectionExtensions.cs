@@ -24,7 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddConfigurableOptions<CorsAccessorSettingsOptions>();
 
             // 获取选项
-            var corsAccessorSettings = App.GetOptions<CorsAccessorSettingsOptions>();
+            var corsAccessorSettings = App.GetDuplicateOptions<CorsAccessorSettingsOptions>();
 
             // 添加跨域服务
             services.AddCors(options =>

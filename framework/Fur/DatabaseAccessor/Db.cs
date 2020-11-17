@@ -37,7 +37,6 @@ namespace Fur.DatabaseAccessor
         public static IRepository GetRepository()
         {
             return App.GetService<IRepository>()
-                ?? App.GetDuplicateService<IRepository>()
                 ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(IRepository)));
         }
 
@@ -50,7 +49,6 @@ namespace Fur.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
         {
             return App.GetService<IRepository<TEntity>>()
-                ?? App.GetDuplicateService<IRepository<TEntity>>()
                 ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(IRepository<TEntity>)));
         }
 
@@ -65,7 +63,6 @@ namespace Fur.DatabaseAccessor
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetService<IRepository<TEntity, TDbContextLocator>>()
-                ?? App.GetDuplicateService<IRepository<TEntity, TDbContextLocator>>()
                 ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(IRepository<TEntity, TDbContextLocator>)));
         }
 
@@ -76,7 +73,6 @@ namespace Fur.DatabaseAccessor
         public static ISqlRepository GetSqlRepository()
         {
             return App.GetService<ISqlRepository>()
-                ?? App.GetDuplicateService<ISqlRepository>()
                 ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(ISqlRepository)));
         }
 
@@ -89,7 +85,6 @@ namespace Fur.DatabaseAccessor
             where TDbContextLocator : class, IDbContextLocator
         {
             return App.GetService<ISqlRepository<TDbContextLocator>>()
-                ?? App.GetDuplicateService<ISqlRepository<TDbContextLocator>>()
                 ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(ISqlRepository<TDbContextLocator>)));
         }
 
@@ -101,7 +96,6 @@ namespace Fur.DatabaseAccessor
             where TSqlDispatchProxy : class, ISqlDispatchProxy
         {
             return App.GetService<TSqlDispatchProxy>()
-                ?? App.GetDuplicateService<TSqlDispatchProxy>()
                 ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(ISqlDispatchProxy)));
         }
 
@@ -114,7 +108,7 @@ namespace Fur.DatabaseAccessor
             // 判断是否注册了数据库上下文
             if (!Penetrates.DbContextWithLocatorCached.ContainsKey(dbContextLocator)) return default;
 
-            var dbContextResolve = App.GetDuplicateService<Func<Type, ITransient, DbContext>>();
+            var dbContextResolve = App.GetService<Func<Type, ITransient, DbContext>>();
             return dbContextResolve(dbContextLocator, default);
         }
 

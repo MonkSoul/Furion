@@ -1,6 +1,6 @@
 ﻿using Fur.DependencyInjection;
+using Fur.WebUtilities;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
@@ -36,7 +36,7 @@ namespace Fur
             get
             {
                 if (_settings == null)
-                    _settings = GetOptions<AppSettingsOptions>();
+                    _settings = GetDuplicateOptions<AppSettingsOptions>();
                 return _settings;
             }
         }
@@ -97,8 +97,7 @@ namespace Fur
         /// <returns></returns>
         public static object GetService(Type type)
         {
-            var requestServices = GetDuplicateService<IHttpContextAccessor>()?.HttpContext?.RequestServices;
-            return requestServices.GetService(type);
+            return HttpContextUtility.GetCurrentHttpContext()?.RequestServices?.GetService(type);
         }
 
         /// <summary>
@@ -121,7 +120,7 @@ namespace Fur
         public static TOptions GetOptions<TOptions>()
             where TOptions : class, new()
         {
-            return GetDuplicateService<IOptions<TOptions>>().Value;
+            return GetService<IOptions<TOptions>>()?.Value;
         }
 
         /// <summary>
@@ -132,7 +131,7 @@ namespace Fur
         public static TOptions GetOptionsMonitor<TOptions>()
             where TOptions : class, new()
         {
-            return GetDuplicateService<IOptionsMonitor<TOptions>>().CurrentValue;
+            return GetService<IOptionsMonitor<TOptions>>()?.CurrentValue;
         }
 
         /// <summary>
@@ -143,7 +142,7 @@ namespace Fur
         public static TOptions GetOptionsSnapshot<TOptions>()
             where TOptions : class, new()
         {
-            return GetDuplicateService<IOptionsSnapshot<TOptions>>().Value;
+            return GetService<IOptionsSnapshot<TOptions>>()?.Value;
         }
 
         /// <summary>
@@ -186,24 +185,25 @@ namespace Fur
         internal static ConcurrentBag<AppStartup> AppStartups;
 
         /// <summary>
-        /// 获取副本服务
+        /// 获取服务副本
         /// </summary>
-        /// <typeparam name="TService">服务</typeparam>
+        /// <typeparam name="TService"></typeparam>
         /// <returns></returns>
         internal static TService GetDuplicateService<TService>()
             where TService : class
         {
-            return GetDuplicateService(typeof(TService)) as TService;
+            return ServiceProvider.GetService<TService>();
         }
 
         /// <summary>
-        /// 获取副本服务
+        /// 获取选项副本
         /// </summary>
-        /// <param name="type">类型</param>
+        /// <typeparam name="TOptions"></typeparam>
         /// <returns></returns>
-        internal static object GetDuplicateService(Type type)
+        internal static TOptions GetDuplicateOptions<TOptions>()
+            where TOptions : class, new()
         {
-            return ServiceProvider.GetService(type);
+            return GetDuplicateService<IOptions<TOptions>>().Value;
         }
 
         /// <summary>

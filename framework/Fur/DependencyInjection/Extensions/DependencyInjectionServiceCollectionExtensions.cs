@@ -402,7 +402,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services"></param>
         private static void RegisterExternalServices(IServiceCollection services)
         {
-            var externalServices = App.GetOptions<DependencyInjectionSettingsOptions>();
+            var externalServices = App.GetDuplicateOptions<DependencyInjectionSettingsOptions>();
             if (externalServices is { Definitions: not null })
             {
                 // 排序

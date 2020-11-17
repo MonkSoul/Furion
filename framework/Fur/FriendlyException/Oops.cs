@@ -1,6 +1,7 @@
 ﻿using Fur.DependencyInjection;
 using Fur.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -47,7 +48,7 @@ namespace Fur.FriendlyException
         static Oops()
         {
             ErrorMethods = new ConcurrentDictionary<MethodInfo, MethodIfException>();
-            _friendlyExceptionSettings = App.GetOptions<FriendlyExceptionSettingsOptions>();
+            _friendlyExceptionSettings = App.GetService<IOptions<FriendlyExceptionSettingsOptions>>().Value;
             ErrorCodeTypes = GetErrorCodeTypes();
             ErrorCodeMessages = GetErrorCodeMessages();
         }
@@ -202,7 +203,7 @@ namespace Fur.FriendlyException
                 .ToList();
 
             // 获取错误代码提供器中定义的类型
-            var errorCodeTypeProvider = App.GetDuplicateService<IErrorCodeTypeProvider>();
+            var errorCodeTypeProvider = App.GetService<IErrorCodeTypeProvider>();
             if (errorCodeTypeProvider is { Definitions: not null }) errorCodeTypes.AddRange(errorCodeTypeProvider.Definitions);
 
             return errorCodeTypes.Distinct();
@@ -220,7 +221,7 @@ namespace Fur.FriendlyException
                .ToDictionary(u => u.Key.ToString(), u => u.Value);
 
             // 加载配置文件状态码
-            var errorCodeMessageSettings = App.GetOptions<ErrorCodeMessageSettingsOptions>();
+            var errorCodeMessageSettings = App.GetDuplicateOptions<ErrorCodeMessageSettingsOptions>();
             if (errorCodeMessageSettings is { Definitions: not null })
             {
                 // 获取所有参数大于1的配置

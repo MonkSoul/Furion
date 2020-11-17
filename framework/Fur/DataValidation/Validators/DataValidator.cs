@@ -249,7 +249,7 @@ namespace Fur.DataValidation
                 .Where(u => u.IsDefined(typeof(ValidationMessageTypeAttribute), true) && u.IsEnum).ToList();
 
             // 加载自定义验证消息类型提供器
-            var validationMessageTypeProvider = App.GetDuplicateService<IValidationMessageTypeProvider>();
+            var validationMessageTypeProvider = App.GetService<IValidationMessageTypeProvider>();
             if (validationMessageTypeProvider is { Definitions: not null }) validationMessageTypes.AddRange(validationMessageTypeProvider.Definitions);
 
             return validationMessageTypes.Distinct();
@@ -267,7 +267,7 @@ namespace Fur.DataValidation
                 .ToDictionary(u => u.Name, u => u.GetCustomAttribute<ValidationMessageAttribute>().ErrorMessage);
 
             // 加载配置文件配置
-            var validationTypeMessageSettings = App.GetOptions<ValidationTypeMessageSettingsOptions>();
+            var validationTypeMessageSettings = App.GetDuplicateOptions<ValidationTypeMessageSettingsOptions>();
             if (validationTypeMessageSettings is { Definitions: not null })
             {
                 // 获取所有参数大于1的配置

@@ -38,9 +38,9 @@ namespace Fur.DynamicApiController
         /// </summary>
         public DynamicApiControllerApplicationModelConvention()
         {
-            _dynamicApiControllerSettings = App.GetOptions<DynamicApiControllerSettingsOptions>();
+            _dynamicApiControllerSettings = App.GetDuplicateOptions<DynamicApiControllerSettingsOptions>();
             _nameVersionRegex = new Regex(@"V(?<version>[0-9_]+$)");
-            _enabledUnifyResult = App.GetDuplicateService<IUnifyResultProvider>() != null;
+            _enabledUnifyResult = App.GetService<IUnifyResultProvider>() != null;
         }
 
         /// <summary>

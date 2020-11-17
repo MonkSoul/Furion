@@ -1,5 +1,5 @@
 using Fur.DependencyInjection;
-using Microsoft.AspNetCore.Http;
+using Fur.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Caching.Memory;
@@ -106,11 +106,11 @@ namespace Fur.DatabaseAccessor
                 if (Db.CustomizeMultiTenants || !typeof(IPrivateMultiTenant).IsAssignableFrom(GetType())) return default;
 
                 // 判断 HttpContext 是否存在
-                var httpContextAccessor = App.GetDuplicateService<IHttpContextAccessor>();
-                if (httpContextAccessor == null || httpContextAccessor.HttpContext == null) return default;
+                var httpContext = HttpContextUtility.GetCurrentHttpContext();
+                if (httpContext == null) return default;
 
                 // 获取主机地址
-                var host = httpContextAccessor.HttpContext.Request.Host.Value;
+                var host = httpContext.Request.Host.Value;
 
                 // 从内存缓存中读取或查询数据库
                 var memoryCache = App.GetService<IMemoryCache>();
