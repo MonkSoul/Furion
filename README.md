@@ -2,7 +2,7 @@
 <p></p>
 
 <p align="center">
-<img src="https://gitee.com/monksoul/Furion/raw/main/handbook/static/img/furlogo.png" height="80"/>
+<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/furionlogo.png" height="80"/>
 </p>
 
 <div align="center">
@@ -40,14 +40,14 @@
 >
 > 所以，**`Furion`** 就诞生了。
 >
-> 之后就有了 **“小僧不才，略懂皮毛（Fur）。”** 广告语 和 **[furos.cn](https://furos.cn)** 域名。
+> 之后就有了 **“小僧不才，略懂皮毛（Fur）。”** 广告语 和 **[furion.pro](https://furion.pro)** 域名。
 
 ## 🍔 关于 LOGO
 
 `Furion` LOGO 设计由 `F` `U` `R` 三个单词组成：
 
 <p>
-<img src="https://gitee.com/monksoul/Furion/raw/main/handbook/static/img/logo2.png" height="120"/>
+<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/logo2.png" height="120"/>
 </p>
 
 我相信很多人看到 `Furion` 的 LOGO 时都会问：“为什么选择奶牛？”，因为 **那些年吹过的牛逼都实现了 🐮**。
@@ -56,22 +56,22 @@
 
 ## 🍟 文档地址
 
-- 国内文档：[https://monksoul.gitee.io/fur/](https://monksoul.gitee.io/fur/)
-- 国外文档：[https://furos.cn](https://furos.cn)
+- 国内文档：[https://monksoul.gitee.io/furion/](https://monksoul.gitee.io/furion/)
+- 国外文档：[https://furion.pro](https://furion.pro)
 
 **目前文档正在逐步完善中。**
 
 ## 🥦 系列教程
 
 - **Furion 视频教程：[https://space.bilibili.com/695987967](https://space.bilibili.com/695987967)**
-- Furion 使用例子：[https://gitee.com/monksoul/fur-samples](https://gitee.com/monksoul/fur-samples)
+- Furion 使用例子：[https://gitee.com/monksoul/furion-samples](https://gitee.com/monksoul/furion-samples)
 - Furion 系列教程：[《学 .NET 5 从 Furion 开始》](https://gitee.com/monksoul/Furion/blob/main/tutorials) 系列
 
 ## 🌭 开源地址
 
 - Gitee：[https://gitee.com/monksoul/Furion](https://gitee.com/monksoul/Furion)
 - GitHub：[https://github.com/monksoul/Furion](https://github.com/monksoul/Furion)
-- Docker：[https://hub.docker.com/r/monksoul/fur](https://hub.docker.com/r/monksoul/fur)
+- Docker：[https://hub.docker.com/r/monksoul/furion](https://hub.docker.com/r/monksoul/furion)
 - Nuget：[https://www.nuget.org/packages/Furion](https://www.nuget.org/packages/Furion)
 
 ## 🍿 Docker 镜像
@@ -79,7 +79,7 @@
 - `Docker Hub` 线上镜像
 
 ```shell
-docker run --name fur -p 5000:80 monksoul/fur:v1.0.0
+docker run --name furion -p 5000:80 monksoul/furion:v1.0.5
 ```
 
 - `手动` 打包镜像
@@ -87,32 +87,32 @@ docker run --name fur -p 5000:80 monksoul/fur:v1.0.0
 打开 `CMD/Shell/PowerShell` 进入 `Furion` 项目根目录打包 `Furion` 镜像：
 
 ```shell
-docker build -t fur:v1.0.0 .
+docker build -t furion:v1.0.5 .
 ```
 
 打包成功后，直接 `docker run`：
 
 ```shell
-docker run --name fur -p 5000:80 fur:v1.0.0
+docker run --name furion -p 5000:80 furion:v1.0.5
 ```
 
 ## 🥥 Furion 官方包
 
-| 包类型                                                                                                                            | 名称                                    | 版本   | 描述                |
-| --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ------ | ------------------- |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion)                                     | Furion                                     | v1.0.2 | Furion 总包            |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion.Extras.Authentication.JwtBearer)     | Furion.Extras.Authentication.JwtBearer     | v1.0.0 | Furion Jwt 拓展包      |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion.Extras.DependencyModel.CodeAnalysis) | Furion.Extras.DependencyModel.CodeAnalysis | 1.0.1  | Furion 动态反射 拓展包 |
+| 包类型                                                                                                                               | 名称                                       | 版本   | 描述                   |
+| ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------ | ------ | ---------------------- |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion)                                     | Furion                                     | v1.0.5 | Furion 总包            |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion.Extras.Authentication.JwtBearer)     | Furion.Extras.Authentication.JwtBearer     | v1.0.5 | Furion Jwt 拓展包      |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion.Extras.DependencyModel.CodeAnalysis) | Furion.Extras.DependencyModel.CodeAnalysis | v1.0.5 | Furion 动态反射 拓展包 |
 
 ## 🍄 Furion 脚手架
 
-| 模板类型                                                                                                         | 名称                | 版本   | 描述             |
-| ---------------------------------------------------------------------------------------------------------------- | ------------------- | ------ | ---------------- |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Mvc/)    | Furion.Template.Mvc    | v1.0.3 | Mvc 模板         |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Api/)    | Furion.Template.Api    | v1.0.3 | WebApi 模板      |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.App/)    | Furion.Template.App    | v1.0.3 | Mvc/WebApi 模板  |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Razor/)  | Furion.Template.Razor  | v1.0.3 | Razar Pages 模板 |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Blazor/) | Furion.Template.Blazor | v1.0.3 | Blazor 模板      |
+| 模板类型                                                                                                            | 名称                   | 版本   | 描述             |
+| ------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------ | ---------------- |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Mvc/)    | Furion.Template.Mvc    | v1.0.5 | Mvc 模板         |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Api/)    | Furion.Template.Api    | v1.0.5 | WebApi 模板      |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.App/)    | Furion.Template.App    | v1.0.5 | Mvc/WebApi 模板  |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Razor/)  | Furion.Template.Razor  | v1.0.5 | Razar Pages 模板 |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Blazor/) | Furion.Template.Blazor | v1.0.5 | Blazor 模板      |
 
 ## 🍎 框架特点
 
@@ -131,7 +131,7 @@ docker run --name fur -p 5000:80 fur:v1.0.0
 ## 🥝 功能模块
 
 <p align="center">
-<img src="https://gitee.com/monksoul/Furion/raw/main/handbook/static/img/furfunctions.png"/>
+<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/functions.png"/>
 </p>
 
 ## 🥐 框架依赖
@@ -184,7 +184,7 @@ docker run --name fur -p 5000:80 fur:v1.0.0
 
 `Furion` 目前采用 `Visual Studio 2019 Preview 16.8` 自带性能测试和 `JMeter` 进行测试，由于篇幅有限，只贴部分测试图，测试结果如下：
 
-<img src="https://gitee.com/monksoul/Furion/raw/main/handbook/static/img/xncs.png"/>
+<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/xncs.png"/>
 
 ---
 
@@ -262,7 +262,7 @@ docker run --name fur -p 5000:80 fur:v1.0.0
 | 😮 木木 Woody   | **10**                | 感谢您的开源项目！                           |
 | 😚 Joker Hou    | **QQ 超级会员一个月** |                                              |
 | 🤠 ccdfz        | **QQ 专属红包 199**   |                                              |
-| 🌝 天夫李总     | **支付宝 6666**       | Furion 非常有意思，持续关注                     |
+| 🌝 天夫李总     | **支付宝 6666**       | Furion 非常有意思，持续关注                  |
 | 😝 六尘子       | **微信红包 199**      | 公司已经使用，小小敬意                       |
 | 🤠 ccdfz        | **QQ 专属红包 200**   | 赞助一根内存条                               |
 | 🤑 邓亮灯       | **28.88**             | 感谢您的开源项目！                           |
@@ -277,7 +277,7 @@ docker run --name fur -p 5000:80 fur:v1.0.0
 ## 🥔 QQ 交流群
 
 <p>
-<img src="https://gitee.com/monksoul/Furion/raw/main/handbook/static/img/dotnetchina.jpg" height="300"/>
+<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/dotnetchina.jpg" height="300"/>
 </p>
 
 ## 🧆 友情链接

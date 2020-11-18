@@ -74,7 +74,7 @@ function Home() {
         <div className="container">
           <h1 className="hero__title">
             <img
-              src={useBaseUrl("img/furlogo.png")}
+              src={useBaseUrl("img/furionlogo.png")}
               height="80"
               style={{ margin: "0 auto", display: "block" }}
             />

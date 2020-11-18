@@ -1,7 +1,7 @@
 module.exports = {
   title: "Furion",
   tagline: "Furion 是 .NET 5 平台下企业应用开发最佳实践框架。",
-  url: "https://furos.cn",
+  url: "https://furion.pro",
   baseUrl: "/furion/",
   onBrokenLinks: "throw",
   favicon: "img/favicon.ico",

@@ -153,7 +153,7 @@ select * from student;".SqlQueries();
 // 示例二
 var dataSet = @"
 select * from person where Id > @id;
-select * from student where Name like %@name%;".SqlQueries(new {id = 1, name = "fur"});
+select * from student where Name like %@name%;".SqlQueries(new {id = 1, name = "furion"});
 
 // 示例三
 var dataSet = @"
@@ -172,7 +172,7 @@ select * from student;".SqlQueriesAsync();
 // 示例二
 var dataSet = await @"
 select * from person where Id > @id;
-select * from student where Name like %@name%;".SqlQueriesAsync(new {id = 1, name = "fur"});
+select * from student where Name like %@name%;".SqlQueriesAsync(new {id = 1, name = "furion"});
 
 // 示例三
 var dataSet = await @"
@@ -195,7 +195,7 @@ select * from student;".SqlQueries<Person,Student>();
 // 示例二
 var (persons, students) = @"
 select * from person where Id > @id;
-select * from student where Name like %@name%;".SqlQueries<Person,Student>(new {id = 1, name = "fur"});
+select * from student where Name like %@name%;".SqlQueries<Person,Student>(new {id = 1, name = "furion"});
 
 // 示例三
 var (persons, students, string, PersonDto) = @"
@@ -214,7 +214,7 @@ select * from student;".SqlQueriesAsync<Person,Student>();
 // 示例二
 var (persons, students) = await @"
 select * from person where Id > @id;
-select * from student where Name like %@name%;".SqlQueriesAsync<Person,Student>(new {id = 1, name = "fur"});
+select * from student where Name like %@name%;".SqlQueriesAsync<Person,Student>(new {id = 1, name = "furion"});
 
 // 示例三
 var (persons, students, string, PersonDto) = await @"
