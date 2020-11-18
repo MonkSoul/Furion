@@ -5,12 +5,12 @@
     <Authors>百小僧/MonkSoul</Authors>
     <Company>Baiqian Co.,Ltd.</Company>
     <Copyright>© 2020 Furion, Baiqian Co.,Ltd.</Copyright>
-    <Description>Furion 立志使 .NET 变得更简单，更通用，更流行。</Description>
+    <Description>Furion 让 .NET 开发变得更简单，更通用，更流行。</Description>
     <PackageProjectUrl>https://furion.pro</PackageProjectUrl>
     <RepositoryUrl>https://gitee.com/monksoul/Furion</RepositoryUrl>
     <RepositoryType>Gitee</RepositoryType>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <Version>1.0.5.1</Version>
+    <version>1.0.5.2</version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
@@ -46,7 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Furion.Extras.DependencyModel.CodeAnalysis" Version="1.0.5.1" />
+    <PackageReference Include="Furion.Extras.DependencyModel.CodeAnalysis" Version="1.0.5.2" />
     <PackageReference Include="Mapster" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.0" />

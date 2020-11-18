@@ -13,7 +13,7 @@
 
 <div align="center">
 
-`Furion` 立志使 `.NET` 变得更简单，更通用，更流行。
+Furion 让 .NET 开发变得更简单，更通用，更流行。
 
 </div>
 
