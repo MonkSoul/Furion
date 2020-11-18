@@ -2,7 +2,7 @@
 # Update:20201118
 # NetCore SDK
 # https://hub.docker.com/_/microsoft-dotnet-nightly-sdk/
-FROM mcr.microsoft.com/dotnet/nightly/sdk:5.0 AS build
+FROM mcr.microsoft.com/dotnet/nightly/sdk:5.0-alpine AS build
 WORKDIR /source
 
 # Download Source
@@ -19,7 +19,7 @@ RUN dotnet publish -c release -o /app --no-restore
 
 # Run Furion
 # https://hub.docker.com/_/microsoft-dotnet-nightly-aspnet/
-FROM mcr.microsoft.com/dotnet/nightly/aspnet:5.0
+FROM mcr.microsoft.com/dotnet/nightly/aspnet:5.0-alpine
 WORKDIR /app
 COPY --from=build /app ./
 EXPOSE 80
