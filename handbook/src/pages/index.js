@@ -67,8 +67,8 @@ function Home() {
   const { siteConfig = {} } = context;
   return (
     <Layout
-      title={`Furion 是 .NET 5 平台下企业应用开发最佳实践框架。 ${siteConfig.title}`}
-      description="Furion 是 .NET 5 平台下企业应用开发最佳实践框架。"
+      title={`Furion 立志使 .NET 变得更简单，更通用，更流行。 ${siteConfig.title}`}
+      description="Furion 立志使 .NET 变得更简单，更通用，更流行。"
     >
       <header className={clsx("hero hero--primary", styles.heroBanner)}>
         <div className="container">

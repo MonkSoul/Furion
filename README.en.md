@@ -2,7 +2,7 @@
 <p></p>
 
 <p align="center">
-<img src="https://gitee.com/monksoul/Furion/raw/main/handbook/static/img/furionlogo.png" height="80"/>
+<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/furionlogo.png" height="80"/>
 </p>
 
 <div align="center">
@@ -13,7 +13,7 @@
 
 <div align="center">
 
-`Furion` 是 `.NET 5` 平台下企业应用开发最佳实践框架。
+`Furion` 立志使 `.NET` 变得更简单，更通用，更流行。
 
 </div>
 
@@ -30,24 +30,28 @@
 
 > 故事是这样子的：
 >
-> 起初，想开发一个极易入门、极易维护的框架，开发理念为：`一切从简，只为了更懒`。
+> 起初，想开发一个更简单，更通用，更流行的框架，开发理念为：`一切从简，只为了更懒`。
 >
-> 所以自然而然想到了：`Lazier`，也就是 **更懒** 的意思。但是 **更懒** 和 **更烂** 读音相近且中文名没有特色，对此换名问题我苦恼了好几天。
+> 一开始想到了 `Lazier` 单词，有 **更懒** 的意思。但是 **更懒** 和 **更烂** 读音相近且没有特色，对此换名问题苦恼了好些天。
 >
-> 刚好有一次我在博客园中帮一个博友解答问题，解决后博友赞扬我对 `.NET Core` 颇有了解，我就顺嘴回答了一句：**“略懂皮毛”**。
+> 刚好有一次在社区中解答问题，解决后帖主回复我对 `.NET Core` 颇有了解，我就回了一句：**“略懂皮毛”**。
 >
-> 就这时，脑瓜子灵机一动，干脆起名为：**“皮毛”**？英文单词 **“`Furion` [fɜː(r)]”**，单词又短而且中文读音既俗气又顺口。😄😎
+> 就这时，脑瓜子灵机一动，就叫 **“皮毛”**？英文单词 **“`Fur`”**，单词短且中文读音既俗气又顺口。`Fur` 就诞生了。
+>
+> 之后随着 `Fur` 快速发展，这个名字也暴露出了诸多问题，如含义褒贬不一，推广难度大，辨识度低等。更字又成了迫切需求。
+>
+> 在苦恼中刷 QQ 群中聊天记录时，无意间发现了群友发的 **“先知”** 单词：**“`Furion`”**，就那一刻，彻底被它沦陷了。
+>
+> `Furion` 是以 `Fur` 单词开头，另外中文意思 `先知` 刚好符合我创造此框架的初衷。
 >
 > 所以，**`Furion`** 就诞生了。
->
-> 之后就有了 **“小僧不才，略懂皮毛（Fur）。”** 广告语 和 **[furion.pro](https://furion.pro)** 域名。
 
 ## 🍔 关于 LOGO
 
-`Furion` LOGO 设计由 `F` `U` `R` 三个单词组成：
+`Furion` LOGO 设计由 `F` `U` `R` 三个字母组成：
 
 <p>
-<img src="https://gitee.com/monksoul/Furion/raw/main/handbook/static/img/logo2.png" height="120"/>
+<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/logo2.png" height="120"/>
 </p>
 
 我相信很多人看到 `Furion` 的 LOGO 时都会问：“为什么选择奶牛？”，因为 **那些年吹过的牛逼都实现了 🐮**。
@@ -131,7 +135,7 @@ docker run --name furion -p 5000:80 furion:v1.0.5
 ## 🥝 功能模块
 
 <p align="center">
-<img src="https://gitee.com/monksoul/Furion/raw/main/handbook/static/img/functions.png"/>
+<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/functions.png"/>
 </p>
 
 ## 🥐 框架依赖
@@ -184,7 +188,7 @@ docker run --name furion -p 5000:80 furion:v1.0.5
 
 `Furion` 目前采用 `Visual Studio 2019 Preview 16.8` 自带性能测试和 `JMeter` 进行测试，由于篇幅有限，只贴部分测试图，测试结果如下：
 
-<img src="https://gitee.com/monksoul/Furion/raw/main/handbook/static/img/xncs.png"/>
+<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/xncs.png"/>
 
 ---
 
@@ -277,7 +281,7 @@ docker run --name furion -p 5000:80 furion:v1.0.5
 ## 🥔 QQ 交流群
 
 <p>
-<img src="https://gitee.com/monksoul/Furion/raw/main/handbook/static/img/dotnetchina.jpg" height="300"/>
+<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/dotnetchina.jpg" height="300"/>
 </p>
 
 ## 🧆 友情链接

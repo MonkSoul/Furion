@@ -6,7 +6,7 @@ namespace FurionApp.Application
     {
         public string GetDescription()
         {
-            return "Furion 是 .NET 5 平台下企业应用开发最佳实践框架。";
+            return "Furion 立志使 .NET 变得更简单，更通用，更流行。";
         }
     }
 }
