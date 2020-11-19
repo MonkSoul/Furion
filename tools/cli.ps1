@@ -455,7 +455,7 @@ $fileHeader = @"
 // 以下代码由 $FurTools 生成                                          
 // -----------------------------------------------------------------------------
 
-using $Product.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
