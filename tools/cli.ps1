@@ -435,7 +435,7 @@ Write-Output "$FurTools 开始生成实体文件......";
 
 # 获取 DbContext 生成的配置内容
 $dbContextContent = Get-Content "$TempOutputDir\$Context.cs" -raw;
-$entityConfigures = [regex]::Matches($dbContextContent, "modelBuilder.Entity\<(?<table>\w+)\>\(entity\s=\>\n*[\s\S]*?\{(?<content>[\s\S]*?)\}\);");
+$entityConfigures = [regex]::Matches($dbContextContent, "modelBuilder.Entity\<(?<table>\w+)\>\(entity\s=\>\n*[\s\S]*?\{(?<content>[\s\S]*?)\s*\n+\s*\}\);");
 
 # 定义字典集合
 $dic = New-Object -TypeName 'System.Collections.Generic.Dictionary[System.String, System.String]';
