@@ -19938,6 +19938,11 @@
             异常复写特性
             </summary>
         </member>
+        <member name="M:Furion.FriendlyException.IfExceptionAttribute.#ctor">
+            <summary>
+            默认构造函数
+            </summary>
+        </member>
         <member name="M:Furion.FriendlyException.IfExceptionAttribute.#ctor(System.Object,System.Object[])">
             <summary>
             构造函数
@@ -19945,9 +19950,20 @@
             <param name="errorCode">错误编码</param>
             <param name="args">格式化参数</param>
         </member>
+        <member name="M:Furion.FriendlyException.IfExceptionAttribute.#ctor(System.Type)">
+            <summary>
+            捕获特定异常类型异常（用于全局异常捕获）
+            </summary>
+            <param name="exceptionType"></param>
+        </member>
         <member name="P:Furion.FriendlyException.IfExceptionAttribute.ErrorCode">
             <summary>
             错误编码
+            </summary>
+        </member>
+        <member name="P:Furion.FriendlyException.IfExceptionAttribute.ExceptionType">
+            <summary>
+            异常类型
             </summary>
         </member>
         <member name="F:Furion.FriendlyException.IfExceptionAttribute._errorMessage">
@@ -22084,33 +22100,6 @@
             资源Id，必须是唯一的
             </summary>
         </member>
-        <member name="T:Microsoft.AspNetCore.Http.HttpContextExtensions">
-            <summary>
-            Http 拓展类
-            </summary>
-        </member>
-        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.GetMetadata``1(Microsoft.AspNetCore.Http.HttpContext)">
-            <summary>
-            获取 Action 特性
-            </summary>
-            <typeparam name="TAttribute"></typeparam>
-            <param name="httpContext"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.SigninToSwagger(Microsoft.AspNetCore.Http.HttpContext,System.String)">
-            <summary>
-            设置规范化文档自动登录
-            </summary>
-            <param name="httpContext"></param>
-            <param name="accessToken"></param>
-        </member>
-        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.SigninToSwagger(Microsoft.AspNetCore.Http.IHttpContextAccessor,System.String)">
-            <summary>
-            设置规范化文档自动登录
-            </summary>
-            <param name="httpContextAccessor"></param>
-            <param name="accessToken"></param>
-        </member>
         <member name="T:Microsoft.AspNetCore.Mvc.NonValidationAttribute">
             <summary>
             跳过验证
@@ -22281,6 +22270,47 @@
             包装类型
             </summary>
             <param name="type"></param>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Http.HttpContextExtensions">
+            <summary>
+            Http 拓展类
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.GetMetadata``1(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            获取 Action 特性
+            </summary>
+            <typeparam name="TAttribute"></typeparam>
+            <param name="httpContext"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.SigninToSwagger(Microsoft.AspNetCore.Http.HttpContext,System.String)">
+            <summary>
+            设置规范化文档自动登录
+            </summary>
+            <param name="httpContext"></param>
+            <param name="accessToken"></param>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.SigninToSwagger(Microsoft.AspNetCore.Http.IHttpContextAccessor,System.String)">
+            <summary>
+            设置规范化文档自动登录
+            </summary>
+            <param name="httpContextAccessor"></param>
+            <param name="accessToken"></param>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.GetClientIPAddress(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            获取客户端IP地址
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.IsAjaxRequest(Microsoft.AspNetCore.Http.HttpRequest)">
+            <summary>
+            判断是否是 Ajax 请求
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
         </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.AppServiceCollectionExtensions">
             <summary>

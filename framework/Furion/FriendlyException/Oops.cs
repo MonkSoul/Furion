@@ -308,7 +308,8 @@ namespace Furion.FriendlyException
             }
 
             return errorMethods.Where(u => u.IsDefined(typeof(IfExceptionAttribute), true))
-                .SelectMany(u => u.GetCustomAttributes<IfExceptionAttribute>(true));
+                .SelectMany(u => u.GetCustomAttributes<IfExceptionAttribute>(true))
+                .Where(u => u.ErrorCode != null);
         }
 
         /// <summary>
