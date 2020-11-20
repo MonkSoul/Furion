@@ -1,6 +1,6 @@
 ﻿using Furion.DependencyInjection;
+using Furion.Extensions;
 using Furion.UnifyResult;
-using Furion.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;

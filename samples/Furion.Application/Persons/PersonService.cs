@@ -48,9 +48,9 @@ namespace Furion.Application
         public async Task Update(PersonInputDto input)
         {
             var person = await _personRepository.Include(u => u.PersonDetail, false)
-                                                                                     .Include(u => u.Childrens)
-                                                                                     .Include(u => u.Posts)
-                                                                                     .SingleAsync(u => u.Id == input.Id.Value);
+                                                .Include(u => u.Childrens)
+                                                .Include(u => u.Posts)
+                                                .SingleAsync(u => u.Id == input.Id.Value);
 
             input.Adapt(person);
 
@@ -86,7 +86,7 @@ namespace Furion.Application
         public async Task<List<PersonDto>> GetAll()
         {
             var persons = _personRepository.AsQueryable(false)
-                                                                .ProjectToType<PersonDto>();
+                                           .ProjectToType<PersonDto>();
             return await persons.ToListAsync();
         }
 
@@ -99,7 +99,7 @@ namespace Furion.Application
         public async Task<PagedList<PersonDto>> GetAllByPage(int pageIndex = 1, int pageSize = 10)
         {
             var pageResult = _personRepository.AsQueryable(false)
-                                                                     .ProjectToType<PersonDto>();
+                                              .ProjectToType<PersonDto>();
 
             return await pageResult.ToPagedListAsync(pageIndex, pageSize);
         }
@@ -113,8 +113,8 @@ namespace Furion.Application
         public async Task<List<PersonDto>> Search([FromQuery] string name, [FromQuery] int age)
         {
             var persons = _personRepository.Where(!string.IsNullOrEmpty(name), u => u.Name.Contains(name), false)
-                                                                .Where(age > 18, u => u.Age > 18)
-                                                                .ProjectToType<PersonDto>();
+                                           .Where(age > 18, u => u.Age > 18)
+                                           .ProjectToType<PersonDto>();
 
             return await persons.ToListAsync();
         }

@@ -1,5 +1,5 @@
 ﻿using Furion.DependencyInjection;
-using Furion.Utilities;
+using Furion.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Concurrent;

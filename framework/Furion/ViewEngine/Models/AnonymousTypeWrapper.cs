@@ -1,5 +1,5 @@
 ﻿using Furion.DependencyInjection;
-using Furion.Utilities;
+using Furion.Extensions;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;

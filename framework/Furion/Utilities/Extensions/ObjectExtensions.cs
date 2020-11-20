@@ -1,4 +1,5 @@
 ﻿using Furion.DependencyInjection;
+using Furion.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace Furion.Utilities
+namespace Furion.Extensions
 {
     /// <summary>
     /// 对象拓展类

@@ -40,5 +40,10 @@ namespace Furion.SpecificationDocument
         /// 排序
         /// </summary>
         public int? Order { get; set; }
+
+        /// <summary>
+        /// 是否显示
+        /// </summary>
+        public bool? Show { get; set; }
     }
 }

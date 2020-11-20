@@ -1,5 +1,5 @@
 ﻿using Furion.DependencyInjection;
-using Furion.Utilities;
+using Furion.Extensions;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 using System;

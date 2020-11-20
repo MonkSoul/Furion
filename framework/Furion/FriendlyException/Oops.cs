@@ -1,6 +1,6 @@
 ﻿using Furion.DependencyInjection;
 using Furion.DynamicApiController;
-using Furion.Utilities;
+using Furion.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
