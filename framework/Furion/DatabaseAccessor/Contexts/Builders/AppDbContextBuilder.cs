@@ -1,4 +1,5 @@
 ﻿using Furion.DependencyInjection;
+using Furion.Utilities;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

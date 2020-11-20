@@ -1,5 +1,5 @@
 ﻿using Furion.DependencyInjection;
-using Furion.WebUtilities;
+using Furion.Utilities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

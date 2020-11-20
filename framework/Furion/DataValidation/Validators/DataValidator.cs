@@ -1,4 +1,5 @@
 ﻿using Furion.DependencyInjection;
+using Furion.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Concurrent;
