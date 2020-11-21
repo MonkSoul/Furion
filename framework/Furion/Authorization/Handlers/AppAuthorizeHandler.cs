@@ -76,7 +76,7 @@ namespace Furion.Authorization
         /// <returns></returns>
         public virtual bool PolicyPipeline(AuthorizationHandlerContext context, DefaultHttpContext httpContext, AppAuthorizeRequirement requirement)
         {
-            return false;
+            return true;
         }
     }
 }
