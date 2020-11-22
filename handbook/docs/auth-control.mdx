@@ -103,8 +103,7 @@ namespace Furion.Web.Core
         /// <returns></returns>
         public override bool Pipeline(AuthorizationHandlerContext context, DefaultHttpContext httpContext)
         {
-            var isValid = context.ValidateJwtBearer(httpContext, out JsonWebToken token);
-            if (!isValid) return false;
+            // 此处已经自动验证 Jwt token的有效性了，无需手动验证
 
             // 检查权限
             return CheckAuthorzie(httpContext);
