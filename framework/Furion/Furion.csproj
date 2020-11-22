@@ -10,7 +10,7 @@
     <RepositoryUrl>https://gitee.com/monksoul/Furion</RepositoryUrl>
     <RepositoryType>Gitee</RepositoryType>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
@@ -46,7 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Furion.Extras.DependencyModel.CodeAnalysis" Version="1.0.8" />
+    <PackageReference Include="Furion.Extras.DependencyModel.CodeAnalysis" Version="1.0.9" />
     <PackageReference Include="Mapster" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.0" />
