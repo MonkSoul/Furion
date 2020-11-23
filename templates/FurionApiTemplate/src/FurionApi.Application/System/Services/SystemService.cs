@@ -6,7 +6,7 @@ namespace FurionApi.Application
     {
         public string GetDescription()
         {
-            return "让 .NET 开发变得更简单，更通用，更流行。";
+            return "让 .NET 开发更简单，更通用，更流行。";
         }
     }
 }

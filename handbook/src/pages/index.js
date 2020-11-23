@@ -67,8 +67,8 @@ function Home() {
   const { siteConfig = {} } = context;
   return (
     <Layout
-      title={`让 .NET 开发变得更简单，更通用，更流行。 ${siteConfig.title}`}
-      description="让 .NET 开发变得更简单，更通用，更流行。"
+      title={`让 .NET 开发更简单，更通用，更流行。 ${siteConfig.title}`}
+      description="让 .NET 开发更简单，更通用，更流行。"
     >
       <header className={clsx("hero hero--primary", styles.heroBanner)}>
         <div className="container">
