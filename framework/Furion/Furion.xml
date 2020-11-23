@@ -331,7 +331,7 @@
             <param name="httpContext"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.Authorization.AppAuthorizeHandler.PolicyPipeline(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,Microsoft.AspNetCore.Http.DefaultHttpContext,Furion.Authorization.AppAuthorizeRequirement)">
+        <member name="M:Furion.Authorization.AppAuthorizeHandler.PolicyPipeline(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,Microsoft.AspNetCore.Http.DefaultHttpContext,Microsoft.AspNetCore.Authorization.IAuthorizationRequirement)">
             <summary>
             策略验证管道
             </summary>
