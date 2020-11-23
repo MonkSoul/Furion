@@ -30,33 +30,29 @@
 
 > 故事是这样子的：
 >
-> 起初，想开发一个更简单，更通用，更流行的框架，开发理念为：`一切从简，只为了更懒`。
+> 自微软宣布 `.NET 5` 平台消息之后，就琢磨着开发一个基于 `.NET 5` 平台的开发框架，想做第一个吃 `.NET 5` 螃蟹尝鲜之人。
 >
-> 一开始想到了 `Lazier` 单词，有 **更懒** 的意思。但是 **更懒** 和 **更烂** 读音相近且没有特色，对此换名问题苦恼了好些天。
+> 一开始想到了 `Lazier` 作为框架的名称，中文有 **更懒** 的意思。符合我的 “一切从简，只为了更懒” 的开发理念。
 >
-> 刚好有一次在社区中解答问题，解决后帖主回复我对 `.NET Core` 颇有了解，我就回了一句：**“略懂皮毛”**。
+> 但是 **更懒** 和 **更烂** 中文读音相近且没有特色，而且寓意也不是很好，对此换名问题苦恼了好些天。
 >
-> 就这时，脑瓜子灵机一动，就叫 **“皮毛”**？英文单词 **“`Fur`”**，单词短且中文读音既俗气又顺口。`Fur` 诞生了。
+> 刚好有一次在 QQ 群中无意间刷到了群友发的 **“先知”** 单词：**“`Furion`”**，就那一刻，就认定它了！
 >
-> 之后随着 `Fur` 快速发展，这个名字也暴露出了诸多问题，如含义褒贬不一，推广难度大，辨识度低等。更名又成了迫切需求。
->
-> 在苦恼中刷 QQ 群中聊天记录时，无意间发现了群友发的 **“先知”** 单词：**“`Furion`”**，就那一刻，彻底被它沦陷了。
->
-> `Furion` 是以 `Fur` 单词开头，另外中文意思 `先知` 恰好符合我创造框架的初衷。
->
-> 所以，**`Furion`** 自然而然地取代之。
+> `Furion` 中文有 `先知` 的意思，恰好符合我创造框架的初衷。所以，**`Furion`** 就诞生了。
 
 ## 🍔 关于 LOGO
 
-`Furion` LOGO 设计由 `F` `U` `R` 三个字母组成：
+`Furion` 设计理念是借鉴著名的 [袋鼠理论](https://baike.baidu.com/item/%E8%A2%8B%E9%BC%A0%E7%90%86%E8%AE%BA) 设计的。
+
+袋鼠具有长腿、育袋、自我奔跑特点。
+
+- `长腿`：代表着 `Furion` 拥有稳健的双腿，走在科技的前沿，走的更远，跑的更快。
+- `育袋`：小育袋、大作为。期待 `Furion` 能够育孕出更多 .NET 优秀开发者和生机勃勃的生态。
+- `自我奔跑`：`Furion` 自身也要不断学习、不断进步、不断创新、不断开拓。
 
 <p>
-<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/logo2.png" height="120"/>
+<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/furionlogo.png" height="120"/>
 </p>
-
-我相信很多人看到 `Furion` 的 LOGO 时都会问：“为什么选择奶牛？”，因为 **那些年吹过的牛逼都实现了 🐮**。
-
-之所以选择 **奶牛** 是因为 `牛` 具有脚踏实地，任劳任怨的做事风格，同时 **奶牛** 意味着丰富的营养价值，正如 `Furion` 所能带给你的。
 
 ## 🍟 文档地址
 
@@ -83,7 +79,7 @@
 - `Docker Hub` 线上镜像
 
 ```shell
-docker run --name furion -p 5000:80 monksoul/furion:v1.0.9.1
+docker run --name furion -p 5000:80 monksoul/furion:v1.1.0
 ```
 
 - `手动` 打包镜像
@@ -91,32 +87,32 @@ docker run --name furion -p 5000:80 monksoul/furion:v1.0.9.1
 打开 `CMD/Shell/PowerShell` 进入 `Furion` 项目根目录打包 `Furion` 镜像：
 
 ```shell
-docker build -t furion:v1.0.9.1 .
+docker build -t furion:v1.1.0 .
 ```
 
 打包成功后，直接 `docker run`：
 
 ```shell
-docker run --name furion -p 5000:80 furion:v1.0.9.1
+docker run --name furion -p 5000:80 furion:v1.1.0
 ```
 
 ## 🥥 Furion 官方包
 
-| 包类型                                                                                                                               | 名称                                       | 版本     | 描述                   |
-| ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------ | -------- | ---------------------- |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion)                                     | Furion                                     | v1.0.9.1 | Furion 总包            |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion.Extras.Authentication.JwtBearer)     | Furion.Extras.Authentication.JwtBearer     | v1.0.9.1 | Furion Jwt 拓展包      |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion.Extras.DependencyModel.CodeAnalysis) | Furion.Extras.DependencyModel.CodeAnalysis | v1.0.9.1 | Furion 动态反射 拓展包 |
+| 包类型                                                                                                                               | 名称                                       | 版本   | 描述                   |
+| ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------ | ------ | ---------------------- |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion)                                     | Furion                                     | v1.1.0 | Furion 总包            |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion.Extras.Authentication.JwtBearer)     | Furion.Extras.Authentication.JwtBearer     | v1.1.0 | Furion Jwt 拓展包      |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion.Extras.DependencyModel.CodeAnalysis) | Furion.Extras.DependencyModel.CodeAnalysis | v1.1.0 | Furion 动态反射 拓展包 |
 
 ## 🍄 Furion 脚手架
 
-| 模板类型                                                                                                            | 名称                   | 版本     | 描述             |
-| ------------------------------------------------------------------------------------------------------------------- | ---------------------- | -------- | ---------------- |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Mvc/)    | Furion.Template.Mvc    | v1.0.9.1 | Mvc 模板         |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Api/)    | Furion.Template.Api    | v1.0.9.1 | WebApi 模板      |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.App/)    | Furion.Template.App    | v1.0.9.1 | Mvc/WebApi 模板  |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Razor/)  | Furion.Template.Razor  | v1.0.9.1 | Razar Pages 模板 |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Blazor/) | Furion.Template.Blazor | v1.0.9.1 | Blazor 模板      |
+| 模板类型                                                                                                            | 名称                   | 版本   | 描述             |
+| ------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------ | ---------------- |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Mvc/)    | Furion.Template.Mvc    | v1.1.0 | Mvc 模板         |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Api/)    | Furion.Template.Api    | v1.1.0 | WebApi 模板      |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.App/)    | Furion.Template.App    | v1.1.0 | Mvc/WebApi 模板  |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Razor/)  | Furion.Template.Razor  | v1.1.0 | Razar Pages 模板 |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Blazor/) | Furion.Template.Blazor | v1.1.0 | Blazor 模板      |
 
 ## 🍎 框架特点
 

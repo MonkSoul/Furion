@@ -26,10 +26,4 @@
     <ProjectReference Include="..\Furion.Web.Core\Furion.Web.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="wwwroot\images\logo.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
 </Project>

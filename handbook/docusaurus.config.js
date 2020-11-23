@@ -15,7 +15,7 @@ module.exports = {
       title: "Furion",
       logo: {
         alt: "Furion Logo",
-        src: "img/logo.png",
+        src: "img/furionlogo.png",
       },
       hideOnScroll: false,
       items: [
