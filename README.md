@@ -102,16 +102,16 @@ docker run --name furion -p 5000:80 furion:v1.0.9.1
 
 ## 🥥 Furion 官方包
 
-| 包类型                                                                                                                               | 名称                                       | 版本   | 描述                   |
-| ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------ | ------ | ---------------------- |
+| 包类型                                                                                                                               | 名称                                       | 版本     | 描述                   |
+| ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------ | -------- | ---------------------- |
 | [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion)                                     | Furion                                     | v1.0.9.1 | Furion 总包            |
 | [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion.Extras.Authentication.JwtBearer)     | Furion.Extras.Authentication.JwtBearer     | v1.0.9.1 | Furion Jwt 拓展包      |
 | [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion.Extras.DependencyModel.CodeAnalysis) | Furion.Extras.DependencyModel.CodeAnalysis | v1.0.9.1 | Furion 动态反射 拓展包 |
 
 ## 🍄 Furion 脚手架
 
-| 模板类型                                                                                                            | 名称                   | 版本   | 描述             |
-| ------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------ | ---------------- |
+| 模板类型                                                                                                            | 名称                   | 版本     | 描述             |
+| ------------------------------------------------------------------------------------------------------------------- | ---------------------- | -------- | ---------------- |
 | [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Mvc/)    | Furion.Template.Mvc    | v1.0.9.1 | Mvc 模板         |
 | [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Api/)    | Furion.Template.Api    | v1.0.9.1 | WebApi 模板      |
 | [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.App/)    | Furion.Template.App    | v1.0.9.1 | Mvc/WebApi 模板  |
@@ -287,4 +287,4 @@ docker run --name furion -p 5000:80 furion:v1.0.9.1
 
 ## 🧆 友情链接
 
-👉 **[Furion](https://gitee.com/monksoul/Furion)** 👉 **[SqlSugar](https://github.com/sunkaixuan/SqlSugar)** 👉 **[Layx](https://gitee.com/monksoul/LayX)** 👉 **[t-io](https://gitee.com/tywo45/t-io)** 👉 **[ThinkPHP](http://www.thinkphp.cn/)** 👉 **[Hutool](https://hutool.cn/)** 👉 **[BootstrapAdmin](https://gitee.com/LongbowEnterprise/BootstrapAdmin)** 👉 **[BootstrapBlazor](https://blazor.sdgxgz.com/)** 👉 **[IoTSharp](https://gitee.com/IoTSharp/IoTSharp)**
+👉 **[Furion](https://gitee.com/monksoul/Furion)** 👉 **[SqlSugar](https://github.com/sunkaixuan/SqlSugar)** 👉 **[Layx](https://gitee.com/monksoul/LayX)** 👉 **[t-io](https://gitee.com/tywo45/t-io)** 👉 **[ThinkPHP](http://www.thinkphp.cn/)** 👉 **[Hutool](https://hutool.cn/)** 👉 **[BootstrapAdmin](https://gitee.com/LongbowEnterprise/BootstrapAdmin)** 👉 **[BootstrapBlazor](https://blazor.sdgxgz.com/)** 👉 **[IoTSharp](https://gitee.com/IoTSharp/IoTSharp)** 👉 **[Anno.Core](https://github.com/duyanming/Anno.Core)**
