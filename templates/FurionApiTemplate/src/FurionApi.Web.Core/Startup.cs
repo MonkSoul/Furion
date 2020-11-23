@@ -15,7 +15,7 @@ namespace FurionApi.Web.Core
             services.AddCorsAccessor();
 
             services.AddControllers()
-                        .AddInjectWithUnifyResult();
+                    .AddInjectWithUnifyResult();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

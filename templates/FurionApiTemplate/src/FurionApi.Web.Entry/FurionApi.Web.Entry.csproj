@@ -5,13 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FurionApi.Web.Core\FurionApi.Web.Core.csproj" />
+    <Compile Remove="Controllers\**" />
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="Controllers\**" />
+    <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="Controllers\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="Controllers\**" />
+    <None Remove="wwwroot\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="wwwroot\" />
-    <Folder Include="wwwroot\" />
+    <ProjectReference Include="..\FurionApi.Web.Core\FurionApi.Web.Core.csproj" />
   </ItemGroup>
 
 </Project>
