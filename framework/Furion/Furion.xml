@@ -1109,29 +1109,41 @@
             </summary>
             <returns>ISqlRepository</returns>
         </member>
+        <member name="M:Furion.DatabaseAccessor.Db.GetDbContext">
+            <summary>
+            获取作用域数据库上下文
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Furion.DatabaseAccessor.Db.GetDbContext(System.Type)">
-            <summary>
-            获取瞬时数据库上下文
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Furion.DatabaseAccessor.Db.GetDbContext``1">
-            <summary>
-            获取瞬时数据库上下文
-            </summary>
-            <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:Furion.DatabaseAccessor.Db.GetRequestDbContext(System.Type)">
             <summary>
             获取作用域数据库上下文
             </summary>
             <param name="dbContextLocator">数据库上下文定位器</param>
             <returns></returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.Db.GetRequestDbContext``1">
+        <member name="M:Furion.DatabaseAccessor.Db.GetDbContext``1">
             <summary>
             获取作用域数据库上下文
+            </summary>
+            <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.DatabaseAccessor.Db.GetDuplicateDbContext">
+            <summary>
+            获取瞬时数据库上下文
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.DatabaseAccessor.Db.GetDuplicateDbContext(System.Type)">
+            <summary>
+            获取瞬时数据库上下文
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.DatabaseAccessor.Db.GetDuplicateDbContext``1">
+            <summary>
+            获取瞬时数据库上下文
             </summary>
             <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
             <returns></returns>
