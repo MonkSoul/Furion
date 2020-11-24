@@ -118,11 +118,11 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
-          editUrl: "https://gitee.com/monksoul/Furion/tree/main/handbook/",
+          editUrl: "https://gitee.com/monksoul/Furion/tree/master/handbook/",
         },
         blog: {
           showReadingTime: true,
-          editUrl: "https://gitee.com/monksoul/Furion/tree/main/handbook/",
+          editUrl: "https://gitee.com/monksoul/Furion/tree/master/handbook/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
