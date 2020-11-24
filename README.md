@@ -215,6 +215,7 @@ docker run --name furion -p 5000:80 furion:v1.1.0
 <a href="https://gitee.com/Executor-Cheng" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/2178/6536098_Executor-Cheng_1583720242.png!avatar200" height="40"/></a>
 <a href="https://gitee.com/luzjoyme" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/1838/5516692_luzjoyme_1605065396.png!avatar200" height="40"/></a>
 <a href="https://gitee.com/hgflydream" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/100/302533_hgflydream_1578919799.png!avatar200" height="40"/></a>
+<a href="https://gitee.com/kgsl" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/255/765748_kgsl_1606196628.png!avatar200" height="40"/></a>
 
 <p></p>
 
