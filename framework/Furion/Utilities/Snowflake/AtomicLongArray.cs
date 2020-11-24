@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Furion.DependencyInjection;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Furion.Utilities
@@ -6,6 +7,7 @@ namespace Furion.Utilities
     /// <summary>
     /// 线程安全的长整形数组
     /// </summary>
+    [SkipScan]
     public class AtomicLongArray
     {
         /// <summary>
