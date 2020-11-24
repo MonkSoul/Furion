@@ -1,70 +1,94 @@
-﻿using System;
+﻿using Furion.DependencyInjection;
+using System;
 
 namespace Furion.Utilities
 {
+    /// <summary>
+    /// 雪花算法
+    /// </summary>
+    [SkipScan]
     public class Snowflake
     {
         /// <summary>
         /// 机房标识位
         /// </summary>
         private const int DATACENTER_ID_BITS = 5;
+
         /// <summary>
         /// 机器标识位
         /// </summary>
         private const int WORKER_ID_BITS = 5;
+
         /// <summary>
         /// 序列号标识位
         /// </summary>
         private const int SEQUENCE_BITS = 12;
+
         /// <summary>
         /// 最大机房ID = 32
         /// </summary>
         private const int MAX_DATACENTER_ID = -1 ^ -1 << DATACENTER_ID_BITS;
+
         /// <summary>
         /// 最大机器ID = 32
         /// </summary>
         private const int MAX_WORKER_ID = -1 ^ -1 << WORKER_ID_BITS;
+
         /// <summary>
         /// 最大序列号 = 4096（单节点每毫秒可产生的最大ID数）
         /// </summary>
         private const int SEQUENCE_MASK = -1 ^ -1 << SEQUENCE_BITS;
+
         /// <summary>
         /// 机器ID左位移长度 = 12
         /// </summary>
         private const int WORKER_ID_SHIFT_COUNT = SEQUENCE_BITS;
+
         /// <summary>
         /// 机房ID左位移长度 = 17
         /// </summary>
         private const int DATACENTER_ID_SHIFT_COUNT = WORKER_ID_BITS + SEQUENCE_BITS;
+
         /// <summary>
         /// 时间戳左位移长度 = 22
         /// </summary>
         private const int TIMESTAMP_SHIFT_COUNT = DATACENTER_ID_BITS + WORKER_ID_BITS + SEQUENCE_BITS;
+
         /// <summary>
         /// 历史ID存储数组长度
         /// </summary>
         private const int CAPACITY = 1000;
+
         /// <summary>
         /// 历史ID存储数组，该数组为解决时钟回拨而设计，如果历史ID反推出的时间戳大于当前时间戳，说明发生了时钟回拨，此时采用历史ID+1的方式生成新ID，直到时间追赶至回拨前的时间点
         /// </summary>
-        private readonly AtomicLongArray _idCycle = new AtomicLongArray(CAPACITY);
+        private readonly AtomicLongArray _idCycle = new(CAPACITY);
+
         /// <summary>
         /// 基准时间
         /// </summary>
-        private readonly DateTime START_TIME = new DateTime(2020, 8, 1, 0, 0, 0, DateTimeKind.Utc);
+        private readonly DateTime START_TIME = new(2020, 8, 1, 0, 0, 0, DateTimeKind.Utc);
+
         /// <summary>
         /// 机房ID
         /// </summary>
         public long DataCenterId { get; private set; }
+
         /// <summary>
         /// 机器ID
         /// </summary>
         public long WorkerId { get; private set; }
+
         /// <summary>
         /// 当前时间戳 = 当前时间 - 基础时间
         /// </summary>
-        public long CurrentTimestamp { get => (long)(DateTime.UtcNow - START_TIME).TotalMilliseconds; }
+        public long CurrentTimestamp => (long)(DateTime.UtcNow - START_TIME).TotalMilliseconds;
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="dataCenterId"></param>
+        /// <param name="workerId"></param>
         public Snowflake(long dataCenterId, long workerId)
         {
             DataCenterId = dataCenterId;
@@ -77,11 +101,15 @@ namespace Furion.Utilities
                 throw new ArgumentException("WorkerId");
         }
 
+        /// <summary>
+        /// 获取雪花Id
+        /// </summary>
+        /// <returns></returns>
         public long GetId()
         {
             do
             {
-                var timestamp = this.CurrentTimestamp;
+                var timestamp = CurrentTimestamp;
 
                 // 计算槽位下标
                 var index = (int)(timestamp % CAPACITY);

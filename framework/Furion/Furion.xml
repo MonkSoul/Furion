@@ -21392,6 +21392,48 @@
             <param name="str2"></param>
             <returns></returns>
         </member>
+        <member name="T:Furion.Utilities.AtomicLongArray">
+            <summary>
+            线程安全的长整形数组
+            </summary>
+        </member>
+        <member name="F:Furion.Utilities.AtomicLongArray._value">
+            <summary>
+            长整形数组
+            </summary>
+        </member>
+        <member name="P:Furion.Utilities.AtomicLongArray.Value">
+            <summary>
+            获取一个只读的长整形数组集合
+            </summary>
+        </member>
+        <member name="P:Furion.Utilities.AtomicLongArray.Item(System.Int32)">
+            <summary>
+            获取数组下标的值
+            </summary>
+            <param name="index">数组下标</param>
+            <returns>数组下标的值</returns>
+        </member>
+        <member name="M:Furion.Utilities.AtomicLongArray.#ctor(System.Int32)">
+            <summary>
+            实例化一个线程安全的长整形数组
+            </summary>
+            <param name="capacity">数组的容量</param>
+        </member>
+        <member name="M:Furion.Utilities.AtomicLongArray.CompareAndSet(System.Int32,System.Int64,System.Int64)">
+            <summary>
+            替换数组中指定下标的值，如果下标的当前值与期望的值相等，则替换成功；不相等说明发生了并发冲突，则替换失败
+            </summary>
+            <param name="index">数组下标</param>
+            <param name="currentValue">期望的值</param>
+            <param name="newValue">新的值</param>
+            <returns>是否替换成功</returns>
+        </member>
+        <member name="T:Furion.Utilities.Snowflake">
+            <summary>
+            雪花算法
+            </summary>
+        </member>
         <member name="F:Furion.Utilities.Snowflake.DATACENTER_ID_BITS">
             <summary>
             机房标识位
@@ -21466,6 +21508,19 @@
             <summary>
             当前时间戳 = 当前时间 - 基础时间
             </summary>
+        </member>
+        <member name="M:Furion.Utilities.Snowflake.#ctor(System.Int64,System.Int64)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="dataCenterId"></param>
+            <param name="workerId"></param>
+        </member>
+        <member name="M:Furion.Utilities.Snowflake.GetId">
+            <summary>
+            获取雪花Id
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Furion.ViewEngine.IViewEngineCompilationOptionsBuilder">
             <summary>
