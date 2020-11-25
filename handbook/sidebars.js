@@ -6,8 +6,9 @@ module.exports = {
       items: ["introduce", "author", "source", "reference"],
     },
     {
-      type: "doc",
-      id: "get-start",
+      type: "category",
+      label: "2. 一分钟入门",
+      items: ["get-start", "template"],
     },
     {
       type: "doc",

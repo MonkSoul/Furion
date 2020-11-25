@@ -26,7 +26,8 @@ namespace Furion.Web.Entry
             return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.Inject()
+                    webBuilder
+                        .Inject()
                         .UseStartup<Startup>();
                 });
         }
@@ -228,12 +229,7 @@ namespace Furion.Web.Core
         {
             services.AddCorsAccessor();
 
-            services.AddSpecificationDocuments();
-            services.AddControllers()
-                       .AddDynamicApiControllers()
-                       .AddDataValidation()
-                       .AddFriendlyException()
-                       .AddUnifyResult<RESTfulResultProvider>();
+            services.AddControllers().AddInject();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -252,7 +248,7 @@ namespace Furion.Web.Core
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseSpecificationDocuments();
+            app.UseInject();
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,0 +1,61 @@
+---
+id: template
+title: 2.2 官方脚手架
+sidebar_label: 2.2 官方脚手架
+---
+
+## 2.2.1 脚手架
+
+`Furion` 官方提供了多种 `Web` 应用类型的脚手架，方便大家快速创建多层架构项目。目前支持以下应用脚手架：
+
+| 模板类型                                                                                                            | 名称                   | 版本   | 关键词       | 描述             |
+| ------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------ | ------------ | ---------------- |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Mvc/)    | Furion.Template.Mvc    | v1.1.0 | furionmvc    | Mvc 模板         |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Api/)    | Furion.Template.Api    | v1.1.0 | furionapi    | WebApi 模板      |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.App/)    | Furion.Template.App    | v1.1.0 | furionapp    | Mvc/WebApi 模板  |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Razor/)  | Furion.Template.Razor  | v1.1.0 | furionrazor  | Razar Pages 模板 |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Blazor/) | Furion.Template.Blazor | v1.1.0 | furionblazor | Blazor 模板      |
+
+## 2.2.2 安装脚手架
+
+打开 `CMD` 或 `Powershell` 执行模板安装命令：
+
+```bash
+dotnet new --install Furion.Template.Mvc::1.1.1
+```
+
+## 2.2.3 使用脚手架
+
+```bash
+dotnet new furionmvc -n 项目名称
+```
+
+这样就可以生成项目代码了，生成之后推荐将所有的 `nuget` 包更新到最新版本。
+
+:::important 特别提醒
+
+`furionmvc` 对应的是上面列表的 `关键字`。
+
+我们也可以通过 `dotnet new --list` 查看
+
+:::
+
+## 2.2.4 脚手架更新
+
+只需要重新安装最新版替换即可。
+
+## 2.2.5 反馈与建议
+
+:::note 与我们交流
+
+给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
+
+:::
+
+---
+
+:::note 了解更多
+
+想了解更多 `模板知识` 知识可查阅 [dotnet-new 模板](https://docs.microsoft.com/zh-cn/dotnet/core/tools/dotnet-new) 章节。
+
+:::

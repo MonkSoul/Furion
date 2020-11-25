@@ -53,10 +53,10 @@ public async Task<List<PersonDto>> GetAll([FromServices] Isql, string keyword)
 }
 ```
 
-### 9.17.3.3 `App.GetSqlDispatchProxy<ISql>()`
+### 9.17.3.3 `Db.GetSqlDispatchProxy<ISql>()`
 
 ```cs
-var sql = App.GetSqlDispatchProxy<ISql>();
+var sql = Db.GetSqlDispatchProxy<ISql>();
 ```
 
 ## 9.17.4 `Sql` 操作
