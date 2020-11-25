@@ -358,7 +358,7 @@ public class AppInfoSettings : IConfigurableOptions
   <TabItem value="has-optionsettings">
 
 
-- 配置了 `JsonKey` 属性，，则键名为：`AppSettings:AppInfo`
+- 配置了 `JsonKey` 属性，则键名为：`AppSettings:AppInfo`
 
 ```cs {1}
 [OptionsSettings("AppSettings:AppInfo")]
@@ -538,7 +538,7 @@ namespace Furion.Application
 
 选项后期配置通俗一点来说，可以在运行时解析值或设定默认值/后期配置等。
 
-在 `Furion` 框架中，配置选项后期配置很简单，只需要继承 `IConfigurableOptions<TOptions` 接口并实现 `PostConfigure(TOptions options)` 方法。
+在 `Furion` 框架中，配置选项后期配置很简单，只需要继承 `IConfigurableOptions<TOptions>` 接口并实现 `PostConfigure(TOptions options)` 方法。
 
 ```cs {7,16-21}
 using Furion.ConfigurableOptions;
