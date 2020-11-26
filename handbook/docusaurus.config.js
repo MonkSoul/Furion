@@ -30,7 +30,7 @@ module.exports = {
           position: "left",
         },
         { to: "blog", label: "博客", position: "left" },
-        { label: "社区", position: "left", href: "https://chinadot.net" },
+        { label: "社区", position: "left", href: "https://www.chinadot.net" },
         {
           label: "视频",
           position: "right",
