@@ -19495,6 +19495,11 @@
             代理类型，必须继承 DispatchProxy、IDispatchProxy
             </summary>
         </member>
+        <member name="T:Furion.DependencyInjection.SkipProxyAttribute">
+            <summary>
+            跳过全局代理
+            </summary>
+        </member>
         <member name="T:Furion.DependencyInjection.SkipScanAttribute">
             <summary>
             不被扫描和发现的特性
@@ -22695,13 +22700,6 @@
             <param name="services"></param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.AppServiceCollectionExtensions.AddHostInject(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            非 Web 主机注入基础配置
-            </summary>
-            <param name="services"></param>
-            <returns></returns>
-        </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.AppServiceCollectionExtensions.AddApp(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Microsoft.Extensions.DependencyInjection.IServiceCollection})">
             <summary>
             添加应用配置
@@ -23020,6 +23018,18 @@
             <summary>
             依赖注入拓展类
             </summary>
+        </member>
+        <member name="F:Microsoft.Extensions.DependencyInjection.DependencyInjectionServiceCollectionExtensions.GlobalServiceProxyType">
+            <summary>
+            全局服务代理类型
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.DependencyInjectionServiceCollectionExtensions.AddServiceProxy``1(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加服务代理
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.DependencyInjectionServiceCollectionExtensions.AddDependencyInjection(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>

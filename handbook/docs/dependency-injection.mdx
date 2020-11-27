@@ -639,7 +639,23 @@ public class TestService: ITestService, ITransient
 
 之后 `SayHello` 方法被调用的时候就可以实现动态拦截了，比如这里写日志。
 
-### 11.12.1 `AOP` 的作用
+### 11.12.1 `全局Aop拦截`
+
+`Furion` 框架也提供了全局拦截的方式，只需要在 `Startup.cs` 中注册即可：
+
+```cs
+service.AddServiceProxy<LogDispatchProxy>();
+```
+
+这样就会拦截所有的 `Service`，当然也可以通过给特定类贴 `[SkipProxy]` 跳过全局拦截操作。
+
+:::important 拦截优先级
+
+`[SkipProxy]` > `[Injection(Proxy = typeof(LogDispatchProxy))]` > `全局拦截`。
+
+:::
+
+### 11.12.2 `AOP` 的作用
 
 这种面向切面的能力（动态拦截/代理）可以实现很多很多功能，如：
 
