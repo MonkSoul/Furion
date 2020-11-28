@@ -254,7 +254,7 @@ namespace Furion.DatabaseAccessor
                     if (OnChangeMethod == null) continue;
 
                     var instance = Activator.CreateInstance(entityChangedType);
-                    OnChangeMethod.Invoke(instance, new object[] { entity.Entity, dbContext, typeof(TDbContextLocator) });
+                    OnChangeMethod.Invoke(instance, new object[] { entity.Entity, dbContext, typeof(TDbContextLocator), entity.State });
                 }
             }
         }
