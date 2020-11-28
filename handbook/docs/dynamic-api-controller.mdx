@@ -8,6 +8,12 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
+:::tip 小知识
+
+`动态WebAPI` 实际上就是将普通的类变为 `Controller`，也就是 `动态WebAPI` 就是控制器，支持控制器一切功能。
+
+:::
+
 ## 5.1 什么是控制器
 
 简单来说，控制器是一个承上启下的作用，根据用户输入，执行响应行为（动作方法），同时在行为中调用模型的业务逻辑，返回给用户结果（视图）。
@@ -30,7 +36,6 @@ import TabItem from "@theme/TabItem";
 >
   <TabItem value="mvc">
 
-
 ```cs {1,5,7}
 using Microsoft.AspNetCore.Mvc;
 
@@ -48,7 +53,6 @@ namespace Furion.Web.Entry.Controllers
 
   </TabItem>
   <TabItem value="webapi">
-
 
 ```cs {1,5,6,8,9}
 using Microsoft.AspNetCore.Mvc;
@@ -69,7 +73,6 @@ namespace Furion.Web.Entry.Controllers
 
   </TabItem>
 </Tabs>
-
 
 `Mvc` 控制器和 `WebAPI` 控制器最大的区别是 `WebAPI` 控制器不带 **视图** 和通过 **请求谓词和路由地址响应行为**。
 
@@ -394,7 +397,6 @@ namespace Furion.Application
 >
   <TabItem value="fromquery">
 
-
 ```cs {2,8}
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
@@ -414,7 +416,6 @@ namespace Furion.Application
   </TabItem>
   <TabItem value="DynamicApiControllerSettings">
 
-
 ```json {2-4} title="Furion.Web.Entry/appsettings.json"
 {
   "DynamicApiControllerSettings": {
@@ -425,7 +426,6 @@ namespace Furion.Application
 
   </TabItem>
 </Tabs>
-
 
 如下图所示：
 
@@ -551,7 +551,6 @@ namespace Furion.Application
 >
   <TabItem value="kzqrl">
 
-
 ```cs {2,6}
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
@@ -576,7 +575,6 @@ namespace Furion.Application
   </TabItem>
   <TabItem value="dzffrl">
 
-
 ```cs {2,8}
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
@@ -600,7 +598,6 @@ namespace Furion.Application
 
   </TabItem>
   <TabItem value="allrl">
-
 
 ```cs {2,6,9}
 using Furion.DynamicApiController;
@@ -627,7 +624,6 @@ namespace Furion.Application
   </TabItem>
   <TabItem value="vcrl">
 
-
 ```cs {9}
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
@@ -652,7 +648,6 @@ namespace Furion.Application
 
   </TabItem>
 </Tabs>
-
 
 :::important 小提示
 
@@ -714,7 +709,6 @@ namespace Furion.Application
 >
   <TabItem value="kzqbb">
 
-
 ```cs {5,13,21}
 using Furion.DynamicApiController;
 
@@ -753,7 +747,6 @@ namespace Furion.Application
   </TabItem>
   <TabItem value="dzffbb">
 
-
 ```cs {7,12,16}
 using Furion.DynamicApiController;
 
@@ -784,7 +777,6 @@ namespace Furion.Application
 
   </TabItem>
 </Tabs>
-
 
 :::note 版本生成原理
 
@@ -1067,7 +1059,6 @@ namespace Furion.Application
 >
   <TabItem value="tag1">
 
-
 #### 未贴标签之前
 
 ```cs
@@ -1147,7 +1138,6 @@ namespace Furion.Application
   </TabItem>
   <TabItem value="tag2">
 
-
 ```cs {5,19}
 using Furion.DynamicApiController;
 
@@ -1190,7 +1180,6 @@ namespace Furion.Application
   </TabItem>
 </Tabs>
 
-
 :::tip 小知识
 
 如果 `Tag` 名字一样，则会自动合并，否则只是命名。
@@ -1206,7 +1195,7 @@ namespace Furion.Application
 - `DefaultModule`：默认模块名称（区域），可用作接口版本，`string`，默认：`v1`
 - `LowercaseRoute`：小写路由格式，`bool`，默认：`true`
 - `KeepVerb`：是否保留动作谓词，`bool`，默认：`false`
-- `KeepName`：是非保留默认名称，`bool`，默认：`fasle`
+- `KeepName`：是否保留默认名称，`bool`，默认：`fasle`
 - `CamelCaseSeparator`：骆驼命名分隔符，`string`，默认：`-`
 - `VersionSeparator`：版本分隔符，`string`，默认：`@`
 - `ModelToQuery`：`GET/HEAD` 请求将 `类类型参数转查询参数`，`bool`，默认 `false`
@@ -1259,7 +1248,21 @@ namespace Furion.Web.Entry.Controllers
 
 :::
 
-## 5.11 反馈与建议
+## 5.11 关于 AOP 拦截
+
+`动态WebAPI` 支持 `Controller` 的所有过滤器/筛选器拦截，也就是可以通过 `ActionFilter`，`ResultFilter` 进行拦截操作。如：
+
+```cs {1,3}
+public class SampleAsyncActionFilter : IAsyncActionFilter
+{
+    public async Task OnActionExecutionAsync(ActionExecutingContext context,ActionExecutionDelegate next)
+    {
+        var resultContext = await next();
+    }
+}
+```
+
+## 5.12 反馈与建议
 
 :::note 与我们交流
 

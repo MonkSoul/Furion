@@ -8,13 +8,13 @@ sidebar_label: 2.2 官方脚手架
 
 `Furion` 官方提供了多种 `Web` 应用类型的脚手架，方便大家快速创建多层架构项目。目前支持以下应用脚手架：
 
-| 模板类型                                                                                                            | 名称                   | 版本   | 关键词       | 描述             |
-| ------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------ | ------------ | ---------------- |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Mvc/)    | Furion.Template.Mvc    | v1.1.0 | furionmvc    | Mvc 模板         |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Api/)    | Furion.Template.Api    | v1.1.0 | furionapi    | WebApi 模板      |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.App/)    | Furion.Template.App    | v1.1.0 | furionapp    | Mvc/WebApi 模板  |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Razor/)  | Furion.Template.Razor  | v1.1.0 | furionrazor  | Razar Pages 模板 |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Blazor/) | Furion.Template.Blazor | v1.1.0 | furionblazor | Blazor 模板      |
+| 模板类型                                                                                                            | 名称                   | 版本   | 关键词              | 描述             |
+| ------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------ | ------------------- | ---------------- |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Mvc/)    | Furion.Template.Mvc    | v1.1.0 | 👉 **furionmvc**    | Mvc 模板         |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Api/)    | Furion.Template.Api    | v1.1.0 | 👉 **furionapi**    | WebApi 模板      |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.App/)    | Furion.Template.App    | v1.1.0 | 👉 **furionapp**    | Mvc/WebApi 模板  |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Razor/)  | Furion.Template.Razor  | v1.1.0 | 👉 **furionrazor**  | Razar Pages 模板 |
+| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Blazor/) | Furion.Template.Blazor | v1.1.0 | 👉 **furionblazor** | Blazor 模板      |
 
 ## 2.2.2 安装脚手架
 
@@ -34,15 +34,21 @@ dotnet new furionmvc -n 项目名称
 
 :::important 特别提醒
 
-`furionmvc` 对应的是上面列表的 `关键字`。
+`furionmvc` 对应的是上面列表的 `关键字`，我们也可以通过 `dotnet new --list` 查看。
 
-我们也可以通过 `dotnet new --list` 查看
+想了解更多可以使用 `dotnet new 关键字 --help` 查看更多参数。
 
 :::
 
 ## 2.2.4 脚手架更新
 
-只需要重新安装最新版替换即可。
+只需要重新安装最新版替换即可，如：
+
+```bash
+dotnet new --install Furion.Template.Mvc::1.x.x
+```
+
+不带版本号总是安装最新的版本。
 
 ## 2.2.5 反馈与建议
 

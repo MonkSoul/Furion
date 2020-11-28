@@ -28,13 +28,13 @@ var dataTable = "select * from person".SqlQuery();
 var dataTable = "select top 10 * from person where id > @id".SqlQuery(new {id = 10});
 
 // 示例三
-var dataTable = "select Id, Name, Age from person where name like %@name%".SqlQuery(new Dictionary<string,object>{ {"name", "Furion"} });
+var dataTable = "select Id, Name, Age from person where name like @name".SqlQuery(new Dictionary<string,object>{ {"name", "%Furion%"} });
 
 // 示例四
 var dataTable = "select * from person where name=@name limit 1,10".SqlQuery(new []{ new MySqlParameter("name","Furion") });
 
 // 示例五
-var dataTable = "select * from person where id>@id and name like %@name%".SqlQuery(new YourModel { Id = 1, Name = "Furion" });
+var dataTable = "select * from person where id>@id and name like @name".SqlQuery(new YourModel { Id = 1, Name = "%Furion%" });
 
 // 示例六
 var dataTable = "exec PROC_GetPerson @id".SqlQuery(new {id = 10});

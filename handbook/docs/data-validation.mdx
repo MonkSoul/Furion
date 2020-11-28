@@ -240,7 +240,6 @@ namespace Furion.Web.Core
 >
   <TabItem value="testdto">
 
-
 ```cs {1,7,10}
 using System.ComponentModel.DataAnnotations;
 
@@ -259,7 +258,6 @@ namespace Furion.Application
 
   </TabItem>
   <TabItem value="furAppService">
-
 
 ```cs {12,22}
 using Furion.DynamicApiController;
@@ -293,7 +291,6 @@ namespace Furion.Application
 
   </TabItem>
 </Tabs>
-
 
 如下图所示：
 
@@ -364,7 +361,11 @@ namespace Furion.Application
 
 :::
 
-### 8.7.2 `ValidationTypes` 常见验证
+### 8.7.2 `TryValidate` 和 `Validate`
+
+`Furion` 提供了 `TryValidate()` 和 `Validate()` 两个验证拓展方法，唯一的区别就是后者验证失败将自动抛出异常消息。
+
+### 8.7.3 `ValidationTypes` 常见验证
 
 `Furion` 内置了很多常用类型的数据验证，包括：
 
@@ -412,7 +413,6 @@ namespace Furion.Application
 >
 <TabItem value="dglx">
 
-
 ```cs
 // 验证必填
 "".TryValidate(ValidationTypes.Required);   // => false
@@ -439,7 +439,6 @@ true.TryValidate(ValidationTypes.Integer); // => false
 </TabItem>
 <TabItem value="zhlx">
 
-
 ```cs
 // 验证数值类型且是整数
 "20".TryValidate(ValidationTypes.Numeric, ValidationTypes.Integer); // => true
@@ -453,14 +452,13 @@ true.TryValidate(ValidationTypes.Integer); // => false
 </TabItem>
 </Tabs>
 
-
 :::tip 小知识
 
 可通过设置 `TryValidate([ValidationOptions], params object[] validationTypes)` 方法的 `ValidationOptions` 参数配置验证逻辑，如：**`同时成立`** 或 **`只要一个成立`** 即可验证通过
 
 :::
 
-### 8.7.3 `[DataValidation]` 特性
+### 8.7.4 `[DataValidation]` 特性
 
 `Furion` 还提供了 `[DataValidation]` 特性方便在模型参数中使用 `ValidationTypes` 常见验证或自定义验证。
 
@@ -775,11 +773,7 @@ namespace Furion.Web.Entry.Controllers
 
 <img src={useBaseUrl("img/sjyz5.png")} />
 
-## 8.10 多语言支持
-
-文档整理中...
-
-## 8.11 验证模型提供器
+## 8.11 多语言支持
 
 文档整理中...
 

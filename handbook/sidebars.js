@@ -66,6 +66,7 @@ module.exports = {
         "tran",
         "dbcontext-read-write",
         "split-db",
+        "dbcontext-entitytrigger",
       ],
     },
     {

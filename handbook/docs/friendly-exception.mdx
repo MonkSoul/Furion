@@ -271,12 +271,13 @@ namespace Furion.Application
 
 ### 7.6.4 更多例子
 
-```cs
+```cs {6}
 throw Oops.Oh(1000);
 throw Oops.Oh(ErrorCodes.x1000);
 throw Oops.Oh("哈哈哈哈");
 throw Oops.Oh(errorCode: "x1001");
 throw Oops.Oh(1000, typeof(Exception));
+throw Oops.Oh(1000).StatusCode(400);    // 设置错误码
 ```
 
 ## 7.7 多个异常信息类型
@@ -418,7 +419,7 @@ namespace Furion.Application
 
 :::caution 特别注意
 
-`[IfException]` 只能贴在方法上，支持多个，而且该方法所在的类类型必须是 `ControllerBase` 子类 或 实现 `IDynamicApiController` 接口。
+`[IfException]` 只能贴在方法上，支持多个。
 
 :::
 
@@ -473,6 +474,8 @@ namespace Furion.Application
 {
     public class FurAppService : IDynamicApiController
     {
+        [IfException(typeof(ExceptionType), ErrorMessage = "特定异常类型全局拦截")]
+        [IfException(ErrorMessage = "全局异常拦截")]
         [IfException(ErrorCodes.z1000, ErrorMessage = "我覆盖了默认的：{0} 不能小于 {1}")]
         [IfException(ErrorCodes.x1001, "格式化参数1", "格式化参数2", ErrorMessage = "我覆盖了默认的：{0} 不能小于 {1}")]
         [IfException(ErrorCodes.x1000, "格式化参数1", "格式化参数2")]
@@ -616,7 +619,23 @@ namespace Furion.Application
 }
 ```
 
-## 7.15 反馈与建议
+## 7.15 `FriendlyExceptionSettings` 配置
+
+- `HideErrorCode`：隐藏错误码，`bool` 类型，默认 `false`
+- `DefaultErrorCode`：默认错误码，`string` 类型
+- `DefaultErrorMessage`：默认错误消息，`string` 类型
+
+配置示例
+
+```json
+{
+  "FriendlyExceptionSettings": {
+    "DefaultErrorMessage": "系统异常，请联系管理员"
+  }
+}
+```
+
+## 7.16 反馈与建议
 
 :::note 与我们交流
 

@@ -177,17 +177,7 @@ namespace Furion.EntityFramework.Core
 
 `AppStartup` 方法调用顺序和方法的书写先后有关，越在前面的方法越先调用。
 
-## 3.3 框架默认 `AppStartup` 实现
-
-`Furion` 框架默认在每一个项目层中都创建了一个 `AppStartup` 派生类，方便大家配置。如：
-
-- `FurStartup.cs`：`Furion` 框架核心启动类（通常无需配置）
-- `FurApplicationStartup.cs`：业务服务启动类
-- `FurCoreStartup.cs`：应用核心功能启动类
-- `FurEntityFrameworkCoreStartup.cs`：数据库相关启动类
-- `FurWebCoreStartup.cs`：`Web` 核心启动配置类
-
-## 3.4 `Startup` 配置最佳实践
+## 3.3 `Startup` 配置最佳实践
 
 建议 `Web` 启动层的 `Startup.cs` 保持为空方法体，如：
 
@@ -211,10 +201,9 @@ namespace Furion.Web.Entry
 }
 ```
 
-将所有 `Web 应用层` 配置迁移到 `FurWebCoreStartup.cs` 中，如：
+将所有 `Web 应用层` 配置迁移到 `Furion.Web.Core.Startup.cs` 中，如：
 
-```cs title="Furion.Web.Core\FurWebCoreStartup.cs"
-using Furion.UnifyResult;
+```cs title="Furion.Web.Core\Startup.cs"
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -261,13 +250,11 @@ namespace Furion.Web.Core
 
 这样，后续更换 `Web 应用层` 也无需重新配置 `Startup.cs`
 
-## 3.5 关于 `appsettings.json`
+## 3.4 关于 `appsettings.json`
 
 在默认情况下，`ASP.NET Core` 配置放在 `appsettings.json` 中配置，但是这样的方式和 `Startup.cs` 配置一样的道理，一旦我们更换了 `Web 应用层`，那么 `appsettings.json` 又要重新配置一次。
 
-所以，`Furion` 框架提供了更加灵活的方式配置 `appsettings.json`，**只需要在任何项目层根目录下创建 `.json` 文件即可**
-
-**`Furion` 框架最后会自动合并所有分散的配置文件。**
+所以，`Furion` 框架提供了更加灵活的方式配置 `appsettings.json`，**只需要在任何项目层根目录下创建 `.json` 文件即可。`Furion` 框架最后会自动合并所有分散的配置文件。**
 
 如我们在 `Furion.EntityFramework.Core` 层创建 `dbsettings.json` 配置数据库连接字符串，如：
 
@@ -298,7 +285,15 @@ namespace Furion.Web.Core
 
 这样我们把配置文件分散在不同项目层之后，就可以实现共用和共享了。
 
-## 3.6 神奇的 `Inject()`
+:::caution 特别注意
+
+其他层的配置文件不能以 `appsettings.json` 命名，会导致覆盖启动层的配置。
+
+另外，在其他层创建的 `*.json` 文件必须设置文件属性为 `始终复制或较新复制`。
+
+:::
+
+## 3.5 神奇的 `Inject()`
 
 `Inject()` 方法是 `Furion` 框架提供的最小侵入式的方法，可以让任何 `ASP.NET Core` Web 项目瞬间支持所有 `Furion` 框架特性。
 
@@ -306,7 +301,7 @@ namespace Furion.Web.Core
 
 - 添加 `Furion.Web.Core` 项目引用
 - 在 `Program.cs` 中调用即可
-- 将 `Startup.cs` 代码迁移到 `Furion.Web.Core` 项目的 `FurWebCoreStartup.cs` 中
+- 将 `Startup.cs` 代码迁移到 `Furion.Web.Core` 项目的 `Startup.cs` 中
 
 如：
 
@@ -358,13 +353,13 @@ namespace Furion.Web.Entry
 
 :::important `Startup.cs` 代码迁移
 
-只需要将 `ConfigureServices` 和 `Configure` 方法代码迁移到 `FurWebCoreStartup.cs` 中即可，而 `Startup.cs` 中两个方法留空即可。
+只需要将 `ConfigureServices` 和 `Configure` 方法代码迁移到 `Furion.Web.Core.Startup.cs` 中即可，而 `Startup.cs` 中两个方法留空即可。
 
 :::
 
 非常简单吧。我们后续创建任何 `MVC`，`RazorPages`，`Blazor` 项目只需要添加 `Furion.Web.Core` 引用和调用 `Inject()` 即可。
 
-## 3.7 反馈与建议
+## 3.6 反馈与建议
 
 :::note 与我们交流
 

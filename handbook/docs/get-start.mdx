@@ -6,7 +6,9 @@ sidebar_label: 2.1 一分钟入门
 
 :::tip 推荐使用脚手架
 
-`Furion` 官方提供了非常灵活方便的脚手架，可以快速的创建多层架构项目。推荐使用 《[2.2 官方脚手架](template.mdx)》代替本章节功能。
+`Furion` 官方提供了非常灵活方便的脚手架，可以快速的创建多层架构项目。
+
+推荐使用 《[2.2 官方脚手架](template.mdx)》代替本章节功能。
 
 :::
 
@@ -63,7 +65,7 @@ namespace FurStart
 
 ### 2.3.2 在 `Startup.cs` 中添加两个 `Inject()`
 
-```cs {20,36}
+```cs {20,37}
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -99,7 +101,8 @@ namespace FurStart
 
             app.UseAuthorization();
 
-            app.UseInject(string.Empty); // 添加这一行，如果是 MVC和API共存项目，无需添加 string.Empty
+            // 添加这一行，如果是 MVC和API共存项目，无需添加 string.Empty
+            app.UseInject(string.Empty);
 
             app.UseEndpoints(endpoints =>
             {
@@ -109,6 +112,12 @@ namespace FurStart
     }
 }
 ```
+
+:::important 小提醒
+
+如果 `app.UseInject()` 不输入参数，则默认地址为 `/api`，如果输入 `string.Empty` 则为 `/` 目录。
+
+:::
 
 ## 2.4 启动浏览器
 
