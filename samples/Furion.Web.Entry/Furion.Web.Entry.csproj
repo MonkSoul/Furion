@@ -8,11 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Furion.Web.Entry.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Furion.db" />
   </ItemGroup>
 
   <ItemGroup>
