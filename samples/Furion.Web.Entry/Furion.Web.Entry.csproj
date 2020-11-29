@@ -8,7 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Furion.db" />
+    <Content Include="Furion.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
