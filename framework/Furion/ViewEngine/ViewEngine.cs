@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-// reference：https://github.com/adoconnection/RazorEngineCore
 namespace Furion.ViewEngine
 {
     /// <summary>
