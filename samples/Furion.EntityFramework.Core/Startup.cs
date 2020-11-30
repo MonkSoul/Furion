@@ -1,5 +1,4 @@
-﻿using Furion.DatabaseAccessor;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Furion.EntityFramework.Core
 {
@@ -10,7 +9,7 @@ namespace Furion.EntityFramework.Core
         {
             services.AddDatabaseAccessor(options =>
             {
-                options.AddDbPool<DefaultDbContext>(DbProvider.Sqlite);
+                options.AddDbPool<DefaultDbContext>();
             });
         }
     }

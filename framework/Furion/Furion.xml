@@ -881,9 +881,21 @@
             </summary>
             <param name="connectionString"></param>
         </member>
+        <member name="M:Furion.DatabaseAccessor.AppDbContextAttribute.#ctor(System.String,System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="connectionString"></param>
+            <param name="providerName"></param>
+        </member>
         <member name="P:Furion.DatabaseAccessor.AppDbContextAttribute.ConnectionString">
             <summary>
             数据库连接字符串
+            </summary>
+        </member>
+        <member name="P:Furion.DatabaseAccessor.AppDbContextAttribute.ProviderName">
+            <summary>
+            数据库提供器名称
             </summary>
         </member>
         <member name="P:Furion.DatabaseAccessor.AppDbContextAttribute.TablePrefix">
@@ -7860,12 +7872,24 @@
             构造函数
             </summary>
         </member>
-        <member name="M:Furion.DatabaseAccessor.DbProvider.GetDbContextConnectionString``1(System.String)">
+        <member name="M:Furion.DatabaseAccessor.DbProvider.GetConnectionString``1(System.String)">
             <summary>
             获取数据库上下文连接字符串
             </summary>
             <typeparam name="TDbContext"></typeparam>
             <param name="connectionString"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Furion.DatabaseAccessor.DbProvider.DbContextAppDbContextAttributes">
+            <summary>
+            数据库上下文 [AppDbContext] 特性缓存
+            </summary>
+        </member>
+        <member name="M:Furion.DatabaseAccessor.DbProvider.GetAppDbContextAttribute``1">
+            <summary>
+            获取数据库上下文 [AppDbContext] 特性
+            </summary>
+            <typeparam name="TDbContext"></typeparam>
             <returns></returns>
         </member>
         <member name="F:Furion.DatabaseAccessor.DbProvider.NotSupportException">
@@ -23093,10 +23117,11 @@
             <param name="interceptors">拦截器</param>
             <returns>服务集合</returns>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.DatabaseProviderServiceCollectionExtensions.ConfigureDatabase(System.String,System.String,Microsoft.EntityFrameworkCore.DbContextOptionsBuilder,System.Boolean)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.DatabaseProviderServiceCollectionExtensions.ConfigureDatabase``1(System.String,System.String,Microsoft.EntityFrameworkCore.DbContextOptionsBuilder,System.Boolean)">
             <summary>
             配置数据库
             </summary>
+            <typeparam name="TDbContext"></typeparam>
             <param name="providerName">数据库提供器</param>
             <param name="connectionString">数据库连接字符串</param>
             <param name="options">数据库上下文选项构建器</param>
