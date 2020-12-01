@@ -19875,6 +19875,13 @@
             对象拓展类
             </summary>
         </member>
+        <member name="M:Furion.Extensions.ObjectExtensions.ConvertToDateTime(System.DateTimeOffset)">
+            <summary>
+            将 DateTimeOffset 转换成 DateTime
+            </summary>
+            <param name="dateTime"></param>
+            <returns></returns>
+        </member>
         <member name="M:Furion.Extensions.ObjectExtensions.IsRichPrimitive(System.Type)">
             <summary>
             判断是否是富基元类型
@@ -21633,6 +21640,29 @@
             <summary>
             是否启用属性大写操作
             </summary>
+        </member>
+        <member name="M:Furion.Utilities.JsonSerializerUtility.Serialize(System.Object,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            序列化对象
+            </summary>
+            <param name="obj"></param>
+            <param name="jsonSerializerOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Utilities.JsonSerializerUtility.Deserialize``1(System.String,System.Text.Json.JsonSerializerOptions)">
+            <summary>
+            反序列化对象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="json"></param>
+            <param name="jsonSerializerOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Utilities.JsonSerializerUtility.GetDefaultJsonSerializerOptions">
+            <summary>
+            获取默认 JSON 序列化选项
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Furion.Utilities.AtomicLongArray">
             <summary>
@@ -23549,13 +23579,6 @@
             <summary>
             Mvc 拓展类
             </summary>
-        </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.MvcBuilderServiceCollectionExtensions.AddBaseJsonOptions(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
-            <summary>
-            添加 JsonSerializer 序列化
-            </summary>
-            <param name="mvcBuilder">Mvc构建器</param>
-            <returns>Mvc构建器</returns>
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.MvcBuilderServiceCollectionExtensions.AddJsonSerializerPascalPropertyNaming(Microsoft.Extensions.DependencyInjection.IMvcBuilder)">
             <summary>

@@ -1,9 +1,8 @@
 ﻿using Furion.DependencyInjection;
 using Furion.FriendlyException;
+using Furion.Utilities;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text.Encodings.Web;
-using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace Furion.DataValidation
@@ -119,7 +118,7 @@ namespace Furion.DataValidation
         public static void AddError(this DataValidationResult dataValidationResult)
         {
             if (!dataValidationResult.IsValid)
-                throw Oops.Oh("[Validation]" + JsonSerializer.Serialize(
+                throw Oops.Oh("[Validation]" + JsonSerializerUtility.Serialize(
                     dataValidationResult.ValidationResults
                     .Select(u => new
                     {
@@ -128,11 +127,7 @@ namespace Furion.DataValidation
                     })
                     .OrderBy(u => u.MemberNames.First())
                     .GroupBy(u => u.MemberNames.First())
-                    .ToDictionary(u => u.Key, u => u.Select(c => c.ErrorMessage)), new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true,
-                        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                    }));
+                    .ToDictionary(u => u.Key, u => u.Select(c => c.ErrorMessage))));
         }
     }
 }
