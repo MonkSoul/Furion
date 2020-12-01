@@ -63,10 +63,10 @@ module.exports = {
         "dbcontext-audit",
         "dbcontext-filter",
         "dbcontext-Interceptor",
+        "dbcontext-entitytrigger",
         "tran",
         "dbcontext-read-write",
         "split-db",
-        "dbcontext-entitytrigger",
       ],
     },
     {

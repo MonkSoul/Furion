@@ -1,23 +1,23 @@
 ---
 id: dbcontext-entitytrigger
-title: 9.28. 实体数据监听器
-sidebar_label: 9.28. 实体数据监听器
+title: 9.25. 实体数据监听器
+sidebar_label: 9.25. 实体数据监听器
 ---
 
-## 9.28.1 实体数据监听器
+## 9.25.1 实体数据监听器
 
 在最新的 `Furion` 的 `1.1.6+` 版本中，新增了 `IEntityChangedListener` 实体数据监听接口，可以监听 `EFCore` 任何实体表 `增删改` 操作。
 
-## 9.28.2 有何作用
+## 9.25.2 有何作用
 
 - 类似数据库 `触发器` 功能，可实现 `增删改` 监听
 - 可以实现特殊操作，比如刷新缓存，记录日志等
 
-## 9.28.3 如何使用
+## 9.25.3 如何使用
 
 在 `Furion` 框架中，默认不启用实体数据监听器，如想启用，只需要在 `数据库上下文` 构造函数中启用即可：
 
-### 9.28.3.1 启用数据监听
+### 9.25.3.1 启用数据监听
 
 ```cs {11}
 using Furion.DatabaseAccessor;
@@ -36,7 +36,7 @@ namespace Furion.EntityFramework.Core
 }
 ```
 
-### 9.28.3.2 监听特定实体数据
+### 9.25.3.2 监听特定实体数据
 
 ```cs {9,30-41}
 using Furion.DatabaseAccessor;
@@ -84,7 +84,7 @@ namespace Furion.Core
 }
 ```
 
-## 9.28.4 `IEntityChangedListener` 定义
+## 9.25.4 `IEntityChangedListener` 定义
 
 ```cs
 /// <summary>

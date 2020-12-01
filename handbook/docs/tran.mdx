@@ -1,14 +1,14 @@
 ---
 id: tran
-title: 9.25 事务和工作单元
-sidebar_label: 9.25 事务和工作单元
+title: 9.26 事务和工作单元
+sidebar_label: 9.26 事务和工作单元
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-## 9.25.1 事务
+## 9.26.1 事务
 
 事务指作为单个逻辑工作单元执行的一系列操作，要么**完全地执行，要么完全地不执行**。
 
@@ -21,19 +21,19 @@ import TabItem from "@theme/TabItem";
 
 **默认情况下，`Furion` 框架为每一次请求都开启了分布式事务，保证了每一次请求都是一个完整的 `工作单元`**。当然，我们也可以手动管理事务。
 
-## 9.25.2 工作单元
+## 9.26.2 工作单元
 
 简单来说，就是为了保证一次完整的功能操作所产生的一些列提交数据的完整性，起着事务的作用。在计算机领域中，工作单元通常用 `UnitOfWork` 名称表示。
 
 通常我们保证用户的每一次请求都是处于在一个功能单元中，也就是工作单元。
 
-## 9.25.3 如何使用
+## 9.26.3 如何使用
 
-### 9.25.3.1 自动管理
+### 9.26.3.1 自动管理
 
 在 `Furion` 框架中，我们只需要在控制器 Action 中贴 `[UnitOfWork]` 特性即可开启工作单元模式，保证了每一次请求都是一个 `工作单元`，要么同时成功，要么同时失败。
 
-### 9.25.3.2 手动管理
+### 9.26.3.2 手动管理
 
 <Tabs
   defaultValue="one"
@@ -165,9 +165,9 @@ using (var scope = new TransactionScope(
   </TabItem>
 </Tabs>
 
-## 9.25.4 工作单元特性说明
+## 9.26.4 工作单元特性说明
 
-### 9.25.4.1 `[UnitOfWork]`
+### 9.26.4.1 `[UnitOfWork]`
 
 `[UnitOfWork]` 特性用来标记事务信息，如作用范围，隔离级别等。
 
@@ -182,7 +182,7 @@ using (var scope = new TransactionScope(
 
 :::
 
-## 9.25.5 反馈与建议
+## 9.26.5 反馈与建议
 
 :::note 与我们交流
 
