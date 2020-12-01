@@ -133,6 +133,8 @@ namespace Furion.DatabaseAccessor
                     App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
                 }
             }
+
+            _dbContextPool.CloseAll();
         }
     }
 }

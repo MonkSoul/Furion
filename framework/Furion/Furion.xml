@@ -8131,6 +8131,11 @@
             数据库上下文池
             </summary>
         </member>
+        <member name="F:Furion.DatabaseAccessor.DbContextPool.InjectMiniProfiler">
+            <summary>
+            MiniProfiler 组件状态
+            </summary>
+        </member>
         <member name="M:Furion.DatabaseAccessor.DbContextPool.#ctor">
             <summary>
             构造函数
@@ -8204,6 +8209,11 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
+        <member name="M:Furion.DatabaseAccessor.DbContextPool.CloseAll">
+            <summary>
+            关闭所有数据库链接
+            </summary>
+        </member>
         <member name="T:Furion.DatabaseAccessor.IDbContextPool">
             <summary>
             数据库上下文池
@@ -8271,6 +8281,11 @@
             <param name="transaction"></param>
             <param name="cancellationToken"></param>
             <returns></returns>
+        </member>
+        <member name="M:Furion.DatabaseAccessor.IDbContextPool.CloseAll">
+            <summary>
+            关闭所有数据库链接
+            </summary>
         </member>
         <member name="T:Furion.DatabaseAccessor.DbRepository`1">
             <summary>

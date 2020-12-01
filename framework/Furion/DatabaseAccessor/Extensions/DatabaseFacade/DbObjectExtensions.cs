@@ -233,6 +233,7 @@ namespace Furion.DatabaseAccessor
             var dbCommand = dbConnection.CreateCommand();
 
             // 设置基本参数
+            dbCommand.Transaction = databaseFacade.CurrentTransaction?.GetDbTransaction();
             dbCommand.CommandType = commandType;
             dbCommand.CommandText = sql;
 
