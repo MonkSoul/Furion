@@ -58,7 +58,7 @@ services.AddJwt();
 
 :::
 
-自定义 `Jwt` 配置（默认无需配置）
+- 自定义 `Jwt` 配置（默认无需配置）
 
 ```json
 {
@@ -74,6 +74,25 @@ services.AddJwt();
     "ClockSkew": 5 // 过期时间容错值，long 类型，耽误秒，默认 5秒
   }
 }
+```
+
+- 生成 `Token` 
+
+```cs
+// 生成 token
+var jwtSettings = App.GetOptions<JWTSettingsOptions>();
+var datetimeOffset = DateTimeOffset.UtcNow;
+
+var accessToken = JWTEncryption.Encrypt(jwtSettings.IssuerSigningKey, new Dictionary<string, object>()
+{
+    { "UserId", user.Id },  // 存储Id
+    { "Account",user.Account }, // 存储用户名
+    { JwtRegisteredClaimNames.Iat, datetimeOffset.ToUnixTimeSeconds() },
+    { JwtRegisteredClaimNames.Nbf, datetimeOffset.ToUnixTimeSeconds() },
+    { JwtRegisteredClaimNames.Exp, DateTimeOffset.UtcNow.AddSeconds(jwtSettings.ExpiredTime.Value*60).ToUnixTimeSeconds() },
+    { JwtRegisteredClaimNames.Iss, jwtSettings.ValidIssuer},
+    { JwtRegisteredClaimNames.Aud, jwtSettings.ValidAudience }
+});
 ```
 
 ### 14.2.3 混合授权
