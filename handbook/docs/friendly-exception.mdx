@@ -512,20 +512,23 @@ namespace Furion.Application
 
 ## 7.13 异常模型提供器
 
-`Furion` 框架提供 `规范化结果` 功能，可以通过实现 `IUnifyResultProvider` 提供器实现异常返回值定制，如：`RESTfulResultProvider`：
-
-```cs
+```cs {16,17}
+using Furion.DependencyInjection;
+using Furion.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Furion.UnifyResult
 {
     /// <summary>
     /// RESTful 风格返回值
     /// </summary>
+    [SkipScan, UnifyModel(typeof(RESTfulResult<>))]
     public class RESTfulResultProvider : IUnifyResultProvider
     {
         /// <summary>
@@ -535,12 +538,16 @@ namespace Furion.UnifyResult
         /// <returns></returns>
         public IActionResult OnException(ExceptionContext context)
         {
-            return new JsonResult(new RESTfulResult
+            // 解析异常信息
+            var (ErrorCode, ErrorObject) = UnifyResultContext.GetExceptionMetadata(context);
+
+            return new JsonResult(new RESTfulResult<object>
             {
-                StatusCode = StatusCodes.Status500InternalServerError,
+                StatusCode = ErrorCode,
                 Successed = false,
                 Data = null,
-                Errors = context.Exception.Message
+                Errors = ErrorObject,
+                Extras = UnifyResultContext.Take()
             });
         }
 
@@ -558,12 +565,13 @@ namespace Furion.UnifyResult
             else if (context.Result is ObjectResult objectResult) data = objectResult.Value;
             else return null;
 
-            return new JsonResult(new RESTfulResult
+            return new JsonResult(new RESTfulResult<object>
             {
-                StatusCode = context.Result is EmptyResult ? StatusCodes.Status204NoContent : StatusCodes.Status200OK,
+                StatusCode = context.Result is EmptyResult ? StatusCodes.Status204NoContent : StatusCodes.Status200OK,  // 处理没有返回值情况 204
                 Successed = true,
                 Data = data,
-                Errors = null
+                Errors = null,
+                Extras = UnifyResultContext.Take()
             });
         }
 
@@ -577,13 +585,58 @@ namespace Furion.UnifyResult
         /// <returns></returns>
         public IActionResult OnValidateFailed(ActionExecutingContext context, ModelStateDictionary modelStates, Dictionary<string, IEnumerable<string>> validationResults, string validateFaildMessage)
         {
-            return new JsonResult(new RESTfulResult
+            return new JsonResult(new RESTfulResult<object>
             {
                 StatusCode = StatusCodes.Status400BadRequest,
                 Successed = false,
                 Data = null,
-                Errors = validationResults
+                Errors = validationResults,
+                Extras = UnifyResultContext.Take()
             });
+        }
+
+        /// <summary>
+        /// 处理输出状态码
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="statusCode"></param>
+        /// <returns></returns>
+        public async Task OnResponseStatusCodes(HttpContext context, int statusCode)
+        {
+            switch (statusCode)
+            {
+                // 处理 401 状态码
+                case StatusCodes.Status401Unauthorized:
+                    await context.Response.WriteAsJsonAsync(new RESTfulResult<object>
+                    {
+                        StatusCode = StatusCodes.Status401Unauthorized,
+                        Successed = false,
+                        Data = null,
+                        Errors = "401 Unauthorized",
+                        Extras = UnifyResultContext.Take()
+                    }, new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = JsonSerializerUtility.EnabledPascalPropertyNaming ? null : JsonNamingPolicy.CamelCase
+                    });
+                    break;
+                // 处理 403 状态码
+                case StatusCodes.Status403Forbidden:
+                    await context.Response.WriteAsJsonAsync(new RESTfulResult<object>
+                    {
+                        StatusCode = StatusCodes.Status403Forbidden,
+                        Successed = false,
+                        Data = null,
+                        Errors = "403 Forbidden",
+                        Extras = UnifyResultContext.Take()
+                    }, new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = JsonSerializerUtility.EnabledPascalPropertyNaming ? null : JsonNamingPolicy.CamelCase
+                    });
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
 }
@@ -592,7 +645,8 @@ namespace Furion.UnifyResult
 之后在 `Startup.cs` 中注册即可：
 
 ```cs
-services.AddControllers().AddUnifyResult<RESTfulResult, RESTfulResultProvider>();
+services.AddControllers()
+        .AddInjectWithUnifyResult<RESTfulResultProvider>();
 ```
 
 ## 7.14 全局异常处理提供器

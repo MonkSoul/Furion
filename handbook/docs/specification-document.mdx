@@ -249,7 +249,6 @@ namespace Furion.Application
 >
   <TabItem value="fz1">
 
-
 **通过分组名称添加 `@整数` 进行排序**
 
 ```cs {5,19}
@@ -285,7 +284,6 @@ namespace Furion.Application
   </TabItem>
   <TabItem value="fz2">
 
-
 **通过配置文件配置排序**
 
 ```json {2-17} title="Furion.Web.Entry/appsettings.json"
@@ -311,7 +309,6 @@ namespace Furion.Application
 
   </TabItem>
 </Tabs>
-
 
 如下图所示：
 
@@ -368,7 +365,6 @@ namespace Furion.Application
   ]}
 >
   <TabItem value="tag1">
-
 
 #### 未贴标签之前
 
@@ -449,7 +445,6 @@ namespace Furion.Application
   </TabItem>
   <TabItem value="tag2">
 
-
 ```cs {5,19}
 using Furion.DynamicApiController;
 
@@ -491,7 +486,6 @@ namespace Furion.Application
 
   </TabItem>
 </Tabs>
-
 
 :::tip 小知识
 
@@ -634,12 +628,15 @@ namespace Furion.Application
 
 `Furion` 框架提供 `规范化结果` 功能，可以通过实现 `IUnifyResultProvider` 提供器实现统一规范化返回值定制，如：`RESTfulResultProvider`：
 
-```cs {13,14}
+```cs {16,17}
+using Furion.DependencyInjection;
+using Furion.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Furion.UnifyResult
@@ -647,7 +644,7 @@ namespace Furion.UnifyResult
     /// <summary>
     /// RESTful 风格返回值
     /// </summary>
-    [UnifyModel(typeof(RESTfulResult<>))]
+    [SkipScan, UnifyModel(typeof(RESTfulResult<>))]
     public class RESTfulResultProvider : IUnifyResultProvider
     {
         /// <summary>
@@ -665,7 +662,8 @@ namespace Furion.UnifyResult
                 StatusCode = ErrorCode,
                 Successed = false,
                 Data = null,
-                Errors = ErrorObject
+                Errors = ErrorObject,
+                Extras = UnifyResultContext.Take()
             });
         }
 
@@ -688,7 +686,8 @@ namespace Furion.UnifyResult
                 StatusCode = context.Result is EmptyResult ? StatusCodes.Status204NoContent : StatusCodes.Status200OK,  // 处理没有返回值情况 204
                 Successed = true,
                 Data = data,
-                Errors = null
+                Errors = null,
+                Extras = UnifyResultContext.Take()
             });
         }
 
@@ -707,7 +706,8 @@ namespace Furion.UnifyResult
                 StatusCode = StatusCodes.Status400BadRequest,
                 Successed = false,
                 Data = null,
-                Errors = validationResults
+                Errors = validationResults,
+                Extras = UnifyResultContext.Take()
             });
         }
 
@@ -728,7 +728,11 @@ namespace Furion.UnifyResult
                         StatusCode = StatusCodes.Status401Unauthorized,
                         Successed = false,
                         Data = null,
-                        Errors = "401 Unauthorized"
+                        Errors = "401 Unauthorized",
+                        Extras = UnifyResultContext.Take()
+                    }, new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = JsonSerializerUtility.EnabledPascalPropertyNaming ? null : JsonNamingPolicy.CamelCase
                     });
                     break;
                 // 处理 403 状态码
@@ -738,7 +742,11 @@ namespace Furion.UnifyResult
                         StatusCode = StatusCodes.Status403Forbidden,
                         Successed = false,
                         Data = null,
-                        Errors = "403 Forbidden"
+                        Errors = "403 Forbidden",
+                        Extras = UnifyResultContext.Take()
+                    }, new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = JsonSerializerUtility.EnabledPascalPropertyNaming ? null : JsonNamingPolicy.CamelCase
                     });
                     break;
 
