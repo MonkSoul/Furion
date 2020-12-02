@@ -475,7 +475,7 @@ namespace Furion.Application
         public string Company { get; set; }
 
         // 选项后期配置
-        public void PostConfigure(AppInfoOptions options)
+        public void PostConfigure(AppInfoOptions options, IConfiguration configuration)
         {
         }
     }
@@ -560,7 +560,7 @@ namespace Furion.Application
         {
             options.Name ??= "Furion";
             options.Version ??= "1.0.0";
-            options.Version ??= "Baiqian";
+            options.Company ??= "Baiqian";
         }
     }
 }
