@@ -1,4 +1,5 @@
 ﻿using Furion.DependencyInjection;
+using Furion.Extensions;
 using Furion.FriendlyException;
 using Furion.Utilities;
 using System.ComponentModel.DataAnnotations;
@@ -127,7 +128,7 @@ namespace Furion.DataValidation
                     })
                     .OrderBy(u => u.MemberNames.First())
                     .GroupBy(u => u.MemberNames.First())
-                    .ToDictionary(u => u.Key, u => u.Select(c => c.ErrorMessage))));
+                    .ToDictionary(u => !JsonSerializerUtility.EnabledPascalPropertyNaming ? u.Key.ToTitlePascal() : u.Key, u => u.Select(c => c.ErrorMessage))));
         }
     }
 }
