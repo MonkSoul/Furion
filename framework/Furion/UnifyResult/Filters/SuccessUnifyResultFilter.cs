@@ -32,7 +32,7 @@ namespace Furion.UnifyResult
         {
             // 排除 Mvc 视图
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
-            if (actionDescriptor.ControllerTypeInfo.BaseType == typeof(Controller))
+            if (typeof(Controller).IsAssignableFrom(actionDescriptor.ControllerTypeInfo))
             {
                 await next();
                 return;

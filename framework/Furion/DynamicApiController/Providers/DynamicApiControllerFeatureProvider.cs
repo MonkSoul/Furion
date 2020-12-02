@@ -17,7 +17,7 @@ namespace Furion.DynamicApiController
         /// <returns>bool</returns>
         protected override bool IsController(TypeInfo typeInfo)
         {
-            return Penetrates.IsController(typeInfo);
+            return Penetrates.IsApiController(typeInfo);
         }
     }
 }
