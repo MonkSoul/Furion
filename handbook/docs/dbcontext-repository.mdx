@@ -147,7 +147,7 @@ var userRepository = personRepository.Change<User>();
 var readRepository = personRepository.Constraint<IReadableRepository<User>>();
 
 // 只写仓储
-var readRepository = personRepository.Constraint<IWritableRepository<User>>();
+var writeRepository = personRepository.Constraint<IWritableRepository<User>>();
 ```
 
 :::tip 小知识
