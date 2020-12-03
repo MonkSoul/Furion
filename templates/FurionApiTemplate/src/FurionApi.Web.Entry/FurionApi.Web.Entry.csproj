@@ -14,7 +14,12 @@
     <None Remove="Controllers\**" />
     <None Remove="wwwroot\**" />
   </ItemGroup>
-
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FurionApi.Web.Core\FurionApi.Web.Core.csproj" />
   </ItemGroup>
