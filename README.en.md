@@ -79,7 +79,7 @@
 - `Docker Hub` 线上镜像
 
 ```shell
-docker run --name furion -p 5000:80 monksoul/furion:v1.1.0
+docker run --name furion -p 5000:80 monksoul/furion:v1.2.1
 ```
 
 - `手动` 打包镜像
@@ -87,13 +87,13 @@ docker run --name furion -p 5000:80 monksoul/furion:v1.1.0
 打开 `CMD/Shell/PowerShell` 进入 `Furion` 项目根目录打包 `Furion` 镜像：
 
 ```shell
-docker build -t furion:v1.1.0 .
+docker build -t furion:v1.2.1 .
 ```
 
 打包成功后，直接 `docker run`：
 
 ```shell
-docker run --name furion -p 5000:80 furion:v1.1.0
+docker run --name furion -p 5000:80 furion:v1.2.1
 ```
 
 ## 🥥 Furion 官方包
