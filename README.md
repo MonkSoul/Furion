@@ -7,7 +7,7 @@
 
 <div align="center">
 
-[![star](https://gitee.com/monksoul/Furion/badge/star.svg?theme=gvp)](https://gitee.com/monksoul/Furion/stargazers) [![fork](https://gitee.com/monksoul/Furion/badge/fork.svg?theme=gvp)](https://gitee.com/monksoul/Furion/members) [![GitHub stars](https://img.shields.io/github/stars/MonkSoul/Furion?logo=github)](https://github.com/MonkSoul/Furion/stargazers) [![GitHub forks](https://img.shields.io/github/forks/MonkSoul/Furion?logo=github)](https://github.com/MonkSoul/Furion/network) [![GitHub license](https://img.shields.io/github/license/MonkSoul/Furion)](https://github.com/MonkSoul/Furion/blob/main/LICENSE) [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion)
+[![star](https://gitee.com/monksoul/Furion/badge/star.svg?theme=gvp)](https://gitee.com/monksoul/Furion/stargazers) [![fork](https://gitee.com/monksoul/Furion/badge/fork.svg?theme=gvp)](https://gitee.com/monksoul/Furion/members) [![GitHub stars](https://img.shields.io/github/stars/MonkSoul/Furion?logo=github)](https://github.com/MonkSoul/Furion/stargazers) [![GitHub forks](https://img.shields.io/github/forks/MonkSoul/Furion?logo=github)](https://github.com/MonkSoul/Furion/network) [![GitHub license](https://img.shields.io/github/license/MonkSoul/Furion)](https://github.com/MonkSoul/Furion/blob/main/LICENSE) [![nuget](https://img.shields.io/nuget/v/Furion.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion)
 
 </div>
 
@@ -44,7 +44,7 @@
 
 `Furion` 标志设计理念是借鉴著名的 [袋鼠理论](https://baike.baidu.com/item/%E8%A2%8B%E9%BC%A0%E7%90%86%E8%AE%BA) 设计的。
 
-袋鼠具有**长腿、育袋、自我**奔跑特点。
+袋鼠具有**长腿、育袋、自我奔跑**特点。
 
 - `长腿`：代表着 `Furion` 拥有稳健的双腿，走在科技的前沿，走的更远，跑的更快。
 - `育袋`：小育袋、大作为。期待 `Furion` 能够育孕出更多 .NET 优秀开发者和生机勃勃的生态。
@@ -98,21 +98,21 @@ docker run --name furion -p 5000:80 furion:v1.2.1
 
 ## 🥥 Furion 官方包
 
-| 包类型                                                                                                                               | 名称                                       | 版本   | 描述                   |
-| ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------ | ------ | ---------------------- |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion)                                     | Furion                                     | v1.1.0 | Furion 总包            |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion.Extras.Authentication.JwtBearer)     | Furion.Extras.Authentication.JwtBearer     | v1.1.0 | Furion Jwt 拓展包      |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-blue)](https://www.nuget.org/packages/Furion.Extras.DependencyModel.CodeAnalysis) | Furion.Extras.DependencyModel.CodeAnalysis | v1.1.0 | Furion 动态反射 拓展包 |
+|                                                                     包类型                                                                      | 名称                                       |                                                                                          版本                                                                                           | 描述                   |
+| :---------------------------------------------------------------------------------------------------------------------------------------------: | ------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | ---------------------- |
+|                   [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion)                   | Furion                                     |                                     [![nuget](https://img.shields.io/nuget/v/Furion.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion)                                     | Furion 总包            |
+|   [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.Authentication.JwtBearer)   | Furion.Extras.Authentication.JwtBearer     |     [![nuget](https://img.shields.io/nuget/v/Furion.Extras.Authentication.JwtBearer.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.Authentication.JwtBearer)     | Furion Jwt 拓展包      |
+| [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.DependencyModel.CodeAnalysis) | Furion.Extras.DependencyModel.CodeAnalysis | [![nuget](https://img.shields.io/nuget/v/Furion.Extras.DependencyModel.CodeAnalysis.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.DependencyModel.CodeAnalysis) | Furion 动态反射 拓展包 |
 
 ## 🍄 Furion 脚手架
 
-| 模板类型                                                                                                            | 名称                   | 版本   | 描述             |
-| ------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------ | ---------------- |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Mvc/)    | Furion.Template.Mvc    | v1.1.0 | Mvc 模板         |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Api/)    | Furion.Template.Api    | v1.1.0 | WebApi 模板      |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.App/)    | Furion.Template.App    | v1.1.0 | Mvc/WebApi 模板  |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Razor/)  | Furion.Template.Razor  | v1.1.0 | Razar Pages 模板 |
-| [![nuget](https://img.shields.io/badge/Nuget-1.0.x-yellow)](https://www.nuget.org/packages/Furion.Template.Blazor/) | Furion.Template.Blazor | v1.1.0 | Blazor 模板      |
+|                                                            模板类型                                                            | 名称                   |                                                                       版本                                                                       | 描述             |
+| :----------------------------------------------------------------------------------------------------------------------------: | ---------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------: | ---------------- |
+|  [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.Mvc/)   | Furion.Template.Mvc    |    [![nuget](https://img.shields.io/nuget/v/Furion.Template.Mvc.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.Mvc/)    | Mvc 模板         |
+|  [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.Api/)   | Furion.Template.Api    |    [![nuget](https://img.shields.io/nuget/v/Furion.Template.Api.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.Api/)    | WebApi 模板      |
+|  [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.App/)   | Furion.Template.App    |    [![nuget](https://img.shields.io/nuget/v/Furion.Template.App.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.App/)    | Mvc/WebApi 模板  |
+| [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.Razor/)  | Furion.Template.Razor  |  [![nuget](https://img.shields.io/nuget/v/Furion.Template.Razor.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.Razor/)  | Razar Pages 模板 |
+| [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.Blazor/) | Furion.Template.Blazor | [![nuget](https://img.shields.io/nuget/v/Furion.Template.Blazor.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.Blazor/) | Blazor 模板      |
 
 **[如何使用脚手架](https://monksoul.gitee.io/furion/docs/template)**
 
