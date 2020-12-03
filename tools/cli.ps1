@@ -1,4 +1,4 @@
-﻿# 定义参数
+# 定义参数
 Param(
     # 需要生成的表，不填则生成所有表
     [string[]] $Tables,
@@ -124,7 +124,7 @@ if($options -eq "G")
     # 加载数据库表
     function loadDbTable(){
         # 获取选中的数据库连接字符串
-        $connStr = $comboBox.SelectedItem;
+        $connStr = $comboBox.SelectedItem.Replace("\\","\");
         if ($connStr -eq $null -or $connStr -eq ""){
             [System.Windows.Forms.MessageBox]::Show("请选择数据库连接字符串后再操作");
             return;
