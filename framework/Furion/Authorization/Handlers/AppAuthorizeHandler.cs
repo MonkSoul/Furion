@@ -40,10 +40,7 @@ namespace Furion.Authorization
                         if (policyPipeline) context.Succeed(requirement);
                     }
                 }
-                else
-                {
-                    context.Fail();
-                }
+                else context.Fail();
             }
 
             return Task.CompletedTask;

@@ -219,7 +219,7 @@ repository.Change<Entity, MyDbContextLocator2>();
 repository.ChangeTable("数据库表");
 
 // 创建新的 DbContext，然后刷新 OnModelCreating（推荐方式）
-var dynamicDbContextResolve = App.TransientServices.GetService<Func<Type, IScoped, DbContext>>();
+var dynamicDbContextResolve = App.GetService<Func<Type, IScoped, DbContext>>();
 var dynamicDbContext = dynamicDbContextResolve(typeof(MyDbContextLocator), default);
 // 重新调用 OnModelCreating，在 OnModelCreating 中配置 ToTable("动态表") 即可。
 DynamicModelCacheKeyFactory.RebuildModels();

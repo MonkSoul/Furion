@@ -3,12 +3,12 @@ module.exports = {
     {
       type: "category",
       label: "1. 框架介绍",
-      items: ["introduce", "author", "source", "reference"],
+      items: ["introduce", "author", "source"],
     },
     {
       type: "category",
       label: "2. 一分钟入门",
-      items: ["get-start", "template"],
+      items: ["get-start", "template", "reference"],
     },
     {
       type: "doc",

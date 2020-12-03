@@ -1,24 +1,24 @@
 ---
 id: reference
-title: 1.4 项目引用
-sidebar_label: 1.4 项目引用
+title: 2.3 框架项目引用
+sidebar_label: 2.3 框架项目引用
 ---
 
-## 1.4.1 关于项目引用
+## 2.3.1 关于项目引用
 
 `Furion` 框架默认采用多层项目设计架构，每一个项目层的依赖分别是：
 
 - `Furion`：核心层，无项目依赖
 - `Furion.Application`：添加 `Furion.Core` 引用
-- `Furion.Core`：添加 `Furion` 引用
+- **`Furion.Core`：添加 `Furion` 引用**
 - `Furion.Database.Migrations`：添加 `Furion.EntityFramework.Core` 引用
 - `Furion.EntityFramework.Core`：添加 `Furion.Core` 引用
 - `Furion.Web.Core`：添加 `Furion.Application`，`Furion.Database.Migrations` 引用
-- `Furion.Web.Entry`：添加 `Furion.Web.Core` 引用 和 `Microsoft.EntityFrameworkCore.Tools` 包
+- **`Furion.Web.Entry`：添加 `Furion.Web.Core` 引用 和 `Microsoft.EntityFrameworkCore.Tools` 包**
 
 如果开发者搭建自己的项目，则只需要在 `Furion.Core` 层引用 `Nuget` 中最新的 `Furion` 包即可。
 
-## 1.4.2 集成 `Furion` 功能
+## 2.3.2 集成 `Furion` 功能
 
 项目搭建好之后，集成 `Furion` 框架只需要在 `Program.cs` 中 添加 `Inject()` 方法即可：
 
@@ -41,14 +41,14 @@ namespace Furion.Web.Entry
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.Inject()
-                        .UseStartup<Startup>();
+                              .UseStartup<Startup>();
                 });
         }
     }
 }
 ```
 
-## 1.4.3 反馈与建议
+## 2.3.3 反馈与建议
 
 :::note 与我们交流
 
