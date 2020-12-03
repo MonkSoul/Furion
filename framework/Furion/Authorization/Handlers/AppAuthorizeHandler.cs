@@ -1,4 +1,4 @@
-﻿using Furion.DependencyInjection;
+using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
@@ -39,6 +39,10 @@ namespace Furion.Authorization
                         var policyPipeline = PolicyPipeline(context, httpContext, requirement);
                         if (policyPipeline) context.Succeed(requirement);
                     }
+                }
+                else
+                {
+                    context.Fail();
                 }
             }
 
