@@ -8,10 +8,12 @@ namespace Furion.Web.Entry
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            // 代码迁移至 Furion.Web.Core/Startup.cs
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // 代码迁移至 Furion.Web.Core/Startup.cs
         }
     }
 }

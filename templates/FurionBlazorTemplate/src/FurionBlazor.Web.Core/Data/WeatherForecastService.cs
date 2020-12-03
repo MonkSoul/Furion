@@ -1,10 +1,11 @@
+using Furion.DependencyInjection;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace FurionBlazor.Web.Core
 {
-    public class WeatherForecastService
+    public class WeatherForecastService : ISingleton
     {
         private static readonly string[] Summaries = new[]
         {

@@ -10,10 +10,8 @@ namespace FurionBlazor.Web.Core
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages()
-                        .AddInjectBase(false);
+            services.AddRazorPages().AddInjectBase(false);
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
