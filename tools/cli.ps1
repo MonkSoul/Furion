@@ -1,4 +1,4 @@
-# 定义参数
+﻿# 定义参数
 Param(
     # 需要生成的表，不填则生成所有表
     [string[]] $Tables,
@@ -73,7 +73,7 @@ if ($Context -eq $null -or $Context -eq ""){
 }
 
 if ($ConnectionName -eq $null -or $ConnectionName -eq ""){
-    $ConnectionName = "DbConnectionString";
+    $ConnectionName = "NonConfigureConnectionString";
 }
 
 if ($DbContextLocators -eq $null -or $DbContextLocators -eq ""){
@@ -124,7 +124,7 @@ if($options -eq "G")
     # 加载数据库表
     function loadDbTable(){
         # 获取选中的数据库连接字符串
-        $connStr = $comboBox.SelectedItem.Replace("\\","\");
+        $connStr = $comboBox.SelectedItem;
         if ($connStr -eq $null -or $connStr -eq ""){
             [System.Windows.Forms.MessageBox]::Show("请选择数据库连接字符串后再操作");
             return;
@@ -197,8 +197,9 @@ if($options -eq "G")
            $key = $connections[$i].Groups.Value[1];
            $value = $connections[$i].Groups.Value[2];
            if($connDic.ContainsKey($value) -eq $false){
-               $result = $comboBox.Items.Add($value);
-               $connDic.Add($value,$key);
+               $newValue = $value.Replace("\\","\");
+               $result = $comboBox.Items.Add($newValue);
+               $connDic.Add($newValue,$key);
            }
         }
         # [结束] 
@@ -402,6 +403,12 @@ else{
         Write-Warning "$FurTools 用户取消操作，程序终止！";
         return;
     }
+}
+
+if($ConnectionName -eq "NonConfigureConnectionString")
+{
+    Write-Warning "$FurTools 未找到连接字符串，程序终止！";
+    return;
 }
 
 # 执行 Scaffold-DbContext 命令
