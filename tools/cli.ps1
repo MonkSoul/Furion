@@ -282,7 +282,7 @@ if($options -eq "G")
     $jsons = Get-ChildItem $rootPath -Include "*.json" -Recurse;
     for ($i = 0; $i -le $jsons.Count - 1; $i++){
         $json = $jsons[$i];
-        if(!($json.DirectoryName.Contains("bin") -or $json.DirectoryName.Contains("obj") -or $json.DirectoryName.Contains(".vscode"))){
+        if(!($json.DirectoryName.Contains("bin") -or $json.DirectoryName.Contains("obj") -or $json.DirectoryName.Contains(".vscode") -or $json.FullName.Contains(".deps.json"))){
           loadConnectionSettings($json.FullName);
         }
     }
