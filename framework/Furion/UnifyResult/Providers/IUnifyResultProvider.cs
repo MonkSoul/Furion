@@ -32,7 +32,7 @@ namespace Furion.UnifyResult
         /// <param name="context"></param>
         /// <param name="modelStates"></param>
         /// <param name="validationResults"></param>
-        /// <param name="validateFaildMessage"></param>
+        /// <param name="validateFailedMessage"></param>
         /// <returns></returns>
         IActionResult OnValidateFailed(ActionExecutingContext context, ModelStateDictionary modelStates, Dictionary<string, IEnumerable<string>> validationResults, string validateFailedMessage);
 
