@@ -8,12 +8,12 @@ namespace Furion.Web.Entry
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            // ´úÂëÇ¨ÒÆÖÁ Furion.Web.Core/Startup.cs
+            // ä»£ç è¿ç§»è‡³ Furion.Web.Core/Startup.cs
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // ´úÂëÇ¨ÒÆÖÁ Furion.Web.Core/Startup.cs
+            // ä»£ç è¿ç§»è‡³ Furion.Web.Core/Startup.cs
         }
     }
 }
