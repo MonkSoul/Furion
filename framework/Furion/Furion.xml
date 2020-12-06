@@ -7627,7 +7627,7 @@
             <summary>
             返回属于当前表和历史记录表的行的联合
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="TEntity"></typeparam>
             <param name="dbSet"></param>
             <returns></returns>
         </member>
@@ -7635,7 +7635,7 @@
             <summary>
             返回一个包含实际值（当前）的行的表。
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="TEntity"></typeparam>
             <param name="dbSet"></param>
             <param name="date"></param>
             <returns></returns>
@@ -7644,7 +7644,7 @@
             <summary>
             返回一个表，其中具有在指定的时间范围，无论它们是否在
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="TEntity"></typeparam>
             <param name="dbSet"></param>
             <param name="startDate"></param>
             <param name="endDate"></param>
@@ -7654,7 +7654,7 @@
             <summary>
             返回一个表，其中具有在指定的时间范围，无论它们是否在，但是结束时间有边界值
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="TEntity"></typeparam>
             <param name="dbSet"></param>
             <param name="startDate"></param>
             <param name="endDate"></param>
@@ -7664,7 +7664,7 @@
             <summary>
             返回一个表，该表包含已打开和关闭的所有行版本的值
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="TEntity"></typeparam>
             <param name="dbSet"></param>
             <param name="startDate"></param>
             <param name="endDate"></param>
@@ -7674,7 +7674,7 @@
             <summary>
             创建时态表
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="TEntity"></typeparam>
             <param name="dbSet"></param>
             <param name="temporalCriteria"></param>
             <param name="arguments"></param>
@@ -7684,7 +7684,7 @@
             <summary>
             获取表名
             </summary>
-            <typeparam name="T"></typeparam>
+            <typeparam name="TEntity"></typeparam>
             <param name="dbContext"></param>
             <returns></returns>
         </member>
