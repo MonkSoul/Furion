@@ -25,7 +25,7 @@ namespace Furion.Extensions
             if (dateTime.Offset.Equals(TimeSpan.Zero))
                 return dateTime.UtcDateTime;
             else if (dateTime.Offset.Equals(TimeZoneInfo.Local.GetUtcOffset(dateTime.DateTime)))
-                return DateTime.SpecifyKind(dateTime.DateTime, DateTimeKind.Local);
+                return DateTime.SpecifyKind(dateTime.DateTime, DateTimeKind.Utc);
             else
                 return dateTime.DateTime;
         }
