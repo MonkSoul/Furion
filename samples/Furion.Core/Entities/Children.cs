@@ -10,7 +10,7 @@ namespace Furion.Core
         /// </summary>
         public Children()
         {
-            CreatedTime = DateTimeOffset.UtcNow;
+            CreatedTime = DateTimeOffset.Now;
             IsDeleted = false;
         }
 

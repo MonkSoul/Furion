@@ -12,7 +12,7 @@ namespace Furion.Core
         /// </summary>
         public Person()
         {
-            CreatedTime = DateTimeOffset.UtcNow;
+            CreatedTime = DateTimeOffset.Now;
             IsDeleted = false;
         }
 

@@ -10,12 +10,15 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class ViewEngineServiceCollectionExtensions
     {
         /// <summary>
-        /// 添加事务引擎
+        /// 添加视图引擎
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="templateSaveDir"></param>
         /// <returns></returns>
-        public static IServiceCollection AddViewEngine(this IServiceCollection services)
+        public static IServiceCollection AddViewEngine(this IServiceCollection services, string templateSaveDir = default)
         {
+            if (!string.IsNullOrEmpty(templateSaveDir)) Penetrates.TemplateSaveDir = templateSaveDir;
+
             services.AddTransient<IViewEngine, ViewEngine>();
             return services;
         }

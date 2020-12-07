@@ -16,7 +16,7 @@ namespace Furion.Core
         /// </summary>
         public City()
         {
-            CreatedTime = DateTimeOffset.UtcNow;
+            CreatedTime = DateTimeOffset.Now;
             IsDeleted = false;
         }
 

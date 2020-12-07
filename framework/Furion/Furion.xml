@@ -11263,13 +11263,13 @@
             Sql 查询仓储接口
             </summary>
         </member>
-        <member name="T:Furion.DatabaseAccessor.ISqlQueryableRepository`1">
+        <member name="T:Furion.DatabaseAccessor.ISqlReaderRepository`1">
             <summary>
             Sql 查询仓储接口
             </summary>
             <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQuery(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQuery(System.String,System.Data.Common.DbParameter[])">
             <summary>
             Sql 查询返回 DataTable
             </summary>
@@ -11277,7 +11277,7 @@
             <param name="parameters">命令参数</param>
             <returns>DataTable</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQuery(System.String,System.Object)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQuery(System.String,System.Object)">
             <summary>
             Sql 查询返回 DataTable
             </summary>
@@ -11285,7 +11285,7 @@
             <param name="model">参数模型</param>
             <returns>DataTable</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueryAsync(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueryAsync(System.String,System.Data.Common.DbParameter[])">
             <summary>
             Sql 查询返回 DataTable
             </summary>
@@ -11293,7 +11293,7 @@
             <param name="parameters">命令参数</param>
             <returns>Task{DataTable}</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueryAsync(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueryAsync(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
             <summary>
             Sql 查询返回 DataTable
             </summary>
@@ -11302,7 +11302,7 @@
             <param name="cancellationToken">异步取消令牌</param>
             <returns>Task{DataTable}</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueryAsync(System.String,System.Object,System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueryAsync(System.String,System.Object,System.Threading.CancellationToken)">
             <summary>
             Sql 查询返回 DataTable
             </summary>
@@ -11311,7 +11311,7 @@
             <param name="cancellationToken">异步取消令牌</param>
             <returns>Task{DataTable}</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQuery``1(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQuery``1(System.String,System.Data.Common.DbParameter[])">
             <summary>
             Sql 查询返回 List 集合
             </summary>
@@ -11320,7 +11320,7 @@
             <param name="parameters">命令参数</param>
             <returns>List{T}</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQuery``1(System.String,System.Object)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQuery``1(System.String,System.Object)">
             <summary>
             Sql 查询返回 List 集合
             </summary>
@@ -11329,7 +11329,7 @@
             <param name="model">参数模型</param>
             <returns>List{T}</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueryAsync``1(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueryAsync``1(System.String,System.Data.Common.DbParameter[])">
             <summary>
             Sql 查询返回 List 集合
             </summary>
@@ -11338,7 +11338,7 @@
             <param name="parameters">命令参数</param>
             <returns>Task{List{T}}</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueryAsync``1(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueryAsync``1(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
             <summary>
             Sql 查询返回 List 集合
             </summary>
@@ -11348,7 +11348,7 @@
             <param name="cancellationToken">异步取消令牌</param>
             <returns>Task{List{T}}</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueryAsync``1(System.String,System.Object,System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueryAsync``1(System.String,System.Object,System.Threading.CancellationToken)">
             <summary>
             Sql 查询返回 List 集合
             </summary>
@@ -11358,7 +11358,7 @@
             <param name="cancellationToken">异步取消令牌</param>
             <returns>Task{List{T}}</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueries(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueries(System.String,System.Data.Common.DbParameter[])">
             <summary>
              Sql 查询返回 DataSet
             </summary>
@@ -11366,7 +11366,7 @@
             <param name="parameters">命令参数</param>
             <returns>DataSet</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueries(System.String,System.Object)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueries(System.String,System.Object)">
             <summary>
              Sql 查询返回 DataSet
             </summary>
@@ -11374,7 +11374,7 @@
             <param name="model">参数模型</param>
             <returns>DataSet</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync(System.String,System.Data.Common.DbParameter[])">
             <summary>
              Sql 查询返回 DataSet
             </summary>
@@ -11382,7 +11382,7 @@
             <param name="parameters">命令参数</param>
             <returns>Task{DataSet}</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
             <summary>
              Sql 查询返回 DataSet
             </summary>
@@ -11391,7 +11391,7 @@
             <param name="cancellationToken">异步取消令牌</param>
             <returns>Task{DataSet}</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync(System.String,System.Object,System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync(System.String,System.Object,System.Threading.CancellationToken)">
             <summary>
              Sql 查询返回 DataSet
             </summary>
@@ -11400,7 +11400,7 @@
             <param name="cancellationToken">异步取消令牌</param>
             <returns>Task{DataSet}</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueries``1(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueries``1(System.String,System.Data.Common.DbParameter[])">
             <summary>
              Sql 查询返回 List 集合
             </summary>
@@ -11409,7 +11409,7 @@
             <param name="parameters">命令参数</param>
             <returns>List{T1}</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueries``2(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueries``2(System.String,System.Data.Common.DbParameter[])">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11419,7 +11419,7 @@
             <param name="parameters">命令参数</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueries``3(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueries``3(System.String,System.Data.Common.DbParameter[])">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11430,7 +11430,7 @@
             <param name="parameters">命令参数</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueries``4(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueries``4(System.String,System.Data.Common.DbParameter[])">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11442,7 +11442,7 @@
             <param name="parameters">命令参数</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueries``5(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueries``5(System.String,System.Data.Common.DbParameter[])">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11455,7 +11455,7 @@
             <param name="parameters">命令参数</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueries``6(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueries``6(System.String,System.Data.Common.DbParameter[])">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11469,7 +11469,7 @@
             <param name="parameters">命令参数</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueries``7(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueries``7(System.String,System.Data.Common.DbParameter[])">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11484,7 +11484,7 @@
             <param name="parameters">命令参数</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueries``8(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueries``8(System.String,System.Data.Common.DbParameter[])">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11500,7 +11500,7 @@
             <param name="parameters">命令参数</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueries``1(System.String,System.Object)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueries``1(System.String,System.Object)">
             <summary>
              Sql 查询返回 List 集合
             </summary>
@@ -11509,7 +11509,7 @@
             <param name="model">参数模型</param>
             <returns>List{T1}</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueries``2(System.String,System.Object)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueries``2(System.String,System.Object)">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11519,7 +11519,7 @@
             <param name="model">参数模型</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueries``3(System.String,System.Object)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueries``3(System.String,System.Object)">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11530,7 +11530,7 @@
             <param name="model">参数模型</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueries``4(System.String,System.Object)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueries``4(System.String,System.Object)">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11542,7 +11542,7 @@
             <param name="model">参数模型</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueries``5(System.String,System.Object)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueries``5(System.String,System.Object)">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11555,7 +11555,7 @@
             <param name="model">参数模型</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueries``6(System.String,System.Object)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueries``6(System.String,System.Object)">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11569,7 +11569,7 @@
             <param name="model">参数模型</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueries``7(System.String,System.Object)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueries``7(System.String,System.Object)">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11584,7 +11584,7 @@
             <param name="model">参数模型</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueries``8(System.String,System.Object)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueries``8(System.String,System.Object)">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11600,7 +11600,7 @@
             <param name="model">参数模型</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``1(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``1(System.String,System.Data.Common.DbParameter[])">
             <summary>
              Sql 查询返回 List 集合
             </summary>
@@ -11609,7 +11609,7 @@
             <param name="parameters">命令参数</param>
             <returns>Task{List{T1}}</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``1(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``1(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
             <summary>
              Sql 查询返回 List 集合
             </summary>
@@ -11619,7 +11619,7 @@
             <param name="cancellationToken">异步取消令牌</param>
             <returns>Task{List{T1}}</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``2(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``2(System.String,System.Data.Common.DbParameter[])">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11629,7 +11629,7 @@
             <param name="parameters">命令参数</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``2(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``2(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11640,7 +11640,7 @@
             <param name="cancellationToken">异步取消令牌</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``3(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``3(System.String,System.Data.Common.DbParameter[])">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11651,7 +11651,7 @@
             <param name="parameters">命令参数</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``3(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``3(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11663,7 +11663,7 @@
             <param name="cancellationToken">异步取消令牌</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``4(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``4(System.String,System.Data.Common.DbParameter[])">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11675,7 +11675,7 @@
             <param name="parameters">命令参数</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``4(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``4(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11688,7 +11688,7 @@
             <param name="cancellationToken">异步取消令牌</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``5(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``5(System.String,System.Data.Common.DbParameter[])">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11701,7 +11701,7 @@
             <param name="parameters">命令参数</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``5(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``5(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11715,21 +11715,7 @@
             <param name="cancellationToken">异步取消令牌</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``6(System.String,System.Data.Common.DbParameter[])">
-            <summary>
-            Sql 查询返回 元组 集合
-            </summary>
-            <typeparam name="T1">元组元素类型</typeparam>
-            <typeparam name="T2">元组元素类型</typeparam>
-            <typeparam name="T3">元组元素类型</typeparam>
-            <typeparam name="T4">元组元素类型</typeparam>
-            <typeparam name="T5">元组元素类型</typeparam>
-            <typeparam name="T6">元组元素类型</typeparam>
-            <param name="sql">sql 语句</param>
-            <param name="parameters">命令参数</param>
-            <returns>元组类型</returns>
-        </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``6(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``6(System.String,System.Data.Common.DbParameter[])">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11741,10 +11727,9 @@
             <typeparam name="T6">元组元素类型</typeparam>
             <param name="sql">sql 语句</param>
             <param name="parameters">命令参数</param>
-            <param name="cancellationToken">异步取消令牌</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``7(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``6(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11754,12 +11739,12 @@
             <typeparam name="T4">元组元素类型</typeparam>
             <typeparam name="T5">元组元素类型</typeparam>
             <typeparam name="T6">元组元素类型</typeparam>
-            <typeparam name="T7">元组元素类型</typeparam>
             <param name="sql">sql 语句</param>
             <param name="parameters">命令参数</param>
+            <param name="cancellationToken">异步取消令牌</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``7(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``7(System.String,System.Data.Common.DbParameter[])">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11772,10 +11757,9 @@
             <typeparam name="T7">元组元素类型</typeparam>
             <param name="sql">sql 语句</param>
             <param name="parameters">命令参数</param>
-            <param name="cancellationToken">异步取消令牌</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``8(System.String,System.Data.Common.DbParameter[])">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``7(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11786,12 +11770,12 @@
             <typeparam name="T5">元组元素类型</typeparam>
             <typeparam name="T6">元组元素类型</typeparam>
             <typeparam name="T7">元组元素类型</typeparam>
-            <typeparam name="T8">元组元素类型</typeparam>
             <param name="sql">sql 语句</param>
             <param name="parameters">命令参数</param>
+            <param name="cancellationToken">异步取消令牌</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``8(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``8(System.String,System.Data.Common.DbParameter[])">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11805,10 +11789,26 @@
             <typeparam name="T8">元组元素类型</typeparam>
             <param name="sql">sql 语句</param>
             <param name="parameters">命令参数</param>
+            <returns>元组类型</returns>
+        </member>
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``8(System.String,System.Data.Common.DbParameter[],System.Threading.CancellationToken)">
+            <summary>
+            Sql 查询返回 元组 集合
+            </summary>
+            <typeparam name="T1">元组元素类型</typeparam>
+            <typeparam name="T2">元组元素类型</typeparam>
+            <typeparam name="T3">元组元素类型</typeparam>
+            <typeparam name="T4">元组元素类型</typeparam>
+            <typeparam name="T5">元组元素类型</typeparam>
+            <typeparam name="T6">元组元素类型</typeparam>
+            <typeparam name="T7">元组元素类型</typeparam>
+            <typeparam name="T8">元组元素类型</typeparam>
+            <param name="sql">sql 语句</param>
+            <param name="parameters">命令参数</param>
             <param name="cancellationToken">异步取消令牌</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``1(System.String,System.Object,System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``1(System.String,System.Object,System.Threading.CancellationToken)">
             <summary>
              Sql 查询返回 List 集合
             </summary>
@@ -11818,7 +11818,7 @@
             <param name="cancellationToken">异步取消令牌</param>
             <returns>List{T1}</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``2(System.String,System.Object,System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``2(System.String,System.Object,System.Threading.CancellationToken)">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11829,7 +11829,7 @@
             <param name="cancellationToken">异步取消令牌</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``3(System.String,System.Object,System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``3(System.String,System.Object,System.Threading.CancellationToken)">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11841,7 +11841,7 @@
             <param name="cancellationToken">异步取消令牌</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``4(System.String,System.Object,System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``4(System.String,System.Object,System.Threading.CancellationToken)">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11854,7 +11854,7 @@
             <param name="cancellationToken">异步取消令牌</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``5(System.String,System.Object,System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``5(System.String,System.Object,System.Threading.CancellationToken)">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11868,7 +11868,7 @@
             <param name="cancellationToken">异步取消令牌</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``6(System.String,System.Object,System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``6(System.String,System.Object,System.Threading.CancellationToken)">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11883,7 +11883,7 @@
             <param name="cancellationToken">异步取消令牌</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``7(System.String,System.Object,System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``7(System.String,System.Object,System.Threading.CancellationToken)">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -11899,7 +11899,7 @@
             <param name="cancellationToken">异步取消令牌</param>
             <returns>元组类型</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.ISqlQueryableRepository`1.SqlQueriesAsync``8(System.String,System.Object,System.Threading.CancellationToken)">
+        <member name="M:Furion.DatabaseAccessor.ISqlReaderRepository`1.SqlQueriesAsync``8(System.String,System.Object,System.Threading.CancellationToken)">
             <summary>
             Sql 查询返回 元组 集合
             </summary>
@@ -13547,13 +13547,6 @@
             <typeparam name="TChangeEntity">实体类型</typeparam>
             <typeparam name="TChangeDbContextLocator">数据库上下文定位器</typeparam>
             <returns>仓储</returns>
-        </member>
-        <member name="M:Furion.DatabaseAccessor.EFCoreRepository`2.Constraint``1">
-            <summary>
-            将仓储约束为特定仓储
-            </summary>
-            <typeparam name="TRestrainRepository">特定仓储</typeparam>
-            <returns>TRestrainRepository</returns>
         </member>
         <member name="M:Furion.DatabaseAccessor.EFCoreRepository`2.Delete(`0)">
             <summary>
@@ -18288,6 +18281,13 @@
             <typeparam name="TService"></typeparam>
             <returns></returns>
         </member>
+        <member name="M:Furion.DatabaseAccessor.SqlRepository`1.Constraint``1">
+            <summary>
+            将仓储约束为特定仓储
+            </summary>
+            <typeparam name="TRestrainRepository">特定仓储</typeparam>
+            <returns>TRestrainRepository</returns>
+        </member>
         <member name="T:Furion.DatabaseAccessor.IMSRepository`2">
             <summary>
             主从库仓储
@@ -18815,13 +18815,6 @@
             <typeparam name="TChangeDbContextLocator">数据库上下文定位器</typeparam>
             <returns>仓储</returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.IRepository`2.Constraint``1">
-            <summary>
-            将仓储约束为特定仓储
-            </summary>
-            <typeparam name="TRestrainRepository">特定仓储</typeparam>
-            <returns>TRestrainRepository</returns>
-        </member>
         <member name="T:Furion.DatabaseAccessor.ISqlRepository">
             <summary>
             Sql 操作仓储接口
@@ -18858,6 +18851,13 @@
             </summary>
             <typeparam name="TService"></typeparam>
             <returns></returns>
+        </member>
+        <member name="M:Furion.DatabaseAccessor.ISqlRepository`1.Constraint``1">
+            <summary>
+            将仓储约束为特定仓储
+            </summary>
+            <typeparam name="TRestrainRepository">特定仓储</typeparam>
+            <returns>TRestrainRepository</returns>
         </member>
         <member name="T:Furion.DatabaseAccessor.MSRepository`2">
             <summary>
@@ -21984,154 +21984,366 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Furion.ViewEngine.IViewEngineCompilationOptionsBuilder">
+        <member name="T:Furion.ViewEngine.IViewEngineOptionsBuilder">
             <summary>
-            视图编译构建器
+            视图引擎选项构建器
             </summary>
         </member>
-        <member name="P:Furion.ViewEngine.IViewEngineCompilationOptionsBuilder.Options">
+        <member name="P:Furion.ViewEngine.IViewEngineOptionsBuilder.Options">
             <summary>
             视图编译选项
             </summary>
         </member>
-        <member name="M:Furion.ViewEngine.IViewEngineCompilationOptionsBuilder.AddAssemblyReferenceByName(System.String)">
+        <member name="M:Furion.ViewEngine.IViewEngineOptionsBuilder.AddAssemblyReferenceByName(System.String)">
             <summary>
             添加程序集引用
             </summary>
             <param name="assemblyName"></param>
         </member>
-        <member name="M:Furion.ViewEngine.IViewEngineCompilationOptionsBuilder.AddAssemblyReference(System.Reflection.Assembly)">
+        <member name="M:Furion.ViewEngine.IViewEngineOptionsBuilder.AddAssemblyReference(System.Reflection.Assembly)">
             <summary>
             添加程序集引用
             </summary>
             <param name="assembly"></param>
         </member>
-        <member name="M:Furion.ViewEngine.IViewEngineCompilationOptionsBuilder.AddAssemblyReference(System.Type)">
+        <member name="M:Furion.ViewEngine.IViewEngineOptionsBuilder.AddAssemblyReference(System.Type)">
             <summary>
             添加程序集引用
             </summary>
             <param name="type"></param>
         </member>
-        <member name="M:Furion.ViewEngine.IViewEngineCompilationOptionsBuilder.AddMetadataReference(Microsoft.CodeAnalysis.MetadataReference)">
+        <member name="M:Furion.ViewEngine.IViewEngineOptionsBuilder.AddMetadataReference(Microsoft.CodeAnalysis.MetadataReference)">
             <summary>
             添加元数据引用
             </summary>
             <param name="reference"></param>
         </member>
-        <member name="M:Furion.ViewEngine.IViewEngineCompilationOptionsBuilder.AddUsing(System.String)">
+        <member name="M:Furion.ViewEngine.IViewEngineOptionsBuilder.AddUsing(System.String)">
             <summary>
             添加 Using
             </summary>
             <param name="namespaceName"></param>
         </member>
-        <member name="M:Furion.ViewEngine.IViewEngineCompilationOptionsBuilder.Inherits(System.Type)">
+        <member name="M:Furion.ViewEngine.IViewEngineOptionsBuilder.Inherits(System.Type)">
             <summary>
             添加继承类型
             </summary>
             <param name="type"></param>
         </member>
-        <member name="T:Furion.ViewEngine.ViewEngineCompilationOptionsBuilder">
+        <member name="T:Furion.ViewEngine.ViewEngineOptionsBuilder">
             <summary>
             视图编译构建器
             </summary>
         </member>
-        <member name="P:Furion.ViewEngine.ViewEngineCompilationOptionsBuilder.Options">
+        <member name="P:Furion.ViewEngine.ViewEngineOptionsBuilder.Options">
             <summary>
             视图编译选项
             </summary>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompilationOptionsBuilder.#ctor(Furion.ViewEngine.ViewEngineCompilationOptions)">
+        <member name="M:Furion.ViewEngine.ViewEngineOptionsBuilder.#ctor(Furion.ViewEngine.ViewEngineOptions)">
             <summary>
             构造函数
             </summary>
             <param name="options"></param>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompilationOptionsBuilder.AddAssemblyReferenceByName(System.String)">
+        <member name="M:Furion.ViewEngine.ViewEngineOptionsBuilder.AddAssemblyReferenceByName(System.String)">
             <summary>
             添加程序集引用
             </summary>
             <param name="assemblyName"></param>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompilationOptionsBuilder.AddAssemblyReference(System.Reflection.Assembly)">
+        <member name="M:Furion.ViewEngine.ViewEngineOptionsBuilder.AddAssemblyReference(System.Reflection.Assembly)">
             <summary>
             添加程序集引用
             </summary>
             <param name="assembly"></param>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompilationOptionsBuilder.AddAssemblyReference(System.Type)">
+        <member name="M:Furion.ViewEngine.ViewEngineOptionsBuilder.AddAssemblyReference(System.Type)">
             <summary>
             添加程序集引用
             </summary>
             <param name="type"></param>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompilationOptionsBuilder.AddMetadataReference(Microsoft.CodeAnalysis.MetadataReference)">
+        <member name="M:Furion.ViewEngine.ViewEngineOptionsBuilder.AddMetadataReference(Microsoft.CodeAnalysis.MetadataReference)">
             <summary>
             添加元数据引用
             </summary>
             <param name="reference"></param>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompilationOptionsBuilder.AddUsing(System.String)">
+        <member name="M:Furion.ViewEngine.ViewEngineOptionsBuilder.AddUsing(System.String)">
             <summary>
             添加 Using
             </summary>
             <param name="namespaceName"></param>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompilationOptionsBuilder.Inherits(System.Type)">
+        <member name="M:Furion.ViewEngine.ViewEngineOptionsBuilder.Inherits(System.Type)">
             <summary>
             添加继承类型
             </summary>
             <param name="type"></param>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompilationOptionsBuilder.RenderTypeName(System.Type)">
+        <member name="M:Furion.ViewEngine.ViewEngineOptionsBuilder.RenderTypeName(System.Type)">
             <summary>
             渲染类型名
             </summary>
             <param name="type"></param>
             <returns></returns>
         </member>
-        <member name="T:Furion.ViewEngine.ViewEngineCompilationException">
+        <member name="T:Furion.ViewEngine.IViewEngine">
             <summary>
-            视图编译异常类
+            视图引擎接口
             </summary>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompilationException.#ctor">
+        <member name="M:Furion.ViewEngine.IViewEngine.RunCompile(System.String,System.Object,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
             <summary>
-            构造函数
+            编译并运行
+            </summary>
+            <param name="content"></param>
+            <param name="model"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.IViewEngine.RunCompileAsync(System.String,System.Object,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            编译并运行
+            </summary>
+            <param name="content"></param>
+            <param name="model"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.IViewEngine.RunCompile``1(System.String,``0,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            编译并运行
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="content"></param>
+            <param name="model"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.IViewEngine.RunCompileAsync``1(System.String,``0,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            编译并运行
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="content"></param>
+            <param name="model"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.IViewEngine.RunCompileFromCached(System.String,System.Object,System.String,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            通过缓存解析模板
+            </summary>
+            <param name="content"></param>
+            <param name="model"></param>
+            <param name="cacheFile"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.IViewEngine.RunCompileFromCachedAsync(System.String,System.Object,System.String,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            通过缓存解析模板
+            </summary>
+            <param name="content"></param>
+            <param name="model"></param>
+            <param name="cacheFile"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.IViewEngine.RunCompileFromCached``1(System.String,``0,System.String,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            通过缓存解析模板
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="content"></param>
+            <param name="model"></param>
+            <param name="cacheFile"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.IViewEngine.RunCompileFromCachedAsync``1(System.String,``0,System.String,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            通过缓存解析模板
+            </summary>
+            <param name="content"></param>
+            <param name="model"></param>
+            <param name="cacheFile"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.IViewEngine.Compile(System.String,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            编译模板
+            </summary>
+            <param name="content"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.IViewEngine.CompileAsync(System.String,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            编译模板
+            </summary>
+            <param name="content"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.IViewEngine.Compile``1(System.String,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            编译模板
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="content"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.IViewEngine.CompileAsync``1(System.String,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            编译模板
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="content"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Furion.ViewEngine.ViewEngine">
+            <summary>
+            视图引擎实现类
             </summary>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompilationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+        <member name="M:Furion.ViewEngine.ViewEngine.RunCompile(System.String,System.Object,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
             <summary>
-            构造函数
+            编译并运行
             </summary>
-            <param name="info"></param>
-            <param name="context"></param>
+            <param name="content"></param>
+            <param name="model"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompilationException.#ctor(System.String)">
+        <member name="M:Furion.ViewEngine.ViewEngine.RunCompileAsync(System.String,System.Object,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
             <summary>
-            构造函数
+            编译并运行
             </summary>
-            <param name="message"></param>
+            <param name="content"></param>
+            <param name="model"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompilationException.#ctor(System.String,System.Exception)">
+        <member name="M:Furion.ViewEngine.ViewEngine.RunCompile``1(System.String,``0,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
             <summary>
-            构造函数
+            编译并运行
             </summary>
-            <param name="message"></param>
-            <param name="innerException"></param>
+            <typeparam name="T"></typeparam>
+            <param name="content"></param>
+            <param name="model"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
         </member>
-        <member name="P:Furion.ViewEngine.ViewEngineCompilationException.Errors">
+        <member name="M:Furion.ViewEngine.ViewEngine.RunCompileAsync``1(System.String,``0,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
             <summary>
-            错误信息
+            编译并运行
             </summary>
+            <typeparam name="T"></typeparam>
+            <param name="content"></param>
+            <param name="model"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
         </member>
-        <member name="P:Furion.ViewEngine.ViewEngineCompilationException.GeneratedCode">
+        <member name="M:Furion.ViewEngine.ViewEngine.RunCompileFromCached(System.String,System.Object,System.String,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
             <summary>
-            生成的代码
+            通过缓存解析模板
             </summary>
+            <param name="content"></param>
+            <param name="model"></param>
+            <param name="cacheFile"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngine.RunCompileFromCachedAsync(System.String,System.Object,System.String,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            通过缓存解析模板
+            </summary>
+            <param name="content"></param>
+            <param name="model"></param>
+            <param name="cacheFile"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngine.RunCompileFromCached``1(System.String,``0,System.String,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            通过缓存解析模板
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="content"></param>
+            <param name="model"></param>
+            <param name="cacheFile"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngine.RunCompileFromCachedAsync``1(System.String,``0,System.String,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            通过缓存解析模板
+            </summary>
+            <param name="content"></param>
+            <param name="model"></param>
+            <param name="cacheFile"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngine.Compile(System.String,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            编译模板
+            </summary>
+            <param name="content"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngine.CompileAsync(System.String,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            编译模板
+            </summary>
+            <param name="content"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngine.Compile``1(System.String,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            编译模板
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="content"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngine.CompileAsync``1(System.String,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            编译模板
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="content"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngine.CreateAndCompileToStream(System.String,Furion.ViewEngine.ViewEngineOptions)">
+            <summary>
+            将模板内容编译并输出内存流
+            </summary>
+            <param name="templateSource"></param>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngine.WriteDirectives(System.String,Furion.ViewEngine.ViewEngineOptions)">
+            <summary>
+            写入Razor 命令
+            </summary>
+            <param name="content"></param>
+            <param name="options"></param>
+            <returns></returns>
         </member>
         <member name="T:Furion.ViewEngine.ViewEngineException">
             <summary>
-            视图异常类
+            视图引擎异常类
             </summary>
         </member>
         <member name="M:Furion.ViewEngine.ViewEngineException.#ctor">
@@ -22159,43 +22371,134 @@
             <param name="message"></param>
             <param name="innerException"></param>
         </member>
-        <member name="T:Furion.ViewEngine.IViewEngine">
+        <member name="T:Furion.ViewEngine.ViewEngineTemplateException">
             <summary>
-            视图引擎接口
+            视图引擎模板编译异常类
             </summary>
         </member>
-        <member name="M:Furion.ViewEngine.IViewEngine.Compile``1(System.String,System.Action{Furion.ViewEngine.IViewEngineCompilationOptionsBuilder})">
+        <member name="M:Furion.ViewEngine.ViewEngineTemplateException.#ctor">
             <summary>
-            编译模板
+            构造函数
+            </summary>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineTemplateException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineTemplateException.#ctor(System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineTemplateException.#ctor(System.String,System.Exception)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="message"></param>
+            <param name="innerException"></param>
+        </member>
+        <member name="P:Furion.ViewEngine.ViewEngineTemplateException.Errors">
+            <summary>
+            错误信息
+            </summary>
+        </member>
+        <member name="P:Furion.ViewEngine.ViewEngineTemplateException.GeneratedCode">
+            <summary>
+            生成的代码
+            </summary>
+        </member>
+        <member name="T:Furion.ViewEngine.StringViewEngineExtensions">
+            <summary>
+            字符串视图引擎拓展
+            </summary>
+        </member>
+        <member name="M:Furion.ViewEngine.StringViewEngineExtensions.RunCompile(System.String,System.Object,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            编译并运行
+            </summary>
+            <param name="content"></param>
+            <param name="model"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.StringViewEngineExtensions.RunCompileAsync(System.String,System.Object,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            编译并运行
+            </summary>
+            <param name="content"></param>
+            <param name="model"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.StringViewEngineExtensions.RunCompile``1(System.String,``0,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            编译并运行
             </summary>
             <typeparam name="T"></typeparam>
             <param name="content"></param>
+            <param name="model"></param>
             <param name="builderAction"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.ViewEngine.IViewEngine.CompileAsync``1(System.String,System.Action{Furion.ViewEngine.IViewEngineCompilationOptionsBuilder})">
+        <member name="M:Furion.ViewEngine.StringViewEngineExtensions.RunCompileAsync``1(System.String,``0,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
             <summary>
-            编译模板
+            编译并运行
             </summary>
             <typeparam name="T"></typeparam>
             <param name="content"></param>
+            <param name="model"></param>
             <param name="builderAction"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.ViewEngine.IViewEngine.Compile(System.String,System.Action{Furion.ViewEngine.IViewEngineCompilationOptionsBuilder})">
+        <member name="M:Furion.ViewEngine.StringViewEngineExtensions.RunCompileFromCached(System.String,System.Object,System.String,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
             <summary>
-            编译模板
+            通过缓存解析模板
             </summary>
             <param name="content"></param>
+            <param name="model"></param>
+            <param name="cacheFile"></param>
             <param name="builderAction"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.ViewEngine.IViewEngine.CompileAsync(System.String,System.Action{Furion.ViewEngine.IViewEngineCompilationOptionsBuilder})">
+        <member name="M:Furion.ViewEngine.StringViewEngineExtensions.RunCompileFromCachedAsync(System.String,System.Object,System.String,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
             <summary>
-            编译模板
+            通过缓存解析模板
             </summary>
             <param name="content"></param>
+            <param name="model"></param>
+            <param name="cacheFile"></param>
             <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.StringViewEngineExtensions.RunCompileFromCached``1(System.String,``0,System.String,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            通过缓存解析模板
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="content"></param>
+            <param name="model"></param>
+            <param name="cacheFile"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.StringViewEngineExtensions.RunCompileFromCachedAsync``1(System.String,``0,System.String,System.Action{Furion.ViewEngine.IViewEngineOptionsBuilder})">
+            <summary>
+            通过缓存解析模板
+            </summary>
+            <param name="content"></param>
+            <param name="model"></param>
+            <param name="cacheFile"></param>
+            <param name="builderAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.StringViewEngineExtensions.GetViewEngine">
+            <summary>
+            获取视图引擎对象
+            </summary>
             <returns></returns>
         </member>
         <member name="T:Furion.ViewEngine.AnonymousTypeWrapper">
@@ -22222,507 +22525,469 @@
             <param name="result"></param>
             <returns></returns>
         </member>
-        <member name="T:Furion.ViewEngine.ViewEngineCompilationOptions">
+        <member name="T:Furion.ViewEngine.IViewEngineModel">
             <summary>
-            视图编译选项
+            视图引擎模板模型接口
             </summary>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompilationOptions.#ctor">
+        <member name="P:Furion.ViewEngine.IViewEngineModel.Model">
+            <summary>
+            模型
+            </summary>
+        </member>
+        <member name="M:Furion.ViewEngine.IViewEngineModel.WriteLiteral(System.String)">
+            <summary>
+            插入字面量
+            </summary>
+            <param name="literal"></param>
+        </member>
+        <member name="M:Furion.ViewEngine.IViewEngineModel.Write(System.Object)">
+            <summary>
+            插入对象
+            </summary>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Furion.ViewEngine.IViewEngineModel.BeginWriteAttribute(System.String,System.String,System.Int32,System.String,System.Int32,System.Int32)">
+            <summary>
+            插入属性
+            </summary>
+            <param name="name"></param>
+            <param name="prefix"></param>
+            <param name="prefixOffset"></param>
+            <param name="suffix"></param>
+            <param name="suffixOffset"></param>
+            <param name="attributeValuesCount"></param>
+        </member>
+        <member name="M:Furion.ViewEngine.IViewEngineModel.WriteAttributeValue(System.String,System.Int32,System.Object,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            插入属性值
+            </summary>
+            <param name="prefix"></param>
+            <param name="prefixOffset"></param>
+            <param name="value"></param>
+            <param name="valueOffset"></param>
+            <param name="valueLength"></param>
+            <param name="isLiteral"></param>
+        </member>
+        <member name="M:Furion.ViewEngine.IViewEngineModel.EndWriteAttribute">
+            <summary>
+            结束插入属性
+            </summary>
+        </member>
+        <member name="M:Furion.ViewEngine.IViewEngineModel.ExecuteAsync">
+            <summary>
+            执行
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.IViewEngineModel.Result">
+            <summary>
+            返回结果
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Furion.ViewEngine.ViewEngineModel">
+            <summary>
+            视图引擎模板模型实现类
+            </summary>
+        </member>
+        <member name="F:Furion.ViewEngine.ViewEngineModel.stringBuilder">
+            <summary>
+            字符串构建器
+            </summary>
+        </member>
+        <member name="F:Furion.ViewEngine.ViewEngineModel.attributeSuffix">
+            <summary>
+            特性后缀
+            </summary>
+        </member>
+        <member name="P:Furion.ViewEngine.ViewEngineModel.Model">
+            <summary>
+            视图模型
+            </summary>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineModel.WriteLiteral(System.String)">
+            <summary>
+            插入字面量
+            </summary>
+            <param name="literal"></param>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineModel.Write(System.Object)">
+            <summary>
+            插入对象
+            </summary>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineModel.BeginWriteAttribute(System.String,System.String,System.Int32,System.String,System.Int32,System.Int32)">
+            <summary>
+            插入属性
+            </summary>
+            <param name="name"></param>
+            <param name="prefix"></param>
+            <param name="prefixOffset"></param>
+            <param name="suffix"></param>
+            <param name="suffixOffset"></param>
+            <param name="attributeValuesCount"></param>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineModel.WriteAttributeValue(System.String,System.Int32,System.Object,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            插入属性值
+            </summary>
+            <param name="prefix"></param>
+            <param name="prefixOffset"></param>
+            <param name="value"></param>
+            <param name="valueOffset"></param>
+            <param name="valueLength"></param>
+            <param name="isLiteral"></param>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineModel.EndWriteAttribute">
+            <summary>
+            结束插入属性
+            </summary>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineModel.ExecuteAsync">
+            <summary>
+            执行
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineModel.Result">
+            <summary>
+            返回结果
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Furion.ViewEngine.ViewEngineModel`1">
+            <summary>
+            视图引擎模板模型实现类
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Furion.ViewEngine.ViewEngineModel`1.Model">
+            <summary>
+            强类型
+            </summary>
+        </member>
+        <member name="T:Furion.ViewEngine.ViewEngineOptions">
+            <summary>
+            视图引擎编译选项
+            </summary>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineOptions.#ctor">
             <summary>
             构造函数
             </summary>
         </member>
-        <member name="P:Furion.ViewEngine.ViewEngineCompilationOptions.ReferencedAssemblies">
+        <member name="P:Furion.ViewEngine.ViewEngineOptions.ReferencedAssemblies">
             <summary>
             引用程序集
             </summary>
         </member>
-        <member name="P:Furion.ViewEngine.ViewEngineCompilationOptions.MetadataReferences">
+        <member name="P:Furion.ViewEngine.ViewEngineOptions.MetadataReferences">
             <summary>
             元数据引用
             </summary>
         </member>
-        <member name="P:Furion.ViewEngine.ViewEngineCompilationOptions.TemplateNamespace">
+        <member name="P:Furion.ViewEngine.ViewEngineOptions.TemplateNamespace">
             <summary>
             模板命名空间
             </summary>
         </member>
-        <member name="P:Furion.ViewEngine.ViewEngineCompilationOptions.Inherits">
+        <member name="P:Furion.ViewEngine.ViewEngineOptions.Inherits">
             <summary>
             继承
             </summary>
         </member>
-        <member name="P:Furion.ViewEngine.ViewEngineCompilationOptions.DefaultUsings">
+        <member name="P:Furion.ViewEngine.ViewEngineOptions.DefaultUsings">
             <summary>
             默认 Using
             </summary>
         </member>
-        <member name="T:Furion.ViewEngine.IViewEngineCompiledTemplate">
+        <member name="T:Furion.ViewEngine.Penetrates">
             <summary>
-            视图编译模板接口
+            常量、公共方法配置类
             </summary>
         </member>
-        <member name="M:Furion.ViewEngine.IViewEngineCompiledTemplate.SaveToStream(System.IO.Stream)">
+        <member name="F:Furion.ViewEngine.Penetrates.TemplateSaveDir">
+            <summary>
+            模板保存目录
+            </summary>
+        </member>
+        <member name="M:Furion.ViewEngine.Penetrates.GetTemplateFileName(System.String)">
+            <summary>
+            获取模板文件名
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Furion.ViewEngine.IViewEngineTemplate">
+            <summary>
+            视图引擎模板（编译后）
+            </summary>
+        </member>
+        <member name="M:Furion.ViewEngine.IViewEngineTemplate.SaveToStream(System.IO.Stream)">
             <summary>
             保存到流中
             </summary>
             <param name="stream"></param>
         </member>
-        <member name="M:Furion.ViewEngine.IViewEngineCompiledTemplate.SaveToStreamAsync(System.IO.Stream)">
+        <member name="M:Furion.ViewEngine.IViewEngineTemplate.SaveToStreamAsync(System.IO.Stream)">
             <summary>
             保存到流中
             </summary>
             <param name="stream"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.ViewEngine.IViewEngineCompiledTemplate.SaveToFile(System.String)">
+        <member name="M:Furion.ViewEngine.IViewEngineTemplate.SaveToFile(System.String)">
             <summary>
             保存到文件
             </summary>
             <param name="fileName"></param>
         </member>
-        <member name="M:Furion.ViewEngine.IViewEngineCompiledTemplate.SaveToFileAsync(System.String)">
+        <member name="M:Furion.ViewEngine.IViewEngineTemplate.SaveToFileAsync(System.String)">
             <summary>
             保存到文件
             </summary>
             <param name="fileName"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.ViewEngine.IViewEngineCompiledTemplate.Run(System.Object)">
+        <member name="M:Furion.ViewEngine.IViewEngineTemplate.Run(System.Object)">
             <summary>
             执行编译
             </summary>
             <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.ViewEngine.IViewEngineCompiledTemplate.RunAsync(System.Object)">
+        <member name="M:Furion.ViewEngine.IViewEngineTemplate.RunAsync(System.Object)">
             <summary>
             执行编译
             </summary>
             <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="T:Furion.ViewEngine.IViewEngineCompiledTemplate`1">
+        <member name="T:Furion.ViewEngine.IViewEngineTemplate`1">
             <summary>
             泛型视图编译模板接口
             </summary>
             <typeparam name="T"></typeparam>
         </member>
-        <member name="M:Furion.ViewEngine.IViewEngineCompiledTemplate`1.SaveToStream(System.IO.Stream)">
+        <member name="M:Furion.ViewEngine.IViewEngineTemplate`1.SaveToStream(System.IO.Stream)">
             <summary>
             保存到流中
             </summary>
             <param name="stream"></param>
         </member>
-        <member name="M:Furion.ViewEngine.IViewEngineCompiledTemplate`1.SaveToStreamAsync(System.IO.Stream)">
+        <member name="M:Furion.ViewEngine.IViewEngineTemplate`1.SaveToStreamAsync(System.IO.Stream)">
             <summary>
             保存到流中
             </summary>
             <param name="stream"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.ViewEngine.IViewEngineCompiledTemplate`1.SaveToFile(System.String)">
+        <member name="M:Furion.ViewEngine.IViewEngineTemplate`1.SaveToFile(System.String)">
             <summary>
             保存到文件
             </summary>
             <param name="fileName"></param>
         </member>
-        <member name="M:Furion.ViewEngine.IViewEngineCompiledTemplate`1.SaveToFileAsync(System.String)">
-            <summary>
-            保存到文件
-            </summary>
-            <param name="fileName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Furion.ViewEngine.IViewEngineCompiledTemplate`1.Run(System.Action{`0})">
-            <summary>
-            执行编译
-            </summary>
-            <param name="initializer"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Furion.ViewEngine.IViewEngineCompiledTemplate`1.RunAsync(System.Action{`0})">
-            <summary>
-            执行编译
-            </summary>
-            <param name="initializer"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Furion.ViewEngine.IViewEngineTemplate">
-            <summary>
-            视图模板接口
-            </summary>
-        </member>
-        <member name="P:Furion.ViewEngine.IViewEngineTemplate.Model">
-            <summary>
-            模型
-            </summary>
-        </member>
-        <member name="M:Furion.ViewEngine.IViewEngineTemplate.WriteLiteral(System.String)">
-            <summary>
-            插入字面量
-            </summary>
-            <param name="literal"></param>
-        </member>
-        <member name="M:Furion.ViewEngine.IViewEngineTemplate.Write(System.Object)">
-            <summary>
-            插入对象
-            </summary>
-            <param name="obj"></param>
-        </member>
-        <member name="M:Furion.ViewEngine.IViewEngineTemplate.BeginWriteAttribute(System.String,System.String,System.Int32,System.String,System.Int32,System.Int32)">
-            <summary>
-            插入属性
-            </summary>
-            <param name="name"></param>
-            <param name="prefix"></param>
-            <param name="prefixOffset"></param>
-            <param name="suffix"></param>
-            <param name="suffixOffset"></param>
-            <param name="attributeValuesCount"></param>
-        </member>
-        <member name="M:Furion.ViewEngine.IViewEngineTemplate.WriteAttributeValue(System.String,System.Int32,System.Object,System.Int32,System.Int32,System.Boolean)">
-            <summary>
-            插入属性值
-            </summary>
-            <param name="prefix"></param>
-            <param name="prefixOffset"></param>
-            <param name="value"></param>
-            <param name="valueOffset"></param>
-            <param name="valueLength"></param>
-            <param name="isLiteral"></param>
-        </member>
-        <member name="M:Furion.ViewEngine.IViewEngineTemplate.EndWriteAttribute">
-            <summary>
-            结束插入属性
-            </summary>
-        </member>
-        <member name="M:Furion.ViewEngine.IViewEngineTemplate.ExecuteAsync">
-            <summary>
-            执行
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Furion.ViewEngine.IViewEngineTemplate.Result">
-            <summary>
-            返回结果
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:Furion.ViewEngine.ViewEngineCompiledTemplate">
-            <summary>
-            视图编译模板实现类
-            </summary>
-        </member>
-        <member name="F:Furion.ViewEngine.ViewEngineCompiledTemplate.assemblyByteCode">
-            <summary>
-            内存流
-            </summary>
-        </member>
-        <member name="F:Furion.ViewEngine.ViewEngineCompiledTemplate.templateType">
-            <summary>
-            模板类型
-            </summary>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate.#ctor(System.IO.MemoryStream)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="assemblyByteCode"></param>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate.SaveToStream(System.IO.Stream)">
-            <summary>
-            保存到流中
-            </summary>
-            <param name="stream"></param>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate.SaveToStreamAsync(System.IO.Stream)">
-            <summary>
-            保存到流中
-            </summary>
-            <param name="stream"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate.SaveToFile(System.String)">
-            <summary>
-            保存到文件
-            </summary>
-            <param name="fileName"></param>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate.SaveToFileAsync(System.String)">
+        <member name="M:Furion.ViewEngine.IViewEngineTemplate`1.SaveToFileAsync(System.String)">
             <summary>
             保存到文件
             </summary>
             <param name="fileName"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate.Run(System.Object)">
-            <summary>
-            执行编译
-            </summary>
-            <param name="model"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate.RunAsync(System.Object)">
-            <summary>
-            执行编译
-            </summary>
-            <param name="model"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate.LoadFromFile(System.String)">
-            <summary>
-            从文件中加载模板
-            </summary>
-            <param name="fileName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate.LoadFromFileAsync(System.String)">
-            <summary>
-            从文件中加载模板
-            </summary>
-            <param name="fileName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate.LoadFromStream(System.IO.Stream)">
-            <summary>
-            从流中加载模板
-            </summary>
-            <param name="stream"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate.LoadFromStreamAsync(System.IO.Stream)">
-            <summary>
-            从流中加载模板
-            </summary>
-            <param name="stream"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Furion.ViewEngine.ViewEngineCompiledTemplate`1">
-            <summary>
-            泛型视图模板实现类
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="F:Furion.ViewEngine.ViewEngineCompiledTemplate`1.assemblyByteCode">
-            <summary>
-            内存流
-            </summary>
-        </member>
-        <member name="F:Furion.ViewEngine.ViewEngineCompiledTemplate`1.templateType">
-            <summary>
-            内存流
-            </summary>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate`1.#ctor(System.IO.MemoryStream)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="assemblyByteCode"></param>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate`1.SaveToStream(System.IO.Stream)">
-            <summary>
-            保存到流中
-            </summary>
-            <param name="stream"></param>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate`1.SaveToStreamAsync(System.IO.Stream)">
-            <summary>
-            保存到流中
-            </summary>
-            <param name="stream"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate`1.SaveToFile(System.String)">
-            <summary>
-            保存到文件中
-            </summary>
-            <param name="fileName"></param>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate`1.SaveToFileAsync(System.String)">
-            <summary>
-            保存到文件中
-            </summary>
-            <param name="fileName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate`1.Run(System.Action{`0})">
+        <member name="M:Furion.ViewEngine.IViewEngineTemplate`1.Run(System.Action{`0})">
             <summary>
             执行编译
             </summary>
             <param name="initializer"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate`1.RunAsync(System.Action{`0})">
+        <member name="M:Furion.ViewEngine.IViewEngineTemplate`1.RunAsync(System.Action{`0})">
             <summary>
             执行编译
             </summary>
             <param name="initializer"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate`1.LoadFromFile(System.String)">
-            <summary>
-            从文件中加载模板
-            </summary>
-            <param name="fileName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate`1.LoadFromFileAsync(System.String)">
-            <summary>
-            从文件中加载模板
-            </summary>
-            <param name="fileName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate`1.LoadFromStream(System.IO.Stream)">
-            <summary>
-            从流中加载模板
-            </summary>
-            <param name="stream"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineCompiledTemplate`1.LoadFromStreamAsync(System.IO.Stream)">
-            <summary>
-            从流中加载模板
-            </summary>
-            <param name="stream"></param>
             <returns></returns>
         </member>
         <member name="T:Furion.ViewEngine.ViewEngineTemplate">
             <summary>
-            视图模板实现类
+            视图引擎模板（编译后）
             </summary>
         </member>
-        <member name="F:Furion.ViewEngine.ViewEngineTemplate.stringBuilder">
+        <member name="F:Furion.ViewEngine.ViewEngineTemplate.assemblyByteCode">
             <summary>
-            字符串构建器
+            内存流
             </summary>
         </member>
-        <member name="F:Furion.ViewEngine.ViewEngineTemplate.attributeSuffix">
+        <member name="F:Furion.ViewEngine.ViewEngineTemplate.templateType">
             <summary>
-            特性后缀
+            模板类型
             </summary>
         </member>
-        <member name="P:Furion.ViewEngine.ViewEngineTemplate.Model">
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate.#ctor(System.IO.MemoryStream)">
             <summary>
-            视图模型
+            构造函数
             </summary>
+            <param name="assemblyByteCode"></param>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngineTemplate.WriteLiteral(System.String)">
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate.SaveToStream(System.IO.Stream)">
             <summary>
-            插入字面量
+            保存到流中
             </summary>
-            <param name="literal"></param>
+            <param name="stream"></param>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngineTemplate.Write(System.Object)">
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate.SaveToStreamAsync(System.IO.Stream)">
             <summary>
-            插入对象
+            保存到流中
             </summary>
-            <param name="obj"></param>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineTemplate.BeginWriteAttribute(System.String,System.String,System.Int32,System.String,System.Int32,System.Int32)">
-            <summary>
-            插入属性
-            </summary>
-            <param name="name"></param>
-            <param name="prefix"></param>
-            <param name="prefixOffset"></param>
-            <param name="suffix"></param>
-            <param name="suffixOffset"></param>
-            <param name="attributeValuesCount"></param>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineTemplate.WriteAttributeValue(System.String,System.Int32,System.Object,System.Int32,System.Int32,System.Boolean)">
-            <summary>
-            插入属性值
-            </summary>
-            <param name="prefix"></param>
-            <param name="prefixOffset"></param>
-            <param name="value"></param>
-            <param name="valueOffset"></param>
-            <param name="valueLength"></param>
-            <param name="isLiteral"></param>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineTemplate.EndWriteAttribute">
-            <summary>
-            结束插入属性
-            </summary>
-        </member>
-        <member name="M:Furion.ViewEngine.ViewEngineTemplate.ExecuteAsync">
-            <summary>
-            执行
-            </summary>
+            <param name="stream"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngineTemplate.Result">
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate.SaveToFile(System.String)">
             <summary>
-            返回结果
+            保存到文件
             </summary>
+            <param name="fileName"></param>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate.SaveToFileAsync(System.String)">
+            <summary>
+            保存到文件
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate.Run(System.Object)">
+            <summary>
+            执行编译
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate.RunAsync(System.Object)">
+            <summary>
+            执行编译
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate.LoadFromFile(System.String)">
+            <summary>
+            从文件中加载模板
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate.LoadFromFileAsync(System.String)">
+            <summary>
+            从文件中加载模板
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate.LoadFromStream(System.IO.Stream)">
+            <summary>
+            从流中加载模板
+            </summary>
+            <param name="stream"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate.LoadFromStreamAsync(System.IO.Stream)">
+            <summary>
+            从流中加载模板
+            </summary>
+            <param name="stream"></param>
             <returns></returns>
         </member>
         <member name="T:Furion.ViewEngine.ViewEngineTemplate`1">
             <summary>
-            视图模板实现类
+            视图引擎模板（编译后）
             </summary>
             <typeparam name="T"></typeparam>
         </member>
-        <member name="P:Furion.ViewEngine.ViewEngineTemplate`1.Model">
+        <member name="F:Furion.ViewEngine.ViewEngineTemplate`1.assemblyByteCode">
             <summary>
-            强类型
+            内存流
             </summary>
         </member>
-        <member name="T:Furion.ViewEngine.ViewEngine">
+        <member name="F:Furion.ViewEngine.ViewEngineTemplate`1.templateType">
             <summary>
-            视图引擎实现类
+            内存流
             </summary>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngine.Compile``1(System.String,System.Action{Furion.ViewEngine.IViewEngineCompilationOptionsBuilder})">
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate`1.#ctor(System.IO.MemoryStream)">
             <summary>
-            编译模板
+            构造函数
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="content"></param>
-            <param name="builderAction"></param>
+            <param name="assemblyByteCode"></param>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate`1.SaveToStream(System.IO.Stream)">
+            <summary>
+            保存到流中
+            </summary>
+            <param name="stream"></param>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate`1.SaveToStreamAsync(System.IO.Stream)">
+            <summary>
+            保存到流中
+            </summary>
+            <param name="stream"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngine.CompileAsync``1(System.String,System.Action{Furion.ViewEngine.IViewEngineCompilationOptionsBuilder})">
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate`1.SaveToFile(System.String)">
             <summary>
-            编译模板
+            保存到文件中
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="content"></param>
-            <param name="builderAction"></param>
+            <param name="fileName"></param>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate`1.SaveToFileAsync(System.String)">
+            <summary>
+            保存到文件中
+            </summary>
+            <param name="fileName"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngine.Compile(System.String,System.Action{Furion.ViewEngine.IViewEngineCompilationOptionsBuilder})">
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate`1.Run(System.Action{`0})">
             <summary>
-            编译模板
+            执行编译
             </summary>
-            <param name="content"></param>
-            <param name="builderAction"></param>
+            <param name="initializer"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngine.CompileAsync(System.String,System.Action{Furion.ViewEngine.IViewEngineCompilationOptionsBuilder})">
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate`1.RunAsync(System.Action{`0})">
             <summary>
-            编译模板
+            执行编译
             </summary>
-            <param name="content"></param>
-            <param name="builderAction"></param>
+            <param name="initializer"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngine.CreateAndCompileToStream(System.String,Furion.ViewEngine.ViewEngineCompilationOptions)">
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate`1.LoadFromFile(System.String)">
             <summary>
-            将模板内容编译并输出内存流
+            从文件中加载模板
             </summary>
-            <param name="templateSource"></param>
-            <param name="options"></param>
+            <param name="fileName"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.ViewEngine.ViewEngine.WriteDirectives(System.String,Furion.ViewEngine.ViewEngineCompilationOptions)">
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate`1.LoadFromFileAsync(System.String)">
             <summary>
-            写入Razor 命令
+            从文件中加载模板
             </summary>
-            <param name="content"></param>
-            <param name="options"></param>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate`1.LoadFromStream(System.IO.Stream)">
+            <summary>
+            从流中加载模板
+            </summary>
+            <param name="stream"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.ViewEngine.ViewEngineTemplate`1.LoadFromStreamAsync(System.IO.Stream)">
+            <summary>
+            从流中加载模板
+            </summary>
+            <param name="stream"></param>
             <returns></returns>
         </member>
         <member name="T:Microsoft.AspNetCore.Builder.AppApplicationBuilderExtensions">
@@ -23812,11 +24077,12 @@
             视图引擎服务拓展类
             </summary>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ViewEngineServiceCollectionExtensions.AddViewEngine(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:Microsoft.Extensions.DependencyInjection.ViewEngineServiceCollectionExtensions.AddViewEngine(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String)">
             <summary>
-            添加事务引擎
+            添加视图引擎
             </summary>
             <param name="services"></param>
+            <param name="templateSaveDir"></param>
             <returns></returns>
         </member>
         <member name="T:Microsoft.Extensions.Hosting.HostBuilderExtensions">
