@@ -23807,6 +23807,18 @@
             <param name="format"></param>
             <returns></returns>
         </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.ViewEngineServiceCollectionExtensions">
+            <summary>
+            视图引擎服务拓展类
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.ViewEngineServiceCollectionExtensions.AddViewEngine(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加事务引擎
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
         <member name="T:Microsoft.Extensions.Hosting.HostBuilderExtensions">
             <summary>
             主机构建器拓展类
