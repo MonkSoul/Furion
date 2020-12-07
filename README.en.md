@@ -58,6 +58,11 @@
 <img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/furionlogo.png" height="120"/>
 </p>
 
+## 🍯 开源案例
+
+- **[考试君](https://gitee.com/pig0224/ExamKing)**：基于 `Furion` 的在线考试系统
+- **[园丁](https://gitee.com/hgflydream/Gardener)**：基于 `Furion` + `Blazor` 的超简单后台管理系统
+
 ## 🍟 文档地址
 
 - 国内文档：[https://monksoul.gitee.io/furion/](https://monksoul.gitee.io/furion/)
