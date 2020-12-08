@@ -128,10 +128,11 @@ namespace Furion
             "appsettings.json",
             "appsettings.Development.json",
             "appsettings.Production.json",
+            "bundleconfig.json"
         };
 
         /// <summary>
-        /// 运行时 Json 后缀
+        /// 排除运行时 Json 后缀
         /// </summary>
         private static readonly string[] runtimeJsonSuffixs = new[]
         {
