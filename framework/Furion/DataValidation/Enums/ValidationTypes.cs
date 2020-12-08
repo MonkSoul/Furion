@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Text.RegularExpressions;
 
 namespace Furion.DataValidation
@@ -15,7 +15,7 @@ namespace Furion.DataValidation
         /// 表达式：^[\w\W]+$
         /// </para>
         /// </summary>
-        [Description("非空非Null"), ValidationItemMetadata(@" ^[\w\W]+$", "The Value is required")]
+        [Description("非空非Null"), ValidationItemMetadata(@"^[\w\W]+$", "The Value is required")]
         Required,
 
         /// <summary>
