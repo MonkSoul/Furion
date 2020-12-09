@@ -87,7 +87,7 @@ namespace Furion.EntityFramework.Core
 ```
 
 :::important 特别注意
-所有数据库上下文都应该在 `Furion.EntityFramework.Core` 项目中创建。关于 `TDbContextLocator` 将在下一章节 《[9.2 数据库上下文定位器](dbcontext-locator)》阐述。
+所有数据库上下文都应该在 `Furion.EntityFramework.Core` 项目中创建。另外如果系统用到了多个数据库，那么从第二个开始必须指定数据库上下文定位器。关于 `TDbContextLocator` 将在下一章节 《[9.2 数据库上下文定位器](dbcontext-locator)》阐述。
 :::
 
 ## 9.1.5 配置连接字符串

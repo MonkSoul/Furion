@@ -21,7 +21,6 @@ import TabItem from "@theme/TabItem";
 >
   <TabItem value="person">
 
-
 ```cs {38,43,48}
 using Furion.DatabaseAccessor;
 using System;
@@ -78,7 +77,6 @@ namespace Furion.Core
   </TabItem>
   <TabItem value="person-detail">
 
-
 ```cs {25}
 using Furion.DatabaseAccessor;
 
@@ -111,7 +109,6 @@ namespace Furion.Core
 
   </TabItem>
   <TabItem value="children">
-
 
 ```cs {35}
 using Furion.DatabaseAccessor;
@@ -155,9 +152,7 @@ namespace Furion.Core
 
   </TabItem>
 
-
   <TabItem value="post">
-
 
 ```cs {26}
 using Furion.DatabaseAccessor;
@@ -192,7 +187,6 @@ namespace Furion.Core
 
   </TabItem>
 </Tabs>
-
 
 ## 9.11.2 一对一查询
 
@@ -383,7 +377,6 @@ var query = repository.AsQueryable()
 >
   <TabItem value="city">
 
-
 ```cs {12,36,41,49-55}
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
@@ -466,7 +459,6 @@ namespace Furion.Core
   </TabItem>
   <TabItem value="citydto">
 
-
 ```cs
 using System.Collections.Generic;
 
@@ -494,7 +486,6 @@ namespace Furion.Application.Persons
 
   </TabItem>
 </Tabs>
-
 
 ```cs
 var cities = await repository.AsQueryable()
@@ -548,7 +539,26 @@ var e = DynamicExpressionParser.ParseLambda(
         "London", 10);
 ```
 
-## 9.11.11 性能优化
+## 9.11.11 时态查询
+
+`Furion` 框架还提供了时态查询功能，可以查询特定时间的数据，如：
+
+```cs
+var result = rep.Entities
+    .AsTemporalOf(DateTime.UtcNow.AddDays(-1))
+    .Include(i=> i.Company)
+    .FirstOrDefault(i => i.Name == "Furion");
+```
+
+另外提供了多个时态查询方法
+
+- AsTemporalAll()
+- AsTemporalAsOf(date)
+- AsTemporalFrom(startDate, endDate)
+- AsTemporalBetween(startDate, endDate)
+- AsTemporalContained(startDate, endDate)
+
+## 9.11.12 性能优化
 
 默认情况下，`EF Core` 会跟踪所有实体，也就是任何数据改变都会引起数据检查，所以如果只做查询操作，建议关闭实体跟踪功能。
 
@@ -560,7 +570,7 @@ var e = DynamicExpressionParser.ParseLambda(
 
 在 `EF Core` 中，复杂查询总是会生成一个 `sql`，也就是 `AsSingleQuery()`，我们也可以设置为 `AsSplitQuery()` 切割成多个查询。
 
-## 9.11.12 分表查询小例子
+## 9.11.13 分表查询小例子
 
 ```cs
 using Furion.DatabaseAccessor;
@@ -596,7 +606,7 @@ namespace Furion.Core
 var posts = repository.Where(u => u.Id > 10).ToList();
 ```
 
-## 9.11.12 反馈与建议
+## 9.11.14 反馈与建议
 
 :::note 与我们交流
 
