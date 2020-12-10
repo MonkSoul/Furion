@@ -171,6 +171,10 @@ namespace Furion.EntityFramework.Core
 - `ConnectionString`：数据库连接字符串，或配置文件中的路径（支持自定义配置查找），或 `appsetting.json` 的 `ConnectionStrings` 配置字符串
 - `TablePrefix`：当前数据库上下文表统一前缀
 - `TableSuffix`：当前数据库上下文表统一后缀
+- `ProviderName`：配置数据库提供器类型，传入 `DbProvider.Xxx`
+- `Mode`：配置数据库上下文模式，`DbContextMode` 枚举类型，取值：
+  - `Cached`：缓存模型数据库上下文，默认值
+  - `Dynamic`：动态模型数据库上下文
 
 ### 9.1.5.3 `OnConfiguring` 方式配置
 

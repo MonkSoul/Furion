@@ -71,6 +71,10 @@ module.exports = {
     },
     {
       type: "doc",
+      id: "sqlsugar",
+    },
+    {
+      type: "doc",
       id: "saas",
     },
     {
@@ -139,7 +143,7 @@ module.exports = {
     },
     {
       type: "category",
-      label: "27. 测试指南",
+      label: "28. 测试指南",
       items: ["unittest", "performance"],
     },
     {
@@ -148,7 +152,7 @@ module.exports = {
     },
     {
       type: "category",
-      label: "29. 常见问题",
+      label: "30. 常见问题",
       items: ["answer", "errors", "gooduse"],
     },
   ],

@@ -1,12 +1,12 @@
 ---
 id: dependency-injection
-title: 11. 依赖注入/控制反转
-sidebar_label: 11. 依赖注入/控制反转
+title: 12. 依赖注入/控制反转
+sidebar_label: 12. 依赖注入/控制反转
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
-## 11.1 依赖注入
+## 12.1 依赖注入
 
 所谓依赖注入，是指程序运行过程中，如果需要调用另一个对象协助时，无须在代码中创建被调用者，而是依赖于外部的注入。
 
@@ -16,13 +16,13 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 依赖注入的英文为：`Dependency Injection`，简称 `DI`
 
-## 11.2 控制反转
+## 12.2 控制反转
 
 控制反转只是一个概念，也就是将创建对象实例的控制权（原本是程序员）从代码控制权剥离到 `IOC 容器` 中控制。
 
 控制反转的英文为：`Inversion of Control`，简称 `IOC`
 
-## 11.3 `IOC/DI` 优缺点
+## 12.3 `IOC/DI` 优缺点
 
 传统的代码，每个对象负责管理与自己需要依赖的对象，导致如果需要切换依赖对象的实现类时，需要修改多处地方。同时，过度耦合也使得对象难以进行单元测试。
 
@@ -41,9 +41,9 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
-## 11.4 依赖注入的三种方式
+## 12.4 依赖注入的三种方式
 
-### 11.4.1 构造方法注入
+### 12.4.1 构造方法注入
 
 目前构造方法注入是依赖注入推荐使用方式。
 
@@ -72,7 +72,7 @@ public class FurService
 }
 ```
 
-### 11.4.2 属性方式注入
+### 12.4.2 属性方式注入
 
 **通过属性方式注入容易和类的实例属性混淆，不建议使用。**
 
@@ -93,7 +93,7 @@ public class FurService
 }
 ```
 
-### 11.4.3 方法参数注入
+### 12.4.3 方法参数注入
 
 方法参数注入的意思是在创建对象后，通过自动调用某个方法来注入依赖。
 
@@ -116,9 +116,9 @@ public class FurService
 }
 ```
 
-## 11.5 注册对象生存期
+## 12.5 注册对象生存期
 
-### 11.5.1 `暂时/瞬时` 生存期
+### 12.5.1 `暂时/瞬时` 生存期
 
 暂时生存期服务是每次从服务容器进行请求时创建的。 这种生存期适合轻量级、 无状态的服务。
 
@@ -126,13 +126,13 @@ public class FurService
 
 通常我们使用 `ITransient` 接口依赖表示该生命周期。
 
-### 11.5.2 `作用域` 生存期
+### 12.5.2 `作用域` 生存期
 
 作用域生存期服务针对每个客户端请求（连接）创建一次。在处理请求的应用中，在请求结束时会释放有作用域的服务。
 
 通常我们使用 `IScoped` 接口依赖表示该生命周期。
 
-### 11.5.3 `单例` 生存期
+### 12.5.3 `单例` 生存期
 
 在首次请求它们时进行创建，之后每个后续请求都使用相同的实例。
 
@@ -144,7 +144,7 @@ public class FurService
 
 :::
 
-## 11.6 内置依赖接口
+## 12.6 内置依赖接口
 
 `Furion` 框架提供三个接口依赖分别对应不同的服务生存期：
 
@@ -152,9 +152,9 @@ public class FurService
 - `IScoped`：对应请求作用域服务生存期
 - `ISingleton`：对应单例作用域服务生存期
 
-## 11.7 常见使用
+## 12.7 常见使用
 
-### 11.7.2 第一个例子
+### 12.7.2 第一个例子
 
 创建 `IBusinessService` 接口和 `BusinessService` 实现类，代码如下：
 
@@ -229,7 +229,7 @@ namespace Furion.Web.Entry.Controllers
 
 这就是依赖注入/控制反转最经典的例子。
 
-### 11.7.3 注册泛型实例
+### 12.7.3 注册泛型实例
 
 创建 `IBusinessService<T>` 接口和 `BusinessService<T>` 实现类，代码如下：
 
@@ -290,7 +290,7 @@ namespace Furion.Web.Entry.Controllers
 }
 ```
 
-### 11.7.4 一个接口多个实现
+### 12.7.4 一个接口多个实现
 
 默认情况下，一个接口只对应一个实现类，但有些特殊情况，需要需要多个实现类注册同一个接口，如 `DbContext` 多数据库情况。
 
@@ -396,7 +396,7 @@ _otherBusinessService = resolveNamed("BusName2", default) as IBusinessService;
 
 :::
 
-### 11.7.5 无接口方式
+### 12.7.5 无接口方式
 
 有些时候，我们不想定义接口，而是想把实例类作为可依赖注入的对象，如 MVC 中的控制器。
 
@@ -455,7 +455,7 @@ namespace Furion.Web.Entry.Controllers
 }
 ```
 
-## 11.8 `[Injection]` 特性配置
+## 12.8 `[Injection]` 特性配置
 
 `Furion` 框架提供 `[Injection]` 特性可以改变注册方式，同时还能配置 `AOP` 拦截。
 
@@ -474,7 +474,7 @@ namespace Furion.Web.Entry.Controllers
 - `Order`：注册排序，数字越大，则越在最后注册，默认 `0`
 - `Proxy`：配置代理拦截类型，也就是 `AOP`，**代理类型必须继承 `DispatchProxy` 类和 `IDispatchProxy` 接口**，无默认值
 
-## 11.9 自定义高级注册
+## 12.9 自定义高级注册
 
 默认情况下，`Furion` 提供的注册方式可以满足大多数依赖注入的需求，如有特别注册需求，只需要在 `Startup` 中配置即可，如：
 
@@ -499,7 +499,7 @@ services.AddScoped(typeof(ISpecService), provider = > {
 
 :::
 
-## 11.10 `appsettings.json` 配置注册
+## 12.10 `appsettings.json` 配置注册
 
 除了在代码中实现依赖注入，也可以实现动态依赖注入，无需修改代码或重新编译即可实现热拔插（插件）效果。配置如下：
 
@@ -550,13 +550,13 @@ services.AddScoped(typeof(ISpecService), provider = > {
 
 :::
 
-## 11.11 注册顺序和优先级
+## 12.11 注册顺序和优先级
 
 `Furion` 框架中，默认注册顺序是按照程序集扫描顺序进行注册，如果需要改变注册顺序，可通过 `[Injection(Order)]` 特性指定，`Order` 值越大，则越在最后注册。
 
 另外 `appsettings.json` 配置的优先级最大，`appsettings.json` 配置的注册会覆盖之前所有注册。
 
-## 11.12 `Aop` 注册拦截
+## 12.12 `Aop` 注册拦截
 
 `AOP` 是否常重要的思想和技术，也就是 `面向切面` 编程，可以让我们在不改动原来代码的情况下进行动态篡改业务代码。
 
@@ -639,7 +639,7 @@ public class TestService: ITestService, ITransient
 
 之后 `SayHello` 方法被调用的时候就可以实现动态拦截了，比如这里写日志。
 
-### 11.12.1 `全局Aop拦截`
+### 12.12.1 `全局Aop拦截`
 
 `Furion` 框架也提供了全局拦截的方式，只需要在 `Startup.cs` 中注册即可：
 
@@ -655,7 +655,7 @@ service.AddServiceProxy<LogDispatchProxy>();
 
 :::
 
-### 11.12.2 `AOP` 的作用
+### 12.12.2 `AOP` 的作用
 
 这种面向切面的能力（动态拦截/代理）可以实现很多很多功能，如：
 
@@ -668,7 +668,7 @@ service.AddServiceProxy<LogDispatchProxy>();
 
 还可以做更多更多的事情。
 
-## 11.13 反馈与建议
+## 12.13 反馈与建议
 
 :::note 与我们交流
 

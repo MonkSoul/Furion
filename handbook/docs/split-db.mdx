@@ -214,18 +214,17 @@ repository.Change<Entity, MyDbContextLocator2>();
 
 - **动态切换数据库表**
 
-```cs
-// 直接改变表，会有多线程操作bug，同时无法刷新模型
-repository.ChangeTable("数据库表");
+第一步、配置数据库上下文特性`[AppDbContext( Mode=DbContextMode.Dynamic)]`
 
-// 创建新的 DbContext，然后刷新 OnModelCreating（推荐方式）
-var dynamicDbContextResolve = App.GetService<Func<Type, IScoped, DbContext>>();
-var dynamicDbContext = dynamicDbContextResolve(typeof(MyDbContextLocator), default);
-// 重新调用 OnModelCreating，在 OnModelCreating 中配置 ToTable("动态表") 即可。
-DynamicModelCacheKeyFactory.RebuildModels();
-var persons= dynamicDbContext.Set<Person>();
-persons.Add(new Person{});
+第二步、需要动态修改表名的实体继承 `IEntityMutableTable<TEntity>` 接口，并实现 `GetTableName()` 返回表名方法
+
+最后通过 `BuildChange<TEntity>` 切换即可。
+
+```cs
+var rep = repository.BuildChange<Persion>();
 ```
+
+调用 `BuildChange` 方法之后会自动调用 `GetTableName()` 方法。
 
 :::note 了解更多
 

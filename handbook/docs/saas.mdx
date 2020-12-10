@@ -1,12 +1,12 @@
 ---
 id: saas
-title: 10. SaaS 多租户
-sidebar_label: 10. SaaS 多租户
+title: 11. SaaS 多租户
+sidebar_label: 11. SaaS 多租户
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
-## 10.1 什么是 `SaaS`
+## 11.1 什么是 `SaaS`
 
 > SaaS 是 Software-as-a-Service（软件即服务）的简称，随着互联网技术的发展和应用软件的成熟， 在 21 世纪开始兴起的一种完全创新的软件应用模式。它与“on-demand software”，the application service provider(ASP，应用服务提供商)，hosted software(托管软件)所具有相似的含义。
 >
@@ -14,15 +14,15 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 >
 > 对于许多小型企业来说，SaaS 是采用先进技术的最好途径，它消除了企业购买、构建和维护基础设施和应用程序的需要。
 
-## 10.2 什么是多租户
+## 11.2 什么是多租户
 
 多租户技术或称多重租赁技术，简称 `SaaS`，是一种软件架构技术，是实现如何在多用户环境下（此处的多用户一般是面向企业用户）共用相同的系统或程序组件，并且可确保各用户间数据的隔离性。
 
 **简单讲：在一台服务器上运行单个应用实例，它为多个租户（客户）提供服务。**从定义中我们可以理解：多租户是一种架构，目的是为了让多用户环境下使用同一套程序，且保证用户间数据隔离。那么重点就很浅显易懂了，多租户的重点就是同一套程序下实现多用户数据的隔离。
 
-## 10.3 实现多租户方案
+## 11.3 实现多租户方案
 
-### 10.3.1 独立数据库(基于 `Database` 的方式)
+### 11.3.1 独立数据库(基于 `Database` 的方式)
 
 这是第一种方案，即一个租户一个数据库，这种方案的用户数据隔离级别最高，安全性最好，但成本较高。
 
@@ -32,7 +32,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - **缺点：**
   增多了数据库的安装数量，随之带来维护成本和购置成本的增加。 这种方案与传统的一个客户、一套数据、一套部署类似，差别只在于软件统一部署在运营商那里。如果面对的是银行、医院等需要非常高数据隔离级别的租户，可以选择这种模式，提高租用的定价。如果定价较低，产品走低价路线，这种方案一般对运营商来说是无法承受的。
 
-### 10.3.2 共享数据库，独立 `Schema` (基于 `Schema` 的方式)
+### 11.3.2 共享数据库，独立 `Schema` (基于 `Schema` 的方式)
 
 这是第二种方案，即多个或所有租户共享 `Database`，但是每个租户一个 `Schema`（也可叫做一个 user）。底层库比如是：`SqlServer`、`Oracle` 等，一个数据库下可以有多个 `Schema`。
 
@@ -42,7 +42,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - **缺点：**
   如果出现故障，数据恢复比较困难，因为恢复数据库将牵涉到其他租户的数据； 如果需要跨租户统计数据，存在一定困难。
 
-### 10.3.3 共享数据库，共享 `Schema` (基于 `TenantId` 的方式)
+### 11.3.3 共享数据库，共享 `Schema` (基于 `TenantId` 的方式)
 
 共享数据表 这是第三种方案，即租户共享同一个 `Database`、同一个 `Schema`，但在表中增加 **`TenantId`** 多租户的数据字段。这是共享程度最高、隔离级别最低的模式。 即每插入一条数据时都需要有一个客户的标识。这样才能在同一张表中区分出不同客户的数据。
 
@@ -52,7 +52,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - **缺点：**
   隔离级别最低，安全性最低，需要在设计开发时加大对安全的开发量； 数据备份和恢复最困难，需要逐表逐条备份和还原。
 
-## 10.4 多租户使用方案
+## 11.4 多租户使用方案
 
 `Furion` 框架支持以上三种多租户实现方案，使用简单且容易维护。下面分别使用三种不同方式演示多租户方案用法。
 
@@ -62,11 +62,11 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
-## 10.5 基于 `TenantId` 的方式
+## 11.5 基于 `TenantId` 的方式
 
 此方式在中小型企业系统中最为常用，维护成本低，购置成本低。
 
-### 10.5.1 创建租户数据库上下文
+### 11.5.1 创建租户数据库上下文
 
 ```cs {6-7} title="Furion.EntityFramework.Core\DbContexts\MultiTenantDbContext.cs"
 using Furion.DatabaseAccessor;
@@ -90,7 +90,7 @@ namespace Furion.EntityFramework.Core
 
 :::
 
-### 10.5.2 注册多租户数据库上下文
+### 11.5.2 注册多租户数据库上下文
 
 ```cs {14}
 using Furion.DatabaseAccessor;
@@ -113,7 +113,7 @@ namespace Furion.EntityFramework.Core
 }
 ```
 
-### 10.5.3 添加 `Tenant` 种子数据
+### 11.5.3 添加 `Tenant` 种子数据
 
 ```cs {8,12-28} title="Furion.EntityFramework.Core\SeedDatas\TenantSeedData.cs"
 using Furion.DatabaseAccessor;
@@ -155,7 +155,7 @@ namespace Furion.EntityFramework.Core
 
 :::
 
-### 10.5.4 根据模型创建 `Tenant` 表
+### 11.5.4 根据模型创建 `Tenant` 表
 
 ```shell
 Add-Migration add_tenant_table -Context MultiTenantDbContext
@@ -165,7 +165,7 @@ Add-Migration add_tenant_table -Context MultiTenantDbContext
 Update-Database -Context MultiTenantDbContext
 ```
 
-### 10.5.5 实现 `IMultiTenantOnTable` 接口
+### 11.5.5 实现 `IMultiTenantOnTable` 接口
 
 在需要多租户的数据库上下文中实现 `IMultiTenantOnTable` 接口，如：
 
@@ -193,7 +193,7 @@ namespace Furion.EntityFramework.Core
 
 在 `GetTenantId()` 方法中，首先获取请求的 `主机地址`，然后根据主机地址查询对应的租户 `TenantIdId`，避免多次查询数据库，这里使用了 `IMemoryCache` 内存缓存。
 
-### 10.5.6 实现 `IModelBuilderFilter` 接口
+### 11.5.6 实现 `IModelBuilderFilter` 接口
 
 `IModelBuilderFilter` 接口是全局查询过滤器实现接口，所以我们需要配置实体 `TenantId` 过滤器
 
@@ -225,7 +225,7 @@ namespace Furion.EntityFramework.Core
 }
 ```
 
-### 10.5.7 重写 `SavingChangesEvent` 事件方法
+### 11.5.7 重写 `SavingChangesEvent` 事件方法
 
 通过上面的步骤，我们已经解决了 `查询` 租户过滤功能，但是 `新增` 和 `更新` 还未处理。
 
@@ -289,11 +289,11 @@ namespace Furion.EntityFramework.Core
 
 <img src={useBaseUrl("img/saas1.png")} />
 
-## 10.6 基于 `Database` 的方式
+## 11.6 基于 `Database` 的方式
 
 此方式在中大型企业系统中最为常用，一个租户（客户）一个独立的数据库。
 
-### 10.6.1 创建租户数据库上下文
+### 11.6.1 创建租户数据库上下文
 
 ```cs {6-7} title="Furion.EntityFramework.Core\DbContexts\MultiTenantDbContext.cs"
 using Furion.DatabaseAccessor;
@@ -317,7 +317,7 @@ namespace Furion.EntityFramework.Core
 
 :::
 
-### 10.6.2 注册多租户数据库上下文
+### 11.6.2 注册多租户数据库上下文
 
 ```cs {13,14}
 using Furion.DatabaseAccessor;
@@ -346,7 +346,7 @@ namespace Furion.EntityFramework.Core
 
 :::
 
-### 10.6.3 添加 `Tenant` 种子数据
+### 11.6.3 添加 `Tenant` 种子数据
 
 ```cs {8,12-30} title="Furion.EntityFramework.Core\SeedDatas\TenantSeedData.cs"
 using Furion.DatabaseAccessor;
@@ -390,7 +390,7 @@ namespace Furion.EntityFramework.Core
 
 :::
 
-### 10.6.4 根据模型创建 `Tenant` 表
+### 11.6.4 根据模型创建 `Tenant` 表
 
 ```shell
 Add-Migration add_tenant_table -Context MultiTenantDbContext
@@ -400,7 +400,7 @@ Add-Migration add_tenant_table -Context MultiTenantDbContext
 Update-Database -Context MultiTenantDbContext
 ```
 
-### 10.6.5 实现 `IMultiTenantOnDatabase` 接口
+### 11.6.5 实现 `IMultiTenantOnDatabase` 接口
 
 在需要多租户的数据库上下文中实现 `IMultiTenantOnDatabase` 接口，如：
 
@@ -424,7 +424,7 @@ namespace Furion.EntityFramework.Core
 }
 ```
 
-### 10.6.6 重写 `OnConfiguring` 方法
+### 11.6.6 重写 `OnConfiguring` 方法
 
 在需要多租户的数据库上下文中重写 `OnConfiguring` 方法并配置连接字符串：
 
@@ -470,11 +470,11 @@ optionsBuilder.UseSqlite(GetDatabaseConnectionString(), options=>
 
 :::
 
-## 10.7 基于 `Schema` 的方式
+## 11.7 基于 `Schema` 的方式
 
 此方式在中小型企业系统中也不少见，一个租户（客户）共享数据库且不同 `Schema`。
 
-### 10.7.1 创建租户数据库上下文
+### 11.7.1 创建租户数据库上下文
 
 ```cs {6-7} title="Furion.EntityFramework.Core\DbContexts\MultiTenantDbContext.cs"
 using Furion.DatabaseAccessor;
@@ -498,7 +498,7 @@ namespace Furion.EntityFramework.Core
 
 :::
 
-### 10.7.2 注册多租户数据库上下文
+### 11.7.2 注册多租户数据库上下文
 
 ```cs {14}
 using Furion.DatabaseAccessor;
@@ -521,7 +521,7 @@ namespace Furion.EntityFramework.Core
 }
 ```
 
-### 10.7.3 添加 `Tenant` 种子数据
+### 11.7.3 添加 `Tenant` 种子数据
 
 ```cs {8,12-30} title="Furion.EntityFramework.Core\SeedDatas\TenantSeedData.cs"
 using Furion.DatabaseAccessor;
@@ -565,7 +565,7 @@ namespace Furion.EntityFramework.Core
 
 :::
 
-### 10.7.4 根据模型创建 `Tenant` 表
+### 11.7.4 根据模型创建 `Tenant` 表
 
 ```shell
 Add-Migration add_tenant_table -Context MultiTenantDbContext
@@ -575,7 +575,7 @@ Add-Migration add_tenant_table -Context MultiTenantDbContext
 Update-Database -Context MultiTenantDbContext
 ```
 
-### 10.7.5 实现 `IMultiTenantOnSchema` 接口
+### 11.7.5 实现 `IMultiTenantOnSchema` 接口
 
 在需要多租户的数据库上下文中实现 `IMultiTenantOnSchema` 接口，如：
 
@@ -600,7 +600,7 @@ namespace Furion.EntityFramework.Core
 }
 ```
 
-### 10.7.6 关于 `Code First 数据迁移`
+### 11.7.6 关于 `Code First 数据迁移`
 
 基于 `Schema` 方式比较特别，生成数据迁移的时候没办法获取租户信息，所以建议**分开多次迁移**，如：
 
@@ -620,11 +620,11 @@ public string GetSchemaName()
 
 这样就可以在迁移的时候生成多次迁移了。
 
-## 10.8 自定义 `Tenant` 类型
+## 11.8 自定义 `Tenant` 类型
 
 默认情况下，`Furion` 框架提供了内置的 `Tenant` 类型，方便大家快速实现 `SaaS` 多租户功能，如果需要自定义多租户 `Tenant` 类型，只需要启用以下配置即可：
 
-### 10.8.1 启动自定义多租户类型配置
+### 11.8.1 启动自定义多租户类型配置
 
 ```cs {3}
 services.AddDatabaseAccessor(options =>
@@ -634,7 +634,7 @@ services.AddDatabaseAccessor(options =>
 });
 ```
 
-### 10.8.2 自定义租户类
+### 11.8.2 自定义租户类
 
 ```cs {6}
 using System;
@@ -661,7 +661,7 @@ var tenantDbContext = Db.GetDbContext<MultiTenantDbContextLocator>();
 var myTenant = tenantDbContext.Set<MyTenant>();
 ```
 
-## 10.9 反馈与建议
+## 11.9 反馈与建议
 
 :::note 与我们交流
 

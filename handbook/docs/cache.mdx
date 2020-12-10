@@ -1,20 +1,20 @@
 ---
 id: cache
-title: 13. 分布式缓存
-sidebar_label: 13. 分布式缓存
+title: 14. 分布式缓存
+sidebar_label: 14. 分布式缓存
 ---
 
-## 13.1 什么是缓存
+## 14.1 什么是缓存
 
 缓存可以减少生成内容所需的工作，从而显著提高应用程序的性能和可伸缩性。 **缓存最适用于不经常更改的数据，因为生成成本很高**。 通过缓存，可以比从数据源返回的数据的副本速度快得多。 应该对应用进行编写和测试，使其永不依赖于缓存的数据。
 
-## 13.2 缓存类型
+## 14.2 缓存类型
 
 - 内存缓存：顾名思义，就是缓存在应用部署所在服务器的内存中
 - 分布式缓存：分布式缓存是由多个应用服务器共享的缓存
 - 响应缓存：缓存服务器端 `Not Modified` 的数据
 
-## 13.3 内存缓存使用
+## 14.3 内存缓存使用
 
 内存缓存是最常用的缓存方式，具有存取快，效率高特点。
 
@@ -26,7 +26,7 @@ sidebar_label: 13. 分布式缓存
 
 :::
 
-### 13.3.1 基本使用
+### 14.3.1 基本使用
 
 如，缓存当前时间：
 
@@ -60,7 +60,7 @@ namespace Furion.Application
 }
 ```
 
-### 13.3.2 设置缓存选项
+### 14.3.2 设置缓存选项
 
 内存缓存支持设置缓存时间、缓存大小、及绝对缓存过期时间等
 
@@ -95,7 +95,7 @@ _memoryCache.GetOrCreate(_timeCacheKey, entry =>
 
 :::
 
-### 13.3.3 手动设置缓存选项
+### 14.3.3 手动设置缓存选项
 
 除了上面的 `Func<MemoryCacheEntryOptions, object>` 方式设置缓存选项，我们可以手动创建并设置，如：
 
@@ -106,7 +106,7 @@ var cacheEntryOptions = new MemoryCacheEntryOptions()
 _memoryCache.Set(_timeCacheKey, DateTimeOffset.UtcNow, cacheEntryOptions);
 ```
 
-### 13.3.4 缓存依赖关系
+### 14.3.4 缓存依赖关系
 
 下面的示例演示如何在依赖条目过期时使缓存条目过期。 `CancellationChangeToken` 添加到缓存的项。 当 `Cancel` 在上调用时 `CancellationTokenSource` ，将逐出两个缓存项。
 
@@ -162,7 +162,7 @@ private static void DependentEvictionCallback(object key, object value,
 
 :::
 
-## 13.4 分布式缓存
+## 14.4 分布式缓存
 
 分布式缓存是由多个应用服务器共享的缓存，通常作为外部服务在访问它的应用服务器上维护。 分布式缓存可以提高 `ASP.NET Core` 应用程序的性能和可伸缩性，尤其是在应用程序由云服务或服务器场托管时。
 
@@ -178,13 +178,13 @@ private static void DependentEvictionCallback(object key, object value,
 
 **无论选择哪种实现，应用都会使用接口与缓存交互 `IDistributedCache` 。**
 
-### 13.4.1 使用条件
+### 14.4.1 使用条件
 
 - 若要使用 `SQL Server` 分布式缓存，则添加 `Microsoft.Extensions.Caching.SqlServer` 包
 - 若要使用 `Redis` 分布式缓存，则添加 `Microsoft.Extensions.Caching.StackExchangeRedis` 包
 - 若要使用 `NCache` 分布式缓存，则添加 `NCache.Microsoft.Extensions.Caching.OpenSource` 包
 
-### 13.4.2 `IDistributedCache`
+### 14.4.2 `IDistributedCache`
 
 `IDistributedCache` 接口提供以下方法来处理分布式缓存实现中的项：
 
@@ -193,7 +193,7 @@ private static void DependentEvictionCallback(object key, object value,
 - `Refresh/RefreshAsync` ：根据项的键刷新缓存中的项，重置其滑动过期超时（如果有）
 - `RemoveRemoveAsync`：根据缓存项的字符串键删除缓存项
 
-### 13.4.3 分布式内存缓存
+### 14.4.3 分布式内存缓存
 
 分布式内存缓存（`AddDistributedMemoryCache`）是一个框架提供的实现 `IDistributedCache` ，它将项存储在内存中。 **分布式内存缓存不是实际的分布式缓存，缓存项由应用程序实例存储在运行应用程序的服务器上。**
 
@@ -208,7 +208,7 @@ private static void DependentEvictionCallback(object key, object value,
 
 :::
 
-### 13.4.4 分布式 SQL Server 缓存
+### 14.4.4 分布式 SQL Server 缓存
 
 分布式 `SQL Server` 缓存实现 (`AddDistributedSqlServerCache`) 允许分布式缓存使用 `SQL Server` 数据库作为其后备存储。
 
@@ -232,13 +232,13 @@ services.AddDistributedSqlServerCache(options =>
 });
 ```
 
-### 13.4.5 分布式 `Redis` 缓存
+### 14.4.5 分布式 `Redis` 缓存
 
 `Redis` 是内存中数据存储的开源数据存储，通常用作分布式缓存。在使用时通过 `services.AddStackExchangeRedisCache()` 中注册即可。
 
 这里不细讲 `Redis` 相关内容，后续章节会使用基本例子演示。
 
-### 13.4.6 分布式 `NCache` 缓存
+### 14.4.6 分布式 `NCache` 缓存
 
 `NCache` 是在 `.NET` 和 `.Net Core` 中以本机方式开发的开源内存中分布式缓存。 `NCache` 在本地工作并配置为分布式缓存群集，适用于在 `Azure` 或其他托管平台上运行的 `ASP.NET Core` 应用。
 若要在本地计算机上安装和配置 `NCache`，请参阅 [适用于 Windows 的 NCache 入门指南](https://www.alachisoft.com/resources/docs/ncache-oss/getting-started-guide-windows/)。
@@ -258,7 +258,7 @@ services.AddNCacheDistributedCache(configuration =>
 });
 ```
 
-## 13.5 分布式缓存使用
+## 14.5 分布式缓存使用
 
 若要使用 `IDistributedCache` 接口，请 `IDistributedCache` 通过构造函数依赖关系注入。
 
@@ -302,7 +302,7 @@ public class IndexModel : PageModel
 }
 ```
 
-## 13.6 分布式缓存建议
+## 14.6 分布式缓存建议
 
 确定 `IDistributedCache` 最适合你的应用的实现时，请考虑以下事项：
 
@@ -317,7 +317,7 @@ public class IndexModel : PageModel
 
 当 `SQL Server` 用作分布式缓存后备存储时，对缓存使用同一数据库，并且应用的普通数据存储和检索会对这两种情况的性能产生负面影响。 建议使用分布式缓存后备存储的专用 `SQL Server` 实例。
 
-## 13.7 反馈与建议
+## 14.7 反馈与建议
 
 :::note 与我们交流
 

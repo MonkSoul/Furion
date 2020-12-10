@@ -1,17 +1,17 @@
 ---
 id: auth-control
-title: 14. 安全鉴权
-sidebar_label: 14. 安全鉴权
+title: 15. 安全鉴权
+sidebar_label: 15. 安全鉴权
 ---
 
-## 14.1 什么是鉴权
+## 15.1 什么是鉴权
 
 **鉴权实际上就是一种身份认证**。
 
 由用户提供凭据，然后将其与存储在操作系统、数据库、应用或资源中的凭据进行比较。 在授权过程中，如果凭据匹配，则用户身份验证成功，可执行已向其授权的操作。 授权指判断允许用户执行的操作的过程。
 也可以将身份验证理解为进入空间（例如服务器、数据库、应用或资源）的一种方式，而授权是用户可以对该空间（服务器、数据库或应用）内的哪些对象执行哪些操作。
 
-### 14.1.1 常见的鉴权方式
+### 15.1.1 常见的鉴权方式
 
 - `HTTP Basic Authentication`
 
@@ -33,9 +33,9 @@ OAuth（开放授权）是一个开放标准，允许用户授权第三方网站
 
 OAuth 协议又有 1.0 和 2.0 两个版本。相比较 1.0 版，2.0 版整个授权验证流程更简单更安全，也是目前最主要的用户身份验证和授权方式。
 
-## 14.2 如何使用
+## 15.2 如何使用
 
-### 14.2.1 添加 `Cookie` 授权
+### 15.2.1 添加 `Cookie` 授权
 
 ```cs
 // Cookies单独授权
@@ -46,7 +46,7 @@ services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         });
 ```
 
-### 14.2.2 添加 `Jwt` 授权
+### 15.2.2 添加 `Jwt` 授权
 
 ```cs
 services.AddJwt();
@@ -95,7 +95,7 @@ var accessToken = JWTEncryption.Encrypt(jwtSettings.IssuerSigningKey, new Dictio
 });
 ```
 
-### 14.2.3 混合授权
+### 15.2.3 混合授权
 
 ```cs
 // JWT 和 Cookies 同时授权
@@ -110,11 +110,11 @@ services.AddJwt(options =>
 });
 ```
 
-## 14.3 高级自定义授权
+## 15.3 高级自定义授权
 
 `Furion` 框架提供了非常灵活的高级策略鉴权和授权方式，通过该策略授权方式可以实现任何自定义授权。
 
-### 14.3.1 `AppAuthorizeHandler`
+### 15.3.1 `AppAuthorizeHandler`
 
 `Furion` 框架提供了 `AppAuthorizeHandler` 策略授权处理程序提供基类，只需要创建自己的 `Handler` 继承它节可。如：`JwtHandler`：
 
@@ -169,23 +169,23 @@ namespace Furion.Web.Core
 services.AddJwt<JwtHandler>();
 ```
 
-## 14.4 授权特性及全局授权
+## 15.4 授权特性及全局授权
 
 默认情况下，所有的路由都是允许匿名访问的，所以如果需要对某个 `Action` 或 `Controller` 设定授权访问，只需要在 `Action` 或 `Controller` 贴 `[AppAuthorize]` 或 `[Authorize]` 特性即可。
 
 如果需要对特定的 `Action` 或 `Controller` 允许匿名访问，则贴 `[AllowAnonymous]` 即可。
 
-### 14.4.1 全局授权
+### 15.4.1 全局授权
 
 ```cs
 services.AddJwt<JwtHandler>(enableGlobalAuthorize:true);
 ```
 
-### 14.4.2 匿名访问
+### 15.4.2 匿名访问
 
 如果需要对特定的 `Action` 或 `Controller` 允许匿名访问，则贴 `[AllowAnonymous]` 即可。
 
-## 14.5 反馈与建议
+## 15.5 反馈与建议
 
 :::note 与我们交流
 
