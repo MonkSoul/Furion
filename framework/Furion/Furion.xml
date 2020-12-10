@@ -18576,16 +18576,6 @@
             <typeparam name="TEntity">实体类型</typeparam>
             <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         </member>
-        <member name="P:Furion.DatabaseAccessor.IRepository`2.DbContext">
-            <summary>
-            数据库上下文
-            </summary>
-        </member>
-        <member name="P:Furion.DatabaseAccessor.IRepository`2.DynamicDbContext">
-            <summary>
-            动态数据库上下文
-            </summary>
-        </member>
         <member name="P:Furion.DatabaseAccessor.IRepository`2.Entities">
             <summary>
             实体集合

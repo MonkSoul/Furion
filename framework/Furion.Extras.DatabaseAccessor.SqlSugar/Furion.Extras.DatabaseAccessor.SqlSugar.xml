@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Furion.Extras.DatabaseAccessor.SqlSugar</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Extensions.DependencyInjection.SqlSugarServiceCollectionExtensions">
+            <summary>
+            JWT 授权服务拓展类
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.SqlSugarServiceCollectionExtensions.AddSqlSugar(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加 SqlSugar 拓展
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Furion.Extras.DatabaseAccessor.SqlSugar.ISqlSugarRepository`1">
+            <summary>
+            SqlSugar 仓储接口定义
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+        </member>
+        <member name="T:Furion.Extras.DatabaseAccessor.SqlSugar.SqlSugarRepository`1">
+            <summary>
+            SqlSugar 仓储实现类
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+        </member>
+    </members>
+</doc>
