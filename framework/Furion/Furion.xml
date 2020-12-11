@@ -21519,9 +21519,6 @@
             <summary>
             修正 规范化文档 Enum 提示
             </summary>
-            <remarks>
-            参考https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/1269#issuecomment-577182931
-            </remarks>
         </member>
         <member name="M:Furion.SpecificationDocument.EnumSchemaFilter.Apply(Microsoft.OpenApi.Models.OpenApiSchema,Swashbuckle.AspNetCore.SwaggerGen.SchemaFilterContext)">
             <summary>
