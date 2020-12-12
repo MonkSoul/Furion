@@ -53,17 +53,18 @@ namespace Furion.EntityFramework.Core
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected override void SavingChangesEvent(object sender, SavingChangesEventArgs e)
+        protected override void SavingChangesEvent(DbContextEventData eventData, InterceptionResult<int> result)
         {
             // 获取当前事件对应上下文
-            var dbContext = sender as FurDbContext;
+            var dbContext = eventData.Context;
 
             // 强制重新检查一边实体更改信息
-            dbContext.ChangeTracker.DetectChanges();
+            // dbContext.ChangeTracker.DetectChanges();
 
             // 获取所有更改，删除，新增的实体，但排除审计实体（避免死循环）
             var entities = dbContext.ChangeTracker.Entries()
-                .Where(u => u.Entity.GetType() != typeof(Audit) && (u.State == EntityState.Modified || u.State == EntityState.Deleted || u.State == EntityState.Added)).ToList();
+                .Where(u => u.Entity.GetType() != typeof(Audit) && (u.State == EntityState.Modified || u.State == EntityState.Deleted || u.State == EntityState.Added))
+                .ToList();
 
             // 通过请求中获取当前操作人
             var userId = App.GetService<IHttpContextAccessor>().HttpContext.Items["UserId"];

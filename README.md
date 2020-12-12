@@ -209,7 +209,7 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 ## 🍤 项目成员
 
 <a href="https://gitee.com/monksoul" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/324/974299_monksoul_1578937227.png!avatar100" height="40"/></a>
-<a href="https://gitee.com/dotnetchina" target="_blank"  margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/namespace/2208/6626843_dotnetchina_1605233920.png!avatar100" height="40"/></a>
+<a href="https://gitee.com/chinadotnet" target="_blank"  margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/2685/8055741_chinadotnet_1606890988.png!avatar200" height="40"/></a>
 <a href="https://gitee.com/zero530" target="_blank"  margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/574/1722306_zero530_1578958528.png!avatar100" height="40"/></a>
 <a href="https://gitee.com/rgleehom" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/3/11189_maxzhang1985_1592994644.png!avatar60" height="40"/></a>
 <a href="https://gitee.com/KaneLeung" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/483/1449079_KaneLeung_1600227210.png!avatar100" height="40"/></a>
@@ -233,7 +233,6 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 <a href="https://gitee.com/frisktale" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/404/1214273_frisktale_1607680117.png!avatar200" height="40"/></a>
 <a href="https://gitee.com/caizhouhangcc" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/716/2149527_lolicode_1578967241.png!avatar200" height="40"/></a>
 
-
 <p></p>
 
 🎈 欢迎更多的开发者加入 `Furion` 大家庭。
@@ -242,6 +241,7 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 
 - 百签科技（广东）有限公司
 - 码为科技（广州）有限公司
+- 夫上技术（阳江）有限公司
 - 广州启顺国际货运代理有限公司
 - 森丰供应链服务（广州）有限公司
 - 中山赢友网络科技有限公司
