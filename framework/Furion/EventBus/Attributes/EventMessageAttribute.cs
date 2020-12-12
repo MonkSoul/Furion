@@ -1,7 +1,7 @@
 ﻿using Furion.DependencyInjection;
 using System;
 
-namespace Furion.MessageCenter
+namespace Furion.EventBus
 {
     /// <summary>
     /// 事件消息特性
