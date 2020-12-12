@@ -63,7 +63,7 @@ namespace Furion.EntityFramework.Core
 
             // 获取所有更改，删除，新增的实体，但排除审计实体（避免死循环）
             var entities = dbContext.ChangeTracker.Entries()
-                .Where(u => u.Entity.GetType() != typeof(Audit) && (u.State == EntityState.Modified || u.State == EntityState.Deleted || u.State == EntityState.Added));
+                .Where(u => u.Entity.GetType() != typeof(Audit) && (u.State == EntityState.Modified || u.State == EntityState.Deleted || u.State == EntityState.Added)).ToList();
 
             // 通过请求中获取当前操作人
             var userId = App.GetService<IHttpContextAccessor>().HttpContext.Items["UserId"];
