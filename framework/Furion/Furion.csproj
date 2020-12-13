@@ -10,7 +10,7 @@
     <RepositoryUrl>https://gitee.com/monksoul/Furion</RepositoryUrl>
     <RepositoryType>Gitee</RepositoryType>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <version>1.4.9</version>
+    <version>1.5.0</version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
@@ -31,6 +31,7 @@
 
   <ItemGroup>
     <None Remove="SpecificationDocument\Assets\index-mini-profiler.html" />
+    <None Remove="SpecificationDocument\Assets\index.html" />
     <None Include="icon.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -39,6 +40,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="SpecificationDocument\Assets\index-mini-profiler.html" />
+    <EmbeddedResource Include="SpecificationDocument\Assets\index.html" />
   </ItemGroup>
 
   <ItemGroup>
