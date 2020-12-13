@@ -20,9 +20,9 @@ sidebar_label: 9.22 审计日志
 
 `Furion` 框架中为所有 `AppDbContext` 子类都提供了三个可重写的方法，这三个方法分别由三个事件触发：
 
-- `提交更改之前 SavingChanges 事件`：触发 `void SavingChangesEvent(object sender, SavingChangesEventArgs e)` 方法
-- `提交更改之后 SavedChanges 事件`：触发 `void SavedChangesEvent(object sender, SavedChangesEventArgs e)` 方法
-- `提交更改失败 SaveChangesFailed 事件`：触发 `void SaveChangesFailedEvent(object sender, SaveChangesFailedEventArgs e)` 方法
+- `提交更改之前 SavingChanges 事件`：触发 `void SavingChangesEvent(DbContextEventData eventData, InterceptionResult<int> result)` 方法
+- `提交更改之后 SavedChanges 事件`：触发 `void SavedChangesEvent(SaveChangesCompletedEventData eventData, int result)` 方法
+- `提交更改失败 SaveChangesFailed 事件`：触发 `void SaveChangesFailedEvent(DbContextErrorEventData eventData)` 方法
 
 通过这三个事件我们就可以捕获所有更改的实体然后保存到数据库审计日志中。
 
