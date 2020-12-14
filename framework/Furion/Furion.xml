@@ -677,23 +677,6 @@
             <param name="sqlProxyMethod">代理方法</param>
             <returns></returns>
         </member>
-        <member name="M:Furion.DatabaseAccessor.SqlDispatchProxy.ConvertValueTuple(System.Type,System.Data.DataSet)">
-            <summary>
-            处理元组类型返回值
-            </summary>
-            <param name="returnType">返回值类型</param>
-            <param name="dataSet">数据集</param>
-            <returns></returns>
-        </member>
-        <member name="M:Furion.DatabaseAccessor.SqlDispatchProxy.ConvertProcedureOutputResult(System.Type,System.Data.Common.DbParameter[],System.Data.DataSet)">
-            <summary>
-            处理存储过程带输出结果
-            </summary>
-            <param name="returnType">返回值类型</param>
-            <param name="parameters">命令参数</param>
-            <param name="dataSet">数据集</param>
-            <returns></returns>
-        </member>
         <member name="M:Furion.DatabaseAccessor.SqlDispatchProxy.GetProxyMethod(System.Reflection.MethodInfo,System.Object[])">
             <summary>
             获取代理方法信息
@@ -2606,7 +2589,7 @@
             </summary>
             <param name="dataSet">DataSet</param>
             <param name="returnTypes">特定类型集合</param>
-            <returns>object</returns>
+            <returns>List{object}</returns>
         </member>
         <member name="M:Furion.DatabaseAccessor.DbDataConvertExtensions.ToListAsync(System.Data.DataSet,System.Type[])">
             <summary>
@@ -2631,6 +2614,14 @@
             <param name="dataTable">DataTable</param>
             <param name="returnType">返回值类型</param>
             <returns>object</returns>
+        </member>
+        <member name="M:Furion.DatabaseAccessor.DbDataConvertExtensions.ToValueTuple(System.Data.DataSet,System.Type)">
+            <summary>
+            处理元组类型返回值
+            </summary>
+            <param name="dataSet">数据集</param>
+            <param name="tupleType">返回值类型</param>
+            <returns></returns>
         </member>
         <member name="T:Furion.DatabaseAccessor.DbObjectExtensions">
             <summary>
