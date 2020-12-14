@@ -7968,16 +7968,6 @@
             <param name="connection">数据库连接对象</param>
             <param name="eventData">数据库连接事件数据</param>
         </member>
-        <member name="T:Furion.DatabaseAccessor.IDbContextLocator">
-            <summary>
-            数据库上下文定位器
-            </summary>
-        </member>
-        <member name="T:Furion.DatabaseAccessor.MasterDbContextLocator">
-            <summary>
-            默认数据库上下文定位器
-            </summary>
-        </member>
         <member name="T:Furion.DatabaseAccessor.DbProvider">
             <summary>
             数据库提供器选项
@@ -8188,6 +8178,16 @@
             大小
             </summary>
             <remarks>Nvarchar/varchar类型需指定</remarks>
+        </member>
+        <member name="T:Furion.DatabaseAccessor.IDbContextLocator">
+            <summary>
+            数据库上下文定位器
+            </summary>
+        </member>
+        <member name="T:Furion.DatabaseAccessor.MasterDbContextLocator">
+            <summary>
+            默认数据库上下文定位器
+            </summary>
         </member>
         <member name="T:Furion.DatabaseAccessor.IMultiTenantOnDatabase">
             <summary>
@@ -21781,29 +21781,6 @@
             <param name="next"></param>
             <returns></returns>
         </member>
-        <member name="T:Furion.UnifyResult.UnifyResultStatusCodesMiddleware">
-            <summary>
-            状态码中间件
-            </summary>
-        </member>
-        <member name="F:Furion.UnifyResult.UnifyResultStatusCodesMiddleware._next">
-            <summary>
-            请求委托
-            </summary>
-        </member>
-        <member name="M:Furion.UnifyResult.UnifyResultStatusCodesMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="next"></param>
-        </member>
-        <member name="M:Furion.UnifyResult.UnifyResultStatusCodesMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
-            <summary>
-            中间件执行方法
-            </summary>
-            <param name="context"></param>
-            <returns></returns>
-        </member>
         <member name="T:Furion.UnifyResult.RESTfulResult`1">
             <summary>
             RESTful 风格结果集
@@ -21839,6 +21816,29 @@
             <summary>
             时间戳
             </summary>
+        </member>
+        <member name="T:Furion.UnifyResult.UnifyResultStatusCodesMiddleware">
+            <summary>
+            状态码中间件
+            </summary>
+        </member>
+        <member name="F:Furion.UnifyResult.UnifyResultStatusCodesMiddleware._next">
+            <summary>
+            请求委托
+            </summary>
+        </member>
+        <member name="M:Furion.UnifyResult.UnifyResultStatusCodesMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="next"></param>
+        </member>
+        <member name="M:Furion.UnifyResult.UnifyResultStatusCodesMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            中间件执行方法
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
         </member>
         <member name="T:Furion.UnifyResult.IUnifyResultProvider">
             <summary>

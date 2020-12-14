@@ -76,7 +76,7 @@ services.AddJwt();
 }
 ```
 
-- 生成 `Token` 
+- 生成 `Token`
 
 ```cs
 // 生成 token
@@ -94,6 +94,40 @@ var accessToken = JWTEncryption.Encrypt(jwtSettings.IssuerSigningKey, new Dictio
     { JwtRegisteredClaimNames.Aud, jwtSettings.ValidAudience }
 });
 ```
+
+:::important 特别注意
+
+如果需要在 `Swagger` 中启用授权，还需配置规范化文档，如:
+
+```json {2-4}
+{
+  "SpecificationDocumentSettings": {
+    "EnableAuthorized": true,
+    "SecurityDefinitions": [
+      {
+        "Id": "Bearer",
+        "Type": "Http",
+        "Name": "Authorization",
+        "Description": "JWT Authorization header using the Bearer scheme.",
+        "BearerFormat": "JWT",
+        "Scheme": "bearer",
+        "In": "Header",
+        "Requirement": {
+          "Scheme": {
+            "Reference": {
+              "Id": "Bearer",
+              "Type": "SecurityScheme"
+            },
+            "Accesses": []
+          }
+        }
+      }
+    ]
+  }
+}
+```
+
+:::
 
 ### 15.2.3 混合授权
 
