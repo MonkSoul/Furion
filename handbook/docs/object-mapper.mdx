@@ -32,6 +32,12 @@ dto.IdCard = entity.IdCard.Replace("1234", "****");
 
 现在，我们可以通过 `Mapster` 提供的对象映射方法：`Adapt` 方法改造上面的例子：
 
+:::important 安装拓展包
+
+在 `Furion.Core` 层（推荐）安装 `Furion.Extras.ObjectMapper.Mapster` 拓展包，无需手动调用，`Furion` 会自动加载并调用。
+
+:::
+
 ### 13.3.1 极易入门
 
 ```cs

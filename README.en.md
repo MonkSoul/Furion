@@ -113,6 +113,7 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 |                   [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion)                   | Furion                                     |                                     [![nuget](https://img.shields.io/nuget/v/Furion.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion)                                     | Furion 总包            |
 |   [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.Authentication.JwtBearer)   | Furion.Extras.Authentication.JwtBearer     |     [![nuget](https://img.shields.io/nuget/v/Furion.Extras.Authentication.JwtBearer.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.Authentication.JwtBearer)     | Furion Jwt 拓展包      |
 | [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.DependencyModel.CodeAnalysis) | Furion.Extras.DependencyModel.CodeAnalysis | [![nuget](https://img.shields.io/nuget/v/Furion.Extras.DependencyModel.CodeAnalysis.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.DependencyModel.CodeAnalysis) | Furion 动态反射 拓展包 |
+|     [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.ObjectMapper.Mapster)     | Furion.Extras.ObjectMapper.Mapster         |         [![nuget](https://img.shields.io/nuget/v/Furion.Extras.ObjectMapper.Mapster.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.ObjectMapper.Mapster)         | Furion Mapster 拓展包  |
 |  [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.DatabaseAccessor.SqlSugar)   | Furion.Extras.DatabaseAccessor.SqlSugar    |    [![nuget](https://img.shields.io/nuget/v/Furion.Extras.DatabaseAccessor.SqlSugar.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.DatabaseAccessor.SqlSugar)    | Furion SqlSugar 拓展包 |
 
 ## 🍄 Furion 脚手架
@@ -134,7 +135,7 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 - 全新面貌：基于 `.NET 5` 平台，没有历史包袱
 - 极易入门：只需要一个 `Inject()` 即可完成配置
 - 极速开发：内置丰富的企业应用开发功能
-- 极少依赖：框架只依赖三个第三方包
+- 极少依赖：框架只依赖两个第三方包
 - 极其灵活：轻松面对多变复杂的需求
 - 极易维护：采用独特的架构思想，只为长久维护设计
 - 完整文档：提供完善的开发文档
@@ -151,9 +152,8 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 
 ## 🥐 框架依赖
 
-`Furion` 为了追求极速入门，极致性能，尽可能的不使用或减少第三方依赖。目前 `Furion` 仅集成了以下三个依赖：
+`Furion` 为了追求极速入门，极致性能，尽可能的不使用或减少第三方依赖。目前 `Furion` 仅集成了以下两个依赖：
 
-- [Mapster](https://github.com/MapsterMapper/Mapster)：比 `AutoMapper` 还高性能的对象映射
 - [MiniProfiler](https://github.com/MiniProfiler/dotnet)：性能分析和监听必备
 - [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)：`Swagger` 接口文档
 
