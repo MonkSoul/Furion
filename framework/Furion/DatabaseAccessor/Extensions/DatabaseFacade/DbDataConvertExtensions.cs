@@ -1,6 +1,5 @@
 ﻿using Furion.DependencyInjection;
 using Furion.Extensions;
-using Mapster;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -315,7 +314,7 @@ namespace Furion.DatabaseAccessor
                     // 只取第一列数据
                     var firstColumnValue = dataRow[0];
                     // 转换成目标类型数据
-                    var destValue = firstColumnValue.Adapt(firstColumnValue.GetType(), underlyingType);
+                    var destValue = firstColumnValue?.ChangeType(underlyingType);
                     // 添加到集合中
                     _ = addMethod.Invoke(list, new[] { destValue });
                 }
@@ -368,7 +367,7 @@ namespace Furion.DatabaseAccessor
                         if (columnValue == DBNull.Value) continue;
 
                         // 转换成目标类型数据
-                        var destValue = columnValue.Adapt(columnValue.GetType(), property.PropertyType);
+                        var destValue = columnValue?.ChangeType(property.PropertyType);
                         property.SetValue(model, destValue);
                     }
 

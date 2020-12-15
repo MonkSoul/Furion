@@ -12,5 +12,10 @@ namespace Furion
         /// Jwt 验证包
         /// </summary>
         internal const string AUTHENTICATION_JWTBEARER = "Furion.Extras.Authentication.JwtBearer";
+
+        /// <summary>
+        /// Mapster 映射包
+        /// </summary>
+        internal const string OBJECTMAPPER_MAPSTER = "Furion.Extras.ObjectMapper.Mapster";
     }
 }

@@ -9,26 +9,26 @@
     <Copyright>© 2020 Furion, Baiqian Co.,Ltd.</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://furion.pro</PackageProjectUrl>
-    <Description>Furion Jwt 授权验证拓展插件。</Description>
+    <Description>Furion 对象映射 Mapster 插件。</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>Furion.Extras.Authentication.JwtBearer.xml</DocumentationFile>
+    <DocumentationFile>Furion.Extras.ObjectMapper.Mapster.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>Furion.Extras.Authentication.JwtBearer.xml</DocumentationFile>
+    <DocumentationFile>Furion.Extras.ObjectMapper.Mapster.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.1" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +36,10 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.0.1" />
   </ItemGroup>
 
 </Project>

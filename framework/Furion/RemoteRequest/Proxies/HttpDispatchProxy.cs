@@ -1,6 +1,5 @@
 ﻿using Furion.DependencyInjection;
 using Furion.Extensions;
-using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
