@@ -497,7 +497,7 @@ namespace Furion.DynamicApiController
         private static void ConfigureActionUnifyResultAttribute(ActionModel action)
         {
             // 判断是否手动添加了标注或跳过规范化处理
-            if (UnifyResultContext.IsSkipOnSuccessUnifyHandler(action.ActionMethod, out var _)) return;
+            if (UnifyContext.IsSkipOnSuccessUnifyHandler(action.ActionMethod, out var _)) return;
 
             // 获取真实类型
             var returnType = action.ActionMethod.GetMethodRealReturnType();

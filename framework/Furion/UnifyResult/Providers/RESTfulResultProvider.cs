@@ -24,7 +24,7 @@ namespace Furion.UnifyResult
         public IActionResult OnException(ExceptionContext context)
         {
             // 解析异常信息
-            var (ErrorCode, ErrorContent) = UnifyResultContext.GetExceptionMetadata(context);
+            var (ErrorCode, ErrorContent) = UnifyContext.GetExceptionMetadata(context);
 
             return new JsonResult(new RESTfulResult<object>
             {
@@ -32,7 +32,7 @@ namespace Furion.UnifyResult
                 Successed = false,
                 Data = null,
                 Errors = ErrorContent,
-                Extras = UnifyResultContext.Take(),
+                Extras = UnifyContext.Take(),
                 Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
             });
         }
@@ -58,7 +58,7 @@ namespace Furion.UnifyResult
                 Successed = true,
                 Data = data,
                 Errors = null,
-                Extras = UnifyResultContext.Take(),
+                Extras = UnifyContext.Take(),
                 Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
             });
         }
@@ -79,7 +79,7 @@ namespace Furion.UnifyResult
                 Successed = false,
                 Data = null,
                 Errors = validationResults,
-                Extras = UnifyResultContext.Take(),
+                Extras = UnifyContext.Take(),
                 Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
             });
         }
@@ -102,7 +102,7 @@ namespace Furion.UnifyResult
                         Successed = false,
                         Data = null,
                         Errors = "401 Unauthorized",
-                        Extras = UnifyResultContext.Take(),
+                        Extras = UnifyContext.Take(),
                         Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
                     }, JsonSerializerUtility.GetDefaultJsonSerializerOptions());
                     break;
@@ -114,7 +114,7 @@ namespace Furion.UnifyResult
                         Successed = false,
                         Data = null,
                         Errors = "403 Forbidden",
-                        Extras = UnifyResultContext.Take(),
+                        Extras = UnifyContext.Take(),
                         Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
                     }, JsonSerializerUtility.GetDefaultJsonSerializerOptions());
                     break;

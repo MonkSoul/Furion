@@ -38,6 +38,13 @@
             JWT 加解密
             </summary>
         </member>
+        <member name="M:Furion.DataEncryption.JWTEncryption.Encrypt(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            生成 Token
+            </summary>
+            <param name="payload"></param>
+            <returns></returns>
+        </member>
         <member name="M:Furion.DataEncryption.JWTEncryption.Encrypt(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
             <summary>
             生成 Token
@@ -54,12 +61,11 @@
             <param name="payload"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.DataEncryption.JWTEncryption.Validate(System.String,Furion.Authorization.JWTSettingsOptions)">
+        <member name="M:Furion.DataEncryption.JWTEncryption.Validate(System.String)">
             <summary>
             验证 Token
             </summary>
             <param name="accessToken"></param>
-            <param name="jwtSettings"></param>
             <returns></returns>
         </member>
         <member name="M:Furion.DataEncryption.JWTEncryption.ValidateJwtBearerToken(Microsoft.AspNetCore.Http.DefaultHttpContext,Microsoft.IdentityModel.JsonWebTokens.JsonWebToken@)">
@@ -70,6 +76,13 @@
             <param name="token"></param>
             <returns></returns>
         </member>
+        <member name="M:Furion.DataEncryption.JWTEncryption.ReadJwtToken(System.String)">
+            <summary>
+            验证 Token
+            </summary>
+            <param name="accessToken"></param>
+            <returns></returns>
+        </member>
         <member name="M:Furion.DataEncryption.JWTEncryption.GetJwtBearerToken(Microsoft.AspNetCore.Http.DefaultHttpContext)">
             <summary>
             获取 JWT Bearer Token
@@ -77,11 +90,24 @@
             <param name="httpContext"></param>
             <returns></returns>
         </member>
+        <member name="M:Furion.DataEncryption.JWTEncryption.GetJWTSettings">
+            <summary>
+            获取 JWT 配置
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Furion.DataEncryption.JWTEncryption.CreateTokenValidationParameters(Furion.Authorization.JWTSettingsOptions)">
             <summary>
             生成Token验证参数
             </summary>
             <param name="jwtSettings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.DataEncryption.JWTEncryption.CombinePayload(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            组合 Claims 负荷
+            </summary>
+            <param name="payload"></param>
             <returns></returns>
         </member>
         <member name="T:Furion.Authorization.JWTSettingsOptions">

@@ -19,6 +19,17 @@ namespace Furion.DataEncryption
         /// <summary>
         /// 生成 Token
         /// </summary>
+        /// <param name="payload"></param>
+        /// <returns></returns>
+        public static string Encrypt(Dictionary<string, object> payload)
+        {
+            var (Payload, JWTSettings) = CombinePayload(payload);
+            return Encrypt(JWTSettings.IssuerSigningKey, Payload);
+        }
+
+        /// <summary>
+        /// 生成 Token
+        /// </summary>
         /// <param name="issuerSigningKey"></param>
         /// <param name="payload"></param>
         /// <returns></returns>
@@ -46,10 +57,11 @@ namespace Furion.DataEncryption
         /// 验证 Token
         /// </summary>
         /// <param name="accessToken"></param>
-        /// <param name="jwtSettings"></param>
         /// <returns></returns>
-        public static (bool IsValid, JsonWebToken Token) Validate(string accessToken, JWTSettingsOptions jwtSettings)
+        public static (bool IsValid, JsonWebToken Token) Validate(string accessToken)
         {
+            var jwtSettings = GetJWTSettings();
+
             // 加密Key
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.IssuerSigningKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -90,14 +102,27 @@ namespace Furion.DataEncryption
                 return false;
             }
 
-            // 读取 Jwt 配置
-            var jwtSettings = httpContext.RequestServices.GetService<IOptions<JWTSettingsOptions>>().Value;
-
             // 验证token
-            var (IsValid, Token) = Validate(accessToken, jwtSettings);
+            var (IsValid, Token) = Validate(accessToken);
             token = IsValid ? Token : null;
 
             return IsValid;
+        }
+
+        /// <summary>
+        /// 验证 Token
+        /// </summary>
+        /// <param name="accessToken"></param>
+        /// <returns></returns>
+        public static JsonWebToken ReadJwtToken(string accessToken)
+        {
+            var tokenHandler = new JsonWebTokenHandler();
+            if (tokenHandler.CanReadToken(accessToken))
+            {
+                return tokenHandler.ReadJsonWebToken(accessToken);
+            }
+
+            return default;
         }
 
         /// <summary>
@@ -112,6 +137,15 @@ namespace Furion.DataEncryption
             if (string.IsNullOrEmpty(bearerToken)) return default;
 
             return bearerToken[7..];
+        }
+
+        /// <summary>
+        /// 获取 JWT 配置
+        /// </summary>
+        /// <returns></returns>
+        public static JWTSettingsOptions GetJWTSettings()
+        {
+            return InternalHttpContext.Current()?.RequestServices?.GetService<IOptions<JWTSettingsOptions>>()?.Value;
         }
 
         /// <summary>
@@ -140,6 +174,44 @@ namespace Furion.DataEncryption
                 // 过期时间容错值
                 ClockSkew = TimeSpan.FromSeconds(jwtSettings.ClockSkew.Value),
             };
+        }
+
+        /// <summary>
+        /// 组合 Claims 负荷
+        /// </summary>
+        /// <param name="payload"></param>
+        /// <returns></returns>
+        private static (Dictionary<string, object> Payload, JWTSettingsOptions JWTSettings) CombinePayload(Dictionary<string, object> payload)
+        {
+            var jwtSettings = GetJWTSettings();
+            var datetimeOffset = DateTimeOffset.Now;
+
+            if (!payload.ContainsKey(JwtRegisteredClaimNames.Iat))
+            {
+                payload.Add(JwtRegisteredClaimNames.Iat, datetimeOffset.ToUnixTimeSeconds());
+            }
+
+            if (!payload.ContainsKey(JwtRegisteredClaimNames.Nbf))
+            {
+                payload.Add(JwtRegisteredClaimNames.Nbf, datetimeOffset.ToUnixTimeSeconds());
+            }
+
+            if (!payload.ContainsKey(JwtRegisteredClaimNames.Exp))
+            {
+                payload.Add(JwtRegisteredClaimNames.Exp, DateTimeOffset.Now.AddSeconds(jwtSettings.ExpiredTime.Value * 60).ToUnixTimeSeconds());
+            }
+
+            if (!payload.ContainsKey(JwtRegisteredClaimNames.Iss))
+            {
+                payload.Add(JwtRegisteredClaimNames.Iss, jwtSettings.ValidIssuer);
+            }
+
+            if (!payload.ContainsKey(JwtRegisteredClaimNames.Aud))
+            {
+                payload.Add(JwtRegisteredClaimNames.Aud, jwtSettings.ValidAudience);
+            }
+
+            return (payload, jwtSettings);
         }
     }
 }

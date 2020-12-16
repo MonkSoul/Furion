@@ -20,18 +20,29 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 切换数据库上下文
         /// </summary>
-        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-        /// <param name="sql">sql 语句</param>
+        /// <param name="sql"></param>
+        /// <param name="dbContextLocatorTypeFullName">完整的数据库上下文定位器名称，包含命名空间和名称，如：Furion.DatabaseAccessor.MasterDbContextLocator</param>
         /// <returns></returns>
-        public static string Change<TDbContextLocator>(this string sql)
-            where TDbContextLocator : class, IDbContextLocator
+        public static string Change(this string sql, string dbContextLocatorTypeFullName)
         {
             if (sql.Contains(dbContextLocatorSqlSplit))
             {
                 sql = sql[(sql.IndexOf(dbContextLocatorSqlSplit) + dbContextLocatorSqlSplit.Length)..];
             }
 
-            return $"{typeof(TDbContextLocator).FullName}{dbContextLocatorSqlSplit}{sql}";
+            return $"{dbContextLocatorTypeFullName}{dbContextLocatorSqlSplit}{sql}";
+        }
+
+        /// <summary>
+        /// 切换数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <param name="sql">sql 语句</param>
+        /// <returns></returns>
+        public static string Change<TDbContextLocator>(this string sql)
+            where TDbContextLocator : class, IDbContextLocator
+        {
+            return sql.Change(typeof(TDbContextLocator).FullName);
         }
 
         /// <summary>

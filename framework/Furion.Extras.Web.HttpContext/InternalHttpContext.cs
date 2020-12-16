@@ -1,17 +1,14 @@
-﻿using Furion.DependencyInjection;
-using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 
-namespace Furion.Utilities
+namespace Microsoft.AspNetCore.Http
 {
     /// <summary>
     /// HttpContext 上下文实用类
     /// </summary>
-    [SkipScan]
-    public static class HttpContextUtility
+    public static class InternalHttpContext
     {
         private static Func<object> _asyncLocalAccessor;
         private static Func<object, object> _holderAccessor;
@@ -21,7 +18,7 @@ namespace Furion.Utilities
         /// 获取当前 HttpContext 对象
         /// </summary>
         /// <returns></returns>
-        public static HttpContext GetCurrentHttpContext()
+        public static HttpContext Current()
         {
             var asyncLocal = (_asyncLocalAccessor ??= CreateAsyncLocalAccessor())();
             if (asyncLocal == null) return null;

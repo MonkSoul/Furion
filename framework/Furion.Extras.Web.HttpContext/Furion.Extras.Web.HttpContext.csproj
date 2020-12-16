@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <version>1.5.4</version>
@@ -9,27 +10,26 @@
     <Copyright>© 2020 Furion, Baiqian Co.,Ltd.</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://furion.pro</PackageProjectUrl>
-    <Description>Furion Jwt 授权验证拓展插件。</Description>
+    <Description>Furion HttpContext 插件。</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>Furion.Extras.Authentication.JwtBearer.xml</DocumentationFile>
+    <DocumentationFile>Furion.Extras.Web.HttpContext.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>Furion.Extras.Authentication.JwtBearer.xml</DocumentationFile>
+    <DocumentationFile>Furion.Extras.Web.HttpContext.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Furion.Extras.Web.HttpContext" Version="1.5.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.1" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>

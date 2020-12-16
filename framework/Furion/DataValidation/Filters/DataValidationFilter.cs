@@ -93,7 +93,7 @@ namespace Furion.DataValidation
             var validateFaildMessage = JsonSerializerUtility.Serialize(validationResults);
 
             // 判断是否跳过规范化结果
-            if (UnifyResultContext.IsSkipUnifyHandler(actionDescriptor.MethodInfo, out var unifyResult))
+            if (UnifyContext.IsSkipUnifyHandler(actionDescriptor.MethodInfo, out var unifyResult))
             {
                 // 返回 400 错误
                 var result = new BadRequestObjectResult(modelState);

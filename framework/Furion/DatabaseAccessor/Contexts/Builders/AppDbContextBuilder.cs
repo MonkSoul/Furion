@@ -1,6 +1,6 @@
 ﻿using Furion.DependencyInjection;
 using Furion.Extensions;
-using Furion.Utilities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -45,7 +45,7 @@ namespace Furion.DatabaseAccessor
         static AppDbContextBuilder()
         {
             // 判断是否是 Web 环境
-            IsWebEnvironment = HttpContextUtility.GetCurrentHttpContext() != null;
+            IsWebEnvironment = HttpContextLocal.Current() != null;
 
             // 扫描程序集，获取数据库实体相关类型
             EntityCorrelationTypes = App.CanBeScanTypes.Where(t => (typeof(IPrivateEntity).IsAssignableFrom(t) || typeof(IPrivateModelBuilder).IsAssignableFrom(t))

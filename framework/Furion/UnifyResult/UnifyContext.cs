@@ -16,7 +16,7 @@ namespace Furion.UnifyResult
     /// 规范化结果上下文
     /// </summary>
     [SkipScan]
-    public static class UnifyResultContext
+    public static class UnifyContext
     {
         /// <summary>
         /// 规范化结果类型
@@ -87,7 +87,7 @@ namespace Furion.UnifyResult
         /// <param name="extras"></param>
         public static void Fill(object extras)
         {
-            var items = HttpContextUtility.GetCurrentHttpContext()?.Items;
+            var items = HttpContextLocal.Current()?.Items;
             if (items.ContainsKey(UnifyResultExtrasKey)) items.Remove(UnifyResultExtrasKey);
             items.Add(UnifyResultExtrasKey, extras);
         }
@@ -98,7 +98,7 @@ namespace Furion.UnifyResult
         public static object Take()
         {
             object extras = null;
-            HttpContextUtility.GetCurrentHttpContext()?.Items?.TryGetValue(UnifyResultExtrasKey, out extras);
+            HttpContextLocal.Current()?.Items?.TryGetValue(UnifyResultExtrasKey, out extras);
             return extras;
         }
 
@@ -109,7 +109,7 @@ namespace Furion.UnifyResult
         /// <param name="value"></param>
         internal static void Set(string key, object value)
         {
-            var items = HttpContextUtility.GetCurrentHttpContext()?.Items;
+            var items = HttpContextLocal.Current()?.Items;
             if (items != null && items.ContainsKey(key)) items.Remove(key);
             items?.Add(key, value);
         }
@@ -122,7 +122,7 @@ namespace Furion.UnifyResult
         internal static object Get(string key)
         {
             object value = null;
-            HttpContextUtility.GetCurrentHttpContext()?.Items?.TryGetValue(key, out value);
+            HttpContextLocal.Current()?.Items?.TryGetValue(key, out value);
             return value;
         }
 

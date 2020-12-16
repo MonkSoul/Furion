@@ -45,7 +45,7 @@ namespace Microsoft.Extensions.DependencyInjection
             where TUnifyResultProvider : class, IUnifyResultProvider
         {
             // 获取规范化提供器模型
-            UnifyResultContext.RESTfulResultType = typeof(TUnifyResultProvider).GetCustomAttribute<UnifyModelAttribute>().ModelType;
+            UnifyContext.RESTfulResultType = typeof(TUnifyResultProvider).GetCustomAttribute<UnifyModelAttribute>().ModelType;
 
             // 添加规范化提供器
             mvcBuilder.Services.AddSingleton<IUnifyResultProvider, TUnifyResultProvider>();
@@ -69,7 +69,7 @@ namespace Microsoft.Extensions.DependencyInjection
             where TUnifyResultProvider : class, IUnifyResultProvider
         {
             // 获取规范化提供器模型
-            UnifyResultContext.RESTfulResultType = typeof(TUnifyResultProvider).GetCustomAttribute<UnifyModelAttribute>().ModelType;
+            UnifyContext.RESTfulResultType = typeof(TUnifyResultProvider).GetCustomAttribute<UnifyModelAttribute>().ModelType;
 
             // 添加规范化提供器
             services.AddSingleton<IUnifyResultProvider, TUnifyResultProvider>();

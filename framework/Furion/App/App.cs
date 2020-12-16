@@ -1,7 +1,7 @@
 ﻿using Furion.DependencyInjection;
 using Furion.Extensions;
-using Furion.Utilities;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
@@ -97,7 +97,7 @@ namespace Furion
         /// <returns></returns>
         public static object GetService(Type type)
         {
-            return HttpContextUtility.GetCurrentHttpContext()?.RequestServices?.GetService(type);
+            return HttpContextLocal.Current()?.RequestServices?.GetService(type);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Furion
         /// <returns></returns>
         public static object GetRequiredService(Type type)
         {
-            return HttpContextUtility.GetCurrentHttpContext()?.RequestServices?.GetRequiredService(type);
+            return HttpContextLocal.Current()?.RequestServices?.GetRequiredService(type);
         }
 
         /// <summary>

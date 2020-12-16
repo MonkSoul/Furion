@@ -19,7 +19,7 @@ namespace Furion.FriendlyException
         /// <returns></returns>
         public static Exception StatusCode(this Exception exception, int statusCode = StatusCodes.Status500InternalServerError)
         {
-            UnifyResultContext.Set(UnifyResultContext.UnifyResultStatusCodeKey, statusCode);
+            UnifyContext.Set(UnifyContext.UnifyResultStatusCodeKey, statusCode);
             return exception;
         }
     }

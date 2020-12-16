@@ -34,7 +34,7 @@ namespace Furion.UnifyResult
             await _next(context);
 
             // 处理规范化结果
-            if (!UnifyResultContext.IsSkipUnifyHandler(context, out var unifyResult))
+            if (!UnifyContext.IsSkipUnifyHandler(context, out var unifyResult))
             {
                 await unifyResult.OnResponseStatusCodes(context, context.Response.StatusCode);
             }

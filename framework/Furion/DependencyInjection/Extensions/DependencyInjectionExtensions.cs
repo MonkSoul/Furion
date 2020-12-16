@@ -1,4 +1,4 @@
-﻿using Furion.Utilities;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace Furion.Extensions.DependencyInjection
 {
@@ -16,7 +16,7 @@ namespace Furion.Extensions.DependencyInjection
         public static TService GetService<TService>(this object obj)
             where TService : class
         {
-            return HttpContextUtility.GetCurrentHttpContext()?.RequestServices?.GetService<TService>();
+            return HttpContextLocal.Current()?.RequestServices?.GetService<TService>();
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Furion.Extensions.DependencyInjection
         public static TService GetRequiredService<TService>(this object obj)
             where TService : class
         {
-            return HttpContextUtility.GetCurrentHttpContext()?.RequestServices?.GetRequiredService<TService>();
+            return HttpContextLocal.Current()?.RequestServices?.GetRequiredService<TService>();
         }
     }
 }

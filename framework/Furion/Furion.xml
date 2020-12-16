@@ -5864,6 +5864,14 @@
             Sql 拓展类
             </summary>
         </member>
+        <member name="M:Furion.DatabaseAccessor.SqlExtensions.Change(System.String,System.String)">
+            <summary>
+            切换数据库上下文
+            </summary>
+            <param name="sql"></param>
+            <param name="dbContextLocatorTypeFullName">完整的数据库上下文定位器名称，包含命名空间和名称，如：Furion.DatabaseAccessor.MasterDbContextLocator</param>
+            <returns></returns>
+        </member>
         <member name="M:Furion.DatabaseAccessor.SqlExtensions.Change``1(System.String)">
             <summary>
             切换数据库上下文
@@ -21926,59 +21934,59 @@
             <param name="statusCode"></param>
             <returns></returns>
         </member>
-        <member name="T:Furion.UnifyResult.UnifyResultContext">
+        <member name="T:Furion.UnifyResult.UnifyContext">
             <summary>
             规范化结果上下文
             </summary>
         </member>
-        <member name="F:Furion.UnifyResult.UnifyResultContext.RESTfulResultType">
+        <member name="F:Furion.UnifyResult.UnifyContext.RESTfulResultType">
             <summary>
             规范化结果类型
             </summary>
         </member>
-        <member name="F:Furion.UnifyResult.UnifyResultContext.UnifyResultExtrasKey">
+        <member name="F:Furion.UnifyResult.UnifyContext.UnifyResultExtrasKey">
             <summary>
             规范化结果额外数据键
             </summary>
         </member>
-        <member name="F:Furion.UnifyResult.UnifyResultContext.UnifyResultStatusCodeKey">
+        <member name="F:Furion.UnifyResult.UnifyContext.UnifyResultStatusCodeKey">
             <summary>
             规范化结果状态码
             </summary>
         </member>
-        <member name="M:Furion.UnifyResult.UnifyResultContext.GetExceptionMetadata(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
+        <member name="M:Furion.UnifyResult.UnifyContext.GetExceptionMetadata(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
             <summary>
             获取异常元数据
             </summary>
             <param name="context"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.UnifyResult.UnifyResultContext.Fill(System.Object)">
+        <member name="M:Furion.UnifyResult.UnifyContext.Fill(System.Object)">
             <summary>
             填充附加信息
             </summary>
             <param name="extras"></param>
         </member>
-        <member name="M:Furion.UnifyResult.UnifyResultContext.Take">
+        <member name="M:Furion.UnifyResult.UnifyContext.Take">
             <summary>
             读取附加信息
             </summary>
         </member>
-        <member name="M:Furion.UnifyResult.UnifyResultContext.Set(System.String,System.Object)">
+        <member name="M:Furion.UnifyResult.UnifyContext.Set(System.String,System.Object)">
             <summary>
             设置规范化结果信息
             </summary>
             <param name="key"></param>
             <param name="value"></param>
         </member>
-        <member name="M:Furion.UnifyResult.UnifyResultContext.Get(System.String)">
+        <member name="M:Furion.UnifyResult.UnifyContext.Get(System.String)">
             <summary>
             读取规范化结果信息
             </summary>
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.UnifyResult.UnifyResultContext.IsSkipOnSuccessUnifyHandler(System.Reflection.MethodInfo,Furion.UnifyResult.IUnifyResultProvider@)">
+        <member name="M:Furion.UnifyResult.UnifyContext.IsSkipOnSuccessUnifyHandler(System.Reflection.MethodInfo,Furion.UnifyResult.IUnifyResultProvider@)">
             <summary>
             是否跳过成功结果规范处理
             </summary>
@@ -21986,7 +21994,7 @@
             <param name="unifyResult"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.UnifyResult.UnifyResultContext.IsSkipUnifyHandler(System.Reflection.MethodInfo,Furion.UnifyResult.IUnifyResultProvider@)">
+        <member name="M:Furion.UnifyResult.UnifyContext.IsSkipUnifyHandler(System.Reflection.MethodInfo,Furion.UnifyResult.IUnifyResultProvider@)">
             <summary>
             是否跳过规范化处理
             </summary>
@@ -21994,23 +22002,12 @@
             <param name="unifyResult"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.UnifyResult.UnifyResultContext.IsSkipUnifyHandler(Microsoft.AspNetCore.Http.HttpContext,Furion.UnifyResult.IUnifyResultProvider@)">
+        <member name="M:Furion.UnifyResult.UnifyContext.IsSkipUnifyHandler(Microsoft.AspNetCore.Http.HttpContext,Furion.UnifyResult.IUnifyResultProvider@)">
             <summary>
             是否跳过规范化处理
             </summary>
             <param name="context"></param>
             <param name="unifyResult"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Furion.Utilities.HttpContextUtility">
-            <summary>
-            HttpContext 上下文实用类
-            </summary>
-        </member>
-        <member name="M:Furion.Utilities.HttpContextUtility.GetCurrentHttpContext">
-            <summary>
-            获取当前 HttpContext 对象
-            </summary>
             <returns></returns>
         </member>
         <member name="T:Furion.Utilities.JsonSerializerUtility">
@@ -23248,6 +23245,79 @@
             <param name="builder"></param>
             <returns></returns>
         </member>
+        <member name="T:Microsoft.AspNetCore.Http.HttpContextLocal">
+            <summary>
+            获取本地 HttpContext 上下文
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextLocal.Current">
+            <summary>
+            获取当前 HttpContext 对象
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Http.HttpContextExtensions">
+            <summary>
+            Http 拓展类
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.GetMetadata``1(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            获取 Action 特性
+            </summary>
+            <typeparam name="TAttribute"></typeparam>
+            <param name="httpContext"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.SigninToSwagger(Microsoft.AspNetCore.Http.HttpContext,System.String)">
+            <summary>
+            设置规范化文档自动登录
+            </summary>
+            <param name="httpContext"></param>
+            <param name="accessToken"></param>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.SigninToSwagger(Microsoft.AspNetCore.Http.IHttpContextAccessor,System.String)">
+            <summary>
+            设置规范化文档自动登录
+            </summary>
+            <param name="httpContextAccessor"></param>
+            <param name="accessToken"></param>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.GetLocalIpAddressToIPv4(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            获取本机 IPv4地址
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.GetLocalIpAddressToIPv6(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            获取本机 IPv6地址
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.GetRemoteIpAddressToIPv4(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            获取远程 IPv4地址
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.GetRemoteIpAddressToIPv6(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            获取远程 IPv6地址
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.IsAjaxRequest(Microsoft.AspNetCore.Http.HttpRequest)">
+            <summary>
+            判断是否是 Ajax 请求
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
         <member name="T:Microsoft.AspNetCore.Authorization.AppAuthorizeAttribute">
             <summary>
             策略授权特性
@@ -23462,68 +23532,6 @@
             包装类型
             </summary>
             <param name="type"></param>
-        </member>
-        <member name="T:Microsoft.AspNetCore.Http.HttpContextExtensions">
-            <summary>
-            Http 拓展类
-            </summary>
-        </member>
-        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.GetMetadata``1(Microsoft.AspNetCore.Http.HttpContext)">
-            <summary>
-            获取 Action 特性
-            </summary>
-            <typeparam name="TAttribute"></typeparam>
-            <param name="httpContext"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.SigninToSwagger(Microsoft.AspNetCore.Http.HttpContext,System.String)">
-            <summary>
-            设置规范化文档自动登录
-            </summary>
-            <param name="httpContext"></param>
-            <param name="accessToken"></param>
-        </member>
-        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.SigninToSwagger(Microsoft.AspNetCore.Http.IHttpContextAccessor,System.String)">
-            <summary>
-            设置规范化文档自动登录
-            </summary>
-            <param name="httpContextAccessor"></param>
-            <param name="accessToken"></param>
-        </member>
-        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.GetLocalIpAddressToIPv4(Microsoft.AspNetCore.Http.HttpContext)">
-            <summary>
-            获取本机 IPv4地址
-            </summary>
-            <param name="context"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.GetLocalIpAddressToIPv6(Microsoft.AspNetCore.Http.HttpContext)">
-            <summary>
-            获取本机 IPv6地址
-            </summary>
-            <param name="context"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.GetRemoteIpAddressToIPv4(Microsoft.AspNetCore.Http.HttpContext)">
-            <summary>
-            获取远程 IPv4地址
-            </summary>
-            <param name="context"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.GetRemoteIpAddressToIPv6(Microsoft.AspNetCore.Http.HttpContext)">
-            <summary>
-            获取远程 IPv6地址
-            </summary>
-            <param name="context"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.IsAjaxRequest(Microsoft.AspNetCore.Http.HttpRequest)">
-            <summary>
-            判断是否是 Ajax 请求
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
         </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.AppServiceCollectionExtensions">
             <summary>

@@ -1,5 +1,4 @@
-﻿using Furion.Authorization;
-using Furion.Core;
+﻿using Furion.Core;
 using Furion.DatabaseAccessor;
 using Furion.DataEncryption;
 using Furion.DynamicApiController;
@@ -11,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 
 namespace Furion.Application
@@ -61,20 +59,10 @@ namespace Furion.Application
 
             var output = user.Adapt<LoginOutput>();
 
-            // 生成 token
-            var jwtSettings = App.GetOptions<JWTSettingsOptions>();
-            var datetimeOffset = DateTimeOffset.Now;
-
-            output.AccessToken = JWTEncryption.Encrypt(jwtSettings.IssuerSigningKey, new Dictionary<string, object>()
+            output.AccessToken = JWTEncryption.Encrypt(new Dictionary<string, object>()
             {
                 { "UserId", user.Id },  // 存储Id
                 { "Account",user.Account }, // 存储用户名
-
-                { JwtRegisteredClaimNames.Iat, datetimeOffset.ToUnixTimeSeconds() },
-                { JwtRegisteredClaimNames.Nbf, datetimeOffset.ToUnixTimeSeconds() },
-                { JwtRegisteredClaimNames.Exp, DateTimeOffset.Now.AddSeconds(jwtSettings.ExpiredTime.Value*60).ToUnixTimeSeconds() },
-                { JwtRegisteredClaimNames.Iss, jwtSettings.ValidIssuer},
-                { JwtRegisteredClaimNames.Aud, jwtSettings.ValidAudience }
             });
 
             // 设置 Swagger 刷新自动授权

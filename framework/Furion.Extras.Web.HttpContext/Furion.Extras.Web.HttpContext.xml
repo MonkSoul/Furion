@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Furion.Extras.Web.HttpContext</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.AspNetCore.Http.InternalHttpContext">
+            <summary>
+            HttpContext 上下文实用类
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.InternalHttpContext.Current">
+            <summary>
+            获取当前 HttpContext 对象
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

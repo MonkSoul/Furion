@@ -45,9 +45,9 @@ namespace Microsoft.AspNetCore.Mvc
         /// <param name="type"></param>
         private void WrapType(Type type)
         {
-            if (type != null && !type.HasImplementedRawGeneric(UnifyResultContext.RESTfulResultType))
+            if (type != null && !type.HasImplementedRawGeneric(UnifyContext.RESTfulResultType))
             {
-                Type = UnifyResultContext.RESTfulResultType.MakeGenericType(type);
+                Type = UnifyContext.RESTfulResultType.MakeGenericType(type);
             }
         }
     }
