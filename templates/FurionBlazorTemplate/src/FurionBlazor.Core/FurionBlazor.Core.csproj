@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Furion" Version="1.5.3" />
+    <PackageReference Include="Furion" Version="1.5.4" />
     <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="1.5.3" />
   </ItemGroup>
 
