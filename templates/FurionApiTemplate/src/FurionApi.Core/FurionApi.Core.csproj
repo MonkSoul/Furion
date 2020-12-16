@@ -11,8 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Furion" Version="1.5.2" />
-    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="1.4.3" />
+    <PackageReference Include="Furion" Version="1.5.3" />
+    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="1.5.3" />
+    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="1.5.3" />
   </ItemGroup>
 
 </Project>
