@@ -48,7 +48,8 @@ namespace Furion.Utilities
             {
                 PropertyNameCaseInsensitive = true,
                 WriteIndented = true,
-                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
 
             if (EnabledPascalPropertyNaming)
