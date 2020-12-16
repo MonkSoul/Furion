@@ -347,6 +347,13 @@
             <param name="requirement"></param>
             <returns></returns>
         </member>
+        <member name="M:Furion.Authorization.AppAuthorizeHandler.AuthorizeHandleAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext)">
+            <summary>
+            授权处理
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
         <member name="T:Furion.Authorization.Penetrates">
             <summary>
             常量、公共方法配置类
@@ -21778,22 +21785,22 @@
             模型类型（泛型）
             </summary>
         </member>
-        <member name="T:Furion.UnifyResult.SuccessUnifyResultFilter">
+        <member name="T:Furion.UnifyResult.SucceededUnifyResultFilter">
             <summary>
             规范化结构（请求成功）过滤器
             </summary>
         </member>
-        <member name="F:Furion.UnifyResult.SuccessUnifyResultFilter.FilterOrder">
+        <member name="F:Furion.UnifyResult.SucceededUnifyResultFilter.FilterOrder">
             <summary>
             过滤器排序
             </summary>
         </member>
-        <member name="P:Furion.UnifyResult.SuccessUnifyResultFilter.Order">
+        <member name="P:Furion.UnifyResult.SucceededUnifyResultFilter.Order">
             <summary>
             排序属性
             </summary>
         </member>
-        <member name="M:Furion.UnifyResult.SuccessUnifyResultFilter.OnActionExecutionAsync(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Microsoft.AspNetCore.Mvc.Filters.ActionExecutionDelegate)">
+        <member name="M:Furion.UnifyResult.SucceededUnifyResultFilter.OnActionExecutionAsync(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Microsoft.AspNetCore.Mvc.Filters.ActionExecutionDelegate)">
             <summary>
             处理规范化结果
             </summary>
@@ -21817,7 +21824,7 @@
             数据
             </summary>
         </member>
-        <member name="P:Furion.UnifyResult.RESTfulResult`1.Successed">
+        <member name="P:Furion.UnifyResult.RESTfulResult`1.Succeeded">
             <summary>
             执行成功
             </summary>
@@ -21872,7 +21879,7 @@
             <param name="context"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.UnifyResult.IUnifyResultProvider.OnSuccessed(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+        <member name="M:Furion.UnifyResult.IUnifyResultProvider.OnSucceeded(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
             <summary>
             成功返回值
             </summary>
@@ -21909,7 +21916,7 @@
             <param name="context"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.UnifyResult.RESTfulResultProvider.OnSuccessed(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+        <member name="M:Furion.UnifyResult.RESTfulResultProvider.OnSucceeded(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
             <summary>
             成功返回值
             </summary>

@@ -10,7 +10,7 @@ namespace Furion.UnifyResult
     /// 规范化结构（请求成功）过滤器
     /// </summary>
     [SkipScan]
-    public class SuccessUnifyResultFilter : IAsyncActionFilter, IOrderedFilter
+    public class SucceededUnifyResultFilter : IAsyncActionFilter, IOrderedFilter
     {
         /// <summary>
         /// 过滤器排序
@@ -46,7 +46,7 @@ namespace Furion.UnifyResult
                 // 处理规范化结果
                 if (unifyResult != null && context.Result == null)
                 {
-                    var result = unifyResult.OnSuccessed(actionExecutedContext);
+                    var result = unifyResult.OnSucceeded(actionExecutedContext);
                     if (result != null) actionExecutedContext.Result = result;
                 }
             }

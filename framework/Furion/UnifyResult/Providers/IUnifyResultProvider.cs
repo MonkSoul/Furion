@@ -24,7 +24,7 @@ namespace Furion.UnifyResult
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        IActionResult OnSuccessed(ActionExecutedContext context);
+        IActionResult OnSucceeded(ActionExecutedContext context);
 
         /// <summary>
         /// 验证失败返回值

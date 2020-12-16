@@ -29,7 +29,7 @@ namespace Furion.UnifyResult
             return new JsonResult(new RESTfulResult<object>
             {
                 StatusCode = ErrorCode,
-                Successed = false,
+                Succeeded = false,
                 Data = null,
                 Errors = ErrorContent,
                 Extras = UnifyContext.Take(),
@@ -42,7 +42,7 @@ namespace Furion.UnifyResult
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public IActionResult OnSuccessed(ActionExecutedContext context)
+        public IActionResult OnSucceeded(ActionExecutedContext context)
         {
             object data;
             // 处理内容结果
@@ -55,7 +55,7 @@ namespace Furion.UnifyResult
             return new JsonResult(new RESTfulResult<object>
             {
                 StatusCode = context.Result is EmptyResult ? StatusCodes.Status204NoContent : StatusCodes.Status200OK,  // 处理没有返回值情况 204
-                Successed = true,
+                Succeeded = true,
                 Data = data,
                 Errors = null,
                 Extras = UnifyContext.Take(),
@@ -76,7 +76,7 @@ namespace Furion.UnifyResult
             return new JsonResult(new RESTfulResult<object>
             {
                 StatusCode = StatusCodes.Status400BadRequest,
-                Successed = false,
+                Succeeded = false,
                 Data = null,
                 Errors = validationResults,
                 Extras = UnifyContext.Take(),
@@ -99,7 +99,7 @@ namespace Furion.UnifyResult
                     await context.Response.WriteAsJsonAsync(new RESTfulResult<object>
                     {
                         StatusCode = StatusCodes.Status401Unauthorized,
-                        Successed = false,
+                        Succeeded = false,
                         Data = null,
                         Errors = "401 Unauthorized",
                         Extras = UnifyContext.Take(),
@@ -111,7 +111,7 @@ namespace Furion.UnifyResult
                     await context.Response.WriteAsJsonAsync(new RESTfulResult<object>
                     {
                         StatusCode = StatusCodes.Status403Forbidden,
-                        Successed = false,
+                        Succeeded = false,
                         Data = null,
                         Errors = "403 Forbidden",
                         Extras = UnifyContext.Take(),

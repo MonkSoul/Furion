@@ -53,7 +53,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // 添加成功规范化结果
             mvcBuilder.AddMvcOptions(options =>
             {
-                options.Filters.Add<SuccessUnifyResultFilter>();
+                options.Filters.Add<SucceededUnifyResultFilter>();
             });
 
             return mvcBuilder;
@@ -77,7 +77,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // 添加成功规范化结果
             services.Configure<MvcOptions>(options =>
             {
-                options.Filters.Add<SuccessUnifyResultFilter>();
+                options.Filters.Add<SucceededUnifyResultFilter>();
             });
 
             return services;

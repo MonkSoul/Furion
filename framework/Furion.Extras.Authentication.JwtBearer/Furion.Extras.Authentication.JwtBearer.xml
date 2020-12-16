@@ -38,11 +38,12 @@
             JWT 加解密
             </summary>
         </member>
-        <member name="M:Furion.DataEncryption.JWTEncryption.Encrypt(System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:Furion.DataEncryption.JWTEncryption.Encrypt(System.Collections.Generic.Dictionary{System.String,System.Object},System.Nullable{System.Int64})">
             <summary>
             生成 Token
             </summary>
             <param name="payload"></param>
+            <param name="expiredTime"></param>
             <returns></returns>
         </member>
         <member name="M:Furion.DataEncryption.JWTEncryption.Encrypt(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
@@ -61,6 +62,33 @@
             <param name="payload"></param>
             <returns></returns>
         </member>
+        <member name="M:Furion.DataEncryption.JWTEncryption.GenerateRefreshToken(System.String,System.Int32)">
+            <summary>
+            生成刷新 Token
+            </summary>
+            <param name="accessToken"></param>
+            <param name="days"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.DataEncryption.JWTEncryption.Exchange(System.String,System.String,System.Nullable{System.Int64})">
+            <summary>
+            通过过期Token 和 刷新Token 换取新的 Token
+            </summary>
+            <param name="expiredToken"></param>
+            <param name="refreshToken"></param>
+            <param name="expiredTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.DataEncryption.JWTEncryption.AutoRefreshToken(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,Microsoft.AspNetCore.Http.DefaultHttpContext,System.Nullable{System.Int64},System.Int32)">
+            <summary>
+            自动刷新 Token 信息
+            </summary>
+            <param name="context"></param>
+            <param name="httpContext"></param>
+            <param name="expiredTime"></param>
+            <param name="days"></param>
+            <returns></returns>
+        </member>
         <member name="M:Furion.DataEncryption.JWTEncryption.Validate(System.String)">
             <summary>
             验证 Token
@@ -68,26 +96,28 @@
             <param name="accessToken"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.DataEncryption.JWTEncryption.ValidateJwtBearerToken(Microsoft.AspNetCore.Http.DefaultHttpContext,Microsoft.IdentityModel.JsonWebTokens.JsonWebToken@)">
+        <member name="M:Furion.DataEncryption.JWTEncryption.ValidateJwtBearerToken(Microsoft.AspNetCore.Http.DefaultHttpContext,Microsoft.IdentityModel.JsonWebTokens.JsonWebToken@,System.String)">
             <summary>
             验证 Token
             </summary>
             <param name="httpContext"></param>
             <param name="token"></param>
+            <param name="headerKey"></param>
             <returns></returns>
         </member>
         <member name="M:Furion.DataEncryption.JWTEncryption.ReadJwtToken(System.String)">
             <summary>
-            验证 Token
+            读取 Token，不含验证
             </summary>
             <param name="accessToken"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.DataEncryption.JWTEncryption.GetJwtBearerToken(Microsoft.AspNetCore.Http.DefaultHttpContext)">
+        <member name="M:Furion.DataEncryption.JWTEncryption.GetJwtBearerToken(Microsoft.AspNetCore.Http.DefaultHttpContext,System.String)">
             <summary>
             获取 JWT Bearer Token
             </summary>
             <param name="httpContext"></param>
+            <param name="headerKey"></param>
             <returns></returns>
         </member>
         <member name="M:Furion.DataEncryption.JWTEncryption.GetJWTSettings">
@@ -103,12 +133,18 @@
             <param name="jwtSettings"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.DataEncryption.JWTEncryption.CombinePayload(System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:Furion.DataEncryption.JWTEncryption.CombinePayload(System.Collections.Generic.Dictionary{System.String,System.Object},System.Nullable{System.Int64})">
             <summary>
             组合 Claims 负荷
             </summary>
             <param name="payload"></param>
+            <param name="expiredTime">过期时间，单位：分钟</param>
             <returns></returns>
+        </member>
+        <member name="F:Furion.DataEncryption.JWTEncryption.StationaryClaimTypes">
+            <summary>
+            固定的 Claim 类型
+            </summary>
         </member>
         <member name="T:Furion.Authorization.JWTSettingsOptions">
             <summary>

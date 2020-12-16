@@ -84,7 +84,7 @@ namespace Furion.RemoteRequest
             if (response.IsSuccessStatusCode)
             {
                 // 打印成功消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Successed");
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Succeeded");
 
                 // 处理无返回值情况
                 if (returnType == typeof(void)) return default;

@@ -10,7 +10,7 @@
     <RepositoryUrl>https://gitee.com/monksoul/Furion</RepositoryUrl>
     <RepositoryType>Gitee</RepositoryType>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <version>1.5.5</version>
+    <version>1.6.0</version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>

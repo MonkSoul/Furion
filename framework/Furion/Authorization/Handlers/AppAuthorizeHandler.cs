@@ -22,25 +22,7 @@ namespace Furion.Authorization
             var isAuthenticated = context.User.Identity.IsAuthenticated;
             if (isAuthenticated)
             {
-                // 获取所有未成功验证的需求
-                var pendingRequirements = context.PendingRequirements;
-
-                // 获取 HttpContext 上下文
-                var httpContext = context.GetCurrentHttpContext();
-
-                // 调用子类管道
-                var pipeline = await PipelineAsync(context, httpContext);
-                if (pipeline)
-                {
-                    // 通过授权验证
-                    foreach (var requirement in pendingRequirements)
-                    {
-                        // 验证策略管道
-                        var policyPipeline = await PolicyPipelineAsync(context, httpContext, requirement);
-                        if (policyPipeline) context.Succeed(requirement);
-                    }
-                }
-                else context.Fail();
+                await AuthorizeHandleAsync(context);
             }
         }
 
@@ -65,6 +47,34 @@ namespace Furion.Authorization
         public virtual Task<bool> PolicyPipelineAsync(AuthorizationHandlerContext context, DefaultHttpContext httpContext, IAuthorizationRequirement requirement)
         {
             return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// 授权处理
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected async Task AuthorizeHandleAsync(AuthorizationHandlerContext context)
+        {
+            // 获取所有未成功验证的需求
+            var pendingRequirements = context.PendingRequirements;
+
+            // 获取 HttpContext 上下文
+            var httpContext = context.GetCurrentHttpContext();
+
+            // 调用子类管道
+            var pipeline = await PipelineAsync(context, httpContext);
+            if (pipeline)
+            {
+                // 通过授权验证
+                foreach (var requirement in pendingRequirements)
+                {
+                    // 验证策略管道
+                    var policyPipeline = await PolicyPipelineAsync(context, httpContext, requirement);
+                    if (policyPipeline) context.Succeed(requirement);
+                }
+            }
+            else context.Fail();
         }
     }
 }

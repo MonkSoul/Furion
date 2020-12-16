@@ -67,7 +67,7 @@ namespace Furion.DataValidation
             if (modelState.IsValid)
             {
                 // 打印验证成功消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Successed");
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Succeeded");
                 return;
             }
 

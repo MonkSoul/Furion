@@ -22,7 +22,7 @@ namespace Furion.UnifyResult
         /// <summary>
         /// 执行成功
         /// </summary>
-        public bool Successed { get; set; }
+        public bool Succeeded { get; set; }
 
         /// <summary>
         /// 错误信息
