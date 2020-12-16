@@ -80,54 +80,12 @@ services.AddJwt();
 
 ```cs
 // 生成 token
-var jwtSettings = App.GetOptions<JWTSettingsOptions>();
-var datetimeOffset = DateTimeOffset.UtcNow;
-
-var accessToken = JWTEncryption.Encrypt(jwtSettings.IssuerSigningKey, new Dictionary<string, object>()
-{
-    { "UserId", user.Id },  // 存储Id
-    { "Account",user.Account }, // 存储用户名
-    { JwtRegisteredClaimNames.Iat, datetimeOffset.ToUnixTimeSeconds() },
-    { JwtRegisteredClaimNames.Nbf, datetimeOffset.ToUnixTimeSeconds() },
-    { JwtRegisteredClaimNames.Exp, DateTimeOffset.UtcNow.AddSeconds(jwtSettings.ExpiredTime.Value*60).ToUnixTimeSeconds() },
-    { JwtRegisteredClaimNames.Iss, jwtSettings.ValidIssuer},
-    { JwtRegisteredClaimNames.Aud, jwtSettings.ValidAudience }
-});
+var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>()
+            {
+                { "UserId", user.Id },  // 存储Id
+                { "Account",user.Account }, // 存储用户名
+            });
 ```
-
-:::important 特别注意
-
-如果需要在 `Swagger` 中启用授权，还需配置规范化文档，如:
-
-```json {2-4}
-{
-  "SpecificationDocumentSettings": {
-    "EnableAuthorized": true,
-    "SecurityDefinitions": [
-      {
-        "Id": "Bearer",
-        "Type": "Http",
-        "Name": "Authorization",
-        "Description": "JWT Authorization header using the Bearer scheme.",
-        "BearerFormat": "JWT",
-        "Scheme": "bearer",
-        "In": "Header",
-        "Requirement": {
-          "Scheme": {
-            "Reference": {
-              "Id": "Bearer",
-              "Type": "SecurityScheme"
-            },
-            "Accesses": []
-          }
-        }
-      }
-    ]
-  }
-}
-```
-
-:::
 
 ### 15.2.3 混合授权
 

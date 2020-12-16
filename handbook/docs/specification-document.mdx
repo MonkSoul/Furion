@@ -529,7 +529,7 @@ namespace Furion.Application
 
 ### 6.5.11 授权控制
 
-待整理...
+新版本 `Furion` 已经启用了默认授权了，无需手动授权，如需手动配置，可手动添加以下类似配置：
 
 ```json title="Furion.Web.Entry/appsettings.json"
 {
@@ -655,7 +655,7 @@ namespace Furion.UnifyResult
         public IActionResult OnException(ExceptionContext context)
         {
             // 解析异常信息
-            var (ErrorCode, ErrorObject) = UnifyResultContext.GetExceptionMetadata(context);
+            var (ErrorCode, ErrorObject) = UnifyContext.GetExceptionMetadata(context);
 
             return new JsonResult(new RESTfulResult<object>
             {
@@ -663,7 +663,7 @@ namespace Furion.UnifyResult
                 Successed = false,
                 Data = null,
                 Errors = ErrorObject,
-                Extras = UnifyResultContext.Take()
+                Extras = UnifyContext.Take()
             });
         }
 
@@ -687,7 +687,7 @@ namespace Furion.UnifyResult
                 Successed = true,
                 Data = data,
                 Errors = null,
-                Extras = UnifyResultContext.Take()
+                Extras = UnifyContext.Take()
             });
         }
 
@@ -707,7 +707,7 @@ namespace Furion.UnifyResult
                 Successed = false,
                 Data = null,
                 Errors = validationResults,
-                Extras = UnifyResultContext.Take()
+                Extras = UnifyContext.Take()
             });
         }
 
@@ -729,7 +729,7 @@ namespace Furion.UnifyResult
                         Successed = false,
                         Data = null,
                         Errors = "401 Unauthorized",
-                        Extras = UnifyResultContext.Take()
+                        Extras = UnifyContext.Take()
                     }, new JsonSerializerOptions
                     {
                         PropertyNamingPolicy = JsonSerializerUtility.EnabledPascalPropertyNaming ? null : JsonNamingPolicy.CamelCase
@@ -743,7 +743,7 @@ namespace Furion.UnifyResult
                         Successed = false,
                         Data = null,
                         Errors = "403 Forbidden",
-                        Extras = UnifyResultContext.Take()
+                        Extras = UnifyContext.Take()
                     }, new JsonSerializerOptions
                     {
                         PropertyNamingPolicy = JsonSerializerUtility.EnabledPascalPropertyNaming ? null : JsonNamingPolicy.CamelCase
