@@ -519,8 +519,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
 using System.Collections.Generic;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Furion.UnifyResult
@@ -539,15 +539,16 @@ namespace Furion.UnifyResult
         public IActionResult OnException(ExceptionContext context)
         {
             // 解析异常信息
-            var (ErrorCode, ErrorObject) = UnifyContext.GetExceptionMetadata(context);
+            var (ErrorCode, ErrorContent) = UnifyContext.GetExceptionMetadata(context);
 
             return new JsonResult(new RESTfulResult<object>
             {
                 StatusCode = ErrorCode,
-                Successed = false,
+                Succeeded = false,
                 Data = null,
-                Errors = ErrorObject,
-                Extras = UnifyContext.Take()
+                Errors = ErrorContent,
+                Extras = UnifyContext.Take(),
+                Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
             });
         }
 
@@ -556,22 +557,24 @@ namespace Furion.UnifyResult
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public IActionResult OnSuccessed(ActionExecutedContext context)
+        public IActionResult OnSucceeded(ActionExecutedContext context)
         {
             object data;
             // 处理内容结果
             if (context.Result is ContentResult contentResult) data = contentResult.Content;
             // 处理对象结果
             else if (context.Result is ObjectResult objectResult) data = objectResult.Value;
+            else if (context.Result is EmptyResult) data = null;
             else return null;
 
             return new JsonResult(new RESTfulResult<object>
             {
                 StatusCode = context.Result is EmptyResult ? StatusCodes.Status204NoContent : StatusCodes.Status200OK,  // 处理没有返回值情况 204
-                Successed = true,
+                Succeeded = true,
                 Data = data,
                 Errors = null,
-                Extras = UnifyContext.Take()
+                Extras = UnifyContext.Take(),
+                Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
             });
         }
 
@@ -581,17 +584,18 @@ namespace Furion.UnifyResult
         /// <param name="context"></param>
         /// <param name="modelStates"></param>
         /// <param name="validationResults"></param>
-        /// <param name="validateFaildMessage"></param>
+        /// <param name="validateFailedMessage"></param>
         /// <returns></returns>
-        public IActionResult OnValidateFailed(ActionExecutingContext context, ModelStateDictionary modelStates, Dictionary<string, IEnumerable<string>> validationResults, string validateFaildMessage)
+        public IActionResult OnValidateFailed(ActionExecutingContext context, ModelStateDictionary modelStates, Dictionary<string, IEnumerable<string>> validationResults, string validateFailedMessage)
         {
             return new JsonResult(new RESTfulResult<object>
             {
                 StatusCode = StatusCodes.Status400BadRequest,
-                Successed = false,
+                Succeeded = false,
                 Data = null,
                 Errors = validationResults,
-                Extras = UnifyContext.Take()
+                Extras = UnifyContext.Take(),
+                Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
             });
         }
 
@@ -610,28 +614,24 @@ namespace Furion.UnifyResult
                     await context.Response.WriteAsJsonAsync(new RESTfulResult<object>
                     {
                         StatusCode = StatusCodes.Status401Unauthorized,
-                        Successed = false,
+                        Succeeded = false,
                         Data = null,
                         Errors = "401 Unauthorized",
-                        Extras = UnifyContext.Take()
-                    }, new JsonSerializerOptions
-                    {
-                        PropertyNamingPolicy = JsonSerializerUtility.EnabledPascalPropertyNaming ? null : JsonNamingPolicy.CamelCase
-                    });
+                        Extras = UnifyContext.Take(),
+                        Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+                    }, JsonSerializerUtility.GetDefaultJsonSerializerOptions());
                     break;
                 // 处理 403 状态码
                 case StatusCodes.Status403Forbidden:
                     await context.Response.WriteAsJsonAsync(new RESTfulResult<object>
                     {
                         StatusCode = StatusCodes.Status403Forbidden,
-                        Successed = false,
+                        Succeeded = false,
                         Data = null,
                         Errors = "403 Forbidden",
-                        Extras = UnifyContext.Take()
-                    }, new JsonSerializerOptions
-                    {
-                        PropertyNamingPolicy = JsonSerializerUtility.EnabledPascalPropertyNaming ? null : JsonNamingPolicy.CamelCase
-                    });
+                        Extras = UnifyContext.Take(),
+                        Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+                    }, JsonSerializerUtility.GetDefaultJsonSerializerOptions());
                     break;
 
                 default:

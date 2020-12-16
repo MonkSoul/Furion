@@ -177,7 +177,110 @@ services.AddJwt<JwtHandler>(enableGlobalAuthorize:true);
 
 如果需要对特定的 `Action` 或 `Controller` 允许匿名访问，则贴 `[AllowAnonymous]` 即可。
 
-## 15.5 反馈与建议
+## 15.5 自动刷新 Token
+
+### 15.5.1 后端部分
+
+当用户登录成功之后，返回 `accessToken` 字符串，之后通过 `JWTEncryption.GenerateRefreshToken()` 获取 `刷新Token`，如：
+
+```cs {9}
+// token
+var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>()
+            {
+                { "UserId", user.Id },  // 存储Id
+                { "Account",user.Account }, // 存储用户名
+            });
+
+// 获取刷新 token
+var refreshToken = JWTEncryption.GenerateRefreshToken(accessToken, 30); // 第二个参数是刷新 token 的有效期，默认三十天
+```
+
+### 15.5.4 后端授权 `Handler` 部分
+
+```cs {16-27}
+using Furion.Authorization;
+using Furion.Core;
+using Furion.DataEncryption;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
+
+namespace Furion.Web.Core
+{
+    /// <summary>
+    /// JWT 授权自定义处理程序
+    /// </summary>
+    public class JwtHandler : AppAuthorizeHandler
+    {
+        /// <summary>
+        /// 重写 Handler 添加自动刷新收取逻辑
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override async Task HandleAsync(AuthorizationHandlerContext context)
+        {
+            // 自动刷新 token
+            if (JWTEncryption.AutoRefreshToken(context, context.GetCurrentHttpContext()))
+            {
+                await AuthorizeHandleAsync(context);
+            }
+        }
+
+        /// <summary>
+        /// 验证管道
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
+        public override Task<bool> PipelineAsync(AuthorizationHandlerContext context, DefaultHttpContext httpContext)
+        {
+            // 检查权限，如果方法时异步的就不用 Task.FromResult 包裹，直接使用 async/await 即可
+            return Task.FromResult(CheckAuthorzie(httpContext));
+        }
+
+        /// <summary>
+        /// 检查权限
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
+        private static bool CheckAuthorzie(DefaultHttpContext httpContext)
+        {
+            // 获取权限特性
+            var securityDefineAttribute = httpContext.GetMetadata<SecurityDefineAttribute>();
+            if (securityDefineAttribute == null) return true;
+
+            // 解析服务
+            var authorizationManager = httpContext.RequestServices.GetService<IAuthorizationManager>();
+
+            // 检查授权
+            return authorizationManager.CheckSecurity(securityDefineAttribute.ResourceId);
+        }
+    }
+}
+```
+
+用户登录成功之后把 `accessToken` 和 `refreshToken` 一起返回给客户端。
+
+### 15.5.3 客户端部分
+
+客户端每次请求需将 `accessToken` 和 `refreshToken` 放到请求报文头中传送到服务端，格式为：
+
+```
+Authorization: Bearer 你的token
+X-Authorization: Bearer 你的刷新token
+```
+
+如果 `Token` 过期，那么后端将自动根据有效期内的 `refreshToken` 自动生成新的 `Token`，并在 **响应报文** 中返回，如：
+
+```
+access-token: 新的token
+x-access-token: 新的刷新token
+```
+
+前端需要获取 **响应报文** 新的 token 和刷新 token 替换之前旧的 token 和刷新 token。
+
+## 15.6 反馈与建议
 
 :::note 与我们交流
 
