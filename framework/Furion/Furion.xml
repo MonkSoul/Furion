@@ -330,7 +330,7 @@
             <param name="context"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.Authorization.AppAuthorizeHandler.Pipeline(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,Microsoft.AspNetCore.Http.DefaultHttpContext)">
+        <member name="M:Furion.Authorization.AppAuthorizeHandler.PipelineAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,Microsoft.AspNetCore.Http.DefaultHttpContext)">
             <summary>
             验证管道
             </summary>
@@ -338,7 +338,7 @@
             <param name="httpContext"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.Authorization.AppAuthorizeHandler.PolicyPipeline(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,Microsoft.AspNetCore.Http.DefaultHttpContext,Microsoft.AspNetCore.Authorization.IAuthorizationRequirement)">
+        <member name="M:Furion.Authorization.AppAuthorizeHandler.PolicyPipelineAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,Microsoft.AspNetCore.Http.DefaultHttpContext,Microsoft.AspNetCore.Authorization.IAuthorizationRequirement)">
             <summary>
             策略验证管道
             </summary>

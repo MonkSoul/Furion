@@ -16,7 +16,7 @@ namespace Furion.Authorization
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public virtual Task HandleAsync(AuthorizationHandlerContext context)
+        public virtual async Task HandleAsync(AuthorizationHandlerContext context)
         {
             // 判断是否授权
             var isAuthenticated = context.User.Identity.IsAuthenticated;
@@ -29,21 +29,19 @@ namespace Furion.Authorization
                 var httpContext = context.GetCurrentHttpContext();
 
                 // 调用子类管道
-                var pipeline = Pipeline(context, httpContext);
+                var pipeline = await PipelineAsync(context, httpContext);
                 if (pipeline)
                 {
                     // 通过授权验证
                     foreach (var requirement in pendingRequirements)
                     {
                         // 验证策略管道
-                        var policyPipeline = PolicyPipeline(context, httpContext, requirement);
+                        var policyPipeline = await PolicyPipelineAsync(context, httpContext, requirement);
                         if (policyPipeline) context.Succeed(requirement);
                     }
                 }
                 else context.Fail();
             }
-
-            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -52,9 +50,9 @@ namespace Furion.Authorization
         /// <param name="context"></param>
         /// <param name="httpContext"></param>
         /// <returns></returns>
-        public virtual bool Pipeline(AuthorizationHandlerContext context, DefaultHttpContext httpContext)
+        public virtual Task<bool> PipelineAsync(AuthorizationHandlerContext context, DefaultHttpContext httpContext)
         {
-            return true;
+            return Task.FromResult(true);
         }
 
         /// <summary>
@@ -64,9 +62,9 @@ namespace Furion.Authorization
         /// <param name="httpContext"></param>
         /// <param name="requirement"></param>
         /// <returns></returns>
-        public virtual bool PolicyPipeline(AuthorizationHandlerContext context, DefaultHttpContext httpContext, IAuthorizationRequirement requirement)
+        public virtual Task<bool> PolicyPipelineAsync(AuthorizationHandlerContext context, DefaultHttpContext httpContext, IAuthorizationRequirement requirement)
         {
-            return true;
+            return Task.FromResult(true);
         }
     }
 }

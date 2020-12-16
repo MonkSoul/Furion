@@ -3,6 +3,7 @@ using Furion.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 
 namespace Furion.Web.Core
 {
@@ -17,10 +18,10 @@ namespace Furion.Web.Core
         /// <param name="context"></param>
         /// <param name="httpContext"></param>
         /// <returns></returns>
-        public override bool Pipeline(AuthorizationHandlerContext context, DefaultHttpContext httpContext)
+        public override Task<bool> PipelineAsync(AuthorizationHandlerContext context, DefaultHttpContext httpContext)
         {
-            // 检查权限
-            return CheckAuthorzie(httpContext);
+            // 检查权限，如果方法时异步的就不用 Task.FromResult 包裹，直接使用 async/await 即可
+            return Task.FromResult(CheckAuthorzie(httpContext));
         }
 
         /// <summary>

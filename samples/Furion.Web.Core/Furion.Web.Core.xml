@@ -9,7 +9,7 @@
             JWT 授权自定义处理程序
             </summary>
         </member>
-        <member name="M:Furion.Web.Core.JwtHandler.Pipeline(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,Microsoft.AspNetCore.Http.DefaultHttpContext)">
+        <member name="M:Furion.Web.Core.JwtHandler.PipelineAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,Microsoft.AspNetCore.Http.DefaultHttpContext)">
             <summary>
             验证管道
             </summary>
