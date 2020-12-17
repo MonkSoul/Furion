@@ -376,7 +376,7 @@ namespace Furion.DatabaseAccessor
                 }
             }
 
-            return isGenericType ? list : resultType.GetMethod("FirstOrDefault").Invoke(list, null);
+            return list;
         }
 
         /// <summary>
@@ -399,7 +399,7 @@ namespace Furion.DatabaseAccessor
         internal static object ToValueTuple(this DataSet dataSet, Type tupleType)
         {
             // 获取元组最底层类型
-            var underlyingTypes = tupleType.GetGenericArguments().Select(u => u.GetGenericArguments().First());
+            var underlyingTypes = tupleType.GetGenericArguments().Select(u => u.IsGenericType ? u.GetGenericArguments().First() : u);
 
             var toListMethod = typeof(DbDataConvertExtensions)
                 .GetMethods(BindingFlags.Public | BindingFlags.Static)
