@@ -3,7 +3,7 @@
 namespace Furion.Core
 {
     /// <summary>
-    /// 用户和角色关系表
+    /// 角色和权限关系表
     /// </summary>
     public class RoleSecurity : IEntity
     {
