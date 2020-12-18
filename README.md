@@ -323,3 +323,7 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 ## 🧆 友情链接
 
 👉 **[Furion](https://gitee.com/monksoul/Furion)** 👉 **[SqlSugar](https://github.com/sunkaixuan/SqlSugar)** 👉 **[Layx](https://gitee.com/monksoul/LayX)** 👉 **[t-io](https://gitee.com/tywo45/t-io)** 👉 **[ThinkPHP](http://www.thinkphp.cn/)** 👉 **[Hutool](https://hutool.cn/)** 👉 **[BootstrapAdmin](https://gitee.com/LongbowEnterprise/BootstrapAdmin)** 👉 **[BootstrapBlazor](https://www.blazor.zone/)** 👉 **[IoTSharp](https://gitee.com/IoTSharp/IoTSharp)** 👉 **[Anno.Core](https://github.com/duyanming/Anno.Core)** 👉 **[WaterCloud](https://gitee.com/qian_wei_hong/WaterCloud)**
+
+## 🍵 特别鸣谢
+
+在这里特别感谢 QQ 网名：`蓝狐星` 为 `Furion` 提供演示云服务器。
