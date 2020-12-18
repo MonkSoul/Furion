@@ -463,8 +463,16 @@ namespace Furion.DatabaseAccessor
                         {
                             result.ModelBuilderFilterTypes.Add(entityCorrelationType);
 
-                            // 支持 DbContext 继承全局过滤接口
-                            result.ModelBuilderFilterInstances.Add((entityCorrelationType == dbContext.GetType() ? dbContext : Activator.CreateInstance(entityCorrelationType)) as IPrivateModelBuilderFilter);
+                            // 判断是否是 DbContext 类型，
+                            if (typeof(DbContext).IsAssignableFrom(entityCorrelationType))
+                            {
+                                // 判断是否已经注册了上下文并且是否等于当前上下文
+                                if (Penetrates.DbContextWithLocatorCached.Values.Contains(entityCorrelationType) && entityCorrelationType == dbContext.GetType())
+                                {
+                                    result.ModelBuilderFilterInstances.Add(dbContext as IPrivateModelBuilderFilter);
+                                }
+                            }
+                            else result.ModelBuilderFilterInstances.Add(Activator.CreateInstance(entityCorrelationType) as IPrivateModelBuilderFilter);
                         }
 
                         // 只有非 Web 环境才添加种子数据
