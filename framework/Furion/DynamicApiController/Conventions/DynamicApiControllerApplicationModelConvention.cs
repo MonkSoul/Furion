@@ -442,7 +442,11 @@ namespace Furion.DynamicApiController
             }
             else
             {
-                if (apiDescriptionSettings == null && controllerApiDescriptionSettings?.KeepName == true) isKeepName = true;
+                if (apiDescriptionSettings != null) isKeepName = apiDescriptionSettings.KeepName;
+                else
+                {
+                    if (controllerApiDescriptionSettings?.KeepName == true) isKeepName = true;
+                }
             }
 
             return _dynamicApiControllerSettings?.KeepName == true || isKeepName;
@@ -463,7 +467,11 @@ namespace Furion.DynamicApiController
             }
             else
             {
-                if (apiDescriptionSettings == null && controllerApiDescriptionSettings?.KeepVerb == true) isKeepVerb = true;
+                if (apiDescriptionSettings != null) isKeepVerb = apiDescriptionSettings.KeepVerb;
+                else
+                {
+                    if (controllerApiDescriptionSettings?.KeepVerb == true) isKeepVerb = true;
+                }
             }
 
             return _dynamicApiControllerSettings?.KeepVerb == true || isKeepVerb;
@@ -484,7 +492,11 @@ namespace Furion.DynamicApiController
             }
             else
             {
-                if (apiDescriptionSettings == null && controllerApiDescriptionSettings?.SplitCamelCase == false) isSplitCamelCase = false;
+                if (apiDescriptionSettings != null) isSplitCamelCase = apiDescriptionSettings.SplitCamelCase;
+                else
+                {
+                    if (controllerApiDescriptionSettings?.SplitCamelCase == false) isSplitCamelCase = false;
+                }
             }
 
             return isSplitCamelCase;
