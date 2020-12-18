@@ -69,6 +69,7 @@
 - **[园丁](https://gitee.com/hgflydream/Gardener)**：基于 `Furion` + `Blazor` 的超简单后台管理系统
 - **[Queer](https://gitee.com/songzhidan/queer)**：基于 `Furion` + `Layui` 的通用型管理系统
 - **[Pear Admin](https://gitee.com/pear-admin/pear-admin-furion)**：`PearAdmin` 官方和 `Furion` 官方合作管理系统
+- **[JoyAdmin](https://gitee.com/a106_admin/joy-admin)**：基于 `Furion` + `iviewadmin` 开发的管理系统
 
 **目前文档正在逐步完善中。**
 
