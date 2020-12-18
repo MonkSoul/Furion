@@ -1,12 +1,9 @@
 ﻿using Furion.DependencyInjection;
-using Furion.Extensions;
 using Furion.UnifyResult;
-using Furion.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.Linq;
 using System.Net.Mime;
 
 namespace Furion.DataValidation
@@ -87,10 +84,8 @@ namespace Furion.DataValidation
         /// <param name="actionDescriptor"></param>
         private static void SetValidateFailedResult(ActionExecutingContext context, ModelStateDictionary modelState, ControllerActionDescriptor actionDescriptor)
         {
-            // 将验证错误信息转换成字典并序列化成 Json
-            var validationResults = modelState.ToDictionary(u => !JsonSerializerUtility.EnabledPascalPropertyNaming ? u.Key.ToTitlePascal() : u.Key
-                                                                , u => modelState[u.Key].Errors.Select(c => c.ErrorMessage));
-            var validateFaildMessage = JsonSerializerUtility.Serialize(validationResults);
+            // 解析验证消息
+            var (validationResults, validateFaildMessage, _) = ValidatorContext.OutputValidationInfo(modelState);
 
             // 判断是否跳过规范化结果
             if (UnifyContext.IsSkipUnifyHandler(actionDescriptor.MethodInfo, out var unifyResult))

@@ -20226,6 +20226,18 @@
             验证消息类型定义
             </summary>
         </member>
+        <member name="T:Furion.DataValidation.ValidatorContext">
+            <summary>
+            验证上下文
+            </summary>
+        </member>
+        <member name="M:Furion.DataValidation.ValidatorContext.OutputValidationInfo(System.Object)">
+            <summary>
+            输出验证信息
+            </summary>
+            <param name="errors"></param>
+            <returns></returns>
+        </member>
         <member name="T:Furion.DataValidation.DataValidator">
             <summary>
             数据验证器

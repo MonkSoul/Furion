@@ -1,4 +1,5 @@
-﻿using Furion.DependencyInjection;
+﻿using Furion.DataValidation;
+using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -44,10 +45,25 @@ namespace Furion.UnifyResult
             if (actionExecutedContext.Exception == null && !UnifyContext.IsSkipOnSuccessUnifyHandler(actionDescriptor.MethodInfo, out var unifyResult))
             {
                 // 处理规范化结果
-                if (unifyResult != null && context.Result == null)
+                if (unifyResult != null)
                 {
-                    var result = unifyResult.OnSucceeded(actionExecutedContext);
-                    if (result != null) actionExecutedContext.Result = result;
+                    // 处理 BadRequestObjectResult 验证结果
+                    if (actionExecutedContext.Result is BadRequestObjectResult badRequestObjectResult)
+                    {
+                        // 解析验证消息
+                        var (validationResults, validateFaildMessage, modelState) = ValidatorContext.OutputValidationInfo(badRequestObjectResult.Value);
+
+                        var result = unifyResult.OnValidateFailed(context, modelState, validationResults, validateFaildMessage);
+                        if (result != null) actionExecutedContext.Result = result;
+
+                        // 打印验证失败信息
+                        App.PrintToMiniProfiler("validation", "Failed", $"Validation Failed:\r\n{validateFaildMessage}", true);
+                    }
+                    else
+                    {
+                        var result = unifyResult.OnSucceeded(actionExecutedContext);
+                        if (result != null) actionExecutedContext.Result = result;
+                    }
                 }
             }
         }
