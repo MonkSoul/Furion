@@ -156,7 +156,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>代理中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync(TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
         {
-            return IsKeySet(entity) ? UpdateIncludeAsync(entity, propertyNames) : InsertAsync(entity, false, cancellationToken);
+            return IsKeySet(entity) ? UpdateIncludeAsync(entity, propertyNames) : InsertAsync(entity, null, cancellationToken);
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>代理中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
         {
-            return IsKeySet(entity) ? UpdateIncludeAsync(entity, propertyPredicates) : InsertAsync(entity, false, cancellationToken);
+            return IsKeySet(entity) ? UpdateIncludeAsync(entity, propertyPredicates) : InsertAsync(entity, null, cancellationToken);
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>代理中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync(TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
         {
-            return IsKeySet(entity) ? UpdateIncludeAsync(entity, propertyNames) : InsertAsync(entity, false, cancellationToken);
+            return IsKeySet(entity) ? UpdateIncludeAsync(entity, propertyNames) : InsertAsync(entity, null, cancellationToken);
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>代理中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
         {
-            return IsKeySet(entity) ? UpdateIncludeAsync(entity, propertyPredicates) : InsertAsync(entity, false, cancellationToken);
+            return IsKeySet(entity) ? UpdateIncludeAsync(entity, propertyPredicates) : InsertAsync(entity, null, cancellationToken);
         }
 
         /// <summary>
@@ -306,7 +306,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>数据库中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync(TEntity entity, params string[] propertyNames)
         {
-            return IsKeySet(entity) ? UpdateIncludeNowAsync(entity, propertyNames) : InsertNowAsync(entity);
+            return IsKeySet(entity) ? UpdateIncludeNowAsync(entity, propertyNames, null) : InsertNowAsync(entity);
         }
 
         /// <summary>
@@ -318,7 +318,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>数据库中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync(TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
         {
-            return IsKeySet(entity) ? UpdateIncludeNowAsync(entity, propertyNames, cancellationToken) : InsertNowAsync(entity, false, cancellationToken);
+            return IsKeySet(entity) ? UpdateIncludeNowAsync(entity, propertyNames, null, cancellationToken) : InsertNowAsync(entity, null, cancellationToken);
         }
 
         /// <summary>
@@ -342,7 +342,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>数据库中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
         {
-            return IsKeySet(entity) ? UpdateIncludeNowAsync(entity, propertyPredicates) : InsertNowAsync(entity);
+            return IsKeySet(entity) ? UpdateIncludeNowAsync(entity, propertyPredicates, null) : InsertNowAsync(entity);
         }
 
         /// <summary>
@@ -354,7 +354,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>数据库中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
         {
-            return IsKeySet(entity) ? UpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken) : InsertNowAsync(entity, false, cancellationToken);
+            return IsKeySet(entity) ? UpdateIncludeNowAsync(entity, propertyPredicates, null, cancellationToken) : InsertNowAsync(entity, null, cancellationToken);
         }
 
         /// <summary>
@@ -379,7 +379,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>数据库中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync(TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
         {
-            return IsKeySet(entity) ? UpdateIncludeNowAsync(entity, propertyNames, cancellationToken) : InsertNowAsync(entity, false, cancellationToken);
+            return IsKeySet(entity) ? UpdateIncludeNowAsync(entity, propertyNames, null, cancellationToken) : InsertNowAsync(entity, null, cancellationToken);
         }
 
         /// <summary>
@@ -404,7 +404,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>数据库中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
         {
-            return IsKeySet(entity) ? UpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken) : InsertNowAsync(entity, false, cancellationToken);
+            return IsKeySet(entity) ? UpdateIncludeNowAsync(entity, propertyPredicates, null, cancellationToken) : InsertNowAsync(entity, null, cancellationToken);
         }
 
         /// <summary>
@@ -484,7 +484,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>代理中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync(TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
         {
-            return IsKeySet(entity) ? UpdateExcludeAsync(entity, propertyNames) : InsertAsync(entity, false, cancellationToken);
+            return IsKeySet(entity) ? UpdateExcludeAsync(entity, propertyNames) : InsertAsync(entity, null, cancellationToken);
         }
 
         /// <summary>
@@ -507,7 +507,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>代理中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
         {
-            return IsKeySet(entity) ? UpdateExcludeAsync(entity, propertyPredicates) : InsertAsync(entity, false, cancellationToken);
+            return IsKeySet(entity) ? UpdateExcludeAsync(entity, propertyPredicates) : InsertAsync(entity, null, cancellationToken);
         }
 
         /// <summary>
@@ -519,7 +519,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>代理中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync(TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
         {
-            return IsKeySet(entity) ? UpdateExcludeAsync(entity, propertyNames) : InsertAsync(entity, false, cancellationToken);
+            return IsKeySet(entity) ? UpdateExcludeAsync(entity, propertyNames) : InsertAsync(entity, null, cancellationToken);
         }
 
         /// <summary>
@@ -531,7 +531,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>代理中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
         {
-            return IsKeySet(entity) ? UpdateExcludeAsync(entity, propertyPredicates) : InsertAsync(entity, false, cancellationToken);
+            return IsKeySet(entity) ? UpdateExcludeAsync(entity, propertyPredicates) : InsertAsync(entity, null, cancellationToken);
         }
 
         /// <summary>
@@ -634,7 +634,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>数据库中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync(TEntity entity, params string[] propertyNames)
         {
-            return IsKeySet(entity) ? UpdateExcludeNowAsync(entity, propertyNames) : InsertNowAsync(entity);
+            return IsKeySet(entity) ? UpdateExcludeNowAsync(entity, propertyNames, null) : InsertNowAsync(entity);
         }
 
         /// <summary>
@@ -646,7 +646,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>数据库中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync(TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
         {
-            return IsKeySet(entity) ? UpdateExcludeNowAsync(entity, propertyNames, cancellationToken) : InsertNowAsync(entity, false, cancellationToken);
+            return IsKeySet(entity) ? UpdateExcludeNowAsync(entity, propertyNames, null, cancellationToken) : InsertNowAsync(entity, null, cancellationToken);
         }
 
         /// <summary>
@@ -670,7 +670,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>数据库中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync(TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
         {
-            return IsKeySet(entity) ? UpdateExcludeNowAsync(entity, propertyPredicates) : InsertNowAsync(entity);
+            return IsKeySet(entity) ? UpdateExcludeNowAsync(entity, propertyPredicates, null) : InsertNowAsync(entity);
         }
 
         /// <summary>
@@ -682,7 +682,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>数据库中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
         {
-            return IsKeySet(entity) ? UpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken) : InsertNowAsync(entity, false, cancellationToken);
+            return IsKeySet(entity) ? UpdateExcludeNowAsync(entity, propertyPredicates, null, cancellationToken) : InsertNowAsync(entity, null, cancellationToken);
         }
 
         /// <summary>
@@ -707,7 +707,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>数据库中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync(TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
         {
-            return IsKeySet(entity) ? UpdateExcludeNowAsync(entity, propertyNames, cancellationToken) : InsertNowAsync(entity, false, cancellationToken);
+            return IsKeySet(entity) ? UpdateExcludeNowAsync(entity, propertyNames, null, cancellationToken) : InsertNowAsync(entity, null, cancellationToken);
         }
 
         /// <summary>
@@ -732,7 +732,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>数据库中的实体</returns>
         public virtual Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
         {
-            return IsKeySet(entity) ? UpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken) : InsertNowAsync(entity, false, cancellationToken);
+            return IsKeySet(entity) ? UpdateExcludeNowAsync(entity, propertyPredicates, null, cancellationToken) : InsertNowAsync(entity, null, cancellationToken);
         }
 
         /// <summary>
@@ -763,7 +763,16 @@ namespace Furion.DatabaseAccessor
             foreach (var propety in properties)
             {
                 var entityProperty = EntityPropertyEntry(entity, propety.Name);
-                if (entityProperty.CurrentValue == null)
+                var propertyValue = entityProperty.CurrentValue;
+                var propertyType = entityProperty.Metadata.PropertyInfo.PropertyType;
+
+                // 判断是否是无效的值，比如为 null，默认时间，以及空 Guid 值
+                var isInvalid = propertyValue == null
+                                || (propertyType == typeof(DateTime) && propertyValue.ToString().Equals(new DateTime().ToString()))
+                                || (propertyType == typeof(DateTimeOffset) && propertyValue.ToString().Equals(new DateTimeOffset().ToString()))
+                                || propertyValue.Equals(Guid.Empty);
+
+                if (isInvalid)
                 {
                     entityProperty.IsModified = false;
                 }
@@ -783,11 +792,16 @@ namespace Furion.DatabaseAccessor
             // 获取属性信息
             var entityProperty = EntityPropertyEntry(entity, checkProperty.GetExpressionPropertyName());
             var propertyValue = entityProperty.CurrentValue;
+            var propertyType = entityProperty.Metadata.PropertyInfo.PropertyType;
 
-            return !(propertyValue == null
-                || (entityProperty.Metadata.PropertyInfo.PropertyType == typeof(string) && propertyValue.Equals(string.Empty))
-                || (entityProperty.Metadata.PropertyInfo.PropertyType.IsValueType && (propertyValue.Equals(0)
-                || propertyValue.Equals(Guid.Empty))));
+            return !(
+                propertyValue == null
+                || (propertyType == typeof(string) && propertyValue.Equals(string.Empty))
+                || (propertyType.IsValueType && propertyValue.Equals(0))
+                || (propertyType == typeof(DateTime) && propertyValue.ToString().Equals(new DateTime().ToString()))
+                || (propertyType == typeof(DateTimeOffset) && propertyValue.ToString().Equals(new DateTimeOffset().ToString()))
+                || propertyValue.Equals(Guid.Empty)
+                );
         }
     }
 }

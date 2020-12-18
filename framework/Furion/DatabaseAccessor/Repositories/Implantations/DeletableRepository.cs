@@ -387,7 +387,7 @@ namespace Furion.DatabaseAccessor
         public virtual EntityEntry<TEntity> FakeDelete(TEntity entity)
         {
             var fakeDeleteProperty = SetFakePropertyValue(entity);
-            return UpdateInclude(entity, fakeDeleteProperty.Name);
+            return UpdateInclude(entity, new[] { fakeDeleteProperty.Name });
         }
 
         /// <summary>
@@ -398,7 +398,7 @@ namespace Furion.DatabaseAccessor
         public virtual Task<EntityEntry<TEntity>> FakeDeleteAsync(TEntity entity)
         {
             var fakeDeleteProperty = SetFakePropertyValue(entity);
-            return UpdateIncludeAsync(entity, fakeDeleteProperty.Name);
+            return UpdateIncludeAsync(entity, new[] { fakeDeleteProperty.Name });
         }
 
         /// <summary>
@@ -409,7 +409,7 @@ namespace Furion.DatabaseAccessor
         public virtual EntityEntry<TEntity> FakeDeleteNow(TEntity entity)
         {
             var fakeDeleteProperty = SetFakePropertyValue(entity);
-            return UpdateIncludeNow(entity, fakeDeleteProperty.Name);
+            return UpdateIncludeNow(entity, new[] { fakeDeleteProperty.Name });
         }
 
         /// <summary>
@@ -433,7 +433,7 @@ namespace Furion.DatabaseAccessor
         public virtual Task<EntityEntry<TEntity>> FakeDeleteNowAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
             var fakeDeleteProperty = SetFakePropertyValue(entity);
-            return UpdateIncludeNowAsync(entity, new[] { fakeDeleteProperty.Name }, cancellationToken);
+            return UpdateIncludeNowAsync(entity, new[] { fakeDeleteProperty.Name }, null, cancellationToken);
         }
 
         /// <summary>
@@ -460,7 +460,7 @@ namespace Furion.DatabaseAccessor
             if (deletedEntity == null) return default;
 
             var fakeDeleteProperty = SetFakePropertyValue(deletedEntity);
-            return UpdateInclude(deletedEntity, fakeDeleteProperty.Name);
+            return UpdateInclude(deletedEntity, new[] { fakeDeleteProperty.Name });
         }
 
         /// <summary>
@@ -474,7 +474,7 @@ namespace Furion.DatabaseAccessor
             if (deletedEntity == null) return default;
 
             var fakeDeleteProperty = SetFakePropertyValue(deletedEntity);
-            return UpdateIncludeAsync(deletedEntity, fakeDeleteProperty.Name);
+            return UpdateIncludeAsync(deletedEntity, new[] { fakeDeleteProperty.Name });
         }
 
         /// <summary>
@@ -488,7 +488,7 @@ namespace Furion.DatabaseAccessor
             if (deletedEntity == null) return default;
 
             var fakeDeleteProperty = SetFakePropertyValue(deletedEntity);
-            return UpdateIncludeNow(deletedEntity, fakeDeleteProperty.Name);
+            return UpdateIncludeNow(deletedEntity, new[] { fakeDeleteProperty.Name });
         }
 
         /// <summary>
@@ -518,7 +518,7 @@ namespace Furion.DatabaseAccessor
             if (deletedEntity == null) return default;
 
             var fakeDeleteProperty = SetFakePropertyValue(deletedEntity);
-            return UpdateIncludeNowAsync(deletedEntity, new[] { fakeDeleteProperty.Name }, cancellationToken);
+            return UpdateIncludeNowAsync(deletedEntity, new[] { fakeDeleteProperty.Name }, null, cancellationToken);
         }
 
         /// <summary>

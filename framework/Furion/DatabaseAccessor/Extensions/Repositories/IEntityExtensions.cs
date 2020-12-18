@@ -197,11 +197,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>代理中的实体</returns>
-        public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, params string[] propertyNames)
+        public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateInclude(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateInclude(entity, propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -210,11 +211,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>代理中的实体</returns>
-        public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+        public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateInclude(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateInclude(entity, propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -223,11 +225,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>代理中的实体</returns>
-        public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
+        public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateInclude(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateInclude(entity, propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -236,11 +239,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>代理中的实体</returns>
-        public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
+        public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateInclude(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateInclude(entity, propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -249,11 +253,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>代理中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, params string[] propertyNames)
+        public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -262,11 +267,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>代理中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+        public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -275,11 +281,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性表达式</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>代理中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
+        public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -288,11 +295,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>代理中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
+        public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -301,11 +309,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中的实体</returns>
-        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, params string[] propertyNames)
+        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -315,11 +324,12 @@ namespace Furion.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中的实体</returns>
-        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess)
+        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -328,11 +338,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中实体</returns>
-        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -342,11 +353,12 @@ namespace Furion.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中的实体</returns>
-        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess)
+        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -355,11 +367,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中的实体</returns>
-        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
+        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -369,11 +382,12 @@ namespace Furion.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中的实体</returns>
-        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess)
+        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
              where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -382,94 +396,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中的实体</returns>
-        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
+        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates);
-        }
-
-        /// <summary>
-        /// 更新一条记录中的特定属性并立即提交
-        /// </summary>
-        /// <typeparam name="TEntity">实体</typeparam>
-        /// <param name="entity">实体</param>
-        /// <param name="propertyPredicates">属性表达式</param>
-        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <returns>数据库中的实体</returns>
-        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IPrivateEntity, new()
-        {
-            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
-        }
-
-        /// <summary>
-        /// 更新一条记录中的特定属性并立即提交
-        /// </summary>
-        /// <typeparam name="TEntity">实体</typeparam>
-        /// <param name="entity">实体</param>
-        /// <param name="propertyNames">属性名</param>
-        /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IPrivateEntity, new()
-        {
-            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames);
-        }
-
-        /// <summary>
-        /// 更新一条记录中的特定属性并立即提交
-        /// </summary>
-        /// <typeparam name="TEntity">实体</typeparam>
-        /// <param name="entity">实体</param>
-        /// <param name="propertyNames">属性名</param>
-        /// <param name="cancellationToken">取消异步令牌</param>
-        /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IPrivateEntity, new()
-        {
-            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
-        }
-
-        /// <summary>
-        /// 更新一条记录中的特定属性并立即提交
-        /// </summary>
-        /// <typeparam name="TEntity">实体</typeparam>
-        /// <param name="entity">实体</param>
-        /// <param name="propertyNames">属性名</param>
-        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">取消异步令牌</param>
-        /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IPrivateEntity, new()
-        {
-            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
-        }
-
-        /// <summary>
-        /// 更新一条记录中的特定属性并立即提交
-        /// </summary>
-        /// <typeparam name="TEntity">实体</typeparam>
-        /// <param name="entity">实体</param>
-        /// <param name="propertyPredicates">属性表达式</param>
-        /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IPrivateEntity, new()
-        {
-            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates);
-        }
-
-        /// <summary>
-        /// 更新一条记录中的特定属性并立即提交
-        /// </summary>
-        /// <typeparam name="TEntity">实体</typeparam>
-        /// <param name="entity">实体</param>
-        /// <param name="propertyPredicates">属性表达式</param>
-        /// <param name="cancellationToken">取消异步令牌</param>
-        /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IPrivateEntity, new()
-        {
-            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -479,12 +411,12 @@ namespace Furion.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -493,12 +425,27 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
-        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
+        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, ignoreNullValues);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="ignoreNullValues"></param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
+            where TEntity : class, IPrivateEntity, new()
+        {
+            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -508,12 +455,13 @@ namespace Furion.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="ignoreNullValues"></param>
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -522,12 +470,27 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
-        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
+        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, ignoreNullValues);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="ignoreNullValues"></param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
+            where TEntity : class, IPrivateEntity, new()
+        {
+            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -537,12 +500,75 @@ namespace Furion.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="ignoreNullValues"></param>
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="ignoreNullValues"></param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
+            where TEntity : class, IPrivateEntity, new()
+        {
+            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, ignoreNullValues, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="ignoreNullValues"></param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
+            where TEntity : class, IPrivateEntity, new()
+        {
+            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="ignoreNullValues"></param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
+            where TEntity : class, IPrivateEntity, new()
+        {
+            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, ignoreNullValues, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录中的特定属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="ignoreNullValues"></param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
+            where TEntity : class, IPrivateEntity, new()
+        {
+            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -551,11 +577,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>代理中的实体</returns>
-        public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, params string[] propertyNames)
+        public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExclude(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateExclude(entity, propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -564,11 +591,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>代理中的实体</returns>
-        public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+        public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExclude(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateExclude(entity, propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -577,11 +605,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>代理中的实体</returns>
-        public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
+        public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExclude(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateExclude(entity, propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -590,11 +619,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>代理中的实体</returns>
-        public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
+        public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExclude(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateExclude(entity, propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -603,11 +633,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>代理中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, params string[] propertyNames)
+        public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -616,11 +647,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>代理中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+        public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -629,11 +661,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性表达式</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>代理中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
+        public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -642,11 +675,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>代理中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
+        public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -655,11 +689,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中的实体</returns>
-        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, params string[] propertyNames)
+        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -669,11 +704,12 @@ namespace Furion.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中的实体</returns>
-        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess)
+        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -682,11 +718,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中实体</returns>
-        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
+        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates);
+            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -696,11 +733,12 @@ namespace Furion.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中的实体</returns>
-        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess)
+        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -709,11 +747,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中的实体</returns>
-        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
+        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames);
+            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -723,11 +762,12 @@ namespace Furion.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中的实体</returns>
-        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess)
+        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
              where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -736,94 +776,12 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中的实体</returns>
-        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
+        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates);
-        }
-
-        /// <summary>
-        /// 更新一条记录并排除属性并立即提交
-        /// </summary>
-        /// <typeparam name="TEntity">实体</typeparam>
-        /// <param name="entity">实体</param>
-        /// <param name="propertyPredicates">属性表达式</param>
-        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <returns>数据库中的实体</returns>
-        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess)
-            where TEntity : class, IPrivateEntity, new()
-        {
-            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
-        }
-
-        /// <summary>
-        /// 更新一条记录并排除属性并立即提交
-        /// </summary>
-        /// <typeparam name="TEntity">实体</typeparam>
-        /// <param name="entity">实体</param>
-        /// <param name="propertyNames">属性名</param>
-        /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, params string[] propertyNames)
-            where TEntity : class, IPrivateEntity, new()
-        {
-            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames);
-        }
-
-        /// <summary>
-        /// 更新一条记录并排除属性并立即提交
-        /// </summary>
-        /// <typeparam name="TEntity">实体</typeparam>
-        /// <param name="entity">实体</param>
-        /// <param name="propertyNames">属性名</param>
-        /// <param name="cancellationToken">取消异步令牌</param>
-        /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
-            where TEntity : class, IPrivateEntity, new()
-        {
-            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
-        }
-
-        /// <summary>
-        /// 更新一条记录并排除属性并立即提交
-        /// </summary>
-        /// <typeparam name="TEntity">实体</typeparam>
-        /// <param name="entity">实体</param>
-        /// <param name="propertyNames">属性名</param>
-        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">取消异步令牌</param>
-        /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-            where TEntity : class, IPrivateEntity, new()
-        {
-            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
-        }
-
-        /// <summary>
-        /// 更新一条记录并排除属性并立即提交
-        /// </summary>
-        /// <typeparam name="TEntity">实体</typeparam>
-        /// <param name="entity">实体</param>
-        /// <param name="propertyPredicates">属性表达式</param>
-        /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
-            where TEntity : class, IPrivateEntity, new()
-        {
-            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates);
-        }
-
-        /// <summary>
-        /// 更新一条记录并排除属性并立即提交
-        /// </summary>
-        /// <typeparam name="TEntity">实体</typeparam>
-        /// <param name="entity">实体</param>
-        /// <param name="propertyPredicates">属性表达式</param>
-        /// <param name="cancellationToken">取消异步令牌</param>
-        /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
-            where TEntity : class, IPrivateEntity, new()
-        {
-            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -833,12 +791,12 @@ namespace Furion.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -847,12 +805,27 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
-        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
+        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, ignoreNullValues);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="ignoreNullValues"></param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
+            where TEntity : class, IPrivateEntity, new()
+        {
+            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -862,12 +835,13 @@ namespace Furion.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="ignoreNullValues"></param>
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -876,12 +850,27 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TEntity">实体</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
-        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
+        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, ignoreNullValues);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="ignoreNullValues"></param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
+            where TEntity : class, IPrivateEntity, new()
+        {
+            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -891,12 +880,75 @@ namespace Furion.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
         /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="ignoreNullValues"></param>
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="ignoreNullValues"></param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
+            where TEntity : class, IPrivateEntity, new()
+        {
+            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, ignoreNullValues, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyNames">属性名</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="ignoreNullValues"></param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
+            where TEntity : class, IPrivateEntity, new()
+        {
+            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="ignoreNullValues"></param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
+            where TEntity : class, IPrivateEntity, new()
+        {
+            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, ignoreNullValues, cancellationToken);
+        }
+
+        /// <summary>
+        /// 更新一条记录并排除属性并立即提交
+        /// </summary>
+        /// <typeparam name="TEntity">实体</typeparam>
+        /// <param name="entity">实体</param>
+        /// <param name="propertyPredicates">属性表达式</param>
+        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
+        /// <param name="ignoreNullValues"></param>
+        /// <param name="cancellationToken">取消异步令牌</param>
+        /// <returns>数据库中的实体</returns>
+        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
+            where TEntity : class, IPrivateEntity, new()
+        {
+            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
