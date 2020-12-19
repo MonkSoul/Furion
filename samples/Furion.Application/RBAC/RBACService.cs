@@ -80,12 +80,11 @@ namespace Furion.Application
             // 获取用户Id
             var userId = _authorizationManager.GetUserId();
 
-            var roles = _userRepository
-                .DetachedEntities
-                .Include(u => u.Roles)
-                .Where(u => u.Id == userId)
-                .SelectMany(u => u.Roles)
-                .ToList();
+            var roles = _userRepository.DetachedEntities
+                                    .Include(u => u.Roles)
+                                    .Where(u => u.Id == userId)
+                                    .SelectMany(u => u.Roles)
+                                    .ToList();
 
             return roles.Adapt<List<RoleDto>>();
         }
