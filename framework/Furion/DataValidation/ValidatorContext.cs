@@ -22,8 +22,8 @@ namespace Furion.DataValidation
         internal static (Dictionary<string, IEnumerable<string>> validationResults, string validateFaildMessage, ModelStateDictionary modelState) OutputValidationInfo(object errors)
         {
             ModelStateDictionary _modelState = null;
-
             Dictionary<string, IEnumerable<string>> validationResults = null;
+
             if (errors is ModelStateDictionary modelState)
             {
                 _modelState = modelState;
@@ -38,7 +38,7 @@ namespace Furion.DataValidation
             }
             else validationResults = new Dictionary<string, IEnumerable<string>>
             {
-                { "", new[] { errors.ToString() } }
+                { "", new[] { errors?.ToString() } }
             };
 
             var validateFaildMessage = JsonSerializerUtility.Serialize(validationResults);
