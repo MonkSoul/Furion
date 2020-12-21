@@ -21592,6 +21592,464 @@
             字符串日志输出拓展
             </summary>
         </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogInformation(System.String,System.String,System.Object[])">
+            <summary>
+            LogInformation
+            </summary>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogInformation(System.String,System.String,Microsoft.Extensions.Logging.EventId,System.Object[])">
+            <summary>
+            LogInformation
+            </summary>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="eventId"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogInformation(System.String,System.String,System.Exception,System.Object[])">
+            <summary>
+            LogInformation
+            </summary>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogInformation(System.String,System.String,Microsoft.Extensions.Logging.EventId,System.Exception,System.Object[])">
+            <summary>
+            LogInformation
+            </summary>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="eventId"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogWarning(System.String,System.String,System.Object[])">
+            <summary>
+            LogWarning
+            </summary>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogWarning(System.String,System.String,Microsoft.Extensions.Logging.EventId,System.Object[])">
+            <summary>
+            LogWarning
+            </summary>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="eventId"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogWarning(System.String,System.String,System.Exception,System.Object[])">
+            <summary>
+            LogWarning
+            </summary>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogWarning(System.String,System.String,Microsoft.Extensions.Logging.EventId,System.Exception,System.Object[])">
+            <summary>
+            LogWarning
+            </summary>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="eventId"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogError(System.String,System.String,System.Object[])">
+            <summary>
+            LogError
+            </summary>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogError(System.String,System.String,Microsoft.Extensions.Logging.EventId,System.Object[])">
+            <summary>
+            LogError
+            </summary>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="eventId"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogError(System.String,System.String,System.Exception,System.Object[])">
+            <summary>
+            LogError
+            </summary>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogError(System.String,System.String,Microsoft.Extensions.Logging.EventId,System.Exception,System.Object[])">
+            <summary>
+            LogError
+            </summary>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="eventId"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogTrace(System.String,System.String,System.Object[])">
+            <summary>
+            LogTrace
+            </summary>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogTrace(System.String,System.String,Microsoft.Extensions.Logging.EventId,System.Object[])">
+            <summary>
+            LogTrace
+            </summary>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="eventId"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogTrace(System.String,System.String,System.Exception,System.Object[])">
+            <summary>
+            LogTrace
+            </summary>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogTrace(System.String,System.String,Microsoft.Extensions.Logging.EventId,System.Exception,System.Object[])">
+            <summary>
+            LogTrace
+            </summary>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="eventId"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogCritical(System.String,System.String,System.Object[])">
+            <summary>
+            LogCritical
+            </summary>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogCritical(System.String,System.String,Microsoft.Extensions.Logging.EventId,System.Object[])">
+            <summary>
+            LogCritical
+            </summary>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="eventId"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogCritical(System.String,System.String,System.Exception,System.Object[])">
+            <summary>
+            LogCritical
+            </summary>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogCritical(System.String,System.String,Microsoft.Extensions.Logging.EventId,System.Exception,System.Object[])">
+            <summary>
+            LogCritical
+            </summary>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="eventId"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.Log``1(System.String,System.String,Microsoft.Extensions.Logging.LogLevel,System.Object[])">
+            <summary>
+            Log
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="logLevel"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.Log``1(System.String,System.String,Microsoft.Extensions.Logging.LogLevel,Microsoft.Extensions.Logging.EventId,System.Object[])">
+            <summary>
+            Log
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="logLevel"></param>
+            <param name="eventId"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.Log``1(System.String,System.String,Microsoft.Extensions.Logging.LogLevel,System.Exception,System.Object[])">
+            <summary>
+            Log
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="logLevel"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.Log``1(System.String,System.String,Microsoft.Extensions.Logging.LogLevel,Microsoft.Extensions.Logging.EventId,System.Exception,System.Object[])">
+            <summary>
+            Log
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="categoryName"></param>
+            <param name="logLevel"></param>
+            <param name="eventId"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogInformation``1(System.String,System.Object[])">
+            <summary>
+            LogInformation
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogInformation``1(System.String,Microsoft.Extensions.Logging.EventId,System.Object[])">
+            <summary>
+            LogInformation
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="eventId"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogInformation``1(System.String,System.Exception,System.Object[])">
+            <summary>
+            LogInformation
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogInformation``1(System.String,Microsoft.Extensions.Logging.EventId,System.Exception,System.Object[])">
+            <summary>
+            LogInformation
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="eventId"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogWarning``1(System.String,System.Object[])">
+            <summary>
+            LogWarning
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogWarning``1(System.String,Microsoft.Extensions.Logging.EventId,System.Object[])">
+            <summary>
+            LogWarning
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="eventId"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogWarning``1(System.String,System.Exception,System.Object[])">
+            <summary>
+            LogWarning
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogWarning``1(System.String,Microsoft.Extensions.Logging.EventId,System.Exception,System.Object[])">
+            <summary>
+            LogWarning
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="eventId"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogError``1(System.String,System.Object[])">
+            <summary>
+            LogError
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogError``1(System.String,Microsoft.Extensions.Logging.EventId,System.Object[])">
+            <summary>
+            LogError
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="eventId"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogError``1(System.String,System.Exception,System.Object[])">
+            <summary>
+            LogError
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogError``1(System.String,Microsoft.Extensions.Logging.EventId,System.Exception,System.Object[])">
+            <summary>
+            LogError
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="eventId"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogTrace``1(System.String,System.Object[])">
+            <summary>
+            LogTrace
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogTrace``1(System.String,Microsoft.Extensions.Logging.EventId,System.Object[])">
+            <summary>
+            LogTrace
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="eventId"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogTrace``1(System.String,System.Exception,System.Object[])">
+            <summary>
+            LogTrace
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogTrace``1(System.String,Microsoft.Extensions.Logging.EventId,System.Exception,System.Object[])">
+            <summary>
+            LogTrace
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="eventId"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogCritical``1(System.String,System.Object[])">
+            <summary>
+            LogCritical
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogCritical``1(System.String,Microsoft.Extensions.Logging.EventId,System.Object[])">
+            <summary>
+            LogCritical
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="eventId"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogCritical``1(System.String,System.Exception,System.Object[])">
+            <summary>
+            LogCritical
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.LogCritical``1(System.String,Microsoft.Extensions.Logging.EventId,System.Exception,System.Object[])">
+            <summary>
+            LogCritical
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="eventId"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.Log``1(System.String,Microsoft.Extensions.Logging.LogLevel,System.Object[])">
+            <summary>
+            Log
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="logLevel"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.Log``1(System.String,Microsoft.Extensions.Logging.LogLevel,Microsoft.Extensions.Logging.EventId,System.Object[])">
+            <summary>
+            Log
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="logLevel"></param>
+            <param name="eventId"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.Log``1(System.String,Microsoft.Extensions.Logging.LogLevel,System.Exception,System.Object[])">
+            <summary>
+            Log
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="logLevel"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.Log``1(System.String,Microsoft.Extensions.Logging.LogLevel,Microsoft.Extensions.Logging.EventId,System.Exception,System.Object[])">
+            <summary>
+            Log
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <param name="message"></param>
+            <param name="logLevel"></param>
+            <param name="eventId"></param>
+            <param name="exception"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.GetLogger``1">
+            <summary>
+            获取日志操作对象
+            </summary>
+            <typeparam name="TClass"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Logging.StringLoggingExtensions.GetLogger(System.String)">
+            <summary>
+            获取日志操作对象
+            </summary>
+            <param name="categoryName"></param>
+            <returns></returns>
+        </member>
         <member name="T:Furion.RemoteRequest.HeaderAttribute">
             <summary>
             设置请问报文头
