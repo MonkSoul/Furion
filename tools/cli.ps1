@@ -17,12 +17,14 @@ Param(
     # 数据库上下文定位器
     [string] $DbContextLocators,
     # 默认前缀
-    [string]$Product
+    [string]$Product,
+    # 命名空间
+    [string]$Namespace
     # 是否数据库命名
     #[string]$UseDatabaseNames
 )
 
-$FurTools = "Furion Tools v1.0.0";
+$FurTools = "Furion Tools v1.6.0";
 
 # 输出信息
 $copyright = @"
@@ -40,7 +42,7 @@ $copyright = @"
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：1.0.0
+// 框架版本：1.6.0
 // 源码地址：https://gitee.com/monksoul/Furion
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
@@ -82,6 +84,10 @@ if ($DbContextLocators -eq $null -or $DbContextLocators -eq ""){
 
 if ($OutputDir -eq $null -or $OutputDir -eq ""){
     $OutputDir = "$rootPath\$CoreProject\Entities";
+}
+
+if ($Namespace -eq $null -or $Namespace -eq ""){
+    $Namespace = $CoreProject;
 }
 
 # 判断是否需要使用数据库命名
@@ -418,21 +424,21 @@ Write-Output "$FurTools 正在编译解决方案代码......";
 if ($Tables.Count -eq 0){
     if($UseDatabaseNames)
     {
-        Scaffold-DbContext Name=$ConnectionName $DbProvider -Context $Context -Namespace $CoreProject -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -UseDatabaseNames -Force;
+        Scaffold-DbContext Name=$ConnectionName $DbProvider -Context $Context -Namespace $Namespace -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -UseDatabaseNames -Force;
     }
     else{
-        Scaffold-DbContext Name=$ConnectionName $DbProvider -Context $Context -Namespace $CoreProject -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -Force;
+        Scaffold-DbContext Name=$ConnectionName $DbProvider -Context $Context -Namespace $Namespace -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -Force;
     }
 }
 else
 {
     if($UseDatabaseNames)
     {
-        Scaffold-DbContext Name=$ConnectionName $DbProvider -Context $Context -Tables $Tables -Namespace $CoreProject -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -UseDatabaseNames -Force;
+        Scaffold-DbContext Name=$ConnectionName $DbProvider -Context $Context -Tables $Tables -Namespace $Namespace -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -UseDatabaseNames -Force;
     }
     else
     {
-        Scaffold-DbContext Name=$ConnectionName $DbProvider -Context $Context -Tables $Tables -Namespace $CoreProject -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -Force;
+        Scaffold-DbContext Name=$ConnectionName $DbProvider -Context $Context -Tables $Tables -Namespace $Namespace -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -Force;
     }
 }
 
