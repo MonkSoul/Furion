@@ -1,5 +1,6 @@
 ﻿using Serilog;
 using System;
+using System.IO;
 
 namespace Microsoft.Extensions.Hosting
 {
@@ -28,7 +29,7 @@ namespace Microsoft.Extensions.Hosting
                 {
                     config.WriteTo.Console(
                             outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}")
-                          .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true);
+                          .WriteTo.File(Path.Combine("logs", "log.txt"), rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true);
                 }
             });
 

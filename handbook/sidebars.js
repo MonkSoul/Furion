@@ -103,15 +103,15 @@ module.exports = {
     },
     {
       type: "doc",
+      id: "logging",
+    },
+    {
+      type: "doc",
       id: "local-language",
     },
     {
       type: "doc",
       id: "event-bus",
-    },
-    {
-      type: "doc",
-      id: "logging",
     },
     {
       type: "doc",
