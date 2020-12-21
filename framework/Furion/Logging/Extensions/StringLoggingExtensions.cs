@@ -603,7 +603,7 @@ namespace Furion.Logging
         /// <summary>
         /// 获取日志操作对象
         /// </summary>
-        /// <typeparam name="TClass"></typeparam>
+        /// <typeparam name="TClass">类型</typeparam>
         /// <returns></returns>
         private static ILogger<TClass> GetLogger<TClass>()
         {
