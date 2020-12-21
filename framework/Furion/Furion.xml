@@ -22040,7 +22040,7 @@
             <summary>
             获取日志操作对象
             </summary>
-            <typeparam name="TClass"></typeparam>
+            <typeparam name="TClass">类型</typeparam>
             <returns></returns>
         </member>
         <member name="M:Furion.Logging.StringLoggingExtensions.GetLogger(System.String)">
