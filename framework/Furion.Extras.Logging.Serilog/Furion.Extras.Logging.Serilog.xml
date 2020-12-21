@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Furion.Extras.Logging.Serilog</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Extensions.Hosting.SerilogHostingExtensions">
+            <summary>
+            Serilog 日志拓展
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.Hosting.SerilogHostingExtensions.UseSerilogDefault(Microsoft.Extensions.Hosting.IHostBuilder,System.Action{Serilog.LoggerConfiguration})">
+            <summary>
+            添加默认日志拓展
+            </summary>
+            <param name="builder"></param>
+            <param name="configAction"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
