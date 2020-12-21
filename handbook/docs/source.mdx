@@ -4,7 +4,7 @@ title: 1.3 源码结构
 sidebar_label: 1.3 源码结构
 ---
 
-## 1.2.1 源码架构
+## 1.3.1 源码架构
 
 `Furion` 创建采用多层分层设计，主要设计是 `自动抽象工厂` 和 `DDD 领域驱动设计` 相结合。
 
@@ -20,11 +20,11 @@ sidebar_label: 1.3 源码结构
 - `Furion.Web.Core`：Web 核心层
 - `Furion.Web.Entry`：Web 入口层/启动层
 
-## 1.2.2 `Furion.Tests` 测试层
+## 1.3.2 `Furion.Tests` 测试层
 
 `Furion.Tests` 是项目的测试层，目前还未整理完成。
 
-## 1.2.3 `Solution Items` 解决方案配置层
+## 1.3.3 `Solution Items` 解决方案配置层
 
 源码结构：
 
@@ -181,7 +181,7 @@ dotnet_style_qualification_for_property = false:suggestion
 file_header_template = -----------------------------------------------------------------------------\nFur 是 .NET 5 平台下企业应用开发最佳实践框架。\nCopyright © 2020 Furion, Baiqian Co.,Ltd.\n\n框架名称：Furion\n框架作者：百小僧\n框架版本：1.0.0\n源码地址：Gitee：https://gitee.com/monksoul/Furion \n				   Github：https://github.com/monksoul/Furion \n开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）\n-----------------------------------------------------------------------------
 ```
 
-## 1.2.4 `Furion` 核心层
+## 1.3.4 `Furion` 核心层
 
 `Furion` 核心层是 `Furion` 框架的中心，也是 `Furion` 能够支撑起来的必备层。
 
@@ -504,7 +504,7 @@ Furion
 |  |     └AppStartupAttribute.cs
 ```
 
-## 1.2.5 `Furion.Application` 业务应用层
+## 1.3.5 `Furion.Application` 业务应用层
 
 `Furion.Application` 业务应用层是最常用的层，几乎所有的业务代码都在这个层中编写。
 
@@ -517,7 +517,7 @@ Furion.Application
 └FurApplicationStartup.cs
 ```
 
-## 1.2.6 `Furion.Core` 仓储实体层
+## 1.3.6 `Furion.Core` 仓储实体层
 
 `Furion.Core` 主要是存储自定义仓储和定义实体的层。
 
@@ -529,7 +529,7 @@ Furion.Core
 └FurCoreStartup.cs
 ```
 
-## 1.2.7 `Furion.Database.Migrations` 数据库架构维护层
+## 1.3.7 `Furion.Database.Migrations` 数据库架构维护层
 
 `Furion.Database.Migrations` 主要是用来存放 `Database First` 和 `Code First` 生成的维护文件。
 
@@ -540,7 +540,7 @@ Furion.Database.Migrations
 └Furion.Database.Migrations.csproj
 ```
 
-## 1.2.8 `Furion.EntityFramework.Core` 数据库上下文配置层
+## 1.3.8 `Furion.EntityFramework.Core` 数据库上下文配置层
 
 `Furion.EntityFramework.Core` 主要是用来配置数据库上下文和其他数据库相关配置信息的。
 
@@ -551,7 +551,7 @@ Furion.EntityFramework.Core
 └Furion.EntityFramework.Core.csproj
 ```
 
-## 1.2.9 `Furion.Web.Core` 应用核心层
+## 1.3.9 `Furion.Web.Core` 应用核心层
 
 `Furion.Web.Core` 主要是用来配置 Web 入口一些代码，如 `Filter`，`Middlewares` 等。
 
@@ -563,7 +563,7 @@ Furion.Web.Core
 └FurWebCoreStartup.cs
 ```
 
-## 1.2.10 `Furion.Web.Entry` 应用入口层
+## 1.3.10 `Furion.Web.Entry` 应用入口层
 
 `Furion.Web.Entry` 是我们的应用层，也就是我们的 `Web` 项目层，发布层。
 
