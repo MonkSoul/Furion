@@ -1922,7 +1922,7 @@
             数据库模型构建器依赖（禁止直接继承）
             </summary>
             <remarks>
-            对应 <see cref="M:Microsoft.EntityFrameworkCore.DbContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)" />
+            对应 <see cref="M:Microsoft.EntityFrameworkCore.DbContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)"/>
             </remarks>
         </member>
         <member name="T:Furion.DatabaseAccessor.Entity">
@@ -19605,7 +19605,7 @@
             构造函数
             </summary>
             <remarks>
-            <para>支持传入事务隔离级别 <see cref="P:Furion.DatabaseAccessor.UnitOfWorkAttribute.IsolationLevel" /> 参数值</para>
+            <para>支持传入事务隔离级别 <see cref="P:Furion.DatabaseAccessor.UnitOfWorkAttribute.IsolationLevel"/> 参数值</para>
             </remarks>
             <param name="isolationLevel">事务隔离级别</param>
         </member>
@@ -19614,7 +19614,7 @@
             事务隔离级别
             </summary>
             <remarks>
-            <para>默认：<see cref="F:System.Transactions.IsolationLevel.ReadCommitted" />，参见：<see cref="P:Furion.DatabaseAccessor.UnitOfWorkAttribute.IsolationLevel" /></para>
+            <para>默认：<see cref="F:System.Transactions.IsolationLevel.ReadCommitted"/>，参见：<see cref="P:Furion.DatabaseAccessor.UnitOfWorkAttribute.IsolationLevel"/></para>
             <para>说明：当事务A更新某条数据的时候，不容许其他事务来更新该数据，但可以进行读取操作</para>
             </remarks>
         </member>
@@ -20975,7 +20975,7 @@
         </member>
         <member name="F:Furion.DynamicApiController.Penetrates.IsApiControllerCached">
             <summary>
-            <see cref="M:Furion.DynamicApiController.Penetrates.IsApiController(System.Type)" /> 缓存集合
+            <see cref="M:Furion.DynamicApiController.Penetrates.IsApiController(System.Type)"/> 缓存集合
             </summary>
         </member>
         <member name="M:Furion.DynamicApiController.Penetrates.IsApiController(System.Type)">
@@ -22357,7 +22357,7 @@
         </member>
         <member name="F:Furion.SpecificationDocument.SpecificationDocumentBuilder.GetActionGroupsCached">
             <summary>
-            <see cref="M:Furion.SpecificationDocument.SpecificationDocumentBuilder.GetActionGroups(System.Reflection.MethodInfo)" /> 缓存集合
+            <see cref="M:Furion.SpecificationDocument.SpecificationDocumentBuilder.GetActionGroups(System.Reflection.MethodInfo)"/> 缓存集合
             </summary>
         </member>
         <member name="M:Furion.SpecificationDocument.SpecificationDocumentBuilder.GetActionGroups(System.Reflection.MethodInfo)">
@@ -22369,7 +22369,7 @@
         </member>
         <member name="F:Furion.SpecificationDocument.SpecificationDocumentBuilder.GetControllerTagCached">
             <summary>
-            <see cref="M:Furion.SpecificationDocument.SpecificationDocumentBuilder.GetActionTag(Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription)" /> 缓存集合
+            <see cref="M:Furion.SpecificationDocument.SpecificationDocumentBuilder.GetActionTag(Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription)"/> 缓存集合
             </summary>
         </member>
         <member name="M:Furion.SpecificationDocument.SpecificationDocumentBuilder.GetControllerTag(Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)">
@@ -22381,7 +22381,7 @@
         </member>
         <member name="F:Furion.SpecificationDocument.SpecificationDocumentBuilder.GetActionTagCached">
             <summary>
-            <see cref="M:Furion.SpecificationDocument.SpecificationDocumentBuilder.GetActionTag(Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription)" /> 缓存集合
+            <see cref="M:Furion.SpecificationDocument.SpecificationDocumentBuilder.GetActionTag(Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription)"/> 缓存集合
             </summary>
         </member>
         <member name="M:Furion.SpecificationDocument.SpecificationDocumentBuilder.GetActionTag(Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription)">
