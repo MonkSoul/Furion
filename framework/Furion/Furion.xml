@@ -24160,6 +24160,11 @@
             安全定义特性
             </summary>
         </member>
+        <member name="M:Microsoft.AspNetCore.Authorization.SecurityDefineAttribute.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
         <member name="M:Microsoft.AspNetCore.Authorization.SecurityDefineAttribute.#ctor(System.String)">
             <summary>
             构造函数

@@ -12,6 +12,13 @@ namespace Microsoft.AspNetCore.Authorization
         /// <summary>
         /// 构造函数
         /// </summary>
+        public SecurityDefineAttribute()
+        {
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         /// <param name="resourceId"></param>
         public SecurityDefineAttribute(string resourceId)
         {
