@@ -642,10 +642,19 @@ public class TestService: ITestService, ITransient
 
 ### 12.12.1 `全局Aop拦截`
 
-`Furion` 框架也提供了全局拦截的方式，只需要在 `Startup.cs` 中注册即可：
+`Furion` 框架也提供了全局拦截的方式，只需要将 `IDispatchProxy` 修改为 `IGlobalDispatchProxy` 即可。
 
 ```cs
-service.AddServiceProxy<LogDispatchProxy>();
+using Furion;
+using System.Reflection;
+
+namespace Furion.Application
+{
+    public class LogDispatchProxy : DispatchProxy, IGlobalDispatchProxy
+    {
+        // ....
+    }
+}
 ```
 
 这样就会拦截所有的 `Service`，当然也可以通过给特定类贴 `[SkipProxy]` 跳过全局拦截操作。
