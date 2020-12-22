@@ -30,18 +30,12 @@ namespace Furion.DynamicApiController
         private readonly Regex _nameVersionRegex;
 
         /// <summary>
-        /// 是否启动规范化文档
-        /// </summary>
-        private readonly bool _enabledUnifyResult;
-
-        /// <summary>
         /// 构造函数
         /// </summary>
         public DynamicApiControllerApplicationModelConvention()
         {
             _dynamicApiControllerSettings = App.GetDuplicateOptions<DynamicApiControllerSettingsOptions>();
             _nameVersionRegex = new Regex(@"V(?<version>[0-9_]+$)");
-            _enabledUnifyResult = App.GetService<IUnifyResultProvider>() != null;
         }
 
         /// <summary>
@@ -125,7 +119,7 @@ namespace Furion.DynamicApiController
             ConfigureActionRouteAttribute(action, apiDescriptionSettings, controllerApiDescriptionSettings);
 
             // 配置动作方法规范化特性
-            if (_enabledUnifyResult) ConfigureActionUnifyResultAttribute(action);
+            if (UnifyContext.IsEnabledUnifyHandle) ConfigureActionUnifyResultAttribute(action);
         }
 
         /// <summary>
@@ -509,7 +503,7 @@ namespace Furion.DynamicApiController
         private static void ConfigureActionUnifyResultAttribute(ActionModel action)
         {
             // 判断是否手动添加了标注或跳过规范化处理
-            if (UnifyContext.IsSkipOnSuccessUnifyHandler(action.ActionMethod, out var _)) return;
+            if (UnifyContext.IsSkipOnSuccessUnifyHandler(action.ActionMethod, out var _, false)) return;
 
             // 获取真实类型
             var returnType = action.ActionMethod.GetMethodRealReturnType();

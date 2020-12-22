@@ -20711,11 +20711,6 @@
             带版本的名称正则表达式
             </summary>
         </member>
-        <member name="F:Furion.DynamicApiController.DynamicApiControllerApplicationModelConvention._enabledUnifyResult">
-            <summary>
-            是否启动规范化文档
-            </summary>
-        </member>
         <member name="M:Furion.DynamicApiController.DynamicApiControllerApplicationModelConvention.#ctor">
             <summary>
             构造函数
@@ -22757,6 +22752,11 @@
             规范化结果上下文
             </summary>
         </member>
+        <member name="F:Furion.UnifyResult.UnifyContext.IsEnabledUnifyHandle">
+            <summary>
+            是否启用规范化结果
+            </summary>
+        </member>
         <member name="F:Furion.UnifyResult.UnifyContext.RESTfulResultType">
             <summary>
             规范化结果类型
@@ -22804,28 +22804,31 @@
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.UnifyResult.UnifyContext.IsSkipOnSuccessUnifyHandler(System.Reflection.MethodInfo,Furion.UnifyResult.IUnifyResultProvider@)">
+        <member name="M:Furion.UnifyResult.UnifyContext.IsSkipOnSuccessUnifyHandler(System.Reflection.MethodInfo,Furion.UnifyResult.IUnifyResultProvider@,System.Boolean)">
             <summary>
             是否跳过成功结果规范处理
             </summary>
             <param name="method"></param>
             <param name="unifyResult"></param>
+            <param name="isWebRequest"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.UnifyResult.UnifyContext.IsSkipUnifyHandler(System.Reflection.MethodInfo,Furion.UnifyResult.IUnifyResultProvider@)">
+        <member name="M:Furion.UnifyResult.UnifyContext.IsSkipUnifyHandler(System.Reflection.MethodInfo,Furion.UnifyResult.IUnifyResultProvider@,System.Boolean)">
             <summary>
             是否跳过规范化处理
             </summary>
             <param name="method"></param>
             <param name="unifyResult"></param>
+            <param name="isWebRequest"></param>
             <returns></returns>
         </member>
-        <member name="M:Furion.UnifyResult.UnifyContext.IsSkipUnifyHandler(Microsoft.AspNetCore.Http.HttpContext,Furion.UnifyResult.IUnifyResultProvider@)">
+        <member name="M:Furion.UnifyResult.UnifyContext.IsSkipUnifyHandler(Microsoft.AspNetCore.Http.HttpContext,Furion.UnifyResult.IUnifyResultProvider@,System.Boolean)">
             <summary>
             是否跳过规范化处理
             </summary>
             <param name="context"></param>
             <param name="unifyResult"></param>
+            <param name="isWebRequest"></param>
             <returns></returns>
         </member>
         <member name="T:Furion.Utilities.JsonSerializerUtility">
