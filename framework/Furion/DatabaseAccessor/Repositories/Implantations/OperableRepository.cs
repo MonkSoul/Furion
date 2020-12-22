@@ -759,20 +759,22 @@ namespace Furion.DatabaseAccessor
             if (isIgnore == false) return;
 
             // 获取所有的属性
-            var properties = EntityType.GetProperties();
+            var properties = EntityType?.GetProperties();
+            if (properties == null) return;
+
             foreach (var propety in properties)
             {
                 var entityProperty = EntityPropertyEntry(entity, propety.Name);
-                var propertyValue = entityProperty.CurrentValue;
-                var propertyType = entityProperty.Metadata.PropertyInfo.PropertyType;
+                var propertyValue = entityProperty?.CurrentValue;
+                var propertyType = entityProperty?.Metadata?.PropertyInfo?.PropertyType;
 
                 // 判断是否是无效的值，比如为 null，默认时间，以及空 Guid 值
                 var isInvalid = propertyValue == null
-                                || (propertyType == typeof(DateTime) && propertyValue.ToString().Equals(new DateTime().ToString()))
-                                || (propertyType == typeof(DateTimeOffset) && propertyValue.ToString().Equals(new DateTimeOffset().ToString()))
-                                || propertyValue.Equals(Guid.Empty);
+                                || (propertyType == typeof(DateTime) && propertyValue?.ToString() == new DateTime().ToString())
+                                || (propertyType == typeof(DateTimeOffset) && propertyValue?.ToString() == new DateTimeOffset().ToString())
+                                || (propertyType == typeof(Guid) && propertyValue?.ToString() == Guid.Empty.ToString());
 
-                if (isInvalid)
+                if (isInvalid && entityProperty != null)
                 {
                     entityProperty.IsModified = false;
                 }
@@ -791,16 +793,16 @@ namespace Furion.DatabaseAccessor
 
             // 获取属性信息
             var entityProperty = EntityPropertyEntry(entity, checkProperty.GetExpressionPropertyName());
-            var propertyValue = entityProperty.CurrentValue;
-            var propertyType = entityProperty.Metadata.PropertyInfo.PropertyType;
+            var propertyValue = entityProperty?.CurrentValue;
+            var propertyType = entityProperty?.Metadata?.PropertyInfo?.PropertyType;
 
             return !(
                 propertyValue == null
-                || (propertyType == typeof(string) && propertyValue.Equals(string.Empty))
-                || (propertyType.IsValueType && propertyValue.Equals(0))
-                || (propertyType == typeof(DateTime) && propertyValue.ToString().Equals(new DateTime().ToString()))
-                || (propertyType == typeof(DateTimeOffset) && propertyValue.ToString().Equals(new DateTimeOffset().ToString()))
-                || propertyValue.Equals(Guid.Empty)
+                || (propertyType == typeof(string) && propertyValue?.ToString() == string.Empty)
+                || (propertyType?.IsValueType == true && propertyValue?.ToString() == "0")
+                || (propertyType == typeof(DateTime) && propertyValue?.ToString() == new DateTime().ToString())
+                || (propertyType == typeof(DateTimeOffset) && propertyValue?.ToString() == new DateTimeOffset().ToString())
+                || (propertyType == typeof(Guid) && propertyValue?.ToString() == Guid.Empty.ToString())
                 );
         }
     }
