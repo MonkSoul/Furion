@@ -16,24 +16,6 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class DependencyInjectionServiceCollectionExtensions
     {
         /// <summary>
-        /// 全局服务代理类型
-        /// </summary>
-        private static Type GlobalServiceProxyType;
-
-        /// <summary>
-        /// 添加服务代理
-        /// </summary>
-        /// <param name="services"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddServiceProxy<TServiceProxy>(this IServiceCollection services)
-            where TServiceProxy : DispatchProxy, IDispatchProxy
-        {
-            GlobalServiceProxyType = typeof(TServiceProxy);
-
-            return services;
-        }
-
-        /// <summary>
         /// 添加依赖注入接口
         /// </summary>
         /// <param name="services">服务集合</param>
@@ -509,10 +491,19 @@ namespace Microsoft.Extensions.DependencyInjection
         private static readonly MethodInfo DispatchCreateMethod;
 
         /// <summary>
+        /// 全局服务代理类型
+        /// </summary>
+        private static Type GlobalServiceProxyType;
+
+        /// <summary>
         /// 静态构造函数
         /// </summary>
         static DependencyInjectionServiceCollectionExtensions()
         {
+            // 获取全局代理类型
+            GlobalServiceProxyType = App.CanBeScanTypes
+                .FirstOrDefault(u => typeof(DispatchProxy).IsAssignableFrom(u) && typeof(IGlobalDispatchProxy).IsAssignableFrom(u) && u.IsClass && !u.IsInterface && !u.IsAbstract);
+
             TypeNamedCollection = new ConcurrentDictionary<string, Type>();
             DispatchCreateMethod = typeof(DispatchProxy).GetMethod(nameof(DispatchProxy.Create));
             RegisterDispatchProxies = new ConcurrentBag<(Type, Type)>();
