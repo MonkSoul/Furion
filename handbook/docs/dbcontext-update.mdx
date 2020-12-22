@@ -56,54 +56,43 @@ await user.UpdateNowAsync();
 // ==== 同步操作 ====
 
 // 示例一
-repository.UpdateInclude(user, u=>u.Name, u=>u.Age);
-
-// 示例二
-repository.UpdateInclude(user, "Age", "Name");
-
-// 示例三
-repository.UpdateInclude(user, new[] { u=>u.Name, u=>u.Age});
-
-// 示例四
 repository.UpdateInclude(user, new[] {"Age", "Name"});
 
+// 示例二
+repository.UpdateInclude(user, new[] {nameof(User.Name), nameof(User.Age)});
+
+// 示例三
+repository.UpdateInclude(user, new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
+
+// 示例四
+user.UpdateInclude(new[] {"Age", "Name"});
+
 // 示例五
-user.UpdateInclude(u=>u.Name, u=>u.Age);
+user.UpdateInclude(new[] {nameof(User.Name), nameof(User.Age));
 
 // 示例六
-user.UpdateInclude("Age", "Name");
+user.UpdateInclude(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
 
-// 示例七
-user.UpdateInclude(new[] { u=>u.Name, u=>u.Age});
-
-// 示例八
-user.UpdateInclude(new[] {"Age", "Name"});
 
 // ==== 异步操作 ====
 
 // 示例一
-await repository.UpdateIncludeAsync(user, u=>u.Name, u=>u.Age);
-
-// 示例二
-await repository.UpdateIncludeAsync(user, "Age", "Name");
-
-// 示例三
-await repository.UpdateIncludeAsync(user, new[] { u=>u.Name, u=>u.Age});
-
-// 示例四
 await repository.UpdateIncludeAsync(user, new[] {"Age", "Name"});
 
+// 示例二
+await repository.UpdateIncludeAsync(user, new[] {nameof(User.Name), nameof(User.Age)});
+
+// 示例三
+await repository.UpdateIncludeAsync(user, new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
+
+// 示例四
+await user.UpdateIncludeAsync(new[] {"Age", "Name"});
+
 // 示例五
-await user.UpdateIncludeAsync(u=>u.Name, u=>u.Age);
+await user.UpdateIncludeAsync(new[] {nameof(User.Name), nameof(User.Age));
 
 // 示例六
-await user.UpdateIncludeAsync("Age", "Name");
-
-// 示例七
-await user.UpdateIncludeAsync(new[] { u=>u.Name, u=>u.Age});
-
-// 示例八
-await user.UpdateIncludeAsync(new[] {"Age", "Name"});
+await user.UpdateIncludeAsync(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
 ```
 
 ## 9.6.4 更新部分列（立即提交）
@@ -112,54 +101,43 @@ await user.UpdateIncludeAsync(new[] {"Age", "Name"});
 // ==== 同步操作 ====
 
 // 示例一
-repository.UpdateIncludeNow(user, u=>u.Name, u=>u.Age);
-
-// 示例二
-repository.UpdateIncludeNow(user, "Age", "Name");
-
-// 示例三
-repository.UpdateIncludeNow(user, new[] { u=>u.Name, u=>u.Age});
-
-// 示例四
 repository.UpdateIncludeNow(user, new[] {"Age", "Name"});
 
+// 示例二
+repository.UpdateIncludeNow(user, new[] {nameof(User.Name), nameof(User.Age)});
+
+// 示例三
+repository.UpdateIncludeNow(user, new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
+
+// 示例四
+user.UpdateIncludeNow(new[] {"Age", "Name"});
+
 // 示例五
-user.UpdateIncludeNow(u=>u.Name, u=>u.Age);
+user.UpdateIncludeNow(new[] {nameof(User.Name), nameof(User.Age));
 
 // 示例六
-user.UpdateIncludeNow("Age", "Name");
+user.UpdateInclude(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
 
-// 示例七
-user.UpdateIncludeNow(new[] { u=>u.Name, u=>u.Age});
-
-// 示例八
-user.UpdateIncludeNow(new[] {"Age", "Name"});
 
 // ==== 异步操作 ====
 
 // 示例一
-await repository.UpdateIncludeNowAsync(user, u=>u.Name, u=>u.Age);
-
-// 示例二
-await repository.UpdateIncludeNowAsync(user, "Age", "Name");
-
-// 示例三
-await repository.UpdateIncludeNowAsync(user, new[] { u=>u.Name, u=>u.Age});
-
-// 示例四
 await repository.UpdateIncludeNowAsync(user, new[] {"Age", "Name"});
 
+// 示例二
+await repository.UpdateIncludeNowAsync(user, new[] {nameof(User.Name), nameof(User.Age)});
+
+// 示例三
+await repository.UpdateIncludeNowAsync(user, new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
+
+// 示例四
+await user.UpdateIncludeNowAsync(new[] {"Age", "Name"});
+
 // 示例五
-await user.UpdateIncludeNowAsync(u=>u.Name, u=>u.Age);
+await user.UpdateIncludeNowAsync(new[] {nameof(User.Name), nameof(User.Age));
 
 // 示例六
-await user.UpdateIncludeNowAsync("Age", "Name");
-
-// 示例七
-await user.UpdateIncludeNowAsync(new[] { u=>u.Name, u=>u.Age});
-
-// 示例八
-await user.UpdateIncludeNowAsync(new[] {"Age", "Name"});
+await user.UpdateIncludeNowAsync(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
 ```
 
 ## 9.6.5 排除特定列更新（不立即提交）
@@ -168,54 +146,43 @@ await user.UpdateIncludeNowAsync(new[] {"Age", "Name"});
 // ==== 同步操作 ====
 
 // 示例一
-repository.UpdateExclude(user, u=>u.Name, u=>u.Age);
-
-// 示例二
-repository.UpdateExclude(user, "Age", "Name");
-
-// 示例三
-repository.UpdateExclude(user, new[] { u=>u.Name, u=>u.Age});
-
-// 示例四
 repository.UpdateExclude(user, new[] {"Age", "Name"});
 
+// 示例二
+repository.UpdateExclude(user, new[] {nameof(User.Name), nameof(User.Age)});
+
+// 示例三
+repository.UpdateExclude(user, new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
+
+// 示例四
+user.UpdateExclude(new[] {"Age", "Name"});
+
 // 示例五
-user.UpdateExclude(u=>u.Name, u=>u.Age);
+user.UpdateExclude(new[] {nameof(User.Name), nameof(User.Age));
 
 // 示例六
-user.UpdateExclude("Age", "Name");
+user.UpdateExclude(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
 
-// 示例七
-user.UpdateExclude(new[] { u=>u.Name, u=>u.Age});
-
-// 示例八
-user.UpdateExclude(new[] {"Age", "Name"});
 
 // ==== 异步操作 ====
 
 // 示例一
-await repository.UpdateExcludeAsync(user, u=>u.Name, u=>u.Age);
-
-// 示例二
-await repository.UpdateExcludeAsync(user, "Age", "Name");
-
-// 示例三
-await repository.UpdateExcludeAsync(user, new[] { u=>u.Name, u=>u.Age});
-
-// 示例四
 await repository.UpdateExcludeAsync(user, new[] {"Age", "Name"});
 
+// 示例二
+await repository.UpdateExcludeAsync(user, new[] {nameof(User.Name), nameof(User.Age)});
+
+// 示例三
+await repository.UpdateExcludeAsync(user, new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
+
+// 示例四
+await user.UpdateExcludeAsync(new[] {"Age", "Name"});
+
 // 示例五
-await user.UpdateExcludeAsync(u=>u.Name, u=>u.Age);
+await user.UpdateExcludeAsync(new[] {nameof(User.Name), nameof(User.Age));
 
 // 示例六
-await user.UpdateExcludeAsync("Age", "Name");
-
-// 示例七
-await user.UpdateExcludeAsync(new[] { u=>u.Name, u=>u.Age});
-
-// 示例八
-await user.UpdateExcludeAsync(new[] {"Age", "Name"});
+await user.UpdateExcludeAsync(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
 ```
 
 ## 9.6.6 排除特定列更新（立即提交）
@@ -224,54 +191,43 @@ await user.UpdateExcludeAsync(new[] {"Age", "Name"});
 // ==== 同步操作 ====
 
 // 示例一
-repository.UpdateExcludeNow(user, u=>u.Name, u=>u.Age);
-
-// 示例二
-repository.UpdateExcludeNow(user, "Age", "Name");
-
-// 示例三
-repository.UpdateExcludeNow(user, new[] { u=>u.Name, u=>u.Age});
-
-// 示例四
 repository.UpdateExcludeNow(user, new[] {"Age", "Name"});
 
+// 示例二
+repository.UpdateExcludeNow(user, new[] {nameof(User.Name), nameof(User.Age)});
+
+// 示例三
+repository.UpdateExcludeNow(user, new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
+
+// 示例四
+user.UpdateExcludeNow(new[] {"Age", "Name"});
+
 // 示例五
-user.UpdateExcludeNow(u=>u.Name, u=>u.Age);
+user.UpdateExcludeNow(new[] {nameof(User.Name), nameof(User.Age));
 
 // 示例六
-user.UpdateExcludeNow("Age", "Name");
+user.UpdateExcludeNow(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
 
-// 示例七
-user.UpdateExcludeNow(new[] { u=>u.Name, u=>u.Age});
-
-// 示例八
-user.UpdateExcludeNow(new[] {"Age", "Name"});
 
 // ==== 异步操作 ====
 
 // 示例一
-await repository.UpdateExcludeNowAsync(user, u=>u.Name, u=>u.Age);
-
-// 示例二
-await repository.UpdateExcludeNowAsync(user, "Age", "Name");
-
-// 示例三
-await repository.UpdateExcludeNowAsync(user, new[] { u=>u.Name, u=>u.Age});
-
-// 示例四
 await repository.UpdateExcludeNowAsync(user, new[] {"Age", "Name"});
 
+// 示例二
+await repository.UpdateExcludeNowAsync(user, new[] {nameof(User.Name), nameof(User.Age)});
+
+// 示例三
+await repository.UpdateExcludeNowAsync(user, new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
+
+// 示例四
+await user.UpdateExcludeNowAsync(new[] {"Age", "Name"});
+
 // 示例五
-await user.UpdateExcludeNowAsync(u=>u.Name, u=>u.Age);
+await user.UpdateExcludeNowAsync(new[] {nameof(User.Name), nameof(User.Age));
 
 // 示例六
-await user.UpdateExcludeNowAsync("Age", "Name");
-
-// 示例七
-await user.UpdateExcludeNowAsync(new[] { u=>u.Name, u=>u.Age});
-
-// 示例八
-await user.UpdateExcludeNowAsync(new[] {"Age", "Name"});
+await user.UpdateExcludeNowAsync(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
 ```
 
 ## 9.6.7 数据存在才更新所有列（不立即提交）
@@ -320,54 +276,43 @@ await user.UpdateExistsNowAsync();
 // ==== 同步操作 ====
 
 // 示例一
-repository.UpdateIncludeExists(user, u=>u.Name, u=>u.Age);
-
-// 示例二
-repository.UpdateIncludeExists(user, "Age", "Name");
-
-// 示例三
-repository.UpdateIncludeExists(user, new[] { u=>u.Name, u=>u.Age});
-
-// 示例四
 repository.UpdateIncludeExists(user, new[] {"Age", "Name"});
 
+// 示例二
+repository.UpdateIncludeExists(user, new[] {nameof(User.Name), nameof(User.Age)});
+
+// 示例三
+repository.UpdateIncludeExists(user, new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
+
+// 示例四
+user.UpdateIncludeExists(new[] {"Age", "Name"});
+
 // 示例五
-user.UpdateIncludeExists(u=>u.Name, u=>u.Age);
+user.UpdateIncludeExists(new[] {nameof(User.Name), nameof(User.Age));
 
 // 示例六
-user.UpdateIncludeExists("Age", "Name");
+user.UpdateIncludeExists(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
 
-// 示例七
-user.UpdateIncludeExists(new[] { u=>u.Name, u=>u.Age});
-
-// 示例八
-user.UpdateIncludeExists(new[] {"Age", "Name"});
 
 // ==== 异步操作 ====
 
 // 示例一
-await repository.UpdateIncludeExistsAsync(user, u=>u.Name, u=>u.Age);
-
-// 示例二
-await repository.UpdateIncludeExistsAsync(user, "Age", "Name");
-
-// 示例三
-await repository.UpdateIncludeExistsAsync(user, new[] { u=>u.Name, u=>u.Age});
-
-// 示例四
 await repository.UpdateIncludeExistsAsync(user, new[] {"Age", "Name"});
 
+// 示例二
+await repository.UpdateIncludeExistsAsync(user, new[] {nameof(User.Name), nameof(User.Age)});
+
+// 示例三
+await repository.UpdateIncludeExistsAsync(user, new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
+
+// 示例四
+await user.UpdateIncludeExistsAsync(new[] {"Age", "Name"});
+
 // 示例五
-await user.UpdateIncludeExistsAsync(u=>u.Name, u=>u.Age);
+await user.UpdateIncludeExistsAsync(new[] {nameof(User.Name), nameof(User.Age));
 
 // 示例六
-await user.UpdateIncludeExistsAsync("Age", "Name");
-
-// 示例七
-await user.UpdateIncludeExistsAsync(new[] { u=>u.Name, u=>u.Age});
-
-// 示例八
-await user.UpdateIncludeExistsAsync(new[] {"Age", "Name"});
+await user.UpdateIncludeExistsAsync(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
 ```
 
 ## 9.6.10 数据存在才更新部分列（立即提交）
@@ -376,54 +321,43 @@ await user.UpdateIncludeExistsAsync(new[] {"Age", "Name"});
 // ==== 同步操作 ====
 
 // 示例一
-repository.UpdateIncludeExistsNow(user, u=>u.Name, u=>u.Age);
-
-// 示例二
-repository.UpdateIncludeExistsNow(user, "Age", "Name");
-
-// 示例三
-repository.UpdateIncludeExistsNow(user, new[] { u=>u.Name, u=>u.Age});
-
-// 示例四
 repository.UpdateIncludeExistsNow(user, new[] {"Age", "Name"});
 
+// 示例二
+repository.UpdateIncludeExistsNow(user, new[] {nameof(User.Name), nameof(User.Age)});
+
+// 示例三
+repository.UpdateIncludeExistsNow(user, new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
+
+// 示例四
+user.UpdateIncludeExistsNow(new[] {"Age", "Name"});
+
 // 示例五
-user.UpdateIncludeExistsNow(u=>u.Name, u=>u.Age);
+user.UpdateIncludeExistsNow(new[] {nameof(User.Name), nameof(User.Age));
 
 // 示例六
-user.UpdateIncludeExistsNow("Age", "Name");
+user.UpdateIncludeExistsNow(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
 
-// 示例七
-user.UpdateIncludeExistsNow(new[] { u=>u.Name, u=>u.Age});
-
-// 示例八
-user.UpdateIncludeExistsNow(new[] {"Age", "Name"});
 
 // ==== 异步操作 ====
 
 // 示例一
-await repository.UpdateIncludeExistsNowAsync(user, u=>u.Name, u=>u.Age);
-
-// 示例二
-await repository.UpdateIncludeExistsNowAsync(user, "Age", "Name");
-
-// 示例三
-await repository.UpdateIncludeExistsNowAsync(user, new[] { u=>u.Name, u=>u.Age});
-
-// 示例四
 await repository.UpdateIncludeExistsNowAsync(user, new[] {"Age", "Name"});
 
+// 示例二
+await repository.UpdateIncludeExistsNowAsync(user, new[] {nameof(User.Name), nameof(User.Age)});
+
+// 示例三
+await repository.UpdateIncludeExistsNowAsync(user, new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
+
+// 示例四
+await user.UpdateIncludeExistsNowAsync(new[] {"Age", "Name"});
+
 // 示例五
-await user.UpdateIncludeExistsNowAsync(u=>u.Name, u=>u.Age);
+await user.UpdateIncludeExistsNowAsync(new[] {nameof(User.Name), nameof(User.Age));
 
 // 示例六
-await user.UpdateIncludeExistsNowAsync("Age", "Name");
-
-// 示例七
-await user.UpdateIncludeExistsNowAsync(new[] { u=>u.Name, u=>u.Age});
-
-// 示例八
-await user.UpdateIncludeExistsNowAsync(new[] {"Age", "Name"});
+await user.UpdateIncludeExistsNowAsync(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
 ```
 
 ## 9.6.11 数据存在才排除特定部分列更新（不立即提交）
@@ -432,54 +366,43 @@ await user.UpdateIncludeExistsNowAsync(new[] {"Age", "Name"});
 // ==== 同步操作 ====
 
 // 示例一
-repository.UpdateExcludeExists(user, u=>u.Name, u=>u.Age);
-
-// 示例二
-repository.UpdateExcludeExists(user, "Age", "Name");
-
-// 示例三
-repository.UpdateExcludeExists(user, new[] { u=>u.Name, u=>u.Age});
-
-// 示例四
 repository.UpdateExcludeExists(user, new[] {"Age", "Name"});
 
+// 示例二
+repository.UpdateExcludeExists(user, new[] {nameof(User.Name), nameof(User.Age)});
+
+// 示例三
+repository.UpdateExcludeExists(user, new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
+
+// 示例四
+user.UpdateExcludeExists(new[] {"Age", "Name"});
+
 // 示例五
-user.UpdateExcludeExists(u=>u.Name, u=>u.Age);
+user.UpdateExcludeExists(new[] {nameof(User.Name), nameof(User.Age));
 
 // 示例六
-user.UpdateExcludeExists("Age", "Name");
+user.UpdateExcludeExists(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
 
-// 示例七
-user.UpdateExcludeExists(new[] { u=>u.Name, u=>u.Age});
-
-// 示例八
-user.UpdateExcludeExists(new[] {"Age", "Name"});
 
 // ==== 异步操作 ====
 
 // 示例一
-await repository.UpdateExcludeExistsAsync(user, u=>u.Name, u=>u.Age);
-
-// 示例二
-await repository.UpdateExcludeExistsAsync(user, "Age", "Name");
-
-// 示例三
-await repository.UpdateExcludeExistsAsync(user, new[] { u=>u.Name, u=>u.Age});
-
-// 示例四
 await repository.UpdateExcludeExistsAsync(user, new[] {"Age", "Name"});
 
+// 示例二
+await repository.UpdateExcludeExistsAsync(user, new[] {nameof(User.Name), nameof(User.Age)});
+
+// 示例三
+await repository.UpdateExcludeExistsAsync(user, new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
+
+// 示例四
+await user.UpdateExcludeExistsAsync(new[] {"Age", "Name"});
+
 // 示例五
-await user.UpdateExcludeExistsAsync(u=>u.Name, u=>u.Age);
+await user.UpdateExcludeExistsAsync(new[] {nameof(User.Name), nameof(User.Age));
 
 // 示例六
-await user.UpdateExcludeExistsAsync("Age", "Name");
-
-// 示例七
-await user.UpdateExcludeExistsAsync(new[] { u=>u.Name, u=>u.Age});
-
-// 示例八
-await user.UpdateExcludeExistsAsync(new[] {"Age", "Name"});
+await user.UpdateExcludeExistsAsync(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
 ```
 
 ## 9.6.12 数据存在才排除特定部分列更新（立即提交）
@@ -488,54 +411,43 @@ await user.UpdateExcludeExistsAsync(new[] {"Age", "Name"});
 // ==== 同步操作 ====
 
 // 示例一
-repository.UpdateExcludeExistsNow(user, u=>u.Name, u=>u.Age);
-
-// 示例二
-repository.UpdateExcludeExistsNow(user, "Age", "Name");
-
-// 示例三
-repository.UpdateExcludeExistsNow(user, new[] { u=>u.Name, u=>u.Age});
-
-// 示例四
 repository.UpdateExcludeExistsNow(user, new[] {"Age", "Name"});
 
+// 示例二
+repository.UpdateExcludeExistsNow(user, new[] {nameof(User.Name), nameof(User.Age)});
+
+// 示例三
+repository.UpdateExcludeExistsNow(user, new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
+
+// 示例四
+user.UpdateExcludeExistsNow(new[] {"Age", "Name"});
+
 // 示例五
-user.UpdateExcludeExistsNow(u=>u.Name, u=>u.Age);
+user.UpdateExcludeExistsNow(new[] {nameof(User.Name), nameof(User.Age));
 
 // 示例六
-user.UpdateExcludeExistsNow("Age", "Name");
+user.UpdateExcludeExistsNow(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
 
-// 示例七
-user.UpdateExcludeExistsNow(new[] { u=>u.Name, u=>u.Age});
-
-// 示例八
-user.UpdateExcludeExistsNow(new[] {"Age", "Name"});
 
 // ==== 异步操作 ====
 
 // 示例一
-await repository.UpdateExcludeExistsNowAsync(user, u=>u.Name, u=>u.Age);
-
-// 示例二
-await repository.UpdateExcludeExistsNowAsync(user, "Age", "Name");
-
-// 示例三
-await repository.UpdateExcludeExistsNowAsync(user, new[] { u=>u.Name, u=>u.Age});
-
-// 示例四
 await repository.UpdateExcludeExistsNowAsync(user, new[] {"Age", "Name"});
 
+// 示例二
+await repository.UpdateExcludeExistsNowAsync(user, new[] {nameof(User.Name), nameof(User.Age)});
+
+// 示例三
+await repository.UpdateExcludeExistsNowAsync(user, new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
+
+// 示例四
+await user.UpdateExcludeExistsNowAsync(new[] {"Age", "Name"});
+
 // 示例五
-await user.UpdateExcludeExistsNowAsync(u=>u.Name, u=>u.Age);
+await user.UpdateExcludeExistsNowAsync(new[] {nameof(User.Name), nameof(User.Age));
 
 // 示例六
-await user.UpdateExcludeExistsNowAsync("Age", "Name");
-
-// 示例七
-await user.UpdateExcludeExistsNowAsync(new[] { u=>u.Name, u=>u.Age});
-
-// 示例八
-await user.UpdateExcludeExistsNowAsync(new[] {"Age", "Name"});
+await user.UpdateExcludeExistsNowAsync(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
 ```
 
 ## 9.6.13 更新多条记录（不立即提交）
