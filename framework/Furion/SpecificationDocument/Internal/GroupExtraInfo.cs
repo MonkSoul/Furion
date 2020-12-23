@@ -3,10 +3,10 @@
 namespace Furion.SpecificationDocument
 {
     /// <summary>
-    /// 分组排序
+    /// 分组附加信息
     /// </summary>
     [SkipScan]
-    internal sealed class GroupOrder
+    internal sealed class GroupExtraInfo
     {
         /// <summary>
         /// 分组名
@@ -17,5 +17,10 @@ namespace Furion.SpecificationDocument
         /// 分组排序
         /// </summary>
         public int Order { get; set; }
+
+        /// <summary>
+        /// 是否可见
+        /// </summary>
+        public bool Visible { get; set; }
     }
 }

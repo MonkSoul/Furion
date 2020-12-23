@@ -42,8 +42,8 @@ namespace Furion.SpecificationDocument
         public int? Order { get; set; }
 
         /// <summary>
-        /// 是否显示
+        /// 是否可见
         /// </summary>
-        public bool? Show { get; set; }
+        public bool? Visible { get; set; }
     }
 }

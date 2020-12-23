@@ -22279,9 +22279,9 @@
             <param name="ReflectedType">声明类型</param>
             <returns></returns>
         </member>
-        <member name="M:Furion.SpecificationDocument.SpecificationDocumentBuilder.ResolveGroupOrder(System.String)">
+        <member name="M:Furion.SpecificationDocument.SpecificationDocumentBuilder.ResolveGroupExtraInfo(System.String)">
             <summary>
-            解析分组名称中的排序
+            解析分组附加信息
             </summary>
             <param name="group">分组名</param>
             <returns></returns>
@@ -22298,19 +22298,24 @@
             <param name="model"></param>
             <param name="context"></param>
         </member>
-        <member name="T:Furion.SpecificationDocument.GroupOrder">
+        <member name="T:Furion.SpecificationDocument.GroupExtraInfo">
             <summary>
-            分组排序
+            分组附加信息
             </summary>
         </member>
-        <member name="P:Furion.SpecificationDocument.GroupOrder.Group">
+        <member name="P:Furion.SpecificationDocument.GroupExtraInfo.Group">
             <summary>
             分组名
             </summary>
         </member>
-        <member name="P:Furion.SpecificationDocument.GroupOrder.Order">
+        <member name="P:Furion.SpecificationDocument.GroupExtraInfo.Order">
             <summary>
             分组排序
+            </summary>
+        </member>
+        <member name="P:Furion.SpecificationDocument.GroupExtraInfo.Visible">
+            <summary>
+            是否可见
             </summary>
         </member>
         <member name="T:Furion.SpecificationDocument.SpecificationOpenApiInfo">
@@ -22338,9 +22343,9 @@
             排序
             </summary>
         </member>
-        <member name="P:Furion.SpecificationDocument.SpecificationOpenApiInfo.Show">
+        <member name="P:Furion.SpecificationDocument.SpecificationOpenApiInfo.Visible">
             <summary>
-            是否显示
+            是否可见
             </summary>
         </member>
         <member name="T:Furion.SpecificationDocument.SpecificationOpenApiSecurityRequirementItem">

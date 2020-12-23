@@ -34,7 +34,7 @@ namespace Furion.SpecificationDocument
         /// <summary>
         /// 文档默认分组
         /// </summary>
-        private static readonly IEnumerable<GroupOrder> _defaultGroups;
+        private static readonly IEnumerable<GroupExtraInfo> _defaultGroups;
 
         /// <summary>
         /// 文档分组列表
@@ -56,14 +56,14 @@ namespace Furion.SpecificationDocument
 
             // 初始化常量
             _groupOrderRegex = new Regex(@"@(?<order>[0-9]+$)");
-            GetActionGroupsCached = new ConcurrentDictionary<MethodInfo, IEnumerable<GroupOrder>>();
-            GetControllerGroupsCached = new ConcurrentDictionary<Type, IEnumerable<GroupOrder>>();
+            GetActionGroupsCached = new ConcurrentDictionary<MethodInfo, IEnumerable<GroupExtraInfo>>();
+            GetControllerGroupsCached = new ConcurrentDictionary<Type, IEnumerable<GroupExtraInfo>>();
             GetGroupOpenApiInfoCached = new ConcurrentDictionary<string, SpecificationOpenApiInfo>();
             GetControllerTagCached = new ConcurrentDictionary<ControllerActionDescriptor, string>();
             GetActionTagCached = new ConcurrentDictionary<ApiDescription, string>();
 
             // 默认分组，支持多个逗号分割
-            _defaultGroups = new List<GroupOrder> { ResolveGroupOrder(_specificationDocumentSettings.DefaultGroupName) };
+            _defaultGroups = new List<GroupExtraInfo> { ResolveGroupExtraInfo(_specificationDocumentSettings.DefaultGroupName) };
 
             // 加载所有分组
             _groups = ReadGroups();
@@ -333,13 +333,14 @@ namespace Furion.SpecificationDocument
                 .Union(
                     actions.SelectMany(u => GetActionGroups(u))
                 )
-                .Where(u => u != null)
+                .Where(u => u != null && u.Visible)
                 // 分组后取最大排序
                 .GroupBy(u => u.Group)
-                .Select(u => new GroupOrder
+                .Select(u => new GroupExtraInfo
                 {
                     Group = u.Key,
-                    Order = u.Max(x => x.Order)
+                    Order = u.Max(x => x.Order),
+                    Visible = true
                 });
 
             // 分组排序
@@ -352,19 +353,19 @@ namespace Furion.SpecificationDocument
         /// <summary>
         /// 获取控制器组缓存集合
         /// </summary>
-        private static readonly ConcurrentDictionary<Type, IEnumerable<GroupOrder>> GetControllerGroupsCached;
+        private static readonly ConcurrentDictionary<Type, IEnumerable<GroupExtraInfo>> GetControllerGroupsCached;
 
         /// <summary>
         /// 获取控制器分组列表
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        private static IEnumerable<GroupOrder> GetControllerGroups(Type type)
+        private static IEnumerable<GroupExtraInfo> GetControllerGroups(Type type)
         {
             return GetControllerGroupsCached.GetOrAdd(type, Function);
 
             // 本地函数
-            static IEnumerable<GroupOrder> Function(Type type)
+            static IEnumerable<GroupExtraInfo> Function(Type type)
             {
                 // 如果控制器没有定义 [ApiDescriptionSettings] 特性，则返回默认分组
                 if (!type.IsDefined(typeof(ApiDescriptionSettingsAttribute), true)) return _defaultGroups;
@@ -373,33 +374,33 @@ namespace Furion.SpecificationDocument
                 var apiDescriptionSettings = type.GetCustomAttribute<ApiDescriptionSettingsAttribute>(true);
                 if (apiDescriptionSettings.Groups == null || apiDescriptionSettings.Groups.Length == 0) return _defaultGroups;
 
-                // 处理排序
-                var groupOrders = new List<GroupOrder>();
+                // 处理分组额外信息
+                var groupExtras = new List<GroupExtraInfo>();
                 foreach (var group in apiDescriptionSettings.Groups)
                 {
-                    groupOrders.Add(ResolveGroupOrder(group));
+                    groupExtras.Add(ResolveGroupExtraInfo(group));
                 }
 
-                return groupOrders;
+                return groupExtras;
             }
         }
 
         /// <summary>
         /// <see cref="GetActionGroups(MethodInfo)"/> 缓存集合
         /// </summary>
-        private static readonly ConcurrentDictionary<MethodInfo, IEnumerable<GroupOrder>> GetActionGroupsCached;
+        private static readonly ConcurrentDictionary<MethodInfo, IEnumerable<GroupExtraInfo>> GetActionGroupsCached;
 
         /// <summary>
         /// 获取动作方法分组列表
         /// </summary>
         /// <param name="method">方法</param>
         /// <returns></returns>
-        private static IEnumerable<GroupOrder> GetActionGroups(MethodInfo method)
+        private static IEnumerable<GroupExtraInfo> GetActionGroups(MethodInfo method)
         {
             return GetActionGroupsCached.GetOrAdd(method, Function);
 
             // 本地函数
-            static IEnumerable<GroupOrder> Function(MethodInfo method)
+            static IEnumerable<GroupExtraInfo> Function(MethodInfo method)
             {
                 // 如果动作方法没有定义 [ApiDescriptionSettings] 特性，则返回所在控制器分组
                 if (!method.IsDefined(typeof(ApiDescriptionSettingsAttribute), true)) return GetControllerGroups(method.ReflectedType);
@@ -409,13 +410,13 @@ namespace Furion.SpecificationDocument
                 if (apiDescriptionSettings.Groups == null || apiDescriptionSettings.Groups.Length == 0) return GetControllerGroups(method.ReflectedType);
 
                 // 处理排序
-                var groupOrders = new List<GroupOrder>();
+                var groupExtras = new List<GroupExtraInfo>();
                 foreach (var group in apiDescriptionSettings.Groups)
                 {
-                    groupOrders.Add(ResolveGroupOrder(group));
+                    groupExtras.Add(ResolveGroupExtraInfo(group));
                 }
 
-                return groupOrders;
+                return groupExtras;
             }
         }
 
@@ -498,11 +499,11 @@ namespace Furion.SpecificationDocument
         }
 
         /// <summary>
-        /// 解析分组名称中的排序
+        /// 解析分组附加信息
         /// </summary>
         /// <param name="group">分组名</param>
         /// <returns></returns>
-        private static GroupOrder ResolveGroupOrder(string group)
+        private static GroupExtraInfo ResolveGroupExtraInfo(string group)
         {
             string realGroup;
             var order = 0;
@@ -515,10 +516,11 @@ namespace Furion.SpecificationDocument
             }
 
             var groupOpenApiInfo = GetGroupOpenApiInfo(realGroup);
-            return new GroupOrder
+            return new GroupExtraInfo
             {
                 Group = realGroup,
-                Order = groupOpenApiInfo.Order ?? order
+                Order = groupOpenApiInfo.Order ?? order,
+                Visible = groupOpenApiInfo.Visible ?? true
             };
         }
     }
