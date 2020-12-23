@@ -42,6 +42,24 @@ namespace Microsoft.AspNetCore.Http
         }
 
         /// <summary>
+        /// 设置规范化文档退出登录
+        /// </summary>
+        /// <param name="httpContext"></param>
+        public static void SignoutToSwagger(this HttpContext httpContext)
+        {
+            httpContext.Response.Headers["access-token"] = "invalid token";
+        }
+
+        /// <summary>
+        /// 设置规范化文档退出登录
+        /// </summary>
+        /// <param name="httpContextAccessor"></param>
+        public static void SignoutToSwagger(this IHttpContextAccessor httpContextAccessor)
+        {
+            httpContextAccessor.HttpContext.SignoutToSwagger();
+        }
+
+        /// <summary>
         /// 获取本机 IPv4地址
         /// </summary>
         /// <param name="context"></param>

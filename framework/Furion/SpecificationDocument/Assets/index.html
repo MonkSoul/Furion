@@ -55,9 +55,12 @@
             var configObject = JSON.parse('%(ConfigObject)');
             configObject.responseInterceptor = function (rep) {
                 var accessToken = rep.headers[tokenKey];
-                if (accessToken) {
+                if (accessToken && accessToken != "invalid token") {
                     window.sessionStorage.setItem(tokenKey, accessToken);
                     ui.preauthorizeApiKey("Bearer", accessToken);
+                }
+                else if (accessToken == "invalid token") {
+                    window.sessionStorage.removeItem(tokenKey);
                 }
             }
             configObject.onComplete = function () {

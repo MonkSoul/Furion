@@ -24104,6 +24104,18 @@
             <param name="httpContextAccessor"></param>
             <param name="accessToken"></param>
         </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.SignoutToSwagger(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            设置规范化文档退出登录
+            </summary>
+            <param name="httpContext"></param>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.SignoutToSwagger(Microsoft.AspNetCore.Http.IHttpContextAccessor)">
+            <summary>
+            设置规范化文档退出登录
+            </summary>
+            <param name="httpContextAccessor"></param>
+        </member>
         <member name="M:Microsoft.AspNetCore.Http.HttpContextExtensions.GetLocalIpAddressToIPv4(Microsoft.AspNetCore.Http.HttpContext)">
             <summary>
             获取本机 IPv4地址
