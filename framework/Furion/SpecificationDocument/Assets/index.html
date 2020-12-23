@@ -56,15 +56,15 @@
             configObject.responseInterceptor = function (rep) {
                 var accessToken = rep.headers[tokenKey];
                 if (accessToken && accessToken != "invalid token") {
-                    window.sessionStorage.setItem(tokenKey, accessToken);
+                    window.localStorage.setItem(tokenKey, accessToken);
                     ui.preauthorizeApiKey("Bearer", accessToken);
                 }
                 else if (accessToken == "invalid token") {
-                    window.sessionStorage.removeItem(tokenKey);
+                    window.localStorage.removeItem(tokenKey);
                 }
             }
             configObject.onComplete = function () {
-                var accessToken = window.sessionStorage.getItem(tokenKey);
+                var accessToken = window.localStorage.getItem(tokenKey);
                 if (accessToken) {
                     ui.preauthorizeApiKey("Bearer", accessToken);
                 }
