@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Furion.ViewEngine
+namespace Furion.ViewEngine.Extensions
 {
     /// <summary>
     /// 字符串视图引擎拓展

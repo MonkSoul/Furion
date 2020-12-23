@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Furion.DatabaseAccessor
+namespace Furion.DatabaseAccessor.Extensions
 {
     /// <summary>
     /// 实体多数据库上下文拓展类

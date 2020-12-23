@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace Furion.Logging
+namespace Furion.Logging.Extensions
 {
     /// <summary>
     /// 字符串日志输出拓展

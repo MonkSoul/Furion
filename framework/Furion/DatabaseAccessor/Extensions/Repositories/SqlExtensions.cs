@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Furion.DatabaseAccessor
+namespace Furion.DatabaseAccessor.Extensions
 {
     /// <summary>
     /// Sql 拓展类

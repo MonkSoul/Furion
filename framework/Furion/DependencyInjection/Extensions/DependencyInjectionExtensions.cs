@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Furion.Extensions.DependencyInjection
+namespace Furion.DependencyInjection.Extensions
 {
     /// <summary>
     /// 依赖注入拓展
