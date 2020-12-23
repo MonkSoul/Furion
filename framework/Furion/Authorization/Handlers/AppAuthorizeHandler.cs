@@ -24,7 +24,7 @@ namespace Furion.Authorization
             {
                 await AuthorizeHandleAsync(context);
             }
-            else context.GetCurrentHttpContext().SignoutToSwagger();    // 退出Swagger登录
+            else context.GetCurrentHttpContext()?.SignoutToSwagger();    // 退出Swagger登录
         }
 
         /// <summary>

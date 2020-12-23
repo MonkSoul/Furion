@@ -134,7 +134,8 @@ namespace Furion.DataEncryption
             var accessToken = Exchange(expiredToken, refreshToken, expiredTime);
 
             // 读取新的 Token Clamis
-            var claims = ReadJwtToken(accessToken).Claims;
+            var claims = ReadJwtToken(accessToken)?.Claims;
+            if (claims == null) return false;
 
             // 创建身份信息
             var claimIdentity = new ClaimsIdentity("AuthenticationTypes.Federation");
