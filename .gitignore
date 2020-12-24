@@ -341,3 +341,6 @@ ASALocalRun/
 healthchecksdb
 
 handbook/node_modules
+
+# Net Core Keys
+framework/**/*.xml
