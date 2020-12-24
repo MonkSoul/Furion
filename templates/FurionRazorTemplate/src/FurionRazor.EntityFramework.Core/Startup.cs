@@ -9,6 +9,7 @@ namespace FurionRazor.EntityFramework.Core
         {
             services.AddDatabaseAccessor(options =>
             {
+                options.AddDbPool<DefaultDbContext>();
             }, "FurionRazor.Database.Migrations");
         }
     }

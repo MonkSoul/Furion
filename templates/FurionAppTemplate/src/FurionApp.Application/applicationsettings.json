@@ -18,27 +18,6 @@
           "Url": "https://gitee.com/monksoul/Furion/blob/rc1/LICENSE"
         }
       }
-    ],
-    "EnableAuthorized": true,
-    "SecurityDefinitions": [
-      {
-        "Id": "Bearer",
-        "Type": "Http",
-        "Name": "Authorization",
-        "Description": "JWT Authorization header using the Bearer scheme.",
-        "BearerFormat": "JWT",
-        "Scheme": "bearer",
-        "In": "Header",
-        "Requirement": {
-          "Scheme": {
-            "Reference": {
-              "Id": "Bearer",
-              "Type": "SecurityScheme"
-            },
-            "Accesses": []
-          }
-        }
-      }
     ]
   }
 }
