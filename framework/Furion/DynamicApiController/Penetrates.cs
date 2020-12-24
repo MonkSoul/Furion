@@ -26,10 +26,17 @@ namespace Furion.DynamicApiController
         internal static Dictionary<string, string> VerbToHttpMethods { get; private set; }
 
         /// <summary>
+        /// 控制器排序集合
+        /// </summary>
+        internal static Dictionary<string, int> ControllerOrderCollection { get; set; }
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         static Penetrates()
         {
+            ControllerOrderCollection = new Dictionary<string, int>();
+
             VerbToHttpMethods = new Dictionary<string, string>
             {
                 ["post"] = "POST",

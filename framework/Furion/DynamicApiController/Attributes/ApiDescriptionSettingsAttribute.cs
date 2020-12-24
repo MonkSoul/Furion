@@ -16,6 +16,7 @@ namespace Microsoft.AspNetCore.Mvc
         public ApiDescriptionSettingsAttribute() : base()
         {
             SplitCamelCase = true;
+            Order = 0;
         }
 
         /// <summary>
@@ -27,6 +28,7 @@ namespace Microsoft.AspNetCore.Mvc
             base.IgnoreApi = !enabled;
             Enabled = enabled;
             SplitCamelCase = true;
+            Order = 0;
         }
 
         /// <summary>
@@ -38,6 +40,7 @@ namespace Microsoft.AspNetCore.Mvc
             base.GroupName = string.Join(Penetrates.GroupSeparator, groups);
             Groups = groups;
             SplitCamelCase = true;
+            Order = 0;
         }
 
         /// <summary>
@@ -84,5 +87,10 @@ namespace Microsoft.AspNetCore.Mvc
         /// 标签
         /// </summary>
         public string Tag { get; set; }
+
+        /// <summary>
+        /// 排序
+        /// </summary>
+        public int Order { get; set; }
     }
 }

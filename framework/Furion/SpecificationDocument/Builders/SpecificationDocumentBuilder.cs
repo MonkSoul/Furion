@@ -111,8 +111,11 @@ namespace Furion.SpecificationDocument
             // 配置 Swagger SchemaId
             ConfigureSchemaId(swaggerGenOptions);
 
-            // 配置动作方法标签
+            // 配置标签
             ConfigureTagsAction(swaggerGenOptions);
+
+            // 配置 Action 排序
+            ConfigureActionSequence(swaggerGenOptions);
 
             // 加载注释描述文件
             LoadXmlComments(swaggerGenOptions);
@@ -122,6 +125,9 @@ namespace Furion.SpecificationDocument
 
             //使得Swagger能够正确地显示Enum的对应关系
             swaggerGenOptions.SchemaFilter<EnumSchemaFilter>();
+
+            // 支持控制器排序操作
+            swaggerGenOptions.DocumentFilter<TagsOrderDocumentFilter>();
 
             // 自定义配置
             configure?.Invoke(swaggerGenOptions);
@@ -186,6 +192,23 @@ namespace Furion.SpecificationDocument
             swaggerGenOptions.TagActionsBy(apiDescription =>
             {
                 return new[] { GetActionTag(apiDescription) };
+            });
+        }
+
+        /// <summary>
+        ///  配置 Action 排序
+        /// </summary>
+        /// <param name="swaggerGenOptions"></param>
+        private static void ConfigureActionSequence(SwaggerGenOptions swaggerGenOptions)
+        {
+            swaggerGenOptions.OrderActionsBy(apiDesc =>
+            {
+                var apiDescriptionSettings = apiDesc.CustomAttributes()
+                                       .FirstOrDefault(u => u.GetType() == typeof(ApiDescriptionSettingsAttribute))
+                                       as ApiDescriptionSettingsAttribute ?? new ApiDescriptionSettingsAttribute();
+
+                return (int.MaxValue - apiDescriptionSettings.Order).ToString()
+                                .PadLeft(int.MaxValue.ToString().Length, '0');
             });
         }
 

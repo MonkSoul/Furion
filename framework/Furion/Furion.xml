@@ -20848,6 +20848,11 @@
             请求动词映射字典
             </summary>
         </member>
+        <member name="P:Furion.DynamicApiController.Penetrates.ControllerOrderCollection">
+            <summary>
+            控制器排序集合
+            </summary>
+        </member>
         <member name="M:Furion.DynamicApiController.Penetrates.#cctor">
             <summary>
             构造函数
@@ -22175,6 +22180,12 @@
             </summary>
             <param name="swaggerGenOptions"></param>
         </member>
+        <member name="M:Furion.SpecificationDocument.SpecificationDocumentBuilder.ConfigureActionSequence(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions)">
+            <summary>
+             配置 Action 排序
+            </summary>
+            <param name="swaggerGenOptions"></param>
+        </member>
         <member name="M:Furion.SpecificationDocument.SpecificationDocumentBuilder.ConfigureSchemaId(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions)">
             <summary>
             配置 Swagger SchemaId
@@ -22297,6 +22308,25 @@
             </summary>
             <param name="model"></param>
             <param name="context"></param>
+        </member>
+        <member name="T:Furion.SpecificationDocument.TagsOrderDocumentFilter">
+            <summary>
+            标签文档排序拦截器
+            </summary>
+        </member>
+        <member name="M:Furion.SpecificationDocument.TagsOrderDocumentFilter.Apply(Microsoft.OpenApi.Models.OpenApiDocument,Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext)">
+            <summary>
+            配置拦截
+            </summary>
+            <param name="swaggerDoc"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:Furion.SpecificationDocument.TagsOrderDocumentFilter.GetTagOrder(System.String)">
+            <summary>
+            获取标签排序
+            </summary>
+            <param name="tag"></param>
+            <returns></returns>
         </member>
         <member name="T:Furion.SpecificationDocument.GroupExtraInfo">
             <summary>
@@ -24275,6 +24305,11 @@
         <member name="P:Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute.Tag">
             <summary>
             标签
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Mvc.ApiDescriptionSettingsAttribute.Order">
+            <summary>
+            排序
             </summary>
         </member>
         <member name="T:Microsoft.AspNetCore.Mvc.ApiSeatAttribute">

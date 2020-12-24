@@ -68,6 +68,9 @@ namespace Furion.DynamicApiController
             // 配置控制器名称
             ConfigureControllerName(controller, apiDescriptionSettings);
 
+            // 存储排序给 Swagger 使用
+            Penetrates.ControllerOrderCollection.TryAdd(apiDescriptionSettings?.Tag ?? controller.ControllerName, apiDescriptionSettings?.Order ?? 0);
+
             var actions = controller.Actions;
 
             // 查找所有重复的方法签命
