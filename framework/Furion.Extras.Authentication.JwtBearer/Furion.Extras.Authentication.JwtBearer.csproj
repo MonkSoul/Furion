@@ -3,40 +3,12 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <version>1.7.0</version>
-    <Authors>百小僧/MonkSoul</Authors>
-    <Company>Baiqian Co.,Ltd.</Company>
-    <Product>Furion</Product>
-    <Copyright>© 2020 Furion, Baiqian Co.,Ltd.</Copyright>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageProjectUrl>https://furion.pro</PackageProjectUrl>
     <Description>Furion Jwt 授权验证拓展插件。</Description>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageIcon>icon.png</PackageIcon>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>Furion.Extras.Authentication.JwtBearer.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>Furion.Extras.Authentication.JwtBearer.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Furion.Extras.Web.HttpContext" Version="1.5.4" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
   </ItemGroup>
 
 </Project>

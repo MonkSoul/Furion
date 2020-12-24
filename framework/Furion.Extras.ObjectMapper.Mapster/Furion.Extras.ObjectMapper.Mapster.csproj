@@ -3,39 +3,11 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <version>1.5.3</version>
-    <Authors>百小僧/MonkSoul</Authors>
-    <Company>Baiqian Co.,Ltd.</Company>
-    <Product>Furion</Product>
-    <Copyright>© 2020 Furion, Baiqian Co.,Ltd.</Copyright>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageProjectUrl>https://furion.pro</PackageProjectUrl>
     <Description>Furion 对象映射 Mapster 插件。</Description>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>Furion.Extras.ObjectMapper.Mapster.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>Furion.Extras.ObjectMapper.Mapster.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
