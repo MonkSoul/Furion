@@ -1,6 +1,7 @@
 ﻿using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,8 @@ namespace Furion
                 app.Use(async (context, next) =>
                 {
                     context.Response.Headers[DotNetFrameworkResponseHeader] = "Furion";
+                    context.Request.EnableBuffering();  // 启动 Request Body 重复读，解决微信问题
+
                     await next.Invoke();
                 });
 
