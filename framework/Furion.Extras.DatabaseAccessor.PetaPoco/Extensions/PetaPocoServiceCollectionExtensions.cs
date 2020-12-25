@@ -4,12 +4,12 @@ using System;
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
-    /// Dapper 拓展类
+    /// PetaPoco 拓展类
     /// </summary>
     public static class PetaPocoServiceCollectionExtensions
     {
         /// <summary>
-        /// 添加 Dapper 拓展
+        /// 添加 PetaPoco 拓展
         /// </summary>
         /// <param name="services"></param>
         /// <param name="optionsAction"></param>
