@@ -72,7 +72,7 @@ module.exports = {
     {
       type: "category",
       label: "10. 其他 ORM 集成",
-      items: ["sqlsugar", "dapper"],
+      items: ["sqlsugar", "dapper", "freesql"],
     },
     {
       type: "doc",
