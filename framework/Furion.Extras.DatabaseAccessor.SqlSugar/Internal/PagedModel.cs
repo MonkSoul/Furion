@@ -3,12 +3,12 @@
     /// <summary>
     /// 分页参数
     /// </summary>
-    public class PageModel : BaseParams
+    public class PagedModel : PagedModelBase
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
-        public PageModel() { }
+        public PagedModel() { }
 
         /// <summary>
         /// 总页数
@@ -24,7 +24,7 @@
     /// <summary>
     /// 分页基础参数，如需新增请继承此类
     /// </summary>
-    public class BaseParams
+    public class PagedModelBase
     {
         private const int _maxPageSize = 200;
         private int _pageSize = 15;

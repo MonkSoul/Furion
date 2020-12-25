@@ -117,7 +117,7 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="whereExpression"></param>
         /// <returns></returns>
-        public bool IsAny(Expression<Func<TEntity, bool>> whereExpression)
+        public bool Any(Expression<Func<TEntity, bool>> whereExpression)
         {
             return _db.Queryable<TEntity>().Any(whereExpression);
         }
@@ -127,7 +127,7 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="whereExpression"></param>
         /// <returns></returns>
-        public async Task<bool> IsAnyAsync(Expression<Func<TEntity, bool>> whereExpression)
+        public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> whereExpression)
         {
             return await _db.Queryable<TEntity>().AnyAsync(whereExpression);
         }
@@ -182,8 +182,6 @@ namespace Furion.DatabaseAccessor
             return await _db.Queryable<TEntity>().FirstAsync(whereExpression);
         }
 
-
-
         /// <summary>
         /// 获取列表
         /// </summary>
@@ -221,12 +219,13 @@ namespace Furion.DatabaseAccessor
         /// <param name="whereExpression"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        public List<TEntity> ToPageList(Expression<Func<TEntity, bool>> whereExpression, PageModel page)
+        public List<TEntity> ToPagedList(Expression<Func<TEntity, bool>> whereExpression, PagedModel page)
         {
             int totalCount = 0;
             var result = _db.Queryable<TEntity>()
                 .Where(whereExpression)
                 .ToPageList(page.PageIndex, page.PageSize, ref totalCount);
+
             page.PageCount = (int)Math.Ceiling(totalCount / (double)page.PageSize);
             page.TotalCount = totalCount;
 
@@ -241,13 +240,14 @@ namespace Furion.DatabaseAccessor
         /// <param name="orderByExpression"></param>
         /// <param name="orderByType"></param>
         /// <returns></returns>
-        public List<TEntity> ToPageList(Expression<Func<TEntity, bool>> whereExpression, PageModel page, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc)
+        public List<TEntity> ToPagedList(Expression<Func<TEntity, bool>> whereExpression, PagedModel page, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc)
         {
             int totalCount = 0;
             var result = _db.Queryable<TEntity>()
                 .OrderByIF(orderByExpression != null, orderByExpression, orderByType)
                 .Where(whereExpression)
                 .ToPageList(page.PageIndex, page.PageSize, ref totalCount);
+
             page.PageCount = (int)Math.Ceiling(totalCount / (double)page.PageSize);
             page.TotalCount = totalCount;
 
@@ -291,7 +291,7 @@ namespace Furion.DatabaseAccessor
         /// <param name="whereExpression"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        public async Task<List<TEntity>> ToPageListAsync(Expression<Func<TEntity, bool>> whereExpression, PageModel page)
+        public async Task<List<TEntity>> ToPagedListAsync(Expression<Func<TEntity, bool>> whereExpression, PagedModel page)
         {
             RefAsync<int> totalCount = 0;
             var result = await _db.Queryable<TEntity>()
@@ -311,7 +311,7 @@ namespace Furion.DatabaseAccessor
         /// <param name="orderByExpression"></param>
         /// <param name="orderByType"></param>
         /// <returns></returns>
-        public async Task<List<TEntity>> ToPageListAsync(Expression<Func<TEntity, bool>> whereExpression, PageModel page, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc)
+        public async Task<List<TEntity>> ToPagedListAsync(Expression<Func<TEntity, bool>> whereExpression, PagedModel page, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc)
         {
             RefAsync<int> totalCount = 0;
             var result = await _db.Queryable<TEntity>()
@@ -323,8 +323,6 @@ namespace Furion.DatabaseAccessor
 
             return result;
         }
-
-
 
         /// <summary>
         /// 新增一条记录
@@ -406,8 +404,6 @@ namespace Furion.DatabaseAccessor
             return await _db.Insertable(entity).ExecuteReturnBigIdentityAsync();
         }
 
-
-
         /// <summary>
         /// 更新一条记录
         /// </summary>
@@ -467,8 +463,6 @@ namespace Furion.DatabaseAccessor
         {
             return _db.Updateable(entities.ToArray()).ExecuteCommandAsync();
         }
-
-
 
         /// <summary>
         /// 删除一条记录
@@ -549,8 +543,6 @@ namespace Furion.DatabaseAccessor
         {
             return await _db.Deleteable<TEntity>().Where(whereExpression).ExecuteCommandAsync();
         }
-
-
 
         /// <summary>
         /// 根据表达式查询多条记录
