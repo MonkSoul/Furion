@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Extras.ObjectMapper.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Extras.Web.HttpContext", "Furion.Extras.Web.HttpContext\Furion.Extras.Web.HttpContext.csproj", "{8835DEB6-E94B-47F7-90ED-EF5141DC6432}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Furion.Extras.Logging.Serilog", "Furion.Extras.Logging.Serilog\Furion.Extras.Logging.Serilog.csproj", "{6F3B7C70-DE29-497D-AB11-70C6B00011FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Extras.Logging.Serilog", "Furion.Extras.Logging.Serilog\Furion.Extras.Logging.Serilog.csproj", "{6F3B7C70-DE29-497D-AB11-70C6B00011FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Furion.Extras.DatabaseAccessor.Dapper", "Furion.Extras.DatabaseAccessor.Dapper\Furion.Extras.DatabaseAccessor.Dapper.csproj", "{70C2FD6B-5494-41CD-992D-AA7653499D19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{6F3B7C70-DE29-497D-AB11-70C6B00011FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F3B7C70-DE29-497D-AB11-70C6B00011FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F3B7C70-DE29-497D-AB11-70C6B00011FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70C2FD6B-5494-41CD-992D-AA7653499D19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70C2FD6B-5494-41CD-992D-AA7653499D19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70C2FD6B-5494-41CD-992D-AA7653499D19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70C2FD6B-5494-41CD-992D-AA7653499D19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
