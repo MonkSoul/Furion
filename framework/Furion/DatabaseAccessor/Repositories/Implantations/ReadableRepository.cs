@@ -784,7 +784,7 @@ namespace Furion.DatabaseAccessor
         public virtual IQueryable<TEntity> AsQueryable(bool? tracking = null)
         {
             // 启用实体跟踪
-            var isTracking = tracking ?? DynamicDbContext.EnabledEntityStateTracked;
+            var isTracking = tracking ?? DynamicContext.EnabledEntityStateTracked;
 
             return isTracking ? Entities : DetachedEntities;
         }

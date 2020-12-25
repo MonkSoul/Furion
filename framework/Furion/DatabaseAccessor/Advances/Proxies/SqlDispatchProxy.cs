@@ -48,7 +48,7 @@ namespace Furion.DatabaseAccessor
         private static object ExecuteSql(SqlProxyMethod sqlProxyMethod)
         {
             // 获取 ADO.NET 数据库操作对象
-            var database = sqlProxyMethod.DbContext.Database;
+            var database = sqlProxyMethod.Context.Database;
 
             // 定义多次使用变量
             var returnType = sqlProxyMethod.ReturnType;
@@ -177,7 +177,7 @@ namespace Furion.DatabaseAccessor
             return new SqlProxyMethod
             {
                 ParameterModel = parameters,
-                DbContext = dbContext,
+                Context = dbContext,
                 ReturnType = returnType,
                 IsAsync = method.IsAsync(),
                 CommandType = commandType,

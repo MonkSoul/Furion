@@ -28,12 +28,12 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 数据库上下文
         /// </summary>
-        DbContext DbContext { get; }
+        DbContext Context { get; }
 
         /// <summary>
         /// 动态数据库上下文
         /// </summary>
-        dynamic DynamicDbContext { get; }
+        dynamic DynamicContext { get; }
 
         /// <summary>
         /// 切换仓储

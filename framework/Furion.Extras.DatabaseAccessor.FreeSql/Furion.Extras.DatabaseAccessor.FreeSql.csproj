@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <version>1.7.1</version>
-    <Description>Furion 数据库访问器 SqlSugar 插件。</Description>
+    <Description>Furion 数据库访问器 FreeSql 插件。</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="sqlSugarCore" Version="5.0.1.7" />
+    <PackageReference Include="FreeSql" Version="2.0.105" />
+    <PackageReference Include="FreeSql.All" Version="2.0.105" />
   </ItemGroup>
 
 </Project>

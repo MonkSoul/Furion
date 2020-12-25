@@ -67,7 +67,7 @@ namespace Furion.DatabaseAccessor
         {
             _sqlSugarRepository = sqlSugarRepository;
 
-            DynamicDbContext = DbContext = _db = db;
+            DynamicContext = Context = _db = db;
             Entities = _db.Queryable<TEntity>();
             Ado = _db.Ado;
         }
@@ -80,12 +80,12 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 数据库上下文
         /// </summary>
-        public virtual ISqlSugarClient DbContext { get; }
+        public virtual ISqlSugarClient Context { get; }
 
         /// <summary>
         /// 动态数据库上下文
         /// </summary>
-        public virtual dynamic DynamicDbContext { get; }
+        public virtual dynamic DynamicContext { get; }
 
         /// <summary>
         /// 原生 Ado 对象

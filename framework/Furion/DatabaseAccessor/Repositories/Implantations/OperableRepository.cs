@@ -755,7 +755,7 @@ namespace Furion.DatabaseAccessor
         /// <param name="ignoreNullValues"></param>
         private void IgnoreNullValues(ref TEntity entity, bool? ignoreNullValues = null)
         {
-            var isIgnore = ignoreNullValues ?? DynamicDbContext.InsertOrUpdateIgnoreNullValues;
+            var isIgnore = ignoreNullValues ?? DynamicContext.InsertOrUpdateIgnoreNullValues;
             if (isIgnore == false) return;
 
             // 获取所有的属性

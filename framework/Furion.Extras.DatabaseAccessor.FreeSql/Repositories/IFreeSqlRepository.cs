@@ -1,4 +1,4 @@
-﻿using SqlSugar;
+﻿using FreeSql;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -7,35 +7,35 @@ using System.Threading.Tasks;
 namespace Furion.DatabaseAccessor
 {
     /// <summary>
-    /// 非泛型 SqlSugar 仓储
+    /// 非泛型 FreeSql 仓储
     /// </summary>
-    public partial interface ISqlSugarRepository
+    public partial interface IFreeSqlRepository
     {
         /// <summary>
         /// 切换仓储
         /// </summary>
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns>仓储</returns>
-        ISqlSugarRepository<TEntity> Change<TEntity>()
+        IFreeSqlRepository<TEntity> Change<TEntity>()
             where TEntity : class, new();
     }
 
     /// <summary>
-    /// SqlSugar 仓储接口定义
+    /// FreeSql 仓储接口定义
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public partial interface ISqlSugarRepository<TEntity>
+    public partial interface IFreeSqlRepository<TEntity>
         where TEntity : class, new()
     {
         /// <summary>
         /// 实体集合
         /// </summary>
-        ISugarQueryable<TEntity> Entities { get; }
+        ISelect<TEntity> Entities { get; }
 
         /// <summary>
         /// 数据库上下文
         /// </summary>
-        ISqlSugarClient Context { get; }
+        IFreeSql Context { get; }
 
         /// <summary>
         /// 动态数据库上下文
@@ -52,14 +52,14 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="whereExpression"></param>
         /// <returns></returns>
-        int Count(Expression<Func<TEntity, bool>> whereExpression);
+        long Count(Expression<Func<TEntity, bool>> whereExpression);
 
         /// <summary>
         /// 获取总数
         /// </summary>
         /// <param name="whereExpression"></param>
         /// <returns></returns>
-        Task<int> CountAsync(Expression<Func<TEntity, bool>> whereExpression);
+        Task<long> CountAsync(Expression<Func<TEntity, bool>> whereExpression);
 
         /// <summary>
         /// 检查是否存在
@@ -78,117 +78,16 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 通过主键获取实体
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        TEntity Single(dynamic Id);
+        TEntity Single(dynamic id);
 
         /// <summary>
-        /// 获取一个实体
+        /// 通过主键获取实体
         /// </summary>
-        /// <param name="whereExpression"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        TEntity Single(Expression<Func<TEntity, bool>> whereExpression);
-
-        /// <summary>
-        /// 获取一个实体
-        /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <returns></returns>
-        Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> whereExpression);
-
-        /// <summary>
-        /// 获取一个实体
-        /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <returns></returns>
-        TEntity FirstOrDefault(Expression<Func<TEntity, bool>> whereExpression);
-
-        /// <summary>
-        /// 获取一个实体
-        /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <returns></returns>
-        Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> whereExpression);
-
-        /// <summary>
-        /// 获取列表
-        /// </summary>
-        /// <returns></returns>
-        List<TEntity> ToList();
-
-        /// <summary>
-        /// 获取列表
-        /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <returns></returns>
-        List<TEntity> ToList(Expression<Func<TEntity, bool>> whereExpression);
-
-        /// <summary>
-        /// 获取列表
-        /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <param name="orderByExpression"></param>
-        /// <param name="orderByType"></param>
-        /// <returns></returns>
-        List<TEntity> ToList(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc);
-
-        /// <summary>
-        /// 获取列表
-        /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <param name="page"></param>
-        /// <returns></returns>
-        List<TEntity> ToPagedList(Expression<Func<TEntity, bool>> whereExpression, PagedModel page);
-
-        /// <summary>
-        /// 获取列表
-        /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <param name="page"></param>
-        /// <param name="orderByExpression"></param>
-        /// <param name="orderByType"></param>
-        /// <returns></returns>
-        List<TEntity> ToPagedList(Expression<Func<TEntity, bool>> whereExpression, PagedModel page, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc);
-
-        /// <summary>
-        /// 获取列表
-        /// </summary>
-        /// <returns></returns>
-        Task<List<TEntity>> ToListAsync();
-
-        /// <summary>
-        /// 获取列表
-        /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <returns></returns>
-        Task<List<TEntity>> ToListAsync(Expression<Func<TEntity, bool>> whereExpression);
-
-        /// <summary>
-        /// 获取列表
-        /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <param name="orderByExpression"></param>
-        /// <param name="orderByType"></param>
-        /// <returns></returns>
-        Task<List<TEntity>> ToListAsync(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc);
-
-        /// <summary>
-        /// 获取列表
-        /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <param name="page"></param>
-        /// <returns></returns>
-        Task<List<TEntity>> ToPagedListAsync(Expression<Func<TEntity, bool>> whereExpression, PagedModel page);
-
-        /// <summary>
-        /// 获取列表
-        /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <param name="page"></param>
-        /// <param name="orderByExpression"></param>
-        /// <param name="orderByType"></param>
-        /// <returns></returns>
-        Task<List<TEntity>> ToPagedListAsync(Expression<Func<TEntity, bool>> whereExpression, PagedModel page, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc);
+        Task<TEntity> SingleAsync(dynamic id);
 
         /// <summary>
         /// 新增一条记录
@@ -212,13 +111,6 @@ namespace Furion.DatabaseAccessor
         int Insert(IEnumerable<TEntity> entities);
 
         /// <summary>
-        /// 新增一条记录返回自增Id
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        int InsertReturnIdentity(TEntity entity);
-
-        /// <summary>
         /// 新增一条记录
         /// </summary>
         /// <param name="entity"></param>
@@ -238,13 +130,6 @@ namespace Furion.DatabaseAccessor
         /// <param name="entities"></param>
         /// <returns></returns>
         Task<int> InsertAsync(IEnumerable<TEntity> entities);
-
-        /// <summary>
-        /// 新增一条记录返回自增Id
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        Task<long> InsertReturnIdentityAsync(TEntity entity);
 
         /// <summary>
         /// 更新一条记录
@@ -310,13 +195,6 @@ namespace Furion.DatabaseAccessor
         int Delete(params object[] keys);
 
         /// <summary>
-        /// 自定义条件删除记录
-        /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <returns></returns>
-        int Delete(Expression<Func<TEntity, bool>> whereExpression);
-
-        /// <summary>
         /// 删除一条记录
         /// </summary>
         /// <param name="entity"></param>
@@ -338,18 +216,11 @@ namespace Furion.DatabaseAccessor
         Task<int> DeleteAsync(params object[] keys);
 
         /// <summary>
-        /// 自定义条件删除记录
-        /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <returns></returns>
-        Task<int> DeleteAsync(Expression<Func<TEntity, bool>> whereExpression);
-
-        /// <summary>
         /// 根据表达式查询多条记录
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        ISugarQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate);
+        ISelect<TEntity> Where(Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
         /// 根据表达式查询多条记录
@@ -357,20 +228,20 @@ namespace Furion.DatabaseAccessor
         /// <param name="condition"></param>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        ISugarQueryable<TEntity> Where(bool condition, Expression<Func<TEntity, bool>> predicate);
+        ISelect<TEntity> Where(bool condition, Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
         /// 构建查询分析器
         /// </summary>
         /// <returns></returns>
-        ISugarQueryable<TEntity> AsQueryable();
+        ISelect<TEntity> AsQueryable();
 
         /// <summary>
         /// 构建查询分析器
         /// </summary>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        ISugarQueryable<TEntity> AsQueryable(Expression<Func<TEntity, bool>> predicate);
+        ISelect<TEntity> AsQueryable(Expression<Func<TEntity, bool>> predicate);
 
         /// <summary>
         /// 直接返回数据库结果
@@ -397,5 +268,13 @@ namespace Furion.DatabaseAccessor
         /// <param name="predicate"></param>
         /// <returns></returns>
         Task<List<TEntity>> AsAsyncEnumerable(Expression<Func<TEntity, bool>> predicate);
+
+        /// <summary>
+        /// 切换仓储
+        /// </summary>
+        /// <typeparam name="TChangeEntity">实体类型</typeparam>
+        /// <returns>仓储</returns>
+        IFreeSqlRepository<TChangeEntity> Change<TChangeEntity>()
+                where TChangeEntity : class, new();
     }
 }

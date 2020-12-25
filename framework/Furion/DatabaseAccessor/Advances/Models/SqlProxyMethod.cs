@@ -24,7 +24,7 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 数据库操作上下文
         /// </summary>
-        public DbContext DbContext { get; set; }
+        public DbContext Context { get; set; }
 
         /// <summary>
         /// 是否是异步方法

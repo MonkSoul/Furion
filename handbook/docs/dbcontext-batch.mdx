@@ -14,32 +14,32 @@ sidebar_label: 9.9 批量操作
 
 ```cs
 // 批量插入
-repository.DbContext.BulkInsert(entitiesList);
-repository.DbContext.BulkInsertAsync(entitiesList);
+repository.Context.BulkInsert(entitiesList);
+repository.Context.BulkInsertAsync(entitiesList);
 
 // 批量更新
-repository.DbContext.BulkUpdate(entitiesList);
-repository.DbContext.BulkUpdateAsync(entitiesList);
+repository.Context.BulkUpdate(entitiesList);
+repository.Context.BulkUpdateAsync(entitiesList);
 
 // 批量删除
-repository.DbContext.BulkDelete(entitiesList);
-repository.DbContext.BulkDeleteAsync(entitiesList);
+repository.Context.BulkDelete(entitiesList);
+repository.Context.BulkDeleteAsync(entitiesList);
 
 // 批量插入或更新
-repository.DbContext.BulkInsertOrUpdate(entitiesList);
-repository.DbContext.BulkInsertOrUpdateAsync(entitiesList);
+repository.Context.BulkInsertOrUpdate(entitiesList);
+repository.Context.BulkInsertOrUpdateAsync(entitiesList);
 
 // 批量插入或更新或删除
-repository.DbContext.BulkInsertOrUpdateOrDelete(entitiesList);
-repository.DbContext.BulkInsertOrUpdateOrDeleteAsync(entitiesList);
+repository.Context.BulkInsertOrUpdateOrDelete(entitiesList);
+repository.Context.BulkInsertOrUpdateOrDeleteAsync(entitiesList);
 
 // 批量读取多个实体
-repository.DbContext.BulkRead(entitiesList);
-repository.DbContext.BulkReadAsync(entitiesList);
+repository.Context.BulkRead(entitiesList);
+repository.Context.BulkReadAsync(entitiesList);
 
 // 批量清空表（慎用！！！！！）
-repository.DbContext.Truncate<Entity>();
-repository.DbContext.TruncateAsync<Entity>();
+repository.Context.Truncate<Entity>();
+repository.Context.TruncateAsync<Entity>();
 ```
 
 ### 9.9.2.2 查询后批量操作

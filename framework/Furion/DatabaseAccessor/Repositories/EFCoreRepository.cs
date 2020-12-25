@@ -182,17 +182,17 @@ namespace Furion.DatabaseAccessor
         {
             // 初始化数据库相关数据
             DbConnection = Database.GetDbConnection();
-            ChangeTracker = DbContext.ChangeTracker;
-            Model = DbContext.Model;
+            ChangeTracker = Context.ChangeTracker;
+            Model = Context.Model;
 
             // 内置多租户
-            Tenant = DynamicDbContext.Tenant;
+            Tenant = DynamicContext.Tenant;
 
             // 设置提供器名称
             ProviderName = Database.ProviderName;
 
             //初始化实体
-            Entities = DbContext.Set<TEntity>();
+            Entities = Context.Set<TEntity>();
             DetachedEntities = Entities.AsNoTracking();
             EntityType = Model.FindEntityType(typeof(TEntity));
 
@@ -272,7 +272,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>EntityEntry</returns>
         public virtual EntityEntry Entry(object entity)
         {
-            return DbContext.Entry(entity);
+            return Context.Entry(entity);
         }
 
         /// <summary>
@@ -282,7 +282,7 @@ namespace Furion.DatabaseAccessor
         /// <returns></returns>
         public virtual EntityEntry<TEntity> Entry(TEntity entity)
         {
-            return DbContext.Entry(entity);
+            return Context.Entry(entity);
         }
 
         /// <summary>
@@ -416,7 +416,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>EntityEntry</returns>
         public virtual EntityEntry Attach(object entity)
         {
-            return DbContext.Attach(entity);
+            return Context.Attach(entity);
         }
 
         /// <summary>
@@ -426,7 +426,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>EntityEntry</returns>
         public virtual EntityEntry<TEntity> Attach(TEntity entity)
         {
-            return DbContext.Attach(entity);
+            return Context.Attach(entity);
         }
 
         /// <summary>
@@ -435,7 +435,7 @@ namespace Furion.DatabaseAccessor
         /// <param name="entities">多个实体</param>
         public virtual void AttachRange(params object[] entities)
         {
-            DbContext.AttachRange(entities);
+            Context.AttachRange(entities);
         }
 
         /// <summary>
@@ -444,7 +444,7 @@ namespace Furion.DatabaseAccessor
         /// <param name="entities">多个实体</param>
         public virtual void AttachRange(IEnumerable<TEntity> entities)
         {
-            DbContext.AttachRange(entities);
+            Context.AttachRange(entities);
         }
 
         /// <summary>
@@ -507,7 +507,7 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         public virtual void EnsureDeleted()
         {
-            DbContext.Database.EnsureDeleted();
+            Context.Database.EnsureDeleted();
         }
 
         /// <summary>
@@ -515,7 +515,7 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         public virtual Task EnsureDeletedAsync(CancellationToken cancellationToken = default)
         {
-            return DbContext.Database.EnsureDeletedAsync(cancellationToken);
+            return Context.Database.EnsureDeletedAsync(cancellationToken);
         }
 
         /// <summary>
@@ -523,7 +523,7 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         public virtual void EnsureCreated()
         {
-            DbContext.Database.EnsureCreated();
+            Context.Database.EnsureCreated();
         }
 
         /// <summary>
@@ -531,7 +531,7 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         public virtual Task EnsureCreatedAsync(CancellationToken cancellationToken = default)
         {
-            return DbContext.Database.EnsureCreatedAsync(cancellationToken);
+            return Context.Database.EnsureCreatedAsync(cancellationToken);
         }
 
         /// <summary>

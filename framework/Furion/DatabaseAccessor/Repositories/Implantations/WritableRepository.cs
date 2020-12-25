@@ -64,7 +64,7 @@ namespace Furion.DatabaseAccessor
         /// <returns></returns>
         public virtual int SaveNow()
         {
-            return DbContext.SaveChanges();
+            return Context.SaveChanges();
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Furion.DatabaseAccessor
         /// <returns></returns>
         public virtual int SaveNow(bool acceptAllChangesOnSuccess)
         {
-            return DbContext.SaveChanges(acceptAllChangesOnSuccess);
+            return Context.SaveChanges(acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Furion.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<int> SaveNowAsync(CancellationToken cancellationToken = default)
         {
-            return DbContext.SaveChangesAsync(cancellationToken);
+            return Context.SaveChangesAsync(cancellationToken);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Furion.DatabaseAccessor
         /// <returns></returns>
         public virtual Task<int> SaveNowAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
-            return DbContext.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+            return Context.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
     }
 }
