@@ -93,6 +93,240 @@ namespace Furion.DatabaseAccessor
         public virtual IAdo Ado { get; }
 
         /// <summary>
+        /// 获取总数
+        /// </summary>
+        /// <param name="whereExpression"></param>
+        /// <returns></returns>
+        public int Count(Expression<Func<TEntity, bool>> whereExpression)
+        {
+            return _db.Queryable<TEntity>().Count(whereExpression);
+        }
+
+        /// <summary>
+        /// 获取总数
+        /// </summary>
+        /// <param name="whereExpression"></param>
+        /// <returns></returns>
+        public Task<int> CountAsync(Expression<Func<TEntity, bool>> whereExpression)
+        {
+            return _db.Queryable<TEntity>().CountAsync(whereExpression);
+        }
+
+        /// <summary>
+        /// 检查是否存在
+        /// </summary>
+        /// <param name="whereExpression"></param>
+        /// <returns></returns>
+        public bool IsAny(Expression<Func<TEntity, bool>> whereExpression)
+        {
+            return _db.Queryable<TEntity>().Any(whereExpression);
+        }
+
+        /// <summary>
+        /// 检查是否存在
+        /// </summary>
+        /// <param name="whereExpression"></param>
+        /// <returns></returns>
+        public async Task<bool> IsAnyAsync(Expression<Func<TEntity, bool>> whereExpression)
+        {
+            return await _db.Queryable<TEntity>().AnyAsync(whereExpression);
+        }
+
+        /// <summary>
+        /// 通过主键获取实体
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        public TEntity Single(dynamic Id)
+        {
+            return _db.Queryable<TEntity>().InSingle(Id);
+        }
+
+        /// <summary>
+        /// 获取一个实体
+        /// </summary>
+        /// <param name="whereExpression"></param>
+        /// <returns></returns>
+        public TEntity Single(Expression<Func<TEntity, bool>> whereExpression)
+        {
+            return _db.Queryable<TEntity>().Single(whereExpression);
+        }
+
+        /// <summary>
+        /// 获取一个实体
+        /// </summary>
+        /// <param name="whereExpression"></param>
+        /// <returns></returns>
+        public Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> whereExpression)
+        {
+            return _db.Queryable<TEntity>().SingleAsync(whereExpression);
+        }
+
+        /// <summary>
+        /// 获取一个实体
+        /// </summary>
+        /// <param name="whereExpression"></param>
+        /// <returns></returns>
+        public TEntity FirstOrDefault(Expression<Func<TEntity, bool>> whereExpression)
+        {
+            return _db.Queryable<TEntity>().First(whereExpression);
+        }
+
+        /// <summary>
+        /// 获取一个实体
+        /// </summary>
+        /// <param name="whereExpression"></param>
+        /// <returns></returns>
+        public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> whereExpression)
+        {
+            return await _db.Queryable<TEntity>().FirstAsync(whereExpression);
+        }
+
+
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <returns></returns>
+        public List<TEntity> ToList()
+        {
+            return _db.Queryable<TEntity>().ToList();
+        }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="whereExpression"></param>
+        /// <returns></returns>
+        public List<TEntity> ToList(Expression<Func<TEntity, bool>> whereExpression)
+        {
+            return _db.Queryable<TEntity>().Where(whereExpression).ToList();
+        }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="whereExpression"></param>
+        /// <param name="orderByExpression"></param>
+        /// <param name="orderByType"></param>
+        /// <returns></returns>
+        public List<TEntity> ToList(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc)
+        {
+            return _db.Queryable<TEntity>().OrderByIF(orderByExpression != null, orderByExpression, orderByType).Where(whereExpression).ToList();
+        }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="whereExpression"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public List<TEntity> ToPageList(Expression<Func<TEntity, bool>> whereExpression, PageModel page)
+        {
+            int totalCount = 0;
+            var result = _db.Queryable<TEntity>()
+                .Where(whereExpression)
+                .ToPageList(page.PageIndex, page.PageSize, ref totalCount);
+            page.PageCount = (int)Math.Ceiling(totalCount / (double)page.PageSize);
+            page.TotalCount = totalCount;
+
+            return result;
+        }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="whereExpression"></param>
+        /// <param name="page"></param>
+        /// <param name="orderByExpression"></param>
+        /// <param name="orderByType"></param>
+        /// <returns></returns>
+        public List<TEntity> ToPageList(Expression<Func<TEntity, bool>> whereExpression, PageModel page, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc)
+        {
+            int totalCount = 0;
+            var result = _db.Queryable<TEntity>()
+                .OrderByIF(orderByExpression != null, orderByExpression, orderByType)
+                .Where(whereExpression)
+                .ToPageList(page.PageIndex, page.PageSize, ref totalCount);
+            page.PageCount = (int)Math.Ceiling(totalCount / (double)page.PageSize);
+            page.TotalCount = totalCount;
+
+            return result;
+        }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<TEntity>> ToListAsync()
+        {
+            return _db.Queryable<TEntity>().ToListAsync();
+        }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="whereExpression"></param>
+        /// <returns></returns>
+        public Task<List<TEntity>> ToListAsync(Expression<Func<TEntity, bool>> whereExpression)
+        {
+            return _db.Queryable<TEntity>().Where(whereExpression).ToListAsync();
+        }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="whereExpression"></param>
+        /// <param name="orderByExpression"></param>
+        /// <param name="orderByType"></param>
+        /// <returns></returns>
+        public Task<List<TEntity>> ToListAsync(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc)
+        {
+            return _db.Queryable<TEntity>().OrderByIF(orderByExpression != null, orderByExpression, orderByType).Where(whereExpression).ToListAsync();
+        }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="whereExpression"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public async Task<List<TEntity>> ToPageListAsync(Expression<Func<TEntity, bool>> whereExpression, PageModel page)
+        {
+            RefAsync<int> totalCount = 0;
+            var result = await _db.Queryable<TEntity>()
+                .Where(whereExpression)
+                .ToPageListAsync(page.PageIndex, page.PageSize, totalCount);
+            page.PageCount = (int)Math.Ceiling(totalCount / (double)page.PageSize);
+            page.TotalCount = totalCount;
+
+            return result;
+        }
+
+        /// <summary>
+        /// 获取列表
+        /// </summary>
+        /// <param name="whereExpression"></param>
+        /// <param name="page"></param>
+        /// <param name="orderByExpression"></param>
+        /// <param name="orderByType"></param>
+        /// <returns></returns>
+        public async Task<List<TEntity>> ToPageListAsync(Expression<Func<TEntity, bool>> whereExpression, PageModel page, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc)
+        {
+            RefAsync<int> totalCount = 0;
+            var result = await _db.Queryable<TEntity>()
+                .OrderByIF(orderByExpression != null, orderByExpression, orderByType)
+                .Where(whereExpression)
+                .ToPageListAsync(page.PageIndex, page.PageSize, totalCount);
+            page.PageCount = (int)Math.Ceiling(totalCount / (double)page.PageSize);
+            page.TotalCount = totalCount;
+
+            return result;
+        }
+
+
+
+        /// <summary>
         /// 新增一条记录
         /// </summary>
         /// <param name="entity"></param>
@@ -120,6 +354,16 @@ namespace Furion.DatabaseAccessor
         public virtual int Insert(IEnumerable<TEntity> entities)
         {
             return _db.Insertable(entities.ToArray()).ExecuteCommand();
+        }
+
+        /// <summary>
+        /// 新增一条记录返回自增Id
+        /// </summary>
+        /// <param name="insertObj"></param>
+        /// <returns></returns>
+        public int InsertReturnIdentity(TEntity insertObj)
+        {
+            return _db.Insertable(insertObj).ExecuteReturnIdentity();
         }
 
         /// <summary>
@@ -151,6 +395,18 @@ namespace Furion.DatabaseAccessor
         {
             return _db.Insertable(entities.ToArray()).ExecuteCommandAsync();
         }
+
+        /// <summary>
+        /// 新增一条记录返回自增Id
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public async Task<long> InsertReturnIdentityAsync(TEntity entity)
+        {
+            return await _db.Insertable(entity).ExecuteReturnBigIdentityAsync();
+        }
+
+
 
         /// <summary>
         /// 更新一条记录
@@ -212,6 +468,8 @@ namespace Furion.DatabaseAccessor
             return _db.Updateable(entities.ToArray()).ExecuteCommandAsync();
         }
 
+
+
         /// <summary>
         /// 删除一条记录
         /// </summary>
@@ -243,6 +501,16 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
+        /// 自定义条件删除记录
+        /// </summary>
+        /// <param name="whereExpression"></param>
+        /// <returns></returns>
+        public int Delete(Expression<Func<TEntity, bool>> whereExpression)
+        {
+            return _db.Deleteable<TEntity>().Where(whereExpression).ExecuteCommand();
+        }
+
+        /// <summary>
         /// 删除一条记录
         /// </summary>
         /// <param name="entity"></param>
@@ -271,6 +539,18 @@ namespace Furion.DatabaseAccessor
         {
             return _db.Deleteable<TEntity>().In(keys).ExecuteCommandAsync();
         }
+
+        /// <summary>
+        /// 自定义条件删除记录
+        /// </summary>
+        /// <param name="whereExpression"></param>
+        /// <returns></returns>
+        public async Task<int> DeleteAsync(Expression<Func<TEntity, bool>> whereExpression)
+        {
+            return await _db.Deleteable<TEntity>().Where(whereExpression).ExecuteCommandAsync();
+        }
+
+
 
         /// <summary>
         /// 根据表达式查询多条记录
