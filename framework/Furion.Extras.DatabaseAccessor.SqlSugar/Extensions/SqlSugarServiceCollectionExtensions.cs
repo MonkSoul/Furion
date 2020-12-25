@@ -6,7 +6,7 @@ using System.Linq;
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
-    /// JWT 授权服务拓展类
+    /// SqlSugar 拓展类
     /// </summary>
     public static class SqlSugarServiceCollectionExtensions
     {
