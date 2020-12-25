@@ -3,39 +3,11 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <version>1.6.1</version>
-    <Authors>百小僧/MonkSoul</Authors>
-    <Company>Baiqian Co.,Ltd.</Company>
-    <Product>Furion</Product>
-    <Copyright>© 2020 Furion, Baiqian Co.,Ltd.</Copyright>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageProjectUrl>https://furion.pro</PackageProjectUrl>
     <Description>Furion 日志记录 Serilog 插件。</Description>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>Furion.Extras.Logging.Serilog.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>Furion.Extras.Logging.Serilog.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
   </ItemGroup>
 
   <ItemGroup>

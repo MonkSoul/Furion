@@ -2,40 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Authors>百小僧/MonkSoul</Authors>
-    <Company>Baiqian Co.,Ltd.</Company>
-    <Copyright>© 2020 Furion, Baiqian Co.,Ltd.</Copyright>
-    <Description>让 .NET 开发更简单，更通用，更流行。</Description>
-    <PackageProjectUrl>https://furion.pro</PackageProjectUrl>
-    <RepositoryUrl>https://gitee.com/monksoul/Furion</RepositoryUrl>
-    <RepositoryType>Gitee</RepositoryType>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <version>1.7.7</version>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageIcon>icon.png</PackageIcon>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>Furion.xml</DocumentationFile>
-    <Optimize>false</Optimize>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>Furion.xml</DocumentationFile>
+    <Description>让 .NET 开发更简单，更通用，更流行。</Description>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="SpecificationDocument\Assets\index-mini-profiler.html" />
     <None Remove="SpecificationDocument\Assets\index.html" />
-    <None Include="icon.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
   </ItemGroup>
 
   <ItemGroup>
