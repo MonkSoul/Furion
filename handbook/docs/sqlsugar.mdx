@@ -1,20 +1,20 @@
 ---
 id: sqlsugar
-title: 10. SqlSugar 集成
-sidebar_label: 10. SqlSugar 集成
+title: 10.1. SqlSugar 集成
+sidebar_label: 10.1. SqlSugar 集成
 ---
 
-## 10.1 关于 SqlSugar
+## 10.1.1 关于 SqlSugar
 
 `SqlSugar` 是 .NET/C# 平台非常优秀的 `ORM` 框架，目前 `Nuget` 总下载突破 700K，Github 关注量也高达 3.2K，是目前当之无愧的国产优秀 ORM 框架之一。
 
 `SqlSugar` 官方地址：[http://www.codeisbug.com/](http://www.codeisbug.com/)
 
-## 10.2 如何集成
+## 10.1.2 如何集成
 
 在 `Furion` 框架中，已经推出 `SqlSugar` 拓展包 [Furion.Extras.DatabaseAccessor.SqlSugar](https://www.nuget.org/packages/Furion.Extras.DatabaseAccessor.SqlSugar)。
 
-### 10.2.1 注册 `SqlSugar` 服务
+### 10.1.2.1 注册 `SqlSugar` 服务
 
 使用非常简单，只需要在 `Startup.cs` 中添加 `services.AddSqlSugar(config)` 即可。如：
 
@@ -53,7 +53,7 @@ services.AddSqlSugar(new ConnectionConfig
 
 :::
 
-## 10.3 基本使用
+## 10.1.3 基本使用
 
 在使用之前，我们可以通过构造函数注入 `ISqlSugarRepository<TEntity>` 接口，如：
 
@@ -65,25 +65,25 @@ public PersonService(ISqlSugarRepository<Person> sqlSugarRepository)
 }
 ```
 
-### 10.3.1 新增操作
+### 10.1.3.1 新增操作
 
 ```cs
 _sqlSugarRepository.Insert(new Person(){ Name = "Furion" });
 ```
 
-### 10.3.2 更新操作
+### 10.1.3.2 更新操作
 
 ```cs
 _sqlSugarRepository.Update(new Person(){ Id = 1, Name = "Furion/Fur" });
 ```
 
-### 10.3.3 删除操作
+### 10.1.3.3 删除操作
 
 ```cs
 _sqlSugarRepository.Delete(1);
 ```
 
-### 10.3.4 查询操作
+### 10.1.3.4 查询操作
 
 ```cs
 var data = _sqlSugarRepository.Where(u => u.Id > 10).ToList();
@@ -91,16 +91,16 @@ var data = _sqlSugarRepository.Where(u => u.Id > 10).ToList();
 var data  = _sqlSugarRepository.Where(!string.IsNullOrEmpty(name), u => u.Name.Contains(name)).ToList();
 ```
 
-### 10.3.5 分页查询
+### 10.1.3.5 分页查询
 
 ```cs
 int totalCount = 0;
 var data = _sqlSugarRepository.Where(u => u.Id > 10).ToPageList(1, 10, ref totalCount);
 ```
 
-## 10.4 高级使用
+## 10.1.4 高级使用
 
-### 10.4.1 `ISqlSugarClient` 对象
+### 10.1.4.1 `ISqlSugarClient` 对象
 
 ```cs
 var sqlsugarClient = _sqlSugarRepository.Context;
@@ -118,7 +118,7 @@ var data = sqlsugarClient.Queryable<Order, OrderItem, Custom>((o, i, c) => o.Id 
                          .ToList();
 ```
 
-### 10.4.2 `IAdo` 对象
+### 10.1.4.2 `IAdo` 对象
 
 ```cs
 var ado = _sqlSugarRepository.Ado;
@@ -130,14 +130,14 @@ var ado = _sqlSugarRepository.Ado;
 var dt = ado.GetDataTable("select * from table where id=@id and name=@name",new{id=1,name=2});
 ```
 
-## 10.5 关于仓储
+## 10.1.5 关于仓储
 
 `Furion` 框架为 `SqlSugar` 提供了两个仓储：
 
 - `ISqlSugarRepository`：非泛型仓储，可以通过 `.Change<TEntity>` 方法切换到任何实体仓储
 - `ISqlSugarRepository<TEntity>`：实体泛型仓储
 
-### 10.5.1 选用原则
+### 10.1.5.1 选用原则
 
 懒人可以在构造函数中注入 `ISqlSugarRepository` 仓储，不带泛型的版本，这样构造函数只会有一个仓储示例，之后通过 `.Change<TEntity>` 方法切换，如：
 
@@ -154,7 +154,7 @@ otherRep.Update(other);
 var studentRep = personRep.Change<Student>();
 ```
 
-## 10.6 反馈与建议
+## 10.1.6 反馈与建议
 
 :::note 与我们交流
 

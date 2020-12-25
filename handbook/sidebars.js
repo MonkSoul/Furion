@@ -70,8 +70,9 @@ module.exports = {
       ],
     },
     {
-      type: "doc",
-      id: "sqlsugar",
+      type: "category",
+      label: "10. 其他 ORM 集成",
+      items: ["sqlsugar", "dapper"],
     },
     {
       type: "doc",

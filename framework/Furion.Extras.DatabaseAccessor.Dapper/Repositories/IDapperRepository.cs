@@ -17,7 +17,7 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 动态连接上下文
         /// </summary>
-        IDbConnection DynamicContext { get; set; }
+        dynamic DynamicContext { get; set; }
 
         /// <summary>
         /// 查询返回动态类型
