@@ -76,7 +76,7 @@ var data  = _FreeSqlRepository.Where(!string.IsNullOrEmpty(name), u => u.Name.Co
 
 ```cs
 int totalCount = 0;
-var data = _FreeSqlRepository.Where(u => u.Id > 10).ToPageList(1, 10, ref totalCount);
+var data = _FreeSqlRepository.Where(u => u.Id > 10).Count(out var total).Page(1, 20).Tolist();
 ```
 
 ## 10.3.4 高级使用
