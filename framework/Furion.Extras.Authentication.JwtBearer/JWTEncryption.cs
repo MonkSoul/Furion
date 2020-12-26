@@ -1,4 +1,5 @@
 ﻿using Furion.Authorization;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -140,9 +141,11 @@ namespace Furion.DataEncryption
             // 创建身份信息
             var claimIdentity = new ClaimsIdentity("AuthenticationTypes.Federation");
             claimIdentity.AddClaims(claims);
+            var claimsPrincipal = new ClaimsPrincipal(claimIdentity);
 
-            // 设置 HttpContext.User
-            httpContext.User = new ClaimsPrincipal(claimIdentity);
+            // 设置 HttpContext.User 并登录
+            httpContext.User = claimsPrincipal;
+            httpContext.SignInAsync(claimsPrincipal);
 
             // 返回新的 Token
             httpContext.Response.Headers["access-token"] = accessToken;
