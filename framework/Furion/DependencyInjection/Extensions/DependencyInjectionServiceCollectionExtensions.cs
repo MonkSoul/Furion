@@ -48,7 +48,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var typeDependency = typeof(TIDispatchProxy);
 
             // 获取所有的代理接口类型
-            var dispatchProxyInterfaceTypes = App.CanBeScanTypes
+            var dispatchProxyInterfaceTypes = App.EffectiveTypes
                 .Where(u => typeDependency.IsAssignableFrom(u) && u.IsInterface && u != typeDependency);
 
             // 注册代理类型
@@ -68,7 +68,7 @@ namespace Microsoft.Extensions.DependencyInjection
         private static IServiceCollection AddAutoScanInjection(this IServiceCollection services)
         {
             // 查找所有需要依赖注入的类型
-            var injectTypes = App.CanBeScanTypes
+            var injectTypes = App.EffectiveTypes
                 .Where(u => typeof(IPrivateDependency).IsAssignableFrom(u) && u.IsClass && !u.IsInterface && !u.IsAbstract)
                 .OrderBy(u => GetOrder(u));
 
@@ -501,7 +501,7 @@ namespace Microsoft.Extensions.DependencyInjection
         static DependencyInjectionServiceCollectionExtensions()
         {
             // 获取全局代理类型
-            GlobalServiceProxyType = App.CanBeScanTypes
+            GlobalServiceProxyType = App.EffectiveTypes
                 .FirstOrDefault(u => typeof(DispatchProxy).IsAssignableFrom(u) && typeof(IGlobalDispatchProxy).IsAssignableFrom(u) && u.IsClass && !u.IsInterface && !u.IsAbstract);
 
             TypeNamedCollection = new ConcurrentDictionary<string, Type>();

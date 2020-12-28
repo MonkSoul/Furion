@@ -235,7 +235,7 @@ namespace Furion.DataValidation
         private static IEnumerable<Type> GetValidationTypes()
         {
             // 扫描所有公开的枚举且贴有 [ValidationType] 特性
-            var validationTypes = App.CanBeScanTypes.Where(u => u.IsDefined(typeof(ValidationTypeAttribute), true) && u.IsEnum);
+            var validationTypes = App.EffectiveTypes.Where(u => u.IsDefined(typeof(ValidationTypeAttribute), true) && u.IsEnum);
             return validationTypes;
         }
 
@@ -246,7 +246,7 @@ namespace Furion.DataValidation
         private static IEnumerable<Type> GetValidationMessageTypes()
         {
             // 扫描所有公开的的枚举且贴有 [ValidationMessageType] 特性
-            var validationMessageTypes = App.CanBeScanTypes
+            var validationMessageTypes = App.EffectiveTypes
                 .Where(u => u.IsDefined(typeof(ValidationMessageTypeAttribute), true) && u.IsEnum).ToList();
 
             // 加载自定义验证消息类型提供器

@@ -70,9 +70,9 @@ namespace Furion
         public static readonly IEnumerable<Assembly> Assemblies;
 
         /// <summary>
-        /// 能够被扫描的类型
+        /// 有效程序集类型
         /// </summary>
-        public static readonly IEnumerable<Type> CanBeScanTypes;
+        public static readonly IEnumerable<Type> EffectiveTypes;
 
         /// <summary>
         /// 瞬时服务提供器，每次都是不一样的实例
@@ -215,7 +215,7 @@ namespace Furion
             Configuration = InternalApp.ConfigurationBuilder.Build();
 
             Assemblies = GetAssemblies();
-            CanBeScanTypes = Assemblies.SelectMany(u => u.GetTypes()
+            EffectiveTypes = Assemblies.SelectMany(u => u.GetTypes()
                 .Where(u => u.IsPublic && !u.IsDefined(typeof(SkipScanAttribute), false)));
 
             AppStartups = new ConcurrentBag<AppStartup>();

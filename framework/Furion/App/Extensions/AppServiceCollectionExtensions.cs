@@ -185,7 +185,7 @@ namespace Microsoft.Extensions.DependencyInjection
         internal static IServiceCollection AddStartup(this IServiceCollection services)
         {
             // 扫描所有继承 AppStartup 的类
-            var startups = App.CanBeScanTypes
+            var startups = App.EffectiveTypes
                 .Where(u => typeof(AppStartup).IsAssignableFrom(u) && u.IsClass && !u.IsAbstract && !u.IsGenericType)
                 .OrderByDescending(u => GetOrder(u));
 

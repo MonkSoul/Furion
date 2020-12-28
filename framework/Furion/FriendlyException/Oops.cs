@@ -197,7 +197,7 @@ namespace Furion.FriendlyException
         private static IEnumerable<Type> GetErrorCodeTypes()
         {
             // 查找所有公开的枚举贴有 [ErrorCodeType] 特性的类型
-            var errorCodeTypes = App.CanBeScanTypes
+            var errorCodeTypes = App.EffectiveTypes
                 .Where(u => u.IsDefined(typeof(ErrorCodeTypeAttribute), true) && u.IsEnum)
                 .ToList();
 

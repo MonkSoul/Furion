@@ -348,7 +348,7 @@ namespace Furion.SpecificationDocument
         private static IEnumerable<string> ReadGroups()
         {
             // 获取所有的控制器和动作方法
-            var controllers = App.CanBeScanTypes.Where(u => Penetrates.IsApiController(u));
+            var controllers = App.EffectiveTypes.Where(u => Penetrates.IsApiController(u));
             var actions = controllers.SelectMany(c => c.GetMethods().Where(u => IsApiAction(u, c)));
 
             // 合并所有分组
