@@ -69,7 +69,7 @@ namespace Furion.DynamicApiController
             ConfigureControllerName(controller, apiDescriptionSettings);
 
             // 存储排序给 Swagger 使用
-            Penetrates.ControllerOrderCollection.TryAdd(apiDescriptionSettings?.Tag ?? controller.ControllerName, apiDescriptionSettings?.Order ?? 0);
+            Penetrates.ControllerOrderCollection.TryAdd(controller.ControllerName, apiDescriptionSettings?.Order ?? 0);
 
             var actions = controller.Actions;
 

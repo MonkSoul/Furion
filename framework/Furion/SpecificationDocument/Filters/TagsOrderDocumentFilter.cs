@@ -31,7 +31,11 @@ namespace Furion.SpecificationDocument
         /// <returns></returns>
         private static int GetTagOrder(string tag)
         {
-            return Penetrates.ControllerOrderCollection[tag];
+            if (Penetrates.ControllerOrderCollection.ContainsKey(tag))
+            {
+                return Penetrates.ControllerOrderCollection[tag];
+            }
+            return default;
         }
     }
 }
