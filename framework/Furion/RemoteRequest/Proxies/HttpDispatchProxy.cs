@@ -1,11 +1,13 @@
 ﻿using Furion.DependencyInjection;
 using Furion.Extensions;
+using Furion.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 using System.Reflection;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Furion.RemoteRequest
 {
@@ -13,7 +15,7 @@ namespace Furion.RemoteRequest
     /// 请求拦截代理
     /// </summary>
     [SkipScan]
-    public class HttpDispatchProxy : DispatchProxy, IDispatchProxy
+    public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
     {
         /// <summary>
         /// MiniProfiler 分类名
@@ -33,22 +35,22 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 拦截
         /// </summary>
-        /// <param name="targetMethod"></param>
+        /// <param name="method"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        protected override object Invoke(MethodInfo targetMethod, object[] args)
+        public override object Invoke(MethodInfo method, object[] args)
         {
             // 获取方法真实返回值
-            var returnType = targetMethod.GetMethodRealReturnType();
+            var returnType = method.GetMethodRealReturnType();
 
             // 判断是否贴了 [HttpMethod] 特性
-            if (!targetMethod.IsDefined(typeof(HttpMethodAttribute), true)) throw new InvalidOperationException("The method is missing the [HttpMethod] annotation");
+            if (!method.IsDefined(typeof(HttpMethodAttribute), true)) throw new InvalidOperationException("The method is missing the [HttpMethod] annotation");
 
             // 获取请求方式
-            var httpMethodAttribute = targetMethod.GetCustomAttribute<HttpMethodAttribute>(true);
+            var httpMethodAttribute = method.GetCustomAttribute<HttpMethodAttribute>(true);
 
             // 处理参数
-            var methodParameters = targetMethod.GetParameters();
+            var methodParameters = method.GetParameters();
             var realUrl = httpMethodAttribute.Url;
             for (int i = 0; i < methodParameters.Length; i++)
             {
@@ -64,7 +66,7 @@ namespace Furion.RemoteRequest
             var request = new HttpRequestMessage(httpMethodAttribute.Method, realUrl);
 
             // 获取请求报文头
-            var headerAttributes = targetMethod.GetCustomAttributes<HeaderAttribute>(true);
+            var headerAttributes = method.GetCustomAttributes<HeaderAttribute>(true);
             foreach (var headerAttribute in headerAttributes)
             {
                 request.Headers.Add(headerAttribute.Key, headerAttribute.Value);
@@ -99,7 +101,7 @@ namespace Furion.RemoteRequest
                             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
                         }).GetAwaiter().GetResult();
 
-                    return !targetMethod.IsAsync() ? result : result.ToTaskResult(returnType);
+                    return !method.IsAsync() ? result : result.ToTaskResult(returnType);
                 }
             }
             else
@@ -109,6 +111,29 @@ namespace Furion.RemoteRequest
 
                 return default;
             }
+        }
+
+        /// <summary>
+        /// 拦截异步方法
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public override Task InvokeAsync(MethodInfo method, object[] args)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 拦截异步带返回值方法
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="method"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public override Task<T> InvokeAsyncT<T>(MethodInfo method, object[] args)
+        {
+            throw new NotImplementedException();
         }
     }
 }

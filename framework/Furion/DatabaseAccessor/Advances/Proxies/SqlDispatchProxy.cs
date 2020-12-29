@@ -1,5 +1,6 @@
 ﻿using Furion.DependencyInjection;
 using Furion.Extensions;
+using Furion.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -15,7 +16,7 @@ namespace Furion.DatabaseAccessor
     /// Sql 执行代理类
     /// </summary>
     [SkipScan]
-    public class SqlDispatchProxy : DispatchProxy, IDispatchProxy
+    public class SqlDispatchProxy : AspectDispatchProxy, IDispatchProxy
     {
         /// <summary>
         /// 实例对象
@@ -28,16 +29,43 @@ namespace Furion.DatabaseAccessor
         public IServiceProvider Services { get; set; }
 
         /// <summary>
-        /// 拦截
+        /// 拦截同步方法
         /// </summary>
-        /// <param name="targetMethod"></param>
+        /// <param name="method"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        protected override object Invoke(MethodInfo targetMethod, object[] args)
+        public override object Invoke(MethodInfo method, object[] args)
         {
             // 获取 Sql 代理方法信息
-            var sqlProxyMethod = GetProxyMethod(targetMethod, args);
+            var sqlProxyMethod = GetProxyMethod(method, args);
             return ExecuteSql(sqlProxyMethod);
+        }
+
+        /// <summary>
+        /// 拦截异步方法
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public override async Task InvokeAsync(MethodInfo method, object[] args)
+        {
+            // 获取 Sql 代理方法信息
+            var sqlProxyMethod = GetProxyMethod(method, args);
+            await ExecuteSqlAsync(sqlProxyMethod);
+        }
+
+        /// <summary>
+        /// 拦截异步带返回值方法
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="method"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public override async Task<T> InvokeAsyncT<T>(MethodInfo method, object[] args)
+        {
+            // 获取 Sql 代理方法信息
+            var sqlProxyMethod = GetProxyMethod(method, args);
+            return await ExecuteSqlOfTAsync<T>(sqlProxyMethod);
         }
 
         /// <summary>
@@ -55,71 +83,133 @@ namespace Furion.DatabaseAccessor
             var sql = sqlProxyMethod.FinalSql;
             var parameterModel = sqlProxyMethod.ParameterModel;
             var commandType = sqlProxyMethod.CommandType;
-            var isAsync = sqlProxyMethod.IsAsync;
 
             // 处理 DataSet 返回值
             if (returnType == typeof(DataSet))
             {
-                var (dataSet, _) = !isAsync
-                    ? database.DataAdapterFill(sql, parameterModel, commandType)
-                    : database.DataAdapterFillAsync(sql, parameterModel, commandType).GetAwaiter().GetResult();
-
-                return !isAsync ? dataSet : Task.FromResult(dataSet);
+                var (dataSet, _) = database.DataAdapterFill(sql, parameterModel, commandType);
+                return dataSet;
             }
             // 处理 无返回值
             else if (returnType == typeof(void))
             {
-                var (rowEffects, _) = !isAsync
-                    ? database.ExecuteNonQuery(sql, parameterModel, commandType)
-                    : database.ExecuteNonQueryAsync(sql, parameterModel, commandType).GetAwaiter().GetResult();
-
-                return !isAsync ? rowEffects : Task.FromResult(rowEffects);
+                var (rowEffects, _) = database.ExecuteNonQuery(sql, parameterModel, commandType);
+                return rowEffects;
             }
             // 处理 元组类型 返回值
             else if (returnType.IsValueTuple())
             {
-                var (dataSet, _) = !isAsync
-                    ? database.DataAdapterFill(sql, parameterModel, commandType)
-                    : database.DataAdapterFillAsync(sql, parameterModel, commandType).GetAwaiter().GetResult();
-
+                var (dataSet, _) = database.DataAdapterFill(sql, parameterModel, commandType);
                 var result = dataSet.ToValueTuple(returnType);
-                return !isAsync ? result : result.ToTaskResult(returnType);
+                return result;
             }
             // 处理 基元类型 返回值
             else if (returnType.IsRichPrimitive())
             {
-                var (result, _) = !isAsync
-                    ? database.ExecuteScalar(sql, parameterModel, commandType)
-                    : database.ExecuteScalarAsync(sql, parameterModel, commandType).GetAwaiter().GetResult();
-
-                return !isAsync ? result : result.ToTaskResult(returnType);
+                var (result, _) = database.ExecuteScalar(sql, parameterModel, commandType);
+                return result;
             }
             // 处理 存储过程带输出类型 返回值
             else if (returnType == typeof(ProcedureOutputResult) || (returnType.IsGenericType && typeof(ProcedureOutputResult<>).IsAssignableFrom(returnType.GetGenericTypeDefinition())))
             {
-                var (dataSet, dbParameters) = !isAsync
-                    ? database.DataAdapterFill(sql, parameterModel, commandType)
-                    : database.DataAdapterFillAsync(sql, parameterModel, commandType).GetAwaiter().GetResult();
+                var (dataSet, dbParameters) = database.DataAdapterFill(sql, parameterModel, commandType);
 
                 // 处理返回值
                 var result = !returnType.IsGenericType
-                    ? DbHelpers.WrapperProcedureOutput(dbParameters, dataSet) :
-                    DbHelpers.WrapperProcedureOutput(dbParameters, dataSet, returnType.GenericTypeArguments.First());
-
-                return !isAsync ? result : result.ToTaskResult(returnType);
+                    ? DbHelpers.WrapperProcedureOutput(dbParameters, dataSet)
+                    : DbHelpers.WrapperProcedureOutput(dbParameters, dataSet, returnType.GenericTypeArguments.First());
+                return result;
             }
             else
             {
-                var (dataTable, _) = !isAsync
-                        ? database.ExecuteReader(sql, parameterModel, commandType)
-                        : database.ExecuteReaderAsync(sql, parameterModel, commandType).GetAwaiter().GetResult();
+                var (dataTable, _) = database.ExecuteReader(sql, parameterModel, commandType);
 
                 // 处理 DataTable 返回值
-                if (returnType == typeof(DataTable)) return !isAsync ? dataTable : Task.FromResult(dataTable);
+                if (returnType == typeof(DataTable)) return dataTable;
                 else
                 {
                     var list = dataTable.ToList(returnType);
-                    return !isAsync ? list : list.ToTaskResult(returnType);
+                    return list;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 执行 Sql 操作
+        /// </summary>
+        /// <param name="sqlProxyMethod">代理方法</param>
+        /// <returns></returns>
+        private static async Task ExecuteSqlAsync(SqlProxyMethod sqlProxyMethod)
+        {
+            // 获取 ADO.NET 数据库操作对象
+            var database = sqlProxyMethod.Context.Database;
+
+            // 定义多次使用变量
+            var sql = sqlProxyMethod.FinalSql;
+            var parameterModel = sqlProxyMethod.ParameterModel;
+            var commandType = sqlProxyMethod.CommandType;
+
+            _ = await database.ExecuteNonQueryAsync(sql, parameterModel, commandType);
+        }
+
+        /// <summary>
+        /// 执行 Sql 操作
+        /// </summary>
+        /// <param name="sqlProxyMethod">代理方法</param>
+        /// <returns></returns>
+        private static async Task<T> ExecuteSqlOfTAsync<T>(SqlProxyMethod sqlProxyMethod)
+        {
+            // 获取 ADO.NET 数据库操作对象
+            var database = sqlProxyMethod.Context.Database;
+
+            // 定义多次使用变量
+            var returnType = sqlProxyMethod.ReturnType;
+            var sql = sqlProxyMethod.FinalSql;
+            var parameterModel = sqlProxyMethod.ParameterModel;
+            var commandType = sqlProxyMethod.CommandType;
+
+            // 处理 DataSet 返回值
+            if (returnType == typeof(DataSet))
+            {
+                var (dataSet, _) = await database.DataAdapterFillAsync(sql, parameterModel, commandType);
+                return (T)(dataSet as object);
+            }
+            // 处理 元组类型 返回值
+            else if (returnType.IsValueTuple())
+            {
+                var (dataSet, _) = await database.DataAdapterFillAsync(sql, parameterModel, commandType);
+                var result = dataSet.ToValueTuple(returnType);
+
+                return (T)result;
+            }
+            // 处理 基元类型 返回值
+            else if (returnType.IsRichPrimitive())
+            {
+                var (result, _) = await database.ExecuteScalarAsync(sql, parameterModel, commandType);
+                return (T)result;
+            }
+            // 处理 存储过程带输出类型 返回值
+            else if (returnType == typeof(ProcedureOutputResult) || (returnType.IsGenericType && typeof(ProcedureOutputResult<>).IsAssignableFrom(returnType.GetGenericTypeDefinition())))
+            {
+                var (dataSet, dbParameters) = await database.DataAdapterFillAsync(sql, parameterModel, commandType);
+
+                // 处理返回值
+                var result = !returnType.IsGenericType
+                    ? DbHelpers.WrapperProcedureOutput(dbParameters, dataSet)
+                    : DbHelpers.WrapperProcedureOutput(dbParameters, dataSet, returnType.GenericTypeArguments.First());
+
+                return (T)result;
+            }
+            else
+            {
+                var (dataTable, _) = await database.ExecuteReaderAsync(sql, parameterModel, commandType);
+
+                // 处理 DataTable 返回值
+                if (returnType == typeof(DataTable)) return (T)(dataTable as object);
+                else
+                {
+                    var list = await dataTable.ToListAsync(returnType);
+                    return (T)list;
                 }
             }
         }

@@ -1,5 +1,6 @@
 ﻿using Furion;
 using Furion.DependencyInjection;
+using Furion.Reflection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Concurrent;
@@ -37,11 +38,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services">服务集合</param>
         /// <returns>服务集合</returns>
         public static IServiceCollection AddScopedDispatchProxyForInterface<TDispatchProxy, TIDispatchProxy>(this IServiceCollection services)
-            where TDispatchProxy : DispatchProxy, IDispatchProxy
+            where TDispatchProxy : AspectDispatchProxy, IDispatchProxy
             where TIDispatchProxy : class
         {
             // 注册代理类
-            services.AddScoped<DispatchProxy, TDispatchProxy>();
+            services.AddScoped<AspectDispatchProxy, TDispatchProxy>();
 
             // 代理依赖接口类型
             var proxyType = typeof(TDispatchProxy);
@@ -350,17 +351,19 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             if (RegisterDispatchProxies.Contains((lifetime, proxyType))) return;
 
+            var dispatchProxyType = typeof(AspectDispatchProxy);
+
             if (lifetime == typeof(ITransient))
             {
-                services.AddTransient(typeof(DispatchProxy), proxyType);
+                services.AddTransient(dispatchProxyType, proxyType);
             }
             else if (lifetime == typeof(IScoped))
             {
-                services.AddScoped(typeof(DispatchProxy), proxyType);
+                services.AddScoped(dispatchProxyType, proxyType);
             }
             else if (lifetime == typeof(ISingleton))
             {
-                services.AddSingleton(typeof(DispatchProxy), proxyType);
+                services.AddSingleton(dispatchProxyType, proxyType);
             }
             else { }
 
@@ -502,10 +505,10 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             // 获取全局代理类型
             GlobalServiceProxyType = App.EffectiveTypes
-                .FirstOrDefault(u => typeof(DispatchProxy).IsAssignableFrom(u) && typeof(IGlobalDispatchProxy).IsAssignableFrom(u) && u.IsClass && !u.IsInterface && !u.IsAbstract);
+                .FirstOrDefault(u => typeof(AspectDispatchProxy).IsAssignableFrom(u) && typeof(IGlobalDispatchProxy).IsAssignableFrom(u) && u.IsClass && !u.IsInterface && !u.IsAbstract);
 
             TypeNamedCollection = new ConcurrentDictionary<string, Type>();
-            DispatchCreateMethod = typeof(DispatchProxy).GetMethod(nameof(DispatchProxy.Create));
+            DispatchCreateMethod = typeof(AspectDispatchProxy).GetMethod(nameof(AspectDispatchProxy.Create));
             RegisterDispatchProxies = new ConcurrentBag<(Type, Type)>();
         }
     }
