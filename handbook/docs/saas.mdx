@@ -260,10 +260,10 @@ namespace Furion.EntityFramework.Core
             entityBuilder.HasQueryFilter(TenantIdQueryFilterExpression(entityBuilder, dbContext));
         }
 
-        protected override void SavingChangesEvent(object sender, SavingChangesEventArgs e)
+        protected override void SavingChangesEvent(DbContextEventData eventData, InterceptionResult<int> result)
         {
             // 获取当前事件对应上下文
-            var dbContext = sender as FurDbContext;
+            var dbContext = eventData.Context;
 
             // 获取所有新增和更新的实体
             var entities = dbContext.ChangeTracker.Entries().Where(u => u.State == EntityState.Added || u.State == EntityState.Modified);
