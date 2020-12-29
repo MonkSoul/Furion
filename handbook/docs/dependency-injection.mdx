@@ -472,7 +472,7 @@ namespace Furion.Web.Entry.Controllers
   - `All`：注册自己包括所有接口
 - `Named`：配置实例别名，通过别名可以解析接口，如同一个接口有多个实现，那么可以通过别名解析不同的实现，默认只为实现类的类名
 - `Order`：注册排序，数字越大，则越在最后注册，默认 `0`
-- `Proxy`：配置代理拦截类型，也就是 `AOP`，**代理类型必须继承 `DispatchProxy` 类和 `IDispatchProxy` 接口**，无默认值
+- `Proxy`：配置代理拦截类型，也就是 `AOP`，**代理类型必须继承 `AspectDispatchProxy` 类和 `IDispatchProxy` 接口**，无默认值
 - `ExpectInterfaces`：配置忽略注册的接口，`Type[]` 类型
 
 ## 12.9 自定义高级注册
@@ -593,7 +593,7 @@ using System.Reflection;
 
 namespace Furion.Application
 {
-    public class LogDispatchProxy : DispatchProxy, IDispatchProxy
+    public class LogDispatchProxy : AspectDispatchProxy, IDispatchProxy
     {
         /// <summary>
         /// 当前服务实例
@@ -608,18 +608,28 @@ namespace Furion.Application
         /// <summary>
         /// 拦截方法
         /// </summary>
-        /// <param name="targetMethod"></param>
+        /// <param name="method"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        protected override object Invoke(MethodInfo targetMethod, object[] args)
+        public override object Invoke(MethodInfo method, object[] args)
         {
             Console.WriteLine("SayHello 方法被调用了");
 
-            var result = targetMethod.Invoke(Target, args);
+            var result = method.Invoke(Target, args);
 
             Console.WriteLine("SayHello 方法返回值：" + result);
 
             return result;
+        }
+
+        public override Task InvokeAsync(MethodInfo method, object[] args)
+        {
+            // 异步无返回值
+        }
+
+        public override Task<T> InvokeAsyncT<T>(MethodInfo method, object[] args)
+        {
+            // 异步带返回值
         }
     }
 }
@@ -650,7 +660,7 @@ using System.Reflection;
 
 namespace Furion.Application
 {
-    public class LogDispatchProxy : DispatchProxy, IGlobalDispatchProxy
+    public class LogDispatchProxy : AspectDispatchProxy, IGlobalDispatchProxy
     {
         // ....
     }

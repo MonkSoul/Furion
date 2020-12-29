@@ -418,7 +418,7 @@ namespace Furion.EntityFramework.Core
 
         public string GetDatabaseConnectionString()
         {
-            return base.Tenant?.ConnectionString;
+            return base.Tenant?.ConnectionString??"默认链接字符串";
         }
     }
 }
@@ -449,7 +449,7 @@ namespace Furion.EntityFramework.Core
 
         public string GetDatabaseConnectionString()
         {
-            return base.Tenant?.ConnectionString;
+            return base.Tenant?.ConnectionString??"默认链接字符串";
         }
     }
 }
@@ -594,7 +594,7 @@ namespace Furion.EntityFramework.Core
 
         public string GetSchemaName()
         {
-            return base.Tenant?.Schema;
+            return base.Tenant?.Schema??"dbo";
         }
     }
 }
