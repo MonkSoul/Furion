@@ -1,11 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Reflection;
+using System.Threading.Tasks;
 
-namespace System.Reflection
+namespace Furion.Reflection
 {
     /// <summary>
     /// 异步代理分发类
     /// </summary>
-    public abstract class DispatchProxyAsync
+    public abstract class AspectDispatchProxy
     {
         /// <summary>
         /// 创建代理
@@ -13,9 +14,9 @@ namespace System.Reflection
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="TProxy"></typeparam>
         /// <returns></returns>
-        public static T Create<T, TProxy>() where TProxy : DispatchProxyAsync
+        public static T Create<T, TProxy>() where TProxy : AspectDispatchProxy
         {
-            return (T)AsyncDispatchProxyGenerator.CreateProxyInstance(typeof(TProxy), typeof(T));
+            return (T)AspectDispatchProxyGenerator.CreateProxyInstance(typeof(TProxy), typeof(T));
         }
 
         /// <summary>

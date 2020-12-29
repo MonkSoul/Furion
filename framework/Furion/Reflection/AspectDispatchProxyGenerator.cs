@@ -1,26 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace System.Reflection
+namespace Furion.Reflection
 {
     /// <summary>
     /// 异步分发代理生成器
     /// </summary>
-    internal static class AsyncDispatchProxyGenerator
+    internal static class AspectDispatchProxyGenerator
     {
         private const int InvokeActionFieldAndCtorParameterIndex = 0;
 
         private static readonly Dictionary<Type, Dictionary<Type, Type>> s_baseTypeAndInterfaceToGeneratedProxyType = new();
 
         private static readonly ProxyAssembly s_proxyAssembly = new();
-        private static readonly MethodInfo s_dispatchProxyInvokeMethod = typeof(DispatchProxyAsync).GetTypeInfo().GetDeclaredMethod("Invoke");
-        private static readonly MethodInfo s_dispatchProxyInvokeAsyncMethod = typeof(DispatchProxyAsync).GetTypeInfo().GetDeclaredMethod("InvokeAsync");
-        private static readonly MethodInfo s_dispatchProxyInvokeAsyncTMethod = typeof(DispatchProxyAsync).GetTypeInfo().GetDeclaredMethod("InvokeAsyncT");
+        private static readonly MethodInfo s_dispatchProxyInvokeMethod = typeof(AspectDispatchProxy).GetTypeInfo().GetDeclaredMethod("Invoke");
+        private static readonly MethodInfo s_dispatchProxyInvokeAsyncMethod = typeof(AspectDispatchProxy).GetTypeInfo().GetDeclaredMethod("InvokeAsync");
+        private static readonly MethodInfo s_dispatchProxyInvokeAsyncTMethod = typeof(AspectDispatchProxy).GetTypeInfo().GetDeclaredMethod("InvokeAsyncT");
 
         // Returns a new instance of a proxy the derives from 'baseType' and implements 'interfaceType'
         internal static object CreateProxyInstance(Type baseType, Type interfaceType)
@@ -200,7 +202,7 @@ namespace System.Reflection
                 _args = args;
             }
 
-            internal DispatchProxyAsync DispatchProxy { get { return (DispatchProxyAsync)_args[DispatchProxyPosition]; } }
+            internal AspectDispatchProxy DispatchProxy { get { return (AspectDispatchProxy)_args[DispatchProxyPosition]; } }
             internal Type DeclaringType { get { return (Type)_args[DeclaringTypePosition]; } }
             internal int MethodToken { get { return (int)_args[MethodTokenPosition]; } }
             internal object[] Args { get { return (object[])_args[ArgsPosition]; } }
@@ -577,7 +579,7 @@ namespace System.Reflection
                 // packed[PackedArgs.DispatchProxyPosition] = this;
                 packedArr.BeginSet(PackedArgs.DispatchProxyPosition);
                 il.Emit(OpCodes.Ldarg_0);
-                packedArr.EndSet(typeof(DispatchProxyAsync));
+                packedArr.EndSet(typeof(AspectDispatchProxy));
 
                 // packed[PackedArgs.DeclaringTypePosition] = typeof(iface);
                 MethodInfo Type_GetTypeFromHandle = typeof(Type).GetRuntimeMethod("GetTypeFromHandle", new Type[] { typeof(RuntimeTypeHandle) });
@@ -1073,7 +1075,7 @@ namespace System.Reflection
         /// <returns></returns>
         public object InvokeHandle(object[] args)
         {
-            return AsyncDispatchProxyGenerator.Invoke(args);
+            return AspectDispatchProxyGenerator.Invoke(args);
         }
 
         /// <summary>
@@ -1083,7 +1085,7 @@ namespace System.Reflection
         /// <returns></returns>
         public Task InvokeAsyncHandle(object[] args)
         {
-            return AsyncDispatchProxyGenerator.InvokeAsync(args);
+            return AspectDispatchProxyGenerator.InvokeAsync(args);
         }
 
         /// <summary>
@@ -1094,7 +1096,7 @@ namespace System.Reflection
         /// <returns></returns>
         public Task<T> InvokeAsyncHandleT<T>(object[] args)
         {
-            return AsyncDispatchProxyGenerator.InvokeAsync<T>(args);
+            return AspectDispatchProxyGenerator.InvokeAsync<T>(args);
         }
     }
 }
