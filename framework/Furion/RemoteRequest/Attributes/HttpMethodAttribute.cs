@@ -27,7 +27,7 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 指定客户端命名
         /// </summary>
-        public string Client { get; set; }
+        public string ClientName { get; set; }
 
         /// <summary>
         /// 请求方式
