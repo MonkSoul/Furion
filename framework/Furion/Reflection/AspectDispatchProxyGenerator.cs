@@ -65,26 +65,26 @@ namespace Furion.Reflection
             if (!interfaceType.GetTypeInfo().IsInterface)
             {
                 // "T" is the generic parameter seen via the public contract
-                throw new ArgumentException($"InterfaceType_Must_Be_Interface, {interfaceType.FullName}", "T");
+                throw new ArgumentException($"InterfaceType_Must_Be_Interface, {interfaceType.FullName}", nameof(interfaceType));
             }
 
             // The base type cannot be sealed because the proxy needs to subclass it.
             if (baseTypeInfo.IsSealed)
             {
                 // "TProxy" is the generic parameter seen via the public contract
-                throw new ArgumentException($"BaseType_Cannot_Be_Sealed, {baseTypeInfo.FullName}", "TProxy");
+                throw new ArgumentException($"BaseType_Cannot_Be_Sealed, {baseTypeInfo.FullName}", nameof(baseType));
             }
 
             // The base type cannot be abstract
             if (baseTypeInfo.IsAbstract)
             {
-                throw new ArgumentException($"BaseType_Cannot_Be_Abstract {baseType.FullName}", "TProxy");
+                throw new ArgumentException($"BaseType_Cannot_Be_Abstract {baseType.FullName}", nameof(baseType));
             }
 
             // The base type must have a public default ctor
             if (!baseTypeInfo.DeclaredConstructors.Any(c => c.IsPublic && c.GetParameters().Length == 0))
             {
-                throw new ArgumentException($"BaseType_Must_Have_Default_Ctor {baseType.FullName}", "TProxy");
+                throw new ArgumentException($"BaseType_Must_Have_Default_Ctor {baseType.FullName}", nameof(baseType));
             }
 
             // Create a type that derives from 'baseType' provided by caller

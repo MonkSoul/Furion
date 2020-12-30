@@ -496,7 +496,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// 全局服务代理类型
         /// </summary>
-        private static Type GlobalServiceProxyType;
+        private static readonly Type GlobalServiceProxyType;
 
         /// <summary>
         /// 静态构造函数

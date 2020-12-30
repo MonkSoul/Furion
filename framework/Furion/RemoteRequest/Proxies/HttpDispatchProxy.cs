@@ -33,12 +33,35 @@ namespace Furion.RemoteRequest
         public IServiceProvider Services { get; set; }
 
         /// <summary>
-        /// 拦截
+        /// 拦截同步方法
         /// </summary>
         /// <param name="method"></param>
         /// <param name="args"></param>
         /// <returns></returns>
         public override object Invoke(MethodInfo method, object[] args)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 拦截异步方法
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public override Task InvokeAsync(MethodInfo method, object[] args)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 拦截异步带返回值方法
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="method"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public override async Task<T> InvokeAsyncT<T>(MethodInfo method, object[] args)
         {
             // 获取方法真实返回值
             var returnType = method.GetMethodRealReturnType();
@@ -80,7 +103,7 @@ namespace Furion.RemoteRequest
             var httpClient = clientFactory.CreateClient();
 
             // 发送请求
-            var response = httpClient.SendAsync(request).GetAwaiter().GetResult();
+            var response = await httpClient.SendAsync(request);
 
             // 判断是否请求成功
             if (response.IsSuccessStatusCode)
@@ -93,15 +116,15 @@ namespace Furion.RemoteRequest
                 else
                 {
                     // 读取数据并序列化返回
-                    using var responseStream = response.Content.ReadAsStreamAsync().GetAwaiter().GetResult();
-                    var result = JsonSerializer.DeserializeAsync(responseStream
+                    using var responseStream = await response.Content.ReadAsStreamAsync();
+                    var result = await JsonSerializer.DeserializeAsync(responseStream
                         , returnType, new JsonSerializerOptions
                         {
                             PropertyNameCaseInsensitive = true,
                             Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                        }).GetAwaiter().GetResult();
+                        });
 
-                    return !method.IsAsync() ? result : result.ToTaskResult(returnType);
+                    return (T)result;
                 }
             }
             else
@@ -111,29 +134,6 @@ namespace Furion.RemoteRequest
 
                 return default;
             }
-        }
-
-        /// <summary>
-        /// 拦截异步方法
-        /// </summary>
-        /// <param name="method"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public override Task InvokeAsync(MethodInfo method, object[] args)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// 拦截异步带返回值方法
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="method"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public override Task<T> InvokeAsyncT<T>(MethodInfo method, object[] args)
-        {
-            throw new NotImplementedException();
         }
     }
 }
