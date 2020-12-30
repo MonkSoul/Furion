@@ -4,6 +4,7 @@ module.exports = {
   url: "https://furion.pro",
   baseUrl: "/furion/",
   onBrokenLinks: "throw",
+  onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
   organizationName: "Baiqian Co.,Ltd.",
   projectName: "Furion",
