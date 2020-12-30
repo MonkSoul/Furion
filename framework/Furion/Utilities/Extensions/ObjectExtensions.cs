@@ -256,12 +256,12 @@ namespace Furion.Extensions
                 else return Enum.Parse(underlyingType ?? type, obj.ToString());
             }
             // 处理DateTime -> DateTimeOffset 类型
-            else if (obj.GetType().Equals(typeof(DateTime)) && type.Equals(typeof(DateTimeOffset)))
+            else if (obj.GetType().Equals(typeof(DateTime)) && (underlyingType ?? type).Equals(typeof(DateTimeOffset)))
             {
                 return ((DateTime)obj).ConvertToDateTimeOffset();
             }
             // 处理 DateTimeOffset -> DateTime 类型
-            else if (obj.GetType().Equals(typeof(DateTimeOffset)) && type.Equals(typeof(DateTime)))
+            else if (obj.GetType().Equals(typeof(DateTimeOffset)) && (underlyingType ?? type).Equals(typeof(DateTime)))
             {
                 return ((DateTimeOffset)obj).ConvertToDateTime();
             }
