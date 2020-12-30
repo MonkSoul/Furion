@@ -32,6 +32,16 @@ namespace Furion.Extensions
         }
 
         /// <summary>
+        /// 将 DateTime 转换成 DateTimeOffset
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTimeOffset ConvertToDateTimeOffset(this DateTime dateTime)
+        {
+            return DateTime.SpecifyKind(dateTime, DateTimeKind.Local);
+        }
+
+        /// <summary>
         /// 判断是否是富基元类型
         /// </summary>
         /// <param name="type">类型</param>
@@ -244,6 +254,16 @@ namespace Furion.Extensions
             {
                 if (underlyingType != null && string.IsNullOrEmpty(obj.ToString())) return null;
                 else return Enum.Parse(underlyingType ?? type, obj.ToString());
+            }
+            // 处理DateTime -> DateTimeOffset 类型
+            else if (obj.GetType().Equals(typeof(DateTime)) && type.Equals(typeof(DateTimeOffset)))
+            {
+                return ((DateTime)obj).ConvertToDateTimeOffset();
+            }
+            // 处理 DateTimeOffset -> DateTime 类型
+            else if (obj.GetType().Equals(typeof(DateTimeOffset)) && type.Equals(typeof(DateTime)))
+            {
+                return ((DateTimeOffset)obj).ConvertToDateTime();
             }
             else if (typeof(IConvertible).IsAssignableFrom(underlyingType ?? type))
             {
