@@ -174,7 +174,6 @@ namespace Furion.UnifyResult
 
             // 判断是否跳过规范化处理
             var isSkip = !IsEnabledUnifyHandle
-                    || method.GetMethodRealReturnType().HasImplementedRawGeneric(RESTfulResultType)
                     || method.CustomAttributes.Any(x => typeof(NonUnifyAttribute).IsAssignableFrom(x.AttributeType));
 
             unifyResult = isSkip ? null : App.GetService<IUnifyResultProvider>();

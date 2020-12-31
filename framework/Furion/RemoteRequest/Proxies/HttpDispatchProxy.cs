@@ -3,9 +3,11 @@ using Furion.Extensions;
 using Furion.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Furion.RemoteRequest
@@ -84,11 +86,23 @@ namespace Furion.RemoteRequest
                 }
             }
 
+            // 获取主机地址和端口（需要缓存）
+            var hostAttribute = !method.ReflectedType.IsDefined(typeof(HostAttribute), true)
+                    ? default
+                    : method.ReflectedType.GetCustomAttribute<HostAttribute>();
+
+            if (!realUrl.StartsWith("http:") && !realUrl.StartsWith("https:") && hostAttribute != null && !string.IsNullOrEmpty(hostAttribute.BaseAddress))
+            {
+                realUrl = hostAttribute.BaseAddress + (hostAttribute.Port == 0 ? string.Empty : $":{hostAttribute.Port}") + Regex.Replace("/" + realUrl, @"\/{2,}", "/");
+            }
+
             // 创建请求消息对象
             var request = new HttpRequestMessage(httpMethodAttribute.Method, realUrl);
 
-            // 获取请求报文头
-            var headerAttributes = method.GetCustomAttributes<HeaderAttribute>(true);
+            // 获取请求报文头（需要缓存）
+            var headerAttributes = method.GetCustomAttributes<HeaderAttribute>(true)
+                    .Union(method.ReflectedType.GetCustomAttributes<HeaderAttribute>(true));
+
             foreach (var headerAttribute in headerAttributes)
             {
                 request.Headers.Add(headerAttribute.Key, headerAttribute.Value);
@@ -127,7 +141,8 @@ namespace Furion.RemoteRequest
                 // 打印失败消息
                 App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", errorMessage, isError: true);
 
-                return default;
+                // 抛出请求移除
+                throw new HttpRequestException(errorMessage);
             }
         }
     }

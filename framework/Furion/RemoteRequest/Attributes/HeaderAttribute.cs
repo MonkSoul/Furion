@@ -6,11 +6,11 @@ namespace Furion.RemoteRequest
     /// <summary>
     /// 设置请问报文头
     /// </summary>
-    [SkipScan, AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    [SkipScan, AttributeUsage(AttributeTargets.Method | AttributeTargets.Interface, AllowMultiple = true)]
     public class HeaderAttribute : Attribute
     {
         /// <summary>
-        /// 构造演示
+        /// 构造函数
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
