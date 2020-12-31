@@ -1,4 +1,5 @@
 ﻿using Furion.DependencyInjection;
+using Furion.Extensions;
 using Furion.FriendlyException;
 using Furion.Utilities;
 using Microsoft.AspNetCore.Http;
@@ -148,6 +149,7 @@ namespace Furion.UnifyResult
 
             // 判断是否手动添加了标注或跳过规范化处理
             var isSkip = !IsEnabledUnifyHandle
+                  || method.GetMethodRealReturnType().HasImplementedRawGeneric(RESTfulResultType)
                   || method.CustomAttributes.Any(x => typeof(NonUnifyAttribute).IsAssignableFrom(x.AttributeType) || typeof(ProducesResponseTypeAttribute).IsAssignableFrom(x.AttributeType)
                   || typeof(IApiResponseMetadataProvider).IsAssignableFrom(x.AttributeType));
 
@@ -171,7 +173,9 @@ namespace Furion.UnifyResult
             }
 
             // 判断是否跳过规范化处理
-            var isSkip = !IsEnabledUnifyHandle || method.CustomAttributes.Any(x => typeof(NonUnifyAttribute).IsAssignableFrom(x.AttributeType));
+            var isSkip = !IsEnabledUnifyHandle
+                    || method.GetMethodRealReturnType().HasImplementedRawGeneric(RESTfulResultType)
+                    || method.CustomAttributes.Any(x => typeof(NonUnifyAttribute).IsAssignableFrom(x.AttributeType));
 
             unifyResult = isSkip ? null : App.GetService<IUnifyResultProvider>();
             return unifyResult == null || isSkip;
@@ -193,7 +197,8 @@ namespace Furion.UnifyResult
             }
 
             // 判断是否跳过规范化处理
-            var isSkip = !IsEnabledUnifyHandle || context.GetMetadata<NonUnifyAttribute>() != null;
+            var isSkip = !IsEnabledUnifyHandle
+                    || context.GetMetadata<NonUnifyAttribute>() != null;
 
             unifyResult = isSkip ? null : App.GetService<IUnifyResultProvider>();
             return unifyResult == null || isSkip;

@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 using System.Reflection;
-using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -108,29 +107,25 @@ namespace Furion.RemoteRequest
             // 判断是否请求成功
             if (response.IsSuccessStatusCode)
             {
+                // 读取数据并序列化返回
+                using var responseStream = await response.Content.ReadAsStreamAsync();
+                var result = await JsonSerializer.DeserializeAsync<T>(responseStream, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
                 // 打印成功消息
                 App.PrintToMiniProfiler(MiniProfilerCategory, "Succeeded");
 
-                // 处理无返回值情况
-                if (returnType == typeof(void)) return default;
-                else
-                {
-                    // 读取数据并序列化返回
-                    using var responseStream = await response.Content.ReadAsStreamAsync();
-                    var result = await JsonSerializer.DeserializeAsync(responseStream
-                        , returnType, new JsonSerializerOptions
-                        {
-                            PropertyNameCaseInsensitive = true,
-                            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                        });
-
-                    return (T)result;
-                }
+                return result;
             }
             else
             {
-                // 打印成功消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", isError: true);
+                // 读取错误数据
+                var errorMessage = await response.Content.ReadAsStringAsync();
+
+                // 打印失败消息
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", errorMessage, isError: true);
 
                 return default;
             }

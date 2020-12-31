@@ -135,8 +135,9 @@ module.exports = {
       id: "grpc",
     },
     {
-      type: "doc",
-      id: "deploy",
+      type: "category",
+      label: "26. 托管部署",
+      items: ["deploy-iis", "deploy-docker", "deploy-nginx"],
     },
     {
       type: "doc",
