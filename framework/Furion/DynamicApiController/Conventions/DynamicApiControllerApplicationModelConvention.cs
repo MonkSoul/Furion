@@ -343,6 +343,13 @@ namespace Furion.DynamicApiController
                 if (!parameterAttributes.Any(u => u is FromRouteAttribute)
                     && (!parameterType.IsRichPrimitive() || parameterAttributes.Any(u => typeof(IBindingSourceMetadata).IsAssignableFrom(u.GetType())))) continue;
 
+                // 处理基元数组数组类型
+                if (parameterType.IsArray)
+                {
+                    parameterModel.BindingInfo = BindingInfo.GetBindingInfo(new[] { new FromQueryAttribute() });
+                    continue;
+                }
+
                 var template = $"{{{parameterModel.ParameterName}}}";
                 // 如果没有贴路由位置特性，则默认添加到动作方法后面
                 if (parameterAttributes.FirstOrDefault(u => u is ApiSeatAttribute) is not ApiSeatAttribute apiSeat)
