@@ -491,6 +491,9 @@ namespace Furion.Reflection
 
                 foreach (MethodInfo mi in iface.GetRuntimeMethods())
                 {
+                    // 排除静态方法
+                    if (mi.IsStatic) continue;
+
                     MethodBuilder mdb = AddMethodImpl(mi);
                     if (propertyMap.TryGetValue(mi, out PropertyAccessorInfo associatedProperty))
                     {

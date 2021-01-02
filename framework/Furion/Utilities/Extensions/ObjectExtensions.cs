@@ -51,6 +51,9 @@ namespace Furion.Extensions
             // 处理元组类型
             if (type.IsValueTuple()) return false;
 
+            // 处理数组类型，基元数组类型也可以是基元类型
+            if (type.IsArray) return type.GetElementType().IsRichPrimitive();
+
             // 基元类型或值类型或字符串类型
             if (type.IsPrimitive || type.IsValueType || type == typeof(string)) return true;
 

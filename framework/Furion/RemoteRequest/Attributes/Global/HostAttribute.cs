@@ -6,7 +6,7 @@ namespace Furion.RemoteRequest
     /// <summary>
     /// 设置主机配置
     /// </summary>
-    [SkipScan, AttributeUsage(AttributeTargets.Interface)]
+    [SkipScan, AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method)]
     public class HostAttribute : Attribute
     {
         /// <summary>
