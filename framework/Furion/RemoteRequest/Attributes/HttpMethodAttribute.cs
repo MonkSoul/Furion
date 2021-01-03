@@ -33,5 +33,10 @@ namespace Furion.RemoteRequest
         /// 请求方式
         /// </summary>
         public HttpMethod Method { get; protected set; }
+
+        /// <summary>
+        /// 设置响应类型
+        /// </summary>
+        public ResponseType ResponseType { get; set; }
     }
 }
