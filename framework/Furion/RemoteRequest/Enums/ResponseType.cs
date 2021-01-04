@@ -12,14 +12,17 @@ namespace Furion.RemoteRequest
         /// Json
         /// </summary>
         Json,
+
         /// <summary>
         /// 文本
         /// </summary>
         Text,
+
         /// <summary>
         /// 流
         /// </summary>
         Stream,
+
         /// <summary>
         /// Byte
         /// </summary>

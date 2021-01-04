@@ -92,7 +92,7 @@ namespace Furion.DatabaseAccessor
         /// 获取Sql代理
         /// </summary>
         /// <returns>ISqlRepository</returns>
-        public static TSqlDispatchProxy GetSqlDispatchProxy<TSqlDispatchProxy>()
+        public static TSqlDispatchProxy GetSqlProxy<TSqlDispatchProxy>()
             where TSqlDispatchProxy : class, ISqlDispatchProxy
         {
             return App.GetService<TSqlDispatchProxy>()

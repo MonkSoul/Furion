@@ -12,7 +12,7 @@ namespace Furion.RemoteRequest
         /// 获取 Http 代理
         /// </summary>
         /// <returns>ISqlRepository</returns>
-        public static THttpDispatchProxy GetHttpDispatchProxy<THttpDispatchProxy>()
+        public static THttpDispatchProxy GetHttpProxy<THttpDispatchProxy>()
             where THttpDispatchProxy : class, IHttpDispatchProxy
         {
             return App.GetService<THttpDispatchProxy>();
