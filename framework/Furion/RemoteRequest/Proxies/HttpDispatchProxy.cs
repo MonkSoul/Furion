@@ -58,7 +58,7 @@ namespace Furion.RemoteRequest
         public override async Task InvokeAsync(MethodInfo method, object[] args)
         {
             // 发送请求
-            var response = await SendAsync(method, args);
+            var (response, httpMethodAttribute) = await SendAsync(method, args);
 
             // 判断是否请求成功
             if (response.IsSuccessStatusCode)
@@ -89,7 +89,7 @@ namespace Furion.RemoteRequest
         public override async Task<T> InvokeAsyncT<T>(MethodInfo method, object[] args)
         {
             // 发送请求
-            var response = await SendAsync(method, args);
+            var (response, httpMethodAttribute) = await SendAsync(method, args);
 
             // 判断是否请求成功
             if (response.IsSuccessStatusCode)
@@ -125,7 +125,7 @@ namespace Furion.RemoteRequest
         /// <param name="method"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        private async Task<HttpResponseMessage> SendAsync(MethodInfo method, object[] args)
+        private async Task<(HttpResponseMessage, HttpMethodAttribute)> SendAsync(MethodInfo method, object[] args)
         {
             var (request, httpMethodAttribute) = BuildHttpRequestMessage(method, args);
 
@@ -144,7 +144,7 @@ namespace Furion.RemoteRequest
             {
                 response = responseInterceptor.Invoke(null, new[] { response }) as HttpResponseMessage;
             }
-            return response;
+            return (response, httpMethodAttribute);
         }
 
         /// <summary>
