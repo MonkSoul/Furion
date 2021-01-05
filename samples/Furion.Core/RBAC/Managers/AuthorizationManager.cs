@@ -1,4 +1,4 @@
-﻿using Furion.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -61,7 +61,7 @@ namespace Furion.Core
                     .ThenInclude(u => u.Securities)
                 .Where(u => u.Id == userId)
                 .SelectMany(u => u.Roles
-                    .SelectMany(u => u.Securities))
+                    .SelectMany(u => u.Securities).Distinct())
                 .Select(u => u.UniqueName);
 
             if (!securities.Contains(resourceId)) return false;
