@@ -154,7 +154,7 @@ public class FurService
 
 ## 12.7 常见使用
 
-### 12.7.2 第一个例子
+### 12.7.1 第一个例子
 
 创建 `IBusinessService` 接口和 `BusinessService` 实现类，代码如下：
 
@@ -229,7 +229,7 @@ namespace Furion.Web.Entry.Controllers
 
 这就是依赖注入/控制反转最经典的例子。
 
-### 12.7.3 注册泛型实例
+### 12.7.2 注册泛型实例
 
 创建 `IBusinessService<T>` 接口和 `BusinessService<T>` 实现类，代码如下：
 
@@ -290,7 +290,7 @@ namespace Furion.Web.Entry.Controllers
 }
 ```
 
-### 12.7.4 一个接口多个实现
+### 12.7.3 一个接口多个实现
 
 默认情况下，一个接口只对应一个实现类，但有些特殊情况，需要需要多个实现类注册同一个接口，如 `DbContext` 多数据库情况。
 
@@ -396,7 +396,7 @@ _otherBusinessService = resolveNamed("BusName2", default) as IBusinessService;
 
 :::
 
-### 12.7.5 无接口方式
+### 12.7.4 无接口方式
 
 有些时候，我们不想定义接口，而是想把实例类作为可依赖注入的对象，如 MVC 中的控制器。
 
