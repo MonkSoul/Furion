@@ -195,7 +195,7 @@ var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>()
 var refreshToken = JWTEncryption.GenerateRefreshToken(accessToken, 30); // 第二个参数是刷新 token 的有效期，默认三十天
 ```
 
-### 15.5.4 后端授权 `Handler` 部分
+### 15.5.2 后端授权 `Handler` 部分
 
 ```cs {16-27}
 using Furion.Authorization;

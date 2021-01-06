@@ -332,7 +332,7 @@ namespace Furion.Application
 
 ## 8.6 手动验证
 
-### 8.7.1 验证模型
+### 8.6.1 验证模型
 
 ```cs {1,11}
 using Furion.DataValidation;
@@ -361,11 +361,11 @@ namespace Furion.Application
 
 :::
 
-### 8.7.2 `TryValidate` 和 `Validate`
+### 8.6.2 `TryValidate` 和 `Validate`
 
 `Furion` 提供了 `TryValidate()` 和 `Validate()` 两个验证拓展方法，唯一的区别就是后者验证失败将自动抛出异常消息。
 
-### 8.7.3 `ValidationTypes` 常见验证
+### 8.6.3 `ValidationTypes` 常见验证
 
 `Furion` 内置了很多常用类型的数据验证，包括：
 
@@ -458,7 +458,7 @@ true.TryValidate(ValidationTypes.Integer); // => false
 
 :::
 
-### 8.7.4 `[DataValidation]` 特性
+### 8.6.4 `[DataValidation]` 特性
 
 `Furion` 还提供了 `[DataValidation]` 特性方便在模型参数中使用 `ValidationTypes` 常见验证或自定义验证。
 

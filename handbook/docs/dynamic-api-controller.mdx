@@ -358,7 +358,7 @@ namespace Furion.Application
 
 <img src={useBaseUrl("img/dcsff.gif")} />
 
-### 5.8.5 `GET/HEAD` 类类型参数
+### 5.8.4 `GET/HEAD` 类类型参数
 
 默认情况下，`ASP.NET Core` 会将 `GET/HEAD` 请求中的 `类类型参数` 设置为 `[FromBody]` 绑定，如：
 
@@ -431,7 +431,7 @@ namespace Furion.Application
 
 <img src={useBaseUrl("img/modeltoquery.png")} />
 
-### 5.8.6 自定义参数位置
+### 5.8.5 自定义参数位置
 
 `Furion` 框架提供了非常方便的自定义参数位置的特性 `[ApiSeat]`，通过 `[ApiSeat]` 可配置参数位置，支持以下四种位置：
 
@@ -484,7 +484,7 @@ namespace Furion.Application
 
 :::
 
-### 5.8.7 自定义请求谓词
+### 5.8.6 自定义请求谓词
 
 ```cs {2,8}
 using Furion.DynamicApiController;
@@ -507,7 +507,7 @@ namespace Furion.Application
 
 <img src={useBaseUrl("img/zdywc.png")} />
 
-### 5.8.8 支持多个谓词
+### 5.8.7 支持多个谓词
 
 ```cs {2,8}
 using Furion.DynamicApiController;
@@ -536,7 +536,7 @@ namespace Furion.Application
 
 :::
 
-### 5.8.9 支持自定义路由
+### 5.8.8 支持自定义路由
 
 支持控制器和动作方法自定义路由：
 
@@ -661,7 +661,7 @@ namespace Furion.Application
 
 :::
 
-### 5.8.10 多路由随意组合
+### 5.8.9 多路由随意组合
 
 `Furion` 框架提供了非常灵活的各种路由组合方式，支持一对多，多对多路由组合：
 
@@ -698,7 +698,7 @@ namespace Furion.Application
 
 :::
 
-### 5.8.11 支持版本控制
+### 5.8.10 支持版本控制
 
 <Tabs
   defaultValue="kzqbb"
@@ -800,7 +800,7 @@ public string GetV1()
 
 :::
 
-### 5.8.12 不公开控制器或动作方法
+### 5.8.11 不公开控制器或动作方法
 
 有些时候，我们无需导出某个动作方法或控制器，只需要添加 `[ApiDescriptionSettings(false)]` 或 `[ApiExplorerSettings(IgnoreApi = true)]`即可。
 
