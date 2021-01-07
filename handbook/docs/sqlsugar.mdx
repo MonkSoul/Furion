@@ -10,9 +10,9 @@ sidebar_label: 10.1. SqlSugar 集成
 
 `SqlSugar` 官方地址：[http://www.donet5.com/](http://www.donet5.com/)
 
-`SqlSugar` 与 EF优势： 性能比EF更快、语法上手更容易
+`SqlSugar` 与 EF 优势： 性能比 EF 更快、语法上手更容易
 
-`SqlSuar`  与 Dapper优势：  SqlSugar功能更加丰富，性能丝毫不逊色于Dapper，并且批量操作性能更好
+`SqlSuar` 与 Dapper 优势： SqlSugar 功能更加丰富，性能丝毫不逊色于 Dapper，并且批量操作性能更好
 
 ## 10.1.2 如何集成
 
@@ -41,7 +41,7 @@ services.AddSqlSugar(new ConnectionConfig
     DbType = DbType.SqlServer,
     IsAutoCloseConnection = true,
     InitKeyType = InitKeyType.Attribute//从特性读取主键自增信息
-}, 
+},
 db =>
 {
     //处理日志事务
@@ -72,41 +72,44 @@ public PersonService(ISqlSugarRepository<Person> sqlSugarRepository)
     repository = sqlSugarRepository;
     db=db.Context;
 }
-
 ```
 
 ## 10.1.4 使用仓储操作数据库
+
 ```cs
 var data1 = repository.GetById(1);
 var data2 = repository.GetList();
-var data3 = repository.GetList(it => it.Id == 1); 
+var data3 = repository.GetList(it => it.Id == 1);
 var data4 = repository.GetSingle(it => it.Id == 1);
+
 var p = new PageModel() { PageIndex = 1, PageSize = 2 };
 var data5 = repository.GetPageList(it => it.Name == "xx", p);
 Console.Write(p.PageCount);
+
 var data6 = repository.GetPageList(it => it.Name == "xx", p, it => it.Name, OrderByType.Asc);
 Console.Write(p.PageCount);
+
 List<IConditionalModel> conModels = new List<IConditionalModel>();
 conModels.Add(new ConditionalModel(){FieldName="id",ConditionalType=ConditionalType.Equal,FieldValue="1"});//id=1
 var data7 = repository.GetPageList(conModels, p, it => it.Name, OrderByType.Asc);
 repository.AsQueryable().Where(x => x.Id == 1).ToList();
- 
+
 //插入
 repository.Insert(insertObj);
 repository.InsertRange(InsertObjs);
 var id = repository.InsertReturnIdentity(insertObj);
 repository.AsInsertable(insertObj).ExecuteCommand();
- 
+
 //删除
 repository.Delete(insertObj);
 repository.DeleteById(1);
 repository.DeleteByIds(new object [] { 1, 2 }); //数组带是 ids方法 ，封装传 object [] 类型
 repository.Delete(it => it.Id == 1);
 repository.AsDeleteable().Where(it => it.Id == 1).ExecuteCommand();
- 
+
 //更新
-repository.Update(insertObj); 
-repository.UpdateRange(InsertObjs); 
+repository.Update(insertObj);
+repository.UpdateRange(InsertObjs);
 repository.Update(it => new Order() { Name = "a", }, it => it.Id == 1);
 repository.AsUpdateable(insertObj).UpdateColumns(it=>new { it.Name }).ExecuteCommand();
 
@@ -119,9 +122,10 @@ var orderRespository=db.GetSimpleClient<Order>();
 orderRespository.Insert(Order);
 ```
 
-###  10.1.5 使用SqlSugarClient操作数据库对象
+### 10.1.5 使用 SqlSugarClient 操作数据库对象
 
-### 10.1.5.1 基础查询 
+### 10.1.5.1 基础查询
+
 ```cs
 //查询所有
 var getAll = db.Queryable<Student>().ToList();
@@ -141,7 +145,7 @@ var isAny = db.Queryable<Student>().Where(it=>it.Id==-1).Any();
 var list2 = db.Queryable<Order>().Where(it =>it.Name.Contains("jack")).ToList();
 ```
 
-### 10.1.5.2  联表查询
+### 10.1.5.2 联表查询
 
 ```cs
 var list = db.Queryable<Student, School>((st, sc) => new JoinQueryInfos(
@@ -149,22 +153,25 @@ var list = db.Queryable<Student, School>((st, sc) => new JoinQueryInfos(
       .Select((st,sc)=>new{Id=st.Id,Name=st.Name,SchoolName=sc.Name}).ToList();
 
 生成的Sql如下:
-SELECT  [st].[ID] AS [id] , 
-          [st].[Name] AS [name] , 
-          [sc].[Name] AS [schoolName]  FROM [STudent] st 
+SELECT  [st].[ID] AS [id] ,
+          [st].[Name] AS [name] ,
+          [sc].[Name] AS [schoolName]  FROM [STudent] st
           Left JOIN School sc ON ( [st].[SchoolId] =[sc].[Id])
 ```
 
-###  10.1.5.3 分页查询
+### 10.1.5.3 分页查询
+
 ```cs
- int pageIndex = 1; 
+ int pageIndex = 1;
  int pageSize = 20;
  int totalCount=0;
  var page = db.Queryable<Student>().ToPageList(pageIndex, pageSize, ref totalCount);
 ```
+
 更多查询用法 ： http://www.donet5.com/Home/Doc?typeId=1185
 
-###  10.1.5.4 插入
+### 10.1.5.4 插入
+
 ```cs
 //可以是 类 或者 List<类>
 db.Insertable(insertObj).ExecuteCommand();
@@ -191,16 +198,19 @@ public class Student
     public string Name { get; set; }
 }
 ```
+
 更多插入用法： http://www.donet5.com/Home/Doc?typeId=1193
- 
-###  10.1.5.5 更新 
+
+### 10.1.5.5 更新
+
 实体配置参考插入，只需要配置主键即可
+
 ```cs
 //根据主键更新单条 参数 Class
 var result= db.Updateable(updateObj).ExecuteCommand();
 //不更新 Name 和TestId
 var result=db.Updateable(updateObj).IgnoreColumns(it => new { it.CreateTime,it.TestId }).ExecuteCommand()
-//只更新 Name 和 CreateTime 
+//只更新 Name 和 CreateTime
 var result=db.Updateable(updateObj).UpdateColumns(it => new { it.Name,it.CreateTime }).ExecuteCommand();
 //根据表达式更新
 var result71 = db.Updateable<Order>()
@@ -208,11 +218,13 @@ var result71 = db.Updateable<Order>()
               .SetColumnsIF(p!=null ,it => it.CreateTime == p.Value)//当p不等于null更新createtime列
             .Where(it => it.Id == 11).ExecuteCommand();
 ```
+
 更多更新用法： http://www.donet5.com/Home/Doc?typeId=1191
 
+### 10.1.5.6 删除
 
-###  10.1.5.6 删除
 实体配置参考插入，只需要配置主键即可
+
 ```cs
 //根据实体删除
 db.Deleteable<Student>().Where(new Student() { Id = 1 }).ExecuteCommand();
@@ -221,10 +233,11 @@ db.Deleteable<Student>().In(1).ExecuteCommand();
 //根据表达式删除
 db.Deleteable<Student>().Where(it => it.Id == 1).ExecuteCommand();
 ```
+
 更多删除用法: http://www.donet5.com/Home/Doc?typeId=1195
 
+## 10.1.6 Sql 查询
 
-## 10.1.6 Sql查询
 ```cs
 //sql分页
 var list = db.SqlQueryable<Student>("select * from student").ToPageList(1, 2,ref total);
@@ -243,30 +256,30 @@ var ageP= new SugarParameter("@age", null, true);//设置为output
 var dt = db.Ado.UseStoredProcedure().GetDataTable("sp_school",nameP,ageP);
 
 ```
-_____   _____    _____
-方法名 |	描述 |	返回值
-SqlQuery< T >	| 查询所有返回实体集合 |	List
-SqlQuery<T,T2>	| 可以返回2个结果集 |	Tuple<List, List>
-SqlQuerySingle |	查询第一条记录 |	T
-GetDataTable	| 查询所有	| DataTable
-GetDataReader	| 读取DR需要手动释放DR |	DataReader
-GetDataSetAll|	获取多个结果集|	DataSet
-ExecuteCommand|	返回受影响行数，一般用于增删改 |	int
-GetScalar	| 获取首行首列|	object
-GetString |	获取首行首列 |	string
-GetInt	| 获取首行首列	| int
-GetLong	| 获取首行首列	| long
-GetDouble	|获取首行首列|	Double
-GetDecimal |	获取首行首列|	Decimal
-GetDateTime |	获取首行首列 |	DateTime
+
+|     方法名     |              描述              |      返回值       |
+| :------------: | :----------------------------: | :---------------: |
+| SqlQuery< T >  |      查询所有返回实体集合      |       List        |
+| SqlQuery<T,T2> |      可以返回 2 个结果集       | Tuple<List, List> |
+| SqlQuerySingle |         查询第一条记录         |         T         |
+|  GetDataTable  |            查询所有            |     DataTable     |
+| GetDataReader  |    读取 DR 需要手动释放 DR     |    DataReader     |
+| GetDataSetAll  |         获取多个结果集         |      DataSet      |
+| ExecuteCommand | 返回受影响行数，一般用于增删改 |        int        |
+|   GetScalar    |          获取首行首列          |      object       |
+|   GetString    |          获取首行首列          |      string       |
+|     GetInt     |          获取首行首列          |        int        |
+|    GetLong     |          获取首行首列          |       long        |
+|   GetDouble    |          获取首行首列          |      Double       |
+|   GetDecimal   |          获取首行首列          |      Decimal      |
+|  GetDateTime   |          获取首行首列          |     DateTime      |
 
 想了解更多 `SqlSugar` 知识可查阅 [SqlSugar 官网](http://donet5.com/)。
 
-
-## 10.1.7  反馈与建议
+## 10.1.7 反馈与建议
 
 :::note 与我们交流
 
 给 Furion 提 [Issue](https://gitee.com/monksoul/Furion/issues/new?issue)。
 
- 
+:::
