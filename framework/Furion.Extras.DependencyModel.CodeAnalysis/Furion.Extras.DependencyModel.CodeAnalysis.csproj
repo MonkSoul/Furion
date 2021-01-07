@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <version>1.5.3</version>
+    <version>1.8.8</version>
     <Description>Furion 程序集扫描和代码分析拓展插件。</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Ben.Demystifier" Version="0.1.6" />
+    <PackageReference Include="Ben.Demystifier" Version="0.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="5.0.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.1" />
