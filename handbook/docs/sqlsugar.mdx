@@ -74,21 +74,17 @@ public PersonService(ISqlSugarRepository<Person> sqlSugarRepository)
 }
 ```
 
-## 10.1.4 使用仓储操作数据库
+## 10.1.4 仓储操作数据库
 
 ```cs
+//查询功能
 var data1 = repository.GetById(1);
 var data2 = repository.GetList();
 var data3 = repository.GetList(it => it.Id == 1);
 var data4 = repository.GetSingle(it => it.Id == 1);
-
 var p = new PageModel() { PageIndex = 1, PageSize = 2 };
-var data5 = repository.GetPageList(it => it.Name == "xx", p);
-Console.Write(p.PageCount);
-
+var data5 = repository.GetPageList(it => it.Name == "xx", p);//p.PageCount
 var data6 = repository.GetPageList(it => it.Name == "xx", p, it => it.Name, OrderByType.Asc);
-Console.Write(p.PageCount);
-
 List<IConditionalModel> conModels = new List<IConditionalModel>();
 conModels.Add(new ConditionalModel(){FieldName="id",ConditionalType=ConditionalType.Equal,FieldValue="1"});//id=1
 var data7 = repository.GetPageList(conModels, p, it => it.Name, OrderByType.Asc);
@@ -122,7 +118,7 @@ var orderRespository=db.GetSimpleClient<Order>();
 orderRespository.Insert(Order);
 ```
 
-### 10.1.5 使用 SqlSugarClient 操作数据库对象
+## 10.1.5 核心对象操作数据库
 
 ### 10.1.5.1 基础查询
 
