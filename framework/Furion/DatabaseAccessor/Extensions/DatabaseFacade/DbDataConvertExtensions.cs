@@ -47,7 +47,8 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public static List<T1> ToList<T1>(this DataSet dataSet)
         {
-            return dataSet.ToList(typeof(List<T1>)) as List<T1>;
+            var tuple = dataSet.ToList(typeof(List<T1>));
+            return tuple[0] as List<T1>;
         }
 
         /// <summary>

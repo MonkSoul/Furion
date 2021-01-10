@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <version>1.8.8</version>
+    <version>1.8.9</version>
     <Description>让 .NET 开发更简单，更通用，更流行。</Description>
   </PropertyGroup>
 
