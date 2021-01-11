@@ -1,4 +1,5 @@
 ﻿using Furion.DataValidation;
+using Furion.DependencyInjection;
 using Furion.Utilities;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace Furion.RemoteRequest.Extensions
     /// <summary>
     /// 远程请求字符串拓展
     /// </summary>
+    [SkipScan]
     public static class RemoteRequestStringExtensions
     {
         /// <summary>

@@ -141,15 +141,15 @@ var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<objec
 var response = await "https://www.furion.pro/data".SendAsync(HttpMethod.Get);
 
 // 返回特定类型对象
-var data = await "http://47.100.247.61/api/sysdata/categories".GetAsAsync<object>(HttpMethod.Get);
+var data = await "http://47.100.247.61/api/sysdata/categories".SendAsAsync<object>(HttpMethod.Get);
 
 // 设置请求报文头
-var data = await "http://47.100.247.61/api/sysdata/categories".GetAsAsync<object>(HttpMethod.Get, headers: new Dictionary<string, string>{
+var data = await "http://47.100.247.61/api/sysdata/categories".SendAsAsync<object>(HttpMethod.Get, headers: new Dictionary<string, string>{
     {"ipaddress", "127.0.0.1"}
 });
 
 // 设置请求拦截
-var data = await "http://47.100.247.61/api/sysdata/categories".GetAsAsync<object>(HttpMethod.Post, interceptor: request=>{
+var data = await "http://47.100.247.61/api/sysdata/categories".SendAsAsync<object>(HttpMethod.Post, interceptor: request=>{
     request.Headers.Add("Authorization","Bearer token字符串");
 });
 ```
