@@ -9,9 +9,9 @@ namespace Furion.RemoteRequest
     public enum ResponseType
     {
         /// <summary>
-        /// Json
+        /// 对象类型
         /// </summary>
-        Json,
+        Object,
 
         /// <summary>
         /// 文本
@@ -24,8 +24,8 @@ namespace Furion.RemoteRequest
         Stream,
 
         /// <summary>
-        /// Byte
+        /// Byte 数组
         /// </summary>
-        Byte
+        ByteArray
     }
 }

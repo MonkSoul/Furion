@@ -37,6 +37,6 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 设置响应类型
         /// </summary>
-        public ResponseType ResponseType { get; set; }
+        public ResponseType ResponseType { get; set; } = ResponseType.Object;
     }
 }

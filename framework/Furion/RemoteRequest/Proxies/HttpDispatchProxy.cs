@@ -1,6 +1,7 @@
 ﻿using Furion.DependencyInjection;
 using Furion.Extensions;
 using Furion.Reflection;
+using Furion.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections;
@@ -9,7 +10,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
-using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -58,7 +58,7 @@ namespace Furion.RemoteRequest
         public override async Task InvokeAsync(MethodInfo method, object[] args)
         {
             // 发送请求
-            var (response, httpMethodAttribute) = await SendAsync(method, args);
+            var (response, _) = await SendAsync(method, args);
 
             // 判断是否请求成功
             if (response.IsSuccessStatusCode)
@@ -94,17 +94,40 @@ namespace Furion.RemoteRequest
             // 判断是否请求成功
             if (response.IsSuccessStatusCode)
             {
-                // 读取数据并序列化返回
-                using var responseStream = await response.Content.ReadAsStreamAsync();
-                var result = await JsonSerializer.DeserializeAsync<T>(responseStream, new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                });
-
                 // 打印成功消息
                 App.PrintToMiniProfiler(MiniProfilerCategory, "Succeeded");
 
-                return result;
+                // 处理返回值类型
+                switch (httpMethodAttribute.ResponseType)
+                {
+                    // 对象类型或流类型
+                    case ResponseType.Object:
+                    case ResponseType.Stream:
+                        var responseStream = await response.Content.ReadAsStreamAsync();
+                        // 流类型
+                        if (httpMethodAttribute.ResponseType == ResponseType.Stream) return (T)(object)responseStream;
+                        // 对象类型
+                        else
+                        {
+                            var result = await JsonSerializer.DeserializeAsync<T>(responseStream, JsonSerializerUtility.GetDefaultJsonSerializerOptions());
+                            // 释放流
+                            await responseStream.DisposeAsync();
+                            return result;
+                        }
+
+                    // 文本类型
+                    case ResponseType.Text:
+                        var responseText = await response.Content.ReadAsStringAsync();
+                        return (T)(object)responseText;
+
+                    // Byte 数组类型
+                    case ResponseType.ByteArray:
+                        var responseByteArray = await response.Content.ReadAsByteArrayAsync();
+                        return (T)(object)responseByteArray;
+
+                    // 无效类型
+                    default: throw new InvalidCastException("Invalid response type setting.");
+                }
             }
             else
             {
@@ -280,6 +303,7 @@ namespace Furion.RemoteRequest
                     var parameterValue = parameter.ParameterValue.Value;
                     var parameterType = parameterValue != null ? parameterValue.GetType() : parameter.ParameterValue.Parameter.ParameterType;
 
+                    // 处理对象或数组类型
                     var valueItems = parameterType.IsArray
                         ? (((IList)parameterValue).Cast<object>()
                                                   .Select(u => $"{parameter.Name}={HttpUtility.UrlEncode(u == null ? string.Empty : u.ToString())}"))
@@ -333,12 +357,7 @@ namespace Furion.RemoteRequest
 
             if (bodyParameters.Any())
             {
-                var bodyJson = JsonSerializer.Serialize(bodyParameters.First().Value.Value, new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true,
-                    WriteIndented = true,
-                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-                });
+                var bodyJson = JsonSerializerUtility.Serialize(bodyParameters.First().Value.Value);
                 request.Content = new StringContent(bodyJson, Encoding.UTF8, "application/json");
 
                 // 打印请求地址
