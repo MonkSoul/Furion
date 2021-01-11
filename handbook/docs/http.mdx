@@ -71,14 +71,14 @@ namespace Furion.Application
 - 字符串方式
 
 ```cs
-var data = await "http://47.100.247.61/api/sysdata/categories".GetAsTAsync<object>();
+var data = await "http://47.100.247.61/api/sysdata/categories".GetAsAsync<object>();
 ```
 
 ## 19.4 使用示例
 
 ### 19.4.1 字符串方式
 
-- `[METHOD]Async/[METHOD]AsTAsync` 方式
+- `[METHOD]Async/[METHOD]AsAsync` 方式
 
 ```cs
 // ============ GET 请求 ============
@@ -87,15 +87,15 @@ var data = await "http://47.100.247.61/api/sysdata/categories".GetAsTAsync<objec
 var response = await "https://www.furion.pro/data".GetAsync();
 
 // 返回特定类型对象
-var data = await "http://47.100.247.61/api/sysdata/categories".GetAsTAsync<object>();
+var data = await "http://47.100.247.61/api/sysdata/categories".GetAsAsync<object>();
 
 // 设置请求报文头
-var data = await "http://47.100.247.61/api/sysdata/categories".GetAsTAsync<object>(headers: new Dictionary<string, string>{
+var data = await "http://47.100.247.61/api/sysdata/categories".GetAsAsync<object>(headers: new Dictionary<string, string>{
     {"ipaddress", "127.0.0.1"}
 });
 
 // 设置请求拦截
-var data = await "http://47.100.247.61/api/sysdata/categories".GetAsTAsync<object>(interceptor: request=>{
+var data = await "http://47.100.247.61/api/sysdata/categories".GetAsAsync<object>(interceptor: request=>{
     request.Headers.Add("Authorization","Bearer token字符串");
 });
 
@@ -109,15 +109,15 @@ var data = await "http://47.100.247.61/api/sysdata/categories".GetAsTAsync<objec
 var response = await "https://www.furion.pro/data".PostAsync(new { parm1="", parm2="" });
 
 // 返回特定类型对象
-var data = await "http://47.100.247.61/api/sysdata/categories".PostAsTAsync<object>(new { parm1="", parm2="" });
+var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<object>(new { parm1="", parm2="" });
 
 // 设置请求报文头
-var data = await "http://47.100.247.61/api/sysdata/categories".PostAsTAsync<object>(new { parm1="", parm2="" }, headers: new Dictionary<string, string>{
+var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<object>(new { parm1="", parm2="" }, headers: new Dictionary<string, string>{
     {"ipaddress", "127.0.0.1"}
 });
 
 // 设置请求拦截
-var data = await "http://47.100.247.61/api/sysdata/categories".PostAsTAsync<object>(new { parm1="", parm2="" }, interceptor: request=>{
+var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<object>(new { parm1="", parm2="" }, interceptor: request=>{
     request.Headers.Add("Authorization","Bearer token字符串");
 });
 
@@ -134,22 +134,22 @@ var data = await "http://47.100.247.61/api/sysdata/categories".PostAsTAsync<obje
 // 同上
 ```
 
-- `SendAsync/SendAsTAsync` 方式
+- `SendAsync/SendAsAsync` 方式
 
 ```cs
 // 返回 HttpResponseMessage 对象
 var response = await "https://www.furion.pro/data".SendAsync(HttpMethod.Get);
 
 // 返回特定类型对象
-var data = await "http://47.100.247.61/api/sysdata/categories".GetAsTAsync<object>(HttpMethod.Get);
+var data = await "http://47.100.247.61/api/sysdata/categories".GetAsAsync<object>(HttpMethod.Get);
 
 // 设置请求报文头
-var data = await "http://47.100.247.61/api/sysdata/categories".GetAsTAsync<object>(HttpMethod.Get, headers: new Dictionary<string, string>{
+var data = await "http://47.100.247.61/api/sysdata/categories".GetAsAsync<object>(HttpMethod.Get, headers: new Dictionary<string, string>{
     {"ipaddress", "127.0.0.1"}
 });
 
 // 设置请求拦截
-var data = await "http://47.100.247.61/api/sysdata/categories".GetAsTAsync<object>(HttpMethod.Post, interceptor: request=>{
+var data = await "http://47.100.247.61/api/sysdata/categories".GetAsAsync<object>(HttpMethod.Post, interceptor: request=>{
     request.Headers.Add("Authorization","Bearer token字符串");
 });
 ```
@@ -282,7 +282,7 @@ public interface IHttp : IHttpDispatchProxy
 
 ```cs
 // 设置请求拦截
-var data = await "http://47.100.247.61/api/sysdata/categories".PostAsTAsync<object>(new { parm1="", parm2="" }, interceptor: request=>{
+var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<object>(new { parm1="", parm2="" }, interceptor: request=>{
     request.Headers.Add("Authorization","Bearer token字符串");
 });
 ```
@@ -330,7 +330,7 @@ Task<User> GetData();
 
 ```cs
 // 设置请求拦截
-var data = await "http://47.100.247.61/api/sysdata/categories".PostAsTAsync<object>(new { parm1="", parm2="" }, clientName = "github");
+var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<object>(new { parm1="", parm2="" }, clientName = "github");
 ```
 
 ## 19.6 代理内置特性
