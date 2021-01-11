@@ -16,7 +16,7 @@ namespace Furion.RemoteRequest
         /// <param name="url"></param>
         public DeleteAttribute(string url) : base(url)
         {
-            base.Method = HttpMethod.Delete;
+            Method = HttpMethod.Delete;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Furion.RemoteRequest
         /// <param name="url"></param>
         public PatchAttribute(string url) : base(url)
         {
-            base.Method = HttpMethod.Patch;
+            Method = HttpMethod.Patch;
         }
     }
 }

@@ -200,9 +200,6 @@ namespace Furion.RemoteRequest
             // 处理 Url 地址参数
             urlAddress = HandleUrlParameters(urlAddress, methodParameters);
 
-            // 打印请求地址
-            App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning", $"{httpMethodAttribute.Method} {urlAddress}");
-
             // 创建请求消息对象
             var request = new HttpRequestMessage(httpMethodAttribute.Method, urlAddress);
 
@@ -218,6 +215,9 @@ namespace Furion.RemoteRequest
             {
                 request = requestInterceptor.Invoke(null, new[] { request }) as HttpRequestMessage;
             }
+
+            // 打印请求地址
+            App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning", $"{request.Method} {request.RequestUri.AbsoluteUri}");
 
             // 返回
             return (request, httpMethodAttribute);
@@ -349,8 +349,8 @@ namespace Furion.RemoteRequest
         /// <param name="request"></param>
         private static void SetHttpRequestBody(HttpMethodAttribute httpMethodAttribute, Dictionary<string, ParameterValue> methodParameters, HttpRequestMessage request)
         {
-            // 排除 GET/DELETE 请求
-            if (httpMethodAttribute.Method == HttpMethod.Get || httpMethodAttribute.Method == HttpMethod.Delete) return;
+            // 排除 GET/Head 请求
+            if (httpMethodAttribute.Method == HttpMethod.Get || httpMethodAttribute.Method == HttpMethod.Head) return;
 
             // 获取所有非基元类型，该类型当作 Body 参数
             var bodyParameters = methodParameters.Where(u => u.Value.IsBodyParameter);

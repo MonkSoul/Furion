@@ -5,18 +5,18 @@ using System.Net.Http;
 namespace Furion.RemoteRequest
 {
     /// <summary>
-    /// HttpGet 请求
+    /// HttpHead 请求
     /// </summary>
     [SkipScan, AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class GetAttribute : HttpMethodAttribute
+    public class HeadAttribute : HttpMethodAttribute
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="url"></param>
-        public GetAttribute(string url) : base(url)
+        public HeadAttribute(string url) : base(url)
         {
-            Method = HttpMethod.Get;
+            Method = HttpMethod.Head;
         }
     }
 }

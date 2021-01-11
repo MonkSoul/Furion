@@ -16,7 +16,7 @@ namespace Furion.RemoteRequest
         /// <param name="url"></param>
         public PutAttribute(string url) : base(url)
         {
-            base.Method = HttpMethod.Put;
+            Method = HttpMethod.Put;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Furion.ViewEngine.Extensions
     /// 字符串视图引擎拓展
     /// </summary>
     [SkipScan]
-    public static class StringViewEngineExtensions
+    public static class ViewEngineStringExtensions
     {
         /// <summary>
         /// 编译并运行
