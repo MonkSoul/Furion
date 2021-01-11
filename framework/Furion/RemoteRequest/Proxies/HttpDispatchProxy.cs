@@ -154,6 +154,8 @@ namespace Furion.RemoteRequest
 
             // 创建 HttpClient 对象
             var clientFactory = Services.GetService<IHttpClientFactory>();
+            if (clientFactory == null) throw new ArgumentNullException("Please register for RemoteRequest service first: services.AddRemoteRequest();");
+
             var httpClient = string.IsNullOrEmpty(httpMethodAttribute.ClientName)
                                         ? clientFactory.CreateClient()
                                         : clientFactory.CreateClient(httpMethodAttribute.ClientName);
