@@ -1,4 +1,8 @@
-/// <summary>
+using System.Collections.Generic;
+
+namespace Furion.DatabaseAccessor
+{
+    /// <summary>
     /// 分页泛型集合
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
@@ -47,3 +51,4 @@
     public class FurionPagedModel : FurionPagedModel<object>
     {
     }
+}
