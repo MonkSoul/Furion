@@ -26,6 +26,10 @@
 <a href="https://www.chinadot.net" target="_blank"><img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/chinadotnet.png" height="80"/></a>
 </p>
 
+<p align="center">
+<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/gvp.png"/>
+</p>
+
 ## 💐 序言
 
 > 无私奉献不是天方夜谭，有时候，我们也可以做到。
