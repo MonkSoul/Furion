@@ -38,5 +38,10 @@ namespace Furion.RemoteRequest
         /// 设置响应类型
         /// </summary>
         public ResponseType ResponseType { get; set; } = ResponseType.Object;
+
+        /// <summary>
+        /// body 内容类型
+        /// </summary>
+        public string ContentType { get; set; } = "application/json";
     }
 }

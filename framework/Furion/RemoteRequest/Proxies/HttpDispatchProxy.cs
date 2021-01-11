@@ -6,14 +6,17 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using System.Xml.Serialization;
 
 namespace Furion.RemoteRequest
 {
@@ -46,7 +49,7 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public override object Invoke(MethodInfo method, object[] args)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("Please use asynchronous operation mode.");
         }
 
         /// <summary>
@@ -66,17 +69,7 @@ namespace Furion.RemoteRequest
                 // 打印成功消息
                 App.PrintToMiniProfiler(MiniProfilerCategory, "Succeeded");
             }
-            else
-            {
-                // 读取错误数据
-                var errorMessage = await response.Content.ReadAsStringAsync();
-
-                // 打印失败消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", errorMessage, isError: true);
-
-                // 抛出请求异常
-                throw new HttpRequestException(errorMessage);
-            }
+            else throw (await CreateRequestException(response));
         }
 
         /// <summary>
@@ -129,17 +122,7 @@ namespace Furion.RemoteRequest
                     default: throw new InvalidCastException("Invalid response type setting.");
                 }
             }
-            else
-            {
-                // 读取错误数据
-                var errorMessage = await response.Content.ReadAsStringAsync();
-
-                // 打印失败消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", errorMessage, isError: true);
-
-                // 抛出请求异常
-                throw new HttpRequestException(errorMessage);
-            }
+            else throw (await CreateRequestException(response));
         }
 
         /// <summary>
@@ -359,12 +342,59 @@ namespace Furion.RemoteRequest
 
             if (bodyParameters.Any())
             {
-                var bodyJson = JsonSerializerUtility.Serialize(bodyParameters.First().Value.Value);
-                request.Content = new StringContent(bodyJson, Encoding.UTF8, "application/json");
+                // 获取 body 参数
+                var bodyArgs = bodyParameters.First().Value.Value;
 
-                // 打印请求地址
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Body", bodyJson);
+                string body;
+
+                // 处理 json 类型
+                if (httpMethodAttribute.ContentType.Contains("json"))
+                {
+                    body = JsonSerializerUtility.Serialize(bodyArgs);
+                }
+                // 处理 xml 类型
+                else if (httpMethodAttribute.ContentType.Contains("xml"))
+                {
+                    var xmlSerializer = new XmlSerializer(bodyArgs.GetType());
+                    var buffer = new StringBuilder();
+
+                    using var writer = new StringWriter(buffer);
+                    xmlSerializer.Serialize(writer, bodyArgs);
+
+                    body = buffer.ToString();
+                }
+                // 其他类型
+                else body = bodyArgs.ToString();
+
+                if (!string.IsNullOrEmpty(body))
+                {
+                    var httpContent = new StringContent(body, Encoding.UTF8);
+
+                    // 设置内容类型
+                    httpContent.Headers.ContentType = new MediaTypeHeaderValue(httpMethodAttribute.ContentType);
+                    request.Content = httpContent;
+
+                    // 打印请求地址
+                    App.PrintToMiniProfiler(MiniProfilerCategory, "Body", body);
+                }
             }
+        }
+
+        /// <summary>
+        /// 创建请求异常信息
+        /// </summary>
+        /// <param name="response"></param>
+        /// <returns></returns>
+        private static async Task<HttpRequestException> CreateRequestException(HttpResponseMessage response)
+        {
+            // 读取错误数据
+            var errorMessage = await response.Content.ReadAsStringAsync();
+
+            // 打印失败消息
+            App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", errorMessage, isError: true);
+
+            // 抛出请求异常
+            return new HttpRequestException(errorMessage);
         }
     }
 }

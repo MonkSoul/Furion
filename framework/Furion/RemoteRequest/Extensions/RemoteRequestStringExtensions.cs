@@ -3,11 +3,14 @@ using Furion.DependencyInjection;
 using Furion.Utilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Furion.RemoteRequest.Extensions
 {
@@ -29,11 +32,12 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="headers"></param>
         /// <param name="clientName"></param>
         /// <param name="interceptor"></param>
+        /// <param name="contentType"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task<HttpResponseMessage> GetAsync(this string requestUri, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, CancellationToken cancellationToken = default)
+        public static async Task<HttpResponseMessage> GetAsync(this string requestUri, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, string contentType = "application/json", CancellationToken cancellationToken = default)
         {
-            return await requestUri.SendAsync(HttpMethod.Get, null, headers, clientName, interceptor, cancellationToken);
+            return await requestUri.SendAsync(HttpMethod.Get, null, headers, clientName, interceptor, contentType, cancellationToken);
         }
 
         /// <summary>
@@ -43,11 +47,12 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="headers"></param>
         /// <param name="clientName"></param>
         /// <param name="interceptor"></param>
+        /// <param name="contentType"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task<T> GetAsAsync<T>(this string requestUri, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, CancellationToken cancellationToken = default)
+        public static async Task<T> GetAsAsync<T>(this string requestUri, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, string contentType = "application/json", CancellationToken cancellationToken = default)
         {
-            return await requestUri.SendAsAsync<T>(HttpMethod.Get, null, headers, clientName, interceptor, cancellationToken);
+            return await requestUri.SendAsAsync<T>(HttpMethod.Get, null, headers, clientName, interceptor, contentType, cancellationToken);
         }
 
         /// <summary>
@@ -57,11 +62,12 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="headers"></param>
         /// <param name="clientName"></param>
         /// <param name="interceptor"></param>
+        /// <param name="contentType"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task<HttpResponseMessage> HeadAsync(this string requestUri, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, CancellationToken cancellationToken = default)
+        public static async Task<HttpResponseMessage> HeadAsync(this string requestUri, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, string contentType = "application/json", CancellationToken cancellationToken = default)
         {
-            return await requestUri.SendAsync(HttpMethod.Head, null, headers, clientName, interceptor, cancellationToken);
+            return await requestUri.SendAsync(HttpMethod.Head, null, headers, clientName, interceptor, contentType, cancellationToken);
         }
 
         /// <summary>
@@ -71,11 +77,12 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="headers"></param>
         /// <param name="clientName"></param>
         /// <param name="interceptor"></param>
+        /// <param name="contentType"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task<T> HeadAsAsync<T>(this string requestUri, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, CancellationToken cancellationToken = default)
+        public static async Task<T> HeadAsAsync<T>(this string requestUri, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, string contentType = "application/json", CancellationToken cancellationToken = default)
         {
-            return await requestUri.SendAsAsync<T>(HttpMethod.Head, null, headers, clientName, interceptor, cancellationToken);
+            return await requestUri.SendAsAsync<T>(HttpMethod.Head, null, headers, clientName, interceptor, contentType, cancellationToken);
         }
 
         /// <summary>
@@ -86,11 +93,12 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="headers"></param>
         /// <param name="clientName"></param>
         /// <param name="interceptor"></param>
+        /// <param name="contentType"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task<HttpResponseMessage> PostAsync(this string requestUri, object bodyArgs = null, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, CancellationToken cancellationToken = default)
+        public static async Task<HttpResponseMessage> PostAsync(this string requestUri, object bodyArgs = null, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, string contentType = "application/json", CancellationToken cancellationToken = default)
         {
-            return await requestUri.SendAsync(HttpMethod.Post, bodyArgs, headers, clientName, interceptor, cancellationToken);
+            return await requestUri.SendAsync(HttpMethod.Post, bodyArgs, headers, clientName, interceptor, contentType, cancellationToken);
         }
 
         /// <summary>
@@ -101,11 +109,12 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="headers"></param>
         /// <param name="clientName"></param>
         /// <param name="interceptor"></param>
+        /// <param name="contentType"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task<T> PostAsAsync<T>(this string requestUri, object bodyArgs = null, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, CancellationToken cancellationToken = default)
+        public static async Task<T> PostAsAsync<T>(this string requestUri, object bodyArgs = null, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, string contentType = "application/json", CancellationToken cancellationToken = default)
         {
-            return await requestUri.SendAsAsync<T>(HttpMethod.Post, bodyArgs, headers, clientName, interceptor, cancellationToken);
+            return await requestUri.SendAsAsync<T>(HttpMethod.Post, bodyArgs, headers, clientName, interceptor, contentType, cancellationToken);
         }
 
         /// <summary>
@@ -116,11 +125,12 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="headers"></param>
         /// <param name="clientName"></param>
         /// <param name="interceptor"></param>
+        /// <param name="contentType"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task<HttpResponseMessage> PutAsync(this string requestUri, object bodyArgs = null, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, CancellationToken cancellationToken = default)
+        public static async Task<HttpResponseMessage> PutAsync(this string requestUri, object bodyArgs = null, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, string contentType = "application/json", CancellationToken cancellationToken = default)
         {
-            return await requestUri.SendAsync(HttpMethod.Put, bodyArgs, headers, clientName, interceptor, cancellationToken);
+            return await requestUri.SendAsync(HttpMethod.Put, bodyArgs, headers, clientName, interceptor, contentType, cancellationToken);
         }
 
         /// <summary>
@@ -131,11 +141,12 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="headers"></param>
         /// <param name="clientName"></param>
         /// <param name="interceptor"></param>
+        /// <param name="contentType"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task<T> PutAsAsync<T>(this string requestUri, object bodyArgs = null, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, CancellationToken cancellationToken = default)
+        public static async Task<T> PutAsAsync<T>(this string requestUri, object bodyArgs = null, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, string contentType = "application/json", CancellationToken cancellationToken = default)
         {
-            return await requestUri.SendAsAsync<T>(HttpMethod.Put, bodyArgs, headers, clientName, interceptor, cancellationToken);
+            return await requestUri.SendAsAsync<T>(HttpMethod.Put, bodyArgs, headers, clientName, interceptor, contentType, cancellationToken);
         }
 
         /// <summary>
@@ -146,11 +157,12 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="headers"></param>
         /// <param name="clientName"></param>
         /// <param name="interceptor"></param>
+        /// <param name="contentType"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task<HttpResponseMessage> DeleteAsync(this string requestUri, object bodyArgs = null, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, CancellationToken cancellationToken = default)
+        public static async Task<HttpResponseMessage> DeleteAsync(this string requestUri, object bodyArgs = null, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, string contentType = "application/json", CancellationToken cancellationToken = default)
         {
-            return await requestUri.SendAsync(HttpMethod.Delete, bodyArgs, headers, clientName, interceptor, cancellationToken);
+            return await requestUri.SendAsync(HttpMethod.Delete, bodyArgs, headers, clientName, interceptor, contentType, cancellationToken);
         }
 
         /// <summary>
@@ -161,11 +173,12 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="headers"></param>
         /// <param name="clientName"></param>
         /// <param name="interceptor"></param>
+        /// <param name="contentType"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task<T> DeleteAsAsync<T>(this string requestUri, object bodyArgs = null, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, CancellationToken cancellationToken = default)
+        public static async Task<T> DeleteAsAsync<T>(this string requestUri, object bodyArgs = null, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, string contentType = "application/json", CancellationToken cancellationToken = default)
         {
-            return await requestUri.SendAsAsync<T>(HttpMethod.Delete, bodyArgs, headers, clientName, interceptor, cancellationToken);
+            return await requestUri.SendAsAsync<T>(HttpMethod.Delete, bodyArgs, headers, clientName, interceptor, contentType, cancellationToken);
         }
 
         /// <summary>
@@ -176,11 +189,12 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="headers"></param>
         /// <param name="clientName"></param>
         /// <param name="interceptor"></param>
+        /// <param name="contentType"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task<HttpResponseMessage> PatchAsync(this string requestUri, object bodyArgs = null, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, CancellationToken cancellationToken = default)
+        public static async Task<HttpResponseMessage> PatchAsync(this string requestUri, object bodyArgs = null, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, string contentType = "application/json", CancellationToken cancellationToken = default)
         {
-            return await requestUri.SendAsync(HttpMethod.Patch, bodyArgs, headers, clientName, interceptor, cancellationToken);
+            return await requestUri.SendAsync(HttpMethod.Patch, bodyArgs, headers, clientName, interceptor, contentType, cancellationToken);
         }
 
         /// <summary>
@@ -191,11 +205,12 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="headers"></param>
         /// <param name="clientName"></param>
         /// <param name="interceptor"></param>
+        /// <param name="contentType"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task<T> PatchAsAsync<T>(this string requestUri, object bodyArgs = null, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, CancellationToken cancellationToken = default)
+        public static async Task<T> PatchAsAsync<T>(this string requestUri, object bodyArgs = null, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, string contentType = "application/json", CancellationToken cancellationToken = default)
         {
-            return await requestUri.SendAsAsync<T>(HttpMethod.Patch, bodyArgs, headers, clientName, interceptor, cancellationToken);
+            return await requestUri.SendAsAsync<T>(HttpMethod.Patch, bodyArgs, headers, clientName, interceptor, contentType, cancellationToken);
         }
 
         /// <summary>
@@ -207,11 +222,12 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="headers"></param>
         /// <param name="clientName"></param>
         /// <param name="interceptor"></param>
+        /// <param name="contentType"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task<T> SendAsAsync<T>(this string requestUri, HttpMethod httpMethod = default, object bodyArgs = null, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, CancellationToken cancellationToken = default)
+        public static async Task<T> SendAsAsync<T>(this string requestUri, HttpMethod httpMethod = default, object bodyArgs = null, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, string contentType = "application/json", CancellationToken cancellationToken = default)
         {
-            var response = await requestUri.SendAsync(httpMethod, bodyArgs, headers, clientName, interceptor, cancellationToken);
+            var response = await requestUri.SendAsync(httpMethod, bodyArgs, headers, clientName, interceptor, contentType, cancellationToken);
 
             // 读取流
             using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);
@@ -230,9 +246,10 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="headers"></param>
         /// <param name="clientName"></param>
         /// <param name="interceptor"></param>
+        /// <param name="contentType">contentType</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task<HttpResponseMessage> SendAsync(this string requestUri, HttpMethod httpMethod = default, object bodyArgs = null, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, CancellationToken cancellationToken = default)
+        public static async Task<HttpResponseMessage> SendAsync(this string requestUri, HttpMethod httpMethod = default, object bodyArgs = null, Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> interceptor = default, string contentType = "application/json", CancellationToken cancellationToken = default)
         {
             // 检查 Url 地址是否有效
             var result = requestUri.TryValidate(ValidationTypes.Url);
@@ -256,11 +273,38 @@ namespace Furion.RemoteRequest.Extensions
             // 设置请求报文参数，排除Get和Head请求
             if (httpMethod != HttpMethod.Get && httpMethod != HttpMethod.Head && bodyArgs != null)
             {
-                var bodyJson = JsonSerializerUtility.Serialize(bodyArgs);
-                request.Content = new StringContent(bodyJson, Encoding.UTF8, "application/json");
+                string body;
 
-                // 打印请求地址
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Body", bodyJson);
+                // 处理 json 类型
+                if (contentType.Contains("json"))
+                {
+                    body = JsonSerializerUtility.Serialize(bodyArgs);
+                }
+                // 处理 xml 类型
+                else if (contentType.Contains("xml"))
+                {
+                    var xmlSerializer = new XmlSerializer(bodyArgs.GetType());
+                    var buffer = new StringBuilder();
+
+                    using var writer = new StringWriter(buffer);
+                    xmlSerializer.Serialize(writer, bodyArgs);
+
+                    body = buffer.ToString();
+                }
+                // 其他类型
+                else body = bodyArgs.ToString();
+
+                if (!string.IsNullOrEmpty(body))
+                {
+                    var httpContent = new StringContent(body, Encoding.UTF8);
+
+                    // 设置内容类型
+                    httpContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                    request.Content = httpContent;
+
+                    // 打印请求地址
+                    App.PrintToMiniProfiler(MiniProfilerCategory, "Body", body);
+                }
             }
 
             // 请求之前拦截
