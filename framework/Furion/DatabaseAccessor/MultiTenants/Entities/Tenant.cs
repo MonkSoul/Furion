@@ -52,7 +52,7 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 架构名
         /// </summary>
-        [Phone, MaxLength(32)]
+        [MaxLength(32)]
         public virtual string Schema { get; set; }
 
         /// <summary>

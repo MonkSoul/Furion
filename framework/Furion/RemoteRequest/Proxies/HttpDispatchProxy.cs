@@ -1,4 +1,5 @@
-﻿using Furion.DependencyInjection;
+﻿using Furion.DataValidation;
+using Furion.DependencyInjection;
 using Furion.Extensions;
 using Furion.Reflection;
 using Furion.Utilities;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -60,6 +62,9 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public override async Task InvokeAsync(MethodInfo method, object[] args)
         {
+            // 验证参数
+            ValidateMethodParameters(method, args);
+
             // 发送请求
             var (response, _) = await SendAsync(method, args);
 
@@ -81,6 +86,9 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public override async Task<T> InvokeAsyncT<T>(MethodInfo method, object[] args)
         {
+            // 验证参数
+            ValidateMethodParameters(method, args);
+
             // 发送请求
             var (response, httpMethodAttribute) = await SendAsync(method, args);
 
@@ -376,6 +384,49 @@ namespace Furion.RemoteRequest
 
                     // 打印请求地址
                     App.PrintToMiniProfiler(MiniProfilerCategory, "Body", body);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 验证方法参数
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="args"></param>
+        private static void ValidateMethodParameters(MethodInfo method, object[] args)
+        {
+            // 如果方法没有参数，则跳过验证
+            var parameters = method.GetParameters();
+            if (parameters.Length == 0) return;
+
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                var parameter = parameters[i];
+                var parameterType = parameter.ParameterType;
+                var value = args[i];
+
+                // 判断是否是 Class 类型
+                if (parameterType.IsClass)
+                {
+                    // 如果值为空且贴有非空特性
+                    if (value == null)
+                    {
+                        if (parameter.IsDefined(typeof(RequiredAttribute))) throw new ArgumentNullException(parameter.Name);
+                        else continue;
+                    }
+
+                    // 验证里面特性
+                    var result = DataValidator.TryValidateObject(value);
+                    if (!result.IsValid) throw new ArgumentException(JsonSerializerUtility.Serialize(result.ValidationResults));
+                }
+                // 否则验证值
+                else
+                {
+                    if (!parameter.IsDefined(typeof(RequiredAttribute))) continue;
+
+                    // 验证值
+                    var result = DataValidator.TryValidateValue(value, parameter.GetCustomAttributes<ValidationAttribute>().ToArray());
+                    if (!result.IsValid) throw new ArgumentException(JsonSerializerUtility.Serialize(result.ValidationResults));
                 }
             }
         }
