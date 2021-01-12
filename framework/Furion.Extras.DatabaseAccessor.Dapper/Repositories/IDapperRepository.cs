@@ -2,7 +2,7 @@
 using System.Data;
 using System.Threading.Tasks;
 
-namespace Furion.DatabaseAccessor
+namespace Dapper
 {
     /// <summary>
     /// 非泛型 SqlSugar 仓储

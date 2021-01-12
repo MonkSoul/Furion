@@ -6,7 +6,7 @@ namespace SqlSugar
     /// 分页泛型集合
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public class PagedList<TEntity>
+    public class SqlSugarPagedList<TEntity>
         where TEntity : class, new()
     {
         /// <summary>
@@ -48,7 +48,7 @@ namespace SqlSugar
     /// <summary>
     /// 分页集合
     /// </summary>
-    public class PagedModel : PagedList<object>
+    public class PagedModel : SqlSugarPagedList<object>
     {
     }
 }

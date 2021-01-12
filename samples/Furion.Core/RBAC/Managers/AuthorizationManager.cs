@@ -1,6 +1,5 @@
 using Furion.DatabaseAccessor;
 using Furion.DependencyInjection;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -14,11 +13,6 @@ namespace Furion.Core
     public class AuthorizationManager : IAuthorizationManager, ITransient
     {
         /// <summary>
-        /// 请求上下文访问器
-        /// </summary>
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        /// <summary>
         /// 数据库仓储
         /// </summary>
         private readonly IRepository<User> _userRepository;
@@ -26,12 +20,9 @@ namespace Furion.Core
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="httpContextAccessor"></param>
         /// <param name="userRepository"></param>
-        public AuthorizationManager(IHttpContextAccessor httpContextAccessor
-            , IRepository<User> userRepository)
+        public AuthorizationManager(IRepository<User> userRepository)
         {
-            _httpContextAccessor = httpContextAccessor;
             _userRepository = userRepository;
         }
 
@@ -41,7 +32,7 @@ namespace Furion.Core
         /// <returns></returns>
         public int GetUserId()
         {
-            return int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue("UserId"));
+            return int.Parse(App.User.FindFirstValue("UserId"));
         }
 
         /// <summary>

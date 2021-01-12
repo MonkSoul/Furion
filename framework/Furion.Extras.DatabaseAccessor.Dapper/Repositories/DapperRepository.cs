@@ -1,12 +1,11 @@
-﻿using Dapper;
-using Dapper.Contrib.Extensions;
+﻿using Dapper.Contrib.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace Furion.DatabaseAccessor
+namespace Dapper
 {
     /// <summary>
     /// 非泛型 SqlSugar 仓储

@@ -1,6 +1,5 @@
 using Furion.DependencyInjection;
 using Furion.Extensions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -122,7 +121,7 @@ namespace Furion.DatabaseAccessor
                 if (Db.CustomizeMultiTenants || !typeof(IPrivateMultiTenant).IsAssignableFrom(GetType())) return default;
 
                 // 判断 HttpContext 是否存在
-                var httpContext = HttpContextLocal.Current();
+                var httpContext = App.HttpContext;
                 if (httpContext == null) return default;
 
                 // 获取主机地址

@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Reflection;
 
-namespace Furion.DatabaseAccessor
+namespace Dapper
 {
     /// <summary>
     /// Sql 类型

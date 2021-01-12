@@ -340,21 +340,15 @@
             权限管理器
             </summary>
         </member>
-        <member name="F:Furion.Core.AuthorizationManager._httpContextAccessor">
-            <summary>
-            请求上下文访问器
-            </summary>
-        </member>
         <member name="F:Furion.Core.AuthorizationManager._userRepository">
             <summary>
             数据库仓储
             </summary>
         </member>
-        <member name="M:Furion.Core.AuthorizationManager.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor,Furion.DatabaseAccessor.IRepository{Furion.Core.User})">
+        <member name="M:Furion.Core.AuthorizationManager.#ctor(Furion.DatabaseAccessor.IRepository{Furion.Core.User})">
             <summary>
             构造函数
             </summary>
-            <param name="httpContextAccessor"></param>
             <param name="userRepository"></param>
         </member>
         <member name="M:Furion.Core.AuthorizationManager.GetUserId">

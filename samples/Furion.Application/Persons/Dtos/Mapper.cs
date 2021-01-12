@@ -1,11 +1,10 @@
 ﻿using Furion.Core;
-using Furion.ObjectMapper;
 using Mapster;
 using System;
 
 namespace Furion.Application.Persons
 {
-    public class Mapper : IObjectMapper
+    public class Mapper : IRegister
     {
         public void Register(TypeAdapterConfig config)
         {

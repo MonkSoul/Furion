@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
+using System.Security.Claims;
 
 namespace Furion
 {
@@ -91,8 +92,7 @@ namespace Furion
         {
             get
             {
-                var httpContext = HttpContextLocal.Current();
-                if (httpContext != null)
+                if (HttpContext != null)
                 {
                     // 如果没有构建过则构建一次
                     if (!_isBuildedServiceProvider)
@@ -101,11 +101,21 @@ namespace Furion
                         _isBuildedServiceProvider = true;
                     }
 
-                    return httpContext.RequestServices;
+                    return HttpContext.RequestServices;
                 }
                 else return _isBuildedServiceProvider ? _serviceProvider : InternalApp.InternalServices.BuildServiceProvider();
             }
         }
+
+        /// <summary>
+        /// 获取请求上下文
+        /// </summary>
+        public static HttpContext HttpContext => HttpContextLocal.Current();
+
+        /// <summary>
+        /// 获取请求上下文用户
+        /// </summary>
+        public static ClaimsPrincipal User => HttpContext?.User;
 
         /// <summary>
         /// 获取请求生命周期的服务

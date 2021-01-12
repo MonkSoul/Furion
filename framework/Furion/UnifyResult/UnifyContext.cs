@@ -93,7 +93,7 @@ namespace Furion.UnifyResult
         /// <param name="extras"></param>
         public static void Fill(object extras)
         {
-            var items = HttpContextLocal.Current()?.Items;
+            var items = App.HttpContext?.Items;
             if (items.ContainsKey(UnifyResultExtrasKey)) items.Remove(UnifyResultExtrasKey);
             items.Add(UnifyResultExtrasKey, extras);
         }
@@ -104,7 +104,7 @@ namespace Furion.UnifyResult
         public static object Take()
         {
             object extras = null;
-            HttpContextLocal.Current()?.Items?.TryGetValue(UnifyResultExtrasKey, out extras);
+            App.HttpContext?.Items?.TryGetValue(UnifyResultExtrasKey, out extras);
             return extras;
         }
 
@@ -115,7 +115,7 @@ namespace Furion.UnifyResult
         /// <param name="value"></param>
         internal static void Set(string key, object value)
         {
-            var items = HttpContextLocal.Current()?.Items;
+            var items = App.HttpContext?.Items;
             if (items != null && items.ContainsKey(key)) items.Remove(key);
             items?.Add(key, value);
         }
@@ -128,7 +128,7 @@ namespace Furion.UnifyResult
         internal static object Get(string key)
         {
             object value = null;
-            HttpContextLocal.Current()?.Items?.TryGetValue(key, out value);
+            App.HttpContext?.Items?.TryGetValue(key, out value);
             return value;
         }
 

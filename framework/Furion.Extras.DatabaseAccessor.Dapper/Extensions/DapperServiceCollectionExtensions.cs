@@ -1,4 +1,4 @@
-﻿using Furion.DatabaseAccessor;
+﻿using Dapper;
 using System;
 using System.Data;
 
@@ -14,7 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services"></param>
         /// <param name="connectionString">连接字符串</param>
-        /// <param name="sqlProvider"> <see cref="Furion.DatabaseAccessor.SqlProvider"/> 类型</param>
+        /// <param name="sqlProvider"> <see cref="Dapper.SqlProvider"/> 类型</param>
         /// <returns></returns>
         public static IServiceCollection AddDapper(this IServiceCollection services, string connectionString, string sqlProvider)
         {
