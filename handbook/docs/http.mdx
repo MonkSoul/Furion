@@ -326,7 +326,7 @@ var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<objec
 services.AddRemoteRequest(options=>
 {
     // 配置 Github 基本信息
-    services.AddHttpClient("github", c =>
+    options.AddHttpClient("github", c =>
     {
         c.BaseAddress = new Uri("https://api.github.com/");
         c.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
@@ -334,7 +334,7 @@ services.AddRemoteRequest(options=>
     });
 
     // 配置 Facebook 基本信息
-    services.AddHttpClient("facebook", c =>
+    options.AddHttpClient("facebook", c =>
     {
         c.BaseAddress = new Uri("https://api.facebook.com/");
         c.DefaultRequestHeaders.Add("Accept", "application/vnd.facebook.v3+json");

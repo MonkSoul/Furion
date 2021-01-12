@@ -134,19 +134,19 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
-        /// 获取瞬时数据库上下文
+        /// 获取新的瞬时数据库上下文
         /// </summary>
         /// <returns></returns>
-        public static DbContext GetDuplicateDbContext()
+        public static DbContext GetNewDbContext()
         {
-            return GetDuplicateDbContext(typeof(MasterDbContextLocator));
+            return GetNewDbContext(typeof(MasterDbContextLocator));
         }
 
         /// <summary>
-        /// 获取瞬时数据库上下文
+        /// 获取新的瞬时数据库上下文
         /// </summary>
         /// <returns></returns>
-        public static DbContext GetDuplicateDbContext(Type dbContextLocator)
+        public static DbContext GetNewDbContext(Type dbContextLocator)
         {
             // 判断是否注册了数据库上下文
             if (!Penetrates.DbContextWithLocatorCached.ContainsKey(dbContextLocator)) return default;
@@ -156,14 +156,14 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
-        /// 获取瞬时数据库上下文
+        /// 获取新的瞬时数据库上下文
         /// </summary>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <returns></returns>
-        public static DbContext GetDuplicateDbContext<TDbContextLocator>()
+        public static DbContext GetNewDbContext<TDbContextLocator>()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return GetDuplicateDbContext(typeof(TDbContextLocator));
+            return GetNewDbContext(typeof(TDbContextLocator));
         }
     }
 }

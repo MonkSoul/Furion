@@ -280,7 +280,26 @@ var dt = db.Ado.UseStoredProcedure().GetDataTable("sp_school",nameP,ageP);
 
 想了解更多 `SqlSugar` 知识可查阅 [SqlSugar 官网](http://donet5.com/)。
 
-## 10.1.7 反馈与建议
+## 10.1.7 打印 `sql` 到 `Swagger`
+
+```cs
+services.AddSqlSugar(new ConnectionConfig
+{
+    ConnectionString = "Server=.xxxxx",//连接符字串
+    DbType = DbType.SqlServer,
+    IsAutoCloseConnection = true,
+    InitKeyType = InitKeyType.Attribute//从特性读取主键自增信息
+},
+db =>
+{
+    db.Aop.OnLogExecuting = (sql, pars) =>
+    {
+        App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" +string.Join(",", pars?.Select(it => it.ParameterName + ":" + it.Value)));
+    };
+});
+```
+
+## 10.1.8 反馈与建议
 
 :::note 与我们交流
 

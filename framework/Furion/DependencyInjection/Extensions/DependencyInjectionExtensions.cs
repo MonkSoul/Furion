@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace Furion.DependencyInjection.Extensions
+﻿namespace Furion.DependencyInjection.Extensions
 {
     /// <summary>
     /// 依赖注入拓展
@@ -16,7 +14,7 @@ namespace Furion.DependencyInjection.Extensions
         public static TService GetService<TService>(this object obj)
             where TService : class
         {
-            return HttpContextLocal.Current()?.RequestServices?.GetService<TService>();
+            return App.GetService<TService>();
         }
 
         /// <summary>
@@ -27,7 +25,7 @@ namespace Furion.DependencyInjection.Extensions
         public static TService GetRequiredService<TService>(this object obj)
             where TService : class
         {
-            return HttpContextLocal.Current()?.RequestServices?.GetRequiredService<TService>();
+            return App.GetRequiredService<TService>();
         }
     }
 }

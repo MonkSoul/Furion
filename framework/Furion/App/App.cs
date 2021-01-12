@@ -36,7 +36,7 @@ namespace Furion
             get
             {
                 if (_settings == null)
-                    _settings = GetDuplicateOptions<AppSettingsOptions>();
+                    _settings = GetOptions<AppSettingsOptions>();
                 return _settings;
             }
         }
@@ -59,7 +59,7 @@ namespace Furion
             get
             {
                 if (_webHostEnvironment == null)
-                    _webHostEnvironment = GetDuplicateService<IWebHostEnvironment>();
+                    _webHostEnvironment = GetService<IWebHostEnvironment>();
                 return _webHostEnvironment;
             }
         }
@@ -75,9 +75,37 @@ namespace Furion
         public static readonly IEnumerable<Type> EffectiveTypes;
 
         /// <summary>
+        /// 私有服务定位器
+        /// </summary>
+        private static IServiceProvider _serviceProvider;
+
+        /// <summary>
+        /// 判断是否构建过服务定位器
+        /// </summary>
+        private static bool _isBuildedServiceProvider = false;
+
+        /// <summary>
         /// 瞬时服务提供器，每次都是不一样的实例
         /// </summary>
-        public static IServiceProvider ServiceProvider => InternalApp.InternalServices.BuildServiceProvider();
+        public static IServiceProvider ServiceProvider
+        {
+            get
+            {
+                var httpContext = HttpContextLocal.Current();
+                if (httpContext != null)
+                {
+                    // 如果没有构建过则构建一次
+                    if (!_isBuildedServiceProvider)
+                    {
+                        _serviceProvider = InternalApp.InternalServices.BuildServiceProvider();
+                        _isBuildedServiceProvider = true;
+                    }
+
+                    return httpContext.RequestServices;
+                }
+                else return _isBuildedServiceProvider ? _serviceProvider : InternalApp.InternalServices.BuildServiceProvider();
+            }
+        }
 
         /// <summary>
         /// 获取请求生命周期的服务
@@ -97,7 +125,7 @@ namespace Furion
         /// <returns></returns>
         public static object GetService(Type type)
         {
-            return HttpContextLocal.Current()?.RequestServices?.GetService(type);
+            return ServiceProvider.GetService(type);
         }
 
         /// <summary>
@@ -118,7 +146,7 @@ namespace Furion
         /// <returns></returns>
         public static object GetRequiredService(Type type)
         {
-            return HttpContextLocal.Current()?.RequestServices?.GetRequiredService(type);
+            return ServiceProvider.GetRequiredService(type);
         }
 
         /// <summary>
@@ -164,28 +192,6 @@ namespace Furion
             where TOptions : class, new()
         {
             return GetService<IOptionsSnapshot<TOptions>>()?.Value;
-        }
-
-        /// <summary>
-        /// 获取服务副本
-        /// </summary>
-        /// <typeparam name="TService"></typeparam>
-        /// <returns></returns>
-        public static TService GetDuplicateService<TService>()
-            where TService : class
-        {
-            return ServiceProvider.GetService<TService>();
-        }
-
-        /// <summary>
-        /// 获取选项副本
-        /// </summary>
-        /// <typeparam name="TOptions"></typeparam>
-        /// <returns></returns>
-        public static TOptions GetDuplicateOptions<TOptions>()
-            where TOptions : class, new()
-        {
-            return GetDuplicateService<IOptions<TOptions>>().Value;
         }
 
         /// <summary>

@@ -1,6 +1,4 @@
 ﻿using Furion.DependencyInjection;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 
@@ -607,7 +605,7 @@ namespace Furion.Logging.Extensions
         /// <returns></returns>
         private static ILogger<TClass> GetLogger<TClass>()
         {
-            return HttpContextLocal.Current()?.RequestServices?.GetService<ILogger<TClass>>();
+            return App.GetService<ILogger<TClass>>();
         }
 
         /// <summary>
@@ -617,7 +615,7 @@ namespace Furion.Logging.Extensions
         /// <returns></returns>
         private static ILogger GetLogger(string categoryName)
         {
-            return HttpContextLocal.Current()?.RequestServices?.GetService<ILoggerFactory>()?.CreateLogger(categoryName);
+            return App.GetService<ILoggerFactory>()?.CreateLogger(categoryName);
         }
     }
 }

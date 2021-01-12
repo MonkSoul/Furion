@@ -34,7 +34,7 @@ namespace Furion.DynamicApiController
         /// </summary>
         public DynamicApiControllerApplicationModelConvention()
         {
-            _dynamicApiControllerSettings = App.GetDuplicateOptions<DynamicApiControllerSettingsOptions>();
+            _dynamicApiControllerSettings = App.GetOptions<DynamicApiControllerSettingsOptions>();
             _nameVersionRegex = new Regex(@"V(?<version>[0-9_]+$)");
         }
 

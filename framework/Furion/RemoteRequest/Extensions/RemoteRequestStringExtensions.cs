@@ -311,7 +311,7 @@ namespace Furion.RemoteRequest.Extensions
             interceptor?.Invoke(request);
 
             // 打印请求地址
-            App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning", $"{request.Method} {request.RequestUri.AbsoluteUri}");
+            App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning", $"{request.Method} {request.RequestUri}");
 
             // 创建 HttpClient 对象
             var clientFactory = App.GetService<IHttpClientFactory>();

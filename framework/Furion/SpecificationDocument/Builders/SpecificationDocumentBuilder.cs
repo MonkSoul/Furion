@@ -52,7 +52,7 @@ namespace Furion.SpecificationDocument
         static SpecificationDocumentBuilder()
         {
             // 载入配置
-            _specificationDocumentSettings = App.GetDuplicateOptions<SpecificationDocumentSettingsOptions>();
+            _specificationDocumentSettings = App.GetOptions<SpecificationDocumentSettingsOptions>();
 
             // 初始化常量
             _groupOrderRegex = new Regex(@"@(?<order>[0-9]+$)");

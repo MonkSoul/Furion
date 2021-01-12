@@ -133,7 +133,7 @@ namespace Furion.DatabaseAccessor
                 return memoryCache.GetOrCreate($"{host}:MultiTenants", cache =>
                 {
                     // 读取数据库
-                    var tenantDbContext = Db.GetDuplicateDbContext<MultiTenantDbContextLocator>();
+                    var tenantDbContext = Db.GetNewDbContext<MultiTenantDbContextLocator>();
                     if (tenantDbContext == null) return default;
 
                     return tenantDbContext.Set<Tenant>().FirstOrDefault(u => u.Host == host);

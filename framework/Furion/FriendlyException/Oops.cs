@@ -220,7 +220,7 @@ namespace Furion.FriendlyException
                .ToDictionary(u => u.Key.ToString(), u => u.Value);
 
             // 加载配置文件状态码
-            var errorCodeMessageSettings = App.GetDuplicateOptions<ErrorCodeMessageSettingsOptions>();
+            var errorCodeMessageSettings = App.GetOptions<ErrorCodeMessageSettingsOptions>();
             if (errorCodeMessageSettings is { Definitions: not null })
             {
                 // 获取所有参数大于1的配置

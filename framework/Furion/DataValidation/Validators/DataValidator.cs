@@ -268,7 +268,7 @@ namespace Furion.DataValidation
                 .ToDictionary(u => u.Name, u => u.GetCustomAttribute<ValidationMessageAttribute>().ErrorMessage);
 
             // 加载配置文件配置
-            var validationTypeMessageSettings = App.GetDuplicateOptions<ValidationTypeMessageSettingsOptions>();
+            var validationTypeMessageSettings = App.GetOptions<ValidationTypeMessageSettingsOptions>();
             if (validationTypeMessageSettings is { Definitions: not null })
             {
                 // 获取所有参数大于1的配置

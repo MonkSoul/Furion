@@ -145,7 +145,7 @@ namespace Furion.RemoteRequest
 
             // 创建 HttpClient 对象
             var clientFactory = Services.GetService<IHttpClientFactory>();
-            if (clientFactory == null) throw new ArgumentNullException("Please register for RemoteRequest service first: services.AddRemoteRequest();");
+            if (clientFactory == null) throw new InvalidOperationException("Please register for RemoteRequest service first: services.AddRemoteRequest();");
 
             var httpClient = string.IsNullOrEmpty(httpMethodAttribute.ClientName)
                                         ? clientFactory.CreateClient()
@@ -210,7 +210,7 @@ namespace Furion.RemoteRequest
             }
 
             // 打印请求地址
-            App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning", $"{request.Method} {request.RequestUri.AbsoluteUri}");
+            App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning", $"{request.Method} {request.RequestUri}");
 
             // 返回
             return (request, httpMethodAttribute);
@@ -422,7 +422,7 @@ namespace Furion.RemoteRequest
                 // 否则验证值
                 else
                 {
-                    if (!parameter.IsDefined(typeof(RequiredAttribute))) continue;
+                    if (!parameter.IsDefined(typeof(ValidationAttribute))) continue;
 
                     // 验证值
                     var result = DataValidator.TryValidateValue(value, parameter.GetCustomAttributes<ValidationAttribute>().ToArray());
