@@ -135,24 +135,6 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 获取列表
         /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <param name="page"></param>
-        /// <returns></returns>
-        List<TEntity> ToPagedList(Expression<Func<TEntity, bool>> whereExpression, PagedModel page);
-
-        /// <summary>
-        /// 获取列表
-        /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <param name="page"></param>
-        /// <param name="orderByExpression"></param>
-        /// <param name="orderByType"></param>
-        /// <returns></returns>
-        List<TEntity> ToPagedList(Expression<Func<TEntity, bool>> whereExpression, PagedModel page, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc);
-
-        /// <summary>
-        /// 获取列表
-        /// </summary>
         /// <returns></returns>
         Task<List<TEntity>> ToListAsync();
 
@@ -171,24 +153,6 @@ namespace Furion.DatabaseAccessor
         /// <param name="orderByType"></param>
         /// <returns></returns>
         Task<List<TEntity>> ToListAsync(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc);
-
-        /// <summary>
-        /// 获取列表
-        /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <param name="page"></param>
-        /// <returns></returns>
-        Task<List<TEntity>> ToPagedListAsync(Expression<Func<TEntity, bool>> whereExpression, PagedModel page);
-
-        /// <summary>
-        /// 获取列表
-        /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <param name="page"></param>
-        /// <param name="orderByExpression"></param>
-        /// <param name="orderByType"></param>
-        /// <returns></returns>
-        Task<List<TEntity>> ToPagedListAsync(Expression<Func<TEntity, bool>> whereExpression, PagedModel page, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc);
 
         /// <summary>
         /// 新增一条记录

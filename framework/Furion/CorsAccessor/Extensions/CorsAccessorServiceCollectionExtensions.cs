@@ -52,7 +52,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     if (corsAccessorSettings.AllowCredentials == true && !isNotSetOrigins) builder.AllowCredentials();
 
                     // 配置响应头
-                    if (corsAccessorSettings.WithExposedHeaders != null && corsAccessorSettings.WithExposedHeaders.Length > 0) builder.WithExposedHeaders();
+                    if (corsAccessorSettings.WithExposedHeaders != null && corsAccessorSettings.WithExposedHeaders.Length > 0) builder.WithExposedHeaders(corsAccessorSettings.WithExposedHeaders);
 
                     // 设置预检过期时间
                     if (corsAccessorSettings.SetPreflightMaxAge.HasValue) builder.SetPreflightMaxAge(TimeSpan.FromSeconds(corsAccessorSettings.SetPreflightMaxAge.Value));

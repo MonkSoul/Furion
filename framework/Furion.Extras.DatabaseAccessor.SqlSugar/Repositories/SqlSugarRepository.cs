@@ -216,47 +216,6 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 获取列表
         /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <param name="page"></param>
-        /// <returns></returns>
-        public List<TEntity> ToPagedList(Expression<Func<TEntity, bool>> whereExpression, PagedModel page)
-        {
-            int totalCount = 0;
-            var result = _db.Queryable<TEntity>()
-                .Where(whereExpression)
-                .ToPageList(page.PageIndex, page.PageSize, ref totalCount);
-
-            page.PageCount = (int)Math.Ceiling(totalCount / (double)page.PageSize);
-            page.TotalCount = totalCount;
-
-            return result;
-        }
-
-        /// <summary>
-        /// 获取列表
-        /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <param name="page"></param>
-        /// <param name="orderByExpression"></param>
-        /// <param name="orderByType"></param>
-        /// <returns></returns>
-        public List<TEntity> ToPagedList(Expression<Func<TEntity, bool>> whereExpression, PagedModel page, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc)
-        {
-            int totalCount = 0;
-            var result = _db.Queryable<TEntity>()
-                .OrderByIF(orderByExpression != null, orderByExpression, orderByType)
-                .Where(whereExpression)
-                .ToPageList(page.PageIndex, page.PageSize, ref totalCount);
-
-            page.PageCount = (int)Math.Ceiling(totalCount / (double)page.PageSize);
-            page.TotalCount = totalCount;
-
-            return result;
-        }
-
-        /// <summary>
-        /// 获取列表
-        /// </summary>
         /// <returns></returns>
         public Task<List<TEntity>> ToListAsync()
         {
@@ -283,45 +242,6 @@ namespace Furion.DatabaseAccessor
         public Task<List<TEntity>> ToListAsync(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc)
         {
             return _db.Queryable<TEntity>().OrderByIF(orderByExpression != null, orderByExpression, orderByType).Where(whereExpression).ToListAsync();
-        }
-
-        /// <summary>
-        /// 获取列表
-        /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <param name="page"></param>
-        /// <returns></returns>
-        public async Task<List<TEntity>> ToPagedListAsync(Expression<Func<TEntity, bool>> whereExpression, PagedModel page)
-        {
-            RefAsync<int> totalCount = 0;
-            var result = await _db.Queryable<TEntity>()
-                .Where(whereExpression)
-                .ToPageListAsync(page.PageIndex, page.PageSize, totalCount);
-            page.PageCount = (int)Math.Ceiling(totalCount / (double)page.PageSize);
-            page.TotalCount = totalCount;
-
-            return result;
-        }
-
-        /// <summary>
-        /// 获取列表
-        /// </summary>
-        /// <param name="whereExpression"></param>
-        /// <param name="page"></param>
-        /// <param name="orderByExpression"></param>
-        /// <param name="orderByType"></param>
-        /// <returns></returns>
-        public async Task<List<TEntity>> ToPagedListAsync(Expression<Func<TEntity, bool>> whereExpression, PagedModel page, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc)
-        {
-            RefAsync<int> totalCount = 0;
-            var result = await _db.Queryable<TEntity>()
-                .OrderByIF(orderByExpression != null, orderByExpression, orderByType)
-                .Where(whereExpression)
-                .ToPageListAsync(page.PageIndex, page.PageSize, totalCount);
-            page.PageCount = (int)Math.Ceiling(totalCount / (double)page.PageSize);
-            page.TotalCount = totalCount;
-
-            return result;
         }
 
         /// <summary>
