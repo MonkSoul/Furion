@@ -64,31 +64,39 @@ db =>
 
 在使用之前，我们可以通过构造函数注入 `ISqlSugarRepository<TEntity>` 接口，如：
 
-```cs
-private readonly ISqlSugarRepository<Person> repository;//仓储对象：封装简单的CRUD
-private readonly SqlSugarClient db;//核心对象：拥有完整的SqlSugar全部功能
+```cs {6}
+private readonly ISqlSugarRepository<Person> repository; // 仓储对象：封装简单的CRUD
+private readonly ISqlSugarClient db; // 核心对象：拥有完整的SqlSugar全部功能
 public PersonService(ISqlSugarRepository<Person> sqlSugarRepository)
 {
     repository = sqlSugarRepository;
-    db=repository.Context;
+    db = repository.Context;    // 推荐操作
 }
 ```
 
-## 10.1.4 仓储操作数据库
+## 10.1.4 数据库操作示例
 
 ```cs
+// ================== SqlSugarClient ================
+
 //查询功能
-var data1 = repository.GetById(1);
-var data2 = repository.GetList();
-var data3 = repository.GetList(it => it.Id == 1);
-var data4 = repository.GetSingle(it => it.Id == 1);
+var data1 = db.GetById(1);
+
+var data2 = db.GetList();
+
+var data3 = db.GetList(it => it.Id == 1);
+
+var data4 = db.GetSingle(it => it.Id == 1);
+
 var p = new PageModel() { PageIndex = 1, PageSize = 2 };
-var data5 = repository.GetPageList(it => it.Name == "xx", p);//p.PageCount
-var data6 = repository.GetPageList(it => it.Name == "xx", p, it => it.Name, OrderByType.Asc);
+var data5 = db.GetPageList(it => it.Name == "xx", p);//p.PageCount
+var data6 = db.GetPageList(it => it.Name == "xx", p, it => it.Name, OrderByType.Asc);
+
 List<IConditionalModel> conModels = new List<IConditionalModel>();
 conModels.Add(new ConditionalModel(){FieldName="id",ConditionalType=ConditionalType.Equal,FieldValue="1"});//id=1
-var data7 = repository.GetPageList(conModels, p, it => it.Name, OrderByType.Asc);
-repository.AsQueryable().Where(x => x.Id == 1).ToList();
+var data7 = db.GetPageList(conModels, p, it => it.Name, OrderByType.Asc);
+
+// ================== 简单仓储 ================
 
 //插入
 repository.Insert(insertObj);
@@ -118,7 +126,7 @@ var orderRespository=db.GetSimpleClient<Order>();
 orderRespository.Insert(Order);
 ```
 
-## 10.1.5 核心对象操作数据库
+## 10.1.5 SqlSugarClient 操作示例
 
 ### 10.1.5.1 基础查询
 
