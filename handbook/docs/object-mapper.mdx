@@ -49,14 +49,13 @@ var dto = entity.Adapt<Dto>();
 
 ### 13.3.2 自定义映射规则
 
-```cs {1,7,11-13}
-using Furion.ObjectMapper;
+```cs {1,6,10-12}
 using Mapster;
 using System;
 
 namespace Furion.Application
 {
-    public class Mapper : IObjectMapper
+    public class Mapper : IRegister
     {
         public void Register(TypeAdapterConfig config)
         {
