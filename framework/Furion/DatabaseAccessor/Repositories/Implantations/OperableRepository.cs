@@ -1,4 +1,4 @@
-﻿using Furion.LinqBuilder;
+using Furion.LinqBuilder;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
@@ -749,7 +749,7 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
-        /// 忽略控制属性
+        /// 忽略空值属性
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="ignoreNullValues"></param>
