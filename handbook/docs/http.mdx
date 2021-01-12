@@ -218,7 +218,36 @@ void DeleteIds([Query]UserDto user);
 
 :::
 
-### 19.5.2 返回值处理
+### 19.5.2 参数验证
+
+代理拦截的方式也支持参数 `验证特性` 使用。如：
+
+```cs
+[Get("https://www.furion.pro/getdata/{id}?name={name}")]
+Task<Object> GetData([Required, Range(1, 1000)] int id, [MaxLength(32)] string name);
+```
+
+另外也支持 `类对象` 方式，如：
+
+```cs
+public class User
+{
+    [Required]  // 必填验证
+    [MinLength(4)]  // 最小长度验证
+    public string Account { get; set; }
+
+    [Required]    // 必填验证
+    [MaxLength(32)]    // 最大长度验证
+    public string Password { get; set; }
+}
+```
+
+```cs
+[Post("https://www.furion.pro/getdata/{id}?name={name}")]
+Task<Object> GetData(User user);
+```
+
+### 19.5.3 返回值处理
 
 每一个请求谓词特性都提供了 `ResponseType` 属性，该属性用来配置返回值类型，默认是 `Object` 类型。`ResponseType` 属性可选配置如下：
 
@@ -248,7 +277,7 @@ Task<Stream> GetData();
 Task<byte[]> GetData();
 ```
 
-### 19.5.3 请求/响应拦截
+### 19.5.4 请求/响应拦截
 
 `Furion` 框架重复利用了 `C# 8.0+` 的特性，实现了接口中可定义静态方法和实现的机制，如：
 
@@ -289,7 +318,7 @@ var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<objec
 
 :::
 
-### 19.5.4 `多个请求客户端配置`
+### 19.5.5 `多个请求客户端配置`
 
 `Furion` 框架也提供了多个请求客户端配置，可以为多个客户端请求配置默认请求信息，如：
 
