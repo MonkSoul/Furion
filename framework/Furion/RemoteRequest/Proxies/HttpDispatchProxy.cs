@@ -170,7 +170,7 @@ namespace Furion.RemoteRequest
             var responseInterceptor = method.ReflectedType.GetMethod("ResponseInterceptor");
             if (responseInterceptor != null)
             {
-                response = responseInterceptor.Invoke(null, new object[] { request, method, args }) as HttpResponseMessage;
+                response = responseInterceptor.Invoke(null, new object[] { response, method, args }) as HttpResponseMessage;
             }
             return (response, httpMethodAttribute);
         }
