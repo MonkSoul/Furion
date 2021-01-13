@@ -80,9 +80,9 @@ public PersonService(ISqlSugarRepository<Person> sqlSugarRepository)
 // ================== SqlSugarClient ================
 
 //查询功能
-var data1 = db.GetById(1);
+var data1 =db.Queryable<Student>().First(it=>it.Id==1); //db.GetById(1); 
 
-var data2 = db.GetList();
+var data2 = db.Queryable<Student>().ToList();// db.GetList();
 
 var data3 = db.GetList(it => it.Id == 1);
 
