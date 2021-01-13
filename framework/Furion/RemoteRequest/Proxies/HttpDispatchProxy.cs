@@ -74,7 +74,13 @@ namespace Furion.RemoteRequest
                 // 打印成功消息
                 App.PrintToMiniProfiler(MiniProfilerCategory, "Succeeded");
             }
-            else throw (await CreateRequestException(response));
+            else
+            {
+                // 判断是否需要抛出异常
+                if (method.IsDefined(typeof(SafetyAttribute), true) || method.ReflectedType.IsDefined(typeof(SafetyAttribute))) return;
+
+                throw (await CreateRequestException(response));
+            }
         }
 
         /// <summary>
@@ -130,7 +136,13 @@ namespace Furion.RemoteRequest
                     default: throw new InvalidCastException("Invalid response type setting.");
                 }
             }
-            else throw (await CreateRequestException(response));
+            else
+            {
+                // 判断是否需要抛出异常
+                if (method.IsDefined(typeof(SafetyAttribute), true) || method.ReflectedType.IsDefined(typeof(SafetyAttribute))) return default;
+
+                throw (await CreateRequestException(response));
+            }
         }
 
         /// <summary>
