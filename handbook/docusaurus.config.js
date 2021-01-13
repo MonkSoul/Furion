@@ -33,7 +33,7 @@ module.exports = {
         {
           to: "docs/settings/appsettings",
           activeBasePath: "docs",
-          label: "✨配置",
+          label: "配置",
           position: "left",
         },
         { to: "blog", label: "博客", position: "left" },
