@@ -158,7 +158,7 @@ namespace Furion.RemoteRequest
             var responseInterceptor = method.ReflectedType.GetMethod("ResponseInterceptor");
             if (responseInterceptor != null)
             {
-                response = responseInterceptor.Invoke(null, new[] { response }) as HttpResponseMessage;
+                response = responseInterceptor.Invoke(null, new object[] { request, method, args }) as HttpResponseMessage;
             }
             return (response, httpMethodAttribute);
         }
@@ -206,7 +206,7 @@ namespace Furion.RemoteRequest
             var requestInterceptor = method.ReflectedType.GetMethod("RequestInterceptor");
             if (requestInterceptor != null)
             {
-                request = requestInterceptor.Invoke(null, new[] { request }) as HttpRequestMessage;
+                request = requestInterceptor.Invoke(null, new object[] { request, method, args }) as HttpRequestMessage;
             }
 
             // 打印请求地址
