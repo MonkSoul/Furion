@@ -158,4 +158,34 @@ module.exports = {
       items: ["answer", "errors", "gooduse"],
     },
   ],
+  settings: [
+    {
+      type: "doc",
+      id: "settings/appsettings",
+    },
+    {
+      type: "doc",
+      id: "settings/corsaccessorsettings",
+    },
+    {
+      type: "doc",
+      id: "settings/validationTypemessagesettings",
+    },
+    {
+      type: "doc",
+      id: "settings/dependencyinjectionsettings",
+    },
+    {
+      type: "doc",
+      id: "settings/dynamicapicontrollersettings",
+    },
+    {
+      type: "doc",
+      id: "settings/friendlyexceptionsettings",
+    },
+    {
+      type: "doc",
+      id: "settings/specificationdocumentsettings",
+    },
+  ],
 };

@@ -1,0 +1,31 @@
+---
+id: corsaccessorsettings
+title: 2. 跨域配置
+sidebar_label: 2. 跨域配置
+---
+
+## 2.1 关于配置
+
+跨域配置指的是 `Furion` 框架客户端跨域配置选项。
+
+## 2.2 配置信息
+
+- `CorsAccessorSettings`：配置根节点
+  - `PolicyName`：跨域策略名，`sting` 类型，必填，默认 `FurCorsAccessor`
+  - `WithOrigins`：允许跨域的域名列表，`string[]` 类型，默认 `[ "http://localhost:4200" ]`
+  - `WithHeaders`：请求表头，没有配置则允许所有表头，`string[]` 类型
+  - `WithExposedHeaders`：响应标头，`string[]` 类型
+  - `WithMethods`：设置跨域允许请求谓词，没有配置则允许所有，`string[]` 类型
+  - `AllowCredentials`：跨域请求中的凭据，`bool` 类型
+  - `SetPreflightMaxAge`：设置预检过期时间，`int` 类型
+
+## 2.3 配置示例
+
+```json
+{
+  "CorsAccessorSettings": {
+    "PolicyName": "MyPolicy",
+    "WithOrigins": ["http://localhost:4200", "https://furion.pro"]
+  }
+}
+```

@@ -174,13 +174,13 @@ public interface IHttp : IHttpDispatchProxy
     Task<RESTfulResult<object>> PostVoid(object value);
 
     // 请求拦截器
-    static HttpRequestMessage RequestInterceptor(HttpRequestMessage httpRequest)
+    static HttpRequestMessage RequestInterceptor(HttpRequestMessage httpRequest, MethodInfo method, object[] args)
     {
         return httpRequest;
     }
 
     // 响应拦截器
-    static HttpResponseMessage ResponseInterceptor(HttpResponseMessage httpResponse)
+    static HttpResponseMessage ResponseInterceptor(HttpResponseMessage httpResponse, MethodInfo method, object[] args)
     {
         return httpResponse;
     }
@@ -288,7 +288,7 @@ public interface IHttp : IHttpDispatchProxy
     Task<User> GetData();
 
     // 请求拦截器
-    static HttpRequestMessage RequestInterceptor(HttpRequestMessage httpRequest)
+    static HttpRequestMessage RequestInterceptor(HttpRequestMessage httpRequest, MethodInfo method, object[] args)
     {
         // 比如这里写日志
 
@@ -296,7 +296,7 @@ public interface IHttp : IHttpDispatchProxy
     }
 
     // 响应拦截器
-    static HttpResponseMessage ResponseInterceptor(HttpResponseMessage httpResponse)
+    static HttpResponseMessage ResponseInterceptor(HttpResponseMessage httpResponse, MethodInfo method, object[] args)
     {
         // 比如这里写日志
 

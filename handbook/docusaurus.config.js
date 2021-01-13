@@ -30,6 +30,12 @@ module.exports = {
           label: "文档",
           position: "left",
         },
+        {
+          to: "docs/settings/appsettings",
+          activeBasePath: "docs",
+          label: "✨配置",
+          position: "left",
+        },
         { to: "blog", label: "博客", position: "left" },
         { label: "社区", position: "left", href: "https://www.chinadot.net" },
         {
