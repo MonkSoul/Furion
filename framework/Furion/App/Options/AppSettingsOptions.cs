@@ -15,6 +15,11 @@ namespace Furion
         public bool? InjectMiniProfiler { get; set; }
 
         /// <summary>
+        /// 是否启用规范化文档
+        /// </summary>
+        public bool? InjectSpecificationDocument { get; set; }
+
+        /// <summary>
         /// 是否启用引用程序集扫描
         /// </summary>
         public bool? EnabledReferenceAssemblyScan { get; set; }
@@ -32,8 +37,9 @@ namespace Furion
         public void PostConfigure(AppSettingsOptions options, IConfiguration configuration)
         {
             options.InjectMiniProfiler ??= true;
-            EnabledReferenceAssemblyScan ??= false;
-            ExternalAssemblies ??= Array.Empty<string>();
+            options.InjectSpecificationDocument ??= true;
+            options.EnabledReferenceAssemblyScan ??= false;
+            options.ExternalAssemblies ??= Array.Empty<string>();
         }
     }
 }

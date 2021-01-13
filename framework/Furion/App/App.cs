@@ -76,36 +76,9 @@ namespace Furion
         public static readonly IEnumerable<Type> EffectiveTypes;
 
         /// <summary>
-        /// 私有服务定位器
+        /// 服务提供器
         /// </summary>
-        private static IServiceProvider _serviceProvider;
-
-        /// <summary>
-        /// 判断是否构建过服务定位器
-        /// </summary>
-        private static bool _isBuildedServiceProvider = false;
-
-        /// <summary>
-        /// 瞬时服务提供器，每次都是不一样的实例
-        /// </summary>
-        public static IServiceProvider ServiceProvider
-        {
-            get
-            {
-                if (HttpContext != null)
-                {
-                    // 如果没有构建过则构建一次
-                    if (!_isBuildedServiceProvider)
-                    {
-                        _serviceProvider = InternalApp.InternalServices.BuildServiceProvider();
-                        _isBuildedServiceProvider = true;
-                    }
-
-                    return HttpContext.RequestServices;
-                }
-                else return _isBuildedServiceProvider ? _serviceProvider : InternalApp.InternalServices.BuildServiceProvider();
-            }
-        }
+        public static IServiceProvider ServiceProvider => HttpContext?.RequestServices ?? InternalApp.InternalServices.BuildServiceProvider();
 
         /// <summary>
         /// 获取请求上下文

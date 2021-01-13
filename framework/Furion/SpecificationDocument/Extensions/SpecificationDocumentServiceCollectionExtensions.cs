@@ -1,4 +1,5 @@
-﻿using Furion.DependencyInjection;
+﻿using Furion;
+using Furion.DependencyInjection;
 using Furion.SpecificationDocument;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
@@ -19,6 +20,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>服务集合</returns>
         public static IServiceCollection AddSpecificationDocuments(this IServiceCollection services, Action<SwaggerGenOptions> configure = null)
         {
+            // 判断是否启用规范化文档
+            if (App.Settings.InjectSpecificationDocument != true) return services;
+
             // 添加配置
             services.AddConfigurableOptions<SpecificationDocumentSettingsOptions>();
 
@@ -36,6 +40,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>服务集合</returns>
         public static IMvcBuilder AddSpecificationDocuments(this IMvcBuilder mvcBuilder, Action<SwaggerGenOptions> configure = null)
         {
+            // 判断是否启用规范化文档
+            if (App.Settings.InjectSpecificationDocument != true) return mvcBuilder;
+
             var services = mvcBuilder.Services;
 
             // 添加配置

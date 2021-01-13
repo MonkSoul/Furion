@@ -1,4 +1,5 @@
-﻿using Furion.DependencyInjection;
+﻿using Furion;
+using Furion.DependencyInjection;
 using Furion.SpecificationDocument;
 
 namespace Microsoft.AspNetCore.Builder
@@ -17,6 +18,9 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns></returns>
         public static IApplicationBuilder UseSpecificationDocuments(this IApplicationBuilder app, string routePrefix = default)
         {
+            // 判断是否启用规范化文档
+            if (App.Settings.InjectSpecificationDocument != true) return app;
+
             // 配置 Swagger 全局参数
             app.UseSwagger(options => SpecificationDocumentBuilder.Build(options));
 

@@ -315,7 +315,7 @@ namespace Furion.RemoteRequest.Extensions
 
             // 创建 HttpClient 对象
             var clientFactory = App.GetService<IHttpClientFactory>();
-            if (clientFactory == null) throw new ArgumentNullException("Please register for RemoteRequest service first: services.AddRemoteRequest();");
+            if (clientFactory == null) throw new InvalidOperationException("Please register for RemoteRequest service first: services.AddRemoteRequest();");
 
             var httpClient = string.IsNullOrEmpty(clientName)
                                         ? clientFactory.CreateClient()

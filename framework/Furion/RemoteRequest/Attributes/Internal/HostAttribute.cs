@@ -44,7 +44,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="baseAddress"></param>
         /// <returns></returns>
-        private string HandleBaseAddress(string baseAddress)
+        private static string HandleBaseAddress(string baseAddress)
         {
             if (baseAddress.EndsWith("/"))
             {
