@@ -37,7 +37,7 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// body 内容类型
         /// </summary>
-        public string ContentType { get; set; } = "application/json";
+        public BodyContentTypeOptions BodyContentType { get; set; } = BodyContentTypeOptions.JsonStringContent;
 
         /// <summary>
         /// 属性命名策略

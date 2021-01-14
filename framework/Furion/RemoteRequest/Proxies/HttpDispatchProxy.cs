@@ -8,17 +8,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Reflection;
-using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
-using System.Xml.Serialization;
 
 namespace Furion.RemoteRequest
 {
@@ -28,11 +24,6 @@ namespace Furion.RemoteRequest
     [SkipScan]
     public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
     {
-        /// <summary>
-        /// MiniProfiler 分类名
-        /// </summary>
-        private const string MiniProfilerCategory = "httpRequest";
-
         /// <summary>
         /// 实例对象
         /// </summary>
@@ -72,14 +63,14 @@ namespace Furion.RemoteRequest
             if (response.IsSuccessStatusCode)
             {
                 // 打印成功消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Succeeded");
+                App.PrintToMiniProfiler(Penetrates.MiniProfilerCategory, "Succeeded");
             }
             else
             {
                 // 判断是否需要抛出异常
                 if (method.IsDefined(typeof(SafetyAttribute), true) || method.ReflectedType.IsDefined(typeof(SafetyAttribute))) return;
 
-                throw (await CreateRequestException(response));
+                throw (await Penetrates.CreateRequestException(response));
             }
         }
 
@@ -102,7 +93,7 @@ namespace Furion.RemoteRequest
             if (response.IsSuccessStatusCode)
             {
                 // 打印成功消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Succeeded");
+                App.PrintToMiniProfiler(Penetrates.MiniProfilerCategory, "Succeeded");
 
                 // 处理返回值类型
                 switch (httpMethodAttribute.ResponseType)
@@ -141,7 +132,7 @@ namespace Furion.RemoteRequest
                 // 判断是否需要抛出异常
                 if (method.IsDefined(typeof(SafetyAttribute), true) || method.ReflectedType.IsDefined(typeof(SafetyAttribute))) return default;
 
-                throw (await CreateRequestException(response));
+                throw (await Penetrates.CreateRequestException(response));
             }
         }
 
@@ -229,7 +220,7 @@ namespace Furion.RemoteRequest
             }
 
             // 打印请求地址
-            App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning", $"{request.Method} {request.RequestUri}");
+            App.PrintToMiniProfiler(Penetrates.MiniProfilerCategory, "Beginning", $"{request.Method} {request.RequestUri}");
 
             // 返回
             return (request, httpMethodAttribute);
@@ -371,48 +362,7 @@ namespace Furion.RemoteRequest
             {
                 // 获取 body 参数
                 var bodyArgs = bodyParameters.First().Value.Value;
-
-                string body;
-
-                // 处理 json 类型
-                if (httpMethodAttribute.ContentType.Contains("json"))
-                {
-                    // 配置 Json 命名策略
-                    var jsonSerializerOptions = JsonSerializerUtility.GetDefaultJsonSerializerOptions();
-                    jsonSerializerOptions.PropertyNamingPolicy = httpMethodAttribute.PropertyNamingPolicy switch
-                    {
-                        JsonNamingPolicyOptions.CamelCase => JsonNamingPolicy.CamelCase,
-                        JsonNamingPolicyOptions.Null => null,
-                        _ => null
-                    };
-
-                    body = JsonSerializerUtility.Serialize(bodyArgs, jsonSerializerOptions);
-                }
-                // 处理 xml 类型
-                else if (httpMethodAttribute.ContentType.Contains("xml"))
-                {
-                    var xmlSerializer = new XmlSerializer(bodyArgs.GetType());
-                    var buffer = new StringBuilder();
-
-                    using var writer = new StringWriter(buffer);
-                    xmlSerializer.Serialize(writer, bodyArgs);
-
-                    body = buffer.ToString();
-                }
-                // 其他类型
-                else body = bodyArgs.ToString();
-
-                if (!string.IsNullOrEmpty(body))
-                {
-                    var httpContent = new StringContent(body, Encoding.UTF8);
-
-                    // 设置内容类型
-                    httpContent.Headers.ContentType = new MediaTypeHeaderValue(httpMethodAttribute.ContentType);
-                    request.Content = httpContent;
-
-                    // 打印请求地址
-                    App.PrintToMiniProfiler(MiniProfilerCategory, "Body", body);
-                }
+                Penetrates.SetHttpRequestBody(request, bodyArgs, httpMethodAttribute.BodyContentType, httpMethodAttribute.PropertyNamingPolicy);
             }
         }
 
@@ -433,8 +383,8 @@ namespace Furion.RemoteRequest
                 var parameterType = parameter.ParameterType;
                 var value = args[i];
 
-                // 判断是否是 Class 类型
-                if (parameterType.IsClass)
+                // 判断是否是 Class 类型 或匿名类型
+                if (parameterType.IsClass || parameterType.IsAnonymous())
                 {
                     // 如果值为空且贴有非空特性
                     if (value == null)
@@ -457,23 +407,6 @@ namespace Furion.RemoteRequest
                     if (!result.IsValid) throw new ArgumentException(JsonSerializerUtility.Serialize(result.ValidationResults));
                 }
             }
-        }
-
-        /// <summary>
-        /// 创建请求异常信息
-        /// </summary>
-        /// <param name="response"></param>
-        /// <returns></returns>
-        private static async Task<HttpRequestException> CreateRequestException(HttpResponseMessage response)
-        {
-            // 读取错误数据
-            var errorMessage = await response.Content.ReadAsStringAsync();
-
-            // 打印失败消息
-            App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", errorMessage, isError: true);
-
-            // 抛出请求异常
-            return new HttpRequestException(errorMessage);
         }
     }
 }
