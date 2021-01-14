@@ -6,7 +6,7 @@ namespace Furion.RemoteRequest
     /// <summary>
     /// 客户端配置
     /// </summary>
-    [SkipScan, AttributeUsage(AttributeTargets.Method | AttributeTargets.Interface, AllowMultiple = true)]
+    [SkipScan, AttributeUsage(AttributeTargets.Method | AttributeTargets.Interface, AllowMultiple = false)]
     public sealed class ClientAttribute : Attribute
     {
         /// <summary>
