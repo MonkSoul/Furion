@@ -361,10 +361,10 @@ services.AddRemoteRequest(options=>
 在 `代理请求` 使用
 
 ```cs
-[Get("api/getdata", Client("github")]
+[Get("api/getdata"), Client("github")]
 Task<User> GetData();
 
-[Put("api/getdata", Client("facebook"))]
+[Put("api/getdata"), Client("facebook")]
 Task<User> GetData();
 ```
 
