@@ -325,10 +325,10 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 
 非常感谢您们的支持，正是因为您们，中国开源才可以越走越远，`Furion` 越走越远。
 
-如果想成为 `Furion` 支持者或赞助商，请考虑：
+**如果想成为 `Furion` 支持者或赞助商，请考虑：**
 
 <p>
-<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/support.png" height="120"/>
+<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/support.png" height="200"/>
 </p>
 
 ## 🥔 QQ 交流群
