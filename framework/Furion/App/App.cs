@@ -31,16 +31,7 @@ namespace Furion
         /// <summary>
         /// 应用全局配置
         /// </summary>
-        public static AppSettingsOptions Settings
-        {
-            // 避免重复解析
-            get
-            {
-                if (_settings == null)
-                    _settings = GetOptions<AppSettingsOptions>();
-                return _settings;
-            }
-        }
+        public static AppSettingsOptions Settings => _settings ??= GetOptions<AppSettingsOptions>();
 
         /// <summary>
         /// 全局配置选项
@@ -55,15 +46,7 @@ namespace Furion
         /// <summary>
         /// 应用环境，如，是否是开发环境，生产环境等
         /// </summary>
-        public static IWebHostEnvironment WebHostEnvironment
-        {
-            get
-            {
-                if (_webHostEnvironment == null)
-                    _webHostEnvironment = GetService<IWebHostEnvironment>();
-                return _webHostEnvironment;
-            }
-        }
+        public static IWebHostEnvironment WebHostEnvironment => _webHostEnvironment ??= GetService<IWebHostEnvironment>();
 
         /// <summary>
         /// 应用有效程序集
@@ -201,6 +184,7 @@ namespace Furion
         /// </summary>
         static App()
         {
+            // 编译配置
             Configuration = InternalApp.ConfigurationBuilder.Build();
 
             Assemblies = GetAssemblies();

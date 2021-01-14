@@ -43,5 +43,10 @@ namespace Furion.RemoteRequest
         /// body 内容类型
         /// </summary>
         public string ContentType { get; set; } = "application/json";
+
+        /// <summary>
+        /// 属性命名策略
+        /// </summary>
+        public JsonNamingPolicyOptions PropertyNamingPolicy = JsonNamingPolicyOptions.CamelCase;
     }
 }

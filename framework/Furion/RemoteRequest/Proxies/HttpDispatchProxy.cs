@@ -370,7 +370,16 @@ namespace Furion.RemoteRequest
                 // 处理 json 类型
                 if (httpMethodAttribute.ContentType.Contains("json"))
                 {
-                    body = JsonSerializerUtility.Serialize(bodyArgs);
+                    // 配置 Json 命名策略
+                    var jsonSerializerOptions = JsonSerializerUtility.GetDefaultJsonSerializerOptions();
+                    jsonSerializerOptions.PropertyNamingPolicy = httpMethodAttribute.PropertyNamingPolicy switch
+                    {
+                        JsonNamingPolicyOptions.CamelCase => JsonNamingPolicy.CamelCase,
+                        JsonNamingPolicyOptions.Null => null,
+                        _ => null
+                    };
+
+                    body = JsonSerializerUtility.Serialize(bodyArgs, jsonSerializerOptions);
                 }
                 // 处理 xml 类型
                 else if (httpMethodAttribute.ContentType.Contains("xml"))
