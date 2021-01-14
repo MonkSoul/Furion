@@ -116,12 +116,12 @@ namespace Furion
         }
 
         /// <summary>
-        /// 获取选项
+        /// 获取配置
         /// </summary>
         /// <typeparam name="TOptions">强类型选项类</typeparam>
         /// <param name="jsonKey">配置中对应的Key</param>
         /// <returns>TOptions</returns>
-        public static TOptions GetOptions<TOptions>(string jsonKey)
+        public static TOptions GetConfig<TOptions>(string jsonKey)
             where TOptions : class, new()
         {
             return Configuration.GetSection(jsonKey).Get<TOptions>();
@@ -211,7 +211,7 @@ namespace Furion
             };
 
             // 读取应用配置
-            var settings = GetOptions<AppSettingsOptions>("AppSettings") ?? new AppSettingsOptions { };
+            var settings = GetConfig<AppSettingsOptions>("AppSettings") ?? new AppSettingsOptions { };
 
             var dependencyContext = DependencyContext.Default;
 

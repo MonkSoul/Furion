@@ -159,9 +159,16 @@ namespace Furion.RemoteRequest
             var clientFactory = Services.GetService<IHttpClientFactory>();
             if (clientFactory == null) throw new InvalidOperationException("Please register for RemoteRequest service first: services.AddRemoteRequest();");
 
-            var httpClient = string.IsNullOrEmpty(httpMethodAttribute.ClientName)
+            // 获取客户端特性
+            var clientAttribute = !method.IsDefined(typeof(ClientAttribute), true)
+                ? (!method.ReflectedType.IsDefined(typeof(ClientAttribute), true)
+                    ? default
+                    : method.ReflectedType.GetCustomAttribute<ClientAttribute>(true))
+                : method.GetCustomAttribute<ClientAttribute>(true);
+
+            var httpClient = string.IsNullOrEmpty(clientAttribute?.Name)
                                         ? clientFactory.CreateClient()
-                                        : clientFactory.CreateClient(httpMethodAttribute.ClientName);
+                                        : clientFactory.CreateClient(clientAttribute?.Name);
 
             // 发送请求
             var response = await httpClient.SendAsync(request);

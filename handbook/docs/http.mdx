@@ -318,7 +318,20 @@ var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<objec
 
 :::
 
-### 19.5.5 `多个请求客户端配置`
+### 19.5.5 `Body` 参数序列化问题
+
+由于一些第三方接口不规范或对参数大小写敏感，这个时候我们可以配置特性的 `PropertyNamingPolicy` 属性，如：
+
+```cs
+[Post("https://www.furion.pro/getdata", PropertyNamingPolicy = JsonNamingPolicyOptions.Null)]
+Task<User> GetData();
+```
+
+- `JsonNamingPolicyOptions` 可选值：
+  - `CamelCase`：默认，首字母小写属性名
+  - `Null`：保持原有属性名称定义规则
+
+### 19.5.6 多个请求客户端配置
 
 `Furion` 框架也提供了多个请求客户端配置，可以为多个客户端请求配置默认请求信息，如：
 
@@ -348,10 +361,10 @@ services.AddRemoteRequest(options=>
 在 `代理请求` 使用
 
 ```cs
-[Get("api/getdata", ClientName = "github")]
+[Get("api/getdata", Client("github")]
 Task<User> GetData();
 
-[Put("api/getdata", ClientName = "facebook")]
+[Put("api/getdata", Client("facebook"))]
 Task<User> GetData();
 ```
 
@@ -370,6 +383,8 @@ var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<objec
   - `[Host]`：配置主机地址和端口
 - `请求头` 特性
   - `[Header]`：配置请求报文头，支持多个
+- `客户端` 特性
+  - `[Client]`：配置客户端
 
 接口的特性会影响所有的成员方法，也就是会应用到每一个方法中，当然方法可可以重写或忽略。
 
@@ -386,6 +401,8 @@ var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<objec
   - `[Host]`：配置主机地址和端口
 - `请求头` 特性
   - `[Header]`：配置请求报文头，支持多个
+- `客户端` 特性
+  - `[Client]`：配置客户端
 
 ### 19.6.3 方法参数特性
 

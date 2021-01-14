@@ -112,6 +112,10 @@ module.exports = {
     },
     {
       type: "doc",
+      id: "encryption",
+    },
+    {
+      type: "doc",
       id: "local-language",
     },
     {
@@ -136,8 +140,8 @@ module.exports = {
     },
     {
       type: "category",
-      label: "26. 托管部署",
-      items: ["deploy-iis", "deploy-docker", "deploy-nginx"],
+      label: "27. 托管部署",
+      items: ["deploy-iis", "deploy-docker", "deploy-nginx", "virtual-deploy"],
     },
     {
       type: "doc",
@@ -145,8 +149,8 @@ module.exports = {
     },
     {
       type: "category",
-      label: "28. 测试指南",
-      items: ["unittest", "performance"],
+      label: "29. 测试指南",
+      items: ["unittest", "performance","benchmark"],
     },
     {
       type: "doc",
@@ -154,7 +158,7 @@ module.exports = {
     },
     {
       type: "category",
-      label: "30. 常见问题",
+      label: "31. 常见问题",
       items: ["answer", "errors", "gooduse"],
     },
   ],
@@ -186,6 +190,36 @@ module.exports = {
     {
       type: "doc",
       id: "settings/specificationdocumentsettings",
+    },
+  ],
+  global: [
+    {
+      type: "doc",
+      id: "global/app",
+    },
+    {
+      type: "doc",
+      id: "global/db",
+    },
+    {
+      type: "doc",
+      id: "global/datavalidator",
+    },
+    {
+      type: "doc",
+      id: "global/oops",
+    },
+    {
+      type: "doc",
+      id: "global/linqexpression",
+    },
+    {
+      type: "doc",
+      id: "global/shttp",
+    },
+    {
+      type: "doc",
+      id: "global/jsonserializer",
     },
   ],
 };

@@ -1,0 +1,33 @@
+---
+id: oops
+title: 4. Oops 静态类
+sidebar_label: 4. Oops 静态类
+---
+
+## 4.1 抛出字符串异常
+
+```cs
+throw Oops.Oh("异常消息");
+throw Oops.Oh("异常消息：{0}", "出错了");
+```
+
+## 4.2 指定类型的异常
+
+```cs
+throw Oops.Oh("异常消息", typeof(ArgumentNullException));
+throw Oops.Oh("异常消息：{0}", typeof(ArgumentNullException), "出错了");
+```
+
+## 4.3 状态码异常
+
+```cs
+throw Oops.Oh(1000);
+throw Oops.Oh(1000, "出错了");
+```
+
+## 4.4 状态码异常
+
+```cs
+throw Oops.Oh(1000, typeof(ArgumentNullException));
+throw Oops.Oh(1000, typeof(ArgumentNullException), "出错了");
+```

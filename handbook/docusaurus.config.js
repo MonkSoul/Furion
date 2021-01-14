@@ -31,6 +31,12 @@ module.exports = {
           position: "left",
         },
         {
+          to: "docs/global/app",
+          activeBasePath: "docs",
+          label: "静态类",
+          position: "left",
+        },
+        {
           to: "docs/settings/appsettings",
           activeBasePath: "docs",
           label: "配置",

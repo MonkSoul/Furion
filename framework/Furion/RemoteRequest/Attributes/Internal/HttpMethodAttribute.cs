@@ -25,11 +25,6 @@ namespace Furion.RemoteRequest
         public string Url { get; set; }
 
         /// <summary>
-        /// 指定客户端命名
-        /// </summary>
-        public string ClientName { get; set; }
-
-        /// <summary>
         /// 请求方式
         /// </summary>
         public HttpMethod Method { get; protected set; }
