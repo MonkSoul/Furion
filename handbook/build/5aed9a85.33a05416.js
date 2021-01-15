@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[41],{111:function(o){o.exports=JSON.parse('{"allTagsPath":"/furion/blog/tags","slug":"furos","name":"furos","count":1,"permalink":"/furion/blog/tags/furos"}')}}]);

@@ -331,7 +331,23 @@ Task<User> GetData();
   - `CamelCase`：默认，首字母小写属性名
   - `Null`：保持原有属性名称定义规则
 
-### 19.5.6 多个请求客户端配置
+### 19.5.6 `Body` 内容配置
+
+默认情况下，支持 `Body` 参数配置的请求都会序列化成 `Json` 内容配置，我们也可以通过 `HttpContentType` 属性指定，如：
+
+```cs
+[Post("https://www.furion.pro/getdata", HttpContentType  = HttpContentTypeOptions.JsonStringContent)]
+Task<User> GetData();
+```
+
+- `HttpContentTypeOptions` 可选值：
+  - `StringContent`：字符串内容
+  - `JsonStringContent`：`Json` 字符串内容
+  - `XmlStringContent`：`Xml` 字符串内容
+  - `MultipartFormDataContent`：`multipart/form-data` 类型内容
+  - `FormUrlEncodedContent`：`x-www-form-urlencoded` 类型内容
+
+### 19.5.7 多个请求客户端配置
 
 `Furion` 框架也提供了多个请求客户端配置，可以为多个客户端请求配置默认请求信息，如：
 
@@ -403,6 +419,8 @@ var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<objec
   - `[Header]`：配置请求报文头，支持多个
 - `客户端` 特性
   - `[Client]`：配置客户端
+- `内容类型` 特性
+  - `[MediaTypeHeader]`：配置内容类型
 
 ### 19.6.3 方法参数特性
 

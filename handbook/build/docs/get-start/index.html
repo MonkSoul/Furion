@@ -6,21 +6,21 @@
 <meta name="generator" content="Docusaurus v2.0.0-alpha.70">
 <link rel="alternate" type="application/rss+xml" href="/furion/blog/rss.xml" title="Furion Blog RSS Feed">
 <link rel="alternate" type="application/atom+xml" href="/furion/blog/atom.xml" title="Furion Blog Atom Feed"><title data-react-helmet="true">2.1 一分钟入门 | Furion</title><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><meta data-react-helmet="true" name="docusaurus_locale" content="en"><meta data-react-helmet="true" name="docusaurus_version" content="current"><meta data-react-helmet="true" name="docusaurus_tag" content="docs-default-current"><meta data-react-helmet="true" property="og:title" content="2.1 一分钟入门 | Furion"><meta data-react-helmet="true" name="description" content="Furion 官方提供了非常灵活方便的脚手架，可以快速的创建多层架构项目。"><meta data-react-helmet="true" property="og:description" content="Furion 官方提供了非常灵活方便的脚手架，可以快速的创建多层架构项目。"><meta data-react-helmet="true" property="og:url" content="https://furion.pro/furion/docs/get-start"><link data-react-helmet="true" rel="shortcut icon" href="/furion/img/favicon.ico"><link data-react-helmet="true" rel="canonical" href="https://furion.pro/furion/docs/get-start"><link rel="stylesheet" href="/furion/styles.3ab62d02.css">
-<link rel="preload" href="/furion/styles.4560a4ed.js" as="script">
-<link rel="preload" href="/furion/runtime~main.c9968183.js" as="script">
-<link rel="preload" href="/furion/main.049c9a30.js" as="script">
-<link rel="preload" href="/furion/1.f0e20d76.js" as="script">
+<link rel="preload" href="/furion/styles.eaa86d8e.js" as="script">
+<link rel="preload" href="/furion/runtime~main.7d64a3f6.js" as="script">
+<link rel="preload" href="/furion/main.486ae381.js" as="script">
+<link rel="preload" href="/furion/1.a976a629.js" as="script">
 <link rel="preload" href="/furion/01a85c17.497e8590.js" as="script">
 <link rel="preload" href="/furion/1be78505.8d6d1028.js" as="script">
-<link rel="preload" href="/furion/6875c492.4c8e352d.js" as="script">
+<link rel="preload" href="/furion/6875c492.e78ad962.js" as="script">
 <link rel="preload" href="/furion/a6aa9e1f.ddd0ebcc.js" as="script">
-<link rel="preload" href="/furion/ccc49370.d3459b65.js" as="script">
-<link rel="preload" href="/furion/ece76bd1.fc993ecc.js" as="script">
+<link rel="preload" href="/furion/ccc49370.b3ca82a8.js" as="script">
+<link rel="preload" href="/furion/ece76bd1.ee19723a.js" as="script">
 <link rel="preload" href="/furion/109.7e3defb5.js" as="script">
-<link rel="preload" href="/furion/108.90b6a5b4.js" as="script">
+<link rel="preload" href="/furion/108.9d7fd5aa.js" as="script">
 <link rel="preload" href="/furion/f976f453.a6ab351f.js" as="script">
-<link rel="preload" href="/furion/107.fbbeca59.js" as="script">
-<link rel="preload" href="/furion/f9353588.70e4047c.js" as="script">
+<link rel="preload" href="/furion/107.c998f385.js" as="script">
+<link rel="preload" href="/furion/f9353588.4f99a073.js" as="script">
 </head>
 <body>
 <script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){var t=null;try{t=localStorage.getItem("theme")}catch(t){}return t}();t(null!==e?e:"light")}()</script><div id="__docusaurus">
@@ -36,20 +36,20 @@
 </span></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">            app.UseAuthorization();</span></div><div class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block">
 </span></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">            // 添加这一行，如果是 MVC和API共存项目，无需添加 string.Empty</span></div><div class="token-line docusaurus-highlight-code-line" style="color:#bfc7d5"><span class="token plain">            app.UseInject(string.Empty);</span></div><div class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block">
 </span></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">            app.UseEndpoints(endpoints =&gt;</span></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">            {</span></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">                endpoints.MapControllers();</span></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">            });</span></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">        }</span></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">    }</span></div><div class="token-line" style="color:#bfc7d5"><span class="token plain">}</span></div></div></div><button type="button" aria-label="Copy code to clipboard" class="copyButton_2GIj">Copy</button></div></div><div class="admonition admonition-important alert alert--info"><div class="admonition-heading"><h5><span class="admonition-icon"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></span>小提醒</h5></div><div class="admonition-content"><p>如果 <code>app.UseInject()</code> 不输入参数，则默认地址为 <code>/api</code>，如果输入 <code>string.Empty</code> 则为 <code>/</code> 目录。</p></div></div><h2><a aria-hidden="true" tabindex="-1" class="anchor enhancedAnchor_prK2" id="24-启动浏览器"></a>2.4 启动浏览器<a class="hash-link" href="#24-启动浏览器" title="Direct link to heading">#</a></h2><p>启动浏览器查看效果。</p><img src="/furion/img/rm5.png"><p>说好一分钟入门，你们用了多长时间。😁</p></div></article><div class="margin-vert--xl"><div class="row"><div class="col"><a href="https://gitee.com/monksoul/Furion/tree/master/handbook/docs/get-start.mdx" target="_blank" rel="noreferrer noopener"><svg fill="currentColor" height="1.2em" width="1.2em" preserveAspectRatio="xMidYMid meet" role="img" viewBox="0 0 40 40" class="iconEdit_2LL7"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div></div></div><div class="margin-vert--lg"><nav class="pagination-nav" aria-label="Blog list page navigation"><div class="pagination-nav__item"><a class="pagination-nav__link" href="/furion/docs/source"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">« 1.3 源码结构</div></a></div><div class="pagination-nav__item pagination-nav__item--next"><a class="pagination-nav__link" href="/furion/docs/template"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">2.2 官方脚手架 »</div></a></div></nav></div></div></div><div class="col col--3"><div class="tableOfContents_2xL- thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#21-创建-web-项目" class="table-of-contents__link">2.1 创建 <code>Web</code> 项目</a><ul><li><a href="#211-创建-aspnet-core-web-应用程序" class="table-of-contents__link">2.1.1 创建 <code>ASP.NET Core Web 应用程序</code></a></li></ul></li><li><a href="#22-添加-furion-依赖包" class="table-of-contents__link">2.2 添加 <code>Furion</code> 依赖包</a></li><li><a href="#23-furion-基本配置" class="table-of-contents__link">2.3 <code>Furion</code> 基本配置</a><ul><li><a href="#231-programcs-添加-inject" class="table-of-contents__link">2.3.1 <code>Program.cs</code> 添加 <code>Inject()</code></a></li><li><a href="#232-在-startupcs-中添加两个-inject" class="table-of-contents__link">2.3.2 在 <code>Startup.cs</code> 中添加两个 <code>Inject()</code></a></li></ul></li><li><a href="#24-启动浏览器" class="table-of-contents__link">2.4 启动浏览器</a></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="row footer__links"><div class="col footer__col"><h4 class="footer__title">文档</h4><ul class="footer__items"><li class="footer__item"><a class="footer__link-item" href="/furion/docs/get-start">入门</a></li><li class="footer__item"><a class="footer__link-item" href="/furion/docs">指南</a></li></ul></div><div class="col footer__col"><h4 class="footer__title">社区</h4><ul class="footer__items"><li class="footer__item"><a href="https://gitee.com/monksoul/Furion/issues" target="_blank" rel="noopener noreferrer" class="footer__link-item">讨论</a></li><li class="footer__item"><a href="https://gitee.com/monksoul/Furion/board" target="_blank" rel="noopener noreferrer" class="footer__link-item">看板</a></li></ul></div><div class="col footer__col"><h4 class="footer__title">更多</h4><ul class="footer__items"><li class="footer__item"><a class="footer__link-item" href="/furion/blog">博客</a></li><li class="footer__item"><a href="https://gitee.com/monksoul/Furion" target="_blank" rel="noopener noreferrer" class="footer__link-item">仓库</a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2021 Furion, Baiqian Co.,Ltd.</div></div></div></footer></div>
-<script src="/furion/styles.4560a4ed.js"></script>
-<script src="/furion/runtime~main.c9968183.js"></script>
-<script src="/furion/main.049c9a30.js"></script>
-<script src="/furion/1.f0e20d76.js"></script>
+<script src="/furion/styles.eaa86d8e.js"></script>
+<script src="/furion/runtime~main.7d64a3f6.js"></script>
+<script src="/furion/main.486ae381.js"></script>
+<script src="/furion/1.a976a629.js"></script>
 <script src="/furion/01a85c17.497e8590.js"></script>
 <script src="/furion/1be78505.8d6d1028.js"></script>
-<script src="/furion/6875c492.4c8e352d.js"></script>
+<script src="/furion/6875c492.e78ad962.js"></script>
 <script src="/furion/a6aa9e1f.ddd0ebcc.js"></script>
-<script src="/furion/ccc49370.d3459b65.js"></script>
-<script src="/furion/ece76bd1.fc993ecc.js"></script>
+<script src="/furion/ccc49370.b3ca82a8.js"></script>
+<script src="/furion/ece76bd1.ee19723a.js"></script>
 <script src="/furion/109.7e3defb5.js"></script>
-<script src="/furion/108.90b6a5b4.js"></script>
+<script src="/furion/108.9d7fd5aa.js"></script>
 <script src="/furion/f976f453.a6ab351f.js"></script>
-<script src="/furion/107.fbbeca59.js"></script>
-<script src="/furion/f9353588.70e4047c.js"></script>
+<script src="/furion/107.c998f385.js"></script>
+<script src="/furion/f9353588.4f99a073.js"></script>
 </body>
 </html>
