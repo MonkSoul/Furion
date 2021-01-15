@@ -73,7 +73,8 @@ namespace Furion.SpecificationDocument
         /// 构建Swagger全局配置
         /// </summary>
         /// <param name="swaggerOptions">Swagger 全局配置</param>
-        internal static void Build(SwaggerOptions swaggerOptions)
+        /// <param name="configure"></param>
+        internal static void Build(SwaggerOptions swaggerOptions, Action<SwaggerOptions> configure = null)
         {
             // 生成V2版本
             swaggerOptions.SerializeAsV2 = _specificationDocumentSettings.FormatAsV2 == true;
@@ -93,6 +94,9 @@ namespace Furion.SpecificationDocument
                     swagger.Servers = servers;
                 });
             }
+
+            // 自定义配置
+            configure?.Invoke(swaggerOptions);
         }
 
         /// <summary>
@@ -138,7 +142,8 @@ namespace Furion.SpecificationDocument
         /// </summary>
         /// <param name="swaggerUIOptions"></param>
         /// <param name="routePrefix"></param>
-        internal static void BuildUI(SwaggerUIOptions swaggerUIOptions, string routePrefix = default)
+        /// <param name="configure"></param>
+        internal static void BuildUI(SwaggerUIOptions swaggerUIOptions, string routePrefix = default, Action<SwaggerUIOptions> configure = null)
         {
             // 配置分组终点路由
             CreateGroupEndpoint(swaggerUIOptions);
@@ -154,6 +159,9 @@ namespace Furion.SpecificationDocument
 
             // 注入 MiniProfiler 组件
             InjectMiniProfilerPlugin(swaggerUIOptions);
+
+            // 自定义配置
+            configure?.Invoke(swaggerUIOptions);
         }
 
         /// <summary>

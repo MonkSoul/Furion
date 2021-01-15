@@ -1,6 +1,7 @@
 ﻿using Furion;
 using Furion.DependencyInjection;
 using Furion.UnifyResult;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -22,10 +23,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Mvc 注入基础配置（带Swagger）
         /// </summary>
         /// <param name="mvcBuilder">Mvc构建器</param>
+        /// <param name="swaggerGenConfigure"></param>
         /// <returns>IMvcBuilder</returns>
-        public static IMvcBuilder AddInject(this IMvcBuilder mvcBuilder)
+        public static IMvcBuilder AddInject(this IMvcBuilder mvcBuilder, Action<SwaggerGenOptions> swaggerGenConfigure = null)
         {
-            mvcBuilder.AddSpecificationDocuments()
+            mvcBuilder.AddSpecificationDocuments(swaggerGenConfigure)
                       .AddDynamicApiControllers()
                       .AddDataValidation()
                       .AddFriendlyException();
@@ -38,9 +40,10 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services">服务集合</param>
         /// <returns>IMvcBuilder</returns>
-        public static IServiceCollection AddInject(this IServiceCollection services)
+        /// <param name="swaggerGenConfigure"></param>
+        public static IServiceCollection AddInject(this IServiceCollection services, Action<SwaggerGenOptions> swaggerGenConfigure = null)
         {
-            services.AddSpecificationDocuments()
+            services.AddSpecificationDocuments(swaggerGenConfigure)
                     .AddDynamicApiControllers()
                     .AddDataValidation()
                     .AddFriendlyException();
@@ -84,10 +87,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Mvc 注入基础配置和规范化结果
         /// </summary>
         /// <param name="mvcBuilder"></param>
+        /// <param name="swaggerGenConfigure"></param>
         /// <returns></returns>
-        public static IMvcBuilder AddInjectWithUnifyResult(this IMvcBuilder mvcBuilder)
+        public static IMvcBuilder AddInjectWithUnifyResult(this IMvcBuilder mvcBuilder, Action<SwaggerGenOptions> swaggerGenConfigure = null)
         {
-            mvcBuilder.AddInject()
+            mvcBuilder.AddInject(swaggerGenConfigure)
                       .AddUnifyResult();
 
             return mvcBuilder;
@@ -97,10 +101,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 注入基础配置和规范化结果
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="swaggerGenConfigure"></param>
         /// <returns></returns>
-        public static IServiceCollection AddInjectWithUnifyResult(this IServiceCollection services)
+        public static IServiceCollection AddInjectWithUnifyResult(this IServiceCollection services, Action<SwaggerGenOptions> swaggerGenConfigure = null)
         {
-            services.AddInject()
+            services.AddInject(swaggerGenConfigure)
                     .AddUnifyResult();
 
             return services;
@@ -111,11 +116,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="TUnifyResultProvider"></typeparam>
         /// <param name="mvcBuilder"></param>
+        /// <param name="swaggerGenConfigure"></param>
         /// <returns></returns>
-        public static IMvcBuilder AddInjectWithUnifyResult<TUnifyResultProvider>(this IMvcBuilder mvcBuilder)
+        public static IMvcBuilder AddInjectWithUnifyResult<TUnifyResultProvider>(this IMvcBuilder mvcBuilder, Action<SwaggerGenOptions> swaggerGenConfigure = null)
             where TUnifyResultProvider : class, IUnifyResultProvider
         {
-            mvcBuilder.AddInject()
+            mvcBuilder.AddInject(swaggerGenConfigure)
                       .AddUnifyResult<TUnifyResultProvider>();
 
             return mvcBuilder;
@@ -125,12 +131,13 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Mvc 注入基础配置和规范化结果
         /// </summary>
         /// <typeparam name="TUnifyResultProvider"></typeparam>
+        /// <param name="swaggerGenConfigure"></param>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddInjectWithUnifyResult<TUnifyResultProvider>(this IServiceCollection services)
+        public static IServiceCollection AddInjectWithUnifyResult<TUnifyResultProvider>(this IServiceCollection services, Action<SwaggerGenOptions> swaggerGenConfigure = null)
             where TUnifyResultProvider : class, IUnifyResultProvider
         {
-            services.AddInject()
+            services.AddInject(swaggerGenConfigure)
                     .AddUnifyResult<TUnifyResultProvider>();
 
             return services;
