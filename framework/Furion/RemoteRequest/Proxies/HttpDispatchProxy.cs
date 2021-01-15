@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Mime;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -192,13 +193,14 @@ namespace Furion.RemoteRequest
             string urlAddress = CombineUrlAddress(method, httpMethodAttribute);
 
             // 获取方法参数
-            var methodParameters = method.GetParameters().Select((p, i) => new ParameterValue
-            {
-                Parameter = p,
-                Value = args[i],
-                IsUrlParameter = p.IsDefined(typeof(QueryAttribute), true) || (p.ParameterType.IsRichPrimitive() && !p.IsDefined(typeof(RequestParameterAttribute), true)),
-                IsBodyParameter = p.IsDefined(typeof(BodyAttribute), true) || (!p.ParameterType.IsRichPrimitive() && !p.IsDefined(typeof(RequestParameterAttribute), true))
-            }).ToDictionary(u => u.Parameter.Name, u => u);
+            var methodParameters = method.GetParameters()
+                .Select((p, i) => new ParameterValue
+                {
+                    Parameter = p,
+                    Value = args[i],
+                    IsUrlParameter = p.IsDefined(typeof(QueryAttribute), true) || (p.ParameterType.IsRichPrimitive() && !p.IsDefined(typeof(RequestParameterAttribute), true)),
+                    IsBodyParameter = p.IsDefined(typeof(BodyAttribute), true) || (!p.ParameterType.IsRichPrimitive() && !p.IsDefined(typeof(RequestParameterAttribute), true))
+                }).ToDictionary(u => u.Parameter.Name, u => u);
 
             // 处理 Url 地址参数
             urlAddress = HandleUrlParameters(urlAddress, methodParameters);
@@ -210,7 +212,7 @@ namespace Furion.RemoteRequest
             SetHttpRequestHeaders(method, request);
 
             // 设置请求体
-            SetHttpRequestBody(httpMethodAttribute, methodParameters, request);
+            SetHttpRequestBody(method, httpMethodAttribute, methodParameters, request);
 
             // 调用请求拦截器
             var requestInterceptor = method.ReflectedType.GetMethod("RequestInterceptor");
@@ -347,10 +349,11 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 设置请求体
         /// </summary>
+        /// <param name="method"></param>
         /// <param name="httpMethodAttribute"></param>
         /// <param name="methodParameters"></param>
         /// <param name="request"></param>
-        private static void SetHttpRequestBody(HttpMethodAttribute httpMethodAttribute, Dictionary<string, ParameterValue> methodParameters, HttpRequestMessage request)
+        private static void SetHttpRequestBody(MethodInfo method, HttpMethodAttribute httpMethodAttribute, Dictionary<string, ParameterValue> methodParameters, HttpRequestMessage request)
         {
             // 排除 GET/Head 请求
             if (httpMethodAttribute.Method == HttpMethod.Get || httpMethodAttribute.Method == HttpMethod.Head) return;
@@ -362,7 +365,13 @@ namespace Furion.RemoteRequest
             {
                 // 获取 body 参数
                 var bodyArgs = bodyParameters.First().Value.Value;
-                Penetrates.SetHttpRequestBody(request, bodyArgs, httpMethodAttribute.BodyContentType, httpMethodAttribute.PropertyNamingPolicy);
+
+                // 获取内容类型
+                var mediaTypeHeaderAttribute = method.IsDefined(typeof(MediaTypeHeaderAttribute))
+                    ? method.GetCustomAttribute<MediaTypeHeaderAttribute>()
+                    : new MediaTypeHeaderAttribute(MediaTypeNames.Application.Json);
+
+                Penetrates.SetHttpRequestBody(request, bodyArgs, httpMethodAttribute.HttpContentType, httpMethodAttribute.PropertyNamingPolicy, mediaTypeHeaderAttribute.Value);
             }
         }
 

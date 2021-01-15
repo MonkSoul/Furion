@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
@@ -29,18 +30,19 @@ namespace Furion.RemoteRequest
         /// <param name="bodyArgs"></param>
         /// <param name="bodyContentTypeOptions"></param>
         /// <param name="jsonNamingPolicyOptions"></param>
-        internal static void SetHttpRequestBody(HttpRequestMessage request, object bodyArgs, BodyContentTypeOptions bodyContentTypeOptions, JsonNamingPolicyOptions jsonNamingPolicyOptions)
+        /// <param name="contentType"></param>
+        internal static void SetHttpRequestBody(HttpRequestMessage request, object bodyArgs, HttpContentTypeOptions bodyContentTypeOptions, JsonNamingPolicyOptions jsonNamingPolicyOptions, string contentType)
         {
             // 处理 body 内容
             HttpContent httpContent;
             switch (bodyContentTypeOptions)
             {
-                case BodyContentTypeOptions.StringContent:
-                case BodyContentTypeOptions.JsonStringContent:
-                case BodyContentTypeOptions.XmlStringContent:
+                case HttpContentTypeOptions.StringContent:
+                case HttpContentTypeOptions.JsonStringContent:
+                case HttpContentTypeOptions.XmlStringContent:
                     string bodyContent;
                     // application/json;text/json;application/*+json
-                    if (bodyContentTypeOptions == BodyContentTypeOptions.JsonStringContent)
+                    if (bodyContentTypeOptions == HttpContentTypeOptions.JsonStringContent)
                     {
                         // 配置 Json 命名策略
                         var jsonSerializerOptions = JsonSerializerUtility.GetDefaultJsonSerializerOptions();
@@ -54,7 +56,7 @@ namespace Furion.RemoteRequest
                         bodyContent = JsonSerializerUtility.Serialize(bodyArgs, jsonSerializerOptions);
                     }
                     // application/xml;text/xml;application/*+xml
-                    else if (bodyContentTypeOptions == BodyContentTypeOptions.XmlStringContent)
+                    else if (bodyContentTypeOptions == HttpContentTypeOptions.XmlStringContent)
                     {
                         var xmlSerializer = new XmlSerializer(bodyArgs.GetType());
                         var buffer = new StringBuilder();
@@ -70,7 +72,7 @@ namespace Furion.RemoteRequest
                     httpContent = new StringContent(bodyContent, Encoding.UTF8);
                     break;
                 // 处理 x-www-form-urlencoded
-                case BodyContentTypeOptions.FormUrlEncodedContent:
+                case HttpContentTypeOptions.FormUrlEncodedContent:
                     Dictionary<string, string> formDataDic = new();
                     if (bodyArgs is Dictionary<string, string> dic) formDataDic = dic;
                     else
@@ -90,13 +92,17 @@ namespace Furion.RemoteRequest
                     httpContent = new FormUrlEncodedContent(formDataDic);
                     break;
                 // 处理 multipart/form-data
-                case BodyContentTypeOptions.MultipartFormDataContent:
+                case HttpContentTypeOptions.MultipartFormDataContent:
                 default:
                     throw new NotImplementedException("Please use RequestInterceptor to set.");
             }
 
             // 设置内容
-            if (httpContent != null) request.Content = httpContent;
+            if (httpContent != null)
+            {
+                httpContent.Headers.ContentType = new MediaTypeHeaderValue(contentType);
+                request.Content = httpContent;
+            }
         }
 
         /// <summary>

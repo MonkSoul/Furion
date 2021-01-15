@@ -4,10 +4,10 @@ using System.ComponentModel;
 namespace Furion.RemoteRequest
 {
     /// <summary>
-    /// Body 内容选项
+    /// HttpContent 选项
     /// </summary>
     [SkipScan]
-    public enum BodyContentTypeOptions
+    public enum HttpContentTypeOptions
     {
         /// <summary>
         /// none
