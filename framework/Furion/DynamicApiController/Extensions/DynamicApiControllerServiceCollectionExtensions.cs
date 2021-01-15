@@ -58,7 +58,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services"></param>
         private static void AddBaseServices(IServiceCollection services)
         {
-            var partManager = services.FirstOrDefault(s => s.ServiceType == typeof(ApplicationPartManager)).ImplementationInstance as ApplicationPartManager
+            var partManager = services.FirstOrDefault(s => s.ServiceType == typeof(ApplicationPartManager))?.ImplementationInstance as ApplicationPartManager
                 ?? throw new InvalidOperationException($"`{nameof(AddDynamicApiControllers)}` must be invoked after `{nameof(MvcServiceCollectionExtensions.AddControllers)}`");
 
             // 添加控制器特性提供器
