@@ -67,7 +67,7 @@ namespace SqlSugar
             _sqlSugarRepository = sqlSugarRepository;
 
             DynamicContext = Context = _db = db;
-            Entities = _db.Queryable<TEntity>();
+            Entities = db.Queryable<TEntity>();
             Ado = _db.Ado;
         }
 
@@ -98,7 +98,7 @@ namespace SqlSugar
         /// <returns></returns>
         public int Count(Expression<Func<TEntity, bool>> whereExpression)
         {
-            return _db.Queryable<TEntity>().Count(whereExpression);
+            return Entities.Count(whereExpression);
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace SqlSugar
         /// <returns></returns>
         public Task<int> CountAsync(Expression<Func<TEntity, bool>> whereExpression)
         {
-            return _db.Queryable<TEntity>().CountAsync(whereExpression);
+            return Entities.CountAsync(whereExpression);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace SqlSugar
         /// <returns></returns>
         public bool Any(Expression<Func<TEntity, bool>> whereExpression)
         {
-            return _db.Queryable<TEntity>().Any(whereExpression);
+            return Entities.Any(whereExpression);
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace SqlSugar
         /// <returns></returns>
         public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>> whereExpression)
         {
-            return await _db.Queryable<TEntity>().AnyAsync(whereExpression);
+            return await Entities.AnyAsync(whereExpression);
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace SqlSugar
         /// <returns></returns>
         public TEntity Single(dynamic Id)
         {
-            return _db.Queryable<TEntity>().InSingle(Id);
+            return Entities.InSingle(Id);
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace SqlSugar
         /// <returns></returns>
         public TEntity Single(Expression<Func<TEntity, bool>> whereExpression)
         {
-            return _db.Queryable<TEntity>().Single(whereExpression);
+            return Entities.Single(whereExpression);
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace SqlSugar
         /// <returns></returns>
         public Task<TEntity> SingleAsync(Expression<Func<TEntity, bool>> whereExpression)
         {
-            return _db.Queryable<TEntity>().SingleAsync(whereExpression);
+            return Entities.SingleAsync(whereExpression);
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace SqlSugar
         /// <returns></returns>
         public TEntity FirstOrDefault(Expression<Func<TEntity, bool>> whereExpression)
         {
-            return _db.Queryable<TEntity>().First(whereExpression);
+            return Entities.First(whereExpression);
         }
 
         /// <summary>
@@ -178,7 +178,7 @@ namespace SqlSugar
         /// <returns></returns>
         public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> whereExpression)
         {
-            return await _db.Queryable<TEntity>().FirstAsync(whereExpression);
+            return await Entities.FirstAsync(whereExpression);
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace SqlSugar
         /// <returns></returns>
         public List<TEntity> ToList()
         {
-            return _db.Queryable<TEntity>().ToList();
+            return Entities.ToList();
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace SqlSugar
         /// <returns></returns>
         public List<TEntity> ToList(Expression<Func<TEntity, bool>> whereExpression)
         {
-            return _db.Queryable<TEntity>().Where(whereExpression).ToList();
+            return Entities.Where(whereExpression).ToList();
         }
 
         /// <summary>
@@ -209,7 +209,7 @@ namespace SqlSugar
         /// <returns></returns>
         public List<TEntity> ToList(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc)
         {
-            return _db.Queryable<TEntity>().OrderByIF(orderByExpression != null, orderByExpression, orderByType).Where(whereExpression).ToList();
+            return Entities.OrderByIF(orderByExpression != null, orderByExpression, orderByType).Where(whereExpression).ToList();
         }
 
         /// <summary>
@@ -218,7 +218,7 @@ namespace SqlSugar
         /// <returns></returns>
         public Task<List<TEntity>> ToListAsync()
         {
-            return _db.Queryable<TEntity>().ToListAsync();
+            return Entities.ToListAsync();
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace SqlSugar
         /// <returns></returns>
         public Task<List<TEntity>> ToListAsync(Expression<Func<TEntity, bool>> whereExpression)
         {
-            return _db.Queryable<TEntity>().Where(whereExpression).ToListAsync();
+            return Entities.Where(whereExpression).ToListAsync();
         }
 
         /// <summary>
@@ -240,7 +240,7 @@ namespace SqlSugar
         /// <returns></returns>
         public Task<List<TEntity>> ToListAsync(Expression<Func<TEntity, bool>> whereExpression, Expression<Func<TEntity, object>> orderByExpression = null, OrderByType orderByType = OrderByType.Asc)
         {
-            return _db.Queryable<TEntity>().OrderByIF(orderByExpression != null, orderByExpression, orderByType).Where(whereExpression).ToListAsync();
+            return Entities.OrderByIF(orderByExpression != null, orderByExpression, orderByType).Where(whereExpression).ToListAsync();
         }
 
         /// <summary>
