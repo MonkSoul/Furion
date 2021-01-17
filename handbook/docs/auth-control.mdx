@@ -179,9 +179,9 @@ services.AddJwt<JwtHandler>(enableGlobalAuthorize:true);
 
 ## 15.5 自动刷新 Token
 
-### 15.5.1 后端部分
+### 15.5.1 后端登录部分
 
-当用户登录成功之后，返回 `accessToken` 字符串，之后通过 `JWTEncryption.GenerateRefreshToken()` 获取 `刷新Token`，如：
+当用户登录成功之后，返回 `accessToken` 字符串，之后通过 `JWTEncryption.GenerateRefreshToken()` 获取 `刷新Token`，并通过响应报文头返回，如：
 
 ```cs {9}
 // token
@@ -193,7 +193,13 @@ var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>()
 
 // 获取刷新 token
 var refreshToken = JWTEncryption.GenerateRefreshToken(accessToken, 30); // 第二个参数是刷新 token 的有效期，默认三十天
+
+// 设置请求报文头
+httpContextAccessor.HttpContext.Response.Headers["access-token"] = accessToken;
+httpContextAccessor.HttpContext.Response.Headers["x-access-token"] = refreshToken;
 ```
+
+用户登录成功之后把 `accessToken` 和 `refreshToken` 一起返回给客户端存储起来。
 
 ### 15.5.2 后端授权 `Handler` 部分
 
@@ -228,7 +234,7 @@ namespace Furion.Web.Core
         }
 
         /// <summary>
-        /// 验证管道
+        /// 验证管道，也就是验证核心代码
         /// </summary>
         /// <param name="context"></param>
         /// <param name="httpContext"></param>
@@ -236,31 +242,11 @@ namespace Furion.Web.Core
         public override Task<bool> PipelineAsync(AuthorizationHandlerContext context, DefaultHttpContext httpContext)
         {
             // 检查权限，如果方法时异步的就不用 Task.FromResult 包裹，直接使用 async/await 即可
-            return Task.FromResult(CheckAuthorzie(httpContext));
-        }
-
-        /// <summary>
-        /// 检查权限
-        /// </summary>
-        /// <param name="httpContext"></param>
-        /// <returns></returns>
-        private static bool CheckAuthorzie(DefaultHttpContext httpContext)
-        {
-            // 获取权限特性
-            var securityDefineAttribute = httpContext.GetMetadata<SecurityDefineAttribute>();
-            if (securityDefineAttribute == null) return true;
-
-            // 解析服务
-            var authorizationManager = httpContext.RequestServices.GetService<IAuthorizationManager>();
-
-            // 检查授权
-            return authorizationManager.CheckSecurity(securityDefineAttribute.ResourceId);
+            return Task.FromResult(true);
         }
     }
 }
 ```
-
-用户登录成功之后把 `accessToken` 和 `refreshToken` 一起返回给客户端。
 
 ### 15.5.3 客户端部分
 
@@ -271,14 +257,24 @@ Authorization: Bearer 你的token
 X-Authorization: Bearer 你的刷新token
 ```
 
-如果 `Token` 过期，那么后端将自动根据有效期内的 `refreshToken` 自动生成新的 `Token`，并在 **响应报文** 中返回，如：
+:::important 特别注意
+
+在正常开发中，`refreshToken` 无需每次请求携带，而是 `accessToken` 即将过期之后携带即可。可以在客户端自行判断 `accessToken` 是否即将过期。
+
+:::
+
+如果 `Token` 过期，那么 `Furion` 将自动根据有效期内的 `refreshToken` 自动生成新的 `AceessToken`，并在 **响应报文** 中返回，如：
 
 ```
 access-token: 新的token
 x-access-token: 新的刷新token
 ```
 
-前端需要获取 **响应报文** 新的 token 和刷新 token 替换之前旧的 token 和刷新 token。
+:::note 存储新的 Token
+
+前端需要获取 **响应报文** 新的 token 和刷新 token 替换之前在客户处存储旧的 token 和刷新 token。
+
+:::
 
 ## 15.6 反馈与建议
 

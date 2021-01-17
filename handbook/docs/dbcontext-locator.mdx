@@ -45,32 +45,53 @@ namespace Furion.Core
 
 在 `Furion` 框架中已经提供了 `MasterDbContextLocator` 默认数据库上下文定位器，所以默认数据库上下文只需继承 `AppDbContext<TDbContext>` 即可。
 
-`AppDbContext<TDbContext>` 定义代码如下：
+如：只有一个数据库上下文定义：
 
-```cs {11}
-using Furion.DependencyInjection;
+```cs
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
-namespace Furion.DatabaseAccessor
+namespace Furion.EntityFramework.Core
 {
-    /// <summary>
-    /// 默认应用数据库上下文
-    /// </summary>
-    /// <typeparam name="TDbContext">数据库上下文</typeparam>
-    [NonBeScan]
-    public abstract class AppDbContext<TDbContext> : AppDbContext<TDbContext, MasterDbContextLocator>
-        where TDbContext : DbContext
+    [AppDbContext("Sqlite3ConnectionString", DbProvider.Sqlite)]
+    public class DefaultDbContext : AppDbContext<DefaultDbContext>  // 无需指定定位器
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="options"></param>
-        public AppDbContext(DbContextOptions<TDbContext> options) : base(options)
+        public DefaultDbContext(DbContextOptions<DefaultDbContext> options) : base(options)
         {
         }
     }
 }
 ```
+
+:::important 关于多数据库定位器
+
+默认数据库的定位器默认为 `MasterDbContextLocator`，所以无需显示指定定位器，**但从第二个数据库开始，都必须指定数据库定位器**。如：
+
+- 注册上下文：
+
+```cs
+options.AddDbPool<OtherDbContext, OtherDbContextLocator>();
+```
+
+- 定义上下文
+
+```cs
+using Furion.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+
+namespace Furion.EntityFramework.Core
+{
+    [AppDbContext("Sqlite3ConnectionString", DbProvider.Sqlite)]
+    public class OtherDbContext : AppDbContext<OtherDbContext, OtherDbContextLocator>   // 需指定定位器
+    {
+        public OtherDbContext(DbContextOptions<OtherDbContext> options) : base(options)
+        {
+        }
+    }
+}
+```
+
+:::
 
 ## 9.2.5 数据库上下文定位器支持对象
 

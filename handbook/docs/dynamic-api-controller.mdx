@@ -1257,7 +1257,17 @@ public class SampleAsyncActionFilter : IAsyncActionFilter
 {
     public async Task OnActionExecutionAsync(ActionExecutingContext context,ActionExecutionDelegate next)
     {
+        // 拦截之前
+
         var resultContext = await next();
+
+        // 拦截之后
+
+        // 异常拦截
+        if(resultContext.Exception != null)
+        {
+
+        }
     }
 }
 ```
