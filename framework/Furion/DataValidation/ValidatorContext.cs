@@ -38,7 +38,7 @@ namespace Furion.DataValidation
             }
             else validationResults = new Dictionary<string, IEnumerable<string>>
             {
-                { "", new[] { errors?.ToString() } }
+                { string.Empty, new[] { errors?.ToString() } }
             };
 
             var validateFaildMessage = JsonSerializerUtility.Serialize(validationResults);

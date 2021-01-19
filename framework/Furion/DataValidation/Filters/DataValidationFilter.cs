@@ -30,7 +30,7 @@ namespace Furion.DataValidation
         public int Order => FilterOrder;
 
         /// <summary>
-        /// 是否时可重复使用的
+        /// 是否是可重复使用的
         /// </summary>
         public static bool IsReusable => true;
 

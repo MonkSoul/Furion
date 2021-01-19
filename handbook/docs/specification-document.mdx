@@ -805,6 +805,14 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 有些时候，我们某些接口不需要进行规范化处理，这时，我们只需要帖 `[NonUnify]` 特性即可。
 
+### 6.7.2 规范化结果添加额外数据
+
+默认的规范化结果中包含 `extras` 属性，可以配置额外数据返回到客户端：
+
+```cs
+UnifyContext.Fill(new { Message = "操作成功" });
+```
+
 ## 6.8 反馈与建议
 
 :::note 与我们交流

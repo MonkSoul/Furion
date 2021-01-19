@@ -80,7 +80,7 @@ namespace Furion.DynamicApiController
 
             foreach (var action in actions)
             {
-                // 跳过相同方法签命
+                // 跳过相同方法签名
                 if (repeats.Contains(action))
                 {
                     action.ApiExplorer.IsVisible = false;
