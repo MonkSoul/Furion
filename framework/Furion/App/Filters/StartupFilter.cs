@@ -59,7 +59,7 @@ namespace Furion
         /// <param name="applicationServices">服务提供器</param>
         private static void UseStartup(IApplicationBuilder app, IServiceProvider applicationServices)
         {
-            var startups = App.AppStartups;
+            var startups = App.AppStartups.Reverse();
             if (!startups.Any()) return;
 
             // 获取环境和配置
