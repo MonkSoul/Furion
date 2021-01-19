@@ -8,7 +8,7 @@ namespace System.Collections.Generic
     /// <typeparam name="TEntity"></typeparam>
     [SkipScan]
     public class PagedList<TEntity>
-        where TEntity : class, new()
+        where TEntity : new()
     {
         /// <summary>
         /// 页码

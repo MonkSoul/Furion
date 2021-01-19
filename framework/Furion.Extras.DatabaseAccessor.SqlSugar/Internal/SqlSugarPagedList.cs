@@ -7,7 +7,7 @@ namespace SqlSugar
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     public class SqlSugarPagedList<TEntity>
-        where TEntity : class, new()
+        where TEntity : new()
     {
         /// <summary>
         /// 页码

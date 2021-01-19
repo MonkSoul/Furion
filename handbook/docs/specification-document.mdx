@@ -782,6 +782,29 @@ services.AddControllers()
         .AddInjectWithUnifyResult<RESTfulResultProvider>();
 ```
 
+:::important 特别注意
+
+默认情况下，规范化结果不会对 `401` 和 `403` 状态码进行规范化处理，如需启动该状态码处理，只需在 `Startup.cs` 中的 `Configure` 中启用接口：
+
+```cs
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    if (env.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+    }
+    // 添加规范化结果状态码，需要在这里注册
+    app.UseUnifyResultStatusCodes();
+    // 其他注册...
+}
+```
+
+:::
+
+### 6.7.1 排除规范化处理
+
+有些时候，我们某些接口不需要进行规范化处理，这时，我们只需要帖 `[NonUnify]` 特性即可。
+
 ## 6.8 反馈与建议
 
 :::note 与我们交流

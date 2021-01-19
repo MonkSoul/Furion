@@ -23,7 +23,7 @@ namespace Furion.DatabaseAccessor
         /// <param name="pageSize"></param>
         /// <returns></returns>
         public static PagedList<TEntity> ToPagedList<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20)
-            where TEntity : class, new()
+            where TEntity : new()
         {
             var totalCount = entities.Count();
             var items = entities.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
@@ -51,7 +51,7 @@ namespace Furion.DatabaseAccessor
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public static async Task<PagedList<TEntity>> ToPagedListAsync<TEntity>(this IQueryable<TEntity> entities, int pageIndex = 1, int pageSize = 20, CancellationToken cancellationToken = default)
-            where TEntity : class, new()
+            where TEntity : new()
         {
             var totalCount = await entities.CountAsync(cancellationToken);
             var items = await entities.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync(cancellationToken);
