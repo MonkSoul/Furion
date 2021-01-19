@@ -67,14 +67,13 @@ namespace SqlSugar
             _sqlSugarRepository = sqlSugarRepository;
 
             DynamicContext = Context = _db = db;
-            Entities = db.Queryable<TEntity>();
             Ado = _db.Ado;
         }
 
         /// <summary>
         /// 实体集合
         /// </summary>
-        public virtual ISugarQueryable<TEntity> Entities { get; }
+        public virtual ISugarQueryable<TEntity> Entities => _db.Queryable<TEntity>();
 
         /// <summary>
         /// 数据库上下文
