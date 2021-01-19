@@ -812,6 +812,19 @@ public string GetV1()
 
 :::
 
+### 5.8.112 保持控制器和方法命名
+
+默认情况下，动态 API 会将控制器和方法名输出为 `RESTFul` 风格的路由，如需保留原有设计，只需配置：
+
+```json
+{
+  "DynamicApiControllerSettings": {
+    "KeepName": true,
+    "LowercaseRoute": false
+  }
+}
+```
+
 ## 5.9 `[ApiDescriptionSettings]`
 
 除了上述 `ASP.NET Core` 提供的配置外，`Furion` 框架还提供了非常强大且灵活的 `[ApiDescriptionSettings]` 特性。
