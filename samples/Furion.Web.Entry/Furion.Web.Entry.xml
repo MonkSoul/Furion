@@ -4,5 +4,10 @@
         <name>Furion.Web.Entry</name>
     </assembly>
     <members>
+        <member name="T:Furion.Web.Entry.Lang">
+            <summary>
+            多语言空类
+            </summary>
+        </member>
     </members>
 </doc>

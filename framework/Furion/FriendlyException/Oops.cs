@@ -1,6 +1,7 @@
 ﻿using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.Extensions;
+using Furion.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
@@ -162,6 +163,9 @@ namespace Furion.FriendlyException
 
             // 采用 [IfException] 格式化参数覆盖
             errorCodeMessage = FormatErrorMessage(errorCodeMessage, ifExceptionAttribute?.Args);
+
+            // 多语言处理
+            errorCodeMessage = L.Text[errorCodeMessage];
 
             // 字符串格式化
             return FormatErrorMessage(MontageErrorMessage(errorCodeMessage, errorCode.ToString()), args);

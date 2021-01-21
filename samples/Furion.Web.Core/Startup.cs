@@ -16,6 +16,8 @@ namespace Furion.Web.Core
             services.AddCorsAccessor();
 
             services.AddControllersWithViews()
+                    // 配置多语言
+                    .AddAppLocalization()
                     .AddInjectWithUnifyResult();
         }
 
@@ -30,6 +32,10 @@ namespace Furion.Web.Core
             app.UseUnifyResultStatusCodes();
 
             app.UseHttpsRedirection();
+
+            // 配置多语言，必须在 路由注册之前
+            app.UseAppLocalization();
+
             app.UseStaticFiles();
 
             app.UseRouting();

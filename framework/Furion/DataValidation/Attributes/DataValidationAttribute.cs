@@ -1,5 +1,6 @@
 ﻿using Furion.DataValidation;
 using Furion.DependencyInjection;
+using Furion.Localization;
 using System.Linq;
 
 namespace System.ComponentModel.DataAnnotations
@@ -49,7 +50,9 @@ namespace System.ComponentModel.DataAnnotations
             // 验证失败
             if (!dataValidationResult.IsValid)
             {
-                return new ValidationResult(string.IsNullOrEmpty(ErrorMessage) ? dataValidationResult.ValidationResults.FirstOrDefault().ErrorMessage : ErrorMessage);
+                // 进行多语言处理
+                var errorMessage = string.IsNullOrEmpty(ErrorMessage) ? L.Text[dataValidationResult.ValidationResults.FirstOrDefault().ErrorMessage] : ErrorMessage;
+                return new ValidationResult(errorMessage);
             }
 
             // 验证成功

@@ -19,5 +19,9 @@
         }
       }
     ]
+  },
+  "LocalizationSettings": {
+    "SupportedCultures": [ "zh-CN", "en-US" ],
+    "DefaultCulture": "zh-CN"
   }
 }

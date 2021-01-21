@@ -1,6 +1,4 @@
-﻿// sdfdsfdsdfsd
-
-using Furion;
+﻿using Furion;
 using Furion.CorsAccessor;
 using Furion.DependencyInjection;
 using System;
