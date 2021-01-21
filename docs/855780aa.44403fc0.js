@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[55],{126:function(e){e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"Furion \u4ecb\u7ecd","permalink":"/blog/welcome"}]}')}}]);

@@ -150,7 +150,7 @@ module.exports = {
     {
       type: "category",
       label: "29. 测试指南",
-      items: ["unittest", "performance","benchmark"],
+      items: ["unittest", "performance", "benchmark"],
     },
     {
       type: "doc",
@@ -191,6 +191,10 @@ module.exports = {
       type: "doc",
       id: "settings/specificationdocumentsettings",
     },
+    {
+      type: "doc",
+      id: "settings/localizationsettings",
+    },
   ],
   global: [
     {
@@ -220,6 +224,10 @@ module.exports = {
     {
       type: "doc",
       id: "global/jsonserializer",
+    },
+    {
+      type: "doc",
+      id: "global/l",
     },
   ],
 };
