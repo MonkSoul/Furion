@@ -25,10 +25,10 @@ module.exports = {
       },
       hideOnScroll: false,
       items: [
-        {
-          type: "docsVersionDropdown",
-          position: "left",
-        },
+        // {
+        //   type: "docsVersionDropdown",
+        //   position: "left",
+        // },
         {
           to: "docs",
           activeBasePath: "docs",
@@ -127,7 +127,9 @@ module.exports = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Furion, Baiqian Co.,Ltd.`,
+      copyright: `Copyright © ${
+        new Date().getFullYear() - 1
+      }-${new Date().getFullYear()} Furion, Baiqian Co.,Ltd.`,
     },
   },
   presets: [

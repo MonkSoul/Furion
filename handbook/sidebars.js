@@ -7,7 +7,7 @@ module.exports = {
     },
     {
       type: "category",
-      label: "2. 一分钟入门",
+      label: "2. 一分钟上手",
       items: ["get-start", "template", "reference"],
     },
     {

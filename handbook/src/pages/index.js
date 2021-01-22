@@ -90,7 +90,7 @@ function Home() {
               )}
               to={useBaseUrl("docs/get-start")}
             >
-              一分钟入门
+              一分钟上手
             </Link>
           </div>
         </div>

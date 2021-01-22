@@ -802,9 +802,9 @@ public string GetV1()
 
 ### 5.8.11 不公开控制器或动作方法
 
-有些时候，我们无需导出某个动作方法或控制器，只需要添加 `[ApiDescriptionSettings(false)]` 或 `[ApiExplorerSettings(IgnoreApi = true)]`即可。
+有些时候，我们无需导出某个动作方法或控制器（**不显示到 Swagger**），只需要添加 `[ApiDescriptionSettings(false)]` 或 `[ApiExplorerSettings(IgnoreApi = true)]`即可。
 
-另外动作方法还支持 `[NonAction]` 标记。
+另外动作方法还支持 `[NonAction]` 标记不是一个有效的控制器或 Action。
 
 :::tip 推荐使用
 
