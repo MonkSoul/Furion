@@ -30,19 +30,18 @@ namespace Furion.Localization
         static L()
         {
             var entryAssembly = Assembly.GetEntryAssembly();
-            LangType = entryAssembly.GetType($"{entryAssembly.GetName().Name}.Lang")
-                ?? throw new InvalidOperationException("`Lang.cs` type not found in entry assembly.");
+            LangType = entryAssembly.GetType($"{entryAssembly.GetName().Name}.Lang");
         }
 
         /// <summary>
         /// String 多语言
         /// </summary>
-        public static IStringLocalizer @Text => App.GetService<IStringLocalizerFactory>().Create(LangType);
+        public static IStringLocalizer @Text => LangType == null ? null : App.GetService<IStringLocalizerFactory>()?.Create(LangType);
 
         /// <summary>
         /// Html 多语言
         /// </summary>
-        public static IHtmlLocalizer @Html => App.GetService<IHtmlLocalizerFactory>().Create(LangType);
+        public static IHtmlLocalizer @Html => LangType == null ? null : App.GetService<IHtmlLocalizerFactory>()?.Create(LangType);
 
         /// <summary>
         /// 设置多语言区域

@@ -1,9 +1,8 @@
-﻿using Furion.ObjectMapper;
-using Mapster;
+﻿using Mapster;
 
 namespace FurionApi.Application
 {
-    public class Mapper : IObjectMapper
+    public class Mapper : IRegister
     {
         public void Register(TypeAdapterConfig config)
         {

@@ -50,8 +50,12 @@ namespace System.ComponentModel.DataAnnotations
             // 验证失败
             if (!dataValidationResult.IsValid)
             {
+                var resultMessage = dataValidationResult.ValidationResults.FirstOrDefault().ErrorMessage;
+
                 // 进行多语言处理
-                var errorMessage = string.IsNullOrEmpty(ErrorMessage) ? L.Text[dataValidationResult.ValidationResults.FirstOrDefault().ErrorMessage] : ErrorMessage;
+                var errorMessage = string.IsNullOrEmpty(ErrorMessage)
+                    ? L.Text == null ? resultMessage : L.Text[resultMessage]
+                    : ErrorMessage;
                 return new ValidationResult(errorMessage);
             }
 

@@ -1,5 +1,6 @@
 ﻿using Furion;
 using Furion.DependencyInjection;
+using Furion.DynamicApiController;
 using Furion.Reflection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
@@ -84,7 +85,10 @@ namespace Microsoft.Extensions.DependencyInjection
                 // 获取所有能注册的接口
                 var canInjectInterfaces = type.GetInterfaces()
                     .Where(u => !injectionAttribute.ExpectInterfaces.Contains(u)
+                                && u != typeof(IPrivateDependency)
                                 && !typeof(IPrivateDependency).IsAssignableFrom(u)
+                                && u != typeof(IDynamicApiController)
+                                && !typeof(IDynamicApiController).IsAssignableFrom(u)
                                 && projectAssemblies.Contains(u.Assembly)
                                 && (
                                     (!type.IsGenericType && !u.IsGenericType)

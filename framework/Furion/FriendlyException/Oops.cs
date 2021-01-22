@@ -165,7 +165,7 @@ namespace Furion.FriendlyException
             errorCodeMessage = FormatErrorMessage(errorCodeMessage, ifExceptionAttribute?.Args);
 
             // 多语言处理
-            errorCodeMessage = L.Text[errorCodeMessage];
+            errorCodeMessage = L.Text == null ? errorCodeMessage : L.Text[errorCodeMessage];
 
             // 字符串格式化
             return FormatErrorMessage(MontageErrorMessage(errorCodeMessage, errorCode.ToString()), args);
