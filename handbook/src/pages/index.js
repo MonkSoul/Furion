@@ -4,63 +4,13 @@ import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import useBaseUrl from "@docusaurus/useBaseUrl";
-import styles from "./styles.module.css";
-
-const features = [
-  {
-    title: <>.NET 5 新起点</>,
-    imageUrl: "img/undraw_docusaurus_mountain.svg",
-    description: (
-      <>
-        .NET 5 是 .NET 的重要且令人兴奋的新方向。你会看到 .NET
-        变得更加简单，但也有更广泛的功能和实用程序。
-        <strong>
-          所有新的开发和功能都将是 .NET 5 的一部分，包括新的 C# 版本
-        </strong>
-        。
-      </>
-    ),
-  },
-  {
-    title: <>“六极” 架构</>,
-    imageUrl: "img/undraw_docusaurus_tree.svg",
-    description: (
-      <>
-        Furion 在设计之初就秉承着 “六极” ：
-        <strong>
-          极易入门、极速开发、极少依赖、极少配置、极其灵活、极易维护
-        </strong>{" "}
-        的设计思想，在架构设计上做了大量的优化，支持各个能力阶层技术员极速上手。
-      </>
-    ),
-  },
-  {
-    title: <>冲一杯咖啡的时间</>,
-    imageUrl: "img/undraw_docusaurus_react.svg",
-    description: (
-      <>
-        Furion
-        除了独具创新的设计理念和灵活的架构设计以外，同时还结合了主流的敏捷开发模式打造的一款极速开发框架。
-        <strong>只需冲制一杯咖啡的时间便可完成工作</strong>。
-      </>
-    ),
-  },
-];
-
-function Feature({ imageUrl, title, description }) {
-  const imgUrl = useBaseUrl(imageUrl);
-  return (
-    <div className={clsx("col col--4", styles.feature)}>
-      {imgUrl && (
-        <div className="text--center">
-          <img className={styles.featureImage} src={imgUrl} alt={title} />
-        </div>
-      )}
-      <h3 className={clsx(styles.featureTitle)}>{title}</h3>
-      <p>{description}</p>
-    </div>
-  );
-}
+import "./index.css";
+import WindowIcon from "./windows.svg";
+import LinuxIcon from "./linux.svg";
+import MacOSIcon from "./macos.svg";
+import DockerIcon from "./docker.svg";
+import KubernetesIcon from "./kubernetes.svg";
+import components from "@theme/MDXComponents";
 
 function Home() {
   const context = useDocusaurusContext();
@@ -70,45 +20,262 @@ function Home() {
       title={`让 .NET 开发更简单，更通用，更流行。 ${siteConfig.title}`}
       description="让 .NET 开发更简单，更通用，更流行。"
     >
-      <header className={clsx("hero hero--primary", styles.heroBanner)}>
-        <div className="container">
-          <h1 className="hero__title">
-            <img
-              src={useBaseUrl("img/furionlogo.png")}
-              height="80"
-              style={{ margin: "0 auto", display: "block" }}
+      <Banner />
+      <Gitee />
+      <Remark />
+      <WhoUse />
+    </Layout>
+  );
+}
+
+function Banner() {
+  return (
+    <div className="furion-banner">
+      <div className="furion-banner-container">
+        <div className="furion-banner-item">
+          <div className="furion-banner-project">Furion</div>
+          <div className="furion-banner-description">
+            让 .NET 开发更简单，更通用，更流行。
+          </div>
+          <ul className="furion-banner-spec">
+            <li>基于 .NET 5 平台，没有历史包袱</li>
+            <li>框架只依赖两个第三方包</li>
+            <li>代码无侵入式，极速上手</li>
+            <li>只需要一个 Inject() 即可完成配置</li>
+          </ul>
+          <div className="furion-support-platform">受支持平台：</div>
+          <div className="furion-support-icons">
+            <span>
+              <WindowIcon height="39" width="39" />
+            </span>
+            <span>
+              <LinuxIcon height="39" width="39" />
+            </span>
+            <span>
+              <MacOSIcon height="39" width="39" />
+            </span>
+            <span>
+              <DockerIcon height="39" width="39" />
+            </span>
+            <span>
+              <KubernetesIcon height="39" width="39" />
+            </span>
+          </div>
+          <Link className="furion-get-start" to={useBaseUrl("docs/get-start")}>
+            一分钟上手
+          </Link>
+        </div>
+        <div className="furion-banner-item">
+          <SystemWindow style={{ width: 550, float: "right" }}>
+            <CodeSection
+              language="cs"
+              // section="schema"
+              source={`
+public class AppService : IDynamicApiController
+{
+    private readonly IRepository<User> _userRepository;
+    public AppService(IRepository<User> userRepository)
+    {
+        _userRepository = userRepository;
+    }
+
+    [IfException(1000, "用户ID: {0} 不存在")]
+    public async Task<UserDto> GetUser([Range(1, int.MaxValue)] int userId)
+    {
+        var user = await _userRepository.FindOrDefaultAsync(userId);
+        _ = user ?? throw Oops.Oh(1000, userId);
+        return user.Adapt<UserDto>();
+    }
+
+    public async Task<RemoteData> GetRemote(string id)
+    {
+        var data = await $"https://www.furion.pro/data?id={id}".GetAsAsync<RemoteData>();
+        return data;
+    }
+}
+`}
             />
-          </h1>
-          <p className={clsx("hero__subtitle", styles.subtitle)}>
-            {siteConfig.tagline}
-          </p>
-          <div className={styles.buttons}>
-            <Link
-              className={clsx(
-                "button button--outline button--secondary button--lg",
-                styles.getStarted
-              )}
-              to={useBaseUrl("docs/get-start")}
-            >
-              一分钟上手
-            </Link>
+          </SystemWindow>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Gitee() {
+  return (
+    <div className="furion-content">
+      <p className="furion-small-title">完全开源免费</p>
+      <h1 className="furion-big-title">代码托管在开源中国 GITEE</h1>
+      <div className="furion-gitee-log">
+        <div
+          className="furion-log-item"
+          style={{ border: "6px solid #723cff" }}
+        >
+          <div className="furion-log-jiao"></div>
+          <div className="furion-log-number">
+            <div style={{ color: "#723cff" }}>2290</div>
+            <span>Stars</span>
           </div>
         </div>
-      </header>
-      <main>
-        {features && features.length > 0 && (
-          <section className={styles.features}>
-            <div className="container">
-              <div className="row">
-                {features.map((props, idx) => (
-                  <Feature key={idx} {...props} />
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-      </main>
-    </Layout>
+        <div
+          className="furion-log-item"
+          style={{ border: "6px solid #3fbbfe" }}
+        >
+          <div className="furion-log-jiao"></div>
+          <div className="furion-log-number">
+            <div style={{ color: "#3fbbfe" }}>430</div>
+            <span>Forks</span>
+          </div>
+        </div>
+        <div
+          className="furion-log-item"
+          style={{ border: "6px solid #1fd898" }}
+        >
+          <div className="furion-log-jiao"></div>
+          <div className="furion-log-number">
+            <div style={{ color: "#1fd898" }}>130,000</div>
+            <span>Downloads</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Remark() {
+  return (
+    <div className="furion-content">
+      <p className="furion-small-title">大量使用者测评</p>
+      <h1 className="furion-big-title">来听听他们是怎么说的</h1>
+      <div className="furion-remark">
+        <div className="furion-remark-item">
+          <div className="furion-remark-p">
+            <h1>理想和现实</h1>
+            <p>
+              作者的技术是我接触.NET程序员中最好的一个，代码的质量，文档的质量都是一等一的。
+            </p>
+          </div>
+          <div className="furion-remark-p">
+            <h1>kesshei</h1>
+            <p>强烈支持，因为有你们，.net 会走的更远。</p>
+          </div>
+          <div className="furion-remark-p">
+            <h1>逆天的蝈蝈</h1>
+            <p>非常优秀的开源作品，点赞支持</p>
+          </div>
+        </div>
+        <div className="furion-remark-item">
+          <div className="furion-remark-p">
+            <h1>张芸溪</h1>
+            <p>大概看了一下，觉得项目非常棒。core生态一定能火</p>
+          </div>
+          <div className="furion-remark-p">
+            <h1>赖皮小鳄鱼</h1>
+            <p>作者好棒，支持国内.net！</p>
+          </div>
+          <div className="furion-remark-p">
+            <h1>gudufy</h1>
+            <p>
+              做得非常棒，打算基于你的框架做一个基本的后台管理出来，供大家快速开发中小型项目。
+            </p>
+          </div>
+        </div>
+        <div className="furion-remark-item">
+          <div className="furion-remark-p">
+            <h1>ThinkCoder</h1>
+            <p>文档写的真不错，代码质量也非常高，注释非常完善，赞一个。</p>
+          </div>
+          <div className="furion-remark-p">
+            <h1>liuina</h1>
+            <p>期待文档写完的那一天，绝对惊艳四座。</p>
+          </div>
+          <div className="furion-remark-p">
+            <h1>weiyu.xiao</h1>
+            <p>
+              很不错的项目，对快速搭建健壮的技术架构，帮助业务成功很有帮助。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function WhoUse() {
+  return (
+    <div className="furion-whouse">
+      <div className="furion-who-custom">
+        <h1>等待下一个幸运儿，会是你吗？</h1>
+      </div>
+      <div className="furion-who-des">
+        <div style={{ maxWidth: 350 }}>
+          <div></div>
+          <h1>我们的客户</h1>
+          <p>
+            我们的软件包已在全球多个项目中使用。从小型企业到企业的解决方案及知名企业。公司在简单软件和复杂管理系统的开发方面都信任我们。
+          </p>
+          <Link className="furion-get-start" to={useBaseUrl("docs/get-start")}>
+            立即添加您的公司
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CodeSection(props) {
+  let { language, replace, section, source } = props;
+
+  source = source.replace(/\/\/ <.*?\n/g, "");
+
+  if (replace) {
+    for (const [pattern, value] of Object.entries(replace)) {
+      source = source.replace(new RegExp(pattern, "gs"), value);
+    }
+  }
+
+  source = source.trim();
+  if (!source.includes("\n")) {
+    source += "\n";
+  }
+
+  return (
+    <components.pre>
+      <components.code
+        children={source}
+        className={`language-${language}`}
+        mdxType="code"
+        originalType="code"
+        parentName="pre"
+      />
+    </components.pre>
+  );
+}
+
+function SystemWindow(systemWindowProps) {
+  const { children, className, ...props } = systemWindowProps;
+  return (
+    <div
+      {...props}
+      className={"system-window blue-accent preview-border " + className}
+    >
+      <div className="system-top-bar">
+        <span
+          className="system-top-bar-circle"
+          style={{ backgroundColor: "#8759ff" }}
+        />
+        <span
+          className="system-top-bar-circle"
+          style={{ backgroundColor: "#3fc4fe" }}
+        />
+        <span
+          className="system-top-bar-circle"
+          style={{ backgroundColor: "#42ffac" }}
+        />
+      </div>
+      {children}
+    </div>
   );
 }
 
