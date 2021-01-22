@@ -12,6 +12,11 @@ module.exports = {
     prism: {
       additionalLanguages: ["powershell", "csharp", "sql"],
     },
+    algolia: {
+      apiKey: "97723a21d903df7ca5ea618b160f03c6",
+      indexName: "furion",
+      contextualSearch: true,
+    },
     navbar: {
       title: "Furion",
       logo: {
