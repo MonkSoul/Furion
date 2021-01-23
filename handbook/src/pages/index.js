@@ -114,7 +114,7 @@ function Gitee() {
         >
           <div className="furion-log-jiao"></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>2290</div>
+            <div style={{ color: "#723cff" }}>2300</div>
             <span>Stars</span>
           </div>
         </div>
@@ -134,7 +134,7 @@ function Gitee() {
         >
           <div className="furion-log-jiao"></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>130,000</div>
+            <div style={{ color: "#1fd898" }}>140,000</div>
             <span>Downloads</span>
           </div>
         </div>
