@@ -62,10 +62,10 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 代码示例：
 
 ```cs {4}
-public class FurService
+public class FurionService
 {
     private readonly IRepository _repository;
-    public FurService(IRepository repository)
+    public FurionService(IRepository repository)
     {
         _repository = repository;
     }
@@ -73,6 +73,12 @@ public class FurService
 ```
 
 ### 12.4.2 属性方式注入
+
+:::warning 特别声明
+
+在 `Furion` 新版本中，已经移除属性注入功能，建议使用构造函数或方法方式注入，也可以通过 `App.GetService<TService>` 方式注入。
+
+:::
 
 **通过属性方式注入容易和类的实例属性混淆，不建议使用。**
 
@@ -87,7 +93,7 @@ public class FurService
   - 不直观，无法清晰地表示哪些属性是必须的
 
 ```cs {3}
-public class FurService
+public class FurionService
 {
     public IRepository Repository { get; set; }
 }
@@ -107,7 +113,7 @@ public class FurService
   - 与构造方法注入一样，会有很多参数
 
 ```cs {3}
-public class FurService
+public class FurionService
 {
     public Person GetById([FromServices]IRepository repository, int id)
     {

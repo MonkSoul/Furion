@@ -85,11 +85,11 @@ using System.Threading.Tasks;
 
 namespace Furion.Application.Persons
 {
-    public class FurService : IDynamicApiController
+    public class FurionService : IDynamicApiController
     {
         private readonly IReadableRepository<V_Person> _readableRepository;
 
-        public FurService(IRepository<V_Person> repository)
+        public FurionService(IRepository<V_Person> repository)
         {
             // 初始化只读仓储
             _readableRepository = repository.Constraint<IReadableRepository<V_Person>>();

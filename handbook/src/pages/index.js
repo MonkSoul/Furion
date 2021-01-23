@@ -3,6 +3,7 @@ import clsx from "clsx";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import useThemeContext from "@theme/hooks/useThemeContext";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import "./index.css";
 import WindowIcon from "./windows.svg";
@@ -103,16 +104,23 @@ public class AppService : IDynamicApiController
 }
 
 function Gitee() {
+  const { isDarkTheme, setLightTheme, setDarkTheme } = useThemeContext();
   return (
     <div className="furion-content">
-      <p className="furion-small-title">完全开源免费</p>
-      <h1 className="furion-big-title">代码托管在开源中国 GITEE</h1>
+      <p className={"furion-small-title" + (isDarkTheme ? " dark" : "")}>
+        完全开源免费
+      </p>
+      <h1 className={"furion-big-title" + (isDarkTheme ? " dark" : "")}>
+        代码托管在开源中国 GITEE
+      </h1>
       <div className="furion-gitee-log">
         <div
           className="furion-log-item"
           style={{ border: "6px solid #723cff" }}
         >
-          <div className="furion-log-jiao"></div>
+          <div
+            className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
+          ></div>
           <div className="furion-log-number">
             <div style={{ color: "#723cff" }}>2300</div>
             <span>Stars</span>
@@ -122,7 +130,9 @@ function Gitee() {
           className="furion-log-item"
           style={{ border: "6px solid #3fbbfe" }}
         >
-          <div className="furion-log-jiao"></div>
+          <div
+            className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
+          ></div>
           <div className="furion-log-number">
             <div style={{ color: "#3fbbfe" }}>430</div>
             <span>Forks</span>
@@ -132,7 +142,9 @@ function Gitee() {
           className="furion-log-item"
           style={{ border: "6px solid #1fd898" }}
         >
-          <div className="furion-log-jiao"></div>
+          <div
+            className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
+          ></div>
           <div className="furion-log-number">
             <div style={{ color: "#1fd898" }}>140,000</div>
             <span>Downloads</span>
@@ -144,39 +156,52 @@ function Gitee() {
 }
 
 function Remark() {
+  const { isDarkTheme, setLightTheme, setDarkTheme } = useThemeContext();
   return (
     <div className="furion-content">
-      <p className="furion-small-title">大量使用者测评</p>
-      <h1 className="furion-big-title">来听听他们是怎么说的</h1>
+      <p className={"furion-small-title" + (isDarkTheme ? " dark" : "")}>
+        大量使用者测评
+      </p>
+      <h1 className={"furion-big-title" + (isDarkTheme ? " dark" : "")}>
+        来听听他们是怎么说的
+      </h1>
       <div className="furion-remark">
         <div className="furion-remark-item">
           <div className="furion-remark-p">
             <h1>理想和现实</h1>
-            <p>
+            <p className={isDarkTheme ? " dark" : undefined}>
               作者的技术是我接触.NET程序员中最好的一个，代码的质量，文档的质量都是一等一的。
             </p>
           </div>
           <div className="furion-remark-p">
             <h1>kesshei</h1>
-            <p>强烈支持，因为有你们，.net 会走的更远。</p>
+            <p className={isDarkTheme ? " dark" : undefined}>
+              强烈支持，因为有你们，.net 会走的更远。
+            </p>
           </div>
           <div className="furion-remark-p">
             <h1>逆天的蝈蝈</h1>
-            <p>非常优秀的开源作品，点赞支持</p>
+            <p className={isDarkTheme ? " dark" : undefined}>
+              非常优秀的开源作品，点赞支持
+            </p>
           </div>
         </div>
         <div className="furion-remark-item">
           <div className="furion-remark-p">
             <h1>张芸溪</h1>
-            <p>大概看了一下，觉得项目非常棒。core生态一定能火</p>
+            <p className={isDarkTheme ? " dark" : undefined}>
+              大概看了一下，觉得项目非常棒。core生态一定能火
+            </p>
           </div>
           <div className="furion-remark-p">
             <h1>赖皮小鳄鱼</h1>
-            <p>作者好棒，支持国内.net！</p>
+            <p className={isDarkTheme ? " dark" : undefined}>
+              作者好棒，支持国内.net！
+            </p>
           </div>
           <div className="furion-remark-p">
             <h1>gudufy</h1>
-            <p>
+            <p className={isDarkTheme ? " dark" : undefined}>
               做得非常棒，打算基于你的框架做一个基本的后台管理出来，供大家快速开发中小型项目。
             </p>
           </div>
@@ -184,15 +209,19 @@ function Remark() {
         <div className="furion-remark-item">
           <div className="furion-remark-p">
             <h1>ThinkCoder</h1>
-            <p>文档写的真不错，代码质量也非常高，注释非常完善，赞一个。</p>
+            <p className={isDarkTheme ? " dark" : undefined}>
+              文档写的真不错，代码质量也非常高，注释非常完善，赞一个。
+            </p>
           </div>
           <div className="furion-remark-p">
             <h1>liuina</h1>
-            <p>期待文档写完的那一天，绝对惊艳四座。</p>
+            <p className={isDarkTheme ? " dark" : undefined}>
+              期待文档写完的那一天，绝对惊艳四座。
+            </p>
           </div>
           <div className="furion-remark-p">
             <h1>weiyu.xiao</h1>
-            <p>
+            <p className={isDarkTheme ? " dark" : undefined}>
               很不错的项目，对快速搭建健壮的技术架构，帮助业务成功很有帮助。
             </p>
           </div>

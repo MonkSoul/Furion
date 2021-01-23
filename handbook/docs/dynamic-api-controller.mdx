@@ -825,6 +825,30 @@ public string GetV1()
 }
 ```
 
+### 5.8.13 方法参数 `[FromQuery]` 化
+
+默认情况下，所有的基元类型参数都会贴上 `[FromRoute]` 特性，如果需要更改此规则，只需要在方法上面贴 `[QueryParameters]` 特性即可，如：
+
+```cs
+[QueryParameters]
+public string Get(int id, string name)
+{
+    return nameof($"{id} {name}");
+}
+```
+
+生成的路由为：`https://xxx.com?id=1&name=Furion`
+
+### 5.8.14 参数绑定配置
+
+`Furion` 框架提供了多种参数特性配置参数绑定规则：
+
+- `[FromRoute]`：通过路由参数绑定值
+- `[FromQuery]`：通过 `Url` 地址参数绑定值
+- `[FromBody]`：通过 `Request Body` 参数绑定值
+- `[FromForm]`：通过表单提交绑定值
+- `[FromHeader]`：通过 `Request Header` 参数绑定值
+
 ## 5.9 `[ApiDescriptionSettings]`
 
 除了上述 `ASP.NET Core` 提供的配置外，`Furion` 框架还提供了非常强大且灵活的 `[ApiDescriptionSettings]` 特性。

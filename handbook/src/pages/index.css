@@ -153,6 +153,10 @@
   opacity: 0.6;
 }
 
+.furion-small-title.dark {
+  color: #f5f6f7;
+}
+
 .furion-big-title {
   color: #412a94;
   font-family: Poppins;
@@ -160,6 +164,10 @@
   font-weight: 700;
   line-height: 1.31;
   margin-bottom: 2em;
+}
+
+.furion-big-title.dark {
+  color: #f5f6f7;
 }
 
 .furion-gitee-log {
@@ -187,6 +195,10 @@
   right: -6px;
   border-top: 1px dashed #a795e8;
   border-right: 1px dashed #a795e8;
+}
+
+.furion-log-jiao.dark {
+  background: #18191a;
 }
 
 .furion-log-item:last-child {
@@ -274,6 +286,10 @@
   line-height: 1.75;
   opacity: 0.8;
   text-align: center;
+}
+
+.furion-remark-p p.dark {
+  color: #f5f6f7;
 }
 
 .furion-whouse {
