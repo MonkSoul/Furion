@@ -300,10 +300,10 @@ namespace Furion.DataValidation
         /// <summary>
         /// 字母加数字组合
         /// <para>
-        /// 表达式：^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]
+        /// 表达式：^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]*$
         /// </para>
         /// </summary>
-        [Description("字母和数字组合"), ValidationItemMetadata(@"^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]", "The Value is not a combination of letters and numbers")]
+        [Description("字母和数字组合"), ValidationItemMetadata(@"^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]*$", "The Value is not a combination of letters and numbers")]
         WordWithNumber
     }
 }
