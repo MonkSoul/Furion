@@ -24,6 +24,9 @@ namespace Furion.DataEncryption
         /// </summary>
         public static MD5 Instance => instance ??= MD5.Create();
 
+        /// <summary>
+        /// 静态构造函数
+        /// </summary>
         static MD5Encryption()
         {
             _EncodeToUtf16Ptr = (delegate* managed<ReadOnlySpan<byte>, Span<char>, uint, void>)typeof(uint).Assembly.GetType("System.HexConverter").GetMethod("EncodeToUtf16", BindingFlags.Static | BindingFlags.Public).MethodHandle.GetFunctionPointer();

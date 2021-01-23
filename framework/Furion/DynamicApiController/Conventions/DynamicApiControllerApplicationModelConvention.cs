@@ -334,6 +334,10 @@ namespace Furion.DynamicApiController
             var parameterRouteTemplate = new ParameterRouteTemplate();
             var parameters = action.Parameters;
 
+            // 判断是否贴有 [QueryParameters] 特性
+            var isQueryParametersAction = action.Attributes.Any(u => u is QueryParametersAttribute);
+
+            // 遍历所有参数
             foreach (var parameterModel in parameters)
             {
                 var parameterType = parameterModel.ParameterType;
@@ -342,10 +346,20 @@ namespace Furion.DynamicApiController
                 // 处理小写参数路由匹配问题
                 if (_dynamicApiControllerSettings.LowercaseRoute.Value) parameterModel.ParameterName = parameterModel.ParameterName.ToLower();
 
+                // 判断是否贴有任何 [FromXXX] 特性了
+                var hasFormAttribute = parameterAttributes.Any(u => typeof(IBindingSourceMetadata).IsAssignableFrom(u.GetType()));
+
+                // 判断方法贴有 [QueryParameters] 特性且当前参数没有任何 [FromXXX] 特性，则添加 [FromQuery] 特性
+                if (isQueryParametersAction && !hasFormAttribute)
+                {
+                    parameterModel.BindingInfo = BindingInfo.GetBindingInfo(new[] { new FromQueryAttribute() });
+                    continue;
+                }
+
                 // 如果没有贴 [FromRoute] 特性且不是基元类型，则跳过
                 // 如果没有贴 [FromRoute] 特性且有任何绑定特性，则跳过
                 if (!parameterAttributes.Any(u => u is FromRouteAttribute)
-                    && (!parameterType.IsRichPrimitive() || parameterAttributes.Any(u => typeof(IBindingSourceMetadata).IsAssignableFrom(u.GetType())))) continue;
+                    && (!parameterType.IsRichPrimitive() || hasFormAttribute)) continue;
 
                 // 处理基元数组数组类型
                 if (parameterType.IsArray)

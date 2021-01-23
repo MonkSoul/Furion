@@ -1,5 +1,6 @@
 ﻿using Furion.ConfigurableOptions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace Furion
@@ -30,6 +31,11 @@ namespace Furion
         public string[] ExternalAssemblies { get; set; }
 
         /// <summary>
+        /// 动态日志级别
+        /// </summary>
+        public LogLevel? DynamicLogLevel { get; set; }
+
+        /// <summary>
         /// 后期配置
         /// </summary>
         /// <param name="options"></param>
@@ -40,6 +46,7 @@ namespace Furion
             options.InjectSpecificationDocument ??= true;
             options.EnabledReferenceAssemblyScan ??= false;
             options.ExternalAssemblies ??= Array.Empty<string>();
+            options.DynamicLogLevel ??= LogLevel.Information;
         }
     }
 }

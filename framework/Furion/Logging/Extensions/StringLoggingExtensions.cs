@@ -599,6 +599,54 @@ namespace Furion.Logging.Extensions
         }
 
         /// <summary>
+        /// Log
+        /// </summary>
+        /// <typeparam name="TClass"></typeparam>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
+        public static void LogDynamic<TClass>(this string message, params object[] args)
+        {
+            GetLogger<TClass>()?.LogDynamic(message, args);
+        }
+
+        /// <summary>
+        /// Log
+        /// </summary>
+        /// <typeparam name="TClass"></typeparam>
+        /// <param name="message"></param>
+        /// <param name="eventId"></param>
+        /// <param name="args"></param>
+        public static void LogDynamic<TClass>(this string message, EventId eventId, params object[] args)
+        {
+            GetLogger<TClass>()?.LogDynamic(eventId, message, args);
+        }
+
+        /// <summary>
+        /// Log
+        /// </summary>
+        /// <typeparam name="TClass"></typeparam>
+        /// <param name="message"></param>
+        /// <param name="exception"></param>
+        /// <param name="args"></param>
+        public static void LogDynamic<TClass>(this string message, Exception exception, params object[] args)
+        {
+            GetLogger<TClass>()?.LogDynamic(exception, message, args);
+        }
+
+        /// <summary>
+        /// Log
+        /// </summary>
+        /// <typeparam name="TClass"></typeparam>
+        /// <param name="message"></param>
+        /// <param name="eventId"></param>
+        /// <param name="exception"></param>
+        /// <param name="args"></param>
+        public static void LogDynamic<TClass>(this string message, EventId eventId, Exception exception, params object[] args)
+        {
+            GetLogger<TClass>()?.LogDynamic(eventId, exception, message, args);
+        }
+
+        /// <summary>
         /// 获取日志操作对象
         /// </summary>
         /// <typeparam name="TClass">类型</typeparam>
