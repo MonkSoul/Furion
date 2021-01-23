@@ -123,10 +123,10 @@ namespace Furion.EntityFramework.Core
             services.AddDatabaseAccessor(options =>
             {
                 // 配置默认数据库
-                options.AddDbPool<FurDbContext>(DbProvider.SqlServer, "连接字符串");
+                options.AddDbPool<FurDbContext>(DbProvider.SqlServer, connectionString:"连接字符串");
 
                 // 配置多个数据库，多个数据库必须指定数据库上下文定位器
-                options.AddDbPool<SqliteDbContext, SqliteDbContextLocaotr>(DbProvider.Sqlite, "连接字符串");
+                options.AddDbPool<SqliteDbContext, SqliteDbContextLocaotr>(DbProvider.Sqlite, connectionString:"连接字符串");
             });
         }
     }
