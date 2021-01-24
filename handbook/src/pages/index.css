@@ -90,6 +90,10 @@
   display: inline-block;
 }
 
+.furion-banner-item .system-window {
+  width: 34rem;
+}
+
 .furion-get-start:hover {
   color: #fff;
   text-decoration: none;
@@ -328,4 +332,48 @@
 
 .footer {
   background-color: #211b50 !important;
+}
+
+@media screen and (max-width: 1024px) {
+  .furion-banner-container {
+    justify-content: unset;
+    flex-direction: column;
+  }
+
+  .furion-banner-item .system-window {
+    width: 100%;
+    margin-top: 3rem;
+  }
+
+  .furion-gitee-log {
+    justify-content: center;
+    flex-wrap: unset;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .furion-log-item {
+    width: 100%;
+    height: 173px;
+    margin-right: 0;
+    margin-top: 25px;
+  }
+
+  .furion-big-title {
+    margin-bottom: 1em;
+  }
+
+  .furion-remark {
+    flex-direction: column;
+  }
+
+  .furion-whouse {
+    flex-direction: column;
+    padding-bottom: 1em;
+  }
+
+  .furion-who-des {
+    padding-top: 1em;
+  }
 }

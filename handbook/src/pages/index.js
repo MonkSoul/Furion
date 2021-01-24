@@ -67,7 +67,7 @@ function Banner() {
           </Link>
         </div>
         <div className="furion-banner-item">
-          <SystemWindow style={{ width: 550, float: "right" }}>
+          <SystemWindow style={{ float: "right" }}>
             <CodeSection
               language="cs"
               // section="schema"

@@ -20,7 +20,7 @@ namespace Microsoft.Extensions.Logging
         /// <param name="args"></param>
         public static void LogDynamic(this ILogger logger, EventId eventId, Exception exception, string message, params object[] args)
         {
-            logger.Log(GetConfigureLogLevel(), eventId, exception, message, args);
+            logger.Log(GetDynamicLogLevelConfigure(), eventId, exception, message, args);
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Microsoft.Extensions.Logging
         /// <param name="args"></param>
         public static void LogDynamic(this ILogger logger, EventId eventId, string message, params object[] args)
         {
-            logger.Log(GetConfigureLogLevel(), eventId, message, args);
+            logger.Log(GetDynamicLogLevelConfigure(), eventId, message, args);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Microsoft.Extensions.Logging
         /// <param name="args"></param>
         public static void LogDynamic(this ILogger logger, Exception exception, string message, params object[] args)
         {
-            logger.Log(GetConfigureLogLevel(), exception, message, args);
+            logger.Log(GetDynamicLogLevelConfigure(), exception, message, args);
         }
 
         /// <summary>
@@ -55,14 +55,14 @@ namespace Microsoft.Extensions.Logging
         /// <param name="args"></param>
         public static void LogDynamic(this ILogger logger, string message, params object[] args)
         {
-            logger.Log(GetConfigureLogLevel(), message, args);
+            logger.Log(GetDynamicLogLevelConfigure(), message, args);
         }
 
         /// <summary>
         /// 获取配置动态日志级别
         /// </summary>
         /// <returns></returns>
-        private static LogLevel GetConfigureLogLevel()
+        private static LogLevel GetDynamicLogLevelConfigure()
         {
             var logLevel = App.Configuration["AppSettings:DynamicLogLevel"];
             return string.IsNullOrEmpty(logLevel) ? LogLevel.Information : Enum.Parse<LogLevel>(logLevel);

@@ -37,13 +37,13 @@ module.exports = {
         },
         {
           to: "docs/global/app",
-          activeBasePath: "docs",
+          activeBasePath: "docs/global",
           label: "静态类",
           position: "left",
         },
         {
           to: "docs/settings/appsettings",
-          activeBasePath: "docs",
+          activeBasePath: "docs/settings",
           label: "配置",
           position: "left",
         },
