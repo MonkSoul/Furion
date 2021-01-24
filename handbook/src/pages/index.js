@@ -40,8 +40,8 @@ function Banner() {
           </div>
           <ul className="furion-banner-spec">
             <li>基于 .NET 5 平台，没有历史包袱</li>
-            <li>框架只依赖两个第三方包</li>
-            <li>代码无侵入式，极速上手</li>
+            <li>极少依赖，只依赖两个第三方包</li>
+            <li>极速上手，代码无侵入式</li>
             <li>只需要一个 Inject() 即可完成配置</li>
           </ul>
           <div className="furion-support-platform">受支持平台：</div>
@@ -122,7 +122,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>2300</div>
+            <div style={{ color: "#723cff" }}>2306</div>
             <span>Stars</span>
           </div>
         </div>
@@ -134,7 +134,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#3fbbfe" }}>430</div>
+            <div style={{ color: "#3fbbfe" }}>511</div>
             <span>Forks</span>
           </div>
         </div>
@@ -146,7 +146,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>140,000</div>
+            <div style={{ color: "#1fd898" }}>587,140</div>
             <span>Downloads</span>
           </div>
         </div>
