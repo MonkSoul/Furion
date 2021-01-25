@@ -258,6 +258,11 @@ function WhoUse() {
             <img src={useBaseUrl("img/custom5.png")} height="100" />
           </a>
         </div>
+        <div className="furion-custom-img">
+          <a href="http://www.dilon.vip/" target="_blank">
+            <img src={useBaseUrl("img/custom6.png")} height="100" />
+          </a>
+        </div>
       </div>
       <div className="furion-who-des">
         <div style={{ maxWidth: 350 }}>
