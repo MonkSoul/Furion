@@ -341,7 +341,8 @@ namespace Furion.DatabaseAccessor
             {
                 // 获取所有的数据列和类公开实例属性
                 var dataColumns = dataTable.Columns;
-                var properties = underlyingType.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => !p.IsDefined(typeof(NotMappedAttribute), true));
+                var properties = underlyingType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                //.Where(p => !p.IsDefined(typeof(NotMappedAttribute), true));  // sql 数据转换无需判断 [NotMapperd] 特性
 
                 // 遍历所有行
                 foreach (var dataRow in dataRows)
