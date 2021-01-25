@@ -322,6 +322,11 @@
   margin-left: 3em;
 }
 
+.furion-custom-img {
+  text-decoration: none;
+  color: transparent;
+}
+
 .furion-who-des {
   padding: 0 5rem;
   box-sizing: border-box;
