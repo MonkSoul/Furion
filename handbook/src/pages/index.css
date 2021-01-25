@@ -234,6 +234,10 @@
   color: #1c1e21;
 }
 
+.furion-log-number span.dark {
+  color: #f5f6f7;
+}
+
 .furion-remark {
   display: flex;
   justify-content: center;

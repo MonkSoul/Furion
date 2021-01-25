@@ -18,3 +18,8 @@
 .navbar__items {
   color: #fff;
 }
+
+.menu__list-item .navbar__link--active,
+.menu__list-item .navbar__link:hover {
+  color: #743dff;
+}

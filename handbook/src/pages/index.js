@@ -130,7 +130,7 @@ function Gitee() {
           ></div>
           <div className="furion-log-number">
             <div style={{ color: "#723cff" }}>2315</div>
-            <span>Stars</span>
+            <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
         <div
@@ -142,7 +142,7 @@ function Gitee() {
           ></div>
           <div className="furion-log-number">
             <div style={{ color: "#3fbbfe" }}>513</div>
-            <span>Forks</span>
+            <span className={isDarkTheme ? " dark" : ""}>Forks</span>
           </div>
         </div>
         <div
@@ -154,7 +154,7 @@ function Gitee() {
           ></div>
           <div className="furion-log-number">
             <div style={{ color: "#1fd898" }}>588,043</div>
-            <span>Downloads</span>
+            <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
       </div>
