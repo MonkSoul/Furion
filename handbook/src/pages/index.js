@@ -62,9 +62,14 @@ function Banner() {
               <KubernetesIcon height="39" width="39" />
             </span>
           </div>
-          <Link className="furion-get-start" to={useBaseUrl("docs/get-start")}>
-            一分钟上手
-          </Link>
+          <div className="furion-get-start-btn">
+            <Link
+              className="furion-get-start"
+              to={useBaseUrl("docs/get-start")}
+            >
+              一分钟上手
+            </Link>
+          </div>
         </div>
         <div className="furion-banner-item">
           <SystemWindow style={{ float: "right" }}>
@@ -235,7 +240,13 @@ function WhoUse() {
   return (
     <div className="furion-whouse">
       <div className="furion-who-custom">
-        <h1>等待下一个幸运儿，会是你吗？</h1>
+        {/* <h1>等待下一个幸运儿，会是你吗？</h1> */}
+        <div className="furion-custom-img">
+          <img src={useBaseUrl("img/custom1.png")} height="100" />
+        </div>
+        <div className="furion-custom-img">
+          <img src={useBaseUrl("img/custom2.png")} height="100" />
+        </div>
       </div>
       <div className="furion-who-des">
         <div style={{ maxWidth: 350 }}>

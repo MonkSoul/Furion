@@ -314,6 +314,12 @@
   align-items: center;
   color: #723cff;
   text-align: right;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.furion-custom-img {
+  margin-left: 2em;
 }
 
 .furion-who-des {
@@ -338,6 +344,10 @@
   .furion-banner-container {
     justify-content: unset;
     flex-direction: column;
+  }
+
+  .furion-get-start-btn {
+    text-align: center;
   }
 
   .furion-banner-item .system-window {
@@ -375,5 +385,30 @@
 
   .furion-who-des {
     padding-top: 1em;
+    padding-bottom: 2em;
+  }
+
+  .furion-remark-item {
+    border: none;
+    margin: 0;
+    width: 100%;
+    max-width: unset;
+    padding-bottom: 0;
+  }
+
+  .furion-custom-img {
+    margin-left: 0;
+    margin-bottom: 2em;
+  }
+
+  .furion-custom-img img {
+    max-width: unset;
+  }
+
+  .furion-who-custom {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: center;
   }
 }
