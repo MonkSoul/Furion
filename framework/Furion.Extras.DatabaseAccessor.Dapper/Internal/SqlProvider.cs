@@ -12,7 +12,7 @@ namespace Dapper
         /// <summary>
         /// SqlServer 提供器程序集
         /// </summary>
-        public const string SqlServer = "System.Data.SqlClient";
+        public const string SqlServer = "Microsoft.Data.SqlClient";
 
         /// <summary>
         /// Sqlite 提供器程序集
