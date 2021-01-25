@@ -55,7 +55,7 @@ sidebar_label: 5. 动态API配置
     ```json
     "DynamicApiControllerSettings": {
         "VerbToHttpMethods": [
-          [ "getall", "HEAD" ]  // => getall 会被复写为 `[HttpHead]`
+          [ "getall", "HEAD" ],  // => getall 会被复写为 `[HttpHead]`
           [ "other", "PUT" ]  // => 新增一条新规则，比如，一 `[other]` 开头会转换为 `[HttpPut]` 请求
         ]
       }

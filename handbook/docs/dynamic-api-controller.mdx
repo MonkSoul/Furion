@@ -849,6 +849,39 @@ public string Get(int id, string name)
 - `[FromForm]`：通过表单提交绑定值
 - `[FromHeader]`：通过 `Request Header` 参数绑定值
 
+### 5.8.15 自定义根据方法名生成 `[HttpMethod]` 规则
+
+在 `Furion` 框架中，在没有配置 `[HttpMethod]` 特性的情况下，会自动根据方法名第一个参数进行分析，并生成对应的 `[HttpMethod]` 特性，规则如下：
+
+- 动作方法名
+  - 以 `Post/Add/Create/Insert/Submit` 开头，则添加 `[HttpPost]` 特性。
+  - 以 `GetAll/GetList/Get/Find/Fetch/Query` 开头，则添加 `[HttpGet]` 特性。
+  - 以 `Put/Update` 开头，则添加 `[HttpPut]` 特性。
+  - 以 `Delete/Remove/Clear` 开头，则添加 `[HttpDelete]` 特性。
+  - 以 `Patch` 开头，则添加 `[HttpPatch]` 特性
+  - 已 `Head` 开头，则添加 `[HttpHead]` 特性
+  - **支持自定义配置**
+- 如果不在上面约定中，则默认添加 `[HttpPost]` 特性。**支持自定义配置**
+
+**但是，有些时候这不是我们想要的规则**，这时我们只需要在 `appsettings.json` 中配置即可：
+
+```json {2,3}
+{
+  "DynamicApiControllerSettings": {
+    "VerbToHttpMethods": [
+      ["getall", "HEAD"], // => getall 会被复写为 `[HttpHead]`
+      ["other", "PUT"] // => 新增一条新规则，比如，一 `[other]` 开头会转换为 `[HttpPut]` 请求
+    ]
+  }
+}
+```
+
+:::important 特别注意
+
+二维数组中的每一个元素的第一个元素**必须是全小写**，第二个元素**必须是全大写大写**，第二个元素取值有：`HEAD, GET, PUT, POST, PATCH, DELETE`
+
+:::
+
 ## 5.9 `[ApiDescriptionSettings]`
 
 除了上述 `ASP.NET Core` 提供的配置外，`Furion` 框架还提供了非常强大且灵活的 `[ApiDescriptionSettings]` 特性。
@@ -1270,7 +1303,7 @@ namespace Furion.Application
     ```json
     "DynamicApiControllerSettings": {
         "VerbToHttpMethods": [
-          [ "getall", "HEAD" ]  // => getall 会被复写为 `[HttpHead]`
+          [ "getall", "HEAD" ],  // => getall 会被复写为 `[HttpHead]`
           [ "other", "PUT" ]  // => 新增一条新规则，比如，一 `[other]` 开头会转换为 `[HttpPut]` 请求
         ]
       }
