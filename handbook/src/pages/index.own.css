@@ -1,0 +1,20 @@
+.navbar {
+  background-color: #211b50;
+}
+
+.navbar__brand {
+  color: #fff;
+}
+
+.navbar__link {
+  color: #fff;
+}
+
+.navbar__link:hover,
+.navbar__link--active {
+  color: yellow;
+}
+
+.navbar__items {
+  color: #fff;
+}
