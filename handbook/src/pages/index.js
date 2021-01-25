@@ -127,7 +127,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>2313</div>
+            <div style={{ color: "#723cff" }}>2315</div>
             <span>Stars</span>
           </div>
         </div>
@@ -246,6 +246,12 @@ function WhoUse() {
         </div>
         <div className="furion-custom-img">
           <img src={useBaseUrl("img/custom2.png")} height="100" />
+        </div>
+        <div className="furion-custom-img">
+          <img src={useBaseUrl("img/custom3.png")} height="100" />
+        </div>
+        <div className="furion-custom-img">
+          <img src={useBaseUrl("img/custom4.jpg")} height="100" />
         </div>
       </div>
       <div className="furion-who-des">
