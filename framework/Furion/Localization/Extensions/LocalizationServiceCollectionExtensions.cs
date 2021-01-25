@@ -21,7 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IMvcBuilder AddAppLocalization(this IMvcBuilder mvcBuilde)
         {
             // 判断是否含有空类
-            _ = L.LangType ?? throw new InvalidOperationException("`Lang.cs` type not found in entry assembly.");
+            if (L.LangType == null) return mvcBuilde;
 
             var services = mvcBuilde.Services;
 

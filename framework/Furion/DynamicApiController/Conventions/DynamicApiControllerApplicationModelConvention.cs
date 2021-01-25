@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Routing;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -30,11 +31,17 @@ namespace Furion.DynamicApiController
         private readonly Regex _nameVersionRegex;
 
         /// <summary>
+        /// 默认方法名映射规则
+        /// </summary>
+        private readonly Dictionary<string, string> _verbToHttpMethods;
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         public DynamicApiControllerApplicationModelConvention()
         {
             _dynamicApiControllerSettings = App.GetOptions<DynamicApiControllerSettingsOptions>();
+            _verbToHttpMethods = GetVerbToHttpMethodsConfigure();
             _nameVersionRegex = new Regex(@"V(?<version>[0-9_]+$)");
         }
 
@@ -154,11 +161,11 @@ namespace Furion.DynamicApiController
                     var words = Penetrates.SplitCamelCase(tempName);
                     var verbKey = words.First().ToLower();
                     // 处理类似 getlist,getall 多个单词
-                    if (words.Length > 1 && Penetrates.VerbToHttpMethods.ContainsKey((words[0] + words[1]).ToLower()))
+                    if (words.Length > 1 && _verbToHttpMethods.ContainsKey((words[0] + words[1]).ToLower()))
                     {
                         tempName = tempName[(words[0] + words[1]).Length..];
                     }
-                    else if (Penetrates.VerbToHttpMethods.ContainsKey(verbKey)) tempName = tempName[verbKey.Length..];
+                    else if (_verbToHttpMethods.ContainsKey(verbKey)) tempName = tempName[verbKey.Length..];
                 }
 
                 return tempName;
@@ -176,9 +183,17 @@ namespace Furion.DynamicApiController
             if (selectorModel.ActionConstraints.Count > 0) return;
 
             // 解析请求谓词
-            var verbKey = Penetrates.GetCamelCaseFirstWord(action.ActionMethod.Name).ToLower();
-            var verb = Penetrates.VerbToHttpMethods.ContainsKey(verbKey)
-                ? Penetrates.VerbToHttpMethods[verbKey]
+            var words = Penetrates.SplitCamelCase(action.ActionMethod.Name);
+            var verbKey = words.First().ToLower();
+
+            // 处理类似 getlist,getall 多个单词
+            if (words.Length > 1 && _verbToHttpMethods.ContainsKey((words[0] + words[1]).ToLower()))
+            {
+                verbKey = (words[0] + words[1]).ToLower();
+            }
+
+            var verb = _verbToHttpMethods.ContainsKey(verbKey)
+                ? _verbToHttpMethods[verbKey]
                 : _dynamicApiControllerSettings.DefaultHttpMethod.ToUpper();
 
             // 添加请求约束
@@ -192,6 +207,7 @@ namespace Furion.DynamicApiController
                 "PUT" => new HttpPutAttribute(),
                 "DELETE" => new HttpDeleteAttribute(),
                 "PATCH" => new HttpPatchAttribute(),
+                "HEAD" => new HttpHeadAttribute(),
                 _ => throw new NotSupportedException($"{verb}")
             };
 
@@ -552,6 +568,31 @@ namespace Furion.DynamicApiController
 
             var version = _nameVersionRegex.Match(name).Groups["version"].Value.Replace("_", ".");
             return (_nameVersionRegex.Replace(name, ""), version);
+        }
+
+        /// <summary>
+        /// 获取方法名映射 [HttpMethod] 规则
+        /// </summary>
+        /// <returns></returns>
+        private Dictionary<string, string> GetVerbToHttpMethodsConfigure()
+        {
+            var defaultVerbToHttpMethods = Penetrates.VerbToHttpMethods;
+
+            // 获取配置的复写映射规则
+            var verbToHttpMethods = _dynamicApiControllerSettings.VerbToHttpMethods;
+
+            if (verbToHttpMethods is not null)
+            {
+                // 获取所有参数大于1的配置
+                var settingsVerbToHttpMethods = verbToHttpMethods
+                    .Where(u => u.Length > 1)
+                    .ToDictionary(u => u[0].ToString(), u => u[1].ToString());
+
+                // 复写消息
+                defaultVerbToHttpMethods = defaultVerbToHttpMethods.AddOrUpdate(settingsVerbToHttpMethods);
+            }
+
+            return defaultVerbToHttpMethods;
         }
     }
 }

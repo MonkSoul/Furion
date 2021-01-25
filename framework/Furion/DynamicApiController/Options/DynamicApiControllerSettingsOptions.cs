@@ -72,6 +72,11 @@ namespace Furion.DynamicApiController
         public string[] AbandonActionAffixes { get; set; }
 
         /// <summary>
+        /// 复写默认配置路由规则配置
+        /// </summary>
+        public object[][] VerbToHttpMethods { get; set; }
+
+        /// <summary>
         /// 选项后期配置
         /// </summary>
         /// <param name="options"></param>
