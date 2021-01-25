@@ -1246,6 +1246,35 @@ namespace Furion.Application
   - `Service`
 - `AbandonActionAffixes`：默认去除动作方法名称前后缀列表名，`string[]`，默认：
   - `Async`
+  - `VerbToHttpMethods`：复写默认方法名转 `[HttpMethod]` 规则，`string[][]` 二维数组类型，内置匹配规则为：
+    ```cs
+    ["post"] = "POST",
+    ["add"] = "POST",
+    ["create"] = "POST",
+    ["insert"] = "POST",
+    ["submit"] = "POST",
+    ["get"] = "GET",
+    ["find"] = "GET",
+    ["fetch"] = "GET",
+    ["query"] = "GET",
+    ["getlist"] = "GET",
+    ["getall"] = "GET",
+    ["put"] = "PUT",
+    ["update"] = "PUT",
+    ["delete"] = "DELETE",
+    ["remove"] = "DELETE",
+    ["clear"] = "DELETE",
+    ["patch"] = "PATCH"
+    ```
+    - 复写示例
+    ```json
+    "DynamicApiControllerSettings": {
+        "VerbToHttpMethods": [
+          [ "getall", "HEAD" ]  // => getall 会被复写为 `[HttpHead]`
+          [ "other", "PUT" ]  // => 新增一条新规则，比如，一 `[other]` 开头会转换为 `[HttpPut]` 请求
+        ]
+      }
+    ```
 
 ### 5.10.1 支持 `Mvc 控制器` 动态配置
 
