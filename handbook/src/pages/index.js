@@ -129,7 +129,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>2330</div>
+            <div style={{ color: "#723cff" }}>2340</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
@@ -141,7 +141,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#3fbbfe" }}>514</div>
+            <div style={{ color: "#3fbbfe" }}>520</div>
             <span className={isDarkTheme ? " dark" : ""}>Forks</span>
           </div>
         </div>
@@ -153,7 +153,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>588,043</div>
+            <div style={{ color: "#1fd898" }}>590,318</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
