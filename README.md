@@ -17,19 +17,6 @@
 
 </div>
 
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-
-<p align="center">
-<a href="https://www.chinadot.net" target="_blank"><img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/chinadotnet.png" height="80"/></a>
-</p>
-
-<p align="center">
-<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/gvp.png"/>
-</p>
-
 ## 💐 序言
 
 > 无私奉献不是天方夜谭，有时候，我们也可以做到。
@@ -66,14 +53,14 @@
 
 - **[考试君](https://gitee.com/pig0224/ExamKing)**：基于 `Furion` 的在线考试系统
 - **[园丁](https://gitee.com/hgflydream/Gardener)**：基于 `Furion` + `Blazor` 的超简单后台管理系统
-- **[Queer](https://gitee.com/songzhidan/queer)**：基于 `Furion` + `Layui` 的通用型管理系统
-- **[Pear Admin](https://gitee.com/pear-admin/pear-admin-furion)**：`PearAdmin` 官方和 `Furion` 官方合作管理系统
-- **[JoyAdmin](https://gitee.com/a106_admin/joy-admin)**：基于 `Furion` + `iviewadmin` 开发的管理系统
 
 ## 🍟 文档地址
 
-- 国内文档：[https://monksoul.gitee.io/furion/](https://monksoul.gitee.io/furion/)
-- 国外文档：[https://furion.pro](https://furion.pro)
+- **[考试君](https://gitee.com/pig0224/ExamKing)**：基于 `Furion` 的在线考试系统
+- **[园丁](https://gitee.com/hgflydream/Gardener)**：基于 `Furion` + `Blazor` 的超简单后台管理系统
+- **[Queer](https://gitee.com/songzhidan/queer)**：基于 `Furion` + `Layui` 的通用型管理系统
+- **[Pear Admin](https://gitee.com/pear-admin/pear-admin-furion)**：`PearAdmin` 官方和 `Furion` 官方合作管理系统
+- **[JoyAdmin](https://gitee.com/a106_admin/joy-admin)**：基于 `Furion` + `iviewadmin` 开发的管理系统
 
 **目前文档正在逐步完善中。**
 
@@ -334,7 +321,7 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 | 🍲 海涛         | **50**                | 恭喜                                              |
 | 😣 h            | **微信赞赏码 100**    | qq82683656                                        |
 | 👱‍♀️ 冷大大       | **微信赞赏码 100**    | 加快文档和教学补充哦，另外需要钉钉群，平常不用 QQ |
-| 👜 腾坤         | **微信赞赏码 10**    | 感谢您的开源项目，QQ:565728589                    |
+| 👜 腾坤         | **微信赞赏码 10**     | 感谢您的开源项目，QQ:565728589                    |
 
 非常感谢您们的支持，正是因为您们，中国开源才可以越走越远，`Furion` 越走越远。
 
