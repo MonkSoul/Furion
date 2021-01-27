@@ -4,16 +4,16 @@ using System;
 namespace Furion.EventBus
 {
     /// <summary>
-    /// 事件消息特性
+    /// 订阅消息特性
     /// </summary>
-    [SkipScan, AttributeUsage(AttributeTargets.Method)]
-    public sealed class EventMessageAttribute : Attribute
+    [SkipScan, AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    public class SubscribeMessageAttribute : Attribute
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="messageId"></param>
-        public EventMessageAttribute(string messageId)
+        public SubscribeMessageAttribute(string messageId)
         {
             MessageId = messageId;
         }
