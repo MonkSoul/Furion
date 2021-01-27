@@ -229,5 +229,9 @@ module.exports = {
       type: "doc",
       id: "global/l",
     },
+    {
+      type: "doc",
+      id: "global/messagecenter",
+    },
   ],
 };
