@@ -162,6 +162,13 @@ namespace Furion.RemoteRequest
                                         ? clientFactory.CreateClient()
                                         : clientFactory.CreateClient(clientAttribute?.Name);
 
+            // 调用客户端请求拦截器
+            var httpClientInterceptor = method.ReflectedType.GetMethod("HttpClientInterceptor");
+            if (httpClientInterceptor != null)
+            {
+                httpClient = httpClientInterceptor.Invoke(null, new object[] { httpClient, method, args }) as HttpClient;
+            }
+
             // 发送请求
             var response = await httpClient.SendAsync(request);
 

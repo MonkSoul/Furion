@@ -70,6 +70,11 @@ _memoryCache.GetOrCreate(_timeCacheKey, entry =>
     entry.SlidingExpiration = TimeSpan.FromSeconds(3);  // 滑动缓存时间
     return DateTimeOffset.UtcNow;
 });
+
+await _memoryCache.GetOrCreateAsync(_timeCacheKey, async entry =>
+{
+    // 这里可以使用异步~~
+});
 ```
 
 :::caution 关于缓存时间

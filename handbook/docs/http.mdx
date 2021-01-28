@@ -302,6 +302,14 @@ public interface IHttp : IHttpDispatchProxy
 
         return httpResponse;
     }
+
+    // HttpClient 拦截器
+    static HttpClient HttpClientInterceptor(HttpClient httpClient, MethodInfo method, object[] args)
+    {
+        // 比如这里设置代理
+
+        return httpClient;
+    }
 }
 ```
 
