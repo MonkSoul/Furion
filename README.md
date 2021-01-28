@@ -197,59 +197,8 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 
 <img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/xncs.png"/>
 
----
-
-## 🍤 项目成员
-
-<a href="https://gitee.com/monksoul" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/324/974299_monksoul_1578937227.png!avatar100" height="40"/></a>
-<a href="https://gitee.com/chinadotnet" target="_blank"  margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/2685/8055741_chinadotnet_1606890988.png!avatar200" height="40"/></a>
-<a href="https://gitee.com/zero530" target="_blank"  margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/574/1722306_zero530_1578958528.png!avatar100" height="40"/></a>
-<a href="https://gitee.com/rgleehom" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/3/11189_maxzhang1985_1592994644.png!avatar60" height="40"/></a>
-<a href="https://gitee.com/KaneLeung" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/483/1449079_KaneLeung_1600227210.png!avatar100" height="40"/></a>
-<a href="https://gitee.com/qd98zhq" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/205/617984_qd98zhq_1600045204.png!avatar100" height="40"/></a>
-<a href="https://gitee.com/andyliuqiurong" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/19/58386_andyliuqiurong_1600142677.png!avatar100" height="40"/></a>
-<a href="https://gitee.com/co1024" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/627/1883684_co1024_1600418760.png!avatar100" height="40"/></a>
-<a href="https://gitee.com/LkyQiuFeng" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/195/586044_LkyQiuFeng_1594628004.png!avatar100" height="40"/></a>
-<a href="https://gitee.com/yzyk126" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/237/711378_yzyk126_1600742932.png!avatar100" height="40"/></a>
-<a href="https://gitee.com/lindexi" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/262/787628_lindexi_1600869623.png!avatar100" height="40"/></a>
-<a href="https://gitee.com/www.fengyunmy.com" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/33/101022_www.fengyunmy.com_1602044110.png!avatar100" height="40"/></a>
-<a href="https://gitee.com/zhouhuasheng2020" target="_blank" margin="5" style='margin:5px'><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAABiUlEQVRoQ+2YsUoDQRRF78BKstlFv8ZCEYKFCJIihRgkiIiVjUUav8HGwsZKRCRIxCKFCGIhNlr4IdbKJpvgwop2okJ2dnwPxpt63rtzzxlSrHluLOT4Rz/Dwp7bpmHPBYOGadgzAnzSngn9VoeGadgzAnzSngnlnxafNJ+0ZwScPOmZ3T2ES40/RZPeXuHlcL90BgvbIIzXt1Cdr9uMTjwzerhHcn4y8fnfDjoxXPoWggtYWBC2ShQNq2AXDKVhQdgqUc4Mh4vLmN7pwIQ1p0XydIjXowOkdzdO9rKwLcbK7Bzi1iZMpWq74se5fDxC0jvF+OnRyV5nhp3cRmAJCwtAVo2gYVX8AuE0LABZNYKGi+CP1jYQNVswwVSRMeuzefaGQb+HwcWZ9Y5ShuP2NqLVtmzhyy6S7rFO4dpK8/PzrAkC6wsUGcyzDB+fa4fX/SJjX86WMmydqjjIworwRaJpWASzYggNK8IXiaZhEcyKITSsCF8kmoZFMCuG0LAifJFoGhbBrBjyDtay2gX6ZzdZAAAAAElFTkSuQmCC" height="40"/></a>
-<a href="https://gitee.com/mabo192" target="_blank" margin="5" style='margin:5px'><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAESElEQVRoQ+2ZbYhUVRjH//f9znVaHd3SfbdWcZ0U2SCoT36I0KBI6kNKSFJZWpIvYFZUbIX1RawQKaJUotgkPxSCIn1SJJPEsFJ33V3ZtpwdF3Xdt7lz79yXOCccdozZ2Z1z7oyO936duWee3/N77nmec0cYOj7dxx10CSFwhdsODVe4YISGQ8MVloGwpCtM6P9wQsOh4QrLQFjSFSb01ti0xMg8eGZ3WXJb0pJW6zZAnfMiBFGD2f0anMGfSg5dUmD93u1Qa14CBBnOtSNInV9Z2cCklI2WryEacfjuMKze92AnvyopdEkNEzKtfjO0hm2AqMMd/Q2pP5+A746WDLrkwIIUhbHoIKRoK+DbsP75BFbfh7c/sKjWQqp6GBAV+FYCztCxLJRasw5a07sQJAOe2YNUx7PwUh0lgQ7MsHLPSuj37QAx6lw/itTZJ7NA1HL8AKSqhwDfhZ3cg/TFrZULTMhyLFt/w+x8Hu7Ir4FDczNMSpjsvDc2oIkMEypqefEhSEYcztBxWH3bs8DkXrX2FQhSFcwLa7kmghuwsbAdcuxReGYX0r1tEJRY3pK+oVGe8QjgWxR4/BVZsBdK9QoAPjID+2F2redmnhtwtPVn2l89OwGz8wWIelNB4HwU8qzHEWn+GIJyN3y7H+aFl3M2PRZ6LsDyzOWIzNtFA3RHTmLs92UoVNKFgg7KMhdgtW4j9MY36TCRGWinJcgKrFQ/Db15BwQ5xtUyF+DIgj1Qqp8CvDTSfR/BvvQpMzCpACO+H3JsGQAPdnIf0j1bChVGwc+5AE9bchRSdEmOCVbDtHXNfg7a3PchyNPhcWpdzMA5z+/oGYydWUqzzAOYrDNt8eH/JjZOAwozsNb4FrT6TYCgIHP5W5jdG7gCa/VboDW8TvcH0vJS51cxvTxgBjbu/xHyjKXw3RSsv9pg93/BFZgeKRe2Q4zMB/wMrEu76e8UezEBS3c9CLJhiVoDPKsPZscauKOnuQKTxfTmnVDnrCHzGdzhkxj7Y3mxvGz/Ho4vN2fwCFLnnskGwvIMG/HvIag1cK4cgN3/JX2GtaZ34Fw9CDvxGdP5mclwdjggpXbTuZYFONr6C0SjBb4ziHTPZmSu/FC00ZtvZAImi5ExUJn5GO2T4087xQJL0QcQadkHUWvMjqnu8IlbBzhfJMUC52tzvIiZDfMGJm81taY2+jbEuXaYtiGeV3DA1SugkxOPHJv0lETOyJGWb2ibo4NG4nOke9/mycu2S08USU7/JCdbOwl35FTeHZbAitFWiFotbT9+ZgBm16vcX9YHZpgkQ2t8A1rdJjolTeny0rASZMD4YEq3TebLgQLTmXr2aqg1ayHqcwGIE8fkO/DMTtjJvcgMfDeZ+Kf8ncCBpxxRwDeEwAEnuOzLh4bLriDgAELDASe47MuHhsuuIOAAQsMBJ7jsy4eGy64g4ABCwwEnuOzL33GG/wUT+oIP6lWw9QAAAABJRU5ErkJggg==" height="40"/></a>
-<a href="https://gitee.com/yqyx" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/458/1374721_yqyx_1602561388.png!avatar200" height="40"/></a>
-<a href="https://gitee.com/ZYX315" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/285/856214_ZYX315_1602561602.png!avatar200" height="40"/></a>
-<a href="https://gitee.com/hdying" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/660/1982081_hdying_1602561538.png!avatar200" height="40"/></a>
-<a href="https://gitee.com/vincywindy" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/313/939875_vincywindy_1602575487.png!avatar200" height="40"/></a>
-<a href="https://gitee.com/Executor-Cheng" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/2178/6536098_Executor-Cheng_1606634689.png!avatar200" height="40"/></a>
-<a href="https://gitee.com/luzjoyme" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/1838/5516692_luzjoyme_1605065396.png!avatar200" height="40"/></a>
-<a href="https://gitee.com/hgflydream" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/100/302533_hgflydream_1578919799.png!avatar200" height="40"/></a>
-<a href="https://gitee.com/kgsl" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/255/765748_kgsl_1606196628.png!avatar200" height="40"/></a>
-<a href="https://gitee.com/frisktale" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/404/1214273_frisktale_1607680117.png!avatar200" height="40"/></a>
-<a href="https://gitee.com/caizhouhangcc" target="_blank" margin="5" style='margin:5px'><img src="https://portrait.gitee.com/uploads/avatars/user/716/2149527_lolicode_1578967241.png!avatar200" height="40"/></a>
-
-<p></p>
-
-🎈 欢迎更多的开发者加入 `Furion` 大家庭。
-
 ## 🍻 贡献代码
 
 `Furion` 遵循 `Apache-2.0` 开源协议，欢迎大家提交 `PR` 或 `Issue`。
 
-如果要为项目做出贡献，请查看贡献指南。
-
-## 🥔 QQ 交流群
-
-- **dotNET 中国 ①** 🥇（**已满**）
-
-- **dotNET 中国 ②**（空余）
-
-<p>
-<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/dotnetchina2.jpg" height="300"/>
-</p>
-
-## 🧆 友情链接
-
-👉 **[Furion](https://gitee.com/monksoul/Furion)** 👉 **[SqlSugar](https://github.com/sunkaixuan/SqlSugar)** 👉 **[Layx](https://gitee.com/monksoul/LayX)** 👉 **[t-io](https://gitee.com/tywo45/t-io)** 👉 **[ThinkPHP](http://www.thinkphp.cn/)** 👉 **[Hutool](https://hutool.cn/)** 👉 **[BootstrapAdmin](https://gitee.com/LongbowEnterprise/BootstrapAdmin)** 👉 **[BootstrapBlazor](https://www.blazor.zone/)** 👉 **[IoTSharp](https://gitee.com/IoTSharp/IoTSharp)** 👉 **[Anno.Core](https://github.com/duyanming/Anno.Core)** 👉 **[WaterCloud](https://gitee.com/qian_wei_hong/WaterCloud)** 👉 **[OpenAuth.Net](https://gitee.com/yubaolee/OpenAuth.Net)**
-
-## 🍵 特别鸣谢
-
-在这里特别感谢 QQ 网名：`蓝狐星` 为 `Furion` 提供演示云服务器。
+如果要为项目做出贡献，请查看 [贡献指南](https://monksoul.gitee.io/furion/)。
