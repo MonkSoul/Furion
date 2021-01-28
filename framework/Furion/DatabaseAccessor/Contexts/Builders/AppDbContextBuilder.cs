@@ -312,7 +312,12 @@ namespace Furion.DatabaseAccessor
             foreach (var entityTypeBuilderType in entityTypeBuilderTypes)
             {
                 var instance = Activator.CreateInstance(entityTypeBuilderType);
-                var configureMethod = entityTypeBuilderType.GetMethod("Configure");
+                var configureMethod = entityTypeBuilderType.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                                                                   .Where(u => u.Name == "Configure"
+                                                                        && u.GetParameters().Length > 0
+                                                                        && u.GetParameters().First().ParameterType == typeof(EntityTypeBuilder<>).MakeGenericType(entityType))
+                                                                   .FirstOrDefault();
+
                 configureMethod.Invoke(instance, new object[] { entityBuilder, dbContext, dbContextLocator });
             }
         }
