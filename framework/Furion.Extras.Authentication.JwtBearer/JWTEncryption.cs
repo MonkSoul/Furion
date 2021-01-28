@@ -126,6 +126,9 @@ namespace Furion.DataEncryption
             // 如果验证有效，则跳过刷新
             if (context.User.Identity.IsAuthenticated) return true;
 
+            // 判断是否含有匿名特性
+            if (httpContext.GetEndpoint()?.Metadata?.GetMetadata<AllowAnonymousAttribute>() != null) return true;
+
             // 获取过期Token 和 刷新Token
             var expiredToken = GetJwtBearerToken(httpContext);
             var refreshToken = GetJwtBearerToken(httpContext, "X-Authorization");
