@@ -342,10 +342,7 @@ function JoinGroup() {
 
   return (
     <div className="furion-join-group">
-      <img
-        src={useBaseUrl("img/dotnetchina2.jpg")}
-        style={{ display: show ? "block" : "none" }}
-      />
+      {show && <img src={useBaseUrl("img/dotnetchina2.jpg")} />}
       <button onClick={() => setShow(!show)}>加入QQ交流群</button>
     </div>
   );

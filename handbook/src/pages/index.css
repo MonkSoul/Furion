@@ -90,6 +90,10 @@
   display: inline-block;
 }
 
+.furion-get-start:hover {
+  background: rgba(135, 89, 255, 0.9);
+}
+
 .furion-banner-item .system-window {
   width: 34rem;
 }
@@ -378,6 +382,10 @@
   padding: 0.5em 0;
   min-width: 10em;
   cursor: pointer;
+}
+
+.furion-join-group button:hover {
+  background: rgba(135, 89, 255, 0.9);
 }
 
 @media screen and (max-width: 1024px) {
