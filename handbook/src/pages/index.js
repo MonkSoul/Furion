@@ -1,5 +1,4 @@
-import React from "react";
-import clsx from "clsx";
+import React, { useEffect, useState } from "react";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
@@ -27,6 +26,7 @@ function Home() {
       <Gitee />
       <Remark />
       <WhoUse />
+      <JoinGroup />
     </Layout>
   );
 }
@@ -333,6 +333,20 @@ function SystemWindow(systemWindowProps) {
         />
       </div>
       {children}
+    </div>
+  );
+}
+
+function JoinGroup() {
+  const [show, setShow] = useState(false);
+
+  return (
+    <div className="furion-join-group">
+      <img
+        src={useBaseUrl("img/dotnetchina2.jpg")}
+        style={{ display: show ? "block" : "none" }}
+      />
+      <button onClick={() => setShow(!show)}>加入QQ交流群</button>
     </div>
   );
 }
