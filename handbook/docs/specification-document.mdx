@@ -131,15 +131,43 @@ namespace Furion.Web.Core
 
 ### 6.5.2 默认地址
 
-在 `Furion` 框架中，默认 `规范化文档` 地址为主机根目录，**支持自定义配置**。
+在 `Furion` 框架中，默认 `规范化文档` 地址为 `/api` 目录，**支持自定义配置**。
 
 如下图所示：
 
 <img src={useBaseUrl("img/swagger1.png")} />
 
+可以通过两种方式配置：
+
+- `app.UseInject("路由")` 方式，如
+
+```cs
+app.UseInject("testapi"); // 那么  /testapi 就是规范化地址
+```
+
+- `配置文件配置`：
+
+```cs {3}
+{
+  "SpecificationDocumentSettings": {
+    "RoutePrefix": "testapi"
+  }
+}
+```
+
+**配置文件优先级大于 `UseInject()` 方式**
+
 ### 6.5.3 默认分组
 
 `Furion` 框架中默认分组名为 `Default`，**支持自定义配置**。
+
+```cs {3}
+{
+  "SpecificationDocumentSettings": {
+    "DefaultGroupName": "MyGroup"
+  }
+}
+```
 
 ### 6.5.4 文档注释
 
@@ -186,6 +214,14 @@ namespace Furion.Application
 :::note 小提示
 
 如果文档注释没有显示，请检查项目 `属性->生成->输出` 中 XML 文档是否配置输出路径。
+
+:::
+
+:::info 特别说明
+
+`Debug` 模式下和 `Release` 模式下的注释文件是不通用的，所以导致很多开发者发布到服务器上发现没有显示注释。我们只需要在 `Visual Studio` 中切换 `Debug` 模式为 `Release`，然后重新配置一次即可。
+
+这样不管是 `Debug` 还是 `Release` 模式都会显示注释了。
 
 :::
 

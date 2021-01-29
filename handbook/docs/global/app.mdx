@@ -13,8 +13,11 @@ var settings = App.Settings;
 ## 1.2 获取配置对象
 
 ```cs
+// 获取 IConfiguration 对象
 var configuration = App.Configuration;
+var value = configuration["xxx:xxx"];
 
+// 获取指定节点值并转成 T 类型
 var data = App.GetConfig<TConfig>("key:key2");
 ```
 

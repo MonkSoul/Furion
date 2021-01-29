@@ -35,6 +35,17 @@ OAuth 协议又有 1.0 和 2.0 两个版本。相比较 1.0 版，2.0 版整个�
 
 ## 15.2 如何使用
 
+:::info 配置之前
+
+在添加授权服务之前，请先确保 `Startup.cs` 中 `Configure` 是否添加了以下两个中间件：
+
+```cs
+app.UseAuthentication();
+app.UseAuthorization();
+```
+
+:::
+
 ### 15.2.1 添加 `Cookie` 授权
 
 ```cs

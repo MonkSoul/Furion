@@ -333,7 +333,40 @@ ChangeToken.OnChange(() => appInfoConfiguration.GetReloadToken(), () =>
 });
 ```
 
-## 4.1.7 配置的优缺点
+## 4.1.7 手动添加配置文件
+
+有些时候，我们的配置文件没有放在项目的根目录下，这时候我们需要手动载入自定义配置文件，只需要在 `Program.cs` 中加载即可：
+
+```cs {10,13}
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        CreateHostBuilder(args).Build().Run();
+    }
+
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((hostingContext, config) =>
+            {
+                // 加载自定义配置
+                config.AddJsonFile("MyConfig.json", optional: true, reloadOnChange: true);
+            })
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
+}
+```
+
+:::info 补充说明
+
+- 获取项目目录：`AppContext.BaseDirectory`
+- 获取网站根目录：`Directory.GetCurrentDirectory()`
+
+:::
+
+## 4.1.8 配置的优缺点
 
 - 优点
 
@@ -349,11 +382,11 @@ ChangeToken.OnChange(() => appInfoConfiguration.GetReloadToken(), () =>
   - 不能验证配置有效性
   - 不支持更改通知
 
-## 4.1.8 配置使用场景
+## 4.1.9 配置使用场景
 
 如果只需要**一次性读取**配置信息，则使用配置，否则应该使用 《[4.2 选项](options.mdx)》代替。
 
-## 4.1.9 反馈与建议
+## 4.1.10 反馈与建议
 
 :::note 与我们交流
 

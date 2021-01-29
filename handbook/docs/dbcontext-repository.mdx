@@ -14,6 +14,26 @@ sidebar_label: 9.4 仓储模式
 
 `Furion` 框架内置了一个数据库操作的仓储，方便大家拓展和集成：
 
+:::info 关于依赖注入说明
+
+目前能够被依赖注入解析服务的仓储有：
+
+- `IRepository`
+- `IRepository<TEntity>`
+- `IRepository<TEntity, TDbContextLocator>`
+- `ISqlRepository`
+- `ISqlRepository<TDbContextLocator>`
+- `IMSRepository<TDbContextLocator1,...TDbContextLocator8>`
+- `IDbRepository<TDbContextLocator>`
+
+除此之后的所有仓储只能通过 `rep.Constraint<TRepository>()` 进行约束创建，如，只读仓储：
+
+```cs
+var readRepository = rep.Constraint<IReadableRepository<TEntity>>();
+```
+
+:::
+
 ### 9.4.1.1 非泛型超级仓储
 
 - `IRepository`：默认非泛型仓储接口，支持切换到任何仓储

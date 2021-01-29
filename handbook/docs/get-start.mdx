@@ -30,6 +30,12 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 <img src={useBaseUrl("img/rm3.png")} />
 
+:::important 特别注意
+
+`Furion` 已经内置了 `Swagger` 规范化库，所以创建时**无需勾选** `Enable OpenAPI support` 选项。
+
+:::
+
 ## 2.2 添加 `Furion` 依赖包
 
 <img src={useBaseUrl("img/rm4.png")} />
@@ -115,7 +121,7 @@ namespace FurStart
 
 :::important 小提醒
 
-如果 `app.UseInject()` 不输入参数，则默认地址为 `/api`，如果输入 `string.Empty` 则为 `/` 目录。
+如果 `app.UseInject()` 不输入参数，则默认地址为 `/api`，如果输入 `string.Empty` 则为 `/` 目录。如果输入任意字符串，则为 `/任意字符串` 目录。
 
 :::
 
