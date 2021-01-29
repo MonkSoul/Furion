@@ -91,6 +91,8 @@ namespace Furion.EntityFramework.Core
 }
 ```
 
+另外，`Entity/IEntity` 和 `IRepository` 等都需要指定定位器，如：`IEntity<TKey, TLocator>`，`IRepository<TEntity, TLocator>` 操作。 
+
 :::
 
 ## 9.2.5 数据库上下文定位器支持对象

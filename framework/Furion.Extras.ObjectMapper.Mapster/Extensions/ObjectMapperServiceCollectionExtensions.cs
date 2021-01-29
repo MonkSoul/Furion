@@ -12,7 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 添加对象映射
         /// </summary>
         /// <param name="services">服务集合</param>
-        /// <param name="assemblies"></param>
+        /// <param name="assemblies">扫描的程序集</param>
         /// <returns></returns>
         public static IServiceCollection AddObjectMapper(this IServiceCollection services, params Assembly[] assemblies)
         {
