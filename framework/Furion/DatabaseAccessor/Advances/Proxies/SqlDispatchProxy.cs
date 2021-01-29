@@ -223,7 +223,7 @@ namespace Furion.DatabaseAccessor
         private SqlProxyMethod GetProxyMethod(MethodInfo method, object[] args)
         {
             // 判断方法是否贴了注解
-            if (!method.IsDefined(typeof(SqlProxyAttribute), true)) throw new InvalidOperationException("The method is missing the [SqlProxy] annotation");
+            if (!method.IsDefined(typeof(SqlProxyAttribute), true)) throw new InvalidOperationException("The method is missing the [SqlProxy] annotation.");
 
             // 获取 Sql 代理特性
             var sqlProxyAttribute = method.GetCustomAttribute<SqlProxyAttribute>(true);
@@ -261,7 +261,7 @@ namespace Furion.DatabaseAccessor
                 finalSql = sqlExecuteAttribute.Sql;
                 commandType = sqlExecuteAttribute.CommandType;
             }
-            else throw new NotSupportedException($"{sqlProxyAttribute.GetType().FullName} is an invalid annotation");
+            else throw new NotSupportedException($"{sqlProxyAttribute.GetType().FullName} is an invalid annotation.");
 
             // 返回
             return new SqlProxyMethod
@@ -304,7 +304,7 @@ namespace Furion.DatabaseAccessor
 
             // 只支持要么全是基元类型，或全部都是类类型
             if (!parameters.All(u => u.ParameterType.IsRichPrimitive()) && !parameters.All(u => u.ParameterType.IsClass))
-                throw new InvalidOperationException("Invalid type cast");
+                throw new InvalidOperationException("Invalid type cast.");
 
             if (parameters.All(u => u.ParameterType.IsRichPrimitive()))
             {

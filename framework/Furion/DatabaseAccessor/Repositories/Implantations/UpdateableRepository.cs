@@ -1900,7 +1900,7 @@ namespace Furion.DatabaseAccessor
             var keyValue = keyProperty.GetValue(entity);
 
             // 主键不能为空，且不能为 0，也不能为 Guid 空值
-            if (keyValue == null || (keyProperty.PropertyType.IsValueType && (keyValue.Equals(0) || keyValue.Equals(Guid.Empty)))) throw new InvalidOperationException("The primary key value is not set");
+            if (keyValue == null || (keyProperty.PropertyType.IsValueType && (keyValue.Equals(0) || keyValue.Equals(Guid.Empty)))) throw new InvalidOperationException("The primary key value is not set.");
 
             return (keyName, keyValue);
         }

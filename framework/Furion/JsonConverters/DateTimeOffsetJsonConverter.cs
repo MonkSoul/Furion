@@ -12,6 +12,14 @@ namespace Furion.JsonConverters
     public class DateTimeOffsetJsonConverter : JsonConverter<DateTimeOffset>
     {
         /// <summary>
+        /// 默认构造函数
+        /// </summary>
+        public DateTimeOffsetJsonConverter()
+        {
+            Format ??= "yyyy-MM-dd HH:mm:ss";
+        }
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="format"></param>

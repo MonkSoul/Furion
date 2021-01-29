@@ -7,10 +7,10 @@ using System.Linq.Expressions;
 namespace Furion.LinqBuilder
 {
     /// <summary>
-    /// linq/Lambda 表达式拓展
+    /// 表达式拓展类
     /// </summary>
     [SkipScan]
-    public static class LinqExtensions
+    public static class ExpressionExtensions
     {
         /// <summary>
         /// 组合两个表达式

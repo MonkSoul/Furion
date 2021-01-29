@@ -114,7 +114,7 @@ namespace Furion.DatabaseAccessor
             var type = typeof(TRestrainRepository);
             if (!type.IsInterface || typeof(IPrivateRepository) == type || type.Name.Equals(nameof(IRepository)) || (type.IsGenericType && type.GetGenericTypeDefinition().Name.Equals(nameof(IRepository))))
             {
-                throw new InvalidCastException("Invalid type conversion");
+                throw new InvalidCastException("Invalid type conversion.");
             }
 
             return this as TRestrainRepository;

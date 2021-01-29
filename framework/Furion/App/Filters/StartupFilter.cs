@@ -14,7 +14,6 @@ namespace Furion
     /// 应用启动时自动注册中间件
     /// </summary>
     /// <remarks>
-    /// https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/startup?view=aspnetcore-3.1#add-configuration-at-startup-from-an-external-assembly
     /// </remarks>
     [SkipScan]
     public class StartupFilter : IStartupFilter

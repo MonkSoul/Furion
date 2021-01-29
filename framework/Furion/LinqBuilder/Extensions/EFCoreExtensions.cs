@@ -7,10 +7,10 @@ using System.Linq.Expressions;
 namespace Microsoft.EntityFrameworkCore
 {
     /// <summary>
-    /// Microsoft.EntityFrameworkCore 拓展
+    /// EntityFramework Core 拓展
     /// </summary>
     [SkipScan]
-    public static class EntityFrameworkCoreExtensions
+    public static class EFCoreExtensions
     {
         /// <summary>
         /// [EF Core] 根据条件成立再构建 Include 查询

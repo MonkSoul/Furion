@@ -181,7 +181,7 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 不支持操作类型
         /// </summary>
-        private const string NotSupportException = "The database provider does not support {0} operations";
+        private const string NotSupportException = "The database provider does not support {0} operations.";
 
         /// <summary>
         /// 检查是否支持存储过程

@@ -110,7 +110,7 @@ namespace Furion.DataValidation
         public static bool TryValidateValue(object value, string regexPattern, RegexOptions regexOptions = RegexOptions.None)
         {
             return value == null
-                ? throw new ArgumentNullException($"Value cannot be null")
+                ? throw new ArgumentNullException(nameof(value))
                 : Regex.IsMatch(value.ToString(), regexPattern, regexOptions);
         }
 
@@ -212,14 +212,14 @@ namespace Furion.DataValidation
 
                 // 判断是否是有效的验证类型
                 if (!ValidationTypes.Any(u => u == type))
-                    throw new InvalidOperationException($"{type.Name} is not a valid validation type");
+                    throw new InvalidOperationException($"{type.Name} is not a valid validation type.");
 
                 // 获取对应的枚举名称
                 var validationName = Enum.GetName(type, validationType);
 
                 // 判断是否配置验证正则表达式
                 if (!ValidationItemMetadatas.ContainsKey(validationName))
-                    throw new InvalidOperationException($"No ${validationName} validation type metadata exists");
+                    throw new InvalidOperationException($"No ${validationName} validation type metadata exists.");
 
                 // 获取对应的验证选项
                 var validationItemMetadataAttribute = ValidationItemMetadatas[validationName];

@@ -6,10 +6,10 @@ using System.Linq.Expressions;
 namespace System.Linq
 {
     /// <summary>
-    /// System.Linq 拓展
+    /// IEnumerable 拓展
     /// </summary>
     [SkipScan]
-    public static class SystemLinqExtensions
+    public static class IEnumerableExtensions
     {
         /// <summary>
         /// [EF Core] 根据条件成立再构建 Where 查询
