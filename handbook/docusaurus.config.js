@@ -23,7 +23,7 @@ module.exports = {
         alt: "Furion Logo",
         src: "img/furionlogo.png",
       },
-      hideOnScroll: false,
+      hideOnScroll: true,
       items: [
         // {
         //   type: "docsVersionDropdown",
@@ -48,28 +48,27 @@ module.exports = {
           position: "left",
         },
         { to: "blog", label: "博客", position: "left" },
-        { label: "社区", position: "left", href: "https://www.chinadot.net" },
+        // {
+        //   label: "视频",
+        //   position: "right",
+        //   href: "https://space.bilibili.com/695987967",
+        // },
+        // {
+        //   label: "工具",
+        //   position: "right",
+        //   items: [
+        //     {
+        //       label: "代码生成器",
+        //     },
+        //   ],
+        // },
+        // {
+        //   href: "https://gitee.com/monksoul/Furion/board",
+        //   label: "看板",
+        //   position: "right",
+        // },
         {
-          label: "视频",
-          position: "right",
-          href: "https://space.bilibili.com/695987967",
-        },
-        {
-          label: "工具",
-          position: "right",
-          items: [
-            {
-              label: "代码生成器",
-            },
-          ],
-        },
-        {
-          href: "https://gitee.com/monksoul/Furion/board",
-          label: "看板",
-          position: "right",
-        },
-        {
-          label: "仓库",
+          label: "源码",
           position: "right",
           items: [
             {
@@ -81,6 +80,13 @@ module.exports = {
               href: "https://github.com/MonkSoul/Furion",
             },
           ],
+        },
+        { label: "社区", position: "right", href: "https://www.chinadot.net" },
+        {
+          label: "💰赞助",
+          position: "right",
+          to: "docs/donate",
+          activeBasePath: "docs",
         },
       ],
     },
@@ -139,6 +145,8 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
           editUrl: "https://gitee.com/monksoul/Furion/tree/master/handbook/",
+          showLastUpdateTime: true,
+          showLastUpdateAuthor: true,
         },
         blog: {
           showReadingTime: true,

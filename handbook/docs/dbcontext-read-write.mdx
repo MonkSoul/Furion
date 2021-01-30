@@ -6,6 +6,10 @@ sidebar_label: 9.27 读写分离/主从复制
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
+import JoinGroup from "../src/components/JoinGroup";
+
+<JoinGroup />
+
 ## 9.27.1 读写分离
 
 其实就是将数据库分为了主从库，一个主库用于写数据，多个从库完成读数据的操作，主从库之间通过某种机制进行数据的同步，是一种常见的数据库架构。

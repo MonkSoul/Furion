@@ -353,41 +353,6 @@
   background-color: #211b50 !important;
 }
 
-.furion-join-group {
-  position: fixed;
-  right: 15px;
-  bottom: 30px;
-  background: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 0 12px #211b50;
-  overflow: hidden;
-  border-radius: 5px;
-}
-
-.furion-join-group img {
-  display: block;
-  height: 15em;
-  margin: 1em 1em 0 1em;
-}
-
-.furion-join-group button {
-  display: block;
-  margin: 0;
-  padding: 0;
-  outline: none;
-  border: none;
-  width: 100%;
-  color: #fff;
-  background: #8759ff;
-  line-height: 1.5;
-  padding: 0.5em 0;
-  min-width: 10em;
-  cursor: pointer;
-}
-
-.furion-join-group button:hover {
-  background: rgba(135, 89, 255, 0.9);
-}
-
 @media screen and (max-width: 1024px) {
   .furion-banner-container {
     justify-content: unset;
