@@ -70,7 +70,7 @@ namespace Dapper
                 // 获取对应数据库连接对象
                 var databaseDbConnectionTypeName = sqlProvider switch
                 {
-                    SqlServer => "System.Data.SqlClient.SqlConnection",
+                    SqlServer => "Microsoft.Data.SqlClient.SqlConnection",
                     Sqlite => "Microsoft.Data.Sqlite.SqliteConnection",
                     MySql => "MySql.Data.MySqlClient.MySqlConnection",
                     Npgsql => "Npgsql.NpgsqlConnection",
