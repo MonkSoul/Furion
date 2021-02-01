@@ -40,9 +40,9 @@ namespace Furion.DataValidation
         /// <param name="context"></param>
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            // 排除 Mvc 视图
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
-            if (typeof(Controller).IsAssignableFrom(actionDescriptor.ControllerTypeInfo)) return;
+            // 判断是否是 Mvc 控制器
+            var isMvcController = typeof(Controller).IsAssignableFrom(actionDescriptor.ControllerTypeInfo);
 
             var method = actionDescriptor.MethodInfo;
             var modelState = context.ModelState;
@@ -56,7 +56,7 @@ namespace Furion.DataValidation
                 method.ReflectedType.IsDefined(nonValidationAttributeType, true))
             {
                 // 打印验证跳过消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Skipped");
+                if (!isMvcController) App.PrintToMiniProfiler(MiniProfilerCategory, "Skipped");
                 return;
             }
 
@@ -64,7 +64,7 @@ namespace Furion.DataValidation
             if (modelState.IsValid)
             {
                 // 打印验证成功消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Succeeded");
+                if (!isMvcController) App.PrintToMiniProfiler(MiniProfilerCategory, "Succeeded");
                 return;
             }
 
@@ -72,7 +72,7 @@ namespace Furion.DataValidation
             if (context.Result == null && !modelState.IsValid)
             {
                 // 设置验证失败结果
-                SetValidateFailedResult(context, modelState, actionDescriptor);
+                SetValidateFailedResult(context, modelState, actionDescriptor, isMvcController);
             }
         }
 
@@ -82,13 +82,14 @@ namespace Furion.DataValidation
         /// <param name="context">动作方法执行上下文</param>
         /// <param name="modelState">模型验证状态</param>
         /// <param name="actionDescriptor"></param>
-        private static void SetValidateFailedResult(ActionExecutingContext context, ModelStateDictionary modelState, ControllerActionDescriptor actionDescriptor)
+        /// <param name="isMvcController"></param>
+        private static void SetValidateFailedResult(ActionExecutingContext context, ModelStateDictionary modelState, ControllerActionDescriptor actionDescriptor, bool isMvcController)
         {
             // 解析验证消息
             var (validationResults, validateFaildMessage, _) = ValidatorContext.OutputValidationInfo(modelState);
 
             // 判断是否跳过规范化结果
-            if (UnifyContext.IsSkipUnifyHandler(actionDescriptor.MethodInfo, out var unifyResult))
+            if (isMvcController || UnifyContext.IsSkipUnifyHandler(actionDescriptor.MethodInfo, out var unifyResult))
             {
                 // 返回 400 错误
                 var result = new BadRequestObjectResult(modelState);
@@ -102,7 +103,7 @@ namespace Furion.DataValidation
             else context.Result = unifyResult.OnValidateFailed(context, modelState, validationResults, validateFaildMessage);
 
             // 打印验证失败信息
-            App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", $"Validation Failed:\r\n{validateFaildMessage}", true);
+            if (!isMvcController) App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", $"Validation Failed:\r\n{validateFaildMessage}", true);
         }
 
         /// <summary>

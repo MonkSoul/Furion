@@ -44,7 +44,7 @@ namespace Microsoft.AspNetCore.Mvc.Filters
                 await globalExceptionHandler.OnExceptionAsync(context);
             }
 
-            // 排除 Mvc 视图
+            // 排除 Mvc 控制器处理
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
             if (typeof(Controller).IsAssignableFrom(actionDescriptor.ControllerTypeInfo)) return;
 
