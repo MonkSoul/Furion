@@ -67,6 +67,7 @@ module.exports = {
         //   label: "看板",
         //   position: "right",
         // },
+
         {
           label: "源码",
           position: "right",
@@ -83,10 +84,16 @@ module.exports = {
         },
         { label: "社区", position: "right", href: "https://www.chinadot.net" },
         {
+          label: "合作",
+          position: "right",
+          to: "docs/cooperate",
+          activeBasePath: "docs/cooperate",
+        },
+        {
           label: "💰赞助",
           position: "right",
           to: "docs/donate",
-          activeBasePath: "docs",
+          activeBasePath: "docs/donate",
         },
       ],
     },

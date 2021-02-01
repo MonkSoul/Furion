@@ -3,7 +3,7 @@ module.exports = {
     {
       type: "category",
       label: "1. 序言",
-      items: ["introduce", "author", "source","donate"],
+      items: ["introduce", "author", "source", "cooperate", "donate"],
     },
     {
       type: "category",
