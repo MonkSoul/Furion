@@ -100,6 +100,7 @@ namespace Furion.DataEncryption
 
             // 分割过期Token
             var tokenParagraphs = expiredToken.Split('.', StringSplitOptions.RemoveEmptyEntries);
+            if (tokenParagraphs.Length < 3) return default;
 
             // 判断各个部分是否匹配
             if (!token.GetPayloadValue<string>("f").Equals(tokenParagraphs[0])) return default;
@@ -136,6 +137,7 @@ namespace Furion.DataEncryption
 
             // 交换新的 Token
             var accessToken = Exchange(expiredToken, refreshToken, expiredTime);
+            if (string.IsNullOrEmpty(accessToken)) return false;
 
             // 读取新的 Token Clamis
             var claims = ReadJwtToken(accessToken)?.Claims;
@@ -243,7 +245,7 @@ namespace Furion.DataEncryption
             var bearerToken = httpContext.Request.Headers[headerKey].ToString();
             if (string.IsNullOrEmpty(bearerToken)) return default;
 
-            return bearerToken[7..];
+            return bearerToken.StartsWith("Bearer ", true, null) && bearerToken.Length > 7 ? bearerToken[7..] : default;
         }
 
         /// <summary>
