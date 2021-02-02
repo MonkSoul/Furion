@@ -156,11 +156,6 @@ module.exports = {
       type: "doc",
       id: "contribute",
     },
-    {
-      type: "category",
-      label: "31. 常见问题",
-      items: ["answer", "errors", "gooduse"],
-    },
   ],
   settings: [
     {

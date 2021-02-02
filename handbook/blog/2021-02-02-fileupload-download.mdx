@@ -1,0 +1,49 @@
+---
+slug: fileupload-download
+title: 3. 文件上传下载
+author: dotNET China
+author_title: 为中国 .NET 开发者提供优质的资讯和技术分享。
+author_url: https://www.chinadot.net
+author_image_url: https://i.loli.net/2021/01/19/M8q5a3OTZWUKicl.png
+tags: [furion, furos, .net, .netcore, .net5, upload, download]
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+## 文件下载
+
+```cs
+[HttpGet, NonUnify]
+public IActionResult FileDownload(string path, string fileName)
+{
+    string filePath = Path.GetFullPath("~/temp/").Replace("~\\", "") + path;
+    return new FileStreamResult(new FileStream(filePath, FileMode.Open), "application/octet-stream") { FileDownloadName = fileName };
+}
+```
+
+<!--truncate-->
+
+## 文件上传
+
+```cs
+[HttpPost, NonUnify]
+public async Task<IActionResult> UploadFileAsync(List<IFormFile> files)
+{
+    long size = files.Sum(f => f.Length);
+
+    foreach (var formFile in files)
+    {
+        if (formFile.Length > 0)
+        {
+            var filePath = Path.GetTempFileName();  // 可以替代为你需要存储的真实路径
+
+            using (var stream = System.IO.File.Create(filePath))
+            {
+                await formFile.CopyToAsync(stream);
+            }
+        }
+    }
+
+    return Ok(new { count = files.Count, size });
+}
+```

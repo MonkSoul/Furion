@@ -47,7 +47,7 @@ module.exports = {
           label: "配置",
           position: "left",
         },
-        { to: "blog", label: "博客", position: "left" },
+        { to: "blog", label: "博客✨", position: "left" },
         // {
         //   label: "视频",
         //   position: "right",
@@ -90,7 +90,7 @@ module.exports = {
           activeBasePath: "docs/cooperate",
         },
         {
-          label: "💰赞助",
+          label: "赞助",
           position: "right",
           to: "docs/donate",
           activeBasePath: "docs/donate",

@@ -1,0 +1,93 @@
+---
+slug: httpcontext
+title: 2. HttpContext 应用
+author: dotNET China
+author_title: 为中国 .NET 开发者提供优质的资讯和技术分享。
+author_url: https://www.chinadot.net
+author_image_url: https://i.loli.net/2021/01/19/M8q5a3OTZWUKicl.png
+tags: [furion, furos, .net, .netcore, .net5, httpcontext]
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+## HttpContext 重大调整
+
+在 `ASP.NET` 的时代，我们通常通过 `HttpContext` 全局静态类获取请求上下文，但在 `ASP.NET Core` 中，`HttpContext` 是一个非静态的抽象类，无法手动创建，也无法通过静态获取。
+
+虽然在 `ASP.NET Core` 中无法直接获取 `HttpContext` 对象。但是微软也提供了注入 `IHttpContextAccessor` 方式获取。
+
+## HttpContext 多种获取方式
+
+<!--truncate-->
+
+### 在 `ControllerBase` 派生类中
+
+在 `ControllerBase` 派生类中，我们可以直接通过 `HttpContext` 属性获取 `HttpContext` 对象。
+
+### 通过注入 `IHttpContextAccessor`
+
+在 `Furion` 框架中，默认已经注册了 `IHttpContextAccessor` 服务，所以我们可以通过构造函数注入该对象获取。
+
+```cs {3,5}
+public class AppService
+{
+    public AppService(IHttpContextAccessor httpContextAccessor)
+    {
+        var httpContext = httpContextAccessor.HttpContext;
+    }
+}
+```
+
+### 通过 `HttpContextLocal` 静态类
+
+`Furion` 框架提供了 `HttpContextLocal` 静态类方式获取 `HttpContext`，如：
+
+```cs
+var HttpContext = HttpContextLocal.Current();
+```
+
+### 通过 `App.HttpContext`
+
+`App` 静态类也提供了 `App.HttpContext` 获取 `HttpContext` 对象。
+
+## `HttpContext` 拓展方法
+
+`Furion` 框架也提供了一些常用的 `HttpContext` 拓展方法
+
+### 获取当前请求的特性
+
+```cs
+var attribute = httpContext.GetMetadata<SomeAttribute>();
+```
+
+### 设置 `Swagger` 自动授权
+
+```cs
+httpContext.SigninToSwagger("你的token");
+```
+
+### 退出 `Swagger` 授权
+
+```cs
+httpContext.SignoutToSwagger();
+```
+
+### 获取本地 IP 地址
+
+```cs
+var ipv4 = httpContext.GetLocalIpAddressToIPv4();
+var ipv6 = httpContext.GetLocalIpAddressToIPv6();
+```
+
+### 获取客户端 IP 地址
+
+```cs
+var ipv4 = httpContext.GetRemoteIpAddressToIPv4();
+var ipv6 = httpContext.GetRemoteIpAddressToIPv6();
+```
+
+### 判断是否是 `Ajax` 请求
+
+```cs
+var isAjaxRequest = httpContext.IsAjaxRequest();
+```
