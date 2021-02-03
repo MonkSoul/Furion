@@ -3,6 +3,7 @@
 - **新特性**
 
   - [新增] `[NonUnify]` 支持在类中贴此特性 [#I359Q6](https://gitee.com/monksoul/Furion/issues/I359Q6)
+  - [新增] `网络请求` 字符串 `HttpClient` 拦截器 [#I35F3E](https://gitee.com/monksoul/Furion/issues/I35F3E)
 
 - **突破性变化**
 

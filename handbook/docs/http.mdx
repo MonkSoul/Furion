@@ -99,8 +99,12 @@ var data = await "http://47.100.247.61/api/sysdata/categories".GetAsAsync<object
 });
 
 // 设置请求拦截
-var data = await "http://47.100.247.61/api/sysdata/categories".GetAsAsync<object>(interceptor: request=>{
+var data = await "http://47.100.247.61/api/sysdata/categories".GetAsAsync<object>(requestInterceptor: request=>{
     request.Headers.Add("Authorization","Bearer token字符串");
+});
+
+// 设置HttpClient拦截
+var data = await "http://47.100.247.61/api/sysdata/categories".GetAsAsync<object>(httpClientInterceptor: httpClient=>{
 });
 
 // ============ HEAD 请求 ============
@@ -121,8 +125,12 @@ var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<objec
 });
 
 // 设置请求拦截
-var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<object>(new { parm1="", parm2="" }, interceptor: request=>{
+var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<object>(new { parm1="", parm2="" }, requestInterceptor: request=>{
     request.Headers.Add("Authorization","Bearer token字符串");
+});
+
+// 设置HttpClient拦截
+var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<object>(httpClientInterceptor: httpClient=>{
 });
 
 // ============ PUT 请求 ============
@@ -153,8 +161,12 @@ var data = await "http://47.100.247.61/api/sysdata/categories".SendAsAsync<objec
 });
 
 // 设置请求拦截
-var data = await "http://47.100.247.61/api/sysdata/categories".SendAsAsync<object>(HttpMethod.Post, interceptor: request=>{
+var data = await "http://47.100.247.61/api/sysdata/categories".SendAsAsync<object>(HttpMethod.Post, requestInterceptor: request=>{
     request.Headers.Add("Authorization","Bearer token字符串");
+});
+
+// 设置HttpClient拦截
+var data = await "http://47.100.247.61/api/sysdata/categories".SendAsAsync<object>(httpClientInterceptor: httpClient=>{
 });
 ```
 
@@ -323,8 +335,12 @@ public interface IHttp : IHttpDispatchProxy
 
 ```cs
 // 设置请求拦截
-var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<object>(new { parm1="", parm2="" }, interceptor: request=>{
+var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<object>(new { parm1="", parm2="" }, requestInterceptor: request=>{
     request.Headers.Add("Authorization","Bearer token字符串");
+});
+
+// 设置HttpClient拦截
+var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<object>(httpClientInterceptor: httpClient=>{
 });
 ```
 
