@@ -2,6 +2,8 @@
 
 - **新特性**
 
+  - [新增] `[NonUnify]` 支持在类中贴此特性 [#I359Q6](https://gitee.com/monksoul/Furion/issues/I359Q6)
+
 - **突破性变化**
 
 - **问题修复**
