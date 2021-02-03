@@ -109,7 +109,7 @@ namespace Furion.EntityFramework.Core
         {
             services.AddDatabaseAccessor(options =>
             {
-                options.AddDbPool<FurDbContext>(DbProvider.Sqlite);
+                options.AddDbPool<FurionDbContext>(DbProvider.Sqlite);
                 options.AddDbPool<MultiTenantDbContext, MultiTenantDbContextLocator>(DbProvider.Sqlite);
             });
         }
@@ -181,9 +181,9 @@ using System;
 namespace Furion.EntityFramework.Core
 {
     [AppDbContext("Sqlite3ConnectionString")]
-    public class FurDbContext : AppDbContext<FurDbContext>, IMultiTenantOnTable, IModelBuilderFilter
+    public class FurionDbContext : AppDbContext<FurionDbContext>, IMultiTenantOnTable, IModelBuilderFilter
     {
-        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
+        public FurionDbContext(DbContextOptions<FurionDbContext> options) : base(options)
         {
         }
 
@@ -210,9 +210,9 @@ using System;
 namespace Furion.EntityFramework.Core
 {
     [AppDbContext("Sqlite3ConnectionString")]
-    public class FurDbContext : AppDbContext<FurDbContext>, IMultiTenantOnTable, IModelBuilderFilter
+    public class FurionDbContext : AppDbContext<FurionDbContext>, IMultiTenantOnTable, IModelBuilderFilter
     {
-        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
+        public FurionDbContext(DbContextOptions<FurionDbContext> options) : base(options)
         {
         }
 
@@ -248,9 +248,9 @@ using System.Linq;
 namespace Furion.EntityFramework.Core
 {
     [AppDbContext("Sqlite3ConnectionString")]
-    public class FurDbContext : AppDbContext<FurDbContext>, IMultiTenantOnTable, IModelBuilderFilter
+    public class FurionDbContext : AppDbContext<FurionDbContext>, IMultiTenantOnTable, IModelBuilderFilter
     {
-        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
+        public FurionDbContext(DbContextOptions<FurionDbContext> options) : base(options)
         {
         }
 
@@ -336,7 +336,7 @@ namespace Furion.EntityFramework.Core
         {
             services.AddDatabaseAccessor(options =>
             {
-                options.AddDb<FurDbContext>(DbProvider.Sqlite);
+                options.AddDb<FurionDbContext>(DbProvider.Sqlite);
                 options.AddDbPool<MultiTenantDbContext, MultiTenantDbContextLocator>(DbProvider.Sqlite);
             });
         }
@@ -414,9 +414,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Furion.EntityFramework.Core
 {
-    public class FurDbContext : AppDbContext<FurDbContext>, IMultiTenantOnDatabase
+    public class FurionDbContext : AppDbContext<FurionDbContext>, IMultiTenantOnDatabase
     {
-        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
+        public FurionDbContext(DbContextOptions<FurionDbContext> options) : base(options)
         {
         }
 
@@ -438,9 +438,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Furion.EntityFramework.Core
 {
-    public class FurDbContext : AppDbContext<FurDbContext>, IMultiTenantOnDatabase
+    public class FurionDbContext : AppDbContext<FurionDbContext>, IMultiTenantOnDatabase
     {
-        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
+        public FurionDbContext(DbContextOptions<FurionDbContext> options) : base(options)
         {
         }
 
@@ -517,7 +517,7 @@ namespace Furion.EntityFramework.Core
         {
             services.AddDatabaseAccessor(options =>
             {
-                options.AddDbPool<FurDbContext>(DbProvider.Sqlite);
+                options.AddDbPool<FurionDbContext>(DbProvider.Sqlite);
                 options.AddDbPool<MultiTenantDbContext, MultiTenantDbContextLocator>(DbProvider.Sqlite);
             });
         }
@@ -590,9 +590,9 @@ using Microsoft.EntityFrameworkCore;
 namespace Furion.EntityFramework.Core
 {
     [AppDbContext("Sqlite3ConnectionString")]
-    public class FurDbContext : AppDbContext<FurDbContext>, IMultiTenantOnSchema
+    public class FurionDbContext : AppDbContext<FurionDbContext>, IMultiTenantOnSchema
     {
-        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
+        public FurionDbContext(DbContextOptions<FurionDbContext> options) : base(options)
         {
         }
 
@@ -634,7 +634,7 @@ public string GetSchemaName()
 services.AddDatabaseAccessor(options =>
 {
     options.CustomizeMultiTenants();    // 启用自定义多租户类型，有一个默认参数，配置多租户表字段名
-    options.AddDbPool<FurDbContext>(DbProvider.Sqlite);
+    options.AddDbPool<FurionDbContext>(DbProvider.Sqlite);
 });
 ```
 

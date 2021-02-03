@@ -71,9 +71,9 @@ using System.Linq.Expressions;
 namespace Furion.EntityFramework.Core
 {
     [AppDbContext("Sqlite3ConnectionString")]
-    public class FurDbContext : AppDbContext<FurDbContext>, IModelBuilderFilter<MasterDbContextLocator>
+    public class FurionDbContext : AppDbContext<FurionDbContext>, IModelBuilderFilter<MasterDbContextLocator>
     {
-        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
+        public FurionDbContext(DbContextOptions<FurionDbContext> options) : base(options)
         {
         }
 

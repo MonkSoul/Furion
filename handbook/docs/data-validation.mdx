@@ -239,7 +239,7 @@ namespace Furion.Web.Core
   defaultValue="testdto"
   values={[
     { label: "TestDto", value: "testdto" },
-    { label: "FurAppService", value: "furAppService" },
+    { label: "FurionAppService", value: "FurionAppService" },
   ]}
 >
   <TabItem value="testdto">
@@ -261,14 +261,14 @@ namespace Furion.Application
 ```
 
   </TabItem>
-  <TabItem value="furAppService">
+  <TabItem value="FurionAppService">
 
 ```cs {12,22}
 using Furion.DynamicApiController;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         /// <summary>
         /// 值类型验证
@@ -344,7 +344,7 @@ using Furion.DynamicApiController;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         [NonValidation] // 跳过全局验证
         public DataValidationResult Post(TestDto testDto)
@@ -740,7 +740,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         [TypeFilter(typeof(DataValidationFilter))]
         public TestDto Post(TestDto testDto)

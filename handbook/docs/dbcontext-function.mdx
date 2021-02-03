@@ -270,11 +270,11 @@ using System.Linq;
 namespace Furion.EntityFramework.Core
 {
     [AppDbContext("Sqlite3ConnectionString")]
-    public class FurDbContext : AppDbContext<FurDbContext>
+    public class FurionDbContext : AppDbContext<FurionDbContext>
     {
         public IQueryable<F_Person> GetPersons(int id) => FromExpression(() => GetPersons(id));
 
-        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
+        public FurionDbContext(DbContextOptions<FurionDbContext> options) : base(options)
         {
         }
 

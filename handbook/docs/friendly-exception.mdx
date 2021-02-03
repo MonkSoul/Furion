@@ -98,7 +98,7 @@ using Furion.FriendlyException;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public int Get(int id)
         {
@@ -126,7 +126,7 @@ using System;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public int Get(int id)
         {
@@ -254,7 +254,7 @@ using Furion.FriendlyException;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public int Get(int id)
         {
@@ -396,7 +396,7 @@ using Furion.FriendlyException;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public int Get(int id)
         {
@@ -448,7 +448,7 @@ using Furion.FriendlyException;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         [IfException(ErrorCodes.z1000, ErrorMessage = "我覆盖了默认的：{0} 不能小于 {1}")]
         public int Get(int id)
@@ -476,7 +476,7 @@ using Furion.FriendlyException;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         [IfException(typeof(ExceptionType), ErrorMessage = "特定异常类型全局拦截")]
         [IfException(ErrorMessage = "全局异常拦截")]

@@ -161,7 +161,7 @@ namespace Furion.Web.Core
 
 ## 5.5 第一个例子
 
-创建一个 `FurAppService` 类继承 `IDynamicApiController` 接口 或 贴 `[DynamicApiController]` 特性，并在这个类中编写一个 `Get` 方法。
+创建一个 `FurionAppService` 类继承 `IDynamicApiController` 接口 或 贴 `[DynamicApiController]` 特性，并在这个类中编写一个 `Get` 方法。
 
 - **`IDynamicApiController` 方式**
 
@@ -170,7 +170,7 @@ using Furion.DynamicApiController;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public string Get()
         {
@@ -188,7 +188,7 @@ using Furion.DynamicApiController;
 namespace Furion.Application
 {
     [DynamicApiController]
-    public class FurAppService
+    public class FurionAppService
     {
         public string Get()
         {
@@ -222,8 +222,8 @@ namespace Furion.Application
 
 ### 5.7.1 控制器默认约定
 
-- 生成控制器名称默认去除以 `AppServices，AppService，ApiController，Controller，Services，Service` 作为前后缀的字符串。见第一个例子中的 `FurAppService -> Furion` **支持自定义配置**
-- 控制器名称带 `V[0-9_]` 结尾的，会自动生成控制器版本号，如 `FurAppServiceV2 -> Furion@2`，`FurAppServiceV1_1_0 -> Furion@1.1.0`。**支持版本分隔符配置**
+- 生成控制器名称默认去除以 `AppServices，AppService，ApiController，Controller，Services，Service` 作为前后缀的字符串。见第一个例子中的 `FurionAppService -> Furion` **支持自定义配置**
+- 控制器名称带 `V[0-9_]` 结尾的，会自动生成控制器版本号，如 `FurionAppServiceV2 -> Furion@2`，`FurionAppServiceV1_1_0 -> Furion@1.1.0`。**支持版本分隔符配置**
 - 控制名称以 `骆驼命名（CamelCase）` 会自动切割成多个单词 `-` 连接。**支持自定义配置**
 
 ### 5.7.2 动作方法默认约定
@@ -266,7 +266,7 @@ using Furion.DynamicApiController;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public string Get()
         {
@@ -307,7 +307,7 @@ using Furion.DynamicApiController;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public string GetVersion()
         {
@@ -338,7 +338,7 @@ using Furion.DynamicApiController;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public string GetUser(int id)
         {
@@ -371,7 +371,7 @@ using Furion.DynamicApiController;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public TestDto GetTest(TestDto testDto)
         {
@@ -407,7 +407,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public TestDto GetTest([FromQuery] TestDto testDto)
         {
@@ -450,7 +450,7 @@ using System;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         // 参数默认为 ApiSeats.ActionEnd
         public string RouteSeat(int id, string name)
@@ -496,7 +496,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         [HttpPost]
         public string GetVersion()
@@ -519,7 +519,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         [HttpPost, HttpGet, AcceptVerbs("PUT", "DELETE")]
         public string GetVersion()
@@ -562,7 +562,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Furion.Application
 {
     [Route("customapi/mobile/[controller]")]
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public string GetVersion()
         {
@@ -585,7 +585,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         [Route("customapi/[action]")]
         public string GetVersion()
@@ -610,7 +610,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Furion.Application
 {
     [Route("customapi/mobile/[controller]")]
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         [Route("get/[action]")]
         public string GetVersion()
@@ -635,7 +635,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Furion.Application
 {
     [Route("api/[controller]")]
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         [HttpGet("get/[action]")]
         public string GetVersion()
@@ -678,7 +678,7 @@ namespace Furion.Application
     [Route("api/[controller]")]
     [Route("api/[controller]/second")]
     [Route("api/[controller]/three")]
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         [HttpGet]
         [HttpGet("get/[action]")]
@@ -718,7 +718,7 @@ using Furion.DynamicApiController;
 
 namespace Furion.Application
 {
-    public class FurAppServiceV1 : IDynamicApiController
+    public class FurionAppServiceV1 : IDynamicApiController
     {
         public string Get()
         {
@@ -726,7 +726,7 @@ namespace Furion.Application
         }
     }
 
-    public class FurAppServiceV1_2 : IDynamicApiController
+    public class FurionAppServiceV1_2 : IDynamicApiController
     {
         public string Get()
         {
@@ -734,7 +734,7 @@ namespace Furion.Application
         }
     }
 
-    public class FurAppServiceV1_2_1 : IDynamicApiController
+    public class FurionAppServiceV1_2_1 : IDynamicApiController
     {
         public string Get()
         {
@@ -756,7 +756,7 @@ using Furion.DynamicApiController;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public string Get()
         {
@@ -784,7 +784,7 @@ namespace Furion.Application
 
 :::note 版本生成原理
 
-**`V[0-9_]`** 结尾的命名自动解析成版本号，如 **`FurAppServiceV2 -> Furion@2`**。
+**`V[0-9_]`** 结尾的命名自动解析成版本号，如 **`FurionAppServiceV2 -> Furion@2`**。
 
 :::
 
@@ -913,7 +913,7 @@ using Furion.DynamicApiController;
 namespace Furion.Application
 {
     [ApiDescriptionSettings(Name = "MyFur")]
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         [ApiDescriptionSettings(Name = "MyGet")]
         public string Get()
@@ -938,7 +938,7 @@ using Furion.DynamicApiController;
 namespace Furion.Application
 {
     [ApiDescriptionSettings(KeepName = true)]
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         [ApiDescriptionSettings(KeepName = true)]
         public string Get()
@@ -963,7 +963,7 @@ using Furion.DynamicApiController;
 namespace Furion.Application
 {
     [ApiDescriptionSettings(SplitCamelCase = false)]
-    public class MyFurAppService : IDynamicApiController
+    public class MyFurionAppService : IDynamicApiController
     {
         [ApiDescriptionSettings(SplitCamelCase = true)]
         public string ChangeUserName()
@@ -993,7 +993,7 @@ using Furion.DynamicApiController;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         [ApiDescriptionSettings(KeepVerb = true)]
         public string GetVersion()
@@ -1017,7 +1017,7 @@ using Furion.DynamicApiController;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public string GetVersion()
         {
@@ -1047,7 +1047,7 @@ using Furion.DynamicApiController;
 namespace Furion.Application
 {
     [ApiDescriptionSettings(Module = "mobile")]
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         [ApiDescriptionSettings(Module = "user")]
         public string GetVersion()
@@ -1072,7 +1072,7 @@ using Furion.DynamicApiController;
 namespace Furion.Application
 {
     [ApiDescriptionSettings(Version = "1.0")]
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         // V2.0.0 被复写成 V2.1.1
         [ApiDescriptionSettings(Version = "2.1.1")]
@@ -1100,7 +1100,7 @@ using Furion.DynamicApiController;
 namespace Furion.Application
 {
     [ApiDescriptionSettings("Default", "Common")]
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public string Get()
         {
@@ -1140,7 +1140,7 @@ using Furion.DynamicApiController;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public string Get()
         {
@@ -1176,7 +1176,7 @@ using Furion.DynamicApiController;
 namespace Furion.Application
 {
     [ApiDescriptionSettings(Tag = "分组一")]
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public string Get()
         {
@@ -1218,7 +1218,7 @@ using Furion.DynamicApiController;
 namespace Furion.Application
 {
     [ApiDescriptionSettings(Tag = "合并所有标签")]
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public string Get()
         {

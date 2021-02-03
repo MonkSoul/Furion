@@ -187,7 +187,7 @@ namespace Furion.Application
     /// <summary>
     /// 类注释
     /// </summary>
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         /// <summary>
         /// 方法注释
@@ -239,7 +239,7 @@ using Furion.DynamicApiController;
 namespace Furion.Application
 {
     [ApiDescriptionSettings("Group1")]
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         /// <summary>
         /// 随父类 Group1 分组
@@ -297,7 +297,7 @@ using Furion.DynamicApiController;
 namespace Furion.Application
 {
     [ApiDescriptionSettings("Group1@1")]
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public string Post()
         {
@@ -413,7 +413,7 @@ using Furion.DynamicApiController;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public string Get()
         {
@@ -449,7 +449,7 @@ using Furion.DynamicApiController;
 namespace Furion.Application
 {
     [ApiDescriptionSettings(Tag = "分组一")]
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public string Get()
         {
@@ -491,7 +491,7 @@ using Furion.DynamicApiController;
 namespace Furion.Application
 {
     [ApiDescriptionSettings(Tag = "合并所有标签")]
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         public string Get()
         {
@@ -629,7 +629,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Furion.Application
 {
-    public class FurAppService : IDynamicApiController
+    public class FurionAppService : IDynamicApiController
     {
         [ProducesResponseType(201, Type = typeof(TestDto))]
         [ProducesResponseType(400)]

@@ -307,7 +307,7 @@ protected override void SavingChangesEvent(DbContextEventData eventData, Interce
 定义好过滤器之后，我们需要在数据库上下文中注册：
 
 ```cs
-services.AddDbPool<FurDbContext>(interceptors: new IInterceptor[] {
+services.AddDbPool<FurionDbContext>(interceptors: new IInterceptor[] {
     new YourSqlConnectionProfilerInterceptor(),
     new YourDbContextSaveChangesInterceptor(),
     new YourSqlCommandProfilerInterceptor()

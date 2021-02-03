@@ -63,13 +63,13 @@ using Microsoft.EntityFrameworkCore;
 namespace Furion.EntityFramework.Core
 {
     [AppDbContext("连接字符串或appsetting.json 键")]
-    public class FurDbContext : AppDbContext<FurDbContext>  // 继承 AppDbContext<> 类
+    public class FurionDbContext : AppDbContext<FurionDbContext>  // 继承 AppDbContext<> 类
     {
         /// <summary>
         /// 继承父类构造函数
         /// </summary>
         /// <param name="options"></param>
-        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
+        public FurionDbContext(DbContextOptions<FurionDbContext> options) : base(options)
         {
         }
     }
@@ -127,7 +127,7 @@ namespace Furion.EntityFramework.Core
             services.AddDatabaseAccessor(options =>
             {
                 // 配置默认数据库
-                options.AddDbPool<FurDbContext>(DbProvider.SqlServer, connectionString:"连接字符串");
+                options.AddDbPool<FurionDbContext>(DbProvider.SqlServer, connectionString:"连接字符串");
 
                 // 配置多个数据库，多个数据库必须指定数据库上下文定位器
                 options.AddDbPool<SqliteDbContext, SqliteDbContextLocaotr>(DbProvider.Sqlite, connectionString:"连接字符串");
@@ -144,7 +144,7 @@ namespace Furion.EntityFramework.Core
 ```cs
 services.AddDatabaseAccessor(options =>
 {
-    options.AddDbPool<FurDbContext>($"{DbProvider.MySql}@8.0.22");
+    options.AddDbPool<FurionDbContext>($"{DbProvider.MySql}@8.0.22");
 });
 ```
 
@@ -159,13 +159,13 @@ using Microsoft.EntityFrameworkCore;
 namespace Furion.EntityFramework.Core
 {
     [AppDbContext("DbConnectionString")]   // 支持 `appsetting.json` 名或 连接字符串
-    public class FurDbContext : AppDbContext<FurDbContext>
+    public class FurionDbContext : AppDbContext<FurionDbContext>
     {
         /// <summary>
         /// 继承父类构造函数
         /// </summary>
         /// <param name="options"></param>
-        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
+        public FurionDbContext(DbContextOptions<FurionDbContext> options) : base(options)
         {
         }
     }
@@ -196,13 +196,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Furion.EntityFramework.Core
 {
-    public class FurDbContext : AppDbContext<FurDbContext>
+    public class FurionDbContext : AppDbContext<FurionDbContext>
     {
         /// <summary>
         /// 继承父类构造函数
         /// </summary>
         /// <param name="options"></param>
-        public FurDbContext(DbContextOptions<FurDbContext> options) : base(options)
+        public FurionDbContext(DbContextOptions<FurionDbContext> options) : base(options)
         {
         }
 
@@ -249,7 +249,7 @@ namespace Furion.EntityFramework.Core
         {
             services.AddDatabaseAccessor(options =>
             {
-                options.AddDbPool<FurDbContext>(DbProvider.Sqlite);
+                options.AddDbPool<FurionDbContext>(DbProvider.Sqlite);
             });
         }
     }
@@ -259,7 +259,7 @@ namespace Furion.EntityFramework.Core
 如果有多个数据库操作，**那么从第二个起，就需要绑定数据库上下文定位器**，如：
 
 ```cs
-options.AddDbPool<FurDbContext>(DbProvider.Sqlite); // 第一个数据库
+options.AddDbPool<FurionDbContext>(DbProvider.Sqlite); // 第一个数据库
 
 options.AddDbPool<SecondDbContext, SecondDbContextDbContextLocator>(DbProvider.SqlServer);  // 第二个数据库
 
