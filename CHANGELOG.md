@@ -6,6 +6,8 @@
 
 - **突破性变化**
 
+  - [移除] `Furion` 框架 `JWT` 拓展类，只在 `Furion.Extras.Authentication.JwtBearer` 中保留 [#I35D59](https://gitee.com/monksoul/Furion/issues/I35D59)
+
 - **问题修复**
 
   - [修复] 传入错误 `JWT Token` 字符串导致自动刷新 `Token` 出现字符串边界值异常 bug [#I34ZE5](https://gitee.com/monksoul/Furion/issues/I34ZE5)
