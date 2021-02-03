@@ -47,7 +47,13 @@ module.exports = {
           label: "配置",
           position: "left",
         },
-        { to: "blog", label: "博客✨", position: "left" },
+        { to: "blog", label: "博客", position: "left" },
+        {
+          to: "docs/upgrade",
+          activeBasePath: "docs/upgrade",
+          label: "更新日志✨",
+          position: "left",
+        },
         // {
         //   label: "视频",
         //   position: "right",

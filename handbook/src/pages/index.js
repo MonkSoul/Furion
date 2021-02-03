@@ -27,6 +27,7 @@ function Home() {
       <Gitee />
       <Remark />
       <WhoUse />
+      <Links />
       <JoinGroup />
     </Layout>
   );
@@ -130,7 +131,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>2410</div>
+            <div style={{ color: "#723cff" }}>2420</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
@@ -142,7 +143,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#3fbbfe" }}>530</div>
+            <div style={{ color: "#3fbbfe" }}>540</div>
             <span className={isDarkTheme ? " dark" : ""}>Forks</span>
           </div>
         </div>
@@ -154,7 +155,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>639,228</div>
+            <div style={{ color: "#1fd898" }}>643,396</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -278,6 +279,49 @@ function WhoUse() {
             立即添加您的公司
           </Link>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function Links() {
+  const { isDarkTheme, setLightTheme, setDarkTheme } = useThemeContext();
+  return (
+    <div className="furion-links">
+      <p className={"furion-small-title" + (isDarkTheme ? " dark" : "")}>
+        友情链接
+      </p>
+      <h1 className={"furion-big-title" + (isDarkTheme ? " dark" : "")}>
+        它们一样是非常优秀的项目
+      </h1>
+      <div className="furion-links-content">
+        <a href="https://github.com/sunkaixuan/SqlSugar" target="_blank">
+          SqlSugar
+        </a>
+        <a href="http://www.thinkphp.cn/" target="_blank">
+          ThinkPHP
+        </a>
+        <a href="https://hutool.cn/" target="_blank">
+          Hutool
+        </a>
+        <a href="https://gitee.com/tywo45/t-io" target="_blank">
+          t-io
+        </a>
+        <a href="https://www.blazor.zone/" target="_blank">
+          BootstrapBlazor
+        </a>
+        <a
+          href="https://gitee.com/LongbowEnterprise/BootstrapAdmin"
+          target="_blank"
+        >
+          BootstrapAdmin
+        </a>
+        <a href="https://gitee.com/monksoul/LayX" target="_blank">
+          Layx
+        </a>
+        <a href="https://gitee.com/IoTSharp/IoTSharp" target="_blank">
+          IoTSharp
+        </a>
       </div>
     </div>
   );

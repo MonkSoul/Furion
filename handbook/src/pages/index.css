@@ -309,7 +309,7 @@
   background-color: #412a94 !important;
   color: #fff;
   display: flex;
-  padding: 7rem 0 0;
+  padding: 5rem 0;
 }
 
 .furion-who-custom {
@@ -351,6 +351,19 @@
 
 .footer {
   background-color: #211b50 !important;
+}
+
+.furion-links {
+  margin-top: 4em;
+  margin-bottom: 4em;
+  text-align: center;
+}
+
+.furion-links-content a {
+  display: inline-block;
+  margin: 0 1em;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 @media screen and (max-width: 1024px) {
