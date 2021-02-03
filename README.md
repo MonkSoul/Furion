@@ -197,6 +197,10 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 
 <img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/xncs.png"/>
 
+## 🌴 Stars 趋势图
+
+[![Stargazers over time](https://whnb.wang/img/monksoul/Furion)](https://whnb.wang/monksoul/Furion)
+
 ## 🍻 贡献代码
 
 `Furion` 遵循 `Apache-2.0` 开源协议，欢迎大家提交 `PR` 或 `Issue`。
