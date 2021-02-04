@@ -16,11 +16,11 @@ import JoinGroup from "../src/components/JoinGroup";
 
 ## 16.2 有跨域行为示例
 
-| 当前页面 url                  | 被请求页面 url                      | 是否跨域 | 原因                           |
-| ----------------------------- | ----------------------------------- | -------- | ------------------------------ |
+| 当前页面 url                | 被请求页面 url                    | 是否跨域 | 原因                           |
+| --------------------------- | --------------------------------- | -------- | ------------------------------ |
 | http://www.furion.pro/      | http://www.furion.pro/index.html  | 否       | 同源（协议、域名、端口号相同） |
 | http://www.furion.pro/      | https://www.furion.pro/index.html | 跨域     | 协议不同（http/https）         |
-| http://www.furion.pro/      | http://www.baidu.com/               | 跨域     | 主域名不同（chinadot/baidu）   |
+| http://www.furion.pro/      | http://www.baidu.com/             | 跨域     | 主域名不同（chinadot/baidu）   |
 | http://www.furion.pro/      | http://blog.furion.pro/           | 跨域     | 子域名不同（www/blog）         |
 | http://www.furion.pro:8080/ | http://www.furion.pro:7001/       | 跨域     | 端口号不同（8080/7001）        |
 
@@ -107,7 +107,19 @@ namespace Furion.Web.Core
   - `AllowCredentials`：跨域请求中的凭据，`bool` 类型
   - `SetPreflightMaxAge`：设置预检过期时间，`int` 类型
 
-## 16.6 反馈与建议
+## 16.6 使用 `axios` 前端注意事项
+
+由于 `axios` 对跨域有特定的需要，需要响应报文中添加特定 `Header` 才能放行，如：`Access-Control-Expose-Headers: xxxxx`，所以，如果前端使用了 `axios` 请求，需要添加以下配置：
+
+```cs
+{
+  "CorsAccessorSettings": {
+    "WithExposedHeaders": ["X-Pagination","access-token","x-access-token"]
+  }
+}
+```
+
+## 16.7 反馈与建议
 
 :::note 与我们交流
 
