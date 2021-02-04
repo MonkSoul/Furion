@@ -1,6 +1,8 @@
 ﻿using Furion.DependencyInjection;
 using Furion.JsonConverters;
 using Furion.Utilities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -43,6 +45,37 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             return mvcBuilder;
+        }
+
+        /// <summary>
+        /// 注册 Mvc 过滤器
+        /// </summary>
+        /// <typeparam name="TFilter"></typeparam>
+        /// <param name="mvcBuilder"></param>
+        /// <returns></returns>
+        public static IMvcBuilder AddMvcFilter<TFilter>(this IMvcBuilder mvcBuilder)
+            where TFilter : IFilterMetadata
+        {
+            mvcBuilder.AddMvcOptions(options => options.Filters.Add<TFilter>());
+
+            return mvcBuilder;
+        }
+
+        /// <summary>
+        /// 注册 Mvc 过滤器
+        /// </summary>
+        /// <typeparam name="TFilter"></typeparam>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddMvcFilter<TFilter>(this IServiceCollection services)
+            where TFilter : IFilterMetadata
+        {
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add<TFilter>();
+            });
+
+            return services;
         }
     }
 }

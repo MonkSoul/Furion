@@ -131,7 +131,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>2420</div>
+            <div style={{ color: "#723cff" }}>2430</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
@@ -143,7 +143,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#3fbbfe" }}>540</div>
+            <div style={{ color: "#3fbbfe" }}>550</div>
             <span className={isDarkTheme ? " dark" : ""}>Forks</span>
           </div>
         </div>
@@ -155,7 +155,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>643,396</div>
+            <div style={{ color: "#1fd898" }}>646,323</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -321,6 +321,9 @@ function Links() {
         </a>
         <a href="https://gitee.com/IoTSharp/IoTSharp" target="_blank">
           IoTSharp
+        </a>
+        <a href="https://www.eova.cn/" target="_blank">
+          Eova
         </a>
       </div>
     </div>

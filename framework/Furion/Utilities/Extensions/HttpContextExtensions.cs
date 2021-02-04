@@ -1,4 +1,5 @@
 using Furion.DependencyInjection;
+using System.Text;
 
 namespace Microsoft.AspNetCore.Http
 {
@@ -114,6 +115,34 @@ namespace Microsoft.AspNetCore.Http
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// 获取完整请求地址
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public static string GetRequestUrlAddress(this HttpRequest request)
+        {
+            return new StringBuilder()
+                    .Append(request.Scheme)
+                    .Append("://")
+                    .Append(request.Host)
+                    .Append(request.PathBase)
+                    .Append(request.Path)
+                    .Append(request.QueryString)
+                    .ToString();
+        }
+
+        /// <summary>
+        /// 获取来源地址
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="refererHeaderKey"></param>
+        /// <returns></returns>
+        public static string GetRefererUrlAddress(this HttpRequest request, string refererHeaderKey = "Referer")
+        {
+            return request.Headers[refererHeaderKey].ToString();
         }
     }
 }

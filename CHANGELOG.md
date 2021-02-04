@@ -4,6 +4,8 @@
 
   - [新增] `[NonUnify]` 支持在类中贴此特性 [#I359Q6](https://gitee.com/monksoul/Furion/issues/I359Q6)
   - [新增] `网络请求` 字符串 `HttpClient` 拦截器 [#I35F3E](https://gitee.com/monksoul/Furion/issues/I35F3E)
+  - [新增] `HttpContext` 及 `HttpRequest` 获取远程地址拓展 [#I3688Z](https://gitee.com/monksoul/Furion/issues/I3688Z)
+  - [新增] `services.AddMvcFilter<>` 添加 `Mvc` 过滤器拓展 [#I368BH](https://gitee.com/monksoul/Furion/issues/I368BH)
 
 - **突破性变化**
 
