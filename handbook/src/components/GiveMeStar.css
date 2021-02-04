@@ -1,0 +1,14 @@
+.furion-give-me-star {
+  text-align: center;
+  padding: 0.6em;
+  background-color: #182c61;
+  font-size: 14px;
+  color: #fff;
+  position: relative;
+}
+
+.furion-gitee-star {
+  position: relative;
+  vertical-align: middle;
+  margin-left: 7px;
+}

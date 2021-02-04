@@ -4,23 +4,19 @@ title: 7. JsonSerializerUtility 静态类
 sidebar_label: 7. JsonSerializerUtility 静态类
 ---
 
-import JoinGroup from "../../src/components/JoinGroup";
-
-<JoinGroup />
-
-## 7.1 序列化 
+## 7.1 序列化
 
 ```cs
 var str = JsonSerializerUtility.Serialize(obj, [options]);
 ```
 
-## 7.3 反序列化 
+## 7.3 反序列化
 
 ```cs
 var obj = JsonSerializerUtility.Deserialize<T>(str, [options]);
 ```
 
-## 7.4 获取默认序列化配置 
+## 7.4 获取默认序列化配置
 
 ```cs
 var options = JsonSerializerUtility.GetDefaultJsonSerializerOptionss);

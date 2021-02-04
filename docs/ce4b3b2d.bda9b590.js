@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[89],{163:function(e){e.exports=JSON.parse('{"allTagsPath":"/blog/tags","slug":"netcore","name":".netcore","count":3,"permalink":"/blog/tags/netcore"}')}}]);

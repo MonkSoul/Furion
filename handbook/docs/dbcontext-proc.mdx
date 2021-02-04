@@ -4,10 +4,6 @@ title: 9.13 存储过程操作
 sidebar_label: 9.13 存储过程操作
 ---
 
-import JoinGroup from "../src/components/JoinGroup";
-
-<JoinGroup />
-
 :::important 温馨提示
 
 推荐使用 《[9.17 Sql 高级代理](dbcontext-sql-proxy.mdx)》代替本章节功能。`Sql 高级代理` 能够提供更容易且更易维护的方式。
@@ -59,7 +55,6 @@ import TabItem from "@theme/TabItem";
 >
   <TabItem value="one">
 
-
 ```cs {1,9-12}
 using Furion.DatabaseAccessor;
 using Furion.DynamicApiController;
@@ -80,7 +75,6 @@ namespace Furion.Application
 
   </TabItem>
   <TabItem value="two">
-
 
 ```cs {2,7,9-10}
 using Furion.Core;
@@ -118,7 +112,6 @@ namespace Furion.Application
   </TabItem>
 <TabItem value="three">
 
-
 ```cs
 var persons = personRepository.SqlProcedureQuery("proc_GetPersons");
 ```
@@ -126,16 +119,13 @@ var persons = personRepository.SqlProcedureQuery("proc_GetPersons");
   </TabItem>
   <TabItem value="four">
 
-
 ```cs
 var persons = "proc_GetPersons".SqlProcedureQuery();
 ```
 
   </TabItem>
 
-
 </Tabs>
-
 
 ### 9.13.2.2 返回 `DataTable`
 

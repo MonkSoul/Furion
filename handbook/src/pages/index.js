@@ -4,7 +4,6 @@ import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import useThemeContext from "@theme/hooks/useThemeContext";
 import useBaseUrl from "@docusaurus/useBaseUrl";
-
 import WindowIcon from "./windows.svg";
 import LinuxIcon from "./linux.svg";
 import MacOSIcon from "./macos.svg";
@@ -13,7 +12,6 @@ import KubernetesIcon from "./kubernetes.svg";
 import components from "@theme/MDXComponents";
 import "./index.css";
 import "./index.own.css";
-import JoinGroup from "../components/JoinGroup";
 
 function Home() {
   const context = useDocusaurusContext();
@@ -28,7 +26,6 @@ function Home() {
       <Remark />
       <WhoUse />
       <Links />
-      <JoinGroup />
     </Layout>
   );
 }

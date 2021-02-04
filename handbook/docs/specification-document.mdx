@@ -8,10 +8,6 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-import JoinGroup from "../src/components/JoinGroup";
-
-<JoinGroup />
-
 ## 6.1 什么是接口文档
 
 在现在移动为王、多端互辅、前端百花齐放的开放时代，不再是一人包揽式开发，大家各司其职，后端工程师负责接口开发，前端负责接口联调，也就是互联网现在流行的前后端分离架构。
@@ -665,6 +661,18 @@ namespace Furion.Application
 ### 6.5.16 中文乱码问题
 
 默认情况下,`.json` 文件并未采用 `utf-8` 编码，所以如果配置中文分组信息就会出现乱码情况，这时候，只需要修改 `.json` 文件编码为 `utf-8` 即可。
+
+### 6.5.17 生产环境中关闭 `Swagger`
+
+如果不需要线上环境开启 `Swagger` 功能，只需要在 `appsetting.json` 配置即可：
+
+```json {3}
+{
+  "AppSettings": {
+    "InjectSpecificationDocument": false
+  }
+}
+```
 
 ## 6.6 `SpecificationDocumentSettings` 配置
 
