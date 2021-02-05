@@ -25,7 +25,7 @@ Furion makes .NET simple, extensive, popular.
 
 > The story goes like this:
 >
-> Since Microsoft announced the news of the `.Net 5` platform, I have been thinking about developing a development framework based on the. Net 5 platform. It wants to be the first to eat the `.Net 5` crab.
+> Since Microsoft announced the news of the `.Net 5` platform, I have been thinking about developing a development framework based on the `.NET 5` platform. It wants to be the first to eat the `.Net 5` crab.
 >
 > At the beginning, I thought of `Lazier` as the name of the framework, which means `更懒` in Chinese. In line with my "all simple, just to be lazy" development philosophy.
 >
