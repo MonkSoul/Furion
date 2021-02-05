@@ -289,9 +289,18 @@ function Links() {
         友情链接
       </p>
       <h1 className={"furion-big-title" + (isDarkTheme ? " dark" : "")}>
-        它们一样是非常优秀的项目
+        它们一样是优秀的项目/网站
       </h1>
       <div className="furion-links-content">
+        <a href="https://www.oschina.net/" target="_blank">
+          开源中国
+        </a>
+        <a href="https://gitee.com/" target="_blank">
+          Gitee
+        </a>
+        <a href="https://www.chinadot.net/" target="_blank">
+          dotNET China
+        </a>
         <a href="https://github.com/sunkaixuan/SqlSugar" target="_blank">
           SqlSugar
         </a>
@@ -321,6 +330,15 @@ function Links() {
         </a>
         <a href="https://www.eova.cn/" target="_blank">
           Eova
+        </a>
+        <a href="http://www.pearadmin.com/" target="_blank">
+          PearAdmin
+        </a>
+        <a href="https://github.com/mengshukeji/Luckysheet" target="_blank">
+          Luckysheet
+        </a>
+        <a href="https://blog.lindexi.com/" target="_blank">
+          林德熙博客
         </a>
       </div>
     </div>
