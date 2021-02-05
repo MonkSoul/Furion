@@ -49,7 +49,12 @@ var httpContext = App.HttpContext;
 
 ```cs
 var contextUser = App.User;
+
+// 获取 `Jwt` 存储的信息
+var userId = App.User?.FindFirstValue("键");
 ```
+
+**注意引入 `System.Security.Claims` 命名空间**
 
 ## 1.8 获取服务提供器
 

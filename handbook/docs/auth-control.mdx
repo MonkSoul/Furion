@@ -287,7 +287,16 @@ x-access-token: 新的刷新token
 
 :::
 
-## 15.6 反馈与建议
+## 15.6 获取 `Jwt` 存储的信息
+
+```cs
+// 获取 `Jwt` 存储的信息
+var userId = App.User?.FindFirstValue("键");
+```
+
+**注意引入 `System.Security.Claims` 命名空间**
+
+## 15.7 反馈与建议
 
 :::note 与我们交流
 
