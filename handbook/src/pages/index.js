@@ -128,7 +128,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>2430</div>
+            <div style={{ color: "#723cff" }}>2440</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
@@ -140,7 +140,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#3fbbfe" }}>550</div>
+            <div style={{ color: "#3fbbfe" }}>540</div>
             <span className={isDarkTheme ? " dark" : ""}>Forks</span>
           </div>
         </div>
@@ -339,6 +339,9 @@ function Links() {
         </a>
         <a href="https://blog.lindexi.com/" target="_blank">
           林德熙博客
+        </a>
+        <a href="http://www.easyson.com.cn" target="_blank">
+          易胜科技
         </a>
       </div>
     </div>
