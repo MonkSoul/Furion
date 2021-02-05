@@ -17,11 +17,17 @@
 
 - **其他更改**
 
+  - [优化] 获取系统环境参数的性能 [#I36SR5](https://gitee.com/monksoul/Furion/issues/I36SR5)
+  - [优化] `Furion` 底层添加 `Mvc` 过滤器代码 [#I36SKA](https://gitee.com/monksoul/Furion/issues/I36SKA)
+  - [优化] 添加默认 `Json` 序列化时间默认时间格式 [#I36SL0](https://gitee.com/monksoul/Furion/issues/I36SL0)
+  - [升级] 升级 `SqlSugar` 拓展包到 `5.0.2.6` 版本 [#I36SIG](https://gitee.com/monksoul/Furion/issues/I36SIG)
+
 - **文档变化**
 
   - [新增] 更新日志文档 [#I36PI0](https://gitee.com/monksoul/Furion/issues/I36PI0)
   - [新增] 请求审计日志、执行 `Sql` 更新日志文档 [#I36PIK](https://gitee.com/monksoul/Furion/issues/I36PIK)
   - [新增] 前端使用 `axios` 跨域配置文档 [#I36PIT](https://gitee.com/monksoul/Furion/issues/I36PIT)
+  - [新增] `App` 静态类获取应用、环境更多信息数据 [#I36SOV](https://gitee.com/monksoul/Furion/issues/I36SOV)
 
 - **问答答疑**
 

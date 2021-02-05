@@ -39,14 +39,9 @@ namespace Furion
         public static readonly IConfiguration Configuration;
 
         /// <summary>
-        /// 私有环境变量，避免重复解析
-        /// </summary>
-        private static IWebHostEnvironment _webHostEnvironment;
-
-        /// <summary>
         /// 应用环境，如，是否是开发环境，生产环境等
         /// </summary>
-        public static IWebHostEnvironment WebHostEnvironment => _webHostEnvironment ??= GetService<IWebHostEnvironment>();
+        public static IWebHostEnvironment WebHostEnvironment => InternalApp.WebHostEnvironment;
 
         /// <summary>
         /// 应用有效程序集

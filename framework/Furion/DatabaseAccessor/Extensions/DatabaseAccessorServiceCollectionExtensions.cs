@@ -1,7 +1,6 @@
 ﻿using Furion;
 using Furion.DatabaseAccessor;
 using Furion.DependencyInjection;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
@@ -118,7 +117,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScopedDispatchProxyForInterface<SqlDispatchProxy, ISqlDispatchProxy>();
 
             // 注册全局工作单元过滤器
-            services.Configure<MvcOptions>(options => options.Filters.Add<UnitOfWorkFilter>());
+            services.AddMvcFilter<UnitOfWorkFilter>();
 
             return services;
         }

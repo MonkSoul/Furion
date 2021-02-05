@@ -1,6 +1,5 @@
 ﻿using Furion.DependencyInjection;
 using Furion.FriendlyException;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -64,7 +63,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             // 添加全局异常过滤器
             if (enabledGlobalExceptionFilter)
-                mvcBuilder.AddMvcOptions(options => options.Filters.Add<FriendlyExceptionFilter>());
+                mvcBuilder.AddMvcFilter<FriendlyExceptionFilter>();
 
             return mvcBuilder;
         }
@@ -82,12 +81,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             // 添加全局异常过滤器
             if (enabledGlobalExceptionFilter)
-            {
-                services.Configure<MvcOptions>(options =>
-                {
-                    options.Filters.Add<FriendlyExceptionFilter>();
-                });
-            }
+                services.AddMvcFilter<FriendlyExceptionFilter>();
 
             return services;
         }

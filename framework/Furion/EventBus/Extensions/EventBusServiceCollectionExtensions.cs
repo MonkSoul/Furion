@@ -58,6 +58,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     // 获取所有消息特性
                     var subscribeMessageAttributes = method.GetCustomAttributes<SubscribeMessageAttribute>();
 
+                    // 注册订阅
                     foreach (var subscribeMessageAttribute in subscribeMessageAttributes)
                     {
                         if (string.IsNullOrEmpty(subscribeMessageAttribute.MessageId)) continue;

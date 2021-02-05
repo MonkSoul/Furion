@@ -12,7 +12,7 @@ sidebar_label: 1. 应用配置
 
 - `AppSettings`：配置根节点
   - `InjectMiniProfiler`：是否注入 `MiniProfiler`，`bool` 类型，默认 `true`
-  - `InjectSpecificationDocument`：是否启用 `Swagger` 文档，`bool` 类型，默认 `true`
+  - `InjectSpecificationDocument`：是否启用 `Swagger` 文档，`bool` 类型，默认 `true`，**生产环境可关闭**
   - `EnabledReferenceAssemblyScan`：是否启用通过 `dll` 方式添加的引用程序集扫描，`bool` 类型，默认 `false`
   - `ExternalAssemblies`：配置外部程序集完整路径，支持动态加载，`string[]` 类型，默认 `[]`
   - `DynamicLogLevel`：配置动态日志级别，`LogLevel` 枚举类型，默认 `LogLevel.Information`

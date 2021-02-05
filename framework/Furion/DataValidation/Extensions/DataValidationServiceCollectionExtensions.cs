@@ -76,10 +76,10 @@ namespace Microsoft.Extensions.DependencyInjection
                 });
 
                 // 添加全局数据验证
-                mvcBuilder.AddMvcOptions(options =>
+                mvcBuilder.AddMvcFilter<DataValidationFilter>(options =>
                 {
+                    // 关闭空引用对象验证
                     options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = suppressImplicitRequiredAttributeForNonNullableReferenceTypes;
-                    options.Filters.Add<DataValidationFilter>();
                 });
             }
 
@@ -107,11 +107,11 @@ namespace Microsoft.Extensions.DependencyInjection
                     options.SuppressModelStateInvalidFilter = true;
                 });
 
-                // 添加全局验证
-                services.Configure<MvcOptions>(options =>
+                // 添加全局数据验证
+                services.AddMvcFilter<DataValidationFilter>(options =>
                 {
+                    // 关闭空引用对象验证
                     options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = suppressImplicitRequiredAttributeForNonNullableReferenceTypes;
-                    options.Filters.Add<DataValidationFilter>();
                 });
             }
 

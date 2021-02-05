@@ -5,7 +5,7 @@ using System.Linq;
 namespace Furion.EventBus
 {
     /// <summary>
-    /// 消息中心
+    /// 轻量级消息中心（进程内）
     /// </summary>
     internal sealed class InternalMessageCenter
     {

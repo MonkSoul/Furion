@@ -1,4 +1,5 @@
 ﻿using Furion.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,6 +25,11 @@ namespace Furion
         /// 全局配置构建器
         /// </summary>
         internal static IConfigurationBuilder ConfigurationBuilder;
+
+        /// <summary>
+        /// 获取系统环境
+        /// </summary>
+        internal static IWebHostEnvironment WebHostEnvironment;
 
         /// <summary>
         /// 添加配置文件

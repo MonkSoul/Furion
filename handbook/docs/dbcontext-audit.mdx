@@ -217,7 +217,7 @@ namespace Furion.Web.Core
 
 1. 定义 `RequestAuditFilter` 并实现 `IAsyncActionFilter`
 
-```cs {9,39}
+```cs {9,45}
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
@@ -231,6 +231,12 @@ namespace Furion.Web.Core
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             //============== 这里是执行方法之前获取数据 ====================
+
+            // 获取控制器、路由信息
+            var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
+
+            // 获取请求的方法
+            var method = actionDescriptor.MethodInfo;
 
             // 获取 HttpContext 和 HttpRequest 对象
             var httpContext = context.HttpContext;

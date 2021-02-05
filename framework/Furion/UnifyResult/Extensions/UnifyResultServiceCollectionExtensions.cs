@@ -1,6 +1,5 @@
 ﻿using Furion.DependencyInjection;
 using Furion.UnifyResult;
-using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -53,11 +52,8 @@ namespace Microsoft.Extensions.DependencyInjection
             // 添加规范化提供器
             mvcBuilder.Services.AddSingleton<IUnifyResultProvider, TUnifyResultProvider>();
 
-            // 添加成功规范化结果
-            mvcBuilder.AddMvcOptions(options =>
-            {
-                options.Filters.Add<SucceededUnifyResultFilter>();
-            });
+            // 添加成功规范化结果筛选器
+            mvcBuilder.AddMvcFilter<SucceededUnifyResultFilter>();
 
             return mvcBuilder;
         }
@@ -80,11 +76,8 @@ namespace Microsoft.Extensions.DependencyInjection
             // 添加规范化提供器
             services.AddSingleton<IUnifyResultProvider, TUnifyResultProvider>();
 
-            // 添加成功规范化结果
-            services.Configure<MvcOptions>(options =>
-            {
-                options.Filters.Add<SucceededUnifyResultFilter>();
-            });
+            // 添加成功规范化结果筛选器
+            services.AddMvcFilter<SucceededUnifyResultFilter>();
 
             return services;
         }

@@ -21,7 +21,11 @@ namespace Furion
             // 自动装载配置
             builder.ConfigureAppConfiguration((hostingContext, config) =>
             {
-                InternalApp.AddConfigureFiles(config, hostingContext.HostingEnvironment);
+                // 存储环境对象
+                InternalApp.WebHostEnvironment = hostingContext.HostingEnvironment;
+
+                // 加载配置
+                InternalApp.AddConfigureFiles(config, InternalApp.WebHostEnvironment);
             });
 
             // 自动注入 AddApp() 服务
