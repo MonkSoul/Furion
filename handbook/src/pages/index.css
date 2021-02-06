@@ -365,6 +365,11 @@
   font-weight: 600;
 }
 
+.furion-proccesson {
+  margin: 4em 0;
+  text-align: center;
+}
+
 @media screen and (max-width: 1024px) {
   .furion-banner-container {
     justify-content: unset;

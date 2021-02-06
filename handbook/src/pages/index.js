@@ -23,6 +23,7 @@ function Home() {
     >
       <Banner />
       <Gitee />
+      <ProccessOn />
       <Remark />
       <WhoUse />
       <Links />
@@ -128,7 +129,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>2440</div>
+            <div style={{ color: "#723cff" }}>2450</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
@@ -152,7 +153,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>652,156</div>
+            <div style={{ color: "#1fd898" }}>658,155</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -343,6 +344,29 @@ function Links() {
         <a href="http://www.easyson.com.cn" target="_blank">
           易胜科技
         </a>
+      </div>
+    </div>
+  );
+}
+
+function ProccessOn() {
+  const { isDarkTheme, setLightTheme, setDarkTheme } = useThemeContext();
+  return (
+    <div className="furion-proccesson">
+      <p className={"furion-small-title" + (isDarkTheme ? " dark" : "")}>
+        功能模块
+      </p>
+      <h1 className={"furion-big-title" + (isDarkTheme ? " dark" : "")}>
+        麻雀虽小五脏俱全
+      </h1>
+      <div className="furion-proccesson-content">
+        <iframe
+          id="embed_dom"
+          name="embed_dom"
+          frameBorder="0"
+          style={{ display: "block", width: "100%", height: "600px" }}
+          src="https://www.processon.com/embed/5f461cc15653bb576972d7a5"
+        ></iframe>
       </div>
     </div>
   );
