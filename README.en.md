@@ -58,11 +58,12 @@ Kangaroo has the characteristics of **long legs, bagging and self running**.
 
 ## 🍯 Souce Cases
 
-- **[ExamKing](https://gitee.com/pig0224/ExamKing)**：Online examination system based on `Furion`
-- **[Gardener](https://gitee.com/hgflydream/Gardener)**：Super simple system based on `Furion` and `Blazor`
-- **[Queer](https://gitee.com/songzhidan/queer)**：General system based on `Furion` and `Layui`
-- **[Pear Admin](https://gitee.com/pear-admin/pear-admin-furion)**：General system based on `Furion` and `PearAdmin`
-- **[JoyAdmin](https://gitee.com/a106_admin/joy-admin)**：General system based on `Furion` and `iviewadmin`
+- **[ExamKing](https://gitee.com/pig0224/ExamKing)**：Online examination system based on `Furion`.
+- **[Gardener](https://gitee.com/hgflydream/Gardener)**：Super simple system based on `Furion` and `Blazor`.
+- **[Queer](https://gitee.com/songzhidan/queer)**：General system based on `Furion` and `Layui`.
+- **[Pear Admin](https://gitee.com/pear-admin/pear-admin-furion)**：General system based on `Furion` and `PearAdmin`.
+- **[JoyAdmin](https://gitee.com/a106_admin/joy-admin)**：General system based on `Furion` and `iviewadmin`.
+- **[YShop](https://gitee.com/yell-run/yshop)**：Mobile e-commerce project based on `Furion` and `Vue`.
 
 ## 🥦 Tutorials
 
