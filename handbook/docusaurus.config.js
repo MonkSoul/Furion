@@ -6,7 +6,7 @@ module.exports = {
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
-  organizationName: "Baiqian Co.,Ltd.",
+  organizationName: "Baiqian Co.,Ltd",
   projectName: "Furion",
   themeConfig: {
     prism: {
