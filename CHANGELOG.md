@@ -9,6 +9,7 @@
 
 - **突破性变化**
 
+  - [升级] `Swashbuckle.AspNetCore` 组件包到 `6.0.x` 版本 [#I37EZK](https://gitee.com/monksoul/Furion/issues/I37EZK)
   - [移除] `Furion` 框架 `JWT` 拓展类，只在 `Furion.Extras.Authentication.JwtBearer` 中保留 [#I35D59](https://gitee.com/monksoul/Furion/issues/I35D59)
 
 - **问题修复**
