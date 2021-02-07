@@ -30,7 +30,7 @@ namespace Furion.Core
         }
 
         /// <summary>
-        /// 用户端口连接时触发方法
+        /// 用户端口断开连接时触发方法
         /// </summary>
         /// <param name="exception"></param>
         /// <returns></returns>
