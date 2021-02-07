@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Furion.Core;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,6 +20,9 @@ namespace Furion.Web.Core
                     // 配置多语言
                     .AddAppLocalization()
                     .AddInjectWithUnifyResult();
+
+            // 添加实时通讯
+            services.AddSignalR();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -49,6 +53,9 @@ namespace Furion.Web.Core
 
             app.UseEndpoints(endpoints =>
             {
+                // 配置聊天集线器
+                endpoints.MapHub<ChatHub>("/hubs/chathub");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

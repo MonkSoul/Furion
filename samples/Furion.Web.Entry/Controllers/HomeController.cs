@@ -10,5 +10,10 @@ namespace Furion.Web.Entry.Controllers
         {
             return View();
         }
+
+        public IActionResult IM()
+        {
+            return View();
+        }
     }
 }

@@ -185,6 +185,32 @@
             住址
             </summary>
         </member>
+        <member name="T:Furion.Core.ChatHub">
+            <summary>
+            聊天集线器
+            </summary>
+        </member>
+        <member name="M:Furion.Core.ChatHub.Broadcast(System.String,System.String)">
+            <summary>
+            广播消息，所有人都会收到
+            </summary>
+            <param name="user"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Core.ChatHub.OnConnectedAsync">
+            <summary>
+            用户加入连接时触发方法
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Core.ChatHub.OnDisconnectedAsync(System.Exception)">
+            <summary>
+            用户端口连接时触发方法
+            </summary>
+            <param name="exception"></param>
+            <returns></returns>
+        </member>
         <member name="T:Furion.Core.Role">
             <summary>
             角色表

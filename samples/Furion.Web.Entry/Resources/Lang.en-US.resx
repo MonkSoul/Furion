@@ -120,6 +120,9 @@
   <data name="API 接口" xml:space="preserve">
     <value>API Interfaces</value>
   </data>
+  <data name="实时通信" xml:space="preserve">
+    <value>InstantMessaging</value>
+  </data>
   <data name="源码地址" xml:space="preserve">
     <value>Source Address</value>
   </data>
