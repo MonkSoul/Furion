@@ -370,6 +370,10 @@
   text-align: center;
 }
 
+#dotnet-china {
+  height: 100px;
+}
+
 @media screen and (max-width: 1024px) {
   .furion-banner-container {
     justify-content: unset;
@@ -378,6 +382,10 @@
 
   .furion-get-start-btn {
     text-align: center;
+  }
+
+  #dotnet-china {
+    height: 45px;
   }
 
   .furion-banner-item .system-window {

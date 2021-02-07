@@ -244,6 +244,11 @@ function WhoUse() {
       <div className="furion-who-custom">
         {/* <h1>等待下一个幸运儿，会是你吗？</h1> */}
         <div className="furion-custom-img">
+          <a href="https://www.chinadot.net/" target="_blank">
+            <img src={useBaseUrl("img/chinadotnet.png")} id="dotnet-china" />
+          </a>
+        </div>
+        <div className="furion-custom-img">
           <img src={useBaseUrl("img/custom1.png")} height="100" />
         </div>
         <div className="furion-custom-img">
