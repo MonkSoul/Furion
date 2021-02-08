@@ -202,7 +202,7 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 
 ## 🌴 Stars 趋势图
 
-[![Stargazers over time](https://whnb.wang/img/monksoul/Furion)](https://whnb.wang/monksoul/Furion)
+[![Stargazers over time](https://whnb.wang/img/monksoul/Furion?expire=43200)](https://whnb.wang/monksoul/Furion?expire=43200)
 
 ## 🍻 贡献代码
 
