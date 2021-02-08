@@ -13,7 +13,7 @@
 
 <div align="center">
 
-Makes .NET simple, extensive, popular.
+Make .NET development easier, more versatile, and more popular.
 
 </div>
 
