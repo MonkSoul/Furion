@@ -13,7 +13,7 @@
 
 <div align="center">
 
-Furion makes .NET simple, extensive, popular.
+Makes .NET simple, extensive, popular.
 
 </div>
 
