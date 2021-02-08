@@ -25,7 +25,7 @@ Makes .NET simple, extensive, popular.
 
 > The story goes like this:
 >
-> Since Microsoft announced the news of the `.Net 5` platform, I have been thinking about developing a development framework based on the `.NET 5` platform. It wants to be the first to eat the `.Net 5` crab.
+> Since Microsoft announced the news of the `.NET 5` platform, I have been thinking about developing a development framework based on the `.NET 5` platform. It wants to be the first to eat the `.NET 5` crab.
 >
 > At the beginning, I thought of `Lazier` as the name of the framework, which means `更懒` in Chinese. In line with my "all simple, just to be lazy" development philosophy.
 >
@@ -129,7 +129,7 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 
 ## 🍎 Features
 
-- New look: Based on `.Net 5` platform, no historical burden
+- New look: Based on `.NET 5` platform, no historical burden
 - Easy to get started: only one `Inject()` is needed to complete the configuration
 - Fast development: built in rich enterprise application development functions
 - Very few dependencies: the framework relies on only two third-party packages
