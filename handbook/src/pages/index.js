@@ -129,7 +129,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>2470</div>
+            <div style={{ color: "#723cff" }}>2475</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
@@ -153,7 +153,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>658,155</div>
+            <div style={{ color: "#1fd898" }}>663,986</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -319,7 +319,10 @@ function Links() {
         <a href="https://gitee.com/tywo45/t-io" target="_blank">
           t-io
         </a>
-        <a href="https://www.blazor.zone/" target="_blank">
+        <a
+          href="https://gitee.com/LongbowEnterprise/BootstrapBlazor"
+          target="_blank"
+        >
           BootstrapBlazor
         </a>
         <a
