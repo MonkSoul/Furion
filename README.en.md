@@ -43,7 +43,7 @@ Kangaroo has the characteristics of **long legs, bagging and self running**.
 
 - `Long legs`: It means that `Furion` has steady legs, walks in the forefront of science and technology, goes further and runs faster.
 - `Brood bag`: Small bags and big achievements. It is expected that `Furion` can breed more. Net excellent developers and vibrant ecology.
-- `Self run`: `Furion itself should keep learning, making progress, innovating and developing.
+- `Self run`: `Furion` itself should keep learning, making progress, innovating and developing.
 
 <p>
 <img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/furionlogo.png" height="120"/>
@@ -80,13 +80,13 @@ Kangaroo has the characteristics of **long legs, bagging and self running**.
 
 ## 🍿 Docker Image
 
-- `Docker Hub` online image
+- `Docker Hub` online Image
 
 ```shell
 docker run --name furion -p 5000:80 monksoul/furion:v1.4.3
 ```
 
-- `Manually` pack image.
+- `Manually` pack Image.
 
 Open `CMD/Shell/PowerShell` and enter the `Furion` project root directory to package `Furion` image:
 
