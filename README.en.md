@@ -144,7 +144,7 @@ Sort it out later...
 ## 🥝 Funcions
 
 <p align="center">
-<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/functions.png"/>
+<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/functions.en.png"/>
 </p>
 
 ## 🥐 Dependencies
