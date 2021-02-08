@@ -7,14 +7,14 @@
   overflow: hidden;
   border-radius: 5px;
   left: 50%;
-  margin-left: -66px;
+  margin-left: -6em;
   z-index: 1000;
 }
 
 .furion-join-group img {
   display: block;
-  height: 15em;
-  margin: 1em 1em 0 1em;
+  height: 18em;
+  margin: 1em auto 0 auto;
 }
 
 .furion-join-group button {
@@ -28,7 +28,7 @@
   background: #8759ff;
   line-height: 1.5;
   padding: 0.5em 0;
-  min-width: 10em;
+  min-width: 15em;
   cursor: pointer;
 }
 

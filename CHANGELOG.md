@@ -29,6 +29,7 @@
   - [新增] 请求审计日志、执行 `Sql` 更新日志文档 [#I36PIK](https://gitee.com/monksoul/Furion/issues/I36PIK)
   - [新增] 前端使用 `axios` 跨域配置文档 [#I36PIT](https://gitee.com/monksoul/Furion/issues/I36PIT)
   - [新增] `App` 静态类获取应用、环境更多信息数据 [#I36SOV](https://gitee.com/monksoul/Furion/issues/I36SOV)
+  - [新增] 英文版 `README.md` 介绍 [#I37QHP](https://gitee.com/monksoul/Furion/issues/I37QHP)
 
 - **问答答疑**
 
