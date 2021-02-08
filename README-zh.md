@@ -17,11 +17,11 @@
 
 </div>
 
-<p align="center">
+<div align="center">
 
-English | [简体中文](./README-zh.md)
+**简体中文 | [English](./README.md)**
 
-</p>
+</div>
 
 ## 💐 序言
 
