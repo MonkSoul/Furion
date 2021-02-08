@@ -37,7 +37,7 @@ Furion makes .NET simple, extensive, popular.
 
 ## 🍔 About LOGO
 
-`Furion's logo design concept is based on [The Famous Kangaroo Theory](https://baike.baidu.com/item/%E8%A2%8B%E9%BC%A0%E7%90%86%E8%AE%BA).
+`Furion`'s logo design concept is based on [The Famous Kangaroo Theory](https://baike.baidu.com/item/%E8%A2%8B%E9%BC%A0%E7%90%86%E8%AE%BA).
 
 Kangaroo has the characteristics of **long legs, bagging and self running**.
 
