@@ -13,164 +13,168 @@
 
 <div align="center">
 
-让 .NET 开发更简单，更通用，更流行。
+Make .NET development easier, more versatile, and more popular.
 
 </div>
 
-## 💐 序言
+English| [简体中文](./README-zh.md)
 
-> 无私奉献不是天方夜谭，有时候，我们也可以做到。
+## 💐 Preface
 
-## 🍕 名字的由来
+> Selfless dedication is not a fantasy. Sometimes, we can do it.
 
-> 故事是这样子的：
+## 🍕 Naming
+
+> The story goes like this:
 >
-> 自微软宣布 `.NET 5` 平台消息之后，就琢磨着开发一个基于 `.NET 5` 平台的开发框架，想做第一个吃 `.NET 5` 螃蟹尝鲜之人。
+> Since Microsoft announced the news of the `.NET 5` platform, I have been thinking about developing a development framework based on the `.NET 5` platform. I wants to be the first to eat the `.NET 5` crab.
 >
-> 一开始想到了 `Lazier` 作为框架的名称，中文有 **更懒** 的意思。符合我的 “一切从简，只为了更懒” 的开发理念。
+> At the beginning, I thought of `Lazier` as the name of the framework, which means `更懒` in Chinese. In line with my "all simple, just to be lazy" development philosophy.
 >
-> 但是 **更懒** 和 **更烂** 中文读音相近且没有特色，而且寓意也不是很好，对此换名问题苦恼了好些天。
+> But **Lazier** and **Worse** have similar pronunciation and no characteristics, and the meaning is not very good. I have been agonizing about the name change for several days.
 >
-> 刚好有一次在 QQ 群中无意间刷到了群友发的 **“先知”** 单词：**“`Furion`”**，就那一刻，就认定它了！
+> Just once in QQ group accidentally brush to chat record hair **Furion** word, meaning is a prophet, at that moment, recognized it!
 >
-> `Furion` 中文有 `先知` 的意思，恰好符合我创造框架的初衷。所以，**`Furion`** 就诞生了。
+> `Furion` means "prophet" in Chinese, which is just in line with my original intention of creating the framework. So, `Furion` was born.
 
-## 🍔 关于 LOGO
+## 🍔 About LOGO
 
-`Furion` 标志设计理念是借鉴著名的 [袋鼠理论](https://baike.baidu.com/item/%E8%A2%8B%E9%BC%A0%E7%90%86%E8%AE%BA) 设计的。
+`Furion`'s logo design concept is based on [The Famous Kangaroo Theory](https://baike.baidu.com/item/%E8%A2%8B%E9%BC%A0%E7%90%86%E8%AE%BA).
 
-袋鼠具有**长腿、育袋、自我奔跑**特点。
+Kangaroo has the characteristics of **long legs, bagging and self running**.
 
-- `长腿`：代表着 `Furion` 拥有稳健的双腿，走在科技的前沿，走的更远，跑的更快。
-- `育袋`：小育袋、大作为。期待 `Furion` 能够育孕出更多 .NET 优秀开发者和生机勃勃的生态。
-- `自我奔跑`：`Furion` 自身也要不断学习、不断进步、不断创新、不断开拓。
+- `Long legs`: It means that `Furion` has steady legs, walks in the forefront of science and technology, goes further and runs faster.
+- `Brood bag`: Small bags and big achievements. It is expected that `Furion` can breed more. Net excellent developers and vibrant ecology.
+- `Self run`: `Furion` itself should keep learning, making progress, innovating and developing.
 
 <p>
 <img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/furionlogo.png" height="120"/>
 </p>
 
-## 🍟 文档地址
+## 🍟 Document
 
-- 国内文档：[https://monksoul.gitee.io/furion/](https://monksoul.gitee.io/furion/)
-- 国外文档：[https://furion.pro](https://furion.pro)
+- Domestic documents: [https://monksoul.gitee.io/furion/](https://monksoul.gitee.io/furion/)
+- Foreign documents: [https://furion.pro](https://furion.pro)
 
-**目前文档正在逐步完善中。**
+**At present, the document is gradually improving.**
 
-## 🍯 开源案例
+## 🍯 Souce Cases
 
-- **[考试君](https://gitee.com/pig0224/ExamKing)**：基于 `Furion` 的在线考试系统
-- **[园丁](https://gitee.com/hgflydream/Gardener)**：基于 `Furion` + `Blazor` 的超简单后台管理系统
-- **[Queer](https://gitee.com/songzhidan/queer)**：基于 `Furion` + `Layui` 的通用型管理系统
-- **[Pear Admin](https://gitee.com/pear-admin/pear-admin-furion)**：基于 `Furion` + `PearAdmin` 管理系统
-- **[JoyAdmin](https://gitee.com/a106_admin/joy-admin)**：基于 `Furion` + `iviewadmin` 开发的管理系统
-- **[YShop](https://gitee.com/yell-run/yshop)**：基于 `Furion` + `Vue` 开发的移动电商项目
+- **[ExamKing](https://gitee.com/pig0224/ExamKing)**：Online examination system based on `Furion`.
+- **[Gardener](https://gitee.com/hgflydream/Gardener)**：Super simple system based on `Furion` and `Blazor`.
+- **[Queer](https://gitee.com/songzhidan/queer)**：General system based on `Furion` and `Layui`.
+- **[Pear Admin](https://gitee.com/pear-admin/pear-admin-furion)**：General system based on `Furion` and `PearAdmin`.
+- **[JoyAdmin](https://gitee.com/a106_admin/joy-admin)**：General system based on `Furion` and `iviewadmin`.
+- **[YShop](https://gitee.com/yell-run/yshop)**：Mobile e-commerce project based on `Furion` and `Vue`.
 
-## 🥦 系列教程
+## 🥦 Tutorials
 
-- **Furion 视频教程：[https://space.bilibili.com/695987967](https://space.bilibili.com/695987967)**
-- Furion 使用例子：[https://gitee.com/monksoul/furion-samples](https://gitee.com/monksoul/furion-samples) **可能大部分示例已经不通用**
-- Furion 系列教程：[《学 .NET 5 从 Furion 开始》](https://gitee.com/monksoul/Furion/blob/main/tutorials) 系列
+- **Furion Video tutorial: [https://space.bilibili.com/695987967](https://space.bilibili.com/695987967)**
+- Furion Samples：[https://gitee.com/monksoul/furion-samples](https://gitee.com/monksoul/furion-samples) **Maybe most of the examples are not common anymore**
+- Furion Series of tutorials: [《Learn .NET 5 from Furion》](https://gitee.com/monksoul/Furion/blob/main/tutorials)
 
-## 🌭 开源地址
+## 🌭 Souce Code
 
 - Gitee：[https://gitee.com/monksoul/Furion](https://gitee.com/monksoul/Furion)
 - GitHub：[https://github.com/monksoul/Furion](https://github.com/monksoul/Furion)
 - Docker：[https://hub.docker.com/r/monksoul/furion](https://hub.docker.com/r/monksoul/furion)
 - Nuget：[https://www.nuget.org/packages/Furion](https://www.nuget.org/packages/Furion)
 
-## 🍿 Docker 镜像
+## 🍿 Docker Image
 
-- `Docker Hub` 线上镜像
+- `Docker Hub` online Image
 
 ```shell
 docker run --name furion -p 5000:80 monksoul/furion:v1.4.3
 ```
 
-- `手动` 打包镜像
+- `Manually` pack Image.
 
-打开 `CMD/Shell/PowerShell` 进入 `Furion` 项目根目录打包 `Furion` 镜像：
+Open `CMD/Shell/PowerShell` and enter the `Furion` project root directory to package `Furion` image:
 
 ```shell
 docker build -t furion:v1.4.3 .
 ```
 
-打包成功后，直接 `docker run`：
+When it build successful,then run `docker run`：
 
 ```shell
 docker run --name furion -p 5000:80 furion:v1.4.3
 ```
 
-## 🥥 框架拓展包
+## 🥥 Packages
 
-|                                                                     包类型                                                                      | 名称                                       |                                                                                          版本                                                                                           | 描述                       |
-| :---------------------------------------------------------------------------------------------------------------------------------------------: | ------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | -------------------------- |
-|                   [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion)                   | Furion                                     |                                     [![nuget](https://img.shields.io/nuget/v/Furion.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion)                                     | Furion 核心包              |
-|   [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.Authentication.JwtBearer)   | Furion.Extras.Authentication.JwtBearer     |     [![nuget](https://img.shields.io/nuget/v/Furion.Extras.Authentication.JwtBearer.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.Authentication.JwtBearer)     | Furion Jwt 拓展包          |
-| [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.DependencyModel.CodeAnalysis) | Furion.Extras.DependencyModel.CodeAnalysis | [![nuget](https://img.shields.io/nuget/v/Furion.Extras.DependencyModel.CodeAnalysis.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.DependencyModel.CodeAnalysis) | Furion CodeAnalysis 拓展包 |
-|       [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.Web.HttpContext)        | Furion.Extras.Web.HttpContext              |              [![nuget](https://img.shields.io/nuget/v/Furion.Extras.Web.HttpContext.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.Web.HttpContext)              | Furion HttpContext 拓展包  |
-|     [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.ObjectMapper.Mapster)     | Furion.Extras.ObjectMapper.Mapster         |         [![nuget](https://img.shields.io/nuget/v/Furion.Extras.ObjectMapper.Mapster.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.ObjectMapper.Mapster)         | Furion Mapster 拓展包      |
-|  [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.DatabaseAccessor.SqlSugar)   | Furion.Extras.DatabaseAccessor.SqlSugar    |    [![nuget](https://img.shields.io/nuget/v/Furion.Extras.DatabaseAccessor.SqlSugar.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.DatabaseAccessor.SqlSugar)    | Furion SqlSugar 拓展包     |
-|   [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.DatabaseAccessor.Dapper)    | Furion.Extras.DatabaseAccessor.Dapper      |      [![nuget](https://img.shields.io/nuget/v/Furion.Extras.DatabaseAccessor.Dapper.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.DatabaseAccessor.Dapper)      | Furion Dapper 拓展包       |
-|       [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.Logging.Serilog)        | Furion.Extras.Logging.Serilog              |              [![nuget](https://img.shields.io/nuget/v/Furion.Extras.Logging.Serilog.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.Logging.Serilog)              | Furion Serilog 拓展包      |
+|                                                                  Package Type                                                                   | Name                                       |                                                                                         Version                                                                                         | Description                             |
+| :---------------------------------------------------------------------------------------------------------------------------------------------: | ------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | --------------------------------------- |
+|                   [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion)                   | Furion                                     |                                     [![nuget](https://img.shields.io/nuget/v/Furion.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion)                                     | `Furion` framework package              |
+|   [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.Authentication.JwtBearer)   | Furion.Extras.Authentication.JwtBearer     |     [![nuget](https://img.shields.io/nuget/v/Furion.Extras.Authentication.JwtBearer.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.Authentication.JwtBearer)     | `Furion Jwt` expansion package          |
+| [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.DependencyModel.CodeAnalysis) | Furion.Extras.DependencyModel.CodeAnalysis | [![nuget](https://img.shields.io/nuget/v/Furion.Extras.DependencyModel.CodeAnalysis.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.DependencyModel.CodeAnalysis) | `Furion CodeAnalysis` expansion package |
+|       [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.Web.HttpContext)        | Furion.Extras.Web.HttpContext              |              [![nuget](https://img.shields.io/nuget/v/Furion.Extras.Web.HttpContext.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.Web.HttpContext)              | `Furion HttpContext` expansion package  |
+|     [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.ObjectMapper.Mapster)     | Furion.Extras.ObjectMapper.Mapster         |         [![nuget](https://img.shields.io/nuget/v/Furion.Extras.ObjectMapper.Mapster.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.ObjectMapper.Mapster)         | `Furion Mapster` expansion package      |
+|  [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.DatabaseAccessor.SqlSugar)   | Furion.Extras.DatabaseAccessor.SqlSugar    |    [![nuget](https://img.shields.io/nuget/v/Furion.Extras.DatabaseAccessor.SqlSugar.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.DatabaseAccessor.SqlSugar)    | `Furion SqlSugar` expansion package     |
+|   [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.DatabaseAccessor.Dapper)    | Furion.Extras.DatabaseAccessor.Dapper      |      [![nuget](https://img.shields.io/nuget/v/Furion.Extras.DatabaseAccessor.Dapper.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.DatabaseAccessor.Dapper)      | `Furion Dapper` expansion package       |
+|       [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.Logging.Serilog)        | Furion.Extras.Logging.Serilog              |              [![nuget](https://img.shields.io/nuget/v/Furion.Extras.Logging.Serilog.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.Logging.Serilog)              | `Furion Serilog` expansion package      |
 
-## 🍄 框架脚手架
+## 🍄 Templates
 
-|                                                                 模板类型                                                                 | 名称                             |                                                                                 版本                                                                                 | 描述                   |
-| :--------------------------------------------------------------------------------------------------------------------------------------: | -------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------: | ---------------------- |
-|       [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.Mvc/)        | Furion.Template.Mvc              |              [![nuget](https://img.shields.io/nuget/v/Furion.Template.Mvc.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.Mvc/)              | Mvc 模板               |
-|       [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.Api/)        | Furion.Template.Api              |              [![nuget](https://img.shields.io/nuget/v/Furion.Template.Api.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.Api/)              | WebApi 模板            |
-|       [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.App/)        | Furion.Template.App              |              [![nuget](https://img.shields.io/nuget/v/Furion.Template.App.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.App/)              | Mvc/WebApi 模板        |
-|      [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.Razor/)       | Furion.Template.Razor            |            [![nuget](https://img.shields.io/nuget/v/Furion.Template.Razor.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.Razor/)            | RazorPages 模板        |
-| [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.RazorWithWebApi/)  | Furion.Template.RazorWithWebApi  |  [![nuget](https://img.shields.io/nuget/v/Furion.Template.RazorWithWebApi.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.RazorWithWebApi/)  | RazorPages/WebApi 模板 |
-|      [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.Blazor/)      | Furion.Template.Blazor           |           [![nuget](https://img.shields.io/nuget/v/Furion.Template.Blazor.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.Blazor/)           | Blazor 模板            |
-| [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.BlazorWithWebApi/) | Furion.Template.BlazorWithWebApi | [![nuget](https://img.shields.io/nuget/v/Furion.Template.BlazorWithWebApi.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.BlazorWithWebApi/) | Blazor/WebApi 模板     |
+|                                                              Template Type                                                               | Name                             |                                                                               Version                                                                                | Description                |
+| :--------------------------------------------------------------------------------------------------------------------------------------: | -------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------: | -------------------------- |
+|       [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.Mvc/)        | Furion.Template.Mvc              |              [![nuget](https://img.shields.io/nuget/v/Furion.Template.Mvc.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.Mvc/)              | Mvc Template               |
+|       [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.Api/)        | Furion.Template.Api              |              [![nuget](https://img.shields.io/nuget/v/Furion.Template.Api.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.Api/)              | WebApi Template            |
+|       [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.App/)        | Furion.Template.App              |              [![nuget](https://img.shields.io/nuget/v/Furion.Template.App.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.App/)              | Mvc/WebApi Template        |
+|      [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.Razor/)       | Furion.Template.Razor            |            [![nuget](https://img.shields.io/nuget/v/Furion.Template.Razor.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.Razor/)            | RazorPages Template        |
+| [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.RazorWithWebApi/)  | Furion.Template.RazorWithWebApi  |  [![nuget](https://img.shields.io/nuget/v/Furion.Template.RazorWithWebApi.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.RazorWithWebApi/)  | RazorPages/WebApi Template |
+|      [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.Blazor/)      | Furion.Template.Blazor           |           [![nuget](https://img.shields.io/nuget/v/Furion.Template.Blazor.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.Blazor/)           | Blazor Template            |
+| [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.BlazorWithWebApi/) | Furion.Template.BlazorWithWebApi | [![nuget](https://img.shields.io/nuget/v/Furion.Template.BlazorWithWebApi.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.BlazorWithWebApi/) | Blazor/WebApi Template     |
 
-**[如何使用脚手架](https://monksoul.gitee.io/furion/docs/template)**
+**[How to use template](https://monksoul.gitee.io/furion/docs/template)**
 
-## 🍎 框架特点
+## 🍎 Features
 
-- 全新面貌：基于 `.NET 5` 平台，没有历史包袱
-- 极易入门：只需要一个 `Inject()` 即可完成配置
-- 极速开发：内置丰富的企业应用开发功能
-- 极少依赖：框架只依赖两个第三方包
-- 极其灵活：轻松面对多变复杂的需求
-- 极易维护：采用独特的架构思想，只为长久维护设计
-- 完整文档：提供完善的开发文档
+- New look: Based on `.NET 5` platform, no historical burden
+- Easy to get started: only one `Inject()` is needed to complete the configuration
+- Fast development: built in rich enterprise application development functions
+- Very few dependencies: the framework relies on only two third-party packages
+- Extremely flexible: easy to face the changing and complex needs
+- Easy to maintain: adopt unique architecture idea, only designed for long-term maintenance
+- Complete documentation: provide complete development documentation
 
-## 🥞 架构设计
+## 🥞 Architecture
 
-正在整理中...
+Sort it out later...
 
-## 🥝 功能模块
+## 🥝 Funcions
 
 <p align="center">
-<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/functions.png"/>
+<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/functions.en.png"/>
 </p>
 
-## 🥐 框架依赖
+## 🥐 Dependencies
 
-`Furion` 为了追求极速入门，极致性能，尽可能的不使用或减少第三方依赖。目前 `Furion` 仅集成了以下两个依赖：
+`Furion` in order to pursue fast entry, the ultimate performance, as far as possible do not use or reduce third-party dependence.
 
-- [MiniProfiler](https://github.com/MiniProfiler/dotnet)：性能分析和监听必备
-- [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)：`Swagger` 接口文档
+At present, `Furion` only integrates the following two dependencies:
 
-麻雀虽小五脏俱全。`Furion` 即使只集成了这两个依赖，但是主流的 `依赖注入/控制反转`，`AOP` 面向切面编程，`事件总线`，`数据验证`，`数据库操作` 等等一个都不少。
+- [MiniProfiler](https://github.com/MiniProfiler/dotnet): Performance analysis and monitoring.
+- [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)：Generating `Swagger` webapi documents.
 
-## 🥗 环境要求
+Although sparrow is small, it has all five internal organs. `Furion` only integrates these two dependencies, but there are many mainstream ones such as `IOC/DI`,`AOP`,`EventBus`,`Data Validation` and `ORM`.
+
+## 🥗 Requirement
 
 - Visual Studio 2019 16.8 +
 - .NET 5 SDK +
 - .Net Standard 2.1 +
 
-## 🥪 支持平台
+## 🥪 Platform
 
-- 运行环境
+- Environment
   - Windows
   - Linux
   - MacOS
   - Docker/K8S/K3S/Rancher
   - Xamarin/MAUI
-- 数据库
+- Database
   - SqlServer
   - Sqlite
   - Azure Cosmos
@@ -178,10 +182,10 @@ docker run --name furion -p 5000:80 furion:v1.4.3
   - MariaDB
   - PostgreSQL
   - InMemoryDatabase
-  - Oracle（**并未完全适配**）
+  - Oracle（**Not fully adapted**）
   - Firebird
-  - 达梦数据库
-- 应用部署
+  - DM Database
+- Deploy
   - Kestrel
   - Nginx
   - Jexus
@@ -189,21 +193,21 @@ docker run --name furion -p 5000:80 furion:v1.4.3
   - Apache
   - PM2
   - Supervisor
-  - 单文件
-  - 容器（Docker/K8S/K3S/Rancher）
+  - SCD
+  - Container（Docker/K8S/K3S/Rancher）
 
-## 🍖 关于性能
+## 🍖 Performance
 
-`Furion` 目前采用 `Visual Studio 2019 16.8` 自带性能测试和 `JMeter` 进行测试，由于篇幅有限，只贴部分测试图，测试结果如下：
+`Furion` currently uses `Visual Studio 2019 16.8` with performance test and `JMeter` for testing. Due to the limited space, only some test charts are pasted. The test results are as follows:
 
 <img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/xncs.png"/>
 
-## 🌴 Stars 趋势图
+## 🌴 Stargazers
 
 [![Stargazers over time](https://whnb.wang/img/monksoul/Furion)](https://whnb.wang/monksoul/Furion)
 
-## 🍻 贡献代码
+## 🍻 Contribution
 
-`Furion` 遵循 `Apache-2.0` 开源协议，欢迎大家提交 `PR` 或 `Issue`。
+`Furion` follows the `Apache-2.0` open source agreement. You are welcome to submit `Pull Request` or `Issue`.
 
-如果要为项目做出贡献，请查看 [贡献指南](https://monksoul.gitee.io/furion/docs/contribute)。
+If you want to contribute to a project, check out the [Contribution Guide](https://monksoul.gitee.io/furion/docs/contribute)。
