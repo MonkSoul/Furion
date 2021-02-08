@@ -147,7 +147,7 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 
 Sort it out later...
 
-## 🥝 Funcions
+## 🥝 Functions
 
 <p align="center">
 <img src="./handbook/static/img/functions.en.png"/>
