@@ -193,6 +193,20 @@ namespace Furion.EntityFramework.Core
 
 在 `GetTenantId()` 方法中，首先获取请求的 `主机地址`，然后根据主机地址查询对应的租户 `TenantIdId`，避免多次查询数据库，这里使用了 `IMemoryCache` 内存缓存。
 
+:::important 特别说明
+
+`base.Tenant` 只是 `Furion` 框架提供的默认租户实现方法，如果不能满足业务需求，只需要在 `GetTenantId` 里面写你的业务代码即可，也就是无需调用 `base.Tenant`。如：
+
+```cs
+public object GetTenantId()
+{
+   // 这里是你获取 TenantId 的逻辑
+   return 你的 TenantId;
+}
+```
+
+:::
+
 ### 11.5.6 实现 `IModelBuilderFilter` 接口
 
 `IModelBuilderFilter` 接口是全局查询过滤器实现接口，所以我们需要配置实体 `TenantId` 过滤器
@@ -424,6 +438,20 @@ namespace Furion.EntityFramework.Core
 }
 ```
 
+:::important 特别说明
+
+`base.Tenant` 只是 `Furion` 框架提供的默认租户实现方法，如果不能满足业务需求，只需要在 `GetDatabaseConnectionString` 里面写你的业务代码即可，也就是无需调用 `base.Tenant`。如：
+
+```cs
+public string GetDatabaseConnectionString()
+{
+   // 这里是你获取 DatabaseConnecionString 的逻辑
+   return 你的 连接字符串;
+}
+```
+
+:::
+
 ### 11.6.6 重写 `OnConfiguring` 方法
 
 在需要多租户的数据库上下文中重写 `OnConfiguring` 方法并配置连接字符串：
@@ -599,6 +627,20 @@ namespace Furion.EntityFramework.Core
     }
 }
 ```
+
+:::important 特别说明
+
+`base.Tenant` 只是 `Furion` 框架提供的默认租户实现方法，如果不能满足业务需求，只需要在 `GetSchemaName` 里面写你的业务代码即可，也就是无需调用 `base.Tenant`。如：
+
+```cs
+public string GetSchemaName()
+{
+   // 这里是你获取 Schema 的逻辑
+   return 你的 Schema;
+}
+```
+
+:::
 
 ### 11.7.6 关于 `Code First 数据迁移`
 

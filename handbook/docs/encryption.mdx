@@ -62,6 +62,12 @@ var tokenData = JWTEncryption.ReadJwtToken("你的token");  // 解密
 var (isValid, tokenData) = JWTEncryption.Validate("你的token"); // 验证token有效期
 ```
 
+:::important 特别注意
+
+`JWTEncryption` 加解密并未包含在 `Furion` 框架中，需要安装 `Furion` 框架提供的 `Furion.Extras.Authentication.JwtBearer` 拓展包。
+
+:::
+
 ## 20.3 反馈与建议
 
 :::note 与我们交流

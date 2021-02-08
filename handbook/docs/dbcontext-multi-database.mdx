@@ -8,6 +8,14 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
+:::warning 连接字符串配置注意事项
+
+如果连接字符串是配置在自定义的 `.json` 文件中，那么必须在 `Visual Studio` 中配置 `.json` 右键属性，设置 `复制` 输出目录为 `如果较新则复制`，生成操作为：`内容`。
+
+否则就会提示找不到配置或连接字符串的错误。
+
+:::
+
 ## 9.18.1 `Furion` 支持数据库提供器
 
 | SqlServer | Sqlite | Cosmos | InMemoryDatabase | MySql | PostgreSQL | Oracle | Firebird | Dm  |

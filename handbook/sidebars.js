@@ -44,7 +44,7 @@ module.exports = {
     },
     {
       type: "category",
-      label: "9. 数据库操作指南",
+      label: "9. 数据库操作指南（EFCore）",
       items: [
         "dbcontext",
         "dbcontext-locator",

@@ -129,7 +129,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>2480</div>
+            <div style={{ color: "#723cff" }}>2490</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
@@ -351,6 +351,9 @@ function Links() {
         </a>
         <a href="http://www.easyson.com.cn" target="_blank">
           易胜科技
+        </a>
+        <a href="https://gitee.com/pig0224/ExamKing" target="_blank">
+          考试君
         </a>
       </div>
     </div>
