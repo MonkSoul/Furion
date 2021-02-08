@@ -169,7 +169,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 services.AddMiniProfiler(options =>
                 {
                     options.RouteBasePath = MiniProfilerRouteBasePath;
-                }).AddEntityFramework();
+                }).AddRelationalDiagnosticListener();
             }
 
             // 注册全局依赖注入

@@ -12,11 +12,11 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class MiniProfilerServiceCollectionExtensions
     {
         /// <summary>
-        /// 添加 EF Core 监听拓展
+        /// 添加 EF Core 进程监听拓展
         /// </summary>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public static IMiniProfilerBuilder AddEntityFramework(this IMiniProfilerBuilder builder)
+        public static IMiniProfilerBuilder AddRelationalDiagnosticListener(this IMiniProfilerBuilder builder)
         {
             _ = builder ?? throw new ArgumentNullException(nameof(builder));
 
