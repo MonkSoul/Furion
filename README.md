@@ -17,7 +17,11 @@ Make .NET development easier, more versatile, and more popular.
 
 </div>
 
+<p align="center">
+
 English | [简体中文](./README-zh.md)
+
+</p>
 
 ## 💐 Preface
 
