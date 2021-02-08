@@ -2,7 +2,7 @@
 <p></p>
 
 <p align="center">
-<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/furionlogo.png" height="80"/>
+<img src="./handbook/static/img/furionlogo.png" height="80"/>
 </p>
 
 <div align="center">
@@ -48,7 +48,7 @@ Kangaroo has the characteristics of **long legs, bagging and self running**.
 - `Self run`: `Furion` itself should keep learning, making progress, innovating and developing.
 
 <p>
-<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/furionlogo.png" height="120"/>
+<img src="./handbook/static/img/furionlogo.png" height="120"/>
 </p>
 
 ## 🍟 Document
@@ -146,7 +146,7 @@ Sort it out later...
 ## 🥝 Funcions
 
 <p align="center">
-<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/functions.en.png"/>
+<img src="./handbook/static/img/functions.en.png"/>
 </p>
 
 ## 🥐 Dependencies
@@ -200,7 +200,7 @@ Although sparrow is small, it has all five internal organs. `Furion` only integr
 
 `Furion` currently uses `Visual Studio 2019 16.8` with performance test and `JMeter` for testing. Due to the limited space, only some test charts are pasted. The test results are as follows:
 
-<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/xncs.png"/>
+<img src="./handbook/static/img/xncs.png"/>
 
 ## 🌴 Stargazers
 

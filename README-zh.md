@@ -2,7 +2,7 @@
 <p></p>
 
 <p align="center">
-<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/furionlogo.png" height="80"/>
+<img src="./handbook/static/img/furionlogo.png" height="80"/>
 </p>
 
 <div align="center">
@@ -48,7 +48,7 @@
 - `自我奔跑`：`Furion` 自身也要不断学习、不断进步、不断创新、不断开拓。
 
 <p>
-<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/furionlogo.png" height="120"/>
+<img src="./handbook/static/img/furionlogo.png" height="120"/>
 </p>
 
 ## 🍟 文档地址
@@ -146,7 +146,7 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 ## 🥝 功能模块
 
 <p align="center">
-<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/functions.png"/>
+<img src="./handbook/static/img/functions.png"/>
 </p>
 
 ## 🥐 框架依赖
@@ -198,7 +198,7 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 
 `Furion` 目前采用 `Visual Studio 2019 16.8` 自带性能测试和 `JMeter` 进行测试，由于篇幅有限，只贴部分测试图，测试结果如下：
 
-<img src="https://gitee.com/monksoul/Furion/raw/master/handbook/static/img/xncs.png"/>
+<img src="./handbook/static/img/xncs.png"/>
 
 ## 🌴 Stars 趋势图
 
