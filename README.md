@@ -41,7 +41,7 @@ Make .NET development easier, more versatile, and more popular.
 >
 > `Furion` means "prophet" in Chinese, which is just in line with my original intention of creating the framework. So, `Furion` was born.
 
-## 🍔 About LOGO
+## 🍔 About Logo
 
 `Furion`'s logo design concept is based on [The Famous Kangaroo Theory](https://baike.baidu.com/item/%E8%A2%8B%E9%BC%A0%E7%90%86%E8%AE%BA).
 
@@ -62,7 +62,7 @@ Kangaroo has the characteristics of **long legs, bagging and self running**.
 
 **At present, the document is gradually improving.**
 
-## 🍯 Souce Cases
+## 🍯 Cases
 
 - **[ExamKing](https://gitee.com/pig0224/ExamKing)**：Online examination system based on `Furion`.
 - **[Gardener](https://gitee.com/hgflydream/Gardener)**：Super simple system based on `Furion` and `Blazor`.
@@ -135,13 +135,13 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 
 ## 🍎 Features
 
-- New look: Based on `.NET 5` platform, no historical burden
-- Easy to get started: only one `Inject()` is needed to complete the configuration
-- Fast development: built in rich enterprise application development functions
-- Very few dependencies: the framework relies on only two third-party packages
-- Extremely flexible: easy to face the changing and complex needs
-- Easy to maintain: adopt unique architecture idea, only designed for long-term maintenance
-- Complete documentation: provide complete development documentation
+- **New appearance**: Based on `.NET 5` platform, no historical burden
+- **Easy to get started**: only one `Inject()` is needed to complete the configuration
+- **Fast development**: built in rich enterprise application development functions
+- **Very few dependencies**: the framework relies on only two third-party packages
+- **Extremely flexible**: easy to face the changing and complex needs
+- **Easy to maintain**: adopt unique architecture idea, only designed for long-term maintenance
+- **Perfect documentation**: provide complete development documentation
 
 ## 🥞 Architecture
 
