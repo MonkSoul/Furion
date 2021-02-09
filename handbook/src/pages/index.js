@@ -129,7 +129,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>2490</div>
+            <div style={{ color: "#723cff" }}>2500</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
@@ -141,7 +141,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#3fbbfe" }}>550</div>
+            <div style={{ color: "#3fbbfe" }}>560</div>
             <span className={isDarkTheme ? " dark" : ""}>Forks</span>
           </div>
         </div>
@@ -153,7 +153,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>668,763</div>
+            <div style={{ color: "#1fd898" }}>672,256</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -278,7 +278,7 @@ function WhoUse() {
           <p>
             我们的软件包已在全球多个项目中使用。从小型企业到企业的解决方案及知名企业。公司在简单软件和复杂管理系统的开发方面都信任我们。
           </p>
-          <Link className="furion-get-start" to={useBaseUrl("docs/get-start")}>
+          <Link className="furion-get-start" to="mailto:monksoul@outlook.com">
             立即添加您的公司
           </Link>
         </div>
