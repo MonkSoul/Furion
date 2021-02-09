@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 
@@ -69,9 +70,8 @@ namespace Furion.DataEncryption
             // 分割Token
             var tokenParagraphs = accessToken.Split('.', StringSplitOptions.RemoveEmptyEntries);
 
-            var rd = new Random();
-            var s = rd.Next(10, tokenParagraphs[1].Length / 2 + 2);
-            var l = rd.Next(3, 13);
+            var s = RandomNumberGenerator.GetInt32(10, tokenParagraphs[1].Length / 2 + 2);
+            var l = RandomNumberGenerator.GetInt32(3, 13);
 
             var payload = new Dictionary<string, object>
             {
