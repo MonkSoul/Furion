@@ -222,7 +222,7 @@ ISqlRepository<MsSqlDbContextLocator> mssqlRepository;
 实体配置方式
 
 ```cs
-public class User:Entity<MsSqlDbContextLocator, MySqlDbContextLocator>
+public class User:Entity<int, MsSqlDbContextLocator, MySqlDbContextLocator>
 {
 }
 ```
