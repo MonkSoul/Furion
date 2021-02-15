@@ -34,12 +34,20 @@ namespace Furion.DatabaseAccessor
         private static readonly bool InjectMiniProfiler;
 
         /// <summary>
+        /// 是否打印数据库连接信息到 MiniProfiler 中
+        /// </summary>
+        private static readonly bool IsPrintDbConnectionInfo;
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         static DbObjectExtensions()
         {
             IsDevelopment = App.WebHostEnvironment.IsDevelopment();
-            InjectMiniProfiler = App.Settings.InjectMiniProfiler.Value;
+
+            var appsettings = App.Settings;
+            InjectMiniProfiler = appsettings.InjectMiniProfiler.Value;
+            IsPrintDbConnectionInfo = appsettings.PrintDbConnectionInfo.Value;
         }
 
         /// <summary>
@@ -349,7 +357,7 @@ namespace Furion.DatabaseAccessor
         /// <param name="dbConnection">数据库连接对象</param>
         private static void PrintConnectionToMiniProfiler(DatabaseFacade databaseFacade, DbConnection dbConnection)
         {
-            if (InjectMiniProfiler && IsDevelopment)
+            if (IsDevelopment && IsPrintDbConnectionInfo)
             {
                 var connectionId = databaseFacade.GetService<IRelationalConnection>().ConnectionId;
                 // 打印连接信息消息

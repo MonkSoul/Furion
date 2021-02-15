@@ -2,6 +2,7 @@
 
 - **新特性**
 
+  - [新增] 控制是否在开发环境下显示数据库连接信息 [#I37YQ2](https://gitee.com/monksoul/Furion/issues/I37YQ2)
   - [新增] `[NonUnify]` 支持在类中贴此特性 [#I359Q6](https://gitee.com/monksoul/Furion/issues/I359Q6)
   - [新增] `网络请求` 字符串 `HttpClient` 拦截器 [#I35F3E](https://gitee.com/monksoul/Furion/issues/I35F3E)
   - [新增] `HttpContext` 及 `HttpRequest` 获取远程地址拓展 [#I3688Z](https://gitee.com/monksoul/Furion/issues/I3688Z)
@@ -9,6 +10,7 @@
 
 - **突破性变化**
 
+  - [升级] 框架依赖的 .NET 5 SDK 至最新版 5.0.3 [#I37YQQ](https://gitee.com/monksoul/Furion/issues/I37YQQ)
   - [升级] `Swashbuckle.AspNetCore` 组件包到 `6.0.x` 版本 [#I37EZK](https://gitee.com/monksoul/Furion/issues/I37EZK)
   - [移除] `Furion` 框架 `JWT` 拓展类，只在 `Furion.Extras.Authentication.JwtBearer` 中保留 [#I35D59](https://gitee.com/monksoul/Furion/issues/I35D59)
 
@@ -36,6 +38,7 @@
 - **不做实现**
 
   - [废弃] 多语言资源文件自动创建 [#I35AA4](https://gitee.com/monksoul/Furion/issues/I35AA4)
+  - [废弃] 建议多语言加上维吾尔语支持 [#I37X1L](https://gitee.com/monksoul/Furion/issues/I37X1L)
 
 ---
 

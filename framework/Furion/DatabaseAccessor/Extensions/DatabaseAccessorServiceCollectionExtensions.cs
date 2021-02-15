@@ -77,9 +77,11 @@ namespace Microsoft.Extensions.DependencyInjection
                         DynamicModelCacheKeyFactory.RebuildModels();
                     }
 
-                    // 添加数据库上下文到池中
-                    var dbContextPool = App.GetService<IDbContextPool>();
-                    dbContextPool?.AddToPool(dbContext);
+                    // 2021.01.15:修改瞬时数据库上下文逻辑，取消自动加入数据库上下文池
+                    // 也就是不受工作单元影响
+                    //// 添加数据库上下文到池中
+                    //var dbContextPool = App.GetService<IDbContextPool>();
+                    //dbContextPool?.AddToPool(dbContext);
 
                     return dbContext;
                 }

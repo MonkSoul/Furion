@@ -36,6 +36,11 @@ namespace Furion
         public LogLevel? DynamicLogLevel { get; set; }
 
         /// <summary>
+        /// 是否打印数据库连接信息到 MiniProfiler 中
+        /// </summary>
+        public bool? PrintDbConnectionInfo { get; set; }
+
+        /// <summary>
         /// 后期配置
         /// </summary>
         /// <param name="options"></param>
@@ -47,6 +52,7 @@ namespace Furion
             options.EnabledReferenceAssemblyScan ??= false;
             options.ExternalAssemblies ??= Array.Empty<string>();
             options.DynamicLogLevel ??= LogLevel.Information;
+            options.PrintDbConnectionInfo ??= true;
         }
     }
 }
