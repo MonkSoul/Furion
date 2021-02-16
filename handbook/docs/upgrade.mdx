@@ -8,7 +8,54 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 **此章节只记录重大版本更新日志，小迭代版本不做更新。**想了解更多更新内容，可查阅 [CHANGELOG.md](https://gitee.com/monksoul/Furion/blob/master/CHANGELOG.md)
 
-## v1.13.0（当前版本）
+## v1.14（当前版本）
+
+- **新特性**
+
+  - [新增] `EFCore` 5.0 的 `Oracle` 数据库支持 [#I37Z8E](https://gitee.com/monksoul/Furion/issues/I37Z8E)
+  - [新增] 控制是否在开发环境下显示数据库连接信息 [#I37YQ2](https://gitee.com/monksoul/Furion/issues/I37YQ2)
+  - [新增] `[NonUnify]` 支持在类中贴此特性 [#I359Q6](https://gitee.com/monksoul/Furion/issues/I359Q6)
+  - [新增] `网络请求` 字符串 `HttpClient` 拦截器 [#I35F3E](https://gitee.com/monksoul/Furion/issues/I35F3E)
+  - [新增] `HttpContext` 及 `HttpRequest` 获取远程地址拓展 [#I3688Z](https://gitee.com/monksoul/Furion/issues/I3688Z)
+  - [新增] `services.AddMvcFilter<>` 添加 `Mvc` 过滤器拓展 [#I368BH](https://gitee.com/monksoul/Furion/issues/I368BH)
+
+- **突破性变化**
+
+  - [升级] 框架依赖的 .NET 5 SDK 至最新版 5.0.3 [#I37YQQ](https://gitee.com/monksoul/Furion/issues/I37YQQ)
+  - [升级] `Swashbuckle.AspNetCore` 组件包到 `6.0.x` 版本 [#I37EZK](https://gitee.com/monksoul/Furion/issues/I37EZK)
+  - [移除] `Furion` 框架 `JWT` 拓展类，只在 `Furion.Extras.Authentication.JwtBearer` 中保留 [#I35D59](https://gitee.com/monksoul/Furion/issues/I35D59)
+
+- **问题修复**
+
+  - [修复] 传入错误 `JWT Token` 字符串导致自动刷新 `Token` 出现字符串边界值异常 bug [#I34ZE5](https://gitee.com/monksoul/Furion/issues/I34ZE5)
+  - [修复] 瞬时作用域数据库上下文也会自动加入工作单元导致写日志时连锁异常 bug [#I37WTV](https://gitee.com/monksoul/Furion/issues/I37WTV)
+
+- **其他更改**
+
+  - [优化] 获取系统环境参数的性能 [#I36SR5](https://gitee.com/monksoul/Furion/issues/I36SR5)
+  - [优化] `Furion` 底层添加 `Mvc` 过滤器代码 [#I36SKA](https://gitee.com/monksoul/Furion/issues/I36SKA)
+  - [优化] 添加默认 `Json` 序列化时间默认时间格式 [#I36SL0](https://gitee.com/monksoul/Furion/issues/I36SL0)
+  - [升级] 升级 `SqlSugar` 拓展包到 `5.0.2.6` 版本 [#I36SIG](https://gitee.com/monksoul/Furion/issues/I36SIG)
+
+- **文档变化**
+
+  - [新增] 数据库入门问 [#I37Z8S](https://gitee.com/monksoul/Furion/issues/I37Z8S)
+  - [新增] 更新日志文档 [#I36PI0](https://gitee.com/monksoul/Furion/issues/I36PI0)
+  - [新增] 请求审计日志、执行 `Sql` 更新日志文档 [#I36PIK](https://gitee.com/monksoul/Furion/issues/I36PIK)
+  - [新增] 前端使用 `axios` 跨域配置文档 [#I36PIT](https://gitee.com/monksoul/Furion/issues/I36PIT)
+  - [新增] `App` 静态类获取应用、环境更多信息数据 [#I36SOV](https://gitee.com/monksoul/Furion/issues/I36SOV)
+  - [新增] 英文版 `README.md` 介绍 [#I37QHP](https://gitee.com/monksoul/Furion/issues/I37QHP)
+
+- **问答答疑**
+
+- **不做实现**
+
+  - [废弃] 多语言资源文件自动创建 [#I35AA4](https://gitee.com/monksoul/Furion/issues/I35AA4)
+  - [废弃] 建议多语言加上维吾尔语支持 [#I37X1L](https://gitee.com/monksoul/Furion/issues/I37X1L)
+
+---
+
+## v1.13.0（已发布）
 
 - **新特性**
 
