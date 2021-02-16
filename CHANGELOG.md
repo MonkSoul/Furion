@@ -2,6 +2,7 @@
 
 - **新特性**
 
+  - [新增] `EFCore` 5.0 的 `Oracle` 数据库支持 [#I37Z8E](https://gitee.com/monksoul/Furion/issues/I37Z8E)
   - [新增] 控制是否在开发环境下显示数据库连接信息 [#I37YQ2](https://gitee.com/monksoul/Furion/issues/I37YQ2)
   - [新增] `[NonUnify]` 支持在类中贴此特性 [#I359Q6](https://gitee.com/monksoul/Furion/issues/I359Q6)
   - [新增] `网络请求` 字符串 `HttpClient` 拦截器 [#I35F3E](https://gitee.com/monksoul/Furion/issues/I35F3E)
@@ -17,6 +18,7 @@
 - **问题修复**
 
   - [修复] 传入错误 `JWT Token` 字符串导致自动刷新 `Token` 出现字符串边界值异常 bug [#I34ZE5](https://gitee.com/monksoul/Furion/issues/I34ZE5)
+  - [修复] 瞬时作用域数据库上下文也会自动加入工作单元导致写日志时连锁异常 bug [#I37WTV](https://gitee.com/monksoul/Furion/issues/I37WTV)
 
 - **其他更改**
 
@@ -27,6 +29,7 @@
 
 - **文档变化**
 
+  - [新增] 数据库入门问 [#I37Z8S](https://gitee.com/monksoul/Furion/issues/I37Z8S)
   - [新增] 更新日志文档 [#I36PI0](https://gitee.com/monksoul/Furion/issues/I36PI0)
   - [新增] 请求审计日志、执行 `Sql` 更新日志文档 [#I36PIK](https://gitee.com/monksoul/Furion/issues/I36PIK)
   - [新增] 前端使用 `axios` 跨域配置文档 [#I36PIT](https://gitee.com/monksoul/Furion/issues/I36PIT)

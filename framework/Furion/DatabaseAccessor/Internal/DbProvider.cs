@@ -48,7 +48,7 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// Oracle 提供器程序集
         /// </summary>
-        public const string Oracle = "Citms.EntityFrameworkCore.Oracle";
+        public const string Oracle = "Oracle.EntityFrameworkCore";
 
         /// <summary>
         /// Firebird 提供器程序集

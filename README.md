@@ -186,7 +186,7 @@ Although sparrow is small, it has all five internal organs. `Furion` only integr
   - MariaDB
   - PostgreSQL
   - InMemoryDatabase
-  - Oracle（**Not fully adapted**）
+  - Oracle
   - Firebird
   - DM Database
 - Deploy
