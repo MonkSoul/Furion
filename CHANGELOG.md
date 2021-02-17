@@ -1,4 +1,4 @@
-## v1.14（已发布）
+## v1.14.0（已发布）
 
 - **新特性**
 
@@ -29,7 +29,7 @@
 
 - **文档变化**
 
-  - [新增] 数据库入门问 [#I37Z8S](https://gitee.com/monksoul/Furion/issues/I37Z8S)
+  - [新增] 数据库入门文档 [#I37Z8S](https://gitee.com/monksoul/Furion/issues/I37Z8S)
   - [新增] 更新日志文档 [#I36PI0](https://gitee.com/monksoul/Furion/issues/I36PI0)
   - [新增] 请求审计日志、执行 `Sql` 更新日志文档 [#I36PIK](https://gitee.com/monksoul/Furion/issues/I36PIK)
   - [新增] 前端使用 `axios` 跨域配置文档 [#I36PIT](https://gitee.com/monksoul/Furion/issues/I36PIT)

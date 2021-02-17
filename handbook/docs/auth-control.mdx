@@ -214,7 +214,7 @@ httpContextAccessor.HttpContext.Response.Headers["x-access-token"] = refreshToke
 
 ### 15.5.2 后端授权 `Handler` 部分
 
-```cs {16-27}
+```cs {16-28}
 using Furion.Authorization;
 using Furion.Core;
 using Furion.DataEncryption;
@@ -242,6 +242,7 @@ namespace Furion.Web.Core
             {
                 await AuthorizeHandleAsync(context);
             }
+            else context.Fail();    // 授权失败
         }
 
         /// <summary>
