@@ -57,7 +57,7 @@
 
 ## 🍟 文档地址
 
-- 国内文档：[https://monksoul.gitee.io/furion/](https://monksoul.gitee.io/furion/)
+- 国内文档：[https://monksoul.gitee.io/furion](https://monksoul.gitee.io/furion)
 - 国外文档：[https://furion.pro](https://furion.pro)
 
 **目前文档正在逐步完善中。**
