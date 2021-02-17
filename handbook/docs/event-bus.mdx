@@ -59,7 +59,7 @@ public class UserChangeSubscribeHandler : ISubscribeHandler
 
 ### 22.2.3 发布消息
 
-定义好订阅处理程序后，我们就可以在程序任何地方进行广播消息，事件总线会自动根据消息 Id 触发对应的处理程序方法：
+定义好订阅处理程序后，我们就可以在程序任何地方进行广播消息，事件总线会自动根据 `消息 Id` 触发对应的处理程序方法：
 
 ```cs
 MessageCenter.Send("create:user", new User {}); // => 打印：我是create:user
