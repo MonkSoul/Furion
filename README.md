@@ -57,7 +57,7 @@ Kangaroo has the characteristics of **long legs, bagging and self running**.
 
 ## 🍟 Document
 
-- Domestic documents: [https://monksoul.gitee.io/furion/](https://monksoul.gitee.io/furion/)
+- Domestic documents: [https://monksoul.gitee.io/furion](https://monksoul.gitee.io/furion)
 - Foreign documents: [https://furion.pro](https://furion.pro)
 
 **At present, the document is gradually improving.**
