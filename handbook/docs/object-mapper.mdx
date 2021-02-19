@@ -26,7 +26,7 @@ dto.IdCard = entity.IdCard.Replace("1234", "****");
 
 上面的例子似乎没有任何问题，但是如果很多地方需要这样的赋值操作、或者相同的赋值操作在多个地方使用，又或者一个类中含有非常多的属性或自定义赋值操作。那么这样的操作效率极低，容易出错，且代码非常臃肿和冗余。
 
-所以，实现自动映射赋值和支持特殊配置的需求就有了。目前 `C#` 平台有两个优秀的对象映射工具：`Mapster` 和 `AutoMapper`。**在 `Furion` 框架中，默认集成的是 [Mapster](https://github.com/MapsterMapper/Mapster)，[Mapster](https://github.com/MapsterMapper/Mapster) 是一款极易使用且超高性能的对象映射框架。**
+所以，实现自动映射赋值和支持特殊配置的需求就有了。目前 `C#` 平台有两个优秀的对象映射工具：`Mapster` 和 `AutoMapper`。**在 `Furion` 框架中，推荐使用 [Mapster](https://github.com/MapsterMapper/Mapster)，[Mapster](https://github.com/MapsterMapper/Mapster) 是一款极易使用且超高性能的对象映射框架。**
 
 ## 13.3 `Mapster` 使用
 
@@ -34,11 +34,11 @@ dto.IdCard = entity.IdCard.Replace("1234", "****");
 
 :::important 安装拓展包
 
-在 `Furion.Core` 层（推荐）安装 `Furion.Extras.ObjectMapper.Mapster` 拓展包，无需手动调用，`Furion` 会自动加载并调用。
+在 `Furion.Core` 层安装 `Furion.Extras.ObjectMapper.Mapster` 拓展包，无需手动调用，`Furion` 会自动加载并调用。
 
 :::
 
-### 13.3.1 极易入门
+### 13.3.1 快速入门
 
 ```cs
 var entity = repository.Find(1);

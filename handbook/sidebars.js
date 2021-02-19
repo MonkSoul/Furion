@@ -79,7 +79,7 @@ module.exports = {
     },
     {
       type: "category",
-      label: "10. SqlSugar 或其他ORM",
+      label: "10. SqlSugar 或其他 ORM",
       items: ["sqlsugar", "dapper"],
     },
     {
