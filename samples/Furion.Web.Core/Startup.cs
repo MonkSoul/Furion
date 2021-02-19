@@ -1,5 +1,4 @@
-﻿using Furion.Core;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -53,8 +52,8 @@ namespace Furion.Web.Core
 
             app.UseEndpoints(endpoints =>
             {
-                // 配置聊天集线器
-                endpoints.MapHub<ChatHub>("/hubs/chathub");
+                // 批量注册集线器
+                endpoints.MapHubs();
 
                 endpoints.MapControllerRoute(
                     name: "default",

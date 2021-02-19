@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Furion.InstantMessaging;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Threading.Tasks;
 
@@ -7,6 +8,7 @@ namespace Furion.Core
     /// <summary>
     /// 聊天集线器
     /// </summary>
+    [MapHub("/hubs/chathub")]
     public class ChatHub : Hub
     {
         /// <summary>
