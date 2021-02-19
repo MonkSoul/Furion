@@ -14,7 +14,7 @@ module.exports = {
     },
     {
       type: "category",
-      label: "2. 一分钟上手",
+      label: "2. 入门指南",
       items: ["get-start", "template", "reference"],
     },
     {
