@@ -71,11 +71,12 @@ namespace Furion.Core
         /// <summary>
         /// 实体更改后触发
         /// </summary>
-        /// <param name="entity">实体数据</param>
+        /// <param name="entity">新数据</param>
+        /// <param name="oldEntity">旧数据</param>
         /// <param name="dbContext">数据库上下文</param>
         /// <param name="dbContextLocator">数据库上下文定位器</param>
         /// <param name="state">实体状态</param>
-        public void OnChanged(Post entity, DbContext dbContext, Type dbContextLocator, EntityState state)
+        public void OnChanged(Post entity, Post oldEntity, DbContext dbContext, Type dbContextLocator, EntityState state)
         {
             // 刷新缓存
             App.GetService<IMemoryCache>().Set("Key", "Value");
@@ -86,7 +87,7 @@ namespace Furion.Core
 
 ## 9.25.4 `IEntityChangedListener` 定义
 
-```cs
+```cs {25}
 /// <summary>
 /// 实体数据改变监听依赖接口
 /// </summary>
@@ -106,11 +107,12 @@ public interface IEntityChangedListener<TEntity>
     /// <summary>
     /// 监听数据改变之后（仅支持EFCore操作）
     /// </summary>
-    /// <param name="entity"></param>
+    /// <param name="newEntity">新值</param>
+    /// <param name="oldEntity">旧值</param>
     /// <param name="dbContext"></param>
     /// <param name="dbContextLocator"></param>
     /// <param name="state"></param>
-    void OnChanged(TEntity entity, DbContext dbContext, Type dbContextLocator, EntityState state);
+    void OnChanged(TEntity newEntity, TEntity oldEntity, DbContext dbContext, Type dbContextLocator, EntityState state);
 
     /// <summary>
     /// 监听数据改变失败（仅支持EFCore操作）
@@ -123,7 +125,11 @@ public interface IEntityChangedListener<TEntity>
 }
 ```
 
-## 9.29.5 反馈与建议
+## 9.29.5 `[NotChangedListener]` 跳过监听
+
+默认情况下，`Furion` 框架回对所有新增、更新、编辑的实体进行监听，有些时候我们无需监听特定实体，只需要在实体上贴 `[NotChangedListener]` 特性即可。
+
+## 9.29.6 反馈与建议
 
 :::note 与我们交流
 

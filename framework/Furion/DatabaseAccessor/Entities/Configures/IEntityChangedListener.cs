@@ -175,11 +175,12 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 监听数据改变之后（仅支持EFCore操作）
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="newEntity"></param>
+        /// <param name="oldEntity"></param>
         /// <param name="dbContext"></param>
         /// <param name="dbContextLocator"></param>
         /// <param name="state"></param>
-        void OnChanged(TEntity entity, DbContext dbContext, Type dbContextLocator, EntityState state);
+        void OnChanged(TEntity newEntity, TEntity oldEntity, DbContext dbContext, Type dbContextLocator, EntityState state);
 
         /// <summary>
         /// 监听数据改变失败（仅支持EFCore操作）

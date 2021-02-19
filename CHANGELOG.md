@@ -1,3 +1,24 @@
+## v1.15.x （待发布）
+
+- **新特性**
+
+  - [新增] 跳过特定实体数据库操作监听特性 [#I386LB](https://gitee.com/monksoul/Furion/issues/I386LB)
+  - [新增] `IEntityChangedListener` 增加对 `OldEntity` 的支持 [#I385X2](https://gitee.com/monksoul/Furion/issues/I385X2)
+
+- **突破性变化**
+
+- **问题修复**
+
+- **其他更改**
+
+- **文档变化**
+
+- **问答答疑**
+
+- **不做实现**
+
+---
+
 ## v1.14.0（已发布）
 
 - **新特性**

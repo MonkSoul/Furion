@@ -45,7 +45,7 @@ namespace Furion.DatabaseAccessor
         /// <param name="options"></param>
         public AppDbContext(DbContextOptions<TDbContext> options) : base(options)
         {
-            ChangeTrackerEntities = new List<EntityEntry>();
+            ChangeTrackerEntities ??= new Dictionary<EntityEntry, PropertyValues>();
         }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 正在更改并跟踪的数据
         /// </summary>
-        private IEnumerable<EntityEntry> ChangeTrackerEntities { get; set; }
+        private Dictionary<EntityEntry, PropertyValues> ChangeTrackerEntities { get; set; }
 
         /// <summary>
         /// 内部数据库上下文提交更改之前执行事件
@@ -207,9 +207,9 @@ namespace Furion.DatabaseAccessor
             {
                 var dbContext = eventData.Context;
 
-                // 获取获取数据库操作上下文
+                // 获取获取数据库操作上下文，跳过贴了 [NotChangedListener] 特性的实体
                 ChangeTrackerEntities = (dbContext).ChangeTracker.Entries()
-                    .Where(u => u.State == EntityState.Added || u.State == EntityState.Modified || u.State == EntityState.Deleted).ToList();
+                    .Where(u => !u.Entity.GetType().IsDefined(typeof(NotChangedListenerAttribute), true) && (u.State == EntityState.Added || u.State == EntityState.Modified || u.State == EntityState.Deleted)).ToDictionary(u => u, u => u.GetDatabaseValues());
 
                 AttachEntityChangedListener(eventData.Context, "OnChanging", ChangeTrackerEntities);
             }
@@ -248,19 +248,22 @@ namespace Furion.DatabaseAccessor
         /// <param name="dbContext"></param>
         /// <param name="triggerMethodName"></param>
         /// <param name="changeTrackerEntities"></param>
-        private static void AttachEntityChangedListener(DbContext dbContext, string triggerMethodName, IEnumerable<EntityEntry> changeTrackerEntities = null)
+        private static void AttachEntityChangedListener(DbContext dbContext, string triggerMethodName, Dictionary<EntityEntry, PropertyValues> changeTrackerEntities = null)
         {
             // 获取所有改变的类型
             var entityChangedTypes = AppDbContextBuilder.DbContextLocatorCorrelationTypes[typeof(TDbContextLocator)].EntityChangedTypes;
             if (!entityChangedTypes.Any()) return;
 
             // 遍历所有的改变的实体
-            foreach (var entity in changeTrackerEntities)
+            foreach (var trackerEntities in changeTrackerEntities)
             {
+                var entryEntity = trackerEntities.Key;
+                var entity = entryEntity.Entity;
+
                 // 获取该实体类型的种子配置
                 var entitiesTypeByChanged = entityChangedTypes
                     .Where(u => u.GetInterfaces()
-                        .Any(i => i.HasImplementedRawGeneric(typeof(IPrivateEntityChangedListener<>)) && i.GenericTypeArguments.Contains(entity.Entity.GetType())));
+                        .Any(i => i.HasImplementedRawGeneric(typeof(IPrivateEntityChangedListener<>)) && i.GenericTypeArguments.Contains(entity.GetType())));
 
                 if (!entitiesTypeByChanged.Any()) continue;
 
@@ -271,7 +274,19 @@ namespace Furion.DatabaseAccessor
                     if (OnChangeMethod == null) continue;
 
                     var instance = Activator.CreateInstance(entityChangedType);
-                    OnChangeMethod.Invoke(instance, new object[] { entity.Entity, dbContext, typeof(TDbContextLocator), entity.State });
+
+                    // 对 OnChanged 进行特别处理
+                    if (triggerMethodName.Equals("OnChanged"))
+                    {
+                        // 获取实体旧值
+                        var oldEntity = trackerEntities.Value?.ToObject();
+
+                        OnChangeMethod.Invoke(instance, new object[] { entity, oldEntity, dbContext, typeof(TDbContextLocator), entryEntity.State });
+                    }
+                    else
+                    {
+                        OnChangeMethod.Invoke(instance, new object[] { entity, dbContext, typeof(TDbContextLocator), entryEntity.State });
+                    }
                 }
             }
         }
