@@ -132,15 +132,15 @@ module.exports = {
     },
     {
       type: "doc",
+      id: "signalr",
+    },
+    {
+      type: "doc",
       id: "process-service",
     },
     {
       type: "doc",
       id: "job",
-    },
-    {
-      type: "doc",
-      id: "signalr",
     },
     {
       type: "doc",
