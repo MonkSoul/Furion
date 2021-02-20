@@ -21,11 +21,13 @@ namespace Microsoft.Extensions.DependencyInjection
             if (assemblies != null && assemblies.Length > 0) TypeAdapterConfig.GlobalSettings.Scan(assemblies);
 
             // 配置默认全局映射（支持覆盖）
-            TypeAdapterConfig.GlobalSettings.Default
-                .NameMatchingStrategy(NameMatchingStrategy.Flexible)
-                .PreserveReference(true);
+            var config = TypeAdapterConfig.GlobalSettings;
+            config.Default
+                  .NameMatchingStrategy(NameMatchingStrategy.Flexible)
+                  .PreserveReference(true);
 
             // 配置支持依赖注入
+            services.AddSingleton(config);
             services.AddScoped<IMapper, ServiceMapper>();
 
             return services;
