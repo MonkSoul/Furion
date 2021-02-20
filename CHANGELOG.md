@@ -5,6 +5,7 @@
   - [新增] 跳过特定实体数据库操作监听特性 [#I386LB](https://gitee.com/monksoul/Furion/issues/I386LB)
   - [新增] `IEntityChangedListener` 增加对 `OldEntity` 的支持 [#I385X2](https://gitee.com/monksoul/Furion/issues/I385X2)
   - [新增] 实时通信自动配置集线器拓展及特性 [#I387QX](https://gitee.com/monksoul/Furion/issues/I387QX)
+  - [新增] `Mapster` 拓展支持 `IMapper` 依赖注入方式 [#I38C7C](https://gitee.com/monksoul/Furion/issues/I38C7C)
 
 - **突破性变化**
 

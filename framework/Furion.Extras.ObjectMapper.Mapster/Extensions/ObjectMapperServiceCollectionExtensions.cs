@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using MapsterMapper;
 using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -23,6 +24,9 @@ namespace Microsoft.Extensions.DependencyInjection
             TypeAdapterConfig.GlobalSettings.Default
                 .NameMatchingStrategy(NameMatchingStrategy.Flexible)
                 .PreserveReference(true);
+
+            // 配置支持依赖注入
+            services.AddScoped<IMapper, ServiceMapper>();
 
             return services;
         }
