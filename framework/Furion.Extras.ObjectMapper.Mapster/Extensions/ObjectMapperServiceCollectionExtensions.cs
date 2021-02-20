@@ -17,11 +17,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IServiceCollection AddObjectMapper(this IServiceCollection services, params Assembly[] assemblies)
         {
+            var config = TypeAdapterConfig.GlobalSettings;
+
             // 扫描所有继承  IRegister 接口的对象映射配置
-            if (assemblies != null && assemblies.Length > 0) TypeAdapterConfig.GlobalSettings.Scan(assemblies);
+            if (assemblies != null && assemblies.Length > 0) config.Scan(assemblies);
 
             // 配置默认全局映射（支持覆盖）
-            var config = TypeAdapterConfig.GlobalSettings;
             config.Default
                   .NameMatchingStrategy(NameMatchingStrategy.Flexible)
                   .PreserveReference(true);
