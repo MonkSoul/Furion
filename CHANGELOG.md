@@ -11,6 +11,8 @@
 
 - **问题修复**
 
+  - [修复] `Swagger` 过滤掉 `object ` 类型属性问题 [#I38FHL](https://gitee.com/monksoul/Furion/issues/I38FHL)
+
 - **其他更改**
 
 - **文档变化**
@@ -18,6 +20,8 @@
 - **问答答疑**
 
 - **不做实现**
+
+- [废弃] 建议 `SqlSugar` 添加动态切换数据库功能 [#I38G4M](https://gitee.com/monksoul/Furion/issues/I38G4M)
 
 ---
 

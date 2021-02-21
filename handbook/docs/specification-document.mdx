@@ -674,6 +674,39 @@ namespace Furion.Application
 }
 ```
 
+### 6.5.18 设置 `Example Value` 默认值
+
+`Swagger` 会自动根据对象类型输入参数添加 `Example Value` 默认值，但是该默认值通常是对象属性的类型字符串或缺省值，如果我们需要自定义这些默认值，只需要添加 `/// <example>默认值</example>` 注释即可。
+
+如：
+
+```cs {4}
+/// <summary>
+/// 年龄
+/// </summary>
+/// <example>13</example>
+[Required, Range(10, 110)]
+public int Age { get; set; }
+```
+
+如下图所示：
+
+<img src={useBaseUrl("img/sd20.png")} />
+
+更多类型默认值设置示例：
+
+- `bool` 类型：`/// <example>true</example>`
+- `string` 类型：`/// <example>"foobar"</example>`
+- `number` 类型：`/// <example>123</example>`
+- `null` 类型： `/// <example>null</example>`
+- `array` 类型：`/// <example>[ 1, 2, 3 ]</example>`
+
+:::important 关于 `object` 类型输入参数
+
+默认情况下，`Example Value` 不会显示 `object` 类型的对象属性，因为 `Swagger` 认为这是不合理的定义。如果需要强制显示，只需要添加 `/// <example>"object"</example>` 注释即可。
+
+:::
+
 ## 6.6 `SpecificationDocumentSettings` 配置
 
 除了上述例子外，`Furion` 提供了一些配置选项，如：
