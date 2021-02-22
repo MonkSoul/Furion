@@ -9,6 +9,13 @@ namespace Furion.DatabaseAccessor
     public class AppDbContextAttribute : Attribute
     {
         /// <summary>
+        /// 默认构造函数
+        /// </summary>
+        public AppDbContextAttribute()
+        {
+        }
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="connectionString"></param>
