@@ -99,7 +99,7 @@ namespace Furion.DatabaseAccessor
                 // 配置数据库实体类型构建器
                 ConfigureEntityTypeBuilder(entityType, entityBuilder, dbContext, dbContextLocator, dbContextCorrelationType);
 
-                // 不是 Web 环境跳过
+                // 跳过运行时执行种子数据检查
                 if (!IsWebEnvironment)
                 {
                     // 配置数据库实体种子数据
