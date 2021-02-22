@@ -22,6 +22,7 @@
 - **不做实现**
 
 - [废弃] 建议 `SqlSugar` 添加动态切换数据库功能 [#I38G4M](https://gitee.com/monksoul/Furion/issues/I38G4M)
+- [废弃] 建议 `MessageCenter` 采用 `Channel` 实现 [#I38BP8](https://gitee.com/monksoul/Furion/issues/I38BP8)
 
 ---
 
