@@ -777,7 +777,50 @@ namespace Furion.Web.Entry.Controllers
 
 参见 [【全球化和本地化（多语言）】](./local-language) 章节
 
-## 8.12 反馈与建议
+## 8.12 集成 `FluentValidation` 第三方校验
+
+`Furion` 内置的验证已经可以满足绝大多数校验情况，但是对于 `场景` 验证目前暂未支持。这里推荐集成 [`FluentValidation`](https://github.com/FluentValidation/FluentValidation) 第三方校验组件。
+
+### 8.12.1 安装 `FluentValidation.AspNetCore` 拓展包
+
+```shell
+dotnet add package FluentValidation.AspNetCore
+```
+
+### 8.12.2 在 `Startup.cs` 中注册
+
+```cs {2}
+services.AddControllers()
+        .AddFluentValidation(fv => {
+            fv.RegisterValidatorsFromAssemblies(App.Assemblies);
+        });
+```
+
+### 8.12.3 使用例子
+
+```cs
+public class Person {
+	public int Id { get; set; }
+	public string Name { get; set; }
+	public string Email { get; set; }
+	public int Age { get; set; }
+}
+
+public class PersonValidator : AbstractValidator<Person> {
+	public PersonValidator() {
+		RuleFor(x => x.Id).NotNull();
+		RuleFor(x => x.Name).Length(0, 10);
+		RuleFor(x => x.Email).EmailAddress();
+		RuleFor(x => x.Age).InclusiveBetween(18, 60);
+	}
+}
+```
+
+**在控制器中使用无需手动调用 `ModelState.IsValid` 进行判断，`Furion` 会自动执行该操作。**
+
+如需了解更多 `FluentValidation` 知识可查阅官方文档：[https://fluentvalidation.net/](https://fluentvalidation.net/)
+
+## 8.13 反馈与建议
 
 :::note 与我们交流
 

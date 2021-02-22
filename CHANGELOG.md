@@ -17,6 +17,8 @@
 
 - **文档变化**
 
+  - [新增] `FluentValidation` 集成文档 [#I38IOT](https://gitee.com/monksoul/Furion/issues/I38IOT)
+
 - **问答答疑**
 
 - **不做实现**

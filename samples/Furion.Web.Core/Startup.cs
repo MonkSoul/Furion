@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,7 +19,8 @@ namespace Furion.Web.Core
             services.AddControllersWithViews()
                     // 配置多语言
                     .AddAppLocalization()
-                    .AddInjectWithUnifyResult();
+                    .AddInjectWithUnifyResult()
+                    .AddFluentValidation(o => o.RegisterValidatorsFromAssemblies(App.Assemblies));
 
             // 添加实时通讯
             services.AddSignalR();
