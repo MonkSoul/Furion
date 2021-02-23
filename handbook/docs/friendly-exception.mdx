@@ -539,14 +539,14 @@ namespace Furion.UnifyResult
         public IActionResult OnException(ExceptionContext context)
         {
             // 解析异常信息
-            var (ErrorCode, ErrorContent) = UnifyContext.GetExceptionMetadata(context);
+            var (StatusCode, Errors) = UnifyContext.GetExceptionMetadata(context);
 
             return new JsonResult(new RESTfulResult<object>
             {
-                StatusCode = ErrorCode,
+                StatusCode = StatusCode,
                 Succeeded = false,
                 Data = null,
-                Errors = ErrorContent,
+                Errors = Errors,
                 Extras = UnifyContext.Take(),
                 Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
             });

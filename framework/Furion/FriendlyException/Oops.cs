@@ -313,7 +313,9 @@ namespace Furion.FriendlyException
         {
             if (errorMessage.StartsWith("[Validation]")) return errorMessage;
 
-            return (_friendlyExceptionSettings.HideErrorCode == true || string.IsNullOrEmpty(errorCode) ? string.Empty : $"[{errorCode}] ") + errorMessage;
+            return (_friendlyExceptionSettings.HideErrorCode == true || string.IsNullOrEmpty(errorCode)
+                ? string.Empty
+                : $"[{errorCode}] ") + errorMessage;
         }
     }
 }

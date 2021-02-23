@@ -44,23 +44,23 @@ namespace Furion.UnifyResult
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public static (int ErrorCode, object ErrorContent) GetExceptionMetadata(ExceptionContext context)
+        public static (int StatusCode, object Errors) GetExceptionMetadata(ExceptionContext context)
         {
             // 读取规范化状态码信息
-            var errorCode = Get(UnifyResultStatusCodeKey) ?? StatusCodes.Status500InternalServerError;
+            var statusCode = Get(UnifyResultStatusCodeKey) ?? StatusCodes.Status500InternalServerError;
 
             var errorMessage = context.Exception.Message;
             var validationFlag = "[Validation]";
 
             // 处理验证失败异常
-            object errorObject = default;
+            object errors = default;
             if (errorMessage.StartsWith(validationFlag))
             {
                 // 处理结果
-                errorObject = JsonSerializerUtility.Deserialize<object>(errorMessage[validationFlag.Length..]);
+                errors = JsonSerializerUtility.Deserialize<object>(errorMessage[validationFlag.Length..]);
 
                 // 设置为400状态码
-                errorCode = StatusCodes.Status400BadRequest;
+                statusCode = StatusCodes.Status400BadRequest;
             }
             else
             {
@@ -79,12 +79,12 @@ namespace Furion.UnifyResult
                     var actionIfExceptionAttribute = typeExceptionAttributes.FirstOrDefault(u => u.ExceptionType == context.Exception.GetType())
                             ?? typeExceptionAttributes.FirstOrDefault(u => u.ExceptionType == null);
 
-                    if (actionIfExceptionAttribute is { ErrorMessage: not null }) errorObject = actionIfExceptionAttribute.ErrorMessage;
+                    if (actionIfExceptionAttribute is { ErrorMessage: not null }) errors = actionIfExceptionAttribute.ErrorMessage;
                 }
-                else errorObject = errorMessage;
+                else errors = errorMessage;
             }
 
-            return ((int)errorCode, errorObject);
+            return ((int)statusCode, errors);
         }
 
         /// <summary>

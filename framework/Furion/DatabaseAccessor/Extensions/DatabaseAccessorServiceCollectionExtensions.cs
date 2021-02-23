@@ -67,8 +67,8 @@ namespace Microsoft.Extensions.DependencyInjection
                     var isRegistered = Penetrates.DbContextWithLocatorCached.TryGetValue(locator, out var dbContextType);
                     if (!isRegistered) throw new InvalidOperationException("The DbContext for locator binding was not found.");
 
-                    // 动态解析数据库上下文
-                    var dbContext = provider.GetService(dbContextType) as DbContext;
+                    // 动态解析数据库上下文，创建新的对象
+                    var dbContext = provider.CreateScope().ServiceProvider.GetService(dbContextType) as DbContext;
 
                     // 实现动态数据库上下文功能，刷新 OnModelCreating
                     var dbContextAttribute = DbProvider.GetAppDbContextAttribute(dbContextType);

@@ -12,9 +12,12 @@
 
 - **问题修复**
 
+  - [修复] 多次循环中调用 `Db.GetNewDbContext()` 还是获取到同一个对象 [#I38NNP](https://gitee.com/monksoul/Furion/issues/I38NNP)
   - [修复] `Swagger` 过滤掉 `object ` 类型属性问题 [#I38FHL](https://gitee.com/monksoul/Furion/issues/I38FHL)
 
 - **其他更改**
+
+  - [优化] 代码不规范命名导致开发者阅读代码时产生歧义
 
 - **文档变化**
 
