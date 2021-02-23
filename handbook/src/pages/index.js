@@ -355,6 +355,9 @@ function Links() {
         <a href="https://gitee.com/pig0224/ExamKing" target="_blank">
           考试君
         </a>
+        <a href="https://gitee.com/veal98/Echo" target="_blank">
+          Echo
+        </a>
       </div>
     </div>
   );
