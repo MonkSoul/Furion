@@ -15,6 +15,7 @@
 
   - [修复] 多次循环中调用 `Db.GetNewDbContext()` 还是获取到同一个对象 [#I38NNP](https://gitee.com/monksoul/Furion/issues/I38NNP)
   - [修复] `Swagger` 过滤掉 `object ` 类型属性问题 [#I38FHL](https://gitee.com/monksoul/Furion/issues/I38FHL)
+  - [修复] 同一类不支持多继承 `IEntityChangedListener` 问题 [#I38UQJ](https://gitee.com/monksoul/Furion/issues/I38UQJ)
 
 - **其他更改**
 

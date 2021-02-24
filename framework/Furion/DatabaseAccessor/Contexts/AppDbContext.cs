@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Furion.DatabaseAccessor
 {
@@ -270,7 +271,11 @@ namespace Furion.DatabaseAccessor
                 // 通知所有的监听类型
                 foreach (var entityChangedType in entitiesTypeByChanged)
                 {
-                    var OnChangeMethod = entityChangedType.GetMethod(triggerMethodName);
+                    var OnChangeMethod = entityChangedType.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                                                                    .Where(u => u.Name == triggerMethodName
+                                                                        && u.GetParameters().Length > 0
+                                                                        && u.GetParameters().First().ParameterType == entity.GetType())
+                                                                    .FirstOrDefault();
                     if (OnChangeMethod == null) continue;
 
                     var instance = Activator.CreateInstance(entityChangedType);
