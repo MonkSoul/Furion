@@ -488,6 +488,15 @@ namespace Furion.Application
 }
 ```
 
+### 8.6.5 `[ModelBinder]` 特性
+
+默认情况下，验证失败信息会根据属性名进行序列化，但是如果属性序列化自定义了 `[JsonPropertyName]` 特性，那么验证失败的消息就不匹配了，这时我们需要添加 `[ModelBinder(Name = "序列化对应名字")]` 进行纠正。如下图所示：
+
+```cs {1}
+[JsonPropertyName("phone_number"), ModelBinder(Name = "phone_number")]
+public string PhoneNumber { get; set; }
+```
+
 ## 8.7 `[NonValidation]` 跳过验证
 
 `Furion` 框架提供了对象模型跳过验证特性 `[NonValidation]`，支持在 `控制器`，`动作方法`，`类` 中使用。

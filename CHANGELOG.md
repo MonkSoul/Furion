@@ -16,6 +16,7 @@
   - [修复] 多次循环中调用 `Db.GetNewDbContext()` 还是获取到同一个对象 [#I38NNP](https://gitee.com/monksoul/Furion/issues/I38NNP)
   - [修复] `Swagger` 过滤掉 `object ` 类型属性问题 [#I38FHL](https://gitee.com/monksoul/Furion/issues/I38FHL)
   - [修复] 同一类不支持多继承 `IEntityChangedListener` 问题 [#I38UQJ](https://gitee.com/monksoul/Furion/issues/I38UQJ)
+  - [修复] 自定义序列化属性名称导致验证失败属性不匹配问题 [#I38W8Z](https://gitee.com/monksoul/Furion/issues/I38W8Z)
 
 - **其他更改**
 
@@ -26,6 +27,8 @@
   - [新增] `FluentValidation` 集成文档 [#I38IOT](https://gitee.com/monksoul/Furion/issues/I38IOT)
 
 - **问答答疑**
+
+  - [答疑] `Furion` 框架版本向下兼容问题 [#I38WMZ](https://gitee.com/monksoul/Furion/issues/I38WMZ)
 
 - **不做实现**
 
