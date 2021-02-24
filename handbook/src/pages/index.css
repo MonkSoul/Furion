@@ -374,6 +374,51 @@
   height: 100px;
 }
 
+.furion-contributors {
+  margin: 4em;
+  text-align: center;
+}
+
+.furion-contributor-item {
+  display: inline-block;
+  margin: 10px 5px;
+  text-align: center;
+  background-color: #f3f3f3;
+  color: #333;
+  padding: 10px;
+  width: 130px;
+  overflow: hidden;
+  border-radius: 4px;
+  height: 170px;
+  box-shadow: 4px 3px 16px -3px #0009;
+  box-sizing: border-box;
+}
+
+.furion-contributor-item a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  display: block;
+  font-size: 10pt;
+}
+
+.furion-contributor-item div {
+  margin-top: 10px;
+}
+
+.furion-contributor-item img {
+  display: block;
+  width: 100%;
+}
+
+.furion-contributor-item.dark {
+  background: #333;
+}
+
+.furion-contributor-item.dark a {
+  color: #f5f6f7;
+}
+
 @media screen and (max-width: 1024px) {
   .furion-banner-container {
     justify-content: unset;
