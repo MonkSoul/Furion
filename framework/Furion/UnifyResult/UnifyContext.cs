@@ -44,8 +44,11 @@ namespace Furion.UnifyResult
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public static (int StatusCode, object Errors) GetExceptionMetadata(ExceptionContext context)
+        public static (int StatusCode, object ErrorCode, object Errors) GetExceptionMetadata(ExceptionContext context)
         {
+            // 获取错误码
+            var errorCode = context.Exception is AppFriendlyException friendlyException ? friendlyException?.ErrorCode : default;
+
             // 读取规范化状态码信息
             var statusCode = Get(UnifyResultStatusCodeKey) ?? StatusCodes.Status500InternalServerError;
 
@@ -84,7 +87,7 @@ namespace Furion.UnifyResult
                 else errors = errorMessage;
             }
 
-            return ((int)statusCode, errors);
+            return ((int)statusCode, errorCode, errors);
         }
 
         /// <summary>

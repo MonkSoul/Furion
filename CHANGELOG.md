@@ -7,6 +7,7 @@
   - [新增] 实时通信自动配置集线器拓展及特性 [#I387QX](https://gitee.com/monksoul/Furion/issues/I387QX)
   - [新增] `Mapster` 拓展支持 `IMapper` 依赖注入方式 [#I38C7C](https://gitee.com/monksoul/Furion/issues/I38C7C)
   - [新增] `[AppDbContext]` 特性默认构造函数 [#I38J97](https://gitee.com/monksoul/Furion/issues/I38J97)
+  - [新增] `UnifyContext.GetExceptionMetadata(context)` 返回错误码支持 [#I38ONX](https://gitee.com/monksoul/Furion/issues/I38ONX)
 
 - **突破性变化**
 
@@ -29,6 +30,7 @@
 
 - [废弃] 建议 `SqlSugar` 添加动态切换数据库功能 [#I38G4M](https://gitee.com/monksoul/Furion/issues/I38G4M)
 - [废弃] 建议 `MessageCenter` 采用 `Channel` 实现 [#I38BP8](https://gitee.com/monksoul/Furion/issues/I38BP8)
+- [废弃] 建议接口文档整合 Knife4jUI 或 Redoc [#I38S70](https://gitee.com/monksoul/Furion/issues/I38S70)
 
 ---
 

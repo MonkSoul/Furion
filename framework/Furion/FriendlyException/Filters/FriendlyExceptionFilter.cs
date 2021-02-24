@@ -63,7 +63,7 @@ namespace Microsoft.AspNetCore.Mvc.Filters
             if (UnifyContext.IsSkipUnifyHandler(actionDescriptor.MethodInfo, out var unifyResult))
             {
                 // 解析异常信息
-                var (StatusCode, Errors) = UnifyContext.GetExceptionMetadata(context);
+                var (StatusCode, _, Errors) = UnifyContext.GetExceptionMetadata(context);
 
                 context.Result = new ContentResult
                 {

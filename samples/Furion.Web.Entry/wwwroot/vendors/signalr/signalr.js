@@ -97,7 +97,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ([
 /* 0 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var es6_promise_dist_es6_promise_auto_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
@@ -165,12 +164,9 @@ if (!Uint8Array.prototype.forEach) {
     });
 }
 
-
-
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
-
 /* WEBPACK VAR INJECTION */(function(global) {var require;/*!
  * @overview es6-promise - a tiny implementation of Promises/A+.
  * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
@@ -192,8 +188,6 @@ function objectOrFunction(x) {
 function isFunction(x) {
   return typeof x === 'function';
 }
-
-
 
 var _isArray = void 0;
 if (Array.isArray) {
@@ -341,7 +335,6 @@ function then(onFulfillment, onRejection) {
   }
 
   var _state = parent._state;
-
 
   if (_state) {
     var callback = arguments[_state - 1];
@@ -539,7 +532,6 @@ function subscribe(parent, child, onFulfillment, onRejection) {
   var _subscribers = parent._subscribers;
   var length = _subscribers.length;
 
-
   parent._onerror = null;
 
   _subscribers[length] = child;
@@ -703,7 +695,6 @@ var Enumerator = function () {
     var c = this._instanceConstructor;
     var resolve$$1 = c.resolve;
 
-
     if (resolve$$1 === resolve$1) {
       var _then = getThen(entry);
 
@@ -728,7 +719,6 @@ var Enumerator = function () {
 
   Enumerator.prototype._settledAt = function _settledAt(state, i, value) {
     var promise = this.promise;
-
 
     if (promise._state === PENDING) {
       this._remaining--;
@@ -969,7 +959,6 @@ function needsNew() {
   settled state.  So a promise that *resolves* a promise that rejects will
   itself reject, and a promise that *resolves* a promise that fulfills will
   itself fulfill.
-
 
   Basic Usage:
   ------------
@@ -1243,7 +1232,6 @@ var Promise$2 = function () {
   @return {Promise}
   */
 
-
   Promise.prototype.catch = function _catch(onRejection) {
     return this.then(null, onRejection);
   };
@@ -1251,9 +1239,9 @@ var Promise$2 = function () {
   /**
     `finally` will be invoked regardless of the promise's fate just as native
     try/catch/finally behaves
-  
+
     Synchronous example:
-  
+
     ```js
     findAuthor() {
       if (Math.random() > 0.5) {
@@ -1261,7 +1249,7 @@ var Promise$2 = function () {
       }
       return new Author();
     }
-  
+
     try {
       return findAuthor(); // succeed or fail
     } catch(error) {
@@ -1271,9 +1259,9 @@ var Promise$2 = function () {
       // doesn't affect the return value
     }
     ```
-  
+
     Asynchronous example:
-  
+
     ```js
     findAuthor().catch(function(reason){
       return findOtherAuther();
@@ -1281,12 +1269,11 @@ var Promise$2 = function () {
       // author was either found, or not
     });
     ```
-  
+
     @method finally
     @param {Function} callback
     @return {Promise}
   */
-
 
   Promise.prototype.finally = function _finally(callback) {
     var promise = this;
@@ -1356,10 +1343,7 @@ Promise$2.Promise = Promise$2;
 Promise$2.polyfill();
 
 return Promise$2;
-
 })));
-
-
 
 //# sourceMappingURL=es6-promise.auto.map
 
@@ -1368,7 +1352,6 @@ return Promise$2;
 /***/ }),
 /* 2 */
 /***/ (function(module, exports) {
-
 var g;
 
 // This works in non-strict mode
@@ -1390,11 +1373,9 @@ try {
 
 module.exports = g;
 
-
 /***/ }),
 /* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Errors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4);
@@ -1446,23 +1427,9 @@ __webpack_require__.r(__webpack_exports__);
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /***/ }),
 /* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpError", function() { return HttpError; });
@@ -1544,12 +1511,9 @@ var AbortError = /** @class */ (function (_super) {
     return AbortError;
 }(Error));
 
-
-
 /***/ }),
 /* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpResponse", function() { return HttpResponse; });
@@ -1602,12 +1566,9 @@ var HttpClient = /** @class */ (function () {
     return HttpClient;
 }());
 
-
-
 /***/ }),
 /* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DefaultHttpClient", function() { return DefaultHttpClient; });
@@ -1628,10 +1589,6 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
-
-
-
 
 /** Default implementation of {@link @microsoft/signalr.HttpClient}. */
 var DefaultHttpClient = /** @class */ (function (_super) {
@@ -1670,12 +1627,9 @@ var DefaultHttpClient = /** @class */ (function (_super) {
     return DefaultHttpClient;
 }(_HttpClient__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]));
 
-
-
 /***/ }),
 /* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FetchHttpClient", function() { return FetchHttpClient; });
@@ -1738,9 +1692,6 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-
-
-
 
 var FetchHttpClient = /** @class */ (function (_super) {
     __extends(FetchHttpClient, _super);
@@ -1876,11 +1827,9 @@ function deserializeContent(response, responseType) {
     return content;
 }
 
-
 /***/ }),
 /* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LogLevel", function() { return LogLevel; });
@@ -1909,11 +1858,9 @@ var LogLevel;
     LogLevel[LogLevel["None"] = 6] = "None";
 })(LogLevel || (LogLevel = {}));
 
-
 /***/ }),
 /* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VERSION", function() { return VERSION; });
@@ -1975,7 +1922,6 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-
 
 // Version token that will be replaced by the prepack command
 /** The version of the SignalR client. */
@@ -2228,11 +2174,9 @@ function getRuntime() {
     }
 }
 
-
 /***/ }),
 /* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NullLogger", function() { return NullLogger; });
@@ -2251,12 +2195,9 @@ var NullLogger = /** @class */ (function () {
     return NullLogger;
 }());
 
-
-
 /***/ }),
 /* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "XhrHttpClient", function() { return XhrHttpClient; });
@@ -2275,8 +2216,6 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-
-
 
 var XhrHttpClient = /** @class */ (function (_super) {
     __extends(XhrHttpClient, _super);
@@ -2349,12 +2288,9 @@ var XhrHttpClient = /** @class */ (function (_super) {
     return XhrHttpClient;
 }(_HttpClient__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]));
 
-
-
 /***/ }),
 /* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HubConnectionState", function() { return HubConnectionState; });
@@ -2401,10 +2337,6 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-
-
-
-
 
 var DEFAULT_TIMEOUT_IN_MS = 30 * 1000;
 var DEFAULT_PING_INTERVAL_IN_MS = 15 * 1000;
@@ -3313,12 +3245,9 @@ var HubConnection = /** @class */ (function () {
     return HubConnection;
 }());
 
-
-
 /***/ }),
 /* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HandshakeProtocol", function() { return HandshakeProtocol; });
@@ -3326,7 +3255,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-
 
 /** @private */
 var HandshakeProtocol = /** @class */ (function () {
@@ -3379,12 +3307,9 @@ var HandshakeProtocol = /** @class */ (function () {
     return HandshakeProtocol;
 }());
 
-
-
 /***/ }),
 /* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextMessageFormat", function() { return TextMessageFormat; });
@@ -3411,12 +3336,9 @@ var TextMessageFormat = /** @class */ (function () {
     return TextMessageFormat;
 }());
 
-
-
 /***/ }),
 /* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MessageType", function() { return MessageType; });
@@ -3441,11 +3363,9 @@ var MessageType;
     MessageType[MessageType["Close"] = 7] = "Close";
 })(MessageType || (MessageType = {}));
 
-
 /***/ }),
 /* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Subject", function() { return Subject; });
@@ -3487,12 +3407,9 @@ var Subject = /** @class */ (function () {
     return Subject;
 }());
 
-
-
 /***/ }),
 /* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HubConnectionBuilder", function() { return HubConnectionBuilder; });
@@ -3513,12 +3430,6 @@ var __assign = (undefined && undefined.__assign) || Object.assign || function(t)
     }
     return t;
 };
-
-
-
-
-
-
 
 // tslint:disable:object-literal-sort-keys
 var LogLevelNameMapping = {
@@ -3627,11 +3538,9 @@ function isLogger(logger) {
     return logger.log !== undefined;
 }
 
-
 /***/ }),
 /* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DefaultReconnectPolicy", function() { return DefaultReconnectPolicy; });
@@ -3650,12 +3559,9 @@ var DefaultReconnectPolicy = /** @class */ (function () {
     return DefaultReconnectPolicy;
 }());
 
-
-
 /***/ }),
 /* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpConnection", function() { return HttpConnection; });
@@ -3712,12 +3618,6 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-
-
-
-
-
-
 
 var MAX_REDIRECTS = 100;
 /** @private */
@@ -4372,11 +4272,9 @@ var PromiseSource = /** @class */ (function () {
     return PromiseSource;
 }());
 
-
 /***/ }),
 /* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpTransportType", function() { return HttpTransportType; });
@@ -4405,11 +4303,9 @@ var TransferFormat;
     TransferFormat[TransferFormat["Binary"] = 2] = "Binary";
 })(TransferFormat || (TransferFormat = {}));
 
-
 /***/ }),
 /* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LongPollingTransport", function() { return LongPollingTransport; });
@@ -4463,10 +4359,6 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-
-
-
-
 
 // Not exported from 'index', this type is internal.
 /** @private */
@@ -4717,12 +4609,9 @@ var LongPollingTransport = /** @class */ (function () {
     return LongPollingTransport;
 }());
 
-
-
 /***/ }),
 /* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AbortController", function() { return AbortController; });
@@ -4763,12 +4652,9 @@ var AbortController = /** @class */ (function () {
     return AbortController;
 }());
 
-
-
 /***/ }),
 /* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ServerSentEventsTransport", function() { return ServerSentEventsTransport; });
@@ -4820,8 +4706,6 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-
-
 
 /** @private */
 var ServerSentEventsTransport = /** @class */ (function () {
@@ -4940,12 +4824,9 @@ var ServerSentEventsTransport = /** @class */ (function () {
     return ServerSentEventsTransport;
 }());
 
-
-
 /***/ }),
 /* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WebSocketTransport", function() { return WebSocketTransport; });
@@ -4997,8 +4878,6 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-
-
 
 /** @private */
 var WebSocketTransport = /** @class */ (function () {
@@ -5153,12 +5032,9 @@ var WebSocketTransport = /** @class */ (function () {
     return WebSocketTransport;
 }());
 
-
-
 /***/ }),
 /* 25 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "JsonHubProtocol", function() { return JsonHubProtocol; });
@@ -5169,10 +5045,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TextMessageFormat__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(14);
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
-
-
-
-
 
 var JSON_HUB_PROTOCOL_NAME = "json";
 /** Implements the JSON Hub Protocol. */
@@ -5271,8 +5143,6 @@ var JsonHubProtocol = /** @class */ (function () {
     };
     return JsonHubProtocol;
 }());
-
-
 
 /***/ })
 /******/ ]);

@@ -63,7 +63,7 @@ namespace Furion.FriendlyException
         /// <returns>异常实例</returns>
         public static Exception Oh(string errorMessage, params object[] args)
         {
-            return new Exception(FormatErrorMessage(MontageErrorMessage(errorMessage), args));
+            return new AppFriendlyException(FormatErrorMessage(MontageErrorMessage(errorMessage), args), default);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Furion.FriendlyException
         /// <returns>异常实例</returns>
         public static Exception Oh(object errorCode, params object[] args)
         {
-            return new Exception(GetErrorCodeMessage(errorCode, args));
+            return new AppFriendlyException(GetErrorCodeMessage(errorCode, args), errorCode);
         }
 
         /// <summary>
