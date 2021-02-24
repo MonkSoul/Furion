@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -254,7 +253,7 @@ namespace Furion.SpecificationDocument
             foreach (var xmlComment in xmlComments)
             {
                 var assemblyXmlName = xmlComment.EndsWith(".xml") ? xmlComment : $"{xmlComment}.xml";
-                var assemblyXmlPath = App.WebHostEnvironment.IsDevelopment() ? Path.Combine(AppContext.BaseDirectory, assemblyXmlName) : Path.Combine(Directory.GetCurrentDirectory(), assemblyXmlName);
+                var assemblyXmlPath = Path.Combine(AppContext.BaseDirectory, assemblyXmlName);
                 if (File.Exists(assemblyXmlPath))
                 {
                     swaggerGenOptions.IncludeXmlComments(assemblyXmlPath, true);

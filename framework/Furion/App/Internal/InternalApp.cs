@@ -61,11 +61,8 @@ namespace Furion
         /// <param name="ignoreConfigurationFiles"></param>
         private static void AutoAddJsonFiles(IConfigurationBuilder config, IHostEnvironment env, string[] ignoreConfigurationFiles)
         {
-            // 解决单个文件发布问题
-            var projectsJsonFiles = env.IsDevelopment() ? Directory.GetFiles(AppContext.BaseDirectory, "*.json", SearchOption.TopDirectoryOnly) : Array.Empty<string>();
-
             // 获取程序目录下的所有配置文件
-            var jsonFiles = projectsJsonFiles
+            var jsonFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.json", SearchOption.TopDirectoryOnly)
                 .Union(
                     Directory.GetFiles(Directory.GetCurrentDirectory(), "*.json", SearchOption.TopDirectoryOnly)
                 )
@@ -102,11 +99,8 @@ namespace Furion
         /// <param name="ignoreConfigurationFiles"></param>
         private static void AutoAddXmlFiles(IConfigurationBuilder config, IHostEnvironment env, string[] ignoreConfigurationFiles)
         {
-            // 解决单个文件发布问题
-            var projectsXmlFiles = env.IsDevelopment() ? Directory.GetFiles(AppContext.BaseDirectory, "*.xml", SearchOption.TopDirectoryOnly) : Array.Empty<string>();
-
             // 获取程序目录下的所有配置文件，必须以 .config.xml 结尾
-            var xmlFiles = projectsXmlFiles
+            var xmlFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.xml", SearchOption.TopDirectoryOnly)
                 .Union(
                     Directory.GetFiles(Directory.GetCurrentDirectory(), "*.xml", SearchOption.TopDirectoryOnly)
                 )
