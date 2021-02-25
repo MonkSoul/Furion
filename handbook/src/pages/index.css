@@ -494,4 +494,8 @@
     width: 100%;
     text-align: center;
   }
+
+  .furion-contributors {
+    margin: 4em 0;
+  }
 }

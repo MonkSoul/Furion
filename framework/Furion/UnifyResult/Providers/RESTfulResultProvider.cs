@@ -24,7 +24,7 @@ namespace Furion.UnifyResult
         public IActionResult OnException(ExceptionContext context)
         {
             // 解析异常信息
-            var (StatusCode, ErrorCode, Errors) = UnifyContext.GetExceptionMetadata(context);
+            var (StatusCode, _, Errors) = UnifyContext.GetExceptionMetadata(context);
 
             return new JsonResult(new RESTfulResult<object>
             {
