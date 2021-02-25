@@ -8,7 +8,47 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 **此章节只记录重大版本更新日志，小迭代版本不做更新。**想了解更多更新内容，可查阅 [CHANGELOG.md](https://gitee.com/dotnetchina/Furion/blob/master/CHANGELOG.md)
 
-## v1.14.0（当前版本）
+## v1.15.0 （当前版本）
+
+- **新特性**
+
+  - [新增] 跳过特定实体数据库操作监听特性 [#I386LB](https://gitee.com/dotnetchina/Furion/issues/I386LB)
+  - [新增] `IEntityChangedListener` 增加对 `OldEntity` 的支持 [#I385X2](https://gitee.com/dotnetchina/Furion/issues/I385X2)
+  - [新增] 实时通信自动配置集线器拓展及特性 [#I387QX](https://gitee.com/dotnetchina/Furion/issues/I387QX)
+  - [新增] `Mapster` 拓展支持 `IMapper` 依赖注入方式 [#I38C7C](https://gitee.com/dotnetchina/Furion/issues/I38C7C)
+  - [新增] `[AppDbContext]` 特性默认构造函数 [#I38J97](https://gitee.com/dotnetchina/Furion/issues/I38J97)
+  - [新增] `UnifyContext.GetExceptionMetadata(context)` 返回错误码支持 [#I38ONX](https://gitee.com/dotnetchina/Furion/issues/I38ONX)
+
+- **突破性变化**
+
+- **问题修复**
+
+  - [修复] 多次循环中调用 `Db.GetNewDbContext()` 还是获取到同一个对象 [#I38NNP](https://gitee.com/dotnetchina/Furion/issues/I38NNP)
+  - [修复] `Swagger` 过滤掉 `object ` 类型属性问题 [#I38FHL](https://gitee.com/dotnetchina/Furion/issues/I38FHL)
+  - [修复] 同一类不支持多继承 `IEntityChangedListener` 问题 [#I38UQJ](https://gitee.com/dotnetchina/Furion/issues/I38UQJ)
+  - [修复] 自定义序列化属性名称导致验证失败属性不匹配问题 [#I38W8Z](https://gitee.com/dotnetchina/Furion/issues/I38W8Z)
+
+- **其他更改**
+
+  - [优化] 代码不规范命名导致开发者阅读代码时产生歧义
+
+- **文档变化**
+
+  - [新增] `FluentValidation` 集成文档 [#I38IOT](https://gitee.com/dotnetchina/Furion/issues/I38IOT)
+
+- **问答答疑**
+
+  - [答疑] `Furion` 框架版本向下兼容问题 [#I38WMZ](https://gitee.com/dotnetchina/Furion/issues/I38WMZ)
+
+- **不做实现**
+
+  - [废弃] 建议 `SqlSugar` 添加动态切换数据库功能 [#I38G4M](https://gitee.com/dotnetchina/Furion/issues/I38G4M)
+  - [废弃] 建议 `MessageCenter` 采用 `Channel` 实现 [#I38BP8](https://gitee.com/dotnetchina/Furion/issues/I38BP8)
+  - [废弃] 建议接口文档整合 Knife4jUI 或 Redoc [#I38S70](https://gitee.com/dotnetchina/Furion/issues/I38S70)
+
+---
+
+## v1.14.0（已发布）
 
 - **新特性**
 
