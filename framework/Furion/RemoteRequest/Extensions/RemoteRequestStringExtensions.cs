@@ -230,7 +230,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static async Task<T> PatchAsAsync<T>(this string requestUri, object bodyArgs = null, HttpContentTypeOptions httpContentType = HttpContentTypeOptions.JsonStringContent, string contentType = "application/json", Dictionary<string, string> headers = default, string clientName = default, Action<HttpRequestMessage> requestInterceptor = default, Action<HttpClient> httpClientInterceptor = default, JsonNamingPolicyOptions propertyNamingPolicy = JsonNamingPolicyOptions.CamelCase, JsonSerializerOptions deserResultOptions = null, CancellationToken cancellationToken = default)
         {
-            return await requestUri.SendAsAsync<T>(HttpMethod.Patch, bodyArgs, httpContentType, contentType, headers, clientName, requestInterceptor, httpClientInterceptor, propertyNamingPolicy,deserResultOptions, cancellationToken);
+            return await requestUri.SendAsAsync<T>(HttpMethod.Patch, bodyArgs, httpContentType, contentType, headers, clientName, requestInterceptor, httpClientInterceptor, propertyNamingPolicy, deserResultOptions, cancellationToken);
         }
 
         /// <summary>

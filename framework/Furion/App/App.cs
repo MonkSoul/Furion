@@ -169,14 +169,10 @@ namespace Furion
 
             // 打印消息
             var customTiming = MiniProfiler.Current.CustomTiming(category, string.IsNullOrEmpty(message) ? $"{category.ToTitleCase()} {state}" : message, state);
+            if (customTiming == null) return;
 
             // 判断是否是警告消息
-            if (isError)
-            {
-                //TODO Test项目会出现null
-                if (customTiming != null)
-                    customTiming.Errored = true;
-            };
+            if (isError) customTiming.Errored = true;
         }
 
         /// <summary>
