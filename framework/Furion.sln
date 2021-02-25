@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Extras.DatabaseAcces
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Extras.DatabaseAccessor.PetaPoco", "Furion.Extras.DatabaseAccessor.PetaPoco\Furion.Extras.DatabaseAccessor.PetaPoco.csproj", "{A333F347-A3C1-4153-9DCD-13A7F183A97E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestFurion", "..\unittest\UnitTestFurion\UnitTestFurion.csproj", "{A46CAF05-00A0-42DF-AB23-A1ECAE1BB0D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{A333F347-A3C1-4153-9DCD-13A7F183A97E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A333F347-A3C1-4153-9DCD-13A7F183A97E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A333F347-A3C1-4153-9DCD-13A7F183A97E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A46CAF05-00A0-42DF-AB23-A1ECAE1BB0D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A46CAF05-00A0-42DF-AB23-A1ECAE1BB0D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A46CAF05-00A0-42DF-AB23-A1ECAE1BB0D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A46CAF05-00A0-42DF-AB23-A1ECAE1BB0D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
