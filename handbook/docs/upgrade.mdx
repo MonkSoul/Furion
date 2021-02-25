@@ -473,9 +473,9 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **问题修复**
 
-  - [修复] `ApiSears.ControllerEnd`不起作用 bug [#I25KH6](https://gitee.com/monksoul/Fur/issues/I25KH6)
-  - [修复] `RemoteRequest` 请求完成结果序列化属性大小写问题 [#I25I8R](https://gitee.com/monksoul/Fur/issues/I25I8R)
-  - [修复] `HttpContext.GetEndpoinet()` 空异常 bug [#PR73](https://gitee.com/monksoul/Fur/pulls/73)
+  - [修复] `ApiSears.ControllerEnd`不起作用 bug [#I25KH6](https://gitee.com/dotnetchina/Furion/issues/I25KH6)
+  - [修复] `RemoteRequest` 请求完成结果序列化属性大小写问题 [#I25I8R](https://gitee.com/dotnetchina/Furion/issues/I25I8R)
+  - [修复] `HttpContext.GetEndpoinet()` 空异常 bug [#PR73](https://gitee.com/dotnetchina/Furion/pulls/73)
 
 - **其他更改**
 
@@ -491,9 +491,9 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **新特性**
 
-  - [新增] `Pomelo.EntityFrameworkCore.MySql` 最新 .NET 5 包配置 [#I24ZQK](https://gitee.com/monksoul/Fur/issues/I24ZQK)
+  - [新增] `Pomelo.EntityFrameworkCore.MySql` 最新 .NET 5 包配置 [#I24ZQK](https://gitee.com/dotnetchina/Furion/issues/I24ZQK)
   - [新增] `.AddDateTimeJsonConverter(format)` 时间格式序列化配置
-  - [新增] `DateTime` 和 `DateTimeOffset` 类型序列化格式配置 [#I253FI](https://gitee.com/monksoul/Fur/issues/I253FI)
+  - [新增] `DateTime` 和 `DateTimeOffset` 类型序列化格式配置 [#I253FI](https://gitee.com/dotnetchina/Furion/issues/I253FI)
 
 - **突破性变化**
 
@@ -505,16 +505,16 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - **问题修复**
 
   - [修复] `services.AddFriendlyException()` 缺少配置注入 bug
-  - [修复] 数据库上下文池被释放和高并发下内存溢出 bug [#I2524K](https://gitee.com/monksoul/Fur/issues/I2524K)，[#I24UMN](https://gitee.com/monksoul/Fur/issues/I24UMN)
-  - [修复] `Sql代理` 返回空数据时异常 bug [#I24TCK](https://gitee.com/monksoul/Fur/issues/I24TCK)
-  - [修复] 工作单元 `[UnitOfWork]` 多数据库被释放 bug [#I24Q6W](https://gitee.com/monksoul/Fur/issues/I24Q6W)
+  - [修复] 数据库上下文池被释放和高并发下内存溢出 bug [#I2524K](https://gitee.com/dotnetchina/Furion/issues/I2524K)，[#I24UMN](https://gitee.com/dotnetchina/Furion/issues/I24UMN)
+  - [修复] `Sql代理` 返回空数据时异常 bug [#I24TCK](https://gitee.com/dotnetchina/Furion/issues/I24TCK)
+  - [修复] 工作单元 `[UnitOfWork]` 多数据库被释放 bug [#I24Q6W](https://gitee.com/dotnetchina/Furion/issues/I24Q6W)
 
 - **其他更改**
 
   - [调整] `EntityBase` 和 `Entity` 所有属性为 `vitural` 修饰
   - [优化] `Jwt` 读取和解析性能
   - [优化] 优化代码支持 C# 9.0 最新语法
-  - [优化] `MD5` 加密性能 [#PR71](https://gitee.com/monksoul/Fur/pulls/71)
+  - [优化] `MD5` 加密性能 [#PR71](https://gitee.com/dotnetchina/Furion/pulls/71)
   - [移除] 无用或未使用代码
 
 - **文档**
@@ -527,7 +527,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **新特性**
 
-  - [新增] 网络请求 `RemoteRequest` 组件 [#I1YYWD](https://gitee.com/monksoul/Fur/issues/I1YYWD)
+  - [新增] 网络请求 `RemoteRequest` 组件 [#I1YYWD](https://gitee.com/dotnetchina/Furion/issues/I1YYWD)
   - [新增] `.AddInjectBase()` 注入，只包含基础服务注入
   - [新增] 所有服务都支持 `IServiceCollection` 和 `IMvcBuilder` 注入
   - [新增] 抛异常状态码设置功能 `StatusCode`
@@ -547,17 +547,17 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [修复] 数据库非依赖注入方式提交无效 bug
   - [修复] 应用程序池提交所有 `DbContext` 空异常 bug
   - [修复] `Saas` 多租户 `Tenant` 类型字符串属性在 `MySql` 数据库下出现 `longtext` 类型 bug
-  - [修复] `Mvc` 自动验证字符串空值 bug [#I24M2T](https://gitee.com/monksoul/Fur/issues/I24M2T)
-  - [修复] 枚举注释被覆盖 bug [#I24N6J](https://gitee.com/monksoul/Fur/issues/I24N6J)
-  - [修复] 忽略规范化结果无效 bug [#I24B8P](https://gitee.com/monksoul/Fur/issues/I24B8P)
-  - [修复] `Swagger` 默认 `ContentType` 不是 `applicaiton/json` bug [#I24F3U](https://gitee.com/monksoul/Fur/issues/I24F3U)
-  - [修复] 内置 `System.Text.Json` 和 `Newtonsoft.Json` 冲突 bug [#I24F3U](https://gitee.com/monksoul/Fur/issues/I24F3U)
+  - [修复] `Mvc` 自动验证字符串空值 bug [#I24M2T](https://gitee.com/dotnetchina/Furion/issues/I24M2T)
+  - [修复] 枚举注释被覆盖 bug [#I24N6J](https://gitee.com/dotnetchina/Furion/issues/I24N6J)
+  - [修复] 忽略规范化结果无效 bug [#I24B8P](https://gitee.com/dotnetchina/Furion/issues/I24B8P)
+  - [修复] `Swagger` 默认 `ContentType` 不是 `applicaiton/json` bug [#I24F3U](https://gitee.com/dotnetchina/Furion/issues/I24F3U)
+  - [修复] 内置 `System.Text.Json` 和 `Newtonsoft.Json` 冲突 bug [#I24F3U](https://gitee.com/dotnetchina/Furion/issues/I24F3U)
 
 - **其他更改**
 
-  - [调整] `Fur` 框架域名为：[https://furos.cn](https://furos.cn)
+  - [调整] `Fur` 框架域名为：[https://furion.pro](https://furion.pro)
   - [调整] 仓储 `FromSqlRaw` 和 `FromSqlInterpolated` 接口位置
-  - [优化] 数据加解密性能，[#PR70](https://gitee.com/monksoul/Fur/pulls/70)
+  - [优化] 数据加解密性能，[#PR70](https://gitee.com/dotnetchina/Furion/pulls/70)
 
 - **文档**
 
