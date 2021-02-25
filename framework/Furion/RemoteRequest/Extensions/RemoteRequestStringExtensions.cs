@@ -257,9 +257,7 @@ namespace Furion.RemoteRequest.Extensions
             using var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);
 
             // 反序列化结果
-            if (deserResultOptions == null)
-                deserResultOptions = JsonSerializerUtility.GetDefaultJsonSerializerOptions();
-            var result = await JsonSerializer.DeserializeAsync<T>(responseStream, deserResultOptions, cancellationToken);
+            var result = await JsonSerializer.DeserializeAsync<T>(responseStream, deserResultOptions ??= JsonSerializerUtility.GetDefaultJsonSerializerOptions(), cancellationToken);
             return result;
         }
 
