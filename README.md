@@ -208,7 +208,7 @@ Although sparrow is small, it has all five internal organs. `Furion` only integr
 
 ## 🌴 Stargazers
 
-[![Stargazers over time](https://whnb.wang/img/dotnetchina/Furion?e=43200)](https://whnb.wang/monksoul/Furion?expire=43200)
+[![Stargazers over time](https://whnb.wang/img/dotnetchina/Furion?e=43200)](https://whnb.wang/dotnetchina/Furion?e=43200)
 
 ## 🍻 Contribution
 
