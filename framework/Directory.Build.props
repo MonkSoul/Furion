@@ -6,7 +6,7 @@
 		<Copyright>© 2020 Furion, Baiqian Co.,Ltd.</Copyright>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<PackageProjectUrl>https://furion.pro</PackageProjectUrl>
-		<RepositoryUrl>https://gitee.com/monksoul/Furion</RepositoryUrl>
+		<RepositoryUrl>https://gitee.com/dotnetchina/Furion</RepositoryUrl>
 		<RepositoryType>Gitee</RepositoryType>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>

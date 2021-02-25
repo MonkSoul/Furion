@@ -7,7 +7,7 @@ WORKDIR /source
 
 # Download Source
 RUN git init
-RUN git remote add -t master -m master origin https://gitee.com/monksoul/Furion.git
+RUN git remote add -t master -m master origin https://gitee.com/dotnetchina/Furion.git
 RUN git config core.sparseCheckout true
 RUN echo samples >> .git/info/sparse-checkout
 RUN git pull --depth 1 origin main

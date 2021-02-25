@@ -69,7 +69,7 @@ module.exports = {
         //   ],
         // },
         // {
-        //   href: "https://gitee.com/monksoul/Furion/board",
+        //   href: "https://gitee.com/dotnetchina/Furion/board",
         //   label: "看板",
         //   position: "right",
         // },
@@ -80,7 +80,7 @@ module.exports = {
           items: [
             {
               label: "Gitee",
-              href: "https://gitee.com/monksoul/Furion",
+              href: "https://gitee.com/dotnetchina/Furion",
             },
             {
               label: "GitHub",
@@ -124,11 +124,11 @@ module.exports = {
           items: [
             {
               label: "讨论",
-              href: "https://gitee.com/monksoul/Furion/issues",
+              href: "https://gitee.com/dotnetchina/Furion/issues",
             },
             {
               label: "看板",
-              href: "https://gitee.com/monksoul/Furion/board",
+              href: "https://gitee.com/dotnetchina/Furion/board",
             },
           ],
         },
@@ -141,7 +141,7 @@ module.exports = {
             },
             {
               label: "仓库",
-              href: "https://gitee.com/monksoul/Furion",
+              href: "https://gitee.com/dotnetchina/Furion",
             },
           ],
         },
@@ -161,13 +161,13 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
-          editUrl: "https://gitee.com/monksoul/Furion/tree/master/handbook/",
+          editUrl: "https://gitee.com/dotnetchina/Furion/tree/master/handbook/",
           showLastUpdateTime: true,
           showLastUpdateAuthor: true,
         },
         blog: {
           showReadingTime: true,
-          editUrl: "https://gitee.com/monksoul/Furion/tree/master/handbook/",
+          editUrl: "https://gitee.com/dotnetchina/Furion/tree/master/handbook/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),

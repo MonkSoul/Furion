@@ -7,7 +7,7 @@
 
 <div align="center">
 
-[![star](https://gitee.com/monksoul/Furion/badge/star.svg?theme=gvp)](https://gitee.com/monksoul/Furion/stargazers) [![fork](https://gitee.com/monksoul/Furion/badge/fork.svg?theme=gvp)](https://gitee.com/monksoul/Furion/members) [![GitHub stars](https://img.shields.io/github/stars/MonkSoul/Furion?logo=github)](https://github.com/MonkSoul/Furion/stargazers) [![GitHub forks](https://img.shields.io/github/forks/MonkSoul/Furion?logo=github)](https://github.com/MonkSoul/Furion/network) [![GitHub license](https://img.shields.io/badge/license-Apache2-yellow)](https://gitee.com/monksoul/Furion/blob/master/LICENSE) [![nuget](https://img.shields.io/nuget/v/Furion.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion)
+[![star](https://gitee.com/dotnetchina/Furion/badge/star.svg?theme=gvp)](https://gitee.com/dotnetchina/Furion/stargazers) [![fork](https://gitee.com/dotnetchina/Furion/badge/fork.svg?theme=gvp)](https://gitee.com/dotnetchina/Furion/members) [![GitHub stars](https://img.shields.io/github/stars/MonkSoul/Furion?logo=github)](https://github.com/MonkSoul/Furion/stargazers) [![GitHub forks](https://img.shields.io/github/forks/MonkSoul/Furion?logo=github)](https://github.com/MonkSoul/Furion/network) [![GitHub license](https://img.shields.io/badge/license-Apache2-yellow)](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) [![nuget](https://img.shields.io/nuget/v/Furion.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion)
 
 </div>
 
@@ -57,7 +57,7 @@ Kangaroo has the characteristics of **long legs, bagging and self running**.
 
 ## 🍟 Document
 
-- Domestic documents: [https://monksoul.gitee.io/furion](https://monksoul.gitee.io/furion)
+- Domestic documents: [https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
 - Foreign documents: [https://furion.pro](https://furion.pro)
 
 **At present, the document is gradually improving.**
@@ -74,12 +74,12 @@ Kangaroo has the characteristics of **long legs, bagging and self running**.
 ## 🥦 Tutorials
 
 - **Furion Video tutorial: [https://space.bilibili.com/695987967](https://space.bilibili.com/695987967)**
-- Furion Samples：[https://gitee.com/monksoul/furion-samples](https://gitee.com/monksoul/furion-samples) **Maybe most of the examples are not common anymore**
-- Furion Series of tutorials: [《Learn .NET 5 from Furion》](https://gitee.com/monksoul/Furion/blob/main/tutorials)
+- Furion Samples：[https://gitee.com/dotnetchina/Furion-samples](https://gitee.com/dotnetchina/Furion-samples) **Maybe most of the examples are not common anymore**
+- Furion Series of tutorials: [《Learn .NET 5 from Furion》](https://gitee.com/dotnetchina/Furion/blob/main/tutorials)
 
 ## 🌭 Souce Code
 
-- Gitee：[https://gitee.com/monksoul/Furion](https://gitee.com/monksoul/Furion)
+- Gitee：[https://gitee.com/dotnetchina/Furion](https://gitee.com/dotnetchina/Furion)
 - GitHub：[https://github.com/monksoul/Furion](https://github.com/monksoul/Furion)
 - Docker：[https://hub.docker.com/r/monksoul/furion](https://hub.docker.com/r/monksoul/furion)
 - Nuget：[https://www.nuget.org/packages/Furion](https://www.nuget.org/packages/Furion)
@@ -131,7 +131,7 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 |      [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.Blazor/)      | Furion.Template.Blazor           |           [![nuget](https://img.shields.io/nuget/v/Furion.Template.Blazor.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.Blazor/)           | Blazor Template            |
 | [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Template.BlazorWithWebApi/) | Furion.Template.BlazorWithWebApi | [![nuget](https://img.shields.io/nuget/v/Furion.Template.BlazorWithWebApi.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Template.BlazorWithWebApi/) | Blazor/WebApi Template     |
 
-**[How to use template](https://monksoul.gitee.io/furion/docs/template)**
+**[How to use template](https://dotnetchina.gitee.io/furion/docs/template)**
 
 ## 🍎 Features
 
@@ -208,10 +208,10 @@ Although sparrow is small, it has all five internal organs. `Furion` only integr
 
 ## 🌴 Stargazers
 
-[![Stargazers over time](https://whnb.wang/img/monksoul/Furion?expire=43200)](https://whnb.wang/monksoul/Furion?expire=43200)
+[![Stargazers over time](https://whnb.wang/img/dotnetchina/Furion?e=43200)](https://whnb.wang/monksoul/Furion?expire=43200)
 
 ## 🍻 Contribution
 
 `Furion` follows the `Apache-2.0` open source agreement. You are welcome to submit `Pull Request` or `Issue`.
 
-If you want to contribute to a project, check out the [Contribution Guide](https://monksoul.gitee.io/furion/docs/contribute)。
+If you want to contribute to a project, check out the [Contribution Guide](https://dotnetchina.gitee.io/furion/docs/contribute)。
