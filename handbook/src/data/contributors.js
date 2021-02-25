@@ -330,7 +330,7 @@ const contributors = [
       "https://portrait.gitee.com/uploads/avatars/user/114/343543_huiwei13_1607412231.png!avatar200",
   },
   {
-    author: "新生帝",
+    author: "JsonLei",
     link: "https://gitee.com/jsonlei",
     photo:
       "https://portrait.gitee.com/uploads/avatars/user/175/526488_jsonlei_1601085009.png!avatar200",
@@ -412,6 +412,12 @@ const contributors = [
     link: "https://gitee.com/andyliuqiurong",
     photo:
       "https://portrait.gitee.com/uploads/avatars/user/19/58386_andyliuqiurong_1600142677.png!avatar200",
+  },
+  {
+    author: "晓风",
+    link: "https://gitee.com/2103625",
+    photo:
+      "https://portrait.gitee.com/uploads/avatars/user/120/360653_2103625_1578921473.png!avatar200",
   },
 ];
 

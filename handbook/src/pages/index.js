@@ -12,7 +12,7 @@ import KubernetesIcon from "./kubernetes.svg";
 import components from "@theme/MDXComponents";
 import "./index.css";
 import "./index.own.css";
-import contributors from "./contributors";
+import contributors from "../data/contributors";
 
 function Home() {
   const context = useDocusaurusContext();
@@ -27,7 +27,7 @@ function Home() {
       <ProccessOn />
       <Remark />
       <WhoUse />
-      <Contributors />
+      <Contributor />
       <Links />
     </Layout>
   );
@@ -155,7 +155,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>785,271</div>
+            <div style={{ color: "#1fd898" }}>793,086</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -365,7 +365,7 @@ function Links() {
   );
 }
 
-function Contributors() {
+function Contributor() {
   const { isDarkTheme, setLightTheme, setDarkTheme } = useThemeContext();
 
   return (
