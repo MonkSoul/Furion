@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Furion.InstantMessaging
 {
     /// <summary>
-    /// 实时通讯静态类
+    /// 即时通讯静态类
     /// </summary>
     public static class IM
     {

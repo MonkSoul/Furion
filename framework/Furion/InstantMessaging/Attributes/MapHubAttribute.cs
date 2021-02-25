@@ -1,10 +1,10 @@
-﻿using Furion.DependencyInjection;
+using Furion.DependencyInjection;
 using System;
 
 namespace Furion.InstantMessaging
 {
     /// <summary>
-    /// 实时通讯集线器配置特性
+    /// 即时通讯集线器配置特性
     /// </summary>
     [SkipScan, AttributeUsage(AttributeTargets.Class)]
     public sealed class MapHubAttribute : Attribute
