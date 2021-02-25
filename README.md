@@ -74,7 +74,7 @@ Kangaroo has the characteristics of **long legs, bagging and self running**.
 ## 🥦 Tutorials
 
 - **Furion Video tutorial: [https://space.bilibili.com/695987967](https://space.bilibili.com/695987967)**
-- Furion Samples：[https://gitee.com/dotnetchina/Furion-samples](https://gitee.com/dotnetchina/Furion-samples) **Maybe most of the examples are not common anymore**
+- Furion Samples：[https://gitee.com/monksoul/furion-samples](https://gitee.com/monksoul/furion-samples) **Maybe most of the examples are not common anymore**
 - Furion Series of tutorials: [《Learn .NET 5 from Furion》](https://gitee.com/dotnetchina/Furion/blob/main/tutorials)
 
 ## 🌭 Souce Code

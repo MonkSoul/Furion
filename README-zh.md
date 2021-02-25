@@ -74,7 +74,7 @@
 ## 🥦 系列教程
 
 - **Furion 视频教程：[https://space.bilibili.com/695987967](https://space.bilibili.com/695987967)**
-- Furion 使用例子：[https://gitee.com/dotnetchina/Furion-samples](https://gitee.com/dotnetchina/Furion-samples) **可能大部分示例已经不通用**
+- Furion 使用例子：[https://gitee.com/monksoul/furion-samples](https://gitee.com/monksoul/furion-samples) **可能大部分示例已经不通用**
 - Furion 系列教程：[《学 .NET 5 从 Furion 开始》](https://gitee.com/dotnetchina/Furion/blob/main/tutorials) 系列
 
 ## 🌭 开源地址
