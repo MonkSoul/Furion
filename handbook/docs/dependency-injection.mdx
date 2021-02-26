@@ -578,7 +578,7 @@ services.AddScoped(typeof(ISpecService), provider = > {
 假设我们有 `ITestService` 和 `TestService` 两个类型：
 
 ```cs
-public class ITestService
+public interface ITestService
 {
     string SayHello(string word);
 }
