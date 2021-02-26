@@ -117,6 +117,24 @@ namespace Furion.Web.Core
 
 另外请求设置 `withCredentials: false` 即可。
 
+## 16.7 使用 `$.ajax` 前端注意事项
+
+使用 `Jquery` 前端请求可以参考以下配置：
+
+```cs {4-7}
+$.ajax({
+        url: "http://localhost:8080/getdata",
+        type: "GET",
+        xhrFields: {
+            withCredentials: true
+        },
+        crossDomain: true,
+        success: function (res) {
+            render(res);
+        }
+});
+```
+
 ## 16.7 反馈与建议
 
 :::note 与我们交流
