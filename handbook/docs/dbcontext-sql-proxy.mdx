@@ -300,7 +300,7 @@ namespace Furion.Application
 }
 ```
 
-### 9.17.5.2 返回 `T 或 List<T>`
+### 9.17.5.2 返回 List<T>`
 
 ```cs {7,10,13}
 using Furion.DatabaseAccessor;
@@ -316,7 +316,7 @@ namespace Furion.Application
         List<Person> GetPersons(int id);
 
         [SqlProcedure("PROC_Name")]
-        Person GetPersons(int id, string name);
+        List<Person> GetPersons(int id, string name);
     }
 }
 ```
