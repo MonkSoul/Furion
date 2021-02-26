@@ -117,7 +117,7 @@ select * from person where id > @id and name = @name;
 
 :::
 
-### 9.17.4.2 返回 `T 或 List<T>`
+### 9.17.4.2 返回 List<T>`
 
 ```cs {8,12,16,20}
 using Furion.DatabaseAccessor;
@@ -136,7 +136,7 @@ namespace Furion.Application
 
         // 执行存储过程 sql，支持设置参数类型
         [SqlExecute("exec PROP_NAME @id", CommandType = CommandType.StoredProcedure)]
-        Person GetPerson(int id));
+        List<Person> GetPerson(int id));
 
         // 支持多数据库操作
         [SqlExecute("select * from person", DbContextLocator = typeof(MySqlDbContextLocator))]
