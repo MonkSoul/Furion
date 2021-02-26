@@ -41,7 +41,7 @@ return (descHash, str);
 
 ```cs
 // 测试 AES 加解密
-var key = Guid.NewGuid().ToString("N"); // 密钥，长度必须大于20位
+var key = Guid.NewGuid().ToString("N"); // 密钥，长度必须为24位或32位
 
 var aesHash = AESEncryption.Encrypt("百小僧", key); // 加密
 var str2 = AESEncryption.Decrypt(aesHash, key); // 解密
