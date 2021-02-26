@@ -51,7 +51,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 ### 9.19.2.3 输入 `cli.ps1` 命令
 
 ```shell
- &"../tools/cli.ps1" -CoreProject "你的Core层" -EntryProject "你的启动层"
+ &"../tools/cli.ps1" -CoreProject "你的Core层" -EntryProject "你的启动层" -ConnectionName "连接字符串的key"
 ```
 
 如果不清楚当前运行环境的路径，可以输入 `pwd` 查看。
@@ -337,7 +337,7 @@ PM>
 
 - `-Tables`：配置要生成的数据库表，数组类型，如果为空，则生成数据库所有表和视图。如：`-Tables Person,PersonDetails`
 - `-Context`：配置数据库上下文，默认 `FurionDbContext`，如果有多个数据库上下文，则此参数必须配置
-- `-ConnectionName`：配置数据库连接字符串，对于 `appsetting.json` 中的 `Key`
+- `-ConnectionName`：配置数据库连接字符串，对应 `appsetting.json` 中的 `Key`
 - `-OutputDir`：生成实体代码输出目录，默认为：`./Furion.Core/Entities/`
 - `-DbProvider`：数据库提供器，默认是 `Microsoft.EntityFrameworkCore.SqlServer`，其他数据库请指定对应程序集
   - `SqlServer`：`Microsoft.EntityFrameworkCore.SqlServer`
