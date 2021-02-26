@@ -202,6 +202,12 @@ namespace Furion.Core
 
 如，上面例子，通过 `SomeClass` 配置 `User` 数据库实体。
 
+:::important 更多知识
+
+如需了解实体配置支持哪些配置可查阅 [【EFCore - 创建模型】](https://docs.microsoft.com/zh-cn/ef/core/modeling/) 章节。
+
+:::
+
 ## 9.3.4 数据库实体配置说明
 
 `Furion` 框架会自动扫描所有继承 `IEntity` 接口的类进行 `DbSet<TEntity>` 注册，也就是实现自动配置 `DbContext` 的 `OnModelCreating`。
