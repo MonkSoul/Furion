@@ -419,6 +419,12 @@ const contributors = [
     photo:
       "https://portrait.gitee.com/uploads/avatars/user/120/360653_2103625_1578921473.png!avatar200",
   },
+  {
+    author: "痞子再",
+    link: "https://gitee.com/washala",
+    photo:
+      "https://portrait.gitee.com/uploads/avatars/user/368/1106699_washala_1578940434.png!avatar200",
+  },
 ];
 
 export default contributors;
