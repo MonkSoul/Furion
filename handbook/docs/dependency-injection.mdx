@@ -49,7 +49,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - 优点
 
-  - 在构造方法中体现出对其他类的依赖，一眼就能看出这个类需要其他那些类才能工作
+  - 在构造方法中体现出对其他类的依赖，一眼就能看出这个类需要依赖哪些类才能工作
   - 脱离了 IOC 框架，这个类仍然可以工作，POJO 的概念
   - 一旦对象初始化成功了，这个对象的状态肯定是正确的
 
@@ -547,7 +547,7 @@ services.AddScoped(typeof(ISpecService), provider = > {
       - `Pattern`：注册选项，参见 [#128-injection-特性配置](#128-injection-特性配置)
       - `Named`：注册别名，参见 [#128-injection-特性配置](#128-injection-特性配置)
       - `Order`：注册排序，参见 [#128-injection-特性配置](#128-injection-特性配置)
-      - `Proxy`：配置代理拦截，，格式：`程序集名称;代理类完整名称`，参见 [#128-injection-特性配置](#128-injection-特性配置)
+      - `Proxy`：配置代理拦截，格式：`程序集名称;代理类完整名称`，参见 [#128-injection-特性配置](#128-injection-特性配置)
 
 :::important 关于外部程序集
 
