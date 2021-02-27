@@ -431,6 +431,12 @@ const contributors = [
     photo:
       "https://portrait.gitee.com/uploads/avatars/user/2538/7614116_aiglory_1614332140.png!avatar200",
   },
+  {
+    author: "kingling",
+    link: "https://gitee.com/kinglinglive",
+    photo:
+      "https://portrait.gitee.com/uploads/avatars/user/1674/5022588_kinglinglive_1578978642.png!avatar200",
+  },
 ];
 
 export default contributors;
