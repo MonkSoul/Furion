@@ -551,9 +551,9 @@ namespace Furion.DatabaseAccessor
         TEntity Max(bool? tracking = null, bool ignoreQueryFilters = false);
 
         /// <summary>
-        /// 根据表达式查看最小值
+        /// 根据表达式查看最大值
         /// </summary>
-        /// <typeparam name="TResult">最小值类型</typeparam>
+        /// <typeparam name="TResult">最大值类型</typeparam>
         /// <param name="predicate">表达式</param>
         /// <param name="tracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
@@ -570,9 +570,9 @@ namespace Furion.DatabaseAccessor
         Task<TEntity> MaxAsync(bool? tracking = null, bool ignoreQueryFilters = false, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 根据表达式查看最小值
+        /// 根据表达式查看最大值
         /// </summary>
-        /// <typeparam name="TResult">最小值类型</typeparam>
+        /// <typeparam name="TResult">最大值类型</typeparam>
         /// <param name="predicate">表达式</param>
         /// <param name="tracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
