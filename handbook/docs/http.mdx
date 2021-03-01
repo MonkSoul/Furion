@@ -224,6 +224,15 @@ void DeleteIds(int[] ids);
 void DeleteIds([Query]UserDto user);
 ```
 
+- `对象` 参数
+
+```cs
+[Post("https://www.furion.pro/update-user")]
+void EditUser(UserDto user);
+```
+
+对象类型参数默认以 `Body` 方式传递。
+
 :::important 类对象解构说明
 
 默认情况下，执行 `Get/Head` 请求时不会处理 `类对象` 类型参数，但是如果贴了 `[Query]` 参数后，会自动将对象解析成 `url` 地址格式，如 `?name=百小僧&age=27`。
@@ -361,7 +370,7 @@ Task<User> GetData();
 
 ```cs
 [Post("https://www.furion.pro/getdata", HttpContentType  = HttpContentTypeOptions.JsonStringContent)]
-Task<User> GetData();
+Task<User> GetData(User user);
 ```
 
 - `HttpContentTypeOptions` 可选值：
