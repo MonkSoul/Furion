@@ -191,7 +191,7 @@ namespace Furion.EntityFramework.Core
 }
 ```
 
-在 `GetTenantId()` 方法中，首先获取请求的 `主机地址`，然后根据主机地址查询对应的租户 `TenantIdId`，避免多次查询数据库，这里使用了 `IMemoryCache` 内存缓存。
+在 `GetTenantId()` 方法中，首先获取请求的 `主机地址`，然后根据主机地址查询对应的租户 `TenantId`，避免多次查询数据库，这里使用了 `IMemoryCache` 内存缓存。
 
 :::important 特别说明
 
