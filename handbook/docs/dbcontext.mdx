@@ -288,7 +288,17 @@ var users = respository.DynamicContext.Users;
 
 这样就可以直接操作 `MyDbContext` 定义的属性和方法了。
 
-## 9.1.9 反馈与建议
+## 9.1.9 在后台任务中使用
+
+由于 `DbContext` 默认注册为 `Scoped` 生存周期，所以在后台任务中使用 `DbContext` 需通过静态创建方式，如：
+
+```cs
+var dbContext = Db.GetNewDbContext();
+// 或
+var dbContext2 = Db.GetNewDbContext<TDbContextLocator>();
+```
+
+## 9.1.10 反馈与建议
 
 :::note 与我们交流
 

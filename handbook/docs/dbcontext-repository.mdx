@@ -241,7 +241,20 @@ int GetAge(int id);
 string GetName()=> throw Oops.Oh("不支持该数据库操作");
 ```
 
-## 9.4.5 反馈与建议
+## 9.4.5 在后台任务中使用
+
+由于仓储默认注册为 `Scoped` 生命周期，另外 `Furion` 暂未提供在后台任务中使用仓储操作。如需操作数据库，可使用：
+
+```cs
+var dbContext = Db.GetNewDbContext();
+// 或
+var dbContext2 = Db.GetNewDbContext<TDbContextLocator>();
+
+// 操作 person 表
+var person = dbContext.Set<Person>().Find(1);
+```
+
+## 9.4.6 反馈与建议
 
 :::note 与我们交流
 
