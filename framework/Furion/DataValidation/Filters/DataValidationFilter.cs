@@ -69,7 +69,7 @@ namespace Furion.DataValidation
             }
 
             // 返回验证失败结果
-            if (context.Result == null && !modelState.IsValid)
+            if (!isMvcController && context.Result == null && !modelState.IsValid)
             {
                 // 设置验证失败结果
                 SetValidateFailedResult(context, modelState, actionDescriptor, isMvcController);

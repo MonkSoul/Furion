@@ -24,6 +24,7 @@ namespace Furion.DataValidation
             ModelStateDictionary _modelState = null;
             Dictionary<string, IEnumerable<string>> validationResults = null;
 
+            // 如果是模型验证字典类型
             if (errors is ModelStateDictionary modelState)
             {
                 _modelState = modelState;
@@ -31,16 +32,19 @@ namespace Furion.DataValidation
                 validationResults = modelState.ToDictionary(u => !JsonSerializerUtility.EnabledPascalPropertyNaming ? u.Key.ToTitlePascal() : u.Key
                                                                  , u => modelState[u.Key].Errors.Select(c => c.ErrorMessage));
             }
+            // 如果是 ValidationProblemDetails 特殊类型
             else if (errors is ValidationProblemDetails validation)
             {
                 validationResults = validation.Errors.ToDictionary(u => !JsonSerializerUtility.EnabledPascalPropertyNaming ? u.Key.ToTitlePascal() : u.Key
                                                                  , u => u.Value.AsEnumerable());
             }
+            // 其他类型
             else validationResults = new Dictionary<string, IEnumerable<string>>
             {
                 { string.Empty, new[] { errors?.ToString() } }
             };
 
+            // 序列化
             var validateFaildMessage = JsonSerializerUtility.Serialize(validationResults);
 
             return (validationResults, validateFaildMessage, _modelState);
