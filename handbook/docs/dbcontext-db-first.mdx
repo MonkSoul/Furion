@@ -51,8 +51,14 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 ### 9.19.2.3 输入 `cli.ps1` 命令
 
 ```shell
- &"../tools/cli.ps1" -CoreProject "你的Core层" -EntryProject "你的启动层" -ConnectionName "连接字符串的key"
+ &"../tools/cli.ps1" -DbProvider "EFCore数据库程序集名" -CoreProject "你的Core层" -EntryProject "你的启动层" -ConnectionName "连接字符串的 [key]"
 ```
+
+:::note 小提示
+
+如果使用的是 `SqlServer` 数据库，则默认不需要指定 `-DbProvider` 参数。
+
+:::
 
 如果不清楚当前运行环境的路径，可以输入 `pwd` 查看。
 

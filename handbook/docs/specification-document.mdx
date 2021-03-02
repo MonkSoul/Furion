@@ -916,6 +916,18 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 UnifyContext.Fill(new { Message = "操作成功" });
 ```
 
+### 6.7.3 自定义特别接口规范化结果
+
+有些时候，我们特定接口需返回特定的接口类型，无需规范化处理，这时候我们只需要贴 `[UnifyResult(typeof(结果类))]` 或 `[ProducesResponseType(typeof(结果类),200)]`，如：
+
+```cs
+[UnifyResult(typeof(Person))]
+public Person GetPerson(int id)
+{
+  // ...
+}
+```
+
 ## 6.8 反馈与建议
 
 :::note 与我们交流
