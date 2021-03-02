@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -128,12 +129,15 @@ namespace Furion.DatabaseAccessor
                 // 获取主机地址
                 var host = httpContext.Request.Host.Value;
 
+                // 获取服务提供器
+                var serviceProvider = httpContext.RequestServices;
+
                 // 从内存缓存中读取或查询数据库
-                var memoryCache = App.GetService<IMemoryCache>();
+                var memoryCache = serviceProvider.GetService<IMemoryCache>();
                 return memoryCache.GetOrCreate($"{host}:MultiTenants", cache =>
                 {
-                    // 读取数据库
-                    var tenantDbContext = Db.GetNewDbContext<MultiTenantDbContextLocator>();
+                    // 获取新的租户数据库上下文
+                    using var tenantDbContext = serviceProvider.GetService<Func<Type, ITransient, DbContext>>()(typeof(MultiTenantDbContextLocator), default);
                     if (tenantDbContext == null) return default;
 
                     return tenantDbContext.Set<Tenant>().FirstOrDefault(u => u.Host == host);

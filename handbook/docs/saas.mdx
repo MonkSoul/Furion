@@ -703,7 +703,18 @@ var tenantDbContext = Db.GetDbContext<MultiTenantDbContextLocator>();
 var myTenant = tenantDbContext.Set<MyTenant>();
 ```
 
-## 11.9 反馈与建议
+## 11.9 刷新租户缓存
+
+`Furion` 框架会在租户上下文第一次查询时候将租户表缓存起来，避免频发查询数据库，如果更新了租户表，则需要手动刷新租户信息，如：
+
+```cs
+using Furion.DatabaseAccessor.Extensions;
+
+// 在更新租户信息后调用
+_repository.Context.RefreshTenantCache();
+```
+
+## 11.10 反馈与建议
 
 :::note 与我们交流
 

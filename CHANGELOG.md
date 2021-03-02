@@ -2,6 +2,8 @@
 
 - **新特性**
 
+  - [新增] `DbContext` 刷新多租户缓存拓展方法 [#I39N5U](https://gitee.com/dotnetchina/Furion/issues/I39N5U)
+
 - **突破性变化**
 
 - **问题修复**
