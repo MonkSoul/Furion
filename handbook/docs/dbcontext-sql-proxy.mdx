@@ -71,11 +71,11 @@ namespace Furion.Application
     public interface ISql : ISqlDispatchProxy
     {
         // 执行sql并传入参数，基元类型
-        [SqlExecute("select * from person where id >@id and name like %@name%")]
+        [SqlExecute("select * from person where id >@id and name like @name")]
         DataTable GetPerson(int id, string name);
 
         // 执行sql并传入参数，对象类型
-        [SqlExecute("select * from person where id >@id and name like %@name%")]
+        [SqlExecute("select * from person where id >@id and name like @name")]
         DataTable GetPerson(MyParam paras));
 
         // 执行存储过程 sql，支持设置参数类型
@@ -127,11 +127,11 @@ namespace Furion.Application
     public interface ISql : ISqlDispatchProxy
     {
         // 执行sql并传入参数，基元类型
-        [SqlExecute("select * from person where id >@id and name like %@name%")]
+        [SqlExecute("select * from person where id >@id and name like @name")]
         List<Person> GetPerson(int id, string name);
 
         // 执行sql并传入参数，对象类型
-        [SqlExecute("select * from person where id >@id and name like %@name%")]
+        [SqlExecute("select * from person where id >@id and name like @name")]
         List<Person> GetPerson(MyParam paras));
 
         // 执行存储过程 sql，支持设置参数类型
@@ -160,13 +160,13 @@ namespace Furion.Application
     {
         // 执行sql并传入参数，基元类型
         [SqlExecute(@"
-            select * from person where id >@id and name like %@name%;
+            select * from person where id >@id and name like @name;
             select top 10 * from student where Id >@id;")]
         DataSet GetData(int id, string name);
 
         // 执行sql并传入参数，对象类型
         [SqlExecute(@"
-            select * from person where id >@id and name like %@name%;
+            select * from person where id >@id and name like @name;
             select top 10 * from student where Id >@id;")]
         DataSet GetData(MyParam paras));
 
@@ -203,13 +203,13 @@ namespace Furion.Application
     {
         // 执行sql并传入参数，基元类型
         [SqlExecute(@"
-            select * from person where id >@id and name like %@name%;
+            select * from person where id >@id and name like @name;
             select top 10 * from student where Id >@id;")]
         (List<Person>,List<Student>) GetData(int id, string name);
 
         // 执行sql并传入参数，对象类型
         [SqlExecute(@"
-            select * from person where id >@id and name like %@name%;
+            select * from person where id >@id and name like @name;
             select top 10 * from student where Id >@id;")]
         (List<Person>,List<Student>) GetData(MyParam paras));
 
