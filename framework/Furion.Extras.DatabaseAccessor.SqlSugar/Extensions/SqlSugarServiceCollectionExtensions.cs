@@ -31,7 +31,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddSqlSugar(this IServiceCollection services, ConnectionConfig[] configs, Action<ISqlSugarClient> buildAction = default)
         {
             // 注册 SqlSugar 客户端
-            services.AddScoped(u =>
+            services.AddScoped<ISqlSugarClient>(u =>
             {
                 var sqlSugarClient = new SqlSugarClient(configs.ToList());
                 buildAction?.Invoke(sqlSugarClient);
