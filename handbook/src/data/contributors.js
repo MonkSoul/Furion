@@ -443,6 +443,12 @@ const contributors = [
     photo:
       "https://portrait.gitee.com/uploads/avatars/user/737/2212002_HolyGuo_1614572017.png!avatar200",
   },
+  {
+    author: "engallon",
+    link: "https://gitee.com/engallon",
+    photo:
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAABn0lEQVR4Xu3XMUrDYByG8X+hvZGXKG4FR3UUegRv4BE6iqPQTVcP0MUugSIoBJxEPIAllVoXFeV7kpIvpU/nJ+Hrjzel6R0MT1bhJ0mgJ1aS02ckVrqVWMBKLLGIAGj9zRILCIDUZYkFBEDqssQCAiB1WWIBAZC6LLGAAEhdllhAAKQuSywgAFKXJRYQAKnLEgsIgLTVZZ0dj+L06DAG/T444t/p7L6I8fnFVu6VchOxUpS+GrF2BWtePMT09g4c93v68voWs3lR+3p6YdZltf2bQ3F+9mIBQbHEAgIgdVliAQGQuqxdwQLn/JXm+NuRdVli/SOwzRfpvVtWk9edtl911hvI+hjmWEeTR18soCeWWEAApC5LLCAAUpclFhAAadZlNflTuv6OVVXF4rGMp/IZfOX6aVas+sfeXPm+XMbl9U1MrqZNb5V0vVhJTJtIrK5igXN1Mm11WZ0UAIcSSywgAFKXJRYQAKnLEgsIgNRliQUEQOqyxAICIHVZYgEBkLossYAASF2WWEAApC5LLCAAUpclFhAAqcsSCwiA9AMCyEs5dUftBAAAAABJRU5ErkJggg==",
+  },
 ];
 
 export default contributors;
