@@ -12,9 +12,16 @@
 
 - **其他更改**
 
+  - [优化] 优化 `MessageCenter` 性能问题 [#I39PRR](https://gitee.com/dotnetchina/Furion/issues/I39PRR)
+
 - **文档变化**
 
+  - [更新] 跨域、安全授权、即时通信文档
+
 - **问答答疑**
+
+  - [答疑] `Furion.Extras.DatabaseAccessor.SqlSugar` 配置多个数据库打印 SQL 语句问题 [#I39PDC](https://gitee.com/dotnetchina/Furion/issues/I39PDC)
+  - [答疑] ORACLE 数据库多租户模式下返回值为指定类型时系统卡死 [#I39RNH](https://gitee.com/dotnetchina/Furion/issues/I39RNH)
 
 - **不做实现**
 
