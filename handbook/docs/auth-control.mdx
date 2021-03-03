@@ -29,7 +29,7 @@ sidebar_label: 15. 安全鉴权
 
 - `OAuth`
 
-OAuth（开放授权）是一个开放标准，允许用户授权第三方网站访问他们存储在另外的服务提供者上的信息，而不需要将用户名和密码提供给第三方网站或分享他们数据的所有内容，为了保护用户数据的安全和隐私，第三方网站访问用户数据前都需要显式的向用户征求授权。我们常见的提供 OAuth 认证服务的厂商有支付宝、QQ和微信。
+OAuth（开放授权）是一个开放标准，允许用户授权第三方网站访问他们存储在另外的服务提供者上的信息，而不需要将用户名和密码提供给第三方网站或分享他们数据的所有内容，为了保护用户数据的安全和隐私，第三方网站访问用户数据前都需要显式的向用户征求授权。我们常见的提供 OAuth 认证服务的厂商有支付宝、QQ 和微信。
 
 OAuth 协议又有 1.0 和 2.0 两个版本。相比较 1.0 版，2.0 版整个授权验证流程更简单更安全，也是目前最主要的用户身份验证和授权方式。
 
@@ -170,6 +170,41 @@ namespace Furion.Web.Core
 
 ```cs
 services.AddJwt<JwtHandler>();
+```
+
+### 15.3.2 完全自定义授权
+
+有些时候可能针对不同的平台采用不一样的授权方式，比如合作信任的第三方机构可以免授权，这时候我们只需要重写 `HandleAsync` 方法即可。如：
+
+```cs {11-25}
+using Furion.Authorization;
+using Furion.Core;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
+
+namespace Furion.Web.Core
+{
+    public class JwtHandler : AppAuthorizeHandler
+    {
+        public override async Task HandleAsync(AuthorizationHandlerContext context)
+        {
+            // 常规授权（可以判断不是第三方）
+            var isAuthenticated = context.User.Identity.IsAuthenticated;
+
+            // 第三方授权自定义
+            if(是第三方){
+                foreach (var requirement in pendingRequirements)
+                {
+                    // 授权成功
+                   context.Succeed(requirement);
+                }
+            }
+            // 授权失败
+            else context.Fail();
+        }
+    }
+}
 ```
 
 ## 15.4 授权特性及全局授权

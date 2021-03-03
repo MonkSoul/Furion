@@ -246,7 +246,15 @@ ORDER BY "p"."Id", "p0"."Id", "c"."Id", "t"."PersonsId", "t"."PostsId", "t"."Id"
 2020-12-21 15:58:34.187 +08:00 [INF] HTTP GET /swagger/Default/swagger.json responded 200 in 674.9800 ms
 ```
 
-## 18.7 反馈与建议
+## 18.7 打印日志到 `Swagger` 中
+
+在 `Furion` 框架中默认集成了 `MiniProfiler` 组件并与 `Swagger` 进行了结合，如需打印日志或调试代码，只需调用以下方法即可：
+
+```cs
+App.PrintToMiniProfiler("分类", "状态", "要打印的消息");
+```
+
+## 18.9 反馈与建议
 
 :::note 与我们交流
 

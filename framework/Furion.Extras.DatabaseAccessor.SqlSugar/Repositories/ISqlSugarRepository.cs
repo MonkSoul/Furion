@@ -34,7 +34,7 @@ namespace SqlSugar
         /// <summary>
         /// 数据库上下文
         /// </summary>
-        ISqlSugarClient Context { get; }
+        SqlSugarClient Context { get; }
 
         /// <summary>
         /// 动态数据库上下文

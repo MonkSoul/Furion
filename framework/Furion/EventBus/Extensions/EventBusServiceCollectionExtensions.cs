@@ -20,40 +20,34 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IServiceCollection AddSimpleEventBus(this IServiceCollection services)
         {
-            // 查找所有订阅处理程序
-            var subscribeHandlerTypes = App.EffectiveTypes
-                .Where(u => typeof(ISubscribeHandler).IsAssignableFrom(u) && u.IsClass && !u.IsInterface && !u.IsAbstract);
-
             // 查找所有贴了 [SubscribeMessage] 特性的方法，并且含有两个参数，第一个参数为 string messageId，第二个参数为 object payload
-            var methods = subscribeHandlerTypes
-                .SelectMany(u => u.GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                    .Where(m => m.IsDefined(typeof(SubscribeMessageAttribute), false)
-                                                && m.GetParameters().Length == 2
-                                                && m.GetParameters()[0].ParameterType == typeof(string)
-                                                && m.GetParameters()[1].ParameterType == typeof(object)
-                                                && m.ReturnType == typeof(void)));
+            var typeMethods = App.EffectiveTypes
+                    // 查询符合条件的订阅类型
+                    .Where(u => u.IsClass && !u.IsInterface && !u.IsAbstract && typeof(ISubscribeHandler).IsAssignableFrom(u))
+                    // 查询符合条件的订阅方法
+                    .SelectMany(u =>
+                        u.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                         .Where(m => m.IsDefined(typeof(SubscribeMessageAttribute), false)
+                                                    && m.GetParameters().Length == 2
+                                                    && m.GetParameters()[0].ParameterType == typeof(string)
+                                                    && m.GetParameters()[1].ParameterType == typeof(object)
+                                                    && m.ReturnType == typeof(void))
+                         .GroupBy(m => m.DeclaringType));
+
+            if (!typeMethods.Any()) return services;
 
             // 遍历所有订阅类型
-            foreach (var handlerType in subscribeHandlerTypes)
+            foreach (var item in typeMethods)
             {
-                // 获取所有符合定义的消息定义方法
-                var subscribeMethods = handlerType.GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                                                                    .Where(m => m.IsDefined(typeof(SubscribeMessageAttribute), false)
-                                                                                                && m.GetParameters().Length == 2
-                                                                                                && m.GetParameters()[0].ParameterType == typeof(string)
-                                                                                                && m.GetParameters()[1].ParameterType == typeof(object)
-                                                                                                && m.ReturnType == typeof(void));
+                if (!item.Any()) continue;
 
-                if (!subscribeMethods.Any()) continue;
+                // 创建订阅类对象
+                var typeInstance = Activator.CreateInstance(item.Key);
 
-                // 创建订阅类型实例
-                var instance = Activator.CreateInstance(handlerType);
-
-                // 批量注册
-                foreach (var method in methods)
+                foreach (var method in item)
                 {
                     // 创建委托类型
-                    var action = (Action<string, object>)Delegate.CreateDelegate(typeof(Action<string, object>), instance, method.Name);
+                    var action = (Action<string, object>)Delegate.CreateDelegate(typeof(Action<string, object>), typeInstance, method.Name);
 
                     // 获取所有消息特性
                     var subscribeMessageAttributes = method.GetCustomAttributes<SubscribeMessageAttribute>();
@@ -63,7 +57,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     {
                         if (string.IsNullOrEmpty(subscribeMessageAttribute.MessageId)) continue;
 
-                        InternalMessageCenter.Instance.Subscribe(handlerType, subscribeMessageAttribute.MessageId, action);
+                        InternalMessageCenter.Instance.Subscribe(item.Key, subscribeMessageAttribute.MessageId, action);
                     }
                 }
             }
