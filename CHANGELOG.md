@@ -9,6 +9,7 @@
 - **问题修复**
 
   - [修复] `MVC` 模式下不支持验证自定义验证逻辑 [#I39LM5](https://gitee.com/dotnetchina/Furion/issues/I39LM5)
+  - [修复] 修复验证数值类型正则表达式不支持负数 bug [#I39YUV](https://gitee.com/dotnetchina/Furion/issues/I39YUV)
 
 - **其他更改**
 
