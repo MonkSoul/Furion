@@ -4,6 +4,7 @@ const contributors = [
     link: "https://gitee.com/monksoul",
     photo:
       "https://portrait.gitee.com/uploads/avatars/user/324/974299_monksoul_1578937227.png!avatar200",
+    extra: "Furion、Layx 作者，dotNET China MIP",
   },
   {
     author: "YaChengMu",
@@ -28,6 +29,7 @@ const contributors = [
     link: "https://gitee.com/lindexi",
     photo:
       "https://portrait.gitee.com/uploads/avatars/user/262/787628_lindexi_1600869623.png!avatar200",
+    extra: "WPF成员，微软 MVP",
   },
   {
     author: "Mr'hu",
@@ -40,6 +42,7 @@ const contributors = [
     link: "https://gitee.com/Longbow",
     photo:
       "https://portrait.gitee.com/uploads/avatars/user/184/554725_Longbow_1578927507.png!avatar200",
+    extra: "BootstrapAdmin、BootstrapBlazor 作者，微软 MVP",
   },
   {
     author: "夹卡夹卡酱酱夹卡酱夹卡酱",
@@ -70,6 +73,7 @@ const contributors = [
     link: "https://gitee.com/sunkaixuan",
     photo:
       "https://portrait.gitee.com/uploads/avatars/user/131/393772_sunkaixuan_1578922542.png!avatar200",
+    extra: "SqlSugar 作者",
   },
   {
     author: "wangbl",
@@ -304,6 +308,7 @@ const contributors = [
     link: "https://gitee.com/ucx15934",
     photo:
       "https://portrait.gitee.com/uploads/avatars/user/2894/8682053_ucx15934_1612833258.png!avatar200",
+    extra: "微软 MVP",
   },
   {
     author: "就是那个代码狗",
@@ -406,6 +411,7 @@ const contributors = [
     link: "https://gitee.com/chinadotnet",
     photo:
       "https://portrait.gitee.com/uploads/avatars/user/2685/8055741_chinadotnet_1606890988.png!avatar200",
+    extra: "dotNET China 创始人",
   },
   {
     author: "水蜜桃",

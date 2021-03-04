@@ -392,6 +392,19 @@
   height: 170px;
   box-shadow: 4px 3px 16px -3px #0009;
   box-sizing: border-box;
+  position: relative;
+}
+
+.furion-contributor-extra {
+  position: absolute;
+  top: -9px;
+  right: 0;
+  padding: 2px 5px;
+  background-color: #412a94;
+  color: #fff;
+  font-size: 12px;
+  border-radius: 4px;
+  text-align: left;
 }
 
 .furion-contributor-item a {

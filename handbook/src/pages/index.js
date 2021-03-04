@@ -382,6 +382,11 @@ function Contributor() {
             className={"furion-contributor-item" + (isDarkTheme ? " dark" : "")}
             key={i}
           >
+            {!c.extra ? (
+              ""
+            ) : (
+              <div className="furion-contributor-extra">{c.extra}</div>
+            )}
             <a
               href={c.link}
               target="_blank"
