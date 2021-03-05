@@ -16,6 +16,7 @@ namespace Microsoft.AspNetCore.Mvc
         public ApiDescriptionSettingsAttribute() : base()
         {
             SplitCamelCase = true;
+            LowercaseRoute = true;
             Order = 0;
         }
 
@@ -28,6 +29,7 @@ namespace Microsoft.AspNetCore.Mvc
             base.IgnoreApi = !enabled;
             Enabled = enabled;
             SplitCamelCase = true;
+            LowercaseRoute = true;
             Order = 0;
         }
 
@@ -40,6 +42,7 @@ namespace Microsoft.AspNetCore.Mvc
             base.GroupName = string.Join(Penetrates.GroupSeparator, groups);
             Groups = groups;
             SplitCamelCase = true;
+            LowercaseRoute = true;
             Order = 0;
         }
 
