@@ -92,5 +92,10 @@ namespace Microsoft.AspNetCore.Mvc
         /// 排序
         /// </summary>
         public int Order { get; set; }
+
+        /// <summary>
+        /// 小写路由
+        /// </summary>
+        public bool LowercaseRoute { get; set; }
     }
 }

@@ -3,6 +3,7 @@
 - **新特性**
 
   - [新增] `DbContext` 刷新多租户缓存拓展方法 [#I39N5U](https://gitee.com/dotnetchina/Furion/issues/I39N5U)
+  - [新增] 自定义配置单个控制器名称规范，如小写路由 [#I3A5XL](https://gitee.com/dotnetchina/Furion/issues/I3A5XL)
 
 - **突破性变化**
 

@@ -255,8 +255,8 @@ namespace Furion.DynamicApiController
         /// </summary>
         /// <param name="action">动作方法模型</param>
         /// <param name="apiDescriptionSettings">接口描述配置</param>
-        /// <param name="controllerApiDescriptionSettingsAttribute">控制器接口描述配置</param>
-        private void ConfigureActionRouteAttribute(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettingsAttribute)
+        /// <param name="controllerApiDescriptionSettings">控制器接口描述配置</param>
+        private void ConfigureActionRouteAttribute(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
         {
             var selectorModel = action.Selectors[0];
             // 跳过已配置路由特性的配置
@@ -270,15 +270,15 @@ namespace Furion.DynamicApiController
             // 如果动作方法名称为空、参数值为空，且无需保留谓词，则只生成控制器路由模板
             if (action.ActionName.Length == 0 && apiDescriptionSettings?.KeepVerb != true && action.Parameters.Count == 0)
             {
-                template = GenerateControllerRouteTemplate(action.Controller, controllerApiDescriptionSettingsAttribute);
+                template = GenerateControllerRouteTemplate(action.Controller, controllerApiDescriptionSettings);
             }
             else
             {
                 // 生成参数路由模板
-                var parameterRouteTemplate = GenerateParameterRouteTemplates(action);
+                var parameterRouteTemplate = GenerateParameterRouteTemplates(action, apiDescriptionSettings, controllerApiDescriptionSettings);
 
                 // 生成控制器模板
-                controllerRouteTemplate = GenerateControllerRouteTemplate(action.Controller, controllerApiDescriptionSettingsAttribute, parameterRouteTemplate);
+                controllerRouteTemplate = GenerateControllerRouteTemplate(action.Controller, controllerApiDescriptionSettings, parameterRouteTemplate);
 
                 // 拼接动作方法路由模板
                 var ActionStartTemplate = parameterRouteTemplate != null ? (parameterRouteTemplate.ActionStartTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionStartTemplates)) : null;
@@ -294,7 +294,7 @@ namespace Furion.DynamicApiController
             if (!string.IsNullOrEmpty(template))
             {
                 // 处理多个斜杆问题
-                template = Regex.Replace(_dynamicApiControllerSettings.LowercaseRoute.Value ? template.ToLower() : template, @"\/{2,}", "/");
+                template = Regex.Replace(CheckIsLowercaseRoute(apiDescriptionSettings, controllerApiDescriptionSettings) ? template.ToLower() : template, @"\/{2,}", "/");
 
                 // 生成路由
                 actionAttributeRouteModel = string.IsNullOrEmpty(template) ? null : new AttributeRouteModel(new RouteAttribute(template));
@@ -342,7 +342,9 @@ namespace Furion.DynamicApiController
         /// 生成参数路由模板（非引用类型）
         /// </summary>
         /// <param name="action">动作方法模型</param>
-        private ParameterRouteTemplate GenerateParameterRouteTemplates(ActionModel action)
+        /// <param name="apiDescriptionSettings"></param>
+        /// <param name="controllerApiDescriptionSettings"></param>
+        private ParameterRouteTemplate GenerateParameterRouteTemplates(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
         {
             // 如果没有参数，则跳过
             if (action.Parameters.Count == 0) return default;
@@ -360,7 +362,7 @@ namespace Furion.DynamicApiController
                 var parameterAttributes = parameterModel.Attributes;
 
                 // 处理小写参数路由匹配问题
-                if (_dynamicApiControllerSettings.LowercaseRoute.Value) parameterModel.ParameterName = parameterModel.ParameterName.ToLower();
+                if (CheckIsLowercaseRoute(apiDescriptionSettings, controllerApiDescriptionSettings)) parameterModel.ParameterName = parameterModel.ParameterName.ToLower();
 
                 // 判断是否贴有任何 [FromXXX] 特性了
                 var hasFormAttribute = parameterAttributes.Any(u => typeof(IBindingSourceMetadata).IsAssignableFrom(u.GetType()));
@@ -462,7 +464,7 @@ namespace Furion.DynamicApiController
 
             // 拼接名称和版本号
             var newName = $"{tempName}{(string.IsNullOrEmpty(apiVersion) ? null : $"{_dynamicApiControllerSettings.VersionSeparator}{apiVersion}")}";
-            return _dynamicApiControllerSettings.LowercaseRoute.Value ? newName.ToLower() : newName;
+            return CheckIsLowercaseRoute(apiDescriptionSettings, controllerApiDescriptionSettings) ? newName.ToLower() : newName;
         }
 
         /// <summary>
@@ -538,6 +540,31 @@ namespace Furion.DynamicApiController
             }
 
             return isSplitCamelCase;
+        }
+
+        /// <summary>
+        /// 检查是否启用小写路由
+        /// </summary>
+        /// <param name="apiDescriptionSettings"></param>
+        /// <param name="controllerApiDescriptionSettings"></param>
+        /// <returns></returns>
+        private bool CheckIsLowercaseRoute(ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
+        {
+            var isLowercaseRoute = true;
+            if (controllerApiDescriptionSettings == null)
+            {
+                if (apiDescriptionSettings?.LowercaseRoute == false) isLowercaseRoute = false;
+            }
+            else
+            {
+                if (apiDescriptionSettings != null) isLowercaseRoute = apiDescriptionSettings.LowercaseRoute;
+                else
+                {
+                    if (controllerApiDescriptionSettings?.LowercaseRoute == false) isLowercaseRoute = false;
+                }
+            }
+
+            return isLowercaseRoute;
         }
 
         /// <summary>

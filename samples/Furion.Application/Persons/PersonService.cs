@@ -96,6 +96,7 @@ namespace Furion.Application
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
+        [ApiDescriptionSettings(LowercaseRoute = false, KeepName = true)]
         public async Task<PagedList<PersonDto>> GetAllByPage(int pageIndex = 1, int pageSize = 10)
         {
             var pageResult = _personRepository.AsQueryable(false)
