@@ -12,6 +12,7 @@
   - [修复] `MVC` 模式下不支持验证自定义验证逻辑 [#I39LM5](https://gitee.com/dotnetchina/Furion/issues/I39LM5)
   - [修复] 验证数值类型正则表达式不支持负数 bug [#I39YUV](https://gitee.com/dotnetchina/Furion/issues/I39YUV)
   - [修复] 框架启动时无法加载未被引用的程序集 bug [#I3A3Z4](https://gitee.com/dotnetchina/Furion/issues/I3A3Z4)
+  - [修复] `EFCoreRepository.IsAttached()` 方法判断错误 bug [#I3A824](https://gitee.com/dotnetchina/Furion/issues/I3A824)
 
 - **其他更改**
 
