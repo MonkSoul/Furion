@@ -226,7 +226,9 @@ namespace Furion
             {
                 foreach (var externalAssembly in settings.ExternalAssemblies)
                 {
-                    scanAssemblies.Add(Assembly.LoadFrom(Path.Combine(AppContext.BaseDirectory, $"{externalAssembly}.dll")));
+                    var assemblyFileName = externalAssembly.EndsWith(".dll") ? externalAssembly : $"{externalAssembly}.dll";
+                    // 加载程序集
+                    scanAssemblies.Add(Assembly.LoadFrom(Path.Combine(AppContext.BaseDirectory, assemblyFileName)));
                 }
             }
 

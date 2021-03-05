@@ -9,7 +9,8 @@
 - **问题修复**
 
   - [修复] `MVC` 模式下不支持验证自定义验证逻辑 [#I39LM5](https://gitee.com/dotnetchina/Furion/issues/I39LM5)
-  - [修复] 修复验证数值类型正则表达式不支持负数 bug [#I39YUV](https://gitee.com/dotnetchina/Furion/issues/I39YUV)
+  - [修复] 验证数值类型正则表达式不支持负数 bug [#I39YUV](https://gitee.com/dotnetchina/Furion/issues/I39YUV)
+  - [修复] 框架启动时无法加载未被引用的程序集 bug [#I3A3Z4](https://gitee.com/dotnetchina/Furion/issues/I3A3Z4)
 
 - **其他更改**
 
@@ -22,7 +23,8 @@
 - **问答答疑**
 
   - [答疑] `Furion.Extras.DatabaseAccessor.SqlSugar` 配置多个数据库打印 SQL 语句问题 [#I39PDC](https://gitee.com/dotnetchina/Furion/issues/I39PDC)
-  - [答疑] ORACLE 数据库多租户模式下返回值为指定类型时系统卡死 [#I39RNH](https://gitee.com/dotnetchina/Furion/issues/I39RNH)
+  - [答疑] `ORACLE` 数据库多租户模式下返回值为指定类型时系统卡死 [#I39RNH](https://gitee.com/dotnetchina/Furion/issues/I39RNH)
+  - [答疑] 假删除指向异常 [#I39XZA](https://gitee.com/dotnetchina/Furion/issues/I39XZA)
 
 - **不做实现**
 
