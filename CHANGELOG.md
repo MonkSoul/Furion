@@ -26,6 +26,7 @@
   - [答疑] `ORACLE` 数据库多租户模式下返回值为指定类型时系统卡死 [#I39RNH](https://gitee.com/dotnetchina/Furion/issues/I39RNH)
   - [答疑] 假删除指向异常 [#I39XZA](https://gitee.com/dotnetchina/Furion/issues/I39XZA)
   - [答疑] Fur 多语言配置节是放在 AppSettings 里面还是外面呢？ [#I3A4SB](https://gitee.com/dotnetchina/Furion/issues/I3A4SB)
+  - [答疑] 没找到数据库上下文 [#I3A5HS](https://gitee.com/dotnetchina/Furion/issues/I3A5HS)
 
 - **不做实现**
 
