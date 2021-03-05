@@ -1,4 +1,4 @@
-﻿using Furion.DependencyInjection;
+using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -396,7 +396,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsAttached(object entity)
         {
-            return EntityEntryState(entity) == EntityState.Detached;
+            return EntityEntryState(entity) != EntityState.Detached;
         }
 
         /// <summary>
@@ -406,7 +406,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsAttached(TEntity entity)
         {
-            return EntityEntryState(entity) == EntityState.Detached;
+            return EntityEntryState(entity) != EntityState.Detached;
         }
 
         /// <summary>
