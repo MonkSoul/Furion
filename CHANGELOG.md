@@ -25,6 +25,7 @@
   - [答疑] `Furion.Extras.DatabaseAccessor.SqlSugar` 配置多个数据库打印 SQL 语句问题 [#I39PDC](https://gitee.com/dotnetchina/Furion/issues/I39PDC)
   - [答疑] `ORACLE` 数据库多租户模式下返回值为指定类型时系统卡死 [#I39RNH](https://gitee.com/dotnetchina/Furion/issues/I39RNH)
   - [答疑] 假删除指向异常 [#I39XZA](https://gitee.com/dotnetchina/Furion/issues/I39XZA)
+  - [答疑] Fur 多语言配置节是放在 AppSettings 里面还是外面呢？ [#I3A4SB](https://gitee.com/dotnetchina/Furion/issues/I3A4SB)
 
 - **不做实现**
 
