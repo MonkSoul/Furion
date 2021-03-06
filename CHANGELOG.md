@@ -29,13 +29,14 @@
   - [答疑] `Furion.Extras.DatabaseAccessor.SqlSugar` 配置多个数据库打印 SQL 语句问题 [#I39PDC](https://gitee.com/dotnetchina/Furion/issues/I39PDC)
   - [答疑] `ORACLE` 数据库多租户模式下返回值为指定类型时系统卡死 [#I39RNH](https://gitee.com/dotnetchina/Furion/issues/I39RNH)
   - [答疑] 假删除指向异常 [#I39XZA](https://gitee.com/dotnetchina/Furion/issues/I39XZA)
-  - [答疑] Fur 多语言配置节是放在 AppSettings 里面还是外面呢？ [#I3A4SB](https://gitee.com/dotnetchina/Furion/issues/I3A4SB)
+  - [答疑] `Furion` 多语言配置节是放在 `AppSettings` 里面还是外面呢？ [#I3A4SB](https://gitee.com/dotnetchina/Furion/issues/I3A4SB)
   - [答疑] 没找到数据库上下文 [#I3A5HS](https://gitee.com/dotnetchina/Furion/issues/I3A5HS)
-  - [答疑] 建议将 `EFCore` 剥离出来，作为插件的形式提供。这样可以选择自己喜欢的 `ORM` [#I3ABNX](https://gitee.com/dotnetchina/Furion/issues/I3ABNX)
+  - [答疑] 有 `QQ` 交流群吗？ [#I3AAM7](https://gitee.com/dotnetchina/Furion/issues/I3AAM7)
 
 - **不做实现**
 
   - [废弃] 建议 `EFCore` 可配置外键关系导航问题 [#I3994X](https://gitee.com/dotnetchina/Furion/issues/I3994X)
+  - [废弃] 建议将 `EFCore` 剥离出来，作为插件的形式提供。这样可以选择自己喜欢的 `ORM` [#I3ABNX](https://gitee.com/dotnetchina/Furion/issues/I3ABNX)
 
 ---
 
