@@ -29,6 +29,7 @@
   - [答疑] 假删除指向异常 [#I39XZA](https://gitee.com/dotnetchina/Furion/issues/I39XZA)
   - [答疑] Fur 多语言配置节是放在 AppSettings 里面还是外面呢？ [#I3A4SB](https://gitee.com/dotnetchina/Furion/issues/I3A4SB)
   - [答疑] 没找到数据库上下文 [#I3A5HS](https://gitee.com/dotnetchina/Furion/issues/I3A5HS)
+  - [答疑] 建议将 `EFCore` 剥离出来，作为插件的形式提供。这样可以选择自己喜欢的 `ORM` [#I3ABNX](https://gitee.com/dotnetchina/Furion/issues/I3ABNX)
 
 - **不做实现**
 
