@@ -42,7 +42,7 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// Json 序列化提供器
         /// </summary>
-        internal Type SerializationProvider { get; private set; }
+        internal (Type, object) SerializationProvider { get; private set; }
 
         /// <summary>
         /// 是否启用模型状态
