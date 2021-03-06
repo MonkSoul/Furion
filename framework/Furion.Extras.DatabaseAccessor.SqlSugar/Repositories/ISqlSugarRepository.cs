@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -224,7 +224,7 @@ namespace SqlSugar
         int Update(params TEntity[] entities);
 
         /// <summary>
-        /// 新增多条记录
+        /// 更新多条记录
         /// </summary>
         /// <param name="entities"></param>
         /// <returns></returns>
@@ -245,7 +245,7 @@ namespace SqlSugar
         Task<int> UpdateAsync(params TEntity[] entities);
 
         /// <summary>
-        /// 新增多条记录
+        /// 更新多条记录
         /// </summary>
         /// <param name="entities"></param>
         /// <returns></returns>
