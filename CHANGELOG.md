@@ -7,6 +7,8 @@
 
 - **突破性变化**
 
+  - [重构] `JSON` 序列化功能，提供统一的抽象接口，方便自由替换 `JSON` 库 [#I39GT9](https://gitee.com/dotnetchina/Furion/issues/I39GT9)
+
 - **问题修复**
 
   - [修复] `MVC` 模式下不支持验证自定义验证逻辑 [#I39LM5](https://gitee.com/dotnetchina/Furion/issues/I39LM5)

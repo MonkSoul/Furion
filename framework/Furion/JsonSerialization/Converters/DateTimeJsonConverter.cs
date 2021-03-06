@@ -3,18 +3,18 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Furion.JsonConverters
+namespace Furion.JsonSerialization
 {
     /// <summary>
-    /// DateTimeOffset 类型序列化
+    /// DateTime 类型序列化
     /// </summary>
     [SkipScan]
-    public class DateTimeOffsetJsonConverter : JsonConverter<DateTimeOffset>
+    public class DateTimeJsonConverter : JsonConverter<DateTime>
     {
         /// <summary>
         /// 默认构造函数
         /// </summary>
-        public DateTimeOffsetJsonConverter()
+        public DateTimeJsonConverter()
         {
             Format ??= "yyyy-MM-dd HH:mm:ss";
         }
@@ -23,7 +23,7 @@ namespace Furion.JsonConverters
         /// 构造函数
         /// </summary>
         /// <param name="format"></param>
-        public DateTimeOffsetJsonConverter(string format)
+        public DateTimeJsonConverter(string format)
         {
             Format = format;
         }
@@ -40,9 +40,9 @@ namespace Furion.JsonConverters
         /// <param name="typeToConvert"></param>
         /// <param name="options"></param>
         /// <returns></returns>
-        public override DateTimeOffset Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return DateTimeOffset.Parse(reader.GetString());
+            return DateTime.Parse(reader.GetString());
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Furion.JsonConverters
         /// <param name="writer"></param>
         /// <param name="value"></param>
         /// <param name="options"></param>
-        public override void Write(Utf8JsonWriter writer, DateTimeOffset value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
         {
             writer.WriteStringValue(value.ToString(Format));
         }

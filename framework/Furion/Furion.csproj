@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <version>1.15.9</version>
+    <version>1.16</version>
     <Description>让 .NET 开发更简单，更通用，更流行。</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -24,7 +24,7 @@
   <ItemGroup>
     <PackageReference Include="Furion.Extras.DependencyModel.CodeAnalysis" Version="1.15.3" />
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.0.7" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.0" />
   </ItemGroup>
 
 </Project>
