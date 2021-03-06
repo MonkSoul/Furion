@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -343,7 +343,7 @@ namespace SqlSugar
         }
 
         /// <summary>
-        /// 新增多条记录
+        /// 更新多条记录
         /// </summary>
         /// <param name="entities"></param>
         /// <returns></returns>
@@ -373,7 +373,7 @@ namespace SqlSugar
         }
 
         /// <summary>
-        /// 新增多条记录
+        /// 更新多条记录
         /// </summary>
         /// <param name="entities"></param>
         /// <returns></returns>
