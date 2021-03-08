@@ -15,8 +15,6 @@ namespace Microsoft.AspNetCore.Mvc
         /// </summary>
         public ApiDescriptionSettingsAttribute() : base()
         {
-            SplitCamelCase = true;
-            LowercaseRoute = true;
             Order = 0;
         }
 
@@ -26,10 +24,7 @@ namespace Microsoft.AspNetCore.Mvc
         /// <param name="enabled">是否启用</param>
         public ApiDescriptionSettingsAttribute(bool enabled) : base()
         {
-            base.IgnoreApi = !enabled;
-            Enabled = enabled;
-            SplitCamelCase = true;
-            LowercaseRoute = true;
+            IgnoreApi = !enabled;
             Order = 0;
         }
 
@@ -39,10 +34,8 @@ namespace Microsoft.AspNetCore.Mvc
         /// <param name="groups">分组列表</param>
         public ApiDescriptionSettingsAttribute(params string[] groups) : base()
         {
-            base.GroupName = string.Join(Penetrates.GroupSeparator, groups);
+            GroupName = string.Join(Penetrates.GroupSeparator, groups);
             Groups = groups;
-            SplitCamelCase = true;
-            LowercaseRoute = true;
             Order = 0;
         }
 
@@ -52,24 +45,24 @@ namespace Microsoft.AspNetCore.Mvc
         public string Name { get; set; }
 
         /// <summary>
-        /// 保留原有名称
+        /// 保留原有名称（Boolean 类型）
         /// </summary>
-        public bool KeepName { get; set; }
+        public object KeepName { get; set; }
 
         /// <summary>
-        /// 切割骆驼命名
+        /// 切割骆驼命名（Boolean 类型）
         /// </summary>
-        public bool SplitCamelCase { get; set; }
+        public object SplitCamelCase { get; set; }
 
         /// <summary>
-        /// 保留路由谓词
+        /// 保留路由谓词（Boolean 类型）
         /// </summary>
-        public bool KeepVerb { get; set; }
+        public object KeepVerb { get; set; }
 
         /// <summary>
-        /// 是否启用
+        /// 小写路由（Boolean 类型）
         /// </summary>
-        public bool Enabled { get; set; }
+        public object LowercaseRoute { get; set; }
 
         /// <summary>
         /// 模块名
@@ -95,10 +88,5 @@ namespace Microsoft.AspNetCore.Mvc
         /// 排序
         /// </summary>
         public int Order { get; set; }
-
-        /// <summary>
-        /// 小写路由
-        /// </summary>
-        public bool LowercaseRoute { get; set; }
     }
 }

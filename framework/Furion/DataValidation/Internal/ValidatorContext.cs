@@ -1,6 +1,5 @@
 ﻿using Furion.DependencyInjection;
-using Furion.Extensions;
-using Furion.Utilities;
+using Furion.JsonSerialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
@@ -19,33 +18,39 @@ namespace Furion.DataValidation
         /// </summary>
         /// <param name="errors"></param>
         /// <returns></returns>
-        internal static (Dictionary<string, IEnumerable<string>> validationResults, string validateFaildMessage, ModelStateDictionary modelState) OutputValidationInfo(object errors)
+        internal static (IEnumerable<ValidateFailedModel> validationResults, string validateFaildMessage, ModelStateDictionary modelState) OutputValidationInfo(object errors)
         {
             ModelStateDictionary _modelState = null;
-            Dictionary<string, IEnumerable<string>> validationResults = null;
+            IEnumerable<ValidateFailedModel> validationResults = null;
 
             // 如果是模型验证字典类型
             if (errors is ModelStateDictionary modelState)
             {
                 _modelState = modelState;
                 // 将验证错误信息转换成字典并序列化成 Json
-                validationResults = modelState.ToDictionary(u => !JsonSerializerUtility.EnabledPascalPropertyNaming ? u.Key.ToTitlePascal() : u.Key
-                                                                 , u => modelState[u.Key].Errors.Select(c => c.ErrorMessage));
+                validationResults = modelState.Select(u =>
+                        new ValidateFailedModel(u.Key,
+                            modelState[u.Key].Errors.Select(c => c.ErrorMessage).ToArray()));
             }
             // 如果是 ValidationProblemDetails 特殊类型
             else if (errors is ValidationProblemDetails validation)
             {
-                validationResults = validation.Errors.ToDictionary(u => !JsonSerializerUtility.EnabledPascalPropertyNaming ? u.Key.ToTitlePascal() : u.Key
-                                                                 , u => u.Value.AsEnumerable());
+                validationResults = validation.Errors
+                    .Select(u =>
+                        new ValidateFailedModel(u.Key,
+                            u.Value.ToArray()));
             }
             // 其他类型
-            else validationResults = new Dictionary<string, IEnumerable<string>>
+            else validationResults = new List<ValidateFailedModel>
             {
-                { string.Empty, new[] { errors?.ToString() } }
+                new ValidateFailedModel(string.Empty,new[]{errors?.ToString()})
             };
 
+            // 解析 JSON 序列化提供器
+            var jsonSerializer = JSON.GetJsonSerializer();
+
             // 序列化
-            var validateFaildMessage = JsonSerializerUtility.Serialize(validationResults);
+            var validateFaildMessage = jsonSerializer.Serialize(validationResults);
 
             return (validationResults, validateFaildMessage, _modelState);
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Furion.DependencyInjection;
+using System;
 using System.IO;
 using System.Text.Json;
 using System.Threading;
@@ -7,9 +8,9 @@ using System.Threading.Tasks;
 namespace Furion.JsonSerialization
 {
     /// <summary>
-    /// System.Text.Json 序列化提供器
+    /// System.Text.Json 序列化提供器（默认实现）
     /// </summary>
-    public class SystemTextJsonSerializerProvider : IJsonSerializerProvider
+    public class SystemTextJsonSerializerProvider : IJsonSerializerProvider, ISingleton
     {
         /// <summary>
         /// 序列化对象

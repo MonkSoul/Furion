@@ -1,3 +1,4 @@
+using Furion.DataValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -34,7 +35,7 @@ namespace Furion.UnifyResult
         /// <param name="validationResults"></param>
         /// <param name="validateFailedMessage"></param>
         /// <returns></returns>
-        IActionResult OnValidateFailed(ActionExecutingContext context, ModelStateDictionary modelStates, Dictionary<string, IEnumerable<string>> validationResults, string validateFailedMessage);
+        IActionResult OnValidateFailed(ActionExecutingContext context, ModelStateDictionary modelStates, IEnumerable<ValidateFailedModel> validationResults, string validateFailedMessage);
 
         /// <summary>
         /// 拦截返回状态码

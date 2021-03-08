@@ -1,7 +1,6 @@
 ﻿using Furion.DependencyInjection;
-using Furion.Extensions;
 using Furion.FriendlyException;
-using Furion.Utilities;
+using Furion.JsonSerialization;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -118,8 +117,11 @@ namespace Furion.DataValidation
         /// <param name="dataValidationResult"></param>
         public static void AddError(this DataValidationResult dataValidationResult)
         {
+            // 解析 JSON 序列化提供器
+            var jsonSerializer = JSON.GetJsonSerializer();
+
             if (!dataValidationResult.IsValid)
-                throw Oops.Oh("[Validation]" + JsonSerializerUtility.Serialize(
+                throw Oops.Oh("[Validation]" + jsonSerializer.Serialize(
                     dataValidationResult.ValidationResults
                     .Select(u => new
                     {
@@ -128,7 +130,9 @@ namespace Furion.DataValidation
                     })
                     .OrderBy(u => u.MemberNames.First())
                     .GroupBy(u => u.MemberNames.First())
-                    .ToDictionary(u => !JsonSerializerUtility.EnabledPascalPropertyNaming ? u.Key.ToTitlePascal() : u.Key, u => u.Select(c => c.ErrorMessage))));
+                    .Select(u =>
+                        new ValidateFailedModel(u.Key,
+                            u.Select(c => c.ErrorMessage).ToArray()))));
         }
     }
 }

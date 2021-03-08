@@ -1,7 +1,7 @@
 ﻿using Furion.DependencyInjection;
 using Furion.Extensions;
 using Furion.FriendlyException;
-using Furion.Utilities;
+using Furion.JsonSerialization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -59,8 +59,11 @@ namespace Furion.UnifyResult
             object errors = default;
             if (errorMessage.StartsWith(validationFlag))
             {
+                // 解析 JSON 序列化提供器
+                var jsonSerializer = JSON.GetJsonSerializer();
+
                 // 处理结果
-                errors = JsonSerializerUtility.Deserialize<object>(errorMessage[validationFlag.Length..]);
+                errors = jsonSerializer.Deserialize<object>(errorMessage[validationFlag.Length..]);
 
                 // 设置为400状态码
                 statusCode = StatusCodes.Status400BadRequest;

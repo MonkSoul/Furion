@@ -586,7 +586,7 @@ namespace Furion.UnifyResult
         /// <param name="validationResults"></param>
         /// <param name="validateFailedMessage"></param>
         /// <returns></returns>
-        public IActionResult OnValidateFailed(ActionExecutingContext context, ModelStateDictionary modelStates, Dictionary<string, IEnumerable<string>> validationResults, string validateFailedMessage)
+        public IActionResult OnValidateFailed(ActionExecutingContext context, ModelStateDictionary modelStates, IEnumerable<ValidateFailedModel> validationResults, string validateFailedMessage)
         {
             return new JsonResult(new RESTfulResult<object>
             {

@@ -8,6 +8,8 @@
 - **突破性变化**
 
   - [重构] `JSON` 序列化功能，提供统一的抽象接口，方便自由替换 `JSON` 库 [#I39GT9](https://gitee.com/dotnetchina/Furion/issues/I39GT9)
+  - [重构] 验证失败返回消息模型及规范化接口验证参数 [#I3AFQW](https://gitee.com/dotnetchina/Furion/issues/I3AFQW)
+  - [移除] 移除 `JsonSerializerUtility` 静态类及移除属性大写序列化拓展配置 [#I3AFRJ](https://gitee.com/dotnetchina/Furion/issues/I3AFRJ)
 
 - **问题修复**
 
@@ -15,6 +17,7 @@
   - [修复] 验证数值类型正则表达式不支持负数 bug [#I39YUV](https://gitee.com/dotnetchina/Furion/issues/I39YUV)
   - [修复] 框架启动时无法加载未被引用的程序集 bug [#I3A3Z4](https://gitee.com/dotnetchina/Furion/issues/I3A3Z4)
   - [修复] `EFCoreRepository.IsAttached()` 方法判断错误 bug [#I3A824](https://gitee.com/dotnetchina/Furion/issues/I3A824)
+  - [修复] `动态API` 驼峰显示配置无效 bug [#I3AF32](https://gitee.com/dotnetchina/Furion/issues/I3AF32)
 
 - **其他更改**
 
@@ -22,6 +25,7 @@
 
 - **文档变化**
 
+  - [新增] `JSON` 序列化 文档 [#I3AFRD](https://gitee.com/dotnetchina/Furion/issues/I3AFRD)
   - [更新] 跨域、安全授权、即时通信文档
 
 - **问答答疑**

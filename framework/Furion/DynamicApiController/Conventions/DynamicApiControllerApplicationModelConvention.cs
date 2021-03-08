@@ -60,8 +60,8 @@ namespace Furion.DynamicApiController
                     if (!_dynamicApiControllerSettings.SupportedMvcController.Value || controller.ApiExplorer?.IsVisible == false) continue;
                 }
 
-                var apiDescriptionSettings = controller.Attributes.FirstOrDefault(u => u is ApiDescriptionSettingsAttribute) as ApiDescriptionSettingsAttribute;
-                ConfigureController(controller, apiDescriptionSettings);
+                var controllerApiDescriptionSettings = controller.Attributes.FirstOrDefault(u => u is ApiDescriptionSettingsAttribute) as ApiDescriptionSettingsAttribute;
+                ConfigureController(controller, controllerApiDescriptionSettings);
             }
         }
 
@@ -69,14 +69,14 @@ namespace Furion.DynamicApiController
         /// 配置控制器
         /// </summary>
         /// <param name="controller">控制器模型</param>
-        /// <param name="apiDescriptionSettings">接口描述配置</param>
-        private void ConfigureController(ControllerModel controller, ApiDescriptionSettingsAttribute apiDescriptionSettings)
+        /// <param name="controllerApiDescriptionSettings">接口描述配置</param>
+        private void ConfigureController(ControllerModel controller, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
         {
             // 配置控制器名称
-            ConfigureControllerName(controller, apiDescriptionSettings);
+            ConfigureControllerName(controller, controllerApiDescriptionSettings);
 
             // 存储排序给 Swagger 使用
-            Penetrates.ControllerOrderCollection.TryAdd(controller.ControllerName, apiDescriptionSettings?.Order ?? 0);
+            Penetrates.ControllerOrderCollection.TryAdd(controller.ControllerName, controllerApiDescriptionSettings?.Order ?? 0);
 
             var actions = controller.Actions;
 
@@ -95,7 +95,7 @@ namespace Furion.DynamicApiController
                 };
 
                 var actionApiDescriptionSettings = action.Attributes.FirstOrDefault(u => u is ApiDescriptionSettingsAttribute) as ApiDescriptionSettingsAttribute;
-                ConfigureAction(action, actionApiDescriptionSettings, apiDescriptionSettings);
+                ConfigureAction(action, actionApiDescriptionSettings, controllerApiDescriptionSettings);
             }
         }
 
@@ -103,10 +103,11 @@ namespace Furion.DynamicApiController
         /// 配置控制器名称
         /// </summary>
         /// <param name="controller">控制器模型</param>
-        /// <param name="apiDescriptionSettings">接口描述配置</param>
-        private void ConfigureControllerName(ControllerModel controller, ApiDescriptionSettingsAttribute apiDescriptionSettings)
+        /// <param name="controllerApiDescriptionSettings">接口描述配置</param>
+        private void ConfigureControllerName(ControllerModel controller, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
         {
-            controller.ControllerName = ConfigureControllerAndActionName(apiDescriptionSettings, controller.ControllerType.Name, _dynamicApiControllerSettings.AbandonControllerAffixes, _ => _);
+            var (Name, _, _) = ConfigureControllerAndActionName(controllerApiDescriptionSettings, controller.ControllerType.Name, _dynamicApiControllerSettings.AbandonControllerAffixes, _ => _);
+            controller.ControllerName = Name;
         }
 
         /// <summary>
@@ -121,7 +122,7 @@ namespace Furion.DynamicApiController
             ConfigureActionApiExplorer(action);
 
             // 配置动作方法名称
-            ConfigureActionName(action, apiDescriptionSettings, controllerApiDescriptionSettings);
+            var (isLowercaseRoute, isKeepName) = ConfigureActionName(action, apiDescriptionSettings, controllerApiDescriptionSettings);
 
             // 配置动作方法请求谓词特性
             ConfigureActionHttpMethodAttribute(action);
@@ -130,7 +131,7 @@ namespace Furion.DynamicApiController
             ConfigureClassTypeParameter(action);
 
             // 配置动作方法路由特性
-            ConfigureActionRouteAttribute(action, apiDescriptionSettings, controllerApiDescriptionSettings);
+            ConfigureActionRouteAttribute(action, apiDescriptionSettings, controllerApiDescriptionSettings, isLowercaseRoute, isKeepName);
 
             // 配置动作方法规范化特性
             if (UnifyContext.IsEnabledUnifyHandle) ConfigureActionUnifyResultAttribute(action);
@@ -151,25 +152,29 @@ namespace Furion.DynamicApiController
         /// <param name="action">动作方法模型</param>
         /// <param name="apiDescriptionSettings">接口描述配置</param>
         /// <param name="controllerApiDescriptionSettings"></param>
-        private void ConfigureActionName(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
+        /// <returns></returns>
+        private (bool IsLowercaseRoute, bool IsKeepName) ConfigureActionName(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
         {
-            action.ActionName = ConfigureControllerAndActionName(apiDescriptionSettings, action.ActionName, _dynamicApiControllerSettings.AbandonActionAffixes, (tempName) =>
-            {
-                // 处理动作方法名称谓词
-                if (!CheckIsKeepVerb(apiDescriptionSettings, controllerApiDescriptionSettings))
-                {
-                    var words = Penetrates.SplitCamelCase(tempName);
-                    var verbKey = words.First().ToLower();
-                    // 处理类似 getlist,getall 多个单词
-                    if (words.Length > 1 && _verbToHttpMethods.ContainsKey((words[0] + words[1]).ToLower()))
-                    {
-                        tempName = tempName[(words[0] + words[1]).Length..];
-                    }
-                    else if (_verbToHttpMethods.ContainsKey(verbKey)) tempName = tempName[verbKey.Length..];
-                }
+            var (Name, IsLowercaseRoute, IsKeepName) = ConfigureControllerAndActionName(apiDescriptionSettings, action.ActionName, _dynamicApiControllerSettings.AbandonActionAffixes, (tempName) =>
+              {
+                  // 处理动作方法名称谓词
+                  if (!CheckIsKeepVerb(apiDescriptionSettings, controllerApiDescriptionSettings))
+                  {
+                      var words = Penetrates.SplitCamelCase(tempName);
+                      var verbKey = words.First().ToLower();
+                      // 处理类似 getlist,getall 多个单词
+                      if (words.Length > 1 && _verbToHttpMethods.ContainsKey((words[0] + words[1]).ToLower()))
+                      {
+                          tempName = tempName[(words[0] + words[1]).Length..];
+                      }
+                      else if (_verbToHttpMethods.ContainsKey(verbKey)) tempName = tempName[verbKey.Length..];
+                  }
 
-                return tempName;
-            }, controllerApiDescriptionSettings);
+                  return tempName;
+              }, controllerApiDescriptionSettings);
+            action.ActionName = Name;
+
+            return (IsLowercaseRoute, IsKeepName);
         }
 
         /// <summary>
@@ -256,7 +261,9 @@ namespace Furion.DynamicApiController
         /// <param name="action">动作方法模型</param>
         /// <param name="apiDescriptionSettings">接口描述配置</param>
         /// <param name="controllerApiDescriptionSettings">控制器接口描述配置</param>
-        private void ConfigureActionRouteAttribute(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
+        /// <param name="isLowercaseRoute"></param>
+        /// <param name="isKeepName"></param>
+        private void ConfigureActionRouteAttribute(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings, bool isLowercaseRoute, bool isKeepName)
         {
             var selectorModel = action.Selectors[0];
             // 跳过已配置路由特性的配置
@@ -268,14 +275,14 @@ namespace Furion.DynamicApiController
             string template;
             string controllerRouteTemplate = null;
             // 如果动作方法名称为空、参数值为空，且无需保留谓词，则只生成控制器路由模板
-            if (action.ActionName.Length == 0 && apiDescriptionSettings?.KeepVerb != true && action.Parameters.Count == 0)
+            if (action.ActionName.Length == 0 && !isKeepName && action.Parameters.Count == 0)
             {
                 template = GenerateControllerRouteTemplate(action.Controller, controllerApiDescriptionSettings);
             }
             else
             {
                 // 生成参数路由模板
-                var parameterRouteTemplate = GenerateParameterRouteTemplates(action, apiDescriptionSettings, controllerApiDescriptionSettings);
+                var parameterRouteTemplate = GenerateParameterRouteTemplates(action, isLowercaseRoute);
 
                 // 生成控制器模板
                 controllerRouteTemplate = GenerateControllerRouteTemplate(action.Controller, controllerApiDescriptionSettings, parameterRouteTemplate);
@@ -294,7 +301,7 @@ namespace Furion.DynamicApiController
             if (!string.IsNullOrEmpty(template))
             {
                 // 处理多个斜杆问题
-                template = Regex.Replace(CheckIsLowercaseRoute(apiDescriptionSettings, controllerApiDescriptionSettings) ? template.ToLower() : template, @"\/{2,}", "/");
+                template = Regex.Replace(isLowercaseRoute ? template.ToLower() : template, @"\/{2,}", "/");
 
                 // 生成路由
                 actionAttributeRouteModel = string.IsNullOrEmpty(template) ? null : new AttributeRouteModel(new RouteAttribute(template));
@@ -342,9 +349,8 @@ namespace Furion.DynamicApiController
         /// 生成参数路由模板（非引用类型）
         /// </summary>
         /// <param name="action">动作方法模型</param>
-        /// <param name="apiDescriptionSettings"></param>
-        /// <param name="controllerApiDescriptionSettings"></param>
-        private ParameterRouteTemplate GenerateParameterRouteTemplates(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
+        /// <param name="isLowercaseRoute"></param>
+        private ParameterRouteTemplate GenerateParameterRouteTemplates(ActionModel action, bool isLowercaseRoute)
         {
             // 如果没有参数，则跳过
             if (action.Parameters.Count == 0) return default;
@@ -362,7 +368,7 @@ namespace Furion.DynamicApiController
                 var parameterAttributes = parameterModel.Attributes;
 
                 // 处理小写参数路由匹配问题
-                if (CheckIsLowercaseRoute(apiDescriptionSettings, controllerApiDescriptionSettings)) parameterModel.ParameterName = parameterModel.ParameterName.ToLower();
+                if (isLowercaseRoute) parameterModel.ParameterName = parameterModel.ParameterName.ToLower();
 
                 // 判断是否贴有任何 [FromXXX] 特性了
                 var hasFormAttribute = parameterAttributes.Any(u => typeof(IBindingSourceMetadata).IsAssignableFrom(u.GetType()));
@@ -430,10 +436,11 @@ namespace Furion.DynamicApiController
         /// <param name="configure"></param>
         /// <param name="controllerApiDescriptionSettings"></param>
         /// <returns></returns>
-        private string ConfigureControllerAndActionName(ApiDescriptionSettingsAttribute apiDescriptionSettings, string orignalName, string[] affixes, Func<string, string> configure, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings = default)
+        private (string Name, bool IsLowercaseRoute, bool IsKeepName) ConfigureControllerAndActionName(ApiDescriptionSettingsAttribute apiDescriptionSettings, string orignalName, string[] affixes, Func<string, string> configure, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings = default)
         {
             // 获取版本号
             var apiVersion = apiDescriptionSettings?.Version;
+            var isKeepName = false;
 
             // 解析控制器名称
             // 判断是否有自定义名称
@@ -448,14 +455,16 @@ namespace Furion.DynamicApiController
                 // 清除指定前后缀
                 tempName = Penetrates.ClearStringAffixes(tempName, affixes: affixes);
 
+                isKeepName = CheckIsKeepName(controllerApiDescriptionSettings == null ? null : apiDescriptionSettings, controllerApiDescriptionSettings ?? apiDescriptionSettings);
+
                 // 判断是否保留原有名称
-                if (!CheckIsKeepName(apiDescriptionSettings, controllerApiDescriptionSettings))
+                if (!isKeepName)
                 {
                     // 自定义配置
                     tempName = configure.Invoke(tempName);
 
                     // 处理骆驼命名
-                    if (CheckIsSplitCamelCase(apiDescriptionSettings, controllerApiDescriptionSettings))
+                    if (CheckIsSplitCamelCase(controllerApiDescriptionSettings == null ? null : apiDescriptionSettings, controllerApiDescriptionSettings ?? apiDescriptionSettings))
                     {
                         tempName = string.Join(_dynamicApiControllerSettings.CamelCaseSeparator, Penetrates.SplitCamelCase(tempName));
                     }
@@ -464,7 +473,9 @@ namespace Furion.DynamicApiController
 
             // 拼接名称和版本号
             var newName = $"{tempName}{(string.IsNullOrEmpty(apiVersion) ? null : $"{_dynamicApiControllerSettings.VersionSeparator}{apiVersion}")}";
-            return CheckIsLowercaseRoute(apiDescriptionSettings, controllerApiDescriptionSettings) ? newName.ToLower() : newName;
+
+            var isLowercaseRoute = CheckIsLowercaseRoute(controllerApiDescriptionSettings == null ? null : apiDescriptionSettings, controllerApiDescriptionSettings ?? apiDescriptionSettings);
+            return (isLowercaseRoute ? newName.ToLower() : newName, isLowercaseRoute, isKeepName);
         }
 
         /// <summary>
@@ -475,21 +486,24 @@ namespace Furion.DynamicApiController
         /// <returns></returns>
         private bool CheckIsKeepName(ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
         {
-            var isKeepName = false;
-            if (controllerApiDescriptionSettings == null)
-            {
-                if (apiDescriptionSettings?.KeepName == true) isKeepName = true;
-            }
-            else
-            {
-                if (apiDescriptionSettings != null) isKeepName = apiDescriptionSettings.KeepName;
-                else
-                {
-                    if (controllerApiDescriptionSettings?.KeepName == true) isKeepName = true;
-                }
-            }
+            bool isKeepName;
 
-            return _dynamicApiControllerSettings?.KeepName == true || isKeepName;
+            // 判断 Action 是否配置了 KeepName 属性
+            if (apiDescriptionSettings?.KeepName != null)
+            {
+                var canParse = bool.TryParse(apiDescriptionSettings.KeepName.ToString(), out bool value);
+                isKeepName = canParse && value;
+            }
+            // 判断 Controller 是否配置了 KeepName 属性
+            else if (controllerApiDescriptionSettings?.KeepName != null)
+            {
+                var canParse = bool.TryParse(apiDescriptionSettings.KeepName.ToString(), out bool value);
+                isKeepName = canParse && value;
+            }
+            // 取全局配置
+            else isKeepName = _dynamicApiControllerSettings?.KeepName == true;
+
+            return isKeepName;
         }
 
         /// <summary>
@@ -500,21 +514,24 @@ namespace Furion.DynamicApiController
         /// <returns></returns>
         private bool CheckIsKeepVerb(ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
         {
-            var isKeepVerb = false;
-            if (controllerApiDescriptionSettings == null)
-            {
-                if (apiDescriptionSettings?.KeepVerb == true) isKeepVerb = true;
-            }
-            else
-            {
-                if (apiDescriptionSettings != null) isKeepVerb = apiDescriptionSettings.KeepVerb;
-                else
-                {
-                    if (controllerApiDescriptionSettings?.KeepVerb == true) isKeepVerb = true;
-                }
-            }
+            bool isKeepVerb;
 
-            return _dynamicApiControllerSettings?.KeepVerb == true || isKeepVerb;
+            // 判断 Action 是否配置了 KeepVerb 属性
+            if (apiDescriptionSettings?.KeepVerb != null)
+            {
+                var canParse = bool.TryParse(apiDescriptionSettings.KeepVerb.ToString(), out bool value);
+                isKeepVerb = canParse && value;
+            }
+            // 判断 Controller 是否配置了 KeepVerb 属性
+            else if (controllerApiDescriptionSettings?.KeepVerb != null)
+            {
+                var canParse = bool.TryParse(apiDescriptionSettings.KeepVerb.ToString(), out bool value);
+                isKeepVerb = canParse && value;
+            }
+            // 取全局配置
+            else isKeepVerb = _dynamicApiControllerSettings?.KeepVerb == true;
+
+            return isKeepVerb;
         }
 
         /// <summary>
@@ -525,19 +542,22 @@ namespace Furion.DynamicApiController
         /// <returns></returns>
         private static bool CheckIsSplitCamelCase(ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
         {
-            var isSplitCamelCase = true;
-            if (controllerApiDescriptionSettings == null)
+            bool isSplitCamelCase;
+
+            // 判断 Action 是否配置了 SplitCamelCase 属性
+            if (apiDescriptionSettings?.SplitCamelCase != null)
             {
-                if (apiDescriptionSettings?.SplitCamelCase == false) isSplitCamelCase = false;
+                var canParse = bool.TryParse(apiDescriptionSettings.SplitCamelCase.ToString(), out bool value);
+                isSplitCamelCase = !canParse || value;
             }
-            else
+            // 判断 Controller 是否配置了 SplitCamelCase 属性
+            else if (controllerApiDescriptionSettings?.SplitCamelCase != null)
             {
-                if (apiDescriptionSettings != null) isSplitCamelCase = apiDescriptionSettings.SplitCamelCase;
-                else
-                {
-                    if (controllerApiDescriptionSettings?.SplitCamelCase == false) isSplitCamelCase = false;
-                }
+                var canParse = bool.TryParse(apiDescriptionSettings.SplitCamelCase.ToString(), out bool value);
+                isSplitCamelCase = !canParse || value;
             }
+            // 取全局配置
+            else isSplitCamelCase = true;
 
             return isSplitCamelCase;
         }
@@ -550,19 +570,22 @@ namespace Furion.DynamicApiController
         /// <returns></returns>
         private bool CheckIsLowercaseRoute(ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
         {
-            var isLowercaseRoute = true;
-            if (controllerApiDescriptionSettings == null)
+            bool isLowercaseRoute;
+
+            // 判断 Action 是否配置了 LowercaseRoute 属性
+            if (apiDescriptionSettings?.LowercaseRoute != null)
             {
-                if (apiDescriptionSettings?.LowercaseRoute == false) isLowercaseRoute = false;
+                var canParse = bool.TryParse(apiDescriptionSettings.LowercaseRoute.ToString(), out bool value);
+                isLowercaseRoute = !canParse || value;
             }
-            else
+            // 判断 Controller 是否配置了 LowercaseRoute 属性
+            else if (controllerApiDescriptionSettings?.LowercaseRoute != null)
             {
-                if (apiDescriptionSettings != null) isLowercaseRoute = apiDescriptionSettings.LowercaseRoute;
-                else
-                {
-                    if (controllerApiDescriptionSettings?.LowercaseRoute == false) isLowercaseRoute = false;
-                }
+                var canParse = bool.TryParse(apiDescriptionSettings.LowercaseRoute.ToString(), out bool value);
+                isLowercaseRoute = !canParse || value;
             }
+            // 取全局配置
+            else isLowercaseRoute = (_dynamicApiControllerSettings?.LowercaseRoute) != false;
 
             return isLowercaseRoute;
         }

@@ -1,5 +1,5 @@
+using Furion.DataValidation;
 using Furion.DependencyInjection;
-using Furion.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -71,7 +71,7 @@ namespace Furion.UnifyResult
         /// <param name="validationResults"></param>
         /// <param name="validateFailedMessage"></param>
         /// <returns></returns>
-        public IActionResult OnValidateFailed(ActionExecutingContext context, ModelStateDictionary modelStates, Dictionary<string, IEnumerable<string>> validationResults, string validateFailedMessage)
+        public IActionResult OnValidateFailed(ActionExecutingContext context, ModelStateDictionary modelStates, IEnumerable<ValidateFailedModel> validationResults, string validateFailedMessage)
         {
             return new JsonResult(new RESTfulResult<object>
             {
@@ -104,7 +104,7 @@ namespace Furion.UnifyResult
                         Errors = "401 Unauthorized",
                         Extras = UnifyContext.Take(),
                         Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-                    }, JsonSerializerUtility.GetDefaultJsonSerializerOptions());
+                    });
                     break;
                 // 处理 403 状态码
                 case StatusCodes.Status403Forbidden:
@@ -116,7 +116,7 @@ namespace Furion.UnifyResult
                         Errors = "403 Forbidden",
                         Extras = UnifyContext.Take(),
                         Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-                    }, JsonSerializerUtility.GetDefaultJsonSerializerOptions());
+                    });
                     break;
 
                 default:

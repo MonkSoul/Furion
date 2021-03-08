@@ -132,6 +132,10 @@ module.exports = {
     },
     {
       type: "doc",
+      id: "json-serialization",
+    },
+    {
+      type: "doc",
       id: "signalr",
     },
     {
@@ -148,7 +152,7 @@ module.exports = {
     },
     {
       type: "category",
-      label: "27. 托管部署",
+      label: "28. 托管部署",
       items: ["deploy-iis", "deploy-docker", "deploy-nginx", "virtual-deploy"],
     },
     {
@@ -157,7 +161,7 @@ module.exports = {
     },
     {
       type: "category",
-      label: "29. 测试指南",
+      label: "30. 测试指南",
       items: ["unittest", "performance", "benchmark"],
     },
     {

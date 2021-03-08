@@ -1,8 +1,8 @@
 ﻿using Furion;
 using Furion.DependencyInjection;
 using Furion.FriendlyException;
+using Furion.JsonSerialization;
 using Furion.UnifyResult;
-using Furion.Utilities;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -65,9 +65,12 @@ namespace Microsoft.AspNetCore.Mvc.Filters
                 // 解析异常信息
                 var (StatusCode, _, Errors) = UnifyContext.GetExceptionMetadata(context);
 
+                // 解析 JSON 序列化提供器
+                var jsonSerializer = _serviceProvider.GetService<IJsonSerializerProvider>();
+
                 context.Result = new ContentResult
                 {
-                    Content = JsonSerializerUtility.Serialize(Errors),
+                    Content = jsonSerializer.Serialize(Errors),
                     StatusCode = StatusCode
                 };
             }
