@@ -7,6 +7,7 @@
 
 - **突破性变化**
 
+  - [优化] 插件式开发热插拔功能，实现动态加载卸载 [#PR200](https://gitee.com/dotnetchina/Furion/pulls/200), 感谢 [@SamWangCoder](https://gitee.com/samwangcoder)
   - [重构] `JSON` 序列化功能，提供统一的抽象接口，方便自由替换 `JSON` 库 [#I39GT9](https://gitee.com/dotnetchina/Furion/issues/I39GT9)
   - [重构] 验证失败返回消息模型及规范化接口验证参数 [#I3AFQW](https://gitee.com/dotnetchina/Furion/issues/I3AFQW)
   - [移除] 移除 `JsonSerializerUtility` 静态类及移除属性大写序列化拓展配置 [#I3AFRJ](https://gitee.com/dotnetchina/Furion/issues/I3AFRJ)
@@ -36,6 +37,7 @@
   - [答疑] `Furion` 多语言配置节是放在 `AppSettings` 里面还是外面呢？ [#I3A4SB](https://gitee.com/dotnetchina/Furion/issues/I3A4SB)
   - [答疑] 没找到数据库上下文 [#I3A5HS](https://gitee.com/dotnetchina/Furion/issues/I3A5HS)
   - [答疑] 有 `QQ` 交流群吗？ [#I3AAM7](https://gitee.com/dotnetchina/Furion/issues/I3AAM7)
+  - [答疑] `Vue3` 环境下配置 `SignalR` 跨域出错 [#I3ALQ7](https://gitee.com/dotnetchina/Furion/issues/I3ALQ7)
 
 - **不做实现**
 

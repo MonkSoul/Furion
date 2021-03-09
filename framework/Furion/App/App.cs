@@ -203,13 +203,13 @@ namespace Furion
         /// 保存文件夹的监听
         /// </summary>
         private static readonly ConcurrentDictionary<string, IFileProvider> FileProviders =
-            new ConcurrentDictionary<string, IFileProvider>();
+            new();
 
         /// <summary>
         /// 插件上下文的弱引用
         /// </summary>
         private static readonly ConcurrentDictionary<string, WeakReference> PLCReferences =
-            new ConcurrentDictionary<string, WeakReference>();
+            new();
 
         /// <summary>
         /// 获取应用有效程序集
@@ -242,8 +242,6 @@ namespace Furion
                 foreach (var externalAssembly in settings.ExternalAssemblies)
                 {
                     var assemblyFileName = externalAssembly.EndsWith(".dll") ? externalAssembly : $"{externalAssembly}.dll";
-                    // 加载程序集
-                    //scanAssemblies.Add(Assembly.LoadFrom(Path.Combine(AppContext.BaseDirectory, assemblyFileName)));
 
                     // 参照
                     // https://docs.microsoft.com/zh-cn/dotnet/standard/assembly/unloadability
@@ -267,7 +265,7 @@ namespace Furion
             string assemblyFileDirPath = Directory.GetParent(assemblyFilePath).FullName;
 
             // 初始化外部dll为插件Context
-            PluginLoadContext loadContext = new PluginLoadContext(assemblyFilePath);
+            PluginLoadContext loadContext = new(assemblyFilePath);
             // 记录弱引用，unload用
             var plcWR = new WeakReference(loadContext);
             PLCReferences.AddOrUpdate(assemblyFilePath, plcWR, (oldkey, oldvalue) => plcWR);
@@ -324,7 +322,7 @@ namespace Furion
                     }
                 }
 
-                Assemblies.Append(LoadExternalAssembly(assemblyFilePath));
+                _ = Assemblies.Append(LoadExternalAssembly(assemblyFilePath));
             };
         }
     }
