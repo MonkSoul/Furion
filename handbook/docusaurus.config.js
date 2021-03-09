@@ -151,7 +151,7 @@ module.exports = {
       }-${new Date().getFullYear()} Furion, Baiqian Co.,Ltd.`,
       logo: {
         src: "img/chinadotnet.png",
-        href: "https://www.chinadot.net/",
+        href: "https://gitee.com/dotnetchina",
       },
     },
   },

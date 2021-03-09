@@ -246,7 +246,7 @@ function WhoUse() {
       <div className="furion-who-custom">
         {/* <h1>等待下一个幸运儿，会是你吗？</h1> */}
         <div className="furion-custom-img">
-          <a href="https://www.chinadot.net/" target="_blank">
+          <a href="https://gitee.com/dotnetchina" target="_blank">
             <img src={useBaseUrl("img/chinadotnet.png")} id="dotnet-china" />
           </a>
         </div>
@@ -306,7 +306,7 @@ function Links() {
         <a href="https://gitee.com/" target="_blank">
           Gitee
         </a>
-        <a href="https://www.chinadot.net/" target="_blank">
+        <a href="https://gitee.com/dotnetchina" target="_blank">
           dotNET China
         </a>
         <a href="https://github.com/sunkaixuan/SqlSugar" target="_blank">
