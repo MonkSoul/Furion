@@ -24,7 +24,7 @@ Param(
     #[string]$UseDatabaseNames
 )
 
-$FurTools = "Furion Tools v1.6.0";
+$FurTools = "Furion Tools v1.16.0";
 
 # 输出信息
 $copyright = @"
@@ -42,7 +42,7 @@ $copyright = @"
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：1.6.0
+// 框架版本：1.16.0
 // 源码地址：https://gitee.com/dotnetchina/Furion
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
@@ -424,21 +424,21 @@ Write-Output "$FurTools 正在编译解决方案代码......";
 if ($Tables.Count -eq 0){
     if($UseDatabaseNames)
     {
-        Scaffold-DbContext Name=$ConnectionName $DbProvider -Context $Context -Namespace $Namespace -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -UseDatabaseNames -Force;
+        Scaffold-DbContext Name=$ConnectionName -Provider $DbProvider -Context $Context -Namespace $Namespace -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -UseDatabaseNames -Force;
     }
     else{
-        Scaffold-DbContext Name=$ConnectionName $DbProvider -Context $Context -Namespace $Namespace -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -Force;
+        Scaffold-DbContext Name=$ConnectionName -Provider $DbProvider -Context $Context -Namespace $Namespace -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -Force;
     }
 }
 else
 {
     if($UseDatabaseNames)
     {
-        Scaffold-DbContext Name=$ConnectionName $DbProvider -Context $Context -Tables $Tables -Namespace $Namespace -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -UseDatabaseNames -Force;
+        Scaffold-DbContext Name=$ConnectionName -Provider $DbProvider -Context $Context -Tables $Tables -Namespace $Namespace -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -UseDatabaseNames -Force;
     }
     else
     {
-        Scaffold-DbContext Name=$ConnectionName $DbProvider -Context $Context -Tables $Tables -Namespace $Namespace -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -Force;
+        Scaffold-DbContext Name=$ConnectionName -Provider $DbProvider -Context $Context -Tables $Tables -Namespace $Namespace -OutputDir $TempOutputDir -NoOnConfiguring -NoPluralize -Force;
     }
 }
 
