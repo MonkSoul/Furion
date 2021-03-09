@@ -1,7 +1,5 @@
-﻿using Furion.Extensions;
-using Furion.JsonSerialization;
+﻿using Furion.JsonSerialization;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -16,184 +14,189 @@ namespace Furion.RemoteRequest
     public sealed partial class HttpClientPart
     {
         /// <summary>
-        /// 设置请求地址
+        /// 发送 GET 请求返回 T 对象
         /// </summary>
-        /// <param name="requestUrl"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public HttpClientPart SetRequestUrl(string requestUrl)
+        public Task<T> GetAsAsync<T>(CancellationToken cancellationToken = default)
         {
-            RequestUrl = requestUrl;
-            return this;
+            return SetHttpMethod(HttpMethod.Get).SendAsAsync<T>(cancellationToken);
         }
 
         /// <summary>
-        /// 设置请求方法
+        /// 发送 GET 请求返回 Stream
         /// </summary>
-        /// <param name="httpMethod"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public HttpClientPart SetHttpMethod(HttpMethod httpMethod)
+        public Task<Stream> GetAsStreamAsync(CancellationToken cancellationToken = default)
         {
-            HttpMethod = httpMethod;
-            return this;
+            return SetHttpMethod(HttpMethod.Get).SendAsStreamAsync(cancellationToken);
         }
 
         /// <summary>
-        /// 设置请求报文头
+        /// 发送 GET 请求
         /// </summary>
-        /// <param name="headers"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public HttpClientPart SetHeaders(Dictionary<string, string> headers)
+        public Task<HttpResponseMessage> GetAsync(CancellationToken cancellationToken = default)
         {
-            Headers = headers;
-            return this;
+            return SetHttpMethod(HttpMethod.Get).SendAsync(cancellationToken);
         }
 
         /// <summary>
-        /// 设置请求报文头
+        /// 发送 POST 请求返回 T 对象
         /// </summary>
-        /// <param name="headers"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public HttpClientPart SetHeaders(object headers)
+        public Task<T> PostAsAsync<T>(CancellationToken cancellationToken = default)
         {
-            Headers = headers.ToDictionary<string>();
-            return this;
+            return SetHttpMethod(HttpMethod.Post).SendAsAsync<T>(cancellationToken);
         }
 
         /// <summary>
-        /// 设置 URL 参数
+        /// 发送 POST 请求返回 Stream
         /// </summary>
-        /// <param name="queries"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public HttpClientPart SetQueries(Dictionary<string, string> queries)
+        public Task<Stream> PostAsStreamAsync(CancellationToken cancellationToken = default)
         {
-            Queries = queries;
-            return this;
+            return SetHttpMethod(HttpMethod.Post).SendAsStreamAsync(cancellationToken);
         }
 
         /// <summary>
-        /// 设置 URL 参数
+        /// 发送 POST 请求
         /// </summary>
-        /// <param name="queries"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public HttpClientPart SetQueries(object queries)
+        public Task<HttpResponseMessage> PostAsync(CancellationToken cancellationToken = default)
         {
-            Queries = queries.ToDictionary<string>();
-            return this;
+            return SetHttpMethod(HttpMethod.Post).SendAsync(cancellationToken);
         }
 
         /// <summary>
-        /// 设置客户端分类名
+        /// 发送 PUT 请求返回 T 对象
         /// </summary>
-        /// <param name="name"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public HttpClientPart SetClient(string name)
+        public Task<T> PutAsAsync<T>(CancellationToken cancellationToken = default)
         {
-            ClientName = name;
-            return this;
+            return SetHttpMethod(HttpMethod.Put).SendAsAsync<T>(cancellationToken);
         }
 
         /// <summary>
-        /// 设置 Body 内容
+        /// 发送 PUT 请求返回 Stream
         /// </summary>
-        /// <param name="body"></param>
-        /// <param name="contentType"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public HttpClientPart SetBody(object body, string contentType = default)
+        public Task<Stream> PutAsStreamAsync(CancellationToken cancellationToken = default)
         {
-            Body = body;
-            if (!string.IsNullOrEmpty(contentType)) ContentType = contentType;
-            return this;
+            return SetHttpMethod(HttpMethod.Put).SendAsStreamAsync(cancellationToken);
         }
 
         /// <summary>
-        /// 设置内容类型
+        /// 发送 PUT 请求
         /// </summary>
-        /// <param name="contentType"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public HttpClientPart SetContentType(string contentType)
+        public Task<HttpResponseMessage> PutAsync(CancellationToken cancellationToken = default)
         {
-            ContentType = contentType;
-            return this;
+            return SetHttpMethod(HttpMethod.Put).SendAsync(cancellationToken);
         }
 
         /// <summary>
-        /// 设置 JSON 序列化提供器
+        /// 发送 DELETE 请求返回 T 对象
         /// </summary>
-        /// <typeparam name="TJsonSerializationProvider"></typeparam>
-        /// <param name="jsonSerializerOptions"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public HttpClientPart SetJsonSerializationProvider<TJsonSerializationProvider>(object jsonSerializerOptions)
-            where TJsonSerializationProvider : IJsonSerializerProvider
+        public Task<T> DeleteAsAsync<T>(CancellationToken cancellationToken = default)
         {
-            JsonSerializationProvider = (typeof(TJsonSerializationProvider), jsonSerializerOptions);
-            return this;
+            return SetHttpMethod(HttpMethod.Delete).SendAsAsync<T>(cancellationToken);
         }
 
         /// <summary>
-        /// 设置 JSON 序列化提供器
+        /// 发送 DELETE 请求返回 Stream
         /// </summary>
-        /// <param name="jsonSerializationProvider"></param>
-        /// <param name="jsonSerializerOptions"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public HttpClientPart SetJsonSerializationProvider(Type jsonSerializationProvider, object jsonSerializerOptions)
+        public Task<Stream> DeleteAsStreamAsync(CancellationToken cancellationToken = default)
         {
-            JsonSerializationProvider = (jsonSerializationProvider, jsonSerializerOptions);
-            return this;
+            return SetHttpMethod(HttpMethod.Delete).SendAsStreamAsync(cancellationToken);
         }
 
         /// <summary>
-        /// 是否启用验证状态
+        /// 发送 DELETE 请求
         /// </summary>
-        /// <param name="enabled"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public HttpClientPart SetValidationState(bool enabled)
+        public Task<HttpResponseMessage> DeleteAsync(CancellationToken cancellationToken = default)
         {
-            this.ValidationState = enabled;
-            return this;
+            return SetHttpMethod(HttpMethod.Delete).SendAsync(cancellationToken);
         }
 
         /// <summary>
-        /// 构建请求对象拦截器
+        /// 发送 PATCH 请求返回 T 对象
         /// </summary>
-        /// <param name="action"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public HttpClientPart OnRequesting(Action<HttpRequestMessage> action)
+        public Task<T> PatchAsAsync<T>(CancellationToken cancellationToken = default)
         {
-            RequestInspector = action;
-            return this;
+            return SetHttpMethod(HttpMethod.Patch).SendAsAsync<T>(cancellationToken);
         }
 
         /// <summary>
-        /// 创建客户端对象拦截器
+        /// 发送 PATCH 请求返回 Stream
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public HttpClientPart OnClientCreating(Action<HttpClient> action)
+        public Task<Stream> PatchAsStreamAsync(CancellationToken cancellationToken = default)
         {
-            HttpClientInspector = action;
-            return this;
+            return SetHttpMethod(HttpMethod.Patch).SendAsStreamAsync(cancellationToken);
         }
 
         /// <summary>
-        /// 请求成功拦截器
+        /// 发送 PATCH 请求
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public HttpClientPart OnResponsing(Action<HttpResponseMessage> action)
+        public Task<HttpResponseMessage> PatchAsync(CancellationToken cancellationToken = default)
         {
-            ResponseInspector = action;
-            return this;
+            return SetHttpMethod(HttpMethod.Patch).SendAsync(cancellationToken);
         }
 
         /// <summary>
-        /// 请求异常拦截器
+        /// 发送 HEAD 请求返回 T 对象
         /// </summary>
-        /// <param name="action"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public HttpClientPart OnException(Action<HttpResponseMessage, string> action)
+        public Task<T> HeadAsAsync<T>(CancellationToken cancellationToken = default)
         {
-            ExceptionInspector = action;
-            return this;
+            return SetHttpMethod(HttpMethod.Head).SendAsAsync<T>(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 HEAD 请求返回 Stream
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<Stream> HeadAsStreamAsync(CancellationToken cancellationToken = default)
+        {
+            return SetHttpMethod(HttpMethod.Head).SendAsStreamAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 HEAD 请求
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<HttpResponseMessage> HeadAsync(CancellationToken cancellationToken = default)
+        {
+            return SetHttpMethod(HttpMethod.Head).SendAsync(cancellationToken);
         }
 
         /// <summary>

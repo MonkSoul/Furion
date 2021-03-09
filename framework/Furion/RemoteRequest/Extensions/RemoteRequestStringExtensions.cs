@@ -185,6 +185,210 @@ namespace Furion.RemoteRequest.Extensions
         }
 
         /// <summary>
+        /// 发送 GET 请求返回 T 对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<T> GetAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).GetAsAsync<T>(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 GET 请求返回 Stream
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<Stream> GetAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).GetAsStreamAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 GET 请求
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<HttpResponseMessage> GetAsync(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).GetAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 POST 请求返回 T 对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<T> PostAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).PostAsAsync<T>(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 POST 请求返回 Stream
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<Stream> PostAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).PostAsStreamAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 POST 请求
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<HttpResponseMessage> PostAsync(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).PostAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 PUT 请求返回 T 对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<T> PutAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).PutAsAsync<T>(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 PUT 请求返回 Stream
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<Stream> PutAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).PutAsStreamAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 PUT 请求
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<HttpResponseMessage> PutAsync(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).PutAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 DELETE 请求返回 T 对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<T> DeleteAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).DeleteAsAsync<T>(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 DELETE 请求返回 Stream
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<Stream> DeleteAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).DeleteAsStreamAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 DELETE 请求
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<HttpResponseMessage> DeleteAsync(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).DeleteAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 PATCH 请求返回 T 对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<T> PatchAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).PatchAsAsync<T>(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 PATCH 请求返回 Stream
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<Stream> PatchAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).PatchAsStreamAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 PATCH 请求
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<HttpResponseMessage> PatchAsync(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).PatchAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 HEAD 请求返回 T 对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<T> HeadAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).HeadAsAsync<T>(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 HEAD 请求返回 Stream
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<Stream> HeadAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).HeadAsStreamAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 HEAD 请求
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<HttpResponseMessage> HeadAsync(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).HeadAsync(cancellationToken);
+        }
+
+        /// <summary>
         /// 发送请求返回 T 对象
         /// </summary>
         /// <typeparam name="T"></typeparam>
