@@ -479,6 +479,12 @@ const contributors = [
     photo:
       "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAACtUlEQVRoQ+2YT0gUURzHv+M6M8SuqIUVRMeIEFpIKiKv3bxVEIoQRdeIDlvBIiaC4aljHYoklKC8de1UEBUSe5AKob+WVtAG7tbOzG4T79msM+Oor9iQ3/O3t2XfMu/z+37e+715xlxPt48N9DEYWPO0OWHNAwYnzAlrVgFWWrNAl+FwwpywZhVgpTULlDctVpqV1qwCDVW69ewFbDrSUy+RX/VQvjeO0vgNpbKZu/ag7eIQUlu3y/F/+3+Vh/xXYDEBtzCFb/lzKnNB+mgvMr2nYFg2XeDal3l8Hx2E92p6Tej2/Ajsg93/bMiaDwAaewEQVtr3PBimCd91UbpzC+W7t1edT0Rn/xdgNNFSujr7Tq5Foafz7DGKQ7lVgQOdAQO1r5/RvGMnLWB3uoBUxzYJraJ1+8Ao7P2H5FgBbHVmiQEXpuBXfso16bsOShM3UZ6cSEzZ3N2JttygLI6wwbAsWNkuesDO86f1Xdd58gjF4UuJwOnj/cicOCl/E+vdznbRBF4Yu17vq1LrKwPwZl4sgw7rLHb0lv4zNIFF/w1azUpax3UWm9vm4at0gQNdxbpM0jqus2hfpIHDCdbmZlG8nEP144e61nGdxQGFNLAgC6D8SgULY9fw4/6kBI7oHNrUyAOHta48fCCPmuKzpLMfaVvkgVfSOqJzaAcnD5yktTfzcumwEevRWgDXtTZNCK29t6//HDaiOoviaAEc1rr6/g1q859gHzi8eM6OHUi0AI5o7TrytbEp05LYm7UBzvSdRvpYH4xmc/FGI9amguasDbC1dx9az+eR2tIh2ZIOItqs4Xh64nu4J4ffKMgkrHKntN5jGnprud4wKs9nYJUqUR7DCVNOT2XunLBKlSiP4YQpp6cyd05YpUqUx3DClNNTmTsnrFIlymM4Ycrpqcx9wyX8GxhQyiMyPuNfAAAAAElFTkSuQmCC",
   },
+  {
+    author: "MonsterUncle",
+    link: "https://gitee.com/qian_wei_hong",
+    photo:
+      "https://portrait.gitee.com/uploads/avatars/user/2451/7353672_qian_wei_hong_1603769171.png!avatar200",
+  },
 ];
 
 export default contributors;
