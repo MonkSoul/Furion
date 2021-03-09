@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -270,6 +271,7 @@ namespace Furion.RemoteRequest
 
             // 配置 Body 内容
 
+
             // 配置请求拦截
             RequestInspector?.Invoke(request);
 
@@ -306,6 +308,26 @@ namespace Furion.RemoteRequest
             }
 
             return response;
+        }
+
+        /// <summary>
+        /// 设置 Body 内容
+        /// </summary>
+        /// <returns></returns>
+        private HttpContent SetBodyContent()
+        {
+            HttpContent httpContent = null;
+
+            switch (ContentType)
+            {
+                case "multipart/form-data":
+                    break;
+            }
+
+            // 设置内容类型
+            httpContent.Headers.ContentType = new MediaTypeHeaderValue(ContentType);
+
+            return httpContent;
         }
     }
 }
