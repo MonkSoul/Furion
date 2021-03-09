@@ -2,6 +2,7 @@
 using Furion.JsonSerialization;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -193,6 +194,17 @@ namespace Furion.RemoteRequest.Extensions
         public static Task<T> SendAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
         {
             return new HttpClientPart().SetRequestUrl(requestUrl).SendAsAsync<T>(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送请求返回 Stream
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<Stream> SendAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).SendAsStreamAsync(cancellationToken);
         }
 
         /// <summary>

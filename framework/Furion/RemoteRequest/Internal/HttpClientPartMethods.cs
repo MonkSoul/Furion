@@ -2,6 +2,7 @@
 using Furion.JsonSerialization;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -203,20 +204,31 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public async Task<T> SendAsAsync<T>(CancellationToken cancellationToken = default)
         {
+            // 解析 Json 序列化提供器
+            var jsonSerializer = App.GetService(JsonSerializationProvider.ProviderType ?? typeof(SystemTextJsonSerializerProvider)) as IJsonSerializerProvider;
+
+            var stream = await SendAsStreamAsync(cancellationToken);
+
+            // 反序列化流
+            var result = await jsonSerializer.DeserializeAsync<T>(stream, JsonSerializationProvider.JsonSerializerOptions, cancellationToken);
+            return result;
+        }
+
+        /// <summary>
+        /// 发送请求返回 Stream
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<Stream> SendAsStreamAsync(CancellationToken cancellationToken = default)
+        {
             var response = await SendAsync(cancellationToken);
 
             // 如果配置了异常拦截器，且请求不成功，则返回 T 默认值
             if (ExceptionInspector != null && !response.IsSuccessStatusCode) return default;
 
             // 读取响应流
-            using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
-
-            // 解析 Json 序列化提供器
-            var jsonSerializer = App.GetService(JsonSerializationProvider.ProviderType ?? typeof(SystemTextJsonSerializerProvider)) as IJsonSerializerProvider;
-
-            // 反序列化流
-            var result = await jsonSerializer.DeserializeAsync<T>(stream, JsonSerializationProvider.JsonSerializerOptions, cancellationToken);
-            return result;
+            var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+            return stream;
         }
 
         /// <summary>
