@@ -7,6 +7,7 @@
 
 - **突破性变化**
 
+  - [升级] .NET 5 SDK 至 5.0.4 版本 [#I3ASTL](https://gitee.com/dotnetchina/Furion/issues/I3ASTL)
   - [优化] 插件式开发热插拔功能，实现动态加载卸载 [#PR200](https://gitee.com/dotnetchina/Furion/pulls/200), 感谢 [@SamWangCoder](https://gitee.com/samwangcoder)
   - [重构] `JSON` 序列化功能，提供统一的抽象接口，方便自由替换 `JSON` 库 [#I39GT9](https://gitee.com/dotnetchina/Furion/issues/I39GT9)
   - [重构] 验证失败返回消息模型及规范化接口验证参数 [#I3AFQW](https://gitee.com/dotnetchina/Furion/issues/I3AFQW)
