@@ -155,7 +155,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>943,533</div>
+            <div style={{ color: "#1fd898" }}>964,221</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -359,6 +359,9 @@ function Links() {
         </a>
         <a href="https://gitee.com/veal98/Echo" target="_blank">
           Echo
+        </a>
+        <a href="https://gitee.com/opencc/ccflow" target="_blank">
+          CCFlow
         </a>
       </div>
     </div>
