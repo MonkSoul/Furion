@@ -361,7 +361,7 @@ function Links() {
           Echo
         </a>
         <a href="https://gitee.com/opencc/ccflow" target="_blank">
-          CCFlow
+          驰骋工作流
         </a>
       </div>
     </div>
