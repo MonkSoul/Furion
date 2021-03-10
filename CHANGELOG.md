@@ -40,6 +40,7 @@
   - [答疑] 没找到数据库上下文 [#I3A5HS](https://gitee.com/dotnetchina/Furion/issues/I3A5HS)
   - [答疑] 有 `QQ` 交流群吗？ [#I3AAM7](https://gitee.com/dotnetchina/Furion/issues/I3AAM7)
   - [答疑] `Vue3` 环境下配置 `SignalR` 跨域出错 [#I3ALQ7](https://gitee.com/dotnetchina/Furion/issues/I3ALQ7)
+  - [答疑] 设置 `Swagger` 参数非必填 [#I3AT02](https://gitee.com/dotnetchina/Furion/issues/I3AT02)
 
 - **不做实现**
 
