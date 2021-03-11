@@ -41,6 +41,9 @@
   - [答疑] 有 `QQ` 交流群吗？ [#I3AAM7](https://gitee.com/dotnetchina/Furion/issues/I3AAM7)
   - [答疑] `Vue3` 环境下配置 `SignalR` 跨域出错 [#I3ALQ7](https://gitee.com/dotnetchina/Furion/issues/I3ALQ7)
   - [答疑] 设置 `Swagger` 参数非必填 [#I3AT02](https://gitee.com/dotnetchina/Furion/issues/I3AT02)
+  - [答疑] 事件总线能否提供返回值 [#I3AWL6](https://gitee.com/dotnetchina/Furion/issues/I3AWL6)
+  - [答疑] Sql 模板能仿照 Mybatis 一样加各种标签吗？[#I3ASRS](https://gitee.com/dotnetchina/Furion/issues/I3ASRS)
+  - [答疑] EFCore 更新或排除更新指定列支持传入 DTO 模型 [#I3AS5K](https://gitee.com/dotnetchina/Furion/issues/I3AS5K)
 
 - **不做实现**
 
