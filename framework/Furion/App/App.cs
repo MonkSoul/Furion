@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 using StackExchange.Profiling;
 using System;
 using System.Collections.Concurrent;
@@ -13,6 +15,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
 using System.Security.Claims;
 
@@ -197,6 +200,18 @@ namespace Furion
         internal static ConcurrentBag<AppStartup> AppStartups;
 
         /// <summary>
+        /// 保存文件夹的监听
+        /// </summary>
+        private static readonly ConcurrentDictionary<string, IFileProvider> FileProviders =
+            new();
+
+        /// <summary>
+        /// 插件上下文的弱引用
+        /// </summary>
+        private static readonly ConcurrentDictionary<string, WeakReference> PLCReferences =
+            new();
+
+        /// <summary>
         /// 获取应用有效程序集
         /// </summary>
         /// <returns>IEnumerable</returns>
@@ -228,12 +243,94 @@ namespace Furion
                 {
                     var assemblyFileName = externalAssembly.EndsWith(".dll") ? externalAssembly : $"{externalAssembly}.dll";
 
-                    // 加载外部程序集（暂时不提供热加载功能）
-                    scanAssemblies.Add(Assembly.LoadFrom(Path.Combine(AppContext.BaseDirectory, assemblyFileName)));
+                    // 参照
+                    // https://docs.microsoft.com/zh-cn/dotnet/standard/assembly/unloadability
+                    var assembly = LoadExternalAssembly(Path.Combine(AppContext.BaseDirectory, assemblyFileName));
+                    if (null != assembly)
+                        scanAssemblies.Add(assembly);
                 }
             }
 
             return scanAssemblies;
+        }
+
+        /// <summary>
+        /// 加载外部程序集
+        /// </summary>
+        /// <param name="assemblyFilePath"></param>
+        /// <returns></returns>
+        private static Assembly LoadExternalAssembly(string assemblyFilePath)
+        {
+            // 文件名
+            string assemblyFileName = Path.GetFileName(assemblyFilePath);
+            // 所在文件夹绝对路径
+            string assemblyFileDirPath = Directory.GetParent(assemblyFilePath).FullName;
+
+            // 初始化外部dll为插件Context
+            PluginLoadContext loadContext = new(assemblyFilePath);
+            // 记录弱引用，unload用
+            var plcWR = new WeakReference(loadContext);
+            PLCReferences.AddOrUpdate(assemblyFilePath, plcWR, (oldkey, oldvalue) => plcWR);
+
+            // 获取程序集
+            Assembly assembly = loadContext.LoadFromAssemblyName(new AssemblyName(Path.GetFileNameWithoutExtension(assemblyFilePath)));
+
+            // 添加文件夹监听，key为文件的绝对路径，每个不同文件都需要有一个监听
+            var key = assemblyFilePath;
+            if (!FileProviders.ContainsKey(key))
+            {
+                IFileProvider _fileProvider = new PhysicalFileProvider(assemblyFileDirPath);
+                FileProviders.AddOrUpdate(key, _fileProvider, (oldkey, oldvalue) => _fileProvider);
+
+                // 文件修改时触发
+                ChangeToken.OnChange(
+                    () => _fileProvider.Watch(assemblyFileName),
+                    () => UpdateExternalAssembly(assemblyFilePath, assembly.FullName));
+            }
+
+            return assembly;
+        }
+
+        /// <summary>
+        /// 更新外部程序集
+        /// </summary>
+        /// <param name="assemblyFilePath"></param>
+        /// <param name="assemblyFullName"></param>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void UpdateExternalAssembly(string assemblyFilePath, string assemblyFullName)
+        {
+            lock (Assemblies)
+            {
+                // 移除相同FullName的程序集引用
+                ((List<Assembly>)Assemblies)?.RemoveAll(ass => ass.FullName == assemblyFullName);
+
+                // 卸载老的
+                if (PLCReferences.Remove(assemblyFilePath, out var plcWR))
+                {
+                    // 执行程序集的卸载
+                    DoUnload(plcWR);
+
+                    // 需要做些延迟，AssemblyLoadContext机制不会立刻完成unload
+                    for (int i = 0; plcWR.IsAlive && (i < 10); i++)
+                    {
+                        GC.Collect();
+                        GC.WaitForPendingFinalizers();
+                    }
+                }
+
+                ((List<Assembly>)Assemblies)?.Add(LoadExternalAssembly(assemblyFilePath));
+            }
+        }
+
+        /// <summary>
+        /// 执行卸载
+        /// </summary>
+        /// <param name="plcWR"></param>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void DoUnload(WeakReference plcWR)
+        {
+            // 防止引入局部变量导致GC失败，需要单独执行unload，并且不可被优化为内联
+            ((PluginLoadContext)plcWR.Target).Unload();
         }
     }
 }
