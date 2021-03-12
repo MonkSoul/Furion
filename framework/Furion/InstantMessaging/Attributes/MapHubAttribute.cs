@@ -4,7 +4,7 @@ using System;
 namespace Furion.InstantMessaging
 {
     /// <summary>
-    /// 即时通讯集线器配置特性
+    /// 即时通信集线器配置特性
     /// </summary>
     [SkipScan, AttributeUsage(AttributeTargets.Class)]
     public sealed class MapHubAttribute : Attribute
