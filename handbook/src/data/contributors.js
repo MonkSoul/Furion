@@ -485,6 +485,18 @@ const contributors = [
     photo:
       "https://portrait.gitee.com/uploads/avatars/user/2451/7353672_qian_wei_hong_1603769171.png!avatar200",
   },
+  {
+    author: "Mapsterx",
+    link: "https://gitee.com/mapsterx",
+    photo:
+      "https://portrait.gitee.com/uploads/avatars/user/2932/8796990_mapsterx_1615537463.png!avatar200",
+  },
+  {
+    author: "yitter",
+    link: "https://gitee.com/yitter",
+    photo:
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEsAAABLCAYAAAA4TnrqAAADuklEQVR4Xu3YeUgUYRgG8GdtPSqSsEzRki4j7LBIKyQoAqOTsLJLUqMM2kpFPMkDa7NSEzXcIovUsEONiFJCSQosLIPUyAJLSTAsS6Iyr203ZmQHWaX2xZyxePc/2efbeefn883OrMprXaAR/LJIQMVYFjmJIcay3IqxCFaMxVgUAUKWr1mMRRAgRLlZjEUQIES5WYxFECBEuVmMRRAgRLlZjEUQIES5WYxFECBEuVmMRRAgRLlZjEUQIES5WYxFECBER7xZM9xccSYxDNNcnKSxGptaEHsyBy2tbYRR+6Nurs44FXcI7jPdpLU1dQ2IPJaFH13d5M+jLBhxLGGYnZt9oQnyx1g7W3E2g8GAm2WVSNVdocwqZqM1e7B1/WpYWVmJf7d//gJt1iU8flZP/izqAlmwhKEyksKxYukiqFQqccav3zpxWleA8ofVFs+8ZuVyxGgCYT9hvLimt7cPhbfuQZdfYvFnDCcoG9aCubOgjT4IF2dHad66hkaEJqRbtH3GjbVD9vFIeHq4i+uNRiNqahsQpc22aP1wkExrZcMSDhi8fSP2794MWxsb8fh6/U/cuFOBzNxrfzyX8JBd2LHJF2r1GDH78VMHTmRflmX7KYIlHPSsNgrLFs+TtqMl1xwfr4WID9sHx0kTFdl+imF5e3ogKSIETo4OUpt+920mbL/0xDAI60zb78nzlzgSn/bHNv7tgKzb0DT8gQA/BPlvgI2NtdSU/OJSXCi8Nej8NEHbEOC3Vsp+aO9AckYuBGC5X4pgDbUdh0Iwb2FPby8uXr2NvKK7cjuJx1MMS7gOHQ3diymT+7ej8O1W9bQWEcmZEsTA242h3pdbTDEs4UTNt9j3zi7k5BWhpLRy0I3s+7Z2xKeew4vXb+U2ko6nKJb5xVuY6lVjM5LO5CIlVoPZ06eKg3Z190CXX4zrtysUg1J0G5rO2vy2oE+vR33DGyyeP0d8pBG23/2qGsSdzFEUalRgCUMcCvZHwJa1sFarB4E0vWsVH7qbW1oZSxAwf5QxqQy8hikupeS3ofnJr/JZgrjDwXCYaC++ZTAaUf6gGglp50eDk7K3DkMJ6FJi4L2o/05d+G3qdE4ByiofMRZjDbMD3CwCIGMxFkGAEOVmMRZBgBDlZjEWQYAQ5WYxFkHgP4oq+uPfv+bIWIT/GGMxFkGAEOVmMRZBgBDlZjEWQYAQ5WYxFkGAEOVmMRZBgBDlZjEWQYAQ5WYxFkGAEOVmMRZBgBDlZjEWQYAQ5WYxFkGAEOVmEbB+Af6T8DmYf9viAAAAAElFTkSuQmCC",
+  },
 ];
 
 export default contributors;

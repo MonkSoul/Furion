@@ -2,6 +2,7 @@
 
 - **新特性**
 
+  - [新增] `idgenerator` 雪花 ID 算法，感谢 [idgenerator](https://gitee.com/yitter/idgenerator) 作者提交 PR [#PR204](https://gitee.com/dotnetchina/Furion/pulls/204) [#I3B60S](https://gitee.com/dotnetchina/Furion/issues/I3B60S)
   - [新增] `DbContext` 刷新多租户缓存拓展方法 [#I39N5U](https://gitee.com/dotnetchina/Furion/issues/I39N5U)
   - [新增] 自定义配置单个控制器名称规范，如小写路由 [#I3A5XL](https://gitee.com/dotnetchina/Furion/issues/I3A5XL)
 
@@ -45,6 +46,8 @@
   - [答疑] Sql 模板能仿照 Mybatis 一样加各种标签吗？[#I3ASRS](https://gitee.com/dotnetchina/Furion/issues/I3ASRS)
   - [答疑] EFCore 更新或排除更新指定列支持传入 DTO 模型 [#I3AS5K](https://gitee.com/dotnetchina/Furion/issues/I3AS5K)
   - [答疑] EFCore 调用 Insert 时报 `Unknown column 'Discriminator' in 'field list'` 异常 [#I3B2LC](https://gitee.com/dotnetchina/Furion/issues/I3B2LC)
+  - [答疑] 逆向 `mysql` 数据库时 `cli` 出现错误 [#I3B64F](https://gitee.com/dotnetchina/Furion/issues/I3B64F)
+  - [答疑] Sql 高级代理使用过程中DateTime类型的参数序列化失败 [#I3AZXK](https://gitee.com/dotnetchina/Furion/issues/I3AZXK)
 
 - **不做实现**
 
