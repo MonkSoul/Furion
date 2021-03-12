@@ -131,7 +131,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>3200</div>
+            <div style={{ color: "#723cff" }}>3300</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
@@ -155,7 +155,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>968,393</div>
+            <div style={{ color: "#1fd898" }}>981,893</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -362,6 +362,15 @@ function Links() {
         </a>
         <a href="https://gitee.com/opencc/ccflow" target="_blank">
           驰骋工作流
+        </a>
+        <a href="https://gitee.com/dotnetchina/weaving-socket" target="_blank">
+          weaving-socket
+        </a>
+        <a
+          href="https://gitee.com/dotnetchina/SiMayRemoteMonitorOS"
+          target="_blank"
+        >
+          SiMayRemoteMonitorOS
         </a>
       </div>
     </div>

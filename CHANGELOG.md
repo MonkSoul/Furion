@@ -44,6 +44,7 @@
   - [答疑] 事件总线能否提供返回值 [#I3AWL6](https://gitee.com/dotnetchina/Furion/issues/I3AWL6)
   - [答疑] Sql 模板能仿照 Mybatis 一样加各种标签吗？[#I3ASRS](https://gitee.com/dotnetchina/Furion/issues/I3ASRS)
   - [答疑] EFCore 更新或排除更新指定列支持传入 DTO 模型 [#I3AS5K](https://gitee.com/dotnetchina/Furion/issues/I3AS5K)
+  - [答疑] EFCore 调用 Insert 时报 `Unknown column 'Discriminator' in 'field list'` 异常 [#I3B2LC](https://gitee.com/dotnetchina/Furion/issues/I3B2LC)
 
 - **不做实现**
 
