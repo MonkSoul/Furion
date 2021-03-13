@@ -42,17 +42,18 @@
   - [答疑] 有 `QQ` 交流群吗？ [#I3AAM7](https://gitee.com/dotnetchina/Furion/issues/I3AAM7)
   - [答疑] `Vue3` 环境下配置 `SignalR` 跨域出错 [#I3ALQ7](https://gitee.com/dotnetchina/Furion/issues/I3ALQ7)
   - [答疑] 设置 `Swagger` 参数非必填 [#I3AT02](https://gitee.com/dotnetchina/Furion/issues/I3AT02)
-  - [答疑] 事件总线能否提供返回值 [#I3AWL6](https://gitee.com/dotnetchina/Furion/issues/I3AWL6)
-  - [答疑] Sql 模板能仿照 Mybatis 一样加各种标签吗？[#I3ASRS](https://gitee.com/dotnetchina/Furion/issues/I3ASRS)
-  - [答疑] EFCore 更新或排除更新指定列支持传入 DTO 模型 [#I3AS5K](https://gitee.com/dotnetchina/Furion/issues/I3AS5K)
   - [答疑] EFCore 调用 Insert 时报 `Unknown column 'Discriminator' in 'field list'` 异常 [#I3B2LC](https://gitee.com/dotnetchina/Furion/issues/I3B2LC)
   - [答疑] 逆向 `mysql` 数据库时 `cli` 出现错误 [#I3B64F](https://gitee.com/dotnetchina/Furion/issues/I3B64F)
-  - [答疑] Sql 高级代理使用过程中DateTime类型的参数序列化失败 [#I3AZXK](https://gitee.com/dotnetchina/Furion/issues/I3AZXK)
+  - [答疑] Sql 高级代理使用过程中 DateTime 类型的参数序列化失败 [#I3AZXK](https://gitee.com/dotnetchina/Furion/issues/I3AZXK)
+  - [打印] 使用 Mysql 执行 Add-Migration 报错 [#I3B8EW](https://gitee.com/dotnetchina/Furion/issues/I3B8EW)
 
 - **不做实现**
 
   - [废弃] 建议 `EFCore` 可配置外键关系导航问题 [#I3994X](https://gitee.com/dotnetchina/Furion/issues/I3994X)
   - [废弃] 建议将 `EFCore` 剥离出来，作为插件的形式提供。这样可以选择自己喜欢的 `ORM` [#I3ABNX](https://gitee.com/dotnetchina/Furion/issues/I3ABNX)
+  - [废弃] 事件总线能否提供返回值 [#I3AWL6](https://gitee.com/dotnetchina/Furion/issues/I3AWL6)
+  - [废弃] Sql 模板能仿照 Mybatis 一样加各种标签吗？[#I3ASRS](https://gitee.com/dotnetchina/Furion/issues/I3ASRS)
+  - [废弃] EFCore 更新或排除更新指定列支持传入 DTO 模型 [#I3AS5K](https://gitee.com/dotnetchina/Furion/issues/I3AS5K)
 
 ---
 

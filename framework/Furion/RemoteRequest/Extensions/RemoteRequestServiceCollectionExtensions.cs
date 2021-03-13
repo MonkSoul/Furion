@@ -1,4 +1,5 @@
 ﻿using Furion.DependencyInjection;
+using Furion.RemoteRequest;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -17,8 +18,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IServiceCollection AddRemoteRequest(this IServiceCollection services, Action<IServiceCollection> configure = null)
         {
-            // 注册 Http 代理接口
-            //services.AddScopedDispatchProxyForInterface<HttpDispatchProxy, IHttpDispatchProxy>();
+            // 注册远程请求代理接口
+            services.AddScopedDispatchProxyForInterface<HttpDispatchProxy, IHttpDispatchProxy>();
 
             // 注册默认请求客户端
             services.AddHttpClient();
