@@ -45,7 +45,8 @@
   - [答疑] EFCore 调用 Insert 时报 `Unknown column 'Discriminator' in 'field list'` 异常 [#I3B2LC](https://gitee.com/dotnetchina/Furion/issues/I3B2LC)
   - [答疑] 逆向 `mysql` 数据库时 `cli` 出现错误 [#I3B64F](https://gitee.com/dotnetchina/Furion/issues/I3B64F)
   - [答疑] Sql 高级代理使用过程中 DateTime 类型的参数序列化失败 [#I3AZXK](https://gitee.com/dotnetchina/Furion/issues/I3AZXK)
-  - [打印] 使用 Mysql 执行 Add-Migration 报错 [#I3B8EW](https://gitee.com/dotnetchina/Furion/issues/I3B8EW)
+  - [答疑] 使用 Mysql 执行 Add-Migration 报错 [#I3B8EW](https://gitee.com/dotnetchina/Furion/issues/I3B8EW)
+  - [答疑] Saas 多租户模式-独立 Database 模式下无法获取 Tenant, 导致无法自动切换的问题[#I3AVXU](https://gitee.com/dotnetchina/Furion/issues/I3AVXU)
 
 - **不做实现**
 
