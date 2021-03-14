@@ -16,7 +16,7 @@ namespace Furion.Snowflake
         }
 
         /// <summary>
-        /// 下一个雪花 ID
+        /// 下一个 雪花 ID
         /// </summary>
         /// <returns></returns>
         public override long NextId()

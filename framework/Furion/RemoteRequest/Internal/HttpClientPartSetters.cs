@@ -141,10 +141,11 @@ namespace Furion.RemoteRequest
         /// 是否启用验证状态
         /// </summary>
         /// <param name="enabled"></param>
+        /// <param name="includeNull"></param>
         /// <returns></returns>
-        public HttpClientPart SetValidationState(bool enabled)
+        public HttpClientPart SetValidationState(bool enabled = true, bool includeNull = true)
         {
-            this.ValidationState = enabled;
+            ValidationState = (enabled, includeNull);
             return this;
         }
 

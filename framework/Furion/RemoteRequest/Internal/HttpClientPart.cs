@@ -53,7 +53,7 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 是否启用模型验证
         /// </summary>
-        public bool ValidationState { get; private set; }
+        public (bool Enabled, bool IncludeNull) ValidationState { get; private set; } = (false, false);
 
         /// <summary>
         /// 构建请求对象拦截器

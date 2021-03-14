@@ -8,12 +8,12 @@ namespace Furion.Snowflake
     public interface IIDGenerator
     {
         /// <summary>
-        /// 生成雪花 ID 过程中的异步事件
+        /// 生成过程中产生的事件
         /// </summary>
         Action<OverCostActionArg> GenIdActionAsync { get; set; }
 
         /// <summary>
-        /// 生成新的 long 类型数据
+        /// 生成新的long型Id
         /// </summary>
         /// <returns></returns>
         long NewLong();

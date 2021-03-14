@@ -6,13 +6,13 @@ namespace Furion.Snowflake
 {
     /// <summary>
     /// 雪花漂移算法
-    /// </summary>
+    /// </summary> 
     internal class SnowflakeWorkerM1 : ISnowflakeWorker
     {
         /// <summary>
         /// 基础时间
         /// </summary>
-        protected readonly DateTime StartTimeUtc = new(2020, 2, 20, 2, 20, 2, 20, DateTimeKind.Utc);
+        protected readonly DateTime BaseTime;
 
         /// <summary>
         /// 机器码
@@ -21,24 +21,21 @@ namespace Furion.Snowflake
 
         /// <summary>
         /// 机器码位长
-        /// （机器码+序列数小于等于 22位）
         /// </summary>
         protected readonly byte WorkerIdBitLength = 0;
 
         /// <summary>
         /// 自增序列数位长
-        /// （机器码+序列数小于等于 22位）
         /// </summary>
         protected readonly byte SeqBitLength = 0;
 
         /// <summary>
-        /// 最大序列数（含此值）
-        /// 超过最大值，就会从MinSeqNumber开始
+        /// 最大序列数（含）
         /// </summary>
         protected readonly int MaxSeqNumber = 0;
 
         /// <summary>
-        /// 最小序列数（含此值）
+        /// 最小序列数（含）
         /// </summary>
         protected readonly ushort MinSeqNumber = 0;
 
@@ -53,13 +50,13 @@ namespace Furion.Snowflake
         protected ushort _CurrentSeqNumber;
         protected long _LastTimeTick = -1L;
         protected long _TurnBackTimeTick = -1L;
+        protected byte _TurnBackIndex = 0;
 
         protected bool _IsOverCost = false;
         protected int _OverCostCountInOneTerm = 0;
         protected int _GenCountInOneTerm = 0;
         protected int _TermIndex = 0;
 
-        public Action<OverCostActionArg> GenAction { get; set; }
 
         /// <summary>
         /// 构造函数
@@ -72,12 +69,11 @@ namespace Furion.Snowflake
             SeqBitLength = options.SeqBitLength;
             MaxSeqNumber = options.MaxSeqNumber;
             MinSeqNumber = options.MinSeqNumber;
-            _CurrentSeqNumber = options.MinSeqNumber;
             TopOverCostCount = options.TopOverCostCount;
 
-            if (options.StartTime != DateTime.MinValue)
+            if (options.BaseTime != DateTime.MinValue)
             {
-                StartTimeUtc = options.StartTime;
+                BaseTime = options.BaseTime;
             }
 
             if (WorkerId < 1)
@@ -87,21 +83,41 @@ namespace Furion.Snowflake
 
             if (SeqBitLength == 0)
             {
-                SeqBitLength = 10;
+                SeqBitLength = 6;
             }
 
             if (WorkerIdBitLength == 0)
             {
-                WorkerIdBitLength = 10;
+                WorkerIdBitLength = 6;
             }
 
             if (MaxSeqNumber == 0)
             {
-                MaxSeqNumber = (int)Math.Pow(2, SeqBitLength);
+                MaxSeqNumber = (int)Math.Pow(2, SeqBitLength) - 1;
             }
 
             _TimestampShift = (byte)(WorkerIdBitLength + SeqBitLength);
+            _CurrentSeqNumber = options.MinSeqNumber;
         }
+
+
+        /// <summary>
+        /// 雪花 ID 生成事件
+        /// </summary>
+        public Action<OverCostActionArg> GenAction { get; set; }
+
+        /// <summary>
+        /// 下一个 雪花 ID
+        /// </summary>
+        /// <returns></returns>
+        public virtual long NextId()
+        {
+            lock (_SyncLock)
+            {
+                return _IsOverCost ? NextOverCostId() : NextNormalId();
+            }
+        }
+
 
         private void DoGenIdAction(OverCostActionArg arg)
         {
@@ -111,7 +127,7 @@ namespace Furion.Snowflake
             });
         }
 
-        private void BeginOverCostCallBack(in long useTimeTick)
+        private void BeginOverCostAction(in long useTimeTick)
         {
             if (GenAction == null)
             {
@@ -127,7 +143,7 @@ namespace Furion.Snowflake
                 _TermIndex));
         }
 
-        private void EndOverCostCallBack(in long useTimeTick)
+        private void EndOverCostAction(in long useTimeTick)
         {
             if (_TermIndex > 10000)
             {
@@ -148,7 +164,7 @@ namespace Furion.Snowflake
                 _TermIndex));
         }
 
-        private void TurnBackCallBack(in long useTimeTick)
+        private void BeginTurnBackAction(in long useTimeTick)
         {
             if (GenAction == null)
             {
@@ -159,9 +175,25 @@ namespace Furion.Snowflake
             WorkerId,
             useTimeTick,
             8,
-            _OverCostCountInOneTerm,
-            _GenCountInOneTerm,
-            _TermIndex));
+            0,
+            0,
+            _TurnBackIndex));
+        }
+
+        private void EndTurnBackAction(in long useTimeTick)
+        {
+            if (GenAction == null)
+            {
+                return;
+            }
+
+            DoGenIdAction(new OverCostActionArg(
+            WorkerId,
+            useTimeTick,
+            9,
+            0,
+            0,
+            _TurnBackIndex));
         }
 
         private long NextOverCostId()
@@ -170,7 +202,7 @@ namespace Furion.Snowflake
 
             if (currentTimeTick > _LastTimeTick)
             {
-                EndOverCostCallBack(currentTimeTick);
+                EndOverCostAction(currentTimeTick);
 
                 _LastTimeTick = currentTimeTick;
                 _CurrentSeqNumber = MinSeqNumber;
@@ -183,7 +215,7 @@ namespace Furion.Snowflake
 
             if (_OverCostCountInOneTerm >= TopOverCostCount)
             {
-                EndOverCostCallBack(currentTimeTick);
+                EndOverCostAction(currentTimeTick);
 
                 _LastTimeTick = GetNextTimeTick();
                 _CurrentSeqNumber = MinSeqNumber;
@@ -213,6 +245,34 @@ namespace Furion.Snowflake
         {
             long currentTimeTick = GetCurrentTimeTick();
 
+            if (currentTimeTick < _LastTimeTick)
+            {
+                if (_TurnBackTimeTick < 1)
+                {
+                    _TurnBackTimeTick = _LastTimeTick - 1;
+                    _TurnBackIndex++;
+
+                    // 每毫秒序列数的前5位是预留位，0用于手工新值，1-4是时间回拨次序
+                    // 最多4次回拨（防止回拨重叠）
+                    if (_TurnBackIndex > 4)
+                    {
+                        _TurnBackIndex = 1;
+                    }
+
+                    BeginTurnBackAction(_TurnBackTimeTick);
+                }
+
+                Thread.Sleep(10);
+                return CalcTurnBackId(_TurnBackTimeTick);
+            }
+
+            // 时间追平时，_TurnBackTimeTick清零
+            if (_TurnBackTimeTick > 0)
+            {
+                EndTurnBackAction(_TurnBackTimeTick);
+                _TurnBackTimeTick = 0;
+            }
+
             if (currentTimeTick > _LastTimeTick)
             {
                 _LastTimeTick = currentTimeTick;
@@ -223,29 +283,16 @@ namespace Furion.Snowflake
 
             if (_CurrentSeqNumber > MaxSeqNumber)
             {
-                BeginOverCostCallBack(currentTimeTick);
+                BeginOverCostAction(currentTimeTick);
 
                 _TermIndex++;
                 _LastTimeTick++;
                 _CurrentSeqNumber = MinSeqNumber;
                 _IsOverCost = true;
-                _OverCostCountInOneTerm++;
+                _OverCostCountInOneTerm = 1;
                 _GenCountInOneTerm = 1;
 
                 return CalcId(_LastTimeTick);
-            }
-
-            if (currentTimeTick < _LastTimeTick)
-            {
-                if (_TurnBackTimeTick < 1)
-                {
-                    _TurnBackTimeTick = _LastTimeTick - 1;
-                }
-
-                Thread.Sleep(10);
-                TurnBackCallBack(_TurnBackTimeTick);
-
-                return CalcTurnBackId(_TurnBackTimeTick);
             }
 
             return CalcId(_LastTimeTick);
@@ -264,7 +311,7 @@ namespace Furion.Snowflake
         private long CalcTurnBackId(in long useTimeTick)
         {
             var result = ((useTimeTick << _TimestampShift) +
-                ((long)WorkerId << SeqBitLength) + 0);
+                ((long)WorkerId << SeqBitLength) + _TurnBackIndex);
 
             _TurnBackTimeTick--;
             return result;
@@ -272,7 +319,7 @@ namespace Furion.Snowflake
 
         protected virtual long GetCurrentTimeTick()
         {
-            return (long)(DateTime.UtcNow - StartTimeUtc).TotalMilliseconds;
+            return (long)(DateTime.UtcNow - BaseTime).TotalMilliseconds;
         }
 
         protected virtual long GetNextTimeTick()
@@ -285,18 +332,6 @@ namespace Furion.Snowflake
             }
 
             return tempTimeTicker;
-        }
-
-        /// <summary>
-        /// 下一个 雪花 ID
-        /// </summary>
-        /// <returns></returns>
-        public virtual long NextId()
-        {
-            lock (_SyncLock)
-            {
-                return _IsOverCost ? NextOverCostId() : NextNormalId();
-            }
         }
     }
 }

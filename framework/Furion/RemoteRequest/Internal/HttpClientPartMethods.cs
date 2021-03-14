@@ -1,4 +1,5 @@
-﻿using Furion.JsonSerialization;
+﻿using Furion.DataValidation;
+using Furion.JsonSerialization;
 using System;
 using System.IO;
 using System.Linq;
@@ -269,7 +270,18 @@ namespace Furion.RemoteRequest
                 }
             }
 
+            // 验证模型参数（只作用于 body 类型）
+            if (ValidationState.Enabled)
+            {
+                // 判断是否启用 Null 验证且 body 值为 null
+                if (ValidationState.IncludeNull && Body == null) throw new InvalidOperationException($"{nameof(Body)} can not be null.");
+
+                // 验证模型
+                Body?.Validate();
+            }
+
             // 配置 Body 内容
+            request.Content = SetBodyContent();
 
             // 配置请求拦截
             RequestInspector?.Invoke(request);

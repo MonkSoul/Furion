@@ -4,7 +4,7 @@ using System.Threading;
 namespace Furion.Snowflake
 {
     /// <summary>
-    /// 雪花 ID 生成器默认实现
+    /// 默认实现
     /// </summary>
     public class DefaultIDGenerator : IIDGenerator
     {
@@ -24,9 +24,9 @@ namespace Furion.Snowflake
                 throw new ApplicationException("options error.");
             }
 
-            if (options.StartTime > DateTime.Now)
+            if (options.BaseTime < DateTime.Now.AddYears(-50) || options.BaseTime > DateTime.Now)
             {
-                throw new ApplicationException("StartTime error.");
+                throw new ApplicationException("BaseTime error.");
             }
 
             if (options.SeqBitLength + options.WorkerIdBitLength > 22)
@@ -35,26 +35,26 @@ namespace Furion.Snowflake
             }
 
             var maxWorkerIdNumber = Math.Pow(2, options.WorkerIdBitLength) - 1;
-            if (options.WorkerId < 1 || options.WorkerId > maxWorkerIdNumber)
+            if (options.WorkerId < 0 || options.WorkerId > maxWorkerIdNumber)
             {
-                throw new ApplicationException("WorkerId is error. (range:[1, " + maxWorkerIdNumber + "].");
+                throw new ApplicationException("WorkerId error. (range:[1, " + maxWorkerIdNumber + "].");
             }
 
             if (options.SeqBitLength < 2 || options.SeqBitLength > 21)
             {
-                throw new ApplicationException("SeqBitLength is error. (range:[2, 21])");
+                throw new ApplicationException("SeqBitLength error. (range:[2, 21]).");
             }
 
             var maxSeqNumber = Math.Pow(2, options.SeqBitLength) - 1;
             if (options.MaxSeqNumber < 0 || options.MaxSeqNumber > maxSeqNumber)
             {
-                throw new ApplicationException("MaxSeqNumber is error. (range:[1, " + maxSeqNumber + "].");
+                throw new ApplicationException("MaxSeqNumber error. (range:[1, " + maxSeqNumber + "].");
             }
 
-            var maxValue = maxSeqNumber - 2;
-            if (options.MinSeqNumber < 5 || options.MinSeqNumber > maxValue)
+            var maxValue = maxSeqNumber; // maxSeqNumber - 1;
+            if (options.MinSeqNumber < 1 || options.MinSeqNumber > maxValue)
             {
-                throw new ApplicationException("MinSeqNumber is error. (range:[5, " + maxValue + "].");
+                throw new ApplicationException("MinSeqNumber error. (range:[1, " + maxValue + "].");
             }
 
             InternalSnowflakeWorker = options.Method switch
