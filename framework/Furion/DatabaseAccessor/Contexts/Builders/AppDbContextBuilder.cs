@@ -158,8 +158,14 @@ namespace Furion.DatabaseAccessor
         /// <param name="dbContextType">数据库上下文类型</param>
         private static void ConfigureEntityTableName(Type type, AppDbContextAttribute appDbContextAttribute, EntityTypeBuilder entityTypeBuilder, DbContext dbContext, Type dbContextType)
         {
+            // 获取表是否定义 [Table] 特性
+            var tableAttribute = type.IsDefined(typeof(TableAttribute), true) ? type.GetCustomAttribute<TableAttribute>(true) : default;
+
             // 排除无键实体或已经贴了 [Table] 特性的类型
-            if (typeof(IPrivateEntityNotKey).IsAssignableFrom(type) || !string.IsNullOrEmpty(type.GetCustomAttribute<TableAttribute>(true)?.Schema)) return;
+            if (typeof(IPrivateEntityNotKey).IsAssignableFrom(type) || !string.IsNullOrEmpty(tableAttribute?.Schema)) return;
+
+            // 获取真实表名
+            var tableName = tableAttribute?.Name ?? type.Name;
 
             // 判断是否是启用了多租户模式，如果是，则获取 Schema
             var dynamicSchema = !typeof(IMultiTenantOnSchema).IsAssignableFrom(dbContextType)
@@ -174,7 +180,7 @@ namespace Furion.DatabaseAccessor
             // 判断是否启用全局表前后缀支持或个别表自定义了前缀
             if (tablePrefixAttribute != null || appDbContextAttribute == null)
             {
-                entityTypeBuilder.ToTable($"{tablePrefixAttribute?.Prefix}{type.Name}", dynamicSchema);
+                entityTypeBuilder.ToTable($"{tablePrefixAttribute?.Prefix}{tableName}", dynamicSchema);
             }
             else
             {
@@ -190,11 +196,11 @@ namespace Furion.DatabaseAccessor
                         if (tablePrefix.IndexOf(".") > 0)
                         {
                             var schema = tablePrefix.EndsWith(".") ? tablePrefix[0..^1] : tablePrefix;
-                            entityTypeBuilder.ToTable($"{type.Name}{tableSuffix}", schema: schema);
+                            entityTypeBuilder.ToTable($"{tableName}{tableSuffix}", schema: schema);
                         }
-                        else entityTypeBuilder.ToTable($"{tablePrefix}{type.Name}{tableSuffix}", dynamicSchema);
+                        else entityTypeBuilder.ToTable($"{tablePrefix}{tableName}{tableSuffix}", dynamicSchema);
                     }
-                    else entityTypeBuilder.ToTable($"{type.Name}{tableSuffix}", dynamicSchema);
+                    else entityTypeBuilder.ToTable($"{tableName}{tableSuffix}", dynamicSchema);
 
                     return;
                 }

@@ -22,6 +22,7 @@
   - [修复] `EFCoreRepository.IsAttached()` 方法判断错误 bug [#I3A824](https://gitee.com/dotnetchina/Furion/issues/I3A824)
   - [修复] `动态API` 驼峰显示配置无效 bug [#I3AF32](https://gitee.com/dotnetchina/Furion/issues/I3AF32)
   - [修复] `cli.ps1` 不支持新版本 `EFCore` bug [#I3APO9](https://gitee.com/dotnetchina/Furion/issues/I3APO9)
+  - [修复] `EFCore` 实体配置 `[Table]` 特性无效 bug [#I3BAYH](https://gitee.com/dotnetchina/Furion/issues/I3BAYH)
 
 - **其他更改**
 
