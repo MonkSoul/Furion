@@ -1,16 +1,18 @@
 # Author:KaneLeung(https://github.com/KaneLeung)
-# Update:20201118
-# NetCore SDK
-# https://hub.docker.com/_/microsoft-dotnet-nightly-sdk/
-FROM mcr.microsoft.com/dotnet/nightly/sdk:5.0-alpine AS build
+# Update:20210315
+# NetCore SDK Docker
+# https://hub.docker.com/_/microsoft-dotnet-sdk
+FROM mcr.microsoft.com/dotnet/sdk:5.0-alpine AS build
 WORKDIR /source
 
 # Download Source
 RUN git init
-RUN git remote add -t master -m master origin https://gitee.com/dotnetchina/Furion.git
+RUN git remote add origin https://gitee.com/dotnetchina/Furion.git
 RUN git config core.sparseCheckout true
 RUN echo samples >> .git/info/sparse-checkout
-RUN git pull --depth 1 origin main
+# Add Furion framework,if you use the NuGet package, you can delete it.
+RUN echo framework >> .git/info/sparse-checkout
+RUN git pull --depth 1 origin master
 
 # Restore And Publish
 WORKDIR /source/samples
@@ -18,8 +20,9 @@ RUN dotnet restore
 RUN dotnet publish -c release -o /app --no-restore
 
 # Run Furion
-# https://hub.docker.com/_/microsoft-dotnet-nightly-aspnet/
-FROM mcr.microsoft.com/dotnet/nightly/aspnet:5.0-alpine
+# Asp.Net Docker
+# https://hub.docker.com/_/microsoft-dotnet-aspnet/
+FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine
 WORKDIR /app
 COPY --from=build /app ./
 EXPOSE 80
