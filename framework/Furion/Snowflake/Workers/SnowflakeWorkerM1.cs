@@ -6,7 +6,7 @@ namespace Furion.Snowflake
 {
     /// <summary>
     /// 雪花漂移算法
-    /// </summary> 
+    /// </summary>
     internal class SnowflakeWorkerM1 : ISnowflakeWorker
     {
         /// <summary>
@@ -57,7 +57,6 @@ namespace Furion.Snowflake
         protected int _GenCountInOneTerm = 0;
         protected int _TermIndex = 0;
 
-
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -100,7 +99,6 @@ namespace Furion.Snowflake
             _CurrentSeqNumber = options.MinSeqNumber;
         }
 
-
         /// <summary>
         /// 雪花 ID 生成事件
         /// </summary>
@@ -117,7 +115,6 @@ namespace Furion.Snowflake
                 return _IsOverCost ? NextOverCostId() : NextNormalId();
             }
         }
-
 
         private void DoGenIdAction(OverCostActionArg arg)
         {
