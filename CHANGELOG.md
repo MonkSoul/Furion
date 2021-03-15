@@ -48,6 +48,7 @@
   - [答疑] Sql 高级代理使用过程中 DateTime 类型的参数序列化失败 [#I3AZXK](https://gitee.com/dotnetchina/Furion/issues/I3AZXK)
   - [答疑] 使用 Mysql 执行 Add-Migration 报错 [#I3B8EW](https://gitee.com/dotnetchina/Furion/issues/I3B8EW)
   - [答疑] Saas 多租户模式-独立 Database 模式下无法获取 Tenant, 导致无法自动切换的问题[#I3AVXU](https://gitee.com/dotnetchina/Furion/issues/I3AVXU)
+  - [答疑] 如何自定义 WebAPI 统一结果模型 [#I3BBYW](https://gitee.com/dotnetchina/Furion/issues/I3BBYW) [#I3BBYV](https://gitee.com/dotnetchina/Furion/issues/I3BBYV)
 
 - **不做实现**
 
