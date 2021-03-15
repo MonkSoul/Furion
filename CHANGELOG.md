@@ -30,7 +30,8 @@
 
 - **文档变化**
 
-  - [新增] `JSON` 序列化 文档 [#I3AFRD](https://gitee.com/dotnetchina/Furion/issues/I3AFRD)
+  - [新增] `Docker` 环境下自动化部署 [#PR209](https://gitee.com/dotnetchina/Furion/pulls/209)
+  - [新增] `JSON` 序列化 文档 [#I3B6D8](https://gitee.com/dotnetchina/Furion/issues/I3B6D8)
   - [更新] 跨域、安全授权、即时通信文档
 
 - **问答答疑**

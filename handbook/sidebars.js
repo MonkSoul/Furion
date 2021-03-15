@@ -157,8 +157,8 @@ module.exports = {
     },
     {
       type: "category",
-      label:"29.持续部署集成",
-      items: ["deploy-docker-auto","devops"],
+      label: "29.持续部署集成",
+      items: ["deploy-docker-auto", "devops"],
     },
     {
       type: "category",
@@ -240,6 +240,10 @@ module.exports = {
     {
       type: "doc",
       id: "global/messagecenter",
+    },
+    {
+      type: "doc",
+      id: "global/json",
     },
   ],
 };

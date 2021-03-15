@@ -212,10 +212,13 @@ namespace Furion.RemoteRequest
             // 解析 Json 序列化提供器
             var jsonSerializer = App.GetService(JsonSerializationProvider.ProviderType ?? typeof(SystemTextJsonSerializerProvider)) as IJsonSerializerProvider;
 
+            // 读取流内容并转换成字符串
             var stream = await SendAsStreamAsync(cancellationToken);
+            using var streamReader = new StreamReader(stream);
+            var text = await streamReader.ReadToEndAsync();
 
             // 反序列化流
-            var result = await jsonSerializer.DeserializeAsync<T>(stream, JsonSerializationProvider.JsonSerializerOptions, cancellationToken);
+            var result = jsonSerializer.Deserialize<T>(text, JsonSerializationProvider.JsonSerializerOptions);
             return result;
         }
 

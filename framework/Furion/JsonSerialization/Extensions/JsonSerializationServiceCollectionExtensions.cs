@@ -12,17 +12,6 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// 配置 Json 序列化提供器
         /// </summary>
-        /// <param name="services"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddJsonSerialization(this IServiceCollection services)
-        {
-            services.AddSingleton<IJsonSerializerProvider, SystemTextJsonSerializerProvider>();
-            return services;
-        }
-
-        /// <summary>
-        /// 配置 Json 序列化提供器
-        /// </summary>
         /// <typeparam name="TJsonSerializerProvider"></typeparam>
         /// <param name="services"></param>
         /// <returns></returns>

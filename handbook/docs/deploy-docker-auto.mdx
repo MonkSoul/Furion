@@ -1,23 +1,23 @@
 ---
 id: deploy-docker-auto
-title: 29.1 全 Docker 环境持续部署
-sidebar_label: 29.1 全 Docker 环境持续部署
+title: 29.1 Docker 环境持续部署
+sidebar_label: 29.1 Docker 环境持续部署
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 29.1.1 关于全`Docker` 环境部署
 
-利用拥有Dotnet环境的Jenkins，进行持续化部署
+利用拥有 Dotnet 环境的 Jenkins，进行持续化部署
 
-## 29.1.2 安装Docker版Jenkins
+## 29.1.2 安装 Docker 版 Jenkins
 
-正常在Docker中拉取的Jenkins:lts是无法执行Dotnet命令的（就算你宿主机有dotnet环境、docker中也有docker环境也不可以），
-所以我们只能构建一个包含Dotnet的镜像
+正常在 Docker 中拉取的 Jenkins:lts 是无法执行 Dotnet 命令的（就算你宿主机有 dotnet 环境、docker 中也有 docker 环境也不可以），
+所以我们只能构建一个包含 Dotnet 的镜像
 
-### 29.1.2.1 使用Dockerfile制作镜像
+### 29.1.2.1 使用 Dockerfile 制作镜像
 
-使用Dockerfile创建包含dotnet的Jenkins镜像
+使用 Dockerfile 创建包含 dotnet 的 Jenkins 镜像
 
 - 👉 编写 `Dockerfile`
 
@@ -36,8 +36,8 @@ RUN apt install icu-devtools vim zip unzip -y
 RUN usermod -a -G root jenkins
 USER jenkins
 ```
-- 👉 命令解释
 
+- 👉 命令解释
 
 ```bash
 - 1.这个Docker镜像基于jenkins
@@ -54,10 +54,9 @@ USER jenkins
 - 12.设置当前用户为jenkins
 ```
 
-
 - 👉 构建 `Docker` 镜像 name=jenkins:dotnet
 
-cd到根目录下（必须含 `Dockerfile`） 只需构建命令：
+cd 到根目录下（必须含 `Dockerfile`） 只需构建命令：
 
 ```bash
  docker build -t jenkins:dotnet .
@@ -69,7 +68,7 @@ cd到根目录下（必须含 `Dockerfile`） 只需构建命令：
 
 :::
 
-### 29.1.2.2 运行Jenkins:dotnet镜像
+### 29.1.2.2 运行 Jenkins:dotnet 镜像
 
 ```bash
 docker run -d -p 8080:8080 -p 50000:50000 --name mjenkins  \
@@ -83,11 +82,12 @@ docker run -d -p 8080:8080 -p 50000:50000 --name mjenkins  \
            -v /mudata/webroot/:/mudata/webroot \
            jenkins:dotnet
 ```
-接下来就是比较俗套的安装Jenkins步骤，网上资料很多，不展开了。
 
-## 29.1.3 Jenkins的自动化部署
+接下来就是比较俗套的安装 Jenkins 步骤，网上资料很多，不展开了。
 
-### 29.1.3.1 编写Shell脚本
+## 29.1.3 Jenkins 的自动化部署
+
+### 29.1.3.1 编写 Shell 脚本
 
 ```bash
 # Jenkins 构建 测试服
@@ -156,12 +156,11 @@ echo "success!"
 
 ```
 
-> 就这样自动化部署就好了。  测试服的Jenkins将源码拉下来，Publish，Docker Build，Docker Run。
+> 就这样自动化部署就好了。 测试服的 Jenkins 将源码拉下来，Publish，Docker Build，Docker Run。
 
-> 这里想要发布的时候，每次都需要手动去点击“构建”才会执行。也可以做成当分支合并成功后自动运行。反正Jenkins装好之后，你想要什么都能玩起来。比如指定分支提交后自动“构建”、比如构建成功后合并到Master等等
+> 这里想要发布的时候，每次都需要手动去点击“构建”才会执行。也可以做成当分支合并成功后自动运行。反正 Jenkins 装好之后，你想要什么都能玩起来。比如指定分支提交后自动“构建”、比如构建成功后合并到 Master 等等
 
-
-## 29.1.4 Jenkins的自动化远程部署
+## 29.1.4 Jenkins 的自动化远程部署
 
 ### 29.1.4.1 安装插件
 
@@ -228,30 +227,30 @@ tar -czvf ${JENKINS_HOME}/workspace/${JOB_NAME}/publish/${JOB_NAME}.${BUILD_NUMB
 echo "success!"
 ```
 
-> 大概逻辑就是发布后，打个包。然后丢给远程，远程再执行shell
+> 大概逻辑就是发布后，打个包。然后丢给远程，远程再执行 shell
 
-> 注意这里一定要发布到自己的workspace下，防止下一步死活找不到位置。如果找不到位置，只能慢慢用ls命令，一级一级去测，很麻烦
+> 注意这里一定要发布到自己的 workspace 下，防止下一步死活找不到位置。如果找不到位置，只能慢慢用 ls 命令，一级一级去测，很麻烦
 
 ### 29.1.4.4 构建后操作（关键）
 
-选择Send Build artifacts over SSH
+选择 Send Build artifacts over SSH
 
-``` bash
+```bash
 Source files: publish/
 Remove prefix(不填)
 Remote directory:/mudata/webroot/publish/
 Exec command:bash /mudata/shell/publish.sh  ${JOB_NAME} jenkinsscmbase ${JOB_NAME}.${BUILD_NUMBER}  9994
 ```
 
-- 选择自己的SSH服务器
-- Source files：一定是workspace下的地址
+- 选择自己的 SSH 服务器
+- Source files：一定是 workspace 下的地址
 - Remote directory：远程地址，从更目录开始
-- Exec command：要执行的shell。这里所有的Jenkins环境变量都可以用
-
+- Exec command：要执行的 shell。这里所有的 Jenkins 环境变量都可以用
 
 ### 29.1.4.5 远程执行
 
 publish.sh
+
 ```bash
 # Jenkins Prod服 调用脚本
 solutionName=$1
@@ -270,7 +269,7 @@ rm -rf ${webDir}
 mkdir ${webDir}
 
 tar -zxvf ${baseDir}/publish/${filename}.tar.gz -C ${webDir}/
-rm -f  ${webDir}/appsettings.json && mv  ${webDir}/appsettings.Prod.json  ${webDir}/appsettings.json 
+rm -f  ${webDir}/appsettings.json && mv  ${webDir}/appsettings.Prod.json  ${webDir}/appsettings.json
 
 #判斷是否存在
 CID=$(docker ps | grep "${containerName}" | awk '{print $1}')
@@ -283,12 +282,11 @@ if [ "$CID" != "" ];then
 #docker rm $CID
 fi
 
-cd  ${webDir}/ && docker build -t ${containerName} . 
+cd  ${webDir}/ && docker build -t ${containerName} .
 docker run --name ${containerName} --restart=always -d -p ${port}:${port} --link myredis:myredis  -v /etc/localtime:/etc/localtime:ro ${containerName}
 ```
-> 这里的逻辑就是解压，然后Docker相关。每次构建都是带着版本号来的
 
-
+> 这里的逻辑就是解压，然后 Docker 相关。每次构建都是带着版本号来的
 
 ## 29.1.5 反馈与建议
 
