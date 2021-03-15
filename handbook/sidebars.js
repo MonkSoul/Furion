@@ -156,8 +156,9 @@ module.exports = {
       items: ["deploy-iis", "deploy-docker", "deploy-nginx", "virtual-deploy"],
     },
     {
-      type: "doc",
-      id: "devops",
+      type: "category",
+      label:"29.持续部署集成",
+      items: ["deploy-docker-auto","devops"],
     },
     {
       type: "category",
