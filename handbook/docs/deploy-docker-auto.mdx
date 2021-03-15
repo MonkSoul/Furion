@@ -12,7 +12,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 29.1.2 安装 Docker 版 Jenkins
 
-正常在 Docker 中拉取的 Jenkins:lts 是无法执行 Dotnet 命令的（就算你宿主机有 dotnet 环境、docker 中也有 docker 环境也不可以），
+正常在 Docker 中拉取的 Jenkins:lts 是无法执行 Dotnet 命令的（就算你宿主机有 dotnet 环境、docker 中也有 Dotnet 环境也不可以），
 所以我们只能构建一个包含 Dotnet 的镜像
 
 ### 29.1.2.1 使用 Dockerfile 制作镜像
