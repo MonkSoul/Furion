@@ -497,7 +497,7 @@ namespace Furion.DynamicApiController
             // 判断 Controller 是否配置了 KeepName 属性
             else if (controllerApiDescriptionSettings?.KeepName != null)
             {
-                var canParse = bool.TryParse(apiDescriptionSettings.KeepName.ToString(), out bool value);
+                var canParse = bool.TryParse(controllerApiDescriptionSettings.KeepName.ToString(), out bool value);
                 isKeepName = canParse && value;
             }
             // 取全局配置
@@ -525,7 +525,7 @@ namespace Furion.DynamicApiController
             // 判断 Controller 是否配置了 KeepVerb 属性
             else if (controllerApiDescriptionSettings?.KeepVerb != null)
             {
-                var canParse = bool.TryParse(apiDescriptionSettings.KeepVerb.ToString(), out bool value);
+                var canParse = bool.TryParse(controllerApiDescriptionSettings.KeepVerb.ToString(), out bool value);
                 isKeepVerb = canParse && value;
             }
             // 取全局配置
@@ -553,7 +553,7 @@ namespace Furion.DynamicApiController
             // 判断 Controller 是否配置了 SplitCamelCase 属性
             else if (controllerApiDescriptionSettings?.SplitCamelCase != null)
             {
-                var canParse = bool.TryParse(apiDescriptionSettings.SplitCamelCase.ToString(), out bool value);
+                var canParse = bool.TryParse(controllerApiDescriptionSettings.SplitCamelCase.ToString(), out bool value);
                 isSplitCamelCase = !canParse || value;
             }
             // 取全局配置
@@ -581,7 +581,7 @@ namespace Furion.DynamicApiController
             // 判断 Controller 是否配置了 LowercaseRoute 属性
             else if (controllerApiDescriptionSettings?.LowercaseRoute != null)
             {
-                var canParse = bool.TryParse(apiDescriptionSettings.LowercaseRoute.ToString(), out bool value);
+                var canParse = bool.TryParse(controllerApiDescriptionSettings.LowercaseRoute.ToString(), out bool value);
                 isLowercaseRoute = !canParse || value;
             }
             // 取全局配置

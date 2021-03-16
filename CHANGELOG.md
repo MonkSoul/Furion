@@ -23,6 +23,7 @@
   - [修复] `动态API` 驼峰显示配置无效 bug [#I3AF32](https://gitee.com/dotnetchina/Furion/issues/I3AF32)
   - [修复] `cli.ps1` 不支持新版本 `EFCore` bug [#I3APO9](https://gitee.com/dotnetchina/Furion/issues/I3APO9)
   - [修复] `EFCore` 实体配置 `[Table]` 特性无效 bug [#I3BAYH](https://gitee.com/dotnetchina/Furion/issues/I3BAYH)
+  - [修复] 动态 WebAPI `CheckIsSplitCamelCase` bug [#I3BLKX](https://gitee.com/dotnetchina/Furion/issues/I3BLKX)
 
 - **其他更改**
 
