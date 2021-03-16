@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MSTest.Extensions.Contracts;
 
 namespace Furion.Tests
 {
@@ -8,6 +9,10 @@ namespace Furion.Tests
         [TestMethod]
         public void TestMethod1()
         {
+            "²âÊÔ Furion ¿ò¼ÜÊ¾·¶".Test(() =>
+            {
+                Assert.AreEqual("Furion", "Furion");
+            });
         }
     }
 }
