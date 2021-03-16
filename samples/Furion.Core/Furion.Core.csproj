@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="1.15.0" />
-    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="1.15.0" />
+    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="1.16.0-preview-202103161110" />
+    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="1.16.0-preview-202103161110" />
   </ItemGroup>
 
   <ItemGroup>
