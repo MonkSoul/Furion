@@ -1,4 +1,5 @@
 ﻿using Furion.DependencyInjection;
+using Furion.Extensions;
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -29,9 +30,25 @@ namespace Furion.JsonSerialization
         }
 
         /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="format"></param>
+        /// <param name="outputToLocalDateTime"></param>
+        public DateTimeOffsetJsonConverter(string format, bool outputToLocalDateTime)
+        {
+            Format = format;
+            OutputToLocalDateTime = outputToLocalDateTime;
+        }
+
+        /// <summary>
         /// 时间格式化格式
         /// </summary>
         public string Format { get; private set; }
+
+        /// <summary>
+        /// 是否输出为为当地时间
+        /// </summary>
+        public bool OutputToLocalDateTime { get; set; } = false;
 
         /// <summary>
         /// 反序列化
@@ -53,7 +70,9 @@ namespace Furion.JsonSerialization
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, DateTimeOffset value, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(value.ToString(Format));
+            // 判断是否序列化成当地时间
+            var formatDateTime = OutputToLocalDateTime ? value.ConvertToDateTime() : value;
+            writer.WriteStringValue(formatDateTime.ToString(Format));
         }
     }
 }

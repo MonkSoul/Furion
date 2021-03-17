@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <version>1.16.0-preview-202103161110</version>
+    <version>1.16.0-preview-202103171110</version>
     <Description>Furion 数据库访问器 PetaPoco 插件。</Description>
   </PropertyGroup>
 

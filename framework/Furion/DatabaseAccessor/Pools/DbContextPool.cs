@@ -177,6 +177,9 @@ namespace Furion.DatabaseAccessor
                     wrapConn.Close();
                 }
             }
+
+            // 清空上下文
+            dbContexts.Clear();
         }
     }
 }

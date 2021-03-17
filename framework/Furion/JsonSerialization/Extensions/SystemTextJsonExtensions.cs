@@ -16,10 +16,11 @@ namespace System.Text.Json
         /// </summary>
         /// <param name="converters"></param>
         /// <param name="formatString"></param>
-        public static void AddDateFormatString(this IList<JsonConverter> converters, string formatString)
+        /// <param name="outputToLocalDateTime">自动转换 DateTimeOffset 为当地时间</param>
+        public static void AddDateFormatString(this IList<JsonConverter> converters, string formatString, bool outputToLocalDateTime = false)
         {
             converters.Add(new DateTimeJsonConverter(formatString));
-            converters.Add(new DateTimeOffsetJsonConverter(formatString));
+            converters.Add(new DateTimeOffsetJsonConverter(formatString, outputToLocalDateTime));
         }
     }
 }
