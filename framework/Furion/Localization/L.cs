@@ -60,6 +60,20 @@ namespace Furion.Localization
         }
 
         /// <summary>
+        /// 获取当前选择的语言
+        /// </summary>
+        /// <returns></returns>
+        public static RequestCulture GetSelectCulture()
+        {
+            var httpContext = App.HttpContext;
+            if (httpContext == null) return default;
+
+            // 获取请求特性
+            var requestCulture = httpContext.Features.Get<IRequestCultureFeature>();
+            return requestCulture.RequestCulture;
+        }
+
+        /// <summary>
         /// 获取系统提供的语言列表
         /// </summary>
         /// <returns></returns>
@@ -70,9 +84,6 @@ namespace Furion.Localization
 
             // 获取请求本地特性选项
             var locOptions = httpContext.RequestServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
-
-            // 获取请求特性
-            var requestCulture = httpContext.Features.Get<IRequestCultureFeature>();
 
             // 获取语言符号和名称
             var cultureItems = locOptions.SupportedUICultures

@@ -119,6 +119,30 @@ public object GetObject()
 }
 ```
 
+:::important 特别注意
+
+`System.Text.Json` 默认反序列化大小写敏感，也就是不完全匹配的属性名称不会自动赋值。这时候我们可以全局配置或单独配置。
+
+- 全局配置
+
+```cs
+services.AddControllersWithViews()
+        .AddJsonOptions(options => {
+            options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+        });
+```
+
+- 单独配置
+
+```cs
+var obj = _jsonSerializer.Deserialize<object>(json, new JsonSerializerOptions
+   {
+       PropertyNameCaseInsensitive = true
+   });
+```
+
+:::
+
 ### 23.4.4 序列化更多配置
 
 `Furion` 框架不推荐一个框架中有多中序列化实现类，也就是说使用 `System.Text.Json` 就不要使用 `Newtonsoft.Json`，反之亦然。

@@ -5,6 +5,7 @@
   - [新增] `IDGenerator` 雪花 ID 算法，感谢 [idgenerator](https://gitee.com/yitter/idgenerator) 作者提交 PR [#PR204](https://gitee.com/dotnetchina/Furion/pulls/204) [#I3B60S](https://gitee.com/dotnetchina/Furion/issues/I3B60S)
   - [新增] `DbContext` 刷新多租户缓存拓展方法 [#I39N5U](https://gitee.com/dotnetchina/Furion/issues/I39N5U)
   - [新增] 自定义配置单个控制器名称规范，如小写路由 [#I3A5XL](https://gitee.com/dotnetchina/Furion/issues/I3A5XL)
+  - [新增] 获取当前选择区域语言方法 [#I3BSDH](https://gitee.com/dotnetchina/Furion/issues/I3BSDH)
 
 - **突破性变化**
 
@@ -27,6 +28,7 @@
 
 - **其他更改**
 
+  - [优化] 默认序列化提供器 `System.Text.Json` 反序列化字符串时区分大小写问题 [#I3BSXV](https://gitee.com/dotnetchina/Furion/issues/I3BSXV)
   - [优化] 优化 `MessageCenter` 性能问题 [#I39PRR](https://gitee.com/dotnetchina/Furion/issues/I39PRR)
 
 - **文档变化**

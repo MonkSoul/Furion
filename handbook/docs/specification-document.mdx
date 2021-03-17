@@ -723,6 +723,18 @@ UseInject.UseInject(swaggerConfigure: options => {
 });
 ```
 
+### 6.5.20 配置 `Swagger`的 `Schemes`
+
+`Furion` 框架默认只显示名称，如果需要自定义显示规则，只需要添加配置即可。
+
+```cs
+services.AddControllersWithViews()
+        .AddInject(swaggerGenConfigure: options =>
+        {
+            options.CustomSchemaIds(x => x.FullName);
+        });
+```
+
 ## 6.6 `SpecificationDocumentSettings` 配置
 
 除了上述例子外，`Furion` 提供了一些配置选项，如：
