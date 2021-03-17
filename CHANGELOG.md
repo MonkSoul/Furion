@@ -54,6 +54,7 @@
   - [答疑] Saas 多租户模式-独立 Database 模式下无法获取 Tenant, 导致无法自动切换的问题[#I3AVXU](https://gitee.com/dotnetchina/Furion/issues/I3AVXU)
   - [答疑] 如何自定义 WebAPI 统一结果模型 [#I3BBYW](https://gitee.com/dotnetchina/Furion/issues/I3BBYW) [#I3BBYV](https://gitee.com/dotnetchina/Furion/issues/I3BBYV)
   - [答疑] 在 `Web.Entry` 项目新建了一个 `Controller`，多了未知方法 [#I3BKH5](https://gitee.com/dotnetchina/Furion/issues/I3BKH5)
+  - [答疑] 新增 `UnitOfWork` 事务完成事件 [#I3BRMI](https://gitee.com/dotnetchina/Furion/issues/I3BRMI)
 
 - **不做实现**
 
