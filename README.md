@@ -219,3 +219,5 @@ If you want to contribute to a project, check out the [Contribution Guide](https
 Thank you for your contribution to `Furion`.
 
 [![Giteye chart](https://chart.giteye.net/gitee/dotnetchina/Furion/ZS49EPL6.png)](https://giteye.net/chart/ZS49EPL6)
+
+**Special thanks to [TLog author]（ https://gitee.com/bryan31 ）Provide real-time avatars of contributors.**

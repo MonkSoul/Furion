@@ -217,3 +217,5 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 感谢每一位为 `Furion` 贡献代码的朋友。
 
 [![Giteye chart](https://chart.giteye.net/gitee/dotnetchina/Furion/ZS49EPL6.png)](https://giteye.net/chart/ZS49EPL6)
+
+**特别鸣谢 [TLog 作者](https://gitee.com/bryan31) 提供的贡献者实时头像。**
