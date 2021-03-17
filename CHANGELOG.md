@@ -30,12 +30,13 @@
 
   - [优化] 默认序列化提供器 `System.Text.Json` 反序列化字符串时区分大小写问题 [#I3BSXV](https://gitee.com/dotnetchina/Furion/issues/I3BSXV)
   - [优化] 优化 `MessageCenter` 性能问题 [#I39PRR](https://gitee.com/dotnetchina/Furion/issues/I39PRR)
+  - [优化] 数据库上下文池小性能优化
 
 - **文档变化**
 
   - [新增] `Docker` 环境下自动化部署 [#PR209](https://gitee.com/dotnetchina/Furion/pulls/209)
   - [新增] `JSON` 序列化 文档 [#I3B6D8](https://gitee.com/dotnetchina/Furion/issues/I3B6D8)
-  - [更新] 跨域、安全授权、即时通信文档
+  - [更新] 跨域、安全授权、即时通信文档、多语言、规范化文档
 
 - **问答答疑**
 
@@ -54,7 +55,6 @@
   - [答疑] Saas 多租户模式-独立 Database 模式下无法获取 Tenant, 导致无法自动切换的问题[#I3AVXU](https://gitee.com/dotnetchina/Furion/issues/I3AVXU)
   - [答疑] 如何自定义 WebAPI 统一结果模型 [#I3BBYW](https://gitee.com/dotnetchina/Furion/issues/I3BBYW) [#I3BBYV](https://gitee.com/dotnetchina/Furion/issues/I3BBYV)
   - [答疑] 在 `Web.Entry` 项目新建了一个 `Controller`，多了未知方法 [#I3BKH5](https://gitee.com/dotnetchina/Furion/issues/I3BKH5)
-  - [答疑] 新增 `UnitOfWork` 事务完成事件 [#I3BRMI](https://gitee.com/dotnetchina/Furion/issues/I3BRMI)
 
 - **不做实现**
 
@@ -63,6 +63,7 @@
   - [废弃] 事件总线能否提供返回值 [#I3AWL6](https://gitee.com/dotnetchina/Furion/issues/I3AWL6)
   - [废弃] Sql 模板能仿照 Mybatis 一样加各种标签吗？[#I3ASRS](https://gitee.com/dotnetchina/Furion/issues/I3ASRS)
   - [废弃] EFCore 更新或排除更新指定列支持传入 DTO 模型 [#I3AS5K](https://gitee.com/dotnetchina/Furion/issues/I3AS5K)
+  - [废弃] 新增 `UnitOfWork` 事务完成事件 [#I3BRMI](https://gitee.com/dotnetchina/Furion/issues/I3BRMI)
 
 ---
 
