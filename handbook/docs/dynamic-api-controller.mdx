@@ -890,7 +890,7 @@ public string Get(int id, string name)
 
 - `Name`：自定义控制器/动作方法名称，`string`，默认 `null`
 - `KeepName`：是否保持原有名称不处理，`bool`，默认 `false`
-- `SplitCamelCase`：切割骆驼命名，`bool`，默认 `true`
+- `SplitCamelCase`：切割骆驼(驼峰)命名，`bool`，默认 `true`
 - `KeepVerb`：是否保留动作方法请求谓词，`bool`，默认 `false`
 - `Enabled`：是否导出接口，`bool`，默认 `true`
 - `Module`：模块名，`string`，默认 `null`
@@ -952,7 +952,7 @@ namespace Furion.Application
 
 ### 5.9.4 `SplitCamelCase` 配置
 
-`SplitCamelCase` 参数默认将骆驼命名切割成多个单词并通过指定 `占位符` 连接起来。默认 `占位符` 为 `-`。默认为 `true`。如：
+`SplitCamelCase` 参数默认将骆驼(驼峰)命名切割成多个单词并通过指定 `占位符` 连接起来。默认 `占位符` 为 `-`。默认为 `true`。如：
 
 ```cs {5,8}
 using Furion.DynamicApiController;
@@ -1267,7 +1267,7 @@ namespace Furion.Application
 - `LowercaseRoute`：小写路由格式，`bool`，默认：`true`
 - `KeepVerb`：是否保留动作谓词，`bool`，默认：`false`
 - `KeepName`：是否保留默认名称，`bool`，默认：`fasle`
-- `CamelCaseSeparator`：骆驼命名分隔符，`string`，默认：`-`
+- `CamelCaseSeparator`：骆驼(驼峰)命名分隔符，`string`，默认：`-`
 - `VersionSeparator`：版本分隔符，`string`，默认：`@`
 - `ModelToQuery`：`GET/HEAD` 请求将 `类类型参数转查询参数`，`bool`，默认 `false`
 - `SupportedMvcController`：是否支持 `Mvc Controller` 动态配置，`bool`，默认 `false`
