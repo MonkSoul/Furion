@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <version>1.16.0-preview-202103171605</version>
+    <version>1.16.0-preview-202103181730</version>
     <Description>Furion 对象映射 Mapster 插件。</Description>
   </PropertyGroup>
 
