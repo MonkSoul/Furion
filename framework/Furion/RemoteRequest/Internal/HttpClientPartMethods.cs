@@ -247,7 +247,7 @@ namespace Furion.RemoteRequest
         public async Task<HttpResponseMessage> SendAsync(CancellationToken cancellationToken = default)
         {
             // 检查是否配置了请求方法
-            if (HttpMethod == null) throw new NullReferenceException(nameof(HttpMethod));
+            if (Method == null) throw new NullReferenceException(nameof(Method));
 
             // 检查请求地址
             if (string.IsNullOrEmpty(RequestUrl)) throw new NullReferenceException(RequestUrl);
@@ -262,7 +262,7 @@ namespace Furion.RemoteRequest
             }
 
             // 构建请求对象
-            var request = new HttpRequestMessage(HttpMethod, finalRequestUrl);
+            var request = new HttpRequestMessage(Method, finalRequestUrl);
 
             // 设置请求报文头
             if (Headers != null && Headers.Count > 0)
@@ -283,8 +283,8 @@ namespace Furion.RemoteRequest
                 Body?.Validate();
             }
 
-            // 配置 Body 内容
-            request.Content = SetBodyContent();
+            // 设置 HttpContent
+            SetHttpContent(request);
 
             // 配置请求拦截
             RequestInspector?.Invoke(request);
@@ -325,23 +325,31 @@ namespace Furion.RemoteRequest
         }
 
         /// <summary>
-        /// 设置 Body 内容
+        /// 设置 HttpContent
         /// </summary>
-        /// <returns></returns>
-        private HttpContent SetBodyContent()
+        /// <param name="request"></param>
+        private void SetHttpContent(HttpRequestMessage request)
         {
+            // GET/HEAD 请求不支持设置 Body 请求
+            if (Method == HttpMethod.Get || Method == HttpMethod.Head) return;
+
             HttpContent httpContent = null;
 
+            // 处理各种 Body 类型
             switch (ContentType)
             {
                 case "multipart/form-data":
                     break;
             }
 
-            // 设置内容类型
-            httpContent.Headers.ContentType = new MediaTypeHeaderValue(ContentType);
+            if (httpContent != null)
+            {
+                // 设置内容类型
+                httpContent.Headers.ContentType = new MediaTypeHeaderValue(ContentType);
 
-            return httpContent;
+                // 设置 HttpContent
+                request.Content = httpContent;
+            }
         }
     }
 }

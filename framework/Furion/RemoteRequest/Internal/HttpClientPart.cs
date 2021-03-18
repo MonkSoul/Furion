@@ -18,7 +18,7 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 请求方式
         /// </summary>
-        public HttpMethod HttpMethod { get; private set; }
+        public HttpMethod Method { get; private set; }
 
         /// <summary>
         /// 请求报文头

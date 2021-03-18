@@ -29,7 +29,7 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientPart SetHttpMethod(HttpMethod httpMethod)
         {
-            HttpMethod = httpMethod;
+            Method = httpMethod;
             return this;
         }
 
