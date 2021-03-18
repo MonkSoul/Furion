@@ -533,6 +533,12 @@ const contributors = [
     photo:
       "https://portrait.gitee.com/uploads/avatars/user/427/1283569_benxinyinghuochong_1616052536.png!avatar200",
   },
+  {
+    author: "我乖的阔爱",
+    link: "https://gitee.com/my_99599",
+    photo:
+      "https://portrait.gitee.com/uploads/avatars/user/2727/8181734_my_99599_1602662542.png!avatar200",
+  },
 ];
 
 export default contributors;
