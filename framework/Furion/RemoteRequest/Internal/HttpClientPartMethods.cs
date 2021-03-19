@@ -331,7 +331,7 @@ namespace Furion.RemoteRequest
         private void SetHttpContent(HttpRequestMessage request)
         {
             // GET/HEAD 请求不支持设置 Body 请求
-            if (Method == HttpMethod.Get || Method == HttpMethod.Head) return;
+            if (Body == null || Method == HttpMethod.Get || Method == HttpMethod.Head) return;
 
             HttpContent httpContent = null;
 
@@ -339,6 +339,19 @@ namespace Furion.RemoteRequest
             switch (ContentType)
             {
                 case "multipart/form-data":
+                    break;
+
+                case "application/json":
+                case "text/json":
+                case "application/*+json":
+                    // 解析序列化工具
+                    var jsonSerializer = App.GetService(JsonSerializationProvider.ProviderType) as IJsonSerializerProvider;
+
+                    // 序列化
+                    httpContent = new StringContent(jsonSerializer.Serialize(Body, JsonSerializationProvider.JsonSerializerOptions));
+                    break;
+
+                case "application/x-www-form-urlencoded":
                     break;
             }
 

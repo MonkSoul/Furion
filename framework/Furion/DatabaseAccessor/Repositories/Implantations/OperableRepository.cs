@@ -798,11 +798,11 @@ namespace Furion.DatabaseAccessor
 
             return !(
                 propertyValue == null
-                || (propertyType == typeof(string) && propertyValue?.ToString() == string.Empty)
-                || (propertyType?.IsValueType == true && propertyValue?.ToString() == "0")
-                || (propertyType == typeof(DateTime) && propertyValue?.ToString() == new DateTime().ToString())
-                || (propertyType == typeof(DateTimeOffset) && propertyValue?.ToString() == new DateTimeOffset().ToString())
-                || (propertyType == typeof(Guid) && propertyValue?.ToString() == Guid.Empty.ToString())
+                || (propertyType == typeof(string) && propertyValue.ToString() == string.Empty)
+                || (propertyType?.IsValueType == true && propertyValue.ToString() == "0")
+                || (propertyType == typeof(DateTime) && propertyValue.ToString() == new DateTime().ToString())
+                || (propertyType == typeof(DateTimeOffset) && propertyValue.ToString() == new DateTimeOffset().ToString())
+                || (propertyType == typeof(Guid) && propertyValue.ToString() == Guid.Empty.ToString())
                 );
         }
     }
