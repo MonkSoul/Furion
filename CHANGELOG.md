@@ -25,6 +25,7 @@
   - [修复] `cli.ps1` 不支持新版本 `EFCore` bug [#I3APO9](https://gitee.com/dotnetchina/Furion/issues/I3APO9)
   - [修复] `EFCore` 实体配置 `[Table]` 特性无效 bug [#I3BAYH](https://gitee.com/dotnetchina/Furion/issues/I3BAYH)
   - [修复] 动态 WebAPI `CheckIsSplitCamelCase` bug [#I3BLKX](https://gitee.com/dotnetchina/Furion/issues/I3BLKX)
+  - [修复] 修复动态 WebAPI 配置保留 Action 的 Async 后缀无效问题 [#I3C3DA](https://gitee.com/dotnetchina/Furion/issues/I3C3DA)
 
 - **其他更改**
 
@@ -56,6 +57,8 @@
   - [答疑] 如何自定义 WebAPI 统一结果模型 [#I3BBYW](https://gitee.com/dotnetchina/Furion/issues/I3BBYW) [#I3BBYV](https://gitee.com/dotnetchina/Furion/issues/I3BBYV)
   - [答疑] 在 `Web.Entry` 项目新建了一个 `Controller`，多了未知方法 [#I3BKH5](https://gitee.com/dotnetchina/Furion/issues/I3BKH5)
   - [答疑] `AOP` 拦截如何解析服务 [#I3BUM3](https://gitee.com/dotnetchina/Furion/issues/I3BUM3)
+  - [答疑] 动态 WebAPI 返回参数被省略 [#I3C2XR](https://gitee.com/dotnetchina/Furion/issues/I3C2XR)
+  - [答疑] 如何设置某一个接口响应数据不自动转小写，按原始字段名返回 [#I38L9B](https://gitee.com/dotnetchina/Furion/issues/I38L9B)
 
 - **不做实现**
 

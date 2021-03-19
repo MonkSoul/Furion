@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <version>1.16.0-preview-202103181730</version>
+    <version>1.16.0-preview-202103191859</version>
     <Description>Furion Jwt 授权验证拓展插件。</Description>
   </PropertyGroup>
 

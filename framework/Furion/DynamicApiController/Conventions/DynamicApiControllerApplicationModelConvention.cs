@@ -155,7 +155,7 @@ namespace Furion.DynamicApiController
         /// <returns></returns>
         private (bool IsLowercaseRoute, bool IsKeepName) ConfigureActionName(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
         {
-            var (Name, IsLowercaseRoute, IsKeepName) = ConfigureControllerAndActionName(apiDescriptionSettings, action.ActionName, _dynamicApiControllerSettings.AbandonActionAffixes, (tempName) =>
+            var (Name, IsLowercaseRoute, IsKeepName) = ConfigureControllerAndActionName(apiDescriptionSettings, action.ActionMethod.Name, _dynamicApiControllerSettings.AbandonActionAffixes, (tempName) =>
               {
                   // 处理动作方法名称谓词
                   if (!CheckIsKeepVerb(apiDescriptionSettings, controllerApiDescriptionSettings))
