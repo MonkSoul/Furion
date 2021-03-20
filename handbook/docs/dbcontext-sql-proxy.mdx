@@ -76,19 +76,19 @@ namespace Furion.Application
 
         // 执行sql并传入参数，对象类型
         [SqlExecute("select * from person where id >@id and name like @name")]
-        DataTable GetPerson(MyParam paras));
+        DataTable GetPerson(MyParam paras);
 
         // 执行存储过程 sql，支持设置参数类型
         [SqlExecute("exec PROP_NAME @id", CommandType = CommandType.StoredProcedure)]
-        DataTable GetPerson(int id));
+        DataTable GetPerson(int id);
 
         // 支持多数据库操作
         [SqlExecute("select * from person", DbContextLocator = typeof(MySqlDbContextLocator))]
-        DataTable GetPerson());
+        DataTable GetPerson();
 
         // 异步方式
         [SqlExecute("select * from person", DbContextLocator = typeof(MySqlDbContextLocator))]
-        Task<DataTable> GetPersonAsync());
+        Task<DataTable> GetPersonAsync();
     }
 }
 ```
@@ -132,19 +132,19 @@ namespace Furion.Application
 
         // 执行sql并传入参数，对象类型
         [SqlExecute("select * from person where id >@id and name like @name")]
-        List<Person> GetPerson(MyParam paras));
+        List<Person> GetPerson(MyParam paras);
 
         // 执行存储过程 sql，支持设置参数类型
         [SqlExecute("exec PROP_NAME @id", CommandType = CommandType.StoredProcedure)]
-        List<Person> GetPerson(int id));
+        List<Person> GetPerson(int id);
 
         // 支持多数据库操作
         [SqlExecute("select * from person", DbContextLocator = typeof(MySqlDbContextLocator))]
-        List<Person> GetPerson());
+        List<Person> GetPerson();
 
         // 异步方式
         [SqlExecute("select * from person", DbContextLocator = typeof(MySqlDbContextLocator))]
-        Task<List<Person>> GetPersonAsync());
+        Task<List<Person>> GetPersonAsync();
     }
 }
 ```
@@ -168,19 +168,19 @@ namespace Furion.Application
         [SqlExecute(@"
             select * from person where id >@id and name like @name;
             select top 10 * from student where Id >@id;")]
-        DataSet GetData(MyParam paras));
+        DataSet GetData(MyParam paras);
 
         // 执行存储过程 sql，支持设置参数类型
         [SqlExecute(@"
             exec PROP_NAME @id;
             select * from person;", CommandType = CommandType.StoredProcedure)]
-        DataSet GetData(int id));
+        DataSet GetData(int id);
 
         // 支持多数据库操作
         [SqlExecute(@"
             select * from person;
             select * from student;", DbContextLocator = typeof(MySqlDbContextLocator))]
-        DataSet GetData());
+        DataSet GetData();
 
         // 异步方式
         [SqlExecute(@"
@@ -211,26 +211,26 @@ namespace Furion.Application
         [SqlExecute(@"
             select * from person where id >@id and name like @name;
             select top 10 * from student where Id >@id;")]
-        (List<Person>,List<Student>) GetData(MyParam paras));
+        (List<Person>,List<Student>) GetData(MyParam paras);
 
         // 执行存储过程 sql，支持设置参数类型
         [SqlExecute(@"
             exec PROP_NAME @id;
             select * from person;", CommandType = CommandType.StoredProcedure)]
-        (List<Person>,List<Student>) GetData(int id));
+        (List<Person>,List<Student>) GetData(int id;
 
         // 支持多数据库操作
         [SqlExecute(@"
             select * from person;
             select * from student;", DbContextLocator = typeof(MySqlDbContextLocator))]
-        (List<Person>,List<Student>) GetData());
+        (List<Person>,List<Student>) GetData();
 
         // 异步方式
         [SqlExecute(@"
             select * from person;
             select * from student;
             select 1;", DbContextLocator = typeof(MySqlDbContextLocator))]
-        Task<(List<Person>,List<Student>,int)> GetDataAsync());
+        Task<(List<Person>,List<Student>,int)> GetDataAsync();
     }
 }
 ```
