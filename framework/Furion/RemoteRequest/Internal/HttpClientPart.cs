@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 
 namespace Furion.RemoteRequest
 {
@@ -43,7 +44,12 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 请求报文 Body 内容类型
         /// </summary>
-        public string ContentType { get; private set; }
+        public string ContentType { get; private set; } = "application/*+json";
+
+        /// <summary>
+        /// 内容编码
+        /// </summary>
+        public Encoding ContentEncoding { get; private set; } = Encoding.UTF8;
 
         /// <summary>
         /// Json 序列化提供器

@@ -3,6 +3,7 @@ using Furion.JsonSerialization;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 
 namespace Furion.RemoteRequest
 {
@@ -93,11 +94,15 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="body"></param>
         /// <param name="contentType"></param>
+        /// <param name="encoding"></param>
         /// <returns></returns>
-        public HttpClientPart SetBody(object body, string contentType = default)
+        public HttpClientPart SetBody(object body, string contentType = default, Encoding encoding = default)
         {
             Body = body;
+
             if (!string.IsNullOrEmpty(contentType)) ContentType = contentType;
+            ContentEncoding = encoding ?? Encoding.UTF8;
+
             return this;
         }
 
@@ -109,6 +114,17 @@ namespace Furion.RemoteRequest
         public HttpClientPart SetContentType(string contentType)
         {
             ContentType = contentType;
+            return this;
+        }
+
+        /// <summary>
+        /// 设置内容编码
+        /// </summary>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public HttpClientPart SetContentEncoding(Encoding encoding)
+        {
+            ContentEncoding = encoding;
             return this;
         }
 

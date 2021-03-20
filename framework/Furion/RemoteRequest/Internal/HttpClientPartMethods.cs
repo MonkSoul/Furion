@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -294,9 +293,9 @@ namespace Furion.RemoteRequest
             var clientFactory = App.GetService<IHttpClientFactory>();
 
             // 创建 HttpClient 对象
-            var httpClient = string.IsNullOrEmpty(ClientName)
-                                        ? clientFactory.CreateClient()
-                                        : clientFactory.CreateClient(ClientName);
+            using var httpClient = string.IsNullOrEmpty(ClientName)
+                                         ? clientFactory.CreateClient()
+                                         : clientFactory.CreateClient(ClientName);
 
             // 配置 HttpClient 拦截
             HttpClientInspector?.Invoke(httpClient);
@@ -349,7 +348,7 @@ namespace Furion.RemoteRequest
                     var jsonSerializer = App.GetService(JsonSerializationProvider.ProviderType) as IJsonSerializerProvider;
 
                     // 序列化
-                    httpContent = new StringContent(jsonSerializer.Serialize(Body, JsonSerializationProvider.JsonSerializerOptions), Encoding.UTF8);
+                    httpContent = new StringContent(jsonSerializer.Serialize(Body, JsonSerializationProvider.JsonSerializerOptions), ContentEncoding);
                     break;
 
                 case "application/x-www-form-urlencoded":
