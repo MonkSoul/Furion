@@ -141,13 +141,126 @@ namespace Furion.Core
 
 :::
 
-## 9.3.3 数据库实体配置
+## 9.3.3 自定义公共实体
+
+在实际项目开发中，我们通常每个应用的数据库表都有一些公共的类，比如创建人，创建时间等，这个时候我们就需要自定义公共实体类了。
+
+在 `Furion` 框架中，创建公共实体类需要满足以下条件：
+
+- 公共实体类**必须是公开且是抽象类**
+- 公共实体类必须含有无参构造函数
+- 公共实体类必须提供数据库定位器的支持
+
+如：
+
+```cs {83-91}
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Your.Namespace
+{
+    public abstract class CommonEntity : CommonEntity<int, MasterDbContextLocator>
+    {
+    }
+
+    public abstract class CommonEntity<TKey> : CommonEntity<TKey, MasterDbContextLocator>
+    {
+    }
+
+    public abstract class CommonEntity<TKey, TDbContextLocator1> : PrivateCommonEntity<TKey>
+        where TDbContextLocator1 : class, IDbContextLocator
+    {
+    }
+
+    public abstract class CommonEntity<TKey, TDbContextLocator1, TDbContextLocator2> : PrivateCommonEntity<TKey>
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+    {
+    }
+
+    public abstract class CommonEntity<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3> : PrivateCommonEntity<TKey>
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+    {
+    }
+
+    public abstract class CommonEntity<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4> : PrivateCommonEntity<TKey>
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+        where TDbContextLocator4 : class, IDbContextLocator
+    {
+    }
+
+    public abstract class CommonEntity<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5> : PrivateCommonEntity<TKey>
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+        where TDbContextLocator4 : class, IDbContextLocator
+        where TDbContextLocator5 : class, IDbContextLocator
+    {
+    }
+
+    public abstract class CommonEntity<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6> : PrivateCommonEntity<TKey>
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+        where TDbContextLocator4 : class, IDbContextLocator
+        where TDbContextLocator5 : class, IDbContextLocator
+        where TDbContextLocator6 : class, IDbContextLocator
+    {
+    }
+
+    public abstract class CommonEntity<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7> : PrivateCommonEntity<TKey>
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+        where TDbContextLocator4 : class, IDbContextLocator
+        where TDbContextLocator5 : class, IDbContextLocator
+        where TDbContextLocator6 : class, IDbContextLocator
+        where TDbContextLocator7 : class, IDbContextLocator
+    {
+    }
+
+    public abstract class CommonEntity<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7, TDbContextLocator8> : PrivateCommonEntity<TKey>
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+        where TDbContextLocator3 : class, IDbContextLocator
+        where TDbContextLocator4 : class, IDbContextLocator
+        where TDbContextLocator5 : class, IDbContextLocator
+        where TDbContextLocator6 : class, IDbContextLocator
+        where TDbContextLocator7 : class, IDbContextLocator
+        where TDbContextLocator8 : class, IDbContextLocator
+    {
+    }
+
+    public abstract class PrivateCommonEntity<TKey> : IPrivateEntity
+    {
+        // 注意是在这里定义你的公共实体
+        public virtual TKey Id { get; set; }
+
+        public virtual DateTime CreatedTime { get; set; }
+
+        // 更多属性定义
+    }
+}
+```
+
+:::important 特别说明
+
+通过上面的格式定义可以完美的支持多数据库操作，建议采用这种格式，而且所有的公共属性都应该定义在 `PrivateXXXX` `私`有类中。
+
+:::
+
+## 9.3.4 数据库实体配置
 
 在过去的 `EF Core` 项目开发中，数据库实体配置需要在 `DbContext` 的 `OnModelCreating` 中配置。`Furion` 为了简化配置和提高开发效率，抽象出了 `IEntityTypeBuilder<TEntity>` 接口。
 
 通过 `IEntityTypeBuilder<TEntity>` 接口，我们无需在 `DbContext` 的 `OnModelCreating` 中配置，可在任意地方配置。
 
-### 9.3.3.1 在数据库实体中配置
+### 9.3.4.1 在数据库实体中配置
 
 ```cs {1,5,20-25}
 using Furion.DatabaseAccessor;
@@ -179,7 +292,7 @@ namespace Furion.Core
 }
 ```
 
-### 9.3.3.2 在任何实例类中配置
+### 9.3.4.2 在任何实例类中配置
 
 ```cs {1,8,10-14}
 using Furion.DatabaseAccessor;
@@ -208,13 +321,13 @@ namespace Furion.Core
 
 :::
 
-## 9.3.4 数据库实体配置说明
+## 9.3.5 数据库实体配置说明
 
 `Furion` 框架会自动扫描所有继承 `IEntity` 接口的类进行 `DbSet<TEntity>` 注册，也就是实现自动配置 `DbContext` 的 `OnModelCreating`。
 
 如果需要跳过自动注册，只需要贴 `[NonAutomatic]` 或 `[SkipScan]` 特性即可。一旦贴了此特性，那么就需要手动配置 `DbContext` 的 `OnModelCreating`
 
-## 9.3.5 反馈与建议
+## 9.3.6 反馈与建议
 
 :::note 与我们交流
 
