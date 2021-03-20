@@ -26,6 +26,7 @@
   - [修复] `EFCore` 实体配置 `[Table]` 特性无效 bug [#I3BAYH](https://gitee.com/dotnetchina/Furion/issues/I3BAYH)
   - [修复] 动态 WebAPI `CheckIsSplitCamelCase` bug [#I3BLKX](https://gitee.com/dotnetchina/Furion/issues/I3BLKX)
   - [修复] 修复动态 WebAPI 配置保留 Action 的 Async 后缀无效问题 [#I3C3DA](https://gitee.com/dotnetchina/Furion/issues/I3C3DA)
+  - [修复] `JWT` Token 刷新后旧的刷新 Token 依旧可用 bug [#I3C8ZH](https://gitee.com/dotnetchina/Furion/issues/I3C8ZH)
 
 - **其他更改**
 
