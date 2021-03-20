@@ -121,7 +121,7 @@ namespace Furion.DataEncryption
                                          .ToDictionary(u => u.Type, u => (object)u.Value);
 
             // 交换成功后登记刷新Token，标记失效
-            memoryCache?.Set(refreshToken, "1", token.GetPayloadValue<DateTimeOffset>(JwtRegisteredClaimNames.Exp));
+            memoryCache?.Set(refreshToken, "1", DateTimeOffset.FromUnixTimeSeconds(token.GetPayloadValue<long>(JwtRegisteredClaimNames.Exp)));
 
             return Encrypt(payload, expiredTime);
         }
