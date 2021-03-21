@@ -134,12 +134,12 @@ namespace Furion.RemoteRequest.Extensions
         /// 设置 JSON 序列化提供器
         /// </summary>
         /// <param name="requestUrl"></param>
-        /// <param name="jsonSerializationProvider"></param>
+        /// <param name="providerType"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
-        public static HttpClientPart SetJsonSerialization(this string requestUrl, Type jsonSerializationProvider, object jsonSerializerOptions)
+        public static HttpClientPart SetJsonSerialization(this string requestUrl, Type providerType, object jsonSerializerOptions)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetJsonSerialization(jsonSerializationProvider, jsonSerializerOptions);
+            return new HttpClientPart().SetRequestUrl(requestUrl).SetJsonSerialization(providerType, jsonSerializerOptions);
         }
 
         /// <summary>
