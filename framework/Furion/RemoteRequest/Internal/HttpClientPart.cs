@@ -54,7 +54,7 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// Json 序列化提供器
         /// </summary>
-        public (Type ProviderType, object JsonSerializerOptions) JsonSerializationProvider { get; private set; } = (typeof(SystemTextJsonSerializerProvider), default);
+        public (Type ProviderType, object JsonSerializerOptions) JsonSerialization { get; private set; } = (typeof(SystemTextJsonSerializerProvider), default);
 
         /// <summary>
         /// 是否启用模型验证

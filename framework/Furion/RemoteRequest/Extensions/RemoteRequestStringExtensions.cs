@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -87,10 +88,11 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="body"></param>
         /// <param name="contentType"></param>
+        /// <param name="encoding"></param>
         /// <returns></returns>
-        public static HttpClientPart SetBody(this string requestUrl, object body, string contentType = default)
+        public static HttpClientPart SetBody(this string requestUrl, object body, string contentType = default, Encoding encoding = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetBody(body, contentType);
+            return new HttpClientPart().SetRequestUrl(requestUrl).SetBody(body, contentType, encoding);
         }
 
         /// <summary>
@@ -105,16 +107,27 @@ namespace Furion.RemoteRequest.Extensions
         }
 
         /// <summary>
+        /// 设置内容编码
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public static HttpClientPart SetContentEncoding(this string requestUrl, Encoding encoding)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).SetContentEncoding(encoding);
+        }
+
+        /// <summary>
         /// 设置 JSON 序列化提供器
         /// </summary>
         /// <typeparam name="TJsonSerializationProvider"></typeparam>
         /// <param name="requestUrl"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
-        public static HttpClientPart SetJsonSerializationProvider<TJsonSerializationProvider>(this string requestUrl, object jsonSerializerOptions)
+        public static HttpClientPart SetJsonSerialization<TJsonSerializationProvider>(this string requestUrl, object jsonSerializerOptions)
             where TJsonSerializationProvider : IJsonSerializerProvider
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetJsonSerializationProvider<TJsonSerializationProvider>(jsonSerializerOptions);
+            return new HttpClientPart().SetRequestUrl(requestUrl).SetJsonSerialization<TJsonSerializationProvider>(jsonSerializerOptions);
         }
 
         /// <summary>
@@ -124,9 +137,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="jsonSerializationProvider"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
-        public static HttpClientPart SetJsonSerializationProvider(this string requestUrl, Type jsonSerializationProvider, object jsonSerializerOptions)
+        public static HttpClientPart SetJsonSerialization(this string requestUrl, Type jsonSerializationProvider, object jsonSerializerOptions)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetJsonSerializationProvider(jsonSerializationProvider, jsonSerializerOptions);
+            return new HttpClientPart().SetRequestUrl(requestUrl).SetJsonSerialization(jsonSerializationProvider, jsonSerializerOptions);
         }
 
         /// <summary>

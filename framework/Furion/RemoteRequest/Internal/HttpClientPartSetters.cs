@@ -134,10 +134,10 @@ namespace Furion.RemoteRequest
         /// <typeparam name="TJsonSerializationProvider"></typeparam>
         /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
-        public HttpClientPart SetJsonSerializationProvider<TJsonSerializationProvider>(object jsonSerializerOptions)
+        public HttpClientPart SetJsonSerialization<TJsonSerializationProvider>(object jsonSerializerOptions)
             where TJsonSerializationProvider : IJsonSerializerProvider
         {
-            JsonSerializationProvider = (typeof(TJsonSerializationProvider), jsonSerializerOptions);
+            JsonSerialization = (typeof(TJsonSerializationProvider), jsonSerializerOptions);
             return this;
         }
 
@@ -147,9 +147,9 @@ namespace Furion.RemoteRequest
         /// <param name="jsonSerializationProvider"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
-        public HttpClientPart SetJsonSerializationProvider(Type jsonSerializationProvider, object jsonSerializerOptions)
+        public HttpClientPart SetJsonSerialization(Type jsonSerializationProvider, object jsonSerializerOptions)
         {
-            JsonSerializationProvider = (jsonSerializationProvider, jsonSerializerOptions);
+            JsonSerialization = (jsonSerializationProvider, jsonSerializerOptions);
             return this;
         }
 
