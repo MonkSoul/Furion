@@ -7,9 +7,9 @@ namespace SqlSugar
     /// 【使用方式】：在需要打印SQL语句的地方，如 Startup，将
     /// App.PrintToMiniProfiler("SqlSugar1", "Info", sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
     /// 替换为
-    /// App.PrintToMiniProfiler("SqlSugar", "Info", FormatHelper.FormatParam(sql, pars));
+    /// App.PrintToMiniProfiler("SqlSugar", "Info", SqlProfiler.ParameterFormat(sql, pars));
     /// </summary>
-    public class FormatHelper
+    public class SqlProfiler
     {
         /// <summary>
         /// 格式化参数拼接成完整的SQL语句
@@ -17,7 +17,7 @@ namespace SqlSugar
         /// <param name="sql"></param>
         /// <param name="pars"></param>
         /// <returns></returns>
-        public static string FormatParam(string sql, SugarParameter[] pars)
+        public static string ParameterFormat(string sql, SugarParameter[] pars)
         {
             //var aa = pars.ToDictionary(it => it.ParameterName, it => it.Value);
 
@@ -59,7 +59,7 @@ namespace SqlSugar
         public static string FormatParam(string sql, object pars)
         {
             SugarParameter[] param = (SugarParameter[])pars;
-            return FormatParam(sql, param);
+            return ParameterFormat(sql, param);
         }
     }
 }
