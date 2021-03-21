@@ -56,7 +56,7 @@ namespace SqlSugar
         /// <param name="sql"></param>
         /// <param name="pars"></param>
         /// <returns></returns>
-        public static string FormatParam(string sql, object pars)
+        public static string ParameterFormat(string sql, object pars)
         {
             SugarParameter[] param = (SugarParameter[])pars;
             return ParameterFormat(sql, param);
