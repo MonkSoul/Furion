@@ -4,6 +4,8 @@ using Furion.Localization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Razor;
 using System;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -54,6 +56,9 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 Penetrates.SetRequestLocalization(options, localizationSettings);
             }));
+
+            // 处理多语言在 Razor 视图中文乱码问题
+            services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
 
             return mvcBuilde;
         }
