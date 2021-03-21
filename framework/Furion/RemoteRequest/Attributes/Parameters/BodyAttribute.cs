@@ -7,7 +7,7 @@ namespace Furion.RemoteRequest
     /// 配置Body参数
     /// </summary>
     [SkipScan, AttributeUsage(AttributeTargets.Parameter)]
-    public class BodyAttribute : Attribute
+    public class BodyAttribute : ParameterBaseAttribute
     {
         /// <summary>
         /// 构造函数

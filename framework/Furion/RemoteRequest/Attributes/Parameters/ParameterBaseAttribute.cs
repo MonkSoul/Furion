@@ -4,10 +4,10 @@ using System;
 namespace Furion.RemoteRequest
 {
     /// <summary>
-    /// 用于拦截请求出错
+    /// 代理参数基类特性
     /// </summary>
     [SkipScan, AttributeUsage(AttributeTargets.Parameter)]
-    public class OnExceptionAttribute : Attribute
+    public class ParameterBaseAttribute : Attribute
     {
     }
 }

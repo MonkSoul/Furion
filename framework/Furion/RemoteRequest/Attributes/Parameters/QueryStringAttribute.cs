@@ -7,7 +7,7 @@ namespace Furion.RemoteRequest
     /// 配置查询参数
     /// </summary>
     [SkipScan, AttributeUsage(AttributeTargets.Parameter)]
-    public class QueryStringAttribute : Attribute
+    public class QueryStringAttribute : ParameterBaseAttribute
     {
         /// <summary>
         /// 构造函数
