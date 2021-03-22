@@ -64,6 +64,7 @@ Kangaroo has the characteristics of **long legs, bagging and self running**.
 
 ## 🍯 Cases
 
+- **[Admin.NET](https://gitee.com/zuohuaijun/Admin.NET)**：General authority management platform system based on `Furion`.
 - **[ExamKing](https://gitee.com/pig0224/ExamKing)**：Online examination system based on `Furion`.
 - **[Gardener](https://gitee.com/hgflydream/Gardener)**：Super simple system based on `Furion` and `Blazor`.
 - **[Queer](https://gitee.com/songzhidan/queer)**：General system based on `Furion` and `Layui`.
