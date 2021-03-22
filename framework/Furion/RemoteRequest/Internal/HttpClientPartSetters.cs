@@ -24,6 +24,28 @@ namespace Furion.RemoteRequest
         }
 
         /// <summary>
+        /// 设置 URL 模板
+        /// </summary>
+        /// <param name="templates"></param>
+        /// <returns></returns>
+        public HttpClientPart SetTemplates(Dictionary<string, object> templates)
+        {
+            Templates = templates;
+            return this;
+        }
+
+        /// <summary>
+        /// 设置 URL 模板
+        /// </summary>
+        /// <param name="templates"></param>
+        /// <returns></returns>
+        public HttpClientPart SetTemplates(object templates)
+        {
+            Templates = templates.ToDictionary<object>();
+            return this;
+        }
+
+        /// <summary>
         /// 设置请求方法
         /// </summary>
         /// <param name="httpMethod"></param>
@@ -134,7 +156,7 @@ namespace Furion.RemoteRequest
         /// <typeparam name="TJsonSerializationProvider"></typeparam>
         /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
-        public HttpClientPart SetJsonSerialization<TJsonSerializationProvider>(object jsonSerializerOptions)
+        public HttpClientPart SetJsonSerialization<TJsonSerializationProvider>(object jsonSerializerOptions = default)
             where TJsonSerializationProvider : IJsonSerializerProvider
         {
             JsonSerialization = (typeof(TJsonSerializationProvider), jsonSerializerOptions);
@@ -147,7 +169,7 @@ namespace Furion.RemoteRequest
         /// <param name="providerType"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
-        public HttpClientPart SetJsonSerialization(Type providerType, object jsonSerializerOptions)
+        public HttpClientPart SetJsonSerialization(Type providerType, object jsonSerializerOptions = default)
         {
             JsonSerialization = (providerType, jsonSerializerOptions);
             return this;
@@ -172,7 +194,8 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientPart OnRequesting(Action<HttpRequestMessage> action)
         {
-            RequestInspector = action;
+            RequestInterceptors ??= new List<Action<HttpRequestMessage>>();
+            RequestInterceptors.Add(action);
             return this;
         }
 
@@ -183,7 +206,8 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientPart OnClientCreating(Action<HttpClient> action)
         {
-            HttpClientInspector = action;
+            HttpClientInterceptors ??= new List<Action<HttpClient>>();
+            HttpClientInterceptors.Add(action);
             return this;
         }
 
@@ -194,7 +218,8 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientPart OnResponsing(Action<HttpResponseMessage> action)
         {
-            ResponseInspector = action;
+            ResponseInterceptors ??= new List<Action<HttpResponseMessage>>();
+            ResponseInterceptors.Add(action);
             return this;
         }
 
@@ -205,7 +230,8 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientPart OnException(Action<HttpResponseMessage, string> action)
         {
-            ExceptionInspector = action;
+            ExceptionInterceptors ??= new List<Action<HttpResponseMessage, string>>();
+            ExceptionInterceptors.Add(action);
             return this;
         }
     }

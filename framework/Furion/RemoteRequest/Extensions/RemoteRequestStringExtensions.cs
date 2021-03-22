@@ -17,6 +17,28 @@ namespace Furion.RemoteRequest.Extensions
     public static class RemoteRequestStringExtensions
     {
         /// <summary>
+        /// 设置 URL 模板
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="templates"></param>
+        /// <returns></returns>
+        public static HttpClientPart SetTemplates(this string requestUrl, Dictionary<string, object> templates)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).SetTemplates(templates);
+        }
+
+        /// <summary>
+        /// 设置 URL 模板
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="templates"></param>
+        /// <returns></returns>
+        public static HttpClientPart SetTemplates(this string requestUrl, object templates)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).SetTemplates(templates);
+        }
+
+        /// <summary>
         /// 设置请求方法
         /// </summary>
         /// <param name="requestUrl"></param>
@@ -124,7 +146,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
-        public static HttpClientPart SetJsonSerialization<TJsonSerializationProvider>(this string requestUrl, object jsonSerializerOptions)
+        public static HttpClientPart SetJsonSerialization<TJsonSerializationProvider>(this string requestUrl, object jsonSerializerOptions = default)
             where TJsonSerializationProvider : IJsonSerializerProvider
         {
             return new HttpClientPart().SetRequestUrl(requestUrl).SetJsonSerialization<TJsonSerializationProvider>(jsonSerializerOptions);
@@ -137,7 +159,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="providerType"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
-        public static HttpClientPart SetJsonSerialization(this string requestUrl, Type providerType, object jsonSerializerOptions)
+        public static HttpClientPart SetJsonSerialization(this string requestUrl, Type providerType, object jsonSerializerOptions = default)
         {
             return new HttpClientPart().SetRequestUrl(requestUrl).SetJsonSerialization(providerType, jsonSerializerOptions);
         }

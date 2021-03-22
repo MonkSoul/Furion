@@ -17,6 +17,11 @@ namespace Furion.RemoteRequest
         public string RequestUrl { get; private set; }
 
         /// <summary>
+        /// Url 地址模板
+        /// </summary>
+        public Dictionary<string, object> Templates { get; private set; }
+
+        /// <summary>
         /// 请求方式
         /// </summary>
         public HttpMethod Method { get; private set; }
@@ -64,21 +69,21 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 构建请求对象拦截器
         /// </summary>
-        public Action<HttpRequestMessage> RequestInspector { get; private set; }
+        public List<Action<HttpRequestMessage>> RequestInterceptors { get; private set; } = new List<Action<HttpRequestMessage>>();
 
         /// <summary>
         /// 创建客户端对象拦截器
         /// </summary>
-        public Action<HttpClient> HttpClientInspector { get; private set; }
+        public List<Action<HttpClient>> HttpClientInterceptors { get; private set; } = new List<Action<HttpClient>>();
 
         /// <summary>
         /// 请求成功拦截器
         /// </summary>
-        public Action<HttpResponseMessage> ResponseInspector { get; private set; }
+        public List<Action<HttpResponseMessage>> ResponseInterceptors { get; private set; } = new List<Action<HttpResponseMessage>>();
 
         /// <summary>
         /// 请求异常拦截器
         /// </summary>
-        public Action<HttpResponseMessage, string> ExceptionInspector { get; private set; }
+        public List<Action<HttpResponseMessage, string>> ExceptionInterceptors { get; private set; } = new List<Action<HttpResponseMessage, string>>();
     }
 }

@@ -1,7 +1,14 @@
-﻿using Furion.DependencyInjection;
+﻿using Furion.DataValidation;
+using Furion.DependencyInjection;
+using Furion.Extensions;
 using Furion.Reflection;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Net.Http;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Furion.RemoteRequest
@@ -30,7 +37,7 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public override object Invoke(MethodInfo method, object[] args)
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException("Please use asynchronous operation mode.");
         }
 
         /// <summary>
@@ -39,9 +46,10 @@ namespace Furion.RemoteRequest
         /// <param name="method"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public override Task InvokeAsync(MethodInfo method, object[] args)
+        public override async Task InvokeAsync(MethodInfo method, object[] args)
         {
-            throw new System.NotImplementedException();
+            var httpclientPart = BuildHttpClientPart(method, args);
+            _ = await httpclientPart.SendAsync();
         }
 
         /// <summary>
@@ -53,7 +61,290 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public override Task<T> InvokeAsyncT<T>(MethodInfo method, object[] args)
         {
-            throw new System.NotImplementedException();
+            var httpclientPart = BuildHttpClientPart(method, args);
+            return httpclientPart.SendAsAsync<T>();
+        }
+
+        /// <summary>
+        /// 构建 HttpClient 请求部件
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private static HttpClientPart BuildHttpClientPart(MethodInfo method, object[] args)
+        {
+            // 判断方法是否是远程代理请求方法
+            if (!method.IsDefined(typeof(HttpMethodBaseAttribute), true)) throw new InvalidOperationException($"{method.Name} is not a valid request proxy method.");
+
+            // 解析方法参数及参数值
+            var parameters = method.GetParameters().Select((u, i) => new MethodParameterInfo
+            {
+                Parameter = u,
+                Name = u.Name,
+                Value = args[i]
+            });
+
+            // 获取请求配置
+            var httpMethodBase = method.GetCustomAttribute<HttpMethodBaseAttribute>(true);
+
+            // 创建请求配置对象
+            var httpClientPart = new HttpClientPart();
+            httpClientPart.SetRequestUrl(httpMethodBase.RequestUrl)
+                          .SetHttpMethod(httpMethodBase.Method)
+                          .SetTemplates(parameters.ToDictionary(u => u.Name, u => u.Value));
+
+            // 获取方法所在类型
+            var declaringType = method.DeclaringType;
+
+            // 设置请求客户端
+            SetClient(method, httpClientPart, declaringType);
+
+            // 设置请求报文头
+            SetHeaders(method, parameters, httpClientPart, declaringType);
+
+            // 设置 Url 地址参数
+            SetQueries(parameters, httpClientPart);
+
+            // 设置 Body 信息
+            SetBody(parameters, httpClientPart);
+
+            // 设置验证
+            SetValidation(parameters);
+
+            // 设置序列化
+            SetJsonSerialization(method, parameters, httpClientPart, declaringType);
+
+            // 配置全局拦截
+            CallGlobalInterceptors(httpClientPart, declaringType);
+
+            // 设置请求拦截
+            SetInterceptors(parameters, httpClientPart);
+
+            return httpClientPart;
+        }
+
+        /// <summary>
+        /// 设置客户端信息
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="httpClientPart"></param>
+        /// <param name="declaringType"></param>
+        private static void SetClient(MethodInfo method, HttpClientPart httpClientPart, Type declaringType)
+        {
+            // 设置 Client 名称，判断方法是否定义，如果没有再查找声明类
+            var clientAttribute = method.IsDefined(typeof(HttpClientAttribute), true)
+                ? method.GetCustomAttribute<HttpClientAttribute>(true)
+                : (
+                    declaringType.IsDefined(typeof(HttpClientAttribute), true)
+                    ? declaringType.GetCustomAttribute<HttpClientAttribute>(true)
+                    : default
+                );
+            if (clientAttribute != null) httpClientPart.SetClient(clientAttribute.Name);
+        }
+
+        /// <summary>
+        /// 设置 Url 地址参数
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <param name="httpClientPart"></param>
+        private static void SetQueries(IEnumerable<MethodParameterInfo> parameters, HttpClientPart httpClientPart)
+        {
+            // 配置 Url 地址参数
+            var queryParameters = parameters.Where(u => u.Parameter.IsDefined(typeof(QueryStringAttribute), true));
+            var parameterQueries = new Dictionary<string, string>();
+            foreach (var item in queryParameters)
+            {
+                var queryStringAttribute = item.Parameter.GetCustomAttribute<QueryStringAttribute>();
+                if (item.Value != null) parameterQueries.Add(queryStringAttribute.Alias ?? item.Name, item.Value.ToString());
+            }
+            httpClientPart.SetQueries(parameterQueries);
+        }
+
+        /// <summary>
+        /// 设置 Body 参数
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <param name="httpClientPart"></param>
+        private static void SetBody(IEnumerable<MethodParameterInfo> parameters, HttpClientPart httpClientPart)
+        {
+            // 配置 Body 参数，只取第一个
+            var bodyParameter = parameters.FirstOrDefault(u => u.Parameter.IsDefined(typeof(QueryStringAttribute), true));
+            if (bodyParameter != null)
+            {
+                var bodyAttribute = bodyParameter.Parameter.GetCustomAttribute<BodyAttribute>(true);
+                httpClientPart.SetBody(bodyParameter.Value, bodyAttribute.ContentType, Encoding.GetEncoding(bodyAttribute.Encoding))
+                              .SetValidationState(true, true);   // 开启验证
+            }
+        }
+
+        /// <summary>
+        /// 设置验证
+        /// </summary>
+        /// <param name="parameters"></param>
+        private static void SetValidation(IEnumerable<MethodParameterInfo> parameters)
+        {
+            // 验证参数，查询所有配置验证特性的参数，排除 Body 验证
+            var validateParameters = parameters.Where(u => u.Parameter.IsDefined(typeof(ValidationAttribute), true) && !u.Parameter.IsDefined(typeof(BodyAttribute), true));
+            foreach (var item in validateParameters)
+            {
+                // 处理空值
+                var isRequired = item.Parameter.IsDefined(typeof(RequiredAttribute), true);
+                if (isRequired && item.Value == null) throw new InvalidOperationException($"{item.Name} can not be null.");
+
+                // 判断是否是基元类型
+                if (item.Parameter.ParameterType.IsRichPrimitive())
+                {
+                    var validationAttributes = item.Parameter.GetCustomAttributes<ValidationAttribute>(true);
+                    item.Value?.Validate(validationAttributes.ToArray());
+                }
+                else item.Value?.Validate();
+            }
+        }
+
+        /// <summary>
+        /// 设置序列化
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="parameters"></param>
+        /// <param name="httpClientPart"></param>
+        /// <param name="declaringType"></param>
+        private static void SetJsonSerialization(MethodInfo method, IEnumerable<MethodParameterInfo> parameters, HttpClientPart httpClientPart, Type declaringType)
+        {
+            // 配置序列化
+            var jsonSerializationAttribute = method.IsDefined(typeof(JsonSerializationAttribute), true)
+                ? method.GetCustomAttribute<JsonSerializationAttribute>(true)
+                : (
+                    declaringType.IsDefined(typeof(JsonSerializationAttribute), true)
+                    ? declaringType.GetCustomAttribute<JsonSerializationAttribute>(true)
+                    : default
+                );
+            if (jsonSerializationAttribute != null)
+            {
+                var jsonSerializerOptionsParameter = parameters.FirstOrDefault(u => u.Parameter.IsDefined(typeof(JsonSerializerOptionsAttribute), true));
+                httpClientPart.SetJsonSerialization(jsonSerializationAttribute.ProviderType, jsonSerializerOptionsParameter?.Value);
+            }
+        }
+
+        /// <summary>
+        /// 调用全局拦截
+        /// </summary>
+        /// <param name="httpClientPart"></param>
+        /// <param name="declareType"></param>
+        private static void CallGlobalInterceptors(HttpClientPart httpClientPart, Type declareType)
+        {
+            // 加载请求拦截
+            var onRequestingMethod = declareType.GetMethod(nameof(httpClientPart.OnRequesting));
+            if (onRequestingMethod != null)
+            {
+                var onRequesting = (Action<HttpRequestMessage>)Delegate.CreateDelegate(typeof(Action<HttpRequestMessage>), onRequestingMethod);
+                httpClientPart.OnRequesting(onRequesting);
+            }
+
+            // 加载响应拦截
+            var OnResponsingMethod = declareType.GetMethod(nameof(httpClientPart.OnResponsing));
+            if (OnResponsingMethod != null)
+            {
+                var onResponsing = (Action<HttpResponseMessage>)Delegate.CreateDelegate(typeof(Action<HttpResponseMessage>), OnResponsingMethod);
+                httpClientPart.OnResponsing(onResponsing);
+            }
+
+            // 加载 Client 配置拦截
+            var onClientCreatingMethod = declareType.GetMethod(nameof(httpClientPart.OnClientCreating));
+            if (onClientCreatingMethod != null)
+            {
+                var onClientCreating = (Action<HttpClient>)Delegate.CreateDelegate(typeof(Action<HttpClient>), onClientCreatingMethod);
+                httpClientPart.OnClientCreating(onClientCreating);
+            }
+
+            // 加载异常拦截
+            var onExceptionMethod = declareType.GetMethod(nameof(httpClientPart.OnException));
+            if (onExceptionMethod != null)
+            {
+                var onException = (Action<HttpResponseMessage, string>)Delegate.CreateDelegate(typeof(Action<HttpResponseMessage, string>), onExceptionMethod);
+                httpClientPart.OnException(onException);
+            }
+        }
+
+        /// <summary>
+        /// 设置请求拦截
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <param name="httpClientPart"></param>
+        private static void SetInterceptors(IEnumerable<MethodParameterInfo> parameters, HttpClientPart httpClientPart)
+        {
+            // 添加方法拦截器
+            var Interceptors = parameters.Where(u => u.Parameter.IsDefined(typeof(InterceptorAttribute), true));
+            foreach (var item in Interceptors)
+            {
+                // 获取拦截器类型
+                var interceptor = item.Parameter.GetCustomAttribute<InterceptorAttribute>();
+                switch (interceptor.Type)
+                {
+                    // 加载请求拦截
+                    case InterceptorTypes.Request:
+                        if (item.Value is Action<HttpRequestMessage> onRequesting)
+                        {
+                            httpClientPart.OnRequesting(onRequesting);
+                        }
+                        break;
+                    // 加载响应拦截
+                    case InterceptorTypes.Response:
+                        if (item.Value is Action<HttpResponseMessage> onResponsing)
+                        {
+                            httpClientPart.OnResponsing(onResponsing);
+                        }
+                        break;
+                    // 加载 Client 配置拦截
+                    case InterceptorTypes.HttpClient:
+                        if (item.Value is Action<HttpClient> onClientCreating)
+                        {
+                            httpClientPart.OnClientCreating(onClientCreating);
+                        }
+                        break;
+                    // 加载异常拦截
+                    case InterceptorTypes.Exception:
+                        if (item.Value is Action<HttpResponseMessage, string> onException)
+                        {
+                            httpClientPart.OnException(onException);
+                        }
+                        break;
+
+                    default: break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 设置请求报文头
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="parameters"></param>
+        /// <param name="httpClientPart"></param>
+        /// <param name="declaringType"></param>
+        private static void SetHeaders(MethodInfo method, IEnumerable<MethodParameterInfo> parameters, HttpClientPart httpClientPart, Type declaringType)
+        {
+            // 获取声明类请求报文头
+            var declaringTypeHeaders = (declaringType.IsDefined(typeof(HeadersAttribute), true)
+                ? declaringType.GetCustomAttributes<HeadersAttribute>(true)
+                : Array.Empty<HeadersAttribute>()).ToDictionary(u => u.Key, u => u.Value);
+
+            // 获取方法请求报文头
+            var methodHeaders = (method.IsDefined(typeof(HeadersAttribute), true)
+                ? method.GetCustomAttributes<HeadersAttribute>(true)
+                : Array.Empty<HeadersAttribute>()).ToDictionary(u => u.Key, u => u.Value);
+
+            // 获取参数请求报文头
+            var headerParameters = parameters.Where(u => u.Parameter.IsDefined(typeof(HeadersAttribute), true));
+            var parameterHeaders = new Dictionary<string, string>();
+            foreach (var item in headerParameters)
+            {
+                var headersAttribute = item.Parameter.GetCustomAttribute<HeadersAttribute>(true);
+                if (item.Value != null) parameterHeaders.Add(headersAttribute.Key ?? item.Name, item.Value.ToString());
+            }
+
+            // 合并所有请求报文头
+            var headers = declaringTypeHeaders.AddOrUpdate(methodHeaders).AddOrUpdate(parameterHeaders);
+            httpClientPart.SetHeaders(headers);
         }
     }
 }

@@ -5,8 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Furion.RemoteRequest
 {
@@ -214,6 +216,8 @@ namespace Furion.RemoteRequest
 
             // 读取流内容并转换成字符串
             var stream = await SendAsStreamAsync(cancellationToken);
+            if (typeof(T) == typeof(Stream)) return (T)(object)stream;
+
             using var streamReader = new StreamReader(stream);
             var text = await streamReader.ReadToEndAsync();
 
@@ -232,7 +236,7 @@ namespace Furion.RemoteRequest
             var response = await SendAsync(cancellationToken);
 
             // 如果配置了异常拦截器，且请求不成功，则返回 T 默认值
-            if (ExceptionInspector != null && !response.IsSuccessStatusCode) return default;
+            if (ExceptionInterceptors != null && ExceptionInterceptors.Count > 0 && !response.IsSuccessStatusCode) return default;
 
             // 读取响应流
             var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
@@ -253,6 +257,9 @@ namespace Furion.RemoteRequest
             if (string.IsNullOrEmpty(RequestUrl)) throw new NullReferenceException(RequestUrl);
 
             var finalRequestUrl = RequestUrl;
+
+            // 处理模板问题
+            ReplaceRequestUrlTemplates();
 
             // 拼接查询参数
             if (Queries != null && Queries.Count > 0)
@@ -287,7 +294,10 @@ namespace Furion.RemoteRequest
             SetHttpContent(request);
 
             // 配置请求拦截
-            RequestInspector?.Invoke(request);
+            RequestInterceptors.ForEach(u =>
+            {
+                u?.Invoke(request);
+            });
 
             // 创建客户端请求工厂
             var clientFactory = App.GetService<IHttpClientFactory>();
@@ -298,7 +308,10 @@ namespace Furion.RemoteRequest
                                          : clientFactory.CreateClient(ClientName);
 
             // 配置 HttpClient 拦截
-            HttpClientInspector?.Invoke(httpClient);
+            HttpClientInterceptors.ForEach(u =>
+            {
+                u?.Invoke(httpClient);
+            });
 
             // 发送请求
             var response = await httpClient.SendAsync(request, cancellationToken);
@@ -307,7 +320,10 @@ namespace Furion.RemoteRequest
             if (response.IsSuccessStatusCode)
             {
                 // 调用成功拦截器
-                ResponseInspector?.Invoke(response);
+                ResponseInterceptors.ForEach(u =>
+                {
+                    u?.Invoke(response);
+                });
             }
             // 请求异常
             else
@@ -316,9 +332,12 @@ namespace Furion.RemoteRequest
                 var errors = await response.Content.ReadAsStringAsync(cancellationToken);
 
                 // 抛出异常
-                if (ExceptionInspector == null) throw new HttpRequestException(errors);
+                if (ExceptionInterceptors == null || ExceptionInterceptors.Count == 0) throw new HttpRequestException(errors);
                 // 调用异常拦截器
-                else ExceptionInspector?.Invoke(response, errors);
+                else ExceptionInterceptors.ForEach(u =>
+                {
+                    u?.Invoke(response, errors);
+                });
             }
 
             return response;
@@ -362,6 +381,38 @@ namespace Furion.RemoteRequest
 
                 // 设置 HttpContent
                 request.Content = httpContent;
+            }
+        }
+
+        /// <summary>
+        /// 模板正则表达式
+        /// </summary>
+        private const string templatePattern = @"\{(?<p>\w+)\}";
+
+        /// <summary>
+        /// 替换 Url 地址模板参数
+        /// </summary>
+        /// <returns></returns>
+        private void ReplaceRequestUrlTemplates()
+        {
+            // 如果模板为空，则跳过
+            if (Templates == null || Templates.Count == 0) return;
+
+            // 判断请求地址是否包含模板
+            if (!Regex.IsMatch(RequestUrl, templatePattern)) return;
+
+            // 获取所有匹配的模板
+            var templateValues = Regex.Matches(RequestUrl, templatePattern)
+                                                       .Select(u => new
+                                                       {
+                                                           Template = u.Groups["p"].Value,
+                                                           Value = Templates.ContainsKey(u.Groups["p"].Value) ? Templates[u.Groups["p"].Value] : default
+                                                       });
+
+            // 循环替换模板
+            foreach (var item in templateValues)
+            {
+                RequestUrl = RequestUrl.Replace($"{{{item.Template}}}", HttpUtility.UrlEncode(item.Value?.ToString() ?? string.Empty));
             }
         }
     }

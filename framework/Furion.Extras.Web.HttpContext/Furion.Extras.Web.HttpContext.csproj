@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <version>1.16.0-preview-202103201910</version>
+    <version>1.16.1</version>
     <Description>Furion HttpContext 插件。</Description>
   </PropertyGroup>
 
