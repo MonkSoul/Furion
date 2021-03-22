@@ -13,6 +13,20 @@
   border-radius: 4px;
 }
 
+.furion-star-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #fff;
+  padding: 2px 5px;
+  z-index: 11;
+  font-size: 12px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  box-shadow: 0 2px 20px 0 rgb(0 0 0 / 40%);
+}
+
 @media screen and (max-width: 1024px) {
   .furion-star-project {
     display: none;
