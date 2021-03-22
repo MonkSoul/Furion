@@ -61,6 +61,7 @@
   - [答疑] `AOP` 拦截如何解析服务 [#I3BUM3](https://gitee.com/dotnetchina/Furion/issues/I3BUM3)
   - [答疑] 动态 WebAPI 返回参数被省略 [#I3C2XR](https://gitee.com/dotnetchina/Furion/issues/I3C2XR)
   - [答疑] 如何设置某一个接口响应数据不自动转小写，按原始字段名返回 [#I38L9B](https://gitee.com/dotnetchina/Furion/issues/I38L9B)
+  - [答疑] code first 如何配置自动迁移 [#I3CCR0](https://gitee.com/dotnetchina/Furion/issues/I3CCR0)
 
 - **不做实现**
 
