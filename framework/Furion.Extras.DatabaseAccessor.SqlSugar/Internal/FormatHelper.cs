@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace SqlSugar
 {
@@ -33,6 +33,7 @@ namespace SqlSugar
                     || pars[i].DbType == System.Data.DbType.Guid
                     || pars[i].DbType == System.Data.DbType.VarNumeric
                     || pars[i].DbType == System.Data.DbType.AnsiStringFixedLength
+                    || pars[i].DbType == System.Data.DbType.AnsiString
                     || pars[i].DbType == System.Data.DbType.StringFixedLength)
                 {
                     sql = sql.Replace(pars[i].ParameterName, "'" + pars[i].Value?.ToString() + "'");
