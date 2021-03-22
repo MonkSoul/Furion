@@ -1,6 +1,7 @@
 import React from "react";
 import JoinGroup from "../components/JoinGroup";
 import GiveMeStar from "../components/GiveMeStar";
+import StarProject from "../components/StarProject";
 
 function Root({ children }) {
   return (
@@ -8,6 +9,7 @@ function Root({ children }) {
       <GiveMeStar />
       {children}
       <JoinGroup />
+      <StarProject />
     </>
   );
 }

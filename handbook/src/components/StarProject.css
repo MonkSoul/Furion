@@ -1,0 +1,20 @@
+.furion-star-project {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  z-index: 10;
+  display: inline-block;
+  box-shadow: 0 2px 20px 0 rgb(0 0 0 / 40%);
+}
+
+.furion-star-project img {
+  display: block;
+  height: 150px;
+  border-radius: 4px;
+}
+
+@media screen and (max-width: 1024px) {
+  .furion-star-project {
+    display: none;
+  }
+}
