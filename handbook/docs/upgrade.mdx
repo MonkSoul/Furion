@@ -8,7 +8,86 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 **此章节只记录重大版本更新日志，小迭代版本不做更新。**想了解更多更新内容，可查阅 [CHANGELOG.md](https://gitee.com/dotnetchina/Furion/blob/master/CHANGELOG.md)
 
-## v1.15.0 （当前版本）
+## v1.16.0 （当前版本）
+
+- **新特性**
+
+  - [新增] `IDGenerator` 雪花 ID 算法，感谢 [idgenerator](https://gitee.com/yitter/idgenerator) 作者提交 PR [#PR204](https://gitee.com/dotnetchina/Furion/pulls/204) [#I3B60S](https://gitee.com/dotnetchina/Furion/issues/I3B60S)
+  - [新增] `DbContext` 刷新多租户缓存拓展方法 [#I39N5U](https://gitee.com/dotnetchina/Furion/issues/I39N5U)
+  - [新增] 自定义配置单个控制器名称规范，如小写路由 [#I3A5XL](https://gitee.com/dotnetchina/Furion/issues/I3A5XL)
+  - [新增] 获取当前选择区域语言方法 [#I3BSDH](https://gitee.com/dotnetchina/Furion/issues/I3BSDH)
+
+- **突破性变化**
+
+  - [升级] .NET 5 SDK 至 5.0.4 版本 [#I3ASTL](https://gitee.com/dotnetchina/Furion/issues/I3ASTL)
+  - [重构] 远程请求所有功能 [#I2LB7M](https://gitee.com/dotnetchina/Furion/issues/I2LB7M)
+  - [重构] `JSON` 序列化功能，提供统一的抽象接口，方便自由替换 `JSON` 库 [#I39GT9](https://gitee.com/dotnetchina/Furion/issues/I39GT9)
+  - [重构] 验证失败返回消息模型及规范化接口验证参数 [#I3AFQW](https://gitee.com/dotnetchina/Furion/issues/I3AFQW)
+  - [优化] 插件式开发热插拔功能，实现动态加载卸载 [#PR200](https://gitee.com/dotnetchina/Furion/pulls/200), 感谢 [@SamWangCoder](https://gitee.com/samwangcoder)
+  - [移除] 移除 `JsonSerializerUtility` 静态类及移除属性大写序列化拓展配置 [#I3AFRJ](https://gitee.com/dotnetchina/Furion/issues/I3AFRJ)
+
+- **问题修复**
+
+  - [修复] `MVC` 模式下不支持验证自定义验证逻辑 [#I39LM5](https://gitee.com/dotnetchina/Furion/issues/I39LM5)
+  - [修复] 验证数值类型正则表达式不支持负数 bug [#I39YUV](https://gitee.com/dotnetchina/Furion/issues/I39YUV)
+  - [修复] 框架启动时无法加载未被引用的程序集 bug [#I3A3Z4](https://gitee.com/dotnetchina/Furion/issues/I3A3Z4)
+  - [修复] `EFCoreRepository.IsAttached()` 方法判断错误 bug [#I3A824](https://gitee.com/dotnetchina/Furion/issues/I3A824)
+  - [修复] `动态API` 驼峰显示配置无效 bug [#I3AF32](https://gitee.com/dotnetchina/Furion/issues/I3AF32)
+  - [修复] `cli.ps1` 不支持新版本 `EFCore` bug [#I3APO9](https://gitee.com/dotnetchina/Furion/issues/I3APO9)
+  - [修复] `EFCore` 实体配置 `[Table]` 特性无效 bug [#I3BAYH](https://gitee.com/dotnetchina/Furion/issues/I3BAYH)
+  - [修复] 动态 WebAPI `CheckIsSplitCamelCase` bug [#I3BLKX](https://gitee.com/dotnetchina/Furion/issues/I3BLKX)
+  - [修复] 修复动态 WebAPI 配置保留 Action 的 Async 后缀无效问题 [#I3C3DA](https://gitee.com/dotnetchina/Furion/issues/I3C3DA)
+  - [修复] `JWT` Token 刷新后旧的刷新 Token 依旧可用 bug [#I3C8ZH](https://gitee.com/dotnetchina/Furion/issues/I3C8ZH)
+  - [修复] 多语言 `Razor` 视图变量多语言乱码问题 [#I3CBMU](https://gitee.com/dotnetchina/Furion/issues/I3CBMU)
+
+- **其他更改**
+
+  - [优化] 默认序列化提供器 `System.Text.Json` 反序列化字符串时区分大小写问题 [#I3BSXV](https://gitee.com/dotnetchina/Furion/issues/I3BSXV)
+  - [优化] 优化 `MessageCenter` 性能问题 [#I39PRR](https://gitee.com/dotnetchina/Furion/issues/I39PRR)
+  - [优化] 数据库上下文池小性能优化
+
+- **文档变化**
+
+  - [新增] `Docker` 环境下自动化部署 [#PR209](https://gitee.com/dotnetchina/Furion/pulls/209)
+  - [新增] `JSON` 序列化 文档 [#I3B6D8](https://gitee.com/dotnetchina/Furion/issues/I3B6D8)
+  - [更新] 跨域、安全授权、即时通信文档、多语言、规范化文档
+
+- **问答答疑**
+
+  - [答疑] `Furion.Extras.DatabaseAccessor.SqlSugar` 配置多个数据库打印 SQL 语句问题 [#I39PDC](https://gitee.com/dotnetchina/Furion/issues/I39PDC)
+  - [答疑] `ORACLE` 数据库多租户模式下返回值为指定类型时系统卡死 [#I39RNH](https://gitee.com/dotnetchina/Furion/issues/I39RNH)
+  - [答疑] 假删除指向异常 [#I39XZA](https://gitee.com/dotnetchina/Furion/issues/I39XZA)
+  - [答疑] `Furion` 多语言配置节是放在 `AppSettings` 里面还是外面呢？ [#I3A4SB](https://gitee.com/dotnetchina/Furion/issues/I3A4SB)
+  - [答疑] 没找到数据库上下文 [#I3A5HS](https://gitee.com/dotnetchina/Furion/issues/I3A5HS)
+  - [答疑] 有 `QQ` 交流群吗？ [#I3AAM7](https://gitee.com/dotnetchina/Furion/issues/I3AAM7)
+  - [答疑] `Vue3` 环境下配置 `SignalR` 跨域出错 [#I3ALQ7](https://gitee.com/dotnetchina/Furion/issues/I3ALQ7)
+  - [答疑] 设置 `Swagger` 参数非必填 [#I3AT02](https://gitee.com/dotnetchina/Furion/issues/I3AT02)
+  - [答疑] EFCore 调用 Insert 时报 `Unknown column 'Discriminator' in 'field list'` 异常 [#I3B2LC](https://gitee.com/dotnetchina/Furion/issues/I3B2LC)
+  - [答疑] 逆向 `mysql` 数据库时 `cli` 出现错误 [#I3B64F](https://gitee.com/dotnetchina/Furion/issues/I3B64F)
+  - [答疑] Sql 高级代理使用过程中 DateTime 类型的参数序列化失败 [#I3AZXK](https://gitee.com/dotnetchina/Furion/issues/I3AZXK)
+  - [答疑] 使用 Mysql 执行 Add-Migration 报错 [#I3B8EW](https://gitee.com/dotnetchina/Furion/issues/I3B8EW)
+  - [答疑] Saas 多租户模式-独立 Database 模式下无法获取 Tenant, 导致无法自动切换的问题[#I3AVXU](https://gitee.com/dotnetchina/Furion/issues/I3AVXU)
+  - [答疑] 如何自定义 WebAPI 统一结果模型 [#I3BBYW](https://gitee.com/dotnetchina/Furion/issues/I3BBYW) [#I3BBYV](https://gitee.com/dotnetchina/Furion/issues/I3BBYV)
+  - [答疑] 在 `Web.Entry` 项目新建了一个 `Controller`，多了未知方法 [#I3BKH5](https://gitee.com/dotnetchina/Furion/issues/I3BKH5)
+  - [答疑] `AOP` 拦截如何解析服务 [#I3BUM3](https://gitee.com/dotnetchina/Furion/issues/I3BUM3)
+  - [答疑] 动态 WebAPI 返回参数被省略 [#I3C2XR](https://gitee.com/dotnetchina/Furion/issues/I3C2XR)
+  - [答疑] 如何设置某一个接口响应数据不自动转小写，按原始字段名返回 [#I38L9B](https://gitee.com/dotnetchina/Furion/issues/I38L9B)
+  - [答疑] code first 如何配置自动迁移 [#I3CCR0](https://gitee.com/dotnetchina/Furion/issues/I3CCR0)
+  - [答疑] webapi 混合授权如何区分不同系统 [#I3CJCY](https://gitee.com/dotnetchina/Furion/issues/I3CJCY)
+  - [答疑] EFCore 不支持递归无限级遍历关系 [#I3CET9](https://gitee.com/dotnetchina/Furion/issues/I3CET9)
+
+- **不做实现**
+
+  - [废弃] 建议 `EFCore` 可配置外键关系导航问题 [#I3994X](https://gitee.com/dotnetchina/Furion/issues/I3994X)
+  - [废弃] 建议将 `EFCore` 剥离出来，作为插件的形式提供。这样可以选择自己喜欢的 `ORM` [#I3ABNX](https://gitee.com/dotnetchina/Furion/issues/I3ABNX)
+  - [废弃] 事件总线能否提供返回值 [#I3AWL6](https://gitee.com/dotnetchina/Furion/issues/I3AWL6)
+  - [废弃] Sql 模板能仿照 Mybatis 一样加各种标签吗？[#I3ASRS](https://gitee.com/dotnetchina/Furion/issues/I3ASRS)
+  - [废弃] EFCore 更新或排除更新指定列支持传入 DTO 模型 [#I3AS5K](https://gitee.com/dotnetchina/Furion/issues/I3AS5K)
+  - [废弃] 新增 `UnitOfWork` 事务完成事件 [#I3BRMI](https://gitee.com/dotnetchina/Furion/issues/I3BRMI)
+
+---
+
+## v1.15.0 （已发布）
 
 - **新特性**
 

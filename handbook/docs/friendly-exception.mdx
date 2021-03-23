@@ -619,7 +619,7 @@ namespace Furion.UnifyResult
                         Errors = "401 Unauthorized",
                         Extras = UnifyContext.Take(),
                         Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-                    }, JsonSerializerUtility.GetDefaultJsonSerializerOptions());
+                    });
                     break;
                 // 处理 403 状态码
                 case StatusCodes.Status403Forbidden:
@@ -631,7 +631,7 @@ namespace Furion.UnifyResult
                         Errors = "403 Forbidden",
                         Extras = UnifyContext.Take(),
                         Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-                    }, JsonSerializerUtility.GetDefaultJsonSerializerOptions());
+                    });
                     break;
 
                 default:
