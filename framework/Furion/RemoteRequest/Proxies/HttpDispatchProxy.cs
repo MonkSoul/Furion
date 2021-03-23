@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Furion.RemoteRequest
 {
     /// <summary>
-    /// 远程请求实现类
+    /// 远程请求实现类（以下代码还需进一步优化性能，启动时把所有扫描缓存起来）
     /// </summary>
     [SkipScan]
     public class HttpDispatchProxy : AspectDispatchProxy, IDispatchProxy
@@ -35,10 +35,7 @@ namespace Furion.RemoteRequest
         /// <param name="method"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public override object Invoke(MethodInfo method, object[] args)
-        {
-            throw new NotSupportedException("Please use asynchronous operation mode.");
-        }
+        public override object Invoke(MethodInfo method, object[] args) => throw new NotSupportedException("Please use asynchronous operation mode.");
 
         /// <summary>
         /// 拦截异步无返回方法
@@ -232,36 +229,39 @@ namespace Furion.RemoteRequest
         /// <param name="declareType"></param>
         private static void CallGlobalInterceptors(HttpClientPart httpClientPart, Type declareType)
         {
-            // 加载请求拦截
-            var onRequestingMethod = declareType.GetMethod(nameof(httpClientPart.OnRequesting));
-            if (onRequestingMethod != null)
-            {
-                var onRequesting = (Action<HttpRequestMessage>)Delegate.CreateDelegate(typeof(Action<HttpRequestMessage>), onRequestingMethod);
-                httpClientPart.OnRequesting(onRequesting);
-            }
+            // 获取所有静态方法且贴有 [Interceptor] 特性
+            var interceptorMethods = declareType.GetMethods(BindingFlags.Static)
+                                                        .Where(u => u.IsDefined(typeof(InterceptorAttribute), true));
 
-            // 加载响应拦截
-            var OnResponsingMethod = declareType.GetMethod(nameof(httpClientPart.OnResponsing));
-            if (OnResponsingMethod != null)
+            foreach (var method in interceptorMethods)
             {
-                var onResponsing = (Action<HttpResponseMessage>)Delegate.CreateDelegate(typeof(Action<HttpResponseMessage>), OnResponsingMethod);
-                httpClientPart.OnResponsing(onResponsing);
-            }
+                // 获取拦截器类型
+                var interceptor = method.GetCustomAttribute<InterceptorAttribute>();
+                switch (interceptor.Type)
+                {
+                    // 加载请求拦截
+                    case InterceptorTypes.Request:
+                        var onRequesting = (Action<HttpRequestMessage>)Delegate.CreateDelegate(typeof(Action<HttpRequestMessage>), method);
+                        httpClientPart.OnRequesting(onRequesting);
+                        break;
+                    // 加载响应拦截
+                    case InterceptorTypes.Response:
+                        var onResponsing = (Action<HttpResponseMessage>)Delegate.CreateDelegate(typeof(Action<HttpResponseMessage>), method);
+                        httpClientPart.OnResponsing(onResponsing);
+                        break;
+                    // 加载 Client 配置拦截
+                    case InterceptorTypes.HttpClient:
+                        var onClientCreating = (Action<HttpClient>)Delegate.CreateDelegate(typeof(Action<HttpClient>), method);
+                        httpClientPart.OnClientCreating(onClientCreating);
+                        break;
+                    // 加载异常拦截
+                    case InterceptorTypes.Exception:
+                        var onException = (Action<HttpResponseMessage, string>)Delegate.CreateDelegate(typeof(Action<HttpResponseMessage, string>), method);
+                        httpClientPart.OnException(onException);
+                        break;
 
-            // 加载 Client 配置拦截
-            var onClientCreatingMethod = declareType.GetMethod(nameof(httpClientPart.OnClientCreating));
-            if (onClientCreatingMethod != null)
-            {
-                var onClientCreating = (Action<HttpClient>)Delegate.CreateDelegate(typeof(Action<HttpClient>), onClientCreatingMethod);
-                httpClientPart.OnClientCreating(onClientCreating);
-            }
-
-            // 加载异常拦截
-            var onExceptionMethod = declareType.GetMethod(nameof(httpClientPart.OnException));
-            if (onExceptionMethod != null)
-            {
-                var onException = (Action<HttpResponseMessage, string>)Delegate.CreateDelegate(typeof(Action<HttpResponseMessage, string>), onExceptionMethod);
-                httpClientPart.OnException(onException);
+                    default: break;
+                }
             }
         }
 
