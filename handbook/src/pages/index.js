@@ -13,6 +13,7 @@ import components from "@theme/MDXComponents";
 import "./index.css";
 import "./index.own.css";
 import contributors from "../data/contributors";
+import urls from "../data/urls";
 
 function Home() {
   const context = useDocusaurusContext();
@@ -131,7 +132,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>3500</div>
+            <div style={{ color: "#723cff" }}>3550</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
@@ -155,7 +156,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>113,188</div>
+            <div style={{ color: "#1fd898" }}>113,208</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -300,78 +301,11 @@ function Links() {
         它们一样是优秀的项目/网站
       </h1>
       <div className="furion-links-content">
-        <a href="https://www.oschina.net/" target="_blank">
-          开源中国
-        </a>
-        <a href="https://gitee.com/" target="_blank">
-          Gitee
-        </a>
-        <a href="https://gitee.com/dotnetchina" target="_blank">
-          dotNET China
-        </a>
-        <a href="https://github.com/sunkaixuan/SqlSugar" target="_blank">
-          SqlSugar
-        </a>
-        <a href="http://www.thinkphp.cn/" target="_blank">
-          ThinkPHP
-        </a>
-        <a href="https://hutool.cn/" target="_blank">
-          Hutool
-        </a>
-        <a href="https://gitee.com/tywo45/t-io" target="_blank">
-          t-io
-        </a>
-        <a
-          href="https://gitee.com/LongbowEnterprise/BootstrapBlazor"
-          target="_blank"
-        >
-          BootstrapBlazor
-        </a>
-        <a
-          href="https://gitee.com/LongbowEnterprise/BootstrapAdmin"
-          target="_blank"
-        >
-          BootstrapAdmin
-        </a>
-        <a href="https://gitee.com/monksoul/LayX" target="_blank">
-          Layx
-        </a>
-        <a href="https://gitee.com/IoTSharp/IoTSharp" target="_blank">
-          IoTSharp
-        </a>
-        <a href="https://www.eova.cn/" target="_blank">
-          Eova
-        </a>
-        <a href="http://www.pearadmin.com/" target="_blank">
-          PearAdmin
-        </a>
-        <a href="https://github.com/mengshukeji/Luckysheet" target="_blank">
-          Luckysheet
-        </a>
-        <a href="https://blog.lindexi.com/" target="_blank">
-          林德熙博客
-        </a>
-        <a href="http://www.easyson.com.cn" target="_blank">
-          易胜科技
-        </a>
-        <a href="https://gitee.com/pig0224/ExamKing" target="_blank">
-          考试君
-        </a>
-        <a href="https://gitee.com/veal98/Echo" target="_blank">
-          Echo
-        </a>
-        <a href="https://gitee.com/opencc/ccflow" target="_blank">
-          驰骋工作流
-        </a>
-        <a href="https://gitee.com/dotnetchina/weaving-socket" target="_blank">
-          weaving-socket
-        </a>
-        <a
-          href="https://gitee.com/dotnetchina/SiMayRemoteMonitorOS"
-          target="_blank"
-        >
-          SiMayRemoteMonitorOS
-        </a>
+        {urls.map((item) => (
+          <a href={item.url} target="_blank" title={item.title}>
+            {item.text}
+          </a>
+        ))}
       </div>
     </div>
   );
