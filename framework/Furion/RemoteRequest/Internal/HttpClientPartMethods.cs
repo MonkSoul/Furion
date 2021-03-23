@@ -18,6 +18,11 @@ namespace Furion.RemoteRequest
     public sealed partial class HttpClientPart
     {
         /// <summary>
+        /// MiniProfiler 分类名
+        /// </summary>
+        private const string MiniProfilerCategory = "httpclient";
+
+        /// <summary>
         /// 发送 GET 请求返回 T 对象
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -256,10 +261,10 @@ namespace Furion.RemoteRequest
             // 检查请求地址
             if (string.IsNullOrEmpty(RequestUrl)) throw new NullReferenceException(RequestUrl);
 
-            var finalRequestUrl = RequestUrl;
-
             // 处理模板问题
             ReplaceRequestUrlTemplates();
+
+            var finalRequestUrl = RequestUrl;
 
             // 拼接查询参数
             if (Queries != null && Queries.Count > 0)
@@ -313,12 +318,18 @@ namespace Furion.RemoteRequest
                 u?.Invoke(httpClient);
             });
 
+            // 打印发送请求
+            App.PrintToMiniProfiler(MiniProfilerCategory, "Sending", $"[{Method}] {finalRequestUrl}");
+
             // 发送请求
             var response = await httpClient.SendAsync(request, cancellationToken);
 
             // 请求成功
             if (response.IsSuccessStatusCode)
             {
+                // 打印成功请求
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Succeeded", $"[StatusCode: {response.StatusCode}] Succeeded");
+
                 // 调用成功拦截器
                 ResponseInterceptors.ForEach(u =>
                 {
@@ -330,6 +341,9 @@ namespace Furion.RemoteRequest
             {
                 // 读取错误消息
                 var errors = await response.Content.ReadAsStringAsync(cancellationToken);
+
+                // 打印失败请求
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", $"[StatusCode: {response.StatusCode}] {errors}", true);
 
                 // 抛出异常
                 if (ExceptionInterceptors == null || ExceptionInterceptors.Count == 0) throw new HttpRequestException(errors);

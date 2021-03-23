@@ -22,9 +22,6 @@ namespace Furion.Web.Core
 
             // 添加实时通讯
             services.AddSignalR();
-
-            // 添加远程请求
-            services.AddRemoteRequest();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
