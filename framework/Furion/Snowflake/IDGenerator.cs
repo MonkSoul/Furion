@@ -1,9 +1,12 @@
-﻿namespace Furion.Snowflake
+﻿using Furion.DependencyInjection;
+
+namespace Furion.Snowflake
 {
     /// <summary>
     /// 雪花 ID 生成器静态类
     /// </summary>
-    public class IDGenerator
+    [SkipScan]
+    public static class IDGenerator
     {
         /// <summary>
         /// 私有化实例
