@@ -129,11 +129,11 @@ namespace Furion.RemoteRequest
         private static void SetClient(MethodInfo method, HttpClientPart httpClientPart, Type declaringType)
         {
             // 设置 Client 名称，判断方法是否定义，如果没有再查找声明类
-            var clientAttribute = method.IsDefined(typeof(HttpClientAttribute), true)
-                ? method.GetCustomAttribute<HttpClientAttribute>(true)
+            var clientAttribute = method.IsDefined(typeof(ClientAttribute), true)
+                ? method.GetCustomAttribute<ClientAttribute>(true)
                 : (
-                    declaringType.IsDefined(typeof(HttpClientAttribute), true)
-                    ? declaringType.GetCustomAttribute<HttpClientAttribute>(true)
+                    declaringType.IsDefined(typeof(ClientAttribute), true)
+                    ? declaringType.GetCustomAttribute<ClientAttribute>(true)
                     : default
                 );
             if (clientAttribute != null) httpClientPart.SetClient(clientAttribute.Name);
@@ -148,11 +148,11 @@ namespace Furion.RemoteRequest
         {
             // 配置 Url 地址参数
             var queryParameters = parameters.Where(u => u.Parameter.IsDefined(typeof(QueryStringAttribute), true));
-            var parameterQueries = new Dictionary<string, string>();
+            var parameterQueries = new Dictionary<string, object>();
             foreach (var item in queryParameters)
             {
                 var queryStringAttribute = item.Parameter.GetCustomAttribute<QueryStringAttribute>();
-                if (item.Value != null) parameterQueries.Add(queryStringAttribute.Alias ?? item.Name, item.Value.ToString());
+                if (item.Value != null) parameterQueries.Add(queryStringAttribute.Alias ?? item.Name, item.Value);
             }
             httpClientPart.SetQueries(parameterQueries);
         }
@@ -250,7 +250,7 @@ namespace Furion.RemoteRequest
                         httpClientPart.OnResponsing(onResponsing);
                         break;
                     // 加载 Client 配置拦截
-                    case InterceptorTypes.HttpClient:
+                    case InterceptorTypes.Client:
                         var onClientCreating = (Action<HttpClient>)Delegate.CreateDelegate(typeof(Action<HttpClient>), method);
                         httpClientPart.OnClientCreating(onClientCreating);
                         break;
@@ -295,7 +295,7 @@ namespace Furion.RemoteRequest
                         }
                         break;
                     // 加载 Client 配置拦截
-                    case InterceptorTypes.HttpClient:
+                    case InterceptorTypes.Client:
                         if (item.Value is Action<HttpClient> onClientCreating)
                         {
                             httpClientPart.OnClientCreating(onClientCreating);
@@ -335,11 +335,11 @@ namespace Furion.RemoteRequest
 
             // 获取参数请求报文头
             var headerParameters = parameters.Where(u => u.Parameter.IsDefined(typeof(HeadersAttribute), true));
-            var parameterHeaders = new Dictionary<string, string>();
+            var parameterHeaders = new Dictionary<string, object>();
             foreach (var item in headerParameters)
             {
                 var headersAttribute = item.Parameter.GetCustomAttribute<HeadersAttribute>(true);
-                if (item.Value != null) parameterHeaders.Add(headersAttribute.Key ?? item.Name, item.Value.ToString());
+                if (item.Value != null) parameterHeaders.Add(headersAttribute.Key ?? item.Name, item.Value);
             }
 
             // 合并所有请求报文头

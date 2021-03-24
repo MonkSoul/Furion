@@ -218,11 +218,20 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public async Task<T> SendAsAsync<T>(CancellationToken cancellationToken = default)
         {
+            // 如果 T 是 HttpRequestMessage 类型，则返回
+            if (typeof(T) == typeof(HttpRequestMessage))
+            {
+                var httpResponseMessage = await SendAsync(cancellationToken);
+                return (T)(object)httpResponseMessage;
+            }
+
             // 解析 Json 序列化提供器
             var jsonSerializer = App.GetService(JsonSerialization.ProviderType ?? typeof(SystemTextJsonSerializerProvider)) as IJsonSerializerProvider;
 
             // 读取流内容并转换成字符串
             var stream = await SendAsStreamAsync(cancellationToken);
+
+            // 如果 T 是 Stream 类型，则返回
             if (typeof(T) == typeof(Stream)) return (T)(object)stream;
 
             using var streamReader = new StreamReader(stream);
@@ -271,7 +280,7 @@ namespace Furion.RemoteRequest
             // 拼接查询参数
             if (Queries != null && Queries.Count > 0)
             {
-                var urlParameters = Queries.Select(u => u.Key + "=" + u.Value);
+                var urlParameters = Queries.Where(u => u.Value != null).Select(u => $"{u.Key}={u.Value}");
                 finalRequestUrl += $"?{string.Join("&", urlParameters)}";
             }
 
@@ -283,7 +292,7 @@ namespace Furion.RemoteRequest
             {
                 foreach (var header in Headers)
                 {
-                    request.Headers.Add(header.Key, header.Value);
+                    if (header.Value != null) request.Headers.Add(header.Key, header.Value.ToString());
                 }
             }
 
@@ -387,8 +396,14 @@ namespace Furion.RemoteRequest
                     break;
 
                 case "application/x-www-form-urlencoded":
+                    Dictionary<string, string> keyValues = null;
+
+                    // 处理各种情况
+                    if (Body is Dictionary<string, string> dic) keyValues = dic;
+                    else if (Body is Dictionary<string, object> dicObj) keyValues = dicObj.ToDictionary(u => u.Key, u => u.Value?.ToString());
+                    else Body.ToDictionary<string>();
+
                     // 解析字典
-                    var keyValues = Body is Dictionary<string, string> dic ? dic : Body.ToDictionary<string>();
                     if (keyValues == null || keyValues.Count == 0) return;
 
                     httpContent = new FormUrlEncodedContent(keyValues);

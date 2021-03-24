@@ -39,7 +39,7 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 内容类型
         /// </summary>
-        public string ContentType { get; set; } = "application/*+json";
+        public string ContentType { get; set; } = "application/json";
 
         /// <summary>
         /// 内容编码

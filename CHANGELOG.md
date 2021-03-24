@@ -14,6 +14,8 @@
 
 - **文档变化**
 
+  - [调整] 远程请求文档 [#I3CPJO](https://gitee.com/dotnetchina/Furion/issues/I3CPJO)
+
 - **问答答疑**
 
   - [答疑] `LinqExpression.And` 没有 2 个参数的方法 [#I3CXKZ](https://gitee.com/dotnetchina/Furion/issues/I3CXKZ)

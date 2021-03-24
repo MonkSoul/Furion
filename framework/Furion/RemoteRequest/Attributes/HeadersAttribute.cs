@@ -14,7 +14,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        public HeadersAttribute(string key, string value)
+        public HeadersAttribute(string key, object value)
         {
             Key = key;
             Value = value;
@@ -46,6 +46,6 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 值
         /// </summary>
-        public string Value { get; set; }
+        public object Value { get; set; }
     }
 }

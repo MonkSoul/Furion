@@ -7,13 +7,13 @@ namespace Furion.RemoteRequest
     /// 配置请求客户端
     /// </summary>
     [SkipScan, AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class HttpClientAttribute : Attribute
+    public class ClientAttribute : Attribute
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="name"></param>
-        public HttpClientAttribute(string name)
+        public ClientAttribute(string name)
         {
             Name = name;
         }

@@ -65,10 +65,11 @@ namespace Furion.Extensions
         /// <summary>
         /// 合并两个字典
         /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="dic">字典</param>
         /// <param name="newDic">新字典</param>
         /// <returns></returns>
-        internal static Dictionary<string, string> AddOrUpdate(this Dictionary<string, string> dic, Dictionary<string, string> newDic)
+        internal static Dictionary<string, T> AddOrUpdate<T>(this Dictionary<string, T> dic, Dictionary<string, T> newDic)
         {
             foreach (var key in newDic.Keys)
             {

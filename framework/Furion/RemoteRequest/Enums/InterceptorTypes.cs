@@ -13,7 +13,7 @@ namespace Furion.RemoteRequest
         /// HttpClient 拦截
         /// </summary>
         [Description("HttpClient 拦截")]
-        HttpClient,
+        Client,
 
         /// <summary>
         /// HttpRequestMessage 拦截

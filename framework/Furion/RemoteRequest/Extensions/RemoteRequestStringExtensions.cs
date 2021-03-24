@@ -55,7 +55,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="headers"></param>
         /// <returns></returns>
-        public static HttpClientPart SetHeaders(this string requestUrl, Dictionary<string, string> headers)
+        public static HttpClientPart SetHeaders(this string requestUrl, Dictionary<string, object> headers)
         {
             return new HttpClientPart().SetRequestUrl(requestUrl).SetHeaders(headers);
         }
@@ -77,7 +77,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="queries"></param>
         /// <returns></returns>
-        public static HttpClientPart SetQueries(this string requestUrl, Dictionary<string, string> queries)
+        public static HttpClientPart SetQueries(this string requestUrl, Dictionary<string, object> queries)
         {
             return new HttpClientPart().SetRequestUrl(requestUrl).SetQueries(queries);
         }
@@ -125,7 +125,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="contentType"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static HttpClientPart SetBody(this string requestUrl, Dictionary<string, string> body, string contentType = default, Encoding encoding = default)
+        public static HttpClientPart SetBody(this string requestUrl, Dictionary<string, object> body, string contentType = default, Encoding encoding = default)
         {
             return new HttpClientPart().SetRequestUrl(requestUrl).SetBody(body, contentType, encoding);
         }

@@ -29,12 +29,12 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 请求报文头
         /// </summary>
-        public Dictionary<string, string> Headers { get; private set; }
+        public Dictionary<string, object> Headers { get; private set; }
 
         /// <summary>
         /// 查询参数
         /// </summary>
-        public Dictionary<string, string> Queries { get; private set; }
+        public Dictionary<string, object> Queries { get; private set; }
 
         /// <summary>
         /// 客户端名称
@@ -49,7 +49,7 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 请求报文 Body 内容类型
         /// </summary>
-        public string ContentType { get; private set; } = "application/*+json";
+        public string ContentType { get; private set; } = "application/json";
 
         /// <summary>
         /// 内容编码

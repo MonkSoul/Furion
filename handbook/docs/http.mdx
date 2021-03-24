@@ -4,15 +4,12 @@ title: 19. 远程请求
 sidebar_label: 19. 远程请求 (HttpClient)
 ---
 
-:::warning 重要声明
-
-以下内容在 `Furion 1.16.0 +` 版本中已被重写。目前新版文档将在 2021 年 03 月 24 日上线。想尝鲜的可以[查看相关 Issue](https://gitee.com/dotnetchina/Furion/issues/I2LB7M)
-
-:::
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 ## 19.1 关于远程请求
 
-在互联网大数据的驱动下，平台或系统免不了需要和第三方进行数据交互，而第三方往往提供了 `RESTful API` 结果规范，这个时候就需要通过 `Http` 请求第三方接口进行数据传输交互。
+在互联网大数据的驱动下，平台或系统免不了需要和第三方进行数据交互，而第三方往往提供了 `RESTful API` 接口规范，这个时候就需要通过 `Http` 请求第三方接口进行数据传输交互。
 
 也就是本章节所说的远程请求。
 
@@ -37,16 +34,42 @@ public void ConfigureServices(IServiceCollection services)
 
 ### 19.3.2 使用方式
 
-- `IHttpDispatchProxy` 代理方式
+`Furion` 提供两种方式访问发送远程请求。
+
+<Tabs
+  defaultValue="IHttpDispatchProxy 代理方式"
+  values={[
+    {
+      label: "IHttpDispatchProxy 代理方式",
+      value: "IHttpDispatchProxy 代理方式",
+    },
+    { label: "字符串拓展方式", value: "字符串拓展方式" },
+  ]}
+>
+  <TabItem value="IHttpDispatchProxy 代理方式">
 
 定义代理请求的 `接口` 并继承 `IHttpDispatchProxy` 接口
 
-```cs {2}
-[Host("http://47.100.247.61/", 5000)]
+```cs {1,3,6,9,12,15,18}
 public interface IHttp : IHttpDispatchProxy
 {
-    [Get("api/sysdata/categories")]
-    Task<RESTfulResult<List<Data>>> GetCategoryAsync();
+    [Get("https://www.furion.pro/get")]
+    Task<Result> GetXXXAsync();
+
+    [Post("https://www.furion.pro/post")]
+    Task<Result> PostXXXAsync();
+
+    [Put("https://www.furion.pro/put")]
+    Task<Result> PutXXXAsync();
+
+    [Delete("https://www.furion.pro/delete")]
+    Task<Result> DeleteXXXAsync();
+
+    [Patch("https://www.furion.pro/patch")]
+    Task<Result> PatchXXXAsync();
+
+    [Head("https://www.furion.pro/head")]
+    Task<Result> HeadXXXAsync();
 }
 ```
 
@@ -68,325 +91,582 @@ namespace Furion.Application
 
         public async Task GetData()
         {
-            var data = await _http.GetCategoryAsync();
+            var data = await _http.GetXXXAsync();
         }
     }
 }
 ```
 
-- 字符串方式
+  </TabItem>
+  <TabItem value="字符串拓展方式">
 
 ```cs
-var data = await "http://47.100.247.61/api/sysdata/categories".GetAsAsync<object>();
+var response = await "https://www.furion.pro/get".GetAsync();
+
+var response = await "https://www.furion.pro/post".PostAsync();
+
+var response = await "https://www.furion.pro/put".PutAsync();
+
+var response = await "https://www.furion.pro/delete".DeleteAsync();
+
+var response = await "https://www.furion.pro/patch".PatchAsync();
+
+var response = await "https://www.furion.pro/head".HeadAsync();
 ```
 
-## 19.4 使用示例
+需引入 `using Furion.RemoteRequest` 命名空间。
 
-### 19.4.1 字符串方式
+  </TabItem>
+</Tabs>
 
-- `[METHOD]Async/[METHOD]AsAsync` 方式
+## 19.4 字符串方式使用示例
+
+### 19.4.1 内置请求方式
 
 ```cs
-// ============ GET 请求 ============
+// 发送 Get 请求
+var response = await "https://www.furion.pro/get".GetAsync();
 
-// 返回 HttpResponseMessage 对象
-var response = await "https://www.furion.pro/data".GetAsync();
+// 发送 Post 请求
+var response = await "https://www.furion.pro/post".PostAsync();
 
-// 返回特定类型对象
-var data = await "http://47.100.247.61/api/sysdata/categories".GetAsAsync<object>();
+// 发送 Put 请求
+var response = await "https://www.furion.pro/put".PutAsync();
 
-// 设置请求报文头
-var data = await "http://47.100.247.61/api/sysdata/categories".GetAsAsync<object>(headers: new Dictionary<string, string>{
-    {"ipaddress", "127.0.0.1"}
-});
+// 发送 Delete 请求
+var response = await "https://www.furion.pro/delete".DeleteAsync();
 
-// 设置请求拦截
-var data = await "http://47.100.247.61/api/sysdata/categories".GetAsAsync<object>(requestInterceptor: request=>{
-    request.Headers.Add("Authorization","Bearer token字符串");
-});
+// 发送 Patch 请求
+var response = await "https://www.furion.pro/patch".PatchAsync();
 
-// 设置HttpClient拦截
-var data = await "http://47.100.247.61/api/sysdata/categories".GetAsAsync<object>(httpClientInterceptor: httpClient=>{
-});
+// 发送 Head 请求
+var response = await "https://www.furion.pro/head".HeadAsync();
 
-// ============ HEAD 请求 ============
-
-// 同上
-
-// ============ POST 请求 ============
-
-// 返回 HttpResponseMessage 对象
-var response = await "https://www.furion.pro/data".PostAsync(new { parm1="", parm2="" });
-
-// 返回特定类型对象
-var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<object>(new { parm1="", parm2="" });
-
-// 设置请求报文头
-var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<object>(new { parm1="", parm2="" }, headers: new Dictionary<string, string>{
-    {"ipaddress", "127.0.0.1"}
-});
-
-// 设置请求拦截
-var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<object>(new { parm1="", parm2="" }, requestInterceptor: request=>{
-    request.Headers.Add("Authorization","Bearer token字符串");
-});
-
-// 设置HttpClient拦截
-var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<object>(httpClientInterceptor: httpClient=>{
-});
-
-// ============ PUT 请求 ============
-
-// 同上
-
-// ============ PATCH 请求 ============
-
-// 同上
-
-// ============ DELETE 请求 ============
-
-// 同上
+// 手动指定发送特定请求
+var response = await "https://www.furion.pro/post".SetHttpMethod(HttpMethod.Post)
+                                                  .SendAsync();
 ```
 
-- `SendAsync/SendAsAsync` 方式
+### 19.4.2 设置请求地址
 
 ```cs
-// 返回 HttpResponseMessage 对象
-var response = await "https://www.furion.pro/data".SendAsync(HttpMethod.Get);
+await "".SetRequestUrl("https://www.furion.pro/");
+```
 
-// 返回特定类型对象
-var data = await "http://47.100.247.61/api/sysdata/categories".SendAsAsync<object>(HttpMethod.Get);
+### 19.4.3 设置请求方式
 
-// 设置请求报文头
-var data = await "http://47.100.247.61/api/sysdata/categories".SendAsAsync<object>(HttpMethod.Get, headers: new Dictionary<string, string>{
-    {"ipaddress", "127.0.0.1"}
+```cs
+await "https://www.furion.pro/post".SetHttpMethod(HttpMethod.Get);
+```
+
+### 19.4.4 设置地址模板
+
+```cs
+// 字典方式
+await "https://www.furion.pro/post/{id}?name={name}".SetTemplates(new Dictionary<string , object> {
+    { "id", 1 },
+    { "name", "Furion" }
 });
 
-// 设置请求拦截
-var data = await "http://47.100.247.61/api/sysdata/categories".SendAsAsync<object>(HttpMethod.Post, requestInterceptor: request=>{
-    request.Headers.Add("Authorization","Bearer token字符串");
-});
-
-// 设置HttpClient拦截
-var data = await "http://47.100.247.61/api/sysdata/categories".SendAsAsync<object>(httpClientInterceptor: httpClient=>{
+// 对象/匿名对象方式
+await "https://www.furion.pro/post/{id}?name={name}".SetTemplates(new {
+    id = 1,
+    name = "Furion"
 });
 ```
 
-### 19.4.2 代理方式
+**注：模板替换区分大小写。**
 
-- 通过 `特性` 方式配置
+### 19.4.5 设置请求报文头
 
-```cs {1-3,6,9,12,16,22}
-[Host("http://47.100.247.61/", 5000)]   // 配置主机端口
-[Header("Authorization", "Bearer 你的token")]   // 配置请求头
-[Header("ipaddress", "127.0.0.1")]  // 配置多个请求头
-public interface IHttp : IHttpDispatchProxy
+```cs
+// 字典方式
+await "https://www.furion.pro/post".SetHeaders(new Dictionary<string , object> {
+    { "Authorization", "Bearer 你的token"},
+    { "X-Authorization", "Bearer 你的刷新token"}
+});
+
+// 对象/匿名对象方式
+await "https://www.furion.pro/post".SetHeaders(new {
+    Authorization = "Bearer 你的token"
+});
+```
+
+### 19.4.6 设置 `URL` 地址参数
+
+```cs
+// 字典方式
+await "https://www.furion.pro/get".SetQueries(new Dictionary<string , object> {
+    { "id", 1 },
+    { "name", "Furion"}
+});
+
+// 对象/匿名对象方式
+await "https://www.furion.pro/get".SetQueries(new {
+    id = 1,
+    name = "Furion"
+});
+```
+
+最终输出格式为：`https://www.furion.pro/get?id=1&name=Furion`。
+
+### 19.4.7 设置请求客户端
+
+```cs {1,3-4}
+services.AddRemoteRequest(options=>
 {
-    [Get("api/sysdata/categories")]
-    Task<RESTfulResult<List<Data>>> GetCategory();
-
-    [Get("api/sysdata/{categoryid}/data")]
-    Task<RESTfulResult<List<Data2>>> GetData2(int categoryid);
-
-    [Post("api/user/modify")]
-    Task<RESTfulResult<object>> PostVoid(object value);
-
-    // 请求拦截器
-    static HttpRequestMessage RequestInterceptor(HttpRequestMessage httpRequest, MethodInfo method, object[] args)
+    // 配置 Github 基本信息
+    options.AddHttpClient("github", c =>
     {
-        return httpRequest;
-    }
+        c.BaseAddress = new Uri("https://api.github.com/");
+        c.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
+        c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
+    });
+});
 
-    // 响应拦截器
-    static HttpResponseMessage ResponseInterceptor(HttpResponseMessage httpResponse, MethodInfo method, object[] args)
-    {
-        return httpResponse;
-    }
-}
+await "get".SetClient("github");
 ```
 
-## 19.5 代理高级应用
+最终生成请求地址为：`https://api.github.com/get`。
 
-### 19.5.1 参数处理
-
-- `普通` 参数
+### 19.4.8 设置 `Body` 参数
 
 ```cs
-[Get("https://www.furion.pro/getdata/{id}?name={name}")]
-Task<Object> GetData(int id, string name);
+// 传入对象
+await "https://www.furion.pro/api/user/add".SetBody(new User { Id = 1, Name = "Furion" });
+
+// 配置 Content-Type
+await "https://www.furion.pro/api/user/add".SetBody(new { Id = 1, Name = "Furion" }, "application/json");
+
+// 设置 Encoding 编码
+await  "https://www.furion.pro/api/user/add".SetBody(new User { Id = 1, Name = "Furion" }, "application/json", Encoding.UTF8);
+
+// 处理 application/x-www-form-urlencoded 请求
+await "https://www.furion.pro/api/user/add".SetBody(new Dictionary<string , object> {
+    { "Id", 1 },
+    { "Name", "Furion"}
+}, "application/x-www-form-urlencoded");
 ```
 
-- `数组` 参数解构
+### 19.4.9 设置 `Content-Type`
 
 ```cs
-[Get("https://www.furion.pro/getdata/?{...ids}")]
-void DeleteIds(int[] ids);
+await "https://www.furion.pro/post".SetContentType("application/json");
 ```
 
-- `对象` 参数解构
+### 19.4.10 设置内容编码
 
 ```cs
-[Get("https://www.furion.pro/getdata/?{...user}")]
-void DeleteIds([Query]UserDto user);
+await "https://www.furion.pro/post".SetContentEncoding(Encoding.UTF8);
 ```
 
-- `对象` 参数
+### 19.4.11 设置 `JSON` 序列化提供程序
+
+`Furion` 默认情况下采用 `System.Text.Json` 进行 `JSON` 序列化处理，如需设置第三方 `JSON` 提供器，则可以通过以下配置：
 
 ```cs
-[Post("https://www.furion.pro/update-user")]
-void EditUser(UserDto user);
+// 泛型方式
+await "https://www.furion.pro/api/user/add".SetJsonSerialization<NewtonsoftJsonSerializerProvider>();
+
+// 非泛型方式
+await "https://www.furion.pro/api/user/add".SetJsonSerialization(typeof(NewtonsoftJsonSerializerProvider));
+
+// 添加更多配置
+await "https://www.furion.pro/api/user/add".SetJsonSerialization<NewtonsoftJsonSerializerProvider>(new JsonSerializerSettings {
+
+});
 ```
 
-对象类型参数默认以 `Body` 方式传递。
+:::important 关于 `JSON` 序列化提供器
 
-:::important 类对象解构说明
-
-默认情况下，执行 `Get/Head` 请求时不会处理 `类对象` 类型参数，但是如果贴了 `[Query]` 参数后，会自动将对象解析成 `url` 地址格式，如 `?name=百小僧&age=27`。
+如需了解更多 `JSON` 序列化知识可查阅 [23. JSON 序列化](json-serialization#2351-自定义序列化提供器) 章节
 
 :::
 
-### 19.5.2 参数验证
-
-代理拦截的方式也支持参数 `验证特性` 使用。如：
+### 19.4.12 启用 `Body` 参数验证
 
 ```cs
-[Get("https://www.furion.pro/getdata/{id}?name={name}")]
-Task<Object> GetData([Required, Range(1, 1000)] int id, [MaxLength(32)] string name);
+await "https://www.furion.pro/api/user/add".SetValidationState();
+
+// 设置不验证 null 值
+await "https://www.furion.pro/api/user/add".SetValidationState(includeNull: true);
 ```
 
-另外也支持 `类对象` 方式，如：
+支持类中 `[Required]` 等完整模型验证特性。
+
+### 19.4.13 请求拦截
 
 ```cs
-public class User
-{
-    [Required]  // 必填验证
-    [MinLength(4)]  // 最小长度验证
-    public string Account { get; set; }
-
-    [Required]    // 必填验证
-    [MaxLength(32)]    // 最大长度验证
-    public string Password { get; set; }
-}
+await "https://www.furion.pro/".OnRequesting(req => {
+    // req 为 HttpRequestMessage 对象
+});
 ```
+
+**支持多次拦截**
+
+### 19.4.14 `HttpClient` 拦截
 
 ```cs
-[Post("https://www.furion.pro/getdata/{id}?name={name}")]
-Task<Object> GetData(User user);
+await "https://www.furion.pro/".OnClientCreating(client => {
+    // client 为 HttpClient 对象
+});
 ```
 
-### 19.5.3 返回值处理
+**支持多次拦截**
 
-每一个请求谓词特性都提供了 `ResponseType` 属性，该属性用来配置返回值类型，默认是 `Object` 类型。`ResponseType` 属性可选配置如下：
+### 19.4.15 成功请求拦截
 
-- `ResponseType` 响应类型：
-  - `Object`：对象类型，默认值，也就是自动序列化成代理的方法返回值类型
-  - `Text`：字符串类型
-  - `Stream`：流类型，**返回该类型时，需在处理完之后释放流**
-  - `ByteArray`：字节数组类型
+```cs
+await "https://www.furion.pro/".OnResponsing(res => {
+    // res 为 HttpResponseMessage 对象
+});
+```
+
+**支持多次拦截**
+
+### 19.4.16 请求异常拦截
+
+```cs
+await "https://www.furion.pro/".OnException((res,errors) => {
+    // res 为 HttpResponseMessage 对象
+});
+```
+
+**支持多次拦截**
+
+### 19.4.17 各种返回值处理
+
+`Furion` 远程请求默认提供三种返回值类型：
+
+- `HttpResponseMessage`：请求响应消息类型
+- `Stream`：流类型
+- `T`：泛型 `T` 类型
 
 如：
 
 ```cs
-// 返回对象 T 类型
-[Get("https://www.furion.pro/getdata", ResponseType = ResponseType.Object)]
-Task<User> GetData();
+// HttpResponseMessage
+var res = await "https://www.furion.pro/".GetAsync();
 
-// 返回字符串类型，也可以使用 ResponseType.Object
-[Get("https://www.furion.pro/getdata", ResponseType = ResponseType.Text)]
-Task<string> GetData();
+// Stream
+var stream = await "https://www.furion.pro/".GetAsStreamAsync();
 
-// 返回流类型
-[Get("https://www.furion.pro/getdata", ResponseType = ResponseType.Stream)]
-Task<Stream> GetData();
-
-// 返回字节数组类型
-[Get("https://www.furion.pro/getdata", ResponseType = ResponseType.ByteArray)]
-Task<byte[]> GetData();
+// T
+var user = await "https://www.furion.pro/".GetAsAsync<User>();
 ```
 
-### 19.5.4 请求/响应拦截
+## 19.5 `IHttpDispatchProxy` 代理方式
 
-`Furion` 框架重复利用了 `C# 8.0+` 的特性，实现了接口中可定义静态方法和实现的机制，如：
+### 19.5.1 支持多种代理方式
 
-```cs {7,15}
+```cs
 public interface IHttp : IHttpDispatchProxy
 {
-    [Get("https://www.furion.pro/getdata", ResponseType = ResponseType.Object)]
-    Task<User> GetData();
+    // 发送 Get 请求
+    [Get("https://www.furion.pro/get")]
+    Task<HttpRequestMessage> GetXXXAsync();
 
-    // 请求拦截器
-    static HttpRequestMessage RequestInterceptor(HttpRequestMessage httpRequest, MethodInfo method, object[] args)
+    // 发送 Post 请求
+    [Post("https://www.furion.pro/post")]
+    Task<HttpRequestMessage> PostXXXAsync();
+
+    // 发送 Put 请求
+    [Put("https://www.furion.pro/put")]
+    Task<HttpRequestMessage> PutXXXAsync();
+
+    // 发送 Put 请求
+    [Delete("https://www.furion.pro/delete")]
+    Task<HttpRequestMessage> DeleteXXXAsync();
+
+    // 发送 Put 请求
+    [Patch("https://www.furion.pro/patch")]
+    Task<HttpRequestMessage> PatchXXXAsync();
+
+    // 发送 Head 请求
+    [Head("https://www.furion.pro/head")]
+    Task<HttpRequestMessage> HeadXXXAsync();
+}
+```
+
+### 19.5.2 设置地址模板
+
+```cs
+public interface IHttp : IHttpDispatchProxy
+{
+    [Get("https://www.furion.pro/get/{id}?name={name}")]
+    Task<HttpRequestMessage> GetXXXAsync(int id, string name);
+}
+```
+
+**注：模板替换区分大小写。**
+
+### 19.5.3 设置请求报文头
+
+`Furion` 框架远程请求代理模式提供三种方式设置请求报文头：
+
+- 支持在类中声明
+- 支持在方法中声明
+- 支持在参数中声明
+
+```cs {1-2,5,9,12}
+[Headers("key","value")]
+[Headers("key1","value2")] // 设置多个
+public interface IHttp : IHttpDispatchProxy
+{
+    [Get("https://www.furion.pro/get/{id}?name={name}"), Headers("key2","value2")]
+    Task<HttpRequestMessage> GetXXXAsync(int id, string name);
+
+    [Get("https://www.furion.pro")]
+    Task<HttpRequestMessage> GetXXX2Async(int id, [Headers]string token = default);
+
+    [Get("https://www.furion.pro")]
+    Task<HttpRequestMessage> GetXXX2Async(int id, string name, [Headers("别名")]string token = default);
+}
+```
+
+### 19.5.4 设置 `URL` 地址参数
+
+```cs {4,7}
+public interface IHttp : IHttpDispatchProxy
+{
+    [Get("https://www.furion.pro/get")]
+    Task<HttpRequestMessage> GetXXXAsync([QueryString]int id, [QueryString]string name);
+
+    [Get("https://www.furion.pro/get")]
+    Task<HttpRequestMessage> GetXXXAsync([QueryString]int id, [QueryString("别名")]string name);
+}
+```
+
+最终输出格式为：`https://www.furion.pro/get?id=1&name=Furion`。
+
+### 19.5.5 设置请求客户端
+
+```cs {1,3-4,14}
+services.AddRemoteRequest(options=>
+{
+    // 配置 Github 基本信息
+    options.AddHttpClient("github", c =>
     {
-        // 比如这里写日志
+        c.BaseAddress = new Uri("https://api.github.com/");
+        c.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
+        c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
+    });
+});
 
-        return httpRequest;
+public interface IHttp : IHttpDispatchProxy
+{
+    [Get("get"), Client("github")]
+    Task<HttpRequestMessage> GetXXXAsync();
+}
+```
+
+最终生成请求地址为：`https://api.github.com/get`。
+
+### 19.5.6 设置 `Body` 参数
+
+```cs {3,6,9}
+public interface IHttp : IHttpDispatchProxy
+{
+    [Post("https://www.furion.pro/post")]
+    Task<HttpRequestMessage> PostXXXAsync([Body]User user);
+
+    [Post("https://www.furion.pro/post")]
+    Task<HttpRequestMessage> PostXXXAsync([Body("application/x-www-form-urlencoded")]User user);
+
+    [Post("https://www.furion.pro/post")]
+    Task<HttpRequestMessage> PostXXXAsync([Body("application/x-www-form-urlencoded", "UTF-8")]User user);
+}
+```
+
+### 19.5.7 设置 `JSON` 序列化提供程序
+
+`Furion` 默认情况下采用 `System.Text.Json` 进行 `JSON` 序列化处理，如需设置第三方 `JSON` 提供器，则可以通过以下配置：
+
+```cs {3,6-7}
+public interface IHttp : IHttpDispatchProxy
+{
+    [Post("https://www.furion.pro/post"), JsonSerialization(typeof(NewtonsoftJsonSerializerProvider))]
+    Task<HttpRequestMessage> PostXXXAsync([Body]User user);
+
+    [Post("https://www.furion.pro/post"), JsonSerialization(typeof(NewtonsoftJsonSerializerProvider))]
+    Task<HttpRequestMessage> PostXXXAsync([Body]User user, [JsonSerializerOptions]object jsonSerializerOptions = default);
+}
+```
+
+`[JsonSerializerOptions]` 可以标记参数是一个 `JSON` 序列化配置参数。
+
+:::important 关于 `JSON` 序列化提供器
+
+如需了解更多 `JSON` 序列化知识可查阅 [23. JSON 序列化](json-serialization#2351-自定义序列化提供器) 章节
+
+:::
+
+### 19.5.8 参数验证
+
+```cs {4,7}
+public interface IHttp : IHttpDispatchProxy
+{
+    [Post("https://www.furion.pro/post")]
+    Task<HttpRequestMessage> PostXXXAsync([Range(1,10)]int id, [Required, MaxLength(10)]string name);
+
+    [Post("https://www.furion.pro/post")]
+    Task<HttpRequestMessage> PostXXXAsync([Required]User user);  // 对象类型支持属性配置特性验证
+}
+```
+
+### 19.5.9 请求拦截
+
+`Furion` 远程请求代理方式提供两种拦截方式：
+
+- 接口静态方法拦截
+- 参数标记拦截
+
+```cs {5,8,15}
+public interface IHttp : IHttpDispatchProxy
+{
+    // 通过参数拦截
+    [Post("https://www.furion.pro/post")]
+    Task<HttpRequestMessage> PostXXXAsync([Interceptor(InterceptorTypes.Request)] Action<HttpRequestMessage> action = default);
+
+    // 全局拦截，类中每一个方法都会触发
+    [Interceptor(InterceptorTypes.Request)]
+    static void OnRequesting1(HttpRequestMessage req)
+    {
+
     }
 
-    // 响应拦截器
-    static HttpResponseMessage ResponseInterceptor(HttpResponseMessage httpResponse, MethodInfo method, object[] args)
+    // 全局拦截，类中每一个方法都会触发
+    [Interceptor(InterceptorTypes.Request)]
+    static void OnRequesting2(HttpRequestMessage req)
     {
-        // 比如这里写日志
 
-        return httpResponse;
-    }
-
-    // HttpClient 拦截器
-    static HttpClient HttpClientInterceptor(HttpClient httpClient, MethodInfo method, object[] args)
-    {
-        // 比如这里设置代理
-
-        return httpClient;
     }
 }
 ```
 
-:::important 字符串方式拦截
+**支持多次拦截**
 
-字符串方式只提供了请求拦截，不提供响应拦截
+### 19.5.10 `HttpClient` 拦截
 
-```cs
-// 设置请求拦截
-var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<object>(new { parm1="", parm2="" }, requestInterceptor: request=>{
-    request.Headers.Add("Authorization","Bearer token字符串");
-});
+`Furion` 远程请求代理方式提供两种拦截方式：
 
-// 设置HttpClient拦截
-var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<object>(httpClientInterceptor: httpClient=>{
-});
+- 接口静态方法拦截
+- 参数标记拦截
+
+```cs {5,8,15}
+public interface IHttp : IHttpDispatchProxy
+{
+    // 通过参数拦截
+    [Post("https://www.furion.pro/post")]
+    Task<HttpRequestMessage> PostXXXAsync([Interceptor(InterceptorTypes.Client)] Action<HttpRequestMessage> action = default);
+
+    // 全局拦截，类中每一个方法都会触发
+    [Interceptor(InterceptorTypes.Client)]
+    static void onClientCreating1(HttpClient req)
+    {
+
+    }
+
+    // 全局拦截，类中每一个方法都会触发
+    [Interceptor(InterceptorTypes.Client)]
+    static void onClientCreating2(HttpClient req)
+    {
+
+    }
+}
 ```
 
-:::
+**支持多次拦截**
 
-### 19.5.5 `Body` 参数序列化问题
+### 19.5.11 成功请求拦截
 
-由于一些第三方接口不规范或对参数大小写敏感，这个时候我们可以配置特性的 `PropertyNamingPolicy` 属性，如：
+`Furion` 远程请求代理方式提供两种拦截方式：
 
-```cs
-[Post("https://www.furion.pro/getdata", PropertyNamingPolicy = JsonNamingPolicyOptions.Null)]
-Task<User> GetData();
+- 接口静态方法拦截
+- 参数标记拦截
+
+```cs {5,8,15}
+public interface IHttp : IHttpDispatchProxy
+{
+    // 通过参数拦截
+    [Post("https://www.furion.pro/post")]
+    Task<HttpRequestMessage> PostXXXAsync([Interceptor(InterceptorTypes.Response)] Action<HttpResponseMessage> action = default);
+
+    // 全局拦截，类中每一个方法都会触发
+    [Interceptor(InterceptorTypes.Response)]
+    static void OnResponsing1(HttpResponseMessage req)
+    {
+
+    }
+
+    // 全局拦截，类中每一个方法都会触发
+    [Interceptor(InterceptorTypes.Response)]
+    static void OnResponsing2(HttpResponseMessage req)
+    {
+
+    }
+}
 ```
 
-- `JsonNamingPolicyOptions` 可选值：
-  - `CamelCase`：默认，首字母小写属性名
-  - `Null`：保持原有属性名称定义规则
+**支持多次拦截**
 
-### 19.5.6 `Body` 内容配置
+### 19.5.12 请求异常拦截
 
-默认情况下，支持 `Body` 参数配置的请求都会序列化成 `Json` 内容配置，我们也可以通过 `HttpContentType` 属性指定，如：
+`Furion` 远程请求代理方式提供两种拦截方式：
 
-```cs
-[Post("https://www.furion.pro/getdata", HttpContentType  = HttpContentTypeOptions.JsonStringContent)]
-Task<User> GetData(User user);
+- 接口静态方法拦截
+- 参数标记拦截
+
+```cs {5,8,15}
+public interface IHttp : IHttpDispatchProxy
+{
+    // 通过参数拦截
+    [Post("https://www.furion.pro/post")]
+    Task<HttpRequestMessage> PostXXXAsync([Interceptor(InterceptorTypes.Exception)] Action<HttpResponseMessage, string> action = default);
+
+    // 全局拦截，类中每一个方法都会触发
+    [Interceptor(InterceptorTypes.Exception)]
+    static void OnException1(HttpResponseMessage req, string errors)
+    {
+
+    }
+
+    // 全局拦截，类中每一个方法都会触发
+    [Interceptor(InterceptorTypes.Exception)]
+    static void OnException2(HttpResponseMessage req, string errors)
+    {
+
+    }
+}
 ```
 
-- `HttpContentTypeOptions` 可选值：
-  - `StringContent`：字符串内容
-  - `JsonStringContent`：`Json` 字符串内容
-  - `XmlStringContent`：`Xml` 字符串内容
-  - `MultipartFormDataContent`：`multipart/form-data` 类型内容
-  - `FormUrlEncodedContent`：`x-www-form-urlencoded` 类型内容
+**支持多次拦截**
 
-### 19.5.7 多个请求客户端配置
+### 19.5.13 各种返回值处理
+
+`Furion` 远程请求默认提供三种返回值类型：
+
+- `HttpResponseMessage`：请求响应消息类型
+- `Stream`：流类型
+- `T`：泛型 `T` 类型
+
+如：
+
+```cs
+public interface IHttp : IHttpDispatchProxy
+{
+    [Post("https://www.furion.pro/post")]
+    Task<HttpRequestMessage> PostXXXAsync();
+
+    [Post("https://www.furion.pro/post")]
+    Task<Stream> PostXXXAsync();
+
+    [Post("https://www.furion.pro/post")]
+    Task<User> PostXXXAsync();
+}
+```
+
+## 19.6 多个请求客户端配置
 
 `Furion` 框架也提供了多个请求客户端配置，可以为多个客户端请求配置默认请求信息，如：
 
@@ -413,7 +693,7 @@ services.AddRemoteRequest(options=>
 
 **配置了命名客户端后，每次请求都会自动加上这些配置。**
 
-在 `代理请求` 使用
+- 在 `代理请求` 使用
 
 ```cs
 [Get("api/getdata"), Client("github")]
@@ -423,58 +703,18 @@ Task<User> GetData();
 Task<User> GetData();
 ```
 
-在 `字符串拓展` 使用
+- 在 `字符串拓展` 使用
 
 ```cs
 // 设置请求拦截
-var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<object>(new { parm1="", parm2="" }, clientName = "github");
+var response = await "http://47.100.247.61/api/sysdata/categories".SetClient("github").PostAsync();
 ```
-
-## 19.6 代理内置特性
-
-### 19.6.1 接口特性
-
-- `主机` 特性
-  - `[Host]`：配置主机地址和端口
-- `请求头` 特性
-  - `[Header]`：配置请求报文头，支持多个
-- `客户端` 特性
-  - `[Client]`：配置客户端
-
-接口的特性会影响所有的成员方法，也就是会应用到每一个方法中，当然方法可以重写或忽略。
-
-### 19.6.2 方法特性
-
-- `请求谓词` 特性
-  - `[Get]`：`Get` 请求方式
-  - `[Post]`：`Post` 请求方式
-  - `[Put]`：`Put` 请求方式
-  - `[Delete]`：`Delete` 请求方式
-  - `[Patch]`：`Patch` 请求方式
-  - `[Head]`：`Head` 请求方式
-- `主机` 特性
-  - `[Host]`：配置主机地址和端口
-- `请求头` 特性
-  - `[Header]`：配置请求报文头，支持多个
-- `客户端` 特性
-  - `[Client]`：配置客户端
-- `内容类型` 特性
-  - `[MediaTypeHeader]`：配置内容类型
-
-### 19.6.3 方法参数特性
-
-- `[Query]`：自动将参数替换地址中的占位符，占位符格式 `{参数名}`，如：`https://www.furion.pro/user/{id}`，默认基元类型或基元类型数组应用该特性
-- `[Body]`：自动将参数添加到请求报文体中，默认非基元类型会引用该特性。
 
 ## 19.7 关于同步请求
 
 `Furion` 框架内部默认不提供同步请求操作，建议总是使用异步的方式请求。如在不能使用异步的情况下，可自行转换为同步执行。
 
-## 19.8 异常处理
-
-默认情况下，如果接口请求异常会抛出请求异常，有时这不是我们想要的结果，我们希望如果接口请求异常，那么直接返回默认值即可，这时候我们只需要在接口或方法贴 `[Safety]` 特性即可。
-
-## 19.9 反馈与建议
+## 19.8 反馈与建议
 
 :::note 与我们交流
 
@@ -486,6 +726,6 @@ var data = await "http://47.100.247.61/api/sysdata/categories".PostAsAsync<objec
 
 :::note 了解更多
 
-想了解更多 `日志` 知识可查阅 [ASP.NET Core - HTTP 请求](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/http-requests?view=aspnetcore-5.0) 章节
+想了解更多 `HttpClient` 知识可查阅 [ASP.NET Core - HTTP 请求](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/http-requests?view=aspnetcore-5.0) 章节
 
 :::

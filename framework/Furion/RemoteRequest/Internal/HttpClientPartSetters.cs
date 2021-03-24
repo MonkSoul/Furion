@@ -61,7 +61,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="headers"></param>
         /// <returns></returns>
-        public HttpClientPart SetHeaders(Dictionary<string, string> headers)
+        public HttpClientPart SetHeaders(Dictionary<string, object> headers)
         {
             Headers = headers;
             return this;
@@ -74,7 +74,7 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientPart SetHeaders(object headers)
         {
-            Headers = headers.ToDictionary<string>();
+            Headers = headers.ToDictionary<object>();
             return this;
         }
 
@@ -83,7 +83,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="queries"></param>
         /// <returns></returns>
-        public HttpClientPart SetQueries(Dictionary<string, string> queries)
+        public HttpClientPart SetQueries(Dictionary<string, object> queries)
         {
             Queries = queries;
             return this;
@@ -96,7 +96,7 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientPart SetQueries(object queries)
         {
-            Queries = queries.ToDictionary<string>();
+            Queries = queries.ToDictionary<object>();
             return this;
         }
 
@@ -123,7 +123,7 @@ namespace Furion.RemoteRequest
             Body = body;
 
             if (!string.IsNullOrEmpty(contentType)) ContentType = contentType;
-            ContentEncoding = encoding ?? Encoding.UTF8;
+            if (encoding != null) ContentEncoding = encoding;
 
             return this;
         }
@@ -135,12 +135,12 @@ namespace Furion.RemoteRequest
         /// <param name="contentType"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public HttpClientPart SetBody(Dictionary<string, string> body, string contentType = default, Encoding encoding = default)
+        public HttpClientPart SetBody(Dictionary<string, object> body, string contentType = default, Encoding encoding = default)
         {
             Body = body;
 
             if (!string.IsNullOrEmpty(contentType)) ContentType = contentType;
-            ContentEncoding = encoding ?? Encoding.UTF8;
+            if (encoding != null) ContentEncoding = encoding;
 
             return this;
         }
@@ -212,7 +212,7 @@ namespace Furion.RemoteRequest
         public HttpClientPart OnRequesting(Action<HttpRequestMessage> action)
         {
             RequestInterceptors ??= new List<Action<HttpRequestMessage>>();
-            RequestInterceptors.Add(action);
+            if (action != null) RequestInterceptors.Add(action);
             return this;
         }
 
@@ -224,7 +224,7 @@ namespace Furion.RemoteRequest
         public HttpClientPart OnClientCreating(Action<HttpClient> action)
         {
             HttpClientInterceptors ??= new List<Action<HttpClient>>();
-            HttpClientInterceptors.Add(action);
+            if (action != null) HttpClientInterceptors.Add(action);
             return this;
         }
 
@@ -236,7 +236,7 @@ namespace Furion.RemoteRequest
         public HttpClientPart OnResponsing(Action<HttpResponseMessage> action)
         {
             ResponseInterceptors ??= new List<Action<HttpResponseMessage>>();
-            ResponseInterceptors.Add(action);
+            if (action != null) ResponseInterceptors.Add(action);
             return this;
         }
 
@@ -248,7 +248,7 @@ namespace Furion.RemoteRequest
         public HttpClientPart OnException(Action<HttpResponseMessage, string> action)
         {
             ExceptionInterceptors ??= new List<Action<HttpResponseMessage, string>>();
-            ExceptionInterceptors.Add(action);
+            if (action != null) ExceptionInterceptors.Add(action);
             return this;
         }
     }
