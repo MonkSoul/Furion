@@ -15,7 +15,11 @@
 
 - **问答答疑**
 
+  - [答疑] `LinqExpression.And` 没有 2 个参数的方法 [#I3CXKZ](https://gitee.com/dotnetchina/Furion/issues/I3CXKZ)
+
 - **不做实现**
+
+  - [废弃] 框架是否提供 `ISoftDelete` 类似接口 [#I3CP93](https://gitee.com/dotnetchina/Furion/issues/I3CP93)
 
 ---
 
