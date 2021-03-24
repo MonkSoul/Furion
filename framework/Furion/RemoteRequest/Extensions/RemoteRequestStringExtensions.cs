@@ -118,6 +118,19 @@ namespace Furion.RemoteRequest.Extensions
         }
 
         /// <summary>
+        /// 设置 Body 内容
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="body"></param>
+        /// <param name="contentType"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public static HttpClientPart SetBody(this string requestUrl, Dictionary<string, string> body, string contentType = default, Encoding encoding = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).SetBody(body, contentType, encoding);
+        }
+
+        /// <summary>
         /// 设置内容类型
         /// </summary>
         /// <param name="requestUrl"></param>

@@ -1,3 +1,24 @@
+## v1.17.0 （未发布）
+
+- **新特性**
+
+- **突破性变化**
+
+- **问题修复**
+
+  - [修复] 数据验证失败后也打印了成功的字段 [#I3CVBS](https://gitee.com/dotnetchina/Furion/issues/I3CVBS)
+  - [修复] 远程请求配置 `contentType` 为 `application/x-www-form-urlencoded` 无效问题[#I3CWBS](https://gitee.com/dotnetchina/Furion/issues/I3CWBS)
+
+- **其他更改**
+
+- **文档变化**
+
+- **问答答疑**
+
+- **不做实现**
+
+---
+
 ## v1.16.0 （当前版本）
 
 - **新特性**

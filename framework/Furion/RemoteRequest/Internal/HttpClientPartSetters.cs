@@ -129,6 +129,23 @@ namespace Furion.RemoteRequest
         }
 
         /// <summary>
+        /// 设置 Body 内容
+        /// </summary>
+        /// <param name="body"></param>
+        /// <param name="contentType"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public HttpClientPart SetBody(Dictionary<string, string> body, string contentType = default, Encoding encoding = default)
+        {
+            Body = body;
+
+            if (!string.IsNullOrEmpty(contentType)) ContentType = contentType;
+            ContentEncoding = encoding ?? Encoding.UTF8;
+
+            return this;
+        }
+
+        /// <summary>
         /// 设置内容类型
         /// </summary>
         /// <param name="contentType"></param>

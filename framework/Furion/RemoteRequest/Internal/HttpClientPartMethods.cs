@@ -1,6 +1,8 @@
 ﻿using Furion.DataValidation;
+using Furion.Extensions;
 using Furion.JsonSerialization;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -385,6 +387,11 @@ namespace Furion.RemoteRequest
                     break;
 
                 case "application/x-www-form-urlencoded":
+                    // 解析字典
+                    var keyValues = Body is Dictionary<string, string> dic ? dic : Body.ToDictionary<string>();
+                    if (keyValues == null || keyValues.Count == 0) return;
+
+                    httpContent = new FormUrlEncodedContent(keyValues);
                     break;
             }
 
