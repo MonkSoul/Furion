@@ -321,7 +321,7 @@ namespace Furion.RemoteRequest
             });
 
             // 打印发送请求
-            App.PrintToMiniProfiler(MiniProfilerCategory, "Sending", $"[{Method}] {finalRequestUrl}");
+            App.PrintToMiniProfiler(MiniProfilerCategory, "Sending", $"[{Method}] {httpClient.BaseAddress?.OriginalString}{finalRequestUrl}");
 
             // 发送请求
             var response = await httpClient.SendAsync(request, cancellationToken);

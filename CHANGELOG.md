@@ -8,6 +8,7 @@
 
   - [修复] 数据验证失败后也打印了成功的字段 [#I3CVBS](https://gitee.com/dotnetchina/Furion/issues/I3CVBS)
   - [修复] 远程请求配置 `contentType` 为 `application/x-www-form-urlencoded` 无效问题[#I3CWBS](https://gitee.com/dotnetchina/Furion/issues/I3CWBS)
+  - [修复] 远程请求无法打印完整的请求地址，比如配置了 HttpClient 之后 [#I3CY42](https://gitee.com/dotnetchina/Furion/issues/I3CY42)
 
 - **其他更改**
 
