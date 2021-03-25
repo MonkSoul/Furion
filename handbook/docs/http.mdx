@@ -679,6 +679,14 @@ public interface IHttp : IHttpDispatchProxy
 ```cs {4,12}
 services.AddRemoteRequest(options=>
 {
+    // 配置默认客户端
+    options.AddHttpClient(c =>
+    {
+        c.BaseAddress = new Uri("https://api.github.com/");
+        c.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
+        c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
+    });
+
     // 配置 Github 基本信息
     options.AddHttpClient("github", c =>
     {
