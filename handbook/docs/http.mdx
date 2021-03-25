@@ -218,7 +218,7 @@ await "https://www.furion.pro/get".SetQueries(new {
 
 ### 19.4.7 设置请求客户端
 
-```cs {1,3-4}
+```cs {1,3-4,12}
 services.AddRemoteRequest(options=>
 {
     // 配置 Github 基本信息
@@ -359,6 +359,15 @@ var stream = await "https://www.furion.pro/".GetAsStreamAsync();
 
 // T
 var user = await "https://www.furion.pro/".GetAsAsync<User>();
+```
+
+### 19.4.18 设置 `Byte[]` 类型
+
+有时候我们需要上传文件，需要设置 `Context-Type` 为 `multipart/form-data` 类型，如：
+
+```cs
+var res = await "https://www.furion.pro/upload".SetBody(new { id =1, name = "Furion"}, "multipart/form-data")
+                                               .SetBodyBytes(("键", bytes, "文件名")).PostAsync();
 ```
 
 ## 19.5 `IHttpDispatchProxy` 代理方式
@@ -668,6 +677,19 @@ public interface IHttp : IHttpDispatchProxy
     Task<Stream> PostXXXAsync();
 
     [Post("https://www.furion.pro/post")]
+    Task<User> PostXXXAsync();
+}
+```
+
+### 19.5.14 设置 `Byte[]` 类型
+
+有时候我们需要上传文件，需要设置 `Context-Type` 为 `multipart/form-data` 类型，如：
+
+```cs
+public interface IHttp : IHttpDispatchProxy
+{
+    [Post("https://www.furion.pro/upload")]
+    Task<HttpRequestMessage> PostXXXAsync([Body("multipart/form-data")]User user, [BodyBytes("键","文件名")]Byte[] bytes);
     Task<User> PostXXXAsync();
 }
 ```

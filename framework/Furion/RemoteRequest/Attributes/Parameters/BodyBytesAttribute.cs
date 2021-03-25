@@ -4,7 +4,7 @@ using System;
 namespace Furion.RemoteRequest
 {
     /// <summary>
-    /// 配置 Body Byptes 参数
+    /// 配置 Body Bytes 参数
     /// </summary>
     [SkipScan, AttributeUsage(AttributeTargets.Parameter)]
     public class BodyBytesAttribute : ParameterBaseAttribute

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Furion
 {
@@ -66,7 +67,7 @@ namespace Furion
                 .Union(
                     Directory.GetFiles(Directory.GetCurrentDirectory(), "*.json", SearchOption.TopDirectoryOnly)
                 )
-                .Where(u => !excludeJsons.Contains(Path.GetFileName(u)) && !ignoreConfigurationFiles.Contains(Path.GetFileName(u)) && !runtimeJsonSuffixs.Any(j => u.EndsWith(j)));
+                .Where(u => CheckIncludeDefaultSettings(Path.GetFileName(u)) && !ignoreConfigurationFiles.Contains(Path.GetFileName(u)) && !runtimeJsonSuffixs.Any(j => u.EndsWith(j)));
 
             if (!jsonFiles.Any()) return;
 
@@ -104,7 +105,7 @@ namespace Furion
                 .Union(
                     Directory.GetFiles(Directory.GetCurrentDirectory(), "*.xml", SearchOption.TopDirectoryOnly)
                 )
-                .Where(u => !ignoreConfigurationFiles.Contains(Path.GetFileName(u)) && u.EndsWith(".config.xml", StringComparison.OrdinalIgnoreCase));
+                .Where(u => CheckIncludeDefaultSettings(Path.GetFileName(u)) && !ignoreConfigurationFiles.Contains(Path.GetFileName(u)) && u.EndsWith(".config.xml", StringComparison.OrdinalIgnoreCase));
 
             if (!xmlFiles.Any()) return;
 
@@ -130,19 +131,36 @@ namespace Furion
         }
 
         /// <summary>
-        /// 默认排除配置项
+        /// 排除特定配置文件正则表达式
         /// </summary>
-        private static readonly string[] excludeJsons = new[] {
-            "appsettings.json",
-            "appsettings.Development.json",
-            "appsettings.Production.json",
-            "bundleconfig.json",
-            "bundleconfig.Development.json",
-            "bundleconfig.Production.json",
-            "compilerconfig.json",
-            "compilerconfig.Development.json",
-            "compilerconfig.Production.json"
-        };
+        private const string excludeJsonPattern = @"^{0}(\.\w+)?\.((json)|(xml))$";
+
+        /// <summary>
+        /// 排序的配置文件前缀
+        /// </summary>
+        private static readonly string[] excludeJsonPrefixs = new[] { "appsettings", "bundleconfig", "compilerconfig" };
+
+        /// <summary>
+        /// 检查是否受排除的配置文件
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        private static bool CheckIncludeDefaultSettings(string fileName)
+        {
+            var isTrue = true;
+
+            foreach (var prefix in excludeJsonPrefixs)
+            {
+                var isMatch = Regex.IsMatch(fileName, string.Format(excludeJsonPattern, prefix));
+                if (isMatch)
+                {
+                    isTrue = false;
+                    break;
+                }
+            }
+
+            return isTrue;
+        }
 
         /// <summary>
         /// 排除运行时 Json 后缀
