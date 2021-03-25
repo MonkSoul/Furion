@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace Furion.DynamicApiController
@@ -54,13 +55,15 @@ namespace Furion.DynamicApiController
             var controllers = application.Controllers.Where(u => !typeof(Controller).IsAssignableFrom(u.ControllerType));
             foreach (var controller in controllers)
             {
+                var controllerType = controller.ControllerType;
+
                 // 判断是否处理 Mvc控制器
                 if (typeof(ControllerBase).IsAssignableFrom(controller.ControllerType))
                 {
                     if (!_dynamicApiControllerSettings.SupportedMvcController.Value || controller.ApiExplorer?.IsVisible == false) continue;
                 }
 
-                var controllerApiDescriptionSettings = controller.Attributes.FirstOrDefault(u => u is ApiDescriptionSettingsAttribute) as ApiDescriptionSettingsAttribute;
+                var controllerApiDescriptionSettings = controllerType.IsDefined(typeof(ApiDescriptionSettingsAttribute), true) ? controllerType.GetCustomAttribute<ApiDescriptionSettingsAttribute>(true) : default;
                 ConfigureController(controller, controllerApiDescriptionSettings);
             }
         }
@@ -94,7 +97,8 @@ namespace Furion.DynamicApiController
                     continue;
                 };
 
-                var actionApiDescriptionSettings = action.Attributes.FirstOrDefault(u => u is ApiDescriptionSettingsAttribute) as ApiDescriptionSettingsAttribute;
+                var actionMethod = action.ActionMethod;
+                var actionApiDescriptionSettings = actionMethod.IsDefined(typeof(ApiDescriptionSettingsAttribute), true) ? actionMethod.GetCustomAttribute<ApiDescriptionSettingsAttribute>(true) : default;
                 ConfigureAction(action, actionApiDescriptionSettings, controllerApiDescriptionSettings);
             }
         }

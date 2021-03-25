@@ -2,6 +2,8 @@
 
 - **新特性**
 
+  - [新增] 动态 WebAPI 支持继承基类配置特性 [#I3D5PX](https://gitee.com/dotnetchina/Furion/issues/I3D5PX)
+
 - **突破性变化**
 
 - **问题修复**
