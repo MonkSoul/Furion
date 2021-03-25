@@ -49,6 +49,7 @@ namespace System.Collections.Generic
     /// <summary>
     /// 分页集合
     /// </summary>
+    [SkipScan]
     public class PagedList : PagedList<object>
     {
     }
