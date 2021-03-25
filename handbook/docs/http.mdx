@@ -370,27 +370,27 @@ public interface IHttp : IHttpDispatchProxy
 {
     // 发送 Get 请求
     [Get("https://www.furion.pro/get")]
-    Task<HttpRequestMessage> GetXXXAsync();
+    Task<HttpResponseMessage> GetXXXAsync();
 
     // 发送 Post 请求
     [Post("https://www.furion.pro/post")]
-    Task<HttpRequestMessage> PostXXXAsync();
+    Task<HttpResponseMessage> PostXXXAsync();
 
     // 发送 Put 请求
     [Put("https://www.furion.pro/put")]
-    Task<HttpRequestMessage> PutXXXAsync();
+    Task<HttpResponseMessage> PutXXXAsync();
 
     // 发送 Put 请求
     [Delete("https://www.furion.pro/delete")]
-    Task<HttpRequestMessage> DeleteXXXAsync();
+    Task<HttpResponseMessage> DeleteXXXAsync();
 
     // 发送 Put 请求
     [Patch("https://www.furion.pro/patch")]
-    Task<HttpRequestMessage> PatchXXXAsync();
+    Task<HttpResponseMessage> PatchXXXAsync();
 
     // 发送 Head 请求
     [Head("https://www.furion.pro/head")]
-    Task<HttpRequestMessage> HeadXXXAsync();
+    Task<HttpResponseMessage> HeadXXXAsync();
 }
 ```
 
@@ -400,7 +400,7 @@ public interface IHttp : IHttpDispatchProxy
 public interface IHttp : IHttpDispatchProxy
 {
     [Get("https://www.furion.pro/get/{id}?name={name}")]
-    Task<HttpRequestMessage> GetXXXAsync(int id, string name);
+    Task<HttpResponseMessage> GetXXXAsync(int id, string name);
 }
 ```
 
@@ -420,13 +420,13 @@ public interface IHttp : IHttpDispatchProxy
 public interface IHttp : IHttpDispatchProxy
 {
     [Get("https://www.furion.pro/get/{id}?name={name}"), Headers("key2","value2")]
-    Task<HttpRequestMessage> GetXXXAsync(int id, string name);
+    Task<HttpResponseMessage> GetXXXAsync(int id, string name);
 
     [Get("https://www.furion.pro")]
-    Task<HttpRequestMessage> GetXXX2Async(int id, [Headers]string token = default);
+    Task<HttpResponseMessage> GetXXX2Async(int id, [Headers]string token = default);
 
     [Get("https://www.furion.pro")]
-    Task<HttpRequestMessage> GetXXX2Async(int id, string name, [Headers("别名")]string token = default);
+    Task<HttpResponseMessage> GetXXX2Async(int id, string name, [Headers("别名")]string token = default);
 }
 ```
 
@@ -436,10 +436,10 @@ public interface IHttp : IHttpDispatchProxy
 public interface IHttp : IHttpDispatchProxy
 {
     [Get("https://www.furion.pro/get")]
-    Task<HttpRequestMessage> GetXXXAsync([QueryString]int id, [QueryString]string name);
+    Task<HttpResponseMessage> GetXXXAsync([QueryString]int id, [QueryString]string name);
 
     [Get("https://www.furion.pro/get")]
-    Task<HttpRequestMessage> GetXXXAsync([QueryString]int id, [QueryString("别名")]string name);
+    Task<HttpResponseMessage> GetXXXAsync([QueryString]int id, [QueryString("别名")]string name);
 }
 ```
 
@@ -462,7 +462,7 @@ services.AddRemoteRequest(options=>
 public interface IHttp : IHttpDispatchProxy
 {
     [Get("get"), Client("github")]
-    Task<HttpRequestMessage> GetXXXAsync();
+    Task<HttpResponseMessage> GetXXXAsync();
 }
 ```
 
@@ -474,13 +474,13 @@ public interface IHttp : IHttpDispatchProxy
 public interface IHttp : IHttpDispatchProxy
 {
     [Post("https://www.furion.pro/post")]
-    Task<HttpRequestMessage> PostXXXAsync([Body]User user);
+    Task<HttpResponseMessage> PostXXXAsync([Body]User user);
 
     [Post("https://www.furion.pro/post")]
-    Task<HttpRequestMessage> PostXXXAsync([Body("application/x-www-form-urlencoded")]User user);
+    Task<HttpResponseMessage> PostXXXAsync([Body("application/x-www-form-urlencoded")]User user);
 
     [Post("https://www.furion.pro/post")]
-    Task<HttpRequestMessage> PostXXXAsync([Body("application/x-www-form-urlencoded", "UTF-8")]User user);
+    Task<HttpResponseMessage> PostXXXAsync([Body("application/x-www-form-urlencoded", "UTF-8")]User user);
 }
 ```
 
@@ -492,10 +492,10 @@ public interface IHttp : IHttpDispatchProxy
 public interface IHttp : IHttpDispatchProxy
 {
     [Post("https://www.furion.pro/post"), JsonSerialization(typeof(NewtonsoftJsonSerializerProvider))]
-    Task<HttpRequestMessage> PostXXXAsync([Body]User user);
+    Task<HttpResponseMessage> PostXXXAsync([Body]User user);
 
     [Post("https://www.furion.pro/post"), JsonSerialization(typeof(NewtonsoftJsonSerializerProvider))]
-    Task<HttpRequestMessage> PostXXXAsync([Body]User user, [JsonSerializerOptions]object jsonSerializerOptions = default);
+    Task<HttpResponseMessage> PostXXXAsync([Body]User user, [JsonSerializerOptions]object jsonSerializerOptions = default);
 }
 ```
 
@@ -513,10 +513,10 @@ public interface IHttp : IHttpDispatchProxy
 public interface IHttp : IHttpDispatchProxy
 {
     [Post("https://www.furion.pro/post")]
-    Task<HttpRequestMessage> PostXXXAsync([Range(1,10)]int id, [Required, MaxLength(10)]string name);
+    Task<HttpResponseMessage> PostXXXAsync([Range(1,10)]int id, [Required, MaxLength(10)]string name);
 
     [Post("https://www.furion.pro/post")]
-    Task<HttpRequestMessage> PostXXXAsync([Required]User user);  // 对象类型支持属性配置特性验证
+    Task<HttpResponseMessage> PostXXXAsync([Required]User user);  // 对象类型支持属性配置特性验证
 }
 ```
 
@@ -532,7 +532,7 @@ public interface IHttp : IHttpDispatchProxy
 {
     // 通过参数拦截
     [Post("https://www.furion.pro/post")]
-    Task<HttpRequestMessage> PostXXXAsync([Interceptor(InterceptorTypes.Request)] Action<HttpRequestMessage> action = default);
+    Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Request)] Action<HttpRequestMessage> action = default);
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Request)]
@@ -564,7 +564,7 @@ public interface IHttp : IHttpDispatchProxy
 {
     // 通过参数拦截
     [Post("https://www.furion.pro/post")]
-    Task<HttpRequestMessage> PostXXXAsync([Interceptor(InterceptorTypes.Client)] Action<HttpRequestMessage> action = default);
+    Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Client)] Action<HttpRequestMessage> action = default);
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Client)]
@@ -596,7 +596,7 @@ public interface IHttp : IHttpDispatchProxy
 {
     // 通过参数拦截
     [Post("https://www.furion.pro/post")]
-    Task<HttpRequestMessage> PostXXXAsync([Interceptor(InterceptorTypes.Response)] Action<HttpResponseMessage> action = default);
+    Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Response)] Action<HttpResponseMessage> action = default);
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Response)]
@@ -628,7 +628,7 @@ public interface IHttp : IHttpDispatchProxy
 {
     // 通过参数拦截
     [Post("https://www.furion.pro/post")]
-    Task<HttpRequestMessage> PostXXXAsync([Interceptor(InterceptorTypes.Exception)] Action<HttpResponseMessage, string> action = default);
+    Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Exception)] Action<HttpResponseMessage, string> action = default);
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Exception)]
@@ -662,7 +662,7 @@ public interface IHttp : IHttpDispatchProxy
 public interface IHttp : IHttpDispatchProxy
 {
     [Post("https://www.furion.pro/post")]
-    Task<HttpRequestMessage> PostXXXAsync();
+    Task<HttpResponseMessage> PostXXXAsync();
 
     [Post("https://www.furion.pro/post")]
     Task<Stream> PostXXXAsync();
