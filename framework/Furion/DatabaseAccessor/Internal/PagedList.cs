@@ -3,10 +3,12 @@ using Furion.DependencyInjection;
 namespace System.Collections.Generic
 {
     /// <summary>
-    /// 分页基类
+    /// 分页泛型集合
     /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
     [SkipScan]
-    public class PagedListBase
+    public class PagedList<TEntity>
+        where TEntity : new()
     {
         /// <summary>
         /// 页码
@@ -29,6 +31,11 @@ namespace System.Collections.Generic
         public int TotalPages { get; set; }
 
         /// <summary>
+        /// 当前页集合
+        /// </summary>
+        public IEnumerable<TEntity> Items { get; set; }
+
+        /// <summary>
         /// 是否有上一页
         /// </summary>
         public bool HasPrevPages { get; set; }
@@ -38,35 +45,11 @@ namespace System.Collections.Generic
         /// </summary>
         public bool HasNextPages { get; set; }
     }
-    /// <summary>
-    /// 分页泛型集合
-    /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    [SkipScan]
-    public class PagedList<TEntity> : PagedListBase, IEnumerable<TEntity> 
-    {
-        /// <summary>
-        /// 当前页集合
-        /// </summary>
-        public IEnumerable<TEntity> Items { get; set; }
-
-        public IEnumerator<TEntity> GetEnumerator()
-        {
-            return Items.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return Items.GetEnumerator();
-        }
-    }
-
 
     /// <summary>
     /// 分页集合
     /// </summary>
-    public class PagedList: PagedList<object>
+    public class PagedList : PagedList<object>
     {
-
     }
 }
