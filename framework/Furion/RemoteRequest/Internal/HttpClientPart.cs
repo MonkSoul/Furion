@@ -57,6 +57,11 @@ namespace Furion.RemoteRequest
         public Encoding ContentEncoding { get; private set; } = Encoding.UTF8;
 
         /// <summary>
+        /// 设置 Body Bytes 类型
+        /// </summary>
+        public List<(string Name, byte[] Bytes, string FileName)> BodyBytes { get; private set; } = new List<(string Name, byte[] Bytes, string FileName)>();
+
+        /// <summary>
         /// Json 序列化提供器
         /// </summary>
         public (Type ProviderType, object JsonSerializerOptions) JsonSerialization { get; private set; } = (typeof(SystemTextJsonSerializerProvider), default);

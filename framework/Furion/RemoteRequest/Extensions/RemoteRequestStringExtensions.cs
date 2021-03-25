@@ -153,6 +153,28 @@ namespace Furion.RemoteRequest.Extensions
         }
 
         /// <summary>
+        /// 设置 Body  Bytes
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="bytesData"></param>
+        /// <returns></returns>
+        public static HttpClientPart SetBodyBytes(this string requestUrl, params (string Name, byte[] Bytes, string FileName)[] bytesData)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).SetBodyBytes(bytesData);
+        }
+
+        /// <summary>
+        /// 设置 Body  Bytes
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="bytesData"></param>
+        /// <returns></returns>
+        public static HttpClientPart SetBodyBytes(this string requestUrl, List<(string Name, byte[] Bytes, string FileName)> bytesData)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).SetBodyBytes(bytesData);
+        }
+
+        /// <summary>
         /// 设置 JSON 序列化提供器
         /// </summary>
         /// <typeparam name="TJsonSerializationProvider"></typeparam>

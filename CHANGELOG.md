@@ -3,6 +3,7 @@
 - **新特性**
 
   - [新增] 动态 WebAPI 支持继承基类配置特性 [#I3D5PX](https://gitee.com/dotnetchina/Furion/issues/I3D5PX)
+  - [新增] 远程请求支持 `multipart/form-data` 内容类型处理 [#I3D7KG](https://gitee.com/dotnetchina/Furion/issues/I3D7KG)
 
 - **突破性变化**
 

@@ -165,12 +165,26 @@ namespace Furion.RemoteRequest
         private static void SetBody(IEnumerable<MethodParameterInfo> parameters, HttpClientPart httpClientPart)
         {
             // 配置 Body 参数，只取第一个
-            var bodyParameter = parameters.FirstOrDefault(u => u.Parameter.IsDefined(typeof(QueryStringAttribute), true));
+            var bodyParameter = parameters.FirstOrDefault(u => u.Parameter.IsDefined(typeof(BodyAttribute), true));
             if (bodyParameter != null)
             {
                 var bodyAttribute = bodyParameter.Parameter.GetCustomAttribute<BodyAttribute>(true);
                 httpClientPart.SetBody(bodyParameter.Value, bodyAttribute.ContentType, Encoding.GetEncoding(bodyAttribute.Encoding))
                               .SetValidationState(true, true);   // 开启验证
+            }
+
+            // 查找所有贴了 [BodyBytes] 特性的参数
+            var bodyBytesParameters = parameters.Where(u => u.Parameter.IsDefined(typeof(BodyBytesAttribute), true));
+            if (bodyBytesParameters != null)
+            {
+                var bodyBytes = new List<(string Name, byte[] Bytes, string FileName)>();
+                foreach (var item in bodyBytesParameters)
+                {
+                    var bodyBytesAttribute = item.Parameter.GetCustomAttribute<BodyBytesAttribute>();
+                    if (item.Value != null && item.Value.GetType() == typeof(byte[])) bodyBytes.Add((bodyBytesAttribute.Alias ?? item.Name, (byte[])item.Value, bodyBytesAttribute.FileName));
+                }
+
+                httpClientPart.SetBodyBytes(bodyBytes);
             }
         }
 

@@ -168,6 +168,29 @@ namespace Furion.RemoteRequest
         }
 
         /// <summary>
+        /// 设置 Body  Bytes
+        /// </summary>
+        /// <param name="bytesData"></param>
+        /// <returns></returns>
+        public HttpClientPart SetBodyBytes(params (string Name, byte[] Bytes, string FileName)[] bytesData)
+        {
+            BodyBytes ??= new List<(string Name, byte[] Bytes, string FileName)>();
+            if (bytesData != null && bytesData.Length > 0) BodyBytes.AddRange(bytesData);
+
+            return this;
+        }
+
+        /// <summary>
+        /// 设置 Body  Bytes
+        /// </summary>
+        /// <param name="bytesData"></param>
+        /// <returns></returns>
+        public HttpClientPart SetBodyBytes(List<(string Name, byte[] Bytes, string FileName)> bytesData)
+        {
+            return SetBodyBytes(bytesData?.ToArray());
+        }
+
+        /// <summary>
         /// 设置 JSON 序列化提供器
         /// </summary>
         /// <typeparam name="TJsonSerializationProvider"></typeparam>

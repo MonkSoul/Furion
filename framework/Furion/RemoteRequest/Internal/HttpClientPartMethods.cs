@@ -383,27 +383,41 @@ namespace Furion.RemoteRequest
             switch (ContentType)
             {
                 case "multipart/form-data":
+                    var multipartFormDataContent = new MultipartFormDataContent();
+
+                    // 添加 Bytes 类型
+                    foreach (var (Name, Bytes, FileName) in BodyBytes)
+                    {
+                        if (string.IsNullOrEmpty(FileName))
+                            multipartFormDataContent.Add(new ByteArrayContent(Bytes), Name);
+                        else
+                            multipartFormDataContent.Add(new ByteArrayContent(Bytes), Name, FileName);
+                    }
+
+                    // 处理其他类型
+                    var dic = ConvertBodyToDictionary();
+                    if (dic == null || dic.Count == 0)
+                    {
+                        foreach (var (key, value) in dic)
+                        {
+                            multipartFormDataContent.Add(new StringContent(value, ContentEncoding), string.Format("\"{0}\"", key));
+                        }
+                    }
+
+                    if (multipartFormDataContent.Any()) httpContent = multipartFormDataContent;
+
                     break;
 
                 case "application/json":
                 case "text/json":
                 case "application/*+json":
-                    // 解析序列化工具
-                    var jsonSerializer = App.GetService(JsonSerialization.ProviderType) as IJsonSerializerProvider;
-
-                    // 序列化
-                    httpContent = new StringContent(jsonSerializer.Serialize(Body, JsonSerialization.JsonSerializerOptions), ContentEncoding);
+                    httpContent = new StringContent(SerializerObject(Body), ContentEncoding);
                     break;
 
                 case "application/x-www-form-urlencoded":
-                    Dictionary<string, string> keyValues = null;
-
-                    // 处理各种情况
-                    if (Body is Dictionary<string, string> dic) keyValues = dic;
-                    else if (Body is Dictionary<string, object> dicObj) keyValues = dicObj.ToDictionary(u => u.Key, u => u.Value?.ToString());
-                    else Body.ToDictionary<string>();
-
                     // 解析字典
+                    var keyValues = ConvertBodyToDictionary();
+
                     if (keyValues == null || keyValues.Count == 0) return;
 
                     httpContent = new FormUrlEncodedContent(keyValues);
@@ -418,6 +432,21 @@ namespace Furion.RemoteRequest
                 // 设置 HttpContent
                 request.Content = httpContent;
             }
+        }
+
+        /// <summary>
+        /// 转换 Body 为 字典类型
+        /// </summary>
+        /// <returns></returns>
+        private Dictionary<string, string> ConvertBodyToDictionary()
+        {
+            Dictionary<string, string> keyValues = null;
+
+            // 处理各种情况
+            if (Body is Dictionary<string, string> dic) keyValues = dic;
+            else if (Body is Dictionary<string, object> dicObj) keyValues = dicObj.ToDictionary(u => u.Key, u => SerializerObject(u.Value));
+            else Body.ToDictionary<string>();
+            return keyValues;
         }
 
         /// <summary>
@@ -450,6 +479,18 @@ namespace Furion.RemoteRequest
             {
                 RequestUrl = RequestUrl.Replace($"{{{item.Template}}}", HttpUtility.UrlEncode(item.Value?.ToString() ?? string.Empty));
             }
+        }
+
+        /// <summary>
+        /// 序列化对象
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        private string SerializerObject(object body)
+        {
+            // 解析序列化工具
+            var jsonSerializer = App.GetService(JsonSerialization.ProviderType) as IJsonSerializerProvider;
+            return jsonSerializer.Serialize(body, JsonSerialization.JsonSerializerOptions);
         }
     }
 }
