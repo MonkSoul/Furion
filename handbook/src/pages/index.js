@@ -144,7 +144,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#3fbbfe" }}>1000</div>
+            <div style={{ color: "#3fbbfe" }}>1050</div>
             <span className={isDarkTheme ? " dark" : ""}>Forks</span>
           </div>
         </div>
