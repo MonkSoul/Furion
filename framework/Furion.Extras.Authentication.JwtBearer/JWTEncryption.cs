@@ -260,7 +260,8 @@ namespace Furion.DataEncryption
             var bearerToken = httpContext.Request.Headers[headerKey].ToString();
             if (string.IsNullOrEmpty(bearerToken)) return default;
 
-            return bearerToken.StartsWith(tokenPrefix, true, null) && bearerToken.Length > 7 ? bearerToken[7..] : default;
+            var prefixLenght = tokenPrefix.Length;
+            return bearerToken.StartsWith(tokenPrefix, true, null) && bearerToken.Length > prefixLenght ? bearerToken[prefixLenght..] : default;
         }
 
         /// <summary>
