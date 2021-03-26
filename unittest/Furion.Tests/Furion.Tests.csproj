@@ -17,4 +17,8 @@
     <PackageReference Include="MSTestEnhancer" Version="2.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\framework\Furion\Furion.csproj" />
+  </ItemGroup>
+
 </Project>
