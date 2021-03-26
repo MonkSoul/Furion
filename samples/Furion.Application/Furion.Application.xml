@@ -276,11 +276,13 @@
             <summary>
             用户名
             </summary>
+            <example>admin</example>
         </member>
         <member name="P:Furion.Application.LoginInput.Password">
             <summary>
             密码
             </summary>
+            <example>admin</example>
         </member>
         <member name="T:Furion.Application.LoginOutput">
             <summary>
