@@ -709,7 +709,7 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
-        /// 更新一条记录中的特定属性
+        /// 更新一条记录并排除属性
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
@@ -721,7 +721,7 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
-        /// 更新一条记录中的特定属性
+        /// 更新一条记录并排除属性
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
@@ -733,7 +733,7 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
-        /// 更新一条记录中的特定属性
+        /// 更新一条记录并排除属性
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性表达式</param>
@@ -745,7 +745,7 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
-        /// 更新一条记录中的特定属性
+        /// 更新一条记录并排除属性
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>

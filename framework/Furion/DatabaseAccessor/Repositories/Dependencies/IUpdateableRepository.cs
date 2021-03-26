@@ -457,7 +457,7 @@ namespace Furion.DatabaseAccessor
         EntityEntry<TEntity> UpdateExclude(TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null);
 
         /// <summary>
-        /// 更新一条记录中的特定属性
+        /// 更新一条记录并排除属性
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
@@ -466,7 +466,7 @@ namespace Furion.DatabaseAccessor
         Task<EntityEntry<TEntity>> UpdateExcludeAsync(TEntity entity, string[] propertyNames, bool? ignoreNullValues = null);
 
         /// <summary>
-        /// 更新一条记录中的特定属性
+        /// 更新一条记录并排除属性
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
@@ -475,7 +475,7 @@ namespace Furion.DatabaseAccessor
         Task<EntityEntry<TEntity>> UpdateExcludeAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null);
 
         /// <summary>
-        /// 更新一条记录中的特定属性
+        /// 更新一条记录并排除属性
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性表达式</param>
@@ -484,7 +484,7 @@ namespace Furion.DatabaseAccessor
         Task<EntityEntry<TEntity>> UpdateExcludeAsync(TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null);
 
         /// <summary>
-        /// 更新一条记录中的特定属性
+        /// 更新一条记录并排除属性
         /// </summary>
         /// <param name="entity">实体</param>
         /// <param name="propertyPredicates">属性表达式</param>
