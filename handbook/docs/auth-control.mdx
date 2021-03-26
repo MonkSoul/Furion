@@ -107,11 +107,24 @@ services.AddJwt(options =>
       options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
       options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 })
-.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, b =>
+.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
 {
-       b.LoginPath = "/Home/Login";
+       options.LoginPath = "/Home/Login";
 });
 ```
+
+:::important 特别注意
+
+如果启用了混合授权后，`WebApi` 需在控制器/Action 中指定 `Scheme` 类型为 `JwtBearerDefaults.AuthenticationScheme`，如：
+
+```cs {1}
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+public class ApiServices : IDynamicApiController
+{
+}
+```
+
+:::
 
 ## 15.3 高级自定义授权
 
