@@ -46,6 +46,16 @@ namespace Furion.RemoteRequest
         }
 
         /// <summary>
+        /// 发送 GET 请求返回 String
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<string> GetAsStringAsync(CancellationToken cancellationToken = default)
+        {
+            return SetHttpMethod(HttpMethod.Get).SendAsStringAsync(cancellationToken);
+        }
+
+        /// <summary>
         /// 发送 GET 请求
         /// </summary>
         /// <param name="cancellationToken"></param>
@@ -74,6 +84,16 @@ namespace Furion.RemoteRequest
         public Task<Stream> PostAsStreamAsync(CancellationToken cancellationToken = default)
         {
             return SetHttpMethod(HttpMethod.Post).SendAsStreamAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 POST 请求返回 String
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<string> PostAsStringAsync(CancellationToken cancellationToken = default)
+        {
+            return SetHttpMethod(HttpMethod.Post).SendAsStringAsync(cancellationToken);
         }
 
         /// <summary>
@@ -108,6 +128,16 @@ namespace Furion.RemoteRequest
         }
 
         /// <summary>
+        /// 发送 PUT 请求返回 String
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<string> PutAsStringAsync(CancellationToken cancellationToken = default)
+        {
+            return SetHttpMethod(HttpMethod.Put).SendAsStringAsync(cancellationToken);
+        }
+
+        /// <summary>
         /// 发送 PUT 请求
         /// </summary>
         /// <param name="cancellationToken"></param>
@@ -136,6 +166,16 @@ namespace Furion.RemoteRequest
         public Task<Stream> DeleteAsStreamAsync(CancellationToken cancellationToken = default)
         {
             return SetHttpMethod(HttpMethod.Delete).SendAsStreamAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 DELETE 请求返回 String
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<string> DeleteAsStringAsync(CancellationToken cancellationToken = default)
+        {
+            return SetHttpMethod(HttpMethod.Delete).SendAsStringAsync(cancellationToken);
         }
 
         /// <summary>
@@ -170,6 +210,16 @@ namespace Furion.RemoteRequest
         }
 
         /// <summary>
+        /// 发送 Patch 请求返回 String
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<string> PatchAsStringAsync(CancellationToken cancellationToken = default)
+        {
+            return SetHttpMethod(HttpMethod.Patch).SendAsStringAsync(cancellationToken);
+        }
+
+        /// <summary>
         /// 发送 PATCH 请求
         /// </summary>
         /// <param name="cancellationToken"></param>
@@ -201,6 +251,16 @@ namespace Furion.RemoteRequest
         }
 
         /// <summary>
+        /// 发送 Head 请求返回 String
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<string> HeadAsStringAsync(CancellationToken cancellationToken = default)
+        {
+            return SetHttpMethod(HttpMethod.Head).SendAsStringAsync(cancellationToken);
+        }
+
+        /// <summary>
         /// 发送 HEAD 请求
         /// </summary>
         /// <param name="cancellationToken"></param>
@@ -223,6 +283,11 @@ namespace Furion.RemoteRequest
             {
                 var httpResponseMessage = await SendAsync(cancellationToken);
                 return (T)(object)httpResponseMessage;
+            }
+            if (typeof(T) == typeof(string))
+            {
+                var str = await SendAsStringAsync(cancellationToken);
+                return (T)(object)str;
             }
 
             // 解析 Json 序列化提供器
@@ -257,6 +322,23 @@ namespace Furion.RemoteRequest
             // 读取响应流
             var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
             return stream;
+        }
+
+        /// <summary>
+        /// 发送请求返回 String
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<string> SendAsStringAsync(CancellationToken cancellationToken = default)
+        {
+            var response = await SendAsync(cancellationToken);
+
+            // 如果配置了异常拦截器，且请求不成功，则返回 T 默认值
+            if (ExceptionInterceptors != null && ExceptionInterceptors.Count > 0 && !response.IsSuccessStatusCode) return default;
+
+            // 读取响应报文
+            var content = await response.Content.ReadAsStringAsync(cancellationToken);
+            return content;
         }
 
         /// <summary>
@@ -317,6 +399,7 @@ namespace Furion.RemoteRequest
 
             // 创建客户端请求工厂
             var clientFactory = App.GetService<IHttpClientFactory>();
+            if (clientFactory == null) throw new InvalidOperationException("please add `services.AddRemoteRequest()` in Startup.cs.");
 
             // 创建 HttpClient 对象
             using var httpClient = string.IsNullOrEmpty(ClientName)

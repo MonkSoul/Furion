@@ -342,11 +342,12 @@ await "https://www.furion.pro/".OnException((res,errors) => {
 
 ### 19.4.17 各种返回值处理
 
-`Furion` 远程请求默认提供三种返回值类型：
+`Furion` 远程请求默认提供四种返回值类型：
 
 - `HttpResponseMessage`：请求响应消息类型
 - `Stream`：流类型
 - `T`：泛型 `T` 类型
+- `String`：字符串类型，也就是直接将网络请求结果内容字符串化
 
 如：
 
@@ -359,6 +360,9 @@ var stream = await "https://www.furion.pro/".GetAsStreamAsync();
 
 // T
 var user = await "https://www.furion.pro/".GetAsAsync<User>();
+
+// String
+var str = await "https://www.baidu.com".GetAsStringAsync();
 ```
 
 ### 19.4.18 设置 `Byte[]` 类型
@@ -576,14 +580,14 @@ public interface IHttp : IHttpDispatchProxy
     Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.HttpClient)] Action<HttpRequestMessage> action = default);
 
     // 全局拦截，类中每一个方法都会触发
-    [Interceptor(InterceptorTypes.HttpClient)]
+    [Interceptor(InterceptorTypes.Client)]
     static void onClientCreating1(HttpClient req)
     {
 
     }
 
     // 全局拦截，类中每一个方法都会触发
-    [Interceptor(InterceptorTypes.HttpClient)]
+    [Interceptor(InterceptorTypes.Client)]
     static void onClientCreating2(HttpClient req)
     {
 
@@ -664,6 +668,7 @@ public interface IHttp : IHttpDispatchProxy
 - `HttpResponseMessage`：请求响应消息类型
 - `Stream`：流类型
 - `T`：泛型 `T` 类型
+- `String`：字符串类型，也就是直接将网络请求结果内容字符串化
 
 如：
 
@@ -678,6 +683,9 @@ public interface IHttp : IHttpDispatchProxy
 
     [Post("https://www.furion.pro/post")]
     Task<User> PostXXXAsync();
+
+    [Post("https://www.furion.pro/post")]
+    Task<string> PostXXXAsync();
 }
 ```
 

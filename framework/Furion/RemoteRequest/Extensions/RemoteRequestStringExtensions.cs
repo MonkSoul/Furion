@@ -278,6 +278,17 @@ namespace Furion.RemoteRequest.Extensions
         }
 
         /// <summary>
+        /// 发送 GET 请求返回 String
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<string> GetAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).GetAsStringAsync(cancellationToken);
+        }
+
+        /// <summary>
         /// 发送 GET 请求
         /// </summary>
         /// <param name="requestUrl"></param>
@@ -309,6 +320,17 @@ namespace Furion.RemoteRequest.Extensions
         public static Task<Stream> PostAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
             return new HttpClientPart().SetRequestUrl(requestUrl).PostAsStreamAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 POST 请求返回 String
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<string> PostAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).PostAsStringAsync(cancellationToken);
         }
 
         /// <summary>
@@ -346,6 +368,17 @@ namespace Furion.RemoteRequest.Extensions
         }
 
         /// <summary>
+        /// 发送 PUT 请求返回 String
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<string> PutAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).PutAsStringAsync(cancellationToken);
+        }
+
+        /// <summary>
         /// 发送 PUT 请求
         /// </summary>
         /// <param name="requestUrl"></param>
@@ -377,6 +410,17 @@ namespace Furion.RemoteRequest.Extensions
         public static Task<Stream> DeleteAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
             return new HttpClientPart().SetRequestUrl(requestUrl).DeleteAsStreamAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送 DELETE 请求返回 String
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<string> DeleteAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).DeleteAsStringAsync(cancellationToken);
         }
 
         /// <summary>
@@ -414,6 +458,17 @@ namespace Furion.RemoteRequest.Extensions
         }
 
         /// <summary>
+        /// 发送 PATCH 请求返回 String
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<string> PatchAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).PatchAsStringAsync(cancellationToken);
+        }
+
+        /// <summary>
         /// 发送 PATCH 请求
         /// </summary>
         /// <param name="requestUrl"></param>
@@ -448,6 +503,17 @@ namespace Furion.RemoteRequest.Extensions
         }
 
         /// <summary>
+        /// 发送 HEAD 请求返回 String
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<string> HeadAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).HeadAsStringAsync(cancellationToken);
+        }
+
+        /// <summary>
         /// 发送 HEAD 请求
         /// </summary>
         /// <param name="requestUrl"></param>
@@ -479,6 +545,17 @@ namespace Furion.RemoteRequest.Extensions
         public static Task<Stream> SendAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
             return new HttpClientPart().SetRequestUrl(requestUrl).SendAsStreamAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 发送请求返回 String
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public static Task<string> SendAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).SendAsStringAsync(cancellationToken);
         }
 
         /// <summary>

@@ -5,6 +5,7 @@
   - [新增] 动态 WebAPI 支持继承基类配置特性 [#I3D5PX](https://gitee.com/dotnetchina/Furion/issues/I3D5PX)
   - [新增] 远程请求支持 `multipart/form-data` 内容类型处理 [#I3D7KG](https://gitee.com/dotnetchina/Furion/issues/I3D7KG)
   - [新增] 字符串加密拓展 [#I3DHBW](https://gitee.com/dotnetchina/Furion/issues/I3DHBW)
+  - [新增] 新增远程请求可直接下载返回值内容转为 string 类型 [#I3DIGR](https://gitee.com/dotnetchina/Furion/issues/I3DIGR)
 
 - **突破性变化**
 
