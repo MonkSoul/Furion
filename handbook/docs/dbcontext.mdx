@@ -293,9 +293,14 @@ var users = respository.DynamicContext.Users;
 由于 `DbContext` 默认注册为 `Scoped` 生存周期，所以在后台任务中使用 `DbContext` 需通过静态创建方式，如：
 
 ```cs
-var dbContext = Db.GetNewDbContext();
+using (var dbContext = Db.GetNewDbContext())
+{
+}
+
 // 或
-var dbContext2 = Db.GetNewDbContext<TDbContextLocator>();
+using(var dbContext2 = Db.GetNewDbContext<TDbContextLocator>())
+{
+}
 ```
 
 ## 9.1.10 反馈与建议

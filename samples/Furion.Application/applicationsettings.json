@@ -17,6 +17,11 @@
           "Name": "Apache-2.0",
           "Url": "https://gitee.com/dotnetchina/Furion/blob/rc1/LICENSE"
         }
+      },
+      {
+        "Group": "Role",
+        "Title": "角色管理（RBAC）",
+        "Order": 1
       }
     ]
   },

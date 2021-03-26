@@ -68,7 +68,26 @@ var (isValid, tokenData) = JWTEncryption.Validate("你的token"); // 验证token
 
 :::
 
-## 20.3 反馈与建议
+## 20.3 字符串拓展方式
+
+`Furion` 框架也提供了字符串拓展方式进行 `MD5加密、AES/DESC加解密`。
+
+```cs
+using Furion.DataEncryption.Extensions;
+
+// MD5 加密
+var s = "Furion".ToMD5Encrypt();
+
+// AES加解密
+var s = "Furion".ToAESEncrypt("sfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdfdfdfd");
+var str = s.ToToAESDecrypt("sfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdfdfdfd");
+
+// DESC 加解密
+var s = "Furion".ToDESCEncrypt("sfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdfdfdfd");
+var str = s.ToDESCDecrypt("sfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdfdfdfd");
+```
+
+## 20.4 反馈与建议
 
 :::note 与我们交流
 

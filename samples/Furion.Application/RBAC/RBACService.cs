@@ -17,7 +17,7 @@ namespace Furion.Application
     /// <summary>
     /// 角色管理服务
     /// </summary>
-    [AppAuthorize, ApiDescriptionSettings("角色管理")]
+    [AppAuthorize, ApiDescriptionSettings("Role")]
     public class RBACService : IDynamicApiController
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
