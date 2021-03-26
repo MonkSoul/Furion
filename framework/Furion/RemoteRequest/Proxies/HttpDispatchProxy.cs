@@ -244,7 +244,7 @@ namespace Furion.RemoteRequest
         private static void CallGlobalInterceptors(HttpClientPart httpClientPart, Type declareType)
         {
             // 获取所有静态方法且贴有 [Interceptor] 特性
-            var interceptorMethods = declareType.GetMethods(BindingFlags.Static)
+            var interceptorMethods = declareType.GetMethods()
                                                         .Where(u => u.IsDefined(typeof(InterceptorAttribute), true));
 
             foreach (var method in interceptorMethods)

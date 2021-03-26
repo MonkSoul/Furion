@@ -17,6 +17,7 @@
   - [修复] 远程请求配置 `contentType` 为 `application/x-www-form-urlencoded` 无效问题[#I3CWBS](https://gitee.com/dotnetchina/Furion/issues/I3CWBS)
   - [修复] 远程请求无法打印完整的请求地址，比如配置了 HttpClient 之后 [#I3CY42](https://gitee.com/dotnetchina/Furion/issues/I3CY42)
   - [修复] 程序启动时排除默认配置文件算法不对，应该采用正则表达式匹配 [#I3D9E7](https://gitee.com/dotnetchina/Furion/issues/I3D9E7)
+  - [修复] 远程请求成功请求拦截不生效 [#I3DOE4](https://gitee.com/dotnetchina/Furion/issues/I3DOE4)
 
 - **其他更改**
 
