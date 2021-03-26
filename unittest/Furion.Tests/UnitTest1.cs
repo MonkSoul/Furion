@@ -11,7 +11,7 @@ namespace Furion.Tests
         {
             "²âÊÔ Furion ¿ò¼ÜÊ¾·¶".Test(() =>
             {
-                Assert.AreEqual("Furion", "Furion");
+                Assert.AreEqual("Fur", "Furion");
             });
         }
     }
