@@ -156,7 +156,7 @@ namespace Furion.Application.Persons
         /// <returns></returns>
         public async Task<List<V_Person>> GetVPerson()
         {
-            var list = await _readableRepository.AsAsyncEnumerable(false);
+            var list = await _readableRepository.AsQueryable(false).ToListAsync();
             return list;
         }
     }

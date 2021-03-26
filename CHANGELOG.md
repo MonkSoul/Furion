@@ -8,6 +8,8 @@
 
 - **突破性变化**
 
+  - [调整] `IRepository.AsAsyncEnumerable()` 返回值 [#I3DIQ1](https://gitee.com/dotnetchina/Furion/issues/I3DIQ1)
+
 - **问题修复**
 
   - [修复] 数据验证失败后也打印了成功的字段 [#I3CVBS](https://gitee.com/dotnetchina/Furion/issues/I3CVBS)

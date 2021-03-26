@@ -825,10 +825,10 @@ namespace Furion.DatabaseAccessor
         /// 直接返回数据库结果
         /// </summary>
         /// <param name="tracking">是否跟踪实体</param>
-        /// <returns>List{TEntity}</returns>
-        public virtual List<TEntity> AsEnumerable(bool? tracking = null)
+        /// <returns>IEnumerable{TEntity}</returns>
+        public virtual IEnumerable<TEntity> AsEnumerable(bool? tracking = null)
         {
-            return AsQueryable(tracking).ToList();
+            return AsQueryable(tracking).AsEnumerable();
         }
 
         /// <summary>
@@ -838,9 +838,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="tracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
         /// <returns>List{TEntity}</returns>
-        public virtual List<TEntity> AsEnumerable(Expression<Func<TEntity, bool>> predicate, bool? tracking = null, bool ignoreQueryFilters = false)
+        public virtual IEnumerable<TEntity> AsEnumerable(Expression<Func<TEntity, bool>> predicate, bool? tracking = null, bool ignoreQueryFilters = false)
         {
-            return AsQueryable(predicate, tracking, ignoreQueryFilters).ToList();
+            return AsQueryable(predicate, tracking, ignoreQueryFilters).AsEnumerable();
         }
 
         /// <summary>
@@ -849,34 +849,20 @@ namespace Furion.DatabaseAccessor
         /// <param name="predicate">表达式</param>
         /// <param name="tracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
-        /// <returns>List{TEntity}</returns>
-        public virtual List<TEntity> AsEnumerable(Expression<Func<TEntity, int, bool>> predicate, bool? tracking = null, bool ignoreQueryFilters = false)
+        /// <returns>IEnumerable{TEntity}</returns>
+        public virtual IEnumerable<TEntity> AsEnumerable(Expression<Func<TEntity, int, bool>> predicate, bool? tracking = null, bool ignoreQueryFilters = false)
         {
-            return AsQueryable(predicate, tracking, ignoreQueryFilters).ToList();
+            return AsQueryable(predicate, tracking, ignoreQueryFilters).AsEnumerable();
         }
 
         /// <summary>
         /// 直接返回数据库结果
         /// </summary>
         /// <param name="tracking">是否跟踪实体</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>List{TEntity}</returns>
-        public virtual Task<List<TEntity>> AsAsyncEnumerable(bool? tracking = null, CancellationToken cancellationToken = default)
+        public virtual IAsyncEnumerable<TEntity> AsAsyncEnumerable(bool? tracking = null)
         {
-            return AsQueryable(tracking).ToListAsync(cancellationToken);
-        }
-
-        /// <summary>
-        /// 直接返回数据库结果
-        /// </summary>
-        /// <param name="predicate">表达式</param>
-        /// <param name="tracking">是否跟踪实体</param>
-        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>List{TEntity}</returns>
-        public virtual Task<List<TEntity>> AsAsyncEnumerable(Expression<Func<TEntity, bool>> predicate, bool? tracking = null, bool ignoreQueryFilters = false, CancellationToken cancellationToken = default)
-        {
-            return AsQueryable(predicate, tracking, ignoreQueryFilters).ToListAsync(cancellationToken);
+            return AsQueryable(tracking).AsAsyncEnumerable();
         }
 
         /// <summary>
@@ -885,11 +871,22 @@ namespace Furion.DatabaseAccessor
         /// <param name="predicate">表达式</param>
         /// <param name="tracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>List{TEntity}</returns>
-        public virtual Task<List<TEntity>> AsAsyncEnumerable(Expression<Func<TEntity, int, bool>> predicate, bool? tracking = null, bool ignoreQueryFilters = false, CancellationToken cancellationToken = default)
+        /// <returns>IAsyncEnumerable{TEntity}</returns>
+        public virtual IAsyncEnumerable<TEntity> AsAsyncEnumerable(Expression<Func<TEntity, bool>> predicate, bool? tracking = null, bool ignoreQueryFilters = false)
         {
-            return AsQueryable(predicate, tracking, ignoreQueryFilters).ToListAsync(cancellationToken);
+            return AsQueryable(predicate, tracking, ignoreQueryFilters).AsAsyncEnumerable();
+        }
+
+        /// <summary>
+        /// 直接返回数据库结果
+        /// </summary>
+        /// <param name="predicate">表达式</param>
+        /// <param name="tracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <returns>IAsyncEnumerable{TEntity}</returns>
+        public virtual IAsyncEnumerable<TEntity> AsAsyncEnumerable(Expression<Func<TEntity, int, bool>> predicate, bool? tracking = null, bool ignoreQueryFilters = false)
+        {
+            return AsQueryable(predicate, tracking, ignoreQueryFilters).AsAsyncEnumerable();
         }
 
         /// <summary>

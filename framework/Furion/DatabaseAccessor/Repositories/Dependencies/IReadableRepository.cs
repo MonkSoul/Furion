@@ -609,8 +609,8 @@ namespace Furion.DatabaseAccessor
         /// 直接返回数据库结果
         /// </summary>
         /// <param name="tracking">是否跟踪实体</param>
-        /// <returns>List{TEntity}</returns>
-        List<TEntity> AsEnumerable(bool? tracking = null);
+        /// <returns>IEnumerable{TEntity}</returns>
+        IEnumerable<TEntity> AsEnumerable(bool? tracking = null);
 
         /// <summary>
         /// 直接返回数据库结果
@@ -619,7 +619,7 @@ namespace Furion.DatabaseAccessor
         /// <param name="tracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
         /// <returns>List{TEntity}</returns>
-        List<TEntity> AsEnumerable(Expression<Func<TEntity, bool>> predicate, bool? tracking = null, bool ignoreQueryFilters = false);
+        IEnumerable<TEntity> AsEnumerable(Expression<Func<TEntity, bool>> predicate, bool? tracking = null, bool ignoreQueryFilters = false);
 
         /// <summary>
         /// 直接返回数据库结果
@@ -627,26 +627,15 @@ namespace Furion.DatabaseAccessor
         /// <param name="predicate">表达式</param>
         /// <param name="tracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
-        /// <returns>List{TEntity}</returns>
-        List<TEntity> AsEnumerable(Expression<Func<TEntity, int, bool>> predicate, bool? tracking = null, bool ignoreQueryFilters = false);
+        /// <returns>IEnumerable{TEntity}</returns>
+        IEnumerable<TEntity> AsEnumerable(Expression<Func<TEntity, int, bool>> predicate, bool? tracking = null, bool ignoreQueryFilters = false);
 
         /// <summary>
         /// 直接返回数据库结果
         /// </summary>
         /// <param name="tracking">是否跟踪实体</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>List{TEntity}</returns>
-        Task<List<TEntity>> AsAsyncEnumerable(bool? tracking = null, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 直接返回数据库结果
-        /// </summary>
-        /// <param name="predicate">表达式</param>
-        /// <param name="tracking">是否跟踪实体</param>
-        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>List{TEntity}</returns>
-        Task<List<TEntity>> AsAsyncEnumerable(Expression<Func<TEntity, bool>> predicate, bool? tracking = null, bool ignoreQueryFilters = false, CancellationToken cancellationToken = default);
+        IAsyncEnumerable<TEntity> AsAsyncEnumerable(bool? tracking = null);
 
         /// <summary>
         /// 直接返回数据库结果
@@ -654,9 +643,17 @@ namespace Furion.DatabaseAccessor
         /// <param name="predicate">表达式</param>
         /// <param name="tracking">是否跟踪实体</param>
         /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>List{TEntity}</returns>
-        Task<List<TEntity>> AsAsyncEnumerable(Expression<Func<TEntity, int, bool>> predicate, bool? tracking = null, bool ignoreQueryFilters = false, CancellationToken cancellationToken = default);
+        /// <returns>IAsyncEnumerable{TEntity}</returns>
+        IAsyncEnumerable<TEntity> AsAsyncEnumerable(Expression<Func<TEntity, bool>> predicate, bool? tracking = null, bool ignoreQueryFilters = false);
+
+        /// <summary>
+        /// 直接返回数据库结果
+        /// </summary>
+        /// <param name="predicate">表达式</param>
+        /// <param name="tracking">是否跟踪实体</param>
+        /// <param name="ignoreQueryFilters">是否忽略查询过滤器</param>
+        /// <returns>IAsyncEnumerable{TEntity}</returns>
+        IAsyncEnumerable<TEntity> AsAsyncEnumerable(Expression<Func<TEntity, int, bool>> predicate, bool? tracking = null, bool ignoreQueryFilters = false);
 
         /// <summary>
         /// 执行 Sql 返回 IQueryable
