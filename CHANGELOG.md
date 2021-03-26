@@ -19,6 +19,8 @@
 
 - **其他更改**
 
+  - [改进] 获取 `JWT token` 信息支持配置 `Token` 前缀，如 `Bearer ` [#I3DJIV](https://gitee.com/dotnetchina/Furion/issues/I3DJIV)
+
 - **文档变化**
 
   - [调整] 远程请求文档 [#I3CPJO](https://gitee.com/dotnetchina/Furion/issues/I3CPJO)

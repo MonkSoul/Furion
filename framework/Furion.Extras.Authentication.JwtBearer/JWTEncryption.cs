@@ -133,8 +133,9 @@ namespace Furion.DataEncryption
         /// <param name="httpContext"></param>
         /// <param name="expiredTime"></param>
         /// <param name="days"></param>
+        /// <param name="tokenPrefix"></param>
         /// <returns></returns>
-        public static bool AutoRefreshToken(AuthorizationHandlerContext context, DefaultHttpContext httpContext, long? expiredTime = null, int days = 30)
+        public static bool AutoRefreshToken(AuthorizationHandlerContext context, DefaultHttpContext httpContext, long? expiredTime = null, int days = 30, string tokenPrefix = "Bearer ")
         {
             // 如果验证有效，则跳过刷新
             if (context.User.Identity.IsAuthenticated) return true;
@@ -143,8 +144,8 @@ namespace Furion.DataEncryption
             if (httpContext.GetEndpoint()?.Metadata?.GetMetadata<AllowAnonymousAttribute>() != null) return true;
 
             // 获取过期Token 和 刷新Token
-            var expiredToken = GetJwtBearerToken(httpContext);
-            var refreshToken = GetJwtBearerToken(httpContext, "X-Authorization");
+            var expiredToken = GetJwtBearerToken(httpContext, tokenPrefix: tokenPrefix);
+            var refreshToken = GetJwtBearerToken(httpContext, "X-Authorization", tokenPrefix: tokenPrefix);
             if (string.IsNullOrEmpty(expiredToken) || string.IsNullOrEmpty(refreshToken)) return false;
 
             // 交换新的 Token
@@ -211,11 +212,12 @@ namespace Furion.DataEncryption
         /// <param name="httpContext"></param>
         /// <param name="token"></param>
         /// <param name="headerKey"></param>
+        /// <param name="tokenPrefix"></param>
         /// <returns></returns>
-        public static bool ValidateJwtBearerToken(DefaultHttpContext httpContext, out JsonWebToken token, string headerKey = "Authorization")
+        public static bool ValidateJwtBearerToken(DefaultHttpContext httpContext, out JsonWebToken token, string headerKey = "Authorization", string tokenPrefix = "Bearer ")
         {
             // 获取 token
-            var accessToken = GetJwtBearerToken(httpContext, headerKey);
+            var accessToken = GetJwtBearerToken(httpContext, headerKey, tokenPrefix);
             if (string.IsNullOrEmpty(accessToken))
             {
                 token = null;
@@ -250,14 +252,15 @@ namespace Furion.DataEncryption
         /// </summary>
         /// <param name="httpContext"></param>
         /// <param name="headerKey"></param>
+        /// <param name="tokenPrefix"></param>
         /// <returns></returns>
-        public static string GetJwtBearerToken(DefaultHttpContext httpContext, string headerKey = "Authorization")
+        public static string GetJwtBearerToken(DefaultHttpContext httpContext, string headerKey = "Authorization", string tokenPrefix = "Bearer ")
         {
             // 判断请求报文头中是否有 "Authorization" 报文头
             var bearerToken = httpContext.Request.Headers[headerKey].ToString();
             if (string.IsNullOrEmpty(bearerToken)) return default;
 
-            return bearerToken.StartsWith("Bearer ", true, null) && bearerToken.Length > 7 ? bearerToken[7..] : default;
+            return bearerToken.StartsWith(tokenPrefix, true, null) && bearerToken.Length > 7 ? bearerToken[7..] : default;
         }
 
         /// <summary>
