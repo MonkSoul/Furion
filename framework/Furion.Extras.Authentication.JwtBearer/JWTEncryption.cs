@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
@@ -104,8 +104,8 @@ namespace Furion.DataEncryption
             if (!isValid) return default;
 
             // 判断这个刷新Token 是否已刷新过
-            var memoryCache = InternalHttpContext.Current()?.RequestServices?.GetService<IMemoryCache>();
-            if (memoryCache?.TryGetValue(refreshToken, out _) == true) return default;
+            var distributedCache = InternalHttpContext.Current()?.RequestServices?.GetService<IDistributedCache>();
+            if (!string.IsNullOrEmpty(distributedCache?.GetString(refreshToken))) return default;
 
             // 分割过期Token
             var tokenParagraphs = expiredToken.Split('.', StringSplitOptions.RemoveEmptyEntries);
@@ -121,7 +121,10 @@ namespace Furion.DataEncryption
                                          .ToDictionary(u => u.Type, u => (object)u.Value);
 
             // 交换成功后登记刷新Token，标记失效
-            memoryCache?.Set(refreshToken, "1", DateTimeOffset.FromUnixTimeSeconds(token.GetPayloadValue<long>(JwtRegisteredClaimNames.Exp)));
+            distributedCache?.SetString(refreshToken, "in", new DistributedCacheEntryOptions
+            {
+                AbsoluteExpiration = DateTimeOffset.FromUnixTimeSeconds(token.GetPayloadValue<long>(JwtRegisteredClaimNames.Exp))
+            });
 
             return Encrypt(payload, expiredTime);
         }

@@ -22,6 +22,7 @@
 - **其他更改**
 
   - [改进] 获取 `JWT token` 信息支持配置 `Token` 前缀，如 `Bearer ` [#I3DJIV](https://gitee.com/dotnetchina/Furion/issues/I3DJIV)
+  - [改进] 刷新 Token 黑名单存储方式，将内存缓存调整为分布式缓存 [#I3DPBR](https://gitee.com/dotnetchina/Furion/issues/I3DPBR)
 
 - **文档变化**
 
