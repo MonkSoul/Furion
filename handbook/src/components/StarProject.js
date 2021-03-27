@@ -12,11 +12,11 @@ export default function StarProject() {
       </button>
       {show ? (
         <a
-          href="https://gitee.com/zuohuaijun/Admin.NET"
+          href="https://gitee.com/LongbowEnterprise/BootstrapBlazor"
           target="_blank"
-          title="dotNET China 精选项目第 01 届"
+          title="dotNET China 精选项目第 02 届"
         >
-          <img src={useBaseUrl("img/Admin.NET.png")} />
+          <img src={useBaseUrl("img/BootstrapBlazor.png")} />
         </a>
       ) : (
         <></>
