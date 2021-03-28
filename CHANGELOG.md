@@ -32,6 +32,7 @@
 
   - [答疑] `LinqExpression.And` 没有 2 个参数的方法 [#I3CXKZ](https://gitee.com/dotnetchina/Furion/issues/I3CXKZ)
   - [答疑] 异常信息 如何记录到数据库中:) [#I3DDGO](https://gitee.com/dotnetchina/Furion/issues/I3DDGO)
+  - [答疑] 无键实体选用 `IEntityNotKey` [#I3DWRF](https://gitee.com/dotnetchina/Furion/issues/I3DWRF)
 
 - **不做实现**
 
