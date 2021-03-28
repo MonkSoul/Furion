@@ -121,7 +121,7 @@ function Gitee() {
         完全开源免费
       </p>
       <h1 className={"furion-big-title" + (isDarkTheme ? " dark" : "")}>
-        代码托管在开源中国 GITEE
+        代码托管在开源中国 Gitee
       </h1>
       <div className="furion-gitee-log">
         <div
@@ -132,7 +132,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>3650</div>
+            <div style={{ color: "#723cff" }}>3700</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
@@ -144,7 +144,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#3fbbfe" }}>1050</div>
+            <div style={{ color: "#3fbbfe" }}>1100</div>
             <span className={isDarkTheme ? " dark" : ""}>Forks</span>
           </div>
         </div>
@@ -156,7 +156,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>123,476</div>
+            <div style={{ color: "#1fd898" }}>126,256</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
