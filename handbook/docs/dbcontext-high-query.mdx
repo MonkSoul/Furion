@@ -209,11 +209,11 @@ var person = repository.Include(u => u.Detail.Where(d => d.Id > 10).OrderBy(d =>
                        .Include(u => u.Post);
 
 // 示例五
-var person = repository.IncludeIf(!string.IsNullOrEmpty(keyword), u => u.Detail);
+var person = repository.Include(!string.IsNullOrEmpty(keyword), u => u.Detail);
 
 // 示例六
-var person = repository.IncludeIf(!string.IsNullOrEmpty(keyword), u => u.Detail)
-                       .IncludeIf(age > 18), u => u.Detail.Where(d => d.Id > 10).OrderBy(d => d.Name))
+var person = repository.Include(!string.IsNullOrEmpty(keyword), u => u.Detail)
+                       .Include(age > 18), u => u.Detail.Where(d => d.Id > 10).OrderBy(d => d.Name))
                             .ThenInclude(d => d.Review)
                        .Include(u => u.Post);
 ```

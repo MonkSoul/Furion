@@ -6,6 +6,7 @@
   - [新增] 远程请求支持 `multipart/form-data` 内容类型处理 [#I3D7KG](https://gitee.com/dotnetchina/Furion/issues/I3D7KG)
   - [新增] 字符串加密拓展 [#I3DHBW](https://gitee.com/dotnetchina/Furion/issues/I3DHBW)
   - [新增] 新增远程请求可直接下载返回值内容转为 string 类型 [#I3DIGR](https://gitee.com/dotnetchina/Furion/issues/I3DIGR)
+  - [新增] 远程请求地址支持模板引擎 [#I3D5Y8](https://gitee.com/dotnetchina/Furion/issues/I3D5Y8)
 
 - **突破性变化**
 
@@ -36,6 +37,7 @@
   - [答疑] 无键实体选用 `IEntityNotKey` [#I3DWRF](https://gitee.com/dotnetchina/Furion/issues/I3DWRF)
   - [答疑] 根据主键删除一条记录不成功，无错误信息 [#I3DWWF](https://gitee.com/dotnetchina/Furion/issues/I3DWWF)
   - [答疑] 如何自定义接口返回格式 [#I3DZN6](https://gitee.com/dotnetchina/Furion/issues/I3DZN6)
+  - [答疑] DynamicApiController 如何在运行时决定是否公开一个 Action [#I3D5UL](https://gitee.com/dotnetchina/Furion/issues/I3D5UL)
 
 - **不做实现**
 

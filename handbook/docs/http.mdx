@@ -169,9 +169,10 @@ await "https://www.furion.pro/post".SetHttpMethod(HttpMethod.Get);
 
 ```cs
 // 字典方式
-await "https://www.furion.pro/post/{id}?name={name}".SetTemplates(new Dictionary<string , object> {
+await "https://www.furion.pro/post/{id}?name={name}&id={p.Id}".SetTemplates(new Dictionary<string , object> {
     { "id", 1 },
-    { "name", "Furion" }
+    { "name", "Furion" },
+    { "p.Id", new Person { Id = 1 } }
 });
 
 // 对象/匿名对象方式
@@ -412,8 +413,8 @@ public interface IHttp : IHttpDispatchProxy
 ```cs
 public interface IHttp : IHttpDispatchProxy
 {
-    [Get("https://www.furion.pro/get/{id}?name={name}")]
-    Task<HttpResponseMessage> GetXXXAsync(int id, string name);
+    [Get("https://www.furion.pro/get/{id}?name={name}&number={p.PersonDetail.PhonNumber}")]
+    Task<HttpResponseMessage> GetXXXAsync(int id, string name, Person p);
 }
 ```
 

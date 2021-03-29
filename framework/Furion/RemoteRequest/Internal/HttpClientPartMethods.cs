@@ -535,7 +535,7 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 模板正则表达式
         /// </summary>
-        private const string templatePattern = @"\{(?<p>\w+)\}";
+        private const string templatePattern = @"\{(?<p>.+?)\}";
 
         /// <summary>
         /// 替换 Url 地址模板参数
@@ -554,7 +554,7 @@ namespace Furion.RemoteRequest
                                                        .Select(u => new
                                                        {
                                                            Template = u.Groups["p"].Value,
-                                                           Value = Templates.ContainsKey(u.Groups["p"].Value) ? Templates[u.Groups["p"].Value] : default
+                                                           Value = MatchTemplateValue(u.Groups["p"].Value, Templates)
                                                        });
 
             // 循环替换模板
@@ -574,6 +574,61 @@ namespace Furion.RemoteRequest
             // 解析序列化工具
             var jsonSerializer = App.GetService(JsonSerialization.ProviderType) as IJsonSerializerProvider;
             return jsonSerializer.Serialize(body, JsonSerialization.JsonSerializerOptions);
+        }
+
+        /// <summary>
+        /// 匹配模板值
+        /// </summary>
+        /// <param name="template"></param>
+        /// <param name="templateData"></param>
+        /// <returns></returns>
+        private static object MatchTemplateValue(string template, Dictionary<string, object> templateData)
+        {
+            string tmpl;
+            if (!template.Contains(".", StringComparison.CurrentCulture)) tmpl = template;
+            else tmpl = template.Split('.', StringSplitOptions.RemoveEmptyEntries).First();
+
+            var templateValue = templateData.ContainsKey(tmpl) ? templateData[tmpl] : default;
+            return ResolveTemplateValue(template, templateValue);
+        }
+
+        /// <summary>
+        /// 解析模板的值
+        /// </summary>
+        /// <param name="template"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        private static object ResolveTemplateValue(string template, object data)
+        {
+            // 根据 . 分割模板
+            var propertyCrumbs = template.Split('.', StringSplitOptions.RemoveEmptyEntries);
+            return GetValue(propertyCrumbs, data);
+
+            // 静态构造函数
+            static object GetValue(string[] propertyCrumbs, object data)
+            {
+                if (data == null || propertyCrumbs == null || propertyCrumbs.Length <= 1) return data;
+                var dataType = data.GetType();
+
+                // 如果是基元类型则直接返回
+                if (dataType.IsRichPrimitive()) return data;
+                object value = null;
+
+                // 递归获取值
+                for (int i = 1; i < propertyCrumbs.Length; i++)
+                {
+                    var propery = dataType.GetProperty(propertyCrumbs[i]);
+                    if (propery == null) break;
+                    value = propery.GetValue(data);
+                    if (i + 1 < propertyCrumbs.Length)
+                    {
+                        value = GetValue(propertyCrumbs.Skip(i).ToArray(), value);
+                    }
+                    else break;
+                }
+
+                return value;
+            }
         }
     }
 }
