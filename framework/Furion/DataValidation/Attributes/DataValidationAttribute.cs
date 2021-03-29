@@ -56,7 +56,8 @@ namespace System.ComponentModel.DataAnnotations
                 var errorMessage = string.IsNullOrEmpty(ErrorMessage)
                     ? L.Text == null ? resultMessage : L.Text[resultMessage]
                     : ErrorMessage;
-                return new ValidationResult(errorMessage);
+
+                return new ValidationResult(string.Format(errorMessage, validationContext.MemberName));
             }
 
             // 验证成功
