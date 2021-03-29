@@ -39,6 +39,7 @@
   - [答疑] 根据主键删除一条记录不成功，无错误信息 [#I3DWWF](https://gitee.com/dotnetchina/Furion/issues/I3DWWF)
   - [答疑] 如何自定义接口返回格式 [#I3DZN6](https://gitee.com/dotnetchina/Furion/issues/I3DZN6)
   - [答疑] DynamicApiController 如何在运行时决定是否公开一个 Action [#I3D5UL](https://gitee.com/dotnetchina/Furion/issues/I3D5UL)
+  - [答疑] `Furion.DatabaseAccessor.DbHelpers` 方法：`ConvertToDbParameters` 是不是应该过滤掉贴 `NotMapped` 的特性 [#I3E2XS](https://gitee.com/dotnetchina/Furion/issues/I3E2XS)
 
 - **不做实现**
 
