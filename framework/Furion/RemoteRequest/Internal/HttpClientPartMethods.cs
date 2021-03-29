@@ -357,17 +357,9 @@ namespace Furion.RemoteRequest
             // 处理模板问题
             ReplaceRequestUrlTemplates();
 
-            var finalRequestUrl = RequestUrl;
-
-            // 拼接查询参数
-            if (Queries != null && Queries.Count > 0)
-            {
-                var urlParameters = Queries.Where(u => u.Value != null).Select(u => $"{u.Key}={HttpUtility.UrlEncode(u.Value?.ToString() ?? string.Empty)}");
-                finalRequestUrl += $"{(finalRequestUrl.IndexOf("?") > -1 ? "&" : "?")}{string.Join("&", urlParameters)}";
-            }
-
             // 构建请求对象
-            var request = new HttpRequestMessage(Method, finalRequestUrl);
+            var request = new HttpRequestMessage(Method, RequestUrl);
+            request.AppendQueries(Queries);
 
             // 设置请求报文头
             if (Headers != null && Headers.Count > 0)
