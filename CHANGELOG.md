@@ -35,6 +35,7 @@
   - [答疑] 异常信息 如何记录到数据库中:) [#I3DDGO](https://gitee.com/dotnetchina/Furion/issues/I3DDGO)
   - [答疑] 无键实体选用 `IEntityNotKey` [#I3DWRF](https://gitee.com/dotnetchina/Furion/issues/I3DWRF)
   - [答疑] 根据主键删除一条记录不成功，无错误信息 [#I3DWWF](https://gitee.com/dotnetchina/Furion/issues/I3DWWF)
+  - [答疑] 如何自定义接口返回格式 [#I3DZN6](https://gitee.com/dotnetchina/Furion/issues/I3DZN6)
 
 - **不做实现**
 
