@@ -32,7 +32,7 @@ namespace Dapper
         /// <summary>
         /// Oracle 提供器程序集
         /// </summary>
-        public const string Oracle = "Oracle.ManagedDataAccess.Core";
+        public const string Oracle = "Oracle.ManagedDataAccess";
 
         /// <summary>
         /// Firebird 提供器程序集

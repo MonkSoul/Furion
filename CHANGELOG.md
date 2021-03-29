@@ -18,6 +18,7 @@
   - [修复] 远程请求无法打印完整的请求地址，比如配置了 HttpClient 之后 [#I3CY42](https://gitee.com/dotnetchina/Furion/issues/I3CY42)
   - [修复] 程序启动时排除默认配置文件算法不对，应该采用正则表达式匹配 [#I3D9E7](https://gitee.com/dotnetchina/Furion/issues/I3D9E7)
   - [修复] 远程请求成功请求拦截不生效 [#I3DOE4](https://gitee.com/dotnetchina/Furion/issues/I3DOE4)
+  - [修复] `Dapper` 拓展数据库切换为 oracle 时，系统找不到指定的文件 `Oracle.ManagedDataAccess.Core` [#I3DYM3](https://gitee.com/dotnetchina/Furion/issues/I3DYM3)
 
 - **其他更改**
 
