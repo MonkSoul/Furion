@@ -90,10 +90,10 @@ module.exports = {
         },
         { label: "社区", position: "right", href: "https://www.chinadot.net" },
         {
-          label: "合作",
+          label: "案例",
           position: "right",
-          to: "docs/cooperate",
-          activeBasePath: "docs/cooperate",
+          to: "docs/case",
+          activeBasePath: "docs/case",
         },
         {
           label: "赞助",
