@@ -11,7 +11,7 @@
 
 - **突破性变化**
 
-  - [调整] `IRepository.AsAsyncEnumerable()` 返回值 [#I3DIQ1](https://gitee.com/dotnetchina/Furion/issues/I3DIQ1)
+  - [调整] `IRepository.AsAsyncEnumerable()` 返回值 [#I3DIQ1](https://gitee.com/dotnetchina/Furion/issues/I3DIQ1)，调整为：`rep.AsQueryable().ToListAsync()`
 
 - **问题修复**
 
