@@ -306,6 +306,10 @@ await "https://www.furion.pro/api/user/add".SetValidationState(includeNull: true
 ```cs
 await "https://www.furion.pro/".OnRequesting(req => {
     // req 为 HttpRequestMessage 对象
+    // 追加更多参数
+    req.AppendQueries(new Dictionary<string, object> {
+        { "access_token", "xxxx"}
+    });
 });
 ```
 
@@ -552,7 +556,10 @@ public interface IHttp : IHttpDispatchProxy
     [Interceptor(InterceptorTypes.Request)]
     static void OnRequesting1(HttpRequestMessage req)
     {
-
+        // 追加更多参数
+        req.AppendQueries(new Dictionary<string, object> {
+            { "access_token", "xxxx"}
+        });
     }
 
     // 全局拦截，类中每一个方法都会触发

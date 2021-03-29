@@ -363,7 +363,7 @@ namespace Furion.RemoteRequest
             if (Queries != null && Queries.Count > 0)
             {
                 var urlParameters = Queries.Where(u => u.Value != null).Select(u => $"{u.Key}={HttpUtility.UrlEncode(u.Value?.ToString() ?? string.Empty)}");
-                finalRequestUrl += $"{(finalRequestUrl.IndexOf("?") > -1 ? string.Empty : "?")}{string.Join("&", urlParameters)}";
+                finalRequestUrl += $"{(finalRequestUrl.IndexOf("?") > -1 ? "&" : "?")}{string.Join("&", urlParameters)}";
             }
 
             // 构建请求对象
@@ -413,7 +413,7 @@ namespace Furion.RemoteRequest
             });
 
             // 打印发送请求
-            App.PrintToMiniProfiler(MiniProfilerCategory, "Sending", $"[{Method}] {httpClient.BaseAddress?.OriginalString}{finalRequestUrl}");
+            App.PrintToMiniProfiler(MiniProfilerCategory, "Sending", $"[{Method}] {httpClient.BaseAddress?.OriginalString}{request.RequestUri?.OriginalString}");
 
             // 发送请求
             var response = await httpClient.SendAsync(request, cancellationToken);

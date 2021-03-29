@@ -8,6 +8,7 @@
   - [新增] 新增远程请求可直接下载返回值内容转为 string 类型 [#I3DIGR](https://gitee.com/dotnetchina/Furion/issues/I3DIGR)
   - [新增] 远程请求地址支持模板引擎 [#I3D5Y8](https://gitee.com/dotnetchina/Furion/issues/I3D5Y8)
   - [新增] `[DataValidation]` 错误消息支持 `string.Format` 操作 [#I3E08W](https://gitee.com/dotnetchina/Furion/issues/I3E08W)
+  - [新增] 远程请求 `HttpRequestMessage` 拓展方法 `AppendQueries()` 追加更多 `query` 参数拓展 [#I3E3DI](https://gitee.com/dotnetchina/Furion/issues/I3E3DI)
 
 - **突破性变化**
 
