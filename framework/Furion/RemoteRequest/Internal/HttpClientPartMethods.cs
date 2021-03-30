@@ -596,7 +596,7 @@ namespace Furion.RemoteRequest
             var propertyCrumbs = template.Split('.', StringSplitOptions.RemoveEmptyEntries);
             return GetValue(propertyCrumbs, data);
 
-            // 静态构造函数
+            // 静态本地函数
             static object GetValue(string[] propertyCrumbs, object data)
             {
                 if (data == null || propertyCrumbs == null || propertyCrumbs.Length <= 1) return data;
