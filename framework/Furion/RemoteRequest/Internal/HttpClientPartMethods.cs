@@ -606,11 +606,12 @@ namespace Furion.RemoteRequest
                 if (dataType.IsRichPrimitive()) return data;
                 object value = null;
 
-                // 递归获取值
+                // 递归获取下一级模板值
                 for (int i = 1; i < propertyCrumbs.Length; i++)
                 {
                     var propery = dataType.GetProperty(propertyCrumbs[i]);
                     if (propery == null) break;
+
                     value = propery.GetValue(data);
                     if (i + 1 < propertyCrumbs.Length)
                     {

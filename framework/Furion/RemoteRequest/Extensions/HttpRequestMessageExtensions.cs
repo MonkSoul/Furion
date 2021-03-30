@@ -21,11 +21,14 @@ namespace System.Net.Http
         {
             if (queries == null || queries.Count == 0) return;
 
+            // 获取原始地址
             var finalRequestUrl = httpRequest.RequestUri.OriginalString;
 
+            // 拼接
             var urlParameters = queries.Where(u => u.Value != null).Select(u => $"{u.Key}={HttpUtility.UrlEncode(u.Value?.ToString() ?? string.Empty)}");
             finalRequestUrl += $"{(finalRequestUrl.IndexOf("?") > -1 ? "&" : "?")}{string.Join("&", urlParameters)}";
 
+            // 重新设置地址
             httpRequest.RequestUri = new Uri(finalRequestUrl);
         }
 
