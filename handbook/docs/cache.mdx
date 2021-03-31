@@ -243,6 +243,18 @@ services.AddDistributedSqlServerCache(options =>
 
 这里不细讲 `Redis` 相关内容，后续章节会使用基本例子演示。
 
+`Redis` 基本配置：
+
+```cs
+services.AddStackExchangeRedisCache(options =>
+{
+    // 连接字符串，这里也可以读取配置文件
+    options.Configuration = "192.168.111.134,password=aW1HAyupRKmiZn3Q";
+    // 键名前缀
+    options.InstanceName = "furion_";
+});
+```
+
 ### 14.4.6 分布式 `NCache` 缓存
 
 `NCache` 是在 `.NET` 和 `.Net Core` 中以本机方式开发的开源内存中分布式缓存。 `NCache` 在本地工作并配置为分布式缓存群集，适用于在 `Azure` 或其他托管平台上运行的 `ASP.NET Core` 应用。
