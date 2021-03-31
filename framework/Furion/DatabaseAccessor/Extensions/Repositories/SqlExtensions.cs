@@ -2085,10 +2085,11 @@ namespace Furion.DatabaseAccessor.Extensions
             parameters ??= Array.Empty<DbParameter>();
 
             // 执行存储过程
-            var dataSet = GetSqlDatabase(ref procName).DataAdapterFill(procName, parameters, CommandType.StoredProcedure);
+            var database = GetSqlDatabase(ref procName);
+            var dataSet = database.DataAdapterFill(procName, parameters, CommandType.StoredProcedure);
 
             // 包装结果集
-            return DbHelpers.WrapperProcedureOutput(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput(database.ProviderName, parameters, dataSet);
         }
 
         /// <summary>
@@ -2103,10 +2104,11 @@ namespace Furion.DatabaseAccessor.Extensions
             parameters ??= Array.Empty<DbParameter>();
 
             // 执行存储过程
-            var dataSet = await GetSqlDatabase(ref procName).DataAdapterFillAsync(procName, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
+            var database = GetSqlDatabase(ref procName);
+            var dataSet = await database.DataAdapterFillAsync(procName, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
             // 包装结果集
-            return DbHelpers.WrapperProcedureOutput(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput(database.ProviderName, parameters, dataSet);
         }
 
         /// <summary>
@@ -2118,10 +2120,11 @@ namespace Furion.DatabaseAccessor.Extensions
         public static ProcedureOutputResult SqlProcedureOutput(this string procName, object model)
         {
             // 执行存储过程
-            var (dataSet, parameters) = GetSqlDatabase(ref procName).DataAdapterFill(procName, model, CommandType.StoredProcedure);
+            var database = GetSqlDatabase(ref procName);
+            var (dataSet, parameters) = database.DataAdapterFill(procName, model, CommandType.StoredProcedure);
 
             // 包装结果集
-            return DbHelpers.WrapperProcedureOutput(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput(database.ProviderName, parameters, dataSet);
         }
 
         /// <summary>
@@ -2134,10 +2137,11 @@ namespace Furion.DatabaseAccessor.Extensions
         public static async Task<ProcedureOutputResult> SqlProcedureOutputAsync(this string procName, object model, CancellationToken cancellationToken = default)
         {
             // 执行存储过程
-            var (dataSet, parameters) = await GetSqlDatabase(ref procName).DataAdapterFillAsync(procName, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
+            var database = GetSqlDatabase(ref procName);
+            var (dataSet, parameters) = await database.DataAdapterFillAsync(procName, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
             // 包装结果集
-            return DbHelpers.WrapperProcedureOutput(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput(database.ProviderName, parameters, dataSet);
         }
 
         /// <summary>
@@ -2152,10 +2156,11 @@ namespace Furion.DatabaseAccessor.Extensions
             parameters ??= Array.Empty<DbParameter>();
 
             // 执行存储过程
-            var dataSet = GetSqlDatabase(ref procName).DataAdapterFill(procName, parameters, CommandType.StoredProcedure);
+            var database = GetSqlDatabase(ref procName);
+            var dataSet = database.DataAdapterFill(procName, parameters, CommandType.StoredProcedure);
 
             // 包装结果集
-            return DbHelpers.WrapperProcedureOutput<TResult>(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput<TResult>(database.ProviderName, parameters, dataSet);
         }
 
         /// <summary>
@@ -2171,10 +2176,11 @@ namespace Furion.DatabaseAccessor.Extensions
             parameters ??= Array.Empty<DbParameter>();
 
             // 执行存储过程
-            var dataSet = await GetSqlDatabase(ref procName).DataAdapterFillAsync(procName, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
+            var database = GetSqlDatabase(ref procName);
+            var dataSet = await database.DataAdapterFillAsync(procName, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
             // 包装结果集
-            return DbHelpers.WrapperProcedureOutput<TResult>(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput<TResult>(database.ProviderName, parameters, dataSet);
         }
 
         /// <summary>
@@ -2187,10 +2193,11 @@ namespace Furion.DatabaseAccessor.Extensions
         public static ProcedureOutputResult<TResult> SqlProcedureOutput<TResult>(this string procName, object model)
         {
             // 执行存储过程
-            var (dataSet, parameters) = GetSqlDatabase(ref procName).DataAdapterFill(procName, model, CommandType.StoredProcedure);
+            var database = GetSqlDatabase(ref procName);
+            var (dataSet, parameters) = database.DataAdapterFill(procName, model, CommandType.StoredProcedure);
 
             // 包装结果集
-            return DbHelpers.WrapperProcedureOutput<TResult>(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput<TResult>(database.ProviderName, parameters, dataSet);
         }
 
         /// <summary>
@@ -2204,10 +2211,11 @@ namespace Furion.DatabaseAccessor.Extensions
         public static async Task<ProcedureOutputResult<TResult>> SqlProcedureOutputAsync<TResult>(this string procName, object model, CancellationToken cancellationToken = default)
         {
             // 执行存储过程
-            var (dataSet, parameters) = await GetSqlDatabase(ref procName).DataAdapterFillAsync(procName, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
+            var database = GetSqlDatabase(ref procName);
+            var (dataSet, parameters) = await database.DataAdapterFillAsync(procName, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
             // 包装结果集
-            return DbHelpers.WrapperProcedureOutput<TResult>(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput<TResult>(database.ProviderName, parameters, dataSet);
         }
 
         /// <summary>

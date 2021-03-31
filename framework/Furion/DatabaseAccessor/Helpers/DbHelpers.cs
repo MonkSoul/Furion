@@ -138,8 +138,8 @@ namespace Furion.DatabaseAccessor
             {
                 var sqlParameter = parameters[i];
 
-                // 添加 @ 前缀参数
-                stringBuilder.Append($"@{(sqlParameter.ParameterName.Replace("@", ""))}");
+                // 处理不同数据库的占位符
+                stringBuilder.Append(FixSqlParameterPlaceholder(providerName, sqlParameter.ParameterName));
 
                 // 处理最后一个参数逗号
                 if (i != parameters.Length - 1)
@@ -182,7 +182,7 @@ namespace Furion.DatabaseAccessor
             {
                 var property = properities[i];
 
-                stringBuilder.Append($"@{property.Name}");
+                stringBuilder.Append(FixSqlParameterPlaceholder(providerName, property.Name));
 
                 // 处理最后一个参数逗号
                 if (i != properities.Length - 1)
@@ -217,7 +217,7 @@ namespace Furion.DatabaseAccessor
                 var i = 0;
                 foreach (var key in keyValues.Keys)
                 {
-                    stringBuilder.Append($"@{key}");
+                    stringBuilder.Append(FixSqlParameterPlaceholder(providerName, key));
 
                     // 处理最后一个参数逗号
                     if (i != keyValues.Count - 1)
@@ -236,13 +236,14 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 包裹存储过程返回结果集
         /// </summary>
+        /// <param name="providerName"></param>
         /// <param name="parameters">命令参数</param>
         /// <param name="dataSet">数据集</param>
         /// <returns>ProcedureOutput</returns>
-        internal static ProcedureOutputResult WrapperProcedureOutput(DbParameter[] parameters, DataSet dataSet)
+        internal static ProcedureOutputResult WrapperProcedureOutput(string providerName, DbParameter[] parameters, DataSet dataSet)
         {
             // 读取输出返回值
-            ReadOuputValue(parameters, out var outputValues, out var returnValue);
+            ReadOuputValue(providerName, parameters, out var outputValues, out var returnValue);
 
             return new ProcedureOutputResult
             {
@@ -256,13 +257,14 @@ namespace Furion.DatabaseAccessor
         /// 包裹存储过程返回结果集
         /// </summary>
         /// <typeparam name="TResult">数据集结果</typeparam>
+        /// <param name="providerName"></param>
         /// <param name="parameters">命令参数</param>
         /// <param name="dataSet">数据集</param>
         /// <returns>ProcedureOutput</returns>
-        internal static ProcedureOutputResult<TResult> WrapperProcedureOutput<TResult>(DbParameter[] parameters, DataSet dataSet)
+        internal static ProcedureOutputResult<TResult> WrapperProcedureOutput<TResult>(string providerName, DbParameter[] parameters, DataSet dataSet)
         {
             // 读取输出返回值
-            ReadOuputValue(parameters, out var outputValues, out var returnValue);
+            ReadOuputValue(providerName, parameters, out var outputValues, out var returnValue);
 
             return new ProcedureOutputResult<TResult>
             {
@@ -324,23 +326,42 @@ namespace Furion.DatabaseAccessor
         /// <returns></returns>
         internal static InvalidOperationException DataNotFoundException()
         {
-            return new InvalidOperationException("Sequence contains no elements");
+            return new InvalidOperationException("Sequence contains no elements.");
+        }
+
+        /// <summary>
+        /// 修正不同数据库命令参数前缀不一致问题
+        /// </summary>
+        /// <param name="providerName"></param>
+        /// <param name="parameterName"></param>
+        /// <param name="isFixed"></param>
+        /// <returns></returns>
+        internal static string FixSqlParameterPlaceholder(string providerName, string parameterName, bool isFixed = true)
+        {
+            var placeholder = !providerName.Equals(DbProvider.Oracle, StringComparison.Ordinal) ? "@" : ":";
+            if (parameterName.StartsWith("@") || parameterName.StartsWith(":"))
+            {
+                parameterName = parameterName[1..];
+            }
+
+            return isFixed ? placeholder + parameterName : providerName;
         }
 
         /// <summary>
         /// 读取输出返回值
         /// </summary>
+        /// <param name="providerName"></param>
         /// <param name="parameters">参数</param>
         /// <param name="outputValues">输出参数</param>
         /// <param name="returnValue">返回值</param>
-        private static void ReadOuputValue(DbParameter[] parameters, out List<ProcedureOutputValue> outputValues, out object returnValue)
+        private static void ReadOuputValue(string providerName, DbParameter[] parameters, out List<ProcedureOutputValue> outputValues, out object returnValue)
         {
             // 查询所有OUTPUT值
             outputValues = parameters
                .Where(u => u.Direction == ParameterDirection.Output)
                .Select(u => new ProcedureOutputValue
                {
-                   Name = u.ParameterName.Replace("@", ""),
+                   Name = FixSqlParameterPlaceholder(providerName, u.ParameterName, false),
                    Value = u.Value
                }).ToList();
 

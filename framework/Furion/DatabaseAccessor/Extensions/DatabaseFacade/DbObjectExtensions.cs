@@ -62,7 +62,7 @@ namespace Furion.DatabaseAccessor
         {
             // 创建数据库连接对象及数据库命令对象
             var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType);
-            SetDbParameters(ref dbCommand, parameters);
+            SetDbParameters(databaseFacade.ProviderName, ref dbCommand, parameters);
 
             // 打开数据库连接
             OpenConnection(databaseFacade, dbConnection);
@@ -83,7 +83,7 @@ namespace Furion.DatabaseAccessor
         {
             // 创建数据库连接对象及数据库命令对象
             var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType);
-            SetDbParameters(ref dbCommand, model, out var dbParameters);
+            SetDbParameters(databaseFacade.ProviderName, ref dbCommand, model, out var dbParameters);
 
             // 打开数据库连接
             OpenConnection(databaseFacade, dbConnection);
@@ -105,7 +105,7 @@ namespace Furion.DatabaseAccessor
         {
             // 创建数据库连接对象及数据库命令对象
             var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType);
-            SetDbParameters(ref dbCommand, parameters);
+            SetDbParameters(databaseFacade.ProviderName, ref dbCommand, parameters);
 
             // 打开数据库连接
             await OpenConnectionAsync(databaseFacade, dbConnection, cancellationToken);
@@ -127,7 +127,7 @@ namespace Furion.DatabaseAccessor
         {
             // 创建数据库连接对象及数据库命令对象
             var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType);
-            SetDbParameters(ref dbCommand, model, out var dbParameters);
+            SetDbParameters(databaseFacade.ProviderName, ref dbCommand, model, out var dbParameters);
 
             // 打开数据库连接
             await OpenConnectionAsync(databaseFacade, dbConnection, cancellationToken);
@@ -148,7 +148,7 @@ namespace Furion.DatabaseAccessor
         {
             // 创建数据库连接对象、数据库命令对象和数据库适配器对象
             var (dbConnection, dbCommand, dbDataAdapter) = databaseFacade.CreateDbDataAdapter(sql, commandType);
-            SetDbParameters(ref dbCommand, parameters);
+            SetDbParameters(databaseFacade.ProviderName, ref dbCommand, parameters);
 
             // 打开数据库连接
             OpenConnection(databaseFacade, dbConnection);
@@ -169,7 +169,7 @@ namespace Furion.DatabaseAccessor
         {
             // 创建数据库连接对象、数据库命令对象和数据库适配器对象
             var (dbConnection, dbCommand, dbDataAdapter) = databaseFacade.CreateDbDataAdapter(sql, commandType);
-            SetDbParameters(ref dbCommand, model, out var dbParameters);
+            SetDbParameters(databaseFacade.ProviderName, ref dbCommand, model, out var dbParameters);
 
             // 打开数据库连接
             OpenConnection(databaseFacade, dbConnection);
@@ -191,7 +191,7 @@ namespace Furion.DatabaseAccessor
         {
             // 创建数据库连接对象、数据库命令对象和数据库适配器对象
             var (dbConnection, dbCommand, dbDataAdapter) = databaseFacade.CreateDbDataAdapter(sql, commandType);
-            SetDbParameters(ref dbCommand, parameters);
+            SetDbParameters(databaseFacade.ProviderName, ref dbCommand, parameters);
 
             // 打开数据库连接
             await OpenConnectionAsync(databaseFacade, dbConnection, cancellationToken);
@@ -213,7 +213,7 @@ namespace Furion.DatabaseAccessor
         {
             // 创建数据库连接对象、数据库命令对象和数据库适配器对象
             var (dbConnection, dbCommand, dbDataAdapter) = databaseFacade.CreateDbDataAdapter(sql, commandType);
-            SetDbParameters(ref dbCommand, model, out var dbParameters);
+            SetDbParameters(databaseFacade.ProviderName, ref dbCommand, model, out var dbParameters);
 
             // 打开数据库连接
             await OpenConnectionAsync(databaseFacade, dbConnection, cancellationToken);
@@ -321,19 +321,17 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 设置数据库命令对象参数
         /// </summary>
+        /// <param name="providerName"></param>
         /// <param name="dbCommand">数据库命令对象</param>
         /// <param name="parameters">命令参数</param>
-        private static void SetDbParameters(ref DbCommand dbCommand, DbParameter[] parameters = null)
+        private static void SetDbParameters(string providerName, ref DbCommand dbCommand, DbParameter[] parameters = null)
         {
             if (parameters == null || parameters.Length == 0) return;
 
-            // 添加 @ 前缀
+            // 添加命令参数前缀
             foreach (var parameter in parameters)
             {
-                if (!parameter.ParameterName.Contains("@"))
-                {
-                    parameter.ParameterName = $"@{parameter.ParameterName}";
-                }
+                parameter.ParameterName = DbHelpers.FixSqlParameterPlaceholder(providerName, parameter.ParameterName);
                 dbCommand.Parameters.Add(parameter);
             }
         }
@@ -341,13 +339,14 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 设置数据库命令对象参数
         /// </summary>
+        /// <param name="providerName"></param>
         /// <param name="dbCommand">数据库命令对象</param>
         /// <param name="model">参数模型</param>
         /// <param name="dbParameters">命令参数</param>
-        private static void SetDbParameters(ref DbCommand dbCommand, object model, out DbParameter[] dbParameters)
+        private static void SetDbParameters(string providerName, ref DbCommand dbCommand, object model, out DbParameter[] dbParameters)
         {
             dbParameters = DbHelpers.ConvertToDbParameters(model, dbCommand);
-            SetDbParameters(ref dbCommand, dbParameters);
+            SetDbParameters(providerName, ref dbCommand, dbParameters);
         }
 
         /// <summary>
@@ -359,7 +358,7 @@ namespace Furion.DatabaseAccessor
         {
             if (IsDevelopment && IsPrintDbConnectionInfo)
             {
-                var connectionId = databaseFacade.GetService<IRelationalConnection>().ConnectionId;
+                var connectionId = databaseFacade.GetService<IRelationalConnection>()?.ConnectionId;
                 // 打印连接信息消息
                 App.PrintToMiniProfiler(MiniProfilerCategory, "Information", $"[Connection Id: {connectionId}] / [Database: {dbConnection.Database}] / [Connection String: {dbConnection.ConnectionString}]");
             }

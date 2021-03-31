@@ -1217,7 +1217,7 @@ namespace Furion.DatabaseAccessor
             var dataSet = Database.DataAdapterFill(procName, parameters, CommandType.StoredProcedure);
 
             // 包装结果集
-            return DbHelpers.WrapperProcedureOutput(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput(Database.ProviderName, parameters, dataSet);
         }
 
         /// <summary>
@@ -1235,7 +1235,7 @@ namespace Furion.DatabaseAccessor
             var dataSet = await Database.DataAdapterFillAsync(procName, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
             // 包装结果集
-            return DbHelpers.WrapperProcedureOutput(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput(Database.ProviderName, parameters, dataSet);
         }
 
         /// <summary>
@@ -1250,7 +1250,7 @@ namespace Furion.DatabaseAccessor
             var (dataSet, parameters) = Database.DataAdapterFill(procName, model, CommandType.StoredProcedure);
 
             // 包装结果集
-            return DbHelpers.WrapperProcedureOutput(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput(Database.ProviderName, parameters, dataSet);
         }
 
         /// <summary>
@@ -1266,7 +1266,7 @@ namespace Furion.DatabaseAccessor
             var (dataSet, parameters) = await Database.DataAdapterFillAsync(procName, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
             // 包装结果集
-            return DbHelpers.WrapperProcedureOutput(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput(Database.ProviderName, parameters, dataSet);
         }
 
         /// <summary>
@@ -1284,7 +1284,7 @@ namespace Furion.DatabaseAccessor
             var dataSet = Database.DataAdapterFill(procName, parameters, CommandType.StoredProcedure);
 
             // 包装结果集
-            return DbHelpers.WrapperProcedureOutput<TResult>(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput<TResult>(Database.ProviderName, parameters, dataSet);
         }
 
         /// <summary>
@@ -1303,7 +1303,7 @@ namespace Furion.DatabaseAccessor
             var dataSet = await Database.DataAdapterFillAsync(procName, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
             // 包装结果集
-            return DbHelpers.WrapperProcedureOutput<TResult>(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput<TResult>(Database.ProviderName, parameters, dataSet);
         }
 
         /// <summary>
@@ -1319,7 +1319,7 @@ namespace Furion.DatabaseAccessor
             var (dataSet, parameters) = Database.DataAdapterFill(procName, model, CommandType.StoredProcedure);
 
             // 包装结果集
-            return DbHelpers.WrapperProcedureOutput<TResult>(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput<TResult>(Database.ProviderName, parameters, dataSet);
         }
 
         /// <summary>
@@ -1336,7 +1336,7 @@ namespace Furion.DatabaseAccessor
             var (dataSet, parameters) = await Database.DataAdapterFillAsync(procName, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
 
             // 包装结果集
-            return DbHelpers.WrapperProcedureOutput<TResult>(parameters, dataSet);
+            return DbHelpers.WrapperProcedureOutput<TResult>(Database.ProviderName, parameters, dataSet);
         }
 
         /// <summary>

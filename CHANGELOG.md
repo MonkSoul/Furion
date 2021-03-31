@@ -6,6 +6,8 @@
 
 - **问题修复**
 
+  - [修复] 不同数据库命令参数前缀都添加了 `@` 处理 [#I3EBJP](https://gitee.com/dotnetchina/Furion/issues/I3EBJP)
+
 - **其他更改**
 
 - **文档变化**
