@@ -16,7 +16,9 @@ sidebar_label: 9.0 入门简要
 - `Sqlite`：`Microsoft.EntityFrameworkCore.Sqlite`
 - `Cosmos`：`Microsoft.EntityFrameworkCore.Cosmos`
 - `InMemoryDatabase`：`Microsoft.EntityFrameworkCore.InMemory`
-- `MySql`：`Pomelo.EntityFrameworkCore.MySql`，**Nuget 需勾选预览版且安装 .Alpha.2 版本**
+- `MySql`
+  - `Pomelo.EntityFrameworkCore.MySql`，**Nuget 需勾选预览版且安装 .Alpha.2 版本** (支持 MySql 5.x +)
+  - `MySql.EntityFrameworkCore`：支持 (MySql 8.x +)
 - `PostgreSQL`：`Npgsql.EntityFrameworkCore.PostgreSQL`
 - `Oracle`：`Oracle.EntityFrameworkCore`
 - `Firebird`：`FirebirdSql.EntityFrameworkCore.Firebird`
@@ -145,6 +147,7 @@ namespace Furion.EntityFramework.Core
 }
 ```
 
+
 :::caution 新版 MySQL 注意
 
 `MySQL` 在新版本包中注册有所修改，所以注册方式为：
@@ -153,6 +156,15 @@ namespace Furion.EntityFramework.Core
 services.AddDatabaseAccessor(options =>
 {
     options.AddDbPool<FurionDbContext>($"{DbProvider.MySql}@8.0.22");
+});
+```
+
+如果使用了 `MySql.EntityFrameworkCore` 包，则需改为以下注册：
+
+```cs
+services.AddDatabaseAccessor(options =>
+{
+    options.AddDbPool<FurionDbContext>(DbProvider.MySqlOfficial);
 });
 ```
 

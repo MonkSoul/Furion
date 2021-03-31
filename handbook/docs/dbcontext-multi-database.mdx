@@ -28,7 +28,9 @@ import TabItem from "@theme/TabItem";
 - `Sqlite`：`Microsoft.EntityFrameworkCore.Sqlite`
 - `Cosmos`：`Microsoft.EntityFrameworkCore.Cosmos`
 - `InMemoryDatabase`：`Microsoft.EntityFrameworkCore.InMemory`
-- `MySql`：`Pomelo.EntityFrameworkCore.MySql`，**Nuget 需勾选预览版且安装 .Alpha.2 版本**
+- `MySql`
+  - `Pomelo.EntityFrameworkCore.MySql`，**Nuget 需勾选预览版且安装 .Alpha.2 版本** (支持 MySql 5.x +)
+  - `MySql.EntityFrameworkCore`：支持 (MySql 8.x +)
 - `PostgreSQL`：`Npgsql.EntityFrameworkCore.PostgreSQL`
 - `Oracle`：`Oracle.EntityFrameworkCore`
 - `Firebird`：`FirebirdSql.EntityFrameworkCore.Firebird`
@@ -58,6 +60,7 @@ options.AddDbPool<FurionDbContext>(DbProvider.InMemoryDatabase);
 // 注册 MySql
 options.AddDbPool<FurionDbContext>(DbProvider.MySql);
 options.AddDbPool<FurionDbContext>($"{DbProvider.MySql}@8.0.22");  // 可以指定版本号
+options.AddDbPool<FurionDbContext>(DbProvider.MySqlOfficial);   // 使用 MySql 官方包（MySql.EntityFrameworkCore）
 
 // 注册 PostgreSQL
 options.AddDbPool<FurionDbContext>(DbProvider.Npgsql);
@@ -80,6 +83,15 @@ options.AddDbPool<FurionDbContext>(DbProvider.Dm);
 services.AddDatabaseAccessor(options =>
 {
     options.AddDbPool<FurionDbContext>($"{DbProvider.MySql}@8.0.22");
+});
+```
+
+如果使用了 `MySql.EntityFrameworkCore` 包，则需改为以下注册：
+
+```cs
+services.AddDatabaseAccessor(options =>
+{
+    options.AddDbPool<FurionDbContext>(DbProvider.MySqlOfficial);
 });
 ```
 

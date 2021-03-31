@@ -292,6 +292,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     DbProvider.Cosmos => "CosmosDbContextOptionsExtensions",
                     DbProvider.InMemoryDatabase => "InMemoryDbContextOptionsExtensions",
                     DbProvider.MySql => "MySqlDbContextOptionsBuilderExtensions",
+                    DbProvider.MySqlOfficial => "MySQLDbContextOptionsExtensions",
                     DbProvider.Npgsql => "NpgsqlDbContextOptionsBuilderExtensions",
                     DbProvider.Oracle => "OracleDbContextOptionsExtensions",
                     DbProvider.Firebird => "FbDbContextOptionsBuilderExtensions",
@@ -310,6 +311,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     DbProvider.Cosmos => $"Use{nameof(DbProvider.Cosmos)}",
                     DbProvider.InMemoryDatabase => $"Use{nameof(DbProvider.InMemoryDatabase)}",
                     DbProvider.MySql => $"Use{nameof(DbProvider.MySql)}",
+                    DbProvider.MySqlOfficial => $"UseMySQL",
                     DbProvider.Npgsql => $"Use{nameof(DbProvider.Npgsql)}",
                     DbProvider.Oracle => $"Use{nameof(DbProvider.Oracle)}",
                     DbProvider.Firebird => $"Use{nameof(DbProvider.Firebird)}",
@@ -320,7 +322,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 // 获取UseXXX方法
                 MethodInfo useMethod;
 
-                // 处理最新 MySql 包兼容问题
+                // 处理最新 MySql 第三方包兼容问题
                 // https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/commit/83c699f5b747253dc1b6fa9c470f469467d77686
                 if (providerName == DbProvider.MySql)
                 {
@@ -354,7 +356,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var providerNameAndVersion = providerName.Split('@', StringSplitOptions.RemoveEmptyEntries);
             providerName = providerNameAndVersion.First();
 
-            // 读取数据库版本，针对MySql
+            // 读取数据库版本，针对MySql第三方包
             // https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/commit/83c699f5b747253dc1b6fa9c470f469467d77686
             string providerVersion = providerNameAndVersion.Length > 1 ? providerNameAndVersion[1] : "8.0.22";
             return (providerName, providerVersion);

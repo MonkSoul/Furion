@@ -395,6 +395,12 @@ namespace Furion.DatabaseAccessor
         bool IsMySql();
 
         /// <summary>
+        /// 判断是否是 MySql 数据库 官方包（更新不及时，只支持 8.0.23+ 版本， 所以单独弄一个分类）
+        /// </summary>
+        /// <returns>bool</returns>
+        bool IsMySqlOfficial();
+
+        /// <summary>
         /// 判断是否是 PostgreSQL 数据库
         /// </summary>
         /// <returns>bool</returns>

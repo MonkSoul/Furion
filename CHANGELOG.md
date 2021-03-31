@@ -2,6 +2,8 @@
 
 - **新特性**
 
+  - [新增] `Mysql` 官方包 `MySql.EntityFrameworkCore` 支持 [#I3E6J1](https://gitee.com/dotnetchina/Furion/issues/I3E6J1)
+
 - **突破性变化**
 
 - **问题修复**

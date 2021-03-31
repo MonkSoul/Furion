@@ -41,6 +41,11 @@ namespace Furion.DatabaseAccessor
         public const string MySql = "Pomelo.EntityFrameworkCore.MySql";
 
         /// <summary>
+        /// MySql 官方包（更新不及时，只支持 8.0.23+ 版本， 所以单独弄一个分类）
+        /// </summary>
+        public const string MySqlOfficial = "MySql.EntityFrameworkCore";
+
+        /// <summary>
         /// PostgreSQL 提供器程序集
         /// </summary>
         public const string Npgsql = "Npgsql.EntityFrameworkCore.PostgreSQL";
@@ -104,6 +109,7 @@ namespace Furion.DatabaseAccessor
                 Sqlite,
                 InMemoryDatabase,
                 MySql,
+                MySqlOfficial,
                 Firebird,
                 Dm
             };
