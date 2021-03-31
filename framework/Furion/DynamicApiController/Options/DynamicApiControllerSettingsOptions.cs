@@ -62,6 +62,11 @@ namespace Furion.DynamicApiController
         public bool? SupportedMvcController { get; set; }
 
         /// <summary>
+        /// 配置参数 [FromQuery] 化，默认 false ([FromRoute])
+        /// </summary>
+        public bool? UrlParameterization { get; set; }
+
+        /// <summary>
         /// 被舍弃的控制器名称前后缀
         /// </summary>
         public string[] AbandonControllerAffixes { get; set; }

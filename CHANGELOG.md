@@ -3,6 +3,7 @@
 - **新特性**
 
   - [新增] `Mysql` 官方包 `MySql.EntityFrameworkCore` 支持 [#I3E6J1](https://gitee.com/dotnetchina/Furion/issues/I3E6J1)
+  - [新增] 全局配置 `WebApi` 参数 `[FromQury]` 化 [#I3EFYJ](https://gitee.com/dotnetchina/Furion/issues/I3EFYJ)
 
 - **突破性变化**
 
