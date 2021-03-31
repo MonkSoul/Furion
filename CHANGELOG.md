@@ -10,6 +10,7 @@
 - **问题修复**
 
   - [修复] 不同数据库命令参数前缀都添加了 `@` 处理 [#I3EBJP](https://gitee.com/dotnetchina/Furion/issues/I3EBJP)
+  - [修复] 尝试修复事件总线线程安全问题 [#I3EGSB](https://gitee.com/dotnetchina/Furion/issues/I3EGSB) [#PR236](https://gitee.com/dotnetchina/Furion/pulls/236)
 
 - **其他更改**
 
