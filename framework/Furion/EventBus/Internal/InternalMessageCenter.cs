@@ -53,13 +53,12 @@ namespace Furion.EventBus
         /// <param name="payload"></param>
         internal void Send(string messageId, object payload)
         {
-            if (!MessageHandlerQueues.ContainsKey(messageId)) return;
-
-            var messageHandlers = MessageHandlerQueues[messageId];
-
-            foreach (var eventHandler in messageHandlers)
+            if (MessageHandlerQueues.TryGetValue(messageId, out var messageHandlers))
             {
-                eventHandler?.Invoke(messageId, payload);
+                foreach (var eventHandler in messageHandlers)
+                {
+                    eventHandler?.Invoke(messageId, payload);
+                }
             }
         }
 
