@@ -84,38 +84,20 @@ var data1 =db.Queryable<Student>().First(it=>it.Id==1); //db.GetById(1);
 
 var data2 = db.Queryable<Student>().ToList();// db.GetList();
 
-var data3 = db.GetList(it => it.Id == 1);
-
-var data4 = db.GetSingle(it => it.Id == 1);
-
-var p = new PageModel() { PageIndex = 1, PageSize = 2 };
-var data5 = db.GetPageList(it => it.Name == "xx", p);//p.PageCount
-var data6 = db.GetPageList(it => it.Name == "xx", p, it => it.Name, OrderByType.Asc);
-
-List<IConditionalModel> conModels = new List<IConditionalModel>();
-conModels.Add(new ConditionalModel(){FieldName="id",ConditionalType=ConditionalType.Equal,FieldValue="1"});//id=1
-var data7 = db.GetPageList(conModels, p, it => it.Name, OrderByType.Asc);
-
 // ================== 简单仓储 ================
 
 //插入
 repository.Insert(insertObj);
-repository.InsertRange(InsertObjs);
 var id = repository.InsertReturnIdentity(insertObj);
 repository.AsInsertable(insertObj).ExecuteCommand();
 
 //删除
 repository.Delete(insertObj);
-repository.DeleteById(1);
-repository.DeleteByIds(new object [] { 1, 2 }); //数组带是 ids方法 ，封装传 object [] 类型
 repository.Delete(it => it.Id == 1);
-repository.AsDeleteable().Where(it => it.Id == 1).ExecuteCommand();
 
 //更新
 repository.Update(insertObj);
-repository.UpdateRange(InsertObjs);
 repository.Update(it => new Order() { Name = "a", }, it => it.Id == 1);
-repository.AsUpdateable(insertObj).UpdateColumns(it=>new { it.Name }).ExecuteCommand();
 
 //异步方法用法
 repository.Insert(insertObj);//同步
