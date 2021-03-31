@@ -18,6 +18,8 @@
 
 - **问答答疑**
 
+  - [答疑] 如何方便的获取 IDynamicApiController API 产生的 url 和 谓词 [#I3ED17](https://gitee.com/dotnetchina/Furion/issues/I3ED17)
+
 - **不做实现**
 
 ---

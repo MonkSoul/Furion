@@ -66,11 +66,11 @@ db =>
 
 ```cs {6}
 private readonly ISqlSugarRepository<Person> repository; // 仓储对象：封装简单的CRUD
-private readonly ISqlSugarClient db; // 核心对象：拥有完整的SqlSugar全部功能
+private readonly SqlSugarClient db; // 核心对象：拥有完整的SqlSugar全部功能
 public PersonService(ISqlSugarRepository<Person> sqlSugarRepository)
 {
     repository = sqlSugarRepository;
-    db = repository.Context;    // 推荐操作
+    db = (SqlSugarClient)repository.Context;    // 推荐操作
 }
 ```
 
