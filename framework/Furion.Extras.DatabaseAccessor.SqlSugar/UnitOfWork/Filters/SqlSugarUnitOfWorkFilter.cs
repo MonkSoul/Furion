@@ -51,7 +51,7 @@ namespace SqlSugar
             if (!method.IsDefined(typeof(SqlSugarUnitOfWorkAttribute), true))
             {
                 // 调用方法
-                var resultContext = await next();
+                _ = await next();
             }
             else
             {
