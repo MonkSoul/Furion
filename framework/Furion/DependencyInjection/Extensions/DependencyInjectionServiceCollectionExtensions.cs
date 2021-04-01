@@ -27,7 +27,19 @@ namespace Microsoft.Extensions.DependencyInjection
             // 添加外部程序集配置
             services.AddConfigurableOptions<DependencyInjectionSettingsOptions>();
 
-            services.AddAutoScanInjection();
+            services.AddScanDependencyInjection(App.EffectiveTypes);
+            return services;
+        }
+
+        /// <summary>
+        /// 扫描批量注册类型进行依赖注入
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="types"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddRegisterTypes(this IServiceCollection services, IEnumerable<Type> types)
+        {
+            services.AddScanDependencyInjection(types);
             return services;
         }
 
@@ -63,14 +75,15 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// 添加自动扫描注入
+        /// 添加扫描注入
         /// </summary>
         /// <param name="services">服务集合</param>
+        /// <param name="effectiveTypes"></param>
         /// <returns>服务集合</returns>
-        private static IServiceCollection AddAutoScanInjection(this IServiceCollection services)
+        private static IServiceCollection AddScanDependencyInjection(this IServiceCollection services, IEnumerable<Type> effectiveTypes)
         {
             // 查找所有需要依赖注入的类型
-            var injectTypes = App.EffectiveTypes
+            var injectTypes = effectiveTypes
                 .Where(u => typeof(IPrivateDependency).IsAssignableFrom(u) && u.IsClass && !u.IsInterface && !u.IsAbstract)
                 .OrderBy(u => GetOrder(u));
 
