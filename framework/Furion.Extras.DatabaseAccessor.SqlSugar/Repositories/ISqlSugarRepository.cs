@@ -360,5 +360,6 @@ namespace SqlSugar
         /// <param name="predicate"></param>
         /// <returns></returns>
         Task<List<TEntity>> AsAsyncEnumerable(Expression<Func<TEntity, bool>> predicate);
+        ISqlSugarRepository<TChangeEntity> Change<TChangeEntity>() where TChangeEntity : class, new();
     }
 }
