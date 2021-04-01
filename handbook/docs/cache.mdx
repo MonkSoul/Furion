@@ -193,10 +193,10 @@ private static void DependentEvictionCallback(object key, object value,
 
 `IDistributedCache` 接口提供以下方法来处理分布式缓存实现中的项：
 
-- `GetGetAsync`：接受字符串键，并检索缓存项作为 `byte[]` 数组（如果在缓存中找到）
-- `SetSetAsync`：使用字符串键将项 (作为 `byte[]` 数组) 添加到缓存中
+- `Get/GetAsync`：接受字符串键，并检索缓存项作为 `byte[]` 数组（如果在缓存中找到）
+- `Set/SetAsync`：使用字符串键将项 (作为 `byte[]` 数组) 添加到缓存中
 - `Refresh/RefreshAsync` ：根据项的键刷新缓存中的项，重置其滑动过期超时（如果有）
-- `RemoveRemoveAsync`：根据缓存项的字符串键删除缓存项
+- `Remove/RemoveAsync`：根据缓存项的字符串键删除缓存项
 
 ### 14.4.3 分布式内存缓存
 
