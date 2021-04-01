@@ -11,6 +11,7 @@
 
   - [修复] 不同数据库命令参数前缀都添加了 `@` 处理 [#I3EBJP](https://gitee.com/dotnetchina/Furion/issues/I3EBJP)
   - [修复] 尝试修复事件总线线程安全问题 [#I3EGSB](https://gitee.com/dotnetchina/Furion/issues/I3EGSB) [#PR236](https://gitee.com/dotnetchina/Furion/pulls/236)
+  - [修复] `HttpContextExtensions` 的 `SignoutToSwagger` 方法无效 [#I3EHNQ](https://gitee.com/dotnetchina/Furion/issues/I3EHNQ)
 
 - **其他更改**
 
@@ -20,7 +21,8 @@
 
 - **问答答疑**
 
-  - [答疑] 如何方便的获取 IDynamicApiController API 产生的 url 和 谓词 [#I3ED17](https://gitee.com/dotnetchina/Furion/issues/I3ED17)
+  - [答疑] 如何方便的获取 `IDynamicApiController` API 产生的 url 和 谓词 [#I3ED17](https://gitee.com/dotnetchina/Furion/issues/I3ED17)
+  - [答疑] Code First -执行命令 `Add-Migration` 遇到了问题 [#I3EHD0](https://gitee.com/dotnetchina/Furion/issues/I3EHD0)
 
 - **不做实现**
 

@@ -48,7 +48,7 @@ namespace Microsoft.AspNetCore.Http
         /// <param name="httpContext"></param>
         public static void SignoutToSwagger(this HttpContext httpContext)
         {
-            httpContext.Response.Headers["access-token"] = "invalid token";
+            httpContext.Response.Headers["access-token"] = "invalid_token";
         }
 
         /// <summary>

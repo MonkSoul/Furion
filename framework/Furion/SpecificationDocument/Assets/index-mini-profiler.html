@@ -68,11 +68,11 @@
             var configObject = JSON.parse('%(ConfigObject)');
             configObject.responseInterceptor = function (rep) {
                 var accessToken = rep.headers[tokenKey];
-                if (accessToken && accessToken != "invalid token") {
+                if (accessToken && accessToken != "invalid_token") {
                     window.localStorage.setItem(tokenKey, accessToken);
                     ui.preauthorizeApiKey("Bearer", accessToken);
                 }
-                else if (accessToken == "invalid token") {
+                else if (accessToken == "invalid_token") {
                     window.localStorage.removeItem(tokenKey);
                 }
             }
