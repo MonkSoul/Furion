@@ -15,6 +15,8 @@
 
 - **其他更改**
 
+  - [调整] SqlSugar 拓展库仓储 `Context` 属性类型未 `SqlSugarClient` [#I3EHXA](https://gitee.com/dotnetchina/Furion/issues/I3EHXA)
+
 - **文档变化**
 
   - [更新] 数据库操作文档 [#I3E84X](https://gitee.com/dotnetchina/Furion/issues/I3E84X)

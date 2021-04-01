@@ -70,7 +70,7 @@ private readonly SqlSugarClient db; // 核心对象：拥有完整的SqlSugar全
 public PersonService(ISqlSugarRepository<Person> sqlSugarRepository)
 {
     repository = sqlSugarRepository;
-    db = (SqlSugarClient)repository.Context;    // 推荐操作
+    db = repository.Context;    // 推荐操作
 }
 ```
 

@@ -54,7 +54,7 @@ namespace SqlSugar
         /// <summary>
         /// 初始化 SqlSugar 客户端
         /// </summary>
-        private readonly ISqlSugarClient _db;
+        private readonly SqlSugarClient _db;
 
         /// <summary>
         /// 构造函数
@@ -66,7 +66,7 @@ namespace SqlSugar
         {
             _sqlSugarRepository = sqlSugarRepository;
 
-            DynamicContext = Context = _db = db;
+            DynamicContext = Context = _db = (SqlSugarClient)db;
             Ado = _db.Ado;
         }
 
@@ -78,7 +78,7 @@ namespace SqlSugar
         /// <summary>
         /// 数据库上下文
         /// </summary>
-        public virtual ISqlSugarClient Context { get; }
+        public virtual SqlSugarClient Context { get; }
 
         /// <summary>
         /// 动态数据库上下文
