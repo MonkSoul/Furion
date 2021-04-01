@@ -20,7 +20,10 @@ namespace SqlSugar
         /// </summary>
         public int Order => FilterOrder;
 
-        private readonly ISqlSugarClient _sqlSugarClient;
+        /// <summary>
+        /// SqlSugar 对象
+        /// </summary>
+        private readonly SqlSugarClient _sqlSugarClient;
 
         /// <summary>
         /// 构造函数
@@ -29,11 +32,11 @@ namespace SqlSugar
 
         public SqlSugarUnitOfWorkFilter(ISqlSugarClient sqlSugarClient)
         {
-            _sqlSugarClient = sqlSugarClient;
+            _sqlSugarClient = (SqlSugarClient)sqlSugarClient;
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="context"></param>
         /// <param name="next"></param>

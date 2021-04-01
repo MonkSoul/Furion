@@ -6,15 +6,14 @@ namespace SqlSugar
     /// <summary>
     /// SqlSugar 工作单元配置特性
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method,Inherited =true)]
-    public class SqlSugarUnitOfWorkAttribute:Attribute
+    [AttributeUsage(AttributeTargets.Method, Inherited = true)]
+    public class SqlSugarUnitOfWorkAttribute : Attribute
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         public SqlSugarUnitOfWorkAttribute()
         {
-            
         }
 
         /// <summary>
