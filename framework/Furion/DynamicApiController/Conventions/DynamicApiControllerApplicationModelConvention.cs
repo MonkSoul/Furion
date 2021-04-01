@@ -88,6 +88,10 @@ namespace Furion.DynamicApiController
                                  .Where(u => u.Count() > 1)
                                  .SelectMany(u => u.Where(u => u.ActionMethod.ReflectedType.Name != u.ActionMethod.DeclaringType.Name));
 
+            // 2021年04月01日 https://docs.microsoft.com/en-US/aspnet/core/web-api/?view=aspnetcore-5.0#binding-source-parameter-inference
+            // 判断是否贴有 [ApiController] 特性
+            var hasApiControllerAttribute = controller.Attributes.Any(u => u.GetType() == typeof(ApiControllerAttribute));
+
             foreach (var action in actions)
             {
                 // 跳过相同方法签名
@@ -99,7 +103,7 @@ namespace Furion.DynamicApiController
 
                 var actionMethod = action.ActionMethod;
                 var actionApiDescriptionSettings = actionMethod.IsDefined(typeof(ApiDescriptionSettingsAttribute), true) ? actionMethod.GetCustomAttribute<ApiDescriptionSettingsAttribute>(true) : default;
-                ConfigureAction(action, actionApiDescriptionSettings, controllerApiDescriptionSettings);
+                ConfigureAction(action, actionApiDescriptionSettings, controllerApiDescriptionSettings, hasApiControllerAttribute);
             }
         }
 
@@ -120,7 +124,8 @@ namespace Furion.DynamicApiController
         /// <param name="action">控制器模型</param>
         /// <param name="apiDescriptionSettings">接口描述配置</param>
         /// <param name="controllerApiDescriptionSettings">控制器接口描述配置</param>
-        private void ConfigureAction(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
+        /// <param name="hasApiControllerAttribute">是否贴有 ApiController 特性</param>
+        private void ConfigureAction(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings, bool hasApiControllerAttribute)
         {
             // 配置动作方法接口可见性
             ConfigureActionApiExplorer(action);
@@ -135,7 +140,7 @@ namespace Furion.DynamicApiController
             ConfigureClassTypeParameter(action);
 
             // 配置动作方法路由特性
-            ConfigureActionRouteAttribute(action, apiDescriptionSettings, controllerApiDescriptionSettings, isLowercaseRoute, isKeepName);
+            ConfigureActionRouteAttribute(action, apiDescriptionSettings, controllerApiDescriptionSettings, isLowercaseRoute, isKeepName, hasApiControllerAttribute);
 
             // 配置动作方法规范化特性
             if (UnifyContext.IsEnabledUnifyHandle) ConfigureActionUnifyResultAttribute(action);
@@ -267,7 +272,8 @@ namespace Furion.DynamicApiController
         /// <param name="controllerApiDescriptionSettings">控制器接口描述配置</param>
         /// <param name="isLowercaseRoute"></param>
         /// <param name="isKeepName"></param>
-        private void ConfigureActionRouteAttribute(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings, bool isLowercaseRoute, bool isKeepName)
+        /// <param name="hasApiControllerAttribute"></param>
+        private void ConfigureActionRouteAttribute(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings, bool isLowercaseRoute, bool isKeepName, bool hasApiControllerAttribute)
         {
             var selectorModel = action.Selectors[0];
             // 跳过已配置路由特性的配置
@@ -286,7 +292,7 @@ namespace Furion.DynamicApiController
             else
             {
                 // 生成参数路由模板
-                var parameterRouteTemplate = GenerateParameterRouteTemplates(action, isLowercaseRoute);
+                var parameterRouteTemplate = GenerateParameterRouteTemplates(action, isLowercaseRoute, hasApiControllerAttribute);
 
                 // 生成控制器模板
                 controllerRouteTemplate = GenerateControllerRouteTemplate(action.Controller, controllerApiDescriptionSettings, parameterRouteTemplate);
@@ -354,7 +360,8 @@ namespace Furion.DynamicApiController
         /// </summary>
         /// <param name="action">动作方法模型</param>
         /// <param name="isLowercaseRoute"></param>
-        private ParameterRouteTemplate GenerateParameterRouteTemplates(ActionModel action, bool isLowercaseRoute)
+        /// <param name="hasApiControllerAttribute"></param>
+        private ParameterRouteTemplate GenerateParameterRouteTemplates(ActionModel action, bool isLowercaseRoute, bool hasApiControllerAttribute)
         {
             // 如果没有参数，则跳过
             if (action.Parameters.Count == 0) return default;
@@ -395,6 +402,10 @@ namespace Furion.DynamicApiController
                     parameterModel.BindingInfo = BindingInfo.GetBindingInfo(new[] { new FromQueryAttribute() });
                     continue;
                 }
+
+                // 处理 [ApiController] 特性情况
+                // https://docs.microsoft.com/en-US/aspnet/core/web-api/?view=aspnetcore-5.0#binding-source-parameter-inference
+                if (!hasFormAttribute && hasApiControllerAttribute) continue;
 
                 var template = $"{{{parameterModel.ParameterName}}}";
                 // 如果没有贴路由位置特性，则默认添加到动作方法后面

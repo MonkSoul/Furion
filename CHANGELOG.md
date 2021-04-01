@@ -15,6 +15,7 @@
   - [修复] 不同数据库命令参数前缀都添加了 `@` 处理 [#I3EBJP](https://gitee.com/dotnetchina/Furion/issues/I3EBJP)
   - [修复] 尝试修复事件总线线程安全问题 [#I3EGSB](https://gitee.com/dotnetchina/Furion/issues/I3EGSB) [#PR236](https://gitee.com/dotnetchina/Furion/pulls/236)
   - [修复] `HttpContextExtensions` 的 `SignoutToSwagger` 方法无效 [#I3EHNQ](https://gitee.com/dotnetchina/Furion/issues/I3EHNQ)
+  - [修复] 如果动态 WebApi 贴了 `[ApiController]` 特性后，导致路由参数重复生成 [#I3EOQQ](https://gitee.com/dotnetchina/Furion/issues/I3EOQQ)
 
 - **其他更改**
 
@@ -29,6 +30,7 @@
   - [答疑] 如何方便的获取 `IDynamicApiController` API 产生的 url 和 谓词 [#I3ED17](https://gitee.com/dotnetchina/Furion/issues/I3ED17)
   - [答疑] Code First -执行命令 `Add-Migration` 遇到了问题 [#I3EHD0](https://gitee.com/dotnetchina/Furion/issues/I3EHD0)
   - [答疑] tools v1.16.0 无法生成实体，一直提示 Missing required argument `<PROVIDER>`. [#I3ENZ8](https://gitee.com/dotnetchina/Furion/issues/I3ENZ8)
+  - [答疑] Authorize 的 Logout 按钮，无法实时请空 token[#I3EOF9](https://gitee.com/dotnetchina/Furion/issues/I3EOF9)
 
 - **不做实现**
 
