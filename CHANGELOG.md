@@ -28,6 +28,7 @@
 
   - [答疑] 如何方便的获取 `IDynamicApiController` API 产生的 url 和 谓词 [#I3ED17](https://gitee.com/dotnetchina/Furion/issues/I3ED17)
   - [答疑] Code First -执行命令 `Add-Migration` 遇到了问题 [#I3EHD0](https://gitee.com/dotnetchina/Furion/issues/I3EHD0)
+  - [答疑] tools v1.16.0 无法生成实体，一直提示 Missing required argument `<PROVIDER>`. [#I3ENZ8](https://gitee.com/dotnetchina/Furion/issues/I3ENZ8)
 
 - **不做实现**
 
