@@ -575,6 +575,12 @@ const contributors = [
     photo:
       "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAABQUlEQVRoQ+2XPQrCQBBGJzewEI/gdbyFldewsPYAegeb1BpIJQg2EhAkFrESUYngTyIWqQQzC5Nl3P3SOjvMvPdtMEFnOizJoyfAwo7bhmHHBRMMw7BjBBBpx4R+rQPDMOwYAUTaMaF4aSHSiLRjBBqN9KLXp26rbYwsyy80iGYUZTvjs3UHsHAdIZPfK8PPsqD4kNIhv7KOn+43mmyWtD0fWfUmRVYMP4oXjdcxjVZzk9kaqcXCklirSMOwJFXDXoi0IbCf5d5GmgvRxl23EmnvFub+8fjUhWlC4T7hMjKus2LYRlS5m2NhLilOnbdvaUSaE4+GanCHJcHiDuN7WDJPvF64wzxO/1vVqGGNWLCwRiuSM8GwJE2NvWBYoxXJmWBYkqbGXjCs0YrkTDAsSVNjLxjWaEVyJhiWpKmxl3eG3xxIXeTQaqK1AAAAAElFTkSuQmCC",
   },
+  {
+    author: "PigMan",
+    link: "https://gitee.com/xieyonghao1989",
+    photo:
+      "https://portrait.gitee.com/uploads/avatars/user/1601/4805222_xieyonghao1989_1591844358.png!avatar200",
+  },
 ];
 
 export default contributors;
