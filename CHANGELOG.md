@@ -9,6 +9,7 @@
 
 - **问题修复**
 
+  - [修复] 数据库上下文池一旦有上下文操作失败还数据库上下文出现二次提交数据库的问题 [#I3EIJJ](https://gitee.com/dotnetchina/Furion/issues/I3EIJJ)
   - [修复] 不同数据库命令参数前缀都添加了 `@` 处理 [#I3EBJP](https://gitee.com/dotnetchina/Furion/issues/I3EBJP)
   - [修复] 尝试修复事件总线线程安全问题 [#I3EGSB](https://gitee.com/dotnetchina/Furion/issues/I3EGSB) [#PR236](https://gitee.com/dotnetchina/Furion/pulls/236)
   - [修复] `HttpContextExtensions` 的 `SignoutToSwagger` 方法无效 [#I3EHNQ](https://gitee.com/dotnetchina/Furion/issues/I3EHNQ)

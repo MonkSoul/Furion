@@ -31,12 +31,18 @@ namespace Furion.DatabaseAccessor
             InjectMiniProfiler = App.Settings.InjectMiniProfiler.Value;
 
             dbContexts = new ConcurrentBag<DbContext>();
+            failedDbContexts = new ConcurrentBag<DbContext>();
         }
 
         /// <summary>
         /// 线程安全的数据库上下文集合
         /// </summary>
         private readonly ConcurrentBag<DbContext> dbContexts;
+
+        /// <summary>
+        /// 登记错误的数据库上下文
+        /// </summary>
+        private readonly ConcurrentBag<DbContext> failedDbContexts;
 
         /// <summary>
         /// 获取所有数据库上下文
@@ -57,6 +63,12 @@ namespace Furion.DatabaseAccessor
             if (!dbContexts.Contains(dbContext))
             {
                 dbContexts.Add(dbContext);
+
+                // 订阅数据库上下文操作失败事件
+                dbContext.SaveChangesFailed += (s, e) =>
+                {
+                    if (!failedDbContexts.Contains(dbContext)) failedDbContexts.Add(s as DbContext);
+                };
             }
         }
 
@@ -78,7 +90,7 @@ namespace Furion.DatabaseAccessor
         {
             // 查找所有已改变的数据库上下文并保存更改
             return dbContexts
-                .Where(u => u != null && u.ChangeTracker.HasChanges())
+                .Where(u => u != null && u.ChangeTracker.HasChanges() && !failedDbContexts.Contains(u))
                 .Select(u => u.SaveChanges()).Count();
         }
 
@@ -91,7 +103,7 @@ namespace Furion.DatabaseAccessor
         {
             // 查找所有已改变的数据库上下文并保存更改
             return dbContexts
-                .Where(u => u != null && u.ChangeTracker.HasChanges())
+                .Where(u => u != null && u.ChangeTracker.HasChanges() && !failedDbContexts.Contains(u))
                 .Select(u => u.SaveChanges(acceptAllChangesOnSuccess)).Count();
         }
 
@@ -104,7 +116,7 @@ namespace Furion.DatabaseAccessor
         {
             // 查找所有已改变的数据库上下文并保存更改
             var tasks = dbContexts
-                .Where(u => u != null && u.ChangeTracker.HasChanges())
+                .Where(u => u != null && u.ChangeTracker.HasChanges() && !failedDbContexts.Contains(u))
                 .Select(u => u.SaveChangesAsync(cancellationToken));
 
             // 等待所有异步完成
@@ -122,7 +134,7 @@ namespace Furion.DatabaseAccessor
         {
             // 查找所有已改变的数据库上下文并保存更改
             var tasks = dbContexts
-                .Where(u => u != null && u.ChangeTracker.HasChanges())
+                .Where(u => u != null && u.ChangeTracker.HasChanges() && !failedDbContexts.Contains(u))
                 .Select(u => u.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken));
 
             // 等待所有异步完成
@@ -138,7 +150,7 @@ namespace Furion.DatabaseAccessor
         /// <returns></returns>
         public void ShareTransaction(int skipCount, DbTransaction transaction)
         {
-            // 跳过第一个数据库上下文并设置贡献事务
+            // 跳过第一个数据库上下文并设置共享事务
             _ = dbContexts
                    .Where(u => u != null)
                    .Skip(skipCount)
@@ -180,6 +192,8 @@ namespace Furion.DatabaseAccessor
 
             // 清空上下文
             dbContexts.Clear();
+            // 清空错误上下文
+            failedDbContexts.Clear();
         }
     }
 }
