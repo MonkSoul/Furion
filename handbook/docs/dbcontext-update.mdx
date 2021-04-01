@@ -68,7 +68,7 @@ repository.UpdateInclude(user, new[] {nameof(User.Name), nameof(User.Age)}, true
 user.UpdateInclude(new[] {"Age", "Name"});
 
 // 示例五
-user.UpdateInclude(new[] {nameof(User.Name), nameof(User.Age));
+user.UpdateInclude(new[] {nameof(User.Name), nameof(User.Age)});
 
 // 示例六
 user.UpdateInclude(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
@@ -89,7 +89,7 @@ await repository.UpdateIncludeAsync(user, new[] {nameof(User.Name), nameof(User.
 await user.UpdateIncludeAsync(new[] {"Age", "Name"});
 
 // 示例五
-await user.UpdateIncludeAsync(new[] {nameof(User.Name), nameof(User.Age));
+await user.UpdateIncludeAsync(new[] {nameof(User.Name), nameof(User.Age)});
 
 // 示例六
 await user.UpdateIncludeAsync(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
@@ -113,7 +113,7 @@ repository.UpdateIncludeNow(user, new[] {nameof(User.Name), nameof(User.Age)}, t
 user.UpdateIncludeNow(new[] {"Age", "Name"});
 
 // 示例五
-user.UpdateIncludeNow(new[] {nameof(User.Name), nameof(User.Age));
+user.UpdateIncludeNow(new[] {nameof(User.Name), nameof(User.Age)});
 
 // 示例六
 user.UpdateInclude(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
@@ -134,7 +134,7 @@ await repository.UpdateIncludeNowAsync(user, new[] {nameof(User.Name), nameof(Us
 await user.UpdateIncludeNowAsync(new[] {"Age", "Name"});
 
 // 示例五
-await user.UpdateIncludeNowAsync(new[] {nameof(User.Name), nameof(User.Age));
+await user.UpdateIncludeNowAsync(new[] {nameof(User.Name), nameof(User.Age)});
 
 // 示例六
 await user.UpdateIncludeNowAsync(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
@@ -158,7 +158,7 @@ repository.UpdateExclude(user, new[] {nameof(User.Name), nameof(User.Age)}, true
 user.UpdateExclude(new[] {"Age", "Name"});
 
 // 示例五
-user.UpdateExclude(new[] {nameof(User.Name), nameof(User.Age));
+user.UpdateExclude(new[] {nameof(User.Name), nameof(User.Age)});
 
 // 示例六
 user.UpdateExclude(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
@@ -179,7 +179,7 @@ await repository.UpdateExcludeAsync(user, new[] {nameof(User.Name), nameof(User.
 await user.UpdateExcludeAsync(new[] {"Age", "Name"});
 
 // 示例五
-await user.UpdateExcludeAsync(new[] {nameof(User.Name), nameof(User.Age));
+await user.UpdateExcludeAsync(new[] {nameof(User.Name), nameof(User.Age)});
 
 // 示例六
 await user.UpdateExcludeAsync(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
@@ -203,7 +203,7 @@ repository.UpdateExcludeNow(user, new[] {nameof(User.Name), nameof(User.Age)}, t
 user.UpdateExcludeNow(new[] {"Age", "Name"});
 
 // 示例五
-user.UpdateExcludeNow(new[] {nameof(User.Name), nameof(User.Age));
+user.UpdateExcludeNow(new[] {nameof(User.Name), nameof(User.Age)});
 
 // 示例六
 user.UpdateExcludeNow(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
@@ -224,7 +224,7 @@ await repository.UpdateExcludeNowAsync(user, new[] {nameof(User.Name), nameof(Us
 await user.UpdateExcludeNowAsync(new[] {"Age", "Name"});
 
 // 示例五
-await user.UpdateExcludeNowAsync(new[] {nameof(User.Name), nameof(User.Age));
+await user.UpdateExcludeNowAsync(new[] {nameof(User.Name), nameof(User.Age)});
 
 // 示例六
 await user.UpdateExcludeNowAsync(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
@@ -288,7 +288,7 @@ repository.UpdateIncludeExists(user, new[] {nameof(User.Name), nameof(User.Age)}
 user.UpdateIncludeExists(new[] {"Age", "Name"});
 
 // 示例五
-user.UpdateIncludeExists(new[] {nameof(User.Name), nameof(User.Age));
+user.UpdateIncludeExists(new[] {nameof(User.Name), nameof(User.Age)});
 
 // 示例六
 user.UpdateIncludeExists(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
@@ -309,7 +309,7 @@ await repository.UpdateIncludeExistsAsync(user, new[] {nameof(User.Name), nameof
 await user.UpdateIncludeExistsAsync(new[] {"Age", "Name"});
 
 // 示例五
-await user.UpdateIncludeExistsAsync(new[] {nameof(User.Name), nameof(User.Age));
+await user.UpdateIncludeExistsAsync(new[] {nameof(User.Name), nameof(User.Age)});
 
 // 示例六
 await user.UpdateIncludeExistsAsync(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
@@ -333,7 +333,7 @@ repository.UpdateIncludeExistsNow(user, new[] {nameof(User.Name), nameof(User.Ag
 user.UpdateIncludeExistsNow(new[] {"Age", "Name"});
 
 // 示例五
-user.UpdateIncludeExistsNow(new[] {nameof(User.Name), nameof(User.Age));
+user.UpdateIncludeExistsNow(new[] {nameof(User.Name), nameof(User.Age)});
 
 // 示例六
 user.UpdateIncludeExistsNow(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
@@ -354,7 +354,7 @@ await repository.UpdateIncludeExistsNowAsync(user, new[] {nameof(User.Name), nam
 await user.UpdateIncludeExistsNowAsync(new[] {"Age", "Name"});
 
 // 示例五
-await user.UpdateIncludeExistsNowAsync(new[] {nameof(User.Name), nameof(User.Age));
+await user.UpdateIncludeExistsNowAsync(new[] {nameof(User.Name), nameof(User.Age)});
 
 // 示例六
 await user.UpdateIncludeExistsNowAsync(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
@@ -378,7 +378,7 @@ repository.UpdateExcludeExists(user, new[] {nameof(User.Name), nameof(User.Age)}
 user.UpdateExcludeExists(new[] {"Age", "Name"});
 
 // 示例五
-user.UpdateExcludeExists(new[] {nameof(User.Name), nameof(User.Age));
+user.UpdateExcludeExists(new[] {nameof(User.Name), nameof(User.Age)});
 
 // 示例六
 user.UpdateExcludeExists(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
@@ -399,7 +399,7 @@ await repository.UpdateExcludeExistsAsync(user, new[] {nameof(User.Name), nameof
 await user.UpdateExcludeExistsAsync(new[] {"Age", "Name"});
 
 // 示例五
-await user.UpdateExcludeExistsAsync(new[] {nameof(User.Name), nameof(User.Age));
+await user.UpdateExcludeExistsAsync(new[] {nameof(User.Name), nameof(User.Age)});
 
 // 示例六
 await user.UpdateExcludeExistsAsync(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
@@ -423,7 +423,7 @@ repository.UpdateExcludeExistsNow(user, new[] {nameof(User.Name), nameof(User.Ag
 user.UpdateExcludeExistsNow(new[] {"Age", "Name"});
 
 // 示例五
-user.UpdateExcludeExistsNow(new[] {nameof(User.Name), nameof(User.Age));
+user.UpdateExcludeExistsNow(new[] {nameof(User.Name), nameof(User.Age)});
 
 // 示例六
 user.UpdateExcludeExistsNow(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
@@ -444,7 +444,7 @@ await repository.UpdateExcludeExistsNowAsync(user, new[] {nameof(User.Name), nam
 await user.UpdateExcludeExistsNowAsync(new[] {"Age", "Name"});
 
 // 示例五
-await user.UpdateExcludeExistsNowAsync(new[] {nameof(User.Name), nameof(User.Age));
+await user.UpdateExcludeExistsNowAsync(new[] {nameof(User.Name), nameof(User.Age)});
 
 // 示例六
 await user.UpdateExcludeExistsNowAsync(new[] {nameof(User.Name), nameof(User.Age)}, true);  // 忽略空值
