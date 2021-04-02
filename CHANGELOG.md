@@ -20,6 +20,8 @@
 - **其他更改**
 
   - [调整] SqlSugar 拓展库仓储 `Context` 属性类型未 `SqlSugarClient` [#I3EHXA](https://gitee.com/dotnetchina/Furion/issues/I3EHXA)
+  - [改进] 刷新 Token 黑名单 Redis 中分组 [#I3EQWO](https://gitee.com/dotnetchina/Furion/issues/I3EQWO)
+  - [改进] 远程请求在请求拦截次发起二次请求导致异常问题 [#I3ER71](https://gitee.com/dotnetchina/Furion/issues/I3ER71)
 
 - **文档变化**
 

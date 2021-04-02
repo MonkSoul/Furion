@@ -59,7 +59,8 @@ namespace Furion.RemoteRequest
         public override Task<T> InvokeAsyncT<T>(MethodInfo method, object[] args)
         {
             var httpclientPart = BuildHttpClientPart(method, args);
-            return httpclientPart.SendAsAsync<T>();
+            var result = httpclientPart.SendAsAsync<T>();
+            return result;
         }
 
         /// <summary>
@@ -245,12 +246,12 @@ namespace Furion.RemoteRequest
         {
             // 获取所有静态方法且贴有 [Interceptor] 特性
             var interceptorMethods = declareType.GetMethods()
-                                                        .Where(u => u.IsDefined(typeof(InterceptorAttribute), true));
+                                                                  .Where(u => u.IsDefined(typeof(InterceptorAttribute), true));
 
             foreach (var method in interceptorMethods)
             {
                 // 获取拦截器类型
-                var interceptor = method.GetCustomAttribute<InterceptorAttribute>();
+                var interceptor = method.GetCustomAttributes<InterceptorAttribute>().First();
                 switch (interceptor.Type)
                 {
                     // 加载请求拦截

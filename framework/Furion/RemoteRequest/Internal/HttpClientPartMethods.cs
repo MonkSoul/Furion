@@ -301,6 +301,8 @@ namespace Furion.RemoteRequest
 
             using var streamReader = new StreamReader(stream);
             var text = await streamReader.ReadToEndAsync();
+            // 释放流
+            await stream.DisposeAsync();
 
             // 反序列化流
             var result = jsonSerializer.Deserialize<T>(text, JsonSerialization.JsonSerializerOptions);

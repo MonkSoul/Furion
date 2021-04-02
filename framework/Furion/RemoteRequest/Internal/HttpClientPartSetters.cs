@@ -235,7 +235,7 @@ namespace Furion.RemoteRequest
         public HttpClientPart OnRequesting(Action<HttpRequestMessage> action)
         {
             RequestInterceptors ??= new List<Action<HttpRequestMessage>>();
-            if (action != null) RequestInterceptors.Add(action);
+            if (action != null && !RequestInterceptors.Contains(action)) RequestInterceptors.Add(action);
             return this;
         }
 
@@ -247,7 +247,7 @@ namespace Furion.RemoteRequest
         public HttpClientPart OnClientCreating(Action<HttpClient> action)
         {
             HttpClientInterceptors ??= new List<Action<HttpClient>>();
-            if (action != null) HttpClientInterceptors.Add(action);
+            if (action != null && !HttpClientInterceptors.Contains(action)) HttpClientInterceptors.Add(action);
             return this;
         }
 
@@ -259,7 +259,7 @@ namespace Furion.RemoteRequest
         public HttpClientPart OnResponsing(Action<HttpResponseMessage> action)
         {
             ResponseInterceptors ??= new List<Action<HttpResponseMessage>>();
-            if (action != null) ResponseInterceptors.Add(action);
+            if (action != null && !ResponseInterceptors.Contains(action)) ResponseInterceptors.Add(action);
             return this;
         }
 
@@ -271,7 +271,7 @@ namespace Furion.RemoteRequest
         public HttpClientPart OnException(Action<HttpResponseMessage, string> action)
         {
             ExceptionInterceptors ??= new List<Action<HttpResponseMessage, string>>();
-            if (action != null) ExceptionInterceptors.Add(action);
+            if (action != null && !ExceptionInterceptors.Contains(action)) ExceptionInterceptors.Add(action);
             return this;
         }
     }
