@@ -139,14 +139,25 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
+        /// 注册默认数据库上下文
+        /// </summary>
+        /// <typeparam name="TDbContext">数据库上下文</typeparam>
+        /// <param name="services">服务提供器</param>
+        public static IServiceCollection RegisterDbContext<TDbContext>(this IServiceCollection services)
+            where TDbContext : DbContext
+        {
+            return services.RegisterDbContext<TDbContext, MasterDbContextLocator>();
+        }
+
+        /// <summary>
         /// 注册数据库上下文
         /// </summary>
         /// <typeparam name="TDbContext">数据库上下文</typeparam>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <param name="services">服务提供器</param>
         public static IServiceCollection RegisterDbContext<TDbContext, TDbContextLocator>(this IServiceCollection services)
-        where TDbContext : DbContext
-        where TDbContextLocator : class, IDbContextLocator
+            where TDbContext : DbContext
+            where TDbContextLocator : class, IDbContextLocator
         {
             var dbContextLocatorType = (typeof(TDbContextLocator));
 

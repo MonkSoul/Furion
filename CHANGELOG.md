@@ -2,6 +2,7 @@
 
 - **新特性**
 
+  - [新增] `Oracle` 11 版本支持 [#I3EVL5](https://gitee.com/dotnetchina/Furion/issues/I3EVL5)
   - [新增] `Mysql` 官方包 `MySql.EntityFrameworkCore` 支持 [#I3E6J1](https://gitee.com/dotnetchina/Furion/issues/I3E6J1)
   - [新增] 全局配置 `WebApi` 参数 `[FromQury]` 化 [#I3EFYJ](https://gitee.com/dotnetchina/Furion/issues/I3EFYJ)
   - [新增] 公开框架底层依赖注入扫描注册拓展 `services.AddRisterTypes(types)` [#I3EIV3](https://gitee.com/dotnetchina/Furion/issues/I3EIV3)
@@ -16,7 +17,7 @@
   - [修复] 尝试修复事件总线线程安全问题 [#I3EGSB](https://gitee.com/dotnetchina/Furion/issues/I3EGSB) [#PR236](https://gitee.com/dotnetchina/Furion/pulls/236)
   - [修复] `HttpContextExtensions` 的 `SignoutToSwagger` 方法无效 [#I3EHNQ](https://gitee.com/dotnetchina/Furion/issues/I3EHNQ)
   - [修复] 如果动态 WebApi 贴了 `[ApiController]` 特性后，导致路由参数重复生成 [#I3EOQQ](https://gitee.com/dotnetchina/Furion/issues/I3EOQQ)
-  - [修复] 如果没有任何webapi控制器时，文档报错 [#I3EVLB](https://gitee.com/dotnetchina/Furion/issues/I3EVLB)
+  - [修复] 如果没有任何 webapi 控制器时，文档报错 [#I3EVLB](https://gitee.com/dotnetchina/Furion/issues/I3EVLB)
 
 - **其他更改**
 

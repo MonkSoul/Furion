@@ -1,8 +1,10 @@
 using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
@@ -157,6 +159,19 @@ namespace Furion.DatabaseAccessor
                     return !string.IsNullOrEmpty(connStrValue) ? connStrValue : configuration[connStr];
                 }
             }
+        }
+
+        /// <summary>
+        /// 获取默认拦截器
+        /// </summary>
+        public static List<IInterceptor> GetDefaultInterceptors()
+        {
+            return new List<IInterceptor>
+            {
+                new SqlConnectionProfilerInterceptor(),
+                new SqlCommandProfilerInterceptor(),
+                new DbContextSaveChangesInterceptor()
+            };
         }
 
         /// <summary>

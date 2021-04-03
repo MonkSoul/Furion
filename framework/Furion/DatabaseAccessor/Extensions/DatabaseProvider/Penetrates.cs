@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 
 namespace Furion.DatabaseAccessor
 {
@@ -70,12 +69,8 @@ namespace Furion.DatabaseAccessor
             if (App.Settings.InjectMiniProfiler != true) return;
 
             // 添加拦截器
-            var interceptorList = new List<IInterceptor>
-            {
-                new SqlConnectionProfilerInterceptor(),
-                new SqlCommandProfilerInterceptor(),
-                new DbContextSaveChangesInterceptor()
-            };
+            var interceptorList = DbProvider.GetDefaultInterceptors();
+
             if (interceptors != null || interceptors.Length > 0)
             {
                 interceptorList.AddRange(interceptors);

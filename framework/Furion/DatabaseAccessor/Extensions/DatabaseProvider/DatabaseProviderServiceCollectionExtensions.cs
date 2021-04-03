@@ -216,8 +216,12 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 providerName ??= dbContextAttribute?.ProviderName;
 
+                // 解析数据库提供器信息
+                (string name, string version) = ReadProviderInfo(providerName);
+                providerName = name;
+
                 // 调用对应数据库程序集
-                var (UseMethod, MySqlVersion) = GetDatabaseProviderUseMethod(providerName);
+                var (UseMethod, MySqlVersion) = GetDatabaseProviderUseMethod(providerName, version);
 
                 // 处理最新 MySql 包兼容问题
                 // https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/commit/83c699f5b747253dc1b6fa9c470f469467d77686
@@ -225,6 +229,25 @@ namespace Microsoft.Extensions.DependencyInjection
                 {
                     dbContextOptionsBuilder = UseMethod
                         .Invoke(null, new object[] { options, connectionString, MySqlVersion, MigrationsAssemblyAction }) as DbContextOptionsBuilder;
+                }
+                // 处理 Oracle 11 兼容问题
+                else if (providerName.StartsWith(DbProvider.Oracle) && !string.IsNullOrEmpty(version))
+                {
+                    Action<IRelationalDbContextOptionsBuilderInfrastructure> oracleOptionsAction = options =>
+                    {
+                        var optionsType = options.GetType();
+
+                        // 处理版本号
+                        optionsType.GetMethod("UseOracleSQLCompatibility")
+                                   .Invoke(options, new[] { version });
+
+                        // 处理迁移程序集
+                        optionsType.GetMethod("MigrationsAssembly")
+                                   .Invoke(options, new[] { Db.MigrationAssemblyName });
+                    };
+
+                    dbContextOptionsBuilder = UseMethod
+                        .Invoke(null, new object[] { options, connectionString, oracleOptionsAction }) as DbContextOptionsBuilder;
                 }
                 else
                 {
@@ -265,21 +288,18 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 获取数据库提供器对应的 useXXX 方法
         /// </summary>
         /// <param name="providerName">数据库提供器</param>
+        /// <param name="version"></param>
         /// <returns></returns>
-        private static (MethodInfo UseMethod, object MySqlVersion) GetDatabaseProviderUseMethod(string providerName)
+        private static (MethodInfo UseMethod, object MySqlVersion) GetDatabaseProviderUseMethod(string providerName, string version)
         {
-            return DatabaseProviderUseMethodCollection.GetOrAdd(providerName, Function);
+            return DatabaseProviderUseMethodCollection.GetOrAdd(providerName, Function(providerName, version));
 
             // 本地静态方法
-            static (MethodInfo, object) Function(string providerName)
+            static (MethodInfo, object) Function(string providerName, string version)
             {
                 // 处理最新 MySql 包兼容问题
                 // https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/commit/83c699f5b747253dc1b6fa9c470f469467d77686
                 object mySqlVersionInstance = default;
-
-                // 解析数据库提供器信息
-                (string name, string version) = ReadProviderInfo(providerName);
-                providerName = name;
 
                 // 加载对应的数据库提供器程序集
                 var databaseProviderAssembly = Assembly.Load(providerName);
@@ -332,13 +352,13 @@ namespace Microsoft.Extensions.DependencyInjection
 
                     // 解析mysql版本类型
                     var mysqlVersionType = databaseProviderAssembly.GetType("Microsoft.EntityFrameworkCore.MySqlServerVersion");
-                    mySqlVersionInstance = Activator.CreateInstance(mysqlVersionType, new object[] { new Version(version) });
+                    mySqlVersionInstance = Activator.CreateInstance(mysqlVersionType, new object[] { new Version(version ?? "8.0.22") });
                 }
                 else
                 {
                     useMethod = databaseProviderServiceExtensionType
-                    .GetMethods(BindingFlags.Public | BindingFlags.Static)
-                    .FirstOrDefault(u => u.Name == useMethodName && !u.IsGenericMethod && u.GetParameters().Length == 3 && u.GetParameters()[1].ParameterType == typeof(string));
+                        .GetMethods(BindingFlags.Public | BindingFlags.Static)
+                        .FirstOrDefault(u => u.Name == useMethodName && !u.IsGenericMethod && u.GetParameters().Length == 3 && u.GetParameters()[1].ParameterType == typeof(string));
                 }
 
                 return (useMethod, mySqlVersionInstance);
@@ -356,9 +376,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var providerNameAndVersion = providerName.Split('@', StringSplitOptions.RemoveEmptyEntries);
             providerName = providerNameAndVersion.First();
 
-            // 读取数据库版本，针对MySql第三方包
-            // https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/commit/83c699f5b747253dc1b6fa9c470f469467d77686
-            string providerVersion = providerNameAndVersion.Length > 1 ? providerNameAndVersion[1] : "8.0.22";
+            string providerVersion = providerNameAndVersion.Length > 1 ? providerNameAndVersion[1] : default;
             return (providerName, providerVersion);
         }
     }
