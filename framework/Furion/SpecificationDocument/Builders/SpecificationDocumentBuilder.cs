@@ -357,6 +357,8 @@ namespace Furion.SpecificationDocument
         {
             // 获取所有的控制器和动作方法
             var controllers = App.EffectiveTypes.Where(u => Penetrates.IsApiController(u));
+            if (!controllers.Any()) return new[] { _specificationDocumentSettings.DefaultGroupName };
+
             var actions = controllers.SelectMany(c => c.GetMethods().Where(u => IsApiAction(u, c)));
 
             // 合并所有分组

@@ -26,7 +26,7 @@ namespace Furion.DataEncryption
         /// 生成 Token
         /// </summary>
         /// <param name="payload"></param>
-        /// <param name="expiredTime"></param>
+        /// <param name="expiredTime">过期时间（分钟）</param>
         /// <returns></returns>
         public static string Encrypt(Dictionary<string, object> payload, long? expiredTime = null)
         {
@@ -64,7 +64,7 @@ namespace Furion.DataEncryption
         /// 生成刷新 Token
         /// </summary>
         /// <param name="accessToken"></param>
-        /// <param name="days"></param>
+        /// <param name="days">刷新 Token 有效期（天）</param>
         /// <returns></returns>
         public static string GenerateRefreshToken(string accessToken, int days = 30)
         {
@@ -91,7 +91,7 @@ namespace Furion.DataEncryption
         /// </summary>
         /// <param name="expiredToken"></param>
         /// <param name="refreshToken"></param>
-        /// <param name="expiredTime"></param>
+        /// <param name="expiredTime">过期时间（分钟）</param>
         /// <returns></returns>
         public static string Exchange(string expiredToken, string refreshToken, long? expiredTime = null)
         {
@@ -135,8 +135,8 @@ namespace Furion.DataEncryption
         /// </summary>
         /// <param name="context"></param>
         /// <param name="httpContext"></param>
-        /// <param name="expiredTime"></param>
-        /// <param name="days"></param>
+        /// <param name="expiredTime">新 Token 过期时间（分钟）</param>
+        /// <param name="days">新刷新 Token 有效期（天）</param>
         /// <param name="tokenPrefix"></param>
         /// <returns></returns>
         public static bool AutoRefreshToken(AuthorizationHandlerContext context, DefaultHttpContext httpContext, long? expiredTime = null, int days = 30, string tokenPrefix = "Bearer ")

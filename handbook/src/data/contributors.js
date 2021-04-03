@@ -581,6 +581,12 @@ const contributors = [
     photo:
       "https://portrait.gitee.com/uploads/avatars/user/1601/4805222_xieyonghao1989_1591844358.png!avatar200",
   },
+  {
+    author: "happy1836",
+    link: "https://gitee.com/happy1836",
+    photo:
+      "https://portrait.gitee.com/uploads/avatars/user/320/962909_happy1836_1617418156.jpeg!avatar200",
+  },
 ];
 
 export default contributors;
