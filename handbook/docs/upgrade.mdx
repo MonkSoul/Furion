@@ -8,7 +8,51 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 **此章节只记录重大版本更新日志，小迭代版本不做更新。**想了解更多更新内容，可查阅 [CHANGELOG.md](https://gitee.com/dotnetchina/Furion/blob/master/CHANGELOG.md)
 
-## v1.17.0 （当前版本）
+## v1.18.0 （当前版本）
+
+- **新特性**
+
+  - [新增] `Oracle` 11 版本支持 [#I3EVL5](https://gitee.com/dotnetchina/Furion/issues/I3EVL5)
+  - [新增] `Mysql` 官方包 `MySql.EntityFrameworkCore` 支持 [#I3E6J1](https://gitee.com/dotnetchina/Furion/issues/I3E6J1)
+  - [新增] 全局配置 `WebApi` 参数 `[FromQury]` 化 [#I3EFYJ](https://gitee.com/dotnetchina/Furion/issues/I3EFYJ)
+  - [新增] 公开框架底层依赖注入扫描注册拓展 `services.AddRisterTypes(types)` [#I3EIV3](https://gitee.com/dotnetchina/Furion/issues/I3EIV3)
+  - [新增] SqlSugar 工作单元特性 [#I3EJO5](https://gitee.com/dotnetchina/Furion/issues/I3EJO5)
+
+- **突破性变化**
+
+- **问题修复**
+
+  - [修复] 数据库上下文池一旦有上下文操作失败还数据库上下文出现二次提交数据库的问题 [#I3EIJJ](https://gitee.com/dotnetchina/Furion/issues/I3EIJJ)
+  - [修复] 不同数据库命令参数前缀都添加了 `@` 处理 [#I3EBJP](https://gitee.com/dotnetchina/Furion/issues/I3EBJP)
+  - [修复] 尝试修复事件总线线程安全问题 [#I3EGSB](https://gitee.com/dotnetchina/Furion/issues/I3EGSB) [#PR236](https://gitee.com/dotnetchina/Furion/pulls/236)
+  - [修复] `HttpContextExtensions` 的 `SignoutToSwagger` 方法无效 [#I3EHNQ](https://gitee.com/dotnetchina/Furion/issues/I3EHNQ)
+  - [修复] 如果动态 WebApi 贴了 `[ApiController]` 特性后，导致路由参数重复生成 [#I3EOQQ](https://gitee.com/dotnetchina/Furion/issues/I3EOQQ)
+  - [修复] 如果没有任何 webapi 控制器时，文档报错 [#I3EVLB](https://gitee.com/dotnetchina/Furion/issues/I3EVLB)
+  - [修复] 依赖注入泛型类型注册失败 [#I3EX66](https://gitee.com/dotnetchina/Furion/issues/I3EX66)
+
+- **其他更改**
+
+  - [调整] SqlSugar 拓展库仓储 `Context` 属性类型未 `SqlSugarClient` [#I3EHXA](https://gitee.com/dotnetchina/Furion/issues/I3EHXA)
+  - [改进] 刷新 Token 黑名单 Redis 中分组 [#I3EQWO](https://gitee.com/dotnetchina/Furion/issues/I3EQWO)
+  - [改进] 远程请求在请求拦截次发起二次请求导致异常问题 [#I3ER71](https://gitee.com/dotnetchina/Furion/issues/I3ER71)
+  - [改进] 多租户默认缓存改为分布式缓存 [#I3EXEU](https://gitee.com/dotnetchina/Furion/issues/I3EXEU)
+
+- **文档变化**
+
+  - [更新] 数据库操作文档 [#I3E84X](https://gitee.com/dotnetchina/Furion/issues/I3E84X)
+
+- **问答答疑**
+
+  - [答疑] 如何方便的获取 `IDynamicApiController` API 产生的 url 和 谓词 [#I3ED17](https://gitee.com/dotnetchina/Furion/issues/I3ED17)
+  - [答疑] Code First -执行命令 `Add-Migration` 遇到了问题 [#I3EHD0](https://gitee.com/dotnetchina/Furion/issues/I3EHD0)
+  - [答疑] tools v1.16.0 无法生成实体，一直提示 Missing required argument `<PROVIDER>`. [#I3ENZ8](https://gitee.com/dotnetchina/Furion/issues/I3ENZ8)
+  - [答疑] Authorize 的 Logout 按钮，无法实时请空 token[#I3EOF9](https://gitee.com/dotnetchina/Furion/issues/I3EOF9)
+
+- **不做实现**
+
+---
+
+## v1.17.0 （已发布）
 
 - **新特性**
 

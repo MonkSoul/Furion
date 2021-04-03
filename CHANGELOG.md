@@ -1,4 +1,4 @@
-## v1.18.0 （未发布版本）
+## v1.18.0 （当前版本）
 
 - **新特性**
 
@@ -25,6 +25,7 @@
   - [调整] SqlSugar 拓展库仓储 `Context` 属性类型未 `SqlSugarClient` [#I3EHXA](https://gitee.com/dotnetchina/Furion/issues/I3EHXA)
   - [改进] 刷新 Token 黑名单 Redis 中分组 [#I3EQWO](https://gitee.com/dotnetchina/Furion/issues/I3EQWO)
   - [改进] 远程请求在请求拦截次发起二次请求导致异常问题 [#I3ER71](https://gitee.com/dotnetchina/Furion/issues/I3ER71)
+  - [改进] 多租户默认缓存改为分布式缓存 [#I3EXEU](https://gitee.com/dotnetchina/Furion/issues/I3EXEU)
 
 - **文档变化**
 
@@ -41,7 +42,7 @@
 
 ---
 
-## v1.17.0 （当前版本）
+## v1.17.0 （已发布）
 
 - **新特性**
 

@@ -1,6 +1,6 @@
 ﻿using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Furion.DatabaseAccessor.Extensions
@@ -27,9 +27,12 @@ namespace Furion.DatabaseAccessor.Extensions
             // 获取服务提供器
             var serviceProvider = httpContext.RequestServices;
 
+            // 缓存的 Key
+            var tenantCachedKey = $"MULTI_TENANT:{host}";
+
             // 从内存缓存中移除多租户信息
-            var memoryCache = serviceProvider.GetService<IMemoryCache>();
-            memoryCache.Remove($"{host}:MultiTenants");
+            var distributedCache = serviceProvider.GetService<IDistributedCache>();
+            distributedCache.Remove(tenantCachedKey);
         }
     }
 }

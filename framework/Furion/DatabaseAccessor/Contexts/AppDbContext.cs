@@ -1,10 +1,11 @@
 using Furion.DependencyInjection;
 using Furion.Extensions;
+using Furion.JsonSerialization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -132,16 +133,33 @@ namespace Furion.DatabaseAccessor
                 // 获取服务提供器
                 var serviceProvider = httpContext.RequestServices;
 
-                // 从内存缓存中读取或查询数据库
-                var memoryCache = serviceProvider.GetService<IMemoryCache>();
-                return memoryCache.GetOrCreate($"{host}:MultiTenants", cache =>
+                // 从分布式缓存中读取或查询数据库
+                var tenantCachedKey = $"MULTI_TENANT:{host}";
+                var distributedCache = serviceProvider.GetService<IDistributedCache>();
+                var cachedValue = distributedCache.GetString(tenantCachedKey);
+
+                // 当前租户
+                Tenant currentTenant;
+
+                // 获取序列化库
+                var jsonSerializerProvider = serviceProvider.GetService<IJsonSerializerProvider>();
+
+                // 如果 Key 不存在
+                if (string.IsNullOrEmpty(cachedValue))
                 {
                     // 获取新的租户数据库上下文
                     using var tenantDbContext = serviceProvider.GetService<Func<Type, ITransient, DbContext>>()(typeof(MultiTenantDbContextLocator), default);
                     if (tenantDbContext == null) return default;
 
-                    return tenantDbContext.Set<Tenant>().FirstOrDefault(u => u.Host == host);
-                });
+                    currentTenant = tenantDbContext.Set<Tenant>().FirstOrDefault(u => u.Host == host);
+                    if (currentTenant != null)
+                    {
+                        distributedCache.SetString(tenantCachedKey, jsonSerializerProvider.Serialize(currentTenant));
+                    }
+                }
+                else currentTenant = jsonSerializerProvider.Deserialize<Tenant>(cachedValue);
+
+                return currentTenant;
             }
         }
 
