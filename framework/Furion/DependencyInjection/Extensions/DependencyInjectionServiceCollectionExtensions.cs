@@ -105,7 +105,7 @@ namespace Microsoft.Extensions.DependencyInjection
                                 && projectAssemblies.Contains(u.Assembly)
                                 && (
                                     (!type.IsGenericType && !u.IsGenericType)
-                                    || (type.IsGenericType && u.IsGenericType && type.GenericTypeArguments.Length == u.GenericTypeArguments.Length))
+                                    || (type.IsGenericType && u.IsGenericType && type.GetGenericArguments().Length == u.GetGenericArguments().Length))
                                 );
 
                 // 注册暂时服务

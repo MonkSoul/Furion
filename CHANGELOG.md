@@ -18,6 +18,7 @@
   - [修复] `HttpContextExtensions` 的 `SignoutToSwagger` 方法无效 [#I3EHNQ](https://gitee.com/dotnetchina/Furion/issues/I3EHNQ)
   - [修复] 如果动态 WebApi 贴了 `[ApiController]` 特性后，导致路由参数重复生成 [#I3EOQQ](https://gitee.com/dotnetchina/Furion/issues/I3EOQQ)
   - [修复] 如果没有任何 webapi 控制器时，文档报错 [#I3EVLB](https://gitee.com/dotnetchina/Furion/issues/I3EVLB)
+  - [修复] 依赖注入泛型类型注册失败 [#I3EX66](https://gitee.com/dotnetchina/Furion/issues/I3EX66)
 
 - **其他更改**
 
