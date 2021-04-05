@@ -10,7 +10,7 @@ namespace Furion.Web.Core
     /// <summary>
     /// JWT 授权自定义处理程序
     /// </summary>
-    public class JwtHandler : AppAuthorizeHandler
+    public class AuthHandler : AppAuthorizeHandler
     {
         /// <summary>
         /// 验证管道

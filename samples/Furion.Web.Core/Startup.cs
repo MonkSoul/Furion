@@ -11,7 +11,7 @@ namespace Furion.Web.Core
         public void ConfigureServices(IServiceCollection services)
         {
             // 注册 JWT 授权
-            services.AddJwt<JwtHandler>();
+            services.AddJwt<AuthHandler>();
 
             services.AddCorsAccessor();
 
