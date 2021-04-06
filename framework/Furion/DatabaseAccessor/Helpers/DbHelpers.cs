@@ -277,18 +277,19 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 包裹存储过程返回结果集
         /// </summary>
+        /// <param name="providerName"></param>
         /// <param name="parameters">命令参数</param>
         /// <param name="dataSet">数据集</param>
         /// <param name="type">返回类型</param>
         /// <returns>ProcedureOutput</returns>
-        internal static object WrapperProcedureOutput(DbParameter[] parameters, DataSet dataSet, Type type)
+        internal static object WrapperProcedureOutput(string providerName, DbParameter[] parameters, DataSet dataSet, Type type)
         {
             var wrapperProcedureOutputMethod = typeof(DbHelpers)
                     .GetMethods(BindingFlags.Static | BindingFlags.NonPublic)
                     .First(u => u.Name == "WrapperProcedureOutput" && u.IsGenericMethod)
                     .MakeGenericMethod(type);
 
-            return wrapperProcedureOutputMethod.Invoke(null, new object[] { parameters, dataSet });
+            return wrapperProcedureOutputMethod.Invoke(null, new object[] { providerName, parameters, dataSet });
         }
 
         /// <summary>

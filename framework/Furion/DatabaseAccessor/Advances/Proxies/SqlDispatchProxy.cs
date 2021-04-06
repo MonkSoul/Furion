@@ -118,7 +118,7 @@ namespace Furion.DatabaseAccessor
                 // 处理返回值
                 var result = !returnType.IsGenericType
                     ? DbHelpers.WrapperProcedureOutput(database.ProviderName, dbParameters, dataSet)
-                    : DbHelpers.WrapperProcedureOutput(dbParameters, dataSet, returnType.GenericTypeArguments.First());
+                    : DbHelpers.WrapperProcedureOutput(database.ProviderName, dbParameters, dataSet, returnType.GenericTypeArguments.First());
                 return result;
             }
             else
@@ -197,7 +197,7 @@ namespace Furion.DatabaseAccessor
                 // 处理返回值
                 var result = !returnType.IsGenericType
                     ? DbHelpers.WrapperProcedureOutput(database.ProviderName, dbParameters, dataSet)
-                    : DbHelpers.WrapperProcedureOutput(dbParameters, dataSet, returnType.GenericTypeArguments.First());
+                    : DbHelpers.WrapperProcedureOutput(database.ProviderName, dbParameters, dataSet, returnType.GenericTypeArguments.First());
 
                 return (T)result;
             }

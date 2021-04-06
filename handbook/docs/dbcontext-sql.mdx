@@ -516,23 +516,23 @@ namespace Furion.Application
 // ==== 同步操作 ====
 
 // 示例一
-ProcedureOutputResult result = "PROC_Name".SqlProcedureOutput(new {id=1, name="百小僧"});
+ProcedureOutputResult result = "PROC_Name".SqlProcedureOutput(new ProcOutputModel{ Id=1});
 
 // 示例二
-ProcedureOutputResult result = "PROC_Name".SqlProcedureOutput();
+ProcedureOutputResult result = "PROC_Name".SqlProcedureOutput(new ProcOutputModel{ Id=1});
 
 // 示例三
-ProcedureOutputResult<(List<Person>, List<Student>)> result = "PROC_Name".SqlProcedureOutput<(List<Person>, List<Student>)>();
+ProcedureOutputResult<(List<Person>, List<Student>)> result = "PROC_Name".SqlProcedureOutput<(List<Person>, List<Student>)>(new ProcOutputModel{ Id=1});
 
 // ==== 异步操作 ====
 // 示例一
-ProcedureOutputResult result = await "PROC_Name".SqlProcedureOutputAsync(new {id=1, name="百小僧"});
+ProcedureOutputResult result = await "PROC_Name".SqlProcedureOutputAsync(new ProcOutputModel{ Id=1});
 
 // 示例二
-ProcedureOutputResult result = await "PROC_Name".SqlProcedureOutputAsync();
+ProcedureOutputResult result = await "PROC_Name".SqlProcedureOutputAsync(new ProcOutputModel{ Id=1});
 
 // 示例三
-ProcedureOutputResult<(List<Person>, List<Student>)> result = await "PROC_Name".SqlProcedureOutputAsync<(List<Person>, List<Student>)>();
+ProcedureOutputResult<(List<Person>, List<Student>)> result = await "PROC_Name".SqlProcedureOutputAsync<(List<Person>, List<Student>)>(new ProcOutputModel{ Id=1});
 ```
 
 ## 9.15.4 懒人无敌 `函数` 🐮

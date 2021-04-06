@@ -11,6 +11,7 @@
 - **问题修复**
 
   - [修复] 远程请求 `application/x-www-form-urlencoded` 自动被转码了 [#I3HDPC](https://gitee.com/dotnetchina/Furion/issues/I3HDPC)
+  - [修复] `ISqlDispatchProxy` 调用带返回值的存储过程出错 [#I3HISS](https://gitee.com/dotnetchina/Furion/issues/I3HISS)
 
 - **其他更改**
 
