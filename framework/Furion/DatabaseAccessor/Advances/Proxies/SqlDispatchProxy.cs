@@ -1,6 +1,7 @@
 ﻿using Furion.DependencyInjection;
 using Furion.Extensions;
 using Furion.Reflection;
+using Furion.Templates.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -262,6 +263,16 @@ namespace Furion.DatabaseAccessor
                 commandType = sqlExecuteAttribute.CommandType;
             }
             else throw new NotSupportedException($"{sqlProxyAttribute.GetType().FullName} is an invalid annotation.");
+
+            // 解析方法参数及参数值并渲染模板
+            var methodParameterInfos = method.GetParameters().Select((u, i) => new MethodParameterInfo
+            {
+                Parameter = u,
+                Name = u.Name,
+                Value = args[i]
+            });
+            // 渲染模板
+            finalSql = finalSql.Render(methodParameterInfos.ToDictionary(u => u.Name, u => u.Value));
 
             // 返回
             return new SqlProxyMethod

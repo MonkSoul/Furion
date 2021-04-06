@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Furion.RemoteRequest
+namespace Furion
 {
     /// <summary>
     /// 方法参数信息

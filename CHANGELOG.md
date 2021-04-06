@@ -2,6 +2,8 @@
 
 - **新特性**
 
+  - [新增] `Sql` 高级代理支持模板替换了 [#I3HHWU](https://gitee.com/dotnetchina/Furion/issues/I3HHWU) [#I3HH2T](https://gitee.com/dotnetchina/Furion/issues/I3HH2T)
+
 - **突破性变化**
 
 - **问题修复**
@@ -18,6 +20,7 @@
 
   - [答疑] 建议 MVC 模式下增加 Furion 的功能 [#I3GY4R](https://gitee.com/dotnetchina/Furion/issues/I3GY4R)
   - [答疑] 数据库关联操作 [#I3H5QP](https://gitee.com/dotnetchina/Furion/issues/I3H5QP)
+  - [答疑] 1.17.5版本suagger 无法生成swagger.json [#I3HGPZ](https://gitee.com/dotnetchina/Furion/issues/I3HGPZ)
 
 - **不做实现**
 

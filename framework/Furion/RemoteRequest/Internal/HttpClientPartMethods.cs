@@ -1,16 +1,15 @@
 ﻿using Furion.DataValidation;
 using Furion.Extensions;
 using Furion.JsonSerialization;
+using Furion.Templates.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Furion.RemoteRequest
 {
@@ -293,7 +292,7 @@ namespace Furion.RemoteRequest
             // 解析 Json 序列化提供器
             var jsonSerializer = App.GetService(JsonSerialization.ProviderType ?? typeof(SystemTextJsonSerializerProvider)) as IJsonSerializerProvider;
 
-            // 读取流内容并转换成字符串
+            // 读取流内容
             var stream = await SendAsStreamAsync(cancellationToken);
 
             // 如果 T 是 Stream 类型，则返回
@@ -357,7 +356,7 @@ namespace Furion.RemoteRequest
             if (string.IsNullOrEmpty(RequestUrl)) throw new NullReferenceException(RequestUrl);
 
             // 处理模板问题
-            ReplaceRequestUrlTemplates();
+            RequestUrl = RequestUrl.Render(Templates, true);
 
             // 构建请求对象
             var request = new HttpRequestMessage(Method, RequestUrl);
@@ -527,38 +526,6 @@ namespace Furion.RemoteRequest
         }
 
         /// <summary>
-        /// 模板正则表达式
-        /// </summary>
-        private const string templatePattern = @"\{(?<p>.+?)\}";
-
-        /// <summary>
-        /// 替换 Url 地址模板参数
-        /// </summary>
-        /// <returns></returns>
-        private void ReplaceRequestUrlTemplates()
-        {
-            // 如果模板为空，则跳过
-            if (Templates == null || Templates.Count == 0) return;
-
-            // 判断请求地址是否包含模板
-            if (!Regex.IsMatch(RequestUrl, templatePattern)) return;
-
-            // 获取所有匹配的模板
-            var templateValues = Regex.Matches(RequestUrl, templatePattern)
-                                                       .Select(u => new
-                                                       {
-                                                           Template = u.Groups["p"].Value,
-                                                           Value = MatchTemplateValue(u.Groups["p"].Value, Templates)
-                                                       });
-
-            // 循环替换模板
-            foreach (var item in templateValues)
-            {
-                RequestUrl = RequestUrl.Replace($"{{{item.Template}}}", HttpUtility.UrlEncode(item.Value?.ToString() ?? string.Empty));
-            }
-        }
-
-        /// <summary>
         /// 序列化对象
         /// </summary>
         /// <param name="body"></param>
@@ -568,62 +535,6 @@ namespace Furion.RemoteRequest
             // 解析序列化工具
             var jsonSerializer = App.GetService(JsonSerialization.ProviderType) as IJsonSerializerProvider;
             return jsonSerializer.Serialize(body, JsonSerialization.JsonSerializerOptions);
-        }
-
-        /// <summary>
-        /// 匹配模板值
-        /// </summary>
-        /// <param name="template"></param>
-        /// <param name="templateData"></param>
-        /// <returns></returns>
-        private static object MatchTemplateValue(string template, Dictionary<string, object> templateData)
-        {
-            string tmpl;
-            if (!template.Contains(".", StringComparison.CurrentCulture)) tmpl = template;
-            else tmpl = template.Split('.', StringSplitOptions.RemoveEmptyEntries).First();
-
-            var templateValue = templateData.ContainsKey(tmpl) ? templateData[tmpl] : default;
-            return ResolveTemplateValue(template, templateValue);
-        }
-
-        /// <summary>
-        /// 解析模板的值
-        /// </summary>
-        /// <param name="template"></param>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        private static object ResolveTemplateValue(string template, object data)
-        {
-            // 根据 . 分割模板
-            var propertyCrumbs = template.Split('.', StringSplitOptions.RemoveEmptyEntries);
-            return GetValue(propertyCrumbs, data);
-
-            // 静态本地函数
-            static object GetValue(string[] propertyCrumbs, object data)
-            {
-                if (data == null || propertyCrumbs == null || propertyCrumbs.Length <= 1) return data;
-                var dataType = data.GetType();
-
-                // 如果是基元类型则直接返回
-                if (dataType.IsRichPrimitive()) return data;
-                object value = null;
-
-                // 递归获取下一级模板值
-                for (int i = 1; i < propertyCrumbs.Length; i++)
-                {
-                    var propery = dataType.GetProperty(propertyCrumbs[i]);
-                    if (propery == null) break;
-
-                    value = propery.GetValue(data);
-                    if (i + 1 < propertyCrumbs.Length)
-                    {
-                        value = GetValue(propertyCrumbs.Skip(i).ToArray(), value);
-                    }
-                    else break;
-                }
-
-                return value;
-            }
         }
     }
 }
