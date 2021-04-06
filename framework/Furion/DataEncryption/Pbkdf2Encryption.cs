@@ -97,7 +97,7 @@ namespace Furion.DataEncryption
                 password: passWord,
                 salt: salt,
                 prf: prf,
-                iterationCount: (salt[6] + _initialIterationCount) << 6,
+                iterationCount: (salt[dstOffset + 1] + _initialIterationCount) << 6,
                 numBytesRequested: _numBytesRequested);
 
             Buffer.BlockCopy(encryptByte, 0, output, salt.Length + 1, encryptByte.Length);

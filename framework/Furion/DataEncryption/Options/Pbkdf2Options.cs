@@ -10,10 +10,10 @@ namespace Furion.DataEncryption.Options
     {
         /// <summary>
         /// 初始迭代次数累加值（未进行随机运算前的初始累加值，不等于最终迭代次数）
-        /// <para>建议为10 - 150之间，不宜太大，过大将导致最终迭代次数过多，影响性能</para>
-        /// <para>初始值：55</para>
+        /// <para>建议为70 - 200之间，硬件性能好可以继续增加，此值越高，安全性越高，性能越低</para>
+        /// <para>初始值：110</para>
         /// </summary>
-        public int InitialIterationCount { get; set; } = 55;
+        public int InitialIterationCount { get; set; } = 110;
         /// <summary>
         /// 默认的伪随机函数
         /// <para>初始值：KeyDerivationPrf.HMACSHA256</para>
