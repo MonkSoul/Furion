@@ -118,7 +118,7 @@ namespace Furion.DynamicApiController
             string tempStr = null;
             foreach (var affix in affixes)
             {
-                if (string.IsNullOrEmpty(affix) || string.IsNullOrWhiteSpace(affix)) continue;
+                if (string.IsNullOrWhiteSpace(affix)) continue;
 
                 if (pos != 1 && !startCleared && str.StartsWith(affix, StringComparison.OrdinalIgnoreCase))
                 {
