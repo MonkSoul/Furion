@@ -6,6 +6,8 @@
 
 - **突破性变化**
 
+  - [升级] .NET 5 SDK 至 5.0.5 版本
+
 - **问题修复**
 
   - [修复] 远程请求 `application/x-www-form-urlencoded` 自动被转码了 [#I3HDPC](https://gitee.com/dotnetchina/Furion/issues/I3HDPC)
@@ -20,7 +22,7 @@
 
   - [答疑] 建议 MVC 模式下增加 Furion 的功能 [#I3GY4R](https://gitee.com/dotnetchina/Furion/issues/I3GY4R)
   - [答疑] 数据库关联操作 [#I3H5QP](https://gitee.com/dotnetchina/Furion/issues/I3H5QP)
-  - [答疑] 1.17.5版本suagger 无法生成swagger.json [#I3HGPZ](https://gitee.com/dotnetchina/Furion/issues/I3HGPZ)
+  - [答疑] 1.17.5 版本 suagger 无法生成 swagger.json [#I3HGPZ](https://gitee.com/dotnetchina/Furion/issues/I3HGPZ)
 
 - **不做实现**
 
