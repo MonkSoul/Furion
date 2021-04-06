@@ -61,5 +61,26 @@ namespace Furion.DataEncryption.Extensions
         {
             return DESCEncryption.Decrypt(text, skey);
         }
+
+        /// <summary>
+        /// 密码（字符串） Pbkdf2 加密
+        /// </summary>
+        /// <param name="passWord">需要加密的密码（字符串）</param>
+        /// <returns></returns>
+        public static string ToPbkdf2(this string passWord)
+        {
+            return Pbkdf2Encryption.Pbkdf2(passWord);
+        }
+
+        /// <summary>
+        /// 使用 Pbkdf2 算法验证密码（字符串）是否正确
+        /// </summary>
+        /// <param name="encryptPassWord"></param>
+        /// <param name="passWord">待验证的原始密码（字符串）</param>
+        /// <returns></returns>
+        public static bool Pbkdf2Verify(this string encryptPassWord, string passWord)
+        {
+            return Pbkdf2Encryption.Pbkdf2Verify(encryptPassWord, passWord);
+        }
     }
 }
