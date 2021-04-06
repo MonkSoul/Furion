@@ -566,7 +566,7 @@
   - [新增] `EFCore` 时态查询文档 [#I28AJ](https://gitee.com/dotnetchina/Furion/issues/I28AJ6), [DOC](https://dotnetchina.gitee.io/furion/docs/dbcontext-hight-query/#91111-%E6%97%B6%E6%80%81%E6%9F%A5%E8%AF%A2)
   - [更新] 仓储文档书写纰漏 bug [#PR90](https://gitee.com/dotnetchina/Furion/pulls/90)
   - [更新] 选项文档错误 bug [#PR86](https://gitee.com/dotnetchina/Furion/pulls/86)
-  - [更新] `实体数据监听器` 文档书写错误 bug [#PR83](https://gitee.com/dotnetchina/Furion/pulls/83/files)
+  - [更新] `实体数据操作事件` 文档书写错误 bug [#PR83](https://gitee.com/dotnetchina/Furion/pulls/83/files)
   - [更新] 数据库上下文、多数据库、脚手架等文档
 
 - **问答答疑**
@@ -623,7 +623,7 @@
 
 - **文档变化**
 
-  - [新增] [实体数据监听器](https://dotnetchina.gitee.io/furion/docs/dbcontext-entitytrigger) 文档
+  - [新增] [实体数据操作事件](https://dotnetchina.gitee.io/furion/docs/dbcontext-entitytrigger) 文档
   - [更新] 一分钟入门、应用启动、官方脚手架、数据库操作指南、对象映射、规范化文档、异常处理、鉴权授权文档
 
 ---
