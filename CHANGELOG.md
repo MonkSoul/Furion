@@ -14,7 +14,7 @@
 
 - **问答答疑**
 
-  - [答疑] 建议 MVC 模式下增加 Furion 的特色功能 [#I3GY4R](https://gitee.com/dotnetchina/Furion/issues/I3GY4R)
+  - [答疑] 建议 MVC 模式下增加 Furion 的功能 [#I3GY4R](https://gitee.com/dotnetchina/Furion/issues/I3GY4R)
   - [答疑] 数据库级联操作 [#I3H5QP](https://gitee.com/dotnetchina/Furion/issues/I3H5QP)
 
 - **不做实现**
