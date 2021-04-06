@@ -20,6 +20,8 @@ namespace Furion.ViewEngine
             {
                 typeof(object).Assembly,
                 typeof(ViewEngineModel).Assembly,
+                typeof(System.Collections.IList).Assembly,
+                typeof(System.Collections.Generic.IEnumerable<>).Assembly,
                 Assembly.Load(new AssemblyName("Microsoft.CSharp")),
                 Assembly.Load(new AssemblyName("System.Runtime")),
                 Assembly.Load(new AssemblyName("System.Linq")),
@@ -53,7 +55,9 @@ namespace Furion.ViewEngine
         /// </summary>
         public HashSet<string> DefaultUsings { get; set; } = new HashSet<string>()
         {
-            "System.Linq"
+            "System.Linq",
+            "System.Collections",
+            "System.Collections.Generic"
         };
     }
 }

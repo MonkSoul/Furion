@@ -1,3 +1,25 @@
+## v1.19.0 （未发布）
+
+- **新特性**
+
+- **突破性变化**
+
+- **问题修复**
+
+- **其他更改**
+
+  - [改进] 视图引擎模板，模板默认支持可枚举泛型类型 [#I3GYEE](https://gitee.com/dotnetchina/Furion/issues/I3GYEE)
+
+- **文档变化**
+
+- **问答答疑**
+
+  - [答疑] 建议 MVC 模式下增加 Furion 的特色功能 [#I3GY4R](https://gitee.com/dotnetchina/Furion/issues/I3GY4R)
+
+- **不做实现**
+
+---
+
 ## v1.18.0 （当前版本）
 
 - **新特性**

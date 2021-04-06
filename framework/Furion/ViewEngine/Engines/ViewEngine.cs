@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -300,7 +301,19 @@ namespace Furion.ViewEngine
                     syntaxTree
                 },
                 options.ReferencedAssemblies
-                    .Select(ass => MetadataReference.CreateFromFile(ass.Location))
+                    .Select(ass =>
+                    {
+                        // MetadataReference.CreateFromFile(ass.Location)
+
+                        unsafe
+                        {
+                            ass.TryGetRawMetadata(out byte* blob, out int length);
+                            var moduleMetadata = ModuleMetadata.CreateFromMetadata((IntPtr)blob, length);
+                            var assemblyMetadata = AssemblyMetadata.Create(moduleMetadata);
+                            var metadataReference = assemblyMetadata.GetReference();
+                            return metadataReference;
+                        }
+                    })
                     .Concat(options.MetadataReferences)
                     .ToList(),
                 new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
