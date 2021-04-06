@@ -522,7 +522,7 @@ namespace Furion.RemoteRequest
             // 处理各种情况
             if (Body is Dictionary<string, string> dic) keyValues = dic;
             else if (Body is Dictionary<string, object> dicObj) keyValues = dicObj.ToDictionary(u => u.Key, u => SerializerObject(u.Value));
-            else Body.ToDictionary<string>();
+            else keyValues = Body.ToDictionary<string>();
             return keyValues;
         }
 

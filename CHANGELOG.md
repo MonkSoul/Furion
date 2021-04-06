@@ -6,6 +6,8 @@
 
 - **问题修复**
 
+  - [修复] 远程请求 `application/x-www-form-urlencoded` 自动被转码了 [#I3HDPC](https://gitee.com/dotnetchina/Furion/issues/I3HDPC)
+
 - **其他更改**
 
   - [改进] 视图模板功能，默认支持可枚举泛型类型 [#I3GYEE](https://gitee.com/dotnetchina/Furion/issues/I3GYEE)
