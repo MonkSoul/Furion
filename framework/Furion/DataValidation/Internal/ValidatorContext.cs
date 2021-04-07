@@ -47,11 +47,8 @@ namespace Furion.DataValidation
                 new ValidateFailedModel(string.Empty,new[]{errors?.ToString()})
             };
 
-            // 解析 JSON 序列化提供器
-            var jsonSerializer = JSON.GetJsonSerializer();
-
             // 序列化
-            var validateFaildMessage = jsonSerializer.Serialize(validationResults);
+            var validateFaildMessage = JSON.Serialize(validationResults);
 
             return (validationResults, validateFaildMessage, _modelState);
         }
