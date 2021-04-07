@@ -1,26 +1,26 @@
-﻿using System;
-using System.Security.Cryptography;
-
-using Furion.DataEncryption.Options;
-using Furion.Logging.Extensions;
-
+﻿using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using System;
+using System.Security.Cryptography;
 
 namespace Furion.DataEncryption
 {
     /// <summary>
-    /// Pbkdf2 密钥派生算法（密码加密专用）
+    /// PBKDF2 密钥派生算法（密码加密专用）
     /// </summary>
-    public static class Pbkdf2Encryption
+    [SkipScan]
+    public static class PBKDF2Encryption
     {
         /// <summary>
         /// 初始迭代次数累加值
         /// </summary>
         private static readonly int _initialIterationCount;
+
         /// <summary>
         /// 默认的伪随机函数
         /// </summary>
-        private static readonly KeyDerivationPrf _keyDerivationPrf;
+        private static readonly KeyDerivationPrf _keyDerivation;
+
         /// <summary>
         /// 输出密钥的长度
         /// </summary>
@@ -29,57 +29,58 @@ namespace Furion.DataEncryption
         /// <summary>
         /// 构造函数
         /// </summary>
-        static Pbkdf2Encryption()
+        static PBKDF2Encryption()
         {
-            var options = new Pbkdf2Options();
-            // 读取 startup 自定义的 Pbkdf2Options 配置，如果为null，则使用默认值
-            try { options = App.GetOptions<Pbkdf2Options>() ?? new Pbkdf2Options(); } catch (Exception ex) { ex.Message.LogError("Pbkdf2Encryption", ex, ex.Message); }
+            // 读取配置
+            var options = App.GetOptions<PBKDF2SettingsOptions>();
 
-            _initialIterationCount = options.InitialIterationCount;
-            _keyDerivationPrf = options.KeyDerivationPrf;
-            _numBytesRequested = options.NumBytesRequested;
+            _initialIterationCount = options.InitialIterationCount.Value;
+            _keyDerivation = options.KeyDerivation.Value;
+            _numBytesRequested = options.NumBytesRequested.Value;
         }
 
         /// <summary>
-        /// 使用 Pbkdf2 算法执行密钥派生，推荐所有密码都用此方法进行加密，使用 <see cref="Pbkdf2Verify" /> 进行验证
+        /// 使用 PBKDF2 算法执行密钥派生，推荐所有密码都用此方法进行加密，使用 <see cref="Compare" /> 进行验证
         /// </summary>
-        /// <param name="passWord"></param>
+        /// <param name="text"></param>
         /// <returns></returns>
-        public static string Pbkdf2(string passWord)
+        public static string Encrypt(string text)
         {
             // 生成salt
             var salt = Guid.NewGuid().ToByteArray();
             // 加密密码，返回base64
-            return Convert.ToBase64String(Pbkdf2(passWord, salt, _keyDerivationPrf));
+            return Convert.ToBase64String(Encrypt(text, salt, _keyDerivation));
         }
+
         /// <summary>
-        /// 使用 Pbkdf2 验证密码（字符串）是否正确
+        /// 使用 PBKDF2 验证文本（字符串）是否正确
         /// </summary>
-        /// <param name="encryptPassWord">已加密的 base64 字符串</param>
-        /// <param name="passWord">待验证的原始密码（字符串）</param>
+        /// <param name="text">待验证的原始文本（字符串）</param>
+        /// <param name="encryptText">已加密的 base64 字符串</param>
         /// <returns></returns>
-        public static bool Pbkdf2Verify(string encryptPassWord, string passWord)
+        public static bool Compare(string text, string encryptText)
         {
-            var decodeEncryptPassWord = Convert.FromBase64String(encryptPassWord);
+            var decodeEncryptText = Convert.FromBase64String(encryptText);
 
             var salt = new byte[128 / 8];
-            Buffer.BlockCopy(decodeEncryptPassWord, 0, salt, 0, salt.Length);
+            Buffer.BlockCopy(decodeEncryptText, 0, salt, 0, salt.Length);
 
             var encryptSubkey = new byte[_numBytesRequested];
-            Buffer.BlockCopy(decodeEncryptPassWord, salt.Length + 1, encryptSubkey, 0, encryptSubkey.Length);
+            Buffer.BlockCopy(decodeEncryptText, salt.Length + 1, encryptSubkey, 0, encryptSubkey.Length);
 
-            var actualSubkey = Pbkdf2(passWord, salt, (KeyDerivationPrf)decodeEncryptPassWord[salt.Length]);
+            var actualSubkey = Encrypt(text, salt, (KeyDerivationPrf)decodeEncryptText[salt.Length]);
 
-            return CryptographicOperations.FixedTimeEquals(actualSubkey, decodeEncryptPassWord);
+            return CryptographicOperations.FixedTimeEquals(actualSubkey, decodeEncryptText);
         }
+
         /// <summary>
-        /// 使用PBKDF2进行加密
+        /// 使用 PBKDF2 进行加密
         /// </summary>
-        /// <param name="passWord">待加密的密码</param>
+        /// <param name="text">待加密的文本</param>
         /// <param name="salt">salt</param>
         /// <param name="prf">加密使用的伪随机函数</param>
         /// <returns></returns>
-        private static byte[] Pbkdf2(string passWord, byte[] salt, KeyDerivationPrf prf)
+        private static byte[] Encrypt(string text, byte[] salt, KeyDerivationPrf prf)
         {
             var output = new byte[salt.Length + 1 + _numBytesRequested];
             // 将salt添加到输出结果中
@@ -94,7 +95,7 @@ namespace Furion.DataEncryption
 
             // 加密结果
             var encryptByte = KeyDerivation.Pbkdf2(
-                password: passWord,
+                password: text,
                 salt: salt,
                 prf: prf,
                 iterationCount: (salt[dstOffset + 1] + _initialIterationCount) << 6,

@@ -19,6 +19,17 @@ namespace Furion.DataEncryption.Extensions
         }
 
         /// <summary>
+        /// 字符串的 MD5
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="hash"></param>
+        /// <returns>string</returns>
+        public static bool ToMD5Compare(this string text, string hash)
+        {
+            return MD5Encryption.Compare(text, hash);
+        }
+
+        /// <summary>
         /// 字符串 AES 加密
         /// </summary>
         /// <param name="text">需要加密的字符串</param>
@@ -63,24 +74,24 @@ namespace Furion.DataEncryption.Extensions
         }
 
         /// <summary>
-        /// 密码（字符串） Pbkdf2 加密
+        /// 密码（字符串） PBKDF2 加密
         /// </summary>
-        /// <param name="passWord">需要加密的密码（字符串）</param>
+        /// <param name="text">需要加密的文本（字符串）</param>
         /// <returns></returns>
-        public static string ToPbkdf2(this string passWord)
+        public static string ToPBKDF2Encrypt(this string text)
         {
-            return Pbkdf2Encryption.Pbkdf2(passWord);
+            return PBKDF2Encryption.Encrypt(text);
         }
 
         /// <summary>
         /// 使用 Pbkdf2 算法验证密码（字符串）是否正确
         /// </summary>
-        /// <param name="encryptPassWord"></param>
-        /// <param name="passWord">待验证的原始密码（字符串）</param>
+        /// <param name="text">待验证的原始字符串（字符串）</param>
+        /// <param name="encryptText"></param>
         /// <returns></returns>
-        public static bool Pbkdf2Verify(this string encryptPassWord, string passWord)
+        public static bool ToPBKDF2Compare(this string text, string encryptText)
         {
-            return Pbkdf2Encryption.Pbkdf2Verify(encryptPassWord, passWord);
+            return PBKDF2Encryption.Compare(text, encryptText);
         }
     }
 }

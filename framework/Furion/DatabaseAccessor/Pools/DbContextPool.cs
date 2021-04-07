@@ -67,7 +67,19 @@ namespace Furion.DatabaseAccessor
                 // 订阅数据库上下文操作失败事件
                 dbContext.SaveChangesFailed += (s, e) =>
                 {
-                    if (!failedDbContexts.Contains(dbContext)) failedDbContexts.Add(s as DbContext);
+                    if (!failedDbContexts.Contains(dbContext))
+                    {
+                        var context = s as DbContext;
+
+                        // 当前事务
+                        var currentTransaction = context.Database.CurrentTransaction;
+                        if (currentTransaction != null)
+                        {
+                            // 回滚事务
+                            currentTransaction.Rollback();
+                        }
+                        failedDbContexts.Add(context);
+                    }
                 };
             }
         }
