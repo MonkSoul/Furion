@@ -34,9 +34,9 @@ namespace Furion.DataEncryption
             // 读取配置
             var options = App.GetOptions<PBKDF2SettingsOptions>();
 
-            _initialIterationCount = options.InitialIterationCount.Value;
-            _keyDerivation = options.KeyDerivation.Value;
-            _numBytesRequested = options.NumBytesRequested.Value;
+            _initialIterationCount = options?.InitialIterationCount.Value ?? 110;
+            _keyDerivation = options?.KeyDerivation.Value ?? KeyDerivationPrf.HMACSHA256;
+            _numBytesRequested = options?.NumBytesRequested.Value ?? 512 / 8;
         }
 
         /// <summary>
