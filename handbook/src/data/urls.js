@@ -131,8 +131,8 @@ const urls = [
   },
   {
     url: "https://dotnet9.com/",
-    text: "OpenAuth.Net",
-    title: "Dotnet9",
+    text: "Dotnet9",
+    title: "",
   },
 ];
 
