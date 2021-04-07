@@ -32,11 +32,11 @@ namespace Furion.DataEncryption
         static PBKDF2Encryption()
         {
             // 读取配置
-            var options = App.GetOptions<PBKDF2SettingsOptions>();
+            var options = App.GetOptions<PBKDF2EncryptionSettingsOptions>();
 
-            _initialIterationCount = options?.InitialIterationCount.Value ?? 110;
-            _keyDerivation = options?.KeyDerivation.Value ?? KeyDerivationPrf.HMACSHA256;
-            _numBytesRequested = options?.NumBytesRequested.Value ?? 512 / 8;
+            _initialIterationCount = options?.InitialIterationCount ?? 110;
+            _keyDerivation = options?.KeyDerivation ?? KeyDerivationPrf.HMACSHA256;
+            _numBytesRequested = options?.NumBytesRequested ?? 512 / 8;
         }
 
         /// <summary>

@@ -14,10 +14,10 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddPBKDF2Options(this IServiceCollection services)
+        public static IServiceCollection AddPBKDF2EncryptionOptions(this IServiceCollection services)
         {
             // 添加默认配置
-            services.AddConfigurableOptions<PBKDF2SettingsOptions>();
+            services.AddConfigurableOptions<PBKDF2EncryptionSettingsOptions>();
 
             return services;
         }

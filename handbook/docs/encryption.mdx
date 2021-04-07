@@ -16,6 +16,7 @@ sidebar_label: 20. 数据加解密
 - `DESC` 加解密
 - `AES` 加解密
 - `JWT` 加解密
+- `PBKDF2` 加密
 
 ## 20.2 加解密使用
 
@@ -68,6 +69,38 @@ var (isValid, tokenData) = JWTEncryption.Validate("你的token"); // 验证token
 
 :::
 
+### 20.2.5 `PBKDF2` 加密
+
+```cs
+// 测试 PBKDF2 加密，比较
+var basestring = PBKDF2Encryption.Encrypt("百小僧");  // 加密
+var isEqual = PBKDF2Encryption.Compare("百小僧", basestring); // 比较
+```
+
+:::important 支持选择更多参数
+
+`PBKDF2` 还可以配置更多参数：
+
+- `Startup.cs` 中注册服务
+
+```cs
+services.AddPBKDF2EncryptionOptions();
+```
+
+- `appsettings.json` 配置：
+
+```json
+{
+  "PBKDF2EncryptionSettings": {
+    "InitialIterationCount": 110, // 初始迭代次数累加值
+    "KeyDerivation": "HMACSHA256", // 加密算法规则  KeyDerivationPrf.HMACSHA256
+    "NumBytesRequested": 64 // 派生密钥的长度 (以字节为单位) 512 / 8
+  }
+}
+```
+
+:::
+
 ## 20.3 字符串拓展方式
 
 `Furion` 框架也提供了字符串拓展方式进行 `MD5加密、AES/DESC加解密`。
@@ -77,6 +110,7 @@ using Furion.DataEncryption.Extensions;
 
 // MD5 加密
 var s = "Furion".ToMD5Encrypt();
+var b = "Furion".ToMD5Compare(s);   // 比较
 
 // AES加解密
 var s = "Furion".ToAESEncrypt("sfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdfdfdfd");
@@ -85,6 +119,10 @@ var str = s.ToToAESDecrypt("sfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdfdfdfd");
 // DESC 加解密
 var s = "Furion".ToDESCEncrypt("sfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdfdfdfd");
 var str = s.ToDESCDecrypt("sfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdfdfdfd");
+
+// PBKDF2 加密
+var s = "Furion".ToPBKDF2Encrypt();
+var b = "Furion".ToPBKDF2Compare(s);   // 比较
 ```
 
 ## 20.4 反馈与建议
