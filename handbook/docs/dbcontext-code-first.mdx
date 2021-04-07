@@ -34,7 +34,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 services.AddDatabaseAccessor(options =>
 {
     options.AddDbPool<FurionDbContext>(DbProvider.Sqlite);
-}, "存放迁移文件的项目名称");
+}, "迁移程序集名称");
 ```
 
 另外，如果应用中配置了多个数据库上下文，那么所有的 `迁移命令` 都需要指定 `-Context 数据库上下文名称` 参数。如：
