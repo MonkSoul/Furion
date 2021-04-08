@@ -158,6 +158,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddHttpContextAccessor();
 
             // 注册分布式内存缓存
+            //services.AddMemoryCache();  // .NET 5.0.4 需要手动注册了
             services.AddDistributedMemoryCache();
 
             // 注册全局 Startup 扫描

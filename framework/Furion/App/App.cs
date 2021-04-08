@@ -76,42 +76,46 @@ namespace Furion
         /// 获取请求生命周期的服务
         /// </summary>
         /// <typeparam name="TService"></typeparam>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static TService GetService<TService>()
+        public static TService GetService<TService>(IServiceProvider serviceProvider = default)
             where TService : class
         {
-            return GetService(typeof(TService)) as TService;
+            return GetService(typeof(TService), serviceProvider) as TService;
         }
 
         /// <summary>
         /// 获取请求生命周期的服务
         /// </summary>
         /// <param name="type"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static object GetService(Type type)
+        public static object GetService(Type type, IServiceProvider serviceProvider = default)
         {
-            return ServiceProvider.GetService(type);
+            return (serviceProvider ?? ServiceProvider).GetService(type);
         }
 
         /// <summary>
         /// 获取请求生命周期的服务
         /// </summary>
         /// <typeparam name="TService"></typeparam>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static TService GetRequiredService<TService>()
+        public static TService GetRequiredService<TService>(IServiceProvider serviceProvider = default)
             where TService : class
         {
-            return GetRequiredService(typeof(TService)) as TService;
+            return GetRequiredService(typeof(TService), serviceProvider) as TService;
         }
 
         /// <summary>
         /// 获取请求生命周期的服务
         /// </summary>
         /// <param name="type"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static object GetRequiredService(Type type)
+        public static object GetRequiredService(Type type, IServiceProvider serviceProvider = default)
         {
-            return ServiceProvider.GetRequiredService(type);
+            return (serviceProvider ?? ServiceProvider).GetRequiredService(type);
         }
 
         /// <summary>
@@ -130,33 +134,36 @@ namespace Furion
         /// 获取选项
         /// </summary>
         /// <typeparam name="TOptions">强类型选项类</typeparam>
+        /// <param name="serviceProvider"></param>
         /// <returns>TOptions</returns>
-        public static TOptions GetOptions<TOptions>()
+        public static TOptions GetOptions<TOptions>(IServiceProvider serviceProvider = default)
             where TOptions : class, new()
         {
-            return GetService<IOptions<TOptions>>()?.Value;
+            return GetService<IOptions<TOptions>>(serviceProvider)?.Value;
         }
 
         /// <summary>
         /// 获取选项
         /// </summary>
         /// <typeparam name="TOptions">强类型选项类</typeparam>
+        /// <param name="serviceProvider"></param>
         /// <returns>TOptions</returns>
-        public static TOptions GetOptionsMonitor<TOptions>()
+        public static TOptions GetOptionsMonitor<TOptions>(IServiceProvider serviceProvider = default)
             where TOptions : class, new()
         {
-            return GetService<IOptionsMonitor<TOptions>>()?.CurrentValue;
+            return GetService<IOptionsMonitor<TOptions>>(serviceProvider)?.CurrentValue;
         }
 
         /// <summary>
         /// 获取选项
         /// </summary>
         /// <typeparam name="TOptions">强类型选项类</typeparam>
+        /// <param name="serviceProvider"></param>
         /// <returns>TOptions</returns>
-        public static TOptions GetOptionsSnapshot<TOptions>()
+        public static TOptions GetOptionsSnapshot<TOptions>(IServiceProvider serviceProvider = default)
             where TOptions : class, new()
         {
-            return GetService<IOptionsSnapshot<TOptions>>()?.Value;
+            return GetService<IOptionsSnapshot<TOptions>>(serviceProvider)?.Value;
         }
 
         /// <summary>

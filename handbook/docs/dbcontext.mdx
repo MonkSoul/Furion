@@ -328,16 +328,43 @@ var users = respository.DynamicContext.Users;
 
 ## 9.1.10 在后台任务中使用
 
-由于 `DbContext` 默认注册为 `Scoped` 生存周期，所以在后台任务中使用 `DbContext` 需通过静态创建方式，如：
+由于 `DbContext` 默认注册为 `Scoped` 生存周期，所以在后台任务中使用 `IServiceScopeFactory` 获取所有服务，如：
 
 ```cs
-using (var dbContext = Db.GetNewDbContext())
+public class JobService : BackgroundService
 {
-}
+    // 日志对象
+    private readonly ILogger<JobService> _logger;
 
-// 或
-using(var dbContext2 = Db.GetNewDbContext<TDbContextLocator>())
-{
+    // 服务工厂
+    private readonly IServiceScopeFactory _scopeFactory;
+    public JobService(ILogger<JobService> logger
+        , IServiceScopeFactory scopeFactory)
+    {
+        _logger = logger;
+        _scopeFactory = scopeFactory;
+    }
+
+    protected override Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        _logger.LogInformation("写日志~~");
+
+        using (var scope = scopeFactory.CreateScope())
+        {
+            var services = scope.ServiceProvider;
+
+            // 获取数据库上下文
+            var dbContext = Db.GetDbContext(services);
+
+            // 获取仓储
+            var respository = Db.GetRepository<Person>(services);
+
+            // 解析其他服务
+            var otherService = services.GetService<XXX>();
+        }
+
+        return Task.CompletedTask;
+    }
 }
 ```
 

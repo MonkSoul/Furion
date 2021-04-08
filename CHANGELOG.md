@@ -5,6 +5,7 @@
   - [新增] `Sql` 高级代理支持模板替换了 [#I3HHWU](https://gitee.com/dotnetchina/Furion/issues/I3HHWU) [#I3HH2T](https://gitee.com/dotnetchina/Furion/issues/I3HH2T)
   - [新增] `PBKDF2` 加密 [#I3HN7A](https://gitee.com/dotnetchina/Furion/issues/I3HN7A)
   - [新增] 常用的 `JSON` 操作方法 [#I3HUYO](https://gitee.com/dotnetchina/Furion/issues/I3HUYO)
+  - [新增] 所有解析服务的方法都支持传入 `IServiceProvidier` 参数 [#I3HXEU](https://gitee.com/dotnetchina/Furion/issues/I3HXEU)
 
 - **突破性变化**
 
@@ -26,6 +27,8 @@
   - [答疑] 建议 MVC 模式下增加 Furion 的功能 [#I3GY4R](https://gitee.com/dotnetchina/Furion/issues/I3GY4R)
   - [答疑] 数据库关联操作 [#I3H5QP](https://gitee.com/dotnetchina/Furion/issues/I3H5QP)
   - [答疑] 1.17.5 版本 suagger 无法生成 swagger.json [#I3HGPZ](https://gitee.com/dotnetchina/Furion/issues/I3HGPZ)
+  - [答疑] Serilog 扩展+dll 启动与 swagger 的 MiniProfiler 冲突 [#I3HWJM](https://gitee.com/dotnetchina/Furion/issues/I3HWJM)
+  - [答疑] Sql 高级代理返回 DataTable 时，结果为空取不到记录 [#I3HUWG](https://gitee.com/dotnetchina/Furion/issues/I3HUWG)
 
 - **不做实现**
 
