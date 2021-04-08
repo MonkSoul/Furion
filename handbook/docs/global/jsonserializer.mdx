@@ -16,26 +16,26 @@ sidebar_label: 7. JsonSerializerUtility 静态类
 var str = JsonSerializerUtility.Serialize(obj, [options]);
 ```
 
-## 7.3 反序列化
+## 7.2 反序列化
 
 ```cs
 var obj = JsonSerializerUtility.Deserialize<T>(str, [options]);
 ```
 
-## 7.4 获取默认序列化配置
+## 7.3 获取默认序列化配置
 
 ```cs
 var options = JsonSerializerUtility.GetDefaultJsonSerializerOptions();
 ```
 
-## 7.5 设置序列化属性首字母大写
+## 7.4 设置序列化属性首字母大写
 
 ```cs {2}
 services.AddControllersWithViews()
         .AddJsonSerializerPascalPropertyNaming();
 ```
 
-## 7.6 设置时间输出统一格式化
+## 7.5 设置时间输出统一格式化
 
 ```cs {2}
 services.AddControllersWithViews()

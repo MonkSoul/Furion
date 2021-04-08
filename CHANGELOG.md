@@ -4,6 +4,7 @@
 
   - [新增] `Sql` 高级代理支持模板替换了 [#I3HHWU](https://gitee.com/dotnetchina/Furion/issues/I3HHWU) [#I3HH2T](https://gitee.com/dotnetchina/Furion/issues/I3HH2T)
   - [新增] `PBKDF2` 加密 [#I3HN7A](https://gitee.com/dotnetchina/Furion/issues/I3HN7A)
+  - [新增] 常用的 `JSON` 操作方法 [#I3HUYO](https://gitee.com/dotnetchina/Furion/issues/I3HUYO)
 
 - **突破性变化**
 

@@ -10,8 +10,20 @@ sidebar_label: 10. JSON 静态类
 
 :::
 
-## 10.1 获取远程代理服务
+## 10.1 获取序列化提供器
 
 ```cs
 var http = JSON.GetJsonSerializer();
+```
+
+## 10.2 序列化
+
+```cs
+var str = JSON.Serialize(obj, [options]);
+```
+
+## 10.3 反序列化
+
+```cs
+var obj = JSON.Deserialize<T>(str, [options]);
 ```
