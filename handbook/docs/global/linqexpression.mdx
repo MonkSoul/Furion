@@ -21,8 +21,8 @@ var expression3 = LinqExpression.Or();
 var expression4 = LinqExpression.IndexOr();
 
 // 拼接表达式
-var expression5 = expression.Add(expression2);
-var expression6 = expression.AddIf(age > 18, expression2);
+var expression5 = expression.And(expression2);
+var expression6 = expression.AndIf(age > 18, expression2);
 var expression7 = expression.Or(expression2);
 var expression8 = expression.OrIf(age > 18, expression2);
 
