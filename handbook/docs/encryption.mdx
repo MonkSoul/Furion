@@ -10,7 +10,7 @@ sidebar_label: 20. 数据加解密
 
 所以，对数据的加解密是系统开发必要的环节。
 
-## 20.2 内置加密类型
+## 20.2 内置加密算法
 
 - `MD5` 加密
 - `DESC` 加解密
@@ -98,6 +98,8 @@ services.AddPBKDF2EncryptionOptions();
   }
 }
 ```
+
+- `KeyDerivation` 可选值有：`HMACSHA1`，`HMACSHA256`，`HMACSHA512`
 
 :::
 

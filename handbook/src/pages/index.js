@@ -132,7 +132,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>4000</div>
+            <div style={{ color: "#723cff" }}>4050</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
@@ -156,7 +156,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>145,537</div>
+            <div style={{ color: "#1fd898" }}>148,337</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -280,9 +280,10 @@ function WhoUse() {
       <div className="furion-who-des">
         <div style={{ maxWidth: 350 }}>
           <div></div>
-          <h1>我们的客户</h1>
+          <h1>他们都在用</h1>
           <p>
-            我们的软件包已在全球多个项目中使用。从小型企业到企业的解决方案及知名企业。公司在简单软件和复杂管理系统的开发方面都信任我们。
+            Furion
+            已在全球多个项目中使用。从小型企业到企业的解决方案及知名企业。公司在简单软件和复杂管理系统的开发方面都信任我们。
           </p>
           <Link className="furion-get-start" to="mailto:monksoul@outlook.com">
             立即添加您的公司
