@@ -117,11 +117,8 @@ namespace Furion.DataValidation
         /// <param name="dataValidationResult"></param>
         public static void AddError(this DataValidationResult dataValidationResult)
         {
-            // 解析 JSON 序列化提供器
-            var jsonSerializer = JSON.GetJsonSerializer();
-
             if (!dataValidationResult.IsValid)
-                throw Oops.Oh("[Validation]" + jsonSerializer.Serialize(
+                throw Oops.Oh("[Validation]" + JSON.Serialize(
                     dataValidationResult.ValidationResults
                     .Select(u => new
                     {

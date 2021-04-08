@@ -59,11 +59,8 @@ namespace Furion.UnifyResult
             object errors = default;
             if (errorMessage.StartsWith(validationFlag))
             {
-                // 解析 JSON 序列化提供器
-                var jsonSerializer = JSON.GetJsonSerializer();
-
                 // 处理结果
-                errors = jsonSerializer.Deserialize<object>(errorMessage[validationFlag.Length..]);
+                errors = JSON.Deserialize<object>(errorMessage[validationFlag.Length..]);
 
                 // 设置为400状态码
                 statusCode = StatusCodes.Status400BadRequest;
