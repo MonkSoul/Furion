@@ -71,7 +71,7 @@ services.AddJwt();
 
 - 自定义 `Jwt` 配置（默认无需配置）
 
-```json
+```json {4,6,8}
 {
   "JWTSettings": {
     "ValidateIssuerSigningKey": true, // 是否验证密钥，bool 类型，默认true
@@ -86,6 +86,12 @@ services.AddJwt();
   }
 }
 ```
+
+:::warning 系统安全注意事项
+
+`Furion` 框架为了方便开发，已经自动添加了 `Jwt` 默认配置。建议每个项目都应该单独配置 `IssuerSigningKey`，`ValidIssuer`，`ValidAudience` 这三个。否则同样用了 `Furion` 框架生成的 `Token` 可能存在相互访问各自系统的风险。
+
+:::
 
 - 生成 `Token`
 
