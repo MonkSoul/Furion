@@ -301,7 +301,11 @@ services.AddControllersWithViews()
         });
 ```
 
-## 23.6 反馈与建议
+## 23.6 `DataTable` 和 `DataSet` 序列化问题
+
+由于默认 `Furion` 采用 `System.Text.Json` 进行序列化，但是不支持复杂类型，如 `DataTable` 和 `DataSet`，所以需要更换成 `NewtonsoftJson` 即可，见 [JSON 序列化 - 23.5.1 自定义序列化提供器](./json-serialization#2351-自定义序列化提供器)
+
+## 23.7 反馈与建议
 
 :::note 与我们交流
 
