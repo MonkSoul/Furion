@@ -80,7 +80,29 @@ MessageCenter.Subscribe<User>("create:user", (i,p) => {
 });
 ```
 
-## 22.3 `MediatR` 库
+## 22.3 关于依赖注入
+
+在 `Furion` 框架中，事件总线是不支持构造函数注入的，而且构造函数也只会执行一次。所以需要用到服务，应该通过静态类解析，`App.GetService<xx>()` 或 `Db.GetRepository<XX>()`。
+
+```cs {5,13}
+public class UserChangeSubscribeHandler : ISubscribeHandler
+{
+    public UserChangeSubscribeHandler()
+    {
+        // 不支持这里解析服务！！！！！！！！！！！
+    }
+
+    // 定义一条消息
+    [SubscribeMessage("create:user")]
+    public void CreateUser(string eventId, object payload)
+    {
+        // 这里解析服务
+        var repository = Db.GetRepository<Person>();
+    }
+}
+```
+
+## 22.4 `MediatR` 库
 
 `Furion` 框架默认只实现了轻量级的事件总线机制，可能还远远未达到大型项目和高并发数据的处理需求。
 
@@ -88,11 +110,11 @@ MessageCenter.Subscribe<User>("create:user", (i,p) => {
 
 `MediatR` 是非常优秀的事件总线库，支持单播、多播、消息通知推送、智能调度等操作，非常小巧。
 
-### 22.3.1 `MediatR` 使用文档
+### 22.4.1 `MediatR` 使用文档
 
 [https://github.com/jbogard/MediatR/wiki](https://github.com/jbogard/MediatR/wiki)
 
-## 22.4 反馈与建议
+## 22.5 反馈与建议
 
 :::note 与我们交流
 
