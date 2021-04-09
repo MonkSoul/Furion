@@ -278,6 +278,7 @@ db =>
     {
         //方法一
         App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" +string.Join(",", pars?.Select(it => it.ParameterName + ":" + it.Value)));
+
         //方法二:Furion对上述用法进行二次封装 建议方式 Sql参数会直接写入到生成Sql中
         App.PrintToMiniProfiler("SqlSugar","Info",SqlProfiler.ParameterFormat(sql,pars));
     };
