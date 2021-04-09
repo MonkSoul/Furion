@@ -47,6 +47,8 @@ import TabItem from "@theme/TabItem";
 ```cs
 // 注册 SqlServer
 options.AddDbPool<FurionDbContext>(DbProvider.SqlServer);
+options.AddDbPool<FurionDbContext>($"{DbProvider.SqlServer}@2005"); // 支持 2005 数据库
+options.AddDbPool<FurionDbContext>($"{DbProvider.SqlServer}@2008"); // 支持 2008 数据库
 
 // 注册 Sqlite
 options.AddDbPool<FurionDbContext>(DbProvider.Sqlite);
@@ -76,9 +78,19 @@ options.AddDbPool<FurionDbContext>(DbProvider.Firebird);
 options.AddDbPool<FurionDbContext>(DbProvider.Dm);
 ```
 
-:::caution 新版 MySQL/Oracle 注意
+:::caution 新版 SqlServer/MySQL/Oracle 注意
 
-`MySQL` 在新版本包中注册有所修改，所以注册方式为：
+`SqlServer` 兼容 `2005-2008` 写法：
+
+```cs
+services.AddDatabaseAccessor(options =>
+{
+    options.AddDbPool<FurionDbContext>($"{DbProvider.SqlServer}@2005"); // 支持 2005 数据库
+    options.AddDbPool<FurionDbContext>($"{DbProvider.SqlServer}@2008"); // 支持 2008 数据库
+});
+```
+
+`MySQL` 兼容旧版本（带版本号）写法：
 
 ```cs
 services.AddDatabaseAccessor(options =>
