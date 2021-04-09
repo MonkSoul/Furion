@@ -74,10 +74,19 @@ namespace Furion.DatabaseAccessor
                 // 判断 dbContextPool 中是否包含DbContext，如果是，则使用第一个数据库上下文开启事务，并应用于其他数据库上下文
                 if (dbContexts.Any())
                 {
-                    var firstDbContext = dbContexts.First();
+                    // 先判断是否已经有上下文开启了事务
+                    var transactionDbContext = dbContexts.FirstOrDefault(u => u.Database.CurrentTransaction != null);
+                    if (transactionDbContext != null)
+                    {
+                        dbContextTransaction = transactionDbContext.Database.CurrentTransaction;
+                    }
+                    else
+                    {
+                        // 如果没有任何上下文有事务，则将第一个开启事务
+                        dbContextTransaction = dbContexts.First().Database.BeginTransaction();
+                    }
 
-                    // 开启事务
-                    dbContextTransaction = firstDbContext.Database.BeginTransaction();
+                    // 共享事务
                     _dbContextPool.ShareTransaction(1, dbContextTransaction.GetDbTransaction());
                 }
                 // 创建临时数据库上下文
