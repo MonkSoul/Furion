@@ -352,7 +352,41 @@ public class JobService : BackgroundService
 }
 ```
 
-## 18.9 反馈与建议
+## 18.9 关于日志文件重复生成问题
+
+如果您的日志是在多线程或后台任务中执行时，就不用使用默认的 `UseSerilogDefault()` 配置了，原因是这个配置是基于请求创建的日志对象。我们需要修改 `Program.cs` 文件，如：
+
+```cs {1,6-14,25}
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        // 配置日志信息
+        Console.OutputEncoding = Encoding.UTF8;
+        var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json").Build();
+        var date = DateTime.Now.ToString("yyyy-MM-dd"); //按时间创建文件夹
+        var outputTemplate = "{NewLine}[Time]{Timestamp:yyyy-MM-dd HH:mm:ss,fff}{NewLine}[Level]{Level:u3}{NewLine}[Properties]{Properties:j}{NewLine}[Message]{Message:lj}{NewLine}{Exception}" + new string('-', 50); //输出模板
+
+        Log.Logger = new LoggerConfiguration().ReadFrom
+                        .Configuration(configuration).Enrich.FromLogContext()
+                        .WriteTo.Console(outputTemplate: outputTemplate).WriteTo.File($"Logs/{date}/.log", LogEventLevel.Information, outputTemplate, rollingInterval: RollingInterval.Day, retainedFileCountLimit: null)
+                        .CreateLogger();
+
+        CreateHostBuilder(args).Build().Run();
+    }
+
+    private static IHostBuilder CreateHostBuilder(string[] args)
+    {
+        return Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.Inject()
+                          .UseStartup<Startup>();
+            }).UseSerilog();
+    }
+}
+```
+
+## 18.10 反馈与建议
 
 :::note 与我们交流
 
