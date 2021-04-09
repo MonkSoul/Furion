@@ -1,6 +1,8 @@
 ﻿using Serilog;
+using Serilog.Events;
 using System;
 using System.IO;
+using System.Text;
 
 namespace Microsoft.Extensions.Hosting
 {
@@ -17,11 +19,11 @@ namespace Microsoft.Extensions.Hosting
         /// <returns></returns>
         public static IHostBuilder UseSerilogDefault(this IHostBuilder builder, Action<LoggerConfiguration> configAction = default)
         {
-            builder.UseSerilog((hostingContext, services, loggerConfiguration) =>
+            builder.UseSerilog((context, configuration) =>
             {
                 // 加载配置文件
-                var config = loggerConfiguration
-                    .ReadFrom.Configuration(hostingContext.Configuration)
+                var config = configuration
+                    .ReadFrom.Configuration(context.Configuration)
                     .Enrich.FromLogContext();
 
                 if (configAction != null) configAction.Invoke(config);
@@ -29,7 +31,7 @@ namespace Microsoft.Extensions.Hosting
                 {
                     config.WriteTo.Console(
                             outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}")
-                          .WriteTo.File(Path.Combine("logs", "log.txt"), rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true);
+                          .WriteTo.File(Path.Combine("logs", "application.log"), LogEventLevel.Information, rollingInterval: RollingInterval.Day, retainedFileCountLimit: null, encoding: Encoding.UTF8);
                 }
             });
 
