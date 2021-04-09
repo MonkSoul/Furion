@@ -32,6 +32,7 @@
   - [答疑] 1.17.5 版本 suagger 无法生成 swagger.json [#I3HGPZ](https://gitee.com/dotnetchina/Furion/issues/I3HGPZ)
   - [答疑] Serilog 扩展+dll 启动与 swagger 的 MiniProfiler 冲突 [#I3HWJM](https://gitee.com/dotnetchina/Furion/issues/I3HWJM)
   - [答疑] Sql 高级代理返回 DataTable 时，结果为空取不到记录 [#I3HUWG](https://gitee.com/dotnetchina/Furion/issues/I3HUWG)
+  - [答疑] Task.Run 操作数据库问题 [#I3HZ9D](https://gitee.com/dotnetchina/Furion/issues/I3HZ9D)
 
 - **不做实现**
 
