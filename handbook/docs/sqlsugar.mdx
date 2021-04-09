@@ -280,14 +280,18 @@ db =>
     };
 });
 ```
-## 10.1.8 Oracle注意事项
- 注意  .NET5 用户需要在API 或者WEB 顶目解决方案 Csproj 文件 加一行代码
-```cs
+
+## 10.1.8 `Oracle`注意事项
+
+注意 .NET5 用户需要在 API 或者项目解决方案 `.csproj` 文件加以下一行代码：
+
+```cs {3}
 <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
-  </PropertyGroup>
+   <TargetFramework>net5.0</TargetFramework>
+   <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+</PropertyGroup>
 ```
+
 ## 10.1.9 反馈与建议
 
 :::note 与我们交流

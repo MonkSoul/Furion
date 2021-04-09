@@ -264,7 +264,7 @@ public class JobService : BackgroundService
     {
         _logger.LogInformation("写日志~~");
 
-        using (var scope = scopeFactory.CreateScope())
+        using (var scope = _scopeFactory.CreateScope())
         {
             var services = scope.ServiceProvider;
 
