@@ -68,7 +68,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     if (!isRegistered) throw new InvalidOperationException($"The DbContext for locator  `{locator.FullName}` binding was not found.");
 
                     // 动态解析数据库上下文，创建新的对象
-                    var dbContext = provider.CreateScope().ServiceProvider.GetService(dbContextType) as DbContext;
+                    var dbContext = provider.GetService(dbContextType) as DbContext;
 
                     // 实现动态数据库上下文功能，刷新 OnModelCreating
                     var dbContextAttribute = DbProvider.GetAppDbContextAttribute(dbContextType);
@@ -77,11 +77,10 @@ namespace Microsoft.Extensions.DependencyInjection
                         DynamicModelCacheKeyFactory.RebuildModels();
                     }
 
-                    // 2021.01.15:修改瞬时数据库上下文逻辑，取消自动加入数据库上下文池
-                    // 也就是不受工作单元影响
-                    //// 添加数据库上下文到池中
-                    //var dbContextPool = App.GetService<IDbContextPool>();
-                    //dbContextPool?.AddToPool(dbContext);
+                    // 添加数据库上下文到池中
+                    var httpContext = App.HttpContext;
+                    var dbContextPool = (httpContext != null ? httpContext.RequestServices : provider).GetService<IDbContextPool>();
+                    dbContextPool?.AddToPool(dbContext);
 
                     return dbContext;
                 }
@@ -107,7 +106,8 @@ namespace Microsoft.Extensions.DependencyInjection
                     }
 
                     // 添加数据库上下文到池中
-                    var dbContextPool = App.GetService<IDbContextPool>();
+                    var httpContext = App.HttpContext;
+                    var dbContextPool = (httpContext != null ? httpContext.RequestServices : provider).GetService<IDbContextPool>();
                     dbContextPool?.AddToPool(dbContext);
 
                     return dbContext;

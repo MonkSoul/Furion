@@ -16,7 +16,7 @@ namespace Furion.DatabaseAccessor
     /// 数据库上下文池
     /// </summary>
     [SkipScan]
-    public class DbContextPool : IDbContextPool
+    public class DbContextPool : IDbContextPool, IDisposable
     {
         /// <summary>
         /// MiniProfiler 组件状态
@@ -188,10 +188,12 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
-        /// 关闭所有数据库链接
+        /// 释放所有数据库上下文
         /// </summary>
-        public void CloseAll()
+        public void DisposeAll()
         {
+            if (!dbContexts.Any()) return;
+
             foreach (var dbContext in dbContexts)
             {
                 var conn = dbContext.Database.GetDbConnection();
@@ -200,12 +202,29 @@ namespace Furion.DatabaseAccessor
                     var wrapConn = InjectMiniProfiler ? new ProfiledDbConnection(conn, MiniProfiler.Current) : conn;
                     wrapConn.Close();
                 }
+                dbContext.Dispose();
             }
 
             // 清空上下文
             dbContexts.Clear();
             // 清空错误上下文
             failedDbContexts.Clear();
+        }
+
+        private bool _disposed;
+
+        /// <summary>
+        /// 对象释放
+        /// </summary>
+        public void Dispose()
+        {
+            if (_disposed)
+                return;
+
+            // 释放所有数据库上下文
+            DisposeAll();
+
+            _disposed = true;
         }
     }
 }
