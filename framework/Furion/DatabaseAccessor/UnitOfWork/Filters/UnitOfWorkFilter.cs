@@ -143,7 +143,8 @@ namespace Furion.DatabaseAccessor
                 }
             }
 
-            _dbContextPool.DisposeAll();
+            // 手动关闭
+            _dbContextPool.CloseAll();
         }
     }
 }

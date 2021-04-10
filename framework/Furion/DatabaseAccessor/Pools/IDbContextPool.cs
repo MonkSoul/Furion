@@ -77,6 +77,6 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 关闭所有数据库链接
         /// </summary>
-        void DisposeAll();
+        void CloseAll();
     }
 }

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <version>1.18.8</version>
+    <version>1.18.9</version>
     <Description>Furion 对象映射 Mapster 插件。</Description>
   </PropertyGroup>
 
@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mapster" Version="7.1.5" />
+    <PackageReference Include="Mapster" Version="7.2.0" />
     <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
   </ItemGroup>
 
