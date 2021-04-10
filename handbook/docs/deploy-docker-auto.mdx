@@ -114,7 +114,7 @@ echo '============================end restore===================================
 solutionName=MUSaas.SCM.BasicData
 #docker run的容器名称
 containerName=jenkinsscmbasic
-#制定run的端口
+#指定run的端口
 port=9994
 #.sln文件全路径
 #solutionDir=20-Solution/${solutionName}.sln
@@ -197,7 +197,7 @@ echo '============================end restore===================================
 solutionName=MUSaas.SCM.BulkOrder
 #docker run的容器名称
 containerName=jenkinsscmbulk
-#制定run的端口
+#指定run的端口
 port=9986
 #.csproj文件全路径
 csprojDir=/${solutionName}/${solutionName}.csproj
@@ -244,7 +244,7 @@ Exec command:bash /mudata/shell/publish.sh  ${JOB_NAME} jenkinsscmbase ${JOB_NAM
 
 - 选择自己的 SSH 服务器
 - Source files：一定是 workspace 下的地址
-- Remote directory：远程地址，从更目录开始
+- Remote directory：远程地址，从根目录开始
 - Exec command：要执行的 shell。这里所有的 Jenkins 环境变量都可以用
 
 ### 29.1.4.5 远程执行
