@@ -108,7 +108,7 @@ namespace Furion.DatabaseAccessor
             else if (returnType.IsRichPrimitive())
             {
                 var (result, _) = database.ExecuteScalar(sql, parameterModel, commandType);
-                return result;
+                return result.ChangeType(returnType);
             }
             // 处理 存储过程带输出类型 返回值
             else if (returnType == typeof(ProcedureOutputResult) || (returnType.IsGenericType && typeof(ProcedureOutputResult<>).IsAssignableFrom(returnType.GetGenericTypeDefinition())))
