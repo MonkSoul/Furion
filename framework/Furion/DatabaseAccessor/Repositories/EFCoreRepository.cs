@@ -580,7 +580,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsSqlServer()
         {
-            return ProviderName.Equals(DbProvider.SqlServer, StringComparison.Ordinal);
+            return DbProvider.IsDatabaseFor(ProviderName, DbProvider.SqlServer);
         }
 
         /// <summary>
@@ -589,7 +589,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsSqlite()
         {
-            return ProviderName.Equals(DbProvider.Sqlite, StringComparison.Ordinal);
+            return DbProvider.IsDatabaseFor(ProviderName, DbProvider.Sqlite);
         }
 
         /// <summary>
@@ -598,7 +598,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsCosmos()
         {
-            return ProviderName.Equals(DbProvider.Cosmos, StringComparison.Ordinal);
+            return DbProvider.IsDatabaseFor(ProviderName, DbProvider.Cosmos);
         }
 
         /// <summary>
@@ -607,7 +607,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool InMemoryDatabase()
         {
-            return ProviderName.Equals(DbProvider.InMemoryDatabase, StringComparison.Ordinal);
+            return DbProvider.IsDatabaseFor(ProviderName, DbProvider.InMemoryDatabase);
         }
 
         /// <summary>
@@ -616,7 +616,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsMySql()
         {
-            return ProviderName.Equals(DbProvider.MySql, StringComparison.Ordinal);
+            return DbProvider.IsDatabaseFor(ProviderName, DbProvider.MySql);
         }
 
         /// <summary>
@@ -625,7 +625,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsMySqlOfficial()
         {
-            return ProviderName.Equals(DbProvider.MySqlOfficial, StringComparison.Ordinal);
+            return DbProvider.IsDatabaseFor(ProviderName, DbProvider.MySqlOfficial);
         }
 
         /// <summary>
@@ -634,7 +634,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsNpgsql()
         {
-            return ProviderName.Equals(DbProvider.Npgsql, StringComparison.Ordinal);
+            return DbProvider.IsDatabaseFor(ProviderName, DbProvider.Npgsql);
         }
 
         /// <summary>
@@ -643,7 +643,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsOracle()
         {
-            return ProviderName.Equals(DbProvider.Oracle, StringComparison.Ordinal);
+            return DbProvider.IsDatabaseFor(ProviderName, DbProvider.Oracle);
         }
 
         /// <summary>
@@ -652,7 +652,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsFirebird()
         {
-            return ProviderName.Equals(DbProvider.Firebird, StringComparison.Ordinal);
+            return DbProvider.IsDatabaseFor(ProviderName, DbProvider.Firebird);
         }
 
         /// <summary>
@@ -661,7 +661,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>bool</returns>
         public virtual bool IsDm()
         {
-            return ProviderName.Equals(DbProvider.Dm, StringComparison.Ordinal);
+            return DbProvider.IsDatabaseFor(ProviderName, DbProvider.Dm);
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-## v1.19.0 （未发布）
+## v1.19.0 （当前版本）
 
 - **新特性**
 
@@ -19,13 +19,17 @@
   - [修复] 多数据库工作单元异常无法回滚数据 [#I3I2KN](https://gitee.com/dotnetchina/Furion/issues/I3I2KN) [#I3HYN5](https://gitee.com/zuohuaijun/Admin.NET/issues/I3HYN5)
   - [修复] Serilog 日志生成太多文件 [#I3I2PN](https://gitee.com/dotnetchina/Furion/issues/I3I2PN)
   - [修复] `1.18.0` 版本数据库连接池存在连接泄漏问题 [#I3I5KO](https://gitee.com/dotnetchina/Furion/issues/I3I5KO)
+  - [修复] Sqlite 提示事务已完成异常 [#I3I9F2](https://gitee.com/dotnetchina/Furion/issues/I3I9F2)
 
 - **其他更改**
 
   - [改进] 视图模板功能，默认支持可枚举泛型类型 [#I3GYEE](https://gitee.com/dotnetchina/Furion/issues/I3GYEE)
   - [改进] 开发阶段 MiniProfiler 打印数据库相关信息 [#I3I8VQ](https://gitee.com/dotnetchina/Furion/issues/I3I8VQ)
+  - [改进] EFCore 5.0 未提供 Sqlite 数据库 DataAdapter 的支持 [#I3I9FC](https://gitee.com/dotnetchina/Furion/issues/I3I9FC)
 
 - **文档变化**
+
+  - [更新] 数据库上下文、多租户、仓储、日志、序列化等文档。
 
 - **问答答疑**
 
@@ -40,7 +44,7 @@
 
 ---
 
-## v1.18.0 （当前版本）
+## v1.18.0 （已发布）
 
 - **新特性**
 

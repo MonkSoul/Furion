@@ -8,7 +8,53 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 **此章节只记录重大版本更新日志，小迭代版本不做更新。**想了解更多更新内容，可查阅 [CHANGELOG.md](https://gitee.com/dotnetchina/Furion/blob/master/CHANGELOG.md)
 
-## v1.18.0 （当前版本）
+## v1.19.0 （当前版本）
+
+- **新特性**
+
+  - [新增] `EFCore 5.0` 支持 **SqlServer 2005-2008** 数据库 [#I3HZZ6](https://gitee.com/dotnetchina/Furion/issues/I3HZZ6)
+  - [新增] `Sql` 高级代理支持模板替换了 [#I3HHWU](https://gitee.com/dotnetchina/Furion/issues/I3HHWU) [#I3HH2T](https://gitee.com/dotnetchina/Furion/issues/I3HH2T)
+  - [新增] `PBKDF2` 加密 [#I3HN7A](https://gitee.com/dotnetchina/Furion/issues/I3HN7A)
+  - [新增] 常用的 `JSON` 操作方法 [#I3HUYO](https://gitee.com/dotnetchina/Furion/issues/I3HUYO)
+  - [新增] 所有解析服务的方法都支持传入 `IServiceProvidier` 参数 [#I3HXEU](https://gitee.com/dotnetchina/Furion/issues/I3HXEU)
+
+- **突破性变化**
+
+  - [升级] .NET 5 SDK 至 5.0.5 版本
+
+- **问题修复**
+
+  - [修复] 远程请求 `application/x-www-form-urlencoded` 自动被转码了 [#I3HDPC](https://gitee.com/dotnetchina/Furion/issues/I3HDPC)
+  - [修复] `ISqlDispatchProxy` 调用带返回值的存储过程出错 [#I3HISS](https://gitee.com/dotnetchina/Furion/issues/I3HISS)
+  - [修复] 多数据库工作单元异常无法回滚数据 [#I3I2KN](https://gitee.com/dotnetchina/Furion/issues/I3I2KN) [#I3HYN5](https://gitee.com/zuohuaijun/Admin.NET/issues/I3HYN5)
+  - [修复] Serilog 日志生成太多文件 [#I3I2PN](https://gitee.com/dotnetchina/Furion/issues/I3I2PN)
+  - [修复] `1.18.0` 版本数据库连接池存在连接泄漏问题 [#I3I5KO](https://gitee.com/dotnetchina/Furion/issues/I3I5KO)
+  - [修复] Sqlite 提示事务已完成异常 [#I3I9F2](https://gitee.com/dotnetchina/Furion/issues/I3I9F2)
+
+- **其他更改**
+
+  - [改进] 视图模板功能，默认支持可枚举泛型类型 [#I3GYEE](https://gitee.com/dotnetchina/Furion/issues/I3GYEE)
+  - [改进] 开发阶段 MiniProfiler 打印数据库相关信息 [#I3I8VQ](https://gitee.com/dotnetchina/Furion/issues/I3I8VQ)
+  - [改进] EFCore 5.0 未提供 Sqlite 数据库 DataAdapter 的支持 [#I3I9FC](https://gitee.com/dotnetchina/Furion/issues/I3I9FC)
+
+- **文档变化**
+
+  - [更新] 数据库上下文、多租户、仓储、日志、序列化等文档。
+
+- **问答答疑**
+
+  - [答疑] 建议 MVC 模式下增加 Furion 的功能 [#I3GY4R](https://gitee.com/dotnetchina/Furion/issues/I3GY4R)
+  - [答疑] 数据库关联操作 [#I3H5QP](https://gitee.com/dotnetchina/Furion/issues/I3H5QP)
+  - [答疑] 1.17.5 版本 suagger 无法生成 swagger.json [#I3HGPZ](https://gitee.com/dotnetchina/Furion/issues/I3HGPZ)
+  - [答疑] Serilog 扩展+dll 启动与 swagger 的 MiniProfiler 冲突 [#I3HWJM](https://gitee.com/dotnetchina/Furion/issues/I3HWJM)
+  - [答疑] Sql 高级代理返回 DataTable 时，结果为空取不到记录 [#I3HUWG](https://gitee.com/dotnetchina/Furion/issues/I3HUWG)
+  - [答疑] Task.Run 操作数据库问题 [#I3HZ9D](https://gitee.com/dotnetchina/Furion/issues/I3HZ9D)
+
+- **不做实现**
+
+---
+
+## v1.18.0 （已发布）
 
 - **新特性**
 

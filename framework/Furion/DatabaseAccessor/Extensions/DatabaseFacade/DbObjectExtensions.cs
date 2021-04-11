@@ -144,7 +144,7 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="commandType">命令类型</param>
         /// <returns>(DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter)</returns>
-        public static (DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter) PrepareDbDbDataAdapter(this DatabaseFacade databaseFacade, string sql, DbParameter[] parameters = null, CommandType commandType = CommandType.Text)
+        public static (DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter) PrepareDbDataAdapter(this DatabaseFacade databaseFacade, string sql, DbParameter[] parameters = null, CommandType commandType = CommandType.Text)
         {
             // 创建数据库连接对象、数据库命令对象和数据库适配器对象
             var (dbConnection, dbCommand, dbDataAdapter) = databaseFacade.CreateDbDataAdapter(sql, commandType);
@@ -165,7 +165,7 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">命令模型</param>
         /// <param name="commandType">命令类型</param>
         /// <returns>(DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter, DbParameter[] dbParameters)</returns>
-        public static (DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter, DbParameter[] dbParameters) PrepareDbDbDataAdapter(this DatabaseFacade databaseFacade, string sql, object model, CommandType commandType = CommandType.Text)
+        public static (DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter, DbParameter[] dbParameters) PrepareDbDataAdapter(this DatabaseFacade databaseFacade, string sql, object model, CommandType commandType = CommandType.Text)
         {
             // 创建数据库连接对象、数据库命令对象和数据库适配器对象
             var (dbConnection, dbCommand, dbDataAdapter) = databaseFacade.CreateDbDataAdapter(sql, commandType);
@@ -187,7 +187,7 @@ namespace Furion.DatabaseAccessor
         /// <param name="commandType">命令类型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>(DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter)</returns>
-        public static async Task<(DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter)> PrepareDbDbDataAdapterAsync(this DatabaseFacade databaseFacade, string sql, DbParameter[] parameters = null, CommandType commandType = CommandType.Text, CancellationToken cancellationToken = default)
+        public static async Task<(DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter)> PrepareDbDataAdapterAsync(this DatabaseFacade databaseFacade, string sql, DbParameter[] parameters = null, CommandType commandType = CommandType.Text, CancellationToken cancellationToken = default)
         {
             // 创建数据库连接对象、数据库命令对象和数据库适配器对象
             var (dbConnection, dbCommand, dbDataAdapter) = databaseFacade.CreateDbDataAdapter(sql, commandType);
@@ -209,7 +209,7 @@ namespace Furion.DatabaseAccessor
         /// <param name="commandType">命令类型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>(DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter, DbParameter[] dbParameters)</returns>
-        public static async Task<(DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter, DbParameter[] dbParameters)> PrepareDbDbDataAdapterAsync(this DatabaseFacade databaseFacade, string sql, object model, CommandType commandType = CommandType.Text, CancellationToken cancellationToken = default)
+        public static async Task<(DbConnection dbConnection, DbCommand dbCommand, DbDataAdapter dbDataAdapter, DbParameter[] dbParameters)> PrepareDbDataAdapterAsync(this DatabaseFacade databaseFacade, string sql, object model, CommandType commandType = CommandType.Text, CancellationToken cancellationToken = default)
         {
             // 创建数据库连接对象、数据库命令对象和数据库适配器对象
             var (dbConnection, dbCommand, dbDataAdapter) = databaseFacade.CreateDbDataAdapter(sql, commandType);
@@ -275,8 +275,12 @@ namespace Furion.DatabaseAccessor
             dbConnection = _dbConnection;
 
             // 创建数据适配器并设置查询命令对象
-            var dbDataAdapter = profiledDbProviderFactory.CreateDataAdapter();
-            dbDataAdapter.SelectCommand = dbCommand;
+            // EFCore 5.0 未提供 Sqlite DataAdapter
+            var dbDataAdapter = DbProvider.IsDatabaseFor(databaseFacade.ProviderName, DbProvider.Sqlite) ? default : profiledDbProviderFactory.CreateDataAdapter();
+            if (dbDataAdapter != null)
+            {
+                dbDataAdapter.SelectCommand = dbCommand;
+            }
 
             // 返回
             return (dbConnection, dbCommand, dbDataAdapter);

@@ -126,6 +126,17 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
+        /// 判断是否是特定数据库
+        /// </summary>
+        /// <param name="providerName"></param>
+        /// <param name="dbAssemblyName"></param>
+        /// <returns>bool</returns>
+        public static bool IsDatabaseFor(string providerName, string dbAssemblyName)
+        {
+            return providerName.Equals(dbAssemblyName, StringComparison.Ordinal);
+        }
+
+        /// <summary>
         /// 获取数据库上下文连接字符串
         /// </summary>
         /// <typeparam name="TDbContext"></typeparam>

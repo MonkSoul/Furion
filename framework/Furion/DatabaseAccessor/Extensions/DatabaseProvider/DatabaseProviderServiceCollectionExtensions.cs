@@ -224,15 +224,15 @@ namespace Microsoft.Extensions.DependencyInjection
                 // 调用对应数据库程序集
                 var (UseMethod, MySqlVersion) = GetDatabaseProviderUseMethod(providerName, version);
 
-                // 处理最新 MySql 包兼容问题
+                // 处理最新第三方 MySql 包兼容问题
                 // https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/commit/83c699f5b747253dc1b6fa9c470f469467d77686
-                if (providerName.StartsWith(DbProvider.MySql))
+                if (DbProvider.IsDatabaseFor(providerName, DbProvider.MySql))
                 {
                     dbContextOptionsBuilder = UseMethod
                         .Invoke(null, new object[] { options, connectionString, MySqlVersion, MigrationsAssemblyAction }) as DbContextOptionsBuilder;
                 }
                 // 处理 SqlServer 2005-2008 兼容问题
-                else if (providerName.StartsWith(DbProvider.SqlServer) && (version == "2008" || version == "2005"))
+                else if (DbProvider.IsDatabaseFor(providerName, DbProvider.SqlServer) && (version == "2008" || version == "2005"))
                 {
                     // 替换工厂
                     dbContextOptionsBuilder.ReplaceService<IQueryTranslationPostprocessorFactory, SqlServer2008QueryTranslationPostprocessorFactory>();
@@ -241,7 +241,7 @@ namespace Microsoft.Extensions.DependencyInjection
                         .Invoke(null, new object[] { options, connectionString, MigrationsAssemblyAction }) as DbContextOptionsBuilder;
                 }
                 // 处理 Oracle 11 兼容问题
-                else if (providerName.StartsWith(DbProvider.Oracle) && !string.IsNullOrEmpty(version))
+                else if (DbProvider.IsDatabaseFor(providerName, DbProvider.Oracle) && !string.IsNullOrEmpty(version))
                 {
                     Action<IRelationalDbContextOptionsBuilderInfrastructure> oracleOptionsAction = options =>
                     {
@@ -354,7 +354,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 // 处理最新 MySql 第三方包兼容问题
                 // https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql/commit/83c699f5b747253dc1b6fa9c470f469467d77686
-                if (providerName == DbProvider.MySql)
+                if (DbProvider.IsDatabaseFor(providerName, DbProvider.MySql))
                 {
                     useMethod = databaseProviderServiceExtensionType
                         .GetMethods(BindingFlags.Public | BindingFlags.Static)
