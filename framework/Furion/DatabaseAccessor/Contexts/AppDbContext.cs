@@ -148,7 +148,7 @@ namespace Furion.DatabaseAccessor
                 if (string.IsNullOrEmpty(cachedValue))
                 {
                     // 获取新的租户数据库上下文
-                    using var tenantDbContext = serviceProvider.GetService<Func<Type, ITransient, DbContext>>()(typeof(MultiTenantDbContextLocator), default);
+                    var tenantDbContext = serviceProvider.GetService<Func<Type, ITransient, DbContext>>()(typeof(MultiTenantDbContextLocator), default);
                     if (tenantDbContext == null) return default;
 
                     currentTenant = tenantDbContext.Set<Tenant>().FirstOrDefault(u => u.Host == host);

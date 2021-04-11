@@ -329,7 +329,7 @@ X-Authorization: Bearer 你的刷新token
 
 :::
 
-如果 `Token` 过期，那么 `Furion` 将自动根据有效期内的 `refreshToken` 自动生成新的 `AceessToken`，并在 **响应报文** 中返回，如：
+如果 `Token` 过期，那么 `Furion` 将自动根据有效期内的 `refreshToken` 自动生成新的 `AceessToken`，并在 **响应报文头** 中返回，如：
 
 ```
 access-token: 新的token
@@ -338,7 +338,7 @@ x-access-token: 新的刷新token
 
 :::note 存储新的 Token
 
-前端需要获取 **响应报文** 新的 token 和刷新 token 替换之前在客户处存储旧的 token 和刷新 token。
+前端需要获取 **响应报文头** 新的 token 和刷新 token 替换之前在客户处存储旧的 token 和刷新 token。
 
 :::
 
