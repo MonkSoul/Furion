@@ -19,9 +19,19 @@ namespace Furion.DatabaseAccessor
     public class DbContextPool : IDbContextPool
     {
         /// <summary>
+        /// MiniProfiler 分类名
+        /// </summary>
+        private const string MiniProfilerCategory = "transaction";
+
+        /// <summary>
         /// MiniProfiler 组件状态
         /// </summary>
         private readonly bool InjectMiniProfiler;
+
+        /// <summary>
+        /// 是否打印数据库连接信息
+        /// </summary>
+        private readonly bool IsPrintDbConnectionInfo;
 
         /// <summary>
         /// 构造函数
@@ -29,6 +39,7 @@ namespace Furion.DatabaseAccessor
         public DbContextPool()
         {
             InjectMiniProfiler = App.Settings.InjectMiniProfiler.Value;
+            IsPrintDbConnectionInfo = App.Settings.PrintDbConnectionInfo.Value;
 
             dbContexts = new ConcurrentBag<DbContext>();
             failedDbContexts = new ConcurrentBag<DbContext>();
@@ -72,12 +83,21 @@ namespace Furion.DatabaseAccessor
                         var context = s as DbContext;
 
                         // 当前事务
-                        var currentTransaction = context.Database.CurrentTransaction;
+                        var database = context.Database;
+                        var currentTransaction = database.CurrentTransaction;
                         if (currentTransaction != null)
                         {
+                            // 获取数据库连接信息
+                            var connection = database.GetDbConnection();
+
                             // 回滚事务
                             currentTransaction.Rollback();
+
+                            // 打印事务回滚消息
+                            App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", $"[Connection Id: {context.ContextId}] / [Database: {connection.Database}]{(IsPrintDbConnectionInfo ? $" / [Connection String: {connection.ConnectionString}]" : string.Empty)}", isError: true);
                         }
+
+                        // 记录错误上下文
                         failedDbContexts.Add(context);
                     }
                 };

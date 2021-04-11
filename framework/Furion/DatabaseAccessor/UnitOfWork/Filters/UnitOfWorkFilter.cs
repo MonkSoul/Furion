@@ -16,7 +16,7 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// MiniProfiler 分类名
         /// </summary>
-        private const string MiniProfilerCategory = "transaction";
+        private const string MiniProfilerCategory = "unitOfWork";
 
         /// <summary>
         /// 过滤器排序
@@ -120,7 +120,7 @@ namespace Furion.DatabaseAccessor
                     catch
                     {
                         // 回滚事务
-                        dbContextTransaction?.Rollback();
+                        if (dbContextTransaction.GetDbTransaction().Connection != null) dbContextTransaction?.Rollback();
 
                         // 打印事务回滚消息
                         App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
@@ -129,13 +129,13 @@ namespace Furion.DatabaseAccessor
                     }
                     finally
                     {
-                        dbContextTransaction?.Dispose();
+                        if (dbContextTransaction.GetDbTransaction().Connection != null) dbContextTransaction?.Dispose();
                     }
                 }
                 else
                 {
                     // 回滚事务
-                    dbContextTransaction?.Rollback();
+                    if (dbContextTransaction.GetDbTransaction().Connection != null) dbContextTransaction?.Rollback();
                     dbContextTransaction?.Dispose();
 
                     // 打印事务回滚消息

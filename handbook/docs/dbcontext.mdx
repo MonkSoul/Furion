@@ -368,7 +368,14 @@ public class JobService : BackgroundService
 }
 ```
 
-## 9.1.11 反馈与建议
+## 9.1.11 `AppDbContext` 全局配置属性
+
+- `InsertOrUpdateIgnoreNullValues`：新增或更新忽略空值，默认 `false`，**在构造函数中配置**
+- `EnabledEntityStateTracked`：启用实体跟踪，默认 `true`，**在构造函数中配置**
+- `EnabledEntityChangedListener`：启用实体数据更改监听，默认 `false`，**在构造函数中配置**
+- `Tenant`：默认内置多租户
+
+## 9.1.12 反馈与建议
 
 :::note 与我们交流
 

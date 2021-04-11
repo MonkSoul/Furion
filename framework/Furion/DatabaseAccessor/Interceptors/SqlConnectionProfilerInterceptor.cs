@@ -1,6 +1,5 @@
 ﻿using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.Hosting;
 using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,11 +18,6 @@ namespace Furion.DatabaseAccessor
         private const string MiniProfilerCategory = "connection";
 
         /// <summary>
-        /// 是否是开发环境
-        /// </summary>
-        private readonly bool IsDevelopment;
-
-        /// <summary>
         /// 是否打印数据库连接信息
         /// </summary>
         private readonly bool IsPrintDbConnectionInfo;
@@ -33,7 +27,6 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         public SqlConnectionProfilerInterceptor()
         {
-            IsDevelopment = App.WebHostEnvironment.IsDevelopment();
             IsPrintDbConnectionInfo = App.Settings.PrintDbConnectionInfo.Value;
         }
 
@@ -75,12 +68,8 @@ namespace Furion.DatabaseAccessor
         /// <param name="eventData">数据库连接事件数据</param>
         private void PrintConnectionToMiniProfiler(DbConnection connection, ConnectionEventData eventData)
         {
-            // 必须是开发环境，并且允许打印到 MiniProfiler 中
-            if (IsDevelopment && IsPrintDbConnectionInfo)
-            {
-                // 打印连接信息消息
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Information", $"[Connection Id: {eventData.ConnectionId}] / [Database: {connection.Database}] / [Connection String: {connection.ConnectionString}]");
-            }
+            // 打印连接信息消息
+            App.PrintToMiniProfiler(MiniProfilerCategory, "Information", $"[Connection Id: {eventData.ConnectionId}] / [Database: {connection.Database}]{(IsPrintDbConnectionInfo ? $" / [Connection String: {connection.ConnectionString}]" : string.Empty)}");
         }
     }
 }

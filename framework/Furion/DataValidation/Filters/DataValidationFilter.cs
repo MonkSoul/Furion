@@ -56,7 +56,7 @@ namespace Furion.DataValidation
                 method.ReflectedType.IsDefined(nonValidationAttributeType, true))
             {
                 // 打印验证跳过消息
-                if (!isMvcController) App.PrintToMiniProfiler(MiniProfilerCategory, "Skipped");
+                //if (!isMvcController) App.PrintToMiniProfiler(MiniProfilerCategory, "Skipped");
                 return;
             }
 

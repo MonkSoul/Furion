@@ -23,6 +23,7 @@
 - **其他更改**
 
   - [改进] 视图模板功能，默认支持可枚举泛型类型 [#I3GYEE](https://gitee.com/dotnetchina/Furion/issues/I3GYEE)
+  - [改进] 开发阶段 MiniProfiler 打印数据库相关信息 [#I3I8VQ](https://gitee.com/dotnetchina/Furion/issues/I3I8VQ)
 
 - **文档变化**
 
