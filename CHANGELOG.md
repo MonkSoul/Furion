@@ -9,12 +9,17 @@
   - [修复] 在多租户中调用 `Tenant` 属性出现偶然性数据库上下文被释放的情况 [#I3IC70](https://gitee.com/dotnetchina/Furion/issues/I3IC70)
   - [修复] Sql 代理中如果返回基元类型抛出不能将 object 转换成对应类型的异常 [#I3IC84](https://gitee.com/dotnetchina/Furion/issues/I3IC84)
   - [修复] 存储过程多返回值的时候，outputvalues 的 name 不是定义的 MSG 的 name，是 Msg 类型。 [#I3IC7Y](https://gitee.com/dotnetchina/Furion/issues/I3IC7Y)
+  - [修复] PhoneNumber 手机号验证正则表达式错误 [#I3ID10](https://gitee.com/dotnetchina/Furion/issues/I3ID10)
 
 - **其他更改**
+
+  - [改进] UrlEncode 应该用 `Uri.EscapeDataString()` 而不是 `HttpUtility.UrlEncode` [#I3ICTK](https://gitee.com/dotnetchina/Furion/issues/I3ICTK)
 
 - **文档变化**
 
 - **问答答疑**
+
+  - [答疑] 数据校验，自定义 ErrorMessage 无效问题 [#I3ICL3](https://gitee.com/dotnetchina/Furion/issues/I3ICL3)
 
 - **不做实现**
 

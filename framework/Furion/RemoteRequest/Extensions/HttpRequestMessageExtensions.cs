@@ -2,7 +2,6 @@
 using Furion.Extensions;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace System.Net.Http
 {
@@ -17,7 +16,8 @@ namespace System.Net.Http
         /// </summary>
         /// <param name="httpRequest"></param>
         /// <param name="queries"></param>
-        public static void AppendQueries(this HttpRequestMessage httpRequest, Dictionary<string, object> queries)
+        /// <param name="isEncode"></param>
+        public static void AppendQueries(this HttpRequestMessage httpRequest, Dictionary<string, object> queries, bool isEncode = true)
         {
             if (queries == null || queries.Count == 0) return;
 
@@ -25,7 +25,8 @@ namespace System.Net.Http
             var finalRequestUrl = httpRequest.RequestUri.OriginalString;
 
             // 拼接
-            var urlParameters = queries.Where(u => u.Value != null).Select(u => $"{u.Key}={HttpUtility.UrlEncode(u.Value?.ToString() ?? string.Empty)}");
+            var urlParameters = queries.Where(u => u.Value != null)
+                            .Select(u => $"{u.Key}={(isEncode ? Uri.EscapeDataString(u.Value?.ToString() ?? string.Empty) : (u.Value?.ToString() ?? string.Empty))}");
             finalRequestUrl += $"{(finalRequestUrl.IndexOf("?") > -1 ? "&" : "?")}{string.Join("&", urlParameters)}";
 
             // 重新设置地址
@@ -37,9 +38,10 @@ namespace System.Net.Http
         /// </summary>
         /// <param name="httpRequest"></param>
         /// <param name="queries"></param>
-        public static void AppendQueries(this HttpRequestMessage httpRequest, object queries)
+        /// <param name="isEncode"></param>
+        public static void AppendQueries(this HttpRequestMessage httpRequest, object queries, bool isEncode = true)
         {
-            httpRequest.AppendQueries(queries?.ToDictionary<object>());
+            httpRequest.AppendQueries(queries?.ToDictionary<object>(), isEncode);
         }
     }
 }

@@ -77,6 +77,6 @@ namespace System.ComponentModel.DataAnnotations
         /// <summary>
         /// 允许NULL或空字符串（也就是空字符串和Null都是通过的）
         /// </summary>
-        public bool AllowNullOrEmptyStrings { get; set; } = true;
+        public bool AllowNullOrEmptyStrings { get; set; } = false;
     }
 }

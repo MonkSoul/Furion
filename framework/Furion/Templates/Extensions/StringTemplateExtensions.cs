@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web;
 
 namespace Furion.Templates.Extensions
 {
@@ -56,7 +55,7 @@ namespace Furion.Templates.Extensions
             // 循环替换模板
             foreach (var item in templateValues)
             {
-                template = template.Replace($"{{{item.Template}}}", encode ? HttpUtility.UrlEncode(item.Value?.ToString() ?? string.Empty) : item.Value?.ToString());
+                template = template.Replace($"{{{item.Template}}}", encode ? Uri.EscapeDataString(item.Value?.ToString() ?? string.Empty) : item.Value?.ToString());
             }
 
             return template;

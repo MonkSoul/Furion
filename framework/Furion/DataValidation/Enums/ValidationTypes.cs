@@ -102,10 +102,10 @@ namespace Furion.DataValidation
         /// <summary>
         /// 手机号码
         /// <para>
-        /// 表达式：^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}$|16[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$|19[0-9]{9}$
+        /// 表达式：^1[3456789][0-9]{9}$
         /// </para>
         /// </summary>
-        [Description("手机号码"), ValidationItemMetadata(@"^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}$|16[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$|19[0-9]{9}$", "The Value is not a phone number type.")]
+        [Description("手机号码"), ValidationItemMetadata(@"^1[3456789][0-9]{9}$", "The Value is not a phone number type.")]
         PhoneNumber,
 
         /// <summary>
@@ -120,10 +120,10 @@ namespace Furion.DataValidation
         /// <summary>
         /// 手机或固话类型
         /// <para>
-        /// 表达式：(^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}$|16[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$|19[0-9]{9}$)|((^[0-9]{3,4}\-[0-9]{3,8}$)|(^[0-9]{3,8}$)|(^\([0-9]{3,4}\)[0-9]{3,8}$)|(^0{0,1}13[0-9]{9}$))
+        /// 表达式：(^1[3456789][0-9]{9}$)|((^[0-9]{3,4}\-[0-9]{3,8}$)|(^[0-9]{3,8}$)|(^\([0-9]{3,4}\)[0-9]{3,8}$)|(^0{0,1}13[0-9]{9}$))
         /// </para>
         /// </summary>
-        [Description("手机或固话类型"), ValidationItemMetadata(@"(^13[0-9]{9}$|14[0-9]{9}|15[0-9]{9}$|16[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$|19[0-9]{9}$)|((^[0-9]{3,4}\-[0-9]{3,8}$)|(^[0-9]{3,8}$)|(^\([0-9]{3,4}\)[0-9]{3,8}$)|(^0{0,1}13[0-9]{9}$))", "The Value is not a phone number or telephone type.", RegexOptions.IgnoreCase)]
+        [Description("手机或固话类型"), ValidationItemMetadata(@"(^1[3456789][0-9]{9}$)|((^[0-9]{3,4}\-[0-9]{3,8}$)|(^[0-9]{3,8}$)|(^\([0-9]{3,4}\)[0-9]{3,8}$)|(^0{0,1}13[0-9]{9}$))", "The Value is not a phone number or telephone type.", RegexOptions.IgnoreCase)]
         PhoneOrTelNumber,
 
         /// <summary>

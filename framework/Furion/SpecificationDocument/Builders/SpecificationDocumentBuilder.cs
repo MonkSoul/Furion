@@ -16,7 +16,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Web;
 
 namespace Furion.SpecificationDocument
 {
@@ -310,7 +309,7 @@ namespace Furion.SpecificationDocument
             {
                 var groupOpenApiInfo = GetGroupOpenApiInfo(group);
 
-                swaggerUIOptions.SwaggerEndpoint($"{_specificationDocumentSettings.VirtualPath}/swagger/{HttpUtility.UrlEncode(group)}/swagger.json", groupOpenApiInfo?.Title ?? group);
+                swaggerUIOptions.SwaggerEndpoint($"{_specificationDocumentSettings.VirtualPath}/swagger/{Uri.EscapeDataString(group)}/swagger.json", groupOpenApiInfo?.Title ?? group);
             }
         }
 
