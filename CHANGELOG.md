@@ -1,3 +1,25 @@
+## v1.20.0 （未发布）
+
+- **新特性**
+
+- **突破性变化**
+
+- **问题修复**
+
+  - [修复] 在多租户中调用 `Tenant` 属性出现偶然性数据库上下文被释放的情况 [#I3IC70](https://gitee.com/dotnetchina/Furion/issues/I3IC70)
+  - [修复] Sql 代理中如果返回基元类型抛出不能将 object 转换成对应类型的异常 [#I3IC84](https://gitee.com/dotnetchina/Furion/issues/I3IC84)
+  - [修复] 存储过程多返回值的时候，outputvalues 的 name 不是定义的 MSG 的 name，是 Msg 类型。 [#I3IC7Y](https://gitee.com/dotnetchina/Furion/issues/I3IC7Y)
+
+- **其他更改**
+
+- **文档变化**
+
+- **问答答疑**
+
+- **不做实现**
+
+---
+
 ## v1.19.0 （当前版本）
 
 - **新特性**

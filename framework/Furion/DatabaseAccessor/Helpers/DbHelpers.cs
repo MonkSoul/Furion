@@ -339,13 +339,13 @@ namespace Furion.DatabaseAccessor
         /// <returns></returns>
         internal static string FixSqlParameterPlaceholder(string providerName, string parameterName, bool isFixed = true)
         {
-            var placeholder = !providerName.Equals(DbProvider.Oracle, StringComparison.Ordinal) ? "@" : ":";
+            var placeholder = !DbProvider.IsDatabaseFor(providerName, DbProvider.Oracle) ? "@" : ":";
             if (parameterName.StartsWith("@") || parameterName.StartsWith(":"))
             {
                 parameterName = parameterName[1..];
             }
 
-            return isFixed ? placeholder + parameterName : providerName;
+            return isFixed ? placeholder + parameterName : parameterName;
         }
 
         /// <summary>
