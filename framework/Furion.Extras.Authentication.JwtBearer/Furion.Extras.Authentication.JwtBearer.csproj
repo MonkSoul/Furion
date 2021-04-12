@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <version>1.19.3</version>
+    <version>1.19.4</version>
     <Description>Furion Jwt 授权验证拓展插件。</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Furion.Extras.Web.HttpContext" Version="1.19.3" />
+    <PackageReference Include="Furion.Extras.Web.HttpContext" Version="1.19.4" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.5" />
   </ItemGroup>
 
