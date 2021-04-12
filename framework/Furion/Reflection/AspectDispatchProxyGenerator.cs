@@ -136,7 +136,9 @@ namespace Furion.Reflection
             }
             catch (TargetInvocationException tie)
             {
-                ExceptionDispatchInfo.Capture(tie.InnerException).Throw();
+                // 这里处理内部异常
+                //ExceptionDispatchInfo.Capture(tie.InnerException).Throw();
+                ExceptionDispatchInfo.Capture(tie.InnerException?.InnerException ?? tie.InnerException).Throw();
             }
 
             return returnValue;
@@ -155,7 +157,9 @@ namespace Furion.Reflection
             }
             catch (TargetInvocationException tie)
             {
-                ExceptionDispatchInfo.Capture(tie.InnerException).Throw();
+                // 这里处理内部异常
+                //ExceptionDispatchInfo.Capture(tie.InnerException).Throw();
+                ExceptionDispatchInfo.Capture(tie.InnerException?.InnerException ?? tie.InnerException).Throw();
             }
         }
 
@@ -175,7 +179,9 @@ namespace Furion.Reflection
             }
             catch (TargetInvocationException tie)
             {
-                ExceptionDispatchInfo.Capture(tie.InnerException).Throw();
+                // 这里处理内部异常
+                //ExceptionDispatchInfo.Capture(tie.InnerException).Throw();
+                ExceptionDispatchInfo.Capture(tie.InnerException?.InnerException ?? tie.InnerException).Throw();
             }
             return returnValue;
         }

@@ -10,6 +10,7 @@
   - [修复] Sql 代理中如果返回基元类型抛出不能将 object 转换成对应类型的异常 [#I3IC84](https://gitee.com/dotnetchina/Furion/issues/I3IC84)
   - [修复] 存储过程多返回值的时候，outputvalues 的 name 不是定义的 MSG 的 name，是 Msg 类型。 [#I3IC7Y](https://gitee.com/dotnetchina/Furion/issues/I3IC7Y)
   - [修复] PhoneNumber 手机号验证正则表达式错误 [#I3ID10](https://gitee.com/dotnetchina/Furion/issues/I3ID10)
+  - [修复] 依赖注入 AOP 拦截无法捕获内部异常 [#I3IGCC](https://gitee.com/dotnetchina/Furion/issues/I3IGCC)
 
 - **其他更改**
 
