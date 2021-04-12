@@ -12,11 +12,11 @@ export default function StarProject() {
       </button>
       {show ? (
         <a
-          href="https://gitee.com/dotnetchina/SqlSugar"
+          href="https://gitee.com/dotnetchina/anno.core"
           target="_blank"
-          title="dotNET China 精选项目第 04 届"
+          title="dotNET China 精选项目第 05 期"
         >
-          <img src={useBaseUrl("img/SqlSugar.png")} />
+          <img src={useBaseUrl("img/Anno.Core.png")} />
         </a>
       ) : (
         <></>
