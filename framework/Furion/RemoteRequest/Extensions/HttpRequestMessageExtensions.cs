@@ -30,7 +30,7 @@ namespace System.Net.Http
             finalRequestUrl += $"{(finalRequestUrl.IndexOf("?") > -1 ? "&" : "?")}{string.Join("&", urlParameters)}";
 
             // 重新设置地址
-            httpRequest.RequestUri = new Uri(finalRequestUrl);
+            httpRequest.RequestUri = new Uri(finalRequestUrl, UriKind.RelativeOrAbsolute);
         }
 
         /// <summary>
