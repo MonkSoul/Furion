@@ -125,7 +125,6 @@ namespace Furion
         /// <param name="jsonKey">配置中对应的Key</param>
         /// <returns>TOptions</returns>
         public static TOptions GetConfig<TOptions>(string jsonKey)
-            where TOptions : class, new()
         {
             return Configuration.GetSection(jsonKey).Get<TOptions>();
         }
