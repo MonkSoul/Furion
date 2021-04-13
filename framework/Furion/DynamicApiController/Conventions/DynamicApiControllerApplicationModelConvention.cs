@@ -121,7 +121,7 @@ namespace Furion.DynamicApiController
             if (controller.RouteValues.ContainsKey("area")) return;
 
             // 如果没有配置区域，则跳过
-            var area = controllerApiDescriptionSettings.Area ?? _dynamicApiControllerSettings.DefaultArea;
+            var area = controllerApiDescriptionSettings?.Area ?? _dynamicApiControllerSettings.DefaultArea;
             if (string.IsNullOrWhiteSpace(area)) return;
 
             controller.RouteValues["area"] = area;
