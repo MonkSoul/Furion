@@ -106,7 +106,7 @@ namespace Furion.DataEncryption
             // 判断这个刷新Token 是否已刷新过
             var blacklistRefreshKey = "BLACKLIST_REFRESH_TOKEN:" + refreshToken;
             var distributedCache = InternalHttpContext.Current()?.RequestServices?.GetService<IDistributedCache>();
-            if (!string.IsNullOrEmpty(distributedCache?.GetString(blacklistRefreshKey))) return default;
+            if (!string.IsNullOrWhiteSpace(distributedCache?.GetString(blacklistRefreshKey))) return default;
 
             // 分割过期Token
             var tokenParagraphs = expiredToken.Split('.', StringSplitOptions.RemoveEmptyEntries);
@@ -150,11 +150,11 @@ namespace Furion.DataEncryption
             // 获取过期Token 和 刷新Token
             var expiredToken = GetJwtBearerToken(httpContext, tokenPrefix: tokenPrefix);
             var refreshToken = GetJwtBearerToken(httpContext, "X-Authorization", tokenPrefix: tokenPrefix);
-            if (string.IsNullOrEmpty(expiredToken) || string.IsNullOrEmpty(refreshToken)) return false;
+            if (string.IsNullOrWhiteSpace(expiredToken) || string.IsNullOrWhiteSpace(refreshToken)) return false;
 
             // 交换新的 Token
             var accessToken = Exchange(expiredToken, refreshToken, expiredTime);
-            if (string.IsNullOrEmpty(accessToken)) return false;
+            if (string.IsNullOrWhiteSpace(accessToken)) return false;
 
             // 读取新的 Token Clamis
             var claims = ReadJwtToken(accessToken)?.Claims;
@@ -222,7 +222,7 @@ namespace Furion.DataEncryption
         {
             // 获取 token
             var accessToken = GetJwtBearerToken(httpContext, headerKey, tokenPrefix);
-            if (string.IsNullOrEmpty(accessToken))
+            if (string.IsNullOrWhiteSpace(accessToken))
             {
                 token = null;
                 return false;
@@ -262,7 +262,7 @@ namespace Furion.DataEncryption
         {
             // 判断请求报文头中是否有 "Authorization" 报文头
             var bearerToken = httpContext.Request.Headers[headerKey].ToString();
-            if (string.IsNullOrEmpty(bearerToken)) return default;
+            if (string.IsNullOrWhiteSpace(bearerToken)) return default;
 
             var prefixLenght = tokenPrefix.Length;
             return bearerToken.StartsWith(tokenPrefix, true, null) && bearerToken.Length > prefixLenght ? bearerToken[prefixLenght..] : default;

@@ -916,6 +916,7 @@ public string Get(int id, string name)
 - `Tags`：接口标签，可结合 `Swagger` 一起使用，`string[]`，默认 `null`
 - `Order`：配置控制器/动作方法排序
 - `LowercaseRoute`：是否采用小写路由，`bool` 类型，默认 `true`
+- `Area`：配置区域名称，默认空，**只作用于类中贴**
 
 ### 5.9.2 `Name` 配置
 
@@ -1289,6 +1290,7 @@ namespace Furion.Application
 - `ModelToQuery`：`GET/HEAD` 请求将 `类类型参数转查询参数`，`bool`，默认 `false`
 - `SupportedMvcController`：是否支持 `Mvc Controller` 动态配置，`bool`，默认 `false`
 - `UrlParameterization`：路由参数采用 `[FromQuery]` 化，默认 `false`（`[FromRoute]` 方式）
+- `DefaultArea`：配置默认区域，默认 `null`
 - `AbandonControllerAffixes`：默认去除控制器名称前后缀列表名，`string[]`，默认：
   - `AppServices`
   - `AppService`

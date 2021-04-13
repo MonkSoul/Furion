@@ -17,7 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IServiceCollection AddViewEngine(this IServiceCollection services, string templateSaveDir = default)
         {
-            if (!string.IsNullOrEmpty(templateSaveDir)) Penetrates.TemplateSaveDir = templateSaveDir;
+            if (!string.IsNullOrWhiteSpace(templateSaveDir)) Penetrates.TemplateSaveDir = templateSaveDir;
 
             services.AddTransient<IViewEngine, ViewEngine>();
             return services;

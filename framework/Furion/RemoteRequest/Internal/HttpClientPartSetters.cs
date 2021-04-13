@@ -122,7 +122,7 @@ namespace Furion.RemoteRequest
         {
             Body = body;
 
-            if (!string.IsNullOrEmpty(contentType)) ContentType = contentType;
+            if (!string.IsNullOrWhiteSpace(contentType)) ContentType = contentType;
             if (encoding != null) ContentEncoding = encoding;
 
             return this;
@@ -139,7 +139,7 @@ namespace Furion.RemoteRequest
         {
             Body = body;
 
-            if (!string.IsNullOrEmpty(contentType)) ContentType = contentType;
+            if (!string.IsNullOrWhiteSpace(contentType)) ContentType = contentType;
             if (encoding != null) ContentEncoding = encoding;
 
             return this;

@@ -357,7 +357,7 @@ namespace Furion.DatabaseAccessor
                         if (property.IsDefined(typeof(ColumnAttribute), true))
                         {
                             var columnAttribute = property.GetCustomAttribute<ColumnAttribute>(true);
-                            if (!string.IsNullOrEmpty(columnAttribute.Name)) columnName = columnAttribute.Name;
+                            if (!string.IsNullOrWhiteSpace(columnAttribute.Name)) columnName = columnAttribute.Name;
                         }
 
                         // 如果 DataTable 不包含该列名，则跳过

@@ -88,5 +88,10 @@ namespace Microsoft.AspNetCore.Mvc
         /// 排序
         /// </summary>
         public int Order { get; set; }
+
+        /// <summary>
+        /// 配置控制器区域（只对控制器有效）
+        /// </summary>
+        public string Area { get; set; }
     }
 }

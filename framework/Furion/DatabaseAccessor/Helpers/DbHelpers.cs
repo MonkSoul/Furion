@@ -309,7 +309,7 @@ namespace Furion.DatabaseAccessor
 
                 // 读取配置
                 var realSql = App.Configuration[path];
-                if (string.IsNullOrEmpty(realSql))
+                if (string.IsNullOrWhiteSpace(realSql))
                 {
                     var sqlConfiguration = App.GetConfig<SqlTemplate>(path) ?? throw new InvalidOperationException($"Not found {path} configuration information.");
                     realSql = sqlConfiguration.Sql;

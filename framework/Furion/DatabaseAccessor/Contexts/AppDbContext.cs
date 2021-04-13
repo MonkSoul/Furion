@@ -145,7 +145,7 @@ namespace Furion.DatabaseAccessor
                 var jsonSerializerProvider = serviceProvider.GetService<IJsonSerializerProvider>();
 
                 // 如果 Key 不存在
-                if (string.IsNullOrEmpty(cachedValue))
+                if (string.IsNullOrWhiteSpace(cachedValue))
                 {
                     // 获取新的租户数据库上下文
                     var tenantDbContext = serviceProvider.GetService<Func<Type, ITransient, DbContext>>()(typeof(MultiTenantDbContextLocator), default);

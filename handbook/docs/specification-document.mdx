@@ -735,6 +735,18 @@ services.AddControllersWithViews()
         });
 ```
 
+### 6.5.21 自定义 `swagger.json` 路由模板
+
+默认情况下，`Furion` 框架会生成统一的分组模板，如：`swagger/{documentName}/swagger.json`，`{documentName}` 会在运行时替换为分组名，如需自定义，配置 `RouteTemplate` 即可：
+
+```json title="appsetting.json"
+{
+  "SpecificationDocumentSettings": {
+    "RouteTemplate": "myapp/{documentName}/xxxx.json"
+  }
+}
+```
+
 ## 6.6 `SpecificationDocumentSettings` 配置
 
 除了上述例子外，`Furion` 提供了一些配置选项，如：
@@ -753,8 +765,47 @@ services.AddControllersWithViews()
 - `SecurityDefinitions`：安全策略定义配置，`SpecificationOpenApiSecurityScheme[]`，默认 `[]`
 - `Servers`：配置 Server 下拉列表，`OpenApiServer[]` 类型，默认 `[]`，如：`{Servers:[ { Url:"地址", Description:"描述"} ]}`
 - `HideServers`：是否隐藏 Server 下拉列表，`bool` 类型，默认 `false`
+- `RouteTemplate`：配置文档 `swagger.json` 路由模板，默认模板：`swagger/{documentName}/swagger.json`, `{documentName}` 代表分组名，**必须保留原样**
 
-## 6.7 统一返回值模型
+另外 `SpecificationOpenApiInfo` 内置配置如下：
+
+- `Group`：分组唯一标识，`string` 类型，必填
+- `Order`：分组排序，`int` 类型，数字越大排前面，默认 `0`
+- `Visible`：配置分组是否可见，`bool` 类型，默认 `true`
+- `Title`：配置分组标题，`string` 类型
+- `Description`：配置分组描述，`string` 类型
+- `Version`：配置分组版本，默认 `1.0`
+- `TermsOfService`：配置相关链接地址，`Uri` 类型
+- `Contact`：配置联系方式，`OpenApiContact` 类型
+- `License`：配置协议，`OpenApiLicense` 类型
+
+配置示例：
+
+```json
+({
+  "Group": "Default",
+  "Title": "数据库操作演示",
+  "Description": "这里列举了常见数据库操作方法，方便大家学习。",
+  "Version": "1.0.0",
+  "TermsOfService": "https://furion.pro",
+  "Contact": {
+    "Name": "百小僧",
+    "Url": "https://gitee.com/monksoul",
+    "Email": "monksoul@outlook.com"
+  },
+  "License": {
+    "Name": "Apache-2.0",
+    "Url": "https://gitee.com/dotnetchina/Furion/blob/rc1/LICENSE"
+  }
+},
+{
+  "Group": "Role",
+  "Title": "角色管理（RBAC）",
+  "Order": 1
+})
+```
+
+## 6.7 统一返回值模型/规范化结果/API 返回值
 
 `Furion` 框架提供 `规范化结果` 功能，可以通过实现 `IUnifyResultProvider` 提供器实现统一规范化返回值定制，如：`RESTfulResultProvider`：
 

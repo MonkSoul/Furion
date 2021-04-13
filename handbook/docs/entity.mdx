@@ -327,7 +327,11 @@ namespace Furion.Core
 
 如果需要跳过自动注册，只需要贴 `[NonAutomatic]` 或 `[SkipScan]` 特性即可。一旦贴了此特性，那么就需要手动配置 `DbContext` 的 `OnModelCreating`
 
-## 9.3.6 反馈与建议
+## 9.3.6 配置列名及列类型
+
+有时候我们需要手动设置列名或列类型，比如 `decimal(18,2)`，这时候只需要在属性上面贴 `[Column("列名", TypeName="decimal(18,2)")]` 即可。
+
+## 9.3.7 反馈与建议
 
 :::note 与我们交流
 

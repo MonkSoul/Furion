@@ -449,7 +449,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     };
 
                     // 加载代理拦截
-                    if (!string.IsNullOrEmpty(externalService.Proxy)) injectionAttribute.Proxy = LoadStringType(externalService.Proxy);
+                    if (!string.IsNullOrWhiteSpace(externalService.Proxy)) injectionAttribute.Proxy = LoadStringType(externalService.Proxy);
 
                     RegisterService(services, externalService.RegisterType,
                         LoadStringType(externalService.Service),

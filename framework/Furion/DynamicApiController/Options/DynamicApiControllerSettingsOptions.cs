@@ -21,7 +21,7 @@ namespace Furion.DynamicApiController
         public string DefaultHttpMethod { get; set; }
 
         /// <summary>
-        /// 默认模块（区域）名称
+        /// 默认模块名称
         /// </summary>
         public string DefaultModule { get; set; }
 
@@ -80,6 +80,11 @@ namespace Furion.DynamicApiController
         /// 复写默认配置路由规则配置
         /// </summary>
         public object[][] VerbToHttpMethods { get; set; }
+
+        /// <summary>
+        /// 默认区域
+        /// </summary>
+        public string DefaultArea { get; set; }
 
         /// <summary>
         /// 选项后期配置

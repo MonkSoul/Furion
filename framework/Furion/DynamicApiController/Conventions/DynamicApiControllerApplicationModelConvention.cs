@@ -75,6 +75,9 @@ namespace Furion.DynamicApiController
         /// <param name="controllerApiDescriptionSettings">接口描述配置</param>
         private void ConfigureController(ControllerModel controller, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
         {
+            // 配置区域
+            ConfigureControllerArea(controller, controllerApiDescriptionSettings);
+
             // 配置控制器名称
             ConfigureControllerName(controller, controllerApiDescriptionSettings);
 
@@ -105,6 +108,23 @@ namespace Furion.DynamicApiController
                 var actionApiDescriptionSettings = actionMethod.IsDefined(typeof(ApiDescriptionSettingsAttribute), true) ? actionMethod.GetCustomAttribute<ApiDescriptionSettingsAttribute>(true) : default;
                 ConfigureAction(action, actionApiDescriptionSettings, controllerApiDescriptionSettings, hasApiControllerAttribute);
             }
+        }
+
+        /// <summary>
+        /// 配置控制器区域
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="controllerApiDescriptionSettings"></param>
+        private void ConfigureControllerArea(ControllerModel controller, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
+        {
+            // 如果配置了区域，则跳过
+            if (controller.RouteValues.ContainsKey("area")) return;
+
+            // 如果没有配置区域，则跳过
+            var area = controllerApiDescriptionSettings.Area ?? _dynamicApiControllerSettings.DefaultArea;
+            if (string.IsNullOrWhiteSpace(area)) return;
+
+            controller.RouteValues["area"] = area;
         }
 
         /// <summary>
@@ -302,23 +322,23 @@ namespace Furion.DynamicApiController
                 var ActionEndTemplate = parameterRouteTemplate != null ? (parameterRouteTemplate.ActionEndTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionEndTemplates)) : null;
 
                 // 判断是否定义了控制器路由，如果定义，则不拼接控制器路由
-                template = string.IsNullOrEmpty(controllerRouteTemplate)
-                     ? $"{(string.IsNullOrEmpty(module) ? null : $"{module}/")}{ActionStartTemplate}/{(string.IsNullOrEmpty(action.ActionName) ? null : "[action]")}/{ActionEndTemplate}"
-                     : $"{controllerRouteTemplate}/{(string.IsNullOrEmpty(module) ? null : $"{module}/")}{ActionStartTemplate}/{(string.IsNullOrEmpty(action.ActionName) ? null : "[action]")}/{ActionEndTemplate}";
+                template = string.IsNullOrWhiteSpace(controllerRouteTemplate)
+                     ? $"{(string.IsNullOrWhiteSpace(module) ? null : $"{module}/")}{ActionStartTemplate}/{(string.IsNullOrWhiteSpace(action.ActionName) ? null : "[action]")}/{ActionEndTemplate}"
+                     : $"{controllerRouteTemplate}/{(string.IsNullOrWhiteSpace(module) ? null : $"{module}/")}{ActionStartTemplate}/{(string.IsNullOrWhiteSpace(action.ActionName) ? null : "[action]")}/{ActionEndTemplate}";
             }
 
             AttributeRouteModel actionAttributeRouteModel = null;
-            if (!string.IsNullOrEmpty(template))
+            if (!string.IsNullOrWhiteSpace(template))
             {
                 // 处理多个斜杆问题
                 template = Regex.Replace(isLowercaseRoute ? template.ToLower() : template, @"\/{2,}", "/");
 
                 // 生成路由
-                actionAttributeRouteModel = string.IsNullOrEmpty(template) ? null : new AttributeRouteModel(new RouteAttribute(template));
+                actionAttributeRouteModel = string.IsNullOrWhiteSpace(template) ? null : new AttributeRouteModel(new RouteAttribute(template));
             }
 
             // 拼接路由
-            selectorModel.AttributeRouteModel = string.IsNullOrEmpty(controllerRouteTemplate)
+            selectorModel.AttributeRouteModel = string.IsNullOrWhiteSpace(controllerRouteTemplate)
                 ? (actionAttributeRouteModel == null ? null : AttributeRouteModel.CombineAttributeRouteModel(action.Controller.Selectors[0].AttributeRouteModel, actionAttributeRouteModel))
                 : actionAttributeRouteModel;
         }
@@ -345,12 +365,12 @@ namespace Furion.DynamicApiController
             // 生成路由模板
             // 如果参数路由模板为空或不包含任何控制器参数模板，则返回正常的模板
             if (parameterRouteTemplate == null || (parameterRouteTemplate.ControllerStartTemplates.Count == 0 && parameterRouteTemplate.ControllerEndTemplates.Count == 0))
-                return $"{(string.IsNullOrEmpty(routePrefix) ? null : $"{routePrefix}/")}{(string.IsNullOrEmpty(module) ? null : $"{module}/")}[controller]";
+                return $"{(string.IsNullOrWhiteSpace(routePrefix) ? null : $"{routePrefix}/")}{(string.IsNullOrWhiteSpace(module) ? null : $"{module}/")}[controller]";
 
             // 拼接控制器路由模板
             var controllerStartTemplate = parameterRouteTemplate.ControllerStartTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ControllerStartTemplates);
             var controllerEndTemplate = parameterRouteTemplate.ControllerEndTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ControllerEndTemplates);
-            var template = $"{(string.IsNullOrEmpty(routePrefix) ? null : $"{routePrefix}/")}{(string.IsNullOrEmpty(module) ? null : $"{module}/")}{controllerStartTemplate}/[controller]/{controllerEndTemplate}";
+            var template = $"{(string.IsNullOrWhiteSpace(routePrefix) ? null : $"{routePrefix}/")}{(string.IsNullOrWhiteSpace(module) ? null : $"{module}/")}{controllerStartTemplate}/[controller]/{controllerEndTemplate}";
 
             return template;
         }
@@ -460,7 +480,7 @@ namespace Furion.DynamicApiController
             // 解析控制器名称
             // 判断是否有自定义名称
             var tempName = apiDescriptionSettings?.Name;
-            if (string.IsNullOrEmpty(tempName))
+            if (string.IsNullOrWhiteSpace(tempName))
             {
                 // 处理版本号
                 var (name, version) = ResolveNameVersion(orignalName);
@@ -487,7 +507,7 @@ namespace Furion.DynamicApiController
             }
 
             // 拼接名称和版本号
-            var newName = $"{tempName}{(string.IsNullOrEmpty(apiVersion) ? null : $"{_dynamicApiControllerSettings.VersionSeparator}{apiVersion}")}";
+            var newName = $"{tempName}{(string.IsNullOrWhiteSpace(apiVersion) ? null : $"{_dynamicApiControllerSettings.VersionSeparator}{apiVersion}")}";
 
             var isLowercaseRoute = CheckIsLowercaseRoute(controllerApiDescriptionSettings == null ? null : apiDescriptionSettings, controllerApiDescriptionSettings ?? apiDescriptionSettings);
             return (isLowercaseRoute ? newName.ToLower() : newName, isLowercaseRoute, isKeepName);

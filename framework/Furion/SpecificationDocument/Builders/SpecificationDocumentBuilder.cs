@@ -94,6 +94,9 @@ namespace Furion.SpecificationDocument
                 });
             }
 
+            // 配置路由模板
+            swaggerOptions.RouteTemplate = _specificationDocumentSettings.RouteTemplate;
+
             // 自定义配置
             configure?.Invoke(swaggerOptions);
         }
@@ -275,7 +278,7 @@ namespace Furion.SpecificationDocument
             foreach (var securityDefinition in _specificationDocumentSettings.SecurityDefinitions)
             {
                 // Id 必须定义
-                if (string.IsNullOrEmpty(securityDefinition.Id)) continue;
+                if (string.IsNullOrWhiteSpace(securityDefinition.Id)) continue;
 
                 // 添加安全定义
                 var openApiSecurityScheme = securityDefinition as OpenApiSecurityScheme;
@@ -309,7 +312,9 @@ namespace Furion.SpecificationDocument
             {
                 var groupOpenApiInfo = GetGroupOpenApiInfo(group);
 
-                swaggerUIOptions.SwaggerEndpoint($"{_specificationDocumentSettings.VirtualPath}/swagger/{Uri.EscapeDataString(group)}/swagger.json", groupOpenApiInfo?.Title ?? group);
+                // 替换路由模板
+                var routeTemplate = _specificationDocumentSettings.RouteTemplate.Replace("{documentName}", Uri.EscapeDataString(group));
+                swaggerUIOptions.SwaggerEndpoint($"{_specificationDocumentSettings.VirtualPath}/{routeTemplate}", groupOpenApiInfo?.Title ?? group);
             }
         }
 
@@ -475,7 +480,7 @@ namespace Furion.SpecificationDocument
 
                 // 读取标签
                 var apiDescriptionSettings = type.GetCustomAttribute<ApiDescriptionSettingsAttribute>(true);
-                return string.IsNullOrEmpty(apiDescriptionSettings.Tag) ? controllerActionDescriptor.ControllerName : apiDescriptionSettings.Tag;
+                return string.IsNullOrWhiteSpace(apiDescriptionSettings.Tag) ? controllerActionDescriptor.ControllerName : apiDescriptionSettings.Tag;
             }
         }
 
@@ -506,7 +511,7 @@ namespace Furion.SpecificationDocument
 
                 // 读取标签
                 var apiDescriptionSettings = method.GetCustomAttribute<ApiDescriptionSettingsAttribute>(true);
-                return string.IsNullOrEmpty(apiDescriptionSettings.Tag) ? GetControllerTag(controllerActionDescriptor) : apiDescriptionSettings.Tag;
+                return string.IsNullOrWhiteSpace(apiDescriptionSettings.Tag) ? GetControllerTag(controllerActionDescriptor) : apiDescriptionSettings.Tag;
             }
         }
 

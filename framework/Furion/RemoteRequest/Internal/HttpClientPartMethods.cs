@@ -353,7 +353,7 @@ namespace Furion.RemoteRequest
             if (Method == null) throw new NullReferenceException(nameof(Method));
 
             // 检查请求地址
-            if (string.IsNullOrEmpty(RequestUrl)) throw new NullReferenceException(RequestUrl);
+            if (string.IsNullOrWhiteSpace(RequestUrl)) throw new NullReferenceException(RequestUrl);
 
             // 处理模板问题
             RequestUrl = RequestUrl.Render(Templates, true);
@@ -395,7 +395,7 @@ namespace Furion.RemoteRequest
             if (clientFactory == null) throw new InvalidOperationException("please add `services.AddRemoteRequest()` in Startup.cs.");
 
             // 创建 HttpClient 对象
-            using var httpClient = string.IsNullOrEmpty(ClientName)
+            using var httpClient = string.IsNullOrWhiteSpace(ClientName)
                                          ? clientFactory.CreateClient()
                                          : clientFactory.CreateClient(ClientName);
 
@@ -464,7 +464,7 @@ namespace Furion.RemoteRequest
                     // 添加 Bytes 类型
                     foreach (var (Name, Bytes, FileName) in BodyBytes)
                     {
-                        if (string.IsNullOrEmpty(FileName))
+                        if (string.IsNullOrWhiteSpace(FileName))
                             multipartFormDataContent.Add(new ByteArrayContent(Bytes), Name);
                         else
                             multipartFormDataContent.Add(new ByteArrayContent(Bytes), Name, FileName);

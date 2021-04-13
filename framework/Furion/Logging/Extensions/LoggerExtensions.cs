@@ -65,7 +65,7 @@ namespace Microsoft.Extensions.Logging
         private static LogLevel GetDynamicLogLevelConfigure()
         {
             var logLevel = App.Configuration["AppSettings:DynamicLogLevel"];
-            return string.IsNullOrEmpty(logLevel) ? LogLevel.Information : Enum.Parse<LogLevel>(logLevel);
+            return string.IsNullOrWhiteSpace(logLevel) ? LogLevel.Information : Enum.Parse<LogLevel>(logLevel);
         }
     }
 }

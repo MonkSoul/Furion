@@ -151,15 +151,15 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>服务集合</returns>
         internal static IServiceCollection AddApp(this IServiceCollection services, Action<IServiceCollection> configure = null)
         {
+            // 注册内存和分布式内存
+            services.AddMemoryCache();  // .NET 5.0.3+ 需要手动注册了
+            services.AddDistributedMemoryCache();
+
             // 注册全局配置选项
             services.AddConfigurableOptions<AppSettingsOptions>();
 
             // 添加 HttContext 访问器
             services.AddHttpContextAccessor();
-
-            // 注册分布式内存缓存
-            //services.AddMemoryCache();  // .NET 5.0.4 需要手动注册了
-            services.AddDistributedMemoryCache();
 
             // 注册全局 Startup 扫描
             services.AddStartup();

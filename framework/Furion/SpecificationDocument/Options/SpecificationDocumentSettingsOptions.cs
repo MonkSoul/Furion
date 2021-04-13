@@ -73,6 +73,11 @@ namespace Furion.SpecificationDocument
         public bool? HideServers { get; set; }
 
         /// <summary>
+        /// 默认 swagger.json 路由模板
+        /// </summary>
+        public string RouteTemplate { get; set; }
+
+        /// <summary>
         /// 后期配置
         /// </summary>
         /// <param name="options"></param>
@@ -125,6 +130,7 @@ namespace Furion.SpecificationDocument
 
             Servers ??= Array.Empty<OpenApiServer>();
             HideServers ??= false;
+            RouteTemplate ??= "swagger/{documentName}/swagger.json";
         }
     }
 }

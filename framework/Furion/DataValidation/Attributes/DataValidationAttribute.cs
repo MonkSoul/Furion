@@ -53,7 +53,7 @@ namespace System.ComponentModel.DataAnnotations
                 var resultMessage = dataValidationResult.ValidationResults.FirstOrDefault().ErrorMessage;
 
                 // 进行多语言处理
-                var errorMessage = string.IsNullOrEmpty(ErrorMessage)
+                var errorMessage = string.IsNullOrWhiteSpace(ErrorMessage)
                     ? L.Text == null ? resultMessage : L.Text[resultMessage]
                     : ErrorMessage;
 

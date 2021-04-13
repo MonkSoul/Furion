@@ -145,7 +145,7 @@ namespace Furion.DatabaseAccessor
         public static string GetConnectionString<TDbContext>(string connectionString = default)
             where TDbContext : DbContext
         {
-            if (!string.IsNullOrEmpty(connectionString)) return connectionString;
+            if (!string.IsNullOrWhiteSpace(connectionString)) return connectionString;
 
             // 如果没有配置数据库连接字符串，那么查找特性
             var dbContextAttribute = GetAppDbContextAttribute(typeof(TDbContext));
@@ -154,7 +154,7 @@ namespace Furion.DatabaseAccessor
             // 获取特性连接字符串
             var connStr = dbContextAttribute.ConnectionString;
 
-            if (string.IsNullOrEmpty(connStr)) return default;
+            if (string.IsNullOrWhiteSpace(connStr)) return default;
             // 如果包含 = 符号，那么认为是连接字符串
             if (connStr.Contains("=")) return connStr;
             else
@@ -167,7 +167,7 @@ namespace Furion.DatabaseAccessor
                 {
                     // 首先查找 DbConnectionString 键，如果没有找到，则当成 Key 去查找
                     var connStrValue = configuration.GetConnectionString(connStr);
-                    return !string.IsNullOrEmpty(connStrValue) ? connStrValue : configuration[connStr];
+                    return !string.IsNullOrWhiteSpace(connStrValue) ? connStrValue : configuration[connStr];
                 }
             }
         }

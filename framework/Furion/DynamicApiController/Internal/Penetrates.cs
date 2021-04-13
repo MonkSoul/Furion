@@ -107,7 +107,7 @@ namespace Furion.DynamicApiController
         internal static string ClearStringAffixes(string str, int pos = 0, params string[] affixes)
         {
             // 空字符串直接返回
-            if (string.IsNullOrEmpty(str)) return str;
+            if (string.IsNullOrWhiteSpace(str)) return str;
 
             // 空前后缀集合直接返回
             if (affixes == null || affixes.Length == 0) return str;
@@ -127,14 +127,14 @@ namespace Furion.DynamicApiController
                 }
                 if (pos != -1 && !endCleared && str.EndsWith(affix, StringComparison.OrdinalIgnoreCase))
                 {
-                    var _tempStr = !string.IsNullOrEmpty(tempStr) ? tempStr : str;
+                    var _tempStr = !string.IsNullOrWhiteSpace(tempStr) ? tempStr : str;
                     tempStr = _tempStr.Substring(0, _tempStr.Length - affix.Length);
                     endCleared = true;
                 }
                 if (startCleared && endCleared) break;
             }
 
-            return !string.IsNullOrEmpty(tempStr) ? tempStr : str;
+            return !string.IsNullOrWhiteSpace(tempStr) ? tempStr : str;
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace Furion.DynamicApiController
         /// <returns></returns>
         internal static string[] SplitCamelCase(string str)
         {
-            if (string.IsNullOrEmpty(str)) return new string[] { str };
+            if (string.IsNullOrWhiteSpace(str)) return new string[] { str };
             if (str.Length == 1) return new string[] { str };
 
             return Regex.Split(str, @"(?=\p{Lu}\p{Ll})|(?<=\p{Ll})(?=\p{Lu})")

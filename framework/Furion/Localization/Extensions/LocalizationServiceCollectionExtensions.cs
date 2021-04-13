@@ -39,7 +39,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // 注册多语言服务
             services.AddLocalization(options =>
             {
-                if (!string.IsNullOrEmpty(localizationSettings.ResourcesPath))
+                if (!string.IsNullOrWhiteSpace(localizationSettings.ResourcesPath))
                     options.ResourcesPath = localizationSettings.ResourcesPath;
             });
 

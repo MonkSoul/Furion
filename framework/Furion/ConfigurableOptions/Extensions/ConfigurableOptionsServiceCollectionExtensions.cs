@@ -100,7 +100,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 // // 没有贴 [OptionsSettings]，如果选项类以 `Options` 结尾，则移除，否则返回类名称
                 null => optionsType.Name.EndsWith(defaultStuffx) ? optionsType.Name[0..^defaultStuffx.Length] : optionsType.Name,
                 // 如果贴有 [OptionsSettings] 特性，但未指定 JsonKey 参数，则直接返回类名，否则返回 JsonKey
-                _ => optionsSettings != null && string.IsNullOrEmpty(optionsSettings.JsonKey) ? optionsType.Name : optionsSettings.JsonKey,
+                _ => optionsSettings != null && string.IsNullOrWhiteSpace(optionsSettings.JsonKey) ? optionsType.Name : optionsSettings.JsonKey,
             };
         }
     }

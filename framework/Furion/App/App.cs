@@ -179,7 +179,7 @@ namespace Furion
             if (Settings.InjectMiniProfiler != true) return;
 
             // 打印消息
-            var customTiming = MiniProfiler.Current.CustomTiming(category, string.IsNullOrEmpty(message) ? $"{category.ToTitleCase()} {state}" : message, state);
+            var customTiming = MiniProfiler.Current.CustomTiming(category, string.IsNullOrWhiteSpace(message) ? $"{category.ToTitleCase()} {state}" : message, state);
             if (customTiming == null) return;
 
             // 判断是否是警告消息

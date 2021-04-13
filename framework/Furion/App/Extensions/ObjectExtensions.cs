@@ -256,7 +256,7 @@ namespace Furion.Extensions
             if (type.IsAssignableFrom(obj.GetType())) return obj;
             else if ((underlyingType ?? type).IsEnum)
             {
-                if (underlyingType != null && string.IsNullOrEmpty(obj.ToString())) return null;
+                if (underlyingType != null && string.IsNullOrWhiteSpace(obj.ToString())) return null;
                 else return Enum.Parse(underlyingType ?? type, obj.ToString());
             }
             // 处理DateTime -> DateTimeOffset 类型

@@ -162,7 +162,7 @@ namespace Furion.DatabaseAccessor
             var tableAttribute = type.IsDefined(typeof(TableAttribute), true) ? type.GetCustomAttribute<TableAttribute>(true) : default;
 
             // 排除无键实体或已经贴了 [Table] 特性的类型
-            if (typeof(IPrivateEntityNotKey).IsAssignableFrom(type) || !string.IsNullOrEmpty(tableAttribute?.Schema)) return;
+            if (typeof(IPrivateEntityNotKey).IsAssignableFrom(type) || !string.IsNullOrWhiteSpace(tableAttribute?.Schema)) return;
 
             // 获取真实表名
             var tableName = tableAttribute?.Name ?? type.Name;
@@ -185,12 +185,12 @@ namespace Furion.DatabaseAccessor
             else
             {
                 // 添加表统一前后缀，排除视图
-                if (!string.IsNullOrEmpty(appDbContextAttribute.TableSuffix) || !string.IsNullOrEmpty(appDbContextAttribute.TableSuffix))
+                if (!string.IsNullOrWhiteSpace(appDbContextAttribute.TableSuffix) || !string.IsNullOrWhiteSpace(appDbContextAttribute.TableSuffix))
                 {
                     var tablePrefix = appDbContextAttribute.TablePrefix;
                     var tableSuffix = appDbContextAttribute.TableSuffix;
 
-                    if (!string.IsNullOrEmpty(tablePrefix))
+                    if (!string.IsNullOrWhiteSpace(tablePrefix))
                     {
                         // 如果前缀中找到 . 字符
                         if (tablePrefix.IndexOf(".") > 0)

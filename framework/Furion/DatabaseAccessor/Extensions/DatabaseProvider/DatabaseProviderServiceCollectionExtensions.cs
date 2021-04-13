@@ -213,7 +213,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             // 获取数据库上下文特性
             var dbContextAttribute = DbProvider.GetAppDbContextAttribute(typeof(TDbContext));
-            if (!string.IsNullOrEmpty(connectionString))
+            if (!string.IsNullOrWhiteSpace(connectionString))
             {
                 providerName ??= dbContextAttribute?.ProviderName;
 
@@ -241,7 +241,7 @@ namespace Microsoft.Extensions.DependencyInjection
                         .Invoke(null, new object[] { options, connectionString, MigrationsAssemblyAction }) as DbContextOptionsBuilder;
                 }
                 // 处理 Oracle 11 兼容问题
-                else if (DbProvider.IsDatabaseFor(providerName, DbProvider.Oracle) && !string.IsNullOrEmpty(version))
+                else if (DbProvider.IsDatabaseFor(providerName, DbProvider.Oracle) && !string.IsNullOrWhiteSpace(version))
                 {
                     Action<IRelationalDbContextOptionsBuilderInfrastructure> oracleOptionsAction = options =>
                     {

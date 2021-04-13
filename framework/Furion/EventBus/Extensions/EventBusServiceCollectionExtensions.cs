@@ -55,7 +55,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     // 注册订阅
                     foreach (var subscribeMessageAttribute in subscribeMessageAttributes)
                     {
-                        if (string.IsNullOrEmpty(subscribeMessageAttribute.MessageId)) continue;
+                        if (string.IsNullOrWhiteSpace(subscribeMessageAttribute.MessageId)) continue;
 
                         InternalMessageCenter.Instance.Subscribe(item.Key, subscribeMessageAttribute.MessageId, action);
                     }

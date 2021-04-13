@@ -120,7 +120,7 @@ namespace Furion.FriendlyException
             var exceptionFileLineNumber = traceFrame.GetFileLineNumber();
 
             // 打印错误文件名和行号
-            if (!string.IsNullOrEmpty(exceptionFileName) && exceptionFileLineNumber > 0)
+            if (!string.IsNullOrWhiteSpace(exceptionFileName) && exceptionFileLineNumber > 0)
             {
                 App.PrintToMiniProfiler(MiniProfilerCategory, "Locator", $"{exceptionFileName}:line {exceptionFileLineNumber}", true);
             }
@@ -157,7 +157,7 @@ namespace Furion.FriendlyException
             var ifExceptionAttribute = methodIfException.IfExceptionAttributes.FirstOrDefault(u => HandleEnumErrorCode(u.ErrorCode).ToString().Equals(errorCode.ToString()));
 
             // 获取错误码消息
-            var errorCodeMessage = ifExceptionAttribute == null || string.IsNullOrEmpty(ifExceptionAttribute.ErrorMessage)
+            var errorCodeMessage = ifExceptionAttribute == null || string.IsNullOrWhiteSpace(ifExceptionAttribute.ErrorMessage)
                 ? (ErrorCodeMessages.GetValueOrDefault(errorCode.ToString()) ?? _friendlyExceptionSettings.DefaultErrorMessage)
                 : ifExceptionAttribute.ErrorMessage;
 
@@ -313,7 +313,7 @@ namespace Furion.FriendlyException
         {
             if (errorMessage.StartsWith("[Validation]")) return errorMessage;
 
-            return (_friendlyExceptionSettings.HideErrorCode == true || string.IsNullOrEmpty(errorCode)
+            return (_friendlyExceptionSettings.HideErrorCode == true || string.IsNullOrWhiteSpace(errorCode)
                 ? string.Empty
                 : $"[{errorCode}] ") + errorMessage;
         }

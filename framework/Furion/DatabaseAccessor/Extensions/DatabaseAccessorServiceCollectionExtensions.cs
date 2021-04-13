@@ -23,7 +23,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddDatabaseAccessor(this IServiceCollection services, Action<IServiceCollection> configure = null, string migrationAssemblyName = default)
         {
             // 设置迁移类库名称
-            if (!string.IsNullOrEmpty(migrationAssemblyName)) Db.MigrationAssemblyName = migrationAssemblyName;
+            if (!string.IsNullOrWhiteSpace(migrationAssemblyName)) Db.MigrationAssemblyName = migrationAssemblyName;
 
             // 配置数据库上下文
             configure?.Invoke(services);
@@ -133,7 +133,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection CustomizeMultiTenants(this IServiceCollection services, string onTableTenantId = default)
         {
             Db.CustomizeMultiTenants = true;
-            if (!string.IsNullOrEmpty(onTableTenantId)) Db.OnTableTenantId = onTableTenantId;
+            if (!string.IsNullOrWhiteSpace(onTableTenantId)) Db.OnTableTenantId = onTableTenantId;
 
             return services;
         }

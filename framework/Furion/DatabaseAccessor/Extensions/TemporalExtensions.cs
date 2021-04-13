@@ -114,7 +114,7 @@ namespace Furion.DatabaseAccessor
             var schema = entityType.GetSchema().GetSqlSafeName();
             var table = entityType.GetTableName().GetSqlSafeName();
 
-            return string.IsNullOrEmpty(schema)
+            return string.IsNullOrWhiteSpace(schema)
                 ? table
                 : string.Join(".", schema, table);
         }
@@ -126,7 +126,7 @@ namespace Furion.DatabaseAccessor
         /// <returns></returns>
         private static string GetSqlSafeName(this string sqlName)
         {
-            return string.IsNullOrEmpty(sqlName)
+            return string.IsNullOrWhiteSpace(sqlName)
                 ? string.Empty
                 : $"[{sqlName}]";
         }
