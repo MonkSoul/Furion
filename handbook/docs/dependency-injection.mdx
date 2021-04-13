@@ -571,6 +571,12 @@ services.AddScoped(typeof(ISpecService), provider = > {
 
 ## 12.12 `Aop` 注册拦截
 
+:::warning 关于动态 API 和服务的区别
+
+如果您的服务是动态 API，那么请使用 [动态 API - AOP 拦截](dynamic-api-controller#511-关于-aop-拦截)，原因是动态 API 本质是控制器，所以采用 `Filter` 方式。
+
+:::
+
 `AOP` 是非常重要的思想和技术，也就是 `面向切面` 编程，可以让我们在不改动原来代码的情况下进行动态篡改业务代码。
 
 在 `Furion` 框架中，实现 `Aop` 非常简单，如：

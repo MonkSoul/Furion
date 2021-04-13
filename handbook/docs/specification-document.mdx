@@ -747,6 +747,29 @@ services.AddControllersWithViews()
 }
 ```
 
+### 6.5.22 关于 `application/x-www-form-urlencoded` 请求
+
+默认情况下，`Swagger` 并未添加 `application/x-www-form-urlencoded` 支持，如需启用该配置，只需在方法顶部贴 `[Consumes]` 特性即可，如：
+
+```cs {1,2}
+[Consumes("application/x-www-form-urlencoded")]
+public async Task<IActionResult> Test([FromForm] TestRequest testRequest)
+{
+  // ....
+}
+
+public class TestRequest
+{
+   public string TestValue { get; set; }
+}
+```
+
+:::important 特别注意
+
+参数必须贴 `[FromForm]` 特性。另外请求时将参数按 `URL` 地址拼接并放在 `Body` 中请求。
+
+:::
+
 ## 6.6 `SpecificationDocumentSettings` 配置
 
 除了上述例子外，`Furion` 提供了一些配置选项，如：

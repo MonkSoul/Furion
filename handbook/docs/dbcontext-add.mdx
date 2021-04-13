@@ -116,7 +116,34 @@ await repository.InsertNowAsync(new[] {user, user2 });
 
 :::
 
-## 9.5.5 反馈与建议
+## 9.5.5 忽略空值新增
+
+默认情况下，`EFCore` 新增会插入全部列（除实体跟踪方式以外），有些时候我们希望 `Null` 值无需插入，这是我们只需要在更新时候配置 `ignoreNullValues` 参数即可，如：
+
+```cs
+repository.Add(entity, ignoreNullValues: true);
+```
+
+也可以全局配置，在 `AppDbContext` 的派生类的构造函数中启用即可：
+
+```cs {11}
+using Furion.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+
+namespace Furion.EntityFramework.Core
+{
+    [AppDbContext("Sqlite3ConnectionString", DbProvider.Sqlite)]
+    public class DefaultDbContext : AppDbContext<DefaultDbContext>
+    {
+        public DefaultDbContext(DbContextOptions<DefaultDbContext> options) : base(options)
+        {
+            InsertOrUpdateIgnoreNullValues = true;
+        }
+    }
+}
+```
+
+## 9.5.6 反馈与建议
 
 :::note 与我们交流
 

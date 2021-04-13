@@ -68,6 +68,7 @@ module.exports = {
         "tran",
         "dbcontext-read-write",
         "split-db",
+        "efcore-recommend",
       ],
     },
     {
