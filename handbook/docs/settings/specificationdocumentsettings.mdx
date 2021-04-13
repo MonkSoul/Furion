@@ -10,21 +10,22 @@ sidebar_label: 7. 规范化文档配置
 
 ## 7.2 配置信息
 
-- `DocumentTitle`：文档标题，`string`，默认 `Specification Api Document`
-- `DefaultGroupName`：默认分组名，`string`，默认 `Default`
-- `EnableAuthorized`：是否启用权限控制，`bool`，默认 `true`
-- `FormatAsV2`：采用 `Swagger 2.0` 版本，`bool`，默认 `false`
-- `RoutePrefix`：规范化文档地址，`string`，默认 `api`，**如果希望在首页，改为空字符串即可**。
-- `DocExpansionState`：文档显示方式，`DocExpansion`，默认 `List`，取值：
-  - `List`：列表式（展开子类），**默认值**
-  - `Full`：完全展开
-  - `None`：列表式（不展开子类）
-- `XmlComments`：程序集注释描述文件名（可带 `.xml`，`string`，默认 `Furion.Application, Furion.Web.Entry, Furion.Web.Core`
-- `GroupOpenApiInfos`：分组信息配置，`SpecificationOpenApiInfo[]`，默认 `{ 'Group': 'Default'}`
-- `SecurityDefinitions`：安全策略定义配置，`SpecificationOpenApiSecurityScheme[]`，默认 `[]`
-- `Servers`：配置 Server 下拉列表，`OpenApiServer[]` 类型，默认 `[]`，如：`{Servers:[ { Url:"地址", Description:"描述"} ]}`
-- `HideServers`：是否隐藏 Server 下拉列表，`bool` 类型，默认 `false`
-- `RouteTemplate`：配置文档 `swagger.json` 路由模板，默认模板：`swagger/{documentName}/swagger.json`, `{documentName}` 代表分组名，**必须保留原样**
+- `SpecificationDocumentSettings`：配置根节点
+  - `DocumentTitle`：文档标题，`string`，默认 `Specification Api Document`
+  - `DefaultGroupName`：默认分组名，`string`，默认 `Default`
+  - `EnableAuthorized`：是否启用权限控制，`bool`，默认 `true`
+  - `FormatAsV2`：采用 `Swagger 2.0` 版本，`bool`，默认 `false`
+  - `RoutePrefix`：规范化文档地址，`string`，默认 `api`，**如果希望在首页，改为空字符串即可**。
+  - `DocExpansionState`：文档显示方式，`DocExpansion`，默认 `List`，取值：
+    - `List`：列表式（展开子类），**默认值**
+    - `Full`：完全展开
+    - `None`：列表式（不展开子类）
+  - `XmlComments`：程序集注释描述文件名（可带 `.xml`，`string`，默认 `Furion.Application, Furion.Web.Entry, Furion.Web.Core`
+  - `GroupOpenApiInfos`：分组信息配置，`SpecificationOpenApiInfo[]`，默认 `{ 'Group': 'Default'}`
+  - `SecurityDefinitions`：安全策略定义配置，`SpecificationOpenApiSecurityScheme[]`，默认 `[]`
+  - `Servers`：配置 Server 下拉列表，`OpenApiServer[]` 类型，默认 `[]`，如：`{Servers:[ { Url:"地址", Description:"描述"} ]}`
+  - `HideServers`：是否隐藏 Server 下拉列表，`bool` 类型，默认 `false`
+  - `RouteTemplate`：配置文档 `swagger.json` 路由模板，默认模板：`swagger/{documentName}/swagger.json`, `{documentName}` 代表分组名，**必须保留原样**
 
 另外 `SpecificationOpenApiInfo` 内置配置如下：
 
