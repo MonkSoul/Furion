@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Furion
 {
     /// <summary>
-    /// 监听主机停止
+    /// 监听主机启动停止
     /// </summary>
     internal class AppHostedService : IHostedService
     {
