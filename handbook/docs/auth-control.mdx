@@ -46,10 +46,10 @@ app.UseAuthorization();
 
 :::
 
-### 15.2.1 添加 `Cookie` 授权
+### 15.2.1 添加 `Cookie` 身份验证
 
 ```cs
-// Cookies单独授权
+// Cookies单独身份验证
 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, b =>
         {
@@ -57,7 +57,7 @@ services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         });
 ```
 
-### 15.2.2 添加 `Jwt` 授权
+### 15.2.2 添加 `Jwt` 身份验证
 
 ```cs
 services.AddJwt();
@@ -104,10 +104,10 @@ var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>()
             });
 ```
 
-### 15.2.3 混合授权
+### 15.2.3 混合身份验证
 
 ```cs
-// JWT 和 Cookies 同时授权
+// JWT 和 Cookies 混合身份验证
 services.AddJwt(options =>
 {
       options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -121,7 +121,7 @@ services.AddJwt(options =>
 
 :::important 特别注意
 
-如果启用了混合授权后，`WebApi` 需在控制器/Action 中指定 `Scheme` 类型为 `JwtBearerDefaults.AuthenticationScheme`，如：
+如果启用了混合身份验证后，`WebApi` 需在控制器/Action 中指定 `Scheme` 类型为 `JwtBearerDefaults.AuthenticationScheme`，如：
 
 ```cs {1}
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
