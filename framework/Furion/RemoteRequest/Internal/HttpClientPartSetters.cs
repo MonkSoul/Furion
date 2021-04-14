@@ -274,5 +274,16 @@ namespace Furion.RemoteRequest
             if (action != null && !ExceptionInterceptors.Contains(action)) ExceptionInterceptors.Add(action);
             return this;
         }
+
+        /// <summary>
+        /// 设置服务提供器
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <returns></returns>
+        public HttpClientPart SetServiceProvider(IServiceProvider serviceProvider)
+        {
+            ServiceProvider = serviceProvider;
+            return this;
+        }
     }
 }

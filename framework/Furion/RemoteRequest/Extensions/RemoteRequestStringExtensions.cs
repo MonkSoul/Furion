@@ -211,6 +211,17 @@ namespace Furion.RemoteRequest.Extensions
         }
 
         /// <summary>
+        /// 设置服务提供器材
+        /// </summary>
+        /// <param name="requestUrl"></param>
+        /// <param name="serviceProvider"></param>
+        /// <returns></returns>
+        public static HttpClientPart SetServiceProvider(this string requestUrl, IServiceProvider serviceProvider)
+        {
+            return new HttpClientPart().SetRequestUrl(requestUrl).SetServiceProvider(serviceProvider);
+        }
+
+        /// <summary>
         /// 构建请求对象拦截器
         /// </summary>
         /// <param name="requestUrl"></param>

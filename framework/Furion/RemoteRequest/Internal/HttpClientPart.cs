@@ -90,5 +90,10 @@ namespace Furion.RemoteRequest
         /// 请求异常拦截器
         /// </summary>
         public List<Action<HttpResponseMessage, string>> ExceptionInterceptors { get; private set; } = new List<Action<HttpResponseMessage, string>>();
+
+        /// <summary>
+        /// 设置服务提供器
+        /// </summary>
+        public IServiceProvider ServiceProvider { get; private set; }
     }
 }

@@ -101,23 +101,6 @@ namespace Microsoft.AspNetCore.Http
         }
 
         /// <summary>
-        /// 判断是否是 Ajax 请求
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public static bool IsAjaxRequest(this HttpRequest request)
-        {
-            var result = false;
-
-            if (request.Headers.ContainsKey("x-requested-with"))
-            {
-                result = request.Headers["x-requested-with"] == "XMLHttpRequest";
-            }
-
-            return result;
-        }
-
-        /// <summary>
         /// 获取完整请求地址
         /// </summary>
         /// <param name="request"></param>

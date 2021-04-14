@@ -379,6 +379,14 @@ var res = await "https://www.furion.pro/upload".SetBody(new { id =1, name = "Fur
                                                .SetBodyBytes(("键", bytes, "文件名")).PostAsync();
 ```
 
+### 19.4.19 设置 `IServiceProvider`
+
+有时候我们需要构建一个作用域的 `IServiceProvider`，这时只需要设置即可：
+
+```cs
+var res = await "https://www.furion.pro/upload".SetServiceProvider(services);
+```
+
 ## 19.5 `IHttpDispatchProxy` 代理方式
 
 ### 19.5.1 支持多种代理方式

@@ -28,8 +28,9 @@ namespace Microsoft.Extensions.DependencyInjection
                     .SelectMany(u =>
                         u.GetMethods(BindingFlags.Public | BindingFlags.Instance)
                          .Where(m => m.IsDefined(typeof(SpareTimeAttribute), false)
-                                                    && m.GetParameters().Length == 1
+                                                    && m.GetParameters().Length == 2
                                                     && m.GetParameters()[0].ParameterType == typeof(SpareTimer)
+                                                    && m.GetParameters()[1].ParameterType == typeof(long)
                                                     && m.ReturnType == typeof(void))
                          .GroupBy(m => m.DeclaringType));
 
@@ -46,7 +47,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 foreach (var method in item)
                 {
                     // 创建委托类型
-                    var action = (Action<SpareTimer>)Delegate.CreateDelegate(typeof(Action<SpareTimer>), typeInstance, method.Name);
+                    var action = (Action<SpareTimer, long>)Delegate.CreateDelegate(typeof(Action<SpareTimer, long>), typeInstance, method.Name);
 
                     // 获取所有任务特性
                     var spareTimeAttributes = method.GetCustomAttributes<SpareTimeAttribute>();

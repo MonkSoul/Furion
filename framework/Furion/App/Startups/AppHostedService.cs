@@ -28,7 +28,7 @@ namespace Furion
         public Task StopAsync(CancellationToken cancellationToken)
         {
             // 清除所有任务
-            SpareTime.CancelAll();
+            SpareTime.Dispose();
 
             return Task.CompletedTask;
         }

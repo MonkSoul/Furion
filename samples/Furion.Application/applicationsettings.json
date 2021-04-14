@@ -22,6 +22,11 @@
         "Group": "Role",
         "Title": "角色管理（RBAC）",
         "Order": 1
+      },
+      {
+        "Group": "Job",
+        "Title": "定时任务",
+        "Order": 2
       }
     ]
   },

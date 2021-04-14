@@ -19,7 +19,9 @@ namespace Furion.TaskScheduler
             WorkerName = workerName ?? Guid.NewGuid().ToString("N");
 
             // 存储当前 Worker
-            if (!SpareTime.Workers.TryAdd(WorkerName, this)) throw new InvalidOperationException($"The worker name of `{workerName}` is exist.");
+            _ = SpareTime.Workers.TryAdd(WorkerName, this);
+            _ = SpareTime.WorkerTimes.TryAdd(workerName, 0);
+            _ = SpareTime.WorkerLockTimer.TryAdd(workerName, 0);
         }
 
         /// <summary>
@@ -32,7 +34,9 @@ namespace Furion.TaskScheduler
             WorkerName = workerName ?? Guid.NewGuid().ToString("N");
 
             // 存储当前 Worker
-            SpareTime.Workers.TryAdd(WorkerName, this);
+            _ = SpareTime.Workers.TryAdd(WorkerName, this);
+            _ = SpareTime.WorkerTimes.TryAdd(workerName, 0);
+            _ = SpareTime.WorkerLockTimer.TryAdd(workerName, 0);
         }
 
         /// <summary>
