@@ -58,6 +58,8 @@ namespace Furion.TaskScheduler
         /// <param name="doWhat"></param>
         public static void DoCron(string expression, Action<Timer> doWhat = default)
         {
+            if (doWhat == null) return;
+
             Do(1000, e =>
             {
                 var cronExpression = CronExpression.Parse(expression, CronFormat.IncludeSeconds);
