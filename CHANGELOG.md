@@ -33,6 +33,7 @@
 
   - [答疑] 数据校验，自定义 ErrorMessage 无效问题 [#I3ICL3](https://gitee.com/dotnetchina/Furion/issues/I3ICL3)
   - [答疑] 最新 issue 中新增的“新增常用的 JSON 序列化方法” 会导致 AOP 拦截异常 [#I3I7VE](https://gitee.com/dotnetchina/Furion/issues/I3I7VE)
+  - [答疑] Furion.DatabaseAccessor.PrivateEntityBase中的TenantId数据类型设置为object [#I3IQV6](https://gitee.com/dotnetchina/Furion/issues/I3IQV6)
 
 - **不做实现**
 
