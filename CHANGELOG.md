@@ -2,11 +2,14 @@
 
 - **新特性**
 
+  - [新增] 完整任务调度功能 [#I3IRUX](https://gitee.com/dotnetchina/Furion/issues/I3IRUX)
   - [新增] `Cron` 表达式解析 [#I3IQ9Y](https://gitee.com/dotnetchina/Furion/issues/I3IQ9Y)
   - [新增] 支持 `Swagger` 自定义配置 `swagger.json` 地址模板 [#I3IHMX](https://gitee.com/dotnetchina/Furion/issues/I3IHMX)
   - [新增] 支持配置动态 WebApi 区域 [#I3IJAZ](https://gitee.com/dotnetchina/Furion/issues/I3IJAZ)
 
 - **突破性变化**
+
+  - [重构] 完整任务调度功能 [#I3IRUX](https://gitee.com/dotnetchina/Furion/issues/I3IRUX)
 
 - **问题修复**
 

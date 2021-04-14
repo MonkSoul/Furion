@@ -1,6 +1,8 @@
 ﻿using Furion.DependencyInjection;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Furion.TaskScheduler
 {
@@ -13,7 +15,7 @@ namespace Furion.TaskScheduler
         /// <summary>
         /// 记录所有任务
         /// </summary>
-        internal static ConcurrentDictionary<string, SpareTimer> Workers;
+        internal readonly static ConcurrentDictionary<string, SpareTimer> Workers;
 
         /// <summary>
         /// 静态构造函数
@@ -30,11 +32,17 @@ namespace Furion.TaskScheduler
         /// <param name="continued">是否持续执行</param>
         /// <param name="doWhat"></param>
         /// <param name="workerName"></param>
-        public static void Do(double interval, bool continued = true, Action<SpareTimer> doWhat = default, string workerName = default)
+        /// <param name="description"></param>
+        public static void Do(double interval, bool continued = true, Action<SpareTimer> doWhat = default, string workerName = default, string description = default)
         {
             if (doWhat == null) return;
 
-            var timer = new SpareTimer(interval, workerName);
+            var timer = new SpareTimer(interval, workerName)
+            {
+                Type = SpareTimeTypes.Interval,
+                Description = description,
+                Status = SpareTimeStatus.Running
+            };
             timer.Elapsed += (sender, e) =>
             {
                 // 停止任务
@@ -52,9 +60,10 @@ namespace Furion.TaskScheduler
         /// <param name="interval">时间间隔（毫秒）</param>
         /// <param name="doWhat"></param>
         /// <param name="workerName"></param>
-        public static void Do(double interval, Action<SpareTimer> doWhat = default, string workerName = default)
+        /// <param name="description"></param>
+        public static void Do(double interval, Action<SpareTimer> doWhat = default, string workerName = default, string description = default)
         {
-            Do(interval, true, doWhat, workerName);
+            Do(interval, true, doWhat, workerName, description);
         }
 
         /// <summary>
@@ -63,9 +72,10 @@ namespace Furion.TaskScheduler
         /// <param name="interval">时间间隔（毫秒）</param>
         /// <param name="doWhat"></param>
         /// <param name="workerName"></param>
-        public static void DoOnce(double interval, Action<SpareTimer> doWhat = default, string workerName = default)
+        /// <param name="description"></param>
+        public static void DoOnce(double interval, Action<SpareTimer> doWhat = default, string workerName = default, string description = default)
         {
-            Do(interval, false, doWhat, workerName);
+            Do(interval, false, doWhat, workerName, description);
         }
 
         /// <summary>
@@ -74,7 +84,8 @@ namespace Furion.TaskScheduler
         /// <param name="expression">Cron 表达式</param>
         /// <param name="doWhat"></param>
         /// <param name="workerName"></param>
-        public static void Do(string expression, Action<SpareTimer> doWhat = default, string workerName = default)
+        /// <param name="description"></param>
+        public static void Do(string expression, Action<SpareTimer> doWhat = default, string workerName = default, string description = default)
         {
             if (doWhat == null) return;
 
@@ -93,7 +104,14 @@ namespace Furion.TaskScheduler
                 if (nextLocalTime == null) Cancel(timer.WorkerName);
 
                 // 执行任务
-                DoOnce((nextLocalTime.Value - DateTime.Now).TotalSeconds, subTimer => doWhat(subTimer), $"{workerName}[{expression}]");
+                DoOnce((nextLocalTime.Value - DateTime.Now).TotalSeconds, subTimer =>
+                {
+                    // 设置执行类型
+                    subTimer.Type = SpareTimeTypes.Cron;
+                    subTimer.Status = SpareTimeStatus.Running;
+
+                    doWhat(subTimer);
+                }, $"{workerName}[{expression}]", description);
             }, workerName);
         }
 
@@ -109,7 +127,11 @@ namespace Furion.TaskScheduler
             if (!Workers.TryGetValue(workerName, out var timer)) return;
 
             // 启动任务
-            if (!timer.Enabled) timer.Start();
+            if (!timer.Enabled)
+            {
+                if (timer.Status != SpareTimeStatus.Running) timer.Status = SpareTimeStatus.Running;
+                timer.Start();
+            }
         }
 
         /// <summary>
@@ -118,13 +140,17 @@ namespace Furion.TaskScheduler
         /// <param name="workerName"></param>
         public static void Stop(string workerName)
         {
-            if (string.IsNullOrWhiteSpace(workerName)) throw new ArgumentNullException(workerName);
+            if (string.IsNullOrWhiteSpace(workerName)) throw new ArgumentNullException(nameof(workerName));
 
             // 判断任务是否存在
             if (!Workers.TryGetValue(workerName, out var timer)) return;
 
             // 停止任务
-            if (timer.Enabled) timer.Stop();
+            if (timer.Enabled)
+            {
+                if (timer.Status != SpareTimeStatus.Stopped) timer.Status = SpareTimeStatus.Stopped;
+                timer.Stop();
+            }
         }
 
         /// <summary>
@@ -133,19 +159,51 @@ namespace Furion.TaskScheduler
         /// <param name="workerName"></param>
         public static void Cancel(string workerName)
         {
-            if (string.IsNullOrWhiteSpace(workerName)) throw new ArgumentNullException(workerName);
+            if (string.IsNullOrWhiteSpace(workerName)) throw new ArgumentNullException(nameof(workerName));
 
             // 判断任务是否存在
             if (!Workers.TryGetValue(workerName, out var timer)) return;
 
             if (timer.Enabled)
             {
+                if (timer.Status != SpareTimeStatus.CanceledOrNone) timer.Status = SpareTimeStatus.CanceledOrNone;
                 timer.Stop();
                 timer.Dispose();
             }
 
             // 移除
             _ = Workers.TryRemove(workerName, out _);
+        }
+
+        /// <summary>
+        /// 取消所有任务
+        /// </summary>
+        public static void CancelAll()
+        {
+            if (!Workers.Any()) return;
+
+            foreach (var worker in Workers)
+            {
+                var timer = worker.Value;
+                if (timer.Enabled)
+                {
+                    if (timer.Status != SpareTimeStatus.CanceledOrNone) timer.Status = SpareTimeStatus.CanceledOrNone;
+                    timer.Stop();
+                    timer.Dispose();
+                }
+
+                // 移除
+                _ = Workers.TryRemove(worker.Key, out _);
+            }
+        }
+
+        /// <summary>
+        /// 获取所有任务列表
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<SpareTimer> GetTasks()
+        {
+            return Workers.Values;
         }
     }
 }
