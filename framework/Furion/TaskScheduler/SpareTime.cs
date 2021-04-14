@@ -5,7 +5,7 @@ using System.Timers;
 namespace Furion.TaskScheduler
 {
     /// <summary>
-    /// 开启后台任务静态类
+    /// 后台业务静态类
     /// </summary>
     [SkipScan]
     public static class SpareTime
@@ -16,14 +16,19 @@ namespace Furion.TaskScheduler
         /// <param name="interval"></param>
         /// <param name="continued"></param>
         /// <param name="doWhat"></param>
-        public static void Do(double interval, bool continued = true, Action<Timer> doWhat = default)
+        /// <param name="timer"></param>
+        public static void Do(double interval, bool continued = true, Action<Timer> doWhat = default, Timer timer = default)
         {
             if (doWhat == null) return;
 
-            var timer = new Timer(interval);
+            timer ??= new Timer(interval);
             timer.Elapsed += (sender, e) =>
             {
-                if (!continued) timer.Stop();
+                if (!continued)
+                {
+                    timer.Stop();
+                    timer.Dispose();
+                }
 
                 doWhat(timer);
             };
@@ -36,9 +41,10 @@ namespace Furion.TaskScheduler
         /// </summary>
         /// <param name="interval"></param>
         /// <param name="doWhat"></param>
-        public static void Do(double interval, Action<Timer> doWhat = default)
+        /// <param name="timer"></param>
+        public static void Do(double interval, Action<Timer> doWhat = default, Timer timer = default)
         {
-            Do(interval, true, doWhat);
+            Do(interval, true, doWhat, timer);
         }
 
         /// <summary>
@@ -46,29 +52,34 @@ namespace Furion.TaskScheduler
         /// </summary>
         /// <param name="interval"></param>
         /// <param name="doWhat"></param>
-        public static void DoOnce(double interval, Action<Timer> doWhat = default)
+        /// <param name="timer"></param>
+        public static void DoOnce(double interval, Action<Timer> doWhat = default, Timer timer = default)
         {
-            Do(interval, false, doWhat);
+            Do(interval, false, doWhat, timer);
         }
 
         /// <summary>
-        /// 执行表达式
+        /// 执行 Cron 表达式任务
         /// </summary>
         /// <param name="expression"></param>
         /// <param name="doWhat"></param>
-        public static void DoCron(string expression, Action<Timer> doWhat = default)
+        /// <param name="timer"></param>
+        public static void Do(string expression, Action<Timer> doWhat = default, Timer timer = default)
         {
             if (doWhat == null) return;
 
             Do(1000, e =>
             {
+                // 解析 Cron 表达式
                 var cronExpression = CronExpression.Parse(expression, CronFormat.IncludeSeconds);
+
+                // 获取下一个执行时间
                 var nextTime = cronExpression.GetNextOccurrence(DateTimeOffset.Now, TimeZoneInfo.Local);
                 var nextLocalTime = nextTime?.DateTime;
                 if (nextLocalTime == null) e.Stop();
 
                 DoOnce((nextLocalTime.Value - DateTime.Now).TotalSeconds, se => doWhat(se));
-            });
+            }, timer);
         }
     }
 }
