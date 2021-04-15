@@ -18,10 +18,11 @@ namespace Furion.TaskScheduler
         {
             WorkerName = workerName ?? Guid.NewGuid().ToString("N");
 
-            // 存储当前 Worker
-            _ = SpareTime.Workers.TryAdd(WorkerName, this);
-            _ = SpareTime.WorkerTimes.TryAdd(workerName, 0);
-            _ = SpareTime.WorkerLockTimer.TryAdd(workerName, 0);
+            // 记录当前定时器
+            SpareTime.WorkerRecords.TryAdd(workerName, new WorkerRecord
+            {
+                Timer = this
+            });
         }
 
         /// <summary>
@@ -33,10 +34,13 @@ namespace Furion.TaskScheduler
         {
             WorkerName = workerName ?? Guid.NewGuid().ToString("N");
 
-            // 存储当前 Worker
-            _ = SpareTime.Workers.TryAdd(WorkerName, this);
-            _ = SpareTime.WorkerTimes.TryAdd(workerName, 0);
-            _ = SpareTime.WorkerLockTimer.TryAdd(workerName, 0);
+            // 记录当前定时器
+            SpareTime.WorkerRecords.TryAdd(workerName, new WorkerRecord
+            {
+                Interlocked = 0,
+                Tally = 0,
+                Timer = this
+            });
         }
 
         /// <summary>
