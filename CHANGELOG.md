@@ -6,10 +6,12 @@
   - [新增] `Cron` 表达式解析 [#I3IQ9Y](https://gitee.com/dotnetchina/Furion/issues/I3IQ9Y)
   - [新增] 支持 `Swagger` 自定义配置 `swagger.json` 地址模板 [#I3IHMX](https://gitee.com/dotnetchina/Furion/issues/I3IHMX)
   - [新增] 支持配置动态 WebApi 区域 [#I3IJAZ](https://gitee.com/dotnetchina/Furion/issues/I3IJAZ)
+  - [新增] 远程请求新增支持传入服务提供器 `IServiceProvider` [#I3IVBL](https://gitee.com/dotnetchina/Furion/issues/I3IVBL)
 
 - **突破性变化**
 
   - [重构] 完整任务调度功能 [#I3IRUX](https://gitee.com/dotnetchina/Furion/issues/I3IRUX)
+  - [移除] 框架底层 `HttpContext.IsAjaxRequest()` 拓展 [#I3IVAA](https://gitee.com/dotnetchina/Furion/issues/I3IVAA)
 
 - **问题修复**
 
@@ -24,6 +26,7 @@
 
   - [改进] [改进] `App.GetConfig<>("key")` 不支持获取单个值问题 [#I3ILF1](https://gitee.com/dotnetchina/Furion/issues/I3ILF1)
   - [改进] UrlEncode 应该用 `Uri.EscapeDataString()` 而不是 `HttpUtility.UrlEncode` [#I3ICTK](https://gitee.com/dotnetchina/Furion/issues/I3ICTK)
+  - [改进] 字符串 `Sql` 实现逻辑 [#I3IVCE](https://gitee.com/dotnetchina/Furion/issues/I3IVCE)
 
 - **文档变化**
 
@@ -33,7 +36,8 @@
 
   - [答疑] 数据校验，自定义 ErrorMessage 无效问题 [#I3ICL3](https://gitee.com/dotnetchina/Furion/issues/I3ICL3)
   - [答疑] 最新 issue 中新增的“新增常用的 JSON 序列化方法” 会导致 AOP 拦截异常 [#I3I7VE](https://gitee.com/dotnetchina/Furion/issues/I3I7VE)
-  - [答疑] Furion.DatabaseAccessor.PrivateEntityBase中的TenantId数据类型设置为object [#I3IQV6](https://gitee.com/dotnetchina/Furion/issues/I3IQV6)
+  - [答疑] Furion.DatabaseAccessor.PrivateEntityBase 中的 TenantId 数据类型设置为 object [#I3IQV6](https://gitee.com/dotnetchina/Furion/issues/I3IQV6)
+  - [答疑] 有关异常拦截和处理的疑问 [#I3IUFZ](https://gitee.com/dotnetchina/Furion/issues/I3IUFZ)
 
 - **不做实现**
 
