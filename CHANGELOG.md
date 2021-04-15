@@ -26,7 +26,7 @@
 
   - [改进] [改进] `App.GetConfig<>("key")` 不支持获取单个值问题 [#I3ILF1](https://gitee.com/dotnetchina/Furion/issues/I3ILF1)
   - [改进] UrlEncode 应该用 `Uri.EscapeDataString()` 而不是 `HttpUtility.UrlEncode` [#I3ICTK](https://gitee.com/dotnetchina/Furion/issues/I3ICTK)
-  - [改进] 字符串 `Sql` 实现逻辑 [#I3IVCE](https://gitee.com/dotnetchina/Furion/issues/I3IVCE)
+  - [重构] sql 字符串拓展底层代码 [#I3IVCE](https://gitee.com/dotnetchina/Furion/issues/I3IVCE)
 
 - **文档变化**
 
@@ -38,6 +38,7 @@
   - [答疑] 最新 issue 中新增的“新增常用的 JSON 序列化方法” 会导致 AOP 拦截异常 [#I3I7VE](https://gitee.com/dotnetchina/Furion/issues/I3I7VE)
   - [答疑] Furion.DatabaseAccessor.PrivateEntityBase 中的 TenantId 数据类型设置为 object [#I3IQV6](https://gitee.com/dotnetchina/Furion/issues/I3IQV6)
   - [答疑] 有关异常拦截和处理的疑问 [#I3IUFZ](https://gitee.com/dotnetchina/Furion/issues/I3IUFZ)
+  - [答疑] `DataValidation` 在空值的情况下被忽略掉了[#I3IWSM](https://gitee.com/dotnetchina/Furion/issues/I3IWSM)
 
 - **不做实现**
 

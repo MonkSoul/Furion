@@ -10,15 +10,6 @@ namespace Furion.DataValidation
     public enum ValidationTypes
     {
         /// <summary>
-        /// 非空非Null
-        /// <para>
-        /// 表达式：^[\w\W]+$
-        /// </para>
-        /// </summary>
-        [Description("非空非Null"), ValidationItemMetadata(@"^[\w\W]+$", "The Value is required.")]
-        Required,
-
-        /// <summary>
         /// 数值类型
         /// <para>
         /// 表达式：^\+?(:?(:?\d+\.\d+)|(:?\d+))|(-?\d+)(\.\d+)?$

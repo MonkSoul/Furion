@@ -140,7 +140,7 @@ namespace Furion.DataValidation
             // 如果值未null，验证失败
             if (value == null)
             {
-                results.Add(new ValidationResult("The Value is required"));
+                results.Add(new ValidationResult("The value is required"));
 
                 // 返回验证结果
                 return new DataValidationResult

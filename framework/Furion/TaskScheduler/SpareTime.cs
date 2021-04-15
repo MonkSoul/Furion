@@ -8,7 +8,7 @@ using System.Threading;
 namespace Furion.TaskScheduler
 {
     /// <summary>
-    /// 后台业务静态类
+    /// 后台任务静态类
     /// </summary>
     [SkipScan]
     public static class SpareTime
