@@ -196,7 +196,7 @@ namespace Furion.TaskScheduler
         }
 
         /// <summary>
-        /// 开始某个任务
+        /// 停止某个任务
         /// </summary>
         /// <param name="workerName"></param>
         public static void Stop(string workerName)
