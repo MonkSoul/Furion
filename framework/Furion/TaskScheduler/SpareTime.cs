@@ -92,6 +92,9 @@ namespace Furion.TaskScheduler
             // 订阅执行事件
             timer.Elapsed += (sender, e) =>
             {
+                // 停止任务
+                if (!continued) Cancel(timer.WorkerName);
+
                 // 记录次数
                 _ = WorkerTimes.TryGetValue(workerName, out var prevTimes);
                 var currentTimes = prevTimes + 1;
@@ -101,12 +104,9 @@ namespace Furion.TaskScheduler
                 _ = WorkerLockTimer.TryGetValue(workerName, out var inTimer);
                 var beginTimer = inTimer;
 
-                // 解决重入问题
+                // 处理多线程并发问题
                 if (Interlocked.Exchange(ref inTimer, 1) == 0)
                 {
-                    // 停止任务
-                    if (!continued) Cancel(timer.WorkerName);
-
                     // 执行任务
                     doWhat(timer, currentTimes);
 
@@ -216,6 +216,7 @@ namespace Furion.TaskScheduler
             if (!Workers.TryRemove(workerName, out var timer)) return;
             _ = WorkerLockTimer.TryRemove(workerName, out _);
             _ = WorkerNextTime.TryRemove(workerName, out _);
+            if (!workerName.StartsWith(">>> ")) WorkerTimes.TryRemove(workerName, out _);
 
             // 停止并销毁任务
             timer.Status = SpareTimeStatus.CanceledOrNone;

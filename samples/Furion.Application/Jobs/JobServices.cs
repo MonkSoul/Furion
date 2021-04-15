@@ -26,12 +26,12 @@ namespace Furion.Application
         }
 
         /// <summary>
-        /// 初始化一个 Cron 表达式任务，10秒执行一次
+        /// 初始化一个 Cron 表达式任务，5秒执行一次
         /// </summary>
         /// <param name="cron"></param>
         /// <param name="jobName"></param>
         /// <returns></returns>
-        public string InitCronJob([FromBody] string cron = "*/10 * * * * *", string jobName = "cronName")
+        public string InitCronJob([FromBody] string cron = "*/5 * * * * *", string jobName = "cronName")
         {
             Console.WriteLine("Cron 任务初始化");
 

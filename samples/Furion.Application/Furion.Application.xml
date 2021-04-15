@@ -13,7 +13,7 @@
         </member>
         <member name="M:Furion.Application.JobServices.InitCronJob(System.String,System.String)">
             <summary>
-            初始化一个 Cron 表达式任务，10秒执行一次
+            初始化一个 Cron 表达式任务，5秒执行一次
             </summary>
             <param name="cron"></param>
             <param name="jobName"></param>
