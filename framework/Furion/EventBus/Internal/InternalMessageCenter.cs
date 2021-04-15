@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Furion.TaskScheduler;
+using System;
 using System.Collections.Concurrent;
 using System.Linq;
 
@@ -57,7 +58,8 @@ namespace Furion.EventBus
             {
                 foreach (var eventHandler in messageHandlers)
                 {
-                    eventHandler?.Invoke(messageId, payload);
+                    // 采用后台线程执行
+                    SpareTime.DoOnce(() => eventHandler?.Invoke(messageId, payload));
                 }
             }
         }

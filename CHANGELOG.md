@@ -11,6 +11,7 @@
 - **突破性变化**
 
   - [重构] 完整任务调度功能 [#I3IRUX](https://gitee.com/dotnetchina/Furion/issues/I3IRUX)
+  - [调整] 事件事件总线同步执行为异步方式执行 [#I3J0WA](https://gitee.com/dotnetchina/Furion/issues/I3J0WA)
   - [移除] 框架底层 `HttpContext.IsAjaxRequest()` 拓展 [#I3IVAA](https://gitee.com/dotnetchina/Furion/issues/I3IVAA)
 
 - **问题修复**

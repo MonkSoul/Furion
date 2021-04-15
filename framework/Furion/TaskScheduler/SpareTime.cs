@@ -42,11 +42,12 @@ namespace Furion.TaskScheduler
         /// <para>10毫秒后执行</para>
         /// </summary>
         /// <param name="doWhat"></param>
-        public static void DoOnce(Action doWhat = default)
+        /// <param name="interval"></param>
+        public static void DoOnce(Action doWhat = default, double interval = 10)
         {
             if (doWhat == null) return;
 
-            Do(10, false, (_, _) => doWhat());
+            Do(interval, false, (_, _) => doWhat(), Guid.NewGuid().ToString("N"));
         }
 
         /// <summary>
@@ -79,7 +80,7 @@ namespace Furion.TaskScheduler
         /// <param name="description"></param>
         public static void Do(double interval, bool continued = true, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default)
         {
-            if (doWhat == null) return;
+            if (string.IsNullOrWhiteSpace(workerName) || doWhat == null) return;
 
             // 创建定时器
             var timer = new SpareTimer(interval, workerName)
