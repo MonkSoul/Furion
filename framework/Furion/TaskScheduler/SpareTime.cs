@@ -93,7 +93,7 @@ namespace Furion.TaskScheduler
             // 订阅执行事件
             timer.Elapsed += (sender, e) =>
             {
-                // 获取当然任务的记录
+                // 获取当前任务的记录
                 _ = WorkerRecords.TryGetValue(workerName, out var currentRecord);
 
                 // 停止任务
@@ -142,7 +142,7 @@ namespace Furion.TaskScheduler
 
                 if (nextLocalTime == null) Cancel(workerName);
 
-                // 获取当然任务的记录
+                // 获取当前任务的记录
                 _ = WorkerRecords.TryGetValue(workerName, out var currentRecord);
 
                 // 处理重复创建定时器问题
