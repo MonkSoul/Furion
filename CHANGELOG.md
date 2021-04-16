@@ -14,6 +14,7 @@
   - [重构] 日志模块功能 [#I3J2K0](https://gitee.com/dotnetchina/Furion/issues/I3J2K0)
   - [重构] 模板引擎功能 [#I3J46E](https://gitee.com/dotnetchina/Furion/issues/I3J46E)
   - [重构] sql 字符串拓展底层代码 [#I3IVCE](https://gitee.com/dotnetchina/Furion/issues/I3IVCE)
+  - [重构] 底层 `SqlRepository` 所有逻辑代码 [#I3J6V6](https://gitee.com/dotnetchina/Furion/issues/I3J6V6)
   - [调整] 事件事件总线同步执行为异步方式执行 [#I3J0WA](https://gitee.com/dotnetchina/Furion/issues/I3J0WA)
   - [移除] 框架底层 `HttpContext.IsAjaxRequest()` 拓展 [#I3IVAA](https://gitee.com/dotnetchina/Furion/issues/I3IVAA)
 

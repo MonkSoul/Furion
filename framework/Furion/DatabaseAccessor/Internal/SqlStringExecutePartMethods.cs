@@ -1,7 +1,4 @@
-﻿using Furion.Extensions;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Threading;
@@ -21,7 +18,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>DataTable</returns>
         public DataTable SqlQuery(params DbParameter[] parameters)
         {
-            return GetDatabase().ExecuteReader(SqlString, parameters);
+            return GetSqlRepository().SqlQuery(SqlString, parameters);
         }
 
         /// <summary>
@@ -31,7 +28,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>DataTable</returns>
         public DataTable SqlQuery(object model)
         {
-            return GetDatabase().ExecuteReader(SqlString, model).dataTable;
+            return GetSqlRepository().SqlQuery(SqlString, model);
         }
 
         /// <summary>
@@ -41,7 +38,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>Task{DataTable}</returns>
         public Task<DataTable> SqlQueryAsync(params DbParameter[] parameters)
         {
-            return GetDatabase().ExecuteReaderAsync(SqlString, parameters);
+            return GetSqlRepository().SqlQueryAsync(SqlString, parameters);
         }
 
         /// <summary>
@@ -52,7 +49,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>Task{DataTable}</returns>
         public Task<DataTable> SqlQueryAsync(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return GetDatabase().ExecuteReaderAsync(SqlString, parameters, cancellationToken: cancellationToken);
+            return GetSqlRepository().SqlQueryAsync(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -61,10 +58,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task{DataTable}</returns>
-        public async Task<DataTable> SqlQueryAsync(object model, CancellationToken cancellationToken = default)
+        public Task<DataTable> SqlQueryAsync(object model, CancellationToken cancellationToken = default)
         {
-            var (dataTable, _) = await GetDatabase().ExecuteReaderAsync(SqlString, model, cancellationToken: cancellationToken);
-            return dataTable;
+            return GetSqlRepository().SqlQueryAsync(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -75,7 +71,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>List{T}</returns>
         public List<T> SqlQuery<T>(params DbParameter[] parameters)
         {
-            return GetDatabase().ExecuteReader(SqlString, parameters).ToList<T>();
+            return GetSqlRepository().SqlQuery<T>(SqlString, parameters);
         }
 
         /// <summary>
@@ -86,7 +82,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>List{T}</returns>
         public List<T> SqlQuery<T>(object model)
         {
-            return GetDatabase().ExecuteReader(SqlString, model).dataTable.ToList<T>();
+            return GetSqlRepository().SqlQuery<T>(SqlString, model);
         }
 
         /// <summary>
@@ -95,10 +91,9 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="T">返回类型</typeparam>
         /// <param name="parameters">命令参数</param>
         /// <returns>Task{List{T}}</returns>
-        public async Task<List<T>> SqlQueryAsync<T>(params DbParameter[] parameters)
+        public Task<List<T>> SqlQueryAsync<T>(params DbParameter[] parameters)
         {
-            var dataTable = await GetDatabase().ExecuteReaderAsync(SqlString, parameters);
-            return dataTable.ToList<T>();
+            return GetSqlRepository().SqlQueryAsync<T>(SqlString, parameters);
         }
 
         /// <summary>
@@ -108,10 +103,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task{List{T}}</returns>
-        public async Task<List<T>> SqlQueryAsync<T>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<List<T>> SqlQueryAsync<T>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var dataTable = await GetDatabase().ExecuteReaderAsync(SqlString, parameters, cancellationToken: cancellationToken);
-            return dataTable.ToList<T>();
+            return GetSqlRepository().SqlQueryAsync<T>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -121,10 +115,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task{List{T}}</returns>
-        public async Task<List<T>> SqlQueryAsync<T>(object model, CancellationToken cancellationToken = default)
+        public Task<List<T>> SqlQueryAsync<T>(object model, CancellationToken cancellationToken = default)
         {
-            var (dataTable, _) = await GetDatabase().ExecuteReaderAsync(SqlString, model, cancellationToken: cancellationToken);
-            return dataTable.ToList<T>();
+            return GetSqlRepository().SqlQueryAsync<T>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -134,7 +127,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>DataSet</returns>
         public DataSet SqlQueries(params DbParameter[] parameters)
         {
-            return GetDatabase().DataAdapterFill(SqlString, parameters);
+            return GetSqlRepository().SqlQueries(SqlString, parameters);
         }
 
         /// <summary>
@@ -144,7 +137,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>DataSet</returns>
         public DataSet SqlQueries(object model)
         {
-            return GetDatabase().DataAdapterFill(SqlString, model).dataSet;
+            return GetSqlRepository().SqlQueries(SqlString, model);
         }
 
         /// <summary>
@@ -154,7 +147,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>Task{DataSet}</returns>
         public Task<DataSet> SqlQueriesAsync(params DbParameter[] parameters)
         {
-            return GetDatabase().DataAdapterFillAsync(SqlString, parameters);
+            return GetSqlRepository().SqlQueriesAsync(SqlString, parameters);
         }
 
         /// <summary>
@@ -165,7 +158,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>Task{DataSet}</returns>
         public Task<DataSet> SqlQueriesAsync(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return GetDatabase().DataAdapterFillAsync(SqlString, parameters, cancellationToken: cancellationToken);
+            return GetSqlRepository().SqlQueriesAsync(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -174,10 +167,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task{DataSet}</returns>
-        public async Task<DataSet> SqlQueriesAsync(object model, CancellationToken cancellationToken = default)
+        public Task<DataSet> SqlQueriesAsync(object model, CancellationToken cancellationToken = default)
         {
-            var (dataSet, _) = await GetDatabase().DataAdapterFillAsync(SqlString, model, cancellationToken: cancellationToken);
-            return dataSet;
+            return GetSqlRepository().SqlQueriesAsync(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -188,7 +180,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>List{T1}</returns>
         public List<T1> SqlQueries<T1>(params DbParameter[] parameters)
         {
-            return GetDatabase().DataAdapterFill(SqlString, parameters).ToList<T1>();
+            return GetSqlRepository().SqlQueries<T1>(SqlString, parameters);
         }
 
         /// <summary>
@@ -200,7 +192,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2) SqlQueries<T1, T2>(params DbParameter[] parameters)
         {
-            return GetDatabase().DataAdapterFill(SqlString, parameters).ToList<T1, T2>();
+            return GetSqlRepository().SqlQueries<T1, T2>(SqlString, parameters);
         }
 
         /// <summary>
@@ -213,7 +205,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3) SqlQueries<T1, T2, T3>(params DbParameter[] parameters)
         {
-            return GetDatabase().DataAdapterFill(SqlString, parameters).ToList<T1, T2, T3>();
+            return GetSqlRepository().SqlQueries<T1, T2, T3>(SqlString, parameters);
         }
 
         /// <summary>
@@ -227,7 +219,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlQueries<T1, T2, T3, T4>(params DbParameter[] parameters)
         {
-            return GetDatabase().DataAdapterFill(SqlString, parameters).ToList<T1, T2, T3, T4>();
+            return GetSqlRepository().SqlQueries<T1, T2, T3, T4>(SqlString, parameters);
         }
 
         /// <summary>
@@ -242,7 +234,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlQueries<T1, T2, T3, T4, T5>(params DbParameter[] parameters)
         {
-            return GetDatabase().DataAdapterFill(SqlString, parameters).ToList<T1, T2, T3, T4, T5>();
+            return GetSqlRepository().SqlQueries<T1, T2, T3, T4, T5>(SqlString, parameters);
         }
 
         /// <summary>
@@ -258,7 +250,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlQueries<T1, T2, T3, T4, T5, T6>(params DbParameter[] parameters)
         {
-            return GetDatabase().DataAdapterFill(SqlString, parameters).ToList<T1, T2, T3, T4, T5, T6>();
+            return GetSqlRepository().SqlQueries<T1, T2, T3, T4, T5, T6>(SqlString, parameters);
         }
 
         /// <summary>
@@ -275,7 +267,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlQueries<T1, T2, T3, T4, T5, T6, T7>(params DbParameter[] parameters)
         {
-            return GetDatabase().DataAdapterFill(SqlString, parameters).ToList<T1, T2, T3, T4, T5, T6, T7>();
+            return GetSqlRepository().SqlQueries<T1, T2, T3, T4, T5, T6, T7>(SqlString, parameters);
         }
 
         /// <summary>
@@ -293,7 +285,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlQueries<T1, T2, T3, T4, T5, T6, T7, T8>(params DbParameter[] parameters)
         {
-            return GetDatabase().DataAdapterFill(SqlString, parameters).ToList<T1, T2, T3, T4, T5, T6, T7, T8>();
+            return GetSqlRepository().SqlQueries<T1, T2, T3, T4, T5, T6, T7, T8>(SqlString, parameters);
         }
 
         /// <summary>
@@ -304,7 +296,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>List{T1}</returns>
         public List<T1> SqlQueries<T1>(object model)
         {
-            return GetDatabase().DataAdapterFill(SqlString, model).dataSet.ToList<T1>();
+            return GetSqlRepository().SqlQueries<T1>(SqlString, model);
         }
 
         /// <summary>
@@ -316,7 +308,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2) SqlQueries<T1, T2>(object model)
         {
-            return GetDatabase().DataAdapterFill(SqlString, model).dataSet.ToList<T1, T2>();
+            return GetSqlRepository().SqlQueries<T1, T2>(SqlString, model);
         }
 
         /// <summary>
@@ -329,7 +321,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3) SqlQueries<T1, T2, T3>(object model)
         {
-            return GetDatabase().DataAdapterFill(SqlString, model).dataSet.ToList<T1, T2, T3>();
+            return GetSqlRepository().SqlQueries<T1, T2, T3>(SqlString, model);
         }
 
         /// <summary>
@@ -343,7 +335,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlQueries<T1, T2, T3, T4>(object model)
         {
-            return GetDatabase().DataAdapterFill(SqlString, model).dataSet.ToList<T1, T2, T3, T4>();
+            return GetSqlRepository().SqlQueries<T1, T2, T3, T4>(SqlString, model);
         }
 
         /// <summary>
@@ -358,7 +350,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlQueries<T1, T2, T3, T4, T5>(object model)
         {
-            return GetDatabase().DataAdapterFill(SqlString, model).dataSet.ToList<T1, T2, T3, T4, T5>();
+            return GetSqlRepository().SqlQueries<T1, T2, T3, T4, T5>(SqlString, model);
         }
 
         /// <summary>
@@ -374,7 +366,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlQueries<T1, T2, T3, T4, T5, T6>(object model)
         {
-            return GetDatabase().DataAdapterFill(SqlString, model).dataSet.ToList<T1, T2, T3, T4, T5, T6>();
+            return GetSqlRepository().SqlQueries<T1, T2, T3, T4, T5, T6>(SqlString, model);
         }
 
         /// <summary>
@@ -391,7 +383,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlQueries<T1, T2, T3, T4, T5, T6, T7>(object model)
         {
-            return GetDatabase().DataAdapterFill(SqlString, model).dataSet.ToList<T1, T2, T3, T4, T5, T6, T7>();
+            return GetSqlRepository().SqlQueries<T1, T2, T3, T4, T5, T6, T7>(SqlString, model);
         }
 
         /// <summary>
@@ -409,7 +401,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlQueries<T1, T2, T3, T4, T5, T6, T7, T8>(object model)
         {
-            return GetDatabase().DataAdapterFill(SqlString, model).dataSet.ToList<T1, T2, T3, T4, T5, T6, T7, T8>();
+            return GetSqlRepository().SqlQueries<T1, T2, T3, T4, T5, T6, T7, T8>(SqlString, model);
         }
 
         /// <summary>
@@ -418,10 +410,9 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="T1">返回类型</typeparam>
         /// <param name="parameters">命令参数</param>
         /// <returns>Task{List{T1}}</returns>
-        public async Task<List<T1>> SqlQueriesAsync<T1>(params DbParameter[] parameters)
+        public Task<List<T1>> SqlQueriesAsync<T1>(params DbParameter[] parameters)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters);
-            return dataset.ToList<T1>();
+            return GetSqlRepository().SqlQueriesAsync<T1>(SqlString, parameters);
         }
 
         /// <summary>
@@ -431,10 +422,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task{List{T1}}</returns>
-        public async Task<List<T1>> SqlQueriesAsync<T1>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<List<T1>> SqlQueriesAsync<T1>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, cancellationToken: cancellationToken);
-            return dataset.ToList<T1>();
+            return GetSqlRepository().SqlQueriesAsync<T1>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -444,10 +434,9 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="T2">元组元素类型</typeparam>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2)> SqlQueriesAsync<T1, T2>(params DbParameter[] parameters)
+        public Task<(List<T1> list1, List<T2> list2)> SqlQueriesAsync<T1, T2>(params DbParameter[] parameters)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters);
-            return dataset.ToList<T1, T2>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2>(SqlString, parameters);
         }
 
         /// <summary>
@@ -458,10 +447,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2)> SqlQueriesAsync<T1, T2>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2)> SqlQueriesAsync<T1, T2>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -472,10 +460,9 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="T3">元组元素类型</typeparam>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQueriesAsync<T1, T2, T3>(params DbParameter[] parameters)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQueriesAsync<T1, T2, T3>(params DbParameter[] parameters)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters);
-            return dataset.ToList<T1, T2, T3>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2, T3>(SqlString, parameters);
         }
 
         /// <summary>
@@ -487,10 +474,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQueriesAsync<T1, T2, T3>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQueriesAsync<T1, T2, T3>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2, T3>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -502,10 +488,9 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="T4">元组元素类型</typeparam>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQueriesAsync<T1, T2, T3, T4>(params DbParameter[] parameters)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQueriesAsync<T1, T2, T3, T4>(params DbParameter[] parameters)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters);
-            return dataset.ToList<T1, T2, T3, T4>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2, T3, T4>(SqlString, parameters);
         }
 
         /// <summary>
@@ -518,10 +503,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQueriesAsync<T1, T2, T3, T4>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQueriesAsync<T1, T2, T3, T4>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3, T4>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2, T3, T4>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -534,10 +518,9 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="T5">元组元素类型</typeparam>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQueriesAsync<T1, T2, T3, T4, T5>(params DbParameter[] parameters)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQueriesAsync<T1, T2, T3, T4, T5>(params DbParameter[] parameters)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters);
-            return dataset.ToList<T1, T2, T3, T4, T5>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2, T3, T4, T5>(SqlString, parameters);
         }
 
         /// <summary>
@@ -551,10 +534,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQueriesAsync<T1, T2, T3, T4, T5>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQueriesAsync<T1, T2, T3, T4, T5>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3, T4, T5>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2, T3, T4, T5>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -568,10 +550,9 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="T6">元组元素类型</typeparam>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(params DbParameter[] parameters)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(params DbParameter[] parameters)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters);
-            return dataset.ToList<T1, T2, T3, T4, T5, T6>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(SqlString, parameters);
         }
 
         /// <summary>
@@ -586,10 +567,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3, T4, T5, T6>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -604,10 +584,9 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="T7">元组元素类型</typeparam>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(params DbParameter[] parameters)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(params DbParameter[] parameters)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters);
-            return dataset.ToList<T1, T2, T3, T4, T5, T6, T7>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(SqlString, parameters);
         }
 
         /// <summary>
@@ -623,10 +602,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3, T4, T5, T6, T7>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -642,10 +620,9 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="T8">元组元素类型</typeparam>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(params DbParameter[] parameters)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(params DbParameter[] parameters)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters);
-            return dataset.ToList<T1, T2, T3, T4, T5, T6, T7, T8>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(SqlString, parameters);
         }
 
         /// <summary>
@@ -662,10 +639,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3, T4, T5, T6, T7, T8>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -675,10 +651,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>List{T1}</returns>
-        public async Task<List<T1>> SqlQueriesAsync<T1>(object model, CancellationToken cancellationToken = default)
+        public Task<List<T1>> SqlQueriesAsync<T1>(object model, CancellationToken cancellationToken = default)
         {
-            var (dataset, _) = await GetDatabase().DataAdapterFillAsync(SqlString, model, cancellationToken: cancellationToken);
-            return dataset.ToList<T1>();
+            return GetSqlRepository().SqlQueriesAsync<T1>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -689,10 +664,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2)> SqlQueriesAsync<T1, T2>(object model, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2)> SqlQueriesAsync<T1, T2>(object model, CancellationToken cancellationToken = default)
         {
-            var (dataset, _) = await GetDatabase().DataAdapterFillAsync(SqlString, model, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -704,10 +678,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQueriesAsync<T1, T2, T3>(object model, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlQueriesAsync<T1, T2, T3>(object model, CancellationToken cancellationToken = default)
         {
-            var (dataset, _) = await GetDatabase().DataAdapterFillAsync(SqlString, model, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2, T3>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -720,10 +693,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQueriesAsync<T1, T2, T3, T4>(object model, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlQueriesAsync<T1, T2, T3, T4>(object model, CancellationToken cancellationToken = default)
         {
-            var (dataset, _) = await GetDatabase().DataAdapterFillAsync(SqlString, model, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3, T4>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2, T3, T4>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -737,10 +709,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQueriesAsync<T1, T2, T3, T4, T5>(object model, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlQueriesAsync<T1, T2, T3, T4, T5>(object model, CancellationToken cancellationToken = default)
         {
-            var (dataset, _) = await GetDatabase().DataAdapterFillAsync(SqlString, model, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3, T4, T5>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2, T3, T4, T5>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -755,10 +726,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(object model, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(object model, CancellationToken cancellationToken = default)
         {
-            var (dataset, _) = await GetDatabase().DataAdapterFillAsync(SqlString, model, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3, T4, T5, T6>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2, T3, T4, T5, T6>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -774,10 +744,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(object model, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(object model, CancellationToken cancellationToken = default)
         {
-            var (dataset, _) = await GetDatabase().DataAdapterFillAsync(SqlString, model, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3, T4, T5, T6, T7>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -794,10 +763,165 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(object model, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(object model, CancellationToken cancellationToken = default)
         {
-            var (dataset, _) = await GetDatabase().DataAdapterFillAsync(SqlString, model, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3, T4, T5, T6, T7, T8>();
+            return GetSqlRepository().SqlQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(SqlString, model, cancellationToken);
+        }
+
+        /// <summary>
+        /// 执行 Sql 无数据返回
+        /// </summary>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>int</returns>
+        public int SqlNonQuery(params DbParameter[] parameters)
+        {
+            return GetSqlRepository().SqlNonQuery(SqlString, parameters);
+        }
+
+        /// <summary>
+        /// 执行 Sql 无数据返回
+        /// </summary>
+        /// <param name="model">参数模型</param>
+        /// <returns>int</returns>
+        public int SqlNonQuery(object model)
+        {
+            return GetSqlRepository().SqlNonQuery(SqlString, model);
+        }
+
+        /// <summary>
+        /// 执行 Sql 无数据返回
+        /// </summary>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>int</returns>
+        public Task<int> SqlNonQueryAsync(params DbParameter[] parameters)
+        {
+            return GetSqlRepository().SqlNonQueryAsync(SqlString, parameters);
+        }
+
+        /// <summary>
+        /// 执行 Sql 无数据返回
+        /// </summary>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>int</returns>
+        public Task<int> SqlNonQueryAsync(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        {
+            return GetSqlRepository().SqlNonQueryAsync(SqlString, parameters, cancellationToken);
+        }
+
+        /// <summary>
+        /// 执行 Sql 无数据返回
+        /// </summary>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>int</returns>
+        public Task<int> SqlNonQueryAsync(object model, CancellationToken cancellationToken = default)
+        {
+            return GetSqlRepository().SqlNonQueryAsync(SqlString, model, cancellationToken);
+        }
+
+        /// <summary>
+        /// 执行 Sql 返回 单行单列
+        /// </summary>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>object</returns>
+        public object SqlScalar(params DbParameter[] parameters)
+        {
+            return GetSqlRepository().SqlScalar(SqlString, parameters);
+        }
+
+        /// <summary>
+        /// 执行 Sql 返回 单行单列
+        /// </summary>
+        /// <param name="model">参数模型</param>
+        /// <returns>object</returns>
+        public object SqlScalar(object model)
+        {
+            return GetSqlRepository().SqlScalar(SqlString, model);
+        }
+
+        /// <summary>
+        /// 执行 Sql 返回 单行单列
+        /// </summary>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>object</returns>
+        public Task<object> SqlScalarAsync(params DbParameter[] parameters)
+        {
+            return GetSqlRepository().SqlScalarAsync(SqlString, parameters);
+        }
+
+        /// <summary>
+        /// 执行 Sql 返回 单行单列
+        /// </summary>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>object</returns>
+        public Task<object> SqlScalarAsync(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        {
+            return GetSqlRepository().SqlScalarAsync(SqlString, parameters, cancellationToken);
+        }
+
+        /// <summary>
+        /// 执行 Sql 返回 单行单列
+        /// </summary>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>object</returns>
+        public Task<object> SqlScalarAsync(object model, CancellationToken cancellationToken = default)
+        {
+            return GetSqlRepository().SqlScalarAsync(SqlString, model, cancellationToken);
+        }
+
+        /// <summary>
+        /// 执行 Sql 返回 单行单列
+        /// </summary>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>TResult</returns>
+        public TResult SqlScalar<TResult>(params DbParameter[] parameters)
+        {
+            return GetSqlRepository().SqlScalar<TResult>(SqlString, parameters);
+        }
+
+        /// <summary>
+        /// 执行 Sql 返回 单行单列
+        /// </summary>
+        /// <param name="model">参数模型</param>
+        /// <returns>TResult</returns>
+        public TResult SqlScalar<TResult>(object model)
+        {
+            return GetSqlRepository().SqlScalar<TResult>(SqlString, model);
+        }
+
+        /// <summary>
+        /// 执行 Sql 返回 单行单列
+        /// </summary>
+        /// <param name="parameters">命令参数</param>
+        /// <returns>TResult</returns>
+        public Task<TResult> SqlScalarAsync<TResult>(params DbParameter[] parameters)
+        {
+            return GetSqlRepository().SqlScalarAsync<TResult>(SqlString, parameters);
+        }
+
+        /// <summary>
+        /// 执行 Sql 返回 单行单列
+        /// </summary>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>TResult</returns>
+        public Task<TResult> SqlScalarAsync<TResult>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        {
+            return GetSqlRepository().SqlScalarAsync<TResult>(SqlString, parameters, cancellationToken);
+        }
+
+        /// <summary>
+        /// 执行 Sql 返回 单行单列
+        /// </summary>
+        /// <param name="model">参数模型</param>
+        /// <param name="cancellationToken">异步取消令牌</param>
+        /// <returns>TResult</returns>
+        public Task<TResult> SqlScalarAsync<TResult>(object model, CancellationToken cancellationToken = default)
+        {
+            return GetSqlRepository().SqlScalarAsync<TResult>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -807,7 +931,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>DataTable</returns>
         public DataTable SqlProcedureQuery(params DbParameter[] parameters)
         {
-            return GetDatabase().ExecuteReader(SqlString, parameters, CommandType.StoredProcedure);
+            return GetSqlRepository().SqlProcedureQuery(SqlString, parameters);
         }
 
         /// <summary>
@@ -817,7 +941,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>DataTable</returns>
         public DataTable SqlProcedureQuery(object model)
         {
-            return GetDatabase().ExecuteReader(SqlString, model, CommandType.StoredProcedure).dataTable;
+            return GetSqlRepository().SqlProcedureQuery(SqlString, model);
         }
 
         /// <summary>
@@ -827,7 +951,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>DataTable</returns>
         public Task<DataTable> SqlProcedureQueryAsync(params DbParameter[] parameters)
         {
-            return GetDatabase().ExecuteReaderAsync(SqlString, parameters, CommandType.StoredProcedure);
+            return GetSqlRepository().SqlProcedureQueryAsync(SqlString, parameters);
         }
 
         /// <summary>
@@ -838,7 +962,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>DataTable</returns>
         public Task<DataTable> SqlProcedureQueryAsync(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return GetDatabase().ExecuteReaderAsync(SqlString, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
+            return GetSqlRepository().SqlProcedureQueryAsync(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -847,10 +971,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>DataTable</returns>
-        public async Task<DataTable> SqlProcedureQueryAsync(object model, CancellationToken cancellationToken = default)
+        public Task<DataTable> SqlProcedureQueryAsync(object model, CancellationToken cancellationToken = default)
         {
-            var (dataTable, _) = await GetDatabase().ExecuteReaderAsync(SqlString, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return dataTable;
+            return GetSqlRepository().SqlProcedureQueryAsync(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -860,7 +983,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>List{T}</returns>
         public List<T> SqlProcedureQuery<T>(params DbParameter[] parameters)
         {
-            return GetDatabase().ExecuteReader(SqlString, parameters, CommandType.StoredProcedure).ToList<T>();
+            return GetSqlRepository().SqlProcedureQuery<T>(SqlString, parameters);
         }
 
         /// <summary>
@@ -870,7 +993,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>List{T}</returns>
         public List<T> SqlProcedureQuery<T>(object model)
         {
-            return GetDatabase().ExecuteReader(SqlString, model, CommandType.StoredProcedure).dataTable.ToList<T>();
+            return GetSqlRepository().SqlProcedureQuery<T>(SqlString, model);
         }
 
         /// <summary>
@@ -878,10 +1001,9 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="parameters">命令参数</param>
         /// <returns>List{T}</returns>
-        public async Task<List<T>> SqlProcedureQueryAsync<T>(params DbParameter[] parameters)
+        public Task<List<T>> SqlProcedureQueryAsync<T>(params DbParameter[] parameters)
         {
-            var dataTable = await GetDatabase().ExecuteReaderAsync(SqlString, parameters, CommandType.StoredProcedure);
-            return dataTable.ToList<T>();
+            return GetSqlRepository().SqlProcedureQueryAsync<T>(SqlString, parameters);
         }
 
         /// <summary>
@@ -890,10 +1012,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>List{T}</returns>
-        public async Task<List<T>> SqlProcedureQueryAsync<T>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<List<T>> SqlProcedureQueryAsync<T>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var dataTable = await GetDatabase().ExecuteReaderAsync(SqlString, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return dataTable.ToList<T>();
+            return GetSqlRepository().SqlProcedureQueryAsync<T>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -902,10 +1023,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>List{T}</returns>
-        public async Task<List<T>> SqlProcedureQueryAsync<T>(object model, CancellationToken cancellationToken = default)
+        public Task<List<T>> SqlProcedureQueryAsync<T>(object model, CancellationToken cancellationToken = default)
         {
-            var (dataTable, _) = await GetDatabase().ExecuteReaderAsync(SqlString, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return dataTable.ToList<T>();
+            return GetSqlRepository().SqlProcedureQueryAsync<T>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -915,7 +1035,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>DataSet</returns>
         public DataSet SqlProcedureQueries(params DbParameter[] parameters)
         {
-            return GetDatabase().DataAdapterFill(SqlString, parameters, CommandType.StoredProcedure);
+            return GetSqlRepository().SqlProcedureQueries(SqlString, parameters);
         }
 
         /// <summary>
@@ -925,7 +1045,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>DataSet</returns>
         public DataSet SqlProcedureQueries(object model)
         {
-            return GetDatabase().DataAdapterFill(SqlString, model, CommandType.StoredProcedure).dataSet;
+            return GetSqlRepository().SqlProcedureQueries(SqlString, model);
         }
 
         /// <summary>
@@ -935,7 +1055,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>DataSet</returns>
         public Task<DataSet> SqlProcedureQueriesAsync(params DbParameter[] parameters)
         {
-            return GetDatabase().DataAdapterFillAsync(SqlString, parameters, CommandType.StoredProcedure);
+            return GetSqlRepository().SqlProcedureQueriesAsync(SqlString, parameters);
         }
 
         /// <summary>
@@ -946,7 +1066,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>DataSet</returns>
         public Task<DataSet> SqlProcedureQueriesAsync(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return GetDatabase().DataAdapterFillAsync(SqlString, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
+            return GetSqlRepository().SqlProcedureQueriesAsync(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -955,10 +1075,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>DataSet</returns>
-        public async Task<DataSet> SqlProcedureQueriesAsync(object model, CancellationToken cancellationToken = default)
+        public Task<DataSet> SqlProcedureQueriesAsync(object model, CancellationToken cancellationToken = default)
         {
-            var (dataSet, _) = await GetDatabase().DataAdapterFillAsync(SqlString, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return dataSet;
+            return GetSqlRepository().SqlProcedureQueriesAsync(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -969,7 +1088,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>List{T1}</returns>
         public List<T1> SqlProcedureQueries<T1>(params DbParameter[] parameters)
         {
-            return GetDatabase().DataAdapterFill(SqlString, parameters, CommandType.StoredProcedure).ToList<T1>();
+            return GetSqlRepository().SqlProcedureQueries<T1>(SqlString, parameters);
         }
 
         /// <summary>
@@ -981,7 +1100,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2) SqlProcedureQueries<T1, T2>(params DbParameter[] parameters)
         {
-            return GetDatabase().DataAdapterFill(SqlString, parameters, CommandType.StoredProcedure).ToList<T1, T2>();
+            return GetSqlRepository().SqlProcedureQueries<T1, T2>(SqlString, parameters);
         }
 
         /// <summary>
@@ -994,7 +1113,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3) SqlProcedureQueries<T1, T2, T3>(params DbParameter[] parameters)
         {
-            return GetDatabase().DataAdapterFill(SqlString, parameters, CommandType.StoredProcedure).ToList<T1, T2, T3>();
+            return GetSqlRepository().SqlProcedureQueries<T1, T2, T3>(SqlString, parameters);
         }
 
         /// <summary>
@@ -1008,7 +1127,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlProcedureQueries<T1, T2, T3, T4>(params DbParameter[] parameters)
         {
-            return GetDatabase().DataAdapterFill(SqlString, parameters, CommandType.StoredProcedure).ToList<T1, T2, T3, T4>();
+            return GetSqlRepository().SqlProcedureQueries<T1, T2, T3, T4>(SqlString, parameters);
         }
 
         /// <summary>
@@ -1023,7 +1142,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlProcedureQueries<T1, T2, T3, T4, T5>(params DbParameter[] parameters)
         {
-            return GetDatabase().DataAdapterFill(SqlString, parameters, CommandType.StoredProcedure).ToList<T1, T2, T3, T4, T5>();
+            return GetSqlRepository().SqlProcedureQueries<T1, T2, T3, T4, T5>(SqlString, parameters);
         }
 
         /// <summary>
@@ -1039,7 +1158,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlProcedureQueries<T1, T2, T3, T4, T5, T6>(params DbParameter[] parameters)
         {
-            return GetDatabase().DataAdapterFill(SqlString, parameters, CommandType.StoredProcedure).ToList<T1, T2, T3, T4, T5, T6>();
+            return GetSqlRepository().SqlProcedureQueries<T1, T2, T3, T4, T5, T6>(SqlString, parameters);
         }
 
         /// <summary>
@@ -1056,7 +1175,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7>(params DbParameter[] parameters)
         {
-            return GetDatabase().DataAdapterFill(SqlString, parameters, CommandType.StoredProcedure).ToList<T1, T2, T3, T4, T5, T6, T7>();
+            return GetSqlRepository().SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7>(SqlString, parameters);
         }
 
         /// <summary>
@@ -1074,7 +1193,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7, T8>(params DbParameter[] parameters)
         {
-            return GetDatabase().DataAdapterFill(SqlString, parameters, CommandType.StoredProcedure).ToList<T1, T2, T3, T4, T5, T6, T7, T8>();
+            return GetSqlRepository().SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7, T8>(SqlString, parameters);
         }
 
         /// <summary>
@@ -1085,7 +1204,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>List{T1}</returns>
         public List<T1> SqlProcedureQueries<T1>(object model)
         {
-            return GetDatabase().DataAdapterFill(SqlString, model, CommandType.StoredProcedure).dataSet.ToList<T1>();
+            return GetSqlRepository().SqlProcedureQueries<T1>(SqlString, model);
         }
 
         /// <summary>
@@ -1097,7 +1216,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2) SqlProcedureQueries<T1, T2>(object model)
         {
-            return GetDatabase().DataAdapterFill(SqlString, model, CommandType.StoredProcedure).dataSet.ToList<T1, T2>();
+            return GetSqlRepository().SqlProcedureQueries<T1, T2>(SqlString, model);
         }
 
         /// <summary>
@@ -1110,7 +1229,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3) SqlProcedureQueries<T1, T2, T3>(object model)
         {
-            return GetDatabase().DataAdapterFill(SqlString, model, CommandType.StoredProcedure).dataSet.ToList<T1, T2, T3>();
+            return GetSqlRepository().SqlProcedureQueries<T1, T2, T3>(SqlString, model);
         }
 
         /// <summary>
@@ -1124,7 +1243,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4) SqlProcedureQueries<T1, T2, T3, T4>(object model)
         {
-            return GetDatabase().DataAdapterFill(SqlString, model, CommandType.StoredProcedure).dataSet.ToList<T1, T2, T3, T4>();
+            return GetSqlRepository().SqlProcedureQueries<T1, T2, T3, T4>(SqlString, model);
         }
 
         /// <summary>
@@ -1139,7 +1258,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5) SqlProcedureQueries<T1, T2, T3, T4, T5>(object model)
         {
-            return GetDatabase().DataAdapterFill(SqlString, model, CommandType.StoredProcedure).dataSet.ToList<T1, T2, T3, T4, T5>();
+            return GetSqlRepository().SqlProcedureQueries<T1, T2, T3, T4, T5>(SqlString, model);
         }
 
         /// <summary>
@@ -1155,7 +1274,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6) SqlProcedureQueries<T1, T2, T3, T4, T5, T6>(object model)
         {
-            return GetDatabase().DataAdapterFill(SqlString, model, CommandType.StoredProcedure).dataSet.ToList<T1, T2, T3, T4, T5, T6>();
+            return GetSqlRepository().SqlProcedureQueries<T1, T2, T3, T4, T5, T6>(SqlString, model);
         }
 
         /// <summary>
@@ -1172,7 +1291,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7) SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7>(object model)
         {
-            return GetDatabase().DataAdapterFill(SqlString, model, CommandType.StoredProcedure).dataSet.ToList<T1, T2, T3, T4, T5, T6, T7>();
+            return GetSqlRepository().SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7>(SqlString, model);
         }
 
         /// <summary>
@@ -1190,7 +1309,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>元组类型</returns>
         public (List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8) SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7, T8>(object model)
         {
-            return GetDatabase().DataAdapterFill(SqlString, model, CommandType.StoredProcedure).dataSet.ToList<T1, T2, T3, T4, T5, T6, T7, T8>();
+            return GetSqlRepository().SqlProcedureQueries<T1, T2, T3, T4, T5, T6, T7, T8>(SqlString, model);
         }
 
         /// <summary>
@@ -1199,10 +1318,9 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="T1">返回类型</typeparam>
         /// <param name="parameters">命令参数</param>
         /// <returns>Task{List{T1}}</returns>
-        public async Task<List<T1>> SqlProcedureQueriesAsync<T1>(params DbParameter[] parameters)
+        public Task<List<T1>> SqlProcedureQueriesAsync<T1>(params DbParameter[] parameters)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, CommandType.StoredProcedure);
-            return dataset.ToList<T1>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1>(SqlString, parameters);
         }
 
         /// <summary>
@@ -1212,10 +1330,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task{List{T1}}</returns>
-        public async Task<List<T1>> SqlProcedureQueriesAsync<T1>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<List<T1>> SqlProcedureQueriesAsync<T1>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return dataset.ToList<T1>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1225,10 +1342,9 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="T2">元组元素类型</typeparam>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2)> SqlProcedureQueriesAsync<T1, T2>(params DbParameter[] parameters)
+        public Task<(List<T1> list1, List<T2> list2)> SqlProcedureQueriesAsync<T1, T2>(params DbParameter[] parameters)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, CommandType.StoredProcedure);
-            return dataset.ToList<T1, T2>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2>(SqlString, parameters);
         }
 
         /// <summary>
@@ -1239,10 +1355,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2)> SqlProcedureQueriesAsync<T1, T2>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2)> SqlProcedureQueriesAsync<T1, T2>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1253,10 +1368,9 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="T3">元组元素类型</typeparam>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlProcedureQueriesAsync<T1, T2, T3>(params DbParameter[] parameters)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlProcedureQueriesAsync<T1, T2, T3>(params DbParameter[] parameters)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, CommandType.StoredProcedure);
-            return dataset.ToList<T1, T2, T3>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2, T3>(SqlString, parameters);
         }
 
         /// <summary>
@@ -1268,10 +1382,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlProcedureQueriesAsync<T1, T2, T3>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlProcedureQueriesAsync<T1, T2, T3>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2, T3>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1283,10 +1396,9 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="T4">元组元素类型</typeparam>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlProcedureQueriesAsync<T1, T2, T3, T4>(params DbParameter[] parameters)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlProcedureQueriesAsync<T1, T2, T3, T4>(params DbParameter[] parameters)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, CommandType.StoredProcedure);
-            return dataset.ToList<T1, T2, T3, T4>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2, T3, T4>(SqlString, parameters);
         }
 
         /// <summary>
@@ -1299,10 +1411,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlProcedureQueriesAsync<T1, T2, T3, T4>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlProcedureQueriesAsync<T1, T2, T3, T4>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3, T4>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2, T3, T4>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1315,10 +1426,9 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="T5">元组元素类型</typeparam>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(params DbParameter[] parameters)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(params DbParameter[] parameters)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, CommandType.StoredProcedure);
-            return dataset.ToList<T1, T2, T3, T4, T5>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(SqlString, parameters);
         }
 
         /// <summary>
@@ -1332,10 +1442,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3, T4, T5>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1349,10 +1458,9 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="T6">元组元素类型</typeparam>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(params DbParameter[] parameters)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(params DbParameter[] parameters)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, CommandType.StoredProcedure);
-            return dataset.ToList<T1, T2, T3, T4, T5, T6>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(SqlString, parameters);
         }
 
         /// <summary>
@@ -1367,10 +1475,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3, T4, T5, T6>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1385,10 +1492,9 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="T7">元组元素类型</typeparam>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(params DbParameter[] parameters)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(params DbParameter[] parameters)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, CommandType.StoredProcedure);
-            return dataset.ToList<T1, T2, T3, T4, T5, T6, T7>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(SqlString, parameters);
         }
 
         /// <summary>
@@ -1404,10 +1510,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3, T4, T5, T6, T7>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1423,10 +1528,9 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="T8">元组元素类型</typeparam>
         /// <param name="parameters">命令参数</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(params DbParameter[] parameters)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(params DbParameter[] parameters)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, CommandType.StoredProcedure);
-            return dataset.ToList<T1, T2, T3, T4, T5, T6, T7, T8>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(SqlString, parameters);
         }
 
         /// <summary>
@@ -1443,10 +1547,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var dataset = await GetDatabase().DataAdapterFillAsync(SqlString, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3, T4, T5, T6, T7, T8>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1456,10 +1559,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>List{T1}</returns>
-        public async Task<List<T1>> SqlProcedureQueriesAsync<T1>(object model, CancellationToken cancellationToken = default)
+        public Task<List<T1>> SqlProcedureQueriesAsync<T1>(object model, CancellationToken cancellationToken = default)
         {
-            var (dataset, _) = await GetDatabase().DataAdapterFillAsync(SqlString, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return dataset.ToList<T1>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -1470,10 +1572,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2)> SqlProcedureQueriesAsync<T1, T2>(object model, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2)> SqlProcedureQueriesAsync<T1, T2>(object model, CancellationToken cancellationToken = default)
         {
-            var (dataset, _) = await GetDatabase().DataAdapterFillAsync(SqlString, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -1485,10 +1586,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlProcedureQueriesAsync<T1, T2, T3>(object model, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3)> SqlProcedureQueriesAsync<T1, T2, T3>(object model, CancellationToken cancellationToken = default)
         {
-            var (dataset, _) = await GetDatabase().DataAdapterFillAsync(SqlString, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2, T3>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -1501,10 +1601,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlProcedureQueriesAsync<T1, T2, T3, T4>(object model, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4)> SqlProcedureQueriesAsync<T1, T2, T3, T4>(object model, CancellationToken cancellationToken = default)
         {
-            var (dataset, _) = await GetDatabase().DataAdapterFillAsync(SqlString, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3, T4>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2, T3, T4>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -1518,10 +1617,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(object model, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(object model, CancellationToken cancellationToken = default)
         {
-            var (dataset, _) = await GetDatabase().DataAdapterFillAsync(SqlString, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3, T4, T5>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2, T3, T4, T5>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -1536,10 +1634,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(object model, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(object model, CancellationToken cancellationToken = default)
         {
-            var (dataset, _) = await GetDatabase().DataAdapterFillAsync(SqlString, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3, T4, T5, T6>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -1555,10 +1652,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(object model, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(object model, CancellationToken cancellationToken = default)
         {
-            var (dataset, _) = await GetDatabase().DataAdapterFillAsync(SqlString, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3, T4, T5, T6, T7>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -1575,10 +1671,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>元组类型</returns>
-        public async Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(object model, CancellationToken cancellationToken = default)
+        public Task<(List<T1> list1, List<T2> list2, List<T3> list3, List<T4> list4, List<T5> list5, List<T6> list6, List<T7> list7, List<T8> list8)> SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(object model, CancellationToken cancellationToken = default)
         {
-            var (dataset, _) = await GetDatabase().DataAdapterFillAsync(SqlString, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return dataset.ToList<T1, T2, T3, T4, T5, T6, T7, T8>();
+            return GetSqlRepository().SqlProcedureQueriesAsync<T1, T2, T3, T4, T5, T6, T7, T8>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -1588,7 +1683,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>object</returns>
         public object SqlProcedureScalar(params DbParameter[] parameters)
         {
-            return GetDatabase().ExecuteScalar(SqlString, parameters, CommandType.StoredProcedure);
+            return GetSqlRepository().SqlProcedureScalar(SqlString, parameters);
         }
 
         /// <summary>
@@ -1598,7 +1693,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>object</returns>
         public object SqlProcedureScalar(object model)
         {
-            return GetDatabase().ExecuteScalar(SqlString, model, CommandType.StoredProcedure).result;
+            return GetSqlRepository().SqlProcedureScalar(SqlString, model);
         }
 
         /// <summary>
@@ -1608,7 +1703,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>object</returns>
         public Task<object> SqlProcedureScalarAsync(params DbParameter[] parameters)
         {
-            return GetDatabase().ExecuteScalarAsync(SqlString, parameters, CommandType.StoredProcedure);
+            return GetSqlRepository().SqlProcedureScalarAsync(SqlString, parameters);
         }
 
         /// <summary>
@@ -1619,7 +1714,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>object</returns>
         public Task<object> SqlProcedureScalarAsync(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return GetDatabase().ExecuteScalarAsync(SqlString, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
+            return GetSqlRepository().SqlProcedureScalarAsync(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1628,10 +1723,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>object</returns>
-        public async Task<object> SqlProcedureScalarAsync(object model, CancellationToken cancellationToken = default)
+        public Task<object> SqlProcedureScalarAsync(object model, CancellationToken cancellationToken = default)
         {
-            var (result, _) = await GetDatabase().ExecuteScalarAsync(SqlString, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return result;
+            return GetSqlRepository().SqlProcedureScalarAsync(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -1641,7 +1735,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>TResult</returns>
         public TResult SqlProcedureScalar<TResult>(params DbParameter[] parameters)
         {
-            return GetDatabase().ExecuteScalar(SqlString, parameters, CommandType.StoredProcedure).ChangeType<TResult>();
+            return GetSqlRepository().SqlProcedureScalar<TResult>(SqlString, parameters);
         }
 
         /// <summary>
@@ -1651,7 +1745,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>TResult</returns>
         public TResult SqlProcedureScalar<TResult>(object model)
         {
-            return GetDatabase().ExecuteScalar(SqlString, model, CommandType.StoredProcedure).result.ChangeType<TResult>();
+            return GetSqlRepository().SqlProcedureScalar<TResult>(SqlString, model);
         }
 
         /// <summary>
@@ -1659,10 +1753,9 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="parameters">命令参数</param>
         /// <returns>TResult</returns>
-        public async Task<TResult> SqlProcedureScalarAsync<TResult>(params DbParameter[] parameters)
+        public Task<TResult> SqlProcedureScalarAsync<TResult>(params DbParameter[] parameters)
         {
-            var result = await GetDatabase().ExecuteScalarAsync(SqlString, parameters, CommandType.StoredProcedure);
-            return result.ChangeType<TResult>();
+            return GetSqlRepository().SqlProcedureScalarAsync<TResult>(SqlString, parameters);
         }
 
         /// <summary>
@@ -1671,10 +1764,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>TResult</returns>
-        public async Task<TResult> SqlProcedureScalarAsync<TResult>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<TResult> SqlProcedureScalarAsync<TResult>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var result = await GetDatabase().ExecuteScalarAsync(SqlString, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return result.ChangeType<TResult>();
+            return GetSqlRepository().SqlProcedureScalarAsync<TResult>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1683,10 +1775,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>TResult</returns>
-        public async Task<TResult> SqlProcedureScalarAsync<TResult>(object model, CancellationToken cancellationToken = default)
+        public Task<TResult> SqlProcedureScalarAsync<TResult>(object model, CancellationToken cancellationToken = default)
         {
-            var (result, _) = await GetDatabase().ExecuteScalarAsync(SqlString, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return result.ChangeType<TResult>();
+            return GetSqlRepository().SqlProcedureScalarAsync<TResult>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -1696,7 +1787,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>int</returns>
         public int SqlProcedureNonQuery(params DbParameter[] parameters)
         {
-            return GetDatabase().ExecuteNonQuery(SqlString, parameters, CommandType.StoredProcedure);
+            return GetSqlRepository().SqlProcedureNonQuery(SqlString, parameters);
         }
 
         /// <summary>
@@ -1706,7 +1797,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>int</returns>
         public int SqlProcedureNonQuery(object model)
         {
-            return GetDatabase().ExecuteNonQuery(SqlString, model, CommandType.StoredProcedure).rowEffects;
+            return GetSqlRepository().SqlProcedureNonQuery(SqlString, model);
         }
 
         /// <summary>
@@ -1716,7 +1807,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>int</returns>
         public Task<int> SqlProcedureNonQueryAsync(params DbParameter[] parameters)
         {
-            return GetDatabase().ExecuteNonQueryAsync(SqlString, parameters, CommandType.StoredProcedure);
+            return GetSqlRepository().SqlProcedureNonQueryAsync(SqlString, parameters);
         }
 
         /// <summary>
@@ -1727,7 +1818,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>int</returns>
         public Task<int> SqlProcedureNonQueryAsync(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            return GetDatabase().ExecuteNonQueryAsync(SqlString, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
+            return GetSqlRepository().SqlProcedureNonQueryAsync(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1736,171 +1827,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>int</returns>
-        public async Task<int> SqlProcedureNonQueryAsync(object model, CancellationToken cancellationToken = default)
+        public Task<int> SqlProcedureNonQueryAsync(object model, CancellationToken cancellationToken = default)
         {
-            var (rowEffects, _) = await GetDatabase().ExecuteNonQueryAsync(SqlString, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-            return rowEffects;
-        }
-
-        /// <summary>
-        /// 执行 Sql 无数据返回
-        /// </summary>
-        /// <param name="parameters">命令参数</param>
-        /// <returns>int</returns>
-        public int SqlNonQuery(params DbParameter[] parameters)
-        {
-            return GetDatabase().ExecuteNonQuery(SqlString, parameters);
-        }
-
-        /// <summary>
-        /// 执行 Sql 无数据返回
-        /// </summary>
-        /// <param name="model">参数模型</param>
-        /// <returns>int</returns>
-        public int SqlNonQuery(object model)
-        {
-            return GetDatabase().ExecuteNonQuery(SqlString, model).rowEffects;
-        }
-
-        /// <summary>
-        /// 执行 Sql 无数据返回
-        /// </summary>
-        /// <param name="parameters">命令参数</param>
-        /// <returns>int</returns>
-        public Task<int> SqlNonQueryAsync(params DbParameter[] parameters)
-        {
-            return GetDatabase().ExecuteNonQueryAsync(SqlString, parameters);
-        }
-
-        /// <summary>
-        /// 执行 Sql 无数据返回
-        /// </summary>
-        /// <param name="parameters">命令参数</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>int</returns>
-        public Task<int> SqlNonQueryAsync(DbParameter[] parameters, CancellationToken cancellationToken = default)
-        {
-            return GetDatabase().ExecuteNonQueryAsync(SqlString, parameters, cancellationToken: cancellationToken);
-        }
-
-        /// <summary>
-        /// 执行 Sql 无数据返回
-        /// </summary>
-        /// <param name="model">参数模型</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>int</returns>
-        public async Task<int> SqlNonQueryAsync(object model, CancellationToken cancellationToken = default)
-        {
-            var (rowEffects, _) = await GetDatabase().ExecuteNonQueryAsync(SqlString, model, cancellationToken: cancellationToken);
-            return rowEffects;
-        }
-
-        /// <summary>
-        /// 执行 Sql 返回 单行单列
-        /// </summary>
-        /// <param name="parameters">命令参数</param>
-        /// <returns>object</returns>
-        public object SqlScalar(params DbParameter[] parameters)
-        {
-            return GetDatabase().ExecuteScalar(SqlString, parameters);
-        }
-
-        /// <summary>
-        /// 执行 Sql 返回 单行单列
-        /// </summary>
-        /// <param name="model">参数模型</param>
-        /// <returns>object</returns>
-        public object SqlScalar(object model)
-        {
-            return GetDatabase().ExecuteScalar(SqlString, model).result;
-        }
-
-        /// <summary>
-        /// 执行 Sql 返回 单行单列
-        /// </summary>
-        /// <param name="parameters">命令参数</param>
-        /// <returns>object</returns>
-        public Task<object> SqlScalarAsync(params DbParameter[] parameters)
-        {
-            return GetDatabase().ExecuteScalarAsync(SqlString, parameters);
-        }
-
-        /// <summary>
-        /// 执行 Sql 返回 单行单列
-        /// </summary>
-        /// <param name="parameters">命令参数</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>object</returns>
-        public Task<object> SqlScalarAsync(DbParameter[] parameters, CancellationToken cancellationToken = default)
-        {
-            return GetDatabase().ExecuteScalarAsync(SqlString, parameters, cancellationToken: cancellationToken);
-        }
-
-        /// <summary>
-        /// 执行 Sql 返回 单行单列
-        /// </summary>
-        /// <param name="model">参数模型</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>object</returns>
-        public async Task<object> SqlScalarAsync(object model, CancellationToken cancellationToken = default)
-        {
-            var (result, _) = await GetDatabase().ExecuteScalarAsync(SqlString, model, cancellationToken: cancellationToken);
-            return result;
-        }
-
-        /// <summary>
-        /// 执行 Sql 返回 单行单列
-        /// </summary>
-        /// <param name="parameters">命令参数</param>
-        /// <returns>TResult</returns>
-        public TResult SqlScalar<TResult>(params DbParameter[] parameters)
-        {
-            return GetDatabase().ExecuteScalar(SqlString, parameters).ChangeType<TResult>();
-        }
-
-        /// <summary>
-        /// 执行 Sql 返回 单行单列
-        /// </summary>
-        /// <param name="model">参数模型</param>
-        /// <returns>TResult</returns>
-        public TResult SqlScalar<TResult>(object model)
-        {
-            return GetDatabase().ExecuteScalar(SqlString, model).result.ChangeType<TResult>();
-        }
-
-        /// <summary>
-        /// 执行 Sql 返回 单行单列
-        /// </summary>
-        /// <param name="parameters">命令参数</param>
-        /// <returns>TResult</returns>
-        public async Task<TResult> SqlScalarAsync<TResult>(params DbParameter[] parameters)
-        {
-            var result = await GetDatabase().ExecuteScalarAsync(SqlString, parameters);
-            return result.ChangeType<TResult>();
-        }
-
-        /// <summary>
-        /// 执行 Sql 返回 单行单列
-        /// </summary>
-        /// <param name="parameters">命令参数</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>TResult</returns>
-        public async Task<TResult> SqlScalarAsync<TResult>(DbParameter[] parameters, CancellationToken cancellationToken = default)
-        {
-            var result = await GetDatabase().ExecuteScalarAsync(SqlString, parameters, cancellationToken: cancellationToken);
-            return result.ChangeType<TResult>();
-        }
-
-        /// <summary>
-        /// 执行 Sql 返回 单行单列
-        /// </summary>
-        /// <param name="model">参数模型</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>TResult</returns>
-        public async Task<TResult> SqlScalarAsync<TResult>(object model, CancellationToken cancellationToken = default)
-        {
-            var (result, _) = await GetDatabase().ExecuteScalarAsync(SqlString, model, cancellationToken: cancellationToken);
-            return result.ChangeType<TResult>();
+            return GetSqlRepository().SqlProcedureNonQueryAsync(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -1910,14 +1839,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>ProcedureOutput</returns>
         public ProcedureOutputResult SqlProcedureOutput(DbParameter[] parameters)
         {
-            parameters ??= Array.Empty<DbParameter>();
-
-            // 执行存储过程
-            var database = GetDatabase();
-            var dataSet = database.DataAdapterFill(SqlString, parameters, CommandType.StoredProcedure);
-
-            // 包装结果集
-            return DbHelpers.WrapperProcedureOutput(database.ProviderName, parameters, dataSet);
+            return GetSqlRepository().SqlProcedureOutput(SqlString, parameters);
         }
 
         /// <summary>
@@ -1926,16 +1848,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>ProcedureOutput</returns>
-        public async Task<ProcedureOutputResult> SqlProcedureOutputAsync(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<ProcedureOutputResult> SqlProcedureOutputAsync(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            parameters ??= Array.Empty<DbParameter>();
-
-            // 执行存储过程
-            var database = GetDatabase();
-            var dataSet = await database.DataAdapterFillAsync(SqlString, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-
-            // 包装结果集
-            return DbHelpers.WrapperProcedureOutput(database.ProviderName, parameters, dataSet);
+            return GetSqlRepository().SqlProcedureOutputAsync(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1945,12 +1860,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>ProcedureOutput</returns>
         public ProcedureOutputResult SqlProcedureOutput(object model)
         {
-            // 执行存储过程
-            var database = GetDatabase();
-            var (dataSet, parameters) = database.DataAdapterFill(SqlString, model, CommandType.StoredProcedure);
-
-            // 包装结果集
-            return DbHelpers.WrapperProcedureOutput(database.ProviderName, parameters, dataSet);
+            return GetSqlRepository().SqlProcedureOutput(SqlString, model);
         }
 
         /// <summary>
@@ -1959,14 +1869,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">命令模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>ProcedureOutput</returns>
-        public async Task<ProcedureOutputResult> SqlProcedureOutputAsync(object model, CancellationToken cancellationToken = default)
+        public Task<ProcedureOutputResult> SqlProcedureOutputAsync(object model, CancellationToken cancellationToken = default)
         {
-            // 执行存储过程
-            var database = GetDatabase();
-            var (dataSet, parameters) = await database.DataAdapterFillAsync(SqlString, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-
-            // 包装结果集
-            return DbHelpers.WrapperProcedureOutput(database.ProviderName, parameters, dataSet);
+            return GetSqlRepository().SqlProcedureOutputAsync(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -1977,14 +1882,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>ProcedureOutput</returns>
         public ProcedureOutputResult<TResult> SqlProcedureOutput<TResult>(DbParameter[] parameters)
         {
-            parameters ??= Array.Empty<DbParameter>();
-
-            // 执行存储过程
-            var database = GetDatabase();
-            var dataSet = database.DataAdapterFill(SqlString, parameters, CommandType.StoredProcedure);
-
-            // 包装结果集
-            return DbHelpers.WrapperProcedureOutput<TResult>(database.ProviderName, parameters, dataSet);
+            return GetSqlRepository().SqlProcedureOutput<TResult>(SqlString, parameters);
         }
 
         /// <summary>
@@ -1994,16 +1892,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>ProcedureOutput</returns>
-        public async Task<ProcedureOutputResult<TResult>> SqlProcedureOutputAsync<TResult>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<ProcedureOutputResult<TResult>> SqlProcedureOutputAsync<TResult>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            parameters ??= Array.Empty<DbParameter>();
-
-            // 执行存储过程
-            var database = GetDatabase();
-            var dataSet = await database.DataAdapterFillAsync(SqlString, parameters, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-
-            // 包装结果集
-            return DbHelpers.WrapperProcedureOutput<TResult>(database.ProviderName, parameters, dataSet);
+            return GetSqlRepository().SqlProcedureOutputAsync<TResult>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -2014,12 +1905,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>ProcedureOutput</returns>
         public ProcedureOutputResult<TResult> SqlProcedureOutput<TResult>(object model)
         {
-            // 执行存储过程
-            var database = GetDatabase();
-            var (dataSet, parameters) = database.DataAdapterFill(SqlString, model, CommandType.StoredProcedure);
-
-            // 包装结果集
-            return DbHelpers.WrapperProcedureOutput<TResult>(database.ProviderName, parameters, dataSet);
+            return GetSqlRepository().SqlProcedureOutput<TResult>(SqlString, model);
         }
 
         /// <summary>
@@ -2029,14 +1915,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">命令模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>ProcedureOutput</returns>
-        public async Task<ProcedureOutputResult<TResult>> SqlProcedureOutputAsync<TResult>(object model, CancellationToken cancellationToken = default)
+        public Task<ProcedureOutputResult<TResult>> SqlProcedureOutputAsync<TResult>(object model, CancellationToken cancellationToken = default)
         {
-            // 执行存储过程
-            var database = GetDatabase();
-            var (dataSet, parameters) = await database.DataAdapterFillAsync(SqlString, model, CommandType.StoredProcedure, cancellationToken: cancellationToken);
-
-            // 包装结果集
-            return DbHelpers.WrapperProcedureOutput<TResult>(database.ProviderName, parameters, dataSet);
+            return GetSqlRepository().SqlProcedureOutputAsync<TResult>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -2046,21 +1927,17 @@ namespace Furion.DatabaseAccessor
         /// <returns>object</returns>
         public object SqlFunctionScalar(params DbParameter[] parameters)
         {
-            var database = GetDatabase();
-            SqlString = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Scalar, SqlString, parameters);
-            return database.ExecuteScalar(SqlString, parameters);
+            return GetSqlRepository().SqlFunctionScalar(SqlString, parameters);
         }
 
         /// <summary>
         /// 执行标量函数返回 单行单列
         /// </summary>
-        /// <param name="model">参数模型</param>
+        /// <param name="model"></param>
         /// <returns>object</returns>
         public object SqlFunctionScalar(object model)
         {
-            var database = GetDatabase();
-            SqlString = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Scalar, SqlString, model);
-            return database.ExecuteScalar(SqlString, model).result;
+            return GetSqlRepository().SqlFunctionScalar(SqlString, model);
         }
 
         /// <summary>
@@ -2070,9 +1947,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>object</returns>
         public Task<object> SqlFunctionScalarAsync(params DbParameter[] parameters)
         {
-            var database = GetDatabase();
-            SqlString = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Scalar, SqlString, parameters);
-            return database.ExecuteScalarAsync(SqlString, parameters);
+            return GetSqlRepository().SqlFunctionScalarAsync(SqlString, parameters);
         }
 
         /// <summary>
@@ -2083,9 +1958,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>object</returns>
         public Task<object> SqlFunctionScalarAsync(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var database = GetDatabase();
-            SqlString = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Scalar, SqlString, parameters);
-            return database.ExecuteScalarAsync(SqlString, parameters, cancellationToken: cancellationToken);
+            return GetSqlRepository().SqlFunctionScalarAsync(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -2094,12 +1967,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>object</returns>
-        public async Task<object> SqlFunctionScalarAsync(object model, CancellationToken cancellationToken = default)
+        public Task<object> SqlFunctionScalarAsync(object model, CancellationToken cancellationToken = default)
         {
-            var database = GetDatabase();
-            SqlString = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Scalar, SqlString, model);
-            var (result, _) = await database.ExecuteScalarAsync(SqlString, model, cancellationToken: cancellationToken);
-            return result;
+            return GetSqlRepository().SqlFunctionScalarAsync(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -2110,9 +1980,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>TResult</returns>
         public TResult SqlFunctionScalar<TResult>(params DbParameter[] parameters)
         {
-            var database = GetDatabase();
-            SqlString = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Scalar, SqlString, parameters);
-            return database.ExecuteScalar(SqlString, parameters).ChangeType<TResult>();
+            return GetSqlRepository().SqlFunctionScalar<TResult>(SqlString, parameters);
         }
 
         /// <summary>
@@ -2123,9 +1991,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>TResult</returns>
         public TResult SqlFunctionScalar<TResult>(object model)
         {
-            var database = GetDatabase();
-            SqlString = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Scalar, SqlString, model);
-            return database.ExecuteScalar(SqlString, model).result.ChangeType<TResult>();
+            return GetSqlRepository().SqlFunctionScalar<TResult>(SqlString, model);
         }
 
         /// <summary>
@@ -2134,12 +2000,9 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TResult">返回值类型</typeparam>
         /// <param name="parameters">命令参数</param>
         /// <returns>TResult</returns>
-        public async Task<TResult> SqlFunctionScalarAsync<TResult>(params DbParameter[] parameters)
+        public Task<TResult> SqlFunctionScalarAsync<TResult>(params DbParameter[] parameters)
         {
-            var database = GetDatabase();
-            SqlString = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Scalar, SqlString, parameters);
-            var result = await database.ExecuteScalarAsync(SqlString, parameters);
-            return result.ChangeType<TResult>();
+            return GetSqlRepository().SqlFunctionScalarAsync<TResult>(SqlString, parameters);
         }
 
         /// <summary>
@@ -2149,12 +2012,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>TResult</returns>
-        public async Task<TResult> SqlFunctionScalarAsync<TResult>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<TResult> SqlFunctionScalarAsync<TResult>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var database = GetDatabase();
-            SqlString = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Scalar, SqlString, parameters);
-            var result = await database.ExecuteScalarAsync(SqlString, parameters, cancellationToken: cancellationToken);
-            return result.ChangeType<TResult>();
+            return GetSqlRepository().SqlFunctionScalarAsync<TResult>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -2164,12 +2024,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>object</returns>
-        public async Task<TResult> SqlFunctionScalarAsync<TResult>(object model, CancellationToken cancellationToken = default)
+        public Task<TResult> SqlFunctionScalarAsync<TResult>(object model, CancellationToken cancellationToken = default)
         {
-            var database = GetDatabase();
-            SqlString = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Scalar, SqlString, model);
-            var (result, _) = await database.ExecuteScalarAsync(SqlString, model, cancellationToken: cancellationToken);
-            return result.ChangeType<TResult>();
+            return GetSqlRepository().SqlFunctionScalarAsync<TResult>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -2179,9 +2036,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>DataTable</returns>
         public DataTable SqlFunctionQuery(params DbParameter[] parameters)
         {
-            var database = GetDatabase();
-            SqlString = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Table, SqlString, parameters);
-            return database.ExecuteReader(SqlString, parameters);
+            return GetSqlRepository().SqlFunctionQuery(SqlString, parameters);
         }
 
         /// <summary>
@@ -2191,9 +2046,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>DataTable</returns>
         public DataTable SqlFunctionQuery(object model)
         {
-            var database = GetDatabase();
-            SqlString = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Table, SqlString, model);
-            return database.ExecuteReader(SqlString, model).dataTable;
+            return GetSqlRepository().SqlFunctionQuery(SqlString, model);
         }
 
         /// <summary>
@@ -2203,9 +2056,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>Task{DataTable}</returns>
         public Task<DataTable> SqlFunctionQueryAsync(params DbParameter[] parameters)
         {
-            var database = GetDatabase();
-            SqlString = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Table, SqlString, parameters);
-            return database.ExecuteReaderAsync(SqlString, parameters);
+            return GetSqlRepository().SqlFunctionQueryAsync(SqlString, parameters);
         }
 
         /// <summary>
@@ -2216,9 +2067,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>Task{DataTable}</returns>
         public Task<DataTable> SqlFunctionQueryAsync(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var database = GetDatabase();
-            SqlString = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Table, SqlString, parameters);
-            return database.ExecuteReaderAsync(SqlString, parameters, cancellationToken: cancellationToken);
+            return GetSqlRepository().SqlFunctionQueryAsync(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -2227,12 +2076,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task{DataTable}</returns>
-        public async Task<DataTable> SqlFunctionQueryAsync(object model, CancellationToken cancellationToken = default)
+        public Task<DataTable> SqlFunctionQueryAsync(object model, CancellationToken cancellationToken = default)
         {
-            var database = GetDatabase();
-            SqlString = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Table, SqlString, model);
-            var (dataTable, _) = await database.ExecuteReaderAsync(SqlString, model, cancellationToken: cancellationToken);
-            return dataTable;
+            return GetSqlRepository().SqlFunctionQueryAsync(SqlString, model, cancellationToken);
         }
 
         /// <summary>
@@ -2243,9 +2089,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>List{T}</returns>
         public List<T> SqlFunctionQuery<T>(params DbParameter[] parameters)
         {
-            var database = GetDatabase();
-            SqlString = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Table, SqlString, parameters);
-            return database.ExecuteReader(SqlString, parameters).ToList<T>();
+            return GetSqlRepository().SqlFunctionQuery<T>(SqlString, parameters);
         }
 
         /// <summary>
@@ -2256,9 +2100,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>List{T}</returns>
         public List<T> SqlFunctionQuery<T>(object model)
         {
-            var database = GetDatabase();
-            SqlString = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Table, SqlString, model);
-            return database.ExecuteReader(SqlString, model).dataTable.ToList<T>();
+            return GetSqlRepository().SqlFunctionQuery<T>(SqlString, model);
         }
 
         /// <summary>
@@ -2267,12 +2109,9 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="T">返回类型</typeparam>
         /// <param name="parameters">命令参数</param>
         /// <returns>Task{List{T}}</returns>
-        public async Task<List<T>> SqlFunctionQueryAsync<T>(params DbParameter[] parameters)
+        public Task<List<T>> SqlFunctionQueryAsync<T>(params DbParameter[] parameters)
         {
-            var database = GetDatabase();
-            SqlString = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Table, SqlString, parameters);
-            var dataTable = await database.ExecuteReaderAsync(SqlString, parameters);
-            return dataTable.ToList<T>();
+            return GetSqlRepository().SqlFunctionQueryAsync<T>(SqlString, parameters);
         }
 
         /// <summary>
@@ -2282,12 +2121,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">命令参数</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task{List{T}}</returns>
-        public async Task<List<T>> SqlFunctionQueryAsync<T>(DbParameter[] parameters, CancellationToken cancellationToken = default)
+        public Task<List<T>> SqlFunctionQueryAsync<T>(DbParameter[] parameters, CancellationToken cancellationToken = default)
         {
-            var database = GetDatabase();
-            SqlString = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Table, SqlString, parameters);
-            var dataTable = await database.ExecuteReaderAsync(SqlString, parameters, cancellationToken: cancellationToken);
-            return dataTable.ToList<T>();
+            return GetSqlRepository().SqlFunctionQueryAsync<T>(SqlString, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -2297,25 +2133,18 @@ namespace Furion.DatabaseAccessor
         /// <param name="model">参数模型</param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns>Task{List{T}}</returns>
-        public async Task<List<T>> SqlFunctionQueryAsync<T>(object model, CancellationToken cancellationToken = default)
+        public Task<List<T>> SqlFunctionQueryAsync<T>(object model, CancellationToken cancellationToken = default)
         {
-            var database = GetDatabase();
-            SqlString = DbHelpers.GenerateFunctionSql(database.ProviderName, DbFunctionType.Table, SqlString, model);
-            var (dataTable, _) = await database.ExecuteReaderAsync(SqlString, model, cancellationToken: cancellationToken);
-            return dataTable.ToList<T>();
+            return GetSqlRepository().SqlFunctionQueryAsync<T>(SqlString, model, cancellationToken);
         }
 
         /// <summary>
-        /// 构建数据库对象
+        /// 获取 Sql 执行仓储
         /// </summary>
         /// <returns></returns>
-        private DatabaseFacade GetDatabase()
+        private IPrivateSqlRepository GetSqlRepository()
         {
-            var sqlRepositoryType = typeof(ISqlRepository<>).MakeGenericType(DbContextLocator);
-            var sqlRepository = App.GetService(sqlRepositoryType, DbScoped);
-
-            // 反射读取值
-            return sqlRepositoryType.GetProperty(nameof(ISqlRepository.Database)).GetValue(sqlRepository) as DatabaseFacade;
+            return App.GetService(typeof(ISqlRepository<>).MakeGenericType(DbContextLocator), DbScoped) as IPrivateSqlRepository;
         }
     }
 }

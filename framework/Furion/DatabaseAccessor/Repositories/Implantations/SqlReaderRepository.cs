@@ -9,8 +9,7 @@ namespace Furion.DatabaseAccessor
     /// <summary>
     /// Sql 查询仓储分部类
     /// </summary>
-    public partial class SqlRepository<TDbContextLocator>
-        where TDbContextLocator : class, IDbContextLocator
+    public partial class PrivateSqlRepository
     {
         /// <summary>
         /// Sql 查询返回 DataTable

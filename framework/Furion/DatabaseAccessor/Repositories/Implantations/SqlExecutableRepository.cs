@@ -11,9 +11,7 @@ namespace Furion.DatabaseAccessor
     /// <summary>
     /// Sql 执行仓储分部类
     /// </summary>
-    /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-    public partial class SqlRepository<TDbContextLocator>
-        where TDbContextLocator : class, IDbContextLocator
+    public partial class PrivateSqlRepository
     {
         /// <summary>
         /// 执行存储过程返回 DataTable

@@ -10,7 +10,7 @@ namespace Furion.DatabaseAccessor
     /// Sql 操作仓储实现
     /// </summary>
     [SkipScan]
-    public partial class SqlRepository : SqlRepository<MasterDbContextLocator>, ISqlRepository
+    public partial class SqlRepository : PrivateSqlRepository, ISqlRepository
     {
         /// <summary>
         /// 构造函数
@@ -19,8 +19,14 @@ namespace Furion.DatabaseAccessor
         /// <param name="scoped">服务提供器</param>
         public SqlRepository(
             Func<Type, IScoped, DbContext> dbContextResolve
-            , IServiceProvider scoped) : base(dbContextResolve, scoped)
+            , IServiceProvider scoped) : base(scoped)
         {
+            // 解析数据库上下文
+            var dbContext = dbContextResolve(typeof(MasterDbContextLocator), default);
+            DynamicContext = Context = dbContext;
+
+            // 初始化数据库相关数据
+            Database = dbContext.Database;
         }
     }
 
@@ -28,8 +34,31 @@ namespace Furion.DatabaseAccessor
     /// Sql 操作仓储实现
     /// </summary>
     [SkipScan]
-    public partial class SqlRepository<TDbContextLocator> : ISqlRepository<TDbContextLocator>
+    public partial class SqlRepository<TDbContextLocator> : PrivateSqlRepository, ISqlRepository<TDbContextLocator>
         where TDbContextLocator : class, IDbContextLocator
+    {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="dbContextResolve">数据库上下文解析器</param>
+        /// <param name="scoped">服务提供器</param>
+        public SqlRepository(
+            Func<Type, IScoped, DbContext> dbContextResolve
+            , IServiceProvider scoped) : base(scoped)
+        {
+            // 解析数据库上下文
+            var dbContext = dbContextResolve(typeof(TDbContextLocator), default);
+            DynamicContext = Context = dbContext;
+
+            // 初始化数据库相关数据
+            Database = dbContext.Database;
+        }
+    }
+
+    /// <summary>
+    /// 私有 Sql 仓储
+    /// </summary>
+    public partial class PrivateSqlRepository : IPrivateSqlRepository
     {
         /// <summary>
         /// 服务提供器
@@ -39,36 +68,26 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="dbContextResolve">数据库上下文解析器</param>
         /// <param name="scoped">服务提供器</param>
-        public SqlRepository(
-            Func<Type, IScoped, DbContext> dbContextResolve
-            , IServiceProvider scoped)
+        public PrivateSqlRepository(IServiceProvider scoped)
         {
-            // 解析数据库上下文
-            var dbContext = dbContextResolve(typeof(TDbContextLocator), default);
-            DynamicContext = Context = dbContext;
-
-            // 初始化数据库相关数据
-            Database = dbContext.Database;
-
             _serviceProvider = scoped;
         }
 
         /// <summary>
         /// 数据库操作对象
         /// </summary>
-        public virtual DatabaseFacade Database { get; }
+        public virtual DatabaseFacade Database { get; internal set; }
 
         /// <summary>
         /// 数据库上下文
         /// </summary>
-        public virtual DbContext Context { get; }
+        public virtual DbContext Context { get; internal set; }
 
         /// <summary>
         /// 动态数据库上下文
         /// </summary>
-        public virtual dynamic DynamicContext { get; }
+        public virtual dynamic DynamicContext { get; internal set; }
 
         /// <summary>
         /// 切换仓储
