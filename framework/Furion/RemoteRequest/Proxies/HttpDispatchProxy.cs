@@ -69,7 +69,7 @@ namespace Furion.RemoteRequest
         /// <param name="method"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        private static HttpClientPart BuildHttpClientPart(MethodInfo method, object[] args)
+        private static HttpClientExecutePart BuildHttpClientPart(MethodInfo method, object[] args)
         {
             // 判断方法是否是远程代理请求方法
             if (!method.IsDefined(typeof(HttpMethodBaseAttribute), true)) throw new InvalidOperationException($"{method.Name} is not a valid request proxy method.");
@@ -86,7 +86,7 @@ namespace Furion.RemoteRequest
             var httpMethodBase = method.GetCustomAttribute<HttpMethodBaseAttribute>(true);
 
             // 创建请求配置对象
-            var httpClientPart = new HttpClientPart();
+            var httpClientPart = new HttpClientExecutePart();
             httpClientPart.SetRequestUrl(httpMethodBase.RequestUrl)
                           .SetHttpMethod(httpMethodBase.Method)
                           .SetTemplates(parameters.ToDictionary(u => u.Name, u => u.Value));
@@ -127,7 +127,7 @@ namespace Furion.RemoteRequest
         /// <param name="method"></param>
         /// <param name="httpClientPart"></param>
         /// <param name="declaringType"></param>
-        private static void SetClient(MethodInfo method, HttpClientPart httpClientPart, Type declaringType)
+        private static void SetClient(MethodInfo method, HttpClientExecutePart httpClientPart, Type declaringType)
         {
             // 设置 Client 名称，判断方法是否定义，如果没有再查找声明类
             var clientAttribute = method.IsDefined(typeof(ClientAttribute), true)
@@ -145,7 +145,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="parameters"></param>
         /// <param name="httpClientPart"></param>
-        private static void SetQueries(IEnumerable<MethodParameterInfo> parameters, HttpClientPart httpClientPart)
+        private static void SetQueries(IEnumerable<MethodParameterInfo> parameters, HttpClientExecutePart httpClientPart)
         {
             // 配置 Url 地址参数
             var queryParameters = parameters.Where(u => u.Parameter.IsDefined(typeof(QueryStringAttribute), true));
@@ -163,7 +163,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="parameters"></param>
         /// <param name="httpClientPart"></param>
-        private static void SetBody(IEnumerable<MethodParameterInfo> parameters, HttpClientPart httpClientPart)
+        private static void SetBody(IEnumerable<MethodParameterInfo> parameters, HttpClientExecutePart httpClientPart)
         {
             // 配置 Body 参数，只取第一个
             var bodyParameter = parameters.FirstOrDefault(u => u.Parameter.IsDefined(typeof(BodyAttribute), true));
@@ -220,7 +220,7 @@ namespace Furion.RemoteRequest
         /// <param name="parameters"></param>
         /// <param name="httpClientPart"></param>
         /// <param name="declaringType"></param>
-        private static void SetJsonSerialization(MethodInfo method, IEnumerable<MethodParameterInfo> parameters, HttpClientPart httpClientPart, Type declaringType)
+        private static void SetJsonSerialization(MethodInfo method, IEnumerable<MethodParameterInfo> parameters, HttpClientExecutePart httpClientPart, Type declaringType)
         {
             // 配置序列化
             var jsonSerializationAttribute = method.IsDefined(typeof(JsonSerializationAttribute), true)
@@ -242,7 +242,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="httpClientPart"></param>
         /// <param name="declareType"></param>
-        private static void CallGlobalInterceptors(HttpClientPart httpClientPart, Type declareType)
+        private static void CallGlobalInterceptors(HttpClientExecutePart httpClientPart, Type declareType)
         {
             // 获取所有静态方法且贴有 [Interceptor] 特性
             var interceptorMethods = declareType.GetMethods()
@@ -285,7 +285,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="parameters"></param>
         /// <param name="httpClientPart"></param>
-        private static void SetInterceptors(IEnumerable<MethodParameterInfo> parameters, HttpClientPart httpClientPart)
+        private static void SetInterceptors(IEnumerable<MethodParameterInfo> parameters, HttpClientExecutePart httpClientPart)
         {
             // 添加方法拦截器
             var Interceptors = parameters.Where(u => u.Parameter.IsDefined(typeof(InterceptorAttribute), true));
@@ -336,7 +336,7 @@ namespace Furion.RemoteRequest
         /// <param name="parameters"></param>
         /// <param name="httpClientPart"></param>
         /// <param name="declaringType"></param>
-        private static void SetHeaders(MethodInfo method, IEnumerable<MethodParameterInfo> parameters, HttpClientPart httpClientPart, Type declaringType)
+        private static void SetHeaders(MethodInfo method, IEnumerable<MethodParameterInfo> parameters, HttpClientExecutePart httpClientPart, Type declaringType)
         {
             // 获取声明类请求报文头
             var declaringTypeHeaders = (declaringType.IsDefined(typeof(HeadersAttribute), true)

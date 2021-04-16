@@ -320,6 +320,7 @@ await "https://www.furion.pro/".OnRequesting(req => {
 ```cs
 await "https://www.furion.pro/".OnClientCreating(client => {
     // client 为 HttpClient 对象
+    client.Timeout = 30000; // 设置超时时间
 });
 ```
 

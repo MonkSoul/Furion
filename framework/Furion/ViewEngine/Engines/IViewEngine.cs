@@ -53,20 +53,20 @@ namespace Furion.ViewEngine
         /// </summary>
         /// <param name="content"></param>
         /// <param name="model"></param>
-        /// <param name="cacheFile"></param>
+        /// <param name="cacheFileName"></param>
         /// <param name="builderAction"></param>
         /// <returns></returns>
-        string RunCompileFromCached(string content, object model = null, string cacheFile = default, Action<IViewEngineOptionsBuilder> builderAction = null);
+        string RunCompileFromCached(string content, object model = null, string cacheFileName = default, Action<IViewEngineOptionsBuilder> builderAction = null);
 
         /// <summary>
         /// 通过缓存解析模板
         /// </summary>
         /// <param name="content"></param>
         /// <param name="model"></param>
-        /// <param name="cacheFile"></param>
+        /// <param name="cacheFileName"></param>
         /// <param name="builderAction"></param>
         /// <returns></returns>
-        Task<string> RunCompileFromCachedAsync(string content, object model = null, string cacheFile = default, Action<IViewEngineOptionsBuilder> builderAction = null);
+        Task<string> RunCompileFromCachedAsync(string content, object model = null, string cacheFileName = default, Action<IViewEngineOptionsBuilder> builderAction = null);
 
         /// <summary>
         /// 通过缓存解析模板
@@ -74,10 +74,10 @@ namespace Furion.ViewEngine
         /// <typeparam name="T"></typeparam>
         /// <param name="content"></param>
         /// <param name="model"></param>
-        /// <param name="cacheFile"></param>
+        /// <param name="cacheFileName"></param>
         /// <param name="builderAction"></param>
         /// <returns></returns>
-        string RunCompileFromCached<T>(string content, T model, string cacheFile = default, Action<IViewEngineOptionsBuilder> builderAction = null)
+        string RunCompileFromCached<T>(string content, T model, string cacheFileName = default, Action<IViewEngineOptionsBuilder> builderAction = null)
             where T : class, new();
 
         /// <summary>
@@ -85,10 +85,10 @@ namespace Furion.ViewEngine
         /// </summary>
         /// <param name="content"></param>
         /// <param name="model"></param>
-        /// <param name="cacheFile"></param>
+        /// <param name="cacheFileName"></param>
         /// <param name="builderAction"></param>
         /// <returns></returns>
-        Task<string> RunCompileFromCachedAsync<T>(string content, T model, string cacheFile = default, Action<IViewEngineOptionsBuilder> builderAction = null)
+        Task<string> RunCompileFromCachedAsync<T>(string content, T model, string cacheFileName = default, Action<IViewEngineOptionsBuilder> builderAction = null)
             where T : class, new();
 
         /// <summary>

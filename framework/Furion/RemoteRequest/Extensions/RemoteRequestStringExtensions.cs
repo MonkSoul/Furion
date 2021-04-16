@@ -22,9 +22,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="templates"></param>
         /// <returns></returns>
-        public static HttpClientPart SetTemplates(this string requestUrl, Dictionary<string, object> templates)
+        public static HttpClientExecutePart SetTemplates(this string requestUrl, Dictionary<string, object> templates)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetTemplates(templates);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetTemplates(templates);
         }
 
         /// <summary>
@@ -33,9 +33,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="templates"></param>
         /// <returns></returns>
-        public static HttpClientPart SetTemplates(this string requestUrl, object templates)
+        public static HttpClientExecutePart SetTemplates(this string requestUrl, object templates)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetTemplates(templates);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetTemplates(templates);
         }
 
         /// <summary>
@@ -44,9 +44,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="httpMethod"></param>
         /// <returns></returns>
-        public static HttpClientPart SetHttpMethod(this string requestUrl, HttpMethod httpMethod)
+        public static HttpClientExecutePart SetHttpMethod(this string requestUrl, HttpMethod httpMethod)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetHttpMethod(httpMethod);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetHttpMethod(httpMethod);
         }
 
         /// <summary>
@@ -55,9 +55,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="headers"></param>
         /// <returns></returns>
-        public static HttpClientPart SetHeaders(this string requestUrl, Dictionary<string, object> headers)
+        public static HttpClientExecutePart SetHeaders(this string requestUrl, Dictionary<string, object> headers)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetHeaders(headers);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetHeaders(headers);
         }
 
         /// <summary>
@@ -66,9 +66,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="headers"></param>
         /// <returns></returns>
-        public static HttpClientPart SetHeaders(this string requestUrl, object headers)
+        public static HttpClientExecutePart SetHeaders(this string requestUrl, object headers)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetHeaders(headers);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetHeaders(headers);
         }
 
         /// <summary>
@@ -77,9 +77,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="queries"></param>
         /// <returns></returns>
-        public static HttpClientPart SetQueries(this string requestUrl, Dictionary<string, object> queries)
+        public static HttpClientExecutePart SetQueries(this string requestUrl, Dictionary<string, object> queries)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetQueries(queries);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetQueries(queries);
         }
 
         /// <summary>
@@ -88,9 +88,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="queries"></param>
         /// <returns></returns>
-        public static HttpClientPart SetQueries(this string requestUrl, object queries)
+        public static HttpClientExecutePart SetQueries(this string requestUrl, object queries)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetQueries(queries);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetQueries(queries);
         }
 
         /// <summary>
@@ -99,9 +99,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static HttpClientPart SetClient(this string requestUrl, string name)
+        public static HttpClientExecutePart SetClient(this string requestUrl, string name)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetClient(name);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetClient(name);
         }
 
         /// <summary>
@@ -112,9 +112,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="contentType"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static HttpClientPart SetBody(this string requestUrl, object body, string contentType = default, Encoding encoding = default)
+        public static HttpClientExecutePart SetBody(this string requestUrl, object body, string contentType = default, Encoding encoding = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetBody(body, contentType, encoding);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetBody(body, contentType, encoding);
         }
 
         /// <summary>
@@ -125,9 +125,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="contentType"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static HttpClientPart SetBody(this string requestUrl, Dictionary<string, object> body, string contentType = default, Encoding encoding = default)
+        public static HttpClientExecutePart SetBody(this string requestUrl, Dictionary<string, object> body, string contentType = default, Encoding encoding = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetBody(body, contentType, encoding);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetBody(body, contentType, encoding);
         }
 
         /// <summary>
@@ -136,9 +136,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        public static HttpClientPart SetContentType(this string requestUrl, string contentType)
+        public static HttpClientExecutePart SetContentType(this string requestUrl, string contentType)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetContentType(contentType);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetContentType(contentType);
         }
 
         /// <summary>
@@ -147,9 +147,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static HttpClientPart SetContentEncoding(this string requestUrl, Encoding encoding)
+        public static HttpClientExecutePart SetContentEncoding(this string requestUrl, Encoding encoding)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetContentEncoding(encoding);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetContentEncoding(encoding);
         }
 
         /// <summary>
@@ -158,9 +158,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="bytesData"></param>
         /// <returns></returns>
-        public static HttpClientPart SetBodyBytes(this string requestUrl, params (string Name, byte[] Bytes, string FileName)[] bytesData)
+        public static HttpClientExecutePart SetBodyBytes(this string requestUrl, params (string Name, byte[] Bytes, string FileName)[] bytesData)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetBodyBytes(bytesData);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetBodyBytes(bytesData);
         }
 
         /// <summary>
@@ -169,9 +169,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="bytesData"></param>
         /// <returns></returns>
-        public static HttpClientPart SetBodyBytes(this string requestUrl, List<(string Name, byte[] Bytes, string FileName)> bytesData)
+        public static HttpClientExecutePart SetBodyBytes(this string requestUrl, List<(string Name, byte[] Bytes, string FileName)> bytesData)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetBodyBytes(bytesData);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetBodyBytes(bytesData);
         }
 
         /// <summary>
@@ -181,10 +181,10 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
-        public static HttpClientPart SetJsonSerialization<TJsonSerializationProvider>(this string requestUrl, object jsonSerializerOptions = default)
+        public static HttpClientExecutePart SetJsonSerialization<TJsonSerializationProvider>(this string requestUrl, object jsonSerializerOptions = default)
             where TJsonSerializationProvider : IJsonSerializerProvider
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetJsonSerialization<TJsonSerializationProvider>(jsonSerializerOptions);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetJsonSerialization<TJsonSerializationProvider>(jsonSerializerOptions);
         }
 
         /// <summary>
@@ -194,9 +194,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="providerType"></param>
         /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
-        public static HttpClientPart SetJsonSerialization(this string requestUrl, Type providerType, object jsonSerializerOptions = default)
+        public static HttpClientExecutePart SetJsonSerialization(this string requestUrl, Type providerType, object jsonSerializerOptions = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetJsonSerialization(providerType, jsonSerializerOptions);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetJsonSerialization(providerType, jsonSerializerOptions);
         }
 
         /// <summary>
@@ -205,9 +205,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="enabled"></param>
         /// <returns></returns>
-        public static HttpClientPart SetValidationState(this string requestUrl, bool enabled)
+        public static HttpClientExecutePart SetValidationState(this string requestUrl, bool enabled)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetValidationState(enabled);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetValidationState(enabled);
         }
 
         /// <summary>
@@ -216,9 +216,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="scoped"></param>
         /// <returns></returns>
-        public static HttpClientPart SetRequestScoped(this string requestUrl, IServiceProvider scoped)
+        public static HttpClientExecutePart SetRequestScoped(this string requestUrl, IServiceProvider scoped)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SetRequestScoped(scoped);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetRequestScoped(scoped);
         }
 
         /// <summary>
@@ -227,9 +227,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static HttpClientPart OnRequesting(this string requestUrl, Action<HttpRequestMessage> action)
+        public static HttpClientExecutePart OnRequesting(this string requestUrl, Action<HttpRequestMessage> action)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).OnRequesting(action);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).OnRequesting(action);
         }
 
         /// <summary>
@@ -238,9 +238,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static HttpClientPart OnClientCreating(this string requestUrl, Action<HttpClient> action)
+        public static HttpClientExecutePart OnClientCreating(this string requestUrl, Action<HttpClient> action)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).OnClientCreating(action);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).OnClientCreating(action);
         }
 
         /// <summary>
@@ -249,9 +249,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static HttpClientPart OnResponsing(this string requestUrl, Action<HttpResponseMessage> action)
+        public static HttpClientExecutePart OnResponsing(this string requestUrl, Action<HttpResponseMessage> action)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).OnResponsing(action);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).OnResponsing(action);
         }
 
         /// <summary>
@@ -260,9 +260,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static HttpClientPart OnException(this string requestUrl, Action<HttpResponseMessage, string> action)
+        public static HttpClientExecutePart OnException(this string requestUrl, Action<HttpResponseMessage, string> action)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).OnException(action);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).OnException(action);
         }
 
         /// <summary>
@@ -274,7 +274,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<T> GetAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).GetAsAsync<T>(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).GetAsAsync<T>(cancellationToken);
         }
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<Stream> GetAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).GetAsStreamAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).GetAsStreamAsync(cancellationToken);
         }
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<string> GetAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).GetAsStringAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).GetAsStringAsync(cancellationToken);
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<HttpResponseMessage> GetAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).GetAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).GetAsync(cancellationToken);
         }
 
         /// <summary>
@@ -319,7 +319,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<T> PostAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).PostAsAsync<T>(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).PostAsAsync<T>(cancellationToken);
         }
 
         /// <summary>
@@ -330,7 +330,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<Stream> PostAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).PostAsStreamAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).PostAsStreamAsync(cancellationToken);
         }
 
         /// <summary>
@@ -341,7 +341,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<string> PostAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).PostAsStringAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).PostAsStringAsync(cancellationToken);
         }
 
         /// <summary>
@@ -352,7 +352,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<HttpResponseMessage> PostAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).PostAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).PostAsync(cancellationToken);
         }
 
         /// <summary>
@@ -364,7 +364,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<T> PutAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).PutAsAsync<T>(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).PutAsAsync<T>(cancellationToken);
         }
 
         /// <summary>
@@ -375,7 +375,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<Stream> PutAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).PutAsStreamAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).PutAsStreamAsync(cancellationToken);
         }
 
         /// <summary>
@@ -386,7 +386,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<string> PutAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).PutAsStringAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).PutAsStringAsync(cancellationToken);
         }
 
         /// <summary>
@@ -397,7 +397,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<HttpResponseMessage> PutAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).PutAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).PutAsync(cancellationToken);
         }
 
         /// <summary>
@@ -409,7 +409,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<T> DeleteAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).DeleteAsAsync<T>(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).DeleteAsAsync<T>(cancellationToken);
         }
 
         /// <summary>
@@ -420,7 +420,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<Stream> DeleteAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).DeleteAsStreamAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).DeleteAsStreamAsync(cancellationToken);
         }
 
         /// <summary>
@@ -431,7 +431,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<string> DeleteAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).DeleteAsStringAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).DeleteAsStringAsync(cancellationToken);
         }
 
         /// <summary>
@@ -442,7 +442,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<HttpResponseMessage> DeleteAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).DeleteAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).DeleteAsync(cancellationToken);
         }
 
         /// <summary>
@@ -454,7 +454,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<T> PatchAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).PatchAsAsync<T>(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).PatchAsAsync<T>(cancellationToken);
         }
 
         /// <summary>
@@ -465,7 +465,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<Stream> PatchAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).PatchAsStreamAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).PatchAsStreamAsync(cancellationToken);
         }
 
         /// <summary>
@@ -476,7 +476,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<string> PatchAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).PatchAsStringAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).PatchAsStringAsync(cancellationToken);
         }
 
         /// <summary>
@@ -487,7 +487,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<HttpResponseMessage> PatchAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).PatchAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).PatchAsync(cancellationToken);
         }
 
         /// <summary>
@@ -499,7 +499,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<T> HeadAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).HeadAsAsync<T>(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).HeadAsAsync<T>(cancellationToken);
         }
 
         /// <summary>
@@ -510,7 +510,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<Stream> HeadAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).HeadAsStreamAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).HeadAsStreamAsync(cancellationToken);
         }
 
         /// <summary>
@@ -521,7 +521,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<string> HeadAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).HeadAsStringAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).HeadAsStringAsync(cancellationToken);
         }
 
         /// <summary>
@@ -532,7 +532,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<HttpResponseMessage> HeadAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).HeadAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).HeadAsync(cancellationToken);
         }
 
         /// <summary>
@@ -544,7 +544,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<T> SendAsAsync<T>(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SendAsAsync<T>(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SendAsAsync<T>(cancellationToken);
         }
 
         /// <summary>
@@ -555,7 +555,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<Stream> SendAsStreamAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SendAsStreamAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SendAsStreamAsync(cancellationToken);
         }
 
         /// <summary>
@@ -566,7 +566,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<string> SendAsStringAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SendAsStringAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SendAsStringAsync(cancellationToken);
         }
 
         /// <summary>
@@ -577,7 +577,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <returns></returns>
         public static Task<HttpResponseMessage> SendAsync(this string requestUrl, CancellationToken cancellationToken = default)
         {
-            return new HttpClientPart().SetRequestUrl(requestUrl).SendAsync(cancellationToken);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SendAsync(cancellationToken);
         }
     }
 }

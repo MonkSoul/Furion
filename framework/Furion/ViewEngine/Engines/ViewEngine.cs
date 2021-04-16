@@ -90,12 +90,12 @@ namespace Furion.ViewEngine
         /// </summary>
         /// <param name="content"></param>
         /// <param name="model"></param>
-        /// <param name="cacheFile"></param>
+        /// <param name="cacheFileName"></param>
         /// <param name="builderAction"></param>
         /// <returns></returns>
-        public string RunCompileFromCached(string content, object model = null, string cacheFile = default, Action<IViewEngineOptionsBuilder> builderAction = null)
+        public string RunCompileFromCached(string content, object model = null, string cacheFileName = default, Action<IViewEngineOptionsBuilder> builderAction = null)
         {
-            var fileName = cacheFile ?? MD5Encryption.Encrypt(content);
+            var fileName = cacheFileName ?? MD5Encryption.Encrypt(content);
 
             IViewEngineTemplate template;
 
@@ -116,12 +116,12 @@ namespace Furion.ViewEngine
         /// </summary>
         /// <param name="content"></param>
         /// <param name="model"></param>
-        /// <param name="cacheFile"></param>
+        /// <param name="cacheFileName"></param>
         /// <param name="builderAction"></param>
         /// <returns></returns>
-        public async Task<string> RunCompileFromCachedAsync(string content, object model = null, string cacheFile = default, Action<IViewEngineOptionsBuilder> builderAction = null)
+        public async Task<string> RunCompileFromCachedAsync(string content, object model = null, string cacheFileName = default, Action<IViewEngineOptionsBuilder> builderAction = null)
         {
-            var fileName = cacheFile ?? MD5Encryption.Encrypt(content);
+            var fileName = cacheFileName ?? MD5Encryption.Encrypt(content);
 
             IViewEngineTemplate template;
 
@@ -143,13 +143,13 @@ namespace Furion.ViewEngine
         /// <typeparam name="T"></typeparam>
         /// <param name="content"></param>
         /// <param name="model"></param>
-        /// <param name="cacheFile"></param>
+        /// <param name="cacheFileName"></param>
         /// <param name="builderAction"></param>
         /// <returns></returns>
-        public string RunCompileFromCached<T>(string content, T model, string cacheFile = default, Action<IViewEngineOptionsBuilder> builderAction = null)
+        public string RunCompileFromCached<T>(string content, T model, string cacheFileName = default, Action<IViewEngineOptionsBuilder> builderAction = null)
             where T : class, new()
         {
-            var fileName = cacheFile ?? MD5Encryption.Encrypt(content);
+            var fileName = cacheFileName ?? MD5Encryption.Encrypt(content);
 
             IViewEngineTemplate<ViewEngineModel<T>> template;
 
@@ -173,13 +173,13 @@ namespace Furion.ViewEngine
         /// </summary>
         /// <param name="content"></param>
         /// <param name="model"></param>
-        /// <param name="cacheFile"></param>
+        /// <param name="cacheFileName"></param>
         /// <param name="builderAction"></param>
         /// <returns></returns>
-        public async Task<string> RunCompileFromCachedAsync<T>(string content, T model, string cacheFile = default, Action<IViewEngineOptionsBuilder> builderAction = null)
+        public async Task<string> RunCompileFromCachedAsync<T>(string content, T model, string cacheFileName = default, Action<IViewEngineOptionsBuilder> builderAction = null)
             where T : class, new()
         {
-            var fileName = cacheFile ?? MD5Encryption.Encrypt(content);
+            var fileName = cacheFileName ?? MD5Encryption.Encrypt(content);
 
             IViewEngineTemplate<ViewEngineModel<T>> template;
 

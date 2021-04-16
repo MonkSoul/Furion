@@ -1,4 +1,4 @@
-## v1.20.0 （未发布）
+## v2.0.0 （未发布）
 
 - **新特性**
 
@@ -12,6 +12,8 @@
 
   - [重构] 完整任务调度功能 [#I3IRUX](https://gitee.com/dotnetchina/Furion/issues/I3IRUX)
   - [重构] 日志模块功能 [#I3J2K0](https://gitee.com/dotnetchina/Furion/issues/I3J2K0)
+  - [重构] 模板引擎功能 [#I3J46E](https://gitee.com/dotnetchina/Furion/issues/I3J46E)
+  - [重构] sql 字符串拓展底层代码 [#I3IVCE](https://gitee.com/dotnetchina/Furion/issues/I3IVCE)
   - [调整] 事件事件总线同步执行为异步方式执行 [#I3J0WA](https://gitee.com/dotnetchina/Furion/issues/I3J0WA)
   - [移除] 框架底层 `HttpContext.IsAjaxRequest()` 拓展 [#I3IVAA](https://gitee.com/dotnetchina/Furion/issues/I3IVAA)
 
@@ -29,7 +31,6 @@
 
   - [改进] [改进] `App.GetConfig<>("key")` 不支持获取单个值问题 [#I3ILF1](https://gitee.com/dotnetchina/Furion/issues/I3ILF1)
   - [改进] UrlEncode 应该用 `Uri.EscapeDataString()` 而不是 `HttpUtility.UrlEncode` [#I3ICTK](https://gitee.com/dotnetchina/Furion/issues/I3ICTK)
-  - [重构] sql 字符串拓展底层代码 [#I3IVCE](https://gitee.com/dotnetchina/Furion/issues/I3IVCE)
 
 - **文档变化**
 

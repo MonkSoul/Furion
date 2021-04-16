@@ -9,7 +9,7 @@ namespace Furion.RemoteRequest
     /// <summary>
     /// HttpClient 对象组装部件
     /// </summary>
-    public sealed partial class HttpClientPart
+    public sealed partial class HttpClientExecutePart
     {
         /// <summary>
         /// 请求地址
