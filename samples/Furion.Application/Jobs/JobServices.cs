@@ -22,11 +22,6 @@ namespace Furion.Application
                 Console.WriteLine($"{t.WorkerName} -{t.Description} - {DateTime.Now:yyyy-MM-dd HH:mm:ss} - {i}");
             }, jobName, "模拟测试任务");
 
-            SpareTime.Do(1000, (t, i) =>
-            {
-                Console.WriteLine($"{t.WorkerName} -{t.Description} - {DateTime.Now:yyyy-MM-dd HH:mm:ss} - {i}");
-            }, jobName, "模拟测试任务");
-
             return jobName;
         }
 
