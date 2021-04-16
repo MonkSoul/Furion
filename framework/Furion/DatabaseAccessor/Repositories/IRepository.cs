@@ -13,19 +13,6 @@ using System.Threading.Tasks;
 namespace Furion.DatabaseAccessor
 {
     /// <summary>
-    /// 仓储接口
-    /// </summary>
-    /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial interface IRepository<TEntity>
-        : IRepository<TEntity, MasterDbContextLocator>
-        , IWritableRepository<TEntity>
-        , IReadableRepository<TEntity>
-        , ISqlRepository
-        where TEntity : class, IPrivateEntity, new()
-    {
-    }
-
-    /// <summary>
     /// 非泛型仓储
     /// </summary>
     public partial interface IRepository
@@ -92,6 +79,19 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TService"></typeparam>
         /// <returns></returns>
         TService GetRequiredService<TService>();
+    }
+
+    /// <summary>
+    /// 仓储接口
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    public partial interface IRepository<TEntity>
+        : IRepository<TEntity, MasterDbContextLocator>
+        , IWritableRepository<TEntity>
+        , IReadableRepository<TEntity>
+        , ISqlRepository
+        where TEntity : class, IPrivateEntity, new()
+    {
     }
 
     /// <summary>

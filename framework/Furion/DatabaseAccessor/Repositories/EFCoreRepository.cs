@@ -17,30 +17,6 @@ using System.Threading.Tasks;
 namespace Furion.DatabaseAccessor
 {
     /// <summary>
-    /// EF Core仓储实现
-    /// </summary>
-    /// <typeparam name="TEntity">实体类型</typeparam>
-    [SkipScan]
-    public partial class EFCoreRepository<TEntity> : EFCoreRepository<TEntity, MasterDbContextLocator>, IRepository<TEntity>
-        where TEntity : class, IPrivateEntity, new()
-    {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="dbContextResolve">数据库上下文解析器</param>
-        /// <param name="repository">非泛型仓储</param>
-        /// <param name="scoped">服务提供器</param>
-        /// <param name="dbContextPool"></param>
-        public EFCoreRepository(
-            Func<Type, IScoped, DbContext> dbContextResolve
-            , IRepository repository
-            , IServiceProvider scoped
-            , IDbContextPool dbContextPool) : base(dbContextResolve, repository, scoped, dbContextPool)
-        {
-        }
-    }
-
-    /// <summary>
     /// 非泛型EF Core仓储实现
     /// </summary>
     [SkipScan]
@@ -146,6 +122,30 @@ namespace Furion.DatabaseAccessor
         public virtual TService GetRequiredService<TService>()
         {
             return _serviceProvider.GetRequiredService<TService>();
+        }
+    }
+
+    /// <summary>
+    /// EF Core仓储实现
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    [SkipScan]
+    public partial class EFCoreRepository<TEntity> : EFCoreRepository<TEntity, MasterDbContextLocator>, IRepository<TEntity>
+        where TEntity : class, IPrivateEntity, new()
+    {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="dbContextResolve">数据库上下文解析器</param>
+        /// <param name="repository">非泛型仓储</param>
+        /// <param name="scoped">服务提供器</param>
+        /// <param name="dbContextPool"></param>
+        public EFCoreRepository(
+            Func<Type, IScoped, DbContext> dbContextResolve
+            , IRepository repository
+            , IServiceProvider scoped
+            , IDbContextPool dbContextPool) : base(dbContextResolve, repository, scoped, dbContextPool)
+        {
         }
     }
 
