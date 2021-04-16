@@ -6,7 +6,7 @@ namespace Furion.Tests
     [TestClass]
     public class UnitTest1
     {
-        [TestMethod]
+        [ContractTestCase]
         public void TestMethod1()
         {
             "²âÊÔ Furion ¿ò¼ÜÊ¾·¶".Test(() =>
