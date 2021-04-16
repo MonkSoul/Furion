@@ -40,6 +40,7 @@
   - [答疑] Furion.DatabaseAccessor.PrivateEntityBase 中的 TenantId 数据类型设置为 object [#I3IQV6](https://gitee.com/dotnetchina/Furion/issues/I3IQV6)
   - [答疑] 有关异常拦截和处理的疑问 [#I3IUFZ](https://gitee.com/dotnetchina/Furion/issues/I3IUFZ)
   - [答疑] `DataValidation` 在空值的情况下被忽略掉了[#I3IWSM](https://gitee.com/dotnetchina/Furion/issues/I3IWSM)
+  - [答疑] 日志文档没有更新 [#I3J1DX](https://gitee.com/dotnetchina/Furion/issues/I3J1DX)
 
 - **不做实现**
 
