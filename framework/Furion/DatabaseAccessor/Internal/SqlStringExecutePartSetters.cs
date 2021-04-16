@@ -3,16 +3,16 @@
 namespace Furion.DatabaseAccessor
 {
     /// <summary>
-    /// 构建 Sql 执行部分
+    /// 构建 Sql 字符串执行部件
     /// </summary>
-    public sealed partial class SqlBuilderPart
+    public sealed partial class SqlStringExecutePart
     {
         /// <summary>
         /// 设置 Sql 字符串
         /// </summary>
         /// <param name="sql"></param>
         /// <returns></returns>
-        public SqlBuilderPart SetSqlString(string sql)
+        public SqlStringExecutePart SetSqlString(string sql)
         {
             SqlString = sql;
             return this;
@@ -23,7 +23,7 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="scoped"></param>
         /// <returns></returns>
-        public SqlBuilderPart SetDbScoped(IServiceProvider scoped)
+        public SqlStringExecutePart SetDbScoped(IServiceProvider scoped)
         {
             DbScoped = scoped;
             return this;
@@ -34,7 +34,7 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <typeparam name="TDbContextLocator"></typeparam>
         /// <returns></returns>
-        public SqlBuilderPart Change<TDbContextLocator>()
+        public SqlStringExecutePart Change<TDbContextLocator>()
             where TDbContextLocator : class, IDbContextLocator
         {
             DbContextLocator = typeof(TDbContextLocator) ?? typeof(MasterDbContextLocator);
@@ -45,7 +45,7 @@ namespace Furion.DatabaseAccessor
         /// 设置数据库上下文定位器
         /// </summary>
         /// <returns></returns>
-        public SqlBuilderPart Change(Type dbContextLocator)
+        public SqlStringExecutePart Change(Type dbContextLocator)
         {
             DbContextLocator = dbContextLocator ?? typeof(MasterDbContextLocator);
             return this;

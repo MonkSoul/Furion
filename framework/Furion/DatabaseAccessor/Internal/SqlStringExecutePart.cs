@@ -4,10 +4,10 @@ using System;
 namespace Furion.DatabaseAccessor
 {
     /// <summary>
-    /// 构建 Sql 执行部分
+    /// 构建 Sql 字符串执行部件
     /// </summary>
     [SkipScan]
-    public sealed partial class SqlBuilderPart
+    public sealed partial class SqlStringExecutePart
     {
         /// <summary>
         /// Sql 字符串
