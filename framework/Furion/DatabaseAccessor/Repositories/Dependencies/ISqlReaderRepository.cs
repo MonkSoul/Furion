@@ -9,7 +9,23 @@ namespace Furion.DatabaseAccessor
     /// <summary>
     /// Sql 查询仓储接口
     /// </summary>
-    public interface ISqlReaderRepository : IPrivateRootRepository
+    public interface ISqlReaderRepository : ISqlReaderRepository<MasterDbContextLocator>
+    {
+    }
+
+    /// <summary>
+    /// Sql 查询仓储接口
+    /// </summary>
+    /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+    public interface ISqlReaderRepository<TDbContextLocator> : IPrivateSqlReaderRepository
+        where TDbContextLocator : class, IDbContextLocator
+    {
+    }
+
+    /// <summary>
+    /// Sql 查询仓储接口
+    /// </summary>
+    public interface IPrivateSqlReaderRepository : IPrivateRootRepository
     {
         /// <summary>
         /// Sql 查询返回 DataTable

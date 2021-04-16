@@ -18,6 +18,10 @@ namespace Furion.DatabaseAccessor
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
     public partial interface IWritableRepository<TEntity, TDbContextLocator> : IPrivateWritableRepository<TEntity>
+        , IInsertableRepository<TEntity>
+        , IUpdateableRepository<TEntity>
+        , IDeletableRepository<TEntity>
+        , IOperableRepository<TEntity>
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {

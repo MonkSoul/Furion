@@ -86,6 +86,9 @@ namespace Furion.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     public partial interface IRepository<TEntity> : IPrivateRepository<TEntity>
+        , IWritableRepository<TEntity>
+        , IReadableRepository<TEntity>
+        , ISqlRepository
         where TEntity : class, IPrivateEntity, new()
     {
     }
@@ -96,6 +99,9 @@ namespace Furion.DatabaseAccessor
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
     public partial interface IRepository<TEntity, TDbContextLocator> : IPrivateRepository<TEntity>
+        , IWritableRepository<TEntity, TDbContextLocator>
+        , IReadableRepository<TEntity, TDbContextLocator>
+        , ISqlRepository<TDbContextLocator>
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
@@ -106,8 +112,8 @@ namespace Furion.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     public interface IPrivateRepository<TEntity>
-        : IWritableRepository<TEntity>
-        , IReadableRepository<TEntity>
+        : IPrivateWritableRepository<TEntity>
+        , IPrivateReadableRepository<TEntity>
         , IPrivateSqlRepository
         where TEntity : class, IPrivateEntity, new()
     {

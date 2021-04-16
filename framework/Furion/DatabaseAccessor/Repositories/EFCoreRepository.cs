@@ -130,14 +130,15 @@ namespace Furion.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     [SkipScan]
-    public partial class EFCoreRepository<TEntity> : PrivateRepository<TEntity>, IRepository<TEntity>
+    public partial class EFCoreRepository<TEntity> : EFCoreRepository<TEntity, MasterDbContextLocator>
+        , IRepository<TEntity>
         where TEntity : class, IPrivateEntity, new()
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="scoped">服务提供器</param>
-        public EFCoreRepository(IServiceProvider scoped) : base(typeof(MasterDbContextLocator), scoped)
+        public EFCoreRepository(IServiceProvider scoped) : base(scoped)
         {
         }
     }
@@ -146,7 +147,8 @@ namespace Furion.DatabaseAccessor
     /// 多数据库上下文仓储
     /// </summary>
     [SkipScan]
-    public partial class EFCoreRepository<TEntity, TDbContextLocator> : PrivateRepository<TEntity>, IRepository<TEntity, TDbContextLocator>
+    public partial class EFCoreRepository<TEntity, TDbContextLocator> : PrivateRepository<TEntity>
+        , IRepository<TEntity, TDbContextLocator>
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
     {
