@@ -15,18 +15,9 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="dbContextResolve">数据库上下文解析器</param>
         /// <param name="scoped">服务提供器</param>
-        public SqlRepository(
-            Func<Type, IScoped, DbContext> dbContextResolve
-            , IServiceProvider scoped) : base(scoped)
+        public SqlRepository(IServiceProvider scoped) : base(typeof(MasterDbContextLocator), scoped)
         {
-            // 解析数据库上下文
-            var dbContext = dbContextResolve(typeof(MasterDbContextLocator), default);
-            DynamicContext = Context = dbContext;
-
-            // 初始化数据库相关数据
-            Database = dbContext.Database;
         }
     }
 
@@ -40,18 +31,9 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="dbContextResolve">数据库上下文解析器</param>
         /// <param name="scoped">服务提供器</param>
-        public SqlRepository(
-            Func<Type, IScoped, DbContext> dbContextResolve
-            , IServiceProvider scoped) : base(scoped)
+        public SqlRepository(IServiceProvider scoped) : base(typeof(TDbContextLocator), scoped)
         {
-            // 解析数据库上下文
-            var dbContext = dbContextResolve(typeof(TDbContextLocator), default);
-            DynamicContext = Context = dbContext;
-
-            // 初始化数据库相关数据
-            Database = dbContext.Database;
         }
     }
 
@@ -68,26 +50,35 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
+        /// <param name="dbContextLocator"></param>
         /// <param name="scoped">服务提供器</param>
-        public PrivateSqlRepository(IServiceProvider scoped)
+        public PrivateSqlRepository(Type dbContextLocator, IServiceProvider scoped)
         {
             _serviceProvider = scoped;
-        }
 
-        /// <summary>
-        /// 数据库操作对象
-        /// </summary>
-        public virtual DatabaseFacade Database { get; internal set; }
+            // 解析数据库上下文
+            var dbContextResolve = scoped.GetService<Func<Type, IScoped, DbContext>>();
+            var dbContext = dbContextResolve(dbContextLocator, default);
+            DynamicContext = Context = dbContext;
+
+            // 初始化数据库相关数据
+            Database = Context.Database;
+        }
 
         /// <summary>
         /// 数据库上下文
         /// </summary>
-        public virtual DbContext Context { get; internal set; }
+        public virtual DbContext Context { get; }
 
         /// <summary>
         /// 动态数据库上下文
         /// </summary>
-        public virtual dynamic DynamicContext { get; internal set; }
+        public virtual dynamic DynamicContext { get; }
+
+        /// <summary>
+        /// 数据库操作对象
+        /// </summary>
+        public virtual DatabaseFacade Database { get; }
 
         /// <summary>
         /// 切换仓储

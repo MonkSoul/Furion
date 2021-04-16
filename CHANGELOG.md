@@ -13,6 +13,7 @@
   - [重构] 完整任务调度功能 [#I3IRUX](https://gitee.com/dotnetchina/Furion/issues/I3IRUX)
   - [重构] 日志模块功能 [#I3J2K0](https://gitee.com/dotnetchina/Furion/issues/I3J2K0)
   - [重构] 模板引擎功能 [#I3J46E](https://gitee.com/dotnetchina/Furion/issues/I3J46E)
+  - [重构] 底层 `EFCoreRepository` 仓储 [#I3J6W5](https://gitee.com/dotnetchina/Furion/issues/I3J6W5)
   - [重构] sql 字符串拓展底层代码 [#I3IVCE](https://gitee.com/dotnetchina/Furion/issues/I3IVCE)
   - [重构] 底层 `SqlRepository` 所有逻辑代码 [#I3J6V6](https://gitee.com/dotnetchina/Furion/issues/I3J6V6)
   - [调整] 事件事件总线同步执行为异步方式执行 [#I3J0WA](https://gitee.com/dotnetchina/Furion/issues/I3J0WA)
@@ -45,6 +46,7 @@
   - [答疑] 有关异常拦截和处理的疑问 [#I3IUFZ](https://gitee.com/dotnetchina/Furion/issues/I3IUFZ)
   - [答疑] `DataValidation` 在空值的情况下被忽略掉了[#I3IWSM](https://gitee.com/dotnetchina/Furion/issues/I3IWSM)
   - [答疑] 日志文档没有更新 [#I3J1DX](https://gitee.com/dotnetchina/Furion/issues/I3J1DX)
+  - [答疑] 对于 webapi 简单类型参数，是否可以以 json 方式提交 [#I3J18I](https://gitee.com/dotnetchina/Furion/issues/I3J18I)
 
 - **不做实现**
 

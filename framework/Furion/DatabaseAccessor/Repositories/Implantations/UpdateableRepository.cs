@@ -12,9 +12,8 @@ namespace Furion.DatabaseAccessor
     /// <summary>
     /// 可更新仓储分部类
     /// </summary>
-    public partial class EFCoreRepository<TEntity, TDbContextLocator>
+    public partial class PrivateRepository<TEntity>
         where TEntity : class, IPrivateEntity, new()
-        where TDbContextLocator : class, IDbContextLocator
     {
         /// <summary>
         /// 更新一条记录

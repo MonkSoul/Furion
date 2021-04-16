@@ -7,12 +7,7 @@ namespace Furion.DatabaseAccessor
     /// 可写仓储接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial interface IWritableRepository<TEntity>
-        : IWritableRepository<TEntity, MasterDbContextLocator>
-        , IInsertableRepository<TEntity>
-        , IUpdateableRepository<TEntity>
-        , IDeletableRepository<TEntity>
-        , IOperableRepository<TEntity>
+    public partial interface IWritableRepository<TEntity> : IWritableRepository<TEntity, MasterDbContextLocator>
         where TEntity : class, IPrivateEntity, new()
     {
     }
@@ -22,14 +17,23 @@ namespace Furion.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-    public partial interface IWritableRepository<TEntity, TDbContextLocator>
-        : IInsertableRepository<TEntity, TDbContextLocator>
-        , IUpdateableRepository<TEntity, TDbContextLocator>
-        , IDeletableRepository<TEntity, TDbContextLocator>
-        , IOperableRepository<TEntity, TDbContextLocator>
+    public partial interface IWritableRepository<TEntity, TDbContextLocator> : IPrivateWritableRepository<TEntity>
+        where TEntity : class, IPrivateEntity, new()
+        where TDbContextLocator : class, IDbContextLocator
+    {
+    }
+
+    /// <summary>
+    /// 可写仓储接口
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    public partial interface IPrivateWritableRepository<TEntity>
+        : IPrivateInsertableRepository<TEntity>
+        , IPrivateUpdateableRepository<TEntity>
+        , IPrivateDeletableRepository<TEntity>
+        , IPrivateOperableRepository<TEntity>
         , IPrivateRootRepository
-    where TEntity : class, IPrivateEntity, new()
-    where TDbContextLocator : class, IDbContextLocator
+        where TEntity : class, IPrivateEntity, new()
     {
         /// <summary>
         /// 接受所有更改

@@ -130,21 +130,14 @@ namespace Furion.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     [SkipScan]
-    public partial class EFCoreRepository<TEntity> : EFCoreRepository<TEntity, MasterDbContextLocator>, IRepository<TEntity>
+    public partial class EFCoreRepository<TEntity> : PrivateRepository<TEntity>, IRepository<TEntity>
         where TEntity : class, IPrivateEntity, new()
     {
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="dbContextResolve">数据库上下文解析器</param>
-        /// <param name="repository">非泛型仓储</param>
         /// <param name="scoped">服务提供器</param>
-        /// <param name="dbContextPool"></param>
-        public EFCoreRepository(
-            Func<Type, IScoped, DbContext> dbContextResolve
-            , IRepository repository
-            , IServiceProvider scoped
-            , IDbContextPool dbContextPool) : base(dbContextResolve, repository, scoped, dbContextPool)
+        public EFCoreRepository(IServiceProvider scoped) : base(typeof(MasterDbContextLocator), scoped)
         {
         }
     }
@@ -153,9 +146,25 @@ namespace Furion.DatabaseAccessor
     /// 多数据库上下文仓储
     /// </summary>
     [SkipScan]
-    public partial class EFCoreRepository<TEntity, TDbContextLocator> : SqlRepository<TDbContextLocator>, IRepository<TEntity, TDbContextLocator>
+    public partial class EFCoreRepository<TEntity, TDbContextLocator> : PrivateRepository<TEntity>, IRepository<TEntity, TDbContextLocator>
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
+    {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="scoped">服务提供器</param>
+        public EFCoreRepository(IServiceProvider scoped) : base(typeof(TDbContextLocator), scoped)
+        {
+        }
+    }
+
+    /// <summary>
+    /// 私有仓储
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    public partial class PrivateRepository<TEntity> : PrivateSqlRepository, IPrivateRepository<TEntity>
+        where TEntity : class, IPrivateEntity, new()
     {
         /// <summary>
         /// 非泛型仓储
@@ -170,17 +179,13 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="dbContextResolve">数据库上下文解析器</param>
-        /// <param name="repository">非泛型仓储</param>
+        /// <param name="dbContextLocator"></param>
         /// <param name="scoped">服务提供器</param>
-        /// <param name="dbContextPool"></param>
-        public EFCoreRepository(
-            Func<Type, IScoped, DbContext> dbContextResolve
-            , IRepository repository
-            , IServiceProvider scoped
-            , IDbContextPool dbContextPool) : base(dbContextResolve, scoped)
+        public PrivateRepository(Type dbContextLocator, IServiceProvider scoped) : base(dbContextLocator, scoped)
         {
-            // 初始化数据库相关数据
+            // 初始化服务提供器
+            ServiceProvider = scoped;
+
             DbConnection = Database.GetDbConnection();
             ChangeTracker = Context.ChangeTracker;
             Model = Context.Model;
@@ -197,13 +202,10 @@ namespace Furion.DatabaseAccessor
             EntityType = Model.FindEntityType(typeof(TEntity));
 
             // 初始化数据上下文池
-            _dbContextPool = dbContextPool;
-
-            // 初始化服务提供器
-            ServiceProvider = scoped;
+            _dbContextPool = scoped.GetService<IDbContextPool>();
 
             // 非泛型仓储
-            _repository = repository;
+            _repository = scoped.GetService<IRepository>();
         }
 
         /// <summary>

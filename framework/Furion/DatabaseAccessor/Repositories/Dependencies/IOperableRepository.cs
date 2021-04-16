@@ -21,9 +21,18 @@ namespace Furion.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-    public partial interface IOperableRepository<TEntity, TDbContextLocator> : IPrivateRootRepository
+    public partial interface IOperableRepository<TEntity, TDbContextLocator> : IPrivateOperableRepository<TEntity>
         where TEntity : class, IPrivateEntity, new()
         where TDbContextLocator : class, IDbContextLocator
+    {
+    }
+
+    /// <summary>
+    /// 可操作性仓储接口
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    public interface IPrivateOperableRepository<TEntity> : IPrivateRootRepository
+        where TEntity : class, IPrivateEntity, new()
     {
         /// <summary>
         /// 新增或更新一条记录
