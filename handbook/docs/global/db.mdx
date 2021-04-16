@@ -46,20 +46,20 @@ var sqlProxy= Db.GetSqlProxy<TSqlDispatchProxy>();
 var dbContext = Db.GetDbContext();
 ```
 
-## 2.7 获取定位器数据库上下文
+## 2.8 获取定位器数据库上下文
 
 ```cs
 var locatorDbContext = Db.GetDbContext<TDbContextLocator>();
 var locatorDbContext2 = Db.GetDbContext(typeof(TDbContextLocator));
 ```
 
-## 2.8 创建新的默认数据库上下文
+## 2.9 创建新的默认数据库上下文
 
 ```cs
 var dbContext = Db.GetNewDbContext();
 ```
 
-## 2.9 创建新的定位器数据库上下文
+## 2.10 创建新的定位器数据库上下文
 
 ```cs
 var locatorDbContext = Db.GetNewDbContext<TDbContextLocator>();
