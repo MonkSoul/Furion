@@ -11,299 +11,116 @@ namespace Furion.Logging.Extensions
     public static class StringLoggingExtensions
     {
         /// <summary>
+        /// 设置消息格式化参数
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
+        public static StringLoggerPart SetArgs(this string message, params object[] args)
+        {
+            return new StringLoggerPart().SetMessage(message).SetArgs(args);
+        }
+
+        /// <summary>
+        /// 设置日志级别
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="level"></param>
+        public static StringLoggerPart SetLevel(this string message, LogLevel level)
+        {
+            return new StringLoggerPart().SetMessage(message).SetLevel(level);
+        }
+
+        /// <summary>
+        /// 设置事件 Id
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="eventId"></param>
+        public static StringLoggerPart SetEventId(this string message, EventId eventId)
+        {
+            return new StringLoggerPart().SetMessage(message).SetEventId(eventId);
+        }
+
+        /// <summary>
+        /// 设置日志分类
+        /// </summary>
+        /// <param name="message"></param>
+        /// <typeparam name="TClass"></typeparam>
+        public static StringLoggerPart SetCategory<TClass>(this string message)
+        {
+            return new StringLoggerPart().SetMessage(message).SetCategory<TClass>();
+        }
+
+        /// <summary>
+        /// 设置日志分类名
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="categoryName"></param>
+        public static StringLoggerPart SetCategory(this string message, string categoryName)
+        {
+            return new StringLoggerPart().SetMessage(message).SetCategory(categoryName);
+        }
+
+        /// <summary>
+        /// 设置异常对象
+        /// </summary>
+        public static StringLoggerPart SetException(this string message, Exception exception)
+        {
+            return new StringLoggerPart().SetMessage(message).SetException(exception);
+        }
+
+        /// <summary>
+        /// 设置日志服务作用域
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="scoped"></param>
+        /// <returns></returns>
+        public static StringLoggerPart SetLoggerScoped(this string message, IServiceProvider scoped)
+        {
+            return new StringLoggerPart().SetMessage(message).SetLoggerScoped(scoped);
+        }
+
+        /// <summary>
         /// LogInformation
         /// </summary>
         /// <param name="message"></param>
-        /// <param name="categoryName"></param>
         /// <param name="args"></param>
-        public static void LogInformation(this string message, string categoryName, params object[] args)
+        public static void LogInformation(this string message, params object[] args)
         {
-            GetLogger(categoryName)?.LogInformation(message, args);
+            new StringLoggerPart().SetMessage(message).SetArgs(args).LogInformation();
         }
 
         /// <summary>
         /// LogInformation
         /// </summary>
         /// <param name="message"></param>
-        /// <param name="categoryName"></param>
         /// <param name="eventId"></param>
         /// <param name="args"></param>
-        public static void LogInformation(this string message, string categoryName, EventId eventId, params object[] args)
+        public static void LogInformation(this string message, EventId eventId, params object[] args)
         {
-            GetLogger(categoryName)?.LogInformation(eventId, message, args);
+            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).LogInformation();
         }
 
         /// <summary>
         /// LogInformation
         /// </summary>
         /// <param name="message"></param>
-        /// <param name="categoryName"></param>
         /// <param name="exception"></param>
         /// <param name="args"></param>
-        public static void LogInformation(this string message, string categoryName, Exception exception, params object[] args)
+        public static void LogInformation(this string message, Exception exception, params object[] args)
         {
-            GetLogger(categoryName)?.LogInformation(exception, message, args);
+            new StringLoggerPart().SetMessage(message).SetArgs(args).SetException(exception).LogInformation();
         }
 
         /// <summary>
         /// LogInformation
         /// </summary>
         /// <param name="message"></param>
-        /// <param name="categoryName"></param>
         /// <param name="eventId"></param>
         /// <param name="exception"></param>
         /// <param name="args"></param>
-        public static void LogInformation(this string message, string categoryName, EventId eventId, Exception exception, params object[] args)
+        public static void LogInformation(this string message, EventId eventId, Exception exception, params object[] args)
         {
-            GetLogger(categoryName)?.LogInformation(eventId, exception, message, args);
-        }
-
-        /// <summary>
-        /// LogWarning
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="args"></param>
-        public static void LogWarning(this string message, string categoryName, params object[] args)
-        {
-            GetLogger(categoryName)?.LogWarning(message, args);
-        }
-
-        /// <summary>
-        /// LogWarning
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="eventId"></param>
-        /// <param name="args"></param>
-        public static void LogWarning(this string message, string categoryName, EventId eventId, params object[] args)
-        {
-            GetLogger(categoryName)?.LogWarning(eventId, message, args);
-        }
-
-        /// <summary>
-        /// LogWarning
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="exception"></param>
-        /// <param name="args"></param>
-        public static void LogWarning(this string message, string categoryName, Exception exception, params object[] args)
-        {
-            GetLogger(categoryName)?.LogWarning(exception, message, args);
-        }
-
-        /// <summary>
-        /// LogWarning
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="eventId"></param>
-        /// <param name="exception"></param>
-        /// <param name="args"></param>
-        public static void LogWarning(this string message, string categoryName, EventId eventId, Exception exception, params object[] args)
-        {
-            GetLogger(categoryName)?.LogWarning(eventId, exception, message, args);
-        }
-
-        /// <summary>
-        /// LogError
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="args"></param>
-        public static void LogError(this string message, string categoryName, params object[] args)
-        {
-            GetLogger(categoryName)?.LogError(message, args);
-        }
-
-        /// <summary>
-        /// LogError
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="eventId"></param>
-        /// <param name="args"></param>
-        public static void LogError(this string message, string categoryName, EventId eventId, params object[] args)
-        {
-            GetLogger(categoryName)?.LogError(eventId, message, args);
-        }
-
-        /// <summary>
-        /// LogError
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="exception"></param>
-        /// <param name="args"></param>
-        public static void LogError(this string message, string categoryName, Exception exception, params object[] args)
-        {
-            GetLogger(categoryName)?.LogError(exception, message, args);
-        }
-
-        /// <summary>
-        /// LogError
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="eventId"></param>
-        /// <param name="exception"></param>
-        /// <param name="args"></param>
-        public static void LogError(this string message, string categoryName, EventId eventId, Exception exception, params object[] args)
-        {
-            GetLogger(categoryName)?.LogError(eventId, exception, message, args);
-        }
-
-        /// <summary>
-        /// LogTrace
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="args"></param>
-        public static void LogTrace(this string message, string categoryName, params object[] args)
-        {
-            GetLogger(categoryName)?.LogTrace(message, args);
-        }
-
-        /// <summary>
-        /// LogTrace
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="eventId"></param>
-        /// <param name="args"></param>
-        public static void LogTrace(this string message, string categoryName, EventId eventId, params object[] args)
-        {
-            GetLogger(categoryName)?.LogTrace(eventId, message, args);
-        }
-
-        /// <summary>
-        /// LogTrace
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="exception"></param>
-        /// <param name="args"></param>
-        public static void LogTrace(this string message, string categoryName, Exception exception, params object[] args)
-        {
-            GetLogger(categoryName)?.LogTrace(exception, message, args);
-        }
-
-        /// <summary>
-        /// LogTrace
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="eventId"></param>
-        /// <param name="exception"></param>
-        /// <param name="args"></param>
-        public static void LogTrace(this string message, string categoryName, EventId eventId, Exception exception, params object[] args)
-        {
-            GetLogger(categoryName)?.LogTrace(eventId, exception, message, args);
-        }
-
-        /// <summary>
-        /// LogCritical
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="args"></param>
-        public static void LogCritical(this string message, string categoryName, params object[] args)
-        {
-            GetLogger(categoryName)?.LogCritical(message, args);
-        }
-
-        /// <summary>
-        /// LogCritical
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="eventId"></param>
-        /// <param name="args"></param>
-        public static void LogCritical(this string message, string categoryName, EventId eventId, params object[] args)
-        {
-            GetLogger(categoryName)?.LogCritical(eventId, message, args);
-        }
-
-        /// <summary>
-        /// LogCritical
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="exception"></param>
-        /// <param name="args"></param>
-        public static void LogCritical(this string message, string categoryName, Exception exception, params object[] args)
-        {
-            GetLogger(categoryName)?.LogCritical(exception, message, args);
-        }
-
-        /// <summary>
-        /// LogCritical
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="eventId"></param>
-        /// <param name="exception"></param>
-        /// <param name="args"></param>
-        public static void LogCritical(this string message, string categoryName, EventId eventId, Exception exception, params object[] args)
-        {
-            GetLogger(categoryName)?.LogCritical(eventId, exception, message, args);
-        }
-
-        /// <summary>
-        /// Log
-        /// </summary>
-        /// <typeparam name="TClass"></typeparam>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="logLevel"></param>
-        /// <param name="args"></param>
-        public static void Log<TClass>(this string message, string categoryName, LogLevel logLevel, params object[] args)
-        {
-            GetLogger(categoryName)?.Log(logLevel, message, args);
-        }
-
-        /// <summary>
-        /// Log
-        /// </summary>
-        /// <typeparam name="TClass"></typeparam>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="logLevel"></param>
-        /// <param name="eventId"></param>
-        /// <param name="args"></param>
-        public static void Log<TClass>(this string message, string categoryName, LogLevel logLevel, EventId eventId, params object[] args)
-        {
-            GetLogger(categoryName)?.Log(logLevel, eventId, message, args);
-        }
-
-        /// <summary>
-        /// Log
-        /// </summary>
-        /// <typeparam name="TClass"></typeparam>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="logLevel"></param>
-        /// <param name="exception"></param>
-        /// <param name="args"></param>
-        public static void Log<TClass>(this string message, string categoryName, LogLevel logLevel, Exception exception, params object[] args)
-        {
-            GetLogger(categoryName)?.Log(logLevel, exception, message, args);
-        }
-
-        /// <summary>
-        /// Log
-        /// </summary>
-        /// <typeparam name="TClass"></typeparam>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="logLevel"></param>
-        /// <param name="eventId"></param>
-        /// <param name="exception"></param>
-        /// <param name="args"></param>
-        public static void Log<TClass>(this string message, string categoryName, LogLevel logLevel, EventId eventId, Exception exception, params object[] args)
-        {
-            GetLogger(categoryName)?.Log(logLevel, eventId, exception, message, args);
+            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogInformation();
         }
 
         /// <summary>
@@ -314,7 +131,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogInformation<TClass>(this string message, params object[] args)
         {
-            GetLogger<TClass>()?.LogInformation(message, args);
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).LogInformation();
         }
 
         /// <summary>
@@ -326,7 +143,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogInformation<TClass>(this string message, EventId eventId, params object[] args)
         {
-            GetLogger<TClass>()?.LogInformation(eventId, message, args);
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).LogInformation();
         }
 
         /// <summary>
@@ -338,7 +155,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogInformation<TClass>(this string message, Exception exception, params object[] args)
         {
-            GetLogger<TClass>()?.LogInformation(exception, message, args);
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetException(exception).LogInformation();
         }
 
         /// <summary>
@@ -351,7 +168,51 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogInformation<TClass>(this string message, EventId eventId, Exception exception, params object[] args)
         {
-            GetLogger<TClass>()?.LogInformation(eventId, exception, message, args);
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogInformation();
+        }
+
+        /// <summary>
+        /// LogWarning
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
+        public static void LogWarning(this string message, params object[] args)
+        {
+            new StringLoggerPart().SetMessage(message).SetArgs(args).LogWarning();
+        }
+
+        /// <summary>
+        /// LogWarning
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="eventId"></param>
+        /// <param name="args"></param>
+        public static void LogWarning(this string message, EventId eventId, params object[] args)
+        {
+            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).LogWarning();
+        }
+
+        /// <summary>
+        /// LogWarning
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="exception"></param>
+        /// <param name="args"></param>
+        public static void LogWarning(this string message, Exception exception, params object[] args)
+        {
+            new StringLoggerPart().SetMessage(message).SetArgs(args).SetException(exception).LogWarning();
+        }
+
+        /// <summary>
+        /// LogWarning
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="eventId"></param>
+        /// <param name="exception"></param>
+        /// <param name="args"></param>
+        public static void LogWarning(this string message, EventId eventId, Exception exception, params object[] args)
+        {
+            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogWarning();
         }
 
         /// <summary>
@@ -362,7 +223,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogWarning<TClass>(this string message, params object[] args)
         {
-            GetLogger<TClass>()?.LogWarning(message, args);
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).LogWarning();
         }
 
         /// <summary>
@@ -374,7 +235,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogWarning<TClass>(this string message, EventId eventId, params object[] args)
         {
-            GetLogger<TClass>()?.LogWarning(eventId, message, args);
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).LogWarning();
         }
 
         /// <summary>
@@ -386,7 +247,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogWarning<TClass>(this string message, Exception exception, params object[] args)
         {
-            GetLogger<TClass>()?.LogWarning(exception, message, args);
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetException(exception).LogWarning();
         }
 
         /// <summary>
@@ -399,7 +260,51 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogWarning<TClass>(this string message, EventId eventId, Exception exception, params object[] args)
         {
-            GetLogger<TClass>()?.LogWarning(eventId, exception, message, args);
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogWarning();
+        }
+
+        /// <summary>
+        /// LogError
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
+        public static void LogError(this string message, params object[] args)
+        {
+            new StringLoggerPart().SetMessage(message).SetArgs(args).LogError();
+        }
+
+        /// <summary>
+        /// LogError
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="eventId"></param>
+        /// <param name="args"></param>
+        public static void LogError(this string message, EventId eventId, params object[] args)
+        {
+            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).LogError();
+        }
+
+        /// <summary>
+        /// LogError
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="exception"></param>
+        /// <param name="args"></param>
+        public static void LogError(this string message, Exception exception, params object[] args)
+        {
+            new StringLoggerPart().SetMessage(message).SetArgs(args).SetException(exception).LogError();
+        }
+
+        /// <summary>
+        /// LogError
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="eventId"></param>
+        /// <param name="exception"></param>
+        /// <param name="args"></param>
+        public static void LogError(this string message, EventId eventId, Exception exception, params object[] args)
+        {
+            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogError();
         }
 
         /// <summary>
@@ -410,7 +315,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogError<TClass>(this string message, params object[] args)
         {
-            GetLogger<TClass>()?.LogError(message, args);
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).LogError();
         }
 
         /// <summary>
@@ -422,7 +327,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogError<TClass>(this string message, EventId eventId, params object[] args)
         {
-            GetLogger<TClass>()?.LogError(eventId, message, args);
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).LogError();
         }
 
         /// <summary>
@@ -434,7 +339,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogError<TClass>(this string message, Exception exception, params object[] args)
         {
-            GetLogger<TClass>()?.LogError(exception, message, args);
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetException(exception).LogError();
         }
 
         /// <summary>
@@ -447,7 +352,143 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogError<TClass>(this string message, EventId eventId, Exception exception, params object[] args)
         {
-            GetLogger<TClass>()?.LogError(eventId, exception, message, args);
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogError();
+        }
+
+        /// <summary>
+        /// LogDebug
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
+        public static void LogDebug(this string message, params object[] args)
+        {
+            new StringLoggerPart().SetMessage(message).SetArgs(args).LogDebug();
+        }
+
+        /// <summary>
+        /// LogDebug
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="eventId"></param>
+        /// <param name="args"></param>
+        public static void LogDebug(this string message, EventId eventId, params object[] args)
+        {
+            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).LogDebug();
+        }
+
+        /// <summary>
+        /// LogDebug
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="exception"></param>
+        /// <param name="args"></param>
+        public static void LogDebug(this string message, Exception exception, params object[] args)
+        {
+            new StringLoggerPart().SetMessage(message).SetArgs(args).SetException(exception).LogDebug();
+        }
+
+        /// <summary>
+        /// LogDebug
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="eventId"></param>
+        /// <param name="exception"></param>
+        /// <param name="args"></param>
+        public static void LogDebug(this string message, EventId eventId, Exception exception, params object[] args)
+        {
+            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogDebug();
+        }
+
+        /// <summary>
+        /// LogDebug
+        /// </summary>
+        /// <typeparam name="TClass"></typeparam>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
+        public static void LogDebug<TClass>(this string message, params object[] args)
+        {
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).LogDebug();
+        }
+
+        /// <summary>
+        /// LogDebug
+        /// </summary>
+        /// <typeparam name="TClass"></typeparam>
+        /// <param name="message"></param>
+        /// <param name="eventId"></param>
+        /// <param name="args"></param>
+        public static void LogDebug<TClass>(this string message, EventId eventId, params object[] args)
+        {
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).LogDebug();
+        }
+
+        /// <summary>
+        /// LogDebug
+        /// </summary>
+        /// <typeparam name="TClass"></typeparam>
+        /// <param name="message"></param>
+        /// <param name="exception"></param>
+        /// <param name="args"></param>
+        public static void LogDebug<TClass>(this string message, Exception exception, params object[] args)
+        {
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetException(exception).LogDebug();
+        }
+
+        /// <summary>
+        /// LogDebug
+        /// </summary>
+        /// <typeparam name="TClass"></typeparam>
+        /// <param name="message"></param>
+        /// <param name="eventId"></param>
+        /// <param name="exception"></param>
+        /// <param name="args"></param>
+        public static void LogDebug<TClass>(this string message, EventId eventId, Exception exception, params object[] args)
+        {
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogDebug();
+        }
+
+        /// <summary>
+        /// LogTrace
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
+        public static void LogTrace(this string message, params object[] args)
+        {
+            new StringLoggerPart().SetMessage(message).SetArgs(args).LogTrace();
+        }
+
+        /// <summary>
+        /// LogTrace
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="eventId"></param>
+        /// <param name="args"></param>
+        public static void LogTrace(this string message, EventId eventId, params object[] args)
+        {
+            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).LogTrace();
+        }
+
+        /// <summary>
+        /// LogTrace
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="exception"></param>
+        /// <param name="args"></param>
+        public static void LogTrace(this string message, Exception exception, params object[] args)
+        {
+            new StringLoggerPart().SetMessage(message).SetArgs(args).SetException(exception).LogTrace();
+        }
+
+        /// <summary>
+        /// LogTrace
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="eventId"></param>
+        /// <param name="exception"></param>
+        /// <param name="args"></param>
+        public static void LogTrace(this string message, EventId eventId, Exception exception, params object[] args)
+        {
+            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogTrace();
         }
 
         /// <summary>
@@ -458,7 +499,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogTrace<TClass>(this string message, params object[] args)
         {
-            GetLogger<TClass>()?.LogTrace(message, args);
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).LogTrace();
         }
 
         /// <summary>
@@ -470,7 +511,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogTrace<TClass>(this string message, EventId eventId, params object[] args)
         {
-            GetLogger<TClass>()?.LogTrace(eventId, message, args);
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).LogTrace();
         }
 
         /// <summary>
@@ -482,7 +523,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogTrace<TClass>(this string message, Exception exception, params object[] args)
         {
-            GetLogger<TClass>()?.LogTrace(exception, message, args);
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetException(exception).LogTrace();
         }
 
         /// <summary>
@@ -495,7 +536,51 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogTrace<TClass>(this string message, EventId eventId, Exception exception, params object[] args)
         {
-            GetLogger<TClass>()?.LogTrace(eventId, exception, message, args);
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogTrace();
+        }
+
+        /// <summary>
+        /// LogCritical
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
+        public static void LogCritical(this string message, params object[] args)
+        {
+            new StringLoggerPart().SetMessage(message).SetArgs(args).LogCritical();
+        }
+
+        /// <summary>
+        /// LogCritical
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="eventId"></param>
+        /// <param name="args"></param>
+        public static void LogCritical(this string message, EventId eventId, params object[] args)
+        {
+            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).LogCritical();
+        }
+
+        /// <summary>
+        /// LogCritical
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="exception"></param>
+        /// <param name="args"></param>
+        public static void LogCritical(this string message, Exception exception, params object[] args)
+        {
+            new StringLoggerPart().SetMessage(message).SetArgs(args).SetException(exception).LogCritical();
+        }
+
+        /// <summary>
+        /// LogCritical
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="eventId"></param>
+        /// <param name="exception"></param>
+        /// <param name="args"></param>
+        public static void LogCritical(this string message, EventId eventId, Exception exception, params object[] args)
+        {
+            new StringLoggerPart().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogCritical();
         }
 
         /// <summary>
@@ -506,7 +591,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogCritical<TClass>(this string message, params object[] args)
         {
-            GetLogger<TClass>()?.LogCritical(message, args);
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).LogCritical();
         }
 
         /// <summary>
@@ -518,7 +603,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogCritical<TClass>(this string message, EventId eventId, params object[] args)
         {
-            GetLogger<TClass>()?.LogCritical(eventId, message, args);
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).LogCritical();
         }
 
         /// <summary>
@@ -530,7 +615,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogCritical<TClass>(this string message, Exception exception, params object[] args)
         {
-            GetLogger<TClass>()?.LogCritical(exception, message, args);
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetException(exception).LogCritical();
         }
 
         /// <summary>
@@ -543,127 +628,7 @@ namespace Furion.Logging.Extensions
         /// <param name="args"></param>
         public static void LogCritical<TClass>(this string message, EventId eventId, Exception exception, params object[] args)
         {
-            GetLogger<TClass>()?.LogCritical(eventId, exception, message, args);
-        }
-
-        /// <summary>
-        /// Log
-        /// </summary>
-        /// <typeparam name="TClass"></typeparam>
-        /// <param name="message"></param>
-        /// <param name="logLevel"></param>
-        /// <param name="args"></param>
-        public static void Log<TClass>(this string message, LogLevel logLevel, params object[] args)
-        {
-            GetLogger<TClass>()?.Log(logLevel, message, args);
-        }
-
-        /// <summary>
-        /// Log
-        /// </summary>
-        /// <typeparam name="TClass"></typeparam>
-        /// <param name="message"></param>
-        /// <param name="logLevel"></param>
-        /// <param name="eventId"></param>
-        /// <param name="args"></param>
-        public static void Log<TClass>(this string message, LogLevel logLevel, EventId eventId, params object[] args)
-        {
-            GetLogger<TClass>()?.Log(logLevel, eventId, message, args);
-        }
-
-        /// <summary>
-        /// Log
-        /// </summary>
-        /// <typeparam name="TClass"></typeparam>
-        /// <param name="message"></param>
-        /// <param name="logLevel"></param>
-        /// <param name="exception"></param>
-        /// <param name="args"></param>
-        public static void Log<TClass>(this string message, LogLevel logLevel, Exception exception, params object[] args)
-        {
-            GetLogger<TClass>()?.Log(logLevel, exception, message, args);
-        }
-
-        /// <summary>
-        /// Log
-        /// </summary>
-        /// <typeparam name="TClass"></typeparam>
-        /// <param name="message"></param>
-        /// <param name="logLevel"></param>
-        /// <param name="eventId"></param>
-        /// <param name="exception"></param>
-        /// <param name="args"></param>
-        public static void Log<TClass>(this string message, LogLevel logLevel, EventId eventId, Exception exception, params object[] args)
-        {
-            GetLogger<TClass>()?.Log(logLevel, eventId, exception, message, args);
-        }
-
-        /// <summary>
-        /// Log
-        /// </summary>
-        /// <typeparam name="TClass"></typeparam>
-        /// <param name="message"></param>
-        /// <param name="args"></param>
-        public static void LogDynamic<TClass>(this string message, params object[] args)
-        {
-            GetLogger<TClass>()?.LogDynamic(message, args);
-        }
-
-        /// <summary>
-        /// Log
-        /// </summary>
-        /// <typeparam name="TClass"></typeparam>
-        /// <param name="message"></param>
-        /// <param name="eventId"></param>
-        /// <param name="args"></param>
-        public static void LogDynamic<TClass>(this string message, EventId eventId, params object[] args)
-        {
-            GetLogger<TClass>()?.LogDynamic(eventId, message, args);
-        }
-
-        /// <summary>
-        /// Log
-        /// </summary>
-        /// <typeparam name="TClass"></typeparam>
-        /// <param name="message"></param>
-        /// <param name="exception"></param>
-        /// <param name="args"></param>
-        public static void LogDynamic<TClass>(this string message, Exception exception, params object[] args)
-        {
-            GetLogger<TClass>()?.LogDynamic(exception, message, args);
-        }
-
-        /// <summary>
-        /// Log
-        /// </summary>
-        /// <typeparam name="TClass"></typeparam>
-        /// <param name="message"></param>
-        /// <param name="eventId"></param>
-        /// <param name="exception"></param>
-        /// <param name="args"></param>
-        public static void LogDynamic<TClass>(this string message, EventId eventId, Exception exception, params object[] args)
-        {
-            GetLogger<TClass>()?.LogDynamic(eventId, exception, message, args);
-        }
-
-        /// <summary>
-        /// 获取日志操作对象
-        /// </summary>
-        /// <typeparam name="TClass">类型</typeparam>
-        /// <returns></returns>
-        private static ILogger<TClass> GetLogger<TClass>()
-        {
-            return App.GetService<ILogger<TClass>>();
-        }
-
-        /// <summary>
-        /// 获取日志操作对象
-        /// </summary>
-        /// <param name="categoryName"></param>
-        /// <returns></returns>
-        private static ILogger GetLogger(string categoryName)
-        {
-            return App.GetService<ILoggerFactory>()?.CreateLogger(categoryName);
+            new StringLoggerPart().SetCategory<TClass>().SetMessage(message).SetArgs(args).SetEventId(eventId).SetException(exception).LogCritical();
         }
     }
 }

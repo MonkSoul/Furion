@@ -11,6 +11,7 @@
 - **突破性变化**
 
   - [重构] 完整任务调度功能 [#I3IRUX](https://gitee.com/dotnetchina/Furion/issues/I3IRUX)
+  - [重构] 日志模块功能 [#I3J2K0](https://gitee.com/dotnetchina/Furion/issues/I3J2K0)
   - [调整] 事件事件总线同步执行为异步方式执行 [#I3J0WA](https://gitee.com/dotnetchina/Furion/issues/I3J0WA)
   - [移除] 框架底层 `HttpContext.IsAjaxRequest()` 拓展 [#I3IVAA](https://gitee.com/dotnetchina/Furion/issues/I3IVAA)
 
@@ -22,6 +23,7 @@
   - [修复] 存储过程多返回值的时候，outputvalues 的 name 不是定义的 MSG 的 name，是 Msg 类型。 [#I3IC7Y](https://gitee.com/dotnetchina/Furion/issues/I3IC7Y)
   - [修复] PhoneNumber 手机号验证正则表达式错误 [#I3ID10](https://gitee.com/dotnetchina/Furion/issues/I3ID10)
   - [修复] 依赖注入 AOP 拦截无法捕获内部异常 [#I3IGCC](https://gitee.com/dotnetchina/Furion/issues/I3IGCC)
+  - [修复] 全局拦截标记异常已被处理后异常过滤器依然执行 [#I3J463](https://gitee.com/dotnetchina/Furion/issues/I3J463)
 
 - **其他更改**
 

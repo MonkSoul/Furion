@@ -48,6 +48,9 @@ namespace Microsoft.AspNetCore.Mvc.Filters
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
             if (typeof(Controller).IsAssignableFrom(actionDescriptor.ControllerTypeInfo)) return;
 
+            // 如果异常在其他地方被标记了处理，那么这里不再处理
+            if (context.ExceptionHandled) return;
+
             // 标识异常已经被处理
             context.ExceptionHandled = true;
 

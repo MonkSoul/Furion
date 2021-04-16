@@ -1,30 +1,12 @@
-﻿using Furion.DependencyInjection;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using System;
+﻿using System;
 
-namespace Furion.DatabaseAccessor.Extensions
+namespace Furion.DatabaseAccessor
 {
     /// <summary>
     /// 构建 Sql 执行部分
     /// </summary>
-    [SkipScan]
     public sealed partial class SqlBuilderPart
     {
-        /// <summary>
-        /// Sql 字符串
-        /// </summary>
-        public string SqlString { get; private set; }
-
-        /// <summary>
-        /// 数据库上下文定位器
-        /// </summary>
-        public Type DbContextLocator { get; private set; } = typeof(MasterDbContextLocator);
-
-        /// <summary>
-        /// 设置服务提供器
-        /// </summary>
-        public IServiceProvider ServiceProvider { get; private set; }
-
         /// <summary>
         /// 设置 Sql 字符串
         /// </summary>
@@ -37,13 +19,13 @@ namespace Furion.DatabaseAccessor.Extensions
         }
 
         /// <summary>
-        /// 设置服务提供器
+        /// 设置数据库执行作用域
         /// </summary>
         /// <param name="scoped"></param>
         /// <returns></returns>
-        public SqlBuilderPart SetServiceProvider(IServiceProvider scoped)
+        public SqlBuilderPart SetDbScoped(IServiceProvider scoped)
         {
-            ServiceProvider = scoped;
+            DbScoped = scoped;
             return this;
         }
 
@@ -67,19 +49,6 @@ namespace Furion.DatabaseAccessor.Extensions
         {
             DbContextLocator = dbContextLocator ?? typeof(MasterDbContextLocator);
             return this;
-        }
-
-        /// <summary>
-        /// 构建数据库对象
-        /// </summary>
-        /// <returns></returns>
-        private DatabaseFacade Build()
-        {
-            var sqlRepositoryType = typeof(ISqlRepository<>).MakeGenericType(DbContextLocator);
-            var sqlRepository = App.GetService(sqlRepositoryType, ServiceProvider);
-
-            // 反射读取值
-            return sqlRepositoryType.GetProperty(nameof(ISqlRepository.Database)).GetValue(sqlRepository) as DatabaseFacade;
         }
     }
 }
