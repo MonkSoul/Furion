@@ -27,7 +27,7 @@ namespace Furion.DatabaseAccessor
         , IUpdateableRepository<TEntity, TDbContextLocator>
         , IDeletableRepository<TEntity, TDbContextLocator>
         , IOperableRepository<TEntity, TDbContextLocator>
-        , IPrivateRepository
+        , IPrivateRootRepository
     where TEntity : class, IPrivateEntity, new()
     where TDbContextLocator : class, IDbContextLocator
     {

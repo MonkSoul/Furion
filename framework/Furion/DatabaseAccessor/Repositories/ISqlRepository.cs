@@ -24,7 +24,7 @@ namespace Furion.DatabaseAccessor
     /// </summary>
     public interface IPrivateSqlRepository : ISqlExecutableRepository
         , ISqlReaderRepository
-        , IPrivateRepository
+        , IPrivateRootRepository
     {
         /// <summary>
         /// 数据库操作对象
@@ -71,6 +71,6 @@ namespace Furion.DatabaseAccessor
         /// <typeparam name="TRestrainRepository">特定仓储</typeparam>
         /// <returns>TRestrainRepository</returns>
         TRestrainRepository Constraint<TRestrainRepository>()
-            where TRestrainRepository : class, IPrivateRepository;
+            where TRestrainRepository : class, IPrivateRootRepository;
     }
 }

@@ -9,7 +9,7 @@ namespace Furion.DatabaseAccessor
     /// <summary>
     /// Sql 执行仓储接口
     /// </summary>
-    public interface ISqlExecutableRepository : IPrivateRepository
+    public interface ISqlExecutableRepository : IPrivateRootRepository
     {
         /// <summary>
         /// 执行存储过程返回 DataTable
