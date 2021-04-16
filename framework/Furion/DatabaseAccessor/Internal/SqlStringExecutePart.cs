@@ -22,6 +22,6 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 设置服务提供器
         /// </summary>
-        public IServiceProvider DbScoped { get; private set; }
+        public IServiceProvider ContextScoped { get; private set; }
     }
 }

@@ -23,9 +23,9 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="scoped"></param>
         /// <returns></returns>
-        public SqlStringExecutePart SetDbScoped(IServiceProvider scoped)
+        public SqlStringExecutePart SetContextScoped(IServiceProvider scoped)
         {
-            DbScoped = scoped;
+            ContextScoped = scoped;
             return this;
         }
 

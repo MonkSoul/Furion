@@ -43,9 +43,9 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <param name="sql"></param>
         /// <param name="scoped"></param>
         /// <returns></returns>
-        public static SqlStringExecutePart SetDbScoped(this string sql, IServiceProvider scoped)
+        public static SqlStringExecutePart SetContextScoped(this string sql, IServiceProvider scoped)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SetDbScoped(scoped);
+            return new SqlStringExecutePart().SetSqlString(sql).SetContextScoped(scoped);
         }
 
         /// <summary>
