@@ -40,7 +40,7 @@ namespace Furion.DatabaseAccessor
         /// <returns></returns>
         internal static Action<IServiceProvider, DbContextOptionsBuilder> ConfigureDbContext(Action<DbContextOptionsBuilder> optionBuilder, params IInterceptor[] interceptors)
         {
-            return (serviceProvider, options) =>
+            return (scoped, options) =>
             {
                 if (App.WebHostEnvironment.IsDevelopment())
                 {
@@ -55,7 +55,7 @@ namespace Furion.DatabaseAccessor
                 AddInterceptors(interceptors, options);
 
                 // .NET 5 版本已不再起作用
-                // options.UseInternalServiceProvider(serviceProvider);
+                // options.UseInternalServiceProvider(scoped);
             };
         }
 

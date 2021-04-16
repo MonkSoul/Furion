@@ -276,13 +276,13 @@ namespace Furion.RemoteRequest
         }
 
         /// <summary>
-        /// 设置服务提供器
+        /// 设置请求作用域
         /// </summary>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public HttpClientPart SetServiceProvider(IServiceProvider serviceProvider)
+        public HttpClientPart SetRequestScoped(IServiceProvider scoped)
         {
-            ServiceProvider = serviceProvider;
+            RequestScoped = scoped;
             return this;
         }
     }

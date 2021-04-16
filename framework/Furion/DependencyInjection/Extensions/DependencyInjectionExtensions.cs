@@ -12,12 +12,12 @@ namespace Furion.DependencyInjection.Extensions
         /// </summary>
         /// <typeparam name="TService"></typeparam>
         /// <param name="obj"></param>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public static TService GetService<TService>(this object obj, IServiceProvider serviceProvider = default)
+        public static TService GetService<TService>(this object obj, IServiceProvider scoped = default)
             where TService : class
         {
-            return App.GetService<TService>(serviceProvider);
+            return App.GetService<TService>(scoped);
         }
 
         /// <summary>
@@ -25,12 +25,12 @@ namespace Furion.DependencyInjection.Extensions
         /// </summary>
         /// <typeparam name="TService"></typeparam>
         /// <param name="obj"></param>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public static TService GetRequiredService<TService>(this object obj, IServiceProvider serviceProvider = default)
+        public static TService GetRequiredService<TService>(this object obj, IServiceProvider scoped = default)
             where TService : class
         {
-            return App.GetRequiredService<TService>(serviceProvider);
+            return App.GetRequiredService<TService>(scoped);
         }
     }
 }

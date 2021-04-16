@@ -33,11 +33,11 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 获取非泛型仓储
         /// </summary>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public static IRepository GetRepository(IServiceProvider serviceProvider = default)
+        public static IRepository GetRepository(IServiceProvider scoped = default)
         {
-            return App.GetService<IRepository>(serviceProvider)
+            return App.GetService<IRepository>(scoped)
                 ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(IRepository)));
         }
 
@@ -45,12 +45,12 @@ namespace Furion.DatabaseAccessor
         /// 获取实体仓储
         /// </summary>
         /// <typeparam name="TEntity">实体类型</typeparam>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns>IRepository{TEntity}</returns>
-        public static IRepository<TEntity> GetRepository<TEntity>(IServiceProvider serviceProvider = default)
+        public static IRepository<TEntity> GetRepository<TEntity>(IServiceProvider scoped = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetService<IRepository<TEntity>>(serviceProvider)
+            return App.GetService<IRepository<TEntity>>(scoped)
                 ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(IRepository<TEntity>)));
         }
 
@@ -59,24 +59,24 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns>IRepository{TEntity, TDbContextLocator}</returns>
-        public static IRepository<TEntity, TDbContextLocator> GetRepository<TEntity, TDbContextLocator>(IServiceProvider serviceProvider = default)
+        public static IRepository<TEntity, TDbContextLocator> GetRepository<TEntity, TDbContextLocator>(IServiceProvider scoped = default)
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetService<IRepository<TEntity, TDbContextLocator>>(serviceProvider)
+            return App.GetService<IRepository<TEntity, TDbContextLocator>>(scoped)
                 ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(IRepository<TEntity, TDbContextLocator>)));
         }
 
         /// <summary>
         /// 获取Sql仓储
         /// </summary>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns>ISqlRepository</returns>
-        public static ISqlRepository GetSqlRepository(IServiceProvider serviceProvider = default)
+        public static ISqlRepository GetSqlRepository(IServiceProvider scoped = default)
         {
-            return App.GetService<ISqlRepository>(serviceProvider)
+            return App.GetService<ISqlRepository>(scoped)
                 ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(ISqlRepository)));
         }
 
@@ -84,49 +84,49 @@ namespace Furion.DatabaseAccessor
         /// 获取Sql仓储
         /// </summary>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns>ISqlRepository{TDbContextLocator}</returns>
-        public static ISqlRepository<TDbContextLocator> GetSqlRepository<TDbContextLocator>(IServiceProvider serviceProvider = default)
+        public static ISqlRepository<TDbContextLocator> GetSqlRepository<TDbContextLocator>(IServiceProvider scoped = default)
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetService<ISqlRepository<TDbContextLocator>>(serviceProvider)
+            return App.GetService<ISqlRepository<TDbContextLocator>>(scoped)
                 ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(ISqlRepository<TDbContextLocator>)));
         }
 
         /// <summary>
         /// 获取Sql代理
         /// </summary>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns>ISqlRepository</returns>
-        public static TSqlDispatchProxy GetSqlProxy<TSqlDispatchProxy>(IServiceProvider serviceProvider = default)
+        public static TSqlDispatchProxy GetSqlProxy<TSqlDispatchProxy>(IServiceProvider scoped = default)
             where TSqlDispatchProxy : class, ISqlDispatchProxy
         {
-            return App.GetService<TSqlDispatchProxy>(serviceProvider)
+            return App.GetService<TSqlDispatchProxy>(scoped)
                 ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(ISqlDispatchProxy)));
         }
 
         /// <summary>
         /// 获取作用域数据库上下文
         /// </summary>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public static DbContext GetDbContext(IServiceProvider serviceProvider = default)
+        public static DbContext GetDbContext(IServiceProvider scoped = default)
         {
-            return GetDbContext(typeof(MasterDbContextLocator), serviceProvider);
+            return GetDbContext(typeof(MasterDbContextLocator), scoped);
         }
 
         /// <summary>
         /// 获取作用域数据库上下文
         /// </summary>
         /// <param name="dbContextLocator">数据库上下文定位器</param>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public static DbContext GetDbContext(Type dbContextLocator, IServiceProvider serviceProvider = default)
+        public static DbContext GetDbContext(Type dbContextLocator, IServiceProvider scoped = default)
         {
             // 判断是否注册了数据库上下文
             if (!Penetrates.DbContextWithLocatorCached.ContainsKey(dbContextLocator)) return default;
 
-            var dbContextResolve = App.GetService<Func<Type, IScoped, DbContext>>(serviceProvider);
+            var dbContextResolve = App.GetService<Func<Type, IScoped, DbContext>>(scoped);
             return dbContextResolve(dbContextLocator, default);
         }
 
@@ -134,36 +134,36 @@ namespace Furion.DatabaseAccessor
         /// 获取作用域数据库上下文
         /// </summary>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public static DbContext GetDbContext<TDbContextLocator>(IServiceProvider serviceProvider = default)
+        public static DbContext GetDbContext<TDbContextLocator>(IServiceProvider scoped = default)
             where TDbContextLocator : class, IDbContextLocator
         {
-            return GetDbContext(typeof(TDbContextLocator), serviceProvider);
+            return GetDbContext(typeof(TDbContextLocator), scoped);
         }
 
         /// <summary>
         /// 获取新的瞬时数据库上下文
         /// </summary>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public static DbContext GetNewDbContext(IServiceProvider serviceProvider = default)
+        public static DbContext GetNewDbContext(IServiceProvider scoped = default)
         {
-            return GetNewDbContext(typeof(MasterDbContextLocator), serviceProvider);
+            return GetNewDbContext(typeof(MasterDbContextLocator), scoped);
         }
 
         /// <summary>
         /// 获取新的瞬时数据库上下文
         /// </summary>
         /// <param name="dbContextLocator"></param>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public static DbContext GetNewDbContext(Type dbContextLocator, IServiceProvider serviceProvider = default)
+        public static DbContext GetNewDbContext(Type dbContextLocator, IServiceProvider scoped = default)
         {
             // 判断是否注册了数据库上下文
             if (!Penetrates.DbContextWithLocatorCached.ContainsKey(dbContextLocator)) return default;
 
-            var dbContextResolve = App.GetService<Func<Type, ITransient, DbContext>>(serviceProvider);
+            var dbContextResolve = App.GetService<Func<Type, ITransient, DbContext>>(scoped);
             return dbContextResolve(dbContextLocator, default);
         }
 
@@ -171,12 +171,12 @@ namespace Furion.DatabaseAccessor
         /// 获取新的瞬时数据库上下文
         /// </summary>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public static DbContext GetNewDbContext<TDbContextLocator>(IServiceProvider serviceProvider = default)
+        public static DbContext GetNewDbContext<TDbContextLocator>(IServiceProvider scoped = default)
             where TDbContextLocator : class, IDbContextLocator
         {
-            return GetNewDbContext(typeof(TDbContextLocator), serviceProvider);
+            return GetNewDbContext(typeof(TDbContextLocator), scoped);
         }
     }
 }

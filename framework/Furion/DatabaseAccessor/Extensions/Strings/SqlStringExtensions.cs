@@ -41,11 +41,11 @@ namespace Furion.DatabaseAccessor.Extensions
         /// 设置服务定位器
         /// </summary>
         /// <param name="sql"></param>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public static SqlBuilderPart SetServiceProvider(this string sql, IServiceProvider serviceProvider)
+        public static SqlBuilderPart SetServiceProvider(this string sql, IServiceProvider scoped)
         {
-            return new SqlBuilderPart().SetSqlString(sql).SetServiceProvider(serviceProvider);
+            return new SqlBuilderPart().SetSqlString(sql).SetServiceProvider(scoped);
         }
 
         /// <summary>

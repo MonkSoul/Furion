@@ -325,13 +325,19 @@ var smtpServer = _configuration["outlook:smtp:server"]; // => smtp.office365.com
 在 `.NET Core` 应用程序中，配置支持更改通知，也就是热更新操作。**一旦监听到 `appsetting.json` 或自定义配置文件发生变动，就会触发 `OnChange` 方法**。代码如下：
 
 ```cs {2,4-5}
-var appInfoConfiguration = App.Configuration["AppInfo"];
-ChangeToken.OnChange(() => appInfoConfiguration.GetReloadToken(), () =>
+var appInfoConfiguration = App.Configuration.GetSection("AppInfo");
+ChangeToken.OnChange(() => App.Configuration.GetReloadToken(), () =>
 {
   var name = appInfoConfiguration["Name"];  // 实时的最新值
   var version = appInfoConfiguration["Version"];  // 实时的最新值
 });
 ```
+
+:::important 监听对象
+
+如果监听全局配置文件传入 `App.Configuration.GetReloadToken()`，如果只需要监听特定节点，传入 `App.Configuration.GetSection("AppInfo")`
+
+:::
 
 ## 4.1.7 手动添加配置文件
 

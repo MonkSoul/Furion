@@ -16,11 +16,11 @@ namespace Furion.ViewEngine.Extensions
         /// <param name="content"></param>
         /// <param name="model"></param>
         /// <param name="builderAction"></param>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public static string RunCompile(this string content, object model = null, Action<IViewEngineOptionsBuilder> builderAction = null, IServiceProvider serviceProvider = default)
+        public static string RunCompile(this string content, object model = null, Action<IViewEngineOptionsBuilder> builderAction = null, IServiceProvider scoped = default)
         {
-            return GetViewEngine(serviceProvider).RunCompile(content, model, builderAction);
+            return GetViewEngine(scoped).RunCompile(content, model, builderAction);
         }
 
         /// <summary>
@@ -29,26 +29,11 @@ namespace Furion.ViewEngine.Extensions
         /// <param name="content"></param>
         /// <param name="model"></param>
         /// <param name="builderAction"></param>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public static Task<string> RunCompileAsync(this string content, object model = null, Action<IViewEngineOptionsBuilder> builderAction = null, IServiceProvider serviceProvider = default)
+        public static Task<string> RunCompileAsync(this string content, object model = null, Action<IViewEngineOptionsBuilder> builderAction = null, IServiceProvider scoped = default)
         {
-            return GetViewEngine(serviceProvider).RunCompileAsync(content, model, builderAction);
-        }
-
-        /// <summary>
-        /// 编译并运行
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="content"></param>
-        /// <param name="model"></param>
-        /// <param name="builderAction"></param>
-        /// <param name="serviceProvider"></param>
-        /// <returns></returns>
-        public static string RunCompile<T>(this string content, T model, Action<IViewEngineOptionsBuilder> builderAction = null, IServiceProvider serviceProvider = default)
-            where T : class, new()
-        {
-            return GetViewEngine(serviceProvider).RunCompile(content, model, builderAction);
+            return GetViewEngine(scoped).RunCompileAsync(content, model, builderAction);
         }
 
         /// <summary>
@@ -58,12 +43,27 @@ namespace Furion.ViewEngine.Extensions
         /// <param name="content"></param>
         /// <param name="model"></param>
         /// <param name="builderAction"></param>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public static Task<string> RunCompileAsync<T>(this string content, T model, Action<IViewEngineOptionsBuilder> builderAction = null, IServiceProvider serviceProvider = default)
+        public static string RunCompile<T>(this string content, T model, Action<IViewEngineOptionsBuilder> builderAction = null, IServiceProvider scoped = default)
             where T : class, new()
         {
-            return GetViewEngine(serviceProvider).RunCompileAsync(content, model, builderAction);
+            return GetViewEngine(scoped).RunCompile(content, model, builderAction);
+        }
+
+        /// <summary>
+        /// 编译并运行
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="content"></param>
+        /// <param name="model"></param>
+        /// <param name="builderAction"></param>
+        /// <param name="scoped"></param>
+        /// <returns></returns>
+        public static Task<string> RunCompileAsync<T>(this string content, T model, Action<IViewEngineOptionsBuilder> builderAction = null, IServiceProvider scoped = default)
+            where T : class, new()
+        {
+            return GetViewEngine(scoped).RunCompileAsync(content, model, builderAction);
         }
 
         /// <summary>
@@ -73,11 +73,11 @@ namespace Furion.ViewEngine.Extensions
         /// <param name="model"></param>
         /// <param name="cacheFile"></param>
         /// <param name="builderAction"></param>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public static string RunCompileFromCached(this string content, object model = null, string cacheFile = default, Action<IViewEngineOptionsBuilder> builderAction = null, IServiceProvider serviceProvider = default)
+        public static string RunCompileFromCached(this string content, object model = null, string cacheFile = default, Action<IViewEngineOptionsBuilder> builderAction = null, IServiceProvider scoped = default)
         {
-            return GetViewEngine(serviceProvider).RunCompileFromCached(content, model, cacheFile, builderAction);
+            return GetViewEngine(scoped).RunCompileFromCached(content, model, cacheFile, builderAction);
         }
 
         /// <summary>
@@ -87,11 +87,11 @@ namespace Furion.ViewEngine.Extensions
         /// <param name="model"></param>
         /// <param name="cacheFile"></param>
         /// <param name="builderAction"></param>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public static Task<string> RunCompileFromCachedAsync(this string content, object model = null, string cacheFile = default, Action<IViewEngineOptionsBuilder> builderAction = null, IServiceProvider serviceProvider = default)
+        public static Task<string> RunCompileFromCachedAsync(this string content, object model = null, string cacheFile = default, Action<IViewEngineOptionsBuilder> builderAction = null, IServiceProvider scoped = default)
         {
-            return GetViewEngine(serviceProvider).RunCompileFromCachedAsync(content, model, cacheFile, builderAction);
+            return GetViewEngine(scoped).RunCompileFromCachedAsync(content, model, cacheFile, builderAction);
         }
 
         /// <summary>
@@ -102,12 +102,12 @@ namespace Furion.ViewEngine.Extensions
         /// <param name="model"></param>
         /// <param name="cacheFile"></param>
         /// <param name="builderAction"></param>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public static string RunCompileFromCached<T>(this string content, T model, string cacheFile = default, Action<IViewEngineOptionsBuilder> builderAction = null, IServiceProvider serviceProvider = default)
+        public static string RunCompileFromCached<T>(this string content, T model, string cacheFile = default, Action<IViewEngineOptionsBuilder> builderAction = null, IServiceProvider scoped = default)
             where T : class, new()
         {
-            return GetViewEngine(serviceProvider).RunCompileFromCached(content, model, cacheFile, builderAction);
+            return GetViewEngine(scoped).RunCompileFromCached(content, model, cacheFile, builderAction);
         }
 
         /// <summary>
@@ -117,22 +117,22 @@ namespace Furion.ViewEngine.Extensions
         /// <param name="model"></param>
         /// <param name="cacheFile"></param>
         /// <param name="builderAction"></param>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public static Task<string> RunCompileFromCachedAsync<T>(this string content, T model, string cacheFile = default, Action<IViewEngineOptionsBuilder> builderAction = null, IServiceProvider serviceProvider = default)
+        public static Task<string> RunCompileFromCachedAsync<T>(this string content, T model, string cacheFile = default, Action<IViewEngineOptionsBuilder> builderAction = null, IServiceProvider scoped = default)
             where T : class, new()
         {
-            return GetViewEngine(serviceProvider).RunCompileFromCachedAsync(content, model, cacheFile, builderAction);
+            return GetViewEngine(scoped).RunCompileFromCachedAsync(content, model, cacheFile, builderAction);
         }
 
         /// <summary>
         /// 获取视图引擎对象
         /// </summary>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        private static IViewEngine GetViewEngine(IServiceProvider serviceProvider = default)
+        private static IViewEngine GetViewEngine(IServiceProvider scoped = default)
         {
-            return App.GetService<IViewEngine>(serviceProvider)
+            return App.GetService<IViewEngine>(scoped)
                 ?? throw new InvalidOperationException("Please confirm whether the view engine is registered successfully.");
         }
     }

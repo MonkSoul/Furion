@@ -131,24 +131,24 @@ namespace Furion.DatabaseAccessor
                 var host = httpContext.Request.Host.Value;
 
                 // 获取服务提供器
-                var serviceProvider = httpContext.RequestServices;
+                var scoped = httpContext.RequestServices;
 
                 // 从分布式缓存中读取或查询数据库
                 var tenantCachedKey = $"MULTI_TENANT:{host}";
-                var distributedCache = serviceProvider.GetService<IDistributedCache>();
+                var distributedCache = scoped.GetService<IDistributedCache>();
                 var cachedValue = distributedCache.GetString(tenantCachedKey);
 
                 // 当前租户
                 Tenant currentTenant;
 
                 // 获取序列化库
-                var jsonSerializerProvider = serviceProvider.GetService<IJsonSerializerProvider>();
+                var jsonSerializerProvider = scoped.GetService<IJsonSerializerProvider>();
 
                 // 如果 Key 不存在
                 if (string.IsNullOrWhiteSpace(cachedValue))
                 {
                     // 获取新的租户数据库上下文
-                    var tenantDbContext = serviceProvider.GetService<Func<Type, ITransient, DbContext>>()(typeof(MultiTenantDbContextLocator), default);
+                    var tenantDbContext = scoped.GetService<Func<Type, ITransient, DbContext>>()(typeof(MultiTenantDbContextLocator), default);
                     if (tenantDbContext == null) return default;
 
                     currentTenant = tenantDbContext.Set<Tenant>().FirstOrDefault(u => u.Host == host);

@@ -12,12 +12,12 @@ namespace Furion.InstantMessaging
         /// 获取集线器实例
         /// </summary>
         /// <typeparam name="THub"></typeparam>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public static IHubContext<THub> GetHub<THub>(IServiceProvider serviceProvider = default)
+        public static IHubContext<THub> GetHub<THub>(IServiceProvider scoped = default)
             where THub : Hub
         {
-            return App.GetService<IHubContext<THub>>(serviceProvider);
+            return App.GetService<IHubContext<THub>>(scoped);
         }
 
         /// <summary>
@@ -25,13 +25,13 @@ namespace Furion.InstantMessaging
         /// </summary>
         /// <typeparam name="THub"></typeparam>
         /// <typeparam name="TStronglyTyped"></typeparam>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public static IHubContext<THub, TStronglyTyped> GetHub<THub, TStronglyTyped>(IServiceProvider serviceProvider = default)
+        public static IHubContext<THub, TStronglyTyped> GetHub<THub, TStronglyTyped>(IServiceProvider scoped = default)
             where THub : Hub<TStronglyTyped>
             where TStronglyTyped : class
         {
-            return App.GetService<IHubContext<THub, TStronglyTyped>>(serviceProvider);
+            return App.GetService<IHubContext<THub, TStronglyTyped>>(scoped);
         }
     }
 }

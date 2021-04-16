@@ -384,7 +384,7 @@ var res = await "https://www.furion.pro/upload".SetBody(new { id =1, name = "Fur
 有时候我们需要构建一个作用域的 `IServiceProvider`，这时只需要设置即可：
 
 ```cs
-var res = await "https://www.furion.pro/upload".SetServiceProvider(services);
+var res = await "https://www.furion.pro/upload".SetRequestScoped(services);
 ```
 
 ## 19.5 `IHttpDispatchProxy` 代理方式

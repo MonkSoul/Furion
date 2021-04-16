@@ -39,11 +39,11 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <summary>
         /// 设置服务提供器
         /// </summary>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns></returns>
-        public SqlBuilderPart SetServiceProvider(IServiceProvider serviceProvider)
+        public SqlBuilderPart SetServiceProvider(IServiceProvider scoped)
         {
-            ServiceProvider = serviceProvider;
+            ServiceProvider = scoped;
             return this;
         }
 

@@ -290,7 +290,7 @@ namespace Furion.RemoteRequest
             }
 
             // 解析 Json 序列化提供器
-            var jsonSerializer = App.GetService(JsonSerialization.ProviderType ?? typeof(SystemTextJsonSerializerProvider), ServiceProvider) as IJsonSerializerProvider;
+            var jsonSerializer = App.GetService(JsonSerialization.ProviderType ?? typeof(SystemTextJsonSerializerProvider), RequestScoped) as IJsonSerializerProvider;
 
             // 读取流内容
             var stream = await SendAsStreamAsync(cancellationToken);
@@ -391,7 +391,7 @@ namespace Furion.RemoteRequest
             });
 
             // 创建客户端请求工厂
-            var clientFactory = App.GetService<IHttpClientFactory>(ServiceProvider);
+            var clientFactory = App.GetService<IHttpClientFactory>(RequestScoped);
             if (clientFactory == null) throw new InvalidOperationException("please add `services.AddRemoteRequest()` in Startup.cs.");
 
             // 创建 HttpClient 对象
@@ -533,7 +533,7 @@ namespace Furion.RemoteRequest
         private string SerializerObject(object body)
         {
             // 解析序列化工具
-            var jsonSerializer = App.GetService(JsonSerialization.ProviderType, ServiceProvider) as IJsonSerializerProvider;
+            var jsonSerializer = App.GetService(JsonSerialization.ProviderType, RequestScoped) as IJsonSerializerProvider;
             return jsonSerializer.Serialize(body, JsonSerialization.JsonSerializerOptions);
         }
     }

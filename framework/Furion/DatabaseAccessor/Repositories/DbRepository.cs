@@ -18,11 +18,11 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="serviceProvider">服务提供器</param>
+        /// <param name="scoped">服务提供器</param>
         public DbRepository(
-            IServiceProvider serviceProvider)
+            IServiceProvider scoped)
         {
-            _serviceProvider = serviceProvider;
+            _serviceProvider = scoped;
         }
 
         /// <summary>

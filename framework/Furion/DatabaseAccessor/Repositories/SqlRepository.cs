@@ -16,10 +16,10 @@ namespace Furion.DatabaseAccessor
         /// 构造函数
         /// </summary>
         /// <param name="dbContextResolve">数据库上下文解析器</param>
-        /// <param name="serviceProvider">服务提供器</param>
+        /// <param name="scoped">服务提供器</param>
         public SqlRepository(
             Func<Type, IScoped, DbContext> dbContextResolve
-            , IServiceProvider serviceProvider) : base(dbContextResolve, serviceProvider)
+            , IServiceProvider scoped) : base(dbContextResolve, scoped)
         {
         }
     }
@@ -40,10 +40,10 @@ namespace Furion.DatabaseAccessor
         /// 构造函数
         /// </summary>
         /// <param name="dbContextResolve">数据库上下文解析器</param>
-        /// <param name="serviceProvider">服务提供器</param>
+        /// <param name="scoped">服务提供器</param>
         public SqlRepository(
             Func<Type, IScoped, DbContext> dbContextResolve
-            , IServiceProvider serviceProvider)
+            , IServiceProvider scoped)
         {
             // 解析数据库上下文
             var dbContext = dbContextResolve(typeof(TDbContextLocator), default);
@@ -52,7 +52,7 @@ namespace Furion.DatabaseAccessor
             // 初始化数据库相关数据
             Database = dbContext.Database;
 
-            _serviceProvider = serviceProvider;
+            _serviceProvider = scoped;
         }
 
         /// <summary>

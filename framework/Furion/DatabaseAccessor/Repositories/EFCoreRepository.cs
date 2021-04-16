@@ -29,13 +29,13 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="dbContextResolve">数据库上下文解析器</param>
         /// <param name="repository">非泛型仓储</param>
-        /// <param name="serviceProvider">服务提供器</param>
+        /// <param name="scoped">服务提供器</param>
         /// <param name="dbContextPool"></param>
         public EFCoreRepository(
             Func<Type, IScoped, DbContext> dbContextResolve
             , IRepository repository
-            , IServiceProvider serviceProvider
-            , IDbContextPool dbContextPool) : base(dbContextResolve, repository, serviceProvider, dbContextPool)
+            , IServiceProvider scoped
+            , IDbContextPool dbContextPool) : base(dbContextResolve, repository, scoped, dbContextPool)
         {
         }
     }
@@ -54,11 +54,11 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="serviceProvider">服务提供器</param>
+        /// <param name="scoped">服务提供器</param>
         public EFCoreRepository(
-            IServiceProvider serviceProvider)
+            IServiceProvider scoped)
         {
-            _serviceProvider = serviceProvider;
+            _serviceProvider = scoped;
         }
 
         /// <summary>
@@ -172,13 +172,13 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="dbContextResolve">数据库上下文解析器</param>
         /// <param name="repository">非泛型仓储</param>
-        /// <param name="serviceProvider">服务提供器</param>
+        /// <param name="scoped">服务提供器</param>
         /// <param name="dbContextPool"></param>
         public EFCoreRepository(
             Func<Type, IScoped, DbContext> dbContextResolve
             , IRepository repository
-            , IServiceProvider serviceProvider
-            , IDbContextPool dbContextPool) : base(dbContextResolve, serviceProvider)
+            , IServiceProvider scoped
+            , IDbContextPool dbContextPool) : base(dbContextResolve, scoped)
         {
             // 初始化数据库相关数据
             DbConnection = Database.GetDbConnection();
@@ -200,7 +200,7 @@ namespace Furion.DatabaseAccessor
             _dbContextPool = dbContextPool;
 
             // 初始化服务提供器
-            ServiceProvider = serviceProvider;
+            ServiceProvider = scoped;
 
             // 非泛型仓储
             _repository = repository;

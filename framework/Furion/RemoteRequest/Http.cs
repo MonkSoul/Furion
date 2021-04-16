@@ -12,12 +12,12 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 获取远程请求代理
         /// </summary>
-        /// <param name="serviceProvider"></param>
+        /// <param name="scoped"></param>
         /// <returns>ISqlRepository</returns>
-        public static THttpDispatchProxy GetRemoteRequestProxy<THttpDispatchProxy>(IServiceProvider serviceProvider = default)
+        public static THttpDispatchProxy GetRemoteRequestProxy<THttpDispatchProxy>(IServiceProvider scoped = default)
             where THttpDispatchProxy : class, IHttpDispatchProxy
         {
-            return App.GetService<THttpDispatchProxy>(serviceProvider);
+            return App.GetService<THttpDispatchProxy>(scoped);
         }
     }
 }
