@@ -2,8 +2,6 @@
 using Furion.Extensions;
 using Furion.Reflection;
 using Furion.Templates.Extensions;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -230,10 +228,10 @@ namespace Furion.DatabaseAccessor
             var sqlProxyAttribute = method.GetCustomAttribute<SqlProxyAttribute>(true);
 
             // 获取方法真实返回值类型
-            var returnType = method.GetMethodRealReturnType();
+            var returnType = method.GetRealReturnType();
 
             // 获取数据库上下文
-            var dbContext = GetDbContext(sqlProxyAttribute.DbContextLocator);
+            var dbContext = Db.GetDbContext(sqlProxyAttribute.DbContextLocator ?? typeof(MasterDbContextLocator), Services);
 
             // 转换方法参数
             var parameters = CombineDbParameter(method, args);
@@ -284,22 +282,6 @@ namespace Furion.DatabaseAccessor
                 CommandType = commandType,
                 FinalSql = finalSql
             };
-        }
-
-        /// <summary>
-        /// 获取数据库上下文
-        /// </summary>
-        /// <param name="dbContextLocator">数据库上下文定位器</param>
-        /// <returns>数据库上下文</returns>
-        private DbContext GetDbContext(Type dbContextLocator = null)
-        {
-            // 解析数据库上下文解析器
-            var dbContextResolver = Services.GetService<Func<Type, IScoped, DbContext>>();
-
-            // 解析数据库上下文
-            var dbContext = dbContextResolver(dbContextLocator ?? typeof(MasterDbContextLocator), default);
-
-            return dbContext;
         }
 
         /// <summary>

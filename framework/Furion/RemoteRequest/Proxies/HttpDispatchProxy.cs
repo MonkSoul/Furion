@@ -69,7 +69,7 @@ namespace Furion.RemoteRequest
         /// <param name="method"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        private static HttpClientExecutePart BuildHttpClientPart(MethodInfo method, object[] args)
+        private HttpClientExecutePart BuildHttpClientPart(MethodInfo method, object[] args)
         {
             // 判断方法是否是远程代理请求方法
             if (!method.IsDefined(typeof(HttpMethodBaseAttribute), true)) throw new InvalidOperationException($"{method.Name} is not a valid request proxy method.");
@@ -89,7 +89,8 @@ namespace Furion.RemoteRequest
             var httpClientPart = new HttpClientExecutePart();
             httpClientPart.SetRequestUrl(httpMethodBase.RequestUrl)
                           .SetHttpMethod(httpMethodBase.Method)
-                          .SetTemplates(parameters.ToDictionary(u => u.Name, u => u.Value));
+                          .SetTemplates(parameters.ToDictionary(u => u.Name, u => u.Value))
+                          .SetRequestScoped(Services);
 
             // 获取方法所在类型
             var declaringType = method.DeclaringType;

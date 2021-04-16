@@ -25,7 +25,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().Entities;
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().Ethnics();
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().Insert(entity, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().Insert(ignoreNullValues);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertAsync(entity, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertAsync(ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertNow(entity, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertNow(ignoreNullValues);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertNow(entity, acceptAllChangesOnSuccess, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertNow(acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertNowAsync(entity, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertNowAsync(ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertNowAsync(entity, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertNowAsync(acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().Update(entity, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().Update(ignoreNullValues);
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace Furion.DatabaseAccessor.Extensions
              where TEntity : class, IPrivateEntity, new()
              where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateAsync(entity, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateAsync(ignoreNullValues);
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateNow(entity, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateNow(ignoreNullValues);
         }
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace Furion.DatabaseAccessor.Extensions
              where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateNow(entity, acceptAllChangesOnSuccess, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateNow(acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateNowAsync(entity, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateNowAsync(ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateNowAsync(entity, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateNowAsync(acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -230,7 +230,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateInclude(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateInclude(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -246,7 +246,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateInclude(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateInclude(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateInclude(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateInclude(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -278,7 +278,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateInclude(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateInclude(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -294,7 +294,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeAsync(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeAsync(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -310,7 +310,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeAsync(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeAsync(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -326,7 +326,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeAsync(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeAsync(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -342,7 +342,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeAsync(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeAsync(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -358,7 +358,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -375,7 +375,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -391,7 +391,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -408,7 +408,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -424,7 +424,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -441,7 +441,7 @@ namespace Furion.DatabaseAccessor.Extensions
              where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -457,7 +457,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -474,7 +474,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -490,7 +490,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -507,7 +507,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyNames, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -525,7 +525,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -541,7 +541,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -558,7 +558,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyPredicates, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -576,7 +576,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -593,7 +593,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyNames, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -611,7 +611,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -628,7 +628,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyPredicates, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -646,7 +646,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -662,7 +662,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExclude(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExclude(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -678,7 +678,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExclude(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExclude(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -694,7 +694,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExclude(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExclude(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -710,7 +710,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExclude(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExclude(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -726,7 +726,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeAsync(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeAsync(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -742,7 +742,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeAsync(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeAsync(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -758,7 +758,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeAsync(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeAsync(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -774,7 +774,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeAsync(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeAsync(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -790,7 +790,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -807,7 +807,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -823,7 +823,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -840,7 +840,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -856,7 +856,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -873,7 +873,7 @@ namespace Furion.DatabaseAccessor.Extensions
              where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -889,7 +889,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -906,7 +906,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -922,7 +922,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -939,7 +939,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyNames, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -957,7 +957,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -973,7 +973,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -990,7 +990,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyPredicates, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -1008,7 +1008,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -1025,7 +1025,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyNames, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -1043,7 +1043,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -1060,7 +1060,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyPredicates, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -1078,7 +1078,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -1092,7 +1092,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().Delete(entity);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().Delete();
         }
 
         /// <summary>
@@ -1106,7 +1106,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().DeleteAsync(entity);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().DeleteAsync();
         }
 
         /// <summary>
@@ -1120,7 +1120,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().DeleteNow(entity);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().DeleteNow();
         }
 
         /// <summary>
@@ -1135,7 +1135,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().DeleteNow(entity, acceptAllChangesOnSuccess);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().DeleteNow(acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1150,7 +1150,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().DeleteNowAsync(entity, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().DeleteNowAsync(cancellationToken);
         }
 
         /// <summary>
@@ -1166,7 +1166,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().DeleteNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().DeleteNowAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1182,7 +1182,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdate(entity, ignoreNullValues, checkProperty);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdate(ignoreNullValues, checkProperty);
         }
 
         /// <summary>
@@ -1199,7 +1199,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateAsync(entity, ignoreNullValues, checkProperty, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateAsync(ignoreNullValues, checkProperty, cancellationToken);
         }
 
         /// <summary>
@@ -1215,7 +1215,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateNow(entity, ignoreNullValues, checkProperty);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateNow(ignoreNullValues, checkProperty);
         }
 
         /// <summary>
@@ -1232,7 +1232,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateNow(entity, acceptAllChangesOnSuccess, ignoreNullValues, checkProperty);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateNow(acceptAllChangesOnSuccess, ignoreNullValues, checkProperty);
         }
 
         /// <summary>
@@ -1249,7 +1249,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateNowAsync(entity, ignoreNullValues, checkProperty, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateNowAsync(ignoreNullValues, checkProperty, cancellationToken);
         }
 
         /// <summary>
@@ -1267,7 +1267,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateNowAsync(entity, acceptAllChangesOnSuccess, ignoreNullValues, checkProperty, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateNowAsync(acceptAllChangesOnSuccess, ignoreNullValues, checkProperty, cancellationToken);
         }
 
         /// <summary>
@@ -1282,7 +1282,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateInclude(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateInclude(propertyNames);
         }
 
         /// <summary>
@@ -1297,7 +1297,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateInclude(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateInclude(propertyPredicates);
         }
 
         /// <summary>
@@ -1312,7 +1312,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateInclude(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateInclude(propertyNames);
         }
 
         /// <summary>
@@ -1327,7 +1327,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateInclude(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateInclude(propertyPredicates);
         }
 
         /// <summary>
@@ -1342,7 +1342,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeAsync(propertyNames);
         }
 
         /// <summary>
@@ -1358,7 +1358,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyNames, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeAsync(propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1373,7 +1373,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeAsync(propertyPredicates);
         }
 
         /// <summary>
@@ -1389,7 +1389,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyPredicates, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeAsync(propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1405,7 +1405,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyNames, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeAsync(propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1421,7 +1421,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeAsync(entity, propertyPredicates, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeAsync(propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1436,7 +1436,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeNow(propertyNames);
         }
 
         /// <summary>
@@ -1452,7 +1452,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeNow(propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1467,7 +1467,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeNow(propertyPredicates);
         }
 
         /// <summary>
@@ -1483,7 +1483,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeNow(propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1498,7 +1498,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeNow(propertyNames);
         }
 
         /// <summary>
@@ -1514,7 +1514,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeNow(propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1529,7 +1529,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeNow(propertyPredicates);
         }
 
         /// <summary>
@@ -1545,7 +1545,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeNow(propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1560,7 +1560,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeNowAsync(propertyNames);
         }
 
         /// <summary>
@@ -1576,7 +1576,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeNowAsync(propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1593,7 +1593,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeNowAsync(propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1608,7 +1608,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeNowAsync(propertyPredicates);
         }
 
         /// <summary>
@@ -1624,7 +1624,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeNowAsync(propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1641,7 +1641,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1657,7 +1657,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeNowAsync(propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1674,7 +1674,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeNowAsync(propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1690,7 +1690,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeNowAsync(propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1707,7 +1707,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateIncludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1722,7 +1722,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExclude(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExclude(propertyNames);
         }
 
         /// <summary>
@@ -1737,7 +1737,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExclude(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExclude(propertyPredicates);
         }
 
         /// <summary>
@@ -1752,7 +1752,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExclude(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExclude(propertyNames);
         }
 
         /// <summary>
@@ -1767,7 +1767,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExclude(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExclude(propertyPredicates);
         }
 
         /// <summary>
@@ -1782,7 +1782,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeAsync(propertyNames);
         }
 
         /// <summary>
@@ -1798,7 +1798,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyNames, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeAsync(propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1813,7 +1813,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeAsync(propertyPredicates);
         }
 
         /// <summary>
@@ -1829,7 +1829,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyPredicates, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeAsync(propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1845,7 +1845,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyNames, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeAsync(propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1861,7 +1861,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeAsync(entity, propertyPredicates, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeAsync(propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1876,7 +1876,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeNow(propertyNames);
         }
 
         /// <summary>
@@ -1892,7 +1892,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeNow(propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1907,7 +1907,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeNow(propertyPredicates);
         }
 
         /// <summary>
@@ -1923,7 +1923,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeNow(propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1938,7 +1938,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeNow(propertyNames);
         }
 
         /// <summary>
@@ -1954,7 +1954,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeNow(propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1969,7 +1969,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeNow(propertyPredicates);
         }
 
         /// <summary>
@@ -1985,7 +1985,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeNow(propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -2000,7 +2000,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeNowAsync(propertyNames);
         }
 
         /// <summary>
@@ -2016,7 +2016,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeNowAsync(propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -2033,7 +2033,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeNowAsync(propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -2048,7 +2048,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeNowAsync(propertyPredicates);
         }
 
         /// <summary>
@@ -2064,7 +2064,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeNowAsync(propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -2081,7 +2081,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -2097,7 +2097,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeNowAsync(propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -2114,7 +2114,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeNowAsync(propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -2130,7 +2130,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeNowAsync(propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -2147,7 +2147,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().InsertOrUpdateExcludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -2161,7 +2161,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().FakeDelete(entity);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().FakeDelete();
         }
 
         /// <summary>
@@ -2175,7 +2175,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().FakeDeleteAsync(entity);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().FakeDeleteAsync();
         }
 
         /// <summary>
@@ -2189,7 +2189,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().FakeDeleteNow(entity);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().FakeDeleteNow();
         }
 
         /// <summary>
@@ -2204,7 +2204,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().FakeDeleteNow(entity, acceptAllChangesOnSuccess);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().FakeDeleteNow(acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -2219,7 +2219,7 @@ namespace Furion.DatabaseAccessor.Extensions
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().FakeDeleteNowAsync(entity, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().FakeDeleteNowAsync(cancellationToken);
         }
 
         /// <summary>
@@ -2235,7 +2235,7 @@ namespace Furion.DatabaseAccessor.Extensions
              where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return Db.GetRepository<TEntity, TDbContextLocator>().FakeDeleteNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().FakeDeleteNowAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
     }
 }

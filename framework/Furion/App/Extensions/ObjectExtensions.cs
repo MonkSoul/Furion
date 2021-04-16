@@ -182,7 +182,7 @@ namespace Furion.Extensions
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        internal static Type GetMethodRealReturnType(this MethodInfo method)
+        internal static Type GetRealReturnType(this MethodInfo method)
         {
             // 判断是否是异步方法
             var isAsyncMethod = method.IsAsync();

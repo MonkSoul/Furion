@@ -635,7 +635,7 @@ namespace Furion.DynamicApiController
             if (UnifyContext.IsSkipUnifyHandlerOnSucceedReturn(action.ActionMethod, out var _, false)) return;
 
             // 获取真实类型
-            var returnType = action.ActionMethod.GetMethodRealReturnType();
+            var returnType = action.ActionMethod.GetRealReturnType();
             if (returnType == typeof(void)) return;
 
             // 添加规范化结果特性

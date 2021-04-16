@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Furion.DatabaseAccessor
 {
-    // <summary>
+    /// <summary>
     /// 可插入仓储接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>

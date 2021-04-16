@@ -152,7 +152,7 @@ namespace Furion.UnifyResult
 
             // 判断是否跳过规范化处理
             var isSkip = !IsEnabledUnifyHandle
-                  || method.GetMethodRealReturnType().HasImplementedRawGeneric(RESTfulResultType)
+                  || method.GetRealReturnType().HasImplementedRawGeneric(RESTfulResultType)
                   || method.CustomAttributes.Any(x => typeof(NonUnifyAttribute).IsAssignableFrom(x.AttributeType) || typeof(ProducesResponseTypeAttribute).IsAssignableFrom(x.AttributeType) || typeof(IApiResponseMetadataProvider).IsAssignableFrom(x.AttributeType))
                   || method.ReflectedType.IsDefined(typeof(NonUnifyAttribute), true);
 

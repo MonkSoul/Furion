@@ -16,6 +16,58 @@ namespace Furion.DatabaseAccessor.Extensions
     public static class IEntityExtensions
     {
         /// <summary>
+        /// 设置实体
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public static EntityExecutePart<TEntity> SetEntity<TEntity>(this TEntity entity)
+            where TEntity : class, IPrivateEntity, new()
+        {
+            return new EntityExecutePart<TEntity>().SetEntity(entity);
+        }
+
+        /// <summary>
+        /// 设置数据库执行作用域
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="entity"></param>
+        /// <param name="scoped"></param>
+        /// <returns></returns>
+        public static EntityExecutePart<TEntity> SetContextScoped<TEntity>(this TEntity entity, IServiceProvider scoped)
+            where TEntity : class, IPrivateEntity, new()
+        {
+            return new EntityExecutePart<TEntity>().SetEntity(entity).SetContextScoped(scoped);
+        }
+
+        /// <summary>
+        /// 设置数据库上下文定位器
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TDbContextLocator"></typeparam>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public static EntityExecutePart<TEntity> Change<TEntity, TDbContextLocator>(this TEntity entity)
+            where TEntity : class, IPrivateEntity, new()
+            where TDbContextLocator : class, IDbContextLocator
+        {
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>();
+        }
+
+        /// <summary>
+        /// 设置数据库上下文定位器
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="entity"></param>
+        /// <param name="dbContextLocator"></param>
+        /// <returns></returns>
+        public static EntityExecutePart<TEntity> Change<TEntity>(this TEntity entity, Type dbContextLocator)
+            where TEntity : class, IPrivateEntity, new()
+        {
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Change(dbContextLocator);
+        }
+
+        /// <summary>
         /// 获取实体同类（族群）
         /// </summary>
         /// <typeparam name="TEntity">实体</typeparam>
@@ -23,7 +75,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static DbSet<TEntity> Ethnics<TEntity>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().Entities;
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Ethnics();
         }
 
         /// <summary>
@@ -36,7 +88,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> Insert<TEntity>(this TEntity entity, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().Insert(entity, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Insert(ignoreNullValues);
         }
 
         /// <summary>
@@ -50,7 +102,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertAsync<TEntity>(this TEntity entity, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertAsync(entity, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertAsync(ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -63,7 +115,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertNow<TEntity>(this TEntity entity, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertNow(entity, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertNow(ignoreNullValues);
         }
 
         /// <summary>
@@ -77,7 +129,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertNow(entity, acceptAllChangesOnSuccess, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertNow(acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -91,7 +143,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertNowAsync<TEntity>(this TEntity entity, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertNowAsync(entity, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertNowAsync(ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -106,7 +158,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertNowAsync(entity, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertNowAsync(acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -119,7 +171,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> Update<TEntity>(this TEntity entity, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().Update(entity, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Update(ignoreNullValues);
         }
 
         /// <summary>
@@ -132,7 +184,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateAsync<TEntity>(this TEntity entity, bool? ignoreNullValues = null)
              where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateAsync(entity, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateAsync(ignoreNullValues);
         }
 
         /// <summary>
@@ -145,7 +197,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateNow<TEntity>(this TEntity entity, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateNow(entity, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateNow(ignoreNullValues);
         }
 
         /// <summary>
@@ -159,7 +211,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
              where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateNow(entity, acceptAllChangesOnSuccess, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateNow(acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -173,7 +225,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateNowAsync<TEntity>(this TEntity entity, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateNowAsync(entity, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateNowAsync(ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -188,7 +240,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateNowAsync(entity, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateNowAsync(acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -202,7 +254,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateInclude(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateInclude(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -216,7 +268,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateInclude(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateInclude(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -230,7 +282,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateInclude(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateInclude(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -244,7 +296,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateInclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateInclude(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateInclude(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -258,7 +310,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeAsync(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -272,7 +324,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeAsync(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -286,7 +338,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeAsync(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -300,7 +352,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeAsync(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeAsync(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -314,7 +366,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNow(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -329,7 +381,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -343,7 +395,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNow(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -358,7 +410,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -372,7 +424,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNow(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -387,7 +439,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
              where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -401,7 +453,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNow(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -416,7 +468,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -430,7 +482,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNowAsync(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -445,7 +497,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -461,7 +513,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -475,7 +527,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNowAsync(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -490,7 +542,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -506,7 +558,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -521,7 +573,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -537,7 +589,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -552,7 +604,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -568,7 +620,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateIncludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -582,7 +634,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExclude(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExclude(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -596,7 +648,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExclude(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExclude(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -610,7 +662,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExclude(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExclude(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -624,7 +676,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateExclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExclude(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExclude(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -638,7 +690,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeAsync(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -652,7 +704,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeAsync(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -666,7 +718,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeAsync(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -680,7 +732,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeAsync(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeAsync(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -694,7 +746,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNow(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -709,7 +761,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -723,7 +775,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNow(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -738,7 +790,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -752,7 +804,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNow(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -767,7 +819,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
              where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNow(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -781,7 +833,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNow(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -796,7 +848,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> UpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNow(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues);
         }
 
         /// <summary>
@@ -810,7 +862,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNowAsync(propertyNames, ignoreNullValues);
         }
 
         /// <summary>
@@ -825,7 +877,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -841,7 +893,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -855,7 +907,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, ignoreNullValues);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNowAsync(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -870,7 +922,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -886,7 +938,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -901,7 +953,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNowAsync(propertyNames, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -917,7 +969,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -932,7 +984,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNowAsync(propertyPredicates, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -948,7 +1000,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().UpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).UpdateExcludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
         }
 
         /// <summary>
@@ -960,7 +1012,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> Delete<TEntity>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().Delete(entity);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).Delete();
         }
 
         /// <summary>
@@ -972,7 +1024,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> DeleteAsync<TEntity>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().DeleteAsync(entity);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).DeleteAsync();
         }
 
         /// <summary>
@@ -984,7 +1036,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> DeleteNow<TEntity>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().DeleteNow(entity);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).DeleteNow();
         }
 
         /// <summary>
@@ -997,7 +1049,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> DeleteNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().DeleteNow(entity, acceptAllChangesOnSuccess);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).DeleteNow(acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1010,7 +1062,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> DeleteNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().DeleteNowAsync(entity, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).DeleteNowAsync(cancellationToken);
         }
 
         /// <summary>
@@ -1024,7 +1076,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> DeleteNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().DeleteNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).DeleteNowAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1038,7 +1090,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdate<TEntity>(this TEntity entity, bool? ignoreNullValues = null, Expression<Func<TEntity, object>> checkProperty = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdate(entity, ignoreNullValues, checkProperty);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdate(ignoreNullValues, checkProperty);
         }
 
         /// <summary>
@@ -1053,7 +1105,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateAsync<TEntity>(this TEntity entity, bool? ignoreNullValues = null, Expression<Func<TEntity, object>> checkProperty = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateAsync(entity, ignoreNullValues, checkProperty, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateAsync(ignoreNullValues, checkProperty, cancellationToken);
         }
 
         /// <summary>
@@ -1067,7 +1119,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateNow<TEntity>(this TEntity entity, bool? ignoreNullValues = null, Expression<Func<TEntity, object>> checkProperty = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateNow(entity, ignoreNullValues, checkProperty);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateNow(ignoreNullValues, checkProperty);
         }
 
         /// <summary>
@@ -1082,7 +1134,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, Expression<Func<TEntity, object>> checkProperty = null)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateNow(entity, acceptAllChangesOnSuccess, ignoreNullValues, checkProperty);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateNow(acceptAllChangesOnSuccess, ignoreNullValues, checkProperty);
         }
 
         /// <summary>
@@ -1097,7 +1149,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateNowAsync<TEntity>(this TEntity entity, bool? ignoreNullValues = null, Expression<Func<TEntity, object>> checkProperty = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateNowAsync(entity, ignoreNullValues, checkProperty, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateNowAsync(ignoreNullValues, checkProperty, cancellationToken);
         }
 
         /// <summary>
@@ -1113,7 +1165,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, Expression<Func<TEntity, object>> checkProperty = null, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateNowAsync(entity, acceptAllChangesOnSuccess, ignoreNullValues, checkProperty, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateNowAsync(acceptAllChangesOnSuccess, ignoreNullValues, checkProperty, cancellationToken);
         }
 
         /// <summary>
@@ -1126,7 +1178,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateInclude<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateInclude(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateInclude(propertyNames);
         }
 
         /// <summary>
@@ -1139,7 +1191,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateInclude<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateInclude(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateInclude(propertyPredicates);
         }
 
         /// <summary>
@@ -1152,7 +1204,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateInclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateInclude(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateInclude(propertyNames);
         }
 
         /// <summary>
@@ -1165,7 +1217,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateInclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateInclude(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateInclude(propertyPredicates);
         }
 
         /// <summary>
@@ -1178,7 +1230,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeAsync(propertyNames);
         }
 
         /// <summary>
@@ -1192,7 +1244,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyNames, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeAsync(propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1205,7 +1257,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeAsync(propertyPredicates);
         }
 
         /// <summary>
@@ -1219,7 +1271,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyPredicates, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeAsync(propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1233,7 +1285,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyNames, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeAsync(propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1247,7 +1299,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeAsync(entity, propertyPredicates, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeAsync(propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1260,7 +1312,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeNow(propertyNames);
         }
 
         /// <summary>
@@ -1274,7 +1326,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeNow(propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1287,7 +1339,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeNow(propertyPredicates);
         }
 
         /// <summary>
@@ -1301,7 +1353,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeNow(propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1314,7 +1366,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeNow(propertyNames);
         }
 
         /// <summary>
@@ -1328,7 +1380,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeNow(propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1341,7 +1393,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeNow(propertyPredicates);
         }
 
         /// <summary>
@@ -1355,7 +1407,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateIncludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeNow(propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1368,7 +1420,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeNowAsync(propertyNames);
         }
 
         /// <summary>
@@ -1382,7 +1434,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeNowAsync(propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1397,7 +1449,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeNowAsync(propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1410,7 +1462,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeNowAsync(propertyPredicates);
         }
 
         /// <summary>
@@ -1424,7 +1476,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeNowAsync(propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1439,7 +1491,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1453,7 +1505,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeNowAsync(propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1468,7 +1520,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeNowAsync(propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1482,7 +1534,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeNowAsync(propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1497,7 +1549,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateIncludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateIncludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateIncludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1510,7 +1562,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateExclude<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExclude(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExclude(propertyNames);
         }
 
         /// <summary>
@@ -1523,7 +1575,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateExclude<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExclude(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExclude(propertyPredicates);
         }
 
         /// <summary>
@@ -1536,7 +1588,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateExclude<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExclude(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExclude(propertyNames);
         }
 
         /// <summary>
@@ -1549,7 +1601,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateExclude<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExclude(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExclude(propertyPredicates);
         }
 
         /// <summary>
@@ -1562,7 +1614,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeAsync(propertyNames);
         }
 
         /// <summary>
@@ -1576,7 +1628,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyNames, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeAsync(propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1589,7 +1641,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeAsync(propertyPredicates);
         }
 
         /// <summary>
@@ -1603,7 +1655,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyPredicates, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeAsync(propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1617,7 +1669,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyNames, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeAsync(propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1631,7 +1683,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeAsync(entity, propertyPredicates, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeAsync(propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1644,7 +1696,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeNow(propertyNames);
         }
 
         /// <summary>
@@ -1658,7 +1710,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeNow(propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1671,7 +1723,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeNow(propertyPredicates);
         }
 
         /// <summary>
@@ -1685,7 +1737,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeNow(propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1698,7 +1750,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeNow(propertyNames);
         }
 
         /// <summary>
@@ -1712,7 +1764,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyNames, acceptAllChangesOnSuccess);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeNow(propertyNames, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1725,7 +1777,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeNow(propertyPredicates);
         }
 
         /// <summary>
@@ -1739,7 +1791,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> InsertOrUpdateExcludeNow<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNow(entity, propertyPredicates, acceptAllChangesOnSuccess);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeNow(propertyPredicates, acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1752,7 +1804,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, params string[] propertyNames)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeNowAsync(propertyNames);
         }
 
         /// <summary>
@@ -1766,7 +1818,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeNowAsync(propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1781,7 +1833,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, string[] propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeNowAsync(propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1794,7 +1846,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, params Expression<Func<TEntity, object>>[] propertyPredicates)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeNowAsync(propertyPredicates);
         }
 
         /// <summary>
@@ -1808,7 +1860,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeNowAsync(propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1823,7 +1875,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1837,7 +1889,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeNowAsync(propertyNames, cancellationToken);
         }
 
         /// <summary>
@@ -1852,7 +1904,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<string> propertyNames, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyNames, acceptAllChangesOnSuccess, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeNowAsync(propertyNames, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1866,7 +1918,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeNowAsync(propertyPredicates, cancellationToken);
         }
 
         /// <summary>
@@ -1881,7 +1933,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> InsertOrUpdateExcludeNowAsync<TEntity>(this TEntity entity, IEnumerable<Expression<Func<TEntity, object>>> propertyPredicates, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().InsertOrUpdateExcludeNowAsync(entity, propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).InsertOrUpdateExcludeNowAsync(propertyPredicates, acceptAllChangesOnSuccess, cancellationToken);
         }
 
         /// <summary>
@@ -1893,7 +1945,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> FakeDelete<TEntity>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().FakeDelete(entity);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).FakeDelete();
         }
 
         /// <summary>
@@ -1905,7 +1957,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> FakeDeleteAsync<TEntity>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().FakeDeleteAsync(entity);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).FakeDeleteAsync();
         }
 
         /// <summary>
@@ -1917,7 +1969,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> FakeDeleteNow<TEntity>(this TEntity entity)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().FakeDeleteNow(entity);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).FakeDeleteNow();
         }
 
         /// <summary>
@@ -1930,7 +1982,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static EntityEntry<TEntity> FakeDeleteNow<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().FakeDeleteNow(entity, acceptAllChangesOnSuccess);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).FakeDeleteNow(acceptAllChangesOnSuccess);
         }
 
         /// <summary>
@@ -1943,7 +1995,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> FakeDeleteNowAsync<TEntity>(this TEntity entity, CancellationToken cancellationToken = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().FakeDeleteNowAsync(entity, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).FakeDeleteNowAsync(cancellationToken);
         }
 
         /// <summary>
@@ -1957,7 +2009,7 @@ namespace Furion.DatabaseAccessor.Extensions
         public static Task<EntityEntry<TEntity>> FakeDeleteNowAsync<TEntity>(this TEntity entity, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
              where TEntity : class, IPrivateEntity, new()
         {
-            return Db.GetRepository<TEntity>().FakeDeleteNowAsync(entity, acceptAllChangesOnSuccess, cancellationToken);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).FakeDeleteNowAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
     }
 }
