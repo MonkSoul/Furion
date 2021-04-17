@@ -31,6 +31,7 @@
   - [修复] PhoneNumber 手机号验证正则表达式错误 [#I3ID10](https://gitee.com/dotnetchina/Furion/issues/I3ID10)
   - [修复] 依赖注入 AOP 拦截无法捕获内部异常 [#I3IGCC](https://gitee.com/dotnetchina/Furion/issues/I3IGCC)
   - [修复] 全局拦截标记异常已被处理后异常过滤器依然执行 [#I3J463](https://gitee.com/dotnetchina/Furion/issues/I3J463)
+  - [修复] 自定义全局异常拦截器不起作用 [#I3K1SJ](https://gitee.com/dotnetchina/Furion/issues/I3K1SJ)
 
 - **其他更改**
 
@@ -54,6 +55,7 @@
   - [答疑] 对于 webapi 简单类型参数，是否可以以 json 方式提交 [#I3J18I](https://gitee.com/dotnetchina/Furion/issues/I3J18I)
   - [答疑] `IUnifyResultProvider` 实现中如果 `UnifyModel` 的 type 不是范型会报错 [#I3JBXF](https://gitee.com/dotnetchina/Furion/issues/I3JBXF)
   - [答疑] 如何模块化开发新功能？ [#I3J7ZZ](https://gitee.com/dotnetchina/Furion/issues/I3J7ZZ)
+  - [答疑] 建议增加微服务中间件的集成 [#I3JTZQ](https://gitee.com/dotnetchina/Furion/issues/I3JTZQ)
 
 - **不做实现**
 
