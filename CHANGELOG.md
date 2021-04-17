@@ -49,6 +49,7 @@
   - [答疑] `DataValidation` 在空值的情况下被忽略掉了[#I3IWSM](https://gitee.com/dotnetchina/Furion/issues/I3IWSM)
   - [答疑] 日志文档没有更新 [#I3J1DX](https://gitee.com/dotnetchina/Furion/issues/I3J1DX)
   - [答疑] 对于 webapi 简单类型参数，是否可以以 json 方式提交 [#I3J18I](https://gitee.com/dotnetchina/Furion/issues/I3J18I)
+  - [答疑] `IUnifyResultProvider` 实现中如果 `UnifyModel` 的type不是范型会报错 [#I3JBXF](https://gitee.com/dotnetchina/Furion/issues/I3JBXF)
 
 - **不做实现**
 
