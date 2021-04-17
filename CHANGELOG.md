@@ -37,6 +37,7 @@
 
 - **文档变化**
 
+  - [新增] 定位任务、后台任务文档 [#I3JHHG](https://gitee.com/dotnetchina/Furion/issues/I3JHHG)
   - [更新] 动态 WebAPI、规范化文档、数据库上下文文档
 
 - **问答答疑**

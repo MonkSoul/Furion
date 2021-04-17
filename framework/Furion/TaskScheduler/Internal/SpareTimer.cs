@@ -1,5 +1,6 @@
 ﻿using Furion.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Timers;
 
 namespace Furion.TaskScheduler
@@ -16,13 +17,13 @@ namespace Furion.TaskScheduler
         /// <param name="workerName"></param>
         internal SpareTimer(string workerName = default) : base()
         {
-            WorkerName = workerName ?? Guid.NewGuid().ToString("N");
+            WorkerName = workerName ??= Guid.NewGuid().ToString("N");
 
             // 记录当前定时器
-            if (!SpareTime.WorkerRecords.TryAdd(workerName, new WorkerRecord
+            if (!SpareTime.WorkerRecords.TryAdd(WorkerName, new WorkerRecord
             {
                 Timer = this
-            })) throw new InvalidOperationException($"The worker name `{workerName}` is exist.");
+            })) throw new InvalidOperationException($"The worker name `{WorkerName}` is exist.");
         }
 
         /// <summary>
@@ -32,7 +33,7 @@ namespace Furion.TaskScheduler
         /// <param name="workerName"></param>
         internal SpareTimer(double interval, string workerName = default) : base(interval)
         {
-            WorkerName = workerName ?? Guid.NewGuid().ToString("N");
+            WorkerName = workerName ??= Guid.NewGuid().ToString("N");
 
             // 记录当前定时器
             if (!SpareTime.WorkerRecords.TryAdd(workerName, new WorkerRecord
@@ -62,5 +63,10 @@ namespace Furion.TaskScheduler
         /// 任务状态
         /// </summary>
         public SpareTimeStatus Status { get; internal set; }
+
+        /// <summary>
+        /// 异常信息
+        /// </summary>
+        public Dictionary<long, Exception> Exception { get; internal set; } = new Dictionary<long, Exception>();
     }
 }

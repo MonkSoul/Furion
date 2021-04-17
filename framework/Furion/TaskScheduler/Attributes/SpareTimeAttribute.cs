@@ -13,12 +13,12 @@ namespace Furion.TaskScheduler
         /// 构造函数
         /// </summary>
         /// <param name="interval"></param>
-        /// <param name="workName"></param>
-        public SpareTimeAttribute(double interval, string workName = default)
+        /// <param name="workerName"></param>
+        public SpareTimeAttribute(double interval, string workerName = default)
         {
             Interval = interval;
             Type = SpareTimeTypes.Interval;
-            WorkName = workName;
+            WorkerName = workerName;
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Furion.TaskScheduler
         {
             CronExpression = cronExpression;
             Type = SpareTimeTypes.Cron;
-            WorkName = workName;
+            WorkerName = workName;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Furion.TaskScheduler
         /// <summary>
         /// 任务名称
         /// </summary>
-        public string WorkName { get; private set; }
+        public string WorkerName { get; private set; }
 
         /// <summary>
         /// 任务类型
@@ -62,5 +62,15 @@ namespace Furion.TaskScheduler
         /// 只执行一次
         /// </summary>
         public bool DoOnce { get; set; } = false;
+
+        /// <summary>
+        /// 立即执行（默认等待启动）
+        /// </summary>
+        public bool StartNow { get; set; } = false;
+
+        /// <summary>
+        /// Cron 表达式格式化方式
+        /// </summary>
+        public CronFormat CronFormat { get; set; } = CronFormat.Standard;
     }
 }

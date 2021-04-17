@@ -1,7 +1,10 @@
 ﻿using Furion.DynamicApiController;
+using Furion.FriendlyException;
 using Furion.TaskScheduler;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Furion.Application
 {
@@ -20,7 +23,7 @@ namespace Furion.Application
             SpareTime.Do(1000, (t, i) =>
             {
                 Console.WriteLine($"{t.WorkerName} -{t.Description} - {DateTime.Now:yyyy-MM-dd HH:mm:ss} - {i}");
-            }, jobName, "模拟测试任务");
+            }, null, "模拟测试任务");
 
             return jobName;
         }
@@ -38,7 +41,7 @@ namespace Furion.Application
             SpareTime.Do(cron, (t, i) =>
             {
                 Console.WriteLine($"{t.WorkerName} -{t.Description} - {DateTime.Now:yyyy-MM-dd HH:mm:ss} - {i}");
-            }, jobName, "模拟测试任务");
+            }, jobName, "模拟测试任务", cronFormat: CronFormat.IncludeSeconds);
 
             return jobName;
         }
@@ -80,6 +83,46 @@ namespace Furion.Application
             SpareTime.Cancel(jobName);
 
             return jobName;
+        }
+
+        /// <summary>
+        /// 获取任务信息
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<object> GetWorkers()
+        {
+            return SpareTime.GetWorkers().ToList().Select(u => new
+            {
+                u.WorkerName,
+                Status = u.Status.ToString(),
+                u.Description,
+                Type = u.Type.ToString()
+            });
+        }
+
+        /// <summary>
+        /// 测试异常任务
+        /// </summary>
+        public void TestExceptionWorker()
+        {
+            SpareTime.Do(1000, (t, c) =>
+            {
+                // 判断是否有异常
+                if (t.Exception.Any())
+                {
+                    Console.WriteLine(t.Exception.Values.LastOrDefault()?.Message);
+                }
+
+                // 执行第三次抛异常
+                if (c > 5)
+                {
+                    throw Oops.Oh("抛异常" + c);
+                }
+                else
+                {
+                    Console.WriteLine($"{t.WorkerName} -{t.Description} - {DateTime.Now:yyyy-MM-dd HH:mm:ss} - {c}");
+                }
+            }, "exceptionJob");
         }
     }
 }

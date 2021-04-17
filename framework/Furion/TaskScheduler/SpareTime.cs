@@ -20,9 +20,10 @@ namespace Furion.TaskScheduler
         /// <param name="doWhat"></param>
         /// <param name="workerName"></param>
         /// <param name="description"></param>
-        public static void Do(double interval, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default)
+        /// <param name="startNow"></param>
+        public static void Do(double interval, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true)
         {
-            Do(interval, true, doWhat, workerName, description);
+            Do(interval, true, doWhat, workerName, description, startNow);
         }
 
         /// <summary>
@@ -32,9 +33,10 @@ namespace Furion.TaskScheduler
         /// <param name="doWhat"></param>
         /// <param name="workerName"></param>
         /// <param name="description"></param>
-        public static void DoOnce(double interval, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default)
+        /// <param name="startNow"></param>
+        public static void DoOnce(double interval, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true)
         {
-            Do(interval, false, doWhat, workerName, description);
+            Do(interval, false, doWhat, workerName, description, startNow);
         }
 
         /// <summary>
@@ -43,11 +45,11 @@ namespace Furion.TaskScheduler
         /// </summary>
         /// <param name="doWhat"></param>
         /// <param name="interval"></param>
-        public static void DoOnce(Action doWhat = default, double interval = 10)
+        public static void DoIt(Action doWhat = default, double interval = 10)
         {
             if (doWhat == null) return;
 
-            Do(interval, false, (_, _) => doWhat(), Guid.NewGuid().ToString("N"));
+            Do(interval, false, (_, _) => doWhat());
         }
 
         /// <summary>
@@ -57,17 +59,11 @@ namespace Furion.TaskScheduler
         /// <param name="doWhat"></param>
         /// <param name="workerName"></param>
         /// <param name="description"></param>
-        public static void Do(string expression, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default)
+        /// <param name="startNow"></param>
+        /// <param name="cronFormat">配置 Cron 表达式格式化</param>
+        public static void Do(string expression, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true, CronFormat cronFormat = CronFormat.Standard)
         {
-            Do(() =>
-            {
-                // 解析 Cron 表达式
-                var cronExpression = CronExpression.Parse(expression, CronFormat.IncludeSeconds);
-
-                // 获取下一个执行时间
-                var nextTime = cronExpression.GetNextOccurrence(DateTimeOffset.Now, TimeZoneInfo.Local);
-                return nextTime?.DateTime;
-            }, doWhat, workerName, description);
+            Do(() => GetCronNextOccurrence(expression, cronFormat), doWhat, workerName, description, startNow);
         }
 
         /// <summary>
@@ -78,9 +74,13 @@ namespace Furion.TaskScheduler
         /// <param name="doWhat"></param>
         /// <param name="workerName"></param>
         /// <param name="description"></param>
-        public static void Do(double interval, bool continued = true, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default)
+        /// <param name="startNow"></param>
+        public static void Do(double interval, bool continued = true, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true)
         {
-            if (string.IsNullOrWhiteSpace(workerName) || doWhat == null) return;
+            if (doWhat == null) return;
+
+            // 自动生成任务名称
+            workerName ??= Guid.NewGuid().ToString("N");
 
             // 创建定时器
             var timer = new SpareTimer(interval, workerName)
@@ -106,11 +106,27 @@ namespace Furion.TaskScheduler
                 var interlocked = currentRecord.Interlocked;
                 if (Interlocked.Exchange(ref interlocked, 1) == 0)
                 {
-                    // 更新任务记录
-                    UpdateWorkerRecord(workerName, currentRecord);
+                    try
+                    {
+                        // 执行任务
+                        doWhat(timer, currentRecord.Tally);
+                    }
+                    catch (Exception ex)
+                    {
+                        // 记录任务异常
+                        currentRecord.Timer.Exception.TryAdd(currentRecord.Tally, ex);
 
-                    // 执行任务
-                    doWhat(timer, currentRecord.Tally);
+                        // 如果任务执行超过 10 次失败，则停止任务
+                        if (currentRecord.Timer.Exception.Count > 10)
+                        {
+                            Stop(workerName, true);
+                        }
+                    }
+                    finally
+                    {
+                        // 更新任务记录
+                        UpdateWorkerRecord(workerName, currentRecord);
+                    }
 
                     // 处理重入问题
                     Interlocked.Exchange(ref interlocked, 0);
@@ -118,7 +134,7 @@ namespace Furion.TaskScheduler
             };
 
             timer.AutoReset = continued;
-            timer.Start();
+            if (startNow) timer.Start();
         }
 
         /// <summary>
@@ -128,11 +144,11 @@ namespace Furion.TaskScheduler
         /// <param name="doWhat"></param>
         /// <param name="workerName"></param>
         /// <param name="description"></param>
-        public static void Do(Func<DateTime?> nextTimeHandler, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default)
+        /// <param name="startNow"></param>
+        /// <param name="cancelInNoneNextTime">在下一个空时间取消任务</param>
+        public static void Do(Func<DateTime?> nextTimeHandler, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true)
         {
             if (doWhat == null) return;
-
-            workerName ??= Guid.NewGuid().ToString("N");
 
             // 每秒检查一次
             Do(1000, (timer, tally) =>
@@ -140,7 +156,12 @@ namespace Furion.TaskScheduler
                 // 获取下一个执行的时间
                 var nextLocalTime = nextTimeHandler();
 
-                if (nextLocalTime == null) Cancel(workerName);
+                // 判断是否在下一个空时间取消任务
+                if (cancelInNoneNextTime)
+                {
+                    if (nextLocalTime == null) Cancel(workerName);
+                }
+                else return;
 
                 // 获取当前任务的记录
                 _ = WorkerRecords.TryGetValue(workerName, out var currentRecord);
@@ -167,7 +188,7 @@ namespace Furion.TaskScheduler
                     // 执行方法
                     doWhat(timer, currentRecord.CronActualTally);
                 }, GetSubWorkerName(workerName), description);
-            }, workerName, description);
+            }, workerName, description, startNow);
         }
 
         /// <summary>
@@ -187,6 +208,9 @@ namespace Furion.TaskScheduler
             // 启动任务
             if (!timer.Enabled)
             {
+                // 如果任务过去是失败的，则清楚异常信息后启动
+                if (timer.Status == SpareTimeStatus.Failed) timer.Exception.Clear();
+
                 timer.Status = SpareTimeStatus.Running;
                 timer.Start();
             }
@@ -199,7 +223,8 @@ namespace Furion.TaskScheduler
         /// 停止某个任务
         /// </summary>
         /// <param name="workerName"></param>
-        public static void Stop(string workerName)
+        /// <param name="isFaild"></param>
+        public static void Stop(string workerName, bool isFaild = false)
         {
             if (string.IsNullOrWhiteSpace(workerName)) throw new ArgumentNullException(nameof(workerName));
 
@@ -212,7 +237,7 @@ namespace Furion.TaskScheduler
             // 停止任务
             if (timer.Enabled)
             {
-                timer.Status = SpareTimeStatus.Stopped;
+                timer.Status = !isFaild ? SpareTimeStatus.Stopped : SpareTimeStatus.Failed;
                 timer.Stop();
             }
 
@@ -260,10 +285,26 @@ namespace Furion.TaskScheduler
         /// 获取所有任务列表
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<SpareTimer> GetTasks()
+        public static IEnumerable<SpareTimer> GetWorkers()
         {
             return WorkerRecords.Where(u => !u.Key.StartsWith(">>> "))
                           .Select(u => u.Value.Timer);
+        }
+
+        /// <summary>
+        /// 获取 Cron 表达式下一个发生时间
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="cronFormat"></param>
+        /// <returns></returns>
+        public static DateTime? GetCronNextOccurrence(string expression, CronFormat cronFormat = CronFormat.Standard)
+        {
+            // 解析 Cron 表达式
+            var cronExpression = CronExpression.Parse(expression, cronFormat);
+
+            // 获取下一个执行时间
+            var nextTime = cronExpression.GetNextOccurrence(DateTimeOffset.Now, TimeZoneInfo.Local);
+            return nextTime?.DateTime;
         }
 
         /// <summary>

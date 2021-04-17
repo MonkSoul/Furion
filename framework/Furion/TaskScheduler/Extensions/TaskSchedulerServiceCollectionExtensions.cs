@@ -61,18 +61,14 @@ namespace Microsoft.Extensions.DependencyInjection
                             case SpareTimeTypes.Interval:
                                 // 执行一次
                                 if (spareTimeAttribute.DoOnce)
-                                {
-                                    SpareTime.DoOnce(spareTimeAttribute.Interval, action, spareTimeAttribute.WorkName, spareTimeAttribute.Description);
-                                }
+                                    SpareTime.DoOnce(spareTimeAttribute.Interval, action, spareTimeAttribute.WorkerName, spareTimeAttribute.Description, spareTimeAttribute.StartNow);
                                 // 不间断执行
                                 else
-                                {
-                                    SpareTime.Do(spareTimeAttribute.Interval, action, spareTimeAttribute.WorkName, spareTimeAttribute.Description);
-                                }
+                                    SpareTime.Do(spareTimeAttribute.Interval, action, spareTimeAttribute.WorkerName, spareTimeAttribute.Description, spareTimeAttribute.StartNow);
                                 break;
                             // 执行 Cron 表达式任务
                             case SpareTimeTypes.Cron:
-                                SpareTime.Do(spareTimeAttribute.CronExpression, action, spareTimeAttribute.WorkName, spareTimeAttribute.Description);
+                                SpareTime.Do(spareTimeAttribute.CronExpression, action, spareTimeAttribute.WorkerName, spareTimeAttribute.Description, spareTimeAttribute.StartNow, spareTimeAttribute.CronFormat);
                                 break;
 
                             default:

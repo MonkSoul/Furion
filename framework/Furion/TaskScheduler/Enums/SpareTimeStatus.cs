@@ -20,6 +20,12 @@ namespace Furion.TaskScheduler
         Stopped,
 
         /// <summary>
+        /// 单次执行失败
+        /// </summary>
+        [Description("任务停止并失败")]
+        Failed,
+
+        /// <summary>
         /// 任务已取消或没有该任务
         /// </summary>
         [Description("任务已取消或没有该任务")]

@@ -59,7 +59,7 @@ namespace Furion.EventBus
                 foreach (var eventHandler in messageHandlers)
                 {
                     // 采用后台线程执行
-                    SpareTime.DoOnce(() => eventHandler?.Invoke(messageId, payload));
+                    SpareTime.DoIt(() => eventHandler?.Invoke(messageId, payload));
                 }
             }
         }

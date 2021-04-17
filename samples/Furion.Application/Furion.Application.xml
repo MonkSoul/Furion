@@ -40,6 +40,17 @@
             <param name="jobName"></param>
             <returns></returns>
         </member>
+        <member name="M:Furion.Application.JobServices.GetWorkers">
+            <summary>
+            获取任务信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.JobServices.TestExceptionWorker">
+            <summary>
+            测试异常任务
+            </summary>
+        </member>
         <member name="P:Furion.Application.Persons.ChildrenDto.Id">
             <summary>
             主键

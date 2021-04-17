@@ -215,6 +215,10 @@ var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern3..
   </TabItem>
 </Tabs>
 
+### 4.1.3.1 查找数组节点
+
+有些时候我们需要或者数组特定的某些，可以通过 `App.Configuration["array:0"]` 获取，`0` 是索引数字。
+
 ## 4.1.4 自定义配置文件
 
 大多情况下，我们的配置只需要在 `appsettings.json` 中配置即可，但一些特殊情况下，我们希望某些组件或功能拥有独立的配置，这个时候就需要用到自定义配置，`Furion` 目前支持 `.json` 和 `.xml` 两种方式配置，如：
