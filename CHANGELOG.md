@@ -1,4 +1,4 @@
-## v2.0.0 （未发布）
+## v2.0.0 （当前版本）
 
 - **新特性**
 
@@ -43,6 +43,7 @@
 - **文档变化**
 
   - [新增] 定位任务、后台任务文档 [#I3JHHG](https://gitee.com/dotnetchina/Furion/issues/I3JHHG)
+  - [新增] 辅组角色服务文档 [#I3K5GN](https://gitee.com/dotnetchina/Furion/issues/I3K5GN)
   - [更新] 动态 WebAPI、规范化文档、数据库上下文文档
 
 - **问答答疑**
@@ -62,7 +63,7 @@
 
 ---
 
-## v1.19.0 （当前版本）
+## v1.19.0 （已发布）
 
 - **新特性**
 

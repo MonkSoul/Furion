@@ -8,7 +8,72 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 **此章节只记录重大版本更新日志，小迭代版本不做更新。**想了解更多更新内容，可查阅 [CHANGELOG.md](https://gitee.com/dotnetchina/Furion/blob/master/CHANGELOG.md)
 
-## v1.19.0 （当前版本）
+## v2.0.0 （当前版本）
+
+- **新特性**
+
+  - [新增] 控制台应用程序及 Worker Services 支持 [#I3K4DG](https://gitee.com/dotnetchina/Furion/issues/I3K4DG)
+  - [新增] 完整任务调度功能 [#I3IRUX](https://gitee.com/dotnetchina/Furion/issues/I3IRUX)
+  - [新增] `Cron` 表达式解析 [#I3IQ9Y](https://gitee.com/dotnetchina/Furion/issues/I3IQ9Y)
+  - [新增] 支持 `Swagger` 自定义配置 `swagger.json` 地址模板 [#I3IHMX](https://gitee.com/dotnetchina/Furion/issues/I3IHMX)
+  - [新增] 支持配置动态 WebApi 区域 [#I3IJAZ](https://gitee.com/dotnetchina/Furion/issues/I3IJAZ)
+  - [新增] 远程请求新增支持传入服务提供器 `IServiceProvider` [#I3IVBL](https://gitee.com/dotnetchina/Furion/issues/I3IVBL)
+  - [新增] 全局配置选型 `SupportPackageNamePrefixs` 配置，支持配置包前缀 [#I3K0SN](https://gitee.com/dotnetchina/Furion/issues/I3K0SN)
+  - [新增] 应用启动时支持 `referenceassembly` 类型程序集扫描 [#I3K0SN](https://gitee.com/dotnetchina/Furion/issues/I3K0SN)
+
+- **突破性变化**
+
+  - [重构] 完整任务调度功能 [#I3IRUX](https://gitee.com/dotnetchina/Furion/issues/I3IRUX)
+  - [重构] 日志模块功能 [#I3J2K0](https://gitee.com/dotnetchina/Furion/issues/I3J2K0)
+  - [重构] 模板引擎功能 [#I3J46E](https://gitee.com/dotnetchina/Furion/issues/I3J46E)
+  - [重构] 底层 `EFCoreRepository` 仓储 [#I3J6W5](https://gitee.com/dotnetchina/Furion/issues/I3J6W5)
+  - [重构] sql 字符串拓展底层代码 [#I3IVCE](https://gitee.com/dotnetchina/Furion/issues/I3IVCE)
+  - [重构] 底层 `SqlRepository` 所有逻辑代码 [#I3J6V6](https://gitee.com/dotnetchina/Furion/issues/I3J6V6)
+  - [重构] 数据库实体拓展方法 [#I3J609](https://gitee.com/dotnetchina/Furion/issues/I3J609)
+  - [调整] 事件事件总线同步执行为异步方式执行 [#I3J0WA](https://gitee.com/dotnetchina/Furion/issues/I3J0WA)
+  - [移除] 框架底层 `HttpContext.IsAjaxRequest()` 拓展 [#I3IVAA](https://gitee.com/dotnetchina/Furion/issues/I3IVAA)
+
+- **问题修复**
+
+  - [修复] 关闭 `InjectMiniProfiler` 参数后内存缓存无效 [#I3IHLR](https://gitee.com/dotnetchina/Furion/issues/I3IHLR)
+  - [修复] 在多租户中调用 `Tenant` 属性出现偶然性数据库上下文被释放的情况 [#I3IC70](https://gitee.com/dotnetchina/Furion/issues/I3IC70)
+  - [修复] Sql 代理中如果返回基元类型抛出不能将 object 转换成对应类型的异常 [#I3IC84](https://gitee.com/dotnetchina/Furion/issues/I3IC84)
+  - [修复] 存储过程多返回值的时候，outputvalues 的 name 不是定义的 MSG 的 name，是 Msg 类型。 [#I3IC7Y](https://gitee.com/dotnetchina/Furion/issues/I3IC7Y)
+  - [修复] PhoneNumber 手机号验证正则表达式错误 [#I3ID10](https://gitee.com/dotnetchina/Furion/issues/I3ID10)
+  - [修复] 依赖注入 AOP 拦截无法捕获内部异常 [#I3IGCC](https://gitee.com/dotnetchina/Furion/issues/I3IGCC)
+  - [修复] 全局拦截标记异常已被处理后异常过滤器依然执行 [#I3J463](https://gitee.com/dotnetchina/Furion/issues/I3J463)
+  - [修复] 自定义全局异常拦截器不起作用 [#I3K1SJ](https://gitee.com/dotnetchina/Furion/issues/I3K1SJ)
+
+- **其他更改**
+
+  - [改进] 启动时程序集扫描类型 [#I3K0SN](https://gitee.com/dotnetchina/Furion/issues/I3K0SN)
+  - [改进] `App.GetConfig<>("key")` 不支持获取单个值问题 [#I3ILF1](https://gitee.com/dotnetchina/Furion/issues/I3ILF1)
+  - [改进] UrlEncode 应该用 `Uri.EscapeDataString()` 而不是 `HttpUtility.UrlEncode` [#I3ICTK](https://gitee.com/dotnetchina/Furion/issues/I3ICTK)
+
+- **文档变化**
+
+  - [新增] 定位任务、后台任务文档 [#I3JHHG](https://gitee.com/dotnetchina/Furion/issues/I3JHHG)
+  - [新增] 辅组角色服务文档 [#I3K5GN](https://gitee.com/dotnetchina/Furion/issues/I3K5GN)
+  - [更新] 动态 WebAPI、规范化文档、数据库上下文文档
+
+- **问答答疑**
+
+  - [答疑] 数据校验，自定义 ErrorMessage 无效问题 [#I3ICL3](https://gitee.com/dotnetchina/Furion/issues/I3ICL3)
+  - [答疑] 最新 issue 中新增的“新增常用的 JSON 序列化方法” 会导致 AOP 拦截异常 [#I3I7VE](https://gitee.com/dotnetchina/Furion/issues/I3I7VE)
+  - [答疑] Furion.DatabaseAccessor.PrivateEntityBase 中的 TenantId 数据类型设置为 object [#I3IQV6](https://gitee.com/dotnetchina/Furion/issues/I3IQV6)
+  - [答疑] 有关异常拦截和处理的疑问 [#I3IUFZ](https://gitee.com/dotnetchina/Furion/issues/I3IUFZ)
+  - [答疑] `DataValidation` 在空值的情况下被忽略掉了[#I3IWSM](https://gitee.com/dotnetchina/Furion/issues/I3IWSM)
+  - [答疑] 日志文档没有更新 [#I3J1DX](https://gitee.com/dotnetchina/Furion/issues/I3J1DX)
+  - [答疑] 对于 webapi 简单类型参数，是否可以以 json 方式提交 [#I3J18I](https://gitee.com/dotnetchina/Furion/issues/I3J18I)
+  - [答疑] `IUnifyResultProvider` 实现中如果 `UnifyModel` 的 type 不是范型会报错 [#I3JBXF](https://gitee.com/dotnetchina/Furion/issues/I3JBXF)
+  - [答疑] 如何模块化开发新功能？ [#I3J7ZZ](https://gitee.com/dotnetchina/Furion/issues/I3J7ZZ)
+  - [答疑] 建议增加微服务中间件的集成 [#I3JTZQ](https://gitee.com/dotnetchina/Furion/issues/I3JTZQ)
+
+- **不做实现**
+
+---
+
+## v1.19.0 （已发布）
 
 - **新特性**
 
