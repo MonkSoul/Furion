@@ -1,5 +1,7 @@
-﻿using Furion.DependencyInjection;
+﻿using Furion;
+using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.Extensions.Hosting
 {
@@ -18,6 +20,38 @@ namespace Microsoft.Extensions.Hosting
         public static IWebHostBuilder Inject(this IWebHostBuilder hostBuilder, string assemblyName = nameof(Furion))
         {
             hostBuilder.UseSetting(WebHostDefaults.HostingStartupAssembliesKey, assemblyName);
+            return hostBuilder;
+        }
+
+        /// <summary>
+        /// 泛型主机注入
+        /// </summary>
+        /// <param name="hostBuilder">泛型主机注入构建器</param>
+        /// <returns>IWebHostBuilder</returns>
+        public static IHostBuilder Inject(this IHostBuilder hostBuilder)
+        {
+            hostBuilder.ConfigureAppConfiguration((hostingContext, config) =>
+            {
+                // 存储环境对象
+                InternalApp.HostEnvironment = hostingContext.HostingEnvironment;
+
+                // 加载配置
+                InternalApp.AddConfigureFiles(config, InternalApp.WebHostEnvironment);
+            });
+
+            // 自动注入 AddApp() 服务
+            hostBuilder.ConfigureServices(services =>
+            {
+                // 添加主机启动停止监听
+                services.AddHostedService<AppHostedService>();
+
+                // 添加全局配置和存储服务提供器
+                InternalApp.InternalServices = services;
+
+                // 初始化应用服务
+                services.AddHostApp();
+            });
+
             return hostBuilder;
         }
     }

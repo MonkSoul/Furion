@@ -28,9 +28,14 @@ namespace Furion
         internal static IConfigurationBuilder ConfigurationBuilder;
 
         /// <summary>
-        /// 获取系统环境
+        /// 获取Web主机环境
         /// </summary>
         internal static IWebHostEnvironment WebHostEnvironment;
+
+        /// <summary>
+        /// 获取泛型主机环境
+        /// </summary>
+        internal static IHostEnvironment HostEnvironment;
 
         /// <summary>
         /// 添加配置文件

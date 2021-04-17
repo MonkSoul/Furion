@@ -22,7 +22,7 @@ namespace Furion
             builder.ConfigureAppConfiguration((hostingContext, config) =>
             {
                 // 存储环境对象
-                InternalApp.WebHostEnvironment = hostingContext.HostingEnvironment;
+                InternalApp.HostEnvironment = InternalApp.WebHostEnvironment = hostingContext.HostingEnvironment;
 
                 // 加载配置
                 InternalApp.AddConfigureFiles(config, InternalApp.WebHostEnvironment);

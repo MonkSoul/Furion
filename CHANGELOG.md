@@ -2,6 +2,7 @@
 
 - **新特性**
 
+  - [新增] 控制台应用程序及 Worker Services 支持 [#I3K4DG](https://gitee.com/dotnetchina/Furion/issues/I3K4DG)
   - [新增] 完整任务调度功能 [#I3IRUX](https://gitee.com/dotnetchina/Furion/issues/I3IRUX)
   - [新增] `Cron` 表达式解析 [#I3IQ9Y](https://gitee.com/dotnetchina/Furion/issues/I3IQ9Y)
   - [新增] 支持 `Swagger` 自定义配置 `swagger.json` 地址模板 [#I3IHMX](https://gitee.com/dotnetchina/Furion/issues/I3IHMX)

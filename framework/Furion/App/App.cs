@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using StackExchange.Profiling;
@@ -43,9 +44,14 @@ namespace Furion
         public static readonly IConfiguration Configuration;
 
         /// <summary>
-        /// 应用环境，如，是否是开发环境，生产环境等
+        /// 获取Web主机环境，如，是否是开发环境，生产环境等
         /// </summary>
         public static IWebHostEnvironment WebHostEnvironment => InternalApp.WebHostEnvironment;
+
+        /// <summary>
+        /// 获取泛型主机环境，如，是否是开发环境，生产环境等
+        /// </summary>
+        public static IHostEnvironment HostEnvironment => InternalApp.HostEnvironment;
 
         /// <summary>
         /// 应用有效程序集

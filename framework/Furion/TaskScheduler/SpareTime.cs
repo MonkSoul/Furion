@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Furion.TaskScheduler
 {
@@ -195,6 +196,59 @@ namespace Furion.TaskScheduler
                     doWhat(timer, currentRecord.CronActualTally);
                 }, GetSubWorkerName(workerName), description);
             }, workerName, description, startNow);
+        }
+
+        /// <summary>
+        /// 开始简单任务（持续的）
+        /// <para>用于 Worker Services</para>
+        /// </summary>
+        /// <param name="interval"></param>
+        /// <param name="doWhat"></param>
+        /// <param name="stoppingToken"></param>
+        /// <returns></returns>
+        public static Task DoAsync(int interval, Action doWhat, CancellationToken stoppingToken)
+        {
+            if (doWhat == null) return Task.CompletedTask;
+
+            try
+            {
+                doWhat();
+            }
+            catch { }
+            finally { }
+
+            return Task.Delay(interval, stoppingToken);
+        }
+
+        /// <summary>
+        /// 开始 Cron 表达式任务（持续的）
+        /// <para>用于 Worker Services</para>
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <param name="doWhat"></param>
+        /// <param name="stoppingToken"></param>
+        /// <param name="cronFormat"></param>
+        /// <returns></returns>
+        public static Task DoAsync(string expression, Action doWhat, CancellationToken stoppingToken, CronFormat cronFormat = CronFormat.Standard)
+        {
+            if (doWhat == null) return Task.CompletedTask;
+
+            // 计算下一次执行时间
+            var nextLocalTime = GetCronNextOccurrence(expression, cronFormat);
+            if (nextLocalTime == null) return Task.CompletedTask;
+
+            // 只有时间相等才触发
+            var interval = (nextLocalTime.Value - DateTime.Now).TotalSeconds;
+            if (Math.Floor(interval) != 0) return Task.CompletedTask;
+
+            try
+            {
+                doWhat();
+            }
+            catch { }
+            finally { }
+
+            return Task.Delay(1000, stoppingToken);
         }
 
         /// <summary>

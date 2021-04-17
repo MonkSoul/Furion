@@ -595,7 +595,77 @@ SpareTime.Do(1000, (timer,count) => {
 
 `BackgroundService` 是 `.NET Core 2` 之后提供的轻量级后台任务，同时可以发布到 `Windows` 服务和 `Linux` 守护进程中。
 
-正在编写....
+### 26.11.1 间隔执行方式
+
+```cs {23-27}
+using Furion.TaskScheduler;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace WorkerService1
+{
+    public class Worker : BackgroundService
+    {
+        private readonly ILogger<Worker> _logger;
+
+        public Worker(ILogger<Worker> logger)
+        {
+            _logger = logger;
+        }
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                // 间隔执行任务
+                await SpareTime.DoAsync(1000, () =>
+                {
+                    _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                }, stoppingToken);
+            }
+        }
+    }
+}
+```
+
+### 26.11.2 `Cron` 表达式格式化方式，
+
+```cs {23-27}
+using Furion.TaskScheduler;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace WorkerService1
+{
+    public class Worker : BackgroundService
+    {
+        private readonly ILogger<Worker> _logger;
+
+        public Worker(ILogger<Worker> logger)
+        {
+            _logger = logger;
+        }
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                // 执行 Cron 表达式任务
+                await SpareTime.DoAsync("*/5 * * * * *", () =>
+                {
+                    _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                }, stoppingToken, CronFormat.IncludeSeconds);
+            }
+        }
+    }
+}
+```
 
 ## 26.12 反馈与建议
 

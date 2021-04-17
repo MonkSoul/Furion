@@ -1,4 +1,5 @@
-﻿using Furion.DependencyInjection;
+﻿using Furion;
+using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
@@ -42,6 +43,9 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddMvcFilter<TFilter>(this IServiceCollection services, Action<MvcOptions> extraConfigure = default)
             where TFilter : IFilterMetadata
         {
+            // 只有 Web 环境才添加过滤器
+            if (App.WebHostEnvironment == null) return services;
+
             services.Configure<MvcOptions>(options =>
             {
                 options.Filters.Add<TFilter>();
