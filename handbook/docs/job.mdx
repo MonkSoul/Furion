@@ -4,6 +4,12 @@ title: 26. 定时任务/后台任务
 sidebar_label: 26. 定时任务/后台任务
 ---
 
+:::important 版本说明
+
+以下内容只限 `Furion 2.0.0 +` 版本使用。
+
+:::
+
 ## 26.1 关于定时任务
 
 顾名思义，定时任务就是在特定的时间或符合某种时间规律执行的任务。通常定时任务有四种时间调度方式：
@@ -563,6 +569,8 @@ SpareTime.Do(1000, (timer,count) => {
 ## 26.11 在 `BackgroundService` 中使用
 
 `BackgroundService` 是 `.NET Core 2` 之后提供的轻量级后台任务，同时可以发布到 `Windows` 服务和 `Linux` 守护进程中。
+
+正在编写....
 
 ## 26.12 反馈与建议
 
