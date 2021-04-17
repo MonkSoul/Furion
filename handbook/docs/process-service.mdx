@@ -20,7 +20,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 当我们创建好 `Worker Service` 项目时，已经自带了一个 `Worker` 类并继承自 `BackgroundService` 基类。
 
-`Worker` 正式我们辅助角色的主要工作类，在这里我们编写我们所有的业务逻辑。通常 `Worker` 默认格式为：
+`Worker` 正是我们辅助角色的主要工作类，在这里我们编写我们所有的业务逻辑。通常 `Worker` 默认格式为：
 
 ```cs {9,18}
 using Microsoft.Extensions.Hosting;
@@ -140,7 +140,7 @@ namespace FurionWorkers
 
 ## 25.4 集成 `Furion`
 
-`Worker Service` 继承 `Furion` 非常方便，只需要安装 `Furion` 的包即可，并在 `Program.cs` 中调用 `.Inject()` 方法，如：
+`Worker Service` 集成 `Furion` 非常方便，只需要安装 `Furion` 的包即可，并在 `Program.cs` 中调用 `.Inject()` 方法，如：
 
 ```cs {15}
 using Microsoft.Extensions.DependencyInjection;
