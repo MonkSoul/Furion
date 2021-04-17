@@ -335,7 +335,32 @@ public class JobWorker : ISpareTimeWorker
 
 ## 26.6 自定义下次执行时间
 
-有些时候我们需要进行一些业务逻辑，比如数据库查询等操作返回下一次执行时间，这个时候我们可以通过高级自定义方式：
+有些时候我们需要进行一些业务逻辑，比如数据库查询等操作返回下一次执行时间，这个时候我们可以通过高级自定义方式。
+
+### 26.6.1 高级自定义间隔方式
+
+```cs {2,4-5,7}
+SpareTime.Do(()=>{
+    // 这里可以查询数据库或进行或进行任何业务逻辑
+
+    if(符合逻辑){
+        return 1000; // 每秒执行
+    }
+    else return -1; // 不符合逻辑取消任务
+},
+(timer,count)=>{
+    Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+    Console.WriteLine($"一共执行了：{count} 次");
+});
+```
+
+:::important 配置是否持续检查
+
+如果返回大于 `0` 的数值则按照这个数值持续执行，否则取消任务。
+
+:::
+
+### 26.6.2 高级自定义 `Cron` 表达式
 
 ```cs {2,4-5,7}
 SpareTime.Do(()=>{

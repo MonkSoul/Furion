@@ -23,7 +23,7 @@ namespace Furion.TaskScheduler
         /// <param name="startNow"></param>
         public static void Do(double interval, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true)
         {
-            Do(interval, true, doWhat, workerName, description, startNow);
+            Do(() => interval, true, doWhat, workerName, description, startNow);
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Furion.TaskScheduler
         /// <param name="startNow"></param>
         public static void DoOnce(double interval, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true)
         {
-            Do(interval, false, doWhat, workerName, description, startNow);
+            Do(() => interval, false, doWhat, workerName, description, startNow);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Furion.TaskScheduler
         {
             if (doWhat == null) return;
 
-            Do(interval, false, (_, _) => doWhat());
+            Do(() => interval, false, (_, _) => doWhat());
         }
 
         /// <summary>
@@ -69,18 +69,21 @@ namespace Furion.TaskScheduler
         /// <summary>
         /// 开始执行简单任务
         /// </summary>
-        /// <param name="interval">时间间隔（毫秒）</param>
+        /// <param name="intervalHandler">时间间隔（毫秒）</param>
         /// <param name="continued">是否持续执行</param>
         /// <param name="doWhat"></param>
         /// <param name="workerName"></param>
         /// <param name="description"></param>
         /// <param name="startNow"></param>
-        public static void Do(double interval, bool continued = true, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true)
+        public static void Do(Func<double> intervalHandler, bool continued = true, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true)
         {
             if (doWhat == null) return;
 
             // 自动生成任务名称
             workerName ??= Guid.NewGuid().ToString("N");
+
+            // 获取执行间隔
+            var interval = intervalHandler();
 
             // 创建定时器
             var timer = new SpareTimer(interval, workerName)
@@ -93,6 +96,9 @@ namespace Furion.TaskScheduler
             // 订阅执行事件
             timer.Elapsed += (sender, e) =>
             {
+                // 如果间隔小于或等于 0 取消任务
+                if (interval <= 0) Cancel(workerName);
+
                 // 获取当前任务的记录
                 _ = WorkerRecords.TryGetValue(workerName, out var currentRecord);
 
