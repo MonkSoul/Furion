@@ -40,7 +40,6 @@ sidebar_label: 18. 日志记录
 | 警告  | 3   |   LogWarning   | 对于异常事件或意外事件。 通常包括不会导致应用失败的错误或情况。                                            |
 | 错误  | 4   |    LogError    | 表示无法处理的错误和异常。 这些消息表示当前操作或请求失败，而不是整个应用失败。                            |
 | 严重  | 5   |  LogCritical   | 需要立即关注的失败。 例如数据丢失、磁盘空间不足。                                                          |
-| 动态  | -   |   LogDynamic   | 运行时动态日志基本，由 `AppSettings:DynamicLogLevel` 配置决定                                              |
 
 ## 18.4 如何使用
 
@@ -99,6 +98,8 @@ public class ContactModel : PageModel
 在 `Furion` 框架中，提供了更懒的方式写入日志，也就是通过字符串拓展的方式写入，如：
 
 ```cs
+"简单日志".LogInformation();
+
 "百小僧 新增了一条记录".LogInformation<HomeController>();
 
 "程序出现异常啦".LogError<HomeController>();

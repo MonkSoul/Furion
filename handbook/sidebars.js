@@ -142,7 +142,7 @@ module.exports = {
     },
     {
       type: "doc",
-      id: "grpc",
+      id: "microservice",
     },
     {
       type: "category",

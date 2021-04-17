@@ -208,7 +208,23 @@ namespace Furion.TaskScheduler
         /// <returns></returns>
         public static Task DoAsync(int interval, Action doWhat, CancellationToken stoppingToken)
         {
+            return DoAsync(() => interval, doWhat, stoppingToken);
+        }
+
+        /// <summary>
+        /// 开始简单任务（持续的）
+        /// <para>用于 Worker Services</para>
+        /// </summary>
+        /// <param name="intervalHandler"></param>
+        /// <param name="doWhat"></param>
+        /// <param name="stoppingToken"></param>
+        /// <returns></returns>
+        public static Task DoAsync(Func<int> intervalHandler, Action doWhat, CancellationToken stoppingToken)
+        {
             if (doWhat == null) return Task.CompletedTask;
+
+            var interval = intervalHandler();
+            if (interval <= 0) return Task.CompletedTask;
 
             try
             {
@@ -231,10 +247,23 @@ namespace Furion.TaskScheduler
         /// <returns></returns>
         public static Task DoAsync(string expression, Action doWhat, CancellationToken stoppingToken, CronFormat cronFormat = CronFormat.Standard)
         {
+            return DoAsync(() => GetCronNextOccurrence(expression, cronFormat), doWhat, stoppingToken);
+        }
+
+        /// <summary>
+        /// 开始 Cron 表达式任务（持续的）
+        /// <para>用于 Worker Services</para>
+        /// </summary>
+        /// <param name="nextTimeHandler"></param>
+        /// <param name="doWhat"></param>
+        /// <param name="stoppingToken"></param>
+        /// <returns></returns>
+        public static Task DoAsync(Func<DateTime?> nextTimeHandler, Action doWhat, CancellationToken stoppingToken)
+        {
             if (doWhat == null) return Task.CompletedTask;
 
             // 计算下一次执行时间
-            var nextLocalTime = GetCronNextOccurrence(expression, cronFormat);
+            var nextLocalTime = nextTimeHandler();
             if (nextLocalTime == null) return Task.CompletedTask;
 
             // 只有时间相等才触发

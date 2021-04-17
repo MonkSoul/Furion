@@ -1,6 +1,5 @@
 ﻿using Furion.ConfigurableOptions;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using System;
 
 namespace Furion
@@ -31,11 +30,6 @@ namespace Furion
         public string[] ExternalAssemblies { get; set; }
 
         /// <summary>
-        /// 动态日志级别
-        /// </summary>
-        public LogLevel? DynamicLogLevel { get; set; }
-
-        /// <summary>
         /// 是否打印数据库连接信息到 MiniProfiler 中
         /// </summary>
         public bool? PrintDbConnectionInfo { get; set; }
@@ -56,7 +50,6 @@ namespace Furion
             options.InjectSpecificationDocument ??= true;
             options.EnabledReferenceAssemblyScan ??= false;
             options.ExternalAssemblies ??= Array.Empty<string>();
-            options.DynamicLogLevel ??= LogLevel.Information;
             options.PrintDbConnectionInfo ??= true;
             options.SupportPackageNamePrefixs ??= Array.Empty<string>();
         }

@@ -17,7 +17,7 @@ namespace Furion.TaskScheduler
         /// <param name="workerName"></param>
         internal SpareTimer(string workerName = default) : base()
         {
-            WorkerName = workerName ??= Guid.NewGuid().ToString("N");
+            WorkerName = workerName ?? Guid.NewGuid().ToString("N");
 
             // 记录当前定时器
             if (!SpareTime.WorkerRecords.TryAdd(WorkerName, new WorkerRecord
@@ -33,15 +33,15 @@ namespace Furion.TaskScheduler
         /// <param name="workerName"></param>
         internal SpareTimer(double interval, string workerName = default) : base(interval)
         {
-            WorkerName = workerName ??= Guid.NewGuid().ToString("N");
+            WorkerName = workerName ?? Guid.NewGuid().ToString("N");
 
             // 记录当前定时器
-            if (!SpareTime.WorkerRecords.TryAdd(workerName, new WorkerRecord
+            if (!SpareTime.WorkerRecords.TryAdd(WorkerName, new WorkerRecord
             {
                 Interlocked = 0,
                 Tally = 0,
                 Timer = this
-            })) throw new InvalidOperationException($"The worker name `{workerName}` is exist."); ;
+            })) throw new InvalidOperationException($"The worker name `{WorkerName}` is exist."); ;
         }
 
         /// <summary>
