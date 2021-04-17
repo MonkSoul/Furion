@@ -41,6 +41,11 @@ namespace Furion
         public bool? PrintDbConnectionInfo { get; set; }
 
         /// <summary>
+        /// 配置支持的包前缀名
+        /// </summary>
+        public string[] SupportPackageNamePrefixs { get; set; }
+
+        /// <summary>
         /// 后期配置
         /// </summary>
         /// <param name="options"></param>
@@ -53,6 +58,7 @@ namespace Furion
             options.ExternalAssemblies ??= Array.Empty<string>();
             options.DynamicLogLevel ??= LogLevel.Information;
             options.PrintDbConnectionInfo ??= true;
+            options.SupportPackageNamePrefixs ??= Array.Empty<string>();
         }
     }
 }

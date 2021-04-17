@@ -7,6 +7,8 @@
   - [新增] 支持 `Swagger` 自定义配置 `swagger.json` 地址模板 [#I3IHMX](https://gitee.com/dotnetchina/Furion/issues/I3IHMX)
   - [新增] 支持配置动态 WebApi 区域 [#I3IJAZ](https://gitee.com/dotnetchina/Furion/issues/I3IJAZ)
   - [新增] 远程请求新增支持传入服务提供器 `IServiceProvider` [#I3IVBL](https://gitee.com/dotnetchina/Furion/issues/I3IVBL)
+  - [新增] 全局配置选型 `SupportPackageNamePrefixs` 配置，支持配置包前缀 [#I3K0SN](https://gitee.com/dotnetchina/Furion/issues/I3K0SN)
+  - [新增] 应用启动时支持 `referenceassembly` 类型程序集扫描 [#I3K0SN](https://gitee.com/dotnetchina/Furion/issues/I3K0SN)
 
 - **突破性变化**
 
@@ -32,7 +34,8 @@
 
 - **其他更改**
 
-  - [改进] [改进] `App.GetConfig<>("key")` 不支持获取单个值问题 [#I3ILF1](https://gitee.com/dotnetchina/Furion/issues/I3ILF1)
+  - [改进] 启动时程序集扫描类型 [#I3K0SN](https://gitee.com/dotnetchina/Furion/issues/I3K0SN)
+  - [改进] `App.GetConfig<>("key")` 不支持获取单个值问题 [#I3ILF1](https://gitee.com/dotnetchina/Furion/issues/I3ILF1)
   - [改进] UrlEncode 应该用 `Uri.EscapeDataString()` 而不是 `HttpUtility.UrlEncode` [#I3ICTK](https://gitee.com/dotnetchina/Furion/issues/I3ICTK)
 
 - **文档变化**
@@ -49,7 +52,8 @@
   - [答疑] `DataValidation` 在空值的情况下被忽略掉了[#I3IWSM](https://gitee.com/dotnetchina/Furion/issues/I3IWSM)
   - [答疑] 日志文档没有更新 [#I3J1DX](https://gitee.com/dotnetchina/Furion/issues/I3J1DX)
   - [答疑] 对于 webapi 简单类型参数，是否可以以 json 方式提交 [#I3J18I](https://gitee.com/dotnetchina/Furion/issues/I3J18I)
-  - [答疑] `IUnifyResultProvider` 实现中如果 `UnifyModel` 的type不是范型会报错 [#I3JBXF](https://gitee.com/dotnetchina/Furion/issues/I3JBXF)
+  - [答疑] `IUnifyResultProvider` 实现中如果 `UnifyModel` 的 type 不是范型会报错 [#I3JBXF](https://gitee.com/dotnetchina/Furion/issues/I3JBXF)
+  - [答疑] 如何模块化开发新功能？ [#I3J7ZZ](https://gitee.com/dotnetchina/Furion/issues/I3J7ZZ)
 
 - **不做实现**
 
