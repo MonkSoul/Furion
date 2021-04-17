@@ -548,7 +548,7 @@ SpareTime.Do(1000, (t, c) =>
         Console.WriteLine(t.Exception.Values.LastOrDefault()?.Message);
     }
     // 执行第三次抛异常
-    if (c > 5)
+    if (c > 2)
     {
         throw Oops.Oh("抛异常" + c);
     }
