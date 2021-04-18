@@ -89,13 +89,13 @@ App.PrintToMiniProfiler("分类", "状态", "要打印的消息");
 ## 1.12 获取应用名称
 
 ```cs
-var applicationName = App.WebHostEnvironment.ApplicationName;
+var applicationName = App.HostEnvironment.ApplicationName;
 ```
 
 ## 1.13 获取网站根目录
 
 ```cs
-var webRootPath = App.WebHostEnvironment.ContentRootPath;
+var webRootPath = App.HostEnvironment.ContentRootPath;
 ```
 
 ## 1.14 获取网站根目录 `wwwroot` 目录
@@ -119,23 +119,23 @@ var binPath = AppContext.BaseDirectory;
 ## 1.17 获取环境变量名
 
 ```cs
-var environmentName = App.WebHostEnvironment.EnvironmentName;
+var environmentName = App.HostEnvironment.EnvironmentName;
 ```
 
 ## 1.18 判断系统环境
 
 ```cs
 // 判断是否开发环境
-var isDevelopment = App.WebHostEnvironment.IsDevelopment();
+var isDevelopment = App.HostEnvironment.IsDevelopment();
 
 // 判断是否生产环境
-var isProduction = App.WebHostEnvironment.IsProduction();
+var isProduction = App.HostEnvironment.IsProduction();
 
 // 判断是否 Stage 环境
-var isStaging = App.WebHostEnvironment.IsStaging();
+var isStaging = App.HostEnvironment.IsStaging();
 
 // 判断是否是特定环境，比如自定义测试环境
-var isTest = App.WebHostEnvironment.IsEnvironment("TestEnvironment");
+var isTest = App.HostEnvironment.IsEnvironment("TestEnvironment");
 ```
 
 **注意，需引用 `Microsoft.Extensions.Hosting` 命名空间**

@@ -34,6 +34,7 @@
   - [修复] 依赖注入 AOP 拦截无法捕获内部异常 [#I3IGCC](https://gitee.com/dotnetchina/Furion/issues/I3IGCC)
   - [修复] 全局拦截标记异常已被处理后异常过滤器依然执行 [#I3J463](https://gitee.com/dotnetchina/Furion/issues/I3J463)
   - [修复] 自定义全局异常拦截器不起作用 [#I3K1SJ](https://gitee.com/dotnetchina/Furion/issues/I3K1SJ)
+  - [修复] 在 WorkerService 模式下，还是使用 WebHostEnvironment 来判断 Host 环境，会导致错误 [#I3LCQY](https://gitee.com/dotnetchina/Furion/issues/I3LCQY)
 
 - **其他更改**
 

@@ -43,7 +43,7 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         static DbObjectExtensions()
         {
-            IsDevelopment = App.WebHostEnvironment.IsDevelopment();
+            IsDevelopment = App.HostEnvironment.IsDevelopment();
 
             var appsettings = App.Settings;
             InjectMiniProfiler = appsettings.InjectMiniProfiler.Value;

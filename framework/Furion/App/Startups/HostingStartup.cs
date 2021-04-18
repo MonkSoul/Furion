@@ -25,7 +25,7 @@ namespace Furion
                 InternalApp.HostEnvironment = InternalApp.WebHostEnvironment = hostingContext.HostingEnvironment;
 
                 // 加载配置
-                InternalApp.AddConfigureFiles(config, InternalApp.WebHostEnvironment);
+                InternalApp.AddConfigureFiles(config, InternalApp.HostEnvironment);
             });
 
             // 自动注入 AddApp() 服务

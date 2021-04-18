@@ -42,7 +42,7 @@ namespace Furion.DatabaseAccessor
         {
             return (scoped, options) =>
             {
-                if (App.WebHostEnvironment.IsDevelopment())
+                if (App.HostEnvironment.IsDevelopment())
                 {
                     options/*.UseLazyLoadingProxies()*/
                                 .EnableDetailedErrors()
