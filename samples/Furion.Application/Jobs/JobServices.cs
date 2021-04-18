@@ -1,4 +1,4 @@
-﻿using Furion.DynamicApiController;
+using Furion.DynamicApiController;
 using Furion.FriendlyException;
 using Furion.TaskScheduler;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +23,7 @@ namespace Furion.Application
             SpareTime.Do(1000, (t, i) =>
             {
                 Console.WriteLine($"{t.WorkerName} -{t.Description} - {DateTime.Now:yyyy-MM-dd HH:mm:ss} - {i}");
-            }, null, "模拟测试任务");
+            }, jobName, "模拟测试任务");
 
             return jobName;
         }
