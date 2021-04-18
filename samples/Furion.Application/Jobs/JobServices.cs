@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace Furion.Application
 {
@@ -86,7 +87,7 @@ namespace Furion.Application
         }
 
         /// <summary>
-        /// 获取任务信息
+        /// 获取所有任务信息
         /// </summary>
         /// <returns></returns>
         public IEnumerable<object> GetWorkers()
@@ -96,9 +97,29 @@ namespace Furion.Application
                 u.WorkerName,
                 Status = u.Status.ToString(),
                 u.Description,
-                Type = u.Type.ToString()
+                Type = u.Type.ToString(),
+                ExecuteType = u.ExecuteType.ToString()
             });
         }
+
+        /// <summary>
+        /// 串行执行任务
+        /// </summary>
+        /// <param name="jobName"></param>
+        /// <returns></returns>
+        public string InitSerialJob(string jobName = "serialJob")
+        {
+            Console.WriteLine("串行执行任务");
+
+            SpareTime.Do(1000, (t, i) =>
+            {
+                Thread.Sleep(5000); // 模拟执行耗时任务
+                Console.WriteLine($"{t.WorkerName} -{t.Description} - {DateTime.Now:yyyy-MM-dd HH:mm:ss} - {i}");
+            }, jobName, "模拟测试任务", executeType: SpareTimeExecuteTypes.Serial);
+
+            return jobName;
+        }
+
 
         /// <summary>
         /// 测试异常任务

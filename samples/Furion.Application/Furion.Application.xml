@@ -42,8 +42,15 @@
         </member>
         <member name="M:Furion.Application.JobServices.GetWorkers">
             <summary>
-            获取任务信息
+            获取所有任务信息
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Furion.Application.JobServices.InitSerialJob(System.String)">
+            <summary>
+            串行执行任务
+            </summary>
+            <param name="jobName"></param>
             <returns></returns>
         </member>
         <member name="M:Furion.Application.JobServices.TestExceptionWorker">

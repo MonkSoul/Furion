@@ -356,7 +356,7 @@ SpareTime.Do(()=>{
 
 :::important 配置是否持续检查
 
-如果返回大于 `0` 的数值则按照这个数值持续执行，否则取消任务。
+默认情况下，该自定义会在返回 `小于或等于0` 时终止任务的执行。但是我们希望该任务不要终止，只要符合条件都一直执行，只需要配置 `cancelInNoneNextTime: false` 即可
 
 :::
 
@@ -467,6 +467,7 @@ public class JobWorker : ISpareTimeWorker
 - `DoOnce`：是否只执行一次，`bool` 类型，默认 `false`
 - `StartNow`：是否立即启动，默认 `false`
 - `CronFormat`：`Cron` 表达式格式化方式，`CronFormat` 枚举类型，默认 `CronFormat.Standard`
+- `ExecuteType`：配置任务执行方式，`SpareTimeExecuteTypes` 枚举类型，默认 `SpareTimeExecuteTypes.Parallel`
 
 ## 26.8 `SpareTime` 静态类
 
@@ -535,7 +536,35 @@ var workers = SpareTime.GetWorkers();
 var nextTime = SpareTime.GetCronNextOccurrence("* * * * *");
 ```
 
-## 26.9 任务异常处理
+## 26.9 `并行`和`串行`执行方式
+
+`Furion` 框架提供了任务两种执行方式 `并行` 和 `串行`：任务唯一标识，
+
+- `并行`：无需等待上一次任务完成，**默认值**
+- `串行`：需等待上一次任务完成
+
+### 26.9.1 `SpareTime` 静态方式指定
+
+```cs {3,5}
+SpareTime.Do(1000, (t, i) =>
+{
+    Thread.Sleep(5000); // 模拟执行耗时任务
+    Console.WriteLine($"{t.WorkerName} -{t.Description} - {DateTime.Now:yyyy-MM-dd HH:mm:ss} - {i}");
+}, "serialName", "模拟串行任务", executeType: SpareTimeExecuteTypes.Serial);
+```
+
+### 26.9.2 `ISpareTimeWorker` 方式
+
+```cs {1}
+[SpareTime(1000, "jobName1", StartNow = true, ExecuteType = SpareTimeExecuteTypes.Serial)]
+public void DoSomething1(SpareTimer timer, long count)
+{
+    Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+    Console.WriteLine($"一共执行了：{count} 次");
+}
+```
+
+## 26.10 任务异常处理
 
 有些时候我们可能在执行任务过程中出现异常，`Furion` 也提供了属性判断是否有异常和异常信息，方便记录到日志中，如：
 
@@ -565,7 +594,7 @@ SpareTime.Do(1000, (t, c) =>
 
 :::
 
-## 26.10 如何在任务中解析对象
+## 26.11 如何在任务中解析对象
 
 有些时候我们需要在任务中进行数据库操作或解析服务，这时候我们只需要创建一个新的作用域即可
 
@@ -591,11 +620,11 @@ SpareTime.Do(1000, (timer,count) => {
 }, "任务标识");
 ```
 
-## 26.11 在 `BackgroundService` 中使用
+## 26.12 在 `BackgroundService` 中使用
 
 `BackgroundService` 是 `.NET Core 3` 之后提供的轻量级后台任务，同时可以发布到 `Windows` 服务和 `Linux` 守护进程中。
 
-### 26.11.1 间隔执行方式
+### 26.12.1 间隔执行方式
 
 ```cs {23-27}
 using Furion.TaskScheduler;
@@ -631,7 +660,7 @@ namespace WorkerService1
 }
 ```
 
-### 26.11.2 `Cron` 表达式格式化方式，
+### 26.12.2 `Cron` 表达式格式化方式，
 
 ```cs {23-27}
 using Furion.TaskScheduler;
@@ -667,7 +696,7 @@ namespace WorkerService1
 }
 ```
 
-## 26.12 反馈与建议
+## 26.13 反馈与建议
 
 :::note 与我们交流
 

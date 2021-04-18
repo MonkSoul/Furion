@@ -369,7 +369,6 @@ namespace Furion.Application
 
 `Furion` 内置了很多常用类型的数据验证，包括：
 
-- `Required`：非空、非 Null 类型
 - `Numeric`：数值类型
 - `PositiveNumber`：正数类型
 - `NegativeNumber`：负数类型
@@ -414,9 +413,6 @@ namespace Furion.Application
 <TabItem value="dglx">
 
 ```cs
-// 验证必填
-"".TryValidate(ValidationTypes.Required);   // => false
-
 // 验证中文
 "我叫 MonK".TryValidate(ValidationTypes.Chinese); // => false
 
@@ -568,7 +564,7 @@ public string Password { get; set; }
 - 多个自定义类型混用
 
 ```cs
-"Q1w2e3r4t5!*".TryValidate(MyValidationTypes.StrongPassword, ValidationTypes.Required); // => true
+"Q1w2e3r4t5!*".TryValidate(MyValidationTypes.StrongPassword, ValidationTypes.EmailAddress); // => true
 ```
 
 :::caution 特别注意
@@ -581,7 +577,6 @@ public string Password { get; set; }
 
 `Furion` 内置的 `ValidationTypes` 已有默认的失败消息：
 
-- `Required`：**The Value is required.**
 - `Numeric`：**The Value is not a numeric type.**
 - `PositiveNumber`：**The Value is not a positive number type.**
 - `NegativeNumber`：**The Value is not a negative number type.**
@@ -626,10 +621,6 @@ namespace Furion.Application
     [ValidationMessageType]
     public enum MyValidationMessageType
     {
-        // 修改内置验证类型验证失败消息
-        [ValidationMessage("值不能为空或Null")]
-        Required,
-
         [ValidationMessage("必须是数值类型")]
         Numeric,
 
@@ -698,7 +689,6 @@ namespace Furion.Web.Core
 {
   "ValidationTypeMessageSettings": {
     "Definitions": [
-      ["Required", "值不能为空或Null"],
       ["Numeric", "必须是数值类型"],
 
       ["StrongPassword", "密码太简单了!!!"]

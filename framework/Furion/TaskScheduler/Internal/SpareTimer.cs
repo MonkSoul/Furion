@@ -65,6 +65,11 @@ namespace Furion.TaskScheduler
         public SpareTimeStatus Status { get; internal set; }
 
         /// <summary>
+        /// 执行类型
+        /// </summary>
+        public SpareTimeExecuteTypes ExecuteType { get; internal set; } = SpareTimeExecuteTypes.Parallel;
+
+        /// <summary>
         /// 异常信息
         /// </summary>
         public Dictionary<long, Exception> Exception { get; internal set; } = new Dictionary<long, Exception>();

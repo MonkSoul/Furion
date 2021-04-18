@@ -69,6 +69,11 @@ namespace Furion.TaskScheduler
         public bool StartNow { get; set; } = false;
 
         /// <summary>
+        /// 执行类型
+        /// </summary>
+        public SpareTimeExecuteTypes ExecuteType { get; set; } = SpareTimeExecuteTypes.Parallel;
+
+        /// <summary>
         /// Cron 表达式格式化方式
         /// </summary>
         public CronFormat CronFormat { get; set; } = CronFormat.Standard;

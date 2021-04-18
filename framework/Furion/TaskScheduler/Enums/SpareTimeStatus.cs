@@ -1,10 +1,12 @@
-﻿using System.ComponentModel;
+﻿using Furion.DependencyInjection;
+using System.ComponentModel;
 
 namespace Furion.TaskScheduler
 {
     /// <summary>
     /// 任务状态
     /// </summary>
+    [SkipScan]
     public enum SpareTimeStatus
     {
         /// <summary>
@@ -14,9 +16,9 @@ namespace Furion.TaskScheduler
         Running,
 
         /// <summary>
-        /// 已停止
+        /// 已停止或未启动
         /// </summary>
-        [Description("已停止")]
+        [Description("已停止或未启动")]
         Stopped,
 
         /// <summary>

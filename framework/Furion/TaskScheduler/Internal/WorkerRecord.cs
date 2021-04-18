@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Furion.TaskScheduler
+﻿namespace Furion.TaskScheduler
 {
     /// <summary>
     /// 记录任务数据
@@ -23,13 +21,13 @@ namespace Furion.TaskScheduler
         internal long Interlocked { get; set; } = 0;
 
         /// <summary>
-        /// Cron 表达式下一个发生事件的时间
-        /// </summary>
-        internal DateTime? CronNextOccurrenceTime { get; set; }
-
-        /// <summary>
         /// Cron 表达式实际执行计数
         /// </summary>
         internal long CronActualTally { get; set; } = 0;
+
+        /// <summary>
+        /// 是否上一个已完成
+        /// </summary>
+        internal bool IsCompleteOfPrev { get; set; } = true;
     }
 }
