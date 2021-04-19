@@ -247,5 +247,13 @@ module.exports = {
       type: "doc",
       id: "global/json",
     },
+    {
+      type: "doc",
+      id: "global/scoped",
+    },
+    {
+      type: "doc",
+      id: "global/sparetime",
+    },
   ],
 };

@@ -1,0 +1,13 @@
+---
+id: scoped
+title: 11. Scoped 静态类
+sidebar_label: 11. Scoped 静态类
+---
+
+## 11.1 创建一个依赖注入作用域范围
+
+```cs {1}
+Scoped.Create((factory, scope) => {
+     var services = scope.ServiceProvider;
+});
+```
