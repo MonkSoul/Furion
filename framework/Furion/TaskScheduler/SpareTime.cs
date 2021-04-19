@@ -99,7 +99,11 @@ namespace Furion.TaskScheduler
             // 判断是否在下一个空时间取消任务
             if (cancelInNoneNextTime)
             {
-                if (interval <= 0) Cancel(workerName);
+                if (interval <= 0)
+                {
+                    Cancel(workerName);
+                    return;
+                }
             }
             else return;
 
@@ -115,12 +119,6 @@ namespace Furion.TaskScheduler
             // 订阅执行事件
             timer.Elapsed += (sender, e) =>
             {
-                // 如果间隔小于或等于 0 取消任务
-                if (interval <= 0) Cancel(workerName);
-
-                // 停止任务
-                if (!continued) Cancel(workerName);
-
                 // 获取当前任务的记录
                 _ = WorkerRecords.TryGetValue(workerName, out var currentRecord);
 
@@ -166,6 +164,12 @@ namespace Furion.TaskScheduler
                         UpdateWorkerRecord(workerName, currentRecord);
                     }
 
+                    // 如果间隔小于或等于 0 取消任务
+                    if (interval <= 0) Cancel(workerName);
+
+                    // 停止任务
+                    if (!continued) Cancel(workerName);
+
                     // 处理重入问题
                     Interlocked.Exchange(ref interlocked, 0);
                 }
@@ -198,7 +202,11 @@ namespace Furion.TaskScheduler
                 // 判断是否在下一个空时间取消任务
                 if (cancelInNoneNextTime)
                 {
-                    if (nextLocalTime == null) Cancel(workerName);
+                    if (nextLocalTime == null)
+                    {
+                        Cancel(workerName);
+                        return;
+                    }
                 }
                 else return;
 

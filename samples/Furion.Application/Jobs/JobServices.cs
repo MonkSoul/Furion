@@ -120,7 +120,6 @@ namespace Furion.Application
             return jobName;
         }
 
-
         /// <summary>
         /// 测试异常任务
         /// </summary>
@@ -144,6 +143,17 @@ namespace Furion.Application
                     Console.WriteLine($"{t.WorkerName} -{t.Description} - {DateTime.Now:yyyy-MM-dd HH:mm:ss} - {c}");
                 }
             }, "exceptionJob");
+        }
+
+        /// <summary>
+        /// 测试只执行一次
+        /// </summary>
+        public void DoOnce()
+        {
+            SpareTime.DoOnce(5000, (t, c) =>
+            {
+                Console.WriteLine("测试执行一次");
+            });
         }
     }
 }
