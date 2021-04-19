@@ -532,6 +532,8 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         private string SerializerObject(object body)
         {
+            if (body != null && body is string) return body.ToString();
+
             // 解析序列化工具
             var jsonSerializer = App.GetService(JsonSerialization.ProviderType, RequestScoped) as IJsonSerializerProvider;
             return jsonSerializer.Serialize(body, JsonSerialization.JsonSerializerOptions);

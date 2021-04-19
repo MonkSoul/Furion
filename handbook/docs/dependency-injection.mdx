@@ -667,6 +667,12 @@ namespace Furion.Application
 }
 ```
 
+:::important 获取特性
+
+如果需要获取方法的特性，只需要通过 `method.GetActualCustomAttribute<TArrbute>()` 即可。所有获取真实的特性统一采用 `method.GetActual....()` 方法开头。
+
+:::
+
 之后我们只需要为 `TestService` 增加 `[Injection]` 特性即可，如：
 
 ```cs {1}
