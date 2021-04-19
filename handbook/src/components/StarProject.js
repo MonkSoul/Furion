@@ -12,11 +12,11 @@ export default function StarProject() {
       </button>
       {show ? (
         <a
-          href="https://gitee.com/dotnetchina/anno.core"
+          href="https://gitee.com/dotnetchina/MiniExcel"
           target="_blank"
-          title="dotNET China 精选项目第 05 期"
+          title="dotNET China 精选项目第 06 期"
         >
-          <img src={useBaseUrl("img/Anno.Core.png")} />
+          <img src={useBaseUrl("img/MiniExcel.png")} />
         </a>
       ) : (
         <></>

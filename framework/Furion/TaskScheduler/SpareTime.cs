@@ -119,7 +119,7 @@ namespace Furion.TaskScheduler
                 if (interval <= 0) Cancel(workerName);
 
                 // 停止任务
-                if (!continued) Cancel(timer.WorkerName);
+                if (!continued) Cancel(workerName);
 
                 // 获取当前任务的记录
                 _ = WorkerRecords.TryGetValue(workerName, out var currentRecord);
