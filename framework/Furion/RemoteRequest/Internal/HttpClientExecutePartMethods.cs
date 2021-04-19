@@ -365,12 +365,6 @@ namespace Furion.RemoteRequest
             // 设置请求报文头
             if (Headers != null)
             {
-                // 设置 Content-Type
-                if (!(Headers.ContainsKey("Content-Type") || Headers.ContainsKey("content-type")) && !string.IsNullOrWhiteSpace(ContentType))
-                {
-                    Headers.Add("Content-Type", ContentType);
-                }
-
                 foreach (var header in Headers)
                 {
                     if (header.Value != null) request.Headers.Add(header.Key, header.Value.ToString());

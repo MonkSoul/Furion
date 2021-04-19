@@ -58,6 +58,11 @@
             测试异常任务
             </summary>
         </member>
+        <member name="M:Furion.Application.JobServices.DoOnce">
+            <summary>
+            测试只执行一次
+            </summary>
+        </member>
         <member name="P:Furion.Application.Persons.ChildrenDto.Id">
             <summary>
             主键
