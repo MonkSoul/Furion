@@ -1,3 +1,23 @@
+## v2.1.0 （未发布版本）
+
+- **新特性**
+
+  - [新增] `ClayObject` 模块，处理 `ExpandoObject` 及 `IDictionary<string,object>` 类型 [#I3N3J4](https://gitee.com/dotnetchina/Furion/issues/I3N3J4)
+
+- **突破性变化**
+
+- **问题修复**
+
+- **其他更改**
+
+- **文档变化**
+
+- **问答答疑**
+
+- **不做实现**
+
+---
+
 ## v2.0.0 （当前版本）
 
 - **新特性**

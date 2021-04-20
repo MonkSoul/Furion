@@ -22,7 +22,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="templates"></param>
         /// <returns></returns>
-        public static HttpClientExecutePart SetTemplates(this string requestUrl, Dictionary<string, object> templates)
+        public static HttpClientExecutePart SetTemplates(this string requestUrl, IDictionary<string, object> templates)
         {
             return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetTemplates(templates);
         }
@@ -55,7 +55,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="headers"></param>
         /// <returns></returns>
-        public static HttpClientExecutePart SetHeaders(this string requestUrl, Dictionary<string, object> headers)
+        public static HttpClientExecutePart SetHeaders(this string requestUrl, IDictionary<string, object> headers)
         {
             return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetHeaders(headers);
         }
@@ -77,7 +77,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="queries"></param>
         /// <returns></returns>
-        public static HttpClientExecutePart SetQueries(this string requestUrl, Dictionary<string, object> queries)
+        public static HttpClientExecutePart SetQueries(this string requestUrl, IDictionary<string, object> queries)
         {
             return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetQueries(queries);
         }
@@ -125,7 +125,7 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="contentType"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static HttpClientExecutePart SetBody(this string requestUrl, Dictionary<string, object> body, string contentType = default, Encoding encoding = default)
+        public static HttpClientExecutePart SetBody(this string requestUrl, IDictionary<string, object> body, string contentType = default, Encoding encoding = default)
         {
             return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetBody(body, contentType, encoding);
         }

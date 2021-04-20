@@ -1,5 +1,5 @@
-﻿using Furion.DependencyInjection;
-using Furion.Extensions;
+﻿using Furion.ClayObject;
+using Furion.DependencyInjection;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,7 +17,7 @@ namespace System.Net.Http
         /// <param name="httpRequest"></param>
         /// <param name="queries"></param>
         /// <param name="isEncode"></param>
-        public static void AppendQueries(this HttpRequestMessage httpRequest, Dictionary<string, object> queries, bool isEncode = true)
+        public static void AppendQueries(this HttpRequestMessage httpRequest, IDictionary<string, object> queries, bool isEncode = true)
         {
             if (queries == null || queries.Count == 0) return;
 
@@ -41,7 +41,9 @@ namespace System.Net.Http
         /// <param name="isEncode"></param>
         public static void AppendQueries(this HttpRequestMessage httpRequest, object queries, bool isEncode = true)
         {
-            httpRequest.AppendQueries(queries?.ToDictionary<object>(), isEncode);
+            if (queries == null) return;
+
+            httpRequest.AppendQueries(DictionaryMaker.Make(queries), isEncode);
         }
     }
 }

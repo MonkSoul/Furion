@@ -1,4 +1,4 @@
-﻿using Furion.Extensions;
+﻿using Furion.ClayObject;
 using Furion.JsonSerialization;
 using System;
 using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="templates"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetTemplates(Dictionary<string, object> templates)
+        public HttpClientExecutePart SetTemplates(IDictionary<string, object> templates)
         {
             Templates = templates;
             return this;
@@ -41,7 +41,9 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientExecutePart SetTemplates(object templates)
         {
-            Templates = templates.ToDictionary<object>();
+            if (templates == null) return this;
+
+            Templates = DictionaryMaker.Make(templates);
             return this;
         }
 
@@ -61,7 +63,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="headers"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetHeaders(Dictionary<string, object> headers)
+        public HttpClientExecutePart SetHeaders(IDictionary<string, object> headers)
         {
             Headers = headers;
             return this;
@@ -74,7 +76,9 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientExecutePart SetHeaders(object headers)
         {
-            Headers = headers.ToDictionary<object>();
+            if (headers == null) return this;
+
+            Headers = DictionaryMaker.Make(headers);
             return this;
         }
 
@@ -83,7 +87,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="queries"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetQueries(Dictionary<string, object> queries)
+        public HttpClientExecutePart SetQueries(IDictionary<string, object> queries)
         {
             Queries = queries;
             return this;
@@ -96,7 +100,9 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientExecutePart SetQueries(object queries)
         {
-            Queries = queries.ToDictionary<object>();
+            if (queries == null) return this;
+
+            Queries = DictionaryMaker.Make(queries);
             return this;
         }
 
@@ -135,7 +141,7 @@ namespace Furion.RemoteRequest
         /// <param name="contentType"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetBody(Dictionary<string, object> body, string contentType = default, Encoding encoding = default)
+        public HttpClientExecutePart SetBody(IDictionary<string, object> body, string contentType = default, Encoding encoding = default)
         {
             Body = body;
 

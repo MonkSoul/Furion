@@ -1,4 +1,5 @@
-﻿using Furion.DependencyInjection;
+﻿using Furion.ClayObject;
+using Furion.DependencyInjection;
 using Furion.Extensions;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,9 @@ namespace Furion.Templates.Extensions
         /// <param name="encode"></param>
         public static void Render(this string template, object templateData, bool encode = false)
         {
-            template.Render(templateData.ToDictionary<object>(), encode);
+            if (template == null) return;
+
+            template.Render(templateData == null ? default : DictionaryMaker.Make(templateData), encode);
         }
 
         /// <summary>
@@ -36,8 +39,10 @@ namespace Furion.Templates.Extensions
         /// <param name="templateData"></param>
         /// <param name="encode"></param>
         /// <returns></returns>
-        public static string Render(this string template, Dictionary<string, object> templateData, bool encode = false)
+        public static string Render(this string template, IDictionary<string, object> templateData, bool encode = false)
         {
+            if (template == null) return default;
+
             // 如果模板为空，则跳过
             if (templateData == null || templateData.Count == 0) return template;
 
@@ -67,7 +72,7 @@ namespace Furion.Templates.Extensions
         /// <param name="template"></param>
         /// <param name="templateData"></param>
         /// <returns></returns>
-        private static object MatchTemplateValue(string template, Dictionary<string, object> templateData)
+        private static object MatchTemplateValue(string template, IDictionary<string, object> templateData)
         {
             string tmpl;
             if (!template.Contains(".", StringComparison.CurrentCulture)) tmpl = template;

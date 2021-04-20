@@ -1,5 +1,5 @@
-﻿using Furion.DataValidation;
-using Furion.Extensions;
+﻿using Furion.ClayObject;
+using Furion.DataValidation;
 using Furion.JsonSerialization;
 using Furion.Templates.Extensions;
 using System;
@@ -514,14 +514,15 @@ namespace Furion.RemoteRequest
         /// 转换 Body 为 字典类型
         /// </summary>
         /// <returns></returns>
-        private Dictionary<string, string> ConvertBodyToDictionary()
+        private IDictionary<string, string> ConvertBodyToDictionary()
         {
-            Dictionary<string, string> keyValues = null;
+            IDictionary<string, string> keyValues = null;
+            if (Body == null) return default;
 
             // 处理各种情况
-            if (Body is Dictionary<string, string> dic) keyValues = dic;
-            else if (Body is Dictionary<string, object> dicObj) keyValues = dicObj.ToDictionary(u => u.Key, u => SerializerObject(u.Value));
-            else keyValues = Body.ToDictionary<string>();
+            if (Body is IDictionary<string, string> dic) keyValues = dic;
+            else if (Body is IDictionary<string, object> dicObj) keyValues = dicObj.ToDictionary(u => u.Key, u => SerializerObject(u.Value));
+            else keyValues = DictionaryMaker.Make(Body).ToDictionary(u => u.Key, u => SerializerObject(u.Value));
             return keyValues;
         }
 

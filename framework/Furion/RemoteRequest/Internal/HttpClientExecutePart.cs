@@ -19,7 +19,7 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// Url 地址模板
         /// </summary>
-        public Dictionary<string, object> Templates { get; private set; }
+        public IDictionary<string, object> Templates { get; private set; }
 
         /// <summary>
         /// 请求方式
@@ -29,12 +29,12 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 请求报文头
         /// </summary>
-        public Dictionary<string, object> Headers { get; private set; }
+        public IDictionary<string, object> Headers { get; private set; }
 
         /// <summary>
         /// 查询参数
         /// </summary>
-        public Dictionary<string, object> Queries { get; private set; }
+        public IDictionary<string, object> Queries { get; private set; }
 
         /// <summary>
         /// 客户端名称

@@ -305,38 +305,5 @@ namespace Furion.Extensions
             }
             return obj;
         }
-
-        /// <summary>
-        /// 将对象转字典集合
-        /// </summary>
-        /// <typeparam name="TValue"></typeparam>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        internal static Dictionary<string, TValue> ToDictionary<TValue>(this object obj)
-        {
-            var dic = new Dictionary<string, TValue>();
-
-            // 如果对象为空，则返回空字典
-            if (obj == null) return dic;
-
-            // 如果不是类类型或匿名类型，则返回空字典
-            var type = obj.GetType();
-            if (!(type.IsClass || type.IsAnonymous())) return dic;
-
-            // 获取所有属性
-            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-
-            // 如果实例公开属性为空，则返回空字典
-            if (properties.Length == 0) return dic;
-
-            // 遍历公开属性
-            foreach (var property in properties)
-            {
-                var value = property.GetValue(obj);
-                dic.Add(property.Name, value.ChangeType<TValue>());
-            }
-
-            return dic;
-        }
     }
 }
