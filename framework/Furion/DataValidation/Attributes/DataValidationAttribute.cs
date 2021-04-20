@@ -40,7 +40,7 @@ namespace System.ComponentModel.DataAnnotations
         /// <returns></returns>
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            // 是否互理空值
+            // 是否忽略空值
             if (AllowEmptyStrings && value is string && value.Equals(string.Empty)) return ValidationResult.Success;
 
             // 执行值验证
