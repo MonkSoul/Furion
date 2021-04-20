@@ -133,7 +133,7 @@ namespace Furion.TaskScheduler
                 }
 
                 // 记录执行次数
-                currentRecord.Tally += 1;
+                currentRecord.Timer.Tally = currentRecord.Tally += 1;
 
                 // 处理多线程并发问题（重入问题）
                 var interlocked = currentRecord.Interlocked;

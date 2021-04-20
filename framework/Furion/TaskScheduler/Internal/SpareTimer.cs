@@ -73,5 +73,10 @@ namespace Furion.TaskScheduler
         /// 异常信息
         /// </summary>
         public Dictionary<long, Exception> Exception { get; internal set; } = new Dictionary<long, Exception>();
+
+        /// <summary>
+        /// 任务执行计数
+        /// </summary>
+        public long Tally { get; internal set; } = 0;
     }
 }
