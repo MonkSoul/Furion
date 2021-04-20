@@ -56,7 +56,7 @@ namespace Furion.TaskScheduler
         /// <summary>
         /// 任务描述
         /// </summary>
-        public string Description { get; internal set; }
+        public string Description { get; set; }
 
         /// <summary>
         /// 只执行一次
