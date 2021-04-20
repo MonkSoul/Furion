@@ -11,6 +11,7 @@
   - [新增] 全局配置选型 `SupportPackageNamePrefixs` 配置，支持配置包前缀 [#I3K0SN](https://gitee.com/dotnetchina/Furion/issues/I3K0SN)
   - [新增] 应用启动时支持 `referenceassembly` 类型程序集扫描 [#I3K0SN](https://gitee.com/dotnetchina/Furion/issues/I3K0SN)
   - [新增] 依赖注入 `AOP` 拦截获取方法真实特性 [#I3LZBX](https://gitee.com/dotnetchina/Furion/issues/I3LZBX)
+  - [新增] EFCore 手动 `SaveChanges()` 特性 [#I3N01Y](https://gitee.com/dotnetchina/Furion/issues/I3N01Y)
 
 - **突破性变化**
 
@@ -63,6 +64,7 @@
   - [答疑] 如何模块化开发新功能？ [#I3J7ZZ](https://gitee.com/dotnetchina/Furion/issues/I3J7ZZ)
   - [答疑] 建议增加微服务中间件的集成 [#I3JTZQ](https://gitee.com/dotnetchina/Furion/issues/I3JTZQ)
   - [答疑] 二级虚拟目录部署的 swagger 的 MiniProfiler js 报错 [#I3IWLR](https://gitee.com/dotnetchina/Furion/issues/I3IWLR)
+  - [答疑] 在启用数据库懒加载后, 获取仓储对象抛出异常 [#I3MYQP](https://gitee.com/dotnetchina/Furion/issues/I3MYQP)
 
 - **不做实现**
 

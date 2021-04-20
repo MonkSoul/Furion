@@ -375,7 +375,49 @@ public class JobService : BackgroundService
 - `EnabledEntityChangedListener`：启用实体数据更改监听，默认 `false`，**在构造函数中配置**
 - `Tenant`：默认内置多租户
 
-## 9.1.12 反馈与建议
+## 9.1.12 配置实体 `懒加载`
+
+- 第一步：安装 `EFCore` 拓展包
+
+在数据库上下文定义所在的层安装 `Microsoft.EntityFrameworkCore.Proxies` 拓展包
+
+- 第二步：采用 `AddDb<TDbContext>` 方式注册
+
+确保数据库上下文采用 `AddDb<TDbContext>` 注册而非 `AddDbPool<TDbContext>`。
+
+- 第三步：重写 `OnConfiguring` 方法
+
+```cs {13,15}
+using Furion.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+
+namespace Furion.EntityFramework.Core
+{
+    [AppDbContext("Sqlite3ConnectionString", DbProvider.Sqlite)]
+    public class DefaultDbContext : AppDbContext<DefaultDbContext>
+    {
+        public DefaultDbContext(DbContextOptions<DefaultDbContext> options) : base(options)
+        {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies()
+                          .UseSqlite(DbProvider.GetConnectionString<DefaultDbContext>());
+
+            base.OnConfiguring(optionsBuilder);
+        }
+    }
+}
+```
+
+:::note 小知识
+
+更多 `EFCore` 懒加载可查看 **[【EFCore - 延迟加载】](https://docs.microsoft.com/zh-cn/ef/core/querying/related-data/lazy)** 文档。
+
+:::
+
+## 9.1.13 反馈与建议
 
 :::note 与我们交流
 
