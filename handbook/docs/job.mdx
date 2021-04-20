@@ -386,7 +386,7 @@ SpareTime.Do(()=>{
     // 这里可以查询数据库或进行或进行任何业务逻辑
 
     if(符合逻辑){
-        return DateTime.Now.AddMinutes(10);  // 十分钟后再执行
+        return SpareTime.GetCronNextOccurrence("cron 表达式");
     }
     else return null; // 不符合逻辑继续检查
 },
