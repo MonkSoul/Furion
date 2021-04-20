@@ -1,6 +1,7 @@
 ﻿using Furion;
 using Furion.CorsAccessor;
 using Furion.DependencyInjection;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -15,8 +16,10 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 配置跨域
         /// </summary>
         /// <param name="services">服务集合</param>
+        /// <param name="corsOptionsHandler"></param>
+        /// <param name="corsPolicyBuilderHandler"></param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddCorsAccessor(this IServiceCollection services)
+        public static IServiceCollection AddCorsAccessor(this IServiceCollection services, Action<CorsOptions> corsOptionsHandler = default, Action<CorsPolicyBuilder> corsPolicyBuilderHandler = default)
         {
             // 添加跨域配置选项
             services.AddConfigurableOptions<CorsAccessorSettingsOptions>();
@@ -54,7 +57,13 @@ namespace Microsoft.Extensions.DependencyInjection
 
                     // 设置预检过期时间
                     if (corsAccessorSettings.SetPreflightMaxAge.HasValue) builder.SetPreflightMaxAge(TimeSpan.FromSeconds(corsAccessorSettings.SetPreflightMaxAge.Value));
+
+                    // 添加自定义配置
+                    corsPolicyBuilderHandler?.Invoke(builder);
                 });
+
+                // 添加自定义配置
+                corsOptionsHandler?.Invoke(options);
             });
 
             // 添加响应压缩
