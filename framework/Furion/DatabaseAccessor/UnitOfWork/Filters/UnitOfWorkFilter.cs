@@ -54,14 +54,17 @@ namespace Furion.DatabaseAccessor
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
             var method = actionDescriptor.MethodInfo;
 
+            // 判断是否手动提交
+            var isManualSaveChanges = method.IsDefined(typeof(ManualSaveChangesAttribute), true);
+
             // 判断是否贴有工作单元特性
             if (!method.IsDefined(typeof(UnitOfWorkAttribute), true))
             {
                 // 调用方法
                 var resultContext = await next();
 
-                // 判断是否异常
-                if (resultContext.Exception == null) _dbContextPool.SavePoolNow();
+                // 判断是否异常，并且没有贴 [ManualSaveChanges] 特性
+                if (resultContext.Exception == null && !isManualSaveChanges) _dbContextPool.SavePoolNow();
             }
             else
             {
@@ -108,8 +111,8 @@ namespace Furion.DatabaseAccessor
                 {
                     try
                     {
-                        // 将所有数据库上下文修改 SaveChanges();
-                        var hasChangesCount = _dbContextPool.SavePoolNow();
+                        // 将所有数据库上下文修改 SaveChanges();，这里另外判断是否需要手动提交
+                        var hasChangesCount = !isManualSaveChanges ? _dbContextPool.SavePoolNow() : 0;
 
                         // 提交共享事务
                         dbContextTransaction?.Commit();

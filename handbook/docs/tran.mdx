@@ -165,20 +165,13 @@ using (var scope = new TransactionScope(
 
 ## 9.26.4 工作单元特性说明
 
-### 9.26.4.1 `[UnitOfWork]`
+### 9.26.4.1 `[UnitOfWork]` 特性
 
-`[UnitOfWork]` 特性用来标记事务信息，如作用范围，隔离级别等。
+`[UnitOfWork]` 特性只能用于控制器的 `Action` 中，一旦贴了 `[UnitOfWork]` 特性后，那么该请求自动启用工作单元模式，要么成功，要么失败。
 
-- `Enabled`：是否启动工作单元，默认 `true`
-- `ScopeOption`：定义事务范围行为，默认 `TransactionScopeOption.Required`
-- `IsolationLevel`：设置事务隔离级别，默认 `IsolationLevel.ReadCommitted`;
-- `AsyncFlowOption`：允许跨线程连续任务的事务流，如有异步操作需开启该选项，默认开启
+### 9.26.4.2 `[ManualSaveChanges]` 特性
 
-:::important 特别注意
-
-一旦方法贴了 `[UnitOfWork(false)]` 特性后，那么该方法不再启用工作单元模式，也就是不包含事务，也不会自动提交数据库。慎用!
-
-:::
+默认情况下，`Furion` 框架会在一次成功请求之后自动调用 `SaveChanges()` 方法，如果选择手动调用 `SaveChanges()` 方法，可以在控制器 `Action` 中贴 `[ManualSaveChanges]` 特性即可。
 
 ## 9.26.5 反馈与建议
 
