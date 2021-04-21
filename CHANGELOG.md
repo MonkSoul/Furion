@@ -16,6 +16,8 @@
 
 - **问答答疑**
 
+  - [答疑] 有关【定时任务/委托】的疑问 [#I3N3EW](https://gitee.com/dotnetchina/Furion/issues/I3N3EW)
+
 - **不做实现**
 
 ---
