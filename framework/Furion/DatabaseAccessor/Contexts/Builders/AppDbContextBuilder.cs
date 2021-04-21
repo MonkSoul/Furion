@@ -34,18 +34,10 @@ namespace Furion.DatabaseAccessor
         private static readonly MethodInfo ModelBuildEntityMethod;
 
         /// <summary>
-        /// 判断是否是 Web 环境
-        /// </summary>
-        private static readonly bool IsWebEnvironment;
-
-        /// <summary>
         /// 构造函数
         /// </summary>
         static AppDbContextBuilder()
         {
-            // 判断是否是 Web 环境
-            IsWebEnvironment = App.HttpContext != null;
-
             // 扫描程序集，获取数据库实体相关类型
             EntityCorrelationTypes = App.EffectiveTypes.Where(t => (typeof(IPrivateEntity).IsAssignableFrom(t) || typeof(IPrivateModelBuilder).IsAssignableFrom(t))
                 && t.IsClass && !t.IsAbstract && !t.IsGenericType && !t.IsInterface && !t.IsDefined(typeof(NonAutomaticAttribute), true))
@@ -99,12 +91,8 @@ namespace Furion.DatabaseAccessor
                 // 配置数据库实体类型构建器
                 ConfigureEntityTypeBuilder(entityType, entityBuilder, dbContext, dbContextLocator, dbContextCorrelationType);
 
-                // 跳过运行时执行种子数据检查
-                if (!IsWebEnvironment)
-                {
-                    // 配置数据库实体种子数据
-                    ConfigureEntitySeedData(entityType, entityBuilder, dbContext, dbContextLocator, dbContextCorrelationType);
-                }
+                // 配置数据库实体种子数据
+                ConfigureEntitySeedData(entityType, entityBuilder, dbContext, dbContextLocator, dbContextCorrelationType);
 
                 // 实体完成配置注入拦截
                 LoadModelBuilderOnCreated(modelBuilder, entityBuilder, dbContext, dbContextLocator, dbContextCorrelationType.ModelBuilderFilterInstances);
@@ -485,14 +473,10 @@ namespace Furion.DatabaseAccessor
                             else result.ModelBuilderFilterInstances.Add(Activator.CreateInstance(entityCorrelationType) as IPrivateModelBuilderFilter);
                         }
 
-                        // 只有非 Web 环境才添加种子数据
-                        if (!IsWebEnvironment)
+                        // 添加种子数据
+                        if (entityCorrelationType.HasImplementedRawGeneric(typeof(IPrivateEntitySeedData<>)))
                         {
-                            // 添加种子数据
-                            if (entityCorrelationType.HasImplementedRawGeneric(typeof(IPrivateEntitySeedData<>)))
-                            {
-                                result.EntitySeedDataTypes.Add(entityCorrelationType);
-                            }
+                            result.EntitySeedDataTypes.Add(entityCorrelationType);
                         }
 
                         // 添加动态表类型
