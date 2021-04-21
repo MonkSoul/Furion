@@ -4,20 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Furion.ClayObject
+namespace Furion.ClayObject.Extensions
 {
     /// <summary>
-    /// 字典构建器
+    /// 字典类型拓展类
     /// </summary>
     [SkipScan]
-    public static class DictionaryMaker
+    public static class DictionaryExtensions
     {
         /// <summary>
         /// 将对象转成字典
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public static IDictionary<string, object> Make(object input)
+        public static IDictionary<string, object> ToDictionary(this object input)
         {
             if (input == null)
                 throw new ArgumentNullException(nameof(input));
@@ -37,7 +37,7 @@ namespace Furion.ClayObject
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public static IDictionary<string, Tuple<Type, object>> MakeWithType(object input)
+        public static IDictionary<string, Tuple<Type, object>> ToDictionaryWithType(this object input)
         {
             if (input == null)
                 throw new ArgumentNullException(nameof(input));
@@ -52,11 +52,17 @@ namespace Furion.ClayObject
 
             var dict = new Dictionary<string, Tuple<Type, object>>();
 
+            // 获取所有属性列表
             foreach (var property in input.GetType().GetProperties())
+            {
                 dict.Add(property.Name, new Tuple<Type, object>(property.PropertyType, property.GetValue(input, null)));
+            }
 
+            // 获取所有成员列表
             foreach (var field in input.GetType().GetFields())
+            {
                 dict.Add(field.Name, new Tuple<Type, object>(field.FieldType, field.GetValue(input)));
+            }
 
             return dict;
         }

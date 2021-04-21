@@ -52,7 +52,7 @@ namespace Furion.TaskScheduler
         /// <param name="interval"></param>
         /// <param name="cancelInNoneNextTime"></param>
         /// <param name="executeType"></param>
-        public static void DoIt(Action doWhat = default, double interval = 10, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
+        public static void DoIt(Action doWhat = default, double interval = 30, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
         {
             if (doWhat == null) return;
 

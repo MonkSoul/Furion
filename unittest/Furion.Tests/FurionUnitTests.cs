@@ -4,10 +4,10 @@ using MSTest.Extensions.Contracts;
 namespace Furion.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class FurionUnitTests
     {
         [ContractTestCase]
-        public void TestMethod1()
+        public void TestCases()
         {
             "²âÊÔ Furion ¿ò¼ÜÊ¾·¶".Test(() =>
             {

@@ -456,6 +456,12 @@ public class JobWorker : ISpareTimeWorker
 }
 ```
 
+:::warning 关于依赖注入
+
+`ISpareTimeWorker` 接口主要是用来查找定时器对象的，也就是它的实现类并未提供依赖注入功能，所以在实现类并不支持构造函数注入依赖项。
+
+:::
+
 ### 26.7.1 `[SpareTime]` 特性
 
 `[SpareTime]` 支持以下配置属性

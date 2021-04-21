@@ -1,4 +1,4 @@
-﻿using Furion.ClayObject;
+﻿using Furion.ClayObject.Extensions;
 using Furion.DependencyInjection;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +43,7 @@ namespace System.Net.Http
         {
             if (queries == null) return;
 
-            httpRequest.AppendQueries(DictionaryMaker.Make(queries), isEncode);
+            httpRequest.AppendQueries(queries.ToDictionary(), isEncode);
         }
     }
 }

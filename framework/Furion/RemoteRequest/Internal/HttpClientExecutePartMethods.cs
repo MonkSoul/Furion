@@ -1,4 +1,4 @@
-﻿using Furion.ClayObject;
+﻿using Furion.ClayObject.Extensions;
 using Furion.DataValidation;
 using Furion.JsonSerialization;
 using Furion.Templates.Extensions;
@@ -522,7 +522,7 @@ namespace Furion.RemoteRequest
             // 处理各种情况
             if (Body is IDictionary<string, string> dic) keyValues = dic;
             else if (Body is IDictionary<string, object> dicObj) keyValues = dicObj.ToDictionary(u => u.Key, u => SerializerObject(u.Value));
-            else keyValues = DictionaryMaker.Make(Body).ToDictionary(u => u.Key, u => SerializerObject(u.Value));
+            else keyValues = Body.ToDictionary().ToDictionary(u => u.Key, u => SerializerObject(u.Value));
             return keyValues;
         }
 

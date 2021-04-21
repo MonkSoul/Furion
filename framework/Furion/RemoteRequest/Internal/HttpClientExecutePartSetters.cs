@@ -1,4 +1,4 @@
-﻿using Furion.ClayObject;
+﻿using Furion.ClayObject.Extensions;
 using Furion.JsonSerialization;
 using System;
 using System.Collections.Generic;
@@ -43,7 +43,7 @@ namespace Furion.RemoteRequest
         {
             if (templates == null) return this;
 
-            Templates = DictionaryMaker.Make(templates);
+            Templates = templates.ToDictionary();
             return this;
         }
 
@@ -78,7 +78,7 @@ namespace Furion.RemoteRequest
         {
             if (headers == null) return this;
 
-            Headers = DictionaryMaker.Make(headers);
+            Headers = headers.ToDictionary();
             return this;
         }
 
@@ -102,7 +102,7 @@ namespace Furion.RemoteRequest
         {
             if (queries == null) return this;
 
-            Queries = DictionaryMaker.Make(queries);
+            Queries = queries.ToDictionary();
             return this;
         }
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Furion
+namespace Furion.Reflection
 {
     /// <summary>
     /// 代理拦截依赖接口

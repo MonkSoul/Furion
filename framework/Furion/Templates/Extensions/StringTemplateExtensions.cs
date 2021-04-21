@@ -1,4 +1,4 @@
-﻿using Furion.ClayObject;
+﻿using Furion.ClayObject.Extensions;
 using Furion.DependencyInjection;
 using Furion.Extensions;
 using System;
@@ -29,7 +29,7 @@ namespace Furion.Templates.Extensions
         {
             if (template == null) return;
 
-            template.Render(templateData == null ? default : DictionaryMaker.Make(templateData), encode);
+            template.Render(templateData == null ? default : templateData.ToDictionary(), encode);
         }
 
         /// <summary>

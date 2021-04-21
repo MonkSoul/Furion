@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Furion
+namespace Furion.Reflection
 {
     /// <summary>
     /// 方法参数信息

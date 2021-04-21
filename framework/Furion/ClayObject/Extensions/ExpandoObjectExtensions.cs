@@ -17,7 +17,7 @@ namespace Furion.ClayObject.Extensions
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static ExpandoObject ToExpando(this object value)
+        public static ExpandoObject ToExpandoObject(this object value)
         {
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
@@ -27,8 +27,11 @@ namespace Furion.ClayObject.Extensions
                 expando = new ExpandoObject();
                 var dict = (IDictionary<string, object>)expando;
 
-                foreach (var kvp in DictionaryMaker.Make(value))
+                var dictionary = value.ToDictionary();
+                foreach (var kvp in dictionary)
+                {
                     dict.Add(kvp);
+                }
             }
 
             return expando;
@@ -37,64 +40,64 @@ namespace Furion.ClayObject.Extensions
         /// <summary>
         /// 移除 ExpandoObject 对象属性
         /// </summary>
-        /// <param name="expando"></param>
+        /// <param name="expandoObject"></param>
         /// <param name="propertyName"></param>
-        public static void RemoveProperty(this ExpandoObject expando, string propertyName)
+        public static void RemoveProperty(this ExpandoObject expandoObject, string propertyName)
         {
-            if (expando == null)
-                throw new ArgumentNullException(nameof(expando));
+            if (expandoObject == null)
+                throw new ArgumentNullException(nameof(expandoObject));
 
             if (propertyName == null)
                 throw new ArgumentNullException(nameof(propertyName));
 
-            ((IDictionary<string, object>)expando).Remove(propertyName);
+            ((IDictionary<string, object>)expandoObject).Remove(propertyName);
         }
 
         /// <summary>
         /// 判断 ExpandoObject 是否为空
         /// </summary>
-        /// <param name="expando"></param>
+        /// <param name="expandoObject"></param>
         /// <returns></returns>
-        public static bool Empty(this ExpandoObject expando)
+        public static bool Empty(this ExpandoObject expandoObject)
         {
-            return !((IDictionary<string, object>)expando).Any();
+            return !((IDictionary<string, object>)expandoObject).Any();
         }
 
         /// <summary>
         /// 判断 ExpandoObject 是否拥有某属性
         /// </summary>
-        /// <param name="expando"></param>
+        /// <param name="expandoObject"></param>
         /// <param name="propertyName"></param>
         /// <returns></returns>
-        public static bool HasProperty(this ExpandoObject expando, string propertyName)
+        public static bool HasProperty(this ExpandoObject expandoObject, string propertyName)
         {
-            if (expando == null)
-                throw new ArgumentNullException(nameof(expando));
+            if (expandoObject == null)
+                throw new ArgumentNullException(nameof(expandoObject));
 
             if (propertyName == null)
                 throw new ArgumentNullException(nameof(propertyName));
 
-            return ((IDictionary<string, object>)expando).ContainsKey(propertyName);
+            return ((IDictionary<string, object>)expandoObject).ContainsKey(propertyName);
         }
 
         /// <summary>
         /// 实现 ExpandoObject 浅拷贝
         /// </summary>
-        /// <param name="expando"></param>
+        /// <param name="expandoObject"></param>
         /// <returns></returns>
-        public static ExpandoObject ShallowCopy(this ExpandoObject expando)
+        public static ExpandoObject ShallowCopy(this ExpandoObject expandoObject)
         {
-            return Copy(expando, false);
+            return Copy(expandoObject, false);
         }
 
         /// <summary>
         /// 实现 ExpandoObject 深度拷贝
         /// </summary>
-        /// <param name="expando"></param>
+        /// <param name="expandoObject"></param>
         /// <returns></returns>
-        public static ExpandoObject DeepCopy(this ExpandoObject expando)
+        public static ExpandoObject DeepCopy(this ExpandoObject expandoObject)
         {
-            return Copy(expando, true);
+            return Copy(expandoObject, true);
         }
 
         /// <summary>
@@ -111,10 +114,12 @@ namespace Furion.ClayObject.Extensions
             var _clone = (IDictionary<string, object>)clone;
 
             foreach (var kvp in _original)
+            {
                 _clone.Add(
                     kvp.Key,
                     deep && kvp.Value is ExpandoObject eObject ? DeepCopy(eObject) : kvp.Value
                 );
+            }
 
             return clone;
         }

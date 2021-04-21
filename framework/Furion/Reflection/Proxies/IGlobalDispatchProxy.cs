@@ -1,4 +1,4 @@
-﻿namespace Furion
+﻿namespace Furion.Reflection
 {
     /// <summary>
     /// 全局代理拦截接口
