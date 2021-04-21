@@ -67,44 +67,19 @@ using System.Linq.Expressions;
 namespace Furion.EntityFramework.Core
 {
     [AppDbContext("Sqlite3ConnectionString")]
-    public class FurionDbContext : AppDbContext<FurionDbContext>, IModelBuilderFilter<MasterDbContextLocator>
+    public class FurionDbContext : AppDbContext<FurionDbContext>, IModelBuilderFilter
     {
         public FurionDbContext(DbContextOptions<FurionDbContext> options) : base(options)
         {
         }
 
-        public void OnCreated(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator)
-        {
-            var expression = BuilderIsDeleteLambdaExpression(entityBuilder);
-            if (expression == null) return;
-
-            entityBuilder.HasQueryFilter(expression);
-        }
-
         public void OnCreating(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator)
         {
-        }
+            // 设置软删除表达式
+            var fakeDeleteQueryFilterExpression = FakeDeleteQueryFilterExpression(entityBuilder, dbContext);
+            if (fakeDeleteQueryFilterExpression == null) return;
 
-        /// <summary>
-        /// 构建 u => EF.Property<bool>(u, "IsDeleted") == false 表达式
-        /// </summary>
-        /// <param name="entityBuilder"></param>
-        /// <returns></returns>
-        private LambdaExpression BuilderIsDeleteLambdaExpression(EntityTypeBuilder entityBuilder)
-        {
-            // 获取实体构建器元数据
-            var metadata = entityBuilder.Metadata;
-            if (metadata.FindProperty(nameof(Entity.IsDeleted)) == null) return default;
-
-            // 创建表达式元素
-            var parameter = Expression.Parameter(metadata.ClrType, "u");
-            var properyName = Expression.Constant(nameof(Entity.IsDeleted));
-            var propertyValue = Expression.Constant(false);
-
-            // 构建表达式 u => EF.Property<bool>(u, "IsDeleted") == false
-            var expressionBody = Expression.Equal(Expression.Call(typeof(EF), nameof(EF.Property), new[] { typeof(bool) }, parameter, properyName), propertyValue);
-            var expression = Expression.Lambda(expressionBody, parameter);
-            return expression;
+            entityBuilder.HasQueryFilter(fakeDeleteQueryFilterExpression);
         }
     }
 }

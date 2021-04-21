@@ -193,7 +193,7 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="entityBuilder">实体类型构建器</param>
         /// <param name="dbContext">数据库上下文</param>
-        /// <param name="isDeletedKey">多租户Id属性名</param>
+        /// <param name="isDeletedKey">软删除属性名</param>
         /// <returns>表达式</returns>
         protected virtual LambdaExpression FakeDeleteQueryFilterExpression(EntityTypeBuilder entityBuilder, DbContext dbContext, string isDeletedKey = default)
         {
