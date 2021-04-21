@@ -16,12 +16,19 @@ namespace Furion.UnifyResult
         private readonly RequestDelegate _next;
 
         /// <summary>
+        /// 配置选项
+        /// </summary>
+        private readonly UnifyResultStatusCodesOptions _options;
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="next"></param>
-        public UnifyResultStatusCodesMiddleware(RequestDelegate next)
+        /// <param name="options"></param>
+        public UnifyResultStatusCodesMiddleware(RequestDelegate next, UnifyResultStatusCodesOptions options)
         {
             _next = next;
+            _options = options;
         }
 
         /// <summary>
@@ -36,7 +43,7 @@ namespace Furion.UnifyResult
             // 处理规范化结果
             if (!UnifyContext.IsSkipUnifyHandlerOnSpecifiedStatusCode(context, out var unifyResult))
             {
-                await unifyResult.OnResponseStatusCodes(context, context.Response.StatusCode);
+                await unifyResult.OnResponseStatusCodes(context, context.Response.StatusCode, _options);
             }
         }
     }

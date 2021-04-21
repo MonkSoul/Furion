@@ -112,6 +112,21 @@ namespace Furion.UnifyResult
         }
 
         /// <summary>
+        /// 设置响应状态码
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="statusCode"></param>
+        /// <param name="options"></param>
+        public static void SetResponseStatusCodes(HttpContext context, int statusCode, UnifyResultStatusCodesOptions options)
+        {
+            // 如果为 null，所有状态码设置为 200
+            if (options.Return200StatusCodes == null) context.Response.StatusCode = 200;
+            // 否则只有里面的才设置为 200
+            else if (options.Return200StatusCodes.Contains(statusCode)) context.Response.StatusCode = 200;
+            else { }
+        }
+
+        /// <summary>
         /// 设置规范化结果信息
         /// </summary>
         /// <param name="key"></param>

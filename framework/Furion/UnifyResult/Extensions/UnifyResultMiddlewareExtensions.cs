@@ -1,5 +1,6 @@
 ﻿using Furion.DependencyInjection;
 using Furion.UnifyResult;
+using System;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -13,10 +14,15 @@ namespace Microsoft.AspNetCore.Builder
         /// 添加状态码拦截中间件
         /// </summary>
         /// <param name="builder"></param>
+        /// <param name="optionsBuilder"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseUnifyResultStatusCodes(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseUnifyResultStatusCodes(this IApplicationBuilder builder, Action<UnifyResultStatusCodesOptions> optionsBuilder = default)
         {
-            builder.UseMiddleware<UnifyResultStatusCodesMiddleware>();
+            // 提供配置
+            var options = new UnifyResultStatusCodesOptions();
+            optionsBuilder?.Invoke(options);
+
+            builder.UseMiddleware<UnifyResultStatusCodesMiddleware>(options);
 
             return builder;
         }

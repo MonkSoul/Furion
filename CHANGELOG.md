@@ -6,6 +6,8 @@
 
 - **突破性变化**
 
+  - [调整] 规范化结果接口 `OnResponseStatusCodes` 方法，新增 `UnifyResultStatusCodesOptions` 参数 [#I3NDB9](https://gitee.com/dotnetchina/Furion/issues/I3NDB9)
+
 - **问题修复**
 
 - **其他更改**

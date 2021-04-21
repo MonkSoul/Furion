@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="2.0.8" />
-    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="2.0.8" />
+    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="2.0.9" />
   </ItemGroup>
 
   <ItemGroup>

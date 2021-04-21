@@ -604,9 +604,13 @@ namespace Furion.UnifyResult
         /// </summary>
         /// <param name="context"></param>
         /// <param name="statusCode"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
-        public async Task OnResponseStatusCodes(HttpContext context, int statusCode)
+        public async Task OnResponseStatusCodes(HttpContext context, int statusCode, UnifyResultStatusCodesOptions options)
         {
+            // 设置响应状态码
+            UnifyContext.SetResponseStatusCodes(context, statusCode, options);
+
             switch (statusCode)
             {
                 // 处理 401 状态码

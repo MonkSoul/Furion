@@ -924,9 +924,13 @@ namespace Furion.UnifyResult
         /// </summary>
         /// <param name="context"></param>
         /// <param name="statusCode"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
-        public async Task OnResponseStatusCodes(HttpContext context, int statusCode)
+        public async Task OnResponseStatusCodes(HttpContext context, int statusCode, UnifyResultStatusCodesOptions options)
         {
+            // 设置响应状态码
+            UnifyContext.SetResponseStatusCodes(context, statusCode, options);
+
             switch (statusCode)
             {
                 // 处理 401 状态码
@@ -982,6 +986,8 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     }
     // 添加规范化结果状态码，需要在这里注册
     app.UseUnifyResultStatusCodes();
+    // 或者更多配置
+    // app.UseUnifyResultStatusCodes(options => { options.Return200StatusCodes = new [] { 401, 403 }; });
     // 其他注册...
 }
 ```
