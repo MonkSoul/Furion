@@ -24,10 +24,10 @@ namespace Microsoft.AspNetCore.Mvc.Filters
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="scoped">服务提供器</param>
-        public FriendlyExceptionFilter(IServiceProvider scoped)
+        /// <param name="serviceProvider">服务提供器</param>
+        public FriendlyExceptionFilter(IServiceProvider serviceProvider)
         {
-            _serviceProvider = scoped;
+            _serviceProvider = serviceProvider;
         }
 
         /// <summary>

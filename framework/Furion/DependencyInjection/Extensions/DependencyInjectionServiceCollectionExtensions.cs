@@ -407,7 +407,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // 注册作用域命名服务
             services.AddScoped(provider =>
             {
-                object ResolveService(string named, IScoped scoped)
+                object ResolveService(string named, IScoped serviceProvider)
                 {
                     var isRegister = TypeNamedCollection.TryGetValue(named, out var serviceType);
                     return isRegister ? provider.GetService(serviceType) : null;

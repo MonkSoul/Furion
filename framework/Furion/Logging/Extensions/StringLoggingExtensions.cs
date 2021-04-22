@@ -72,11 +72,11 @@ namespace Furion.Logging.Extensions
         /// 设置日志服务作用域
         /// </summary>
         /// <param name="message"></param>
-        /// <param name="scoped"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static StringLoggerPart SetLoggerScoped(this string message, IServiceProvider scoped)
+        public static StringLoggerPart SetLoggerScoped(this string message, IServiceProvider serviceProvider)
         {
-            return new StringLoggerPart().SetMessage(message).SetLoggerScoped(scoped);
+            return new StringLoggerPart().SetMessage(message).SetLoggerScoped(serviceProvider);
         }
 
         /// <summary>

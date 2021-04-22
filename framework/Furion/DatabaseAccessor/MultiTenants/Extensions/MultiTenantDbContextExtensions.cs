@@ -25,13 +25,13 @@ namespace Furion.DatabaseAccessor.Extensions
             var host = httpContext.Request.Host.Value;
 
             // 获取服务提供器
-            var scoped = httpContext.RequestServices;
+            var serviceProvider = httpContext.RequestServices;
 
             // 缓存的 Key
             var tenantCachedKey = $"MULTI_TENANT:{host}";
 
             // 从内存缓存中移除多租户信息
-            var distributedCache = scoped.GetService<IDistributedCache>();
+            var distributedCache = serviceProvider.GetService<IDistributedCache>();
             distributedCache.Remove(tenantCachedKey);
         }
     }

@@ -30,11 +30,11 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="scoped">服务提供器</param>
+        /// <param name="serviceProvider">服务提供器</param>
         public EFCoreRepository(
-            IServiceProvider scoped)
+            IServiceProvider serviceProvider)
         {
-            _serviceProvider = scoped;
+            _serviceProvider = serviceProvider;
         }
 
         /// <summary>
@@ -137,8 +137,8 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="scoped">服务提供器</param>
-        public EFCoreRepository(IServiceProvider scoped) : base(scoped)
+        /// <param name="serviceProvider">服务提供器</param>
+        public EFCoreRepository(IServiceProvider serviceProvider) : base(serviceProvider)
         {
         }
     }
@@ -155,8 +155,8 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="scoped">服务提供器</param>
-        public EFCoreRepository(IServiceProvider scoped) : base(typeof(TDbContextLocator), scoped)
+        /// <param name="serviceProvider">服务提供器</param>
+        public EFCoreRepository(IServiceProvider serviceProvider) : base(typeof(TDbContextLocator), serviceProvider)
         {
         }
     }
@@ -182,11 +182,11 @@ namespace Furion.DatabaseAccessor
         /// 构造函数
         /// </summary>
         /// <param name="dbContextLocator"></param>
-        /// <param name="scoped">服务提供器</param>
-        public PrivateRepository(Type dbContextLocator, IServiceProvider scoped) : base(dbContextLocator, scoped)
+        /// <param name="serviceProvider">服务提供器</param>
+        public PrivateRepository(Type dbContextLocator, IServiceProvider serviceProvider) : base(dbContextLocator, serviceProvider)
         {
             // 初始化服务提供器
-            ServiceProvider = scoped;
+            ServiceProvider = serviceProvider;
 
             DbConnection = Database.GetDbConnection();
             ChangeTracker = Context.ChangeTracker;
@@ -204,10 +204,10 @@ namespace Furion.DatabaseAccessor
             EntityType = Model.FindEntityType(typeof(TEntity));
 
             // 初始化数据上下文池
-            _dbContextPool = scoped.GetService<IDbContextPool>();
+            _dbContextPool = serviceProvider.GetService<IDbContextPool>();
 
             // 非泛型仓储
-            _repository = scoped.GetService<IRepository>();
+            _repository = serviceProvider.GetService<IRepository>();
         }
 
         /// <summary>

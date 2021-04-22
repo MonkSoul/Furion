@@ -67,11 +67,11 @@ namespace Furion.ViewEngine
         /// <summary>
         /// 视图模板服务作用域
         /// </summary>
-        /// <param name="scoped"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public StringTemplateExecutePart SetViewEngineScoped(IServiceProvider scoped)
+        public StringTemplateExecutePart SetViewEngineScoped(IServiceProvider serviceProvider)
         {
-            ViewEngineScoped = scoped;
+            ViewEngineScoped = serviceProvider;
             return this;
         }
     }

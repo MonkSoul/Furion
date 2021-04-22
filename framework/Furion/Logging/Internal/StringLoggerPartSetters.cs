@@ -80,11 +80,11 @@ namespace Furion.Logging
         /// <summary>
         /// 设置日志服务作用域
         /// </summary>
-        /// <param name="scoped"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public StringLoggerPart SetLoggerScoped(IServiceProvider scoped)
+        public StringLoggerPart SetLoggerScoped(IServiceProvider serviceProvider)
         {
-            LoggerScoped = scoped;
+            LoggerScoped = serviceProvider;
             return this;
         }
     }

@@ -15,8 +15,8 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="scoped">服务提供器</param>
-        public SqlRepository(IServiceProvider scoped) : base(scoped)
+        /// <param name="serviceProvider">服务提供器</param>
+        public SqlRepository(IServiceProvider serviceProvider) : base(serviceProvider)
         {
         }
     }
@@ -31,8 +31,8 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="scoped">服务提供器</param>
-        public SqlRepository(IServiceProvider scoped) : base(typeof(TDbContextLocator), scoped)
+        /// <param name="serviceProvider">服务提供器</param>
+        public SqlRepository(IServiceProvider serviceProvider) : base(typeof(TDbContextLocator), serviceProvider)
         {
         }
     }
@@ -51,13 +51,13 @@ namespace Furion.DatabaseAccessor
         /// 构造函数
         /// </summary>
         /// <param name="dbContextLocator"></param>
-        /// <param name="scoped">服务提供器</param>
-        public PrivateSqlRepository(Type dbContextLocator, IServiceProvider scoped)
+        /// <param name="serviceProvider">服务提供器</param>
+        public PrivateSqlRepository(Type dbContextLocator, IServiceProvider serviceProvider)
         {
-            _serviceProvider = scoped;
+            _serviceProvider = serviceProvider;
 
             // 解析数据库上下文
-            var dbContextResolve = scoped.GetService<Func<Type, IScoped, DbContext>>();
+            var dbContextResolve = serviceProvider.GetService<Func<Type, IScoped, DbContext>>();
             var dbContext = dbContextResolve(dbContextLocator, default);
             DynamicContext = Context = dbContext;
 

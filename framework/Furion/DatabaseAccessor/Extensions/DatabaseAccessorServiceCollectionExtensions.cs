@@ -89,7 +89,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             services.AddScoped(provider =>
             {
-                DbContext dbContextResolve(Type locator, IScoped scoped)
+                DbContext dbContextResolve(Type locator, IScoped serviceProvider)
                 {
                     // 判断定位器是否绑定了数据库上下文
                     var isRegistered = Penetrates.DbContextWithLocatorCached.TryGetValue(locator, out var dbContextType);

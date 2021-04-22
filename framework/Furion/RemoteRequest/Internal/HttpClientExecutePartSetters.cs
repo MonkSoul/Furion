@@ -284,11 +284,11 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 设置请求作用域
         /// </summary>
-        /// <param name="scoped"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetRequestScoped(IServiceProvider scoped)
+        public HttpClientExecutePart SetRequestScoped(IServiceProvider serviceProvider)
         {
-            RequestScoped = scoped;
+            RequestScoped = serviceProvider;
             return this;
         }
     }

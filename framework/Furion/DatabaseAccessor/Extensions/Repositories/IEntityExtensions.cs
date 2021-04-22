@@ -32,12 +32,12 @@ namespace Furion.DatabaseAccessor.Extensions
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entity"></param>
-        /// <param name="scoped"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static EntityExecutePart<TEntity> SetContextScoped<TEntity>(this TEntity entity, IServiceProvider scoped)
+        public static EntityExecutePart<TEntity> SetContextScoped<TEntity>(this TEntity entity, IServiceProvider serviceProvider)
             where TEntity : class, IPrivateEntity, new()
         {
-            return new EntityExecutePart<TEntity>().SetEntity(entity).SetContextScoped(scoped);
+            return new EntityExecutePart<TEntity>().SetEntity(entity).SetContextScoped(serviceProvider);
         }
 
         /// <summary>

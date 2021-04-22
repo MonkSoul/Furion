@@ -12,11 +12,11 @@ namespace Furion.JsonSerialization
         /// <summary>
         /// 获取 JSON 序列化提供器
         /// </summary>
-        /// <param name="scoped"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static IJsonSerializerProvider GetJsonSerializer(IServiceProvider scoped = default)
+        public static IJsonSerializerProvider GetJsonSerializer(IServiceProvider serviceProvider = default)
         {
-            return App.GetService<IJsonSerializerProvider>(scoped);
+            return App.GetService<IJsonSerializerProvider>(serviceProvider);
         }
 
         /// <summary>
@@ -24,11 +24,11 @@ namespace Furion.JsonSerialization
         /// </summary>
         /// <param name="value"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <param name="scoped"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static string Serialize(object value, object jsonSerializerOptions = default, IServiceProvider scoped = default)
+        public static string Serialize(object value, object jsonSerializerOptions = default, IServiceProvider serviceProvider = default)
         {
-            return GetJsonSerializer(scoped).Serialize(value, jsonSerializerOptions);
+            return GetJsonSerializer(serviceProvider).Serialize(value, jsonSerializerOptions);
         }
 
         /// <summary>
@@ -37,11 +37,11 @@ namespace Furion.JsonSerialization
         /// <typeparam name="T"></typeparam>
         /// <param name="json"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <param name="scoped"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static T Deserialize<T>(string json, object jsonSerializerOptions = default, IServiceProvider scoped = default)
+        public static T Deserialize<T>(string json, object jsonSerializerOptions = default, IServiceProvider serviceProvider = default)
         {
-            return GetJsonSerializer(scoped).Deserialize<T>(json, jsonSerializerOptions);
+            return GetJsonSerializer(serviceProvider).Deserialize<T>(json, jsonSerializerOptions);
         }
     }
 }

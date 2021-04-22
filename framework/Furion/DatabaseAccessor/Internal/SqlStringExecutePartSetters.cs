@@ -21,11 +21,11 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 设置数据库执行作用域
         /// </summary>
-        /// <param name="scoped"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public SqlStringExecutePart SetContextScoped(IServiceProvider scoped)
+        public SqlStringExecutePart SetContextScoped(IServiceProvider serviceProvider)
         {
-            ContextScoped = scoped;
+            ContextScoped = serviceProvider;
             return this;
         }
 

@@ -82,46 +82,46 @@ namespace Furion
         /// 获取请求生命周期的服务
         /// </summary>
         /// <typeparam name="TService"></typeparam>
-        /// <param name="scoped"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static TService GetService<TService>(IServiceProvider scoped = default)
+        public static TService GetService<TService>(IServiceProvider serviceProvider = default)
             where TService : class
         {
-            return GetService(typeof(TService), scoped) as TService;
+            return GetService(typeof(TService), serviceProvider) as TService;
         }
 
         /// <summary>
         /// 获取请求生命周期的服务
         /// </summary>
         /// <param name="type"></param>
-        /// <param name="scoped"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static object GetService(Type type, IServiceProvider scoped = default)
+        public static object GetService(Type type, IServiceProvider serviceProvider = default)
         {
-            return (scoped ?? ServiceProvider).GetService(type);
+            return (serviceProvider ?? ServiceProvider).GetService(type);
         }
 
         /// <summary>
         /// 获取请求生命周期的服务
         /// </summary>
         /// <typeparam name="TService"></typeparam>
-        /// <param name="scoped"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static TService GetRequiredService<TService>(IServiceProvider scoped = default)
+        public static TService GetRequiredService<TService>(IServiceProvider serviceProvider = default)
             where TService : class
         {
-            return GetRequiredService(typeof(TService), scoped) as TService;
+            return GetRequiredService(typeof(TService), serviceProvider) as TService;
         }
 
         /// <summary>
         /// 获取请求生命周期的服务
         /// </summary>
         /// <param name="type"></param>
-        /// <param name="scoped"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static object GetRequiredService(Type type, IServiceProvider scoped = default)
+        public static object GetRequiredService(Type type, IServiceProvider serviceProvider = default)
         {
-            return (scoped ?? ServiceProvider).GetRequiredService(type);
+            return (serviceProvider ?? ServiceProvider).GetRequiredService(type);
         }
 
         /// <summary>
@@ -139,36 +139,36 @@ namespace Furion
         /// 获取选项
         /// </summary>
         /// <typeparam name="TOptions">强类型选项类</typeparam>
-        /// <param name="scoped"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns>TOptions</returns>
-        public static TOptions GetOptions<TOptions>(IServiceProvider scoped = default)
+        public static TOptions GetOptions<TOptions>(IServiceProvider serviceProvider = default)
             where TOptions : class, new()
         {
-            return GetService<IOptions<TOptions>>(scoped)?.Value;
+            return GetService<IOptions<TOptions>>(serviceProvider)?.Value;
         }
 
         /// <summary>
         /// 获取选项
         /// </summary>
         /// <typeparam name="TOptions">强类型选项类</typeparam>
-        /// <param name="scoped"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns>TOptions</returns>
-        public static TOptions GetOptionsMonitor<TOptions>(IServiceProvider scoped = default)
+        public static TOptions GetOptionsMonitor<TOptions>(IServiceProvider serviceProvider = default)
             where TOptions : class, new()
         {
-            return GetService<IOptionsMonitor<TOptions>>(scoped)?.CurrentValue;
+            return GetService<IOptionsMonitor<TOptions>>(serviceProvider)?.CurrentValue;
         }
 
         /// <summary>
         /// 获取选项
         /// </summary>
         /// <typeparam name="TOptions">强类型选项类</typeparam>
-        /// <param name="scoped"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns>TOptions</returns>
-        public static TOptions GetOptionsSnapshot<TOptions>(IServiceProvider scoped = default)
+        public static TOptions GetOptionsSnapshot<TOptions>(IServiceProvider serviceProvider = default)
             where TOptions : class, new()
         {
-            return GetService<IOptionsSnapshot<TOptions>>(scoped)?.Value;
+            return GetService<IOptionsSnapshot<TOptions>>(serviceProvider)?.Value;
         }
 
         /// <summary>

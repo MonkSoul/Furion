@@ -41,11 +41,11 @@ namespace Furion.DatabaseAccessor.Extensions
         /// 设置数据库执行作用域
         /// </summary>
         /// <param name="sql"></param>
-        /// <param name="scoped"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static SqlStringExecutePart SetContextScoped(this string sql, IServiceProvider scoped)
+        public static SqlStringExecutePart SetContextScoped(this string sql, IServiceProvider serviceProvider)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SetContextScoped(scoped);
+            return new SqlStringExecutePart().SetSqlString(sql).SetContextScoped(serviceProvider);
         }
 
         /// <summary>

@@ -60,11 +60,11 @@ namespace Furion.ViewEngine.Extensions
         /// 视图模板服务作用域
         /// </summary>
         /// <param name="template"></param>
-        /// <param name="scoped"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static StringTemplateExecutePart SetViewEngineScoped(this string template, IServiceProvider scoped)
+        public static StringTemplateExecutePart SetViewEngineScoped(this string template, IServiceProvider serviceProvider)
         {
-            return new StringTemplateExecutePart().SetTemplate(template).SetViewEngineScoped(scoped);
+            return new StringTemplateExecutePart().SetTemplate(template).SetViewEngineScoped(serviceProvider);
         }
 
         /// <summary>
