@@ -212,11 +212,15 @@ dotnet ef database update -s "../Furion.Web.Entry"
 ```cs {1,3,5-6}
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {
-    Scoped.Create((_, scope) =>
+    // 判断开发环境！！！必须！！！！
+    if (env.IsDevelopment())
     {
-           var context = scope.ServiceProvider.GetRequiredService<FurionDbContext>();
-           context.Database.Migrate();
-    });
+        Scoped.Create((_, scope) =>
+        {
+            var context = scope.ServiceProvider.GetRequiredService<FurionDbContext>();
+            context.Database.Migrate();
+        });
+    }
 
     // 其他代码
 }
@@ -227,11 +231,15 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 ```cs {1,3,5-6}
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {
-    Scoped.Create((_, scope) =>
+    // 判断开发环境！！！必须！！！！
+    if (env.IsDevelopment())
     {
-           var context = scope.ServiceProvider.GetRequiredService<FurionDbContext>();
-           context.Database.EnsureCreated();
-    });
+        Scoped.Create((_, scope) =>
+        {
+            var context = scope.ServiceProvider.GetRequiredService<FurionDbContext>();
+            context.Database.EnsureCreated();
+        });
+    }
 
     // 其他代码
 }
