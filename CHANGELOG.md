@@ -18,6 +18,8 @@
 
 - **文档变化**
 
+  - [新增] 分布式 ID 生成文档 [#I3B6CX](https://gitee.com/dotnetchina/Furion/issues/I3B6CX)
+
 - **问答答疑**
 
   - [答疑] 有关【定时任务/委托】的疑问 [#I3N3EW](https://gitee.com/dotnetchina/Furion/issues/I3N3EW)
