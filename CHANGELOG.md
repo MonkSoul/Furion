@@ -19,6 +19,7 @@
 - **文档变化**
 
   - [新增] 分布式 ID 生成文档 [#I3B6CX](https://gitee.com/dotnetchina/Furion/issues/I3B6CX)
+  - [更新] 20.4 字符串拓展方式 > 错误`ToAESDecrypt` 写成了 `ToToAESDecrypt` [#](https://gitee.com/dotnetchina/Furion/issues/I3NNKV)
 
 - **问答答疑**
 

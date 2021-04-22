@@ -84,7 +84,7 @@ MessageCenter.Subscribe<User>("create:user", (i,p) => {
 
 在 `Furion` 框架中，事件总线是不支持构造函数注入的，而且构造函数也只会执行一次。所以需要用到服务，应该通过静态类解析，`App.GetService<xx>()` 或 `Db.GetRepository<XX>()`。
 
-```cs {5,13}
+```cs {5,12-20}
 public class UserChangeSubscribeHandler : ISubscribeHandler
 {
     public UserChangeSubscribeHandler()
@@ -96,8 +96,15 @@ public class UserChangeSubscribeHandler : ISubscribeHandler
     [SubscribeMessage("create:user")]
     public void CreateUser(string eventId, object payload)
     {
-        // 这里解析服务
-        var repository = Db.GetRepository<Person>();
+        // 创建一个作用域，对象使用完成自动释放
+        Scoped.Create((_, scope) =>
+        {
+            var services = scope.ServiceProvider;
+
+            var repository = Db.GetRepository<Person>(services);    // services 传递进去
+            var someService = App.GetService<ISomeService>(services);   // services 传递进去
+            var otherService = services.GetService<IOtherService>();    // 直接用 services 解析
+        }
     }
 }
 ```

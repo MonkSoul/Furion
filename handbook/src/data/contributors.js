@@ -644,6 +644,12 @@ const contributors = [
     photo:
       "https://portrait.gitee.com/uploads/avatars/user/378/1136157_heinan_1578941539.png!avatar200",
   },
+  {
+    author: "jovercao",
+    link: "https://gitee.com/jovercao",
+    photo:
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAACLUlEQVRoQ+2UPUhbcRTFz1MXrVR00TREpeJHNdQ66GCgtJNjOolDFQdBUBEqxUGKVgstNvUTGw1IgghGQVJFVMggDlJwqQ4Ojn5VKaWDxe/E90qyFFF4hveuf/h733z/l3PO79yn2J+/0nCPPoUNS06bCUsOGEyYCUuWAFdaMqDX7DBhJixZAlxpyYDyT4srzZWWLAHhlZ4ZG0ROtg2hUBjeiQCGvH7SiNkwabw3LGfCXGlzO8c3bG6e+tv4hvmG9VsSywTfcCxpmTHLN8w3bEaP/u/gGzY3T/1tUt3wiKsdxUX50DQNnwZGMRdcvpaAVIYDvn7kPs7C6dkZ+jzj8AcWrhjOsj2Cu/sdMq0WnJ9fwO2bhNf/Tb8WBiZIb9jzpQPlpc+gqhqm54L40DtyReqL8lJ0tjYiLTUFh3+P0NUzjODydwN29J+SGn5TX42aSicSEuLx6/cfvHe5sbL6I6rqQVIiOt42oOKlA3FxCrZ2fqKp7SO2d/f1VRuYIDX8tDAPn9tbYLWkRyVGKK5vbEYr/iQvB5nWDCiKgnD4EhOBebi++gxYud1TUsMRCZXOCjTXvUbKw+QbFamqipXVNbR29eD45PR2qg1MkRuOaHOUlaC2ygl7QW60yhGqF6EQdvYOMLO4hLGpWQMWYnt6J4Zjk0Q7zYZp8xW/nQmLZ0CrgAnT5it+OxMWz4BWAROmzVf8diYsngGtAiZMm6/47UxYPANaBUyYNl/x2/8BvCtgqNy/NWQAAAAASUVORK5CYII=",
+  },
 ];
 
 export default contributors;
