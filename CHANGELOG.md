@@ -2,6 +2,7 @@
 
 - **新特性**
 
+  - [新增] 定时任务支持异步委托 [#I3NP96](https://gitee.com/dotnetchina/Furion/issues/I3NP96)
   - [新增] 轻量级分布式连续 GUID 生成器 [#I3NKLZ](https://gitee.com/dotnetchina/Furion/issues/I3NKLZ)
   - [新增] `ClayObject` 模块，处理 `ExpandoObject` 及 `IDictionary<string,object>` 类型 [#I3N3J4](https://gitee.com/dotnetchina/Furion/issues/I3N3J4)
 
@@ -26,6 +27,8 @@
   - [答疑] 有关【定时任务/委托】的疑问 [#I3N3EW](https://gitee.com/dotnetchina/Furion/issues/I3N3EW)
 
 - **不做实现**
+
+  - [作废] 期待 IEnumerableExtensions 扩展 OrderBy 函数来支持分页排序 [#I3NOQ9](https://gitee.com/dotnetchina/Furion/issues/I3NOQ9)
 
 ---
 

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Furion.EventBus
 {
@@ -59,7 +60,11 @@ namespace Furion.EventBus
                 foreach (var eventHandler in messageHandlers)
                 {
                     // 采用后台线程执行
-                    SpareTime.DoIt(() => eventHandler?.Invoke(messageId, payload));
+                    SpareTime.DoIt(async () =>
+                    {
+                        eventHandler?.Invoke(messageId, payload);
+                        await Task.CompletedTask;
+                    });
                 }
             }
         }

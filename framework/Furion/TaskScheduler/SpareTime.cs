@@ -56,7 +56,11 @@ namespace Furion.TaskScheduler
         {
             if (doWhat == null) return;
 
-            Do(() => interval, false, (_, _) => doWhat(), cancelInNoneNextTime: cancelInNoneNextTime, executeType: executeType);
+            Do(() => interval, false, async (_, _) =>
+            {
+                doWhat();
+                await Task.CompletedTask;
+            }, cancelInNoneNextTime: cancelInNoneNextTime, executeType: executeType);
         }
 
         /// <summary>
@@ -117,7 +121,7 @@ namespace Furion.TaskScheduler
             };
 
             // 订阅执行事件
-            timer.Elapsed += (sender, e) =>
+            timer.Elapsed += async (sender, e) =>
             {
                 // 获取当前任务的记录
                 _ = WorkerRecords.TryGetValue(workerName, out var currentRecord);
@@ -125,7 +129,11 @@ namespace Furion.TaskScheduler
                 // 处理串行执行问题
                 if (timer.ExecuteType == SpareTimeExecuteTypes.Serial)
                 {
-                    if (!currentRecord.IsCompleteOfPrev) return;
+                    if (!currentRecord.IsCompleteOfPrev)
+                    {
+                        await Task.CompletedTask;
+                        return;
+                    }
 
                     // 立即更新多线程状态
                     currentRecord.IsCompleteOfPrev = false;
@@ -172,6 +180,8 @@ namespace Furion.TaskScheduler
 
                     // 处理重入问题
                     Interlocked.Exchange(ref interlocked, 0);
+
+                    await Task.CompletedTask;
                 }
             };
 
@@ -194,7 +204,7 @@ namespace Furion.TaskScheduler
             if (doWhat == null) return;
 
             // 每秒检查一次
-            Do(1000, (timer, tally) =>
+            Do(1000, async (timer, tally) =>
             {
                 // 获取下一个执行的时间
                 var nextLocalTime = nextTimeHandler();
@@ -205,14 +215,23 @@ namespace Furion.TaskScheduler
                     if (nextLocalTime == null)
                     {
                         Cancel(workerName);
+                        await Task.CompletedTask;
                         return;
                     }
                 }
-                else return;
+                else
+                {
+                    await Task.CompletedTask;
+                    return;
+                }
 
                 // 只有时间相等才触发
                 var interval = (nextLocalTime.Value - DateTime.Now).TotalSeconds;
-                if (Math.Floor(interval) != 0) return;
+                if (Math.Floor(interval) != 0)
+                {
+                    await Task.CompletedTask;
+                    return;
+                }
 
                 // 获取当前任务的记录
                 _ = WorkerRecords.TryGetValue(workerName, out var currentRecord);
@@ -225,6 +244,8 @@ namespace Furion.TaskScheduler
 
                 // 执行方法
                 doWhat(timer, currentRecord.CronActualTally);
+
+                await Task.CompletedTask;
             }, workerName, description, startNow, cancelInNoneNextTime, executeType);
         }
 
