@@ -177,6 +177,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddMemoryCache();  // .NET 5.0.3+ 需要手动注册了
             services.AddDistributedMemoryCache();
 
+            // 注册全局依赖注入
+            services.AddDependencyInjection();
+
             // 注册全局配置选项
             services.AddConfigurableOptions<AppSettingsOptions>();
 
@@ -194,9 +197,6 @@ namespace Microsoft.Extensions.DependencyInjection
                     options.RouteBasePath = MiniProfilerRouteBasePath;
                 }).AddRelationalDiagnosticListener();
             }
-
-            // 注册全局依赖注入
-            services.AddDependencyInjection();
 
             // 添加对象映射
             services.AddObjectMapper();
@@ -219,14 +219,14 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddMemoryCache();  // .NET 5.0.3+ 需要手动注册了
             services.AddDistributedMemoryCache();
 
+            // 注册全局依赖注入
+            services.AddDependencyInjection();
+
             // 注册全局配置选项
             services.AddConfigurableOptions<AppSettingsOptions>();
 
             // 注册全局 Startup 扫描
             services.AddStartup();
-
-            // 注册全局依赖注入
-            services.AddDependencyInjection();
 
             // 添加对象映射
             services.AddObjectMapper();
