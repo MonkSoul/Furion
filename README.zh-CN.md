@@ -7,7 +7,7 @@
 
 <div align="center">
 
-[![star](https://gitee.com/dotnetchina/Furion/badge/star.svg?theme=gvp)](https://gitee.com/dotnetchina/Furion/stargazers) [![fork](https://gitee.com/dotnetchina/Furion/badge/fork.svg?theme=gvp)](https://gitee.com/dotnetchina/Furion/members) [![GitHub stars](https://img.shields.io/github/stars/MonkSoul/Furion?logo=github)](https://github.com/MonkSoul/Furion/stargazers) [![GitHub forks](https://img.shields.io/github/forks/MonkSoul/Furion?logo=github)](https://github.com/MonkSoul/Furion/network) [![GitHub license](https://img.shields.io/badge/license-Apache2-yellow)](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) [![nuget](https://img.shields.io/nuget/v/Furion.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion)
+[![star](https://gitee.com/dotnetchina/Furion/badge/star.svg?theme=gvp)](https://gitee.com/dotnetchina/Furion/stargazers) [![fork](https://gitee.com/dotnetchina/Furion/badge/fork.svg?theme=gvp)](https://gitee.com/dotnetchina/Furion/members) [![GitHub stars](https://img.shields.io/github/stars/MonkSoul/Furion?logo=github)](https://github.com/MonkSoul/Furion/stargazers) [![GitHub forks](https://img.shields.io/github/forks/MonkSoul/Furion?logo=github)](https://github.com/MonkSoul/Furion/network) [![GitHub license](https://img.shields.io/badge/license-Apache%202.0-yellow)](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) [![nuget](https://img.shields.io/nuget/v/Furion.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion)
 
 </div>
 
