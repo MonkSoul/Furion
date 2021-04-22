@@ -10,21 +10,21 @@ namespace Furion.DistributedIDGenerator
     public enum SequentialGuidType
     {
         /// <summary>
-        /// 格式化为字符串
+        /// 标准连续 GUID 字符串
         /// </summary>
-        [Description("格式化为字符串")]
+        [Description("标准连续 GUID 字符串")]
         SequentialAsString,
 
         /// <summary>
-        /// 格式化成 Byte 数组
+        /// Byte 数组类型的连续 `GUID` 字符串
         /// </summary>
-        [Description("格式化成 Byte 数组")]
+        [Description("Byte 数组类型的连续 `GUID` 字符串")]
         SequentialAsBinary,
 
         /// <summary>
-        /// 序列化部分在末尾部分
+        /// 连续部分在末尾展示
         /// </summary>
-        [Description("序列化部分在末尾部分")]
+        [Description("连续部分在末尾展示")]
         SequentialAtEnd
     }
 }

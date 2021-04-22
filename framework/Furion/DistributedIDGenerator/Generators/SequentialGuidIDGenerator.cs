@@ -21,7 +21,10 @@ namespace Furion.DistributedIDGenerator
         /// <returns></returns>
         public object Create(object idGeneratorOptions = null)
         {
-            var options = (idGeneratorOptions ?? new SequentialGuidSettings()) as SequentialGuidSettings;
+            var options = (idGeneratorOptions ?? new SequentialGuidSettings()
+            {
+                GuidType = SequentialGuidType.SequentialAsString
+            }) as SequentialGuidSettings;
 
             byte[] randomBytes = new byte[10];
             RandomGenerator.GetBytes(randomBytes);

@@ -194,8 +194,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="entityBuilder">实体类型构建器</param>
         /// <param name="dbContext">数据库上下文</param>
         /// <param name="isDeletedKey">软删除属性名</param>
+        /// <param name="filterValue">过滤的值</param>
         /// <returns>表达式</returns>
-        protected virtual LambdaExpression FakeDeleteQueryFilterExpression(EntityTypeBuilder entityBuilder, DbContext dbContext, string isDeletedKey = default)
+        protected virtual LambdaExpression FakeDeleteQueryFilterExpression(EntityTypeBuilder entityBuilder, DbContext dbContext, string isDeletedKey = default, object filterValue = default)
         {
             isDeletedKey ??= nameof(Entity.IsDeleted);
 
@@ -206,7 +207,7 @@ namespace Furion.DatabaseAccessor
             // 创建表达式元素
             var parameter = Expression.Parameter(metadata.ClrType, "u");
             var properyName = Expression.Constant(isDeletedKey);
-            var propertyValue = Expression.Constant(false);
+            var propertyValue = Expression.Constant(filterValue ?? false);
 
             var expressionBody = Expression.Equal(Expression.Call(typeof(EF), nameof(EF.Property), new[] { typeof(bool) }, parameter, properyName), propertyValue);
             var expression = Expression.Lambda(expressionBody, parameter);

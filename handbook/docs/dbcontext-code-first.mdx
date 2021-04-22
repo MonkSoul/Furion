@@ -209,7 +209,7 @@ dotnet ef database update -s "../Furion.Web.Entry"
 
 如果已经生成 `Migrations` 文件，那么可以直接在 `Startup.cs` 代码中实现程序启动时自动执行 `update-database` 命令，如：
 
-```cs {1,3,5-6}
+```cs {1,4,6,8-9}
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {
     // 判断开发环境！！！必须！！！！
@@ -228,7 +228,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 
 ### 9.20.6.2 如果没有生成过 `Migrations` 文件情况
 
-```cs {1,3,5-6}
+```cs {1,4,6,8-9}
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 {
     // 判断开发环境！！！必须！！！！

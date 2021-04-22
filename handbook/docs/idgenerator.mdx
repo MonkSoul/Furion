@@ -1,0 +1,68 @@
+---
+id: idgenerator
+title: 27. 分布式 ID 生成
+sidebar_label: 27. 分布式 ID 生成
+---
+
+## 27.1 为什么需要分布式 ID
+
+- `全局唯一性`: 不能出现重复的 ID 号, 既然是唯一标识, 这是最基本的要求.
+
+- `趋势递增`: 在 MySQL InnoDB 引擎中使用的是聚集索引, 由于多数 RDBMS 使用 B-tree 的数据结构来存储索引数据, 在主键的选择上面我们应该尽量使用有序的主键保证写入性能.
+
+- `单调递增`: 保证下一个 ID 一定大于上一个 ID, 例如事务版本号, IM 增量消息, 排序等特殊需求.
+
+- `信息安全`: 如果 ID 是连续的, 恶意用户的扒取工作就非常容易做了, 直接按照顺序下载指定 URL 即可; 如果是订单号就更危险了, 竞对可以直接知道我们一天的单量. 所以在一些应用场景下, 会需要 ID 无规则, 不规则.
+
+## 27.2 分布式 ID 有哪些
+
+常见的分布式 ID 有 `连续 GUID` 和 `雪花算法 ID`。
+
+## 27.3 如何使用
+
+### 27.3.1 `连续 GUID` 方式
+
+- 静态 `IDGenerator` 方式
+
+```cs
+var guid = IDGenerator.NextID();
+
+// 还可以配置更多参数
+var guid2 = IDGenerator.NextID(SequentialGuidType.SequentialAtEnd);
+```
+
+`SequentialGuidType` 是枚举类型，可选项有：
+
+- `SequentialAsString`：标准连续 `GUID` 字符串，默认值
+- `SequentialAsBinary`：Byte 数组类型的连续 `GUID` 字符串
+- `SequentialAtEnd`：连续部分在末尾展示
+
+- `IDistributedIDGenerator` 注入方式
+
+```cs {2,6}
+private readonly IDistributedIDGenerator _idGenerator;
+public AppServices(IDistributedIDGenerator idGenerator)
+{
+    _idGenerator = idGenerator;
+
+    var guidObject =  _idGenerator.Create();
+}
+```
+
+### 27.3.1 雪花算法 ID
+
+`Furion` 在最新的 `2.1 +` 版本移除了雪花算法 ID 功能，原因是：
+
+**目前，雪花 ID 使用频率不高，而且实现雪花 ID 的方式也是千差万别，所以框架移除该功能，采用拓展或自集成方式。**
+
+目前推荐的库是：[https://gitee.com/yitter/idgenerator](https://gitee.com/yitter/idgenerator)
+
+## 27.4 反馈与建议
+
+:::note 与我们交流
+
+给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。
+
+:::
+
+---
