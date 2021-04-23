@@ -13,6 +13,8 @@
 
 - **问题修复**
 
+  - [修复] `Swagger` 不能支持非 int 类型的枚举 [#I3NQM8](https://gitee.com/dotnetchina/Furion/issues/I3NQM8)
+
 - **其他更改**
 
   - [改进] 支持应用启动的时候迁移种子数据 [#I3NH3M](https://gitee.com/dotnetchina/Furion/issues/I3NH3M)
