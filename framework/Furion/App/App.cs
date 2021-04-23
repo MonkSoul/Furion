@@ -236,7 +236,7 @@ namespace Furion
 
             // 读取应用配置
             var settings = GetConfig<AppSettingsOptions>("AppSettings") ?? new AppSettingsOptions { };
-            var supportPackageNamePrefixs = settings.SupportPackageNamePrefixs ?? Array.Empty<string>(); ;
+            var supportPackageNamePrefixs = settings.SupportPackageNamePrefixs ?? Array.Empty<string>();
 
             var dependencyContext = DependencyContext.Default;
 
@@ -245,7 +245,7 @@ namespace Furion
                 .Where(u =>
                        (u.Type == "project" && !excludeAssemblyNames.Any(j => u.Name.EndsWith(j))) ||
                        (u.Type == "package" && (u.Name.StartsWith(nameof(Furion)) || supportPackageNamePrefixs.Any(p => u.Name.StartsWith(p)))) ||
-                       (settings.EnabledReferenceAssemblyScan == true && (u.Type == "reference" || u.Type == "referenceassembly")))    // 判断是否启用引用程序集扫描
+                       (settings.EnabledReferenceAssemblyScan == true && u.Type == "reference"))    // 判断是否启用引用程序集扫描
                 .Select(u => AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(u.Name)))
                 .ToList();
 
