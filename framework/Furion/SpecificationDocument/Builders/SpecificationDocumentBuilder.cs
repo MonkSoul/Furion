@@ -31,9 +31,9 @@ namespace Furion.SpecificationDocument
         private static readonly SpecificationDocumentSettingsOptions _specificationDocumentSettings;
 
         /// <summary>
-        /// 文档默认分组
+        /// 分组信息
         /// </summary>
-        private static readonly IEnumerable<GroupExtraInfo> _defaultGroups;
+        private static readonly IEnumerable<GroupExtraInfo> _groupExtraInfos;
 
         /// <summary>
         /// 文档分组列表
@@ -62,7 +62,7 @@ namespace Furion.SpecificationDocument
             GetActionTagCached = new ConcurrentDictionary<ApiDescription, string>();
 
             // 默认分组，支持多个逗号分割
-            _defaultGroups = new List<GroupExtraInfo> { ResolveGroupExtraInfo(_specificationDocumentSettings.DefaultGroupName) };
+            _groupExtraInfos = new List<GroupExtraInfo> { ResolveGroupExtraInfo(_specificationDocumentSettings.DefaultGroupName) };
 
             // 加载所有分组
             _groups = ReadGroups();
@@ -384,7 +384,8 @@ namespace Furion.SpecificationDocument
             return groupOrders
                 .OrderByDescending(u => u.Order)
                 .ThenBy(u => u.Group)
-                .Select(u => u.Group);
+                .Select(u => u.Group)
+                .Union(_specificationDocumentSettings.PackagesGroups);
         }
 
         /// <summary>
@@ -405,11 +406,11 @@ namespace Furion.SpecificationDocument
             static IEnumerable<GroupExtraInfo> Function(Type type)
             {
                 // 如果控制器没有定义 [ApiDescriptionSettings] 特性，则返回默认分组
-                if (!type.IsDefined(typeof(ApiDescriptionSettingsAttribute), true)) return _defaultGroups;
+                if (!type.IsDefined(typeof(ApiDescriptionSettingsAttribute), true)) return _groupExtraInfos;
 
                 // 读取分组
                 var apiDescriptionSettings = type.GetCustomAttribute<ApiDescriptionSettingsAttribute>(true);
-                if (apiDescriptionSettings.Groups == null || apiDescriptionSettings.Groups.Length == 0) return _defaultGroups;
+                if (apiDescriptionSettings.Groups == null || apiDescriptionSettings.Groups.Length == 0) return _groupExtraInfos;
 
                 // 处理分组额外信息
                 var groupExtras = new List<GroupExtraInfo>();

@@ -78,6 +78,11 @@ namespace Furion.SpecificationDocument
         public string RouteTemplate { get; set; }
 
         /// <summary>
+        /// 配置安装第三方包的分组名
+        /// </summary>
+        public string[] PackagesGroups { get; set; }
+
+        /// <summary>
         /// 后期配置
         /// </summary>
         /// <param name="options"></param>
@@ -131,6 +136,7 @@ namespace Furion.SpecificationDocument
             Servers ??= Array.Empty<OpenApiServer>();
             HideServers ??= false;
             RouteTemplate ??= "swagger/{documentName}/swagger.json";
+            PackagesGroups ??= Array.Empty<string>();
         }
     }
 }

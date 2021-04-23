@@ -26,6 +26,7 @@ sidebar_label: 7. 规范化文档配置
   - `Servers`：配置 Server 下拉列表，`OpenApiServer[]` 类型，默认 `[]`，如：`{Servers:[ { Url:"地址", Description:"描述"} ]}`
   - `HideServers`：是否隐藏 Server 下拉列表，`bool` 类型，默认 `false`
   - `RouteTemplate`：配置文档 `swagger.json` 路由模板，默认模板：`swagger/{documentName}/swagger.json`, `{documentName}` 代表分组名，**必须保留原样**
+  - `PackagesGroups`：配置模块化内置分组名称，`string[]` 类型，默认 `[]`
 
 另外 `SpecificationOpenApiInfo` 内置配置如下：
 
