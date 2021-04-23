@@ -634,7 +634,7 @@ SpareTime.Do(1000, (timer,count) => {
 
 :::important 数据库操作注意
 
-如果作用域中对**数据库有任何变更操作**，需手动调用 `SaveChanges` 或带 `Now` 结尾的方法。
+如果作用域中对**数据库有任何变更操作**，需手动调用 `SaveChanges` 或带 `Now` 结尾的方法。也可以使用 `Scoped.CreateUnitOfWork(handler)` 代替。
 
 :::
 
