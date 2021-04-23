@@ -1,4 +1,5 @@
-﻿using Furion.DependencyInjection;
+﻿using Furion;
+using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
@@ -29,6 +30,28 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 ConfigureMvcBuilder(options);
             });
+
+            // 载入程序集部件
+            mvcBuilder.AddExternalAssemblyParts();
+
+            return mvcBuilder;
+        }
+
+        /// <summary>
+        /// 添加外部程序集部件集合
+        /// </summary>
+        /// <param name="mvcBuilder">Mvc构建器</param>
+        /// <returns>Mvc构建器</returns>
+        public static IMvcBuilder AddExternalAssemblyParts(this IMvcBuilder mvcBuilder)
+        {
+            // 载入程序集部件
+            if (App.ExternalAssemblies.Any())
+            {
+                foreach (var assembly in App.ExternalAssemblies)
+                {
+                    mvcBuilder.AddApplicationPart(assembly);
+                }
+            }
 
             return mvcBuilder;
         }

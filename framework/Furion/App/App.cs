@@ -199,7 +199,11 @@ namespace Furion
             // 编译配置
             Configuration = InternalApp.ConfigurationBuilder.Build();
 
-            Assemblies = GetAssemblies();
+            // 加载程序集
+            (IEnumerable<Assembly> Assemblies, IEnumerable<Assembly> ExternalAssemblies) a = GetAssemblies();
+            Assemblies = a.Assemblies;
+            ExternalAssemblies = a.ExternalAssemblies;
+
             EffectiveTypes = Assemblies.SelectMany(u => u.GetTypes()
                 .Where(u => u.IsPublic && !u.IsDefined(typeof(SkipScanAttribute), false)));
 
@@ -210,6 +214,11 @@ namespace Furion
         /// 应用所有启动配置对象
         /// </summary>
         internal static ConcurrentBag<AppStartup> AppStartups;
+
+        /// <summary>
+        /// 外部程序集
+        /// </summary>
+        internal static IEnumerable<Assembly> ExternalAssemblies;
 
         /// <summary>
         /// 保存文件夹的监听
@@ -227,7 +236,7 @@ namespace Furion
         /// 获取应用有效程序集
         /// </summary>
         /// <returns>IEnumerable</returns>
-        private static IEnumerable<Assembly> GetAssemblies()
+        private static (IEnumerable<Assembly> Assemblies, IEnumerable<Assembly> ExternalAssemblies) GetAssemblies()
         {
             // 需排除的程序集后缀
             var excludeAssemblyNames = new string[] {
@@ -246,9 +255,9 @@ namespace Furion
                        (u.Type == "project" && !excludeAssemblyNames.Any(j => u.Name.EndsWith(j))) ||
                        (u.Type == "package" && (u.Name.StartsWith(nameof(Furion)) || supportPackageNamePrefixs.Any(p => u.Name.StartsWith(p)))) ||
                        (settings.EnabledReferenceAssemblyScan == true && u.Type == "reference"))    // 判断是否启用引用程序集扫描
-                .Select(u => AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(u.Name)))
-                .ToList();
+                .Select(u => AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(u.Name)));
 
+            IEnumerable<Assembly> externalAssemblies = Array.Empty<Assembly>();
             // 加载 `appsetting.json` 配置的外部程序集
             if (settings.ExternalAssemblies != null && settings.ExternalAssemblies.Any())
             {
@@ -260,11 +269,15 @@ namespace Furion
                     // https://docs.microsoft.com/zh-cn/dotnet/standard/assembly/unloadability
                     var assembly = LoadExternalAssembly(Path.Combine(AppContext.BaseDirectory, assemblyFileName));
                     if (null != assembly)
-                        scanAssemblies.Add(assembly);
+                    {
+                        var extAssembly = new[] { assembly };
+                        scanAssemblies = scanAssemblies.Concat(extAssembly);
+                        externalAssemblies = externalAssemblies.Concat(extAssembly);
+                    }
                 }
             }
 
-            return scanAssemblies;
+            return (scanAssemblies, externalAssemblies);
         }
 
         /// <summary>
@@ -343,7 +356,7 @@ namespace Furion
         private static void DoUnload(WeakReference plcWR)
         {
             // 防止引入局部变量导致GC失败，需要单独执行unload，并且不可被优化为内联
-            ((PluginLoadContext)plcWR.Target).Unload();
+            ((PluginLoadContext)plcWR.Target)?.Unload();
         }
     }
 }
