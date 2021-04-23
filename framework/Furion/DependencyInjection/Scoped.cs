@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Furion.DatabaseAccessor;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace Furion.DependencyInjection
@@ -21,6 +22,22 @@ namespace Furion.DependencyInjection
             var scopeFactory = App.GetService<IServiceScopeFactory>();
             using var scope = scopeFactory.CreateScope();
             handle.Invoke(scopeFactory, scope);
+        }
+
+        /// <summary>
+        /// 创建一个工作单元作用域
+        /// </summary>
+        /// <param name="handle"></param>
+        public static void CreateUnitOfWork(Action<IServiceScopeFactory, IServiceScope> handle)
+        {
+            Create(async (factory, scoped) =>
+            {
+                var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
+
+                handle.Invoke(factory, scoped);
+
+                _ = await dbContextPool?.SavePoolNowAsync();
+            });
         }
     }
 }

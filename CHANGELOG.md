@@ -1,15 +1,17 @@
-## v2.1.0 （未发布版本）
+## v2.1.0 （当前版本）
 
 - **新特性**
 
+  - [新增] 新增定时任务 `ISpareTimeWorker` 方式支持 `[SpareTime("{配置路径}}]` 方式 [#I3NTUX](https://gitee.com/dotnetchina/Furion/issues/I3NTUX)
   - [新增] 定时任务支持异步委托 [#I3NP96](https://gitee.com/dotnetchina/Furion/issues/I3NP96)
   - [新增] 轻量级分布式连续 GUID 生成器 [#I3NKLZ](https://gitee.com/dotnetchina/Furion/issues/I3NKLZ)
   - [新增] `ClayObject` 模块，处理 `ExpandoObject` 及 `IDictionary<string,object>` 类型 [#I3N3J4](https://gitee.com/dotnetchina/Furion/issues/I3N3J4)
+  - [新增] `Scoped.CreateUnitOfWork(handler)` 创建作用域并自动提交数据库更改方法 [#I3NU3G](https://gitee.com/dotnetchina/Furion/issues/I3NU3G)
 
 - **突破性变化**
 
   - [调整] 规范化结果接口 `OnResponseStatusCodes` 方法，新增 `UnifyResultStatusCodesOptions` 参数 [#I3NDB9](https://gitee.com/dotnetchina/Furion/issues/I3NDB9)
-  - [移除] 雪花 ID 实现代码 [#I3NKLZ](https://gitee.com/dotnetchina/Furion/issues/I3NKLZ)
+  - [移除] **雪花 ID 实现代码 [#I3NKLZ](https://gitee.com/dotnetchina/Furion/issues/I3NKLZ)**
 
 - **问题修复**
 
@@ -29,6 +31,7 @@
 - **问答答疑**
 
   - [答疑] 有关【定时任务/委托】的疑问 [#I3N3EW](https://gitee.com/dotnetchina/Furion/issues/I3N3EW)
+  - [答疑] 统一返回格式支持自定义 [#I3NU1G](https://gitee.com/dotnetchina/Furion/issues/I3NU1G)
 
 - **不做实现**
 
@@ -36,7 +39,7 @@
 
 ---
 
-## v2.0.0 （当前版本）
+## v2.0.0 （已发布）
 
 - **新特性**
 

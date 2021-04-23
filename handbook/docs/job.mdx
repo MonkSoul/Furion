@@ -410,7 +410,7 @@ SpareTime.Do(()=>{
 
 如：
 
-```cs {1,4-5,12-13,20-21,28-30,37-38}
+```cs {1,4-5,12-13,20-21,28-30,37-38,45}
 public class JobWorker : ISpareTimeWorker
 {
     // 每个一秒执行，且立即启动
@@ -447,7 +447,15 @@ public class JobWorker : ISpareTimeWorker
     }
 
     // 只执行一次
-    [SpareTime(1000, "jobName4", StartNow = true, DoOnce = true)]
+    [SpareTime(1000, "jobName5", StartNow = true, DoOnce = true)]
+    public void DoSomething5(SpareTimer timer, long count)
+    {
+        Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+        Console.WriteLine($"一共执行了：{count} 次");
+    }
+
+    // 读取配置文件，通过 {配置路径}
+    [SpareTime("{MyJob:Time}", "jobName6", StartNow = true, DoOnce = true)]
     public void DoSomething5(SpareTimer timer, long count)
     {
         Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -623,6 +631,12 @@ SpareTime.Do(1000, (timer,count) => {
 
 }, "任务标识");
 ```
+
+:::important 数据库操作注意
+
+如果作用域中对**数据库有任何变更操作**，需手动调用 `SaveChanges` 或带 `Now` 结尾的方法。
+
+:::
 
 ## 26.12 在 `BackgroundService` 中使用
 

@@ -8,7 +8,48 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 **此章节只记录重大版本更新日志，小迭代版本不做更新。**想了解更多更新内容，可查阅 [CHANGELOG.md](https://gitee.com/dotnetchina/Furion/blob/master/CHANGELOG.md)
 
-## v2.0.0 （当前版本）
+## v2.1.0 （当前版本）
+
+- **新特性**
+
+  - [新增] 新增定时任务 `ISpareTimeWorker` 方式支持 `[SpareTime("{配置路径}}]` 方式 [#I3NTUX](https://gitee.com/dotnetchina/Furion/issues/I3NTUX)
+  - [新增] 定时任务支持异步委托 [#I3NP96](https://gitee.com/dotnetchina/Furion/issues/I3NP96)
+  - [新增] 轻量级分布式连续 GUID 生成器 [#I3NKLZ](https://gitee.com/dotnetchina/Furion/issues/I3NKLZ)
+  - [新增] `ClayObject` 模块，处理 `ExpandoObject` 及 `IDictionary<string,object>` 类型 [#I3N3J4](https://gitee.com/dotnetchina/Furion/issues/I3N3J4)
+  - [新增] `Scoped.CreateUnitOfWork(handler)` 创建作用域并自动提交数据库更改方法 [#I3NU3G](https://gitee.com/dotnetchina/Furion/issues/I3NU3G)
+
+- **突破性变化**
+
+  - [调整] 规范化结果接口 `OnResponseStatusCodes` 方法，新增 `UnifyResultStatusCodesOptions` 参数 [#I3NDB9](https://gitee.com/dotnetchina/Furion/issues/I3NDB9)
+  - [移除] **雪花 ID 实现代码 [#I3NKLZ](https://gitee.com/dotnetchina/Furion/issues/I3NKLZ)**
+
+- **问题修复**
+
+  - [修复] `Swagger` 不能支持非 int 类型的枚举 [#I3NQM8](https://gitee.com/dotnetchina/Furion/issues/I3NQM8)
+  - [修复] 数据库线程池多线程并发问题 [#I3NR4L](https://gitee.com/dotnetchina/Furion/issues/I3NR4L)
+
+- **其他更改**
+
+  - [改进] 支持应用启动的时候迁移种子数据 [#I3NH3M](https://gitee.com/dotnetchina/Furion/issues/I3NH3M)
+
+- **文档变化**
+
+  - [新增] 分布式 ID 生成文档 [#I3B6CX](https://gitee.com/dotnetchina/Furion/issues/I3B6CX)
+  - [新增] 新增模块化开发文档 [#I3NSUS](https://gitee.com/dotnetchina/Furion/issues/I3NSUS)
+  - [更新] 20.4 字符串拓展方式 > 错误`ToAESDecrypt` 写成了 `ToToAESDecrypt` [#](https://gitee.com/dotnetchina/Furion/issues/I3NNKV)
+
+- **问答答疑**
+
+  - [答疑] 有关【定时任务/委托】的疑问 [#I3N3EW](https://gitee.com/dotnetchina/Furion/issues/I3N3EW)
+  - [答疑] 统一返回格式支持自定义 [#I3NU1G](https://gitee.com/dotnetchina/Furion/issues/I3NU1G)
+
+- **不做实现**
+
+  - [作废] 期待 IEnumerableExtensions 扩展 OrderBy 函数来支持分页排序 [#I3NOQ9](https://gitee.com/dotnetchina/Furion/issues/I3NOQ9)
+
+---
+
+## v2.0.0 （已发布）
 
 - **新特性**
 

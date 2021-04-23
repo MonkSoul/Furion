@@ -11,3 +11,19 @@ Scoped.Create((factory, scope) => {
      var services = scope.ServiceProvider;
 });
 ```
+
+:::important 数据库操作注意
+
+如果作用域中对**数据库有任何变更操作**，需手动调用 `SaveChanges` 或带 `Now` 结尾的方法。也可以使用 `Scoped.CreateUnitOfWork(handler)` 代替。
+
+:::
+
+## 11.2 创建一个带工作单元的作用域
+
+```cs
+Scoped.CreateUnitOfWork((factory, scope) => {
+     var services = scope.ServiceProvider;
+});
+```
+
+此方法将在执行完毕之后自动调用 `SaveChanges()`

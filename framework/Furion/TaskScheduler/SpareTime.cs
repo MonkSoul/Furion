@@ -26,7 +26,7 @@ namespace Furion.TaskScheduler
         /// <param name="executeType"></param>
         public static void Do(double interval, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
         {
-            Do(() => interval, true, doWhat, workerName, description, startNow, cancelInNoneNextTime, executeType);
+            Do(() => interval, doWhat, workerName, description, startNow, cancelInNoneNextTime, executeType, true);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Furion.TaskScheduler
         /// <param name="executeType"></param>
         public static void DoOnce(double interval, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
         {
-            Do(() => interval, false, doWhat, workerName, description, startNow, cancelInNoneNextTime, executeType);
+            Do(() => interval, doWhat, workerName, description, startNow, cancelInNoneNextTime, executeType, false);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Furion.TaskScheduler
         {
             if (doWhat == null) return;
 
-            Do(() => interval, false, async (_, _) =>
+            DoOnce(interval, async (_, _) =>
             {
                 doWhat();
                 await Task.CompletedTask;
@@ -83,14 +83,14 @@ namespace Furion.TaskScheduler
         /// 开始执行简单任务
         /// </summary>
         /// <param name="intervalHandler">时间间隔（毫秒）</param>
-        /// <param name="continued">是否持续执行</param>
         /// <param name="doWhat"></param>
         /// <param name="workerName"></param>
         /// <param name="description"></param>
         /// <param name="startNow"></param>
         /// <param name="cancelInNoneNextTime"></param>
         /// <param name="executeType"></param>
-        public static void Do(Func<double> intervalHandler, bool continued = true, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
+        /// <param name="continued">是否持续执行</param>
+        public static void Do(Func<double> intervalHandler, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel, bool continued = true)
         {
             if (doWhat == null) return;
 
