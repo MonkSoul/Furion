@@ -1,4 +1,4 @@
-﻿using Furion.DependencyInjection;
+using Furion.DependencyInjection;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -35,13 +35,14 @@ namespace Furion.SpecificationDocument
                 var enumValues = Enum.GetValues(type);
                 foreach (var option in enumValues)
                 {
-                    var value = (int)option;
-
+                    //var value = (int)option;
+                    var value = option;
+                    
                     // 获取枚举成员特性
                     var fieldinfo = type.GetField(Enum.GetName(type, value));
                     var descriptionAttribute = fieldinfo.GetCustomAttribute<DescriptionAttribute>(true);
-
-                    model.Enum.Add(new OpenApiInteger(value));
+                    model.Enum.Add(OpenApiAnyFactory.CreateFromJson(JsonSerializer.Serialize(option)));
+                    //model.Enum.Add(new OpenApiInteger(value));
                     stringBuilder.Append($"&nbsp;{descriptionAttribute?.Description} {option} = {value}<br />");
                 }
                 model.Description = stringBuilder.ToString();
