@@ -154,21 +154,25 @@ module.exports = {
     },
     {
       type: "doc",
+      id: "module-dev",
+    },
+    {
+      type: "doc",
       id: "microservice",
     },
     {
       type: "category",
-      label: "29. 托管部署",
+      label: "30. 托管部署",
       items: ["deploy-iis", "deploy-docker", "deploy-nginx", "virtual-deploy"],
     },
     {
       type: "category",
-      label: "30. 持续部署集成",
+      label: "31. 持续部署集成",
       items: ["deploy-docker-auto", "devops"],
     },
     {
       type: "category",
-      label: "31. 测试指南",
+      label: "32. 测试指南",
       items: ["unittest", "performance", "benchmark"],
     },
     {
