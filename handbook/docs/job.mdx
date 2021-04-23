@@ -604,11 +604,9 @@ SpareTime.Do(1000, (t, c) =>
 
 有些时候我们需要在任务中进行数据库操作或解析服务，这时候我们只需要创建一个新的作用域即可
 
-```cs {1,3}
-var scopeFactory = App.GetService<IServiceScopeFactory>();
-
+```cs {2}
 SpareTime.Do(1000, (timer,count) => {
-    using (var scope = scopeFactory.CreateScope())
+    Scoped.Create((_, scope) =>
     {
         var services = scope.ServiceProvider;
 
