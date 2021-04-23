@@ -28,7 +28,7 @@ sidebar_label: 28. 模块化开发
   "AppSettings": {
     "EnabledReferenceAssemblyScan": true,    // 启用模块化程序集扫描
     "SupportPackageNamePrefixs": ["Module1", "Module2",...] // 配置通过 Nuget 方式安装的模块化包，如果不是通过 Nuget 方式可不配置
-    // "ExternalAssemblies": ["Module1.dll", "Module2.dll", ...]   // 配置加载网站根目录的模块程序集，可不配置
+    // "ExternalAssemblies": ["plugins/Module1.dll", "plugins/Module2.dll", ...]   // 配置加载网站 plugins 目录下的模块程序集，可不配置
   }
 }
 ```
@@ -67,12 +67,12 @@ sidebar_label: 28. 模块化开发
 
 4. **通过动态加载 `.dll` 方式安装模块**
 
-这种方式通常是在网站根目录下放入模块化 `.dll` 文件，无需添加引用可自动加载。
+这种方式通常是在网站创建一个文件夹放入模块化 `.dll` 文件，如：`plugins`，无需添加引用可自动加载。
 
 ```json {3}
 {
   "AppSettings": {
-    "ExternalAssemblies": ["Module1.dll", "Module2.dll", ...]
+    "ExternalAssemblies": ["plugins/Module1.dll", "plugins/Module2.dll", ...]
   }
 }
 ```
