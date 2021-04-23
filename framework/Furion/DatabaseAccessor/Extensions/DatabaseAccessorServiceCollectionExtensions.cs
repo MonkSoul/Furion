@@ -1,5 +1,4 @@
-﻿using Furion;
-using Furion.DatabaseAccessor;
+﻿using Furion.DatabaseAccessor;
 using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -78,8 +77,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     }
 
                     // 添加数据库上下文到池中
-                    var httpContext = App.HttpContext;
-                    var dbContextPool = (httpContext != null ? httpContext.RequestServices : provider).GetService<IDbContextPool>();
+                    var dbContextPool = provider.GetService<IDbContextPool>();
                     dbContextPool?.AddToPool(dbContext);
 
                     return dbContext;
@@ -106,8 +104,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     }
 
                     // 添加数据库上下文到池中
-                    var httpContext = App.HttpContext;
-                    var dbContextPool = (httpContext != null ? httpContext.RequestServices : provider).GetService<IDbContextPool>();
+                    var dbContextPool = provider.GetService<IDbContextPool>();
                     dbContextPool?.AddToPool(dbContext);
 
                     return dbContext;

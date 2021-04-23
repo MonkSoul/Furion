@@ -78,15 +78,15 @@ namespace Furion.DatabaseAccessor
                 if (dbContexts.Any())
                 {
                     // 先判断是否已经有上下文开启了事务
-                    var transactionDbContext = dbContexts.FirstOrDefault(u => u.Database.CurrentTransaction != null);
-                    if (transactionDbContext != null)
+                    var transactionDbContext = dbContexts.FirstOrDefault(u => u.Value.Database.CurrentTransaction != null);
+                    if (transactionDbContext.Value != null)
                     {
-                        dbContextTransaction = transactionDbContext.Database.CurrentTransaction;
+                        dbContextTransaction = transactionDbContext.Value.Database.CurrentTransaction;
                     }
                     else
                     {
                         // 如果没有任何上下文有事务，则将第一个开启事务
-                        dbContextTransaction = dbContexts.First().Database.BeginTransaction();
+                        dbContextTransaction = dbContexts.First().Value.Database.BeginTransaction();
                     }
 
                     // 共享事务

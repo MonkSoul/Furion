@@ -14,6 +14,7 @@
 - **问题修复**
 
   - [修复] `Swagger` 不能支持非 int 类型的枚举 [#I3NQM8](https://gitee.com/dotnetchina/Furion/issues/I3NQM8)
+  - [修复] 数据库线程池多线程并发问题 [#I3NR4L](https://gitee.com/dotnetchina/Furion/issues/I3NR4L)
 
 - **其他更改**
 

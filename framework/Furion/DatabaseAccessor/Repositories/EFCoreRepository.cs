@@ -491,7 +491,7 @@ namespace Furion.DatabaseAccessor
         /// 获取所有数据库上下文
         /// </summary>
         /// <returns>ConcurrentBag{DbContext}</returns>
-        public ConcurrentBag<DbContext> GetDbContexts()
+        public ConcurrentDictionary<Guid, DbContext> GetDbContexts()
         {
             return _dbContextPool.GetDbContexts();
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Concurrent;
 using System.Data.Common;
 using System.Threading;
@@ -15,7 +16,7 @@ namespace Furion.DatabaseAccessor
         /// 获取所有数据库上下文
         /// </summary>
         /// <returns></returns>
-        ConcurrentBag<DbContext> GetDbContexts();
+        ConcurrentDictionary<Guid, DbContext> GetDbContexts();
 
         /// <summary>
         /// 保存数据库上下文

@@ -53,7 +53,7 @@ namespace Furion.EventBus
         /// </summary>
         /// <param name="messageId"></param>
         /// <param name="payload"></param>
-        internal void Send(string messageId, object payload)
+        internal void Send(string messageId, object payload = null)
         {
             if (MessageHandlerQueues.TryGetValue(messageId, out var messageHandlers))
             {

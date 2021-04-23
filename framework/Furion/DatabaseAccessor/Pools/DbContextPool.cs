@@ -41,25 +41,25 @@ namespace Furion.DatabaseAccessor
             InjectMiniProfiler = App.Settings.InjectMiniProfiler.Value;
             IsPrintDbConnectionInfo = App.Settings.PrintDbConnectionInfo.Value;
 
-            dbContexts = new ConcurrentBag<DbContext>();
-            failedDbContexts = new ConcurrentBag<DbContext>();
+            dbContexts = new ConcurrentDictionary<Guid, DbContext>();
+            failedDbContexts = new ConcurrentDictionary<Guid, DbContext>();
         }
 
         /// <summary>
         /// 线程安全的数据库上下文集合
         /// </summary>
-        private readonly ConcurrentBag<DbContext> dbContexts;
+        private readonly ConcurrentDictionary<Guid, DbContext> dbContexts;
 
         /// <summary>
         /// 登记错误的数据库上下文
         /// </summary>
-        private readonly ConcurrentBag<DbContext> failedDbContexts;
+        private readonly ConcurrentDictionary<Guid, DbContext> failedDbContexts;
 
         /// <summary>
         /// 获取所有数据库上下文
         /// </summary>
         /// <returns></returns>
-        public ConcurrentBag<DbContext> GetDbContexts()
+        public ConcurrentDictionary<Guid, DbContext> GetDbContexts()
         {
             return dbContexts;
         }
@@ -70,15 +70,17 @@ namespace Furion.DatabaseAccessor
         /// <param name="dbContext"></param>
         public void AddToPool(DbContext dbContext)
         {
-            // 排除已经存在的数据库上下文
-            if (!dbContexts.Contains(dbContext))
-            {
-                dbContexts.Add(dbContext);
+            var instanceId = dbContext.ContextId.InstanceId;
 
+            var canAdd = dbContexts.TryAdd(instanceId, dbContext);
+            if (canAdd)
+            {
                 // 订阅数据库上下文操作失败事件
                 dbContext.SaveChangesFailed += (s, e) =>
                 {
-                    if (!failedDbContexts.Contains(dbContext))
+                    // 排除已经存在的数据库上下文
+                    var canAdd = failedDbContexts.TryAdd(instanceId, dbContext);
+                    if (canAdd)
                     {
                         var context = s as DbContext;
 
@@ -96,9 +98,6 @@ namespace Furion.DatabaseAccessor
                             // 打印事务回滚消息
                             App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", $"[Connection Id: {context.ContextId}] / [Database: {connection.Database}]{(IsPrintDbConnectionInfo ? $" / [Connection String: {connection.ConnectionString}]" : string.Empty)}", isError: true);
                         }
-
-                        // 记录错误上下文
-                        failedDbContexts.Add(context);
                     }
                 };
             }
@@ -122,8 +121,8 @@ namespace Furion.DatabaseAccessor
         {
             // 查找所有已改变的数据库上下文并保存更改
             return dbContexts
-                .Where(u => u != null && u.ChangeTracker.HasChanges() && !failedDbContexts.Contains(u))
-                .Select(u => u.SaveChanges()).Count();
+                .Where(u => u.Value != null && u.Value.ChangeTracker.HasChanges() && !failedDbContexts.Contains(u))
+                .Select(u => u.Value.SaveChanges()).Count();
         }
 
         /// <summary>
@@ -135,8 +134,8 @@ namespace Furion.DatabaseAccessor
         {
             // 查找所有已改变的数据库上下文并保存更改
             return dbContexts
-                .Where(u => u != null && u.ChangeTracker.HasChanges() && !failedDbContexts.Contains(u))
-                .Select(u => u.SaveChanges(acceptAllChangesOnSuccess)).Count();
+                .Where(u => u.Value != null && u.Value.ChangeTracker.HasChanges() && !failedDbContexts.Contains(u))
+                .Select(u => u.Value.SaveChanges(acceptAllChangesOnSuccess)).Count();
         }
 
         /// <summary>
@@ -148,8 +147,8 @@ namespace Furion.DatabaseAccessor
         {
             // 查找所有已改变的数据库上下文并保存更改
             var tasks = dbContexts
-                .Where(u => u != null && u.ChangeTracker.HasChanges() && !failedDbContexts.Contains(u))
-                .Select(u => u.SaveChangesAsync(cancellationToken));
+                .Where(u => u.Value != null && u.Value.ChangeTracker.HasChanges() && !failedDbContexts.Contains(u))
+                .Select(u => u.Value.SaveChangesAsync(cancellationToken));
 
             // 等待所有异步完成
             var results = await Task.WhenAll(tasks);
@@ -166,8 +165,8 @@ namespace Furion.DatabaseAccessor
         {
             // 查找所有已改变的数据库上下文并保存更改
             var tasks = dbContexts
-                .Where(u => u != null && u.ChangeTracker.HasChanges() && !failedDbContexts.Contains(u))
-                .Select(u => u.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken));
+                .Where(u => u.Value != null && u.Value.ChangeTracker.HasChanges() && !failedDbContexts.Contains(u))
+                .Select(u => u.Value.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken));
 
             // 等待所有异步完成
             var results = await Task.WhenAll(tasks);
@@ -184,9 +183,9 @@ namespace Furion.DatabaseAccessor
         {
             // 跳过第一个数据库上下文并设置共享事务
             _ = dbContexts
-                   .Where(u => u != null)
+                   .Where(u => u.Value != null)
                    .Skip(skipCount)
-                   .Select(u => u.Database.UseTransaction(transaction));
+                   .Select(u => u.Value.Database.UseTransaction(transaction));
         }
 
         /// <summary>
@@ -200,9 +199,9 @@ namespace Furion.DatabaseAccessor
         {
             // 跳过第一个数据库上下文并设置贡献事务
             var tasks = dbContexts
-                .Where(u => u != null)
+                .Where(u => u.Value != null)
                 .Skip(skipCount)
-                .Select(u => u.Database.UseTransactionAsync(transaction, cancellationToken));
+                .Select(u => u.Value.Database.UseTransactionAsync(transaction, cancellationToken));
 
             await Task.WhenAll(tasks);
         }
@@ -214,9 +213,9 @@ namespace Furion.DatabaseAccessor
         {
             if (!dbContexts.Any()) return;
 
-            foreach (var dbContext in dbContexts)
+            foreach (var item in dbContexts)
             {
-                var conn = dbContext.Database.GetDbConnection();
+                var conn = item.Value.Database.GetDbConnection();
                 if (conn.State == ConnectionState.Open)
                 {
                     var wrapConn = InjectMiniProfiler ? new ProfiledDbConnection(conn, MiniProfiler.Current) : conn;
