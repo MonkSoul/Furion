@@ -1,6 +1,6 @@
 ﻿using Furion.DependencyInjection;
+using Furion.Templates.Extensions;
 using System;
-using System.Text.RegularExpressions;
 
 namespace Furion.TaskScheduler
 {
@@ -10,11 +10,6 @@ namespace Furion.TaskScheduler
     [SkipScan, AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class SpareTimeAttribute : Attribute
     {
-        /// <summary>
-        /// 模板正则表达式
-        /// </summary>
-        private const string templatePattern = @"\{(?<p>.+?)\}";
-
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -35,7 +30,7 @@ namespace Furion.TaskScheduler
         public SpareTimeAttribute(string expressionOrKey, string workName = default)
         {
             // 支持从配置文件读取
-            var realValue = ResolveTemplate(expressionOrKey);
+            var realValue = expressionOrKey.Render();
 
             // 如果能够转换成整型，则采用间隔
             if (long.TryParse(realValue, out var interval))
@@ -97,23 +92,5 @@ namespace Furion.TaskScheduler
         /// Cron 表达式格式化方式
         /// </summary>
         public CronFormat CronFormat { get; set; } = CronFormat.Standard;
-
-        /// <summary>
-        /// 解析模板（可配置 appsetting.json 的键）
-        /// </summary>
-        /// <param name="template"></param>
-        /// <returns></returns>
-        private static string ResolveTemplate(string template)
-        {
-            if (string.IsNullOrWhiteSpace(template)) return default;
-
-            if (Regex.IsMatch(template, templatePattern))
-            {
-                var configKey = Regex.Match(template, templatePattern).Groups["p"].Value;
-                return App.GetConfig<string>(configKey) ?? configKey;
-            }
-
-            return template;
-        }
     }
 }

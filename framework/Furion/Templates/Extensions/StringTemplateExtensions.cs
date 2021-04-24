@@ -46,7 +46,7 @@ namespace Furion.Templates.Extensions
             // 如果模板为空，则跳过
             if (templateData == null || templateData.Count == 0) return template;
 
-            // 判断请求地址是否包含模板
+            // 判断字符串是否包含模板
             if (!Regex.IsMatch(template, templatePattern)) return template;
 
             // 获取所有匹配的模板
@@ -55,6 +55,36 @@ namespace Furion.Templates.Extensions
                                                        {
                                                            Template = u.Groups["p"].Value,
                                                            Value = MatchTemplateValue(u.Groups["p"].Value, templateData)
+                                                       });
+
+            // 循环替换模板
+            foreach (var item in templateValues)
+            {
+                template = template.Replace($"{{{item.Template}}}", encode ? Uri.EscapeDataString(item.Value?.ToString() ?? string.Empty) : item.Value?.ToString());
+            }
+
+            return template;
+        }
+
+        /// <summary>
+        /// 从配置中渲染字符串模板
+        /// </summary>
+        /// <param name="template"></param>
+        /// <param name="encode"></param>
+        /// <returns></returns>
+        public static string Render(this string template, bool encode = false)
+        {
+            if (template == null) return default;
+
+            // 判断字符串是否包含模板
+            if (!Regex.IsMatch(template, templatePattern)) return template;
+
+            // 获取所有匹配的模板
+            var templateValues = Regex.Matches(template, templatePattern)
+                                                       .Select(u => new
+                                                       {
+                                                           Template = u.Groups["p"].Value,
+                                                           Value = App.Configuration[u.Groups["p"].Value]
                                                        });
 
             // 循环替换模板
