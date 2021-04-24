@@ -323,7 +323,7 @@ namespace Furion.DynamicApiController
 
                 // 判断是否定义了控制器路由，如果定义，则不拼接控制器路由
                 template = string.IsNullOrWhiteSpace(controllerRouteTemplate)
-                     ? $"{(string.IsNullOrWhiteSpace(module) ? null : $"{module}/")}{ActionStartTemplate}/{(string.IsNullOrWhiteSpace(action.ActionName) ? null : "[action]")}/{ActionEndTemplate}"
+                     ? $"{(string.IsNullOrWhiteSpace(module) ? "/" : $"{module}/")}{ActionStartTemplate}/{(string.IsNullOrWhiteSpace(action.ActionName) ? null : "[action]")}/{ActionEndTemplate}"
                      : $"{controllerRouteTemplate}/{(string.IsNullOrWhiteSpace(module) ? null : $"{module}/")}{ActionStartTemplate}/{(string.IsNullOrWhiteSpace(action.ActionName) ? null : "[action]")}/{ActionEndTemplate}";
             }
 
