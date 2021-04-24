@@ -96,7 +96,7 @@ module.exports = {
           activeBasePath: "docs/case",
         },
         {
-          label: "赞助",
+          label: "支持",
           position: "right",
           to: "docs/donate",
           activeBasePath: "docs/donate",
