@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Furion.Web.Core
 {
     /// <summary>
-    /// JWT 授权自定义处理程序
+    /// 授权自定义处理程序
     /// </summary>
     public class AuthHandler : AppAuthorizeHandler
     {

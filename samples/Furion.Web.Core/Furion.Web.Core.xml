@@ -6,7 +6,7 @@
     <members>
         <member name="T:Furion.Web.Core.AuthHandler">
             <summary>
-            JWT 授权自定义处理程序
+            授权自定义处理程序
             </summary>
         </member>
         <member name="M:Furion.Web.Core.AuthHandler.PipelineAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,Microsoft.AspNetCore.Http.DefaultHttpContext)">
