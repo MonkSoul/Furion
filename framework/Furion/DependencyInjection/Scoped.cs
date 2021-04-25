@@ -19,9 +19,11 @@ namespace Furion.DependencyInjection
             if (handle == null) throw new ArgumentNullException(nameof(handle));
 
             // 解析服务作用域工厂
-            var scopeFactory = App.GetService<IServiceScopeFactory>();
-            using var scope = scopeFactory.CreateScope();
-            handle.Invoke(scopeFactory, scope);
+            var scopeFactory = InternalApp.InternalServices.BuildServiceProvider().GetService<IServiceScopeFactory>();
+            using var scoped = scopeFactory.CreateScope();
+
+            // 执行方法
+            handle.Invoke(scopeFactory, scoped);
         }
 
         /// <summary>
@@ -30,14 +32,16 @@ namespace Furion.DependencyInjection
         /// <param name="handle"></param>
         public static void CreateUnitOfWork(Action<IServiceScopeFactory, IServiceScope> handle)
         {
-            Create(async (factory, scoped) =>
-            {
-                var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
+            if (handle == null) throw new ArgumentNullException(nameof(handle));
 
-                handle.Invoke(factory, scoped);
+            // 解析服务作用域工厂
+            var scopeFactory = InternalApp.InternalServices.BuildServiceProvider().GetService<IServiceScopeFactory>();
+            using var scoped = scopeFactory.CreateScope();
 
-                _ = await dbContextPool?.SavePoolNowAsync();
-            });
+            // 创建一个数据库上下文池
+            var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
+            handle.Invoke(scopeFactory, scoped);
+            dbContextPool.SavePoolNow();
         }
     }
 }
