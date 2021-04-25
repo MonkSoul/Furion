@@ -27,3 +27,21 @@ Scoped.CreateUnitOfWork((factory, scope) => {
 ```
 
 此方法将在执行完毕之后自动调用 `SaveChanges()`
+
+## 11.3 创建一个依赖注入作用域范围（带返回值）
+
+```cs {1}
+var obj = Scoped.Create((factory, scope) => {
+     var services = scope.ServiceProvider;
+     return "返回值";
+});
+```
+
+## 11.4 创建一个带工作单元的作用域（带返回值）
+
+```cs
+var obj = Scoped.CreateUnitOfWork((factory, scope) => {
+     var services = scope.ServiceProvider;
+     return "返回值";
+});
+```

@@ -109,6 +109,10 @@ namespace Furion.TaskScheduler
                     return;
                 }
             }
+            else
+            {
+                if (interval <= 0) return;
+            }
 
             // 创建定时器
             var timer = new SpareTimer(interval, workerName)
@@ -128,11 +132,7 @@ namespace Furion.TaskScheduler
                 // 处理串行执行问题
                 if (timer.ExecuteType == SpareTimeExecuteTypes.Serial)
                 {
-                    if (!currentRecord.IsCompleteOfPrev)
-                    {
-                        await Task.CompletedTask;
-                        return;
-                    }
+                    if (!currentRecord.IsCompleteOfPrev) return;
 
                     // 立即更新多线程状态
                     currentRecord.IsCompleteOfPrev = false;
@@ -214,18 +214,17 @@ namespace Furion.TaskScheduler
                     if (nextLocalTime == null)
                     {
                         Cancel(workerName);
-                        await Task.CompletedTask;
                         return;
                     }
+                }
+                else
+                {
+                    if (nextLocalTime == null) return;
                 }
 
                 // 只有时间相等才触发
                 var interval = (nextLocalTime.Value - DateTime.Now).TotalSeconds;
-                if (Math.Floor(interval) != 0)
-                {
-                    await Task.CompletedTask;
-                    return;
-                }
+                if (Math.Floor(interval) != 0) return;
 
                 // 获取当前任务的记录
                 _ = WorkerRecords.TryGetValue(workerName, out var currentRecord);
