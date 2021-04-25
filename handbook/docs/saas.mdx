@@ -248,7 +248,7 @@ namespace Furion.EntityFramework.Core
 
 实现上面的步骤很简单，只需要重写 `SavingChangesEvent` 事件方法即可。
 
-```cs {26-68}
+```cs {26-48}
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -283,7 +283,7 @@ namespace Furion.EntityFramework.Core
             var entities = dbContext.ChangeTracker.Entries().Where(u => u.State == EntityState.Added || u.State == EntityState.Modified || u.State == EntityState.Deleted);
 
             foreach (var entity in entities)
-            {
+            {                
                 switch (entity.State)
                 {
                     // 自动设置租户Id
@@ -292,27 +292,10 @@ namespace Furion.EntityFramework.Core
                         break;
                     // 排除租户Id
                     case EntityState.Modified:
-                        // 如果操作的数据不是当前的租户
-                        if (entity.Property(nameof(Entity.TenantId)).CurrentValue != GetTenantId())
-                        {
-                            // 不允许操作
-                            entity.State = EntityState.Unchanged;
-                            // 这里可以抛异常
-                        }
-                        else
-                        {
-                            entity.Property(nameof(Entity.TenantId)).IsModified = false;
-                        }
+                        entity.Property(nameof(Entity.TenantId)).IsModified = false;
                         break;
                     // 删除处理
                     case EntityState.Deleted:
-                        // 如果操作的数据不是当前的租户
-                        if (entity.Property(nameof(Entity.TenantId)).CurrentValue != GetTenantId())
-                        {
-                            // 不允许操作
-                            entity.State = EntityState.Unchanged;
-                            // 这里可以抛异常
-                        }
                         break;
                 }
             }
