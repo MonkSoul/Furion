@@ -8,6 +8,8 @@
 
 - **问题修复**
 
+  - [修复] 定时任务设置 `cancelInNoneNextTime: false` 一次也不执行 [#I3O3N0](https://gitee.com/dotnetchina/Furion/issues/I3O3N0)
+
 - **其他更改**
 
 - **文档变化**
@@ -15,6 +17,7 @@
 - **问答答疑**
 
   - [答疑] 动态 WebAPI 如何获取接收文件 [#I3O29B](https://gitee.com/dotnetchina/Furion/issues/I3O29B)
+  - [答疑] 定时任务使用 `Scope.CreateUnitOfWork` 引发的问题 [#I3O2CD](https://gitee.com/dotnetchina/Furion/issues/I3O2CD)
 
 - **不做实现**
 

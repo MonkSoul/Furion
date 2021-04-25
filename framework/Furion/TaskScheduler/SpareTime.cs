@@ -109,7 +109,6 @@ namespace Furion.TaskScheduler
                     return;
                 }
             }
-            else return;
 
             // 创建定时器
             var timer = new SpareTimer(interval, workerName)
@@ -218,11 +217,6 @@ namespace Furion.TaskScheduler
                         await Task.CompletedTask;
                         return;
                     }
-                }
-                else
-                {
-                    await Task.CompletedTask;
-                    return;
                 }
 
                 // 只有时间相等才触发
