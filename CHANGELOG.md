@@ -1,3 +1,25 @@
+## v2.2.0 （未发布版本）
+
+- **新特性**
+
+  - [新增] `Clay` 粘土类型，支持让 `C#` 创建一个弱类型对象 [#I3O2QQ](https://gitee.com/dotnetchina/Furion/issues/I3O2QQ)
+
+- **突破性变化**
+
+- **问题修复**
+
+- **其他更改**
+
+- **文档变化**
+
+- **问答答疑**
+
+  - [答疑] 动态 WebAPI 如何获取接收文件 [#I3O29B](https://gitee.com/dotnetchina/Furion/issues/I3O29B)
+
+- **不做实现**
+
+---
+
 ## v2.1.0 （当前版本）
 
 - **新特性**
