@@ -452,11 +452,11 @@ namespace Furion.TaskScheduler
                 if (minute > startMinute) goto RolloverMinute;
                 goto ReturnResult;
 
-            RolloverDay: hour = GetFirstSet(_hour);
-            RolloverHour: minute = GetFirstSet(_minute);
-            RolloverMinute: second = GetFirstSet(_second);
+                RolloverDay: hour = GetFirstSet(_hour);
+                RolloverHour: minute = GetFirstSet(_minute);
+                RolloverMinute: second = GetFirstSet(_second);
 
-            ReturnResult:
+                ReturnResult:
 
                 var found = CalendarHelper.DateTimeToTicks(year, month, day, hour, minute, second);
                 if (found >= ticks) return found;
