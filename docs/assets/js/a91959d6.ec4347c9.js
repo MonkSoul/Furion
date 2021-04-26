@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[91],{167:function(o){o.exports=JSON.parse('{"allTagsPath":"/blog/tags","slug":"expando-object","name":"expandoobject","count":1,"permalink":"/blog/tags/expando-object"}')}}]);
