@@ -20,6 +20,7 @@
 
   - [答疑] 动态 WebAPI 如何获取接收文件 [#I3O29B](https://gitee.com/dotnetchina/Furion/issues/I3O29B)
   - [答疑] 定时任务使用 `Scope.CreateUnitOfWork` 引发的问题 [#I3O2CD](https://gitee.com/dotnetchina/Furion/issues/I3O2CD)
+  - [答疑] 单文件发布程序工作不正常 [#I3O4D8](https://gitee.com/dotnetchina/Furion/issues/I3O4D8)
 
 - **不做实现**
 
