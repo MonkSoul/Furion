@@ -5,6 +5,7 @@
   - [新增] `Clay` 粘土类型，支持让 `C#` 创建一个弱类型对象并操作弱类型 [#I3O2QQ](https://gitee.com/dotnetchina/Furion/issues/I3O2QQ)
   - [新增] 新增 `Scoped.Create` 带返回值重载 [#I3O47J](https://gitee.com/dotnetchina/Furion/issues/I3O47J)
   - [新增] 支持 `Scoped.Create()` 一系列方法支持传入作用域工厂 [#I3OAP5](https://gitee.com/dotnetchina/Furion/issues/I3OAP5)
+  - [新增] 支持事件总线同步执行方式 [#I3OAW2](https://gitee.com/dotnetchina/Furion/issues/I3OAW2)
 
 - **突破性变化**
 
@@ -12,6 +13,7 @@
 
   - [修复] 定时任务设置 `cancelInNoneNextTime: false` 一次也不执行 [#I3O3N0](https://gitee.com/dotnetchina/Furion/issues/I3O3N0)
   - [修复] SpareTime 自定义下次执行时间出现空异常 [#I3O46X](https://gitee.com/dotnetchina/Furion/issues/I3O46X)
+  - [修复] `MiniProfiler` 设置为 `false` 时，数据库上下文提交拦截器未添加 [#I3OAWX](https://gitee.com/dotnetchina/Furion/issues/I3OAWX)
 
 - **其他更改**
 

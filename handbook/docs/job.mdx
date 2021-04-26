@@ -10,6 +10,8 @@ sidebar_label: 26. 定时任务/后台任务
 
 :::
 
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
 ## 26.1 关于定时任务
 
 顾名思义，定时任务就是在特定的时间或符合某种时间规律执行的任务。通常定时任务有四种时间调度方式：
@@ -714,7 +716,19 @@ namespace WorkerService1
 }
 ```
 
-## 26.13 反馈与建议
+## 26.13 IIS 部署回收设置
+
+如果在项目中使用了定时任务且部署到 `IIS` 中，那么需要设置 `IIS` 禁止回收，如：
+
+<img src={useBaseUrl("img/iishuishou.jpg")} />
+
+:::warning 部署建议
+
+建议定时任务采用 `Worker Service` 独立部署方式，不应依托 `Web` 项目进程中。[查看【 Worker Service】章节](./process-service.mdx)
+
+:::
+
+## 26.14 反馈与建议
 
 :::note 与我们交流
 

@@ -24,9 +24,10 @@ namespace Furion.EventBus
         /// </summary>
         /// <param name="messageId"></param>
         /// <param name="payload"></param>
-        public static void Send(string messageId, object payload = default)
+        /// <param name="isSync">是否同步执行</param>
+        public static void Send(string messageId, object payload = default, bool isSync = false)
         {
-            InternalMessageCenter.Instance.Send(messageId, payload);
+            InternalMessageCenter.Instance.Send(messageId, payload, isSync);
         }
 
         /// <summary>

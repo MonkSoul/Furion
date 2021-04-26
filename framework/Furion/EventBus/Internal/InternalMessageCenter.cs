@@ -53,18 +53,23 @@ namespace Furion.EventBus
         /// </summary>
         /// <param name="messageId"></param>
         /// <param name="payload"></param>
-        internal void Send(string messageId, object payload = null)
+        /// <param name="isSync">是否同步执行</param>
+        internal void Send(string messageId, object payload = null, bool isSync = false)
         {
             if (MessageHandlerQueues.TryGetValue(messageId, out var messageHandlers))
             {
                 foreach (var eventHandler in messageHandlers)
                 {
-                    // 采用后台线程执行
-                    SpareTime.DoIt(async () =>
+                    if (isSync) eventHandler?.Invoke(messageId, payload);
+                    else
                     {
-                        eventHandler?.Invoke(messageId, payload);
-                        await Task.CompletedTask;
-                    });
+                        // 采用后台线程执行
+                        SpareTime.DoIt(async () =>
+                        {
+                            eventHandler?.Invoke(messageId, payload);
+                            await Task.CompletedTask;
+                        });
+                    }
                 }
             }
         }

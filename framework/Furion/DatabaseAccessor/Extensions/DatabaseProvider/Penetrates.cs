@@ -66,8 +66,6 @@ namespace Furion.DatabaseAccessor
         /// <param name="options"></param>
         private static void AddInterceptors(IInterceptor[] interceptors, DbContextOptionsBuilder options)
         {
-            if (App.Settings.InjectMiniProfiler != true) return;
-
             // 添加拦截器
             var interceptorList = DbProvider.GetDefaultInterceptors();
 
