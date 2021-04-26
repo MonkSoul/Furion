@@ -5,6 +5,7 @@
     <UserSecretsId>0d2d4500-dae9-4b8b-9e24-bbff779493e4</UserSecretsId>
     <NoWarn>1701;1702;1591</NoWarn>
     <DocumentationFile>Furion.Web.Entry.xml</DocumentationFile>
+    <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
   </PropertyGroup>
 
   <ItemGroup>

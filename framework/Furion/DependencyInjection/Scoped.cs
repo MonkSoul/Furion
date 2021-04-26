@@ -14,12 +14,13 @@ namespace Furion.DependencyInjection
         /// 创建一个作用域范围
         /// </summary>
         /// <param name="handle"></param>
-        public static void Create(Action<IServiceScopeFactory, IServiceScope> handle)
+        /// <param name="scopeFactory"></param>
+        public static void Create(Action<IServiceScopeFactory, IServiceScope> handle, IServiceScopeFactory scopeFactory = default)
         {
             if (handle == null) throw new ArgumentNullException(nameof(handle));
 
             // 解析服务作用域工厂
-            var scopeFactory = InternalApp.InternalServices.BuildServiceProvider().GetService<IServiceScopeFactory>();
+            scopeFactory ??= InternalApp.InternalServices.BuildServiceProvider().GetService<IServiceScopeFactory>();
             using var scoped = scopeFactory.CreateScope();
 
             // 执行方法
@@ -30,12 +31,13 @@ namespace Furion.DependencyInjection
         /// 创建一个工作单元作用域
         /// </summary>
         /// <param name="handle"></param>
-        public static void CreateUnitOfWork(Action<IServiceScopeFactory, IServiceScope> handle)
+        /// <param name="scopeFactory"></param>
+        public static void CreateUnitOfWork(Action<IServiceScopeFactory, IServiceScope> handle, IServiceScopeFactory scopeFactory = default)
         {
             if (handle == null) throw new ArgumentNullException(nameof(handle));
 
             // 解析服务作用域工厂
-            var scopeFactory = InternalApp.InternalServices.BuildServiceProvider().GetService<IServiceScopeFactory>();
+            scopeFactory ??= InternalApp.InternalServices.BuildServiceProvider().GetService<IServiceScopeFactory>();
             using var scoped = scopeFactory.CreateScope();
 
             // 创建一个数据库上下文池
@@ -48,13 +50,14 @@ namespace Furion.DependencyInjection
         /// 创建一个作用域范围
         /// </summary>
         /// <param name="handle"></param>
+        /// <param name="scopeFactory"></param>
         /// <returns></returns>
-        public static object Create(Func<IServiceScopeFactory, IServiceScope, object> handle)
+        public static object Create(Func<IServiceScopeFactory, IServiceScope, object> handle, IServiceScopeFactory scopeFactory = default)
         {
             if (handle == null) throw new ArgumentNullException(nameof(handle));
 
             // 解析服务作用域工厂
-            var scopeFactory = InternalApp.InternalServices.BuildServiceProvider().GetService<IServiceScopeFactory>();
+            scopeFactory ??= InternalApp.InternalServices.BuildServiceProvider().GetService<IServiceScopeFactory>();
             using var scoped = scopeFactory.CreateScope();
 
             // 执行方法
@@ -65,13 +68,14 @@ namespace Furion.DependencyInjection
         /// 创建一个工作单元作用域
         /// </summary>
         /// <param name="handle"></param>
+        /// <param name="scopeFactory"></param>
         /// <returns></returns>
-        public static object CreateUnitOfWork(Func<IServiceScopeFactory, IServiceScope, object> handle)
+        public static object CreateUnitOfWork(Func<IServiceScopeFactory, IServiceScope, object> handle, IServiceScopeFactory scopeFactory = default)
         {
             if (handle == null) throw new ArgumentNullException(nameof(handle));
 
             // 解析服务作用域工厂
-            var scopeFactory = InternalApp.InternalServices.BuildServiceProvider().GetService<IServiceScopeFactory>();
+            scopeFactory ??= InternalApp.InternalServices.BuildServiceProvider().GetService<IServiceScopeFactory>();
             using var scoped = scopeFactory.CreateScope();
 
             // 创建一个数据库上下文池

@@ -4,6 +4,7 @@
 
   - [新增] `Clay` 粘土类型，支持让 `C#` 创建一个弱类型对象并操作弱类型 [#I3O2QQ](https://gitee.com/dotnetchina/Furion/issues/I3O2QQ)
   - [新增] 新增 `Scoped.Create` 带返回值重载 [#I3O47J](https://gitee.com/dotnetchina/Furion/issues/I3O47J)
+  - [新增] 支持 `Scoped.Create()` 一系列方法支持传入作用域工厂 [#I3OAP5](https://gitee.com/dotnetchina/Furion/issues/I3OAP5)
 
 - **突破性变化**
 
@@ -13,6 +14,8 @@
   - [修复] SpareTime 自定义下次执行时间出现空异常 [#I3O46X](https://gitee.com/dotnetchina/Furion/issues/I3O46X)
 
 - **其他更改**
+
+  - [优化] 支持发布后代码精简配置，减少不必要的文件夹输出 [#I3OAPF](https://gitee.com/dotnetchina/Furion/issues/I3OAPF)
 
 - **文档变化**
 
