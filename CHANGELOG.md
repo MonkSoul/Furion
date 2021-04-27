@@ -27,6 +27,7 @@
   - [答疑] 定时任务使用 `Scope.CreateUnitOfWork` 引发的问题 [#I3O2CD](https://gitee.com/dotnetchina/Furion/issues/I3O2CD)
   - [答疑] 单文件发布程序工作不正常 [#I3O4D8](https://gitee.com/dotnetchina/Furion/issues/I3O4D8)
   - [答疑] 同时配置租户过滤器和软删除过滤器，最终的 sql 只生成了一种过滤条件 [#I3OB0A](https://gitee.com/dotnetchina/Furion/issues/I3OB0A)
+  - [答疑] HTTP 重定向 HTTPS 后跨域失效 [#I3OB8R](https://gitee.com/dotnetchina/Furion/issues/I3OB8R)
 
 - **不做实现**
 
