@@ -261,7 +261,7 @@ namespace Furion.DynamicApiController
             if (_dynamicApiControllerSettings.ModelToQuery.Value)
             {
                 var httpMethods = action.Selectors
-                    .SelectMany(u => u.ActionConstraints
+                    .SelectMany(u => u.ActionConstraints.Where(u => u is HttpMethodActionConstraint)
                         .SelectMany(u => (u as HttpMethodActionConstraint).HttpMethods));
 
                 if (httpMethods.All(u => u.Equals("GET") || u.Equals("HEAD"))) return;

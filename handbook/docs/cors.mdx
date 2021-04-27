@@ -126,7 +126,7 @@ $.ajax({
         url: "http://localhost:8080/getdata",
         type: "GET",
         xhrFields: {
-            withCredentials: true
+            withCredentials: false  // 如果是https请求，可以试试 true
         },
         crossDomain: true,
         success: function (res) {

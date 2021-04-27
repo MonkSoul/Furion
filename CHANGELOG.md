@@ -14,6 +14,7 @@
   - [修复] 定时任务设置 `cancelInNoneNextTime: false` 一次也不执行 [#I3O3N0](https://gitee.com/dotnetchina/Furion/issues/I3O3N0)
   - [修复] SpareTime 自定义下次执行时间出现空异常 [#I3O46X](https://gitee.com/dotnetchina/Furion/issues/I3O46X)
   - [修复] `MiniProfiler` 设置为 `false` 时，数据库上下文提交拦截器未添加 [#I3OAWX](https://gitee.com/dotnetchina/Furion/issues/I3OAWX)
+  - [修复] `[Consumes("application/x-www-form-urlencoded")]` 和 `ModelQuery` 配置同时配置导致空引用问题 [#I3ODUR](https://gitee.com/dotnetchina/Furion/issues/I3ODUR)
 
 - **其他更改**
 
