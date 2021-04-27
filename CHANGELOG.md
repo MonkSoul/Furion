@@ -22,6 +22,8 @@
 
 - **文档变化**
 
+  - [新增] 粘土对象文档 [#I3OG18](https://gitee.com/dotnetchina/Furion/issues/I3OG18)
+
 - **问答答疑**
 
   - [答疑] 动态 WebAPI 如何获取接收文件 [#I3O29B](https://gitee.com/dotnetchina/Furion/issues/I3O29B)

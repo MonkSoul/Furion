@@ -25,7 +25,7 @@ namespace Furion.ClayObject
         /// </summary>
         public Clay()
         {
-            xml = new XElement("root", CreateTypeAttr(JsonType.@object));
+            XmlElement = new XElement("root", CreateTypeAttr(JsonType.@object));
             jsonType = JsonType.@object;
         }
 
@@ -38,7 +38,7 @@ namespace Furion.ClayObject
         {
             Debug.Assert(type == JsonType.array || type == JsonType.@object);
 
-            xml = element;
+            XmlElement = element;
             jsonType = type;
         }
 
@@ -51,6 +51,11 @@ namespace Furion.ClayObject
         /// 是否是 Array 类型
         /// </summary>
         public bool IsArray { get { return jsonType == JsonType.array; } }
+
+        /// <summary>
+        /// XML 元素
+        /// </summary>
+        public XElement XmlElement { get; private set; }
 
         /// <summary>
         /// 创建一个超级类型
@@ -133,7 +138,7 @@ namespace Furion.ClayObject
         /// <returns></returns>
         public bool IsDefined(string name)
         {
-            return IsObject && (xml.Element(name) != null);
+            return IsObject && (XmlElement.Element(name) != null);
         }
 
         /// <summary>
@@ -143,7 +148,7 @@ namespace Furion.ClayObject
         /// <returns></returns>
         public bool IsDefined(int index)
         {
-            return IsArray && (xml.Elements().ElementAtOrDefault(index) != null);
+            return IsArray && (XmlElement.Elements().ElementAtOrDefault(index) != null);
         }
 
         /// <summary>
@@ -153,7 +158,7 @@ namespace Furion.ClayObject
         /// <returns></returns>
         public bool Delete(string name)
         {
-            var elem = xml.Element(name);
+            var elem = XmlElement.Element(name);
             if (elem != null)
             {
                 elem.Remove();
@@ -169,7 +174,7 @@ namespace Furion.ClayObject
         /// <returns></returns>
         public bool Delete(int index)
         {
-            var elem = xml.Elements().ElementAtOrDefault(index);
+            var elem = XmlElement.Elements().ElementAtOrDefault(index);
             if (elem != null)
             {
                 elem.Remove();
@@ -233,8 +238,8 @@ namespace Furion.ClayObject
             if (binder.Type == typeof(IEnumerable) || binder.Type == typeof(object[]))
             {
                 var ie = (IsArray)
-                    ? xml.Elements().Select(x => ToValue(x))
-                    : xml.Elements().Select(x => (dynamic)new KeyValuePair<string, object>(x.Name.LocalName, ToValue(x)));
+                    ? XmlElement.Elements().Select(x => ToValue(x))
+                    : XmlElement.Elements().Select(x => (dynamic)new KeyValuePair<string, object>(x.Name.LocalName, ToValue(x)));
                 result = (binder.Type == typeof(object[])) ? ie.ToArray() : ie;
             }
             else
@@ -254,8 +259,8 @@ namespace Furion.ClayObject
         public override bool TryGetIndex(GetIndexBinder binder, object[] indexes, out object result)
         {
             return (IsArray)
-                ? TryGet(xml.Elements().ElementAtOrDefault((int)indexes[0]), out result)
-                : TryGet(xml.Element((string)indexes[0]), out result);
+                ? TryGet(XmlElement.Elements().ElementAtOrDefault((int)indexes[0]), out result)
+                : TryGet(XmlElement.Element((string)indexes[0]), out result);
         }
 
         /// <summary>
@@ -267,8 +272,8 @@ namespace Furion.ClayObject
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
             return (IsArray)
-                ? TryGet(xml.Elements().ElementAtOrDefault(int.Parse(binder.Name)), out result)
-                : TryGet(xml.Element(binder.Name), out result);
+                ? TryGet(XmlElement.Elements().ElementAtOrDefault(int.Parse(binder.Name)), out result)
+                : TryGet(XmlElement.Element(binder.Name), out result);
         }
 
         /// <summary>
@@ -305,8 +310,8 @@ namespace Furion.ClayObject
         public override IEnumerable<string> GetDynamicMemberNames()
         {
             return (IsArray)
-                ? xml.Elements().Select((x, i) => i.ToString())
-                : xml.Elements().Select(x => x.Name.LocalName);
+                ? XmlElement.Elements().Select((x, i) => i.ToString())
+                : XmlElement.Elements().Select(x => x.Name.LocalName);
         }
 
         /// <summary>
@@ -316,11 +321,11 @@ namespace Furion.ClayObject
         public override string ToString()
         {
             // <foo type="null"></foo> is can't serialize. replace to <foo type="null" />
-            foreach (var elem in xml.Descendants().Where(x => x.Attribute("type").Value == "null"))
+            foreach (var elem in XmlElement.Descendants().Where(x => x.Attribute("type").Value == "null"))
             {
                 elem.RemoveNodes();
             }
-            return CreateJsonString(new XStreamingElement("root", CreateTypeAttr(jsonType), xml.Elements()));
+            return CreateJsonString(new XStreamingElement("root", CreateTypeAttr(jsonType), XmlElement.Elements()));
         }
 
         /// <summary>
@@ -436,11 +441,6 @@ namespace Furion.ClayObject
         }
 
         /// <summary>
-        /// XML 元素
-        /// </summary>
-        private readonly XElement xml;
-
-        /// <summary>
         /// JSON 类型
         /// </summary>
         private readonly JsonType jsonType;
@@ -472,10 +472,10 @@ namespace Furion.ClayObject
         private bool TrySet(string name, object value)
         {
             var type = GetJsonType(value);
-            var element = xml.Element(name);
+            var element = XmlElement.Element(name);
             if (element == null)
             {
-                xml.Add(new XElement(name, CreateTypeAttr(type), CreateJsonNode(value)));
+                XmlElement.Add(new XElement(name, CreateTypeAttr(type), CreateJsonNode(value)));
             }
             else
             {
@@ -495,10 +495,10 @@ namespace Furion.ClayObject
         private bool TrySet(int index, object value)
         {
             var type = GetJsonType(value);
-            var e = xml.Elements().ElementAtOrDefault(index);
+            var e = XmlElement.Elements().ElementAtOrDefault(index);
             if (e == null)
             {
-                xml.Add(new XElement("item", CreateTypeAttr(type), CreateJsonNode(value)));
+                XmlElement.Add(new XElement("item", CreateTypeAttr(type), CreateJsonNode(value)));
             }
             else
             {
@@ -532,7 +532,8 @@ namespace Furion.ClayObject
             {
                 value = json.Deserialize(elementType);
             }
-            return Convert.ChangeType(value, elementType);
+
+            return Furion.Extensions.ObjectExtensions.ChangeType(value, elementType);
         }
 
         /// <summary>
@@ -547,7 +548,7 @@ namespace Furion.ClayObject
                 .Where(p => p.CanWrite)
                 .ToDictionary(pi => pi.Name, pi => pi);
 
-            foreach (var item in xml.Elements())
+            foreach (var item in XmlElement.Elements())
             {
                 if (!dict.TryGetValue(item.Name.LocalName, out PropertyInfo propertyInfo)) continue;
                 var value = Clay.DeserializeValue(item, propertyInfo.PropertyType);
@@ -566,9 +567,9 @@ namespace Furion.ClayObject
             if (targetType.IsArray)
             {
                 var elemType = targetType.GetElementType();
-                dynamic array = Array.CreateInstance(elemType, xml.Elements().Count());
+                dynamic array = Array.CreateInstance(elemType, XmlElement.Elements().Count());
                 var index = 0;
-                foreach (var item in xml.Elements())
+                foreach (var item in XmlElement.Elements())
                 {
                     array[index++] = Clay.DeserializeValue(item, elemType);
                 }
@@ -578,7 +579,7 @@ namespace Furion.ClayObject
             {
                 var elemType = targetType.GetGenericArguments()[0];
                 dynamic list = Activator.CreateInstance(targetType);
-                foreach (var item in xml.Elements())
+                foreach (var item in XmlElement.Elements())
                 {
                     list.Add(Clay.DeserializeValue(item, elemType));
                 }
