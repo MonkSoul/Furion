@@ -192,7 +192,7 @@ namespace Furion.Web.Entry
                  encoding: Encoding.UTF8            // 文件字符编码
              )
 
-     #region 2.按LogEventLevel.输出单文件
+     #region 2.按LogEventLevel.输出独立发布/单文件
 
         ///2.1仅输出 LogEventLevel.Debug 类型
         .WriteTo.Logger(lg => lg.Filter.ByIncludingOnly(evt => evt.Level == LogEventLevel.Debug)//筛选过滤
@@ -212,7 +212,7 @@ namespace Furion.Web.Entry
              )
          )
 
-     #endregion 按LogEventLevel 单文件
+     #endregion 按LogEventLevel 独立发布/单文件
 
          ;
  });

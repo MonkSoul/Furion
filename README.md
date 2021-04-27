@@ -198,7 +198,7 @@ Although sparrow is small, it has all five internal organs. `Furion` only integr
   - Apache
   - PM2
   - Supervisor
-  - SCD
+  - SCD/SingleFile
   - Container（Docker/K8S/K3S/Rancher）
 
 ## 🍖 Performance

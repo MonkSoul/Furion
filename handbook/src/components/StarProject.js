@@ -12,7 +12,7 @@ export default function StarProject() {
       </button>
       {show ? (
         <a
-          href="https://gitee.com/yhuse/SunnyUI"
+          href="https://gitee.com/dotnetchina#-%E6%AF%8F%E5%91%A8%E7%B2%BE%E9%80%89%E9%A1%B9%E7%9B%AE-"
           target="_blank"
           title="dotNET China 精选项目第 07 期"
         >

@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[98],{175:function(n){n.exports=JSON.parse('{"allTagsPath":"/furion/blog/tags","slug":"dictionary","name":"dictionary","count":1,"permalink":"/furion/blog/tags/dictionary"}')}}]);

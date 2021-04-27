@@ -196,7 +196,7 @@ docker run --name furion -p 5000:80 furion:v1.4.3
   - Apache
   - PM2
   - Supervisor
-  - 单文件
+  - 独立发布/单文件
   - 容器（Docker/K8S/K3S/Rancher）
 
 ## 🍖 关于性能
