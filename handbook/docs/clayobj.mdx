@@ -34,7 +34,7 @@ sidebar_label: 29. 粘土对象
 
 ```cs
 // 创建一个空的粘土对象
-var clay = new Clay();
+dynamic clay = new Clay();
 
 // 从现有的对象创建
 var clay2 = Clay.Object(new {});
@@ -226,7 +226,7 @@ var xml = clay.XmlElement;
 ### 29.3.11 关键字处理
 
 ```cs
-var clay = new Clay();
+dynamic clay = new Clay();
 clay.@int = 1;
 clay.@event = "事件";
 ```
