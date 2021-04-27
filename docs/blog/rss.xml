@@ -4,16 +4,9 @@
         <title>Furion Blog</title>
         <link>https://furion.pro/blog</link>
         <description>Furion Blog</description>
-        <lastBuildDate>Wed, 21 Apr 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 02 Feb 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
-        <item>
-            <title><![CDATA[4. 粘土对象]]></title>
-            <link>https://furion.pro/blog/expando-object</link>
-            <guid>expando-object</guid>
-            <pubDate>Wed, 21 Apr 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[对象转 IDictionary]]></description>
-        </item>
         <item>
             <title><![CDATA[3. 文件上传下载]]></title>
             <link>https://furion.pro/blog/fileupload-download</link>
