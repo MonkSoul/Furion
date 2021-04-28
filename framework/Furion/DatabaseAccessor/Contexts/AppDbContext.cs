@@ -151,7 +151,7 @@ namespace Furion.DatabaseAccessor
                     var tenantDbContext = serviceProvider.GetService<Func<Type, ITransient, DbContext>>()(typeof(MultiTenantDbContextLocator), default);
                     if (tenantDbContext == null) return default;
 
-                    currentTenant = tenantDbContext.Set<Tenant>().FirstOrDefault(u => u.Host == host);
+                    currentTenant = tenantDbContext.Set<Tenant>().AsNoTracking().FirstOrDefault(u => u.Host == host);
                     if (currentTenant != null)
                     {
                         distributedCache.SetString(tenantCachedKey, jsonSerializerProvider.Serialize(currentTenant));
