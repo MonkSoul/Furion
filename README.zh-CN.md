@@ -2,7 +2,7 @@
 <p></p>
 
 <p align="center">
-<img src="https://dotnetchina.gitee.io/furion/img/furionlogo.png" height="80"/>
+<img src="./handbook/static/img/furionlogo.png" height="80"/>
 </p>
 
 <div align="center">
@@ -52,7 +52,7 @@
 - `自我奔跑`：`Furion` 自身也要不断学习、不断进步、不断创新、不断开拓。
 
 <p>
-<img src="https://dotnetchina.gitee.io/furion/img/furionlogo.png" height="120"/>
+<img src="./handbook/static/img/furionlogo.png" height="120"/>
 </p>
 
 ## 🍟 文档地址
