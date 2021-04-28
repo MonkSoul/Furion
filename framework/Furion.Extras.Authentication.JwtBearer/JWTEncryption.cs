@@ -87,11 +87,6 @@ namespace Furion.DataEncryption
         }
 
         /// <summary>
-        /// 刷新 Token 分隔符
-        /// </summary>
-        private const string refreshTokenSplit = "##+##";
-
-        /// <summary>
         /// 通过过期Token 和 刷新Token 换取新的 Token
         /// </summary>
         /// <param name="expiredToken"></param>
@@ -119,14 +114,9 @@ namespace Furion.DataEncryption
             var isRefresh = !string.IsNullOrWhiteSpace(cachedValue);    // 判断是否刷新过
             if (isRefresh)
             {
-                // 解析缓存的值，第一项是时间，第二项是新的token
-                var cachedArray = cachedValue.Split(refreshTokenSplit, StringSplitOptions.RemoveEmptyEntries);
-
-                var refreshTime = DateTimeOffset.Parse(cachedArray[0]);
+                var refreshTime = DateTimeOffset.Parse(cachedValue);
                 // 处理并发时容差值
                 if ((nowTime - refreshTime).TotalSeconds > clockSkew) return default;
-                // 容差值以内，返回之前的token
-                else return cachedArray[1];
             }
 
             // 分割过期Token
@@ -142,16 +132,13 @@ namespace Furion.DataEncryption
             var payload = oldToken.Claims.Where(u => !StationaryClaimTypes.Contains(u.Type))
                                          .ToDictionary(u => u.Type, u => (object)u.Value);
 
-            // 获取新的 Token
-            var newToken = Encrypt(payload, expiredTime);
-
             // 交换成功后登记刷新Token，标记失效
-            if (!isRefresh) distributedCache?.SetString(blacklistRefreshKey, $"{nowTime}{refreshTokenSplit}{newToken}", new DistributedCacheEntryOptions
+            if (!isRefresh) distributedCache?.SetString(blacklistRefreshKey, nowTime.ToString(), new DistributedCacheEntryOptions
             {
                 AbsoluteExpiration = DateTimeOffset.FromUnixTimeSeconds(token.GetPayloadValue<long>(JwtRegisteredClaimNames.Exp))
             });
 
-            return newToken;
+            return Encrypt(payload, expiredTime);
         }
 
         /// <summary>
