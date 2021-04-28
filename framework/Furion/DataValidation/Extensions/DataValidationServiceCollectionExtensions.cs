@@ -69,7 +69,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // 判断是否启用全局
             if (enabledGlobalDataValidationFilter)
             {
-                // 使用自定义验证
+                // 关闭引用类型空检查
                 mvcBuilder.ConfigureApiBehaviorOptions(options =>
                 {
                     options.SuppressModelStateInvalidFilter = true;
