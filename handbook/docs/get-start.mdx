@@ -42,9 +42,9 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 <img src={useBaseUrl("img/rm3.png")} />
 
-:::important 特别注意
+:::warning 特别注意
 
-`Furion` 已经内置了 `Swagger` 规范化库，所以创建时**无需勾选** `Enable OpenAPI support` 选项。
+`Furion` 已经内置了 `Swagger` 规范化库，所以创建时**无需勾选** `Enable OpenAPI support` 选项。否则提示版本不一致产生冲突。
 
 :::
 
@@ -60,7 +60,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace FurStart
+namespace FurionStart
 {
     public class Program
     {
@@ -90,7 +90,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace FurStart
+namespace FurionStart
 {
     public class Startup
     {
