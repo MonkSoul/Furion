@@ -92,8 +92,9 @@ namespace Furion.DataEncryption
         /// <param name="expiredToken"></param>
         /// <param name="refreshToken"></param>
         /// <param name="expiredTime">过期时间（分钟）</param>
+        /// <param name="clockSkew">刷新token容差值，秒做单位</param>
         /// <returns></returns>
-        public static string Exchange(string expiredToken, string refreshToken, long? expiredTime = null)
+        public static string Exchange(string expiredToken, string refreshToken, long? expiredTime = null, long clockSkew = 5)
         {
             // 交换刷新Token 必须原Token 已过期
             var (_isValid, _) = Validate(expiredToken);
@@ -106,7 +107,17 @@ namespace Furion.DataEncryption
             // 判断这个刷新Token 是否已刷新过
             var blacklistRefreshKey = "BLACKLIST_REFRESH_TOKEN:" + refreshToken;
             var distributedCache = InternalHttpContext.Current()?.RequestServices?.GetService<IDistributedCache>();
-            if (!string.IsNullOrWhiteSpace(distributedCache?.GetString(blacklistRefreshKey))) return default;
+
+            // 处理token并发容错问题
+            var nowTime = DateTimeOffset.Now;
+            var cachedValue = distributedCache?.GetString(blacklistRefreshKey);
+            var isRefresh = !string.IsNullOrWhiteSpace(cachedValue);    // 判断是否刷新过
+            if (isRefresh)
+            {
+                var refreshTime = DateTimeOffset.Parse(cachedValue);
+                // 处理并发时容差值
+                if ((nowTime - refreshTime).TotalSeconds > clockSkew) return default;
+            }
 
             // 分割过期Token
             var tokenParagraphs = expiredToken.Split('.', StringSplitOptions.RemoveEmptyEntries);
@@ -122,7 +133,7 @@ namespace Furion.DataEncryption
                                          .ToDictionary(u => u.Type, u => (object)u.Value);
 
             // 交换成功后登记刷新Token，标记失效
-            distributedCache?.SetString(blacklistRefreshKey, "expired", new DistributedCacheEntryOptions
+            if (!isRefresh) distributedCache?.SetString(blacklistRefreshKey, nowTime.ToString(), new DistributedCacheEntryOptions
             {
                 AbsoluteExpiration = DateTimeOffset.FromUnixTimeSeconds(token.GetPayloadValue<long>(JwtRegisteredClaimNames.Exp))
             });
@@ -138,8 +149,9 @@ namespace Furion.DataEncryption
         /// <param name="expiredTime">新 Token 过期时间（分钟）</param>
         /// <param name="days">新刷新 Token 有效期（天）</param>
         /// <param name="tokenPrefix"></param>
+        /// <param name="clockSkew"></param>
         /// <returns></returns>
-        public static bool AutoRefreshToken(AuthorizationHandlerContext context, DefaultHttpContext httpContext, long? expiredTime = null, int days = 30, string tokenPrefix = "Bearer ")
+        public static bool AutoRefreshToken(AuthorizationHandlerContext context, DefaultHttpContext httpContext, long? expiredTime = null, int days = 30, string tokenPrefix = "Bearer ", long clockSkew = 5)
         {
             // 如果验证有效，则跳过刷新
             if (context.User.Identity.IsAuthenticated) return true;
@@ -153,7 +165,7 @@ namespace Furion.DataEncryption
             if (string.IsNullOrWhiteSpace(expiredToken) || string.IsNullOrWhiteSpace(refreshToken)) return false;
 
             // 交换新的 Token
-            var accessToken = Exchange(expiredToken, refreshToken, expiredTime);
+            var accessToken = Exchange(expiredToken, refreshToken, expiredTime, clockSkew);
             if (string.IsNullOrWhiteSpace(accessToken)) return false;
 
             // 读取新的 Token Clamis

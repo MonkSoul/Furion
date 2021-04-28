@@ -21,6 +21,7 @@
 - **其他更改**
 
   - [优化] 支持发布后代码精简配置，减少不必要的文件夹输出 [#I3OAPF](https://gitee.com/dotnetchina/Furion/issues/I3OAPF)
+  - [优化] 自动刷新 Token 机制，新增容错值处理，解决并发 Token 刷新失败问题 [#I3OGYF](https://gitee.com/dotnetchina/Furion/issues/I3OGYF)
 
 - **文档变化**
 
