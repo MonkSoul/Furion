@@ -231,9 +231,6 @@ namespace Microsoft.Extensions.DependencyInjection
             // 添加对象映射
             services.AddObjectMapper();
 
-            // 添加主机服务
-            services.AddAppHostedService();
-
             // 自定义服务
             configure?.Invoke(services);
 

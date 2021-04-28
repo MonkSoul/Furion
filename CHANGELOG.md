@@ -7,6 +7,7 @@
   - [新增] 支持 `Scoped.Create()` 一系列方法支持传入作用域工厂 [#I3OAP5](https://gitee.com/dotnetchina/Furion/issues/I3OAP5)
   - [新增] 支持事件总线同步执行方式 [#I3OAW2](https://gitee.com/dotnetchina/Furion/issues/I3OAW2)
   - [新增] `[DataValidation]` 跳过空字符串和空值验证 [#I3OGEN](https://gitee.com/dotnetchina/Furion/issues/I3OGEN)
+  - [新增] `Worker Service` 可配置是否自动注册 `Worker` [#I3OLW4](https://gitee.com/dotnetchina/Furion/issues/I3OLW4)
 
 - **突破性变化**
 
@@ -32,8 +33,12 @@
   - [答疑] 单文件发布程序工作不正常 [#I3O4D8](https://gitee.com/dotnetchina/Furion/issues/I3O4D8)
   - [答疑] 同时配置租户过滤器和软删除过滤器，最终的 sql 只生成了一种过滤条件 [#I3OB0A](https://gitee.com/dotnetchina/Furion/issues/I3OB0A)
   - [答疑] HTTP 重定向 HTTPS 后跨域失效 [#I3OB8R](https://gitee.com/dotnetchina/Furion/issues/I3OB8R)
+  - [答疑] 在 PostgreSql 数据库使用 `rep.FirstOrDefault(u => u.Id == UserId);` 引起异常 [#I3O5OF](https://gitee.com/dotnetchina/Furion/issues/I3O5OF)
 
 - **不做实现**
+
+  - [作废] 框架中的 swagger 是否有提供导出文档为 markdwon/word 的功能计划？ [#I3OL8O](https://gitee.com/dotnetchina/Furion/issues/I3OL8O)
+  - [作废] 数据库实体父子继承，子类生成的 SQL 不一样 [#I3NHU3](https://gitee.com/dotnetchina/Furion/issues/I3NHU3)
 
 ---
 

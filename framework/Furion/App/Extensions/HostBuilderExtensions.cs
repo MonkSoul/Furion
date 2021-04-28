@@ -27,8 +27,9 @@ namespace Microsoft.Extensions.Hosting
         /// 泛型主机注入
         /// </summary>
         /// <param name="hostBuilder">泛型主机注入构建器</param>
+        /// <param name="autoRegisterBackgroundService">是否自动注册 BackgroundService</param>
         /// <returns>IWebHostBuilder</returns>
-        public static IHostBuilder Inject(this IHostBuilder hostBuilder)
+        public static IHostBuilder Inject(this IHostBuilder hostBuilder, bool autoRegisterBackgroundService = true)
         {
             hostBuilder.ConfigureAppConfiguration((hostingContext, config) =>
             {
@@ -50,6 +51,9 @@ namespace Microsoft.Extensions.Hosting
 
                 // 初始化应用服务
                 services.AddHostApp();
+
+                // 自动注册 BackgroundService
+                if (autoRegisterBackgroundService) services.AddAppHostedService();
             });
 
             return hostBuilder;
