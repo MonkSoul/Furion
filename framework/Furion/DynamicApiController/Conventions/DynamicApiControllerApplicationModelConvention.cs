@@ -227,7 +227,7 @@ namespace Furion.DynamicApiController
             }
 
             var verb = _verbToHttpMethods.ContainsKey(verbKey)
-                ? _verbToHttpMethods[verbKey]
+                ? _verbToHttpMethods[verbKey] ?? _dynamicApiControllerSettings.DefaultHttpMethod.ToUpper()
                 : _dynamicApiControllerSettings.DefaultHttpMethod.ToUpper();
 
             // 添加请求约束
@@ -671,7 +671,7 @@ namespace Furion.DynamicApiController
                 // 获取所有参数大于1的配置
                 var settingsVerbToHttpMethods = verbToHttpMethods
                     .Where(u => u.Length > 1)
-                    .ToDictionary(u => u[0].ToString(), u => u[1].ToString());
+                    .ToDictionary(u => u[0].ToString(), u => u[1]?.ToString());
 
                 // 复写消息
                 defaultVerbToHttpMethods = defaultVerbToHttpMethods.AddOrUpdate(settingsVerbToHttpMethods);

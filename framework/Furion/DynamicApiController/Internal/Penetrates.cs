@@ -49,8 +49,8 @@ namespace Furion.DynamicApiController
                 ["find"] = "GET",
                 ["fetch"] = "GET",
                 ["query"] = "GET",
-                ["getlist"] = "GET",
-                ["getall"] = "GET",
+                //["getlist"] = "GET",
+                //["getall"] = "GET",
 
                 ["put"] = "PUT",
                 ["update"] = "PUT",
