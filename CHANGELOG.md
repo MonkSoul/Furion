@@ -6,6 +6,7 @@
   - [新增] 新增 `Scoped.Create` 带返回值重载 [#I3O47J](https://gitee.com/dotnetchina/Furion/issues/I3O47J)
   - [新增] 支持 `Scoped.Create()` 一系列方法支持传入作用域工厂 [#I3OAP5](https://gitee.com/dotnetchina/Furion/issues/I3OAP5)
   - [新增] 支持事件总线同步执行方式 [#I3OAW2](https://gitee.com/dotnetchina/Furion/issues/I3OAW2)
+  - [新增] `[DataValidation]` 跳过空字符串和空值验证 [#I3OGEN](https://gitee.com/dotnetchina/Furion/issues/I3OGEN)
 
 - **突破性变化**
 

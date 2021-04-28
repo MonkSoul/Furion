@@ -484,6 +484,13 @@ namespace Furion.Application
 }
 ```
 
+**`[DataValidation]` 特性具备 `ValidationAttribute` 特性的所有配置以外还提供了以下配置：**
+
+- `ValidationTypes`：验证类型，`Enum[]` 类型，
+- `ValidationPattern`：验证逻辑，`ValidationPattern` 类型，可选 `AllOfThem（全部验证通过）` 和 `AtleastOne（至少一个验证通过）`
+- `AllowNullValue`：是否允许空值，`bool` 类型，默认 `false`
+- `AllowEmptyStrings`：是否允许空字符串，`bool` 类型，默认 `false`
+
 ### 8.6.5 `[ModelBinder]` 特性
 
 默认情况下，验证失败信息会根据属性名进行序列化，但是如果属性序列化自定义了 `[JsonPropertyName]` 特性，那么验证失败的消息就不匹配了，这时我们需要添加 `[ModelBinder(Name = "序列化对应名字")]` 进行纠正。如下图所示：

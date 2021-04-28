@@ -143,35 +143,19 @@ namespace Furion.EntityFramework.Core
             services.AddDatabaseAccessor(options =>
             {
                 // 配置默认数据库
-                options.AddDbPool<FurionDbContext>(DbProvider.SqlServer, connectionString:"连接字符串");
+                options.AddDbPool<FurionDbContext>();
 
                 // 配置多个数据库，多个数据库必须指定数据库上下文定位器
-                options.AddDbPool<SqliteDbContext, SqliteDbContextLocaotr>(DbProvider.Sqlite, connectionString:"连接字符串");
+                options.AddDbPool<SqliteDbContext, SqliteDbContextLocaotr>();
             });
         }
     }
 }
 ```
 
-:::caution 新版 MySQL 注意
+:::tip 了解更多数据库数据库注册方式
 
-`MySQL` 在新版本包中注册有所修改，所以注册方式为：
-
-```cs
-services.AddDatabaseAccessor(options =>
-{
-    options.AddDbPool<FurionDbContext>($"{DbProvider.MySql}@8.0.22");
-});
-```
-
-如果使用了 `MySql.EntityFrameworkCore` 包，则需改为以下注册：
-
-```cs
-services.AddDatabaseAccessor(options =>
-{
-    options.AddDbPool<FurionDbContext>(DbProvider.MySqlOfficial);
-});
-```
+如需了解各种数据库及版本注册方式可查阅 【[多数据库注册章节](dbcontext-multi-database.mdx)】
 
 :::
 

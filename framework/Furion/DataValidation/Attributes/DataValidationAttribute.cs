@@ -40,7 +40,10 @@ namespace System.ComponentModel.DataAnnotations
         /// <returns></returns>
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            // 是否忽略空值
+            // 判断是否允许 空值
+            if (AllowNullValue && value == null) return ValidationResult.Success;
+
+            // 是否忽略空字符串
             if (AllowEmptyStrings && value is string && value.Equals(string.Empty)) return ValidationResult.Success;
 
             // 执行值验证
@@ -78,5 +81,10 @@ namespace System.ComponentModel.DataAnnotations
         ///是否允许空字符串
         /// </summary>
         public bool AllowEmptyStrings { get; set; } = false;
+
+        /// <summary>
+        /// 允许空值，有值才验证，默认 false
+        /// </summary>
+        public bool AllowNullValue { get; set; } = false;
     }
 }
