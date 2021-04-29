@@ -45,7 +45,7 @@ function Banner() {
           </div>
           <ul className="furion-banner-spec">
             <li>基于 .NET 5 平台，没有历史包袱</li>
-            <li>极少依赖，只依赖两个第三方包</li>
+            <li>极少依赖，只依赖 两个 第三方包</li>
             <li>极速上手，代码无侵入式</li>
             <li>只需要一个 Inject() 即可完成配置</li>
           </ul>
@@ -132,7 +132,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>4650</div>
+            <div style={{ color: "#723cff" }}>4750</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
@@ -237,6 +237,16 @@ function Remark() {
           </div>
         </div>
       </div>
+      <div>
+        <a
+          href="https://gitee.com/dotnetchina/Furion#-%E8%B4%A1%E7%8C%AE%E4%BB%A3%E7%A0%81"
+          target="_blank"
+          className="furion-get-start"
+          style={{ margin: 0 }}
+        >
+          想看更多评论？
+        </a>
+      </div>
     </div>
   );
 }
@@ -283,7 +293,7 @@ function WhoUse() {
           <h1>他们都在用</h1>
           <p>
             Furion
-            已在全球多个项目中使用。从小型企业到企业的解决方案及知名企业。公司在简单软件和复杂管理系统的开发方面都信任我们。
+            已在全球多个项目中使用。从小型企业到企业的解决方案及知名企业。他们在简单软件和复杂管理系统的开发方面都信任我们。
           </p>
           <Link className="furion-get-start" to="mailto:monksoul@outlook.com">
             立即添加您的公司
