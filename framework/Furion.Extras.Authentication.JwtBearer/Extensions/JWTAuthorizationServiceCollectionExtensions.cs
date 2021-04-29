@@ -138,27 +138,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // 选项后期配置
             services.PostConfigure<JWTSettingsOptions>(options =>
             {
-                options.ValidateIssuerSigningKey ??= true;
-                if (options.ValidateIssuerSigningKey == true)
-                {
-                    options.IssuerSigningKey ??= "U2FsdGVkX1+6H3D8Q//yQMhInzTdRZI9DbUGetbyaag=";
-                }
-                options.ValidateIssuer ??= true;
-                if (options.ValidateIssuer == true)
-                {
-                    options.ValidIssuer ??= "dotnetchina";
-                }
-                options.ValidateAudience ??= true;
-                if (options.ValidateAudience == true)
-                {
-                    options.ValidAudience ??= "powerby Furion";
-                }
-                options.ValidateLifetime ??= true;
-                if (options.ValidateLifetime == true)
-                {
-                    options.ClockSkew ??= 10;
-                }
-                options.ExpiredTime ??= 20;
+                _ = JWTEncryption.SetDefaultJwtSettings(options);
             });
         }
     }

@@ -197,6 +197,7 @@ namespace Furion.DataEncryption
         public static (bool IsValid, JsonWebToken Token) Validate(string accessToken)
         {
             var jwtSettings = GetJWTSettings();
+            if (jwtSettings == null) return (false, default);
 
             // 加密Key
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.IssuerSigningKey));
@@ -286,7 +287,7 @@ namespace Furion.DataEncryption
         /// <returns></returns>
         public static JWTSettingsOptions GetJWTSettings()
         {
-            return InternalHttpContext.Current()?.RequestServices?.GetService<IOptions<JWTSettingsOptions>>()?.Value;
+            return InternalHttpContext.Current()?.RequestServices?.GetService<IOptions<JWTSettingsOptions>>()?.Value ?? SetDefaultJwtSettings(new JWTSettingsOptions());
         }
 
         /// <summary>
@@ -346,15 +347,47 @@ namespace Furion.DataEncryption
 
             if (!payload.ContainsKey(JwtRegisteredClaimNames.Iss))
             {
-                payload.Add(JwtRegisteredClaimNames.Iss, jwtSettings.ValidIssuer);
+                payload.Add(JwtRegisteredClaimNames.Iss, jwtSettings?.ValidIssuer);
             }
 
             if (!payload.ContainsKey(JwtRegisteredClaimNames.Aud))
             {
-                payload.Add(JwtRegisteredClaimNames.Aud, jwtSettings.ValidAudience);
+                payload.Add(JwtRegisteredClaimNames.Aud, jwtSettings?.ValidAudience);
             }
 
             return (payload, jwtSettings);
+        }
+
+        /// <summary>
+        /// 设置默认 Jwt 配置
+        /// </summary>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        internal static JWTSettingsOptions SetDefaultJwtSettings(JWTSettingsOptions options)
+        {
+            options.ValidateIssuerSigningKey ??= true;
+            if (options.ValidateIssuerSigningKey == true)
+            {
+                options.IssuerSigningKey ??= "U2FsdGVkX1+6H3D8Q//yQMhInzTdRZI9DbUGetbyaag=";
+            }
+            options.ValidateIssuer ??= true;
+            if (options.ValidateIssuer == true)
+            {
+                options.ValidIssuer ??= "dotnetchina";
+            }
+            options.ValidateAudience ??= true;
+            if (options.ValidateAudience == true)
+            {
+                options.ValidAudience ??= "powerby Furion";
+            }
+            options.ValidateLifetime ??= true;
+            if (options.ValidateLifetime == true)
+            {
+                options.ClockSkew ??= 10;
+            }
+            options.ExpiredTime ??= 20;
+
+            return options;
         }
 
         /// <summary>
