@@ -35,6 +35,7 @@
   - [答疑] 同时配置租户过滤器和软删除过滤器，最终的 sql 只生成了一种过滤条件 [#I3OB0A](https://gitee.com/dotnetchina/Furion/issues/I3OB0A)
   - [答疑] HTTP 重定向 HTTPS 后跨域失效 [#I3OB8R](https://gitee.com/dotnetchina/Furion/issues/I3OB8R)
   - [答疑] 在 PostgreSql 数据库使用 `rep.FirstOrDefault(u => u.Id == UserId);` 引起异常 [#I3O5OF](https://gitee.com/dotnetchina/Furion/issues/I3O5OF)
+  - [答疑] 定时任务有时能触发有时不能触发 [#I3ORBE](https://gitee.com/dotnetchina/Furion/issues/I3ORBE)
 
 - **不做实现**
 
