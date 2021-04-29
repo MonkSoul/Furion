@@ -1,4 +1,4 @@
-﻿using Furion.Authorization;
+using Furion.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -340,7 +340,7 @@ namespace Furion.DataEncryption
 
             if (!payload.ContainsKey(JwtRegisteredClaimNames.Exp))
             {
-                var minute = expiredTime ?? jwtSettings.ExpiredTime ?? 20;
+                var minute = expiredTime ?? jwtSettings?.ExpiredTime ?? 20;
                 payload.Add(JwtRegisteredClaimNames.Exp, DateTimeOffset.Now.AddSeconds(minute * 60).ToUnixTimeSeconds());
             }
 
