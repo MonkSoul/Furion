@@ -39,7 +39,14 @@ function Banner() {
     <div className="furion-banner">
       <div className="furion-banner-container">
         <div className="furion-banner-item">
-          <div className="furion-banner-project">Furion</div>
+          <div className="furion-banner-project">
+            Furion{" "}
+            <span
+              style={{ fontSize: 14, fontWeight: "normal", color: "#8759ff" }}
+            >
+              [fi:rɪən]
+            </span>
+          </div>
           <div className="furion-banner-description">
             让 .NET 开发更简单，更通用，更流行。
           </div>
