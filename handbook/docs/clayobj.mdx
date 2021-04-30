@@ -40,7 +40,7 @@ dynamic clay = new Clay();
 var clay2 = Clay.Object(new {});
 
 // 从 json 字符串创建，可用于第三方 API 对接，非常有用
-var clay3 = Clay.Parse(@"{""Foo"":""json"", ""Bar"":100, ""Nest"":{ ""Foobar"":true } }");
+var clay3 = Clay.Parse(@"{""foo"":""json"", ""bar"":100, ""nest"":{ ""foobar"":true } }");
 ```
 
 ### 29.3.2 读取/获取属性
@@ -187,7 +187,22 @@ var c2 = (City)clay.City;    // 强制转换
 City c3 = clay.City; // 声明方式
 ```
 
-### 29.3.9 输出 `JSON`
+### 29.3.9 固化粘土
+
+固化粘土在很多时候和序列化很像，但是如果直接调用 `Deserialize<object>` 或 `Deserialize<dynamic>` 无法返回实际类型，所以就有了固化类型的功能，如：
+
+```cs
+// 返回 object
+var obj = clay.Solidify();
+
+// 返回 dynamic
+var obj1 = clay.Solidify<dynamic>();
+
+// 返回其他任意类型
+var obj2 = clay.Solidify<City>();
+```
+
+### 29.3.10 输出 `JSON`
 
 ```cs
 var clay = Clay.Object(new
@@ -205,7 +220,7 @@ var clay = Clay.Object(new
 var json = clay.ToString(); // "{\"Foo\":\"json\",\"Bar\":100,\"Nest\":{\"Foobar\":true},\"Arr\":[\"NOR\",\"XOR\"]}"
 ```
 
-### 29.3.10 输出 `XML` 对象
+### 29.3.11 输出 `XML` 对象
 
 ```cs
 var clay = Clay.Object(new
@@ -223,7 +238,7 @@ var clay = Clay.Object(new
 var xml = clay.XmlElement;
 ```
 
-### 29.3.11 关键字处理
+### 29.3.12 关键字处理
 
 ```cs
 dynamic clay = new Clay();

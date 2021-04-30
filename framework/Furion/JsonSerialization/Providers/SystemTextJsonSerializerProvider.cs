@@ -1,5 +1,5 @@
 ﻿using Furion.DependencyInjection;
-using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
 namespace Furion.JsonSerialization
@@ -19,7 +19,7 @@ namespace Furion.JsonSerialization
         public string Serialize(object value, object jsonSerializerOptions = null)
         {
             return JsonSerializer.Serialize(value, (jsonSerializerOptions as JsonSerializerOptions)
-                ?? GetDefaultJsonSerializerOptions());
+                ?? App.GetOptions<JsonOptions>().JsonSerializerOptions);
         }
 
         /// <summary>
@@ -32,21 +32,7 @@ namespace Furion.JsonSerialization
         public T Deserialize<T>(string json, object jsonSerializerOptions = null)
         {
             return JsonSerializer.Deserialize<T>(json, (jsonSerializerOptions as JsonSerializerOptions)
-                ?? GetDefaultJsonSerializerOptions());
-        }
-
-        /// <summary>
-        /// 默认配置
-        /// </summary>
-        /// <returns></returns>
-        private static JsonSerializerOptions GetDefaultJsonSerializerOptions()
-        {
-            return new JsonSerializerOptions
-            {
-                WriteIndented = true,   // 缩进
-                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,  // 中文乱码
-                PropertyNameCaseInsensitive = true  // 忽略大小写
-            };
+                ?? App.GetOptions<JsonOptions>().JsonSerializerOptions);
         }
     }
 }

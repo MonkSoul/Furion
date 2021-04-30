@@ -1,3 +1,25 @@
+## v2.3.0 （未发布版本）
+
+- **新特性**
+
+  - [新增] 动态粘土类型直接转 `object` 或 `dynamic` 类型 [#I3OY27](https://gitee.com/dotnetchina/Furion/issues/I3OY27)
+
+- **突破性变化**
+
+- **问题修复**
+
+- **其他更改**
+
+  - [改进] 框架默认序列化应该从配置中读取，而非手动编写 [#I3P1SJ](https://gitee.com/dotnetchina/Furion/issues/I3P1SJ)
+
+- **文档变化**
+
+- **问答答疑**
+
+- **不做实现**
+
+---
+
 ## v2.2.0 （当前版本）
 
 - **新特性**

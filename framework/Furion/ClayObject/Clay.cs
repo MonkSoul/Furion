@@ -1,4 +1,5 @@
 ﻿using Furion.DependencyInjection;
+using Furion.JsonSerialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -73,7 +74,7 @@ namespace Furion.ClayObject
         /// <returns></returns>
         public static dynamic Object(object obj)
         {
-            return Parse(Serialize(obj));
+            return Parse(JSON.Serialize(obj));
         }
 
         /// <summary>
@@ -326,6 +327,25 @@ namespace Furion.ClayObject
                 elem.RemoveNodes();
             }
             return CreateJsonString(new XStreamingElement("root", CreateTypeAttr(jsonType), XmlElement.Elements()));
+        }
+
+        /// <summary>
+        /// 固化粘土，也就是直接输出对象
+        /// </summary>
+        /// <returns></returns>
+        public object Solidify()
+        {
+            return Solidify<object>();
+        }
+
+        /// <summary>
+        /// 固化粘土，也就是直接输出对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T Solidify<T>()
+        {
+            return JSON.Deserialize<T>(ToString());
         }
 
         /// <summary>
