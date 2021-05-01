@@ -6,6 +6,8 @@
 
 - **突破性变化**
 
+  - [支持] 支持 .NET 6.0.0 Preview 3 版本 [#I3P2C7](https://gitee.com/dotnetchina/Furion/issues/I3P2C7)
+
 - **问题修复**
 
 - **其他更改**

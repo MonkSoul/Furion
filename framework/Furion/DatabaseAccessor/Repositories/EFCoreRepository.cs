@@ -201,7 +201,7 @@ namespace Furion.DatabaseAccessor
             //初始化实体
             Entities = Context.Set<TEntity>();
             DetachedEntities = Entities.AsNoTracking();
-            EntityType = Model.FindEntityType(typeof(TEntity));
+            EntityType = Entities.EntityType;
 
             // 初始化数据上下文池
             _dbContextPool = serviceProvider.GetService<IDbContextPool>();
