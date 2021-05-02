@@ -293,6 +293,9 @@ function WhoUse() {
         <div className="furion-custom-img">
           <img src={useBaseUrl("img/c10.jpg")} height="100" />
         </div>
+        <div className="furion-custom-img">
+          <img src={useBaseUrl("img/jjd.png")} height="100" />
+        </div>
       </div>
       <div className="furion-who-des">
         <div style={{ maxWidth: 350 }}>

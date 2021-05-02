@@ -1,0 +1,1 @@
+(self.webpackChunkfurion=self.webpackChunkfurion||[]).push([[3386],{3384:function(e){"use strict";e.exports=JSON.parse('{"allTagsPath":"/blog/tags","slug":"netcore","name":".netcore","count":3,"permalink":"/blog/tags/netcore"}')}}]);
