@@ -20,6 +20,8 @@
 
 - **不做实现**
 
+  - [废弃] CAS 支持[#I3PIET](https://gitee.com/dotnetchina/Furion/issues/I3PIET)
+
 ---
 
 ## v2.2.0 （当前版本）
