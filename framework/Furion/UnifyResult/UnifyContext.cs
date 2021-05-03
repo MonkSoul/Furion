@@ -159,17 +159,17 @@ namespace Furion.UnifyResult
         /// <returns></returns>
         internal static bool IsSkipUnifyHandlerOnSucceedReturn(MethodInfo method, out IUnifyResultProvider unifyResult, bool isWebRequest = true)
         {
-            if (!isWebRequest)
-            {
-                unifyResult = null;
-                return !IsEnabledUnifyHandle;
-            }
-
             // 判断是否跳过规范化处理
             var isSkip = !IsEnabledUnifyHandle
                   || method.GetRealReturnType().HasImplementedRawGeneric(RESTfulResultType)
                   || method.CustomAttributes.Any(x => typeof(NonUnifyAttribute).IsAssignableFrom(x.AttributeType) || typeof(ProducesResponseTypeAttribute).IsAssignableFrom(x.AttributeType) || typeof(IApiResponseMetadataProvider).IsAssignableFrom(x.AttributeType))
                   || method.ReflectedType.IsDefined(typeof(NonUnifyAttribute), true);
+
+            if (!isWebRequest)
+            {
+                unifyResult = null;
+                return isSkip;
+            }
 
             unifyResult = isSkip ? null : App.GetService<IUnifyResultProvider>();
             return unifyResult == null || isSkip;
@@ -184,12 +184,6 @@ namespace Furion.UnifyResult
         /// <returns></returns>
         internal static bool IsSkipUnifyHandler(MethodInfo method, out IUnifyResultProvider unifyResult, bool isWebRequest = true)
         {
-            if (!isWebRequest)
-            {
-                unifyResult = null;
-                return !IsEnabledUnifyHandle;
-            }
-
             // 判断是否跳过规范化处理
             var isSkip = !IsEnabledUnifyHandle
                     || method.CustomAttributes.Any(x => typeof(NonUnifyAttribute).IsAssignableFrom(x.AttributeType))
@@ -197,6 +191,12 @@ namespace Furion.UnifyResult
                             !method.CustomAttributes.Any(x => typeof(ProducesResponseTypeAttribute).IsAssignableFrom(x.AttributeType) || typeof(IApiResponseMetadataProvider).IsAssignableFrom(x.AttributeType))
                             && method.ReflectedType.IsDefined(typeof(NonUnifyAttribute), true)
                         );
+
+            if (!isWebRequest)
+            {
+                unifyResult = null;
+                return isSkip;
+            }
 
             unifyResult = isSkip ? null : App.GetService<IUnifyResultProvider>();
             return unifyResult == null || isSkip;
@@ -211,15 +211,15 @@ namespace Furion.UnifyResult
         /// <returns></returns>
         internal static bool IsSkipUnifyHandlerOnSpecifiedStatusCode(HttpContext context, out IUnifyResultProvider unifyResult, bool isWebRequest = true)
         {
-            if (!isWebRequest)
-            {
-                unifyResult = null;
-                return !IsEnabledUnifyHandle;
-            }
-
             // 判断是否跳过规范化处理
             var isSkip = !IsEnabledUnifyHandle
                     || context.GetMetadata<NonUnifyAttribute>() != null;    // 这里留下一个技术问题，如何获取 MethodInfo
+
+            if (!isWebRequest)
+            {
+                unifyResult = null;
+                return isSkip;
+            }
 
             unifyResult = isSkip ? null : App.GetService<IUnifyResultProvider>();
             return unifyResult == null || isSkip;

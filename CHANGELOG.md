@@ -11,6 +11,8 @@
 
 - **问题修复**
 
+  - [修复] 贴了 `[NonUntify]` 特性后，`Swagger` 的 `Example Value` 没有匹配正确 [#I3PK0L](https://gitee.com/dotnetchina/Furion/issues/I3PK0L)
+
 - **其他更改**
 
   - [改进] 框架默认序列化应该从配置中读取，而非手动编写 [#I3P1SJ](https://gitee.com/dotnetchina/Furion/issues/I3P1SJ)
