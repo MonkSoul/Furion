@@ -269,7 +269,15 @@ namespace Furion.Application
 
 <img src={useBaseUrl("img/yhyc3.gif")} />
 
-### 7.6.4 更多例子
+### 7.6.4 异常方法重试
+
+```cs
+Oops.Retry(() => {
+    // Do.....
+}, 3, 1000);
+```
+
+### 7.6.5 更多例子
 
 ```cs {6}
 throw Oops.Oh(1000);

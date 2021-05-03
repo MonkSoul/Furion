@@ -31,3 +31,11 @@ throw Oops.Oh(1000, "出错了");
 throw Oops.Oh(1000, typeof(ArgumentNullException));
 throw Oops.Oh(1000, typeof(ArgumentNullException), "出错了");
 ```
+
+## 4.5 异常方法重试
+
+```cs
+Oops.Retry(() => {
+    // Do.....
+}, 3, 1000);
+```
