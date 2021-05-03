@@ -16,6 +16,7 @@
 - **其他更改**
 
   - [改进] 框架默认序列化应该从配置中读取，而非手动编写 [#I3P1SJ](https://gitee.com/dotnetchina/Furion/issues/I3P1SJ)
+  - [改进] `SqlSugar` 拓展库，支持非泛型仓储获取上下文操作对象 [#I3PK2N](https://gitee.com/dotnetchina/Furion/issues/I3PK2N)
 
 - **文档变化**
 

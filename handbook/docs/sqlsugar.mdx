@@ -62,12 +62,12 @@ db =>
 
 ## 10.1.3 基本使用
 
-在使用之前，我们可以通过构造函数注入 `ISqlSugarRepository<TEntity>` 接口，如：
+在使用之前，我们可以通过构造函数注入 `ISqlSugarRepository` 接口，如：
 
-```cs {6}
-private readonly ISqlSugarRepository<Person> repository; // 仓储对象：封装简单的CRUD
+```cs {1,6}
+private readonly ISqlSugarRepository repository; // 仓储对象：封装简单的CRUD
 private readonly SqlSugarClient db; // 核心对象：拥有完整的SqlSugar全部功能
-public PersonService(ISqlSugarRepository<Person> sqlSugarRepository)
+public PersonService(ISqlSugarRepository sqlSugarRepository)
 {
     repository = sqlSugarRepository;
     db = repository.Context;    // 推荐操作

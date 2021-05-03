@@ -17,6 +17,21 @@ namespace SqlSugar
         /// <returns>仓储</returns>
         ISqlSugarRepository<TEntity> Change<TEntity>()
             where TEntity : class, new();
+
+        /// <summary>
+        /// 数据库上下文
+        /// </summary>
+        SqlSugarClient Context { get; }
+
+        /// <summary>
+        /// 动态数据库上下文
+        /// </summary>
+        dynamic DynamicContext { get; }
+
+        /// <summary>
+        /// 原生 Ado 对象
+        /// </summary>
+        IAdo Ado { get; }
     }
 
     /// <summary>
