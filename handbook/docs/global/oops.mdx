@@ -38,4 +38,14 @@ throw Oops.Oh(1000, typeof(ArgumentNullException), "出错了");
 Oops.Retry(() => {
     // Do.....
 }, 3, 1000);
+
+// 带返回值
+var value = Oops.Retry<int>(() => {
+    // Do.....
+}, 3, 1000);
+
+// 只有特定异常才监听
+Oops.Retry(() => {
+
+}, 3, 1000, typeof(ArgumentNullException));
 ```

@@ -135,6 +135,39 @@ namespace Furion.FriendlyException
         }
 
         /// <summary>
+        /// 重试有异常的方法，还可以指定特定异常
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="action"></param>
+        /// <param name="numRetries">重试次数</param>
+        /// <param name="retryTimeout">重试间隔时间</param>
+        /// <param name="exceptionTypes">异常类型,可多个</param>
+        public static T Retry<T>(Func<T> action, int numRetries, int retryTimeout, params Type[] exceptionTypes)
+        {
+            if (action == null) throw new ArgumentNullException(nameof(action));
+
+            // 不断重试
+            while (true)
+            {
+                try
+                {
+                    return action();
+                }
+                catch (Exception ex)
+                {
+                    // 如果可重试次数小于或等于0，则终止重试
+                    if (--numRetries <= 0) throw;
+
+                    // 如果填写了 exceptionTypes 且异常类型不在 exceptionTypes 之内，则终止重试
+                    if (exceptionTypes != null && exceptionTypes.Length > 0 && !exceptionTypes.Any(u => u.IsAssignableFrom(ex.GetType()))) throw;
+
+                    // 如果可重试异常数大于 0，则间隔指定时间后继续执行
+                    if (retryTimeout > 0) Thread.Sleep(retryTimeout);
+                }
+            }
+        }
+
+        /// <summary>
         /// 打印错误到 MiniProfiler 中
         /// </summary>
         /// <param name="exception"></param>

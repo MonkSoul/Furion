@@ -49,10 +49,11 @@ namespace Furion.DependencyInjection
         /// <summary>
         /// 创建一个作用域范围
         /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="handle"></param>
         /// <param name="scopeFactory"></param>
         /// <returns></returns>
-        public static object Create(Func<IServiceScopeFactory, IServiceScope, object> handle, IServiceScopeFactory scopeFactory = default)
+        public static T Create<T>(Func<IServiceScopeFactory, IServiceScope, T> handle, IServiceScopeFactory scopeFactory = default)
         {
             if (handle == null) throw new ArgumentNullException(nameof(handle));
 
@@ -67,10 +68,11 @@ namespace Furion.DependencyInjection
         /// <summary>
         /// 创建一个工作单元作用域
         /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="handle"></param>
         /// <param name="scopeFactory"></param>
         /// <returns></returns>
-        public static object CreateUnitOfWork(Func<IServiceScopeFactory, IServiceScope, object> handle, IServiceScopeFactory scopeFactory = default)
+        public static T CreateUnitOfWork<T>(Func<IServiceScopeFactory, IServiceScope, T> handle, IServiceScopeFactory scopeFactory = default)
         {
             if (handle == null) throw new ArgumentNullException(nameof(handle));
 
