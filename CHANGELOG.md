@@ -2,6 +2,7 @@
 
 - **新特性**
 
+  - [新增] `Furion.Extras.DatabaseAccessor.MongoDB` 拓展包支持 [#I3PKST](https://gitee.com/dotnetchina/Furion/issues/I3PKST)
   - [新增] 动态粘土类型直接转 `object` 或 `dynamic` 类型 [#I3OY27](https://gitee.com/dotnetchina/Furion/issues/I3OY27)
   - [新增] 新增 `Oops.Retry` 方法，支持设置方法调用失败进行重试 [#I3PJKQ](https://gitee.com/dotnetchina/Furion/issues/I3PJKQ)
 

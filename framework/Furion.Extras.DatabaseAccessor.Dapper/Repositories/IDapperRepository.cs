@@ -17,7 +17,7 @@ namespace Dapper
         /// <summary>
         /// 动态连接上下文
         /// </summary>
-        dynamic DynamicContext { get; set; }
+        dynamic DynamicContext { get; }
 
         /// <summary>
         /// 查询返回动态类型

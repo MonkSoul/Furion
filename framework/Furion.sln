@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Extras.DatabaseAcces
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Furion.UnitTests", "Furion.UnitTests", "{193E87DF-D561-4E56-9CE5-BBFB1A7EB827}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Furion.Tests", "..\unittest\Furion.Tests\Furion.Tests.csproj", "{BB33B5B9-A317-4258-A9C8-197093147FA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Tests", "..\unittest\Furion.Tests\Furion.Tests.csproj", "{BB33B5B9-A317-4258-A9C8-197093147FA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Furion.Extras.DatabaseAccessor.MongoDB", "Furion.Extras.DatabaseAccessor.MongoDB\Furion.Extras.DatabaseAccessor.MongoDB.csproj", "{0D9E1608-D869-4262-9822-B1264A0248E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{BB33B5B9-A317-4258-A9C8-197093147FA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB33B5B9-A317-4258-A9C8-197093147FA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB33B5B9-A317-4258-A9C8-197093147FA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D9E1608-D869-4262-9822-B1264A0248E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D9E1608-D869-4262-9822-B1264A0248E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D9E1608-D869-4262-9822-B1264A0248E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D9E1608-D869-4262-9822-B1264A0248E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

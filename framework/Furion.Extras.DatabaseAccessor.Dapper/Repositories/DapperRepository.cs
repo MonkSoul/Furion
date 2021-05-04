@@ -50,7 +50,7 @@ namespace Dapper
         /// <summary>
         /// 动态连接上下文
         /// </summary>
-        public virtual dynamic DynamicContext { get; set; }
+        public virtual dynamic DynamicContext { get; }
 
         /// <summary>
         /// 查询返回动态类型
