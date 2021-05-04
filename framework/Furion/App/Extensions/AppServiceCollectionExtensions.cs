@@ -173,15 +173,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>服务集合</returns>
         internal static IServiceCollection AddApp(this IServiceCollection services, Action<IServiceCollection> configure = null)
         {
+            // 注册全局配置选项
+            services.AddConfigurableOptions<AppSettingsOptions>();
+            var appSettings = App.Settings;
+
             // 注册内存和分布式内存
             services.AddMemoryCache();  // .NET 5.0.3+ 需要手动注册了
-            services.AddDistributedMemoryCache();
+            if (appSettings.EnabledDistributedMemoryCache == true) services.AddDistributedMemoryCache();
 
             // 注册全局依赖注入
             services.AddDependencyInjection();
-
-            // 注册全局配置选项
-            services.AddConfigurableOptions<AppSettingsOptions>();
 
             // 添加 HttContext 访问器
             services.AddHttpContextAccessor();
@@ -190,7 +191,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddStartup();
 
             // 注册MiniProfiler 组件
-            if (App.Settings.InjectMiniProfiler == true)
+            if (appSettings.InjectMiniProfiler == true)
             {
                 services.AddMiniProfiler(options =>
                 {
@@ -215,15 +216,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>服务集合</returns>
         internal static IServiceCollection AddHostApp(this IServiceCollection services, Action<IServiceCollection> configure = null)
         {
+            // 注册全局配置选项
+            services.AddConfigurableOptions<AppSettingsOptions>();
+            var appSettings = App.Settings;
+
             // 注册内存和分布式内存
             services.AddMemoryCache();  // .NET 5.0.3+ 需要手动注册了
-            services.AddDistributedMemoryCache();
+            if (appSettings.EnabledDistributedMemoryCache == true) services.AddDistributedMemoryCache();
 
             // 注册全局依赖注入
             services.AddDependencyInjection();
-
-            // 注册全局配置选项
-            services.AddConfigurableOptions<AppSettingsOptions>();
 
             // 注册全局 Startup 扫描
             services.AddStartup();

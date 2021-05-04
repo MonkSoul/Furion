@@ -20,6 +20,11 @@ namespace Furion
         public bool? InjectSpecificationDocument { get; set; }
 
         /// <summary>
+        /// 是否启用分布式内存缓存
+        /// </summary>
+        public bool? EnabledDistributedMemoryCache { get; set; }
+
+        /// <summary>
         /// 是否启用引用程序集扫描
         /// </summary>
         public bool? EnabledReferenceAssemblyScan { get; set; }
@@ -47,6 +52,7 @@ namespace Furion
         public void PostConfigure(AppSettingsOptions options, IConfiguration configuration)
         {
             options.InjectMiniProfiler ??= true;
+            options.EnabledDistributedMemoryCache ??= true;
             options.InjectSpecificationDocument ??= true;
             options.EnabledReferenceAssemblyScan ??= false;
             options.ExternalAssemblies ??= Array.Empty<string>();
