@@ -12,6 +12,7 @@
 
 - **问题修复**
 
+  - [修复] 使用数据库生成模型 `tools/cli.ps1`，从数据库表生成的实体异常 [#I3PL18](https://gitee.com/dotnetchina/Furion/issues/I3PL18)
   - [修复] 贴了 `[NonUntify]` 特性后，`Swagger` 的 `Example Value` 没有匹配正确 [#I3PK0L](https://gitee.com/dotnetchina/Furion/issues/I3PK0L)
 
 - **其他更改**

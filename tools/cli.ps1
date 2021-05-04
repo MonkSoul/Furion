@@ -24,7 +24,7 @@ Param(
     #[string]$UseDatabaseNames
 )
 
-$FurTools = "Furion Tools v1.16.0";
+$FurTools = "Furion Tools v2.2.6";
 
 # 输出信息
 $copyright = @"
@@ -42,7 +42,7 @@ $copyright = @"
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：1.16.0
+// 框架版本：2.2.6
 // 源码地址：https://gitee.com/dotnetchina/Furion
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
@@ -471,6 +471,9 @@ $fileHeader = @"
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 "@;
 
@@ -522,13 +525,16 @@ for ($i = 0; $i -le $files.Count - 1; $i++){
     }
 
     # 生成继承关系和文件头
-    $finalClass = $fileHeader + [regex]::Replace($entityContent, $propRegex, @"
-public partial class $fileName$extents
+    $finalClass = $fileHeader +  @"
+
+namespace $CoreProject
+{
+    public partial class $fileName$extents
     {
-$newPropsContent
+    $newPropsContent
     }
 }
-"@);
+"@;
     
     # 写入文件
     $finalClass | Set-Content $filePath;
