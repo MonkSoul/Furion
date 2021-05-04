@@ -1,7 +1,7 @@
 ---
 id: dbcontext-multi-database
-title: 9.18 多数据库操作
-sidebar_label: 9.18 多数据库操作
+title: 9.18 多种数据库操作
+sidebar_label: 9.18 多种数据库操作 ✨
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
@@ -29,7 +29,7 @@ import TabItem from "@theme/TabItem";
 - `Cosmos`：`Microsoft.EntityFrameworkCore.Cosmos`
 - `InMemoryDatabase`：`Microsoft.EntityFrameworkCore.InMemory`
 - `MySql`
-  - `Pomelo.EntityFrameworkCore.MySql`，**Nuget 需勾选预览版且安装 5.0.0-beta.1 + 以上版本** (支持 MySql 5.x +)
+  - `Pomelo.EntityFrameworkCore.MySql`：(支持 MySql 5.x +)
   - `MySql.EntityFrameworkCore`：支持 (MySql 8.x +)
 - `PostgreSQL`：`Npgsql.EntityFrameworkCore.PostgreSQL`
 - `Oracle`：`Oracle.EntityFrameworkCore` （支持 Oracle 10 +）
@@ -119,13 +119,21 @@ services.AddDatabaseAccessor(options =>
 
 :::
 
-## 9.18.3 多数据库使用方式
+## 9.18.3 各类数据库连接字符串配置示例
+
+- `Sqlite`：`Data Source=./Furion.db`
+- `MySql`：`Data Source=localhost;Database=Furion;User ID=root;Password=000000;pooling=true;port=3306;sslmode=none;CharSet=utf8;`
+- `SqlServer`：`Server=localhost;Database=Furion;User=sa;Password=000000;MultipleActiveResultSets=True;`
+- `Oracle`：`User Id=orcl;Password=orcl;Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=127.0.0.1)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=orcl)))`
+- `PostgreSQL`：`PORT=5432;DATABASE=postgres;HOST=127.0.0.1;PASSWORD=postgres;USER ID=postgres;`
+
+## 9.18.4 多数据库使用方式
 
 `Furion` 通过独创的 `数据库上下文定位器` 实现多数据库灵活操作切换。只需要为每一种数据库绑定唯一的数据库上下文定位器即可。
 
 以下是 `Furion` 支持多数据库操作的实例：
 
-### 9.18.3.1 实体仓储方式
+### 9.18.4.1 实体仓储方式
 
 ```cs
 // 切换到 MSSQL 操作 Person表
@@ -139,7 +147,7 @@ var sqliteRepository = personRepository.Change<Person, SqliteDbContextLocator>()
 
 ```
 
-### 9.18.3.2 非泛型仓储方式
+### 9.18.4.2 非泛型仓储方式
 
 ```cs
 // 切换到 MSSQL 操作 Person表
@@ -152,7 +160,7 @@ var mysqlRepository = repository.Change<Person, MySqlDbContextLocator>();
 var sqliteRepository = repository.Change<Person, SqliteDbContextLocator>();
 ```
 
-### 9.18.3.3 `Sql` 仓储方式
+### 9.18.4.3 `Sql` 仓储方式
 
 ```cs
 // 切换到 MSSQL 操作 Person表
@@ -165,7 +173,7 @@ var mysqlRepository = sqlRepository.Change<MySqlDbContextLocator>();
 var sqliteRepository = sqlRepository.Change<SqliteDbContextLocator>();
 ```
 
-### 9.18.3.4 实体定义方式
+### 9.18.4.4 实体定义方式
 
 ```cs
 
@@ -188,7 +196,7 @@ public class Person: IEntity<MySqlDbContextLocator, SqliteDbContextLocator>
 
 :::
 
-### 9.18.3.5 Linq 函数方式
+### 9.18.4.5 Linq 函数方式
 
 ```cs
 public static class QueryFunctions
@@ -198,7 +206,7 @@ public static class QueryFunctions
 }
 ```
 
-## 9.18.4 反馈与建议
+## 9.18.5 反馈与建议
 
 :::note 与我们交流
 

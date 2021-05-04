@@ -1,7 +1,7 @@
 ---
 id: dbcontext-start
 title: 9.0 入门简要
-sidebar_label: 9.0 入门简要
+sidebar_label: 9.0 入门简要 ✨
 ---
 
 ## 9.0.1 入门准备
@@ -23,7 +23,7 @@ sidebar_label: 9.0 入门简要
 - `Cosmos`：`Microsoft.EntityFrameworkCore.Cosmos`
 - `InMemoryDatabase`：`Microsoft.EntityFrameworkCore.InMemory`
 - `MySql`
-  - `Pomelo.EntityFrameworkCore.MySql`，**Nuget 需勾选预览版且安装 5.0.0-beta.1 + 以上版本** (支持 MySql 5.x +)
+  - `Pomelo.EntityFrameworkCore.MySql`：(支持 MySql 5.x +)
   - `MySql.EntityFrameworkCore`：支持 (MySql 8.x +)
 - `PostgreSQL`：`Npgsql.EntityFrameworkCore.PostgreSQL`
 - `Oracle`：`Oracle.EntityFrameworkCore` （支持 Oracle 10 +）
@@ -126,7 +126,15 @@ namespace Furion.EntityFramework.Core
 }
 ```
 
-### 9.0.1.4 注册数据库上下文
+### 9.0.1.4 各类数据库连接字符串配置示例
+
+- `Sqlite`：`Data Source=./Furion.db`
+- `MySql`：`Data Source=localhost;Database=Furion;User ID=root;Password=000000;pooling=true;port=3306;sslmode=none;CharSet=utf8;`
+- `SqlServer`：`Server=localhost;Database=Furion;User=sa;Password=000000;MultipleActiveResultSets=True;`
+- `Oracle`：`User Id=orcl;Password=orcl;Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=127.0.0.1)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=orcl)))`
+- `PostgreSQL`：`PORT=5432;DATABASE=postgres;HOST=127.0.0.1;PASSWORD=postgres;USER ID=postgres;`
+
+### 9.0.1.5 注册数据库上下文
 
 ```cs {12-19} title="Furion.EntityFramework.Core\Startup.cs"
 using Furion.DependencyInjection;
@@ -159,7 +167,7 @@ namespace Furion.EntityFramework.Core
 
 :::
 
-### 9.0.1.5 `Code First` 说明
+### 9.0.1.6 `Code First` 说明
 
 :::important 特别注意
 
