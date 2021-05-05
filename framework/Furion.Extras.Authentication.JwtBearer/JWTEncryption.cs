@@ -31,7 +31,7 @@ namespace Furion.DataEncryption
         public static string Encrypt(Dictionary<string, object> payload, long? expiredTime = null)
         {
             var (Payload, JWTSettings) = CombinePayload(payload, expiredTime);
-            return Encrypt(JWTSettings.IssuerSigningKey, Payload);
+            return Encrypt(JWTSettings.IssuerSigningKey, Payload, JWTSettings.Algorithm);
         }
 
         /// <summary>
@@ -39,10 +39,11 @@ namespace Furion.DataEncryption
         /// </summary>
         /// <param name="issuerSigningKey"></param>
         /// <param name="payload"></param>
+        /// <param name="algorithm"></param>
         /// <returns></returns>
-        public static string Encrypt(string issuerSigningKey, Dictionary<string, object> payload)
+        public static string Encrypt(string issuerSigningKey, Dictionary<string, object> payload, string algorithm = SecurityAlgorithms.HmacSha256)
         {
-            return Encrypt(issuerSigningKey, JsonSerializer.Serialize(payload));
+            return Encrypt(issuerSigningKey, JsonSerializer.Serialize(payload), algorithm);
         }
 
         /// <summary>
@@ -50,11 +51,12 @@ namespace Furion.DataEncryption
         /// </summary>
         /// <param name="issuerSigningKey"></param>
         /// <param name="payload"></param>
+        /// <param name="algorithm"></param>
         /// <returns></returns>
-        public static string Encrypt(string issuerSigningKey, string payload)
+        public static string Encrypt(string issuerSigningKey, string payload, string algorithm = SecurityAlgorithms.HmacSha256)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(issuerSigningKey));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var credentials = new SigningCredentials(securityKey, algorithm);
 
             var tokenHandler = new JsonWebTokenHandler();
             return tokenHandler.CreateToken(payload, credentials);
@@ -201,7 +203,7 @@ namespace Furion.DataEncryption
 
             // 加密Key
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.IssuerSigningKey));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var creds = new SigningCredentials(key, jwtSettings.Algorithm);
 
             // 创建Token验证参数
             var tokenValidationParameters = CreateTokenValidationParameters(jwtSettings);
@@ -386,6 +388,7 @@ namespace Furion.DataEncryption
                 options.ClockSkew ??= 10;
             }
             options.ExpiredTime ??= 20;
+            options.Algorithm ??= SecurityAlgorithms.HmacSha256;
 
             return options;
         }

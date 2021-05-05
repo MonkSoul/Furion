@@ -49,5 +49,10 @@
         /// 过期时间（分钟）
         /// </summary>
         public long? ExpiredTime { get; set; }
+
+        /// <summary>
+        /// 加密算法
+        /// </summary>
+        public string Algorithm { get; set; }
     }
 }

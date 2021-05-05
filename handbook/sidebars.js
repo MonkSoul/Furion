@@ -217,6 +217,10 @@ module.exports = {
       type: "doc",
       id: "settings/localizationsettings",
     },
+    {
+      type: "doc",
+      id: "settings/jwtsettings",
+    },
   ],
   global: [
     {

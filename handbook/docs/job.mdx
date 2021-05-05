@@ -620,6 +620,8 @@ SpareTime.Do(1000, (t, c) =>
 
 有些时候我们需要在任务中进行数据库操作或解析服务，这时候我们只需要创建一个新的作用域即可
 
+### 26.11.1 `SpareTime` 静态类中
+
 ```cs {2}
 SpareTime.Do(1000, (timer,count) => {
     Scoped.Create((_, scope) =>
@@ -638,6 +640,29 @@ SpareTime.Do(1000, (timer,count) => {
     }
 
 }, "任务标识");
+```
+
+### 26.11.2 `ISpareTimeWorker` 方式
+
+```cs {4}
+[SpareTime(1000, "jobName1", StartNow = true, ExecuteType = SpareTimeExecuteTypes.Serial)]
+public void DoSomething1(SpareTimer timer, long count)
+{
+    Scoped.Create((_, scope) =>
+    {
+        var services = scope.ServiceProvider;
+
+        // 获取数据库上下文
+        var dbContext = Db.GetDbContext(services);
+
+        // 获取仓储
+        var respository = Db.GetRepository<Person>(services);
+
+        // 解析其他服务
+        var otherService = services.GetService<XXX>();
+        var otherService2 = App.GetService<XXX>(services);
+    }
+}
 ```
 
 :::important 数据库操作注意

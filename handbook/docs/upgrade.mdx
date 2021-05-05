@@ -8,7 +8,43 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 **此章节只记录重大版本更新日志，小迭代版本不做更新。**想了解更多更新内容，可查阅 [CHANGELOG.md](https://gitee.com/dotnetchina/Furion/blob/master/CHANGELOG.md)
 
-## v2.2.0 （当前版本）
+## v2.3.0 （当前版本）
+
+- **新特性**
+
+  - [新增] `Furion.Extras.DatabaseAccessor.MongoDB` 拓展包支持 [#I3PKST](https://gitee.com/dotnetchina/Furion/issues/I3PKST)
+  - [新增] 动态粘土类型直接转 `object` 或 `dynamic` 类型 [#I3OY27](https://gitee.com/dotnetchina/Furion/issues/I3OY27)
+  - [新增] 新增 `Oops.Retry` 方法，支持设置方法调用失败进行重试 [#I3PJKQ](https://gitee.com/dotnetchina/Furion/issues/I3PJKQ)
+  - [新增] `JWTSettings` 配置节点 `Algorithm`，用于配置加密算法 [#I3PQGV](https://gitee.com/dotnetchina/Furion/issues/I3PQGV)
+
+- **突破性变化**
+
+  - [支持] 支持 .NET 6.0.0 Preview 3 版本 [#I3P2C7](https://gitee.com/dotnetchina/Furion/issues/I3P2C7)
+
+- **问题修复**
+
+  - [修复] 使用数据库生成模型 `tools/cli.ps1`，从数据库表生成的实体异常 [#I3PL18](https://gitee.com/dotnetchina/Furion/issues/I3PL18)
+  - [修复] 贴了 `[NonUntify]` 特性后，`Swagger` 的 `Example Value` 没有匹配正确 [#I3PK0L](https://gitee.com/dotnetchina/Furion/issues/I3PK0L)
+
+- **其他更改**
+
+  - [改进] 框架默认序列化应该从配置中读取，而非手动编写 [#I3P1SJ](https://gitee.com/dotnetchina/Furion/issues/I3P1SJ)
+  - [改进] `SqlSugar` 拓展库，支持非泛型仓储获取上下文操作对象 [#I3PK2N](https://gitee.com/dotnetchina/Furion/issues/I3PK2N)
+  - [改进] 支持分布式内存缓存可配置化 [#I3POKD](https://gitee.com/dotnetchina/Furion/issues/I3POKD)
+
+- **文档变化**
+
+  - [文档] 添加 `JWTSettings` 配置独立文档 [#I3PQGW](https://gitee.com/dotnetchina/Furion/issues/I3PQGW)
+
+- **问答答疑**
+
+- **不做实现**
+
+  - [废弃] CAS 支持[#I3PIET](https://gitee.com/dotnetchina/Furion/issues/I3PIET)
+
+---
+
+## v2.2.0 （已发布）
 
 - **新特性**
 

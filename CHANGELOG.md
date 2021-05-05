@@ -1,10 +1,11 @@
-## v2.3.0 （未发布版本）
+## v2.3.0 （当前版本）
 
 - **新特性**
 
   - [新增] `Furion.Extras.DatabaseAccessor.MongoDB` 拓展包支持 [#I3PKST](https://gitee.com/dotnetchina/Furion/issues/I3PKST)
   - [新增] 动态粘土类型直接转 `object` 或 `dynamic` 类型 [#I3OY27](https://gitee.com/dotnetchina/Furion/issues/I3OY27)
   - [新增] 新增 `Oops.Retry` 方法，支持设置方法调用失败进行重试 [#I3PJKQ](https://gitee.com/dotnetchina/Furion/issues/I3PJKQ)
+  - [新增] `JWTSettings` 配置节点 `Algorithm`，用于配置加密算法 [#I3PQGV](https://gitee.com/dotnetchina/Furion/issues/I3PQGV)
 
 - **突破性变化**
 
@@ -23,6 +24,8 @@
 
 - **文档变化**
 
+  - [文档] 添加 `JWTSettings` 配置独立文档 [#I3PQGW](https://gitee.com/dotnetchina/Furion/issues/I3PQGW)
+
 - **问答答疑**
 
 - **不做实现**
@@ -31,7 +34,7 @@
 
 ---
 
-## v2.2.0 （当前版本）
+## v2.2.0 （已发布）
 
 - **新特性**
 
