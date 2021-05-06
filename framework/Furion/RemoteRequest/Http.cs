@@ -1,4 +1,4 @@
-﻿using Furion.DependencyInjection;
+using Furion.DependencyInjection;
 using System;
 
 namespace Furion.RemoteRequest
@@ -13,7 +13,7 @@ namespace Furion.RemoteRequest
         /// 获取远程请求代理
         /// </summary>
         /// <param name="serviceProvider"></param>
-        /// <returns>ISqlRepository</returns>
+        /// <returns>IHttpDispatchProxy</returns>
         public static THttpDispatchProxy GetRemoteRequestProxy<THttpDispatchProxy>(IServiceProvider serviceProvider = default)
             where THttpDispatchProxy : class, IHttpDispatchProxy
         {
