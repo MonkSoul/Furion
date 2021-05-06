@@ -16,7 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddMongoDB(this IServiceCollection services, string connectionString)
         {
             // 创建数据库连接对象
-            services.AddScoped(u =>
+            services.AddScoped<IMongoClient>(u =>
             {
                 return new MongoClient(connectionString);
             });
@@ -36,7 +36,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddMongoDB(this IServiceCollection services, MongoClientSettings settings)
         {
             // 创建数据库连接对象
-            services.AddScoped(u =>
+            services.AddScoped<IMongoClient>(u =>
             {
                 return new MongoClient(settings);
             });
@@ -56,7 +56,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddMongoDB(this IServiceCollection services, MongoUrl url)
         {
             // 创建数据库连接对象
-            services.AddScoped(u =>
+            services.AddScoped<IMongoClient>(u =>
             {
                 return new MongoClient(url);
             });
