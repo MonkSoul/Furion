@@ -140,7 +140,7 @@ namespace Furion.TaskScheduler
                 }
 
                 // 记录执行次数
-                currentRecord.Timer.Tally = currentRecord.Tally += 1;
+                if (timer.Type == SpareTimeTypes.Interval) currentRecord.Timer.Tally = currentRecord.Tally += 1;
 
                 // 处理多线程并发问题（重入问题）
                 var interlocked = currentRecord.Interlocked;
@@ -232,9 +232,7 @@ namespace Furion.TaskScheduler
                 // 更新任务信息
                 currentRecord.Timer.Type = timer.Type = SpareTimeTypes.Cron;
                 currentRecord.Timer.Status = timer.Status = SpareTimeStatus.Running;
-                currentRecord.CronActualTally += 1;
-                // 修正 Cron 计次错误
-                currentRecord.Timer.Tally = currentRecord.CronActualTally;
+                currentRecord.Timer.Tally = timer.Tally = currentRecord.CronActualTally += 1;
                 UpdateWorkerRecord(workerName, currentRecord);
 
                 // 执行方法
