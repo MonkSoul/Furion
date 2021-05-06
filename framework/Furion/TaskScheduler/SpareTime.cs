@@ -233,6 +233,8 @@ namespace Furion.TaskScheduler
                 currentRecord.Timer.Type = timer.Type = SpareTimeTypes.Cron;
                 currentRecord.Timer.Status = timer.Status = SpareTimeStatus.Running;
                 currentRecord.CronActualTally += 1;
+                // 修正 Cron 计次错误
+                currentRecord.Timer.Tally = currentRecord.CronActualTally;
                 UpdateWorkerRecord(workerName, currentRecord);
 
                 // 执行方法
