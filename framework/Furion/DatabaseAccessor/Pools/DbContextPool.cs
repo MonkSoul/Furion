@@ -1,5 +1,6 @@
 ﻿using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using StackExchange.Profiling;
 using StackExchange.Profiling.Data;
 using System;
@@ -19,9 +20,9 @@ namespace Furion.DatabaseAccessor
     public class DbContextPool : IDbContextPool
     {
         /// <summary>
-        /// MiniProfiler 分类名
+        ///  MiniProfiler 分类名
         /// </summary>
-        private const string MiniProfilerCategory = "transaction";
+        private const string MiniProfilerCategory = "unitOfWork";
 
         /// <summary>
         /// MiniProfiler 组件状态
@@ -32,6 +33,16 @@ namespace Furion.DatabaseAccessor
         /// 是否打印数据库连接信息
         /// </summary>
         private readonly bool IsPrintDbConnectionInfo;
+
+        /// <summary>
+        /// 线程安全的数据库上下文集合
+        /// </summary>
+        private readonly ConcurrentDictionary<Guid, DbContext> dbContexts;
+
+        /// <summary>
+        /// 登记错误的数据库上下文
+        /// </summary>
+        private readonly ConcurrentDictionary<Guid, DbContext> failedDbContexts;
 
         /// <summary>
         /// 构造函数
@@ -46,14 +57,9 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
-        /// 线程安全的数据库上下文集合
+        /// 数据库上下文事务
         /// </summary>
-        private readonly ConcurrentDictionary<Guid, DbContext> dbContexts;
-
-        /// <summary>
-        /// 登记错误的数据库上下文
-        /// </summary>
-        private readonly ConcurrentDictionary<Guid, DbContext> failedDbContexts;
+        public IDbContextTransaction DbContextTransaction { get; private set; }
 
         /// <summary>
         /// 获取所有数据库上下文
@@ -96,7 +102,7 @@ namespace Furion.DatabaseAccessor
                             currentTransaction.Rollback();
 
                             // 打印事务回滚消息
-                            App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", $"[Connection Id: {context.ContextId}] / [Database: {connection.Database}]{(IsPrintDbConnectionInfo ? $" / [Connection String: {connection.ConnectionString}]" : string.Empty)}", isError: true);
+                            App.PrintToMiniProfiler("transaction", "Rollback", $"[Connection Id: {context.ContextId}] / [Database: {connection.Database}]{(IsPrintDbConnectionInfo ? $" / [Connection String: {connection.ConnectionString}]" : string.Empty)}", isError: true);
                         }
                     }
                 };
@@ -174,36 +180,88 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
-        /// 设置数据库上下文共享事务
+        /// 打开事务
         /// </summary>
-        /// <param name="skipCount"></param>
-        /// <param name="transaction"></param>
         /// <returns></returns>
-        public void ShareTransaction(int skipCount, DbTransaction transaction)
+        public void BeginTransaction()
         {
-            // 跳过第一个数据库上下文并设置共享事务
-            _ = dbContexts
-                   .Where(u => u.Value != null)
-                   .Skip(skipCount)
-                   .Select(u => u.Value.Database.UseTransaction(transaction));
+            // 判断 dbContextPool 中是否包含DbContext，如果是，则使用第一个数据库上下文开启事务，并应用于其他数据库上下文
+            if (dbContexts.Any())
+            {
+                // 先判断是否已经有上下文开启了事务
+                var transactionDbContext = dbContexts.FirstOrDefault(u => u.Value.Database.CurrentTransaction != null);
+                if (transactionDbContext.Value != null)
+                {
+                    DbContextTransaction = transactionDbContext.Value.Database.CurrentTransaction;
+                }
+                else
+                {
+                    // 如果没有任何上下文有事务，则将第一个开启事务
+                    DbContextTransaction = dbContexts.First().Value.Database.BeginTransaction();
+                }
+
+                // 共享事务
+                ShareTransaction(DbContextTransaction.GetDbTransaction());
+            }
         }
 
         /// <summary>
-        /// 设置数据库上下文共享事务
+        /// 提交事务
         /// </summary>
-        /// <param name="skipCount"></param>
-        /// <param name="transaction"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public async Task ShareTransactionAsync(int skipCount, DbTransaction transaction, CancellationToken cancellationToken = default)
+        /// <param name="isManualSaveChanges"></param>
+        /// <param name="exception"></param>
+        /// <param name="withCloseAll">是否自动关闭所有连接</param>
+        public void CommitTransaction(bool isManualSaveChanges = true, Exception exception = default, bool withCloseAll = false)
         {
-            // 跳过第一个数据库上下文并设置贡献事务
-            var tasks = dbContexts
-                .Where(u => u.Value != null)
-                .Skip(skipCount)
-                .Select(u => u.Value.Database.UseTransactionAsync(transaction, cancellationToken));
+            // 如果事务对象为空，则跳过
+            if (DbContextTransaction == null) return;
 
-            await Task.WhenAll(tasks);
+            // 判断是否异常
+            if (exception == null)
+            {
+                try
+                {
+                    // 将所有数据库上下文修改 SaveChanges();，这里另外判断是否需要手动提交
+                    var hasChangesCount = !isManualSaveChanges ? SavePoolNow() : 0;
+
+                    // 提交共享事务
+                    DbContextTransaction?.Commit();
+
+                    // 打印事务提交消息
+                    App.PrintToMiniProfiler(MiniProfilerCategory, "Completed", $"Transaction Completed! Has {hasChangesCount} DbContext Changes.");
+                }
+                catch
+                {
+                    // 回滚事务
+                    if (DbContextTransaction.GetDbTransaction().Connection != null) DbContextTransaction?.Rollback();
+
+                    // 打印事务回滚消息
+                    App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
+
+                    throw;
+                }
+                finally
+                {
+                    if (DbContextTransaction.GetDbTransaction().Connection != null)
+                    {
+                        DbContextTransaction = null;
+                        DbContextTransaction?.Dispose();
+                    }
+                }
+            }
+            else
+            {
+                // 回滚事务
+                if (DbContextTransaction.GetDbTransaction().Connection != null) DbContextTransaction?.Rollback();
+                DbContextTransaction?.Dispose();
+                DbContextTransaction = null;
+
+                // 打印事务回滚消息
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
+            }
+
+            // 关闭所有连接
+            if (withCloseAll) CloseAll();
         }
 
         /// <summary>
@@ -222,6 +280,19 @@ namespace Furion.DatabaseAccessor
                     wrapConn.Close();
                 }
             }
+        }
+
+        /// <summary>
+        /// 设置数据库上下文共享事务
+        /// </summary>
+        /// <param name="transaction"></param>
+        /// <returns></returns>
+        private void ShareTransaction(DbTransaction transaction)
+        {
+            // 跳过第一个数据库上下文并设置共享事务
+            _ = dbContexts
+                   .Where(u => u.Value != null && u.Value.Database.CurrentTransaction == null)
+                   .Select(u => u.Value.Database.UseTransaction(transaction));
         }
     }
 }

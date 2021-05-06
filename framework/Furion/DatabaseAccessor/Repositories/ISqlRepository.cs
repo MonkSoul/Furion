@@ -76,5 +76,10 @@ namespace Furion.DatabaseAccessor
         /// <returns>TRestrainRepository</returns>
         TRestrainRepository Constraint<TRestrainRepository>()
             where TRestrainRepository : class, IPrivateRootRepository;
+
+        /// <summary>
+        /// 确保工作单元（事务）可用
+        /// </summary>
+        void EnsureTransaction();
     }
 }

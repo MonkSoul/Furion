@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Concurrent;
-using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,6 +12,11 @@ namespace Furion.DatabaseAccessor
     /// </summary>
     public interface IDbContextPool
     {
+        /// <summary>
+        /// 数据库上下文事务
+        /// </summary>
+        IDbContextTransaction DbContextTransaction { get; }
+
         /// <summary>
         /// 获取所有数据库上下文
         /// </summary>
@@ -59,21 +64,18 @@ namespace Furion.DatabaseAccessor
         Task<int> SavePoolNowAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 设置数据库上下文共享事务
+        /// 打开事务
         /// </summary>
-        /// <param name="skipCount"></param>
-        /// <param name="transaction"></param>
         /// <returns></returns>
-        void ShareTransaction(int skipCount, DbTransaction transaction);
+        void BeginTransaction();
 
         /// <summary>
-        /// 设置数据库上下文共享事务
+        /// 提交事务
         /// </summary>
-        /// <param name="skipCount"></param>
-        /// <param name="transaction"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        Task ShareTransactionAsync(int skipCount, DbTransaction transaction, CancellationToken cancellationToken = default);
+        /// <param name="isManualSaveChanges"></param>
+        /// <param name="exception"></param>
+        /// <param name="withCloseAll">是否自动关闭所有连接</param>
+        void CommitTransaction(bool isManualSaveChanges = true, Exception exception = default, bool withCloseAll = false);
 
         /// <summary>
         /// 关闭所有数据库链接

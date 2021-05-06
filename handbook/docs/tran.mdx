@@ -31,6 +31,16 @@ import TabItem from "@theme/TabItem";
 
 在 `Furion` 框架中，我们只需要在控制器 Action 中贴 `[UnitOfWork]` 特性即可开启工作单元模式，保证了每一次请求都是一个 `工作单元`，要么同时成功，要么同时失败。
 
+### 9.26.3.2 `EnsureTransaction()` 方法
+
+有些时候我们通过静态类或者其他方式不小心创建了新的 `DbContext` 实例，这时候贴了 `[UnitOfWork]` 也不见起效，这时候可以通过以下方法来确认事务是否有效：
+
+```cs
+repository.EnsureTransaction();
+```
+
+该方法会将当前仓储添加到数据库上下文池中，并确保事务可用。
+
 ### 9.26.3.2 手动管理
 
 <Tabs

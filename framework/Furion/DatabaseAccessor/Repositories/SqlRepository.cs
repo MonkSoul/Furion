@@ -129,5 +129,25 @@ namespace Furion.DatabaseAccessor
 
             return this as TRestrainRepository;
         }
+
+        /// <summary>
+        /// 确保工作单元（事务）可用
+        /// </summary>
+        public virtual void EnsureTransaction()
+        {
+            var httpContext = App.HttpContext;
+
+            // 如果请求上下文为空，则跳过
+            if (httpContext == null) return;
+
+            // 获取数据库上下文
+            var dbContextPool = httpContext.RequestServices.GetService<IDbContextPool>();
+            if (dbContextPool == null) return;
+
+            // 追加上下文
+            dbContextPool.AddToPool(Context);
+            // 开启事务
+            dbContextPool.BeginTransaction();
+        }
     }
 }
