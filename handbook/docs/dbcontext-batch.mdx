@@ -4,9 +4,21 @@ title: 9.9 批量操作
 sidebar_label: 9.9 批量操作
 ---
 
+:::important 批量推荐库
+
+由于 `EFCore.BulkExtensions` 支持的数据库有限，所以推荐杨中科老师的 [https://github.com/yangzhongke/Zack.EFCore.Batch](https://github.com/yangzhongke/Zack.EFCore.Batch)，支持所有主流数据库。
+
+:::
+
 ## 9.9.1 关于批量操作
 
-`Furion` 框架中，默认只提供小数据（100 条 以内）批量数据操作，如果需要更大的数据批量处理，推荐使用第三方包 [EFCore.BulkExtensions](https://github.com/borisdj/EFCore.BulkExtensions)，支持和 `Furion` 无缝衔接（支持的数据库有：SQLServer和SQLite）。
+`Furion` 框架中，默认只提供小数据（100 条 以内）批量数据操作，如果需要更大的数据批量处理，~~推荐使用第三方包 [EFCore.BulkExtensions](https://github.com/borisdj/EFCore.BulkExtensions)，支持和 `Furion` 无缝衔接（支持的数据库有：SQLServer 和 SQLite）~~。
+
+:::warning 特别提醒
+
+以下内容不再推荐，建议使用 `Zack.EFCore.Batch`
+
+:::
 
 ## 9.9.2 `EFCore.BulkExtensions` 使用
 
