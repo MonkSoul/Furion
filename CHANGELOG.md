@@ -1,3 +1,25 @@
+## v2.4.0 （未发布版本）
+
+- **新特性**
+
+  - [新增] 支持自动加载模块化/插件 `.xml` 注释文件 [#I3Q7XY](https://gitee.com/dotnetchina/Furion/issues/I3Q7XY)
+
+- **突破性变化**
+
+- **问题修复**
+
+  - [修复] 通过 `services.AddInject()` 方式注册，模块化/插件不加载 [#I3Q7XH](https://gitee.com/dotnetchina/Furion/issues/I3Q7XH)
+
+- **其他更改**
+
+- **文档变化**
+
+- **问答答疑**
+
+- **不做实现**
+
+---
+
 ## v2.3.0 （当前版本）
 
 - **新特性**

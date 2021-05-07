@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -31,9 +33,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 ConfigureMvcBuilder(options);
             });
 
-            // 载入程序集部件
-            mvcBuilder.AddExternalAssemblyParts();
-
             return mvcBuilder;
         }
 
@@ -41,13 +40,14 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 添加外部程序集部件集合
         /// </summary>
         /// <param name="mvcBuilder">Mvc构建器</param>
+        /// <param name="assemblies"></param>
         /// <returns>Mvc构建器</returns>
-        public static IMvcBuilder AddExternalAssemblyParts(this IMvcBuilder mvcBuilder)
+        public static IMvcBuilder AddExternalAssemblyParts(this IMvcBuilder mvcBuilder, IEnumerable<Assembly> assemblies)
         {
             // 载入程序集部件
-            if (App.ExternalAssemblies.Any())
+            if (assemblies != null && assemblies.Any())
             {
-                foreach (var assembly in App.ExternalAssemblies)
+                foreach (var assembly in assemblies)
                 {
                     mvcBuilder.AddApplicationPart(assembly);
                 }
@@ -83,6 +83,15 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             var partManager = services.FirstOrDefault(s => s.ServiceType == typeof(ApplicationPartManager))?.ImplementationInstance as ApplicationPartManager
                 ?? throw new InvalidOperationException($"`{nameof(AddDynamicApiControllers)}` must be invoked after `{nameof(MvcServiceCollectionExtensions.AddControllers)}`.");
+
+            // 载入模块化/插件程序集部件
+            if (App.ExternalAssemblies.Any())
+            {
+                foreach (var assembly in App.ExternalAssemblies)
+                {
+                    partManager.ApplicationParts.Add(new AssemblyPart(assembly));
+                }
+            }
 
             // 添加控制器特性提供器
             partManager.FeatureProviders.Add(new DynamicApiControllerFeatureProvider());

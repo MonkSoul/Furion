@@ -92,9 +92,14 @@ namespace Furion.SpecificationDocument
             options.DocumentTitle ??= "Specification Api Document";
             options.DefaultGroupName ??= "Default";
             options.FormatAsV2 ??= false;
-            //options.RoutePrefix ??= "api";
+            //options.RoutePrefix ??= "api";    // 可以通过 UseInject() 配置，所以注释
             options.DocExpansionState ??= DocExpansion.List;
-            XmlComments ??= App.Assemblies.Where(u => u.GetName().Name != "Furion").Select(t => t.GetName().Name).ToArray();
+
+            // 加载项目注册和模块化/插件注释
+            var projectXmlComments = App.Assemblies.Where(u => u.GetName().Name != "Furion").Select(t => t.GetName().Name);
+            var externalXmlComments = App.ExternalAssemblies.Any() ? App.Settings.ExternalAssemblies.Select(u => u.EndsWith(".dll") ? u[0..^4] : u) : Array.Empty<string>();
+            XmlComments ??= projectXmlComments.Concat(externalXmlComments).ToArray();
+
             GroupOpenApiInfos ??= new SpecificationOpenApiInfo[]
             {
                 new SpecificationOpenApiInfo()
