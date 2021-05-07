@@ -1,1 +1,0 @@
-(self.webpackChunkfurion=self.webpackChunkfurion||[]).push([[825],{6927:function(s){"use strict";s.exports=JSON.parse('{"allTagsPath":"/blog/tags","slug":"furos","name":"furos","count":3,"permalink":"/blog/tags/furos"}')}}]);
