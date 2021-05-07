@@ -4,25 +4,53 @@ title: 9.9 批量操作
 sidebar_label: 9.9 批量操作
 ---
 
-:::important 批量推荐库
-
-由于 `EFCore.BulkExtensions` 支持的数据库有限，所以推荐杨中科老师的 [https://github.com/yangzhongke/Zack.EFCore.Batch](https://github.com/yangzhongke/Zack.EFCore.Batch)，支持所有主流数据库。
-
-:::
-
 ## 9.9.1 关于批量操作
 
-`Furion` 框架中，默认只提供小数据（100 条 以内）批量数据操作，如果需要更大的数据批量处理，~~推荐使用第三方包 [EFCore.BulkExtensions](https://github.com/borisdj/EFCore.BulkExtensions)，支持和 `Furion` 无缝衔接（支持的数据库有：SQLServer 和 SQLite）~~。
+`Furion` 框架中，默认只提供小数据（100 条 以内）批量数据操作，如果需要更大的数据批量处理，推荐使用第三方包 [Zack.EFCore.Batch](https://github.com/yangzhongke/Zack.EFCore.Batch)，支持和 `Furion` 无缝衔接。
 
-:::warning 特别提醒
+## 9.9.2 `Zack.EFCore.Batch` 使用
 
-以下内容不再推荐，建议使用 `Zack.EFCore.Batch`
+### 9.9.2.1 安装对应的数据库 `Nuget` 包
 
-:::
+- `MSSQL`：`Zack.EFCore.Batch.MSSQL`
+- `MySql`：`Zack.EFCore.Batch.MySQL.Pomelo`
+- `Npgsql`：`Zack.EFCore.Batch.Npgsql`
+- `Oracle`：`Zack.EFCore.Batch.Oracle`
+- `Sqlite`：`Zack.EFCore.Batch.Sqlite`
 
-## 9.9.2 `EFCore.BulkExtensions` 使用
+### 9.9.2.2 注册并配置服务
 
-### 9.9.2.1 常见批量操作
+```cs {3,5}
+services.AddDatabaseAccessor(options =>
+{
+    options.AddDbPool<DefaultDbContext>(providerName: default, optionBuilder: opt =>
+    {
+        opt.UseBatchEF_Sqlite();    // SQlite 数据库包
+    });
+});
+```
+
+### 9.9.2.3 基本使用
+
+```cs
+// 批量更新
+await repository.Context.BatchUpdate<Book>()
+    .Set(b => b.Price, b => b.Price + 3)
+    .Set(b => b.Title, b => s)
+    .Set(b => b.AuthorName,b=>b.Title.Substring(3,2)+b.AuthorName.ToUpper())
+    .Set(b => b.PubTime, b => DateTime.Now)
+    .Where(b => b.Id > n || b.AuthorName.StartsWith("Zack"))
+    .ExecuteAsync();
+
+// 批量删除
+await repository.Context.DeleteRangeAsync<Book>(b => b.Price > n || b.AuthorName == "zack yang");
+```
+
+## 9.9.3 `EFCore.BulkExtensions` 使用
+
+通过 `Nuget` 安装 `EFCore.BulkExtensions` 包即可。
+
+### 9.9.3.1 常见批量操作
 
 ```cs
 // 批量插入
@@ -54,7 +82,7 @@ repository.Context.Truncate<Entity>();
 repository.Context.TruncateAsync<Entity>();
 ```
 
-### 9.9.2.2 查询后批量操作
+### 9.9.3.2 查询后批量操作
 
 ```cs
 // 根据条件批量删除
@@ -72,7 +100,7 @@ var q = repository.Where(a => a.ItemId <= 500);
 int affected = q.BatchUpdate(new Item { Description = "Updated" }, updateColumns);
 ```
 
-## 9.9.3 批量操作性能
+### 9.9.3.3 批量操作性能
 
 | Operations\Rows   |   100,000 EF |   100,000 EFBulk |   1,000,000 EFBulk |
 | ----------------- | -----------: | ---------------: | -----------------: |
