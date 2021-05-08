@@ -716,7 +716,7 @@ services.AddInject(swaggerGenConfigure: gen => {
 ```
 
 ```cs
-UseInject.UseInject(swaggerConfigure: options => {
+services.UseInject(swaggerConfigure: options => {
   // 配置 Swagger Options
 }, swaggerUIConfigure: ui => {
   // 配置 Swagger UI
