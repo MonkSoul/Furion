@@ -137,7 +137,7 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 
 ## 🍎 Features
 
-- **New appearance**: Based on `.NET 5` platform, no historical burden
+- **New appearance**: Based on `.NET5/6` platform, no historical burden
 - **Easy to get started**: only one `Inject()` is needed to complete the configuration
 - **Fast development**: built in rich enterprise application development functions
 - **Very few dependencies**: the framework relies on only two third-party packages

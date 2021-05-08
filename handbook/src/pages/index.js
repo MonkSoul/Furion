@@ -51,7 +51,7 @@ function Banner() {
             让 .NET 开发更简单，更通用，更流行。
           </div>
           <ul className="furion-banner-spec">
-            <li>基于 .NET 5 平台，没有历史包袱</li>
+            <li>基于 .NET5/6 平台，没有历史包袱</li>
             <li>极少依赖，只依赖 两个 第三方包</li>
             <li>极速上手，代码无侵入式</li>
             <li>只需要一个 Inject() 即可完成配置</li>
@@ -81,6 +81,7 @@ function Banner() {
             >
               一分钟上手
             </Link>
+            <div className="furion-version">v2.3.6</div>
           </div>
         </div>
         <div className="furion-banner-item">

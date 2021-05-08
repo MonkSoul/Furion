@@ -432,6 +432,19 @@
   color: #f5f6f7;
 }
 
+.furion-get-start-btn {
+  position: relative;
+}
+
+.furion-version {
+  position: absolute;
+  z-index: 10;
+  margin-top: -53px;
+  margin-left: 210px;
+  color: yellow;
+  font-size: 16px;
+}
+
 @media screen and (max-width: 1024px) {
   .furion-banner-container {
     justify-content: unset;

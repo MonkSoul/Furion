@@ -118,7 +118,7 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 |     [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.ObjectMapper.Mapster)     | Furion.Extras.ObjectMapper.Mapster         |         [![nuget](https://img.shields.io/nuget/v/Furion.Extras.ObjectMapper.Mapster.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.ObjectMapper.Mapster)         | Furion Mapster 拓展包      |
 |  [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.DatabaseAccessor.SqlSugar)   | Furion.Extras.DatabaseAccessor.SqlSugar    |    [![nuget](https://img.shields.io/nuget/v/Furion.Extras.DatabaseAccessor.SqlSugar.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.DatabaseAccessor.SqlSugar)    | Furion SqlSugar 拓展包     |
 |   [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.DatabaseAccessor.Dapper)    | Furion.Extras.DatabaseAccessor.Dapper      |      [![nuget](https://img.shields.io/nuget/v/Furion.Extras.DatabaseAccessor.Dapper.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.DatabaseAccessor.Dapper)      | Furion Dapper 拓展包       |
-|   [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.DatabaseAccessor.MongoDB)   | Furion.Extras.DatabaseAccessor.MongoDB     |     [![nuget](https://img.shields.io/nuget/v/Furion.Extras.DatabaseAccessor.MongoDB.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.DatabaseAccessor.MongoDB)     | Furion MongoDB 拓展包    |
+|   [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.DatabaseAccessor.MongoDB)   | Furion.Extras.DatabaseAccessor.MongoDB     |     [![nuget](https://img.shields.io/nuget/v/Furion.Extras.DatabaseAccessor.MongoDB.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.DatabaseAccessor.MongoDB)     | Furion MongoDB 拓展包      |
 |       [![nuget](https://shields.io/badge/-Nuget-blue?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.Logging.Serilog)        | Furion.Extras.Logging.Serilog              |              [![nuget](https://img.shields.io/nuget/v/Furion.Extras.Logging.Serilog.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.Logging.Serilog)              | Furion Serilog 拓展包      |
 
 ## 🍄 框架脚手架
@@ -137,7 +137,7 @@ docker run --name furion -p 5000:80 furion:v1.4.3
 
 ## 🍎 框架特点
 
-- 全新面貌：基于 `.NET 5` 平台，没有历史包袱
+- 全新面貌：基于 `.NET5/6` 平台，没有历史包袱
 - 极易入门：只需要一个 `Inject()` 即可完成配置
 - 极速开发：内置丰富的企业应用开发功能
 - 极少依赖：框架只依赖两个第三方包
