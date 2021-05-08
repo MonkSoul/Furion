@@ -770,6 +770,22 @@ public class TestRequest
 
 :::
 
+### 6.5.23 `Swagger` 出现 `CORS` 问题解决
+
+如果 `Swagger` 出现以下错误，如图：
+
+<img src={useBaseUrl("img/swerror.png")} />
+
+则需要添加以下配置：
+
+```json {2,3}
+{
+  "SpecificationDocumentSettings": {
+    "HideServers": true
+  }
+}
+```
+
 ## 6.6 `SpecificationDocumentSettings` 配置
 
 除了上述例子外，`Furion` 提供了一些配置选项，如：
@@ -806,27 +822,28 @@ public class TestRequest
 配置示例：
 
 ```json
-({
-  "Group": "Default",
-  "Title": "数据库操作演示",
-  "Description": "这里列举了常见数据库操作方法，方便大家学习。",
-  "Version": "1.0.0",
-  "TermsOfService": "https://furion.pro",
-  "Contact": {
-    "Name": "百小僧",
-    "Url": "https://gitee.com/monksoul",
-    "Email": "monksoul@outlook.com"
-  },
-  "License": {
-    "Name": "Apache-2.0",
-    "Url": "https://gitee.com/dotnetchina/Furion/blob/rc1/LICENSE"
-  }
-},
 {
-  "Group": "Role",
-  "Title": "角色管理（RBAC）",
-  "Order": 1
-})
+  "SpecificationDocumentSettings": {
+    "GroupOpenApiInfos": [
+      {
+        "Group": "Group1",
+        "Title": "分组标题",
+        "Description": "这里是分组描述",
+        "Version": "版本号",
+        "TermsOfService": "https://furion.pro",
+        "Contact": {
+          "Name": "百小僧",
+          "Url": "https://gitee.com/monksoul",
+          "Email": "monksoul@outlook.com"
+        },
+        "License": {
+          "Name": "Apache-2.0",
+          "Url": "https://gitee.com/dotnetchina/Furion/blob/alpha/LICENSE"
+        }
+      }
+    ]
+  }
+}
 ```
 
 ## 6.7 统一返回值模型/规范化结果/API 返回值
