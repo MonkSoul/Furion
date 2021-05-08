@@ -9,6 +9,7 @@
 - **问题修复**
 
   - [修复] 通过 `services.AddInject()` 方式注册，模块化/插件不加载 [#I3Q7XH](https://gitee.com/dotnetchina/Furion/issues/I3Q7XH)
+  - [修复] 种子数据返回 `null` 报空异常 [#I3QCM5](https://gitee.com/dotnetchina/Furion/issues/I3QCM5)
 
 - **其他更改**
 
@@ -17,6 +18,8 @@
 - **问答答疑**
 
 - **不做实现**
+
+  - [废弃] 定时任务自定义 `Failed` 事件 [#I3QCM2](https://gitee.com/dotnetchina/Furion/issues/I3QCM2)
 
 ---
 

@@ -341,7 +341,9 @@ namespace Furion.DatabaseAccessor
                 var instance = Activator.CreateInstance(entitySeedDataType);
                 var hasDataMethod = entitySeedDataType.GetMethod("HasData");
 
-                var seedData = ((IList)hasDataMethod.Invoke(instance, new object[] { dbContext, dbContextLocator })).Cast<object>();
+                var seedData = ((IList)hasDataMethod?.Invoke(instance, new object[] { dbContext, dbContextLocator }))?.Cast<object>();
+                if (seedData == null) continue;
+
                 data.AddRange(seedData);
             }
 
