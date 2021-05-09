@@ -20,6 +20,7 @@
 - **不做实现**
 
   - [废弃] 定时任务自定义 `Failed` 事件 [#I3QCM2](https://gitee.com/dotnetchina/Furion/issues/I3QCM2)
+  - [废弃] 模块化动态生成数据库表 [#I3QH3G](https://gitee.com/dotnetchina/Furion/issues/I3QH3G)
 
 ---
 
