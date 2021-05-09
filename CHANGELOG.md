@@ -15,7 +15,7 @@
 
 - **其他更改**
 
-  - [优化] `Furion` 框架底层性能，减少内存占用，提高应用初始化速度
+  - [优化] `Furion` 框架底层性能，减少内存占用，提高应用初始化速度 [92f8cc1](https://gitee.com/dotnetchina/Furion/commit/92f8cc1)
 
 - **文档变化**
 
