@@ -53,7 +53,7 @@ namespace Furion.CorsAccessor
         /// <param name="configuration"></param>
         public void PostConfigure(CorsAccessorSettingsOptions options, IConfiguration configuration)
         {
-            PolicyName ??= "FurionCorsAccessor";
+            PolicyName ??= "App.Cors.Policy";
             WithOrigins ??= Array.Empty<string>();
             AllowCredentials ??= true;
         }

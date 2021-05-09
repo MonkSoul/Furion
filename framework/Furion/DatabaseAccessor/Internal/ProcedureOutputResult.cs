@@ -36,7 +36,7 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 输出值
         /// </summary>
-        public List<ProcedureOutputValue> OutputValues { get; set; }
+        public IEnumerable<ProcedureOutputValue> OutputValues { get; set; }
 
         /// <summary>
         /// 返回值

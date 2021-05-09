@@ -6,6 +6,8 @@
 
 - **突破性变化**
 
+  - [新增] `IJsonSerializerProvider.GetSerializerOptions()` 接口方法 [#I3QIJN](https://gitee.com/dotnetchina/Furion/issues/I3QIJN)
+
 - **问题修复**
 
   - [修复] 通过 `services.AddInject()` 方式注册，模块化/插件不加载 [#I3Q7XH](https://gitee.com/dotnetchina/Furion/issues/I3Q7XH)
@@ -13,7 +15,11 @@
 
 - **其他更改**
 
+  - [优化] `Furion` 框架底层性能，减少内存占用，提高应用初始化速度
+
 - **文档变化**
+
+  - [更新] JSON 序列化文档、规范化结果文档、数据库上下文文档
 
 - **问答答疑**
 

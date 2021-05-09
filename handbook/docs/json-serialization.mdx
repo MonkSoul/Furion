@@ -55,6 +55,12 @@ namespace Furion.JsonSerialization
         /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         T Deserialize<T>(string json, object jsonSerializerOptions = default);
+
+        /// <summary>
+        /// 返回读取全局配置的 JSON 选项
+        /// </summary>
+        /// <returns></returns>
+        object GetSerializerOptions();
     }
 }
 ```
@@ -72,7 +78,7 @@ namespace Furion.JsonSerialization
 `Furion` 框架提供了两种方式获取 `IJsonSerializerProvider` 实例：
 
 - 构造函数注入 `IJsonSerializerProvider`
-- 静态类 `JSON.GetJsonSerializer()` 方式
+- 静态类 `JSON.GetJsonSerializer()` 方式，**查看 [JSON 静态类](./global/json.mdx)**
 
 如：
 
@@ -194,7 +200,7 @@ namespace Furion.Core
         /// <returns></returns>
         public string Serialize(object value, object jsonSerializerOptions = null)
         {
-            return JsonConvert.SerializeObject(value, jsonSerializerOptions as JsonSerializerSettings);
+            return JsonConvert.SerializeObject(value, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerSettings);
         }
 
         /// <summary>
@@ -206,7 +212,16 @@ namespace Furion.Core
         /// <returns></returns>
         public T Deserialize<T>(string json, object jsonSerializerOptions = null)
         {
-            return JsonConvert.DeserializeObject<T>(json, jsonSerializerOptions as JsonSerializerSettings);
+            return JsonConvert.DeserializeObject<T>(json, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerSettings);
+        }
+
+        /// <summary>
+        /// 返回读取全局配置的 JSON 选项
+        /// </summary>
+        /// <returns></returns>
+        public object GetSerializerOptions()
+        {
+            return App.GetOptions<MvcNewtonsoftJsonOptions>()?.SerializerSettings;
         }
     }
 }

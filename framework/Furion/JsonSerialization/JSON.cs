@@ -43,5 +43,17 @@ namespace Furion.JsonSerialization
         {
             return GetJsonSerializer(serviceProvider).Deserialize<T>(json, jsonSerializerOptions);
         }
+
+        /// <summary>
+        /// 获取 JSON 配置选项
+        /// </summary>
+        /// <typeparam name="TOptions"></typeparam>
+        /// <param name="serviceProvider"></param>
+        /// <returns></returns>
+        public static TOptions GetSerializerOptions<TOptions>(IServiceProvider serviceProvider = default)
+            where TOptions : class
+        {
+            return GetJsonSerializer(serviceProvider).GetSerializerOptions() as TOptions;
+        }
     }
 }

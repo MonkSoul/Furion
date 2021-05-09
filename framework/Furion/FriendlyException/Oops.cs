@@ -268,12 +268,11 @@ namespace Furion.FriendlyException
         {
             // 查找所有公开的枚举贴有 [ErrorCodeType] 特性的类型
             var errorCodeTypes = App.EffectiveTypes
-                .Where(u => u.IsDefined(typeof(ErrorCodeTypeAttribute), true) && u.IsEnum)
-                .ToList();
+                .Where(u => u.IsDefined(typeof(ErrorCodeTypeAttribute), true) && u.IsEnum);
 
             // 获取错误代码提供器中定义的类型
             var errorCodeTypeProvider = App.GetService<IErrorCodeTypeProvider>();
-            if (errorCodeTypeProvider is { Definitions: not null }) errorCodeTypes.AddRange(errorCodeTypeProvider.Definitions);
+            if (errorCodeTypeProvider is { Definitions: not null }) errorCodeTypes = errorCodeTypes.Concat(errorCodeTypeProvider.Definitions);
 
             return errorCodeTypes.Distinct();
         }

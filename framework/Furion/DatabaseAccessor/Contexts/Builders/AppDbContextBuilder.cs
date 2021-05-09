@@ -21,12 +21,12 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 数据库实体相关类型
         /// </summary>
-        private static readonly List<Type> EntityCorrelationTypes;
+        private static readonly IEnumerable<Type> EntityCorrelationTypes;
 
         /// <summary>
         /// 数据库函数方法集合
         /// </summary>
-        private static readonly List<MethodInfo> DbFunctionMethods;
+        private static readonly IEnumerable<MethodInfo> DbFunctionMethods;
 
         /// <summary>
         /// 创建数据库实体方法
@@ -40,10 +40,9 @@ namespace Furion.DatabaseAccessor
         {
             // 扫描程序集，获取数据库实体相关类型
             EntityCorrelationTypes = App.EffectiveTypes.Where(t => (typeof(IPrivateEntity).IsAssignableFrom(t) || typeof(IPrivateModelBuilder).IsAssignableFrom(t))
-                && t.IsClass && !t.IsAbstract && !t.IsGenericType && !t.IsInterface && !t.IsDefined(typeof(NonAutomaticAttribute), true))
-                .ToList();
+                && t.IsClass && !t.IsAbstract && !t.IsGenericType && !t.IsInterface && !t.IsDefined(typeof(NonAutomaticAttribute), true));
 
-            if (EntityCorrelationTypes.Count > 0)
+            if (EntityCorrelationTypes.Any())
             {
                 DbContextLocatorCorrelationTypes = new ConcurrentDictionary<Type, DbContextCorrelationType>();
 
@@ -54,7 +53,7 @@ namespace Furion.DatabaseAccessor
             // 查找所有数据库函数，必须是公开静态方法，且所在父类也必须是公开静态方法
             DbFunctionMethods = App.EffectiveTypes
                 .Where(t => t.IsAbstract && t.IsSealed && t.IsClass && !t.IsDefined(typeof(NonAutomaticAttribute), true))
-                .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => !m.IsDefined(typeof(SkipScanAttribute), false) && m.IsDefined(typeof(QueryableFunctionAttribute), true))).ToList();
+                .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => !m.IsDefined(typeof(SkipScanAttribute), false) && m.IsDefined(typeof(QueryableFunctionAttribute), true)));
         }
 
         /// <summary>
@@ -98,8 +97,8 @@ namespace Furion.DatabaseAccessor
                 LoadModelBuilderOnCreated(modelBuilder, entityBuilder, dbContext, dbContextLocator, dbContextCorrelationType.ModelBuilderFilterInstances);
             }
 
-            // 配置数据库函数
-            EntityFunctions: ConfigureDbFunctions(modelBuilder, dbContextLocator);
+        // 配置数据库函数
+        EntityFunctions: ConfigureDbFunctions(modelBuilder, dbContextLocator);
         }
 
         /// <summary>

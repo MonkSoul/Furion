@@ -26,7 +26,7 @@ namespace Furion.DatabaseAccessor
             where TEntity : new()
         {
             var totalCount = entities.Count();
-            var items = entities.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            var items = entities.Skip((pageIndex - 1) * pageSize).Take(pageSize).AsEnumerable();
             var totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
 
             return new PagedList<TEntity>

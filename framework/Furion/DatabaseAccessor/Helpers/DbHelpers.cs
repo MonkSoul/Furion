@@ -355,7 +355,7 @@ namespace Furion.DatabaseAccessor
         /// <param name="parameters">参数</param>
         /// <param name="outputValues">输出参数</param>
         /// <param name="returnValue">返回值</param>
-        private static void ReadOuputValue(string providerName, DbParameter[] parameters, out List<ProcedureOutputValue> outputValues, out object returnValue)
+        private static void ReadOuputValue(string providerName, DbParameter[] parameters, out IEnumerable<ProcedureOutputValue> outputValues, out object returnValue)
         {
             // 查询所有OUTPUT值
             outputValues = parameters
@@ -364,7 +364,7 @@ namespace Furion.DatabaseAccessor
                {
                    Name = FixSqlParameterPlaceholder(providerName, u.ParameterName, false),
                    Value = u.Value
-               }).ToList();
+               });
 
             // 查询返回值
             returnValue = parameters.FirstOrDefault(u => u.Direction == ParameterDirection.ReturnValue)?.Value;

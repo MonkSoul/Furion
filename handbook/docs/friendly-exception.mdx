@@ -528,17 +528,19 @@ namespace Furion.Application
 
 参见 [【全球化和本地化（多语言）】](./local-language) 章节
 
-## 7.13 异常模型提供器
+## 7.13 规范化结果异常处理
 
-```cs {16,17}
+```cs {18-19}
+using Furion.DataValidation;
 using Furion.DependencyInjection;
-using Furion.Utilities;
+using Furion.JsonSerialization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Furion.UnifyResult
@@ -557,7 +559,7 @@ namespace Furion.UnifyResult
         public IActionResult OnException(ExceptionContext context)
         {
             // 解析异常信息
-            var (StatusCode, ErrorCode, Errors) = UnifyContext.GetExceptionMetadata(context);
+            var (StatusCode, _, Errors) = UnifyContext.GetExceptionMetadata(context);
 
             return new JsonResult(new RESTfulResult<object>
             {
@@ -641,7 +643,7 @@ namespace Furion.UnifyResult
                         Errors = "401 Unauthorized",
                         Extras = UnifyContext.Take(),
                         Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-                    });
+                    }, JSON.GetSerializerOptions<JsonSerializerOptions>());
                     break;
                 // 处理 403 状态码
                 case StatusCodes.Status403Forbidden:
@@ -653,7 +655,7 @@ namespace Furion.UnifyResult
                         Errors = "403 Forbidden",
                         Extras = UnifyContext.Take(),
                         Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-                    });
+                    }, JSON.GetSerializerOptions<JsonSerializerOptions>());
                     break;
 
                 default:

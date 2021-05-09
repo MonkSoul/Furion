@@ -102,10 +102,7 @@ namespace Furion.EventBus
             if (!MessageHandlerQueues.ContainsKey(messageId)) MessageHandlerQueues.TryAdd(messageId, messageHandlers);
             else
             {
-                var combineMessageHandlers = MessageHandlerQueues[messageId].ToList();
-                combineMessageHandlers.AddRange(messageHandlers);
-
-                MessageHandlerQueues[messageId] = combineMessageHandlers.ToArray();
+                MessageHandlerQueues[messageId] = MessageHandlerQueues[messageId].Concat(messageHandlers).ToArray();
             }
         }
     }

@@ -21,5 +21,11 @@
         /// <param name="jsonSerializerOptions"></param>
         /// <returns></returns>
         T Deserialize<T>(string json, object jsonSerializerOptions = default);
+
+        /// <summary>
+        /// 返回读取全局配置的 JSON 选项
+        /// </summary>
+        /// <returns></returns>
+        object GetSerializerOptions();
     }
 }

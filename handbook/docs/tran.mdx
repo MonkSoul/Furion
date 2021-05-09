@@ -31,7 +31,7 @@ import TabItem from "@theme/TabItem";
 
 在 `Furion` 框架中，我们只需要在控制器 Action 中贴 `[UnitOfWork]` 特性即可开启工作单元模式，保证了每一次请求都是一个 `工作单元`，要么同时成功，要么同时失败。
 
-### 9.26.3.2 `EnsureTransaction()` 方法
+### 9.26.3.2 `EnsureTransaction()` 方法 ✨
 
 有些时候我们通过静态类或者其他方式不小心创建了新的 `DbContext` 实例，这时候贴了 `[UnitOfWork]` 也不见起效，这时候可以通过以下方法来确认事务是否有效：
 
@@ -48,7 +48,7 @@ repository.EnsureTransaction();
   values={[
     { label: "示例一", value: "one" },
     { label: "示例二", value: "two" },
-    { label: "示例三", value: "three" },
+    { label: "示例三（分布式）", value: "three" },
   ]}
 >
   <TabItem value="one">
@@ -84,12 +84,12 @@ using (var transaction = _testRepository.Database.BeginTransaction())
   <TabItem value="two">
 
 ```cs
-var options = new DbContextOptionsBuilder<HoaDbContext>()
+var options = new DbContextOptionsBuilder<DefaultDbContext>()
     .UseSqlServer(new SqlConnection(connectionString))
     .Options;
 
 // 创建连接字符串
-using (var context1 = new HoaDbContext(options))
+using (var context1 = new DefaultDbContext(options))
 {
     // 开启事务
     using (var transaction = context1.Database.BeginTransaction())
@@ -103,7 +103,7 @@ using (var context1 = new HoaDbContext(options))
             context1.SaveChanges();
 
             // 创建新的连接对象
-            using (var context2 = new HoaDbContext(options))
+            using (var context2 = new DefaultDbContext(options))
             {
                 // 共享连接事务
                 context2.Database.UseTransaction(transaction.GetDbTransaction());
@@ -128,11 +128,9 @@ using (var context1 = new HoaDbContext(options))
   </TabItem>
   <TabItem value="three">
 
-```cs
+```cs {1-2}
 // 开启分布式事务
-using (var scope = new TransactionScope(
-    TransactionScopeOption.Required,
-    new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
+using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.ReadCommitted }))
 {
     using (var connection = new SqlConnection(connectionString))
     {

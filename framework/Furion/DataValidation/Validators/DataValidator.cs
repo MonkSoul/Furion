@@ -247,11 +247,11 @@ namespace Furion.DataValidation
         {
             // 扫描所有公开的的枚举且贴有 [ValidationMessageType] 特性
             var validationMessageTypes = App.EffectiveTypes
-                .Where(u => u.IsDefined(typeof(ValidationMessageTypeAttribute), true) && u.IsEnum).ToList();
+                .Where(u => u.IsDefined(typeof(ValidationMessageTypeAttribute), true) && u.IsEnum);
 
             // 加载自定义验证消息类型提供器
             var validationMessageTypeProvider = App.GetService<IValidationMessageTypeProvider>();
-            if (validationMessageTypeProvider is { Definitions: not null }) validationMessageTypes.AddRange(validationMessageTypeProvider.Definitions);
+            if (validationMessageTypeProvider is { Definitions: not null }) validationMessageTypes = validationMessageTypes.Concat(validationMessageTypeProvider.Definitions);
 
             return validationMessageTypes.Distinct();
         }

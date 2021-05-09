@@ -4,6 +4,8 @@ title: 2.2 官方脚手架
 sidebar_label: 2.2 官方脚手架
 ---
 
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
 :::important 特别说明
 
 **脚手架不是安装在项目中的！** 而是通过 `CMD` 或 `PowerShell` 安装到操作系统中的。
@@ -29,7 +31,7 @@ sidebar_label: 2.2 官方脚手架
 打开 `CMD` 或 `Powershell` 执行模板安装命令：
 
 ```bash
-dotnet new --install Furion.Template.Mvc::2.3.6
+dotnet new --install Furion.Template.Mvc::2.3.7
 ```
 
 ## 2.2.3 使用脚手架
@@ -58,7 +60,25 @@ dotnet new --install Furion.Template.Mvc::2.x.x
 
 不带版本号总是安装最新的版本。
 
-## 2.2.5 反馈与建议
+## 2.2.5 `Visual Studio` 集成
+
+通过命令安装脚手架后，升级 `Visual Studio` 到最新版可使用可视化方式创建哦。
+
+<img src={useBaseUrl("img/ksh.png")} />
+
+## 2.2.6 搭建脚手架
+
+脚手架可以极大的提高我们搭建新项目的速度，推荐两篇文章给大家学习：
+
+[https://www.cnblogs.com/laozhang-is-phi/p/10205495.html](https://www.cnblogs.com/laozhang-is-phi/p/10205495.html)
+
+[https://www.cnblogs.com/catcher1994/p/10061470.html](https://www.cnblogs.com/catcher1994/p/10061470.html)
+
+**推荐直接拷贝 `Furion` 脚手架文件夹进行修改，可避免很多问题。**
+
+[Furion 脚手架源码](https://gitee.com/dotnetchina/Furion/tree/master/templates)
+
+## 2.2.7 反馈与建议
 
 :::note 与我们交流
 

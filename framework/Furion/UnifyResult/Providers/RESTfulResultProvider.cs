@@ -1,11 +1,13 @@
 using Furion.DataValidation;
 using Furion.DependencyInjection;
+using Furion.JsonSerialization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Furion.UnifyResult
@@ -108,7 +110,7 @@ namespace Furion.UnifyResult
                         Errors = "401 Unauthorized",
                         Extras = UnifyContext.Take(),
                         Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-                    });
+                    }, JSON.GetSerializerOptions<JsonSerializerOptions>());
                     break;
                 // 处理 403 状态码
                 case StatusCodes.Status403Forbidden:
@@ -120,7 +122,7 @@ namespace Furion.UnifyResult
                         Errors = "403 Forbidden",
                         Extras = UnifyContext.Take(),
                         Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-                    });
+                    }, JSON.GetSerializerOptions<JsonSerializerOptions>());
                     break;
 
                 default:

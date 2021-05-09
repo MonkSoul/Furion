@@ -18,8 +18,7 @@ namespace Furion.JsonSerialization
         /// <returns></returns>
         public string Serialize(object value, object jsonSerializerOptions = null)
         {
-            return JsonSerializer.Serialize(value, (jsonSerializerOptions as JsonSerializerOptions)
-                ?? App.GetOptions<JsonOptions>().JsonSerializerOptions);
+            return JsonSerializer.Serialize(value, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerOptions);
         }
 
         /// <summary>
@@ -31,8 +30,16 @@ namespace Furion.JsonSerialization
         /// <returns></returns>
         public T Deserialize<T>(string json, object jsonSerializerOptions = null)
         {
-            return JsonSerializer.Deserialize<T>(json, (jsonSerializerOptions as JsonSerializerOptions)
-                ?? App.GetOptions<JsonOptions>().JsonSerializerOptions);
+            return JsonSerializer.Deserialize<T>(json, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerOptions);
+        }
+
+        /// <summary>
+        /// 返回读取全局配置的 JSON 选项
+        /// </summary>
+        /// <returns></returns>
+        public object GetSerializerOptions()
+        {
+            return App.GetOptions<JsonOptions>()?.JsonSerializerOptions;
         }
     }
 }

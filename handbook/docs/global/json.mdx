@@ -27,3 +27,9 @@ var str = JSON.Serialize(obj, [options]);
 ```cs
 var obj = JSON.Deserialize<T>(str, [options]);
 ```
+
+## 10.4 获取全局配置
+
+```cs
+var options = JSON.GetSerializerOptions<TOption>();
+```
