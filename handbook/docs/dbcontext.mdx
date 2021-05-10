@@ -380,6 +380,7 @@ public class JobService : BackgroundService
 - `EnabledEntityStateTracked`：启用实体跟踪，默认 `true`，**在构造函数中配置**
 - `EnabledEntityChangedListener`：启用实体数据更改监听，默认 `false`，**在构造函数中配置**
 - `Tenant`：默认内置多租户
+- `FailedAutoRollback`：是否启用保存失败后事务自动回滚，默认 `true`，可以在任何地方配置
 
 ## 9.1.12 配置实体 `懒加载`
 

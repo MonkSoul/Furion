@@ -3,6 +3,7 @@
 - **新特性**
 
   - [新增] 支持自动加载模块化/插件 `.xml` 注释文件 [#I3Q7XY](https://gitee.com/dotnetchina/Furion/issues/I3Q7XY)
+  - [新增] `AppDbContext.FailedAutoRollback` 属性，可配置事务是否自动回滚 [#I3QOUS](https://gitee.com/dotnetchina/Furion/issues/I3QOUS)
 
 - **突破性变化**
 

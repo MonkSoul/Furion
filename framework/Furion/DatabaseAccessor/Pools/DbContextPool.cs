@@ -88,12 +88,12 @@ namespace Furion.DatabaseAccessor
                     var canAdd = failedDbContexts.TryAdd(instanceId, dbContext);
                     if (canAdd)
                     {
-                        var context = s as DbContext;
+                        dynamic context = s as DbContext;
 
                         // 当前事务
                         var database = context.Database;
                         var currentTransaction = database.CurrentTransaction;
-                        if (currentTransaction != null)
+                        if (currentTransaction != null && context.FailedAutoRollback == true)
                         {
                             // 获取数据库连接信息
                             var connection = database.GetDbConnection();

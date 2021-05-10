@@ -114,6 +114,11 @@ namespace Furion.DatabaseAccessor
         public virtual bool EnabledEntityChangedListener { get; protected set; } = false;
 
         /// <summary>
+        /// 保存失败自动回滚
+        /// </summary>
+        public virtual bool FailedAutoRollback { get; protected set; } = true;
+
+        /// <summary>
         /// 获取租户信息
         /// </summary>
         public virtual Tenant Tenant

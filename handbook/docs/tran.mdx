@@ -75,7 +75,7 @@ using (var transaction = _testRepository.Database.BeginTransaction())
      catch (Exception)
      {
         // 回滚事务
-        transaction.RollBack();
+        // transaction.RollBack(); // 新版本自动回滚了
      }
 }
 ```
@@ -119,7 +119,7 @@ using (var context1 = new DefaultDbContext(options))
         catch (Exception)
         {
             // 回滚事务
-            transaction.RollBack();
+            // transaction.RollBack(); // 新版本自动回滚了
         }
     }
 }
