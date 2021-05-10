@@ -24,6 +24,8 @@
 
 - **问答答疑**
 
+  - [答疑] `InsertOrUpdateNowAsync` 报错 [#I3QKO5](https://gitee.com/dotnetchina/Furion/issues/I3QKO5)
+
 - **不做实现**
 
   - [废弃] 定时任务自定义 `Failed` 事件 [#I3QCM2](https://gitee.com/dotnetchina/Furion/issues/I3QCM2)
