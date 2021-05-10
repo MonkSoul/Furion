@@ -22,6 +22,12 @@ sidebar_label: 9. JWT 配置
   - `ClockSkew`：过期时间容错值，`long` 类型，单位秒，默认 `5` 秒
   - `Algorithm`：加密算法，`string` 类型，默认 `SecurityAlgorithms.HmacSha256`
 
+:::important 温馨提示
+
+目前支持的`加密算法`，详情请查阅[SecurityAlgorithms](https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet/blob/dev/src/Microsoft.IdentityModel.Tokens/SecurityAlgorithms.cs)
+
+:::
+
 ## 9.3 配置示例
 
 ```json {4,6,8}
