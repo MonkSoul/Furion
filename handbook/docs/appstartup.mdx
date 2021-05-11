@@ -256,7 +256,29 @@ namespace Furion.Web.Core
 
 这样，后续更换 `Web 应用层` 也无需重新配置 `Startup.cs`
 
-## 3.4 关于 `appsettings.json`
+## 3.4 构造函数注入说明
+
+`AppStartup` 的派生类并未提供依赖注入的功能，也即是无法通过构造函数进行注入服务。原因是 `AppStartup` 是个空类，目的是用来查找 `Startup` 的。
+
+那如何像 `Startup.cs` 一样使用服务呢？
+
+- 获取配置 `IConfiguration` 实例：通过 `App.Configuration`
+- 解析服务：通过 `App.GetService<TService>()`
+
+:::important 关于 `Configure` 方法注入
+
+`AppStartup` 针对 `Configure` 方法提供了参数解析注入功能，也就是只要在方法中声明接口参数即可自动注入，如：
+
+```cs {1,2}
+// app 和 env 会自动注入
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+}
+```
+
+:::
+
+## 3.5 关于 `appsettings.json`
 
 在默认情况下，`ASP.NET Core` 配置放在 `appsettings.json` 中配置，但是这样的方式和 `Startup.cs` 配置一样的道理，一旦我们更换了 `Web 应用层`，那么 `appsettings.json` 又要重新配置一次。
 
@@ -299,7 +321,7 @@ namespace Furion.Web.Core
 
 :::
 
-## 3.5 神奇的 `Inject()`
+## 3.6 神奇的 `Inject()`
 
 `Inject()` 方法是 `Furion` 框架提供的最小侵入式的方法，可以让任何 `ASP.NET Core` Web 项目瞬间支持所有 `Furion` 框架特性。
 
@@ -365,7 +387,7 @@ namespace Furion.Web.Entry
 
 非常简单吧。我们后续创建任何 `MVC`，`RazorPages`，`Blazor` 项目只需要添加 `Furion.Web.Core` 引用和调用 `Inject()` 即可。
 
-## 3.6 反馈与建议
+## 3.7 反馈与建议
 
 :::note 与我们交流
 
