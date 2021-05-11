@@ -74,7 +74,7 @@ namespace Furion.ClayObject
         /// <returns></returns>
         public static dynamic Object(object obj)
         {
-            return Parse(JSON.Serialize(obj));
+            return Parse(Serialize(obj));
         }
 
         /// <summary>

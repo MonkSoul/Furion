@@ -13,6 +13,7 @@
 
   - [修复] 通过 `services.AddInject()` 方式注册，模块化/插件不加载 [#I3Q7XH](https://gitee.com/dotnetchina/Furion/issues/I3Q7XH)
   - [修复] 种子数据返回 `null` 报空异常 [#I3QCM5](https://gitee.com/dotnetchina/Furion/issues/I3QCM5)
+  - [修复] 通过 `Clay.Object` 创建粘土对象后属性变小写问题 [#I3QRV3](https://gitee.com/dotnetchina/Furion/issues/I3QRV3)
 
 - **其他更改**
 
