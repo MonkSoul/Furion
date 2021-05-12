@@ -33,6 +33,7 @@
   - [废弃] 定时任务自定义 `Failed` 事件 [#I3QCM2](https://gitee.com/dotnetchina/Furion/issues/I3QCM2)
   - [废弃] 模块化动态生成数据库表 [#I3QH3G](https://gitee.com/dotnetchina/Furion/issues/I3QH3G)
   - [废弃] 建议事件总线新增 MQ 支持 [#I3QWZ4](https://gitee.com/dotnetchina/Furion/issues/I3QWZ4)
+  - [废弃] 重构规范化整个模块代码 [#I3NFT7](https://gitee.com/dotnetchina/Furion/issues/I3NFT7)
 
 ---
 
