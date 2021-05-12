@@ -188,6 +188,9 @@ namespace Furion.DatabaseAccessor
             // 判断 dbContextPool 中是否包含DbContext，如果是，则使用第一个数据库上下文开启事务，并应用于其他数据库上下文
             if (dbContexts.Any())
             {
+                // 如果共享事务不为空，则直接共享
+                if (DbContextTransaction != null) goto ShareTransaction;
+
                 // 先判断是否已经有上下文开启了事务
                 var transactionDbContext = dbContexts.FirstOrDefault(u => u.Value.Database.CurrentTransaction != null);
                 if (transactionDbContext.Value != null)
@@ -201,7 +204,7 @@ namespace Furion.DatabaseAccessor
                 }
 
                 // 共享事务
-                ShareTransaction(DbContextTransaction.GetDbTransaction());
+                ShareTransaction: ShareTransaction(DbContextTransaction.GetDbTransaction());
             }
         }
 

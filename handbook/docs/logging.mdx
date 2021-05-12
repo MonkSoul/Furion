@@ -158,7 +158,7 @@ namespace Furion.Web.Entry
 .UseSerilogDefault(config =>
 {
     config.WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}")
-          .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true);
+          .WriteTo.File("log.log", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true);
 });
 ```
 
@@ -182,7 +182,7 @@ namespace Furion.Web.Entry
          //.MinimumLevel.Override("Microsoft", LogEventLevel.Fatal)
          //.Enrich.FromLogContext()
          .WriteTo.Console(outputTemplate: outputTemplate)
-         .WriteTo.File($"_log/{date}/.log",
+         .WriteTo.File($"_log/{date}/application.log",
                 outputTemplate: outputTemplate,
                  restrictedToMinimumLevel: LogEventLevel.Information,
                  rollingInterval: RollingInterval.Day,//日志按日保存，这样会在文件名称后自动加上日期后缀
