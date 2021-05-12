@@ -8,7 +8,46 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 **此章节只记录重大版本更新日志，小迭代版本不做更新。**想了解更多更新内容，可查阅 [CHANGELOG.md](https://gitee.com/dotnetchina/Furion/blob/master/CHANGELOG.md)
 
-## v2.3.0 （当前版本）
+## v2.4.0 （当前版本）
+
+- **新特性**
+
+  - [新增] 支持自动加载模块化/插件 `.xml` 注释文件 [#I3Q7XY](https://gitee.com/dotnetchina/Furion/issues/I3Q7XY)
+  - [新增] `AppDbContext.FailedAutoRollback` 属性，可配置事务是否自动回滚 [#I3QOUS](https://gitee.com/dotnetchina/Furion/issues/I3QOUS)
+
+- **突破性变化**
+
+  - [升级] **.NET 5 SDK 为 5.0.6 版本**
+  - [新增] `IJsonSerializerProvider.GetSerializerOptions()` 接口方法 [#I3QIJN](https://gitee.com/dotnetchina/Furion/issues/I3QIJN)
+
+- **问题修复**
+
+  - [修复] 通过 `services.AddInject()` 方式注册，模块化/插件不加载 [#I3Q7XH](https://gitee.com/dotnetchina/Furion/issues/I3Q7XH)
+  - [修复] 种子数据返回 `null` 报空异常 [#I3QCM5](https://gitee.com/dotnetchina/Furion/issues/I3QCM5)
+  - [修复] 通过 `Clay.Object` 创建粘土对象后属性变小写问题 [#I3QRV3](https://gitee.com/dotnetchina/Furion/issues/I3QRV3)
+
+- **其他更改**
+
+  - [优化] `Furion` 框架底层性能，减少内存占用，提高应用初始化速度 [92f8cc1](https://gitee.com/dotnetchina/Furion/commit/92f8cc1)
+
+- **文档变化**
+
+  - [更新] JSON 序列化文档、规范化结果文档、数据库上下文文档
+
+- **问答答疑**
+
+  - [答疑] `InsertOrUpdateNowAsync` 报错 [#I3QKO5](https://gitee.com/dotnetchina/Furion/issues/I3QKO5)
+
+- **不做实现**
+
+  - [废弃] 定时任务自定义 `Failed` 事件 [#I3QCM2](https://gitee.com/dotnetchina/Furion/issues/I3QCM2)
+  - [废弃] 模块化动态生成数据库表 [#I3QH3G](https://gitee.com/dotnetchina/Furion/issues/I3QH3G)
+  - [废弃] 建议事件总线新增 MQ 支持 [#I3QWZ4](https://gitee.com/dotnetchina/Furion/issues/I3QWZ4)
+  - [废弃] 重构规范化整个模块代码 [#I3NFT7](https://gitee.com/dotnetchina/Furion/issues/I3NFT7)
+
+---
+
+## v2.3.0 （已发布）
 
 - **新特性**
 

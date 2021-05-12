@@ -1,4 +1,4 @@
-## v2.4.0 （未发布版本）
+## v2.4.0 （当前版本）
 
 - **新特性**
 
@@ -7,7 +7,7 @@
 
 - **突破性变化**
 
-  - [升级] .NET 5 SDK 为 5.0.6 版本
+  - [升级] **.NET 5 SDK 为 5.0.6 版本**
   - [新增] `IJsonSerializerProvider.GetSerializerOptions()` 接口方法 [#I3QIJN](https://gitee.com/dotnetchina/Furion/issues/I3QIJN)
 
 - **问题修复**
@@ -37,7 +37,7 @@
 
 ---
 
-## v2.3.0 （当前版本）
+## v2.3.0 （已发布）
 
 - **新特性**
 
