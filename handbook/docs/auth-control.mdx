@@ -94,13 +94,11 @@ services.AddJwt();
 
 :::
 
-
 :::important 温馨提示
 
 目前支持的`加密算法`，详情请查阅[SecurityAlgorithms](https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet/blob/dev/src/Microsoft.IdentityModel.Tokens/SecurityAlgorithms.cs)
 
 :::
-
 
 - 生成 `Token`
 
@@ -138,6 +136,8 @@ public class ApiServices : IDynamicApiController
 {
 }
 ```
+
+如果不设置 `Scheme` 那么在混合授权的 `Swagger` 中将默认采用 `Cookie` 方式，也就是授权失败会将整个 `登录页面` 内容返回。
 
 :::
 
