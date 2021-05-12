@@ -60,10 +60,10 @@ using (var transaction = _testRepository.Database.BeginTransaction())
     try
     {
         _testRepository.Insert(new Blog { Url = "http://blogs.msdn.com/dotnet" });
-        _testRepository.SaveChanges();
+        _testRepository.SaveNow();
 
         _testRepository.Insert(new Blog { Url = "http://blogs.msdn.com/visualstudio" });
-        _testRepository.SaveChanges();
+        _testRepository.SaveNow();
 
         var blogs = _testRepository.Entity
                 .OrderBy(b => b.Url)
@@ -97,7 +97,7 @@ using (var context1 = new DefaultDbContext(options))
         try
         {
             _testRepository.Insert(new Blog { Url = "http://blogs.msdn.com/dotnet" });
-            context1.SaveChanges();
+            _testRepository.SaveNow();
 
             context1.Blogs.Add(new Blog { Url = "http://blogs.msdn.com/dotnet" });
             context1.SaveChanges();
