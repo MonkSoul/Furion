@@ -81,31 +81,63 @@ namespace Furion.SensitiveDetection
         }
 
         /// <summary>
-        /// 判断脱敏词汇是否有效（自定义算法）
+        /// 判断脱敏词汇是否有效（支持自定义算法）
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public async Task<bool> IsVaildAsync(string text)
+        public async Task<bool> VaildedAsync(string text)
         {
             // 空字符串和空白字符不验证
             if (string.IsNullOrWhiteSpace(text)) return true;
 
-            // 获取词库
-            var sensitiveWords = await GetWordsAsync();
-
             // 查找脱敏词汇出现次数和位置
-            var foundSets = FoundSensitiveWords(text, sensitiveWords);
+            var foundSets = await FoundSensitiveWordsAsync(text);
 
             return foundSets.Count == 0;
+        }
+
+        /// <summary>
+        /// 替换敏感词汇
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="transfer"></param>
+        /// <returns></returns>
+        public async Task<string> ReplaceAsync(string text, char transfer = '*')
+        {
+            if (string.IsNullOrWhiteSpace(text)) return default;
+
+            // 查找脱敏词汇出现次数和位置
+            var foundSets = await FoundSensitiveWordsAsync(text);
+
+            var stringBuilder = new StringBuilder(text);
+
+            // 循环替换
+            foreach (KeyValuePair<string, List<int>> kv in foundSets)
+            {
+                for (int i = 0; i < kv.Value.Count; i++)
+                {
+                    for (int j = 0; j < kv.Key.Length; j++)
+                    {
+                        int tempIndex = GetSensitiveWordIndex(kv.Value, i, kv.Key.Length);
+
+                        // 设置替换的字符
+                        stringBuilder[tempIndex + j] = transfer;
+                    }
+                }
+            }
+
+            return stringBuilder.ToString();
         }
 
         /// <summary>
         /// 查找脱敏词汇
         /// </summary>
         /// <param name="text"></param>
-        /// <param name="sensitiveWords"></param>
-        private static Dictionary<string, List<int>> FoundSensitiveWords(string text, IEnumerable<string> sensitiveWords)
+        private async Task<Dictionary<string, List<int>>> FoundSensitiveWordsAsync(string text)
         {
+            // 获取词库
+            var sensitiveWords = await GetWordsAsync();
+
             var stringBuilder = new StringBuilder(text);
             var tempStringBuilder = new StringBuilder();
 
@@ -113,29 +145,55 @@ namespace Furion.SensitiveDetection
             int findIndex;
             var foundSets = new Dictionary<string, List<int>>();
 
-            // 查询
-            foreach (string senseWord in sensitiveWords)
+            // 遍历所有脱敏词汇并查找字符串是否包含
+            foreach (string sensitiveWord in sensitiveWords)
             {
                 // 重新填充目标字符串
                 tempStringBuilder.Clear();
                 tempStringBuilder.Append(stringBuilder);
 
-                while (tempStringBuilder.ToString().Contains(senseWord))
+                // 查询查找至结尾
+                while (tempStringBuilder.ToString().Contains(sensitiveWord))
                 {
-                    if (foundSets.ContainsKey(senseWord) == false)
+                    if (foundSets.ContainsKey(sensitiveWord) == false)
                     {
-                        foundSets.Add(senseWord, new List<int>());
+                        foundSets.Add(sensitiveWord, new List<int>());
                     }
 
-                    findIndex = tempStringBuilder.ToString().IndexOf(senseWord);
-                    foundSets[senseWord].Add(findIndex);
+                    findIndex = tempStringBuilder.ToString().IndexOf(sensitiveWord);
+                    foundSets[sensitiveWord].Add(findIndex);
 
-                    // 删除从零开始，长度为 findIndex + senseWord.Length 的字符串
-                    tempStringBuilder.Remove(0, findIndex + senseWord.Length);
+                    // 删除从零开始，长度为 findIndex + sensitiveWord.Length 的字符串
+                    tempStringBuilder.Remove(0, findIndex + sensitiveWord.Length);
                 }
             }
 
             return foundSets;
+        }
+
+        /// <summary>
+        /// 获取敏感词索引
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="count"></param>
+        /// <param name="sensitiveWordLength"></param>
+        /// <returns></returns>
+        private static int GetSensitiveWordIndex(List<int> list, int count, int sensitiveWordLength)
+        {
+            // 用于返回当前敏感词的第 count 个的真实索引
+            var sum = 0;
+            for (int i = 0; i <= count; i++)
+            {
+                if (i == 0)
+                {
+                    sum = list[i];
+                }
+                else
+                {
+                    sum += list[i] + sensitiveWordLength;
+                }
+            }
+            return sum;
         }
     }
 }

@@ -6,7 +6,7 @@ sidebar_label: 30. 脱敏处理
 
 :::important 版本说明
 
-以下内容仅限 `Furion 2.4.2 +` 版本使用。
+以下内容仅限 `Furion 2.4.4 +` 版本使用。
 
 :::
 
@@ -75,7 +75,7 @@ public void Test([SensitiveDetection] string text)
 
 `Furion` 框架也提供了 `ISensitiveDetectionProvider` 服务进行手动脱敏验证处理，如：
 
-```cs {4,15,25}
+```cs {4,15,25,35}
 public class FurionService
 {
     private readonly ISensitiveDetectionProvider _sensitiveDetectionProvider;
@@ -98,9 +98,19 @@ public class FurionService
     /// </summary>
     /// <param name="text"></param>
     /// <returns></returns>
-    public async Task<bool> IsVaild(string text)
+    public async Task<bool> VaildedAsync(string text)
     {
-        return await _sensitiveDetectionProvider.IsVaildAsync(text);
+        return await _sensitiveDetectionProvider.VaildedAsync(text);
+    }
+
+    /// <summary>
+    /// 替换非正常词汇
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
+    public async Task<string> ReplaceAsync(string text)
+    {
+        return await _sensitiveDetectionProvider.ReplaceAsync(text, '*');
     }
 }
 ```
@@ -111,7 +121,7 @@ public class FurionService
 
 ### 30.3.1 自定义 `ISensitiveDetectionProvider` 程序，如：
 
-```cs {4,15,24}
+```cs {4,15,25,36}
 /// <summary>
 /// 自定义脱敏词汇检测器
 /// </summary>
@@ -130,14 +140,26 @@ public class YourSensitiveDetectionProvider : ISensitiveDetectionProvider
     {
         // 这里写你脱敏词汇数据的来源（如从数据库读取），建议做好缓存操作
     }
+
     /// <summary>
     /// 判断脱敏词汇是否有效
     /// </summary>
     /// <param name="text"></param>
     /// <returns></returns>
-    public async Task<bool> IsVaildAsync(string text)
+    public async Task<bool> VaildedAsync(string text)
     {
         // 这里写你如何判断是正常的字符，返回 true 正常，返回 false 表示是个脱敏词汇
+    }
+
+    /// <summary>
+    /// 替换脱敏词汇
+    /// </summary>
+    /// <param name="text"></param>
+    /// <param name="transfer"></param>
+    /// <returns></returns>
+    public async Task<string> ReplaceAsync(string text, char transfer = '*')
+    {
+        // 这里写你替换非正常字符为指定字符
     }
 }
 ```

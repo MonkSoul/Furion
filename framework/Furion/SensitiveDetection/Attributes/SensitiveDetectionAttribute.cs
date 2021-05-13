@@ -25,7 +25,7 @@ namespace System.ComponentModel.DataAnnotations
             var sensitiveWordsProvider = validationContext.GetService(typeof(ISensitiveDetectionProvider)) as ISensitiveDetectionProvider;
 
             // 判断符合
-            var isVaild = sensitiveWordsProvider.IsVaildAsync(value.ToString()).GetAwaiter().GetResult();
+            var isVaild = sensitiveWordsProvider.VaildedAsync(value.ToString()).GetAwaiter().GetResult();
 
             if (!isVaild)
             {

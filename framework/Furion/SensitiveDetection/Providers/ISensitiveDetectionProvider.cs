@@ -15,10 +15,18 @@ namespace Furion.SensitiveDetection
         Task<IEnumerable<string>> GetWordsAsync();
 
         /// <summary>
-        /// 判断脱敏词汇是否有效（自定义算法）
+        /// 判断脱敏词汇是否有效（支持自定义算法）
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        Task<bool> IsVaildAsync(string text);
+        Task<bool> VaildedAsync(string text);
+
+        /// <summary>
+        /// 替换敏感词汇
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="transfer"></param>
+        /// <returns></returns>
+        Task<string> ReplaceAsync(string text, char transfer = '*');
     }
 }

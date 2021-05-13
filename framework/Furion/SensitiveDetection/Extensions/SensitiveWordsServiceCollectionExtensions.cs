@@ -54,7 +54,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             return services.AddSensitiveWords<SensitiveDetectionProvider>(svs =>
             {
-                // 注册嵌入式资源
+                // 注册嵌入式资源（这里还是有点问题，比如多注入问题）
                 svs.AddSingleton<IFileProvider>(new EmbeddedFileProvider(Assembly.GetEntryAssembly()));
             });
         }
