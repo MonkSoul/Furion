@@ -199,7 +199,7 @@ Update-Database -Context SlaveDbContext
 
 <img src={useBaseUrl("img/readwrite2.png")} />
 
-### 9.27.2.6 使用例子
+### 9.27.2.6 固定主从库使用例子
 
 ```cs {13,19,31,40}
 using Furion.Core;
@@ -246,6 +246,95 @@ namespace Furion.Application
     }
 }
 ```
+
+### 9.27.2.7 `随机`或 `自定义`返回从库 ✨
+
+在 `Furion 2.4.1 + ` 版本新增了 `IMSRepository` 和 `IMSRepository<TMasterDbContextLocator>` 仓储类型，可以获取随机仓储或自定义仓储。使用例子如下：
+
+- 配置 主库 `[AppDbContext]` 特性的 `SlaveDbContextLocators` 属性，可通过构造函数最后参数传入，如：
+
+```cs {6}
+using Furion.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+
+namespace Furion.EntityFramework.Core
+{
+    [AppDbContext("Sqlite3ConnectionString", DbProvider.Sqlite, typeof(从库定位器1), typeof(从库定位器2), typeof(从库定位器3))]
+    public class MasterDbContext : AppDbContext<MasterDbContext>
+    {
+        public MasterDbContext(DbContextOptions<MasterDbContext> options) : base(options)
+        {
+        }
+    }
+}
+```
+
+- 使用 `IMSRepository` 或 `IMSRepository<TMasterDbContextLocator>`
+
+```cs {13,19,31,40,49-53}
+using Furion.Core;
+using Furion.DatabaseAccessor;
+using Furion.DynamicApiController;
+using System.Collections.Generic;
+
+namespace Furion.Application
+{
+    public class PersonService : IDynamicApiController
+    {
+        /// <summary>
+        /// 可调配仓储（读写分离）
+        /// </summary>
+        private readonly IMSRepository _msRepository;   // 不指定定位器，默认是 MasterDbContextLocator
+
+        /// <summary>
+        /// 构造函数初始化
+        /// </summary>
+        /// <param name="msRepository"></param>
+        public PersonService(IMSRepository msRepository)
+        {
+            _msRepository = msRepository;
+        }
+
+        /// <summary>
+        /// 新增走主库
+        /// </summary>
+        /// <param name="person"></param>
+        /// <returns></returns>
+        public void Insert(Person person)
+        {
+            _msRepository.Master<Person>().Insert(person);
+        }
+
+        /// <summary>
+        /// 随机从库
+        /// </summary>
+        /// <returns></returns>
+        public List<Person> Get()
+        {
+            return _msRepository.Slave<Person>().AsEnumerable();
+        }
+
+        /// <summary>
+        /// 自定义从库
+        /// </summary>
+        /// <returns></returns>
+        public List<Person> Get()
+        {
+            return _msRepository.Slave<Person>(() => {
+                // 这里写你的逻辑返回从库定位器
+
+                return 你的从库定位器;
+            }).AsEnumerable();
+        }
+    }
+}
+```
+
+:::note 特别说明
+
+`IMSRepository` 不带泛型默认指的是 `IMSRepository<TMasterDbContextLocator>`，如需泛型版本，则使用 `IMSRepository<定位器>`
+
+:::
 
 ## 9.27.3 主从复制
 

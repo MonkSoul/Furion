@@ -11,17 +11,21 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 默认构造函数
         /// </summary>
-        public AppDbContextAttribute()
+        /// <param name="slaveDbContextLocators"></param>
+        public AppDbContextAttribute(params Type[] slaveDbContextLocators)
         {
+            SlaveDbContextLocators = slaveDbContextLocators;
         }
 
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="connectionString"></param>
-        public AppDbContextAttribute(string connectionString)
+        /// <param name="slaveDbContextLocators"></param>
+        public AppDbContextAttribute(string connectionString, params Type[] slaveDbContextLocators)
         {
             ConnectionString = connectionString;
+            SlaveDbContextLocators = slaveDbContextLocators;
         }
 
         /// <summary>
@@ -29,10 +33,12 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="connectionString"></param>
         /// <param name="providerName"></param>
-        public AppDbContextAttribute(string connectionString, string providerName)
+        /// <param name="slaveDbContextLocators"></param>
+        public AppDbContextAttribute(string connectionString, string providerName, params Type[] slaveDbContextLocators)
         {
             ConnectionString = connectionString;
             ProviderName = providerName;
+            SlaveDbContextLocators = slaveDbContextLocators;
         }
 
         /// <summary>
@@ -59,5 +65,10 @@ namespace Furion.DatabaseAccessor
         /// 表统一后缀
         /// </summary>
         public string TableSuffix { get; set; }
+
+        /// <summary>
+        /// 指定从库定位器
+        /// </summary>
+        public Type[] SlaveDbContextLocators { get; set; }
     }
 }

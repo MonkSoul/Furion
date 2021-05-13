@@ -1,5 +1,46 @@
-﻿namespace Furion.DatabaseAccessor
+﻿using System;
+
+namespace Furion.DatabaseAccessor
 {
+    /// <summary>
+    /// 默认主库主从仓储
+    /// </summary>
+    public partial interface IMSRepository : IMSRepository<MasterDbContextLocator>
+    {
+    }
+
+    /// <summary>
+    /// 主从库仓储
+    /// </summary>
+    /// <typeparam name="TMasterDbContextLocator">主库</typeparam>
+    public partial interface IMSRepository<TMasterDbContextLocator>
+        where TMasterDbContextLocator : class, IDbContextLocator
+    {
+        /// <summary>
+        /// 获取主库仓储
+        /// </summary>
+        /// <typeparam name="TEntity">实体类型</typeparam>
+        /// <returns></returns>
+        IRepository<TEntity, TMasterDbContextLocator> Master<TEntity>()
+            where TEntity : class, IPrivateEntity, new();
+
+        /// <summary>
+        /// 动态获取从库（随机）
+        /// </summary>
+        /// <typeparam name="TEntity">实体类型</typeparam>
+        /// <returns></returns>
+        IReadableRepository<TEntity> Slave<TEntity>()
+            where TEntity : class, IPrivateEntity, new();
+
+        /// <summary>
+        /// 动态获取从库（自定义）
+        /// </summary>
+        /// <typeparam name="TEntity">实体类型</typeparam>
+        /// <returns></returns>
+        IReadableRepository<TEntity> Slave<TEntity>(Func<Type> locatorHandle)
+            where TEntity : class, IPrivateEntity, new();
+    }
+
     /// <summary>
     /// 主从库仓储
     /// </summary>

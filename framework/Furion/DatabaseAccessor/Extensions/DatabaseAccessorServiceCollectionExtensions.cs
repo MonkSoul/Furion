@@ -43,6 +43,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddScoped(typeof(IRepository<>), typeof(EFCoreRepository<>));
 
             // 注册主从库仓储
+            services.TryAddScoped(typeof(IMSRepository), typeof(MSRepository));
+            services.TryAddScoped(typeof(IMSRepository<>), typeof(MSRepository<>));
             services.TryAddScoped(typeof(IMSRepository<,>), typeof(MSRepository<,>));
             services.TryAddScoped(typeof(IMSRepository<,,>), typeof(MSRepository<,,>));
             services.TryAddScoped(typeof(IMSRepository<,,,>), typeof(MSRepository<,,,>));

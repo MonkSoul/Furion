@@ -1,3 +1,27 @@
+## v2.5.0 （未发布版本）
+
+- **新特性**
+
+  - [新增] 读写分离/主从复制仓储 `IMSRepository` 和 `IMSRepository<TMasterDbContextLocator>` 仓储，可进行随机或自定义获取从库
+
+- **突破性变化**
+
+- **问题修复**
+
+- **其他更改**
+
+- **文档变化**
+
+  - [更新] 读写分离/主从复制、数据库仓储文档、`Db` 静态类 [#I3R3B6](https://gitee.com/dotnetchina/Furion/issues/I3R3B6)
+
+- **问答答疑**
+
+  - [答疑] 关于 `Furion` 集群部署 [#I3R3J4](https://gitee.com/dotnetchina/Furion/issues/I3R3J4)
+
+- **不做实现**
+
+---
+
 ## v2.4.0 （当前版本）
 
 - **新特性**

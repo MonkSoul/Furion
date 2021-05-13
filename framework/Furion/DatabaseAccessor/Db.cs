@@ -70,6 +70,19 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
+        /// 根据定位器类型获取仓储
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="dbContextLocator"></param>
+        /// <param name="serviceProvider"></param>
+        /// <returns></returns>
+        public static IPrivateRepository<TEntity> GetRepository<TEntity>(Type dbContextLocator, IServiceProvider serviceProvider = default)
+             where TEntity : class, IPrivateEntity, new()
+        {
+            return App.GetService(typeof(IRepository<,>).MakeGenericType(typeof(TEntity), dbContextLocator), serviceProvider) as IPrivateRepository<TEntity>;
+        }
+
+        /// <summary>
         /// 获取Sql仓储
         /// </summary>
         /// <param name="serviceProvider"></param>

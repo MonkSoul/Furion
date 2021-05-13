@@ -23,8 +23,15 @@ sidebar_label: 9.4 仓储模式 (Repository)
 - `IRepository<TEntity, TDbContextLocator>`
 - `ISqlRepository`
 - `ISqlRepository<TDbContextLocator>`
-- `IMSRepository<TDbContextLocator1,...TDbContextLocator8>`
+- `IMSRepository`
+- `IMSRepository<TMasterDbContextLocator>`
+- `IMSRepository<TMasterDbContextLocator,...TSlaveDbContextLocator8>`
 - `IDbRepository<TDbContextLocator>`
+
+还有两个私有仓储，也是所有仓储的基类（用于高级自定义开发）
+
+- `IPrivateRepository<TEntity>`：所有实体仓储的基类
+- `IPrivateSqlRepository`：所有数据库操作的基类
 
 除此之后的所有仓储只能通过 `rep.Constraint<TRepository>()` 进行约束创建，如，只读仓储：
 

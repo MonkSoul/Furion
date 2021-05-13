@@ -1549,7 +1549,7 @@ namespace Furion.DatabaseAccessor
         /// <returns></returns>
         private IPrivateRepository<TEntity> GetRepository()
         {
-            return App.GetService(typeof(IRepository<,>).MakeGenericType(typeof(TEntity), DbContextLocator), ContextScoped) as IPrivateRepository<TEntity>;
+            return Db.GetRepository<TEntity>(DbContextLocator, ContextScoped);
         }
     }
 }

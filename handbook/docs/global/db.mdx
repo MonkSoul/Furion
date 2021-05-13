@@ -65,3 +65,9 @@ var dbContext = Db.GetNewDbContext();
 var locatorDbContext = Db.GetNewDbContext<TDbContextLocator>();
 var locatorDbContext2 = Db.GetNewDbContext(typeof(TDbContextLocator));
 ```
+
+## 2.11 根据定位器类型获取仓储
+
+```cs
+var repository = Db.GetRepository<TEntity>(dbContextLocatorType);
+```
