@@ -29,7 +29,7 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns></returns>
-        IReadableRepository<TEntity> Slave<TEntity>()
+        IPrivateReadableRepository<TEntity> Slave<TEntity>()
             where TEntity : class, IPrivateEntity, new();
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns></returns>
-        IReadableRepository<TEntity> Slave<TEntity>(Func<Type> locatorHandle)
+        IPrivateReadableRepository<TEntity> Slave<TEntity>(Func<Type> locatorHandle)
             where TEntity : class, IPrivateEntity, new();
     }
 

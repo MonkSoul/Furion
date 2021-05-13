@@ -67,7 +67,7 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns></returns>
-        public virtual IReadableRepository<TEntity> Slave<TEntity>()
+        public virtual IPrivateReadableRepository<TEntity> Slave<TEntity>()
             where TEntity : class, IPrivateEntity, new()
         {
             // 判断数据库主库是否注册
@@ -87,7 +87,7 @@ namespace Furion.DatabaseAccessor
             if (slaveDbContextLocators.Length == 1) return Slave<TEntity>(() => slaveDbContextLocators[0]);
 
             // 获取随机从库索引
-            var index = RandomNumberGenerator.GetInt32(0, slaveDbContextLocators.Length - 1);
+            var index = RandomNumberGenerator.GetInt32(0, slaveDbContextLocators.Length);
 
             // 返回随机从库
             return Slave<TEntity>(() => slaveDbContextLocators[index]);
@@ -98,7 +98,7 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns></returns>
-        public virtual IReadableRepository<TEntity> Slave<TEntity>(Func<Type> locatorHandle)
+        public virtual IPrivateReadableRepository<TEntity> Slave<TEntity>(Func<Type> locatorHandle)
             where TEntity : class, IPrivateEntity, new()
         {
             if (locatorHandle == null) throw new ArgumentNullException(nameof(locatorHandle));
@@ -115,7 +115,7 @@ namespace Furion.DatabaseAccessor
             var repository = _serviceProvider.GetService(typeof(IRepository<,>).MakeGenericType(typeof(TEntity), dbContextLocatorType)) as IPrivateRepository<TEntity>;
 
             // 返回从库仓储
-            return repository.Constraint<IReadableRepository<TEntity>>();
+            return repository.Constraint<IPrivateReadableRepository<TEntity>>();
         }
     }
 
