@@ -421,7 +421,7 @@ SpareTime.Do(()=>{
 ```cs {1,4-5,12-13,20-21,28-30,37-38,45}
 public class JobWorker : ISpareTimeWorker
 {
-    // 每个一秒执行，且立即启动
+    // 每隔一秒执行，且立即启动
     [SpareTime(1000, "jobName1", StartNow = true)]
     public void DoSomething1(SpareTimer timer, long count)
     {
