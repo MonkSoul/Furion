@@ -4,18 +4,18 @@ using System.Threading.Tasks;
 namespace Furion.SensitiveDetection
 {
     /// <summary>
-    /// 敏感词（脱敏）提供器
+    /// 脱敏词汇（脱敏）提供器
     /// </summary>
     public interface ISensitiveDetectionProvider
     {
         /// <summary>
-        /// 返回所有敏感词
+        /// 返回所有脱敏词汇
         /// </summary>
         /// <returns></returns>
         Task<IEnumerable<string>> GetWordsAsync();
 
         /// <summary>
-        /// 判断敏感词是否有效（自定义算法）
+        /// 判断脱敏词汇是否有效（自定义算法）
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>

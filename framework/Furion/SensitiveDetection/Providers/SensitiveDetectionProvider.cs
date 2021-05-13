@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Furion.SensitiveDetection
 {
     /// <summary>
-    /// 敏感词（脱敏）提供器（默认实现）
+    /// 脱敏词汇（脱敏）提供器（默认实现）
     /// </summary>
     [SkipScan]
     public class SensitiveDetectionProvider : ISensitiveDetectionProvider
@@ -52,7 +52,7 @@ namespace Furion.SensitiveDetection
         private const string DISTRIBUTED_KEY = "SENSITIVE:WORDS";
 
         /// <summary>
-        /// 返回所有敏感词
+        /// 返回所有脱敏词汇
         /// </summary>
         /// <returns></returns>
         public async Task<IEnumerable<string>> GetWordsAsync()
@@ -81,7 +81,7 @@ namespace Furion.SensitiveDetection
         }
 
         /// <summary>
-        /// 判断敏感词是否有效（自定义算法）
+        /// 判断脱敏词汇是否有效（自定义算法）
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
@@ -93,14 +93,14 @@ namespace Furion.SensitiveDetection
             // 获取词库
             var sensitiveWords = await GetWordsAsync();
 
-            // 查找敏感词出现次数和位置
+            // 查找脱敏词汇出现次数和位置
             var foundSets = FoundSensitiveWords(text, sensitiveWords);
 
             return foundSets.Count == 0;
         }
 
         /// <summary>
-        /// 查找敏感词汇
+        /// 查找脱敏词汇
         /// </summary>
         /// <param name="text"></param>
         /// <param name="sensitiveWords"></param>
@@ -109,7 +109,7 @@ namespace Furion.SensitiveDetection
             var stringBuilder = new StringBuilder(text);
             var tempStringBuilder = new StringBuilder();
 
-            // 记录敏感词汇出现位置和次数
+            // 记录脱敏词汇出现位置和次数
             int findIndex;
             var foundSets = new Dictionary<string, List<int>>();
 

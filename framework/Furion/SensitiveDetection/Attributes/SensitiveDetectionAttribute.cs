@@ -5,7 +5,7 @@ using Furion.SensitiveDetection;
 namespace System.ComponentModel.DataAnnotations
 {
     /// <summary>
-    /// 敏感词检查（脱敏处理）
+    /// 脱敏词汇检查（脱敏处理）
     /// </summary>
     [SkipScan]
     public sealed class SensitiveDetectionAttribute : ValidationAttribute
