@@ -19,6 +19,7 @@
 - **问答答疑**
 
   - [答疑] 关于 `Furion` 集群部署 [#I3R3J4](https://gitee.com/dotnetchina/Furion/issues/I3R3J4)
+  - [答疑] 升级最新框架以后， 数据库生成模型报错 [#I3R7TP](https://gitee.com/dotnetchina/Furion/issues/I3R7TP)
 
 - **不做实现**
 
