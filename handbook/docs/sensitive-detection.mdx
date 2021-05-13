@@ -1,7 +1,7 @@
 ---
 id: sensitive-detection
 title: 30. 脱敏处理
-sidebar_label: 30. 脱敏处理（敏感词）
+sidebar_label: 30. 脱敏处理
 ---
 
 :::important 版本说明
@@ -18,13 +18,13 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 > 数据脱敏是指对某些敏感信息通过脱敏规则进行数据的变形，实现敏感隐私数据的可靠保护。在涉及客户安全数据或者一些商业性敏感数据的情况下，在不违反系统规则条件下，对真实数据进行改造并提供测试使用，如身份证号、手机号、卡号、客户号等个人信息都需要进行数据脱敏。数据安全技术之一，数据库安全技术主要包括：数据库漏扫、数据库加密、数据库防火墙、数据脱敏、数据库安全审计系统。
 
-在 `Furion` 系统中，`脱敏处理` 指的是对违法词汇或敏感词检测验证。
+在 `Furion` 系统中，`脱敏处理` 指的是对不符合系统合法词汇检测验证。
 
 ## 30.2 如何使用
 
-`Furion` 框架内置了一套默认的敏感词脱敏处理机制，并且提供自定义操作。
+`Furion` 框架内置了一套默认的脱敏词汇脱敏处理机制，并且提供自定义操作。
 
-### 30.2.1 注册 `敏感词检测` 服务
+### 30.2.1 注册 `脱敏词汇检测` 服务
 
 ```cs {3}
 public void ConfigureServices(IServiceCollection services)
@@ -37,7 +37,7 @@ public void ConfigureServices(IServiceCollection services)
 
 在 `Web` 启动层项目中创建 `sensitive-words.txt` 文件，**确保采用 `UTF-8` 编码格式且设置为嵌入式资源！**🎃
 
-`sensitive-words.txt` 内容格式为每一行标识一个敏感词汇：
+`sensitive-words.txt` 内容格式为每一行标识一个脱敏词汇：
 
 ```
 坏人
@@ -85,7 +85,7 @@ public class FurionService
     }
 
     /// <summary>
-    /// 获取所有敏感词汇
+    /// 获取所有脱敏词汇
     /// </summary>
     /// <returns></returns>
     public async Task<IEnumerable<string>> GetWordsAsync()
@@ -105,7 +105,7 @@ public class FurionService
 }
 ```
 
-## 30.3 自定义敏感词处理
+## 30.3 自定义脱敏词汇处理
 
 `Furion` 框架除了内置了一套默认的 `脱敏处理` 程序，也支持自定义脱敏处理程序。
 
@@ -113,7 +113,7 @@ public class FurionService
 
 ```cs {4,15,24}
 /// <summary>
-/// 自定义敏感词汇检测器
+/// 自定义脱敏词汇检测器
 /// </summary>
 public class YourSensitiveDetectionProvider : ISensitiveDetectionProvider
 {
@@ -123,21 +123,21 @@ public class YourSensitiveDetectionProvider : ISensitiveDetectionProvider
     }
 
     /// <summary>
-    /// 返回所有敏感词
+    /// 返回所有脱敏词汇
     /// </summary>
     /// <returns></returns>
     public async Task<IEnumerable<string>> GetWordsAsync()
     {
-        // 这里写你敏感词汇数据的来源（如从数据库读取），建议做好缓存操作
+        // 这里写你脱敏词汇数据的来源（如从数据库读取），建议做好缓存操作
     }
     /// <summary>
-    /// 判断敏感词是否有效
+    /// 判断脱敏词汇是否有效
     /// </summary>
     /// <param name="text"></param>
     /// <returns></returns>
     public async Task<bool> IsVaildAsync(string text)
     {
-        // 这里写你如何判断是正常的字符，返回 true 正常，返回 false 表示是个敏感词汇
+        // 这里写你如何判断是正常的字符，返回 true 正常，返回 false 表示是个脱敏词汇
     }
 }
 ```

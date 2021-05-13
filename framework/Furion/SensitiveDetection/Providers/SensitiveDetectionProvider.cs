@@ -5,7 +5,6 @@ using Microsoft.Extensions.FileProviders;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -88,8 +87,55 @@ namespace Furion.SensitiveDetection
         /// <returns></returns>
         public async Task<bool> IsVaildAsync(string text)
         {
-            var words = await GetWordsAsync();
-            return !words.Any(u => u.Contains(text));
+            // 空字符串和空白字符不验证
+            if (string.IsNullOrWhiteSpace(text)) return true;
+
+            // 获取词库
+            var sensitiveWords = await GetWordsAsync();
+
+            // 查找敏感词出现次数和位置
+            var foundSets = FoundSensitiveWords(text, sensitiveWords);
+
+            return foundSets.Count == 0;
+        }
+
+        /// <summary>
+        /// 查找敏感词汇
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="sensitiveWords"></param>
+        private static Dictionary<string, List<int>> FoundSensitiveWords(string text, IEnumerable<string> sensitiveWords)
+        {
+            var stringBuilder = new StringBuilder(text);
+            var tempStringBuilder = new StringBuilder();
+
+            // 记录敏感词汇出现位置和次数
+            int findIndex;
+            var foundSets = new Dictionary<string, List<int>>();
+
+            // 查询
+            foreach (string senseWord in sensitiveWords)
+            {
+                // 重新填充目标字符串
+                tempStringBuilder.Clear();
+                tempStringBuilder.Append(stringBuilder);
+
+                while (tempStringBuilder.ToString().Contains(senseWord))
+                {
+                    if (foundSets.ContainsKey(senseWord) == false)
+                    {
+                        foundSets.Add(senseWord, new List<int>());
+                    }
+
+                    findIndex = tempStringBuilder.ToString().IndexOf(senseWord);
+                    foundSets[senseWord].Add(findIndex);
+
+                    // 删除从零开始，长度为 findIndex + senseWord.Length 的字符串
+                    tempStringBuilder.Remove(0, findIndex + senseWord.Length);
+                }
+            }
+
+            return foundSets;
         }
     }
 }
