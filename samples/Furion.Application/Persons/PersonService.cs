@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -118,6 +119,10 @@ namespace Furion.Application
                                            .ProjectToType<PersonDto>();
 
             return await persons.ToListAsync();
+        }
+
+        public void 测试脱敏词([SensitiveDetection] string txt)
+        {
         }
     }
 }

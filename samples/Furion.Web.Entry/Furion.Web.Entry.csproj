@@ -9,9 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="sensitive-words.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Furion.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="sensitive-words.txt" />
   </ItemGroup>
 
   <ItemGroup>

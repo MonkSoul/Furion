@@ -3,6 +3,7 @@
 - **新特性**
 
   - [新增] 读写分离/主从复制仓储 `IMSRepository` 和 `IMSRepository<TMasterDbContextLocator>` 仓储，可进行随机或自定义获取从库
+  - [新增] 敏感词脱敏处理 [#I3R5ZF](https://gitee.com/dotnetchina/Furion/issues/I3R5ZF)
 
 - **突破性变化**
 
@@ -19,6 +20,8 @@
   - [答疑] 关于 `Furion` 集群部署 [#I3R3J4](https://gitee.com/dotnetchina/Furion/issues/I3R3J4)
 
 - **不做实现**
+
+  - [拒绝] 有序 Guid 精度是固定的毫秒级：1 毫秒内生成的多个 Guid 是无序的 [#I3R59J](https://gitee.com/dotnetchina/Furion/issues/I3R59J)
 
 ---
 

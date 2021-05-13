@@ -90,7 +90,7 @@ namespace Furion.DatabaseAccessor
             var index = RandomNumberGenerator.GetInt32(0, slaveDbContextLocators.Length - 1);
 
             // 返回随机从库
-            return Slave<TEntity>(() => slaveDbContextLocators[index]); ;
+            return Slave<TEntity>(() => slaveDbContextLocators[index]);
         }
 
         /// <summary>
