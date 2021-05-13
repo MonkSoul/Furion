@@ -162,21 +162,25 @@ module.exports = {
     },
     {
       type: "doc",
+      id: "sensitive-detection",
+    },
+    {
+      type: "doc",
       id: "microservice",
     },
     {
       type: "category",
-      label: "31. 托管部署",
+      label: "32. 托管部署",
       items: ["deploy-iis", "deploy-docker", "deploy-nginx", "virtual-deploy"],
     },
     {
       type: "category",
-      label: "32. 持续部署集成",
+      label: "33. 持续部署集成",
       items: ["deploy-docker-auto", "devops"],
     },
     {
       type: "category",
-      label: "33. 测试指南",
+      label: "34. 测试指南",
       items: ["unittest", "performance", "benchmark"],
     },
     {
