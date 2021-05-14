@@ -22,10 +22,11 @@
 
   - [答疑] 关于 `Furion` 集群部署 [#I3R3J4](https://gitee.com/dotnetchina/Furion/issues/I3R3J4)
   - [答疑] 升级最新框架以后， 数据库生成模型报错 [#I3R7TP](https://gitee.com/dotnetchina/Furion/issues/I3R7TP)
+  - [答疑] 数据库上下文事务执行中，`SaveNow` 执行后有警告 [#I3RAJI](https://gitee.com/dotnetchina/Furion/issues/I3RAJI)
 
 - **不做实现**
 
-  - [拒绝] 有序 Guid 精度是固定的毫秒级：1 毫秒内生成的多个 Guid 是无序的 [#I3R59J](https://gitee.com/dotnetchina/Furion/issues/I3R59J)
+  - [拒绝] 有序 `Guid` 精度是固定的毫秒级：1 毫秒内生成的多个 `Guid` 是无序的 [#I3R59J](https://gitee.com/dotnetchina/Furion/issues/I3R59J)
 
 ---
 
