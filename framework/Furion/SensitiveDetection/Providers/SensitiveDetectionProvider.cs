@@ -1,10 +1,12 @@
 ﻿using Furion.DependencyInjection;
+using Furion.FileProviderSystem;
 using Furion.JsonSerialization;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.FileProviders;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,14 +38,14 @@ namespace Furion.SensitiveDetection
         /// </summary>
         /// <param name="distributedCache"></param>
         /// <param name="jsonSerializerProvider"></param>
-        /// <param name="fileProvider"></param>
+        /// <param name="fileProviderResolve"></param>
         public SensitiveDetectionProvider(IDistributedCache distributedCache
             , IJsonSerializerProvider jsonSerializerProvider
-            , IFileProvider fileProvider)
+            , Func<FileProviderTypes, object, IFileProvider> fileProviderResolve)
         {
             _distributedCache = distributedCache;
             _jsonSerializerProvider = jsonSerializerProvider;
-            _fileProvider = fileProvider;
+            _fileProvider = fileProviderResolve(FileProviderTypes.Embedded, Assembly.GetEntryAssembly());
         }
 
         /// <summary>

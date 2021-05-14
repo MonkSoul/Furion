@@ -1,8 +1,6 @@
 ﻿using Furion.DependencyInjection;
 using Furion.SensitiveDetection;
-using Microsoft.Extensions.FileProviders;
 using System;
-using System.Reflection;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -52,11 +50,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IServiceCollection AddSensitiveWords(this IServiceCollection services)
         {
-            return services.AddSensitiveWords<SensitiveDetectionProvider>(svs =>
-            {
-                // 注册嵌入式资源（这里还是有点问题，比如多注入问题）
-                svs.AddSingleton<IFileProvider>(new EmbeddedFileProvider(Assembly.GetEntryAssembly()));
-            });
+            return services.AddSensitiveWords<SensitiveDetectionProvider>();
         }
 
         /// <summary>

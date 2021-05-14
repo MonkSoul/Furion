@@ -2,8 +2,9 @@
 
 - **新特性**
 
+  - [新增] 文件提供器系统（虚拟文件系统） [#I3RBR9](https://gitee.com/dotnetchina/Furion/issues/I3RBR9)
   - [新增] 读写分离/主从复制仓储 `IMSRepository` 和 `IMSRepository<TMasterDbContextLocator>` 仓储，可进行随机或自定义获取从库
-  - [新增] 敏感词脱敏处理 [#I3R5ZF](https://gitee.com/dotnetchina/Furion/issues/I3R5ZF)
+  - [新增] 数据脱敏处理 [#I3R5ZF](https://gitee.com/dotnetchina/Furion/issues/I3R5ZF)
 
 - **突破性变化**
 

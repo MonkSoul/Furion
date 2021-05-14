@@ -202,6 +202,9 @@ namespace Microsoft.Extensions.DependencyInjection
             // 添加对象映射
             services.AddObjectMapper();
 
+            // 添加文件系统
+            services.AddFileProviderSystem();
+
             // 自定义服务
             configure?.Invoke(services);
 
@@ -232,6 +235,9 @@ namespace Microsoft.Extensions.DependencyInjection
 
             // 添加对象映射
             services.AddObjectMapper();
+
+            // 添加文件系统
+            services.AddFileProviderSystem();
 
             // 自定义服务
             configure?.Invoke(services);
