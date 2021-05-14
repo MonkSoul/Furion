@@ -15,9 +15,9 @@ namespace Furion.FileProviderSystem
         Physical,
 
         /// <summary>
-        /// 嵌入式文件
+        /// 嵌入资源文件
         /// </summary>
-        [Description("嵌入式文件")]
+        [Description("嵌入资源文件")]
         Embedded
     }
 }

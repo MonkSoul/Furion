@@ -23,7 +23,7 @@ namespace Furion.FileProviderSystem
         }
 
         /// <summary>
-        /// 获取嵌入文件提供器
+        /// 获取嵌入资源文件提供器
         /// </summary>
         /// <param name="assembly"></param>
         /// <param name="serviceProvider"></param>

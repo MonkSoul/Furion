@@ -17,6 +17,7 @@
 - **文档变化**
 
   - [新增] 脱敏处理文档 [#I3R6WZ](https://gitee.com/dotnetchina/Furion/issues/I3R6WZ)
+  - [新增] 文件系统文档、`FS` 静态类文档 [#I3RCC4](https://gitee.com/dotnetchina/Furion/issues/I3RCC4)
   - [更新] 读写分离/主从复制、数据库仓储文档、`Db` 静态类 [#I3R3B6](https://gitee.com/dotnetchina/Furion/issues/I3R3B6)
 
 - **问答答疑**

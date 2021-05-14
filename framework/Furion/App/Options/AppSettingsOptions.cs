@@ -45,6 +45,11 @@ namespace Furion
         public string[] SupportPackageNamePrefixs { get; set; }
 
         /// <summary>
+        /// 是否启用文件提供器系统
+        /// </summary>
+        public bool? EnabledFileProviderSystem { get; set; }
+
+        /// <summary>
         /// 后期配置
         /// </summary>
         /// <param name="options"></param>
@@ -58,6 +63,7 @@ namespace Furion
             options.ExternalAssemblies ??= Array.Empty<string>();
             options.PrintDbConnectionInfo ??= true;
             options.SupportPackageNamePrefixs ??= Array.Empty<string>();
+            options.EnabledFileProviderSystem ??= true;
         }
     }
 }

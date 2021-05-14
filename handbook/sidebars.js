@@ -166,21 +166,25 @@ module.exports = {
     },
     {
       type: "doc",
+      id: "file-provider",
+    },
+    {
+      type: "doc",
       id: "microservice",
     },
     {
       type: "category",
-      label: "32. 托管部署",
+      label: "33. 托管部署",
       items: ["deploy-iis", "deploy-docker", "deploy-nginx", "virtual-deploy"],
     },
     {
       type: "category",
-      label: "33. 持续部署集成",
+      label: "34. 持续部署集成",
       items: ["deploy-docker-auto", "devops"],
     },
     {
       type: "category",
-      label: "34. 测试指南",
+      label: "35. 测试指南",
       items: ["unittest", "performance", "benchmark"],
     },
     {
@@ -274,6 +278,10 @@ module.exports = {
     {
       type: "doc",
       id: "global/sparetime",
+    },
+    {
+      type: "doc",
+      id: "global/fs",
     },
   ],
 };

@@ -1,7 +1,7 @@
 ---
 id: deploy-docker
-title: 32.2 在 Docker 部署
-sidebar_label: 32.2 在 Docker 部署
+title: 33.2 在 Docker 部署
+sidebar_label: 33.2 在 Docker 部署
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
@@ -19,16 +19,16 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
-## 32.2.1 关于 `Docker` 部署
+## 33.2.1 关于 `Docker` 部署
 
 在 `Docker` 中部署网站有两种方式：
 
 - `发布后构建`：此方式是先发布网站后在再构建镜像，这样可以减少不必要的构建层，而且还能缩减镜像大小。**（推荐）**
 - `编译+构建+发布`：也就是说在 `Dockerfile` 中配置网站从构建到发布的完整过程，此方式会速度慢，而且会产生冗余层，增加镜像大小。
 
-## 32.2.2 两种方式构建
+## 33.2.2 两种方式构建
 
-### 32.2.2.1 发布后构建
+### 33.2.2.1 发布后构建
 
 - 👉 发布网站
 
@@ -106,7 +106,7 @@ docker push monksoul/furion:v1.8.0
 
 :::
 
-### 32.2.2.2 编译+构建+发布
+### 33.2.2.2 编译+构建+发布
 
 此方式可以偷懒，但是不太推荐，不过在某些场景下非常有用，就是集成 `Devops` 工具链可以做到一步到位。
 
@@ -143,7 +143,7 @@ ENTRYPOINT ["dotnet", "Furion.Web.Entry.dll"]
 
 接下来的步骤和上述步骤一致，不再重复编写
 
-## 32.2.3 反馈与建议
+## 33.2.3 反馈与建议
 
 :::note 与我们交流
 
