@@ -6,7 +6,7 @@ namespace Furion.RemoteRequest
     /// <summary>
     /// 配置请求报文头
     /// </summary>
-    [SkipScan, AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Parameter, AllowMultiple = true)]
+    [SkipScan, AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method | AttributeTargets.Parameter, AllowMultiple = true)]
     public class HeadersAttribute : Attribute
     {
         /// <summary>

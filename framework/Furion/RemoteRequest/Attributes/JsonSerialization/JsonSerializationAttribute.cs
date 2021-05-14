@@ -6,7 +6,7 @@ namespace Furion.RemoteRequest
     /// <summary>
     /// JSON 序列化提供器
     /// </summary>
-    [SkipScan, AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    [SkipScan, AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method)]
     public class JsonSerializationAttribute : Attribute
     {
         /// <summary>
