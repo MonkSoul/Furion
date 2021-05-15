@@ -22,13 +22,13 @@ sidebar_label: 27. 分布式 ID 生成
 
 ### 27.3.1 `连续 GUID` 方式
 
-- 静态 `IDGenerator` 方式
+- 静态 `IDGen` 方式
 
 ```cs
-var guid = IDGenerator.NextID();
+var guid = IDGen.NextID();
 
 // 还可以配置更多参数
-var guid2 = IDGenerator.NextID(SequentialGuidType.SequentialAtEnd);
+var guid2 = IDGen.NextID(SequentialGuidType.SequentialAtEnd);
 ```
 
 `SequentialGuidType` 是枚举类型，可选项有：
