@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -38,7 +37,7 @@ namespace Furion
                 // 调用默认中间件
                 app.UseApp();
 
-                UseStartup(app, app.ApplicationServices);
+                UseStartups(app);
 
                 // 调用 Furion.Web.Entry 中的 Startup
                 next(app);
@@ -49,15 +48,13 @@ namespace Furion
         /// 配置 Startup 的 Configure
         /// </summary>
         /// <param name="app">应用构建器</param>
-        /// <param name="applicationServices">服务提供器</param>
-        private static void UseStartup(IApplicationBuilder app, IServiceProvider applicationServices)
+        private static void UseStartups(IApplicationBuilder app)
         {
+            // 反转，处理排序
             var startups = App.AppStartups.Reverse();
             if (!startups.Any()) return;
 
-            // 获取环境和配置
-            var env = applicationServices.GetRequiredService<IWebHostEnvironment>();
-
+            // 遍历所有
             foreach (var startup in startups)
             {
                 var type = startup.GetType();
@@ -73,7 +70,7 @@ namespace Furion
                 // 自动安装属性调用
                 foreach (var method in configureMethods)
                 {
-                    method.Invoke(startup, ResolveMethodParameterInstances(app, applicationServices, method).ToArray());
+                    method.Invoke(startup, ResolveMethodParameterInstances(app, method));
                 }
             }
         }
@@ -82,16 +79,19 @@ namespace Furion
         /// 解析方法参数实例
         /// </summary>
         /// <param name="app"></param>
-        /// <param name="applicationServices"></param>
         /// <param name="method"></param>
         /// <returns></returns>
-        private static List<object> ResolveMethodParameterInstances(IApplicationBuilder app, IServiceProvider applicationServices, MethodInfo method)
+        private static object[] ResolveMethodParameterInstances(IApplicationBuilder app, MethodInfo method)
         {
-            var parameterInstances = new List<object>() { app };
-            var methodParams = method.GetParameters().Skip(1);
-            foreach (var parameterInfo in methodParams)
+            // 获取方法所有参数
+            var parameters = method.GetParameters();
+            var parameterInstances = new object[parameters.Length];
+            parameterInstances[0] = app;
+
+            // 解析服务
+            for (int i = 1; i < parameters.Length; i++)
             {
-                parameterInstances.Add(applicationServices.GetRequiredService(parameterInfo.ParameterType));
+                parameterInstances[i] = app.ApplicationServices.GetRequiredService(parameters[i].ParameterType);
             }
             return parameterInstances;
         }

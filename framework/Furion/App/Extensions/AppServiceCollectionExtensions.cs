@@ -188,7 +188,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddHttpContextAccessor();
 
             // 注册全局 Startup 扫描
-            services.AddStartup();
+            services.AddStartups();
 
             // 注册MiniProfiler 组件
             if (appSettings.InjectMiniProfiler == true)
@@ -231,7 +231,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddDependencyInjection();
 
             // 注册全局 Startup 扫描
-            services.AddStartup();
+            services.AddStartups();
 
             // 添加对象映射
             services.AddObjectMapper();
@@ -250,7 +250,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services">服务集合</param>
         /// <returns>服务集合</returns>
-        internal static IServiceCollection AddStartup(this IServiceCollection services)
+        internal static IServiceCollection AddStartups(this IServiceCollection services)
         {
             // 扫描所有继承 AppStartup 的类
             var startups = App.EffectiveTypes

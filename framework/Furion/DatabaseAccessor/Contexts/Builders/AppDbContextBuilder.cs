@@ -97,8 +97,8 @@ namespace Furion.DatabaseAccessor
                 LoadModelBuilderOnCreated(modelBuilder, entityBuilder, dbContext, dbContextLocator, dbContextCorrelationType.ModelBuilderFilterInstances);
             }
 
-            // 配置数据库函数
-            EntityFunctions: ConfigureDbFunctions(modelBuilder, dbContextLocator);
+        // 配置数据库函数
+        EntityFunctions: ConfigureDbFunctions(modelBuilder, dbContextLocator);
         }
 
         /// <summary>

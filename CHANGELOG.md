@@ -8,11 +8,15 @@
 
 - **突破性变化**
 
+  - [调整] 分布式 GUID `IDGenerater` 静态类名称为 `IDGen` [#I3RGUA](https://gitee.com/dotnetchina/Furion/issues/I3RGUA)
+
 - **问题修复**
 
   - [修复] 远程调用方法错误，请求报文头 `Headers` 不能添加到 `IHttpDispatchProxy` 的子接口上 [#I3RAF7](https://gitee.com/dotnetchina/Furion/issues/I3RAF7)
 
 - **其他更改**
+
+  - [优化] 应用启动性能，减少内存分配
 
 - **文档变化**
 

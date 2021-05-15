@@ -203,8 +203,8 @@ namespace Furion.DatabaseAccessor
                     DbContextTransaction = dbContexts.First().Value.Database.BeginTransaction();
                 }
 
-                // 共享事务
-                ShareTransaction: ShareTransaction(DbContextTransaction.GetDbTransaction());
+            // 共享事务
+            ShareTransaction: ShareTransaction(DbContextTransaction.GetDbTransaction());
             }
         }
 

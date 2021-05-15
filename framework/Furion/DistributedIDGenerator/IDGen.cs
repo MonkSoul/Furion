@@ -7,7 +7,7 @@ namespace Furion.DistributedIDGenerator
     /// ID 生成器
     /// </summary>
     [SkipScan]
-    public static class IDGenerator
+    public static class IDGen
     {
         /// <summary>
         /// 生成唯一 ID
