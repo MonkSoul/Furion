@@ -1,12 +1,12 @@
 ---
 id: file-provider
-title: 31. 文件系统提供器
-sidebar_label: 31. 文件系统提供器
+title: 31. 虚拟文件系统
+sidebar_label: 31. 虚拟文件系统
 ---
 
 :::important 版本说明
 
-以下内容仅限 `Furion 2.4.6 +` 版本使用。
+以下内容仅限 `Furion 2.5.0 +` 版本使用。
 
 :::
 
@@ -23,9 +23,9 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - `Physical`：物理文件系统类型，也就是物理机中实际存在的文件
 - `Embedded`：嵌入资源文件系统类型，也就是资源文件嵌入到了程序集中，常用于模块化开发
 
-## 31.2 注册文件系统服务
+## 31.2 注册虚拟文件系统服务
 
-**`Furion` 框架默认注册了 `services.AddFileProviderSystem()` 服务**，该服务主要提供 `文件系统功能`。
+**`Furion` 框架默认注册了 `services.AddVirtualFileServer()` 服务**，该服务主要提供 `虚拟文件系统`。
 
 :::note 关闭默认注册
 
@@ -34,7 +34,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 ```json {3}
 {
   "AppSettings": {
-    "EnabledFileProviderSystem": false
+    "EnabledVirtualFileServer": false
   }
 }
 ```
@@ -44,7 +44,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 另外也可以采用手动注册方式（**正常情况下无需以下代码**），如：
 
 ```cs
-services.AddFileProviderSystem();
+services.AddVirtualFileServer();
 ```
 
 ## 31.3 获取文件系统 `IFileProvider` 实例
@@ -121,7 +121,24 @@ ChangeToken.OnChange(() => _fileProvider.Watch("监听的文件"), () =>
 });
 ```
 
-## 31.5 反馈与建议
+## 31.5 模块化静态资源配置
+
+通常我们采用模块化开发，静态资源都是嵌入进程序集中，这时候我们需要通过配置 `UseFileServer` 指定模块静态资源路径，如：
+
+```cs
+// 默认静态资源调用，wwwroot
+app.UseStaticFiles();
+
+// 配置模块化静态资源
+app.UseFileServer(new FileServerOptions
+{
+    FileProvider = new EmbeddedFileProvider(模块程序集),
+    RequestPath = "/模块名称",  // 后续所有资源都是通过 /模块名称/xxx.css 调用
+    EnableDirectoryBrowsing = true
+});
+```
+
+## 31.6 反馈与建议
 
 :::note 与我们交流
 
