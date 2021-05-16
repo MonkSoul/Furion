@@ -29,7 +29,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 ```cs {3}
 public void ConfigureServices(IServiceCollection services)
 {
-    services.AddSensitiveWords();
+    services.AddSensitiveDetection();
 }
 ```
 
@@ -169,7 +169,7 @@ public class YourSensitiveDetectionProvider : ISensitiveDetectionProvider
 ```cs {3}
 public void ConfigureServices(IServiceCollection services)
 {
-    services.AddSensitiveWords<YourSensitiveDetectionProvider>();
+    services.AddSensitiveDetection<YourSensitiveDetectionProvider>();
 }
 ```
 
