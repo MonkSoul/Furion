@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // 让 .NET 开发更简单，更通用，更流行。
 // Copyright © 2020-2021 Furion, 百小僧, Baiqian Co.,Ltd.
 //
@@ -484,7 +484,7 @@ namespace Furion.RemoteRequest
 
                     // 处理其他类型
                     var dic = ConvertBodyToDictionary();
-                    if (dic == null || dic.Count == 0)
+                    if (dic != null && dic.Count > 0)
                     {
                         foreach (var (key, value) in dic)
                         {
