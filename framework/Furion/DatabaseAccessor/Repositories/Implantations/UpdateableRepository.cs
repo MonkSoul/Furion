@@ -1,4 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// -----------------------------------------------------------------------------
+// 让 .NET 开发更简单，更通用，更流行。
+// Copyright © 2020-2021 Furion, 百小僧, Baiqian Co.,Ltd.
+//
+// 框架名称：Furion
+// 框架作者：百小僧
+// 框架版本：2.5.1
+// 源码地址：Gitee：https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
+// 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
+// -----------------------------------------------------------------------------
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
@@ -1902,6 +1914,39 @@ namespace Furion.DatabaseAccessor
             if (keyValue == null || (keyProperty.PropertyType.IsValueType && (keyValue.Equals(0) || keyValue.Equals(Guid.Empty)))) throw new InvalidOperationException("The primary key value is not set.");
 
             return (keyName, keyValue);
+        }
+
+        /// <summary>
+        /// 忽略空值属性
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="ignoreNullValues"></param>
+        private void IgnoreNullValues(ref TEntity entity, bool? ignoreNullValues = null)
+        {
+            var isIgnore = ignoreNullValues ?? DynamicContext.InsertOrUpdateIgnoreNullValues;
+            if (isIgnore == false) return;
+
+            // 获取所有的属性
+            var properties = EntityType?.GetProperties();
+            if (properties == null) return;
+
+            foreach (var propety in properties)
+            {
+                var entityProperty = EntityPropertyEntry(entity, propety.Name);
+                var propertyValue = entityProperty?.CurrentValue;
+                var propertyType = entityProperty?.Metadata?.PropertyInfo?.PropertyType;
+
+                // 判断是否是无效的值，比如为 null，默认时间，以及空 Guid 值
+                var isInvalid = propertyValue == null
+                                || (propertyType == typeof(DateTime) && propertyValue?.ToString() == new DateTime().ToString())
+                                || (propertyType == typeof(DateTimeOffset) && propertyValue?.ToString() == new DateTimeOffset().ToString())
+                                || (propertyType == typeof(Guid) && propertyValue?.ToString() == Guid.Empty.ToString());
+
+                if (isInvalid && entityProperty != null)
+                {
+                    entityProperty.IsModified = false;
+                }
+            }
         }
     }
 }

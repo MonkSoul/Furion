@@ -1,4 +1,16 @@
-﻿using Furion.ClayObject.Extensions;
+﻿// -----------------------------------------------------------------------------
+// 让 .NET 开发更简单，更通用，更流行。
+// Copyright © 2020-2021 Furion, 百小僧, Baiqian Co.,Ltd.
+//
+// 框架名称：Furion
+// 框架作者：百小僧
+// 框架版本：2.5.1
+// 源码地址：Gitee：https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
+// 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
+// -----------------------------------------------------------------------------
+
+using Furion.ClayObject.Extensions;
 using Furion.DependencyInjection;
 using Furion.Extensions;
 using System;
@@ -51,8 +63,7 @@ namespace Furion.Templates.Extensions
 
             // 获取所有匹配的模板
             var templateValues = Regex.Matches(template, templatePattern)
-                                                       .Select(u => new
-                                                       {
+                                                       .Select(u => new {
                                                            Template = u.Groups["p"].Value,
                                                            Value = MatchTemplateValue(u.Groups["p"].Value, templateData)
                                                        });
@@ -81,8 +92,7 @@ namespace Furion.Templates.Extensions
 
             // 获取所有匹配的模板
             var templateValues = Regex.Matches(template, templatePattern)
-                                                       .Select(u => new
-                                                       {
+                                                       .Select(u => new {
                                                            Template = u.Groups["p"].Value,
                                                            Value = App.Configuration[u.Groups["p"].Value]
                                                        });

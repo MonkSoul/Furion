@@ -1,6 +1,6 @@
 {
   "$schema": "http://json.schemastore.org/template",
-  "author": "百小僧/MonkSoul",
+  "author": "百小僧",
   "classifications": ["Furion", "Blazor", "WebApi", "Api"],
   "name": "Furion Blazor With WebApi",
   "identity": "Furion.Template.BlazorWithWebApi",

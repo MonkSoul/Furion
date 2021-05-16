@@ -1,3 +1,15 @@
+ï»¿// -----------------------------------------------------------------------------
+// è®© .NET å¼€å‘æ›´ç®€å•ï¼Œæ›´é€šç”¨ï¼Œæ›´æµè¡Œã€‚
+// Copyright Â© 2020-2021 Furion, ç™¾å°åƒ§, Baiqian Co.,Ltd.
+//
+// æ¡†æ¶åç§°ï¼šFurion
+// æ¡†æ¶ä½œè€…ï¼šç™¾å°åƒ§
+// æ¡†æ¶ç‰ˆæœ¬ï¼š2.5.1
+// æºç åœ°å€ï¼šGiteeï¼šhttps://gitee.com/dotnetchina/Furion
+//          Githubï¼šhttps://github.com/monksoul/Furion
+// å¼€æºåè®®ï¼šApache-2.0ï¼ˆhttps://gitee.com/dotnetchina/Furion/blob/master/LICENSEï¼‰
+// -----------------------------------------------------------------------------
+
 using Furion.DependencyInjection;
 using System;
 using System.ComponentModel;
@@ -5,21 +17,21 @@ using System.ComponentModel;
 namespace Furion.TaskScheduler
 {
     /// <summary>
-    /// Cron ±í´ïÊ½Ö§³ÖÀàĞÍ
+    /// Cron è¡¨è¾¾å¼æ”¯æŒç±»å‹
     /// </summary>
     [SkipScan, Flags]
     public enum CronFormat
     {
         /// <summary>
-        /// Ö»ÓĞ 5 ¸ö×Ö·û£º·ÖÖÓ£¬Ğ¡Ê±£¬ÔÂ/Ìì£¬Ìì£¬ÖÜ/Ìì
+        /// åªæœ‰ 5 ä¸ªå­—ç¬¦ï¼šåˆ†é’Ÿï¼Œå°æ—¶ï¼Œæœˆ/å¤©ï¼Œå¤©ï¼Œå‘¨/å¤©
         /// </summary>
-        [Description("Ö»ÓĞ 5 ¸ö×Ö·û£º·ÖÖÓ£¬Ğ¡Ê±£¬ÔÂ/Ìì£¬Ìì£¬ÖÜ/Ìì")]
+        [Description("åªæœ‰ 5 ä¸ªå­—ç¬¦ï¼šåˆ†é’Ÿï¼Œå°æ—¶ï¼Œæœˆ/å¤©ï¼Œå¤©ï¼Œå‘¨/å¤©")]
         Standard = 0,
 
         /// <summary>
-        /// Ö§³ÖÃë½âÎö£¬Ò²¾ÍÊÇ 6 ¸ö×Ö·û
+        /// æ”¯æŒç§’è§£æï¼Œä¹Ÿå°±æ˜¯ 6 ä¸ªå­—ç¬¦
         /// </summary>
-        [Description("Ö§³ÖÃë½âÎö£¬Ò²¾ÍÊÇ 6 ¸ö×Ö·û")]
+        [Description("æ”¯æŒç§’è§£æï¼Œä¹Ÿå°±æ˜¯ 6 ä¸ªå­—ç¬¦")]
         IncludeSeconds = 1
     }
 }

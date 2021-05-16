@@ -8,6 +8,7 @@
 
 - **突破性变化**
 
+  - [移除] **`InsertOrUpdate` 一系列数据库操作方法** [#I3RI9L](https://gitee.com/dotnetchina/Furion/issues/I3RI9L)
   - [调整] 分布式 GUID `IDGenerater` 静态类名称为 `IDGen` [#I3RGUA](https://gitee.com/dotnetchina/Furion/issues/I3RGUA)
 
 - **问题修复**
