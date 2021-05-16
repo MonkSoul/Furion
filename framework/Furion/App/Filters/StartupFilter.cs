@@ -37,6 +37,7 @@ namespace Furion
                 // 调用默认中间件
                 app.UseApp();
 
+                // 配置所有 Starup Configure
                 UseStartups(app);
 
                 // 调用 Furion.Web.Entry 中的 Startup
@@ -91,7 +92,8 @@ namespace Furion
             // 解析服务
             for (int i = 1; i < parameters.Length; i++)
             {
-                parameterInstances[i] = app.ApplicationServices.GetRequiredService(parameters[i].ParameterType);
+                var parameter = parameters[i];
+                parameterInstances[i] = app.ApplicationServices.GetRequiredService(parameter.ParameterType);
             }
             return parameterInstances;
         }

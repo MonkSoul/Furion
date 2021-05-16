@@ -202,8 +202,8 @@ namespace Microsoft.Extensions.DependencyInjection
             // 添加对象映射
             services.AddObjectMapper();
 
-            // 添加文件系统
-            if (appSettings.EnabledFileProviderSystem == true) services.AddFileProviderSystem();
+            // 添加虚拟文件服务
+            if (appSettings.EnabledVirtualFileServer == true) services.AddVirtualFileServer();
 
             // 自定义服务
             configure?.Invoke(services);
@@ -236,8 +236,8 @@ namespace Microsoft.Extensions.DependencyInjection
             // 添加对象映射
             services.AddObjectMapper();
 
-            // 添加文件系统
-            if (appSettings.EnabledFileProviderSystem == true) services.AddFileProviderSystem();
+            // 添加虚拟文件服务
+            if (appSettings.EnabledVirtualFileServer == true) services.AddVirtualFileServer();
 
             // 自定义服务
             configure?.Invoke(services);

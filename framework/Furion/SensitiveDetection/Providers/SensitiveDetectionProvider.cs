@@ -1,5 +1,5 @@
 ﻿using Furion.DependencyInjection;
-using Furion.FileProviderSystem;
+using Furion.VirtualFileServer;
 using Furion.JsonSerialization;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.FileProviders;

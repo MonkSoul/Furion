@@ -45,9 +45,9 @@ namespace Furion
         public string[] SupportPackageNamePrefixs { get; set; }
 
         /// <summary>
-        /// 是否启用文件提供器系统
+        /// 是否启用虚拟文件服务
         /// </summary>
-        public bool? EnabledFileProviderSystem { get; set; }
+        public bool? EnabledVirtualFileServer { get; set; }
 
         /// <summary>
         /// 后期配置
@@ -63,7 +63,7 @@ namespace Furion
             options.ExternalAssemblies ??= Array.Empty<string>();
             options.PrintDbConnectionInfo ??= true;
             options.SupportPackageNamePrefixs ??= Array.Empty<string>();
-            options.EnabledFileProviderSystem ??= true;
+            options.EnabledVirtualFileServer ??= true;
         }
     }
 }

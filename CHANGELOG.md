@@ -1,8 +1,8 @@
-## v2.5.0 （未发布版本）
+## v2.5.0 （当前版本）
 
 - **新特性**
 
-  - [新增] 文件提供器系统（虚拟文件系统） [#I3RBR9](https://gitee.com/dotnetchina/Furion/issues/I3RBR9)
+  - [新增] 虚拟文件服务，支持物理文件和嵌入资源文件 [#I3RBR9](https://gitee.com/dotnetchina/Furion/issues/I3RBR9)
   - [新增] 读写分离/主从复制仓储 `IMSRepository` 和 `IMSRepository<TMasterDbContextLocator>` 仓储，可进行随机或自定义获取从库
   - [新增] 数据脱敏处理 [#I3R5ZF](https://gitee.com/dotnetchina/Furion/issues/I3R5ZF)
 
@@ -36,7 +36,7 @@
 
 ---
 
-## v2.4.0 （当前版本）
+## v2.4.0 （已发布）
 
 - **新特性**
 

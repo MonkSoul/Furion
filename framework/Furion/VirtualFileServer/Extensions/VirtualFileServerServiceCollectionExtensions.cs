@@ -1,5 +1,5 @@
 ﻿using Furion.DependencyInjection;
-using Furion.FileProviderSystem;
+using Furion.VirtualFileServer;
 using Microsoft.Extensions.FileProviders;
 using System;
 using System.Reflection;
@@ -7,17 +7,17 @@ using System.Reflection;
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
-    /// 文件提供器系统服务拓展
+    /// 虚拟文件服务服务拓展
     /// </summary>
     [SkipScan]
-    public static class FileProviderSystemServiceCollectionExtensions
+    public static class VirtualFileServerServiceCollectionExtensions
     {
         /// <summary>
         /// 文件提供器系统服务拓展
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddFileProviderSystem(this IServiceCollection services)
+        public static IServiceCollection AddVirtualFileServer(this IServiceCollection services)
         {
             // 解析文件提供器
             services.AddSingleton(provider =>

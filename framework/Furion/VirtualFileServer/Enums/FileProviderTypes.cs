@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Furion.FileProviderSystem
+namespace Furion.VirtualFileServer
 {
     /// <summary>
     /// 文件提供器类型

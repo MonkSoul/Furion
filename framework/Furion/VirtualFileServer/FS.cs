@@ -3,10 +3,10 @@ using Microsoft.Extensions.FileProviders;
 using System;
 using System.Reflection;
 
-namespace Furion.FileProviderSystem
+namespace Furion.VirtualFileServer
 {
     /// <summary>
-    /// 文件提供静态类
+    /// 虚拟文件服务静态类
     /// </summary>
     [SkipScan]
     public static class FS
