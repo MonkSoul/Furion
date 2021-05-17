@@ -4,8 +4,8 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.5.1
-// 源码地址：Gitee：https://gitee.com/dotnetchina/Furion
+// 框架版本：2.6.0
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
@@ -230,7 +230,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 providerName ??= dbContextAttribute?.ProviderName;
 
                 // 解析数据库提供器信息
-                (string name, string version) = ReadProviderInfo(providerName);
+                (var name, var version) = ReadProviderInfo(providerName);
                 providerName = name;
 
                 // 调用对应数据库程序集
@@ -398,7 +398,7 @@ namespace Microsoft.Extensions.DependencyInjection
             var providerNameAndVersion = providerName.Split('@', StringSplitOptions.RemoveEmptyEntries);
             providerName = providerNameAndVersion.First();
 
-            string providerVersion = providerNameAndVersion.Length > 1 ? providerNameAndVersion[1] : default;
+            var providerVersion = providerNameAndVersion.Length > 1 ? providerNameAndVersion[1] : default;
             return (providerName, providerVersion);
         }
     }

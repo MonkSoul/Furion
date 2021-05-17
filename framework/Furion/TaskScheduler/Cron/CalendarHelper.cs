@@ -4,8 +4,8 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.5.1
-// 源码地址：Gitee：https://gitee.com/dotnetchina/Furion
+// 框架版本：2.6.0
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
@@ -67,9 +67,9 @@ namespace Furion.TaskScheduler
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long DateTimeToTicks(int year, int month, int day, int hour, int minute, int second)
         {
-            int[] days = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0) ? DaysToMonth366 : DaysToMonth365;
-            int y = year - 1;
-            int n = y * 365 + y / 4 - y / 100 + y / 400 + days[month - 1] + day - 1;
+            var days = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0) ? DaysToMonth366 : DaysToMonth365;
+            var y = year - 1;
+            var n = y * 365 + y / 4 - y / 100 + y / 400 + days[month - 1] + day - 1;
             return n * TicksPerDay + (hour * 3600L + minute * 60L + second) * TicksPerSecond;
         }
 
@@ -86,23 +86,23 @@ namespace Furion.TaskScheduler
             hour = (int)(ticks / TicksPerHour % 24);
 
             // n = number of days since 1/1/0001
-            int n = (int)(ticks / TicksPerDay);
+            var n = (int)(ticks / TicksPerDay);
             // y400 = number of whole 400-year periods since 1/1/0001
-            int y400 = n / DaysPer400Years;
+            var y400 = n / DaysPer400Years;
             // n = day number within 400-year period
             n -= y400 * DaysPer400Years;
             // y100 = number of whole 100-year periods within 400-year period
-            int y100 = n / DaysPer100Years;
+            var y100 = n / DaysPer100Years;
             // Last 100-year period has an extra day, so decrement result if 4
             if (y100 == 4) y100 = 3;
             // n = day number within 100-year period
             n -= y100 * DaysPer100Years;
             // y4 = number of whole 4-year periods within 100-year period
-            int y4 = n / DaysPer4Years;
+            var y4 = n / DaysPer4Years;
             // n = day number within 4-year period
             n -= y4 * DaysPer4Years;
             // y1 = number of whole years within 4-year period
-            int y1 = n / DaysPerYear;
+            var y1 = n / DaysPerYear;
             // Last year has an extra day, so decrement result if 4
             if (y1 == 4) y1 = 3;
             // If year was requested, compute and return it
@@ -111,8 +111,8 @@ namespace Furion.TaskScheduler
             n -= y1 * DaysPerYear;
             // Leap year calculation looks different from IsLeapYear since y1, y4,
             // and y100 are relative to year 1, not year 0
-            bool leapYear = y1 == 3 && (y4 != 24 || y100 == 3);
-            int[] days = leapYear ? DaysToMonth366 : DaysToMonth365;
+            var leapYear = y1 == 3 && (y4 != 24 || y100 == 3);
+            var days = leapYear ? DaysToMonth366 : DaysToMonth365;
             // All months have less than 32 days, so n >> 5 is a good conservative
             // estimate for the month
             month = (n >> 5) + 1;
@@ -127,9 +127,9 @@ namespace Furion.TaskScheduler
         public static DayOfWeek GetDayOfWeek(int year, int month, int day)
         {
             var isLeapYear = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
-            int[] days = isLeapYear ? DaysToMonth366 : DaysToMonth365;
-            int y = year - 1;
-            int n = y * 365 + y / 4 - y / 100 + y / 400 + days[month - 1] + day - 1;
+            var days = isLeapYear ? DaysToMonth366 : DaysToMonth365;
+            var y = year - 1;
+            var n = y * 365 + y / 4 - y / 100 + y / 400 + days[month - 1] + day - 1;
             var ticks = n * TicksPerDay;
 
             return ((DayOfWeek)((int)(ticks / TicksPerDay + 1) % 7));

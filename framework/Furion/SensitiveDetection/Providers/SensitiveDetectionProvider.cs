@@ -4,8 +4,8 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.5.1
-// 源码地址：Gitee：https://gitee.com/dotnetchina/Furion
+// 框架版本：2.6.0
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
@@ -17,7 +17,6 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.FileProviders;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,7 +76,7 @@ namespace Furion.SensitiveDetection
 
             // 读取文件内容
             byte[] buffer;
-            using (Stream readStream = _fileProvider.GetFileInfo("sensitive-words.txt").CreateReadStream()) // 暂时不提供配置文件名称
+            using (var readStream = _fileProvider.GetFileInfo("sensitive-words.txt").CreateReadStream()) // 暂时不提供配置文件名称
             {
                 buffer = new byte[readStream.Length];
                 await readStream.ReadAsync(buffer.AsMemory(0, buffer.Length));
@@ -126,13 +125,13 @@ namespace Furion.SensitiveDetection
             var stringBuilder = new StringBuilder(text);
 
             // 循环替换
-            foreach (KeyValuePair<string, List<int>> kv in foundSets)
+            foreach (var kv in foundSets)
             {
-                for (int i = 0; i < kv.Value.Count; i++)
+                for (var i = 0; i < kv.Value.Count; i++)
                 {
-                    for (int j = 0; j < kv.Key.Length; j++)
+                    for (var j = 0; j < kv.Key.Length; j++)
                     {
-                        int tempIndex = GetSensitiveWordIndex(kv.Value, i, kv.Key.Length);
+                        var tempIndex = GetSensitiveWordIndex(kv.Value, i, kv.Key.Length);
 
                         // 设置替换的字符
                         stringBuilder[tempIndex + j] = transfer;
@@ -160,7 +159,7 @@ namespace Furion.SensitiveDetection
             var foundSets = new Dictionary<string, List<int>>();
 
             // 遍历所有脱敏词汇并查找字符串是否包含
-            foreach (string sensitiveWord in sensitiveWords)
+            foreach (var sensitiveWord in sensitiveWords)
             {
                 // 重新填充目标字符串
                 tempStringBuilder.Clear();
@@ -196,7 +195,7 @@ namespace Furion.SensitiveDetection
         {
             // 用于返回当前敏感词的第 count 个的真实索引
             var sum = 0;
-            for (int i = 0; i <= count; i++)
+            for (var i = 0; i <= count; i++)
             {
                 if (i == 0)
                 {

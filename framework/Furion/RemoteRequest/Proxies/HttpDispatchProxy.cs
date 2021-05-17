@@ -4,8 +4,8 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.5.1
-// 源码地址：Gitee：https://gitee.com/dotnetchina/Furion
+// 框架版本：2.6.0
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
@@ -47,7 +47,10 @@ namespace Furion.RemoteRequest
         /// <param name="method"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public override object Invoke(MethodInfo method, object[] args) => throw new NotSupportedException("Please use asynchronous operation mode.");
+        public override object Invoke(MethodInfo method, object[] args)
+        {
+            throw new NotSupportedException("Please use asynchronous operation mode.");
+        }
 
         /// <summary>
         /// 拦截异步无返回方法
@@ -55,7 +58,7 @@ namespace Furion.RemoteRequest
         /// <param name="method"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public override async Task InvokeAsync(MethodInfo method, object[] args)
+        public async override Task InvokeAsync(MethodInfo method, object[] args)
         {
             var httpclientPart = BuildHttpClientPart(method, args);
             _ = await httpclientPart.SendAsync();

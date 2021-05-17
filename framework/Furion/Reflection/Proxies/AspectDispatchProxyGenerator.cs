@@ -4,8 +4,8 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.5.1
-// 源码地址：Gitee：https://gitee.com/dotnetchina/Furion
+// 框架版本：2.6.0
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
@@ -42,7 +42,7 @@ namespace Furion.Reflection
             Debug.Assert(baseType != null);
             Debug.Assert(interfaceType != null);
 
-            Type proxiedType = GetProxyType(baseType, interfaceType);
+            var proxiedType = GetProxyType(baseType, interfaceType);
             return Activator.CreateInstance(proxiedType, new DispatchProxyHandler());
         }
 
@@ -50,13 +50,13 @@ namespace Furion.Reflection
         {
             lock (s_baseTypeAndInterfaceToGeneratedProxyType)
             {
-                if (!s_baseTypeAndInterfaceToGeneratedProxyType.TryGetValue(baseType, out Dictionary<Type, Type> interfaceToProxy))
+                if (!s_baseTypeAndInterfaceToGeneratedProxyType.TryGetValue(baseType, out var interfaceToProxy))
                 {
                     interfaceToProxy = new Dictionary<Type, Type>();
                     s_baseTypeAndInterfaceToGeneratedProxyType[baseType] = interfaceToProxy;
                 }
 
-                if (!interfaceToProxy.TryGetValue(interfaceType, out Type generatedProxy))
+                if (!interfaceToProxy.TryGetValue(interfaceType, out var generatedProxy))
                 {
                     generatedProxy = GenerateProxyType(baseType, interfaceType);
                     interfaceToProxy[interfaceType] = generatedProxy;
@@ -71,7 +71,7 @@ namespace Furion.Reflection
         {
             // Parameter validation is deferred until the point we need to create the proxy.
             // This prevents unnecessary overhead revalidating cached proxy types.
-            TypeInfo baseTypeInfo = baseType.GetTypeInfo();
+            var baseTypeInfo = baseType.GetTypeInfo();
 
             // The interface type must be an interface, not a class
             if (!interfaceType.GetTypeInfo().IsInterface)
@@ -100,14 +100,14 @@ namespace Furion.Reflection
             }
 
             // Create a type that derives from 'baseType' provided by caller
-            ProxyBuilder pb = s_proxyAssembly.CreateProxy("generatedProxy", baseType);
+            var pb = s_proxyAssembly.CreateProxy("generatedProxy", baseType);
 
-            foreach (Type t in interfaceType.GetTypeInfo().ImplementedInterfaces)
+            foreach (var t in interfaceType.GetTypeInfo().ImplementedInterfaces)
                 pb.AddInterfaceImpl(t);
 
             pb.AddInterfaceImpl(interfaceType);
 
-            Type generatedProxyType = pb.CreateType();
+            var generatedProxyType = pb.CreateType();
             return generatedProxyType;
         }
 
@@ -125,8 +125,8 @@ namespace Furion.Reflection
 
         private static ProxyMethodResolverContext Resolve(object[] args)
         {
-            PackedArgs packed = new(args);
-            MethodBase method = s_proxyAssembly.ResolveMethodToken(packed.DeclaringType, packed.MethodToken);
+            var packed = new PackedArgs(args);
+            var method = s_proxyAssembly.ResolveMethodToken(packed.DeclaringType, packed.MethodToken);
             if (method.IsGenericMethodDefinition)
                 method = ((MethodInfo)method).MakeGenericMethod(packed.GenericTypes);
 
@@ -220,11 +220,11 @@ namespace Furion.Reflection
                 _args = args;
             }
 
-            internal AspectDispatchProxy DispatchProxy { get { return (AspectDispatchProxy)_args[DispatchProxyPosition]; } }
-            internal Type DeclaringType { get { return (Type)_args[DeclaringTypePosition]; } }
-            internal int MethodToken { get { return (int)_args[MethodTokenPosition]; } }
-            internal object[] Args { get { return (object[])_args[ArgsPosition]; } }
-            internal Type[] GenericTypes { get { return (Type[])_args[GenericTypesPosition]; } }
+            internal AspectDispatchProxy DispatchProxy => (AspectDispatchProxy)_args[DispatchProxyPosition];
+            internal Type DeclaringType => (Type)_args[DeclaringTypePosition];
+            internal int MethodToken => (int)_args[MethodTokenPosition];
+            internal object[] Args => (object[])_args[ArgsPosition];
+            internal Type[] GenericTypes => (Type[])_args[GenericTypesPosition];
             internal object ReturnValue { /*get { return args[ReturnValuePosition]; }*/ set { _args[ReturnValuePosition] = value; } }
         }
 
@@ -244,7 +244,7 @@ namespace Furion.Reflection
 
             public ProxyAssembly()
             {
-                AssemblyBuilderAccess access = AssemblyBuilderAccess.Run;
+                var access = AssemblyBuilderAccess.Run;
                 var assemblyName = new AssemblyName("ProxyBuilder2")
                 {
                     Version = new Version(1, 0, 0)
@@ -262,7 +262,7 @@ namespace Furion.Reflection
                 {
                     if (_ignoresAccessChecksToAttributeConstructor == null)
                     {
-                        TypeInfo attributeTypeInfo = GenerateTypeInfoOfIgnoresAccessChecksToAttribute();
+                        var attributeTypeInfo = GenerateTypeInfoOfIgnoresAccessChecksToAttribute();
                         _ignoresAccessChecksToAttributeConstructor = attributeTypeInfo.DeclaredConstructors.Single();
                     }
 
@@ -272,30 +272,30 @@ namespace Furion.Reflection
 
             public ProxyBuilder CreateProxy(string name, Type proxyBaseType)
             {
-                int nextId = Interlocked.Increment(ref _typeId);
-                TypeBuilder tb = _mb.DefineType(name + "_" + nextId, TypeAttributes.Public, proxyBaseType);
+                var nextId = Interlocked.Increment(ref _typeId);
+                var tb = _mb.DefineType(name + "_" + nextId, TypeAttributes.Public, proxyBaseType);
                 return new ProxyBuilder(this, tb, proxyBaseType);
             }
 
             private TypeInfo GenerateTypeInfoOfIgnoresAccessChecksToAttribute()
             {
-                TypeBuilder attributeTypeBuilder =
+                var attributeTypeBuilder =
                     _mb.DefineType("System.Runtime.CompilerServices.IgnoresAccessChecksToAttribute",
                                    TypeAttributes.Public | TypeAttributes.Class,
                                    typeof(Attribute));
 
                 // Create backing field as:
                 // private string assemblyName;
-                FieldBuilder assemblyNameField =
-                    attributeTypeBuilder.DefineField("assemblyName", typeof(String), FieldAttributes.Private);
+                var assemblyNameField =
+                    attributeTypeBuilder.DefineField("assemblyName", typeof(string), FieldAttributes.Private);
 
                 // Create ctor as:
                 // public IgnoresAccessChecksToAttribute(string)
-                ConstructorBuilder constructorBuilder = attributeTypeBuilder.DefineConstructor(MethodAttributes.Public,
+                var constructorBuilder = attributeTypeBuilder.DefineConstructor(MethodAttributes.Public,
                                                              CallingConventions.HasThis,
                                                              new Type[] { assemblyNameField.FieldType });
 
-                ILGenerator il = constructorBuilder.GetILGenerator();
+                var il = constructorBuilder.GetILGenerator();
 
                 // Create ctor body as:
                 // this.assemblyName = {ctor parameter 0}
@@ -308,18 +308,18 @@ namespace Furion.Reflection
 
                 // Define property as:
                 // public string AssemblyName {get { return this.assemblyName; } }
-                PropertyBuilder getterPropertyBuilder = attributeTypeBuilder.DefineProperty(
+                var getterPropertyBuilder = attributeTypeBuilder.DefineProperty(
                                                        "AssemblyName",
                                                        PropertyAttributes.None,
                                                        CallingConventions.HasThis,
-                                                       returnType: typeof(String),
+                                                       returnType: typeof(string),
                                                        parameterTypes: null);
 
-                MethodBuilder getterMethodBuilder = attributeTypeBuilder.DefineMethod(
+                var getterMethodBuilder = attributeTypeBuilder.DefineMethod(
                                                        "get_AssemblyName",
                                                        MethodAttributes.Public,
                                                        CallingConventions.HasThis,
-                                                       returnType: typeof(String),
+                                                       returnType: typeof(string),
                                                        parameterTypes: null);
 
                 // Generate body:
@@ -331,18 +331,18 @@ namespace Furion.Reflection
 
                 // Generate the AttributeUsage attribute for this attribute type:
                 // [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
-                TypeInfo attributeUsageTypeInfo = typeof(AttributeUsageAttribute).GetTypeInfo();
+                var attributeUsageTypeInfo = typeof(AttributeUsageAttribute).GetTypeInfo();
 
                 // Find the ctor that takes only AttributeTargets
-                ConstructorInfo attributeUsageConstructorInfo =
+                var attributeUsageConstructorInfo =
                     attributeUsageTypeInfo.DeclaredConstructors
                         .Single(c => c.GetParameters().Length == 1 &&
                                      c.GetParameters()[0].ParameterType == typeof(AttributeTargets));
 
                 // Find the property to set AllowMultiple
-                PropertyInfo allowMultipleProperty =
+                var allowMultipleProperty =
                     attributeUsageTypeInfo.DeclaredProperties
-                        .Single(f => String.Equals(f.Name, "AllowMultiple"));
+                        .Single(f => string.Equals(f.Name, "AllowMultiple"));
 
                 // Create a builder to construct the instance via the ctor and property
                 CustomAttributeBuilder customAttributeBuilder =
@@ -365,7 +365,7 @@ namespace Furion.Reflection
             {
                 // Add this assembly level attribute:
                 // [assembly: System.Runtime.CompilerServices.IgnoresAccessChecksToAttribute(assemblyName)]
-                ConstructorInfo attributeConstructor = IgnoresAccessChecksAttributeConstructor;
+                var attributeConstructor = IgnoresAccessChecksAttributeConstructor;
                 CustomAttributeBuilder customAttributeBuilder =
                     new(attributeConstructor, new object[] { assemblyName });
                 _ab.SetCustomAttribute(customAttributeBuilder);
@@ -376,10 +376,10 @@ namespace Furion.Reflection
             // allows access from the dynamic assembly.
             internal void EnsureTypeIsVisible(Type type)
             {
-                TypeInfo typeInfo = type.GetTypeInfo();
+                var typeInfo = type.GetTypeInfo();
                 if (!typeInfo.IsVisible)
                 {
-                    string assemblyName = typeInfo.Assembly.GetName().Name;
+                    var assemblyName = typeInfo.Assembly.GetName().Name;
                     if (!_ignoresAccessAssemblyNames.Contains(assemblyName))
                     {
                         GenerateInstanceOfIgnoresAccessChecksToAttribute(assemblyName);
@@ -401,6 +401,7 @@ namespace Furion.Reflection
 
             internal MethodBase ResolveMethodToken(Type type, int token)
             {
+                _ = type;
                 Debug.Assert(token >= 0 && token < _methodsByToken.Count);
                 return _methodsByToken[token];
             }
@@ -443,24 +444,24 @@ namespace Furion.Reflection
 
             private void Complete()
             {
-                Type[] args = new Type[_fields.Count];
-                for (int i = 0; i < args.Length; i++)
+                var args = new Type[_fields.Count];
+                for (var i = 0; i < args.Length; i++)
                 {
                     args[i] = _fields[i].FieldType;
                 }
 
-                ConstructorBuilder cb = _tb.DefineConstructor(MethodAttributes.Public, CallingConventions.HasThis, args);
-                ILGenerator il = cb.GetILGenerator();
+                var cb = _tb.DefineConstructor(MethodAttributes.Public, CallingConventions.HasThis, args);
+                var il = cb.GetILGenerator();
 
                 // chained ctor call
-                ConstructorInfo baseCtor = _proxyBaseType.GetTypeInfo().DeclaredConstructors.SingleOrDefault(c => c.IsPublic && c.GetParameters().Length == 0);
+                var baseCtor = _proxyBaseType.GetTypeInfo().DeclaredConstructors.SingleOrDefault(c => c.IsPublic && c.GetParameters().Length == 0);
                 Debug.Assert(baseCtor != null);
 
                 il.Emit(OpCodes.Ldarg_0);
                 il.Emit(OpCodes.Call, baseCtor);
 
                 // store all the fields
-                for (int i = 0; i < args.Length; i++)
+                for (var i = 0; i < args.Length; i++)
                 {
                     il.Emit(OpCodes.Ldarg_0);
                     il.Emit(OpCodes.Ldarg, i + 1);
@@ -472,7 +473,7 @@ namespace Furion.Reflection
 
             internal Type CreateType()
             {
-                this.Complete();
+                Complete();
                 return _tb.CreateTypeInfo().AsType();
             }
 
@@ -486,7 +487,7 @@ namespace Furion.Reflection
 
                 // AccessorMethods -> Metadata mappings.
                 var propertyMap = new Dictionary<MethodInfo, PropertyAccessorInfo>(MethodInfoEqualityComparer.Instance);
-                foreach (PropertyInfo pi in iface.GetRuntimeProperties())
+                foreach (var pi in iface.GetRuntimeProperties())
                 {
                     var ai = new PropertyAccessorInfo(pi.GetMethod, pi.SetMethod);
                     if (pi.GetMethod != null)
@@ -496,7 +497,7 @@ namespace Furion.Reflection
                 }
 
                 var eventMap = new Dictionary<MethodInfo, EventAccessorInfo>(MethodInfoEqualityComparer.Instance);
-                foreach (EventInfo ei in iface.GetRuntimeEvents())
+                foreach (var ei in iface.GetRuntimeEvents())
                 {
                     var ai = new EventAccessorInfo(ei.AddMethod, ei.RemoveMethod, ei.RaiseMethod);
                     if (ei.AddMethod != null)
@@ -507,13 +508,13 @@ namespace Furion.Reflection
                         eventMap[ei.RaiseMethod] = ai;
                 }
 
-                foreach (MethodInfo mi in iface.GetRuntimeMethods())
+                foreach (var mi in iface.GetRuntimeMethods())
                 {
                     // 排除静态方法
                     if (mi.IsStatic) continue;
 
-                    MethodBuilder mdb = AddMethodImpl(mi);
-                    if (propertyMap.TryGetValue(mi, out PropertyAccessorInfo associatedProperty))
+                    var mdb = AddMethodImpl(mi);
+                    if (propertyMap.TryGetValue(mi, out var associatedProperty))
                     {
                         if (MethodInfoEqualityComparer.Instance.Equals(associatedProperty.InterfaceGetMethod, mi))
                             associatedProperty.GetMethodBuilder = mdb;
@@ -521,7 +522,7 @@ namespace Furion.Reflection
                             associatedProperty.SetMethodBuilder = mdb;
                     }
 
-                    if (eventMap.TryGetValue(mi, out EventAccessorInfo associatedEvent))
+                    if (eventMap.TryGetValue(mi, out var associatedEvent))
                     {
                         if (MethodInfoEqualityComparer.Instance.Equals(associatedEvent.InterfaceAddMethod, mi))
                             associatedEvent.AddMethodBuilder = mdb;
@@ -532,20 +533,20 @@ namespace Furion.Reflection
                     }
                 }
 
-                foreach (PropertyInfo pi in iface.GetRuntimeProperties())
+                foreach (var pi in iface.GetRuntimeProperties())
                 {
-                    PropertyAccessorInfo ai = propertyMap[pi.GetMethod ?? pi.SetMethod];
-                    PropertyBuilder pb = _tb.DefineProperty(pi.Name, pi.Attributes, pi.PropertyType, pi.GetIndexParameters().Select(p => p.ParameterType).ToArray());
+                    var ai = propertyMap[pi.GetMethod ?? pi.SetMethod];
+                    var pb = _tb.DefineProperty(pi.Name, pi.Attributes, pi.PropertyType, pi.GetIndexParameters().Select(p => p.ParameterType).ToArray());
                     if (ai.GetMethodBuilder != null)
                         pb.SetGetMethod(ai.GetMethodBuilder);
                     if (ai.SetMethodBuilder != null)
                         pb.SetSetMethod(ai.SetMethodBuilder);
                 }
 
-                foreach (EventInfo ei in iface.GetRuntimeEvents())
+                foreach (var ei in iface.GetRuntimeEvents())
                 {
-                    EventAccessorInfo ai = eventMap[ei.AddMethod ?? ei.RemoveMethod];
-                    EventBuilder eb = _tb.DefineEvent(ei.Name, ei.Attributes, ei.EventHandlerType);
+                    var ai = eventMap[ei.AddMethod ?? ei.RemoveMethod];
+                    var eb = _tb.DefineEvent(ei.Name, ei.Attributes, ei.EventHandlerType);
                     if (ai.AddMethodBuilder != null)
                         eb.SetAddOnMethod(ai.AddMethodBuilder);
                     if (ai.RemoveMethodBuilder != null)
@@ -557,33 +558,33 @@ namespace Furion.Reflection
 
             private MethodBuilder AddMethodImpl(MethodInfo mi)
             {
-                ParameterInfo[] parameters = mi.GetParameters();
-                Type[] paramTypes = ParamTypes(parameters, false);
+                var parameters = mi.GetParameters();
+                var paramTypes = ParamTypes(parameters, false);
 
-                MethodBuilder mdb = _tb.DefineMethod(mi.Name, MethodAttributes.Public | MethodAttributes.Virtual, mi.ReturnType, paramTypes);
+                var mdb = _tb.DefineMethod(mi.Name, MethodAttributes.Public | MethodAttributes.Virtual, mi.ReturnType, paramTypes);
                 if (mi.ContainsGenericParameters)
                 {
-                    Type[] ts = mi.GetGenericArguments();
-                    string[] ss = new string[ts.Length];
-                    for (int i = 0; i < ts.Length; i++)
+                    var ts = mi.GetGenericArguments();
+                    var ss = new string[ts.Length];
+                    for (var i = 0; i < ts.Length; i++)
                     {
                         ss[i] = ts[i].Name;
                     }
-                    GenericTypeParameterBuilder[] genericParameters = mdb.DefineGenericParameters(ss);
-                    for (int i = 0; i < genericParameters.Length; i++)
+                    var genericParameters = mdb.DefineGenericParameters(ss);
+                    for (var i = 0; i < genericParameters.Length; i++)
                     {
                         genericParameters[i].SetGenericParameterAttributes(ts[i].GetTypeInfo().GenericParameterAttributes);
                     }
                 }
-                ILGenerator il = mdb.GetILGenerator();
+                var il = mdb.GetILGenerator();
 
                 ParametersArray args = new(il, paramTypes);
 
                 // object[] args = new object[paramCount];
                 il.Emit(OpCodes.Nop);
-                GenericArray<object> argsArr = new(il, ParamTypes(parameters, true).Length);
+                var argsArr = new GenericArray<object>(il, ParamTypes(parameters, true).Length);
 
-                for (int i = 0; i < parameters.Length; i++)
+                for (var i = 0; i < parameters.Length; i++)
                 {
                     // args[i] = argi;
                     if (!parameters[i].IsOut)
@@ -603,8 +604,8 @@ namespace Furion.Reflection
                 packedArr.EndSet(typeof(AspectDispatchProxy));
 
                 // packed[PackedArgs.DeclaringTypePosition] = typeof(iface);
-                MethodInfo Type_GetTypeFromHandle = typeof(Type).GetRuntimeMethod("GetTypeFromHandle", new Type[] { typeof(RuntimeTypeHandle) });
-                _assembly.GetTokenForMethod(mi, out Type declaringType, out int methodToken);
+                var Type_GetTypeFromHandle = typeof(Type).GetRuntimeMethod("GetTypeFromHandle", new Type[] { typeof(RuntimeTypeHandle) });
+                _assembly.GetTokenForMethod(mi, out var declaringType, out var methodToken);
                 packedArr.BeginSet(PackedArgs.DeclaringTypePosition);
                 il.Emit(OpCodes.Ldtoken, declaringType);
                 il.Emit(OpCodes.Call, Type_GetTypeFromHandle);
@@ -613,7 +614,7 @@ namespace Furion.Reflection
                 // packed[PackedArgs.MethodTokenPosition] = iface method token;
                 packedArr.BeginSet(PackedArgs.MethodTokenPosition);
                 il.Emit(OpCodes.Ldc_I4, methodToken);
-                packedArr.EndSet(typeof(Int32));
+                packedArr.EndSet(typeof(int));
 
                 // packed[PackedArgs.ArgsPosition] = args;
                 packedArr.BeginSet(PackedArgs.ArgsPosition);
@@ -624,9 +625,9 @@ namespace Furion.Reflection
                 if (mi.ContainsGenericParameters)
                 {
                     packedArr.BeginSet(PackedArgs.GenericTypesPosition);
-                    Type[] genericTypes = mi.GetGenericArguments();
+                    var genericTypes = mi.GetGenericArguments();
                     GenericArray<Type> typeArr = new(il, genericTypes.Length);
-                    for (int i = 0; i < genericTypes.Length; ++i)
+                    for (var i = 0; i < genericTypes.Length; ++i)
                     {
                         typeArr.BeginSet(i);
                         il.Emit(OpCodes.Ldtoken, genericTypes[i]);
@@ -637,7 +638,7 @@ namespace Furion.Reflection
                     packedArr.EndSet(typeof(Type[]));
                 }
 
-                for (int i = 0; i < parameters.Length; i++)
+                for (var i = 0; i < parameters.Length; i++)
                 {
                     if (parameters[i].ParameterType.IsByRef)
                     {
@@ -647,7 +648,7 @@ namespace Furion.Reflection
                     }
                 }
 
-                MethodInfo invokeMethod = s_delegateInvoke;
+                var invokeMethod = s_delegateInvoke;
                 if (mi.ReturnType == typeof(Task))
                 {
                     invokeMethod = s_delegateInvokeAsync;
@@ -680,8 +681,8 @@ namespace Furion.Reflection
 
             private static Type[] ParamTypes(ParameterInfo[] parms, bool noByRef)
             {
-                Type[] types = new Type[parms.Length];
-                for (int i = 0; i < parms.Length; i++)
+                var types = new Type[parms.Length];
+                for (var i = 0; i < parms.Length; i++)
                 {
                     types[i] = parms[i].ParameterType;
                     if (noByRef && types[i].IsByRef)
@@ -698,49 +699,49 @@ namespace Furion.Reflection
                 if (type == null)
                     return 0;   // TypeCode.Empty;
 
-                if (type == typeof(Boolean))
+                if (type == typeof(bool))
                     return 3;   // TypeCode.Boolean;
 
-                if (type == typeof(Char))
+                if (type == typeof(char))
                     return 4;   // TypeCode.Char;
 
-                if (type == typeof(SByte))
+                if (type == typeof(sbyte))
                     return 5;   // TypeCode.SByte;
 
-                if (type == typeof(Byte))
+                if (type == typeof(byte))
                     return 6;   // TypeCode.Byte;
 
-                if (type == typeof(Int16))
+                if (type == typeof(short))
                     return 7;   // TypeCode.Int16;
 
-                if (type == typeof(UInt16))
+                if (type == typeof(ushort))
                     return 8;   // TypeCode.UInt16;
 
-                if (type == typeof(Int32))
+                if (type == typeof(int))
                     return 9;   // TypeCode.Int32;
 
-                if (type == typeof(UInt32))
+                if (type == typeof(uint))
                     return 10;  // TypeCode.UInt32;
 
-                if (type == typeof(Int64))
+                if (type == typeof(long))
                     return 11;  // TypeCode.Int64;
 
-                if (type == typeof(UInt64))
+                if (type == typeof(ulong))
                     return 12;  // TypeCode.UInt64;
 
-                if (type == typeof(Single))
+                if (type == typeof(float))
                     return 13;  // TypeCode.Single;
 
-                if (type == typeof(Double))
+                if (type == typeof(double))
                     return 14;  // TypeCode.Double;
 
-                if (type == typeof(Decimal))
+                if (type == typeof(decimal))
                     return 15;  // TypeCode.Decimal;
 
                 if (type == typeof(DateTime))
                     return 16;  // TypeCode.DateTime;
 
-                if (type == typeof(String))
+                if (type == typeof(string))
                     return 18;  // TypeCode.String;
 
                 if (type.GetTypeInfo().IsEnum)
@@ -821,13 +822,13 @@ namespace Furion.Reflection
                 if (target == source)
                     return;
 
-                TypeInfo sourceTypeInfo = source.GetTypeInfo();
-                TypeInfo targetTypeInfo = target.GetTypeInfo();
+                var sourceTypeInfo = source.GetTypeInfo();
+                var targetTypeInfo = target.GetTypeInfo();
 
                 if (source.IsByRef)
                 {
                     Debug.Assert(!isAddress);
-                    Type argType = source.GetElementType();
+                    var argType = source.GetElementType();
                     Ldind(il, argType);
                     Convert(il, argType, target, isAddress);
                     return;
@@ -836,7 +837,7 @@ namespace Furion.Reflection
                 {
                     if (sourceTypeInfo.IsValueType)
                     {
-                        OpCode opCode = s_convOpCodes[GetTypeCode(target)];
+                        var opCode = s_convOpCodes[GetTypeCode(target)];
                         Debug.Assert(!opCode.Equals(OpCodes.Nop));
                         il.Emit(opCode);
                     }
@@ -873,7 +874,7 @@ namespace Furion.Reflection
 
             private static void Ldind(ILGenerator il, Type type)
             {
-                OpCode opCode = s_ldindOpCodes[GetTypeCode(type)];
+                var opCode = s_ldindOpCodes[GetTypeCode(type)];
                 if (!opCode.Equals(OpCodes.Nop))
                 {
                     il.Emit(opCode);
@@ -886,7 +887,7 @@ namespace Furion.Reflection
 
             private static void Stind(ILGenerator il, Type type)
             {
-                OpCode opCode = s_stindOpCodes[GetTypeCode(type)];
+                var opCode = s_stindOpCodes[GetTypeCode(type)];
                 if (!opCode.Equals(OpCodes.Nop))
                 {
                     il.Emit(opCode);
@@ -921,7 +922,7 @@ namespace Furion.Reflection
                 internal void EndSet(int i, Type stackType)
                 {
                     Debug.Assert(_paramTypes[i].IsByRef);
-                    Type argType = _paramTypes[i].GetElementType();
+                    var argType = _paramTypes[i].GetElementType();
                     Convert(_il, stackType, argType, false);
                     Stind(_il, argType);
                 }
@@ -1006,7 +1007,7 @@ namespace Furion.Reflection
                 {
                 }
 
-                public sealed override bool Equals(MethodInfo left, MethodInfo right)
+                public override sealed bool Equals(MethodInfo left, MethodInfo right)
                 {
                     if (ReferenceEquals(left, right))
                         return true;
@@ -1034,23 +1035,23 @@ namespace Furion.Reflection
                     if (left.Name != right.Name)
                         return false;
 
-                    Type[] leftGenericParameters = left.GetGenericArguments();
-                    Type[] rightGenericParameters = right.GetGenericArguments();
+                    var leftGenericParameters = left.GetGenericArguments();
+                    var rightGenericParameters = right.GetGenericArguments();
                     if (leftGenericParameters.Length != rightGenericParameters.Length)
                         return false;
 
-                    for (int i = 0; i < leftGenericParameters.Length; i++)
+                    for (var i = 0; i < leftGenericParameters.Length; i++)
                     {
                         if (!Equals(leftGenericParameters[i], rightGenericParameters[i]))
                             return false;
                     }
 
-                    ParameterInfo[] leftParameters = left.GetParameters();
-                    ParameterInfo[] rightParameters = right.GetParameters();
+                    var leftParameters = left.GetParameters();
+                    var rightParameters = right.GetParameters();
                     if (leftParameters.Length != rightParameters.Length)
                         return false;
 
-                    for (int i = 0; i < leftParameters.Length; i++)
+                    for (var i = 0; i < leftParameters.Length; i++)
                     {
                         if (!Equals(leftParameters[i].ParameterType, rightParameters[i].ParameterType))
                             return false;
@@ -1059,14 +1060,14 @@ namespace Furion.Reflection
                     return true;
                 }
 
-                public sealed override int GetHashCode(MethodInfo obj)
+                public override sealed int GetHashCode(MethodInfo obj)
                 {
                     if (obj == null)
                         return 0;
 
-                    int hashCode = obj.DeclaringType.GetHashCode();
+                    var hashCode = obj.DeclaringType.GetHashCode();
                     hashCode ^= obj.Name.GetHashCode();
-                    foreach (ParameterInfo parameter in obj.GetParameters())
+                    foreach (var parameter in obj.GetParameters())
                     {
                         hashCode ^= parameter.ParameterType.GetHashCode();
                     }

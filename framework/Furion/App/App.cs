@@ -4,8 +4,8 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.5.1
-// 源码地址：Gitee：https://gitee.com/dotnetchina/Furion
+// 框架版本：2.6.0
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
@@ -210,10 +210,11 @@ namespace Furion
             Configuration = InternalApp.ConfigurationBuilder.Build();
 
             // 加载程序集
-            (IEnumerable<Assembly> Assemblies, IEnumerable<Assembly> ExternalAssemblies) a = GetAssemblies();
-            Assemblies = a.Assemblies;
-            ExternalAssemblies = a.ExternalAssemblies;
+            var assObject = GetAssemblies();
+            Assemblies = assObject.Assemblies;
+            ExternalAssemblies = assObject.ExternalAssemblies;
 
+            // 获取有效的类型集合
             EffectiveTypes = Assemblies.SelectMany(u => u.GetTypes()
                 .Where(u => u.IsPublic && !u.IsDefined(typeof(SkipScanAttribute), false)));
 

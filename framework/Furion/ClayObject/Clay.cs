@@ -4,8 +4,8 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.5.1
-// 源码地址：Gitee：https://gitee.com/dotnetchina/Furion
+// 框架版本：2.6.0
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
@@ -58,12 +58,12 @@ namespace Furion.ClayObject
         /// <summary>
         /// 是否是 Object 类型
         /// </summary>
-        public bool IsObject { get { return jsonType == JsonType.@object; } }
+        public bool IsObject => jsonType == JsonType.@object;
 
         /// <summary>
         /// 是否是 Array 类型
         /// </summary>
-        public bool IsArray { get { return jsonType == JsonType.array; } }
+        public bool IsArray => jsonType == JsonType.array;
 
         /// <summary>
         /// XML 元素
@@ -582,7 +582,7 @@ namespace Furion.ClayObject
 
             foreach (var item in XmlElement.Elements())
             {
-                if (!dict.TryGetValue(item.Name.LocalName, out PropertyInfo propertyInfo)) continue;
+                if (!dict.TryGetValue(item.Name.LocalName, out var propertyInfo)) continue;
                 var value = Clay.DeserializeValue(item, propertyInfo.PropertyType);
                 propertyInfo.SetValue(result, value, null);
             }

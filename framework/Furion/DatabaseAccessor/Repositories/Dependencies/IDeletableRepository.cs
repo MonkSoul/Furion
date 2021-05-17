@@ -4,8 +4,8 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.5.1
-// 源码地址：Gitee：https://gitee.com/dotnetchina/Furion
+// 框架版本：2.6.0
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
@@ -226,50 +226,6 @@ namespace Furion.DatabaseAccessor
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns></returns>
         Task DeleteNowAsync(object key, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 根据主键删除一条记录
-        /// </summary>
-        /// <param name="key">主键</param>
-        void DeleteExists(object key);
-
-        /// <summary>
-        /// 根据主键删除一条记录
-        /// </summary>
-        /// <param name="key">主键</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>Task</returns>
-        Task DeleteExistsAsync(object key, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 根据主键删除一条记录并立即提交
-        /// </summary>
-        /// <param name="key">主键</param>
-        void DeleteExistsNow(object key);
-
-        /// <summary>
-        /// 根据主键删除一条记录并立即提交
-        /// </summary>
-        /// <param name="key">主键</param>
-        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        void DeleteExistsNow(object key, bool acceptAllChangesOnSuccess);
-
-        /// <summary>
-        /// 根据主键删除一条记录并立即提交
-        /// </summary>
-        /// <param name="key">主键</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns></returns>
-        Task DeleteExistsNowAsync(object key, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 根据主键删除一条记录并立即提交
-        /// </summary>
-        /// <param name="key">主键</param>
-        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns></returns>
-        Task DeleteExistsNowAsync(object key, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 假删除

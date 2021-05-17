@@ -1,4 +1,4 @@
-## v2.5.0 （当前版本）
+## v2.5.0/2.6.0 （当前版本）
 
 - **新特性**
 
@@ -9,6 +9,7 @@
 - **突破性变化**
 
   - [移除] **`InsertOrUpdate` 一系列数据库操作方法** [#I3RI9L](https://gitee.com/dotnetchina/Furion/issues/I3RI9L)
+  - [移除] 所有包含 `Exists` 单词的数据库操作方法 [#I3RJ0T](https://gitee.com/dotnetchina/Furion/issues/I3RJ0T)
   - [调整] 分布式 GUID `IDGenerater` 静态类名称为 `IDGen` [#I3RGUA](https://gitee.com/dotnetchina/Furion/issues/I3RGUA)
 
 - **问题修复**

@@ -4,8 +4,8 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.5.1
-// 源码地址：Gitee：https://gitee.com/dotnetchina/Furion
+// 框架版本：2.6.0
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
@@ -289,11 +289,11 @@ namespace Furion.TaskScheduler
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="Object"/> is equal to the current <see cref="Object"/>.
+        /// Determines whether the specified <see cref="object"/> is equal to the current <see cref="object"/>.
         /// </summary>
-        /// <param name="other">The <see cref="Object"/> to compare with the current <see cref="Object"/>.</param>
+        /// <param name="other">The <see cref="object"/> to compare with the current <see cref="object"/>.</param>
         /// <returns>
-        /// <c>true</c> if the specified <see cref="Object"/> is equal to the current <see cref="Object"/>; otherwise, <c>false</c>.
+        /// <c>true</c> if the specified <see cref="object"/> is equal to the current <see cref="object"/>; otherwise, <c>false</c>.
         /// </returns>
         public bool Equals(CronExpression other)
         {
@@ -311,14 +311,17 @@ namespace Furion.TaskScheduler
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
+        /// Determines whether the specified <see cref="object" /> is equal to this instance.
         /// </summary>
-        /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+        /// <param name="obj">The <see cref="object" /> to compare with this instance.</param>
         /// <returns>
-        /// <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance;
+        /// <c>true</c> if the specified <see cref="object" /> is equal to this instance;
         /// otherwise, <c>false</c>.
         /// </returns>
-        public override bool Equals(object obj) => Equals(obj as CronExpression);
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as CronExpression);
+        }
 
         /// <summary>
         /// Returns a hash code for this instance.
@@ -421,12 +424,12 @@ namespace Furion.TaskScheduler
 
             CalendarHelper.FillDateTimeParts(
                 ticks,
-                out int startSecond,
-                out int startMinute,
-                out int startHour,
-                out int startDay,
-                out int startMonth,
-                out int startYear);
+                out var startSecond,
+                out var startMinute,
+                out var startHour,
+                out var startDay,
+                out var startMonth,
+                out var startYear);
 
             var minMatchedDay = GetFirstSet(_dayOfMonth);
 
@@ -521,7 +524,7 @@ namespace Furion.TaskScheduler
         private static int GetFirstSet(long value)
         {
             // TODO: Add description and source
-            ulong res = unchecked((ulong)(value & -value) * 0x022fdd63cc95386d) >> 58;
+            var res = unchecked((ulong)(value & -value) * 0x022fdd63cc95386d) >> 58;
             return DeBruijnPositions[res];
         }
 
@@ -956,13 +959,13 @@ namespace Furion.TaskScheduler
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowFormatException(CronField field, string format, params object[] args)
         {
-            throw new CronFormatException(field, String.Format(format, args));
+            throw new CronFormatException(field, string.Format(format, args));
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowFormatException(string format, params object[] args)
         {
-            throw new CronFormatException(String.Format(format, args));
+            throw new CronFormatException(string.Format(format, args));
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]

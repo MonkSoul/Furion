@@ -4,8 +4,8 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.5.1
-// 源码地址：Gitee：https://gitee.com/dotnetchina/Furion
+// 框架版本：2.6.0
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
@@ -315,76 +315,6 @@ namespace Furion.DatabaseAccessor
         public virtual async Task DeleteNowAsync(object key, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             await DeleteAsync(key, cancellationToken);
-            await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
-        }
-
-        /// <summary>
-        /// 根据主键删除一条记录
-        /// </summary>
-        /// <param name="key">主键</param>
-        public virtual void DeleteExists(object key)
-        {
-            var entity = FindOrDefault(key) ?? throw DbHelpers.DataNotFoundException();
-            Delete(entity);
-        }
-
-        /// <summary>
-        /// 根据主键删除一条记录
-        /// </summary>
-        /// <param name="key">主键</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>Task</returns>
-        public virtual async Task DeleteExistsAsync(object key, CancellationToken cancellationToken = default)
-        {
-            var entity = await FindOrDefaultAsync(key, cancellationToken);
-            if (entity == null) throw DbHelpers.DataNotFoundException();
-
-            await DeleteAsync(entity);
-        }
-
-        /// <summary>
-        /// 根据主键删除一条记录并立即提交
-        /// </summary>
-        /// <param name="key">主键</param>
-        public virtual void DeleteExistsNow(object key)
-        {
-            DeleteExists(key);
-            SaveNow();
-        }
-
-        /// <summary>
-        /// 根据主键删除一条记录并立即提交
-        /// </summary>
-        /// <param name="key">主键</param>
-        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        public virtual void DeleteExistsNow(object key, bool acceptAllChangesOnSuccess)
-        {
-            DeleteExists(key);
-            SaveNow(acceptAllChangesOnSuccess);
-        }
-
-        /// <summary>
-        /// 根据主键删除一条记录并立即提交
-        /// </summary>
-        /// <param name="key">主键</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns></returns>
-        public virtual async Task DeleteExistsNowAsync(object key, CancellationToken cancellationToken = default)
-        {
-            await DeleteExistsAsync(key, cancellationToken);
-            await SaveNowAsync(cancellationToken);
-        }
-
-        /// <summary>
-        /// 根据主键删除一条记录并立即提交
-        /// </summary>
-        /// <param name="key">主键</param>
-        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns></returns>
-        public virtual async Task DeleteExistsNowAsync(object key, bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-        {
-            await DeleteExistsAsync(key, cancellationToken);
             await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 

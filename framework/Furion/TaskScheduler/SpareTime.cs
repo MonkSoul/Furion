@@ -4,8 +4,8 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.5.1
-// 源码地址：Gitee：https://gitee.com/dotnetchina/Furion
+// 框架版本：2.6.0
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
@@ -463,7 +463,7 @@ namespace Furion.TaskScheduler
         /// <summary>
         /// 记录任务
         /// </summary>
-        internal readonly static ConcurrentDictionary<string, WorkerRecord> WorkerRecords;
+        internal static readonly ConcurrentDictionary<string, WorkerRecord> WorkerRecords;
 
         /// <summary>
         /// 静态构造函数

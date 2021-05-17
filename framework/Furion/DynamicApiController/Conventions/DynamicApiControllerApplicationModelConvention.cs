@@ -4,8 +4,8 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.5.1
-// 源码地址：Gitee：https://gitee.com/dotnetchina/Furion
+// 框架版本：2.6.0
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
@@ -538,13 +538,13 @@ namespace Furion.DynamicApiController
             // 判断 Action 是否配置了 KeepName 属性
             if (apiDescriptionSettings?.KeepName != null)
             {
-                var canParse = bool.TryParse(apiDescriptionSettings.KeepName.ToString(), out bool value);
+                var canParse = bool.TryParse(apiDescriptionSettings.KeepName.ToString(), out var value);
                 isKeepName = canParse && value;
             }
             // 判断 Controller 是否配置了 KeepName 属性
             else if (controllerApiDescriptionSettings?.KeepName != null)
             {
-                var canParse = bool.TryParse(controllerApiDescriptionSettings.KeepName.ToString(), out bool value);
+                var canParse = bool.TryParse(controllerApiDescriptionSettings.KeepName.ToString(), out var value);
                 isKeepName = canParse && value;
             }
             // 取全局配置
@@ -566,13 +566,13 @@ namespace Furion.DynamicApiController
             // 判断 Action 是否配置了 KeepVerb 属性
             if (apiDescriptionSettings?.KeepVerb != null)
             {
-                var canParse = bool.TryParse(apiDescriptionSettings.KeepVerb.ToString(), out bool value);
+                var canParse = bool.TryParse(apiDescriptionSettings.KeepVerb.ToString(), out var value);
                 isKeepVerb = canParse && value;
             }
             // 判断 Controller 是否配置了 KeepVerb 属性
             else if (controllerApiDescriptionSettings?.KeepVerb != null)
             {
-                var canParse = bool.TryParse(controllerApiDescriptionSettings.KeepVerb.ToString(), out bool value);
+                var canParse = bool.TryParse(controllerApiDescriptionSettings.KeepVerb.ToString(), out var value);
                 isKeepVerb = canParse && value;
             }
             // 取全局配置
@@ -594,13 +594,13 @@ namespace Furion.DynamicApiController
             // 判断 Action 是否配置了 SplitCamelCase 属性
             if (apiDescriptionSettings?.SplitCamelCase != null)
             {
-                var canParse = bool.TryParse(apiDescriptionSettings.SplitCamelCase.ToString(), out bool value);
+                var canParse = bool.TryParse(apiDescriptionSettings.SplitCamelCase.ToString(), out var value);
                 isSplitCamelCase = !canParse || value;
             }
             // 判断 Controller 是否配置了 SplitCamelCase 属性
             else if (controllerApiDescriptionSettings?.SplitCamelCase != null)
             {
-                var canParse = bool.TryParse(controllerApiDescriptionSettings.SplitCamelCase.ToString(), out bool value);
+                var canParse = bool.TryParse(controllerApiDescriptionSettings.SplitCamelCase.ToString(), out var value);
                 isSplitCamelCase = !canParse || value;
             }
             // 取全局配置
@@ -622,13 +622,13 @@ namespace Furion.DynamicApiController
             // 判断 Action 是否配置了 LowercaseRoute 属性
             if (apiDescriptionSettings?.LowercaseRoute != null)
             {
-                var canParse = bool.TryParse(apiDescriptionSettings.LowercaseRoute.ToString(), out bool value);
+                var canParse = bool.TryParse(apiDescriptionSettings.LowercaseRoute.ToString(), out var value);
                 isLowercaseRoute = !canParse || value;
             }
             // 判断 Controller 是否配置了 LowercaseRoute 属性
             else if (controllerApiDescriptionSettings?.LowercaseRoute != null)
             {
-                var canParse = bool.TryParse(controllerApiDescriptionSettings.LowercaseRoute.ToString(), out bool value);
+                var canParse = bool.TryParse(controllerApiDescriptionSettings.LowercaseRoute.ToString(), out var value);
                 isLowercaseRoute = !canParse || value;
             }
             // 取全局配置

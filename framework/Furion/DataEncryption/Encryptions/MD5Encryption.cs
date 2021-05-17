@@ -4,8 +4,8 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.5.1
-// 源码地址：Gitee：https://gitee.com/dotnetchina/Furion
+// 框架版本：2.6.0
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
@@ -65,7 +65,7 @@ namespace Furion.DataEncryption
         {
             return string.Create(32, text, static (p, q) =>
             {
-                byte[] buffer = Encoding.UTF8.GetBytes(q);
+                var buffer = Encoding.UTF8.GetBytes(q);
                 Span<byte> signed = stackalloc byte[16];
                 Instance.TryComputeHash(buffer, signed, out _);
                 _EncodeToUtf16Ptr(signed, p, LOWERCASING);

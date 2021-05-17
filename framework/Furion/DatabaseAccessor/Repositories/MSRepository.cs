@@ -4,8 +4,8 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.5.1
-// 源码地址：Gitee：https://gitee.com/dotnetchina/Furion
+// 框架版本：2.6.0
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
@@ -83,7 +83,7 @@ namespace Furion.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
         {
             // 判断数据库主库是否注册
-            var isRegister = Penetrates.DbContextWithLocatorCached.TryGetValue(typeof(TMasterDbContextLocator), out Type dbContextType);
+            var isRegister = Penetrates.DbContextWithLocatorCached.TryGetValue(typeof(TMasterDbContextLocator), out var dbContextType);
             if (!isRegister) throw new InvalidCastException($" The locator `{typeof(TMasterDbContextLocator).Name}` is not bind.");
 
             // 获取主库贴的特性

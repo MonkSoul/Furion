@@ -30,6 +30,12 @@ sidebar_label: 9.0 入门简要 ✨
 - `Firebird`：`FirebirdSql.EntityFrameworkCore.Firebird`
 - `Dm`：`Microsoft.EntityFrameworkCore.Dm`
 
+:::tip 小知识
+
+这些数据库包应该安装在 `Furion.EntityFramework.Core` 层。特殊情况需安装在 `Furion.Core` 层中，如 `Mysql` `HasCharset()` 配置。
+
+:::
+
 ### 9.0.1.2 创建数据库上下文
 
 ```cs {7}
