@@ -31,6 +31,8 @@
   - [答疑] 关于 `Furion` 集群部署 [#I3R3J4](https://gitee.com/dotnetchina/Furion/issues/I3R3J4)
   - [答疑] 升级最新框架以后， 数据库生成模型报错 [#I3R7TP](https://gitee.com/dotnetchina/Furion/issues/I3R7TP)
   - [答疑] 数据库上下文事务执行中，`SaveNow` 执行后有警告 [#I3RAJI](https://gitee.com/dotnetchina/Furion/issues/I3RAJI)
+  - [答疑] `Hangfire` 使用事务出现错误 [#I3ROQ5](https://gitee.com/dotnetchina/Furion/issues/I3ROQ5)
+  - [答疑] 如何实现 cli 不执行某些表的迁移，web 请求可以正常操作呢？ [#I3ROU5](https://gitee.com/dotnetchina/Furion/issues/I3ROU5)
 
 - **不做实现**
 
