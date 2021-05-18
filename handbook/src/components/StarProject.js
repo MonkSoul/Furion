@@ -14,9 +14,9 @@ export default function StarProject() {
         <a
           href="https://gitee.com/dotnetchina#-%E6%AF%8F%E5%91%A8%E7%B2%BE%E9%80%89%E9%A1%B9%E7%9B%AE-"
           target="_blank"
-          title="dotNET China 精选项目第 08 期"
+          title="dotNET China 精选项目第 09 期"
         >
-          <img src={useBaseUrl("img/IoTSharp.png")} />
+          <img src={useBaseUrl("img/CCFlow.png")} />
         </a>
       ) : (
         <></>
