@@ -34,6 +34,7 @@
   - [答疑] `Hangfire` 使用事务出现错误 [#I3ROQ5](https://gitee.com/dotnetchina/Furion/issues/I3ROQ5)
   - [答疑] 如何实现 cli 不执行某些表的迁移，web 请求可以正常操作呢？ [#I3ROU5](https://gitee.com/dotnetchina/Furion/issues/I3ROU5)
   - [答疑] 在使用定时任务时候出现的问题：继承 `ISpareTimeWorker` [#I3RRZS](https://gitee.com/dotnetchina/Furion/issues/I3RRZS)
+  - [答疑] `MySql` 时间差 8 小时处理 [#I3RSCO](https://gitee.com/dotnetchina/Furion/issues/I3RSCO)
 
 - **不做实现**
 
