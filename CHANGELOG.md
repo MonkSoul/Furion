@@ -1,3 +1,25 @@
+## v2.7.0 （未发布版本）
+
+- **新特性**
+
+- **突破性变化**
+
+  - [调整] `JWTEncryption.Validate` 返回值，支持返回 `TokenValidationResult`
+
+- **问题修复**
+
+  - [修复] `tool/cli.psl` 没有包含项目名称 [#I3S1T6](https://gitee.com/dotnetchina/Furion/issues/I3S1T6)
+
+- **其他更改**
+
+- **文档变化**
+
+- **问答答疑**
+
+- **不做实现**
+
+---
+
 ## v2.5.0/2.6.0 （当前版本）
 
 - **新特性**
@@ -36,10 +58,14 @@
   - [答疑] 在使用定时任务时候出现的问题：继承 `ISpareTimeWorker` [#I3RRZS](https://gitee.com/dotnetchina/Furion/issues/I3RRZS)
   - [答疑] `MySql` 时间差 8 小时处理 [#I3RSCO](https://gitee.com/dotnetchina/Furion/issues/I3RSCO)
   - [答疑] `Db.GetRepository<>` 方法结合 `[UnitOfWork]` 后不可用 [#I3RUK5](https://gitee.com/dotnetchina/Furion/issues/I3RUK5)
+  - [答疑] 事务开启失败问题 [#I3RYJY](https://gitee.com/dotnetchina/Furion/issues/I3RYJY)
+  - [答疑] 支持 `DbProvider` 可动态配置 [#I3RYPE](https://gitee.com/dotnetchina/Furion/issues/I3RYPE)
+  - [答疑] `WorkService` 依赖注入 `ISingleton` 问题 [#I3RZ1L](https://gitee.com/dotnetchina/Furion/issues/I3RZ1L)
 
 - **不做实现**
 
   - [拒绝] 有序 `Guid` 精度是固定的毫秒级：1 毫秒内生成的多个 `Guid` 是无序的 [#I3R59J](https://gitee.com/dotnetchina/Furion/issues/I3R59J)
+  - [拒绝] 建议:JWTEncryption.Validate 方法返回 JWT 的检查失败时的原因 [#I3S1F2](https://gitee.com/dotnetchina/Furion/issues/I3S1F2)
 
 ---
 

@@ -208,10 +208,10 @@ namespace Furion.DataEncryption
         /// </summary>
         /// <param name="accessToken"></param>
         /// <returns></returns>
-        public static (bool IsValid, JsonWebToken Token) Validate(string accessToken)
+        public static (bool IsValid, JsonWebToken Token, TokenValidationResult validationResult) Validate(string accessToken)
         {
             var jwtSettings = GetJWTSettings();
-            if (jwtSettings == null) return (false, default);
+            if (jwtSettings == null) return (false, default, default);
 
             // 加密Key
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.IssuerSigningKey));
@@ -226,14 +226,14 @@ namespace Furion.DataEncryption
             try
             {
                 var tokenValidationResult = tokenHandler.ValidateToken(accessToken, tokenValidationParameters);
-                if (!tokenValidationResult.IsValid) return (false, null);
+                if (!tokenValidationResult.IsValid) return (false, null, tokenValidationResult);
 
                 var jsonWebToken = tokenValidationResult.SecurityToken as JsonWebToken;
-                return (true, jsonWebToken);
+                return (true, jsonWebToken, tokenValidationResult);
             }
             catch
             {
-                return (false, default);
+                return (false, default, default);
             }
         }
 
