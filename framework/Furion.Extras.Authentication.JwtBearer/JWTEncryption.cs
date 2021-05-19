@@ -111,11 +111,11 @@ namespace Furion.DataEncryption
         public static string Exchange(string expiredToken, string refreshToken, long? expiredTime = null, long clockSkew = 5)
         {
             // 交换刷新Token 必须原Token 已过期
-            var (_isValid, _) = Validate(expiredToken);
+            var (_isValid, _, _) = Validate(expiredToken);
             if (_isValid) return default;
 
             // 判断刷新Token 是否过期
-            var (isValid, token) = Validate(refreshToken);
+            var (isValid, token, _) = Validate(refreshToken);
             if (!isValid) return default;
 
             // 判断这个刷新Token 是否已刷新过
@@ -256,7 +256,7 @@ namespace Furion.DataEncryption
             }
 
             // 验证token
-            var (IsValid, Token) = Validate(accessToken);
+            var (IsValid, Token, _) = Validate(accessToken);
             token = IsValid ? Token : null;
 
             return IsValid;

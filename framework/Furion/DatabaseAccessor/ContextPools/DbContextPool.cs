@@ -228,9 +228,6 @@ namespace Furion.DatabaseAccessor
         /// <param name="withCloseAll">是否自动关闭所有连接</param>
         public void CommitTransaction(bool isManualSaveChanges = true, Exception exception = default, bool withCloseAll = false)
         {
-            // 如果事务对象为空，则跳过
-            if (DbContextTransaction == null) return;
-
             // 判断是否异常
             if (exception == null)
             {
@@ -238,6 +235,9 @@ namespace Furion.DatabaseAccessor
                 {
                     // 将所有数据库上下文修改 SaveChanges();，这里另外判断是否需要手动提交
                     var hasChangesCount = !isManualSaveChanges ? SavePoolNow() : 0;
+
+                    // 如果事务为空，则执行完毕后关闭连接
+                    if (DbContextTransaction == null) goto CloseAll;
 
                     // 提交共享事务
                     DbContextTransaction?.Commit();
@@ -248,7 +248,7 @@ namespace Furion.DatabaseAccessor
                 catch
                 {
                     // 回滚事务
-                    if (DbContextTransaction.GetDbTransaction().Connection != null) DbContextTransaction?.Rollback();
+                    if (DbContextTransaction?.GetDbTransaction()?.Connection != null) DbContextTransaction?.Rollback();
 
                     // 打印事务回滚消息
                     App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
@@ -257,7 +257,7 @@ namespace Furion.DatabaseAccessor
                 }
                 finally
                 {
-                    if (DbContextTransaction.GetDbTransaction().Connection != null)
+                    if (DbContextTransaction?.GetDbTransaction()?.Connection != null)
                     {
                         DbContextTransaction = null;
                         DbContextTransaction?.Dispose();
@@ -267,7 +267,7 @@ namespace Furion.DatabaseAccessor
             else
             {
                 // 回滚事务
-                if (DbContextTransaction.GetDbTransaction().Connection != null) DbContextTransaction?.Rollback();
+                if (DbContextTransaction?.GetDbTransaction()?.Connection != null) DbContextTransaction?.Rollback();
                 DbContextTransaction?.Dispose();
                 DbContextTransaction = null;
 
@@ -275,8 +275,8 @@ namespace Furion.DatabaseAccessor
                 App.PrintToMiniProfiler(MiniProfilerCategory, "Rollback", isError: true);
             }
 
-            // 关闭所有连接
-            if (withCloseAll) CloseAll();
+        // 关闭所有连接
+        CloseAll: if (withCloseAll) CloseAll();
         }
 
         /// <summary>
