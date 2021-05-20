@@ -686,6 +686,12 @@ const contributors = [
     photo:
       "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAABLElEQVRoQ+2YMQoCQQxFZ2sLwVbBWizEg2jjhQTv4F28gHgJsVestLFSkC0EcZ2EDGSzb+uZbPLfz0x2q8l690wdeioKDk4bwsEBJwhDOJgCWDoY0K9yIAzhYApg6WBAObSwNJYOpkARS2+W07SaD99SHS/3tNjus2TT7ssKXi+iYIlav9ZqSWn3SXKGsEQtCNcKaK2p3SeBhKUlamFpLK33i2RgkbyleA9Lkvlc29qCz7dHOpyuWXWPB700G/XFI2lWcEZLiUx/1mrvU+0+SerFe1jSixSc+VkJ4QYFsLTEHoyWjJb802rsmNZeSxbnQKkYRU7pUslaxKVgCxU9x4CwZzoWuUHYQkXPMSDsmY5FbhC2UNFzDAh7pmORG4QtVPQcA8Ke6Vjk1jnCL6gtiwgepIm4AAAAAElFTkSuQmCC",
   },
+  {
+    author: "zgrjhwei",
+    link: "https://gitee.com/JawsMan",
+    photo:
+      "https://portrait.gitee.com/uploads/avatars/user/321/963438_JawsMan_1578936905.png!avatar200",
+  },
 ];
 
 export default contributors;
