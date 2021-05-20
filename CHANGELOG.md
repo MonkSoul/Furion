@@ -61,6 +61,7 @@
   - [答疑] 事务开启失败问题 [#I3RYJY](https://gitee.com/dotnetchina/Furion/issues/I3RYJY)
   - [答疑] 支持 `DbProvider` 可动态配置 [#I3RYPE](https://gitee.com/dotnetchina/Furion/issues/I3RYPE)
   - [答疑] `WorkService` 依赖注入 `ISingleton` 问题 [#I3RZ1L](https://gitee.com/dotnetchina/Furion/issues/I3RZ1L)
+  - [答疑] `ISpareTimeWorker` 运行期动态修改 [#I3S33Q](https://gitee.com/dotnetchina/Furion/issues/I3S33Q)
 
 - **不做实现**
 
