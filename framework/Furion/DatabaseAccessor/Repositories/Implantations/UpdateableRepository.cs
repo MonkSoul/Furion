@@ -498,20 +498,6 @@ namespace Furion.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
         /// <param name="ignoreNullValues"></param>
-        /// <returns>数据库中的实体</returns>
-        public virtual async Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
-        {
-            var entityEntry = await UpdateIncludeAsync(entity, propertyNames, ignoreNullValues);
-            await SaveNowAsync();
-            return entityEntry;
-        }
-
-        /// <summary>
-        /// 更新一条记录中的特定属性并立即提交
-        /// </summary>
-        /// <param name="entity">实体</param>
-        /// <param name="propertyNames">属性名</param>
-        /// <param name="ignoreNullValues"></param>
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public virtual async Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, string[] propertyNames, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
@@ -534,20 +520,6 @@ namespace Furion.DatabaseAccessor
         {
             var entityEntry = await UpdateIncludeAsync(entity, propertyNames, ignoreNullValues);
             await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
-            return entityEntry;
-        }
-
-        /// <summary>
-        /// 更新一条记录中的特定属性并立即提交
-        /// </summary>
-        /// <param name="entity">实体</param>
-        /// <param name="propertyPredicates">属性表达式</param>
-        /// <param name="ignoreNullValues"></param>
-        /// <returns>数据库中的实体</returns>
-        public virtual async Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
-        {
-            var entityEntry = await UpdateIncludeAsync(entity, propertyPredicates, ignoreNullValues);
-            await SaveNowAsync();
             return entityEntry;
         }
 
@@ -889,20 +861,6 @@ namespace Furion.DatabaseAccessor
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
         /// <param name="ignoreNullValues"></param>
-        /// <returns>数据库中的实体</returns>
-        public virtual async Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
-        {
-            var entityEntry = await UpdateExcludeAsync(entity, propertyNames, ignoreNullValues);
-            await SaveNowAsync();
-            return entityEntry;
-        }
-
-        /// <summary>
-        /// 更新一条记录并排除属性并立即提交
-        /// </summary>
-        /// <param name="entity">实体</param>
-        /// <param name="propertyNames">属性名</param>
-        /// <param name="ignoreNullValues"></param>
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public virtual async Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, string[] propertyNames, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
@@ -925,20 +883,6 @@ namespace Furion.DatabaseAccessor
         {
             var entityEntry = await UpdateExcludeAsync(entity, propertyNames, ignoreNullValues);
             await SaveNowAsync(acceptAllChangesOnSuccess, cancellationToken);
-            return entityEntry;
-        }
-
-        /// <summary>
-        /// 更新一条记录并排除属性并立即提交
-        /// </summary>
-        /// <param name="entity">实体</param>
-        /// <param name="propertyPredicates">属性表达式</param>
-        /// <param name="ignoreNullValues"></param>
-        /// <returns>数据库中的实体</returns>
-        public virtual async Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
-        {
-            var entityEntry = await UpdateExcludeAsync(entity, propertyPredicates, ignoreNullValues);
-            await SaveNowAsync();
             return entityEntry;
         }
 

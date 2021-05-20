@@ -12,6 +12,8 @@
 
 - **其他更改**
 
+  - [调整] 更新部分列 `UpdateIncludeNowAsync` 具有二义性 [#I3RW9Q](https://gitee.com/dotnetchina/Furion/issues/I3RW9Q)
+
 - **文档变化**
 
 - **问答答疑**
