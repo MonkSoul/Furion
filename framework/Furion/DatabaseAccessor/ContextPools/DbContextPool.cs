@@ -4,9 +4,9 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.6.1
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
-//          Github：https://github.com/monksoul/Furion 
+// 框架版本：2.6.2
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
@@ -34,7 +34,7 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         ///  MiniProfiler 分类名
         /// </summary>
-        private const string MiniProfilerCategory = "unitOfWork";
+        private const string MiniProfilerCategory = "Transaction";
 
         /// <summary>
         /// MiniProfiler 组件状态
@@ -57,10 +57,18 @@ namespace Furion.DatabaseAccessor
         private readonly ConcurrentDictionary<Guid, DbContext> failedDbContexts;
 
         /// <summary>
+        /// 服务提供器
+        /// </summary>
+        private readonly IServiceProvider _serviceProvider;
+
+        /// <summary>
         /// 构造函数
         /// </summary>
-        public DbContextPool()
+        /// <param name="serviceProvider"></param>
+        public DbContextPool(IServiceProvider serviceProvider)
         {
+            _serviceProvider = serviceProvider;
+
             InjectMiniProfiler = App.Settings.InjectMiniProfiler.Value;
             IsPrintDbConnectionInfo = App.Settings.PrintDbConnectionInfo.Value;
 
@@ -194,11 +202,12 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 打开事务
         /// </summary>
+        /// <param name="ensureTransaction"></param>
         /// <returns></returns>
-        public void BeginTransaction()
+        public void BeginTransaction(bool ensureTransaction = false)
         {
-            // 判断 dbContextPool 中是否包含DbContext，如果是，则使用第一个数据库上下文开启事务，并应用于其他数据库上下文
-            if (dbContexts.Any())
+        // 判断 dbContextPool 中是否包含DbContext，如果是，则使用第一个数据库上下文开启事务，并应用于其他数据库上下文
+        EnsureTransaction: if (dbContexts.Any())
             {
                 // 如果共享事务不为空，则直接共享
                 if (DbContextTransaction != null) goto ShareTransaction;
@@ -217,6 +226,22 @@ namespace Furion.DatabaseAccessor
 
             // 共享事务
             ShareTransaction: ShareTransaction(DbContextTransaction.GetDbTransaction());
+
+                // 打印事务实际开启信息
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Began");
+            }
+            else
+            {
+                // 判断是否确保事务强制可用（此处是无奈之举）
+                if (ensureTransaction)
+                {
+                    var defaultDbContextLocator = Penetrates.DbContextWithLocatorCached.LastOrDefault();
+                    if (defaultDbContextLocator.Key == null) return;
+
+                    // 创建一个新的上下文
+                    var newDbContext = Db.GetDbContext(defaultDbContextLocator.Key, _serviceProvider);
+                    goto EnsureTransaction;
+                }
             }
         }
 

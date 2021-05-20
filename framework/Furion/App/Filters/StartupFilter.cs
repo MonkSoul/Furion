@@ -4,9 +4,9 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.6.1
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
-//          Github：https://github.com/monksoul/Furion 
+// 框架版本：2.6.2
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
@@ -102,7 +102,7 @@ namespace Furion
             parameterInstances[0] = app;
 
             // 解析服务
-            for (int i = 1; i < parameters.Length; i++)
+            for (var i = 1; i < parameters.Length; i++)
             {
                 var parameter = parameters[i];
                 parameterInstances[i] = app.ApplicationServices.GetRequiredService(parameter.ParameterType);

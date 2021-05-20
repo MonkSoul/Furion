@@ -2,6 +2,8 @@
 
 - **新特性**
 
+  - [新增] 工作单元特性，支持静态类强制性开启共享事务 [#I3S9N8](https://gitee.com/dotnetchina/Furion/issues/I3S9N8)
+
 - **突破性变化**
 
   - [调整] `JWTEncryption.Validate` 返回值，支持返回 `TokenValidationResult`

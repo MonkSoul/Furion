@@ -39,6 +39,8 @@ import TabItem from "@theme/TabItem";
 repository.EnsureTransaction();
 ```
 
+**如果不喜欢手动方式也可以通过 `[UnitOfWork(true)]` 开启此功能。**
+
 该方法会将当前仓储添加到数据库上下文池中，并确保事务可用。
 
 ### 9.26.3.2 手动管理

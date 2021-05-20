@@ -4,15 +4,16 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.6.1
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
-//          Github：https://github.com/monksoul/Furion 
+// 框架版本：2.6.2
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Furion.DatabaseAccessor
@@ -23,6 +24,11 @@ namespace Furion.DatabaseAccessor
     [SkipScan]
     internal sealed class UnitOfWorkFilter : IAsyncActionFilter, IOrderedFilter
     {
+        /// <summary>
+        ///  MiniProfiler 分类名
+        /// </summary>
+        private const string MiniProfilerCategory = "unitOfWork";
+
         /// <summary>
         /// 过滤器排序
         /// </summary>
@@ -73,17 +79,23 @@ namespace Furion.DatabaseAccessor
             }
             else
             {
-                // 打印事务开始消息
-                App.PrintToMiniProfiler("unitOfWork", "Beginning");
+                // 打印工作单元开始消息
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Beginning");
+
+                // 获取工作单元特性
+                var unitOfWorkAttribute = method.GetCustomAttribute<UnitOfWorkAttribute>();
 
                 // 开启事务
-                _dbContextPool.BeginTransaction();
+                _dbContextPool.BeginTransaction(unitOfWorkAttribute.EnsureTransaction);
 
                 // 调用方法
                 var resultContext = await next();
 
                 // 提交事务
                 _dbContextPool.CommitTransaction(isManualSaveChanges, resultContext.Exception);
+
+                // 打印工作单元结束消息
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Ending");
             }
 
             // 手动关闭
