@@ -27,6 +27,7 @@
 - **不做实现**
 
   - [废弃] 添加令牌桶限流算法 [#I3SCDV](https://gitee.com/dotnetchina/Furion/issues/I3SCDV)
+  - [废弃] 定时任务立即执行需求 [#I3SF4A](https://gitee.com/dotnetchina/Furion/issues/I3SF4A)
 
 ---
 
