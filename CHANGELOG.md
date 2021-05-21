@@ -22,6 +22,8 @@
 
 - **问答答疑**
 
+  - [答疑] 默认 `MasterDbContextLocator` 不随自定义的参数生成 [#I3SDBB](https://gitee.com/dotnetchina/Furion/issues/I3SDBB)
+
 - **不做实现**
 
   - [废弃] 添加令牌桶限流算法 [#I3SCDV](https://gitee.com/dotnetchina/Furion/issues/I3SCDV)
