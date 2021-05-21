@@ -577,17 +577,17 @@ namespace Furion.Application
         public string Name { get; set; }
         public string Version { get; set; }
         public string Company { get; set; }
-    }
 
-    public void OnListener(AppInfoOptions options, IConfiguration configuration)
-    {
+        public void OnListener(AppInfoOptions options, IConfiguration configuration)
+        {
         var name = options.Name;  // 实时的最新值
         var version = options.Version;  // 实时的最新值
-    }
+        }
 
-    public void PostConfigure(AppInfoOptions options, IConfiguration configuration)
-    {
-    }
+        public void PostConfigure(AppInfoOptions options, IConfiguration configuration)
+        {
+        }
+    }   
 }
 ```
 
