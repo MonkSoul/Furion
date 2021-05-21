@@ -173,7 +173,7 @@ namespace Furion.Web.Core
         {
             // 此处已经自动验证 Jwt token的有效性了，无需手动验证
 
-            // 检查权限，如果方法时异步的就不用 Task.FromResult 包裹，直接使用 async/await 即可
+            // 检查权限，如果方法是异步的就不用 Task.FromResult 包裹，直接使用 async/await 即可
             return Task.FromResult(CheckAuthorzie(httpContext));
         }
 
