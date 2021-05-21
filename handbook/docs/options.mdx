@@ -567,7 +567,7 @@ namespace Furion.Application
 
 使用非常简单，只需要继承 `IConfigurableOptionsListener<TOptions>` 接口并实现 `void OnListener(TOptions options, IConfiguration configuration)` 方法即可。
 
-```cs {5,12-16}
+```cs {5,11-15}
 using Furion.ConfigurableOptions;
 
 namespace Furion.Application
@@ -580,14 +580,14 @@ namespace Furion.Application
 
         public void OnListener(AppInfoOptions options, IConfiguration configuration)
         {
-        var name = options.Name;  // 实时的最新值
-        var version = options.Version;  // 实时的最新值
+            var name = options.Name;  // 实时的最新值
+            var version = options.Version;  // 实时的最新值
         }
 
         public void PostConfigure(AppInfoOptions options, IConfiguration configuration)
         {
         }
-    }   
+    }
 }
 ```
 
