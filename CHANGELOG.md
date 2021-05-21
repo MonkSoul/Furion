@@ -24,6 +24,8 @@
 
 - **不做实现**
 
+  - [废弃] 添加令牌桶限流算法 [#I3SCDV](https://gitee.com/dotnetchina/Furion/issues/I3SCDV)
+
 ---
 
 ## v2.5.0/2.6.0 （当前版本）
