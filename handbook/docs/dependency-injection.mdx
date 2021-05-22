@@ -304,7 +304,7 @@ namespace Furion.Web.Entry.Controllers
 
 ### 12.7.3 一个接口多个实现
 
-默认情况下，一个接口只对应一个实现类，但有些特殊情况，需要需要多个实现类注册同一个接口，如 `DbContext` 多数据库情况。
+默认情况下，一个接口只对应一个实现类，但有些特殊情况，需要多个实现类注册同一个接口，如 `DbContext` 多数据库情况。
 
 这个时候我们可以通过依赖注入 `Func<string, IPrivateDependency, object>` 委托来解析多个实例，其中委托的参数分别为：
 
