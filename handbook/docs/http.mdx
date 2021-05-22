@@ -726,14 +726,6 @@ public interface IHttp : IHttpDispatchProxy
 ```cs {4,12}
 services.AddRemoteRequest(options=>
 {
-    // 配置默认客户端
-    options.AddHttpClient(c =>
-    {
-        c.BaseAddress = new Uri("https://api.github.com/");
-        c.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
-        c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
-    });
-
     // 配置 Github 基本信息
     options.AddHttpClient("github", c =>
     {
@@ -751,6 +743,24 @@ services.AddRemoteRequest(options=>
     });
 })
 ```
+
+:::important 关于默认客户端配置
+
+默认情况下，`services.AddRemoteRequest()` 会注册一个默认的客户端，但是无法进行默认客户端更多配置，如需配置默认客户端，可以设置 `inludeDefaultHttpClient` 参数为 `false`，并手动注册默认客户端，如：
+
+```cs {3-4,9}
+services.AddRemoteRequest(options=>
+{
+    // 配置默认客户端，注意 string.Empty
+    options.AddHttpClient(string.Empty, c =>
+    {
+        c.BaseAddress = new Uri("https://furion.pro/");
+        // 其他配置
+    });
+}, false)
+```
+
+:::
 
 **配置了命名客户端后，每次请求都会自动加上这些配置。**
 

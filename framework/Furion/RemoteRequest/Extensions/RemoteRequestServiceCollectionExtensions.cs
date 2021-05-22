@@ -5,8 +5,8 @@
 // 框架名称：Furion
 // 框架作者：百小僧
 // 框架版本：2.6.3
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
-//          Github：https://github.com/monksoul/Furion 
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
@@ -27,14 +27,15 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configure"></param>
+        /// <param name="inludeDefaultHttpClient">是否包含默认客户端</param>
         /// <returns></returns>
-        public static IServiceCollection AddRemoteRequest(this IServiceCollection services, Action<IServiceCollection> configure = null)
+        public static IServiceCollection AddRemoteRequest(this IServiceCollection services, Action<IServiceCollection> configure = null, bool inludeDefaultHttpClient = true)
         {
             // 注册远程请求代理接口
             services.AddScopedDispatchProxyForInterface<HttpDispatchProxy, IHttpDispatchProxy>();
 
             // 注册默认请求客户端
-            services.AddHttpClient();
+            if (inludeDefaultHttpClient) services.AddHttpClient();
 
             // 注册其他客户端
             configure?.Invoke(services);
