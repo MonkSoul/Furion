@@ -4,9 +4,9 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.6.2
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
-//          Github：https://github.com/monksoul/Furion
+// 框架版本：2.6.3
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
+//          Github：https://github.com/monksoul/Furion 
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ namespace Furion
                 app.Use(async (context, next) =>
                 {
                     context.Request.EnableBuffering();  // 启动 Request Body 重复读，解决微信问题
-
+                    context.Response.Headers["x-build-on"] = "Furion";
                     await next.Invoke();
                 });
 
