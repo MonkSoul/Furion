@@ -54,11 +54,12 @@ namespace Furion.DatabaseAccessor
         {
             return (serviceProvider, options) =>
             {
+                // 只有开发环境开启
                 if (App.HostEnvironment.IsDevelopment())
                 {
                     options/*.UseLazyLoadingProxies()*/
-                                .EnableDetailedErrors()
-                                .EnableSensitiveDataLogging();
+                             .EnableDetailedErrors()
+                             .EnableSensitiveDataLogging();
                 }
 
                 optionBuilder.Invoke(options);

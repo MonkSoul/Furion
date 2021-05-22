@@ -15,10 +15,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using StackExchange.Profiling;
 using StackExchange.Profiling.Data;
 using System.Data;
 using System.Data.Common;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -51,6 +53,11 @@ namespace Furion.DatabaseAccessor
         private static readonly bool IsPrintDbConnectionInfo;
 
         /// <summary>
+        /// 是否记录 EFCore 执行 sql 命令打印日志
+        /// </summary>
+        private static readonly bool IsLogEntityFrameworkCoreSqlExecuteCommand;
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         static DbObjectExtensions()
@@ -60,6 +67,7 @@ namespace Furion.DatabaseAccessor
             var appsettings = App.Settings;
             InjectMiniProfiler = appsettings.InjectMiniProfiler.Value;
             IsPrintDbConnectionInfo = appsettings.PrintDbConnectionInfo.Value;
+            IsLogEntityFrameworkCoreSqlExecuteCommand = appsettings.LogEntityFrameworkCoreSqlExecuteCommand.Value;
         }
 
         /// <summary>
@@ -75,6 +83,9 @@ namespace Furion.DatabaseAccessor
             // 创建数据库连接对象及数据库命令对象
             var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType);
             SetDbParameters(databaseFacade.ProviderName, ref dbCommand, parameters);
+
+            // 记录 Sql 执行命令日志
+            LogSqlExecuteCommand(databaseFacade, dbCommand);
 
             // 打开数据库连接
             OpenConnection(databaseFacade, dbConnection);
@@ -96,6 +107,9 @@ namespace Furion.DatabaseAccessor
             // 创建数据库连接对象及数据库命令对象
             var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType);
             SetDbParameters(databaseFacade.ProviderName, ref dbCommand, model, out var dbParameters);
+
+            // 记录 Sql 执行命令日志
+            LogSqlExecuteCommand(databaseFacade, dbCommand);
 
             // 打开数据库连接
             OpenConnection(databaseFacade, dbConnection);
@@ -119,6 +133,9 @@ namespace Furion.DatabaseAccessor
             var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType);
             SetDbParameters(databaseFacade.ProviderName, ref dbCommand, parameters);
 
+            // 记录 Sql 执行命令日志
+            LogSqlExecuteCommand(databaseFacade, dbCommand);
+
             // 打开数据库连接
             await OpenConnectionAsync(databaseFacade, dbConnection, cancellationToken);
 
@@ -141,6 +158,9 @@ namespace Furion.DatabaseAccessor
             var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType);
             SetDbParameters(databaseFacade.ProviderName, ref dbCommand, model, out var dbParameters);
 
+            // 记录 Sql 执行命令日志
+            LogSqlExecuteCommand(databaseFacade, dbCommand);
+
             // 打开数据库连接
             await OpenConnectionAsync(databaseFacade, dbConnection, cancellationToken);
 
@@ -162,6 +182,9 @@ namespace Furion.DatabaseAccessor
             var (dbConnection, dbCommand, dbDataAdapter) = databaseFacade.CreateDbDataAdapter(sql, commandType);
             SetDbParameters(databaseFacade.ProviderName, ref dbCommand, parameters);
 
+            // 记录 Sql 执行命令日志
+            LogSqlExecuteCommand(databaseFacade, dbCommand);
+
             // 打开数据库连接
             OpenConnection(databaseFacade, dbConnection);
 
@@ -182,6 +205,9 @@ namespace Furion.DatabaseAccessor
             // 创建数据库连接对象、数据库命令对象和数据库适配器对象
             var (dbConnection, dbCommand, dbDataAdapter) = databaseFacade.CreateDbDataAdapter(sql, commandType);
             SetDbParameters(databaseFacade.ProviderName, ref dbCommand, model, out var dbParameters);
+
+            // 记录 Sql 执行命令日志
+            LogSqlExecuteCommand(databaseFacade, dbCommand);
 
             // 打开数据库连接
             OpenConnection(databaseFacade, dbConnection);
@@ -205,6 +231,9 @@ namespace Furion.DatabaseAccessor
             var (dbConnection, dbCommand, dbDataAdapter) = databaseFacade.CreateDbDataAdapter(sql, commandType);
             SetDbParameters(databaseFacade.ProviderName, ref dbCommand, parameters);
 
+            // 记录 Sql 执行命令日志
+            LogSqlExecuteCommand(databaseFacade, dbCommand);
+
             // 打开数据库连接
             await OpenConnectionAsync(databaseFacade, dbConnection, cancellationToken);
 
@@ -226,6 +255,9 @@ namespace Furion.DatabaseAccessor
             // 创建数据库连接对象、数据库命令对象和数据库适配器对象
             var (dbConnection, dbCommand, dbDataAdapter) = databaseFacade.CreateDbDataAdapter(sql, commandType);
             SetDbParameters(databaseFacade.ProviderName, ref dbCommand, model, out var dbParameters);
+
+            // 记录 Sql 执行命令日志
+            LogSqlExecuteCommand(databaseFacade, dbCommand);
 
             // 打开数据库连接
             await OpenConnectionAsync(databaseFacade, dbConnection, cancellationToken);
@@ -378,6 +410,41 @@ namespace Furion.DatabaseAccessor
                 // 打印连接信息消息
                 App.PrintToMiniProfiler(MiniProfilerCategory, "Information", $"[Connection Id: {connectionId}] / [Database: {dbConnection.Database}] / [Connection String: {dbConnection.ConnectionString}]");
             }
+        }
+
+        /// <summary>
+        /// 记录 Sql 执行命令日志
+        /// </summary>
+        /// <param name="databaseFacade"></param>
+        /// <param name="dbCommand"></param>
+        private static void LogSqlExecuteCommand(DatabaseFacade databaseFacade, DbCommand dbCommand)
+        {
+            // 判断是否启用
+            if (!IsLogEntityFrameworkCoreSqlExecuteCommand) return;
+
+            // 获取日志对象
+            var logger = databaseFacade.GetService<ILogger<Microsoft.EntityFrameworkCore.Database.SqlExecuteCommand>>();
+
+            // 构建日志内容
+            var sqlLogBuilder = new StringBuilder();
+            sqlLogBuilder.Append(@"Executed DbCommand (NaN) ");
+            sqlLogBuilder.Append(@" [Parameters=[");
+
+            // 拼接命令参数
+            var parameters = dbCommand.Parameters;
+            for (var i = 0; i < parameters.Count; i++)
+            {
+                var parameter = parameters[i];
+                sqlLogBuilder.Append($"{parameter.ParameterName}='{parameter.Value}' (Size = {parameter.Size}) (DbType = {parameter.DbType})");
+                if (i < parameters.Count - 1) sqlLogBuilder.Append(", ");
+            }
+
+            sqlLogBuilder.Append(@$"], CommandType='{dbCommand.CommandType}', CommandTimeout='{dbCommand.CommandTimeout}']");
+            sqlLogBuilder.Append("\r\n");
+            sqlLogBuilder.Append(dbCommand.CommandType == CommandType.StoredProcedure ? "EXEC " + dbCommand.CommandText : dbCommand.CommandText);
+
+            // 打印日志
+            logger.LogInformation(sqlLogBuilder.ToString());
         }
     }
 }

@@ -52,6 +52,11 @@ namespace Furion
         public bool? PrintDbConnectionInfo { get; set; }
 
         /// <summary>
+        /// 是否记录 EFCore Sql 执行命令日志
+        /// </summary>
+        public bool? LogEntityFrameworkCoreSqlExecuteCommand { get; set; }
+
+        /// <summary>
         /// 配置支持的包前缀名
         /// </summary>
         public string[] SupportPackageNamePrefixs { get; set; }
@@ -74,6 +79,7 @@ namespace Furion
             options.EnabledReferenceAssemblyScan ??= false;
             options.ExternalAssemblies ??= Array.Empty<string>();
             options.PrintDbConnectionInfo ??= true;
+            options.LogEntityFrameworkCoreSqlExecuteCommand ??= true;
             options.SupportPackageNamePrefixs ??= Array.Empty<string>();
             options.EnabledVirtualFileServer ??= true;
         }
