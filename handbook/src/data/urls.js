@@ -144,6 +144,11 @@ const urls = [
     text: "MiniExcel",
     title: "",
   },
+  {
+    url: "https://gitee.com/handyorg/HandyControl",
+    text: "HandyControl",
+    title: "",
+  },
 ];
 
 export default urls;

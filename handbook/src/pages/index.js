@@ -164,7 +164,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>304,799</div>
+            <div style={{ color: "#1fd898" }}>307,439</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -393,7 +393,7 @@ function ProccessOn() {
           name="embed_dom"
           frameBorder="0"
           style={{ display: "block", width: "100%", height: "600px" }}
-          src="https://www.processon.com/embed/5f461cc15653bb576972d7a5"
+          src="https://www.processon.com/embed/60a7489f6376891bafa2d353"
         ></iframe>
       </div>
     </div>
