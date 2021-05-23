@@ -5,16 +5,16 @@
 // 框架名称：Furion
 // 框架作者：百小僧
 // 框架版本：2.6.5
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
-//          Github：https://github.com/monksoul/Furion 
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion;
 using Furion.DependencyInjection;
 using Furion.Localization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.Extensions.Options;
 using System;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
@@ -43,7 +43,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddConfigurableOptions<LocalizationSettingsOptions>();
 
             // 获取多语言配置选项
-            var localizationSettings = App.GetOptions<LocalizationSettingsOptions>();
+            using var serviceProvider = services.BuildServiceProvider();
+            var localizationSettings = serviceProvider.GetService<IOptions<LocalizationSettingsOptions>>().Value;
 
             // 如果没有配置多语言选项，则不注册服务
             if (localizationSettings.SupportedCultures == null || localizationSettings.SupportedCultures.Length == 0) return mvcBuilde;

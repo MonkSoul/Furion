@@ -83,7 +83,7 @@ docker tag 网站名称:网站版本号 docker账号名/网站名称:网站版�
 如：
 
 ```bash
-docker tag furion:v2.6.3 monksoul/furion:v2.6.3
+docker tag furion:v2.6.5 monksoul/furion:v2.6.5
 ```
 
 - 👉 登录 `docker`
@@ -101,7 +101,7 @@ docker push docker账号名/网站名称:网站版本号
 如：
 
 ```bash
-docker push monksoul/furion:v2.6.3
+docker push monksoul/furion:v2.6.5
 ```
 
 :::
@@ -131,7 +131,7 @@ RUN dotnet restore
 RUN dotnet publish -c release -o /app --no-restore
 
 # Run
-FROM mcr.microsoft.com/dotnet/aspnet:5.0.1
+FROM mcr.microsoft.com/dotnet/aspnet:5.0.6
 WORKDIR /app
 COPY --from=build /app ./
 EXPOSE 80

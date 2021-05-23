@@ -5,15 +5,15 @@
 // 框架名称：Furion
 // 框架作者：百小僧
 // 框架版本：2.6.5
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
-//          Github：https://github.com/monksoul/Furion 
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion;
 using Furion.CorsAccessor;
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.Extensions.Options;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -37,7 +37,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddConfigurableOptions<CorsAccessorSettingsOptions>();
 
             // 获取选项
-            var corsAccessorSettings = App.GetOptions<CorsAccessorSettingsOptions>();
+            using var serviceProvider = services.BuildServiceProvider();
+            var corsAccessorSettings = serviceProvider.GetService<IOptions<CorsAccessorSettingsOptions>>().Value;
 
             // 添加跨域服务
             services.AddCors(options =>

@@ -5,8 +5,8 @@
 // 框架名称：Furion
 // 框架作者：百小僧
 // 框架版本：2.6.5
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
-//          Github：https://github.com/monksoul/Furion 
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
@@ -77,6 +77,11 @@ namespace Furion
         /// 服务提供器
         /// </summary>
         public static IServiceProvider ServiceProvider => HttpContext?.RequestServices ?? InternalApp.InternalServices.BuildServiceProvider();
+
+        /// <summary>
+        /// 存储根服务，可能为空
+        /// </summary>
+        public static IServiceProvider RootServices => InternalApp.RootServices;
 
         /// <summary>
         /// 获取请求上下文
@@ -154,7 +159,7 @@ namespace Furion
         public static TOptions GetOptions<TOptions>(IServiceProvider serviceProvider = default)
             where TOptions : class, new()
         {
-            return GetService<IOptions<TOptions>>(serviceProvider)?.Value;
+            return GetService<IOptions<TOptions>>(serviceProvider ?? RootServices)?.Value;
         }
 
         /// <summary>
@@ -166,7 +171,7 @@ namespace Furion
         public static TOptions GetOptionsMonitor<TOptions>(IServiceProvider serviceProvider = default)
             where TOptions : class, new()
         {
-            return GetService<IOptionsMonitor<TOptions>>(serviceProvider)?.CurrentValue;
+            return GetService<IOptionsMonitor<TOptions>>(serviceProvider ?? RootServices)?.CurrentValue;
         }
 
         /// <summary>
@@ -178,7 +183,7 @@ namespace Furion
         public static TOptions GetOptionsSnapshot<TOptions>(IServiceProvider serviceProvider = default)
             where TOptions : class, new()
         {
-            return GetService<IOptionsSnapshot<TOptions>>(serviceProvider)?.Value;
+            return GetService<IOptionsSnapshot<TOptions>>(serviceProvider ?? RootServices)?.Value;
         }
 
         /// <summary>

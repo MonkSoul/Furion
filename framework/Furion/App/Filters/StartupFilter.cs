@@ -5,8 +5,8 @@
 // 框架名称：Furion
 // 框架作者：百小僧
 // 框架版本：2.6.5
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
-//          Github：https://github.com/monksoul/Furion 
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
@@ -38,6 +38,9 @@ namespace Furion
         {
             return app =>
             {
+                // 存储根服务
+                InternalApp.RootServices = app.ApplicationServices;
+
                 // 设置响应报文头信息，标记框架类型
                 app.Use(async (context, next) =>
                 {

@@ -5,8 +5,8 @@
 // 框架名称：Furion
 // 框架作者：百小僧
 // 框架版本：2.6.5
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
-//          Github：https://github.com/monksoul/Furion 
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
@@ -29,6 +29,20 @@ namespace Furion.SpecificationDocument
     public class EnumSchemaFilter : ISchemaFilter
     {
         /// <summary>
+        /// JSON 序列化
+        /// </summary>
+        private readonly IJsonSerializerProvider _serializerProvider;
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="serializerProvider"></param>
+        public EnumSchemaFilter(IJsonSerializerProvider serializerProvider)
+        {
+            _serializerProvider = serializerProvider;
+        }
+
+        /// <summary>
         /// 实现过滤器方法
         /// </summary>
         /// <param name="model"></param>
@@ -50,7 +64,7 @@ namespace Furion.SpecificationDocument
                     // 获取枚举成员特性
                     var fieldinfo = type.GetField(Enum.GetName(type, value));
                     var descriptionAttribute = fieldinfo.GetCustomAttribute<DescriptionAttribute>(true);
-                    model.Enum.Add(OpenApiAnyFactory.CreateFromJson(JSON.Serialize(value)));
+                    model.Enum.Add(OpenApiAnyFactory.CreateFromJson(_serializerProvider.Serialize(value)));
 
                     stringBuilder.Append($"&nbsp;{descriptionAttribute?.Description} {value} = {value}<br />");
                 }

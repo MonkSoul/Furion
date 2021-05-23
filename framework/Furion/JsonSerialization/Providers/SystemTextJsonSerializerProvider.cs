@@ -5,13 +5,14 @@
 // 框架名称：Furion
 // 框架作者：百小僧
 // 框架版本：2.6.5
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
-//          Github：https://github.com/monksoul/Furion 
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.Text.Json;
 
 namespace Furion.JsonSerialization
@@ -22,6 +23,20 @@ namespace Furion.JsonSerialization
     [Injection(Order = -999)]
     public class SystemTextJsonSerializerProvider : IJsonSerializerProvider, ISingleton
     {
+        /// <summary>
+        /// 获取 JSON 配置选项
+        /// </summary>
+        private readonly JsonOptions _jsonOptions;
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="options"></param>
+        public SystemTextJsonSerializerProvider(IOptions<JsonOptions> options)
+        {
+            _jsonOptions = options.Value;
+        }
+
         /// <summary>
         /// 序列化对象
         /// </summary>
@@ -51,7 +66,7 @@ namespace Furion.JsonSerialization
         /// <returns></returns>
         public object GetSerializerOptions()
         {
-            return App.GetOptions<JsonOptions>()?.JsonSerializerOptions;
+            return _jsonOptions?.JsonSerializerOptions;
         }
     }
 }

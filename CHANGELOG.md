@@ -19,6 +19,7 @@
 
 - **其他更改**
 
+  - [优化] 框架底层性能，大大减少内存占用和溢出情况
   - [调整] 更新部分列 `UpdateIncludeNowAsync` 具有二义性 [#I3RW9Q](https://gitee.com/dotnetchina/Furion/issues/I3RW9Q)
 
 - **文档变化**

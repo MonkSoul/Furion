@@ -5,8 +5,8 @@
 // 框架名称：Furion
 // 框架作者：百小僧
 // 框架版本：2.6.5
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
-//          Github：https://github.com/monksoul/Furion 
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
@@ -29,7 +29,7 @@ namespace Furion.DistributedIDGenerator
         /// <returns></returns>
         public static object NextID(object idGeneratorOptions, IServiceProvider serviceProvider = default)
         {
-            return App.GetService<IDistributedIDGenerator>(serviceProvider).Create(idGeneratorOptions);
+            return App.GetService<IDistributedIDGenerator>(serviceProvider ?? App.RootServices).Create(idGeneratorOptions);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Furion.DistributedIDGenerator
         /// <returns></returns>
         public static Guid NextID(SequentialGuidType guidType = SequentialGuidType.SequentialAsString, IServiceProvider serviceProvider = default)
         {
-            var sequentialGuid = (App.GetService(typeof(SequentialGuidIDGenerator), serviceProvider) as IDistributedIDGenerator);
+            var sequentialGuid = (App.GetService(typeof(SequentialGuidIDGenerator), serviceProvider ?? App.RootServices) as IDistributedIDGenerator);
             return (Guid)sequentialGuid.Create(new SequentialGuidSettings { GuidType = guidType });
         }
     }

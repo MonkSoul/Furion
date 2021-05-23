@@ -5,8 +5,8 @@
 // 框架名称：Furion
 // 框架作者：百小僧
 // 框架版本：2.6.5
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
-//          Github：https://github.com/monksoul/Furion 
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
@@ -15,6 +15,7 @@ using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.Reflection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -445,7 +446,10 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services"></param>
         private static void RegisterExternalServices(IServiceCollection services)
         {
-            var externalServices = App.GetOptions<DependencyInjectionSettingsOptions>();
+            // 获取选项
+            using var serviceProvider = services.BuildServiceProvider();
+            var externalServices = serviceProvider.GetService<IOptions<DependencyInjectionSettingsOptions>>().Value;
+
             if (externalServices is { Definitions: not null })
             {
                 // 排序

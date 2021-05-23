@@ -43,14 +43,12 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             var services = authenticationBuilder.Services;
 
-            // 构建服务
-            using var provider = services.BuildServiceProvider();
-
             // 配置 JWT 选项
-            ConfigureJWTOptions(services, provider);
+            ConfigureJWTOptions(services);
 
             // 获取配置选项
-            var jwtSettings = provider.GetService<IOptions<JWTSettingsOptions>>().Value;
+            using var serviceProvider = services.BuildServiceProvider();
+            var jwtSettings = serviceProvider.GetService<IOptions<JWTSettingsOptions>>().Value;
 
             // 添加授权
             authenticationBuilder.AddJwtBearer(options =>
@@ -83,30 +81,28 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static AuthenticationBuilder AddJwt(this IServiceCollection services, Action<AuthenticationOptions> authenticationConfigure = null, object tokenValidationParameters = default, Action<JwtBearerOptions> jwtBearerConfigure = null)
         {
-            // 构建服务
-            using var provider = services.BuildServiceProvider();
-
             // 配置 JWT 选项
-            ConfigureJWTOptions(services, provider);
+            ConfigureJWTOptions(services);
 
             // 获取配置选项
-            var jwtSettings = provider.GetService<IOptions<JWTSettingsOptions>>().Value;
+            using var serviceProvider = services.BuildServiceProvider();
+            var jwtSettings = serviceProvider.GetService<IOptions<JWTSettingsOptions>>().Value;
 
             // 添加默认授权
             return services.AddAuthentication(options =>
-             {
-                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
-                 // 添加自定义配置
-                 authenticationConfigure?.Invoke(options);
-             }).AddJwtBearer(options =>
-             {
-                 options.TokenValidationParameters = (tokenValidationParameters as TokenValidationParameters) ?? JWTEncryption.CreateTokenValidationParameters(jwtSettings);
+                // 添加自定义配置
+                authenticationConfigure?.Invoke(options);
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = (tokenValidationParameters as TokenValidationParameters) ?? JWTEncryption.CreateTokenValidationParameters(jwtSettings);
 
-                 // 添加自定义配置
-                 jwtBearerConfigure?.Invoke(options);
-             });
+                // 添加自定义配置
+                jwtBearerConfigure?.Invoke(options);
+            });
         }
 
         /// <summary>
@@ -142,12 +138,13 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 添加 JWT 授权
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="provider"></param>
-        private static void ConfigureJWTOptions(IServiceCollection services, IServiceProvider provider)
+        private static void ConfigureJWTOptions(IServiceCollection services)
         {
+            using var serviceProvider = services.BuildServiceProvider();
+
             // 获取配置节点
-            var jwtSettingsConfiguration = provider.GetService<IConfiguration>()
-                                                                    .GetSection("JWTSettings");
+            var jwtSettingsConfiguration = serviceProvider.GetService<IConfiguration>()
+                                                                           .GetSection("JWTSettings");
 
             // 配置验证
             services.AddOptions<JWTSettingsOptions>()

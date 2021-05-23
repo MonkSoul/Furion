@@ -60,24 +60,27 @@ var userId = App.User?.FindFirstValue("键");
 
 ```cs
 var serviceProvider = App.ServiceProvider;
+
+// 获取根服务，通常用来解析单例和瞬时的，可优化性能
+var rootService = App.RootServices;
 ```
 
 ## 1.9 解析服务
 
 ```cs
-var service = App.GetService<TService>();
-var service2 = App.GetService(typeof(TService));
+var service = App.GetService<TService>([IServiceProvider]);
+var service2 = App.GetService(typeof(TService), [IServiceProvider]);
 
-var service3 = App.GetRequiredService<TService>();
-var service4 = App.GetRequiredService(typeof(TService));
+var service3 = App.GetRequiredService<TService>([IServiceProvider]);
+var service4 = App.GetRequiredService(typeof(TService), [IServiceProvider]);
 ```
 
 ## 1.10 获取选项配置
 
 ```cs
-var options = App.GetOptions<TOptions>();
-var options2 = App.GetOptionsMonitor<TOptions>();
-var options3 = App.GetOptionsSnapshot<TOptions>();
+var options = App.GetOptions<TOptions>([IServiceProvider]);
+var options2 = App.GetOptionsMonitor<TOptions>([IServiceProvider]);
+var options3 = App.GetOptionsSnapshot<TOptions>([IServiceProvider]);
 ```
 
 ## 1.11 打印数据到 `MiniProfiler`
