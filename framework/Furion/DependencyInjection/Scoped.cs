@@ -46,7 +46,7 @@ namespace Furion.DependencyInjection
         /// <param name="handler"></param>
         /// <param name="scopeFactory"></param>
         /// <returns></returns>
-        public static T Create<T>(Func<IServiceScopeFactory, IServiceScope, T> handler, IServiceScopeFactory scopeFactory = default)
+        public static T CreateRef<T>(Func<IServiceScopeFactory, IServiceScope, T> handler, IServiceScopeFactory scopeFactory = default)
         {
             // 禁止空调用
             if (handler == null) throw new ArgumentNullException(nameof(handler));
@@ -63,7 +63,7 @@ namespace Furion.DependencyInjection
         /// </summary>
         /// <param name="handler"></param>
         /// <param name="scopeFactory"></param>
-        public static void CreateUnitOfWork(Action<IServiceScopeFactory, IServiceScope> handler, IServiceScopeFactory scopeFactory = default)
+        public static void CreateUow(Action<IServiceScopeFactory, IServiceScope> handler, IServiceScopeFactory scopeFactory = default)
         {
             // 禁止空调用
             if (handler == null) throw new ArgumentNullException(nameof(handler));
@@ -84,7 +84,7 @@ namespace Furion.DependencyInjection
         /// <param name="handler"></param>
         /// <param name="scopeFactory"></param>
         /// <returns></returns>
-        public static T CreateUnitOfWork<T>(Func<IServiceScopeFactory, IServiceScope, T> handler, IServiceScopeFactory scopeFactory = default)
+        public static T CreateUowRef<T>(Func<IServiceScopeFactory, IServiceScope, T> handler, IServiceScopeFactory scopeFactory = default)
         {
             // 禁止空调用
             if (handler == null) throw new ArgumentNullException(nameof(handler));
