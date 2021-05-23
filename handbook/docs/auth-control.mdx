@@ -188,7 +188,7 @@ namespace Furion.Web.Core
             var securityDefineAttribute = httpContext.GetMetadata<SecurityDefineAttribute>();
             if (securityDefineAttribute == null) return true;
 
-            return App.GetService<IAuthorizationManager>().CheckSecurity(securityDefineAttribute.ResourceId);
+            return "查询数据库返回是否有权限";
         }
     }
 }
