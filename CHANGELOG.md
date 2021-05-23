@@ -8,10 +8,13 @@
 
 - **突破性变化**
 
-  - [调整] `JWTEncryption.Validate` 返回值，支持返回 `TokenValidationResult`
+  - [调整] `Scoped.CreateUnitOfWork` 名称为 `Scoped.CreateUow` [#I3SJPU](https://gitee.com/dotnetchina/Furion/issues/I3SJPU)
+  - [调整] `JWTEncryption.Validate` 返回值，支持返回 `TokenValidationResult` [#I3S2ND](https://gitee.com/dotnetchina/Furion/issues/I3S2ND)
 
 - **问题修复**
 
+  - [修复] `Scoped` 系列方法异步出现 `Task is cancel` 情况 [#I3SJF6](https://gitee.com/dotnetchina/Furion/issues/I3SJF6)
+  - [修复] `Mysql` 数据库的 `ToPagedList` 方法返回的结果进行遍历出现 `MySqlConnectino is aleady use` 问题 [#I3SJQ3](https://gitee.com/dotnetchina/Furion/issues/I3SJQ3)
   - [修复] `tool/cli.psl` 没有包含项目名称 [#I3S1T6](https://gitee.com/dotnetchina/Furion/issues/I3S1T6)
 
 - **其他更改**
