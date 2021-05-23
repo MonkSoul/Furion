@@ -4,9 +4,9 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.6.5
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
-//          Github：https://github.com/monksoul/Furion
+// 框架版本：2.6.6
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
+//          Github：https://github.com/monksoul/Furion 
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
@@ -33,14 +33,10 @@ namespace Furion.DependencyInjection
             if (handler == null) throw new ArgumentNullException(nameof(handler));
 
             // 创建作用域
-            var (Scoped, Services) = CreateScope(ref scopeFactory);
+            using var scoped = CreateScope(ref scopeFactory);
 
             // 执行方法
-            handler.Invoke(scopeFactory, Scoped);
-
-            // 释放
-            Scoped.Dispose();
-            Services?.Dispose();
+            handler.Invoke(scopeFactory, scoped);
         }
 
         /// <summary>
@@ -56,14 +52,10 @@ namespace Furion.DependencyInjection
             if (handler == null) throw new ArgumentNullException(nameof(handler));
 
             // 创建作用域
-            var (Scoped, Services) = CreateScope(ref scopeFactory);
+            using var scoped = CreateScope(ref scopeFactory);
 
             // 执行方法
-            var result = handler.Invoke(scopeFactory, Scoped);
-
-            // 释放
-            Scoped.Dispose();
-            Services?.Dispose();
+            var result = handler.Invoke(scopeFactory, scoped);
 
             return result;
         }
@@ -79,16 +71,12 @@ namespace Furion.DependencyInjection
             if (handler == null) throw new ArgumentNullException(nameof(handler));
 
             // 创建作用域
-            var (Scoped, Services) = CreateScope(ref scopeFactory);
+            using var scoped = CreateScope(ref scopeFactory);
 
             // 创建一个数据库上下文池
-            var dbContextPool = Scoped.ServiceProvider.GetService<IDbContextPool>();
-            handler.Invoke(scopeFactory, Scoped);
+            var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
+            handler.Invoke(scopeFactory, scoped);
             dbContextPool.SavePoolNow();
-
-            // 释放
-            Scoped.Dispose();
-            Services?.Dispose();
         }
 
         /// <summary>
@@ -104,16 +92,12 @@ namespace Furion.DependencyInjection
             if (handler == null) throw new ArgumentNullException(nameof(handler));
 
             // 创建作用域
-            var (Scoped, Services) = CreateScope(ref scopeFactory);
+            using var scoped = CreateScope(ref scopeFactory);
 
             // 创建一个数据库上下文池
-            var dbContextPool = Scoped.ServiceProvider.GetService<IDbContextPool>();
-            var result = handler.Invoke(scopeFactory, Scoped);
+            var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
+            var result = handler.Invoke(scopeFactory, scoped);
             dbContextPool.SavePoolNow();
-
-            // 释放
-            Scoped.Dispose();
-            Services?.Dispose();
 
             return result;
         }
@@ -123,19 +107,13 @@ namespace Furion.DependencyInjection
         /// </summary>
         /// <param name="scopeFactory"></param>
         /// <returns></returns>
-        private static (IServiceScope Scoped, ServiceProvider Services) CreateScope(ref IServiceScopeFactory scopeFactory)
+        private static IServiceScope CreateScope(ref IServiceScopeFactory scopeFactory)
         {
-            ServiceProvider serviceProvider = default;
-
-            if (scopeFactory == null)
-            {
-                serviceProvider = InternalApp.InternalServices.BuildServiceProvider();
-                scopeFactory ??= serviceProvider.GetService<IServiceScopeFactory>();
-            }
+            scopeFactory ??= InternalApp.InternalServices.BuildServiceProvider().GetService<IServiceScopeFactory>();
 
             // 解析服务作用域工厂
             var scoped = scopeFactory.CreateScope();
-            return (scoped, serviceProvider);
+            return scoped;
         }
     }
 }
