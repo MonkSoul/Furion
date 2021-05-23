@@ -4,9 +4,9 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.6.3
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
-//          Github：https://github.com/monksoul/Furion 
+// 框架版本：2.6.5
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
@@ -25,79 +25,97 @@ namespace Furion.DependencyInjection
         /// <summary>
         /// 创建一个作用域范围
         /// </summary>
-        /// <param name="handle"></param>
+        /// <param name="handler"></param>
         /// <param name="scopeFactory"></param>
-        public static void Create(Action<IServiceScopeFactory, IServiceScope> handle, IServiceScopeFactory scopeFactory = default)
+        public static void Create(Action<IServiceScopeFactory, IServiceScope> handler, IServiceScopeFactory scopeFactory = default)
         {
-            if (handle == null) throw new ArgumentNullException(nameof(handle));
+            // 禁止空调用
+            if (handler == null) throw new ArgumentNullException(nameof(handler));
 
-            // 解析服务作用域工厂
-            scopeFactory ??= InternalApp.InternalServices.BuildServiceProvider().GetService<IServiceScopeFactory>();
-            using var scoped = scopeFactory.CreateScope();
+            // 创建作用域
+            using var scoped = CreateScope(ref scopeFactory);
 
             // 执行方法
-            handle.Invoke(scopeFactory, scoped);
-        }
-
-        /// <summary>
-        /// 创建一个工作单元作用域
-        /// </summary>
-        /// <param name="handle"></param>
-        /// <param name="scopeFactory"></param>
-        public static void CreateUnitOfWork(Action<IServiceScopeFactory, IServiceScope> handle, IServiceScopeFactory scopeFactory = default)
-        {
-            if (handle == null) throw new ArgumentNullException(nameof(handle));
-
-            // 解析服务作用域工厂
-            scopeFactory ??= InternalApp.InternalServices.BuildServiceProvider().GetService<IServiceScopeFactory>();
-            using var scoped = scopeFactory.CreateScope();
-
-            // 创建一个数据库上下文池
-            var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
-            handle.Invoke(scopeFactory, scoped);
-            dbContextPool.SavePoolNow();
+            handler.Invoke(scopeFactory, scoped);
         }
 
         /// <summary>
         /// 创建一个作用域范围
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="handle"></param>
+        /// <param name="handler"></param>
         /// <param name="scopeFactory"></param>
         /// <returns></returns>
-        public static T Create<T>(Func<IServiceScopeFactory, IServiceScope, T> handle, IServiceScopeFactory scopeFactory = default)
+        public static T Create<T>(Func<IServiceScopeFactory, IServiceScope, T> handler, IServiceScopeFactory scopeFactory = default)
         {
-            if (handle == null) throw new ArgumentNullException(nameof(handle));
+            // 禁止空调用
+            if (handler == null) throw new ArgumentNullException(nameof(handler));
 
-            // 解析服务作用域工厂
-            scopeFactory ??= InternalApp.InternalServices.BuildServiceProvider().GetService<IServiceScopeFactory>();
-            using var scoped = scopeFactory.CreateScope();
+            // 创建作用域
+            using var scoped = CreateScope(ref scopeFactory);
 
             // 执行方法
-            return handle.Invoke(scopeFactory, scoped);
+            return handler.Invoke(scopeFactory, scoped);
+        }
+
+        /// <summary>
+        /// 创建一个工作单元作用域
+        /// </summary>
+        /// <param name="handler"></param>
+        /// <param name="scopeFactory"></param>
+        public static void CreateUnitOfWork(Action<IServiceScopeFactory, IServiceScope> handler, IServiceScopeFactory scopeFactory = default)
+        {
+            // 禁止空调用
+            if (handler == null) throw new ArgumentNullException(nameof(handler));
+
+            // 创建作用域
+            using var scoped = CreateScope(ref scopeFactory);
+
+            // 创建一个数据库上下文池
+            var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
+            handler.Invoke(scopeFactory, scoped);
+            dbContextPool.SavePoolNow();
         }
 
         /// <summary>
         /// 创建一个工作单元作用域
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="handle"></param>
+        /// <param name="handler"></param>
         /// <param name="scopeFactory"></param>
         /// <returns></returns>
-        public static T CreateUnitOfWork<T>(Func<IServiceScopeFactory, IServiceScope, T> handle, IServiceScopeFactory scopeFactory = default)
+        public static T CreateUnitOfWork<T>(Func<IServiceScopeFactory, IServiceScope, T> handler, IServiceScopeFactory scopeFactory = default)
         {
-            if (handle == null) throw new ArgumentNullException(nameof(handle));
+            // 禁止空调用
+            if (handler == null) throw new ArgumentNullException(nameof(handler));
 
-            // 解析服务作用域工厂
-            scopeFactory ??= InternalApp.InternalServices.BuildServiceProvider().GetService<IServiceScopeFactory>();
-            using var scoped = scopeFactory.CreateScope();
+            // 创建作用域
+            using var scoped = CreateScope(ref scopeFactory);
 
             // 创建一个数据库上下文池
             var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
-            var result = handle.Invoke(scopeFactory, scoped);
+            var result = handler.Invoke(scopeFactory, scoped);
             dbContextPool.SavePoolNow();
 
             return result;
+        }
+
+        /// <summary>
+        /// 创建一个作用域
+        /// </summary>
+        /// <param name="scopeFactory"></param>
+        /// <returns></returns>
+        private static IServiceScope CreateScope(ref IServiceScopeFactory scopeFactory)
+        {
+            if (scopeFactory == null)
+            {
+                using var provider = InternalApp.InternalServices.BuildServiceProvider();
+                scopeFactory = provider.GetService<IServiceScopeFactory>();
+            }
+
+            // 解析服务作用域工厂
+            var scoped = scopeFactory.CreateScope();
+            return scoped;
         }
     }
 }

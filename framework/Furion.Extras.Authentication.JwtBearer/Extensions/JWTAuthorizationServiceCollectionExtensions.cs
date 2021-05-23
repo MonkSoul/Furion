@@ -4,9 +4,9 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.6.3
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
-//          Github：https://github.com/monksoul/Furion 
+// 框架版本：2.6.5
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
@@ -43,11 +43,14 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             var services = authenticationBuilder.Services;
 
+            // 构建服务
+            using var provider = services.BuildServiceProvider();
+
             // 配置 JWT 选项
-            ConfigureJWTOptions(services);
+            ConfigureJWTOptions(services, provider);
 
             // 获取配置选项
-            var jwtSettings = services.BuildServiceProvider().GetService<IOptions<JWTSettingsOptions>>().Value;
+            var jwtSettings = provider.GetService<IOptions<JWTSettingsOptions>>().Value;
 
             // 添加授权
             authenticationBuilder.AddJwtBearer(options =>
@@ -80,10 +83,14 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static AuthenticationBuilder AddJwt(this IServiceCollection services, Action<AuthenticationOptions> authenticationConfigure = null, object tokenValidationParameters = default, Action<JwtBearerOptions> jwtBearerConfigure = null)
         {
-            // 配置 JWT 选项
-            ConfigureJWTOptions(services);
+            // 构建服务
+            using var provider = services.BuildServiceProvider();
 
-            var jwtSettings = services.BuildServiceProvider().GetService<IOptions<JWTSettingsOptions>>().Value;
+            // 配置 JWT 选项
+            ConfigureJWTOptions(services, provider);
+
+            // 获取配置选项
+            var jwtSettings = provider.GetService<IOptions<JWTSettingsOptions>>().Value;
 
             // 添加默认授权
             return services.AddAuthentication(options =>
@@ -135,12 +142,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 添加 JWT 授权
         /// </summary>
         /// <param name="services"></param>
-        private static void ConfigureJWTOptions(IServiceCollection services)
+        /// <param name="provider"></param>
+        private static void ConfigureJWTOptions(IServiceCollection services, IServiceProvider provider)
         {
             // 获取配置节点
-            var jwtSettingsConfiguration = services.BuildServiceProvider()
-                        .GetService<IConfiguration>()
-                        .GetSection("JWTSettings");
+            var jwtSettingsConfiguration = provider.GetService<IConfiguration>()
+                                                                    .GetSection("JWTSettings");
 
             // 配置验证
             services.AddOptions<JWTSettingsOptions>()
