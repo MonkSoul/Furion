@@ -8,7 +8,7 @@
 
 - **突破性变化**
 
-  - [调整] `Scoped.CreateUnitOfWork` 名称为 `Scoped.CreateUow` [#I3SJPU](https://gitee.com/dotnetchina/Furion/issues/I3SJPU)
+  - [调整] **`Scoped.CreateUnitOfWork` 名称为 `Scoped.CreateUow` [#I3SJPU](https://gitee.com/dotnetchina/Furion/issues/I3SJPU)**
   - [调整] `JWTEncryption.Validate` 返回值，支持返回 `TokenValidationResult` [#I3S2ND](https://gitee.com/dotnetchina/Furion/issues/I3S2ND)
 
 - **问题修复**
