@@ -235,6 +235,7 @@ namespace Furion.Core
 services.AddControllersWithViews()
         .AddJsonOptions(options => {
             options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            // options.JsonSerializerOptions.DictionaryKeyPolicy = null;    // 配置 Dictionary 类型序列化输出
         });
 ```
 
