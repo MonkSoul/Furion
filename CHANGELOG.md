@@ -14,12 +14,12 @@
 - **问题修复**
 
   - [修复] `Scoped` 系列方法异步出现 `Task is cancel` 情况 [#I3SJF6](https://gitee.com/dotnetchina/Furion/issues/I3SJF6)
-  - [修复] `Mysql` 数据库的 `ToPagedList` 方法返回的结果进行遍历出现 `MySqlConnectino is aleady use` 问题 [#I3SJQ3](https://gitee.com/dotnetchina/Furion/issues/I3SJQ3)
+  - [修复] `Mysql` 数据库的 `ToPagedList` 方法返回的结果进行遍历出现 `MySqlConnection is aleady use` 问题 [#I3SJQ3](https://gitee.com/dotnetchina/Furion/issues/I3SJQ3)
   - [修复] `tool/cli.psl` 没有包含项目名称 [#I3S1T6](https://gitee.com/dotnetchina/Furion/issues/I3S1T6)
 
 - **其他更改**
 
-  - [优化] 框架底层性能，大大减少内存占用和溢出情况
+  - [优化] **框架底层性能，大大减少内存占用和溢出情况，启动内存从之前 `136M` 下将到 `86M`**
   - [调整] 更新部分列 `UpdateIncludeNowAsync` 具有二义性 [#I3RW9Q](https://gitee.com/dotnetchina/Furion/issues/I3RW9Q)
 
 - **文档变化**
