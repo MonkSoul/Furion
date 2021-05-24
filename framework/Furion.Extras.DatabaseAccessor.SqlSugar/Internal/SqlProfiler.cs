@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.6.6
+// 框架版本：2.7.0
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -34,7 +34,7 @@ namespace SqlSugar
             //var aa = pars.ToDictionary(it => it.ParameterName, it => it.Value);
 
             //应逆向替换，否则由于 SqlSugar 多个表的过滤器问题导致替换不完整  如 @TenantId1  @TenantId10
-            for (int i = pars.Length - 1; i >= 0; i--)
+            for (var i = pars.Length - 1; i >= 0; i--)
             {
                 if (pars[i].DbType == System.Data.DbType.String
                     || pars[i].DbType == System.Data.DbType.DateTime
@@ -71,7 +71,7 @@ namespace SqlSugar
         /// <returns></returns>
         public static string ParameterFormat(string sql, object pars)
         {
-            SugarParameter[] param = (SugarParameter[])pars;
+            var param = (SugarParameter[])pars;
             return ParameterFormat(sql, param);
         }
     }
