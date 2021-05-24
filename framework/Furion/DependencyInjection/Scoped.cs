@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.7.0
+// 框架版本：2.7.1
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -13,6 +13,7 @@
 using Furion.DatabaseAccessor;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Threading.Tasks;
 
 namespace Furion.DependencyInjection
 {
@@ -42,6 +43,23 @@ namespace Furion.DependencyInjection
         /// <summary>
         /// 创建一个作用域范围
         /// </summary>
+        /// <param name="handler"></param>
+        /// <param name="scopeFactory"></param>
+        public static async Task Create(Func<IServiceScopeFactory, IServiceScope, Task> handler, IServiceScopeFactory scopeFactory = default)
+        {
+            // 禁止空调用
+            if (handler == null) throw new ArgumentNullException(nameof(handler));
+
+            // 创建作用域
+            using var scoped = CreateScope(ref scopeFactory);
+
+            // 执行方法
+            await handler.Invoke(scopeFactory, scoped);
+        }
+
+        /// <summary>
+        /// 创建一个作用域范围
+        /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="handler"></param>
         /// <param name="scopeFactory"></param>
@@ -56,6 +74,27 @@ namespace Furion.DependencyInjection
 
             // 执行方法
             var result = handler.Invoke(scopeFactory, scoped);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 创建一个作用域范围
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="handler"></param>
+        /// <param name="scopeFactory"></param>
+        /// <returns></returns>
+        public static async Task<T> CreateRef<T>(Func<IServiceScopeFactory, IServiceScope, Task<T>> handler, IServiceScopeFactory scopeFactory = default)
+        {
+            // 禁止空调用
+            if (handler == null) throw new ArgumentNullException(nameof(handler));
+
+            // 创建作用域
+            using var scoped = CreateScope(ref scopeFactory);
+
+            // 执行方法
+            var result = await handler.Invoke(scopeFactory, scoped);
 
             return result;
         }
@@ -82,6 +121,25 @@ namespace Furion.DependencyInjection
         /// <summary>
         /// 创建一个工作单元作用域
         /// </summary>
+        /// <param name="handler"></param>
+        /// <param name="scopeFactory"></param>
+        public static async Task CreateUow(Func<IServiceScopeFactory, IServiceScope, Task> handler, IServiceScopeFactory scopeFactory = default)
+        {
+            // 禁止空调用
+            if (handler == null) throw new ArgumentNullException(nameof(handler));
+
+            // 创建作用域
+            using var scoped = CreateScope(ref scopeFactory);
+
+            // 创建一个数据库上下文池
+            var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
+            await handler.Invoke(scopeFactory, scoped);
+            dbContextPool.SavePoolNow();
+        }
+
+        /// <summary>
+        /// 创建一个工作单元作用域
+        /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="handler"></param>
         /// <param name="scopeFactory"></param>
@@ -97,6 +155,29 @@ namespace Furion.DependencyInjection
             // 创建一个数据库上下文池
             var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
             var result = handler.Invoke(scopeFactory, scoped);
+            dbContextPool.SavePoolNow();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 创建一个工作单元作用域
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="handler"></param>
+        /// <param name="scopeFactory"></param>
+        /// <returns></returns>
+        public static async Task<T> CreateUowRef<T>(Func<IServiceScopeFactory, IServiceScope, Task<T>> handler, IServiceScopeFactory scopeFactory = default)
+        {
+            // 禁止空调用
+            if (handler == null) throw new ArgumentNullException(nameof(handler));
+
+            // 创建作用域
+            using var scoped = CreateScope(ref scopeFactory);
+
+            // 创建一个数据库上下文池
+            var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
+            var result = await handler.Invoke(scopeFactory, scoped);
             dbContextPool.SavePoolNow();
 
             return result;
