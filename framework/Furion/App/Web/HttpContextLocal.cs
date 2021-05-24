@@ -20,6 +20,7 @@ namespace Microsoft.AspNetCore.Http
 {
     /// <summary>
     /// 获取本地 HttpContext 上下文
+    /// <para>代码参考自：https://www.cnblogs.com/artech/p/how-to-get-httpcontext.html </para>
     /// </summary>
     [SkipScan]
     public static class HttpContextLocal

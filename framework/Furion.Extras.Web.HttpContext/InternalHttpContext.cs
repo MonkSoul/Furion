@@ -19,6 +19,7 @@ namespace Microsoft.AspNetCore.Http
 {
     /// <summary>
     /// HttpContext 上下文实用类
+    /// <para>代码参考自：https://www.cnblogs.com/artech/p/how-to-get-httpcontext.html </para>
     /// </summary>
     public static class InternalHttpContext
     {
