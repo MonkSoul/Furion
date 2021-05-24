@@ -112,7 +112,7 @@ public class UserChangeSubscribeHandler : ISubscribeHandler
             var repository = Db.GetRepository<Person>(services);    // services 传递进去
             var someService = App.GetService<ISomeService>(services);   // services 传递进去
             var otherService = services.GetService<IOtherService>();    // 直接用 services 解析
-        }
+        });
     }
 }
 ```
