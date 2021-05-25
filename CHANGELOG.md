@@ -25,10 +25,12 @@
 - **文档变化**
 
   - [更新] 4.2.9 的示例代码文档，方法没有放在 class 中 [#I3S9T5](https://gitee.com/dotnetchina/Furion/issues/I3S9T5)
+  - [更新] 静态类 `Scoped` 文档
 
 - **问答答疑**
 
   - [答疑] 默认 `MasterDbContextLocator` 不随自定义的参数生成 [#I3SDBB](https://gitee.com/dotnetchina/Furion/issues/I3SDBB)
+  - [答疑] 事件总线中订阅处理程序类获取不到用户信息，这个正常吗 [#I3SS0U](https://gitee.com/dotnetchina/Furion/issues/I3SS0U)
 
 - **不做实现**
 
