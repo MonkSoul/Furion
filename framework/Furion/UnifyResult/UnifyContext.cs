@@ -224,10 +224,18 @@ namespace Furion.UnifyResult
         /// <returns></returns>
         internal static bool IsSkipUnifyHandlerOnSpecifiedStatusCode(HttpContext context, out IUnifyResultProvider unifyResult, bool isWebRequest = true)
         {
+            // 获取终点路由特性
+            var endpointFeature = context.Features.Get<IEndpointFeature>();
+            if (endpointFeature == null)
+            {
+                unifyResult = null;
+                return true;
+            }
+
             // 判断是否跳过规范化处理
             var isSkip = !IsEnabledUnifyHandle
                     || context.GetMetadata<NonUnifyAttribute>() != null
-                    || context.Features.Get<IEndpointFeature>()?.Endpoint?.Metadata?.GetMetadata<NonUnifyAttribute>() != null;
+                    || endpointFeature?.Endpoint?.Metadata?.GetMetadata<NonUnifyAttribute>() != null;
 
             if (!isWebRequest)
             {
