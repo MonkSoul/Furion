@@ -715,6 +715,7 @@ const contributors = [
     link: "https://gitee.com/alianyone",
     photo:
       "https://portrait.gitee.com/uploads/avatars/user/394/1184966_alianyone_1622020310.png!avatar200",
+    extra: "最佳贡献者",
   },
 ];
 
