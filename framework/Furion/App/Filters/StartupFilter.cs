@@ -45,7 +45,6 @@ namespace Furion
                 app.Use(async (context, next) =>
                 {
                     context.Request.EnableBuffering();  // 启动 Request Body 重复读，解决微信问题
-                    context.Response.Headers["x-build-on"] = "Furion";
                     await next.Invoke();
                 });
 
