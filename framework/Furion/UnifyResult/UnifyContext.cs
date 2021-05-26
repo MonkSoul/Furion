@@ -1,15 +1,21 @@
-﻿// ----------------------------------------------------------------------------- 让 .NET
-// 开发更简单，更通用，更流行。 Copyright © 2020-2021 Furion, 百小僧, Baiqian Co.,Ltd.
+﻿// -----------------------------------------------------------------------------
+// 让 .NET 开发更简单，更通用，更流行。
+// Copyright © 2020-2021 Furion, 百小僧, Baiqian Co.,Ltd.
 //
-// 框架名称：Furion 框架作者：百小僧 框架版本：2.7.1 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
-// Github：https://github.com/monksoul/Furion
-// 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE） -----------------------------------------------------------------------------
+// 框架名称：Furion
+// 框架作者：百小僧
+// 框架版本：2.7.1
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
+// 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
+// -----------------------------------------------------------------------------
 
 using Furion.DependencyInjection;
 using Furion.Extensions;
 using Furion.FriendlyException;
 using Furion.JsonSerialization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -221,7 +227,7 @@ namespace Furion.UnifyResult
             // 判断是否跳过规范化处理
             var isSkip = !IsEnabledUnifyHandle
                     || context.GetMetadata<NonUnifyAttribute>() != null
-                    || context.Features.Get<Microsoft.AspNetCore.Http.Features.IEndpointFeature>()?.Endpoint?.Metadata.GetMetadata<NonUnifyAttribute>() != null;
+                    || context.Features.Get<IEndpointFeature>()?.Endpoint?.Metadata?.GetMetadata<NonUnifyAttribute>() != null;
 
             if (!isWebRequest)
             {
