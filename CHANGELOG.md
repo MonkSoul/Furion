@@ -19,6 +19,7 @@
 
 - **其他更改**
 
+  - [改进] 支持规范化结果中间件判断是否跳过规范化结果 [#I3T2AA](https://gitee.com/dotnetchina/Furion/issues/I3T2AA)
   - [优化] **框架底层性能，大大减少内存占用和溢出情况，启动内存从之前 `136M` 下将到 `86M`**
   - [调整] 更新部分列 `UpdateIncludeNowAsync` 具有二义性 [#I3RW9Q](https://gitee.com/dotnetchina/Furion/issues/I3RW9Q)
 
