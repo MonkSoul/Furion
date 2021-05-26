@@ -16,7 +16,7 @@ export default function StarProject() {
           target="_blank"
           title="dotNET China 精选项目第 09 期"
         >
-          <img src={useBaseUrl("img/CCFlow.png")} />
+          <img src={useBaseUrl("img/HandyControl.png")} />
         </a>
       ) : (
         <></>
