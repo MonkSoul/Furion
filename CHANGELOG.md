@@ -31,6 +31,7 @@
 
   - [答疑] 默认 `MasterDbContextLocator` 不随自定义的参数生成 [#I3SDBB](https://gitee.com/dotnetchina/Furion/issues/I3SDBB)
   - [答疑] 事件总线中订阅处理程序类获取不到用户信息，这个正常吗 [#I3SS0U](https://gitee.com/dotnetchina/Furion/issues/I3SS0U)
+  - [答疑] 在有多租户过滤器的情况下，是否有一种方式查询全量的数据 [#I3T0VI](https://gitee.com/dotnetchina/Furion/issues/I3T0VI)
 
 - **不做实现**
 
