@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -193,9 +194,8 @@ namespace Furion.UnifyResult
         /// </summary>
         /// <param name="method"></param>
         /// <param name="unifyResult"></param>
-        /// <param name="isWebRequest"></param>
         /// <returns></returns>
-        internal static bool IsSkipUnifyHandler(MethodInfo method, out IUnifyResultProvider unifyResult, bool isWebRequest = true)
+        internal static bool IsSkipUnifyHandler(MethodInfo method, out IUnifyResultProvider unifyResult)
         {
             // 判断是否跳过规范化处理
             var isSkip = !IsEnabledUnifyHandle
@@ -205,13 +205,7 @@ namespace Furion.UnifyResult
                             && method.ReflectedType.IsDefined(typeof(NonUnifyAttribute), true)
                         );
 
-            if (!isWebRequest)
-            {
-                unifyResult = null;
-                return isSkip;
-            }
-
-            unifyResult = isSkip ? null : App.GetService<IUnifyResultProvider>();
+            unifyResult = isSkip ? null : App.RootServices.GetService<IUnifyResultProvider>();
             return unifyResult == null || isSkip;
         }
 
@@ -220,9 +214,8 @@ namespace Furion.UnifyResult
         /// </summary>
         /// <param name="context"></param>
         /// <param name="unifyResult"></param>
-        /// <param name="isWebRequest"></param>
         /// <returns></returns>
-        internal static bool IsSkipUnifyHandlerOnSpecifiedStatusCode(HttpContext context, out IUnifyResultProvider unifyResult, bool isWebRequest = true)
+        internal static bool IsSkipUnifyHandlerOnSpecifiedStatusCode(HttpContext context, out IUnifyResultProvider unifyResult)
         {
             // 获取终点路由特性
             var endpointFeature = context.Features.Get<IEndpointFeature>();
@@ -237,13 +230,7 @@ namespace Furion.UnifyResult
                     || context.GetMetadata<NonUnifyAttribute>() != null
                     || endpointFeature?.Endpoint?.Metadata?.GetMetadata<NonUnifyAttribute>() != null;
 
-            if (!isWebRequest)
-            {
-                unifyResult = null;
-                return isSkip;
-            }
-
-            unifyResult = isSkip ? null : App.GetService<IUnifyResultProvider>();
+            unifyResult = isSkip ? null : context.RequestServices.GetService<IUnifyResultProvider>();
             return unifyResult == null || isSkip;
         }
     }
