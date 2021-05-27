@@ -149,6 +149,11 @@ const urls = [
     text: "HandyControl",
     title: "",
   },
+  {
+    url: "https://shopxo.net/",
+    text: "ShopXO 开源商城",
+    title: "ShopXO 企业级免费开源商城",
+  },
 ];
 
 export default urls;
