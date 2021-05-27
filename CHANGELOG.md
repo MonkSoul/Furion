@@ -36,11 +36,13 @@
   - [答疑] 在有多租户过滤器的情况下，是否有一种方式查询全量的数据 [#I3T0VI](https://gitee.com/dotnetchina/Furion/issues/I3T0VI)
   - [答疑] mysql 使用 `&"tools/cli.ps1"` 页面化加载表结构失败 [#I3T4F8](https://gitee.com/dotnetchina/Furion/issues/I3T4F8)
   - [答疑] 其他 Web 层的 Startup 优先执行 [#I3T8IP](https://gitee.com/dotnetchina/Furion/issues/I3T8IP)
+  - [答疑] 辅助角色服务实现建议 [#I3T906](https://gitee.com/dotnetchina/Furion/issues/I3T906)
 
 - **不做实现**
 
   - [废弃] 添加令牌桶限流算法 [#I3SCDV](https://gitee.com/dotnetchina/Furion/issues/I3SCDV)
   - [废弃] 定时任务立即执行需求 [#I3SF4A](https://gitee.com/dotnetchina/Furion/issues/I3SF4A)
+  - [废弃] 文档建议 关于 reids 和 es 、消息队列的 [#I3T90I](https://gitee.com/dotnetchina/Furion/issues/I3T90I)
 
 ---
 
