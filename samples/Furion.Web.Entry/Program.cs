@@ -16,7 +16,7 @@ namespace Furion.Web.Entry
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.Inject()
-                        .UseStartup<Startup>();
+                              .UseStartup<Startup>();
                 });
         }
     }
