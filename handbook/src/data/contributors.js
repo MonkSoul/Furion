@@ -717,6 +717,12 @@ const contributors = [
       "https://portrait.gitee.com/uploads/avatars/user/394/1184966_alianyone_1622020310.png!avatar200",
     extra: "最佳贡献者",
   },
+  {
+    author: "Vict0r-Chen",
+    link: "https://gitee.com/Victor-Chen",
+    photo:
+      "https://portrait.gitee.com/uploads/avatars/user/2734/8203800_Victor-Chen_1614760866.png!avatar200",
+  },
 ];
 
 export default contributors;

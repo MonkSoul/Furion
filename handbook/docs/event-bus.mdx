@@ -117,6 +117,12 @@ public class UserChangeSubscribeHandler : ISubscribeHandler
 }
 ```
 
+:::note 关于 `App.GetService<TService>()` 解析服务
+
+在高频定时任务中调用`App.GetService(TService)`，可能会出现内存无法回收的情况，建议始终使用`scope.ServiceProvider.GetService(TService)`来获取`TService`
+
+:::
+
 :::important 数据库操作注意
 
 如果作用域中对**数据库有任何变更操作**，需手动调用 `SaveChanges` 或带 `Now` 结尾的方法。也可以使用 `Scoped.CreateUow(handler)` 代替。
@@ -126,12 +132,6 @@ public class UserChangeSubscribeHandler : ISubscribeHandler
 :::warning 关于依赖注入
 
 `ISubscribeHandler` 接口主要是用来查找定义事件对象的，也就是它的实现类并未提供依赖注入功能，所以在实现类并不支持构造函数注入依赖项。
-
-:::
-
-:::warning 关于 `App.GetService<TService>()` 解析服务
-
-在高频定时任务中调用`App.GetService(TService)`，可能会出现内存无法回收的情况，建议始终使用`scope.ServiceProvider.GetService(TService)`来获取`TService`
 
 :::
 
