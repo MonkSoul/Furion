@@ -129,6 +129,12 @@ public class UserChangeSubscribeHandler : ISubscribeHandler
 
 :::
 
+:::warning 关于 `App.GetService<TService>()` 解析服务
+
+在高频定时任务中调用`App.GetService(TService)`，可能会出现内存无法回收的情况，建议始终使用`scope.ServiceProvider.GetService(TService)`来获取`TService`
+
+:::
+
 ## 22.5 `MediatR` 库
 
 `Furion` 框架默认只实现了轻量级的事件总线机制，可能还远远未达到大型项目和高并发数据的处理需求。
