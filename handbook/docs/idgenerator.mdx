@@ -16,7 +16,7 @@ sidebar_label: 27. 分布式 ID 生成
 
 ## 27.2 分布式 ID 有哪些
 
-常见的分布式 ID 有 `连续 GUID` 和 `雪花算法 ID`。
+常见的分布式 ID 有 `连续 GUID`、`短 ID`、`雪花算法 ID`。
 
 ## 27.3 如何使用
 
@@ -49,7 +49,33 @@ public AppServices(IDistributedIDGenerator idGenerator)
 }
 ```
 
-### 27.3.2 雪花算法 ID
+### 27.3.2 短 ID
+
+`短 ID` 按道理不应该放在分布式 ID 生成这个章节，它的作用用途常用于并发不强的内部系统中，比如 `任务ID`，`Issue 编号` 等等。
+
+```cs
+var shortid = ShortIDGen.NextID(); // 生成一个包含数字，字母，不包含特殊符号的 8 位短id
+
+// 添加更多配置
+var shortid = ShortIDGen.NextID(new GenerationOptions {
+    UseNumbers = false, // 不包含数字
+    UseSpecialCharacters = true, // 包含特殊符号
+    Length = 8，// 设置长度，注意：不设置次长度是随机长度！！！！！！！
+});
+
+// 自定义生成短 ID 参与运算字符
+string characters = "ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ①②③④⑤⑥⑦⑧⑨⑩⑪⑫"; //whatever you want;
+ShortIDGen.SetCharacters(characters);
+
+// 自定义随机数（for）步长
+int seed = 1939048828;
+ShortIDGen.SetSeed(seed);
+
+// 重载所有自定义配置
+ShortIDGen.Reset();
+```
+
+### 27.3.3 雪花算法 ID
 
 `Furion` 在最新的 `2.1 +` 版本移除了雪花算法 ID 功能，原因是：
 
