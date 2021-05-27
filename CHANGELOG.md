@@ -5,6 +5,7 @@
   - [新增] 工作单元特性，支持静态类强制性开启共享事务 [#I3S9N8](https://gitee.com/dotnetchina/Furion/issues/I3S9N8)
   - [新增] `EFCore` 执行 `sql` 模式打印日志 [#I3SE8X](https://gitee.com/dotnetchina/Furion/issues/I3SE8X)
   - [新增] 远程请求支持默认 `HttpClient` 配置 [#I3SI17](https://gitee.com/dotnetchina/Furion/issues/I3SI17)
+  - [新增] 新增 `短 ID` 生成功能 [#I3T7JP](https://gitee.com/dotnetchina/Furion/issues/I3T7JP)
 
 - **突破性变化**
 
