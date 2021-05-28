@@ -1,6 +1,6 @@
 ﻿using Furion.DependencyInjection;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Net.Http;
 
 namespace Furion.UrlRewriter
@@ -15,38 +15,26 @@ namespace Furion.UrlRewriter
         /// 添加URL转发服务
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="action"></param>
         /// <returns></returns>
-        public static IServiceCollection AddUrlRewrite(this IServiceCollection services)
+        public static IServiceCollection AddUrlRewrite(this IServiceCollection services, Action<HttpClientHandler> action = default)
         {
-            // 注入url转发的httpclient
-            services.AddHttpClient<RewriteProxyHttpClient>()
-                .ConfigurePrimaryHttpMessageHandler(x => new HttpClientHandler()
-                {
-                    AllowAutoRedirect = false,
-                    MaxConnectionsPerServer = int.MaxValue,
-                    UseCookies = false,
-                });
+            var httpClientHandler = new HttpClientHandler()
+            {
+                AllowAutoRedirect = false,
+                MaxConnectionsPerServer = int.MaxValue,
+                UseCookies = false,
+            };
+
+            action?.Invoke(httpClientHandler);
 
             // 添加URL转发器
             services.AddSingleton<IUrlRewriter, UrlRewriteProxy>();
 
-            // 绑定配置
-            ConfigureUrlRewriteOptions(services);
+            // 添加URL转发配置选项
+            services.AddConfigurableOptions<UrlRewriteSettingsOptions>();
 
             return services;
-        }
-
-        private static void ConfigureUrlRewriteOptions(IServiceCollection services)
-        {
-            // 获取配置节点
-            var urlRewreteOptions = services.BuildServiceProvider()
-                        .GetService<IConfiguration>()
-                        .GetSection("UrlRewriteSettings");
-
-            // 配置验证
-            services.AddOptions<UrlRewriteSettingsOptions>()
-                        .Bind(urlRewreteOptions)
-                        .ValidateDataAnnotations();
         }
     }
 }
