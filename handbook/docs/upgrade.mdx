@@ -57,6 +57,56 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ---
 
+## v2.5.0/2.6.0 （已发布）
+
+- **新特性**
+
+  - [新增] 虚拟文件服务，支持物理文件和嵌入资源文件 [#I3RBR9](https://gitee.com/dotnetchina/Furion/issues/I3RBR9)
+  - [新增] 读写分离/主从复制仓储 `IMSRepository` 和 `IMSRepository<TMasterDbContextLocator>` 仓储，可进行随机或自定义获取从库
+  - [新增] 数据脱敏处理 [#I3R5ZF](https://gitee.com/dotnetchina/Furion/issues/I3R5ZF)
+
+- **突破性变化**
+
+  - [移除] **`InsertOrUpdate` 一系列数据库操作方法** [#I3RI9L](https://gitee.com/dotnetchina/Furion/issues/I3RI9L)
+  - [移除] 所有包含 `Exists` 单词的数据库操作方法 [#I3RJ0T](https://gitee.com/dotnetchina/Furion/issues/I3RJ0T)
+  - [调整] 分布式 GUID `IDGenerater` 静态类名称为 `IDGen` [#I3RGUA](https://gitee.com/dotnetchina/Furion/issues/I3RGUA)
+
+- **问题修复**
+
+  - [修复] 远程调用方法错误，请求报文头 `Headers` 不能添加到 `IHttpDispatchProxy` 的子接口上 [#I3RAF7](https://gitee.com/dotnetchina/Furion/issues/I3RAF7)
+
+- **其他更改**
+
+  - [优化] 应用启动性能，减少内存分配
+
+- **文档变化**
+
+  - [新增] 脱敏处理文档 [#I3R6WZ](https://gitee.com/dotnetchina/Furion/issues/I3R6WZ)
+  - [新增] 文件系统文档、`FS` 静态类文档 [#I3RCC4](https://gitee.com/dotnetchina/Furion/issues/I3RCC4)
+  - [更新] 读写分离/主从复制、数据库仓储文档、`Db` 静态类 [#I3R3B6](https://gitee.com/dotnetchina/Furion/issues/I3R3B6)
+
+- **问答答疑**
+
+  - [答疑] 关于 `Furion` 集群部署 [#I3R3J4](https://gitee.com/dotnetchina/Furion/issues/I3R3J4)
+  - [答疑] 升级最新框架以后， 数据库生成模型报错 [#I3R7TP](https://gitee.com/dotnetchina/Furion/issues/I3R7TP)
+  - [答疑] 数据库上下文事务执行中，`SaveNow` 执行后有警告 [#I3RAJI](https://gitee.com/dotnetchina/Furion/issues/I3RAJI)
+  - [答疑] `Hangfire` 使用事务出现错误 [#I3ROQ5](https://gitee.com/dotnetchina/Furion/issues/I3ROQ5)
+  - [答疑] 如何实现 cli 不执行某些表的迁移，web 请求可以正常操作呢？ [#I3ROU5](https://gitee.com/dotnetchina/Furion/issues/I3ROU5)
+  - [答疑] 在使用定时任务时候出现的问题：继承 `ISpareTimeWorker` [#I3RRZS](https://gitee.com/dotnetchina/Furion/issues/I3RRZS)
+  - [答疑] `MySql` 时间差 8 小时处理 [#I3RSCO](https://gitee.com/dotnetchina/Furion/issues/I3RSCO)
+  - [答疑] `Db.GetRepository<>` 方法结合 `[UnitOfWork]` 后不可用 [#I3RUK5](https://gitee.com/dotnetchina/Furion/issues/I3RUK5)
+  - [答疑] 事务开启失败问题 [#I3RYJY](https://gitee.com/dotnetchina/Furion/issues/I3RYJY)
+  - [答疑] 支持 `DbProvider` 可动态配置 [#I3RYPE](https://gitee.com/dotnetchina/Furion/issues/I3RYPE)
+  - [答疑] `WorkService` 依赖注入 `ISingleton` 问题 [#I3RZ1L](https://gitee.com/dotnetchina/Furion/issues/I3RZ1L)
+  - [答疑] `ISpareTimeWorker` 运行期动态修改 [#I3S33Q](https://gitee.com/dotnetchina/Furion/issues/I3S33Q)
+
+- **不做实现**
+
+  - [拒绝] 有序 `Guid` 精度是固定的毫秒级：1 毫秒内生成的多个 `Guid` 是无序的 [#I3R59J](https://gitee.com/dotnetchina/Furion/issues/I3R59J)
+  - [拒绝] 建议:JWTEncryption.Validate 方法返回 JWT 的检查失败时的原因 [#I3S1F2](https://gitee.com/dotnetchina/Furion/issues/I3S1F2)
+
+---
+
 ## v2.4.0 （已发布）
 
 - **新特性**
