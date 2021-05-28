@@ -28,6 +28,9 @@ namespace Furion.UrlRewriter
 
             action?.Invoke(httpClientHandler);
 
+            // 添加URL转发用的Http客户端
+            services.AddHttpClient<RewriteProxyHttpClient>().ConfigurePrimaryHttpMessageHandler(x => httpClientHandler);
+
             // 添加URL转发器
             services.AddSingleton<IUrlRewriter, UrlRewriteProxy>();
 
