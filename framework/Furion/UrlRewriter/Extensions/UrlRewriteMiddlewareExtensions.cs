@@ -1,5 +1,7 @@
 ﻿using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 
 namespace Furion.UrlRewriter
@@ -19,7 +21,7 @@ namespace Furion.UrlRewriter
         public static IApplicationBuilder UseUrlRewrite(this IApplicationBuilder builder, Action<UrlRewriteSettingsOptions> optionsBuilder = default)
         {
             // 提供配置
-            var options = App.GetOptions<UrlRewriteSettingsOptions>() ?? new UrlRewriteSettingsOptions();
+            var options = builder.ApplicationServices.GetService<IOptions<UrlRewriteSettingsOptions>>().Value ?? new UrlRewriteSettingsOptions();
             optionsBuilder?.Invoke(options);
 
             builder.UseMiddleware<UrlRewriteProxyMiddleware>(options);
