@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.7.3
+// 框架版本：2.7.4
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -349,17 +349,6 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="propertyNames">属性名</param>
         /// <param name="ignoreNullValues"></param>
-        /// <returns>数据库中的实体</returns>
-        public Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(string[] propertyNames, bool? ignoreNullValues = null)
-        {
-            return GetRepository().UpdateIncludeNowAsync(Entity, propertyNames, ignoreNullValues);
-        }
-
-        /// <summary>
-        /// 更新一条记录中的特定属性并立即提交
-        /// </summary>
-        /// <param name="propertyNames">属性名</param>
-        /// <param name="ignoreNullValues"></param>
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(string[] propertyNames, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
@@ -378,17 +367,6 @@ namespace Furion.DatabaseAccessor
         public Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(string[] propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         {
             return GetRepository().UpdateIncludeNowAsync(Entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
-        }
-
-        /// <summary>
-        /// 更新一条记录中的特定属性并立即提交
-        /// </summary>
-        /// <param name="propertyPredicates">属性表达式</param>
-        /// <param name="ignoreNullValues"></param>
-        /// <returns>数据库中的实体</returns>
-        public Task<EntityEntry<TEntity>> UpdateIncludeNowAsync(Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
-        {
-            return GetRepository().UpdateIncludeNowAsync(Entity, propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -651,17 +629,6 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="propertyNames">属性名</param>
         /// <param name="ignoreNullValues"></param>
-        /// <returns>数据库中的实体</returns>
-        public Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(string[] propertyNames, bool? ignoreNullValues = null)
-        {
-            return GetRepository().UpdateExcludeNowAsync(Entity, propertyNames, ignoreNullValues);
-        }
-
-        /// <summary>
-        /// 更新一条记录并排除属性并立即提交
-        /// </summary>
-        /// <param name="propertyNames">属性名</param>
-        /// <param name="ignoreNullValues"></param>
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(string[] propertyNames, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
@@ -680,17 +647,6 @@ namespace Furion.DatabaseAccessor
         public Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(string[] propertyNames, bool acceptAllChangesOnSuccess, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
         {
             return GetRepository().UpdateExcludeNowAsync(Entity, propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
-        }
-
-        /// <summary>
-        /// 更新一条记录并排除属性并立即提交
-        /// </summary>
-        /// <param name="propertyPredicates">属性表达式</param>
-        /// <param name="ignoreNullValues"></param>
-        /// <returns>数据库中的实体</returns>
-        public Task<EntityEntry<TEntity>> UpdateExcludeNowAsync(Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
-        {
-            return GetRepository().UpdateExcludeNowAsync(Entity, propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>

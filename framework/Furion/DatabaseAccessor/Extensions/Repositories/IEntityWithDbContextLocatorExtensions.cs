@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.7.3
+// 框架版本：2.7.4
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -496,22 +496,6 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
-        /// <param name="ignoreNullValues"></param>
-        /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
-            where TEntity : class, IPrivateEntity, new()
-            where TDbContextLocator : class, IDbContextLocator
-        {
-            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyNames, ignoreNullValues);
-        }
-
-        /// <summary>
-        /// 更新一条记录中的特定属性并立即提交
-        /// </summary>
-        /// <typeparam name="TEntity">实体</typeparam>
-        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-        /// <param name="entity">实体</param>
-        /// <param name="propertyNames">属性名</param>
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <param name="ignoreNullValues"></param>
         /// <returns>数据库中的实体</returns>
@@ -538,22 +522,6 @@ namespace Furion.DatabaseAccessor.Extensions
             where TDbContextLocator : class, IDbContextLocator
         {
             return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
-        }
-
-        /// <summary>
-        /// 更新一条记录中的特定属性并立即提交
-        /// </summary>
-        /// <typeparam name="TEntity">实体</typeparam>
-        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-        /// <param name="entity">实体</param>
-        /// <param name="propertyPredicates">属性表达式</param>
-        /// <param name="ignoreNullValues"></param>
-        /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateIncludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
-            where TEntity : class, IPrivateEntity, new()
-            where TDbContextLocator : class, IDbContextLocator
-        {
-            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateIncludeNowAsync(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
@@ -929,22 +897,6 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <param name="entity">实体</param>
         /// <param name="propertyNames">属性名</param>
         /// <param name="ignoreNullValues"></param>
-        /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null)
-            where TEntity : class, IPrivateEntity, new()
-            where TDbContextLocator : class, IDbContextLocator
-        {
-            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyNames, ignoreNullValues);
-        }
-
-        /// <summary>
-        /// 更新一条记录并排除属性并立即提交
-        /// </summary>
-        /// <typeparam name="TEntity">实体</typeparam>
-        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-        /// <param name="entity">实体</param>
-        /// <param name="propertyNames">属性名</param>
-        /// <param name="ignoreNullValues"></param>
         /// <param name="cancellationToken">取消异步令牌</param>
         /// <returns>数据库中的实体</returns>
         public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, string[] propertyNames, bool? ignoreNullValues = null, CancellationToken cancellationToken = default)
@@ -970,22 +922,6 @@ namespace Furion.DatabaseAccessor.Extensions
             where TDbContextLocator : class, IDbContextLocator
         {
             return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyNames, acceptAllChangesOnSuccess, ignoreNullValues, cancellationToken);
-        }
-
-        /// <summary>
-        /// 更新一条记录并排除属性并立即提交
-        /// </summary>
-        /// <typeparam name="TEntity">实体</typeparam>
-        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-        /// <param name="entity">实体</param>
-        /// <param name="propertyPredicates">属性表达式</param>
-        /// <param name="ignoreNullValues"></param>
-        /// <returns>数据库中的实体</returns>
-        public static Task<EntityEntry<TEntity>> UpdateExcludeNowAsync<TEntity, TDbContextLocator>(this TEntity entity, Expression<Func<TEntity, object>>[] propertyPredicates, bool? ignoreNullValues = null)
-            where TEntity : class, IPrivateEntity, new()
-            where TDbContextLocator : class, IDbContextLocator
-        {
-            return new EntityExecutePart<TEntity>().SetEntity(entity).Change<TDbContextLocator>().UpdateExcludeNowAsync(propertyPredicates, ignoreNullValues);
         }
 
         /// <summary>
