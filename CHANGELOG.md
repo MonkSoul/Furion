@@ -37,6 +37,7 @@
   - [答疑] mysql 使用 `&"tools/cli.ps1"` 页面化加载表结构失败 [#I3T4F8](https://gitee.com/dotnetchina/Furion/issues/I3T4F8)
   - [答疑] 其他 Web 层的 Startup 优先执行 [#I3T8IP](https://gitee.com/dotnetchina/Furion/issues/I3T8IP)
   - [答疑] 辅助角色服务实现建议 [#I3T906](https://gitee.com/dotnetchina/Furion/issues/I3T906)
+  - [答疑] 开启 `easy connection` 后同一内网地址浏览器可以正常访问，远程请求则无法访问[#I3TA2U](https://gitee.com/dotnetchina/Furion/issues/I3TA2U)
 
 - **不做实现**
 
