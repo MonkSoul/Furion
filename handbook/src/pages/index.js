@@ -52,9 +52,9 @@ function Banner() {
           </div>
           <ul className="furion-banner-spec">
             <li>基于 .NET5/6 平台，没有历史包袱</li>
-            <li>极少依赖，只依赖 两个 第三方包</li>
-            <li>极速上手，代码无侵入式</li>
-            <li>只需要一个 Inject() 即可完成配置</li>
+            <li>极少依赖，只依赖两个第三方包</li>
+            <li>极速上手，一个 Inject() 完成配置</li>
+            <li>代码无侵入性，100% 兼容原生写法</li>
           </ul>
           <div className="furion-support-platform">受支持平台：</div>
           <div className="furion-support-icons">
@@ -90,7 +90,7 @@ function Banner() {
               language="cs"
               // section="schema"
               source={`
-public class AppService : IDynamicApiController
+public class FurionAppService : IDynamicApiController
 {
     private readonly IRepository<User> _userRepository;
     public AppService(IRepository<User> userRepository)
@@ -152,7 +152,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#3fbbfe" }}>2020 +</div>
+            <div style={{ color: "#3fbbfe" }}>2100 +</div>
             <span className={isDarkTheme ? " dark" : ""}>Forks</span>
           </div>
         </div>
@@ -164,7 +164,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>358,558</div>
+            <div style={{ color: "#1fd898" }}>361,428</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
