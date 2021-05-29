@@ -115,6 +115,29 @@ public class FurionService
 }
 ```
 
+### 30.2.3 脱敏词汇替换
+
+```cs {4}
+// 在属性中使用
+public class Content
+{
+    [SensitiveDetection('*')]
+    public string Text { get; set; }
+}
+```
+
+:::warning 特别注意
+
+**以下代码不受支持：**
+
+```cs {1}
+public void Test([SensitiveDetection('*')] string text)
+{
+}
+```
+
+:::
+
 ## 30.3 自定义脱敏词汇处理
 
 `Furion` 框架除了内置了一套默认的 `脱敏处理` 程序，也支持自定义脱敏处理程序。

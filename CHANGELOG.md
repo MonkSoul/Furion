@@ -6,6 +6,7 @@
   - [新增] `EFCore` 执行 `sql` 模式打印日志 [#I3SE8X](https://gitee.com/dotnetchina/Furion/issues/I3SE8X)
   - [新增] 远程请求支持默认 `HttpClient` 配置 [#I3SI17](https://gitee.com/dotnetchina/Furion/issues/I3SI17)
   - [新增] 新增 `短 ID` 生成功能 [#I3T7JP](https://gitee.com/dotnetchina/Furion/issues/I3T7JP)
+  - [新增] `[SensitiveDetection]` 支持配置替换敏感词汇 [#I3THIA](https://gitee.com/dotnetchina/Furion/issues/I3THIA)
 
 - **突破性变化**
 

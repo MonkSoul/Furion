@@ -66,7 +66,8 @@ namespace Furion.UnifyResult
             // 读取规范化状态码信息
             var statusCode = Get(UnifyResultStatusCodeKey) ?? StatusCodes.Status500InternalServerError;
 
-            var errorMessage = context.Exception.Message;
+            // 优先获取内部异常
+            var errorMessage = context.Exception?.InnerException?.Message ?? context.Exception.Message;
             var validationFlag = "[Validation]";
 
             // 处理验证失败异常

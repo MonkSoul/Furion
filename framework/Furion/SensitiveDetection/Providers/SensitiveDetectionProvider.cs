@@ -122,6 +122,9 @@ namespace Furion.SensitiveDetection
             // 查找脱敏词汇出现次数和位置
             var foundSets = await FoundSensitiveWordsAsync(text);
 
+            // 如果没有敏感词则返回原字符串
+            if (foundSets.Count == 0) return text;
+
             var stringBuilder = new StringBuilder(text);
 
             // 循环替换

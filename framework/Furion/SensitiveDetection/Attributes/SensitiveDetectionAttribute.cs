@@ -13,6 +13,7 @@
 using Furion.DependencyInjection;
 using Furion.Localization;
 using Furion.SensitiveDetection;
+using System.Reflection;
 
 namespace System.ComponentModel.DataAnnotations
 {
@@ -23,6 +24,27 @@ namespace System.ComponentModel.DataAnnotations
     public sealed class SensitiveDetectionAttribute : ValidationAttribute
     {
         /// <summary>
+        /// 构造函数
+        /// </summary>
+        public SensitiveDetectionAttribute()
+        {
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="transfer"></param>
+        public SensitiveDetectionAttribute(char transfer)
+        {
+            Transfer = transfer;
+        }
+
+        /// <summary>
+        /// 替换为指定字符
+        /// </summary>
+        public char Transfer { get; set; }
+
+        /// <summary>
         /// 验证逻辑
         /// </summary>
         /// <param name="value"></param>
@@ -30,30 +52,57 @@ namespace System.ComponentModel.DataAnnotations
         /// <returns></returns>
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            // null 和空字符串跳过检查
-            if (value == null || (value is string s && string.IsNullOrWhiteSpace(s))) return ValidationResult.Success;
+            // null 、非字符串和空字符串跳过检查
+            if (value == null || value.GetType() != typeof(string) || (value is string s && string.IsNullOrWhiteSpace(s))) return ValidationResult.Success;
 
-            // 获取脱敏提供器
-            var sensitiveWordsProvider = validationContext.GetService(typeof(ISensitiveDetectionProvider)) as ISensitiveDetectionProvider;
+            // 获取脱敏提供器（如果未注册，直接跳过，而不是抛异常）
+            if (validationContext.GetService(typeof(ISensitiveDetectionProvider)) is not ISensitiveDetectionProvider sensitiveWordsProvider) return ValidationResult.Success;
 
-            // 判断符合
-            var isVaild = sensitiveWordsProvider.VaildedAsync(value.ToString()).GetAwaiter().GetResult();
+            var strValue = value.ToString();
 
-            if (!isVaild)
+            // 如果没有传入替换字符，则直接校验
+            if (Transfer == default)
             {
-                // 默认提示
-                var resultMessage = "Characters contain sensitive words.";
+                // 判断符合
+                var isVaild = sensitiveWordsProvider.VaildedAsync(strValue).GetAwaiter().GetResult();
 
-                // 进行多语言处理
-                var errorMessage = string.IsNullOrWhiteSpace(ErrorMessage)
-                    ? L.Text == null ? resultMessage : L.Text[resultMessage]
-                    : ErrorMessage;
+                if (!isVaild)
+                {
+                    // 默认提示
+                    var resultMessage = "Characters contain sensitive words.";
 
-                return new ValidationResult(string.Format(errorMessage, validationContext.MemberName));
+                    // 进行多语言处理
+                    var errorMessage = string.IsNullOrWhiteSpace(ErrorMessage)
+                        ? L.Text == null ? resultMessage : L.Text[resultMessage]
+                        : ErrorMessage;
+
+                    return new ValidationResult(string.Format(errorMessage, validationContext.MemberName));
+                }
+
+                // 验证成功
+                return ValidationResult.Success;
             }
+            // 替换敏感词汇
+            else
+            {
+                // 不支持单个值替换（有知道方法的朋友可以提交 PR）
+                if (validationContext.ObjectType == typeof(string))
+                    throw new NotSupportedException("Single value sensitive word substitution is not supported.");
 
-            // 验证成功
-            return ValidationResult.Success;
+                // 替换字符
+                var newValue = sensitiveWordsProvider.ReplaceAsync(strValue, Transfer).GetAwaiter().GetResult();
+
+                // 如果不包含敏感词汇直接返回
+                if (newValue == strValue) return ValidationResult.Success;
+
+                // 对象类型替换
+                validationContext.ObjectType
+                                    .GetProperty(validationContext.MemberName, BindingFlags.Public | BindingFlags.Instance)
+                                    .SetValue(validationContext.ObjectInstance, newValue);
+
+                // 验证成功
+                return ValidationResult.Success;
+            }
         }
     }
 }
