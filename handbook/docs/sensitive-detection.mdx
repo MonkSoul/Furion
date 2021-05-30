@@ -117,6 +117,8 @@ public class FurionService
 
 ### 30.2.3 脱敏词汇替换
 
+`Furion` 框架也提供了替换脱敏词汇的特性支持，如：
+
 ```cs {4}
 // 在属性中使用
 public class Content
@@ -126,9 +128,9 @@ public class Content
 }
 ```
 
-:::warning 特别注意
+:::caution 特别注意
 
-**以下代码不受支持：**
+`Furion` 框架目前只提供类中使用替换特性支持，但未提供方法单个值替换支持，如**以下代码不受支持**：
 
 ```cs {1}
 public void Test([SensitiveDetection('*')] string text)
