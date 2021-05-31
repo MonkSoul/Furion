@@ -463,7 +463,7 @@ namespace Furion.RemoteRequest
         private void SetHttpContent(HttpRequestMessage request)
         {
             // GET/HEAD 请求不支持设置 Body 请求
-            if (Body == null || Method == HttpMethod.Get || Method == HttpMethod.Head) return;
+            if (Method == HttpMethod.Get || Method == HttpMethod.Head) return;
 
             HttpContent httpContent = null;
 
@@ -499,7 +499,7 @@ namespace Furion.RemoteRequest
                 case "application/json":
                 case "text/json":
                 case "application/*+json":
-                    httpContent = new StringContent(SerializerObject(Body), ContentEncoding);
+                    if (Body != null) httpContent = new StringContent(SerializerObject(Body), ContentEncoding);
                     break;
 
                 case "application/x-www-form-urlencoded":

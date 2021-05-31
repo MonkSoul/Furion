@@ -723,7 +723,19 @@ var persons = "select * from person whre id > @id".Change<SqliteDbContextLocator
 
 只需要通过 `IRepository<TEntity, TDbContextLocator>` 注入或通过 `personRepository.Change<TEntity, TDbContextLocator>()` 切换。
 
-## 9.15.10 反馈与建议
+## 9.15.10 切换数据库
+
+在 `Furion` 框架中，不管是懒人模式还是仓储模式都是通过 `.Change<TDbContextLocator>` 方式切换数据库，如：
+
+```cs
+// 懒人模式
+var data = "select * from table".Change<MySqlDbContextLocator>().SqlQuery<Data>();
+
+// 仓储方式
+var data = req.Change<MySqlDbContextLocator>().SqlQuery<Data>("select * from table");
+```
+
+## 9.15.11 反馈与建议
 
 :::note 与我们交流
 
