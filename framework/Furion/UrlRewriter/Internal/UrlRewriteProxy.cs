@@ -58,6 +58,8 @@ namespace Furion.UrlRewriter
             {
                 context.Response.StatusCode = (int)responseMessage.StatusCode;
 
+                context.Response.Headers["Furion-UrlRewrite"] = requestMessage.RequestUri?.ToString();
+
                 foreach (var header in responseMessage.Headers.Where(x => !NotResponseHttpHeaders.Contains(x.Key)))
                 {
                     context.Response.Headers[header.Key] = header.Value.ToArray();
