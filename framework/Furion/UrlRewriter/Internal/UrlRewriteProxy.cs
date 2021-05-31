@@ -16,6 +16,9 @@ namespace Furion.UrlRewriter
         // 无需转发的请求头信息
         private static readonly string[] NotForwardedHttpHeaders = new[] { "Connection", "Host" };
 
+        // 终结重定向
+        private static readonly string[] NotResponseHttpHeaders = new string[] { "Transfer-Encoding", "Location" };
+
         private RewriteProxyHttpClient _rewriteProxyHttpClient;
 
         /// <summary>
@@ -55,7 +58,7 @@ namespace Furion.UrlRewriter
             {
                 context.Response.StatusCode = (int)responseMessage.StatusCode;
 
-                foreach (var header in responseMessage.Headers)
+                foreach (var header in responseMessage.Headers.Where(x => !NotResponseHttpHeaders.Contains(x.Key)))
                 {
                     context.Response.Headers[header.Key] = header.Value.ToArray();
                 }
