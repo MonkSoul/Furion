@@ -500,6 +500,9 @@ namespace Furion.RemoteRequest
                 case "text/json":
                 case "application/*+json":
                     if (Body != null) httpContent = new StringContent(SerializerObject(Body), ContentEncoding);
+
+                    // 设置内容类型
+                    httpContent.Headers.ContentType = new MediaTypeHeaderValue(ContentType);
                     break;
 
                 case "application/x-www-form-urlencoded":
@@ -514,9 +517,6 @@ namespace Furion.RemoteRequest
 
             if (httpContent != null)
             {
-                // 设置内容类型
-                httpContent.Headers.ContentType = new MediaTypeHeaderValue(ContentType);
-
                 // 设置 HttpContent
                 request.Content = httpContent;
             }
