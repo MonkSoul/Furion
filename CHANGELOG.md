@@ -1,4 +1,4 @@
-## v2.7.0 （当前版本）
+## v2.7.7 （当前版本）
 
 - **新特性**
 
@@ -42,6 +42,10 @@
   - [答疑] 其他 Web 层的 Startup 优先执行 [#I3T8IP](https://gitee.com/dotnetchina/Furion/issues/I3T8IP)
   - [答疑] 辅助角色服务实现建议 [#I3T906](https://gitee.com/dotnetchina/Furion/issues/I3T906)
   - [答疑] 开启 `easy connection` 后同一内网地址浏览器可以正常访问，远程请求则无法访问[#I3TA2U](https://gitee.com/dotnetchina/Furion/issues/I3TA2U)
+  - [答疑] `scope.ServiceProvider.GetService<IOtherService>`不存在 [#I3TQMV](https://gitee.com/dotnetchina/Furion/issues/I3TQMV)
+  - [答疑] 能否在 WPF 项目中使用呢？ [#I3TMCC](https://gitee.com/dotnetchina/Furion/issues/I3TMCC)
+  - [答疑] `Dapper` 多个数据源 [#I3TM9B](https://gitee.com/dotnetchina/Furion/issues/I3TM9B)
+  - [答疑] `L.GetSelectCulture()` 方法异常 [#I3TQS4](https://gitee.com/dotnetchina/Furion/issues/I3TQS4)
 
 - **不做实现**
 
