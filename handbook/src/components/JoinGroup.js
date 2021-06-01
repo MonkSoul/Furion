@@ -9,7 +9,7 @@ export default function JoinGroup() {
     <div className="furion-join-group">
       {show && <img src={useBaseUrl("img/dotnetchina2.jpg")} />}
       <button onClick={() => setShow(!show)}>
-        {show ? "QQ 群号：459050029" : "加入 dotNET China 交流群"}
+        {show ? "QQ 群号：592844340" : "加入 dotNET China 交流群"}
       </button>
     </div>
   );
