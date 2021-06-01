@@ -4,14 +4,16 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.7.7
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
-//          Github：https://github.com/monksoul/Furion 
+// 框架版本：2.7.8
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
 using Furion.DependencyInjection;
 using Furion.JsonSerialization;
+using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -31,6 +33,24 @@ namespace Microsoft.Extensions.DependencyInjection
             where TJsonSerializerProvider : class, IJsonSerializerProvider
         {
             services.AddSingleton<IJsonSerializerProvider, TJsonSerializerProvider>();
+            return services;
+        }
+
+        /// <summary>
+        /// 配置 JsonOptions 序列化选项
+        /// <para>主要给非 Web 环境使用</para>
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configure"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddJsonOptions(this IServiceCollection services, Action<JsonOptions> configure)
+        {
+            // 手动添加配置
+            services.Configure<JsonOptions>(options =>
+            {
+                configure?.Invoke(options);
+            });
+
             return services;
         }
     }
