@@ -1,9 +1,21 @@
-﻿using Furion.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
+﻿// -----------------------------------------------------------------------------
+// 让 .NET 开发更简单，更通用，更流行。
+// Copyright © 2020-2021 Furion, 百小僧, Baiqian Co.,Ltd.
+//
+// 框架名称：Furion
+// 框架作者：百小僧
+// 框架版本：2.7.9
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
+// 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
+// -----------------------------------------------------------------------------
+
+using Furion.DependencyInjection;
+using Furion.UrlRewriter;
 using System;
 using System.Net.Http;
 
-namespace Furion.UrlRewriter
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// URL转发服务拓展
@@ -15,27 +27,29 @@ namespace Furion.UrlRewriter
         /// 添加URL转发服务
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="action"></param>
+        /// <param name="configureHttpClientHandler"></param>
         /// <returns></returns>
-        public static IServiceCollection AddUrlRewrite(this IServiceCollection services, Action<HttpClientHandler> action = default)
+        public static IServiceCollection AddUrlRewrite(this IServiceCollection services, Action<HttpClientHandler> configureHttpClientHandler = default)
         {
-            var httpClientHandler = new HttpClientHandler()
-            {
-                AllowAutoRedirect = false,
-                MaxConnectionsPerServer = int.MaxValue,
-                UseCookies = false,
-            };
+            // 注册配置选项
+            services.AddConfigurableOptions<UrlRewriteSettingsOptions>();
 
-            action?.Invoke(httpClientHandler);
+            // 注册 Url 转发 HttpClientHandler
+            services.AddTransient<UrlRewriteHttpClientHandler>();
 
             // 添加URL转发用的Http客户端
-            services.AddHttpClient<RewriteProxyHttpClient>().ConfigurePrimaryHttpMessageHandler(x => httpClientHandler);
+            services.AddHttpClient<UrlRewriteProxyHttpClient>()
+                    .ConfigurePrimaryHttpMessageHandler(provider =>
+                    {
+                        // 解析服务
+                        var httpClientHandler = provider.GetRequiredService<UrlRewriteHttpClientHandler>();
+                        configureHttpClientHandler?.Invoke(httpClientHandler);
 
-            // 添加URL转发器
-            services.AddSingleton<IUrlRewriter, UrlRewriteProxy>();
+                        return httpClientHandler;
+                    });
 
-            // 添加URL转发配置选项
-            services.AddConfigurableOptions<UrlRewriteSettingsOptions>();
+            // 注册 Url 转发器
+            services.AddSingleton<IUrlRewriterProxy, UrlRewriteProxy>();
 
             return services;
         }
