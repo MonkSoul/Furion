@@ -10,25 +10,28 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion.DependencyInjection;
-using System.Net.Http;
+using Microsoft.AspNetCore.Http;
 
 namespace Furion.UrlRewriter
 {
     /// <summary>
-    /// 自定义 Url 转发的 HttpClientHandler 对象
+    /// URL转发规则匹配结果
     /// </summary>
-    [SkipScan]
-    public sealed class UrlRewriteHttpClientHandler : HttpClientHandler
+    internal sealed class UrlRewriterMatchResult
     {
         /// <summary>
-        /// 构造函数
+        /// 是否成功匹配到转发规则
         /// </summary>
-        public UrlRewriteHttpClientHandler() : base()
-        {
-            AllowAutoRedirect = false;
-            MaxConnectionsPerServer = int.MaxValue;
-            UseCookies = false;
-        }
+        public bool IsMatch { get; set; }
+
+        /// <summary>
+        /// 匹配到的规则路由前缀
+        /// </summary>
+        public PathString Prefix { get; set; }
+
+        /// <summary>
+        /// 转发规则中的目的主机地址
+        /// </summary>
+        public string TargetHost { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace Furion.UrlRewriter
     /// URL转发选项
     /// </summary>
     [SkipScan]
-    public class UrlRewriteSettingsOptions : IConfigurableOptions<UrlRewriteSettingsOptions>
+    public class UrlRewriterSettingsOptions : IConfigurableOptions<UrlRewriterSettingsOptions>
     {
         /// <summary>
         /// 是否启用URL转发规则
@@ -38,7 +38,7 @@ namespace Furion.UrlRewriter
         /// </summary>
         /// <param name="options"></param>
         /// <param name="configuration"></param>
-        public void PostConfigure(UrlRewriteSettingsOptions options, IConfiguration configuration)
+        public void PostConfigure(UrlRewriterSettingsOptions options, IConfiguration configuration)
         {
             options.Enabled ??= false;
             options.Rules ??= Array.Empty<string[]>();

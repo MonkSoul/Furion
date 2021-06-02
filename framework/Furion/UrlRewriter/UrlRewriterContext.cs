@@ -21,7 +21,7 @@ namespace Furion.UrlRewriter
     /// </summary>
     internal class UrlRewriterContext
     {
-        internal static bool IsSkipUrlRewrite(HttpContext context, out IUrlRewriterProxy urlRewriter, UrlRewriteSettingsOptions urlRewriteOption)
+        internal static bool IsSkipUrlRewriter(HttpContext context, out IUrlRewriterProxy urlRewriter, UrlRewriterSettingsOptions urlRewriteOption)
         {
             // 判断是否跳过URL转发
             var isSkip = urlRewriteOption.Enabled != true;
@@ -34,18 +34,18 @@ namespace Furion.UrlRewriter
         /// 匹配是否满足转发规则
         /// </summary>
         /// <param name="httpContext"></param>
-        /// <param name="urlRewriteOption"></param>
+        /// <param name="urlRewriterOption"></param>
         /// <returns></returns>
-        internal static UrlRewriteMatchResult MatchRewrite(HttpContext httpContext, UrlRewriteSettingsOptions urlRewriteOption)
+        internal static UrlRewriterMatchResult TryMatchUrlRewriter(HttpContext httpContext, UrlRewriterSettingsOptions urlRewriterOption)
         {
             if (string.IsNullOrWhiteSpace(httpContext.Request.Path)) return default;
 
-            if (urlRewriteOption?.Rules?.Length == 0) return default;
+            if (urlRewriterOption?.Rules?.Length == 0) return default;
 
             // 查找符合条件的转发规则
-            var item = urlRewriteOption.Rules.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x[0]) && httpContext.Request.Path.StartsWithSegments(x[0]));
+            var item = urlRewriterOption.Rules.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x[0]) && httpContext.Request.Path.StartsWithSegments(x[0]));
 
-            return item == null ? default : new UrlRewriteMatchResult { IsMatch = true, Prefix = item[0], TargetHost = item[1] };
+            return item == null ? default : new UrlRewriterMatchResult { IsMatch = true, Prefix = item[0], TargetHost = item[1] };
         }
     }
 }

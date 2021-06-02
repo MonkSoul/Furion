@@ -21,7 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// URL转发服务拓展
     /// </summary>
     [SkipScan]
-    public static class UrlRewriteServiceCollectionExtensions
+    public static class UrlRewriterServiceCollectionExtensions
     {
         /// <summary>
         /// 添加URL转发服务
@@ -29,27 +29,27 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="services"></param>
         /// <param name="configureHttpClientHandler"></param>
         /// <returns></returns>
-        public static IServiceCollection AddUrlRewrite(this IServiceCollection services, Action<HttpClientHandler> configureHttpClientHandler = default)
+        public static IServiceCollection AddUrlRewriter(this IServiceCollection services, Action<HttpClientHandler> configureHttpClientHandler = default)
         {
             // 注册配置选项
-            services.AddConfigurableOptions<UrlRewriteSettingsOptions>();
+            services.AddConfigurableOptions<UrlRewriterSettingsOptions>();
 
             // 注册 Url 转发 HttpClientHandler
-            services.AddTransient<UrlRewriteHttpClientHandler>();
+            services.AddTransient<UrlRewriterHttpClientHandler>();
 
             // 添加URL转发用的Http客户端
-            services.AddHttpClient<UrlRewriteProxyHttpClient>()
+            services.AddHttpClient<UrlRewriterProxyHttpClient>()
                     .ConfigurePrimaryHttpMessageHandler(provider =>
                     {
                         // 解析服务
-                        var httpClientHandler = provider.GetRequiredService<UrlRewriteHttpClientHandler>();
+                        var httpClientHandler = provider.GetRequiredService<UrlRewriterHttpClientHandler>();
                         configureHttpClientHandler?.Invoke(httpClientHandler);
 
                         return httpClientHandler;
                     });
 
             // 注册 Url 转发器
-            services.AddSingleton<IUrlRewriterProxy, UrlRewriteProxy>();
+            services.AddSingleton<IUrlRewriterProxy, UrlRewriterProxy>();
 
             return services;
         }

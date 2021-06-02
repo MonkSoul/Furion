@@ -21,20 +21,20 @@ namespace Furion.UrlRewriter
     /// URL转发中间件
     /// </summary>
     [SkipScan]
-    public class UrlRewriteProxyMiddleware
+    public class UrlRewriterProxyMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly UrlRewriteSettingsOptions _urlRewriteOption;
+        private readonly UrlRewriterSettingsOptions _urlRewriterOption;
 
         /// <summary>
         /// URL转发中间件
         /// </summary>
         /// <param name="next"></param>
         /// <param name="options"></param>
-        public UrlRewriteProxyMiddleware(RequestDelegate next, IOptions<UrlRewriteSettingsOptions> options)
+        public UrlRewriterProxyMiddleware(RequestDelegate next, IOptions<UrlRewriterSettingsOptions> options)
         {
             _next = next;
-            _urlRewriteOption = options.Value;
+            _urlRewriterOption = options.Value;
         }
 
         /// <summary>
@@ -44,9 +44,9 @@ namespace Furion.UrlRewriter
         /// <returns></returns>
         public async Task Invoke(HttpContext context)
         {
-            if (!UrlRewriterContext.IsSkipUrlRewrite(context, out var urlRewriter, _urlRewriteOption))
+            if (!UrlRewriterContext.IsSkipUrlRewriter(context, out var urlRewriter, _urlRewriterOption))
             {
-                var matchResult = UrlRewriterContext.MatchRewrite(context, _urlRewriteOption);
+                var matchResult = UrlRewriterContext.TryMatchUrlRewriter(context, _urlRewriterOption);
                 if (matchResult?.IsMatch == true)
                 {
                     await urlRewriter.RewriteUri(context, matchResult.Prefix, matchResult.TargetHost);

@@ -11,28 +11,27 @@
 // -----------------------------------------------------------------------------
 
 using Furion.DependencyInjection;
-using System.Net.Http;
+using Furion.UrlRewriter;
 
-namespace Furion.UrlRewriter
+namespace Microsoft.AspNetCore.Builder
 {
     /// <summary>
-    /// URL 转发用的 Http 代理
+    /// URL 转发中间件拓展
     /// </summary>
     [SkipScan]
-    public sealed class UrlRewriteProxyHttpClient
+    public static class UrlRewriterMiddlewareExtensions
     {
         /// <summary>
-        /// Http代理
+        /// 添加URL转发拦截中间件
         /// </summary>
-        /// <param name="httpClient"></param>
-        public UrlRewriteProxyHttpClient(HttpClient httpClient)
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder UseUrlRewriter(this IApplicationBuilder builder)
         {
-            Client = httpClient;
-        }
+            // 注册中间件
+            builder.UseMiddleware<UrlRewriterProxyMiddleware>();
 
-        /// <summary>
-        /// http请求客户端
-        /// </summary>
-        public HttpClient Client { get; private set; }
+            return builder;
+        }
     }
 }

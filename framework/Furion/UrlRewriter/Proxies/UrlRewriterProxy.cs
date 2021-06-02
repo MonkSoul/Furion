@@ -23,7 +23,7 @@ namespace Furion.UrlRewriter
     /// URL转发器实现
     /// </summary>
     [SkipScan]
-    public class UrlRewriteProxy : IUrlRewriterProxy
+    public class UrlRewriterProxy : IUrlRewriterProxy
     {
         /// <summary>
         /// 无需转发的请求头信息
@@ -38,15 +38,20 @@ namespace Furion.UrlRewriter
         /// <summary>
         /// Url 重写代理 HttpClient 对象
         /// </summary>
-        private readonly UrlRewriteProxyHttpClient _urlRewriteProxyHttpClient;
+        private readonly UrlRewriterProxyHttpClient _urlRewriterProxyHttpClient;
+
+        /// <summary>
+        /// Url 转发标识
+        /// </summary>
+        private const string _urlRewriterFlag = "x-url-rewrite";
 
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="urlRewriteProxyHttpClient"></param>
-        public UrlRewriteProxy(UrlRewriteProxyHttpClient urlRewriteProxyHttpClient)
+        public UrlRewriterProxy(UrlRewriterProxyHttpClient urlRewriteProxyHttpClient)
         {
-            _urlRewriteProxyHttpClient = urlRewriteProxyHttpClient;
+            _urlRewriterProxyHttpClient = urlRewriteProxyHttpClient;
         }
 
         /// <summary>
@@ -80,10 +85,10 @@ namespace Furion.UrlRewriter
         /// <returns></returns>
         private async Task SendAsync(HttpContext context, HttpRequestMessage requestMessage)
         {
-            using var responseMessage = await _urlRewriteProxyHttpClient.Client.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, context.RequestAborted);
+            using var responseMessage = await _urlRewriterProxyHttpClient.Client.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, context.RequestAborted);
             context.Response.StatusCode = (int)responseMessage.StatusCode;
 
-            context.Response.Headers["Furion-UrlRewrite"] = requestMessage.RequestUri?.ToString();
+            context.Response.Headers[_urlRewriterFlag] = requestMessage.RequestUri?.ToString();
 
             // 添加目标主机头
             foreach (var header in responseMessage.Headers.Where(x => !NotResponseHttpHeaders.Contains(x.Key)))
@@ -143,6 +148,7 @@ namespace Furion.UrlRewriter
             {
                 if (NotForwardedHttpHeaders.Contains(header.Key)) continue;
 
+                // 标记请求会话
                 if (header.Key != "User-Agent")
                 {
                     if (!requestMessage.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray()) && requestMessage.Content != null)
@@ -152,7 +158,7 @@ namespace Furion.UrlRewriter
                 }
                 else
                 {
-                    var userAgent = header.Value.Count > 0 ? (header.Value[0] + " Furion:" + context.TraceIdentifier) : string.Empty;
+                    var userAgent = header.Value.Count > 0 ? (header.Value[0] + $" {_urlRewriterFlag}:" + context.TraceIdentifier) : string.Empty;
 
                     if (!requestMessage.Headers.TryAddWithoutValidation(header.Key, userAgent) && requestMessage.Content != null)
                     {
