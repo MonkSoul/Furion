@@ -132,8 +132,8 @@ namespace Furion.EntityFramework.Core
         {
             services.AddDatabaseAccessor(options =>
             {
-                services.AddSqlServerPool<MasterDbContext>();
-                services.AddSqlServerPool<SlaveDbContext, SlaveDbContextLocator>();
+                services.AddDbPool<MasterDbContext>();
+                services.AddDbPool<SlaveDbContext, SlaveDbContextLocator>();
             });
         }
     }

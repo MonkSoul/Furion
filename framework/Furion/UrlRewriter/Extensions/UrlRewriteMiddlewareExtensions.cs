@@ -12,9 +12,6 @@
 
 using Furion.DependencyInjection;
 using Furion.UrlRewriter;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using System;
 
 namespace Microsoft.AspNetCore.Builder
 {
@@ -28,16 +25,11 @@ namespace Microsoft.AspNetCore.Builder
         /// 添加URL转发拦截中间件
         /// </summary>
         /// <param name="builder"></param>
-        /// <param name="optionsBuilder"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseUrlRewrite(this IApplicationBuilder builder, Action<UrlRewriteSettingsOptions> optionsBuilder = default)
+        public static IApplicationBuilder UseUrlRewrite(this IApplicationBuilder builder)
         {
-            // 读取配置选项
-            var urlRewriteSettingsOptions = builder.ApplicationServices.GetService<IOptions<UrlRewriteSettingsOptions>>().Value;
-            optionsBuilder?.Invoke(urlRewriteSettingsOptions);
-
             // 注册中间件
-            builder.UseMiddleware<UrlRewriteProxyMiddleware>(urlRewriteSettingsOptions);
+            builder.UseMiddleware<UrlRewriteProxyMiddleware>();
 
             return builder;
         }

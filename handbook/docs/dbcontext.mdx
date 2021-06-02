@@ -102,7 +102,7 @@ namespace Furion.EntityFramework.Core
 
 `Furion` 框架提供多种数据库连接字符串配置方式：
 
-- 在注册数据库服务时配置：`AddSqlServerPool<TDbContext>("连接字符串")` 方式
+- 在注册数据库服务时配置：`AddDbPool<TDbContext>("连接字符串")` 方式
 - 使用 `[AppDbContext("连接字符串/Key")]` 特性方式（只在 `AppDbContext 实现类有效`）**推荐**
 - 通过重写 `OnConfiguring(DbContextOptionsBuilder optionsBuilder)` 配置
 
