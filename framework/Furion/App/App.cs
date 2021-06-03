@@ -17,7 +17,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using StackExchange.Profiling;
@@ -235,18 +234,6 @@ namespace Furion
         /// 外部程序集
         /// </summary>
         internal static IEnumerable<Assembly> ExternalAssemblies;
-
-        /// <summary>
-        /// 保存文件夹的监听
-        /// </summary>
-        private static readonly ConcurrentDictionary<string, IFileProvider> FileProviders =
-            new();
-
-        /// <summary>
-        /// 插件上下文的弱引用
-        /// </summary>
-        private static readonly ConcurrentDictionary<string, WeakReference> PLCReferences =
-            new();
 
         /// <summary>
         /// 获取应用有效程序集
