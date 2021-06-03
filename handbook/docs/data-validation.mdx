@@ -440,8 +440,8 @@ true.TryValidate(ValidationTypes.Integer); // => false
 "20".TryValidate(ValidationTypes.Numeric, ValidationTypes.Integer); // => true
 
 // 验证时日期或时间格式
-"2020-05-20".TryValidate(ValidationOptions.AtLeastOne, ValidationTypes.Date, ValidationTypes.Time); // => true
-"23:45:20".TryValidate(ValidationOptions.AtLeastOne, ValidationTypes.Date, ValidationTypes.Time); // => true
+"2020-05-20".TryValidate(ValidationPattern.AtLeastOne, ValidationTypes.Date, ValidationTypes.Time); // => true
+"23:45:20".TryValidate(ValidationPattern.AtLeastOne, ValidationTypes.Date, ValidationTypes.Time); // => true
 
 ```
 
@@ -450,7 +450,7 @@ true.TryValidate(ValidationTypes.Integer); // => false
 
 :::tip 小知识
 
-可通过设置 `TryValidate([ValidationOptions], params object[] validationTypes)` 方法的 `ValidationOptions` 参数配置验证逻辑，如：**`同时成立`** 或 **`只要一个成立`** 即可验证通过
+可通过设置 `TryValidate([ValidationPattern], params object[] validationTypes)` 方法的 `ValidationPattern` 参数配置验证逻辑，如：**`同时成立`** 或 **`只要一个成立`** 即可验证通过
 
 :::
 
@@ -471,7 +471,7 @@ namespace Furion.Application
         [DataValidation(ValidationTypes.Numeric, ValidationTypes.Integer)]
         public int Cost { get; set; }
 
-        [DataValidation(ValidationOptions.AtLeastOne, ValidationTypes.Chinese, ValidationTypes.Date)]
+        [DataValidation(ValidationPattern.AtLeastOne, ValidationTypes.Chinese, ValidationTypes.Date)]
         public string Name { get; set; }
 
         // 可以和Mvc特性共存
