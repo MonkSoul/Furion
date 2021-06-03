@@ -786,6 +786,21 @@ public class TestRequest
 }
 ```
 
+### 6.5.24 `Swagger` 出现默认 `xml` 参数问题解决
+
+**产生此原因有两个必要条件：**
+
+1. 使用了 `Microsoft.AspNetCore.Mvc.NewtonsoftJson` 包并添加了 `AddNewtonsoftJson()` 注册。
+2. `.AddNewtonsoftJson()` 写在了 `.AddInjectWithUnifyResult()` 后面。
+
+所以解决方法是，先注册 `.AddNewtonsoftJson()` 再注册规范化结果，如：
+
+```cs {2}
+services.AddControllers()
+        .AddNewtonsoftJson()
+        .AddInjectWithUnifyResult();
+```
+
 ## 6.6 `SpecificationDocumentSettings` 配置
 
 除了上述例子外，`Furion` 提供了一些配置选项，如：
