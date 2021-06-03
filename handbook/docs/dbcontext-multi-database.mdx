@@ -206,7 +206,26 @@ public static class QueryFunctions
 }
 ```
 
-## 9.18.5 反馈与建议
+## 9.18.5 `SqlServer` 低版本支持动态配置
+
+正常情况下，只需要在注册的时候指定 `@2008` 数据库即可，有些时候我们可能需要在 `DbContext` 的 `OnConfigure` 中配置，这个时候就需要添加以下代码：
+
+```cs {4}
+protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+{
+    optionsBuilder.UseSqlServer(DbProvider.GetConnectionString<TDbContext>())
+                  .ReplaceService<IQueryTranslationPostprocessorFactory, SqlServer2008QueryTranslationPostprocessorFactory>();
+    base.OnConfiguring(optionsBuilder);
+}
+```
+
+:::note 小知识
+
+`DbProvider.GetConnectionString<TDbContext>()` 是获取对应上下文配置的数据库链接字符串。
+
+:::
+
+## 9.18.6 反馈与建议
 
 :::note 与我们交流
 
