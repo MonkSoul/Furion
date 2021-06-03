@@ -263,7 +263,7 @@ namespace Furion.Web.Core
 那如何像 `Startup.cs` 一样使用服务呢？
 
 - 获取配置 `IConfiguration` 实例：通过 `App.Configuration`
-- 解析服务：通过 `App.GetService<TService>()`
+- 解析服务：通过 `App.GetService<TService>()` 或 `app.ApplicationServices.GetService<TService>()`
 
 :::important 关于 `Configure` 方法注入
 
