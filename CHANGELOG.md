@@ -1,4 +1,26 @@
-## v2.7.7 （当前版本）
+## v2.8.0 （未发布版本）
+
+- **新特性**
+
+  - [新增] `Url` 转发大模块 [#I3TZHO](https://gitee.com/dotnetchina/Furion/issues/I3TZHO)
+
+- **突破性变化**
+
+  - [重构] 分布式连续 `GUID` 代码 [#I3UBK0](https://gitee.com/dotnetchina/Furion/issues/I3UBK0)
+
+- **问题修复**
+
+- **其他更改**
+
+- **文档变化**
+
+- **问答答疑**
+
+- **不做实现**
+
+---
+
+## v2.7.9 （当前版本）
 
 - **新特性**
 

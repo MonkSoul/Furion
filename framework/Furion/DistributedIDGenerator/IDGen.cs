@@ -35,13 +35,12 @@ namespace Furion.DistributedIDGenerator
         /// <summary>
         /// 生成连续 GUID
         /// </summary>
-        /// <param name="guidType"></param>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static Guid NextID(SequentialGuidType guidType = SequentialGuidType.SequentialAsString, IServiceProvider serviceProvider = default)
+        public static Guid NextID(IServiceProvider serviceProvider = default)
         {
-            var sequentialGuid = (App.GetService(typeof(SequentialGuidIDGenerator), serviceProvider ?? App.RootServices) as IDistributedIDGenerator);
-            return (Guid)sequentialGuid.Create(new SequentialGuidSettings { GuidType = guidType });
+            var sequentialGuid = App.GetService(typeof(SequentialGuidIDGenerator), serviceProvider ?? App.RootServices) as IDistributedIDGenerator;
+            return (Guid)sequentialGuid.Create();
         }
     }
 }

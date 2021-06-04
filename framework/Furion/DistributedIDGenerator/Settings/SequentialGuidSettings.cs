@@ -11,6 +11,7 @@
 // -----------------------------------------------------------------------------
 
 using Furion.DependencyInjection;
+using System;
 
 namespace Furion.DistributedIDGenerator
 {
@@ -21,8 +22,13 @@ namespace Furion.DistributedIDGenerator
     public sealed class SequentialGuidSettings
     {
         /// <summary>
-        /// 连续 GUID 类型
+        /// 当前时间
         /// </summary>
-        public SequentialGuidType GuidType { get; set; }
+        public DateTimeOffset TimeNow { get; set; } = DateTimeOffset.UtcNow;
+
+        /// <summary>
+        /// LittleEndianBinary 16 格式化
+        /// </summary>
+        public bool LittleEndianBinary16Format { get; set; } = false;
     }
 }
