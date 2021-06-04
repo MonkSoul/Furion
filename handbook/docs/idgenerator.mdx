@@ -28,16 +28,16 @@ sidebar_label: 27. 分布式 ID 生成
 var guid = IDGen.NextID();
 
 // 还可以配置更多参数
-var guid2 = IDGen.NextID(SequentialGuidType.SequentialAtEnd);
+var guid2 = IDGen.NextID(new SequentialGuidSettings { LittleEndianBinary16Format = true }));    // SequentialGuidSettings 参数取决于你的分布式ID的实现
 ```
 
-`SequentialGuidType` 是枚举类型，可选项有：
+:::important 特别提醒
 
-- `SequentialAsString`：标准连续 `GUID` 字符串，默认值
-- `SequentialAsBinary`：Byte 数组类型的连续 `GUID` 字符串
-- `SequentialAtEnd`：连续部分在末尾展示
+如果在循环中试用 `IDGen` 静态类方式，性能最差，原因是底层不断解析服务。如果非循环中，性能等于于下面两种用法。
 
-- `IDistributedIDGenerator` 注入方式
+:::
+
+- `IDistributedIDGenerator` 注入方式 **推荐**
 
 ```cs {2,6}
 private readonly IDistributedIDGenerator _idGenerator;
@@ -47,6 +47,17 @@ public AppServices(IDistributedIDGenerator idGenerator)
 
     var guidObject =  _idGenerator.Create();
 }
+```
+
+- `SequentialGuidIDGenerator` 方式
+
+```cs
+var idGen = new SequentialGuidIDGenerator();
+var guid = idGen.Create();
+
+// 更多参数
+var idGen2 = new SequentialGuidIDGenerator();
+var guid2 = idGen2.Create(new SequentialGuidSettings { LittleEndianBinary16Format = true }));
 ```
 
 ### 27.3.2 短 ID

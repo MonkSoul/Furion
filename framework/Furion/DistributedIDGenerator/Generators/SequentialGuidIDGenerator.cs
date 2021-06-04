@@ -41,11 +41,11 @@ namespace Furion.DistributedIDGenerator
             // - d = nibbles based on UTC date/time in ticks
             // - r = nibbles based on random bytes
 
-            var options = (idGeneratorOptions ?? new SequentialGuidSettings()) as SequentialGuidSettings;
+            var options = idGeneratorOptions as SequentialGuidSettings;
 
             var randomBytes = new byte[7];
             _rng.GetBytes(randomBytes);
-            var ticks = (ulong)options.TimeNow.Ticks;
+            var ticks = (ulong)(options?.TimeNow == null ? DateTimeOffset.UtcNow : options.TimeNow.Value).Ticks;
 
             var uuidVersion = (ushort)4;
             var uuidVariant = (ushort)0b1000;
@@ -53,7 +53,7 @@ namespace Furion.DistributedIDGenerator
             var ticksAndVersion = (ushort)((ticks << 48 >> 52) | (ushort)(uuidVersion << 12));
             var ticksAndVariant = (byte)((ticks << 60 >> 60) | (byte)(uuidVariant << 4));
 
-            if (options.LittleEndianBinary16Format)
+            if (options?.LittleEndianBinary16Format == true)
             {
                 var guidBytes = new byte[16];
                 var tickBytes = BitConverter.GetBytes(ticks);
