@@ -651,7 +651,7 @@ namespace Furion.Application
 
 :::important 小提示
 
-动态方法自定义路由如果以 **`/`** 开头，则不会合并控制器路由。
+动作方法自定义路由如果以 **`/`** 开头，则不会合并控制器路由。
 
 :::
 
@@ -852,7 +852,7 @@ public string Get(int id, string name)
 
 :::important 特别注意
 
-贴了 `[QueryParameters]` 之后，会对所有参数参数影响，包括类类型参数，如果不需要处理某个参数，只需要贴 `[FromXXX]` 特性即可。
+贴了 `[QueryParameters]` 之后，会对所有参数影响，包括类类型参数，如果不需要处理某个参数，只需要贴 `[FromXXX]` 特性即可。
 
 :::
 
