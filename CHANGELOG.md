@@ -46,6 +46,7 @@
   - [答疑] 能否在 WPF 项目中使用呢？ [#I3TMCC](https://gitee.com/dotnetchina/Furion/issues/I3TMCC)
   - [答疑] `Dapper` 多个数据源 [#I3TM9B](https://gitee.com/dotnetchina/Furion/issues/I3TM9B)
   - [答疑] `L.GetSelectCulture()` 方法异常 [#I3TQS4](https://gitee.com/dotnetchina/Furion/issues/I3TQS4)
+  - [答疑] 循环中使用 `IDGen.NextID()` 得到的结果并不是连续的 [#I3UAF6](https://gitee.com/dotnetchina/Furion/issues/I3UAF6)
 
 - **不做实现**
 
