@@ -3,6 +3,7 @@
 - **新特性**
 
   - [新增] `Url` 转发大模块 [#I3TZHO](https://gitee.com/dotnetchina/Furion/issues/I3TZHO)
+  - [新增] `Db.GetMSRepository()` 获取主从库仓储静态方法 [#I3UBSJ](https://gitee.com/dotnetchina/Furion/issues/I3UBSJ)
 
 - **突破性变化**
 
@@ -13,6 +14,8 @@
 - **其他更改**
 
 - **文档变化**
+
+  - [修正] 规范化结果 6.5.6 多分组排序图片引用错误 [#I3UBOQ](https://gitee.com/dotnetchina/Furion/issues/I3UBOQ)
 
 - **问答答疑**
 

@@ -71,3 +71,15 @@ var locatorDbContext2 = Db.GetNewDbContext(typeof(TDbContextLocator));
 ```cs
 var repository = Db.GetRepository<TEntity>(dbContextLocatorType);
 ```
+
+## 2.12 获取 `主从库` 仓储
+
+```cs
+var msRepository = Db.GetMSRepository();
+```
+
+## 2.13 获取 `Sql` 主库定位器仓储
+
+```cs
+var msLocatorRepository = Db.GetMSRepository<TMasterDbContextLocator>();
+```

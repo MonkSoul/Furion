@@ -15,14 +15,14 @@ using System;
 namespace Furion.DatabaseAccessor
 {
     /// <summary>
-    /// 默认主库主从仓储
+    /// 随机主从库仓储（主库是默认数据库）
     /// </summary>
     public partial interface IMSRepository : IMSRepository<MasterDbContextLocator>
     {
     }
 
     /// <summary>
-    /// 主从库仓储
+    /// 随机主从库仓储
     /// </summary>
     /// <typeparam name="TMasterDbContextLocator">主库</typeparam>
     public partial interface IMSRepository<TMasterDbContextLocator>

@@ -119,6 +119,30 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
+        /// 获取随机主从库仓储
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <returns>ISqlRepository</returns>
+        public static IMSRepository GetMSRepository(IServiceProvider serviceProvider = default)
+        {
+            return App.GetService<IMSRepository>(serviceProvider)
+                ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(IMSRepository)));
+        }
+
+        /// <summary>
+        /// 获取随机主从库仓储
+        /// </summary>
+        /// <typeparam name="TMasterDbContextLocator">主库数据库上下文定位器</typeparam>
+        /// <param name="serviceProvider"></param>
+        /// <returns>IMSRepository{TDbContextLocator}</returns>
+        public static IMSRepository<TMasterDbContextLocator> GetMSRepository<TMasterDbContextLocator>(IServiceProvider serviceProvider = default)
+            where TMasterDbContextLocator : class, IDbContextLocator
+        {
+            return App.GetService<IMSRepository<TMasterDbContextLocator>>(serviceProvider)
+                ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(IMSRepository<TMasterDbContextLocator>)));
+        }
+
+        /// <summary>
         /// 获取Sql代理
         /// </summary>
         /// <param name="serviceProvider"></param>
