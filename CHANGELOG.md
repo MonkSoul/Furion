@@ -11,6 +11,8 @@
 
 - **问题修复**
 
+  - [修复] `[DataValidation]` 和 `[SensitiveDetection]` 多语言应用失效 [#I3UH6U](https://gitee.com/dotnetchina/Furion/issues/I3UH6U)
+
 - **其他更改**
 
 - **文档变化**

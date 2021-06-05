@@ -68,15 +68,10 @@ namespace System.ComponentModel.DataAnnotations
 
                 if (!isVaild)
                 {
-                    // 默认提示
-                    var resultMessage = "Characters contain sensitive words.";
-
                     // 进行多语言处理
-                    var errorMessage = string.IsNullOrWhiteSpace(ErrorMessage)
-                        ? L.Text == null ? resultMessage : L.Text[resultMessage]
-                        : ErrorMessage;
+                    var errorMessage = !string.IsNullOrWhiteSpace(ErrorMessage) ? ErrorMessage : "Characters contain sensitive words.";
 
-                    return new ValidationResult(string.Format(errorMessage, validationContext.MemberName));
+                    return new ValidationResult(string.Format(L.Text == null ? errorMessage : L.Text[errorMessage], validationContext.MemberName));
                 }
 
                 // 验证成功

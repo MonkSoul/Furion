@@ -218,7 +218,7 @@ if($options -eq "G")
 
     # 创建一个 Winform 窗口
     $mainForm = New-Object System.Windows.Forms.Form;
-    $mainForm.Text = "Furion Tools v1.0.0";
+    $mainForm.Text = $FurTools;
     $mainForm.Size = New-Object System.Drawing.Size(800,600);
     $mainForm.StartPosition = "CenterScreen";
 
