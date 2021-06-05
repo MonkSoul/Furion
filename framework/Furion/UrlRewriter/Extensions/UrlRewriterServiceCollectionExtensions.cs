@@ -34,10 +34,10 @@ namespace Microsoft.Extensions.DependencyInjection
             // 注册配置选项
             services.AddConfigurableOptions<UrlRewriterSettingsOptions>();
 
-            // 注册 Url 转发 HttpClientHandler
+            // 注册 Url 转发 UrlRewriterHttpClientHandler
             services.AddTransient<UrlRewriterHttpClientHandler>();
 
-            // 添加URL转发用的Http客户端
+            // 添加 Url 转发用的 Http 客户端
             services.AddHttpClient<UrlRewriterProxyHttpClient>()
                     .ConfigurePrimaryHttpMessageHandler(provider =>
                     {
