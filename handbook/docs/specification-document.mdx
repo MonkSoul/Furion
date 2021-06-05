@@ -710,17 +710,24 @@ public int Age { get; set; }
 `Furion` 框架除了内置了不少配置以外，还提供了直接配置 `Swagger` Api 的参数，如：
 
 ```cs
-services.AddInject(swaggerGenConfigure: gen => {
-  // 配置 Swagger Gen
-});
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddInject(swaggerGenConfigure: gen => {
+        // 配置 Swagger Gen
+    });
+}
 ```
 
 ```cs
-services.UseInject(swaggerConfigure: options => {
-  // 配置 Swagger Options
-}, swaggerUIConfigure: ui => {
-  // 配置 Swagger UI
-});
+ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+ {
+    app.UseInject(swaggerConfigure: options => {
+       // 配置 Swagger Options
+    }, swaggerUIConfigure: ui => {
+       // 配置 Swagger UI
+    });
+}
+
 ```
 
 ### 6.5.20 配置 `Swagger`的 `Schemes`
