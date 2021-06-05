@@ -82,6 +82,7 @@
   - [废弃] 添加令牌桶限流算法 [#I3SCDV](https://gitee.com/dotnetchina/Furion/issues/I3SCDV)
   - [废弃] 定时任务立即执行需求 [#I3SF4A](https://gitee.com/dotnetchina/Furion/issues/I3SF4A)
   - [废弃] 文档建议 关于 reids 和 es 、消息队列的 [#I3T90I](https://gitee.com/dotnetchina/Furion/issues/I3T90I)
+  - [废弃] IP 高频率请求限制 [#I3UHE1](https://gitee.com/dotnetchina/Furion/issues/I3UHE1)
 
 ---
 
