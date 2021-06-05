@@ -801,58 +801,6 @@ services.AddControllers()
         .AddInjectWithUnifyResult();
 ```
 
-### 6.5.24 替换 `Swagger` 为 `Knife4jUI`
-
-[knife4j](https://gitee.com/xiaoym/knife4j) 是非常优秀的 `Swagger` UI皮肤库。集成如下：
-
-- 安装 `IGeekFan.AspNetCore.Knife4jUI` 包
-
-- 修改 `Startup.cs` 添加以下配置：
-
-```cs {2,11-18,25-33}
-using Furion;
-using IGeekFan.AspNetCore.Knife4jUI;
-
-namespace FurionApi.Web.Core
-{
-    public class Startup : AppStartup
-    {
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddControllers()
-                    .AddInject(swaggerGenConfigure: configure =>
-                    {
-                        configure.CustomOperationIds(apiDesc =>
-                        {
-                            var controllerAction = apiDesc.ActionDescriptor as ControllerActionDescriptor;
-                            return controllerAction.ControllerName + "-" + controllerAction.ActionName;
-                        });
-                    });
-        }
-
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            // 其他代码
-
-            app.UseInject(swaggerUIConfigure: ui =>
-            {
-                app.UseKnife4UI(c =>
-                {
-                    c.RoutePrefix = string.Empty;
-                    c.SwaggerEndpoint("/swagger/用户管理/swagger.json", "用户管理");
-                    c.SwaggerEndpoint("/swagger/角色管理/swagger.json", "角色管理");
-                });
-            });
-
-            // 其他代码
-        }
-    }
-}
-```
-
-<img src={useBaseUrl("img/sw22.png")} />
-<img src={useBaseUrl("img/sw23.png")} />
-
 ## 6.6 `SpecificationDocumentSettings` 配置
 
 除了上述例子外，`Furion` 提供了一些配置选项，如：
