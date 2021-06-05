@@ -264,6 +264,8 @@ namespace Furion.Web.Core
             //============== 这里是执行方法之后获取数据 ====================
             var actionContext = await next();
 
+            // 获取返回的结果
+            var returnResult = actionContext.Result;
 
             // 判断是否请求成功，没有异常就是请求成功
             var isRequestSucceed = actionContext.Exception == null;
