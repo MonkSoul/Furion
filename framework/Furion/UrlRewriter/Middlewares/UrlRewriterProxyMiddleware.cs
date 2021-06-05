@@ -44,7 +44,8 @@ namespace Furion.UrlRewriter
         /// <returns></returns>
         public async Task Invoke(HttpContext context)
         {
-            if (!UrlRewriterContext.IsSkipUrlRewriter(context, out var urlRewriter, _urlRewriterOption))
+            // 判断是否跳过 Url 重写
+            if (!UrlRewriterContext.IsSkipUrlRewriter(context, _urlRewriterOption, out var urlRewriter))
             {
                 var matchResult = UrlRewriterContext.TryMatchUrlRewriter(context, _urlRewriterOption);
                 if (matchResult?.IsMatch == true)

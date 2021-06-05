@@ -21,10 +21,17 @@ namespace Furion.UrlRewriter
     /// </summary>
     internal class UrlRewriterContext
     {
-        internal static bool IsSkipUrlRewriter(HttpContext context, out IUrlRewriterProxy urlRewriter, UrlRewriterSettingsOptions urlRewriteOption)
+        /// <summary>
+        /// 判断是否跳过 Url 重写
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="urlRewriterOption"></param>
+        /// <param name="urlRewriter"></param>
+        /// <returns></returns>
+        internal static bool IsSkipUrlRewriter(HttpContext context, UrlRewriterSettingsOptions urlRewriterOption, out IUrlRewriterProxy urlRewriter)
         {
             // 判断是否跳过URL转发
-            var isSkip = urlRewriteOption.Enabled != true;
+            var isSkip = urlRewriterOption.Enabled != true;
 
             urlRewriter = isSkip ? null : context.RequestServices.GetService<IUrlRewriterProxy>();
             return urlRewriter == null || isSkip;

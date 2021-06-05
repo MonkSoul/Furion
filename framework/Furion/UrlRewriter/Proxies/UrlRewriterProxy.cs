@@ -43,7 +43,7 @@ namespace Furion.UrlRewriter
         /// <summary>
         /// Url 转发标识
         /// </summary>
-        private const string _urlRewriterFlag = "x-url-rewrite";
+        private const string _urlRewriterFlag = "x-url-rewriter";
 
         /// <summary>
         /// 构造函数
@@ -66,7 +66,7 @@ namespace Furion.UrlRewriter
             // 再次判断访问是否含有前缀
             if (context.Request.Path.StartsWithSegments(rewritePath))
             {
-                // 替换请求地址为转发的新地址
+                // 替换请求地址为转发的新地址（这里处理不够灵活）
                 var newUri = context.Request.Path.Value.Remove(0, rewritePath.Value.Length) + context.Request.QueryString;
                 var targetUri = new Uri(toHost + newUri);
 
