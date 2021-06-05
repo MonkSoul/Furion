@@ -10,7 +10,6 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion.DependencyInjection;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
@@ -19,7 +18,6 @@ namespace Furion.LinqBuilder
     /// <summary>
     /// 处理 Lambda 参数不一致问题
     /// </summary>
-    [SkipScan]
     internal sealed class ParameterReplaceExpressionVisitor : ExpressionVisitor
     {
         /// <summary>

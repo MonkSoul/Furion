@@ -10,7 +10,6 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.Data.Common;
 using System.Threading;
@@ -21,7 +20,6 @@ namespace Furion.DatabaseAccessor
     /// <summary>
     /// 数据库连接拦截分析器
     /// </summary>
-    [SkipScan]
     internal sealed class SqlConnectionProfilerInterceptor : DbConnectionInterceptor
     {
         /// <summary>

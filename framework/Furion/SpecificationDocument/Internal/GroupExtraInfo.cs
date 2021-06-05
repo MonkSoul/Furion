@@ -10,14 +10,11 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion.DependencyInjection;
-
 namespace Furion.SpecificationDocument
 {
     /// <summary>
     /// 分组附加信息
     /// </summary>
-    [SkipScan]
     internal sealed class GroupExtraInfo
     {
         /// <summary>

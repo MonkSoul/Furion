@@ -10,7 +10,6 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion.DependencyInjection;
 using System.Collections.Generic;
 
 namespace Furion.DynamicApiController
@@ -18,7 +17,6 @@ namespace Furion.DynamicApiController
     /// <summary>
     /// 参数路由模板
     /// </summary>
-    [SkipScan]
     internal class ParameterRouteTemplate
     {
         /// <summary>

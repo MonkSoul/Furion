@@ -10,7 +10,6 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using System;
@@ -21,7 +20,6 @@ namespace Furion.Authorization
     /// <summary>
     /// 授权策略提供器
     /// </summary>
-    [SkipScan]
     internal sealed class AppAuthorizeProvider : IAuthorizationPolicyProvider
     {
         /// <summary>

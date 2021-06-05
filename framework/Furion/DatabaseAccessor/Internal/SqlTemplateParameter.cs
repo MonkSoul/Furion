@@ -10,7 +10,6 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion.DependencyInjection;
 using System.Data;
 
 namespace Furion.DatabaseAccessor.Models
@@ -18,7 +17,6 @@ namespace Furion.DatabaseAccessor.Models
     /// <summary>
     /// Sql 模板参数
     /// </summary>
-    [SkipScan]
     internal class SqlTemplateParameter
     {
         /// <summary>

@@ -10,7 +10,6 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion.DependencyInjection;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -19,7 +18,6 @@ namespace Furion.FriendlyException
     /// <summary>
     /// 方法异常类
     /// </summary>
-    [SkipScan]
     internal sealed class MethodIfException
     {
         /// <summary>

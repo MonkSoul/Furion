@@ -10,7 +10,6 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion.DependencyInjection;
 using Furion.Extensions;
 using Furion.UnifyResult;
 using Microsoft.AspNetCore.Http;
@@ -30,7 +29,6 @@ namespace Furion.DynamicApiController
     /// <summary>
     /// 动态接口控制器应用模型转换器
     /// </summary>
-    [SkipScan]
     internal sealed class DynamicApiControllerApplicationModelConvention : IApplicationModelConvention
     {
         /// <summary>

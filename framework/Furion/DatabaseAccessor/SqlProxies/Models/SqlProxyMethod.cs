@@ -10,7 +10,6 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Data;
@@ -20,7 +19,6 @@ namespace Furion.DatabaseAccessor
     /// <summary>
     /// Sql 代理方法元数据
     /// </summary>
-    [SkipScan]
     internal sealed class SqlProxyMethod
     {
         /// <summary>

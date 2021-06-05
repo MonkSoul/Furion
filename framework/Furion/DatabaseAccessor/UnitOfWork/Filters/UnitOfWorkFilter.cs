@@ -10,7 +10,6 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Reflection;
@@ -21,7 +20,6 @@ namespace Furion.DatabaseAccessor
     /// <summary>
     /// 工作单元拦截器
     /// </summary>
-    [SkipScan]
     internal sealed class UnitOfWorkFilter : IAsyncActionFilter, IOrderedFilter
     {
         /// <summary>

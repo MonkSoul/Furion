@@ -10,7 +10,6 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +33,6 @@ namespace Furion.SpecificationDocument
     /// <summary>
     /// 规范化文档构建器
     /// </summary>
-    [SkipScan]
     internal static class SpecificationDocumentBuilder
     {
         /// <summary>

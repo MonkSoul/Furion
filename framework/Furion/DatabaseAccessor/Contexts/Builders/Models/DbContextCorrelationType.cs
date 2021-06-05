@@ -10,7 +10,6 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -20,7 +19,6 @@ namespace Furion.DatabaseAccessor
     /// <summary>
     /// 数据库上下文关联类型
     /// </summary>
-    [SkipScan]
     internal sealed class DbContextCorrelationType
     {
         /// <summary>
