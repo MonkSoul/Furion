@@ -10,6 +10,7 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
+using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +34,8 @@ namespace Furion.SpecificationDocument
     /// <summary>
     /// 规范化文档构建器
     /// </summary>
-    internal static class SpecificationDocumentBuilder
+    [SkipScan]
+    public static class SpecificationDocumentBuilder
     {
         /// <summary>
         /// 规范化文档配置
@@ -43,17 +45,17 @@ namespace Furion.SpecificationDocument
         /// <summary>
         /// 分组信息
         /// </summary>
-        private static readonly IEnumerable<GroupExtraInfo> _groupExtraInfos;
-
-        /// <summary>
-        /// 文档分组列表
-        /// </summary>
-        private static readonly IEnumerable<string> _groups;
+        private static readonly IEnumerable<GroupExtraInfo> DocumentGroupExtras;
 
         /// <summary>
         /// 带排序的分组名
         /// </summary>
         private static readonly Regex _groupOrderRegex;
+
+        /// <summary>
+        /// 文档分组列表
+        /// </summary>
+        public static readonly IEnumerable<string> DocumentGroups;
 
         /// <summary>
         /// 构造函数
@@ -72,10 +74,23 @@ namespace Furion.SpecificationDocument
             GetActionTagCached = new ConcurrentDictionary<ApiDescription, string>();
 
             // 默认分组，支持多个逗号分割
-            _groupExtraInfos = new List<GroupExtraInfo> { ResolveGroupExtraInfo(_specificationDocumentSettings.DefaultGroupName) };
+            DocumentGroupExtras = new List<GroupExtraInfo> { ResolveGroupExtraInfo(_specificationDocumentSettings.DefaultGroupName) };
 
             // 加载所有分组
-            _groups = ReadGroups();
+            DocumentGroups = ReadGroups();
+        }
+
+        /// <summary>
+        /// 检查方法是否在分组中
+        /// </summary>
+        /// <param name="currentGroup"></param>
+        /// <param name="apiDescription"></param>
+        /// <returns></returns>
+        public static bool CheckApiDescriptionInCurrentGroup(string currentGroup, ApiDescription apiDescription)
+        {
+            if (!apiDescription.TryGetMethodInfo(out var method) || typeof(Controller).IsAssignableFrom(method.ReflectedType)) return false;
+
+            return GetActionGroups(method).Any(u => u.Group == currentGroup);
         }
 
         /// <summary>
@@ -182,7 +197,7 @@ namespace Furion.SpecificationDocument
         /// <param name="swaggerGenOptions">Swagger生成器对象</param>
         private static void CreateSwaggerDocs(SwaggerGenOptions swaggerGenOptions)
         {
-            foreach (var group in _groups)
+            foreach (var group in DocumentGroups)
             {
                 var groupOpenApiInfo = GetGroupOpenApiInfo(group) as OpenApiInfo;
                 swaggerGenOptions.SwaggerDoc(group, groupOpenApiInfo);
@@ -195,12 +210,7 @@ namespace Furion.SpecificationDocument
         /// <param name="swaggerGenOptions">Swagger 生成器配置</param>
         private static void LoadGroupControllerWithActions(SwaggerGenOptions swaggerGenOptions)
         {
-            swaggerGenOptions.DocInclusionPredicate((currentGroup, apiDescription) =>
-            {
-                if (!apiDescription.TryGetMethodInfo(out var method) || typeof(Controller).IsAssignableFrom(method.ReflectedType)) return false;
-
-                return GetActionGroups(method).Any(u => u.Group == currentGroup);
-            });
+            swaggerGenOptions.DocInclusionPredicate(CheckApiDescriptionInCurrentGroup);
         }
 
         /// <summary>
@@ -318,7 +328,7 @@ namespace Furion.SpecificationDocument
         /// <param name="swaggerUIOptions"></param>
         private static void CreateGroupEndpoint(SwaggerUIOptions swaggerUIOptions)
         {
-            foreach (var group in _groups)
+            foreach (var group in DocumentGroups)
             {
                 var groupOpenApiInfo = GetGroupOpenApiInfo(group);
 
@@ -416,11 +426,11 @@ namespace Furion.SpecificationDocument
             static IEnumerable<GroupExtraInfo> Function(Type type)
             {
                 // 如果控制器没有定义 [ApiDescriptionSettings] 特性，则返回默认分组
-                if (!type.IsDefined(typeof(ApiDescriptionSettingsAttribute), true)) return _groupExtraInfos;
+                if (!type.IsDefined(typeof(ApiDescriptionSettingsAttribute), true)) return DocumentGroupExtras;
 
                 // 读取分组
                 var apiDescriptionSettings = type.GetCustomAttribute<ApiDescriptionSettingsAttribute>(true);
-                if (apiDescriptionSettings.Groups == null || apiDescriptionSettings.Groups.Length == 0) return _groupExtraInfos;
+                if (apiDescriptionSettings.Groups == null || apiDescriptionSettings.Groups.Length == 0) return DocumentGroupExtras;
 
                 // 处理分组额外信息
                 var groupExtras = new List<GroupExtraInfo>();
