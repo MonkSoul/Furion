@@ -1,34 +1,8 @@
-## v2.8.0 （未发布版本）
-
-- **新特性**
-
-  - [新增] `Url` 转发大模块 [#I3TZHO](https://gitee.com/dotnetchina/Furion/issues/I3TZHO)
-  - [新增] `Db.GetMSRepository()` 获取主从库仓储静态方法 [#I3UBSJ](https://gitee.com/dotnetchina/Furion/issues/I3UBSJ)
-
-- **突破性变化**
-
-  - [重构] 分布式连续 `GUID` 代码 [#I3UBK0](https://gitee.com/dotnetchina/Furion/issues/I3UBK0)
-
-- **问题修复**
-
-  - [修复] `[DataValidation]` 和 `[SensitiveDetection]` 多语言应用失效 [#I3UH6U](https://gitee.com/dotnetchina/Furion/issues/I3UH6U)
-
-- **其他更改**
-
-- **文档变化**
-
-  - [修正] 规范化结果 6.5.6 多分组排序图片引用错误 [#I3UBOQ](https://gitee.com/dotnetchina/Furion/issues/I3UBOQ)
-
-- **问答答疑**
-
-- **不做实现**
-
----
-
 ## v2.7.9 （当前版本）
 
 - **新特性**
 
+  - [新增] `Db.GetMSRepository()` 获取主从库仓储静态方法 [#I3UBSJ](https://gitee.com/dotnetchina/Furion/issues/I3UBSJ)
   - [新增] 工作单元特性，支持静态类强制性开启共享事务 [#I3S9N8](https://gitee.com/dotnetchina/Furion/issues/I3S9N8)
   - [新增] `EFCore` 执行 `sql` 模式打印日志 [#I3SE8X](https://gitee.com/dotnetchina/Furion/issues/I3SE8X)
   - [新增] 远程请求支持默认 `HttpClient` 配置 [#I3SI17](https://gitee.com/dotnetchina/Furion/issues/I3SI17)
@@ -37,11 +11,13 @@
 
 - **突破性变化**
 
+  - [重构] 分布式连续 `GUID` 代码 [#I3UBK0](https://gitee.com/dotnetchina/Furion/issues/I3UBK0)
   - [调整] **`Scoped.CreateUnitOfWork` 名称为 `Scoped.CreateUow` [#I3SJPU](https://gitee.com/dotnetchina/Furion/issues/I3SJPU)**
   - [调整] `JWTEncryption.Validate` 返回值，支持返回 `TokenValidationResult` [#I3S2ND](https://gitee.com/dotnetchina/Furion/issues/I3S2ND)
 
 - **问题修复**
 
+  - [修复] `[DataValidation]` 和 `[SensitiveDetection]` 多语言应用失效 [#I3UH6U](https://gitee.com/dotnetchina/Furion/issues/I3UH6U)
   - [修复] `Scoped` 系列方法异步出现 `Task is cancel` 情况 [#I3SJF6](https://gitee.com/dotnetchina/Furion/issues/I3SJF6)
   - [修复] `Mysql` 数据库的 `ToPagedList` 方法返回的结果进行遍历出现 `MySqlConnection is aleady use` 问题 [#I3SJQ3](https://gitee.com/dotnetchina/Furion/issues/I3SJQ3)
   - [修复] `tool/cli.psl` 没有包含项目名称 [#I3S1T6](https://gitee.com/dotnetchina/Furion/issues/I3S1T6)
@@ -51,13 +27,15 @@
 - **其他更改**
 
   - [改进] 支持规范化结果中间件判断是否跳过规范化结果 [#I3T2AA](https://gitee.com/dotnetchina/Furion/issues/I3T2AA)
-  - [优化] **框架底层性能，大大减少内存占用和溢出情况，启动内存从之前 `136M` 下将到 `86M`**
   - [调整] 更新部分列 `UpdateIncludeNowAsync` 具有二义性 [#I3RW9Q](https://gitee.com/dotnetchina/Furion/issues/I3RW9Q)
+  - [优化] **框架底层性能，大大减少内存占用和溢出情况，启动内存从之前 `136M` 下将到 `86M`**
+  - [其他] 删除无用代码，优化不规范命名等
 
 - **文档变化**
 
   - [新增] `Inject` 说明文档 [#I3TITA](https://gitee.com/dotnetchina/Furion/issues/I3TITA)
   - [更新] 4.2.9 的示例代码文档，方法没有放在 class 中 [#I3S9T5](https://gitee.com/dotnetchina/Furion/issues/I3S9T5)
+  - [修正] 规范化结果 6.5.6 多分组排序图片引用错误 [#I3UBOQ](https://gitee.com/dotnetchina/Furion/issues/I3UBOQ)
   - [更新] 静态类 `Scoped` 文档
 
 - **问答答疑**
@@ -83,6 +61,7 @@
   - [废弃] 定时任务立即执行需求 [#I3SF4A](https://gitee.com/dotnetchina/Furion/issues/I3SF4A)
   - [废弃] 文档建议 关于 reids 和 es 、消息队列的 [#I3T90I](https://gitee.com/dotnetchina/Furion/issues/I3T90I)
   - [废弃] IP 高频率请求限制 [#I3UHE1](https://gitee.com/dotnetchina/Furion/issues/I3UHE1)
+  - [废弃] `Url` 转发大模块 [#I3TZHO](https://gitee.com/dotnetchina/Furion/issues/I3TZHO)
 
 ---
 
