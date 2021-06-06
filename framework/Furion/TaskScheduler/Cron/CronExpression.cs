@@ -89,7 +89,6 @@ namespace Furion.TaskScheduler
         /// second (optional), minute, hour, day of month, month, day of week.
         /// See more: <a href="https://github.com/HangfireIO/Cronos">https://github.com/HangfireIO/Cronos</a>
         /// </summary>
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe CronExpression Parse(string expression, CronFormat format)
         {
@@ -202,9 +201,10 @@ namespace Furion.TaskScheduler
                 return new DateTime(found, DateTimeKind.Utc);
             }
 
-            var zonedStart = TimeZoneInfo.ConvertTime(fromUtc, zone);
-            var zonedStartOffset = new DateTimeOffset(zonedStart, zonedStart - fromUtc);
-            var occurrence = GetOccurrenceByZonedTimes(zonedStartOffset, zone, inclusive);
+            var fromOffset = new DateTimeOffset(fromUtc);
+
+            var occurrence = GetOccurrenceConsideringTimeZone(fromOffset, zone, inclusive);
+
             return occurrence?.UtcDateTime;
         }
 
@@ -245,8 +245,7 @@ namespace Furion.TaskScheduler
                 return new DateTimeOffset(found, TimeSpan.Zero);
             }
 
-            var zonedStart = TimeZoneInfo.ConvertTime(from, zone);
-            return GetOccurrenceByZonedTimes(zonedStart, zone, inclusive);
+            return GetOccurrenceConsideringTimeZone(from, zone, inclusive);
         }
 
         /// <summary>
@@ -355,8 +354,21 @@ namespace Furion.TaskScheduler
         /// </summary>
         public static bool operator !=(CronExpression left, CronExpression right) => !Equals(left, right);
 
-        private DateTimeOffset? GetOccurrenceByZonedTimes(DateTimeOffset from, TimeZoneInfo zone, bool inclusive)
+        private DateTimeOffset? GetOccurrenceConsideringTimeZone(DateTimeOffset fromUtc, TimeZoneInfo zone, bool inclusive)
         {
+            if (!DateTimeHelper.IsRound(fromUtc))
+            {
+                // Rarely, if fromUtc is very close to DST transition, `TimeZoneInfo.ConvertTime` may not convert it correctly on Windows.
+                // E.g., In Jordan Time DST started 2017-03-31 00:00 local time. Clocks jump forward from `2017-03-31 00:00 +02:00` to `2017-03-31 01:00 +3:00`.
+                // But `2017-03-30 23:59:59.9999000 +02:00` will be converted to `2017-03-31 00:59:59.9999000 +03:00` instead of `2017-03-30 23:59:59.9999000 +02:00` on Windows.
+                // It can lead to skipped occurrences. To avoid such errors we floor fromUtc to seconds:
+                // `2017-03-30 23:59:59.9999000 +02:00` will be floored to `2017-03-30 23:59:59.0000000 +02:00` and will be converted to `2017-03-30 23:59:59.0000000 +02:00`.
+                fromUtc = DateTimeHelper.FloorToSeconds(fromUtc);
+                inclusive = false;
+            }
+
+            var from = TimeZoneInfo.ConvertTime(fromUtc, zone);
+
             var fromLocal = from.DateTime;
 
             if (TimeZoneHelper.IsAmbiguousTime(zone, fromLocal))

@@ -28,35 +28,57 @@ namespace Furion.ViewEngine
         private readonly StringBuilder stringBuilder = new();
 
         /// <summary>
-        /// 特性后缀
+        /// 特性前缀
         /// </summary>
-        private string attributeSuffix;
+        private string attributeSuffix = null;
 
         /// <summary>
-        /// 视图模型
+        /// 模型
         /// </summary>
         public dynamic Model { get; set; }
 
         /// <summary>
-        /// 插入字面量
+        /// 写入字面量
         /// </summary>
         /// <param name="literal"></param>
-        public virtual void WriteLiteral(string literal = null)
+        public void WriteLiteral(string literal = null)
+        {
+            WriteLiteralAsync(literal).GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// 写入字面量
+        /// </summary>
+        /// <param name="literal"></param>
+        /// <returns></returns>
+        public virtual Task WriteLiteralAsync(string literal = null)
         {
             stringBuilder.Append(literal);
+            return Task.CompletedTask;
         }
 
         /// <summary>
-        /// 插入对象
+        /// 写入对象
         /// </summary>
         /// <param name="obj"></param>
-        public virtual void Write(object obj = null)
+        public void Write(object obj = null)
         {
-            stringBuilder.Append(obj);
+            WriteAsync(obj).GetAwaiter().GetResult();
         }
 
         /// <summary>
-        /// 插入属性
+        /// 写入对象
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public virtual Task WriteAsync(object obj = null)
+        {
+            stringBuilder.Append(obj);
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// 写入特性
         /// </summary>
         /// <param name="name"></param>
         /// <param name="prefix"></param>
@@ -64,14 +86,31 @@ namespace Furion.ViewEngine
         /// <param name="suffix"></param>
         /// <param name="suffixOffset"></param>
         /// <param name="attributeValuesCount"></param>
-        public virtual void BeginWriteAttribute(string name, string prefix, int prefixOffset, string suffix, int suffixOffset, int attributeValuesCount)
+        public void BeginWriteAttribute(string name, string prefix, int prefixOffset, string suffix, int suffixOffset,
+            int attributeValuesCount)
         {
-            attributeSuffix = suffix;
-            stringBuilder.Append(prefix);
+            BeginWriteAttributeAsync(name, prefix, prefixOffset, suffix, suffixOffset, attributeValuesCount).GetAwaiter().GetResult();
         }
 
         /// <summary>
-        /// 插入属性值
+        /// 写入特性
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="prefix"></param>
+        /// <param name="prefixOffset"></param>
+        /// <param name="suffix"></param>
+        /// <param name="suffixOffset"></param>
+        /// <param name="attributeValuesCount"></param>
+        /// <returns></returns>
+        public virtual Task BeginWriteAttributeAsync(string name, string prefix, int prefixOffset, string suffix, int suffixOffset, int attributeValuesCount)
+        {
+            attributeSuffix = suffix;
+            stringBuilder.Append(prefix);
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// 写入特性值
         /// </summary>
         /// <param name="prefix"></param>
         /// <param name="prefixOffset"></param>
@@ -79,19 +118,54 @@ namespace Furion.ViewEngine
         /// <param name="valueOffset"></param>
         /// <param name="valueLength"></param>
         /// <param name="isLiteral"></param>
-        public virtual void WriteAttributeValue(string prefix, int prefixOffset, object value, int valueOffset, int valueLength, bool isLiteral)
+        public void WriteAttributeValue(string prefix, int prefixOffset, object value, int valueOffset, int valueLength,
+            bool isLiteral)
         {
-            stringBuilder.Append(prefix);
-            stringBuilder.Append(value);
+            WriteAttributeValueAsync(prefix, prefixOffset, value, valueOffset, valueLength, isLiteral).GetAwaiter().GetResult();
         }
 
         /// <summary>
-        /// 结束插入属性
+        /// 写入特性值
         /// </summary>
-        public virtual void EndWriteAttribute()
+        /// <param name="prefix"></param>
+        /// <param name="prefixOffset"></param>
+        /// <param name="value"></param>
+        /// <param name="valueOffset"></param>
+        /// <param name="valueLength"></param>
+        /// <param name="isLiteral"></param>
+        /// <returns></returns>
+        public virtual Task WriteAttributeValueAsync(string prefix, int prefixOffset, object value, int valueOffset, int valueLength, bool isLiteral)
+        {
+            stringBuilder.Append(prefix);
+            stringBuilder.Append(value);
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// 结束写入特性
+        /// </summary>
+        public void EndWriteAttribute()
+        {
+            EndWriteAttributeAsync().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// 结束写入特性
+        /// </summary>
+        /// <returns></returns>
+        public virtual Task EndWriteAttributeAsync()
         {
             stringBuilder.Append(attributeSuffix);
             attributeSuffix = null;
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// 执行
+        /// </summary>
+        public void Execute()
+        {
+            ExecuteAsync().GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -104,12 +178,21 @@ namespace Furion.ViewEngine
         }
 
         /// <summary>
-        /// 返回结果
+        /// 获取结果
         /// </summary>
         /// <returns></returns>
         public virtual string Result()
         {
-            return stringBuilder.ToString();
+            return ResultAsync().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// 获取结果
+        /// </summary>
+        /// <returns></returns>
+        public virtual Task<string> ResultAsync()
+        {
+            return Task.FromResult<string>(stringBuilder.ToString());
         }
     }
 

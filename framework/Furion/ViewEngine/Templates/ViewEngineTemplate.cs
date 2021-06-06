@@ -120,7 +120,7 @@ namespace Furion.ViewEngine
 
             await instance.ExecuteAsync();
 
-            return instance.Result();
+            return await instance.ResultAsync();
         }
 
         /// <summary>
@@ -278,7 +278,7 @@ namespace Furion.ViewEngine
 
             await instance.ExecuteAsync();
 
-            return instance.Result();
+            return await instance.ResultAsync();
         }
 
         /// <summary>

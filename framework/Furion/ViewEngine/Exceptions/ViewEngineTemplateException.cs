@@ -14,6 +14,7 @@ using Furion.DependencyInjection;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Furion.ViewEngine
@@ -43,17 +44,8 @@ namespace Furion.ViewEngine
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="message"></param>
-        public ViewEngineTemplateException(string message) : base(message)
-        {
-        }
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="message"></param>
         /// <param name="innerException"></param>
-        public ViewEngineTemplateException(string message, Exception innerException) : base(message, innerException)
+        public ViewEngineTemplateException(Exception innerException) : base(null, innerException)
         {
         }
 
@@ -66,5 +58,10 @@ namespace Furion.ViewEngine
         /// 生成的代码
         /// </summary>
         public string GeneratedCode { get; set; }
+
+        /// <summary>
+        /// 重写异常消息
+        /// </summary>
+        public override string Message => $"Unable to compile template: {string.Join("\n", Errors.Where(w => w.IsWarningAsError || w.Severity == DiagnosticSeverity.Error))}";
     }
 }

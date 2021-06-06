@@ -336,11 +336,9 @@ namespace Furion.ViewEngine
 
             if (!emitResult.Success)
             {
-                var errors = emitResult.Diagnostics.ToList();
-
-                var exception = new ViewEngineTemplateException($"Unable to compile template: {errors.FirstOrDefault()}")
+                var exception = new ViewEngineTemplateException()
                 {
-                    Errors = errors,
+                    Errors = emitResult.Diagnostics.ToList(),
                     GeneratedCode = razorCSharpDocument.GeneratedCode
                 };
 
