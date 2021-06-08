@@ -221,6 +221,12 @@ var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern3..
 
 ## 4.1.4 自定义配置文件
 
+:::important XML 配置说明
+
+`Furion v2.8.0` 版本移除了 `.xml` 文件自动扫描配置了，改为手动添加配置。
+
+:::
+
 大多情况下，我们的配置只需要在 `appsettings.json` 中配置即可，但一些特殊情况下，我们希望某些组件或功能拥有独立的配置，这个时候就需要用到自定义配置，`Furion` 目前支持 `.json` 和 `.xml` 两种方式配置，如：
 
 ```json {2-13} title="Furion.Web.Entry/emailsetting.json"

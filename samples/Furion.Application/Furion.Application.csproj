@@ -7,11 +7,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="applicationsettings.Development.json" />
     <None Remove="applicationsettings.json" />
+    <None Remove="applicationsettings.xxxx.Development.json" />
+    <None Remove="applicationsettings.xxxx.json" />
     <None Remove="Furion.Application.xml" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="applicationsettings.xxxx.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="applicationsettings.xxxx.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="applicationsettings.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="applicationsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>

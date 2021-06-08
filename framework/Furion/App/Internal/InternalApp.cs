@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace Furion
 {
@@ -62,15 +61,9 @@ namespace Furion
         internal static void AddConfigureFiles(IConfigurationBuilder config, IHostEnvironment env)
         {
             var appsettingsConfiguration = config.Build();
-            // 读取忽略的配置文件
-            var ignoreConfigurationFiles = appsettingsConfiguration
-                    .GetSection("IgnoreConfigurationFiles")
-                    .Get<string[]>()
-                ?? Array.Empty<string>();
 
             // 加载配置
-            AutoAddJsonFiles(config, env, ignoreConfigurationFiles);
-            AutoAddXmlFiles(config, env, ignoreConfigurationFiles);
+            AutoAddJsonFiles(config, env, appsettingsConfiguration);
 
             // 存储配置
             ConfigurationBuilder = config;
@@ -81,108 +74,61 @@ namespace Furion
         /// </summary>
         /// <param name="config"></param>
         /// <param name="env"></param>
-        /// <param name="ignoreConfigurationFiles"></param>
-        private static void AutoAddJsonFiles(IConfigurationBuilder config, IHostEnvironment env, string[] ignoreConfigurationFiles)
+        /// <param name="appsettingsConfiguration"></param>
+        private static void AutoAddJsonFiles(IConfigurationBuilder config, IHostEnvironment env, IConfiguration appsettingsConfiguration)
         {
-            // 获取程序目录下的所有配置文件
+            // 获取程序目录下的所有配置文件（只限顶级目标，不递归查找）
             var jsonFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.json", SearchOption.TopDirectoryOnly)
                 .Union(
                     Directory.GetFiles(Directory.GetCurrentDirectory(), "*.json", SearchOption.TopDirectoryOnly)
-                )
-                .Where(u => CheckIncludeDefaultSettings(Path.GetFileName(u)) && !ignoreConfigurationFiles.Contains(Path.GetFileName(u)) && !runtimeJsonSuffixs.Any(j => u.EndsWith(j)));
+                );
 
+            // 如果没有配置文件，中止执行
             if (!jsonFiles.Any()) return;
 
-            // 获取环境变量名
-            var envName = env.EnvironmentName;
-            var envFiles = new List<string>();
+            // 读取忽略的配置文件
+            var ignoreConfigurationFiles = appsettingsConfiguration
+                    .GetSection("IgnoreConfigurationFiles")
+                    .Get<string[]>()
+                ?? Array.Empty<string>();
 
-            // 自动加载配置文件
-            foreach (var jsonFile in jsonFiles)
-            {
-                // 处理带环境的配置文件
-                if (Path.GetFileNameWithoutExtension(jsonFile).EndsWith($".{envName}"))
-                {
-                    envFiles.Add(jsonFile);
-                    continue;
-                }
+            // 读取自定义环境变量
+            var environments = appsettingsConfiguration
+                    .GetSection("Environments")
+                    .Get<string[]>()
+                ?? Array.Empty<string>();
 
-                config.AddJsonFile(jsonFile, optional: true, reloadOnChange: true);
-            }
-
-            // 配置带环境的配置文件
-            envFiles.ForEach(u => config.AddJsonFile(u, optional: true, reloadOnChange: true));
-        }
-
-        /// <summary>
-        /// 自动加载自定义 .xml 配置文件
-        /// </summary>
-        /// <param name="config"></param>
-        /// <param name="env"></param>
-        /// <param name="ignoreConfigurationFiles"></param>
-        private static void AutoAddXmlFiles(IConfigurationBuilder config, IHostEnvironment env, string[] ignoreConfigurationFiles)
-        {
-            // 获取程序目录下的所有配置文件，必须以 .config.xml 结尾
-            var xmlFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.xml", SearchOption.TopDirectoryOnly)
-                .Union(
-                    Directory.GetFiles(Directory.GetCurrentDirectory(), "*.xml", SearchOption.TopDirectoryOnly)
-                )
-                .Where(u => CheckIncludeDefaultSettings(Path.GetFileName(u)) && !ignoreConfigurationFiles.Contains(Path.GetFileName(u)) && u.EndsWith(".config.xml", StringComparison.OrdinalIgnoreCase));
-
-            if (!xmlFiles.Any()) return;
+            // 将所有文件进行分组
+            var jsonFilesGroups = SplitConfigFileNameToGroups(jsonFiles, environments)
+                                                                    .Where(u => !excludeJsonPrefixs.Contains(u.Key) && !u.Any(c => runtimeJsonSuffixs.Any(z => c.EndsWith(z)) || ignoreConfigurationFiles.Contains(Path.GetFileName(c))));
 
             // 获取环境变量名
             var envName = env.EnvironmentName;
-            var envFiles = new List<string>();
 
-            // 自动加载配置文件
-            foreach (var xmlFile in xmlFiles)
+            // 遍历所有配置分组
+            foreach (var group in jsonFilesGroups)
             {
-                // 处理带环境的配置文件
-                if (Path.GetFileNameWithoutExtension(xmlFile).EndsWith($".{envName}.config"))
+                // 根据文件名长度排序
+                var orderGroup = group.OrderBy(u => Path.GetFileName(u).Length);
+                var firstJsonFile = orderGroup.First();
+
+                // 默认加载第一个
+                config.AddJsonFile(firstJsonFile, optional: true, reloadOnChange: true);
+
+                // 查找和当前环境相关的配置文件
+                var environmentJsonFile = orderGroup.FirstOrDefault(u => Path.GetFileNameWithoutExtension(u).EndsWith($".{envName}"));
+                if (environmentJsonFile != null && environmentJsonFile != firstJsonFile)
                 {
-                    envFiles.Add(xmlFile);
-                    continue;
+                    // 加载当前环境的配置文件
+                    config.AddJsonFile(environmentJsonFile, optional: true, reloadOnChange: true);
                 }
-
-                config.AddXmlFile(xmlFile, optional: true, reloadOnChange: true);
             }
-
-            // 配置带环境的配置文件
-            envFiles.ForEach(u => config.AddXmlFile(u, optional: true, reloadOnChange: true));
         }
-
-        /// <summary>
-        /// 排除特定配置文件正则表达式
-        /// </summary>
-        private const string excludeJsonPattern = @"^{0}(\.\w+)?\.((json)|(xml))$";
 
         /// <summary>
         /// 排序的配置文件前缀
         /// </summary>
         private static readonly string[] excludeJsonPrefixs = new[] { "appsettings", "bundleconfig", "compilerconfig" };
-
-        /// <summary>
-        /// 检查是否受排除的配置文件
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
-        private static bool CheckIncludeDefaultSettings(string fileName)
-        {
-            var isTrue = true;
-
-            foreach (var prefix in excludeJsonPrefixs)
-            {
-                var isMatch = Regex.IsMatch(fileName, string.Format(excludeJsonPattern, prefix));
-                if (isMatch)
-                {
-                    isTrue = false;
-                    break;
-                }
-            }
-
-            return isTrue;
-        }
 
         /// <summary>
         /// 排除运行时 Json 后缀
@@ -194,5 +140,45 @@ namespace Furion
             "runtimeconfig.prod.json",
             "runtimeconfig.json"
         };
+
+        /// <summary>
+        /// ASP.NET 5 内置环境标识
+        /// </summary>
+        private static readonly string[] internalEnvironments = new[]
+        {
+            "Development",
+            "Staging",
+            "Production"
+        };
+
+        /// <summary>
+        /// 对配置文件名进行分组
+        /// </summary>
+        /// <param name="configFiles"></param>
+        /// <param name="environments"></param>
+        /// <returns></returns>
+        private static IEnumerable<IGrouping<string, string>> SplitConfigFileNameToGroups(IEnumerable<string> configFiles, params string[] environments)
+        {
+            // 获取所有环境变量（包括自定义的）
+            var allEnvironments = environments != null && environments.Length > 0
+                ? internalEnvironments.Union(environments)
+                : internalEnvironments;
+
+            // 分组
+            return configFiles.GroupBy(u => Function(u, allEnvironments));
+
+            // 本地函数
+            static string Function(string file, IEnumerable<string> allEnvironments)
+            {
+                // 根据 . 分隔
+                var fileNameParts = Path.GetFileName(file).Split('.', StringSplitOptions.RemoveEmptyEntries);
+
+                // 获取倒数第二部分
+                var maybeEnvironment = fileNameParts[^2];
+
+                if (allEnvironments.Contains(maybeEnvironment)) return string.Join('.', fileNameParts.Take(fileNameParts.Length - 2));
+                else return string.Join('.', fileNameParts.Take(fileNameParts.Length - 1));
+            }
+        }
     }
 }
