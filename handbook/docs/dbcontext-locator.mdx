@@ -4,6 +4,12 @@ title: 9.2 数据库上下文定位器
 sidebar_label: 9.2 数据库上下文定位器
 ---
 
+:::important 小提醒
+
+只要数据库上下文注册绑定了数据库上下文定位器，那么所有的**仓储、实体、种子、配置、视图、函数**等数据库相关的**类、接口、方法**都需要指定数据库上下文定位器，默认数据库上下文定位器除外。
+
+:::
+
 ## 9.2.1 数据库上下文定位器
 
 在了解数据库上下文定位器之前，我们先了解什么是 `定位器`，`定位器` 就是给物体安装特殊配置，使其能够被实时追踪和定位。
@@ -102,6 +108,8 @@ namespace Furion.EntityFramework.Core
 - `AppDbContext<TEntity, TDbContextLocator>`：数据上下文
 - `IRepository<TEntity, TDbContextLocator`：实体仓储
 - `ISqlRepository<TDbContextLocator>`: Sql 操作仓储
+- `IDbRepository<TDbContextLocator>`: 特定数据库操作仓储
+- `IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, ... TSlaveDbContextLocator7>`: 读写分离仓储
 - `Func<Type, DbContext>`：依赖注入获取数据库上下文
 - `Entity<Tkey, TDbContextLocator>` ：实体配置
 - `EntityBase<Tkey, TDbContextLocator1, ... TDbContextLocator8>`：实体配置
