@@ -77,7 +77,7 @@ namespace Furion.DataValidation
         /// <param name="validateAllProperties">是否验证所有属性</param>
         public static void Validate(this object obj, bool validateAllProperties = true)
         {
-            DataValidator.TryValidateObject(obj, validateAllProperties).AddError();
+            DataValidator.TryValidateObject(obj, validateAllProperties).ThrowValidateFailedModel();
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Furion.DataValidation
         /// <param name="validationAttributes">验证特性</param>
         public static void Validate(this object value, params ValidationAttribute[] validationAttributes)
         {
-            DataValidator.TryValidateValue(value, validationAttributes).AddError();
+            DataValidator.TryValidateValue(value, validationAttributes).ThrowValidateFailedModel();
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Furion.DataValidation
         /// <param name="validationTypes">验证类型</param>
         public static void Validate(this object value, params object[] validationTypes)
         {
-            DataValidator.TryValidateValue(value, validationTypes).AddError();
+            DataValidator.TryValidateValue(value, validationTypes).ThrowValidateFailedModel();
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Furion.DataValidation
         /// <param name="validationTypes">验证类型</param>
         public static void Validate(this object value, ValidationPattern validationOptionss, params object[] validationTypes)
         {
-            DataValidator.TryValidateValue(value, validationOptionss, validationTypes).AddError();
+            DataValidator.TryValidateValue(value, validationOptionss, validationTypes).ThrowValidateFailedModel();
         }
 
         /// <summary>
@@ -124,10 +124,10 @@ namespace Furion.DataValidation
         }
 
         /// <summary>
-        /// 如果有异常则抛出
+        /// 直接抛出异常信息
         /// </summary>
         /// <param name="dataValidationResult"></param>
-        public static void AddError(this DataValidationResult dataValidationResult)
+        public static void ThrowValidateFailedModel(this DataValidationResult dataValidationResult)
         {
             if (!dataValidationResult.IsValid)
                 throw Oops.Oh("[Validation]" + JSON.Serialize(

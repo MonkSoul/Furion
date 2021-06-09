@@ -2,6 +2,7 @@
 
 - **新特性**
 
+  - [新增] `throw Oops.On("异常消息")` 应用多语言支持 [#I3UYC2](https://gitee.com/dotnetchina/Furion/issues/I3UYC2)
   - [新增] `Db.GetMSRepository()` 获取主从库仓储静态方法 [#I3UBSJ](https://gitee.com/dotnetchina/Furion/issues/I3UBSJ)
   - [新增] 工作单元特性，支持静态类强制性开启共享事务 [#I3S9N8](https://gitee.com/dotnetchina/Furion/issues/I3S9N8)
   - [新增] `EFCore` 执行 `sql` 模式打印日志 [#I3SE8X](https://gitee.com/dotnetchina/Furion/issues/I3SE8X)

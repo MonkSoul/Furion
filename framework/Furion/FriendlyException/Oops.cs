@@ -242,9 +242,6 @@ namespace Furion.FriendlyException
             // 采用 [IfException] 格式化参数覆盖
             errorCodeMessage = FormatErrorMessage(errorCodeMessage, ifExceptionAttribute?.Args);
 
-            // 多语言处理
-            errorCodeMessage = L.Text == null ? errorCodeMessage : L.Text[errorCodeMessage];
-
             // 字符串格式化
             return FormatErrorMessage(MontageErrorMessage(errorCodeMessage, errorCode.ToString()), args);
         }
@@ -389,6 +386,9 @@ namespace Furion.FriendlyException
         private static string MontageErrorMessage(string errorMessage, string errorCode = default)
         {
             if (errorMessage.StartsWith("[Validation]")) return errorMessage;
+
+            // 多语言处理
+            errorMessage = L.Text == null ? errorMessage : L.Text[errorMessage];
 
             return (_friendlyExceptionSettings.HideErrorCode == true || string.IsNullOrWhiteSpace(errorCode)
                 ? string.Empty
