@@ -741,6 +741,12 @@ const contributors = [
     photo:
       "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAABDklEQVRoQ+2YsQ2DQBAEl2LIKIAcOqEHiqAGSoEKSAnoxpaIbIxI/OuzniEF9ridvZOeQtJDN7oKGs6cNoQzBywIQzgzB4h0ZkA/2oEwhDNzgEhnBpSlRaSJdGYOWCI9TZOapvnKqnme1bbtVxpnL9NwCkv7vldVVadSZVmqruv93rZtWpbl9Ll1XTUMQ4rPedOwEL76ynEc1XXd/ogrtlf1aTh5hg6CEDZsYiL94gAzzAwndoClxdJKHKmDHEvL66/EDDPD3owxw15/mWHLbxwODxwe3IP7R/o/39LRvdNwNAF3fQi7HY7Wh3A0AXd9CLsdjtaHcDQBd30Iux2O1odwNAF3fQi7HY7Wvx3hJ/NRxgHWkOqQAAAAAElFTkSuQmCC",
   },
+  {
+    author: "靳敏杰",
+    link: "https://gitee.com/jmj1991",
+    photo:
+      "https://portrait.gitee.com/uploads/avatars/user/2545/7636803_jmj1991_1596199057.png!avatar200",
+  },
 ];
 
 export default contributors;

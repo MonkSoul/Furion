@@ -26,6 +26,7 @@
   - [修复] `tool/cli.psl` 没有包含项目名称 [#I3S1T6](https://gitee.com/dotnetchina/Furion/issues/I3S1T6)
   - [修复] 远程请求做上传文件时，没有传入 `Body`，程序直接跳过 [#I3TKFH](https://gitee.com/dotnetchina/Furion/issues/I3TKFH)
   - [修复] 远程请求 `multipart/form-data` 内容分割符缺失 [#I3TNO9](https://gitee.com/dotnetchina/Furion/issues/I3TNO9)
+  - [修复] 远程请求代理拦截方式返回 `HttpResponseMessage` 问题 [#I3V161](https://gitee.com/dotnetchina/Furion/issues/I3V161)
 
 - **其他更改**
 
