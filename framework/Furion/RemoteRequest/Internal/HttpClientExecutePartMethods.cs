@@ -289,8 +289,8 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public async Task<T> SendAsAsync<T>(CancellationToken cancellationToken = default)
         {
-            // 如果 T 是 HttpRequestMessage 类型，则返回
-            if (typeof(T) == typeof(HttpRequestMessage))
+            // 如果 T 是 HttpResponseMessage 类型，则返回
+            if (typeof(T) == typeof(HttpResponseMessage))
             {
                 var httpResponseMessage = await SendAsync(cancellationToken);
                 return (T)(object)httpResponseMessage;
