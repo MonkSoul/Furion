@@ -60,6 +60,7 @@
   - [答疑] `MVC` 模式，在 `Controller` 里快捷方式创建 `View` 页面出错 [#I3UFGB](https://gitee.com/dotnetchina/Furion/issues/I3UFGB)
   - [答疑] 数据库迁移没有种子数据 [#I3UI7G](https://gitee.com/dotnetchina/Furion/issues/I3UI7G)
   - [答疑] `SpareTimeAttribute` 中 根据 Cron 表达式 自动匹配 Cron 表达式格式化方式 [#I3UTKQ](https://gitee.com/dotnetchina/Furion/issues/I3UTKQ)
+  - [答疑] 使用 `workService` 集成 `SqlSugar` 报错 [#I3V8HJ](https://gitee.com/dotnetchina/Furion/issues/I3V8HJ)
 
 - **不做实现**
 
