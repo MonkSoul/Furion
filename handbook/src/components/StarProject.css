@@ -5,17 +5,18 @@
   z-index: 10;
   display: inline-block;
   box-shadow: 0 2px 20px 0 rgb(0 0 0 / 40%);
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .furion-star-project img {
   display: block;
   height: 150px;
-  border-radius: 4px;
 }
 
 .furion-star-close {
   position: absolute;
-  top: 0;
+  bottom: 0;
   right: 0;
   background: #fff;
   padding: 2px 5px;
@@ -31,4 +32,14 @@
   .furion-star-project {
     display: none;
   }
+}
+
+.furion-star-title {
+  background-color: #182c61;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  padding: 5px 10px;
+  display: block;
+  text-decoration: none;
 }

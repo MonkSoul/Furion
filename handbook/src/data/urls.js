@@ -159,6 +159,11 @@ const urls = [
     text: "tpflow",
     title: "",
   },
+  {
+    url: "https://gitee.com/CoreUnion/CoreShop",
+    text: "CoreShop",
+    title: "",
+  },
 ];
 
 export default urls;
