@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.8.3
+// 框架版本：2.8.4
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -40,7 +40,7 @@ namespace Furion.DataEncryption
         /// <param name="payload"></param>
         /// <param name="expiredTime">过期时间（分钟）</param>
         /// <returns></returns>
-        public static string Encrypt(Dictionary<string, object> payload, long? expiredTime = null)
+        public static string Encrypt(IDictionary<string, object> payload, long? expiredTime = null)
         {
             var (Payload, JWTSettings) = CombinePayload(payload, expiredTime);
             return Encrypt(JWTSettings.IssuerSigningKey, Payload, JWTSettings.Algorithm);
@@ -53,7 +53,7 @@ namespace Furion.DataEncryption
         /// <param name="payload"></param>
         /// <param name="algorithm"></param>
         /// <returns></returns>
-        public static string Encrypt(string issuerSigningKey, Dictionary<string, object> payload, string algorithm = SecurityAlgorithms.HmacSha256)
+        public static string Encrypt(string issuerSigningKey, IDictionary<string, object> payload, string algorithm = SecurityAlgorithms.HmacSha256)
         {
             return Encrypt(issuerSigningKey, JsonSerializer.Serialize(payload), algorithm);
         }
@@ -338,7 +338,7 @@ namespace Furion.DataEncryption
         /// <param name="payload"></param>
         /// <param name="expiredTime">过期时间，单位：分钟</param>
         /// <returns></returns>
-        private static (Dictionary<string, object> Payload, JWTSettingsOptions JWTSettings) CombinePayload(Dictionary<string, object> payload, long? expiredTime = null)
+        private static (IDictionary<string, object> Payload, JWTSettingsOptions JWTSettings) CombinePayload(IDictionary<string, object> payload, long? expiredTime = null)
         {
             var jwtSettings = GetJWTSettings();
             var datetimeOffset = DateTimeOffset.Now;

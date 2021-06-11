@@ -27,6 +27,7 @@
   - [修复] 远程请求做上传文件时，没有传入 `Body`，程序直接跳过 [#I3TKFH](https://gitee.com/dotnetchina/Furion/issues/I3TKFH)
   - [修复] 远程请求 `multipart/form-data` 内容分割符缺失 [#I3TNO9](https://gitee.com/dotnetchina/Furion/issues/I3TNO9)
   - [修复] 远程请求代理拦截方式返回 `HttpResponseMessage` 问题 [#I3V161](https://gitee.com/dotnetchina/Furion/issues/I3V161)
+  - [修复] `repository.Database.SetCommandTimeout(600)` 无法生效[#I3VAQS](https://gitee.com/dotnetchina/Furion/issues/I3VAQS)
 
 - **其他更改**
 

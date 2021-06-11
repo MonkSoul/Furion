@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.8.3
+// 框架版本：2.8.4
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -288,6 +288,10 @@ namespace Furion.DatabaseAccessor
             dbCommand.Transaction = databaseFacade.CurrentTransaction?.GetDbTransaction();
             dbCommand.CommandType = commandType;
             dbCommand.CommandText = sql;
+
+            // 设置超时
+            var commandTimeout = databaseFacade.GetCommandTimeout();
+            if (commandTimeout != null) dbCommand.CommandTimeout = commandTimeout.Value;
 
             // 返回
             return (dbConnection, dbCommand);
