@@ -135,4 +135,4 @@ dotnet_style_qualification_for_method = false:suggestion
 dotnet_style_qualification_for_property = false:suggestion
 
 # Add copyright file header
-file_header_template = -----------------------------------------------------------------------------\n让 .NET 开发更简单，更通用，更流行。\nCopyright © 2020-2021 Furion, 百小僧, Baiqian Co.,Ltd.\n\n框架名称：Furion\n框架作者：百小僧\n框架版本：2.8.4\n源码地址：Gitee： https://gitee.com/dotnetchina/Furion \n         Github：https://github.com/monksoul/Furion \n开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）\n-----------------------------------------------------------------------------
+file_header_template = -----------------------------------------------------------------------------\n让 .NET 开发更简单，更通用，更流行。\nCopyright © 2020-2021 Furion, 百小僧, Baiqian Co.,Ltd.\n\n框架名称：Furion\n框架作者：百小僧\n框架版本：2.8.5\n源码地址：Gitee： https://gitee.com/dotnetchina/Furion \n         Github：https://github.com/monksoul/Furion \n开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）\n-----------------------------------------------------------------------------
