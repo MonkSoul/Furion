@@ -187,6 +187,9 @@ namespace Furion.SpecificationDocument
             // 注入 MiniProfiler 组件
             InjectMiniProfilerPlugin(swaggerUIOptions);
 
+            // 配置多语言和自动登录token
+            AddDefaultInterceptor(swaggerUIOptions);
+
             // 自定义配置
             configure?.Invoke(swaggerUIOptions);
         }
@@ -350,6 +353,17 @@ namespace Furion.SpecificationDocument
 
             // 自定义 Swagger 首页
             swaggerUIOptions.IndexStream = () => thisAssembly.GetManifestResourceStream($"{thisType.Namespace}.Assets.{(App.Settings.InjectMiniProfiler != true ? "index" : "index-mini-profiler")}.html");
+        }
+
+        /// <summary>
+        /// 添加默认请求/响应拦截器
+        /// </summary>
+        /// <param name="swaggerUIOptions"></param>
+        private static void AddDefaultInterceptor(SwaggerUIOptions swaggerUIOptions)
+        {
+            // 配置多语言和自动登录token
+            swaggerUIOptions.UseRequestInterceptor("(request) => { return defaultRequestInterceptor(request); }");
+            swaggerUIOptions.UseResponseInterceptor("(response) => { return defaultResponseInterceptor(response); }");
         }
 
         /// <summary>
