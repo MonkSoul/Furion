@@ -8,6 +8,8 @@
 
 - **突破性变化**
 
+  - [新增] `Furion` 所有包生成 `.snupkg` 包，支持开发阶段直接调试 `Furion` 所有包源码 [#I3VFIX](https://gitee.com/dotnetchina/Furion/issues/I3VFIX)
+
 - **问题修复**
 
 - **其他更改**
