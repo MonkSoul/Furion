@@ -1,3 +1,25 @@
+## v2.9.0 （未发布版本）
+
+- **新特性**
+
+  - [新增] swagger 支持设置多语言方式，设置的语言自动添加到 api 地址后面 [#I3VDTD](https://gitee.com/dotnetchina/Furion/issues/I3VDTD)
+  - [新增] 动态 WebAPI 支持 `[FromRoute]` 非必填（选填）参数设置 [#I3VFIM](https://gitee.com/dotnetchina/Furion/issues/I3VFIM)
+  - [新增] 动态 WebAPI 参数支持配置路由约束 [#I3VFIR](https://gitee.com/dotnetchina/Furion/issues/I3VFIR)
+
+- **突破性变化**
+
+- **问题修复**
+
+- **其他更改**
+
+- **文档变化**
+
+- **问答答疑**
+
+- **不做实现**
+
+---
+
 ## v2.7.0/2.8.0 （当前版本）
 
 - **新特性**
@@ -10,7 +32,6 @@
   - [新增] 新增 `短 ID` 生成功能 [#I3T7JP](https://gitee.com/dotnetchina/Furion/issues/I3T7JP)
   - [新增] `[SensitiveDetection]` 支持配置替换敏感词汇 [#I3THIA](https://gitee.com/dotnetchina/Furion/issues/I3THIA)
   - [新增] `SpecificationDocumentBuilder.DocumentGroups` 和 `SpecificationDocumentBuilder.CheckApiDescriptionInCurrentGroup(currentGroup, apiDescription)` 公开方法[#I3UDSY](https://gitee.com/dotnetchina/Furion/issues/I3UDSY)
-  - [新增] swagger 支持设置多语言方式，设置的语言自动添加到 api 地址后面 [#I3VDTD](https://gitee.com/dotnetchina/Furion/issues/I3VDTD)
 
 - **突破性变化**
 
@@ -63,6 +84,7 @@
   - [答疑] 数据库迁移没有种子数据 [#I3UI7G](https://gitee.com/dotnetchina/Furion/issues/I3UI7G)
   - [答疑] `SpareTimeAttribute` 中 根据 Cron 表达式 自动匹配 Cron 表达式格式化方式 [#I3UTKQ](https://gitee.com/dotnetchina/Furion/issues/I3UTKQ)
   - [答疑] 使用 `workService` 集成 `SqlSugar` 报错 [#I3V8HJ](https://gitee.com/dotnetchina/Furion/issues/I3V8HJ)
+  - [答疑] `sqlserver 2008` 分页报错如何解决呢 [#I3VF96](https://gitee.com/dotnetchina/Furion/issues/I3VF96)
 
 - **不做实现**
 

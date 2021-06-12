@@ -13,13 +13,26 @@
 using Furion.DependencyInjection;
 using System;
 
-namespace Furion.DynamicApiController
+namespace Microsoft.AspNetCore.Mvc
 {
     /// <summary>
-    /// 配置 Mvc 控制器也能导出到 Swagger 中
+    /// 接口参数约束
     /// </summary>
-    [SkipScan, AttributeUsage(AttributeTargets.Class)]
-    public sealed class ExportToDocumentAttribute : Attribute
+    [SkipScan, AttributeUsage(AttributeTargets.Parameter)]
+    public class RouteConstraintAttribute : Attribute
     {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="constraint"></param>
+        public RouteConstraintAttribute(string constraint)
+        {
+            Constraint = constraint;
+        }
+
+        /// <summary>
+        /// 参数位置
+        /// </summary>
+        public string Constraint { get; set; }
     }
 }

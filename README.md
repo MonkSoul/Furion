@@ -90,7 +90,7 @@ Kangaroo has the characteristics of **long legs, bagging and self running**.
 - `Docker Hub` online Image
 
 ```shell
-docker run --name furion -p 5000:80 monksoul/furion:v2.8.5
+docker run --name furion -p 5000:80 monksoul/furion:v2.8.6
 ```
 
 - `Manually` pack Image.
@@ -98,13 +98,13 @@ docker run --name furion -p 5000:80 monksoul/furion:v2.8.5
 Open `CMD/Shell/PowerShell` and enter the `Furion` project root directory to package `Furion` image:
 
 ```shell
-docker build -t furion:v2.8.5 .
+docker build -t furion:v2.8.6 .
 ```
 
 When it build successful,then run `docker run`：
 
 ```shell
-docker run --name furion -p 5000:80 furion:v2.8.5
+docker run --name furion -p 5000:80 furion:v2.8.6
 ```
 
 ## 🥥 Packages
@@ -177,7 +177,7 @@ Although sparrow is small, it has all five internal organs. `Furion` only integr
 - Environment
   - Windows
   - Linux
-  - MacOS
+  - MacOS/MacOS M1 CPU
   - Docker/K8S/K3S/Rancher
   - Xamarin/MAUI
 - Database

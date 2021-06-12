@@ -899,6 +899,59 @@ public string Get(int id, string name)
 
 :::
 
+### 5.8.16 路由参数非必填/选填
+
+在 `Furion v2.8.6` 版本中实现了 `[FromRoute]` 参数非必填功能，支持一下几种方式：
+
+```cs {2,6,11}
+// 方式一，通过可空 ?
+public object Method1(int id, Datetime? dateTime)
+{
+}
+
+// 方式二，通过默认值
+public object Method1(int id, int age = 10)
+{
+}
+
+// 方式三，默认值 + 可空 ?
+public object Method1(int id, int? age = 10)
+{
+}
+```
+
+### 5.8.17 `[FormRoute]` 路由约束
+
+在 `Furion v2.8.6` 版本中，添加了 `[RouteConstraint]` 特性，可配置路由约束，如：`[RouteConstraint(":min(10)")]`
+
+```cs {2}
+// 最小值 10
+public object Method1([RouteConstraint(":min(10)")] int id)
+{
+}
+```
+
+`[RouteConstraint]` 支持路由约束符号如下：
+
+| 符号        | 描述                                   | 例子                            |
+| ----------- | -------------------------------------- | ------------------------------- |
+| `alpha`     | 匹配大写或小写拉丁字母字符（a-z、A-Z） | `:alpha`                        |
+| `bool`      | bool 类型                              | `:bool`                         |
+| `datetime`  | DateTime 类型                          | `:datetime`                     |
+| `decimal`   | decimal 类型                           | `:decimal`                      |
+| `double`    | double 类型                            | `:double`                       |
+| `float`     | float 类型                             | `:float`                        |
+| `guid`      | guid 类型                              | `:guid`                         |
+| `int`       | int 类型                               | `:int`                          |
+| `long`      | long 类型                              | `:long`                         |
+| `length`    | 匹配长度（字符串）                     | `:length(6)` 或 `:length(1,20)` |
+| `max`       | 最大值                                 | `:max(10)`                      |
+| `maxlength` | 最大长度（字符串）                     | `:maxlength(10)`                |
+| `min`       | 最小值                                 | `:min(10)`                      |
+| `minlength` | 最小长度（字符串）                     | `:minlength(10)`                |
+| `range`     | 取值范围                               | `:range(10,50)`                 |
+| `regex`     | 正则表达式                             | `:regex(^\d{3}-\d{3}-\d{4}$)`   |
+
 ## 5.9 `[ApiDescriptionSettings]`
 
 除了上述 `ASP.NET Core` 提供的配置外，`Furion` 框架还提供了非常强大且灵活的 `[ApiDescriptionSettings]` 特性。

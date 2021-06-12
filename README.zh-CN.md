@@ -90,7 +90,7 @@
 - `Docker Hub` 线上镜像
 
 ```shell
-docker run --name furion -p 5000:80 monksoul/furion:v2.8.5
+docker run --name furion -p 5000:80 monksoul/furion:v2.8.6
 ```
 
 - `手动` 打包镜像
@@ -98,13 +98,13 @@ docker run --name furion -p 5000:80 monksoul/furion:v2.8.5
 打开 `CMD/Shell/PowerShell` 进入 `Furion` 项目根目录打包 `Furion` 镜像：
 
 ```shell
-docker build -t furion:v2.8.5 .
+docker build -t furion:v2.8.6 .
 ```
 
 打包成功后，直接 `docker run`：
 
 ```shell
-docker run --name furion -p 5000:80 furion:v2.8.5
+docker run --name furion -p 5000:80 furion:v2.8.6
 ```
 
 ## 🥥 框架拓展包
@@ -175,7 +175,7 @@ docker run --name furion -p 5000:80 furion:v2.8.5
 - 运行环境
   - Windows
   - Linux
-  - MacOS
+  - MacOS/MacOS M1 CPU
   - Docker/K8S/K3S/Rancher
   - Xamarin/MAUI
 - 数据库

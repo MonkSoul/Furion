@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
-import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import useThemeContext from "@theme/hooks/useThemeContext";
-import useBaseUrl from "@docusaurus/useBaseUrl";
-import WindowIcon from "./windows.svg";
-import LinuxIcon from "./linux.svg";
-import MacOSIcon from "./macos.svg";
-import DockerIcon from "./docker.svg";
-import KubernetesIcon from "./kubernetes.svg";
+import Layout from "@theme/Layout";
 import components from "@theme/MDXComponents";
-import "./index.css";
-import "./index.own.css";
+import React from "react";
 import contributors from "../data/contributors";
 import urls from "../data/urls";
+import DockerIcon from "./docker.svg";
+import "./index.css";
+import "./index.own.css";
+import KubernetesIcon from "./kubernetes.svg";
+import LinuxIcon from "./linux.svg";
+import MacOSIcon from "./macos.svg";
+import WindowIcon from "./windows.svg";
 
 function Home() {
   const context = useDocusaurusContext();
@@ -81,7 +81,7 @@ function Banner() {
             >
               一分钟上手
             </Link>
-            <div className="furion-version">v2.8.5</div>
+            <div className="furion-version">v2.8.6</div>
           </div>
         </div>
         <div className="furion-banner-item">
@@ -140,7 +140,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>5700 +</div>
+            <div style={{ color: "#723cff" }}>5710 +</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
@@ -164,7 +164,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>405,509</div>
+            <div style={{ color: "#1fd898" }}>408,718</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>

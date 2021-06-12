@@ -437,7 +437,18 @@ namespace Furion.DynamicApiController
                 // https://docs.microsoft.com/en-US/aspnet/core/web-api/?view=aspnetcore-5.0#binding-source-parameter-inference
                 if (!hasFormAttribute && hasApiControllerAttribute) continue;
 
-                var template = $"{{{parameterModel.ParameterName}}}";
+                // 判断是否可以为null
+                var canBeNull = parameterType.IsGenericType && parameterType.GetGenericTypeDefinition() == typeof(Nullable<>);
+
+                // 判断是否贴有路由约束特性
+                string constraint = default;
+                if (parameterAttributes.FirstOrDefault(u => u is RouteConstraintAttribute) is RouteConstraintAttribute routeConstraint && !string.IsNullOrWhiteSpace(routeConstraint.Constraint))
+                {
+                    constraint = !routeConstraint.Constraint.StartsWith(":")
+                        ? $":{routeConstraint.Constraint}" : routeConstraint.Constraint;
+                }
+
+                var template = $"{{{parameterModel.ParameterName}{(canBeNull ? "?" : string.Empty)}{constraint}}}";
                 // 如果没有贴路由位置特性，则默认添加到动作方法后面
                 if (parameterAttributes.FirstOrDefault(u => u is ApiSeatAttribute) is not ApiSeatAttribute apiSeat)
                 {
