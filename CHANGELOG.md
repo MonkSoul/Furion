@@ -2,6 +2,7 @@
 
 - **新特性**
 
+  - [新增] 不包含 `EntityFramework.Core` 版本的 `Furion.Pure` 包[#I3VGW8](https://gitee.com/dotnetchina/Furion/issues/I3VGW8)
   - [新增] swagger 支持设置多语言方式，设置的语言自动添加到 api 地址后面 [#I3VDTD](https://gitee.com/dotnetchina/Furion/issues/I3VDTD)
   - [新增] 动态 WebAPI 支持 `[FromRoute]` 非必填（选填）参数设置 [#I3VFIM](https://gitee.com/dotnetchina/Furion/issues/I3VFIM)
   - [新增] 动态 WebAPI 参数支持配置路由约束 [#I3VFIR](https://gitee.com/dotnetchina/Furion/issues/I3VFIR)

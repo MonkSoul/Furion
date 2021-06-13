@@ -29,9 +29,11 @@ namespace Microsoft.Extensions.Hosting
         /// <param name="hostBuilder">Web主机构建器</param>
         /// <param name="assemblyName">外部程序集名称</param>
         /// <returns>IWebHostBuilder</returns>
-        public static IWebHostBuilder Inject(this IWebHostBuilder hostBuilder, string assemblyName = nameof(Furion))
+        public static IWebHostBuilder Inject(this IWebHostBuilder hostBuilder, string assemblyName = default)
         {
-            hostBuilder.UseSetting(WebHostDefaults.HostingStartupAssembliesKey, assemblyName);
+            var frameworkPackageName = assemblyName ?? typeof(HostBuilderExtensions).Assembly.GetName().Name;
+            hostBuilder.UseSetting(WebHostDefaults.HostingStartupAssembliesKey, frameworkPackageName);
+
             return hostBuilder;
         }
 

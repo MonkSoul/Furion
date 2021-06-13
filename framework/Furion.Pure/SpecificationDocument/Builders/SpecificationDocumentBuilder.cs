@@ -352,7 +352,8 @@ namespace Furion.SpecificationDocument
             var thisAssembly = thisType.Assembly;
 
             // 自定义 Swagger 首页
-            swaggerUIOptions.IndexStream = () => thisAssembly.GetManifestResourceStream($"{thisType.Namespace}.Assets.{(App.Settings.InjectMiniProfiler != true ? "index" : "index-mini-profiler")}.html");
+            var customIndex = $"{thisAssembly.GetName().Name}{thisType.Namespace.Replace(nameof(Furion), string.Empty)}.Assets.{(App.Settings.InjectMiniProfiler != true ? "index" : "index-mini-profiler")}.html";
+            swaggerUIOptions.IndexStream = () => thisAssembly.GetManifestResourceStream(customIndex);
         }
 
         /// <summary>
