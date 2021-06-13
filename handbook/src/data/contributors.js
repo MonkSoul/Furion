@@ -733,7 +733,7 @@ const contributors = [
     author: "qintaie",
     link: "https://gitee.com/qintaie",
     photo:
-      "https://portrait.gitee.com/uploads/avatars/user/2505/7516847_qintaie_1614602369.png!avatar200",
+      "https://portrait.gitee.com/uploads/avatars/user/2505/7516847_qintaie_1622905215.png!avatar200",
   },
   {
     author: "tong-soul",
