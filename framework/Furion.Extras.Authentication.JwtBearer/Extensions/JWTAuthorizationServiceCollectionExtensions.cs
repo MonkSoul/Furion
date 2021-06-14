@@ -118,8 +118,14 @@ namespace Microsoft.Extensions.DependencyInjection
         public static AuthenticationBuilder AddJwt<TAuthorizationHandler>(this IServiceCollection services, Action<AuthenticationOptions> authenticationConfigure = null, object tokenValidationParameters = default, Action<JwtBearerOptions> jwtBearerConfigure = null, bool enableGlobalAuthorize = false)
             where TAuthorizationHandler : class, IAuthorizationHandler
         {
+            // 获取 Furion 程序集名称
+            var furionAssemblyName = Assembly.GetEntryAssembly()
+                                                       .GetReferencedAssemblies()
+                                                       .FirstOrDefault(u => u.Name == "Furion" || u.Name == "Furion.Pure")
+                                                       ?? throw new InvalidOperationException("No `Furion` assembly installed in the current project was detected.");
+
             // 加载 Furion 程序集
-            var furionAssembly = Assembly.Load("Furion");
+            var furionAssembly = Assembly.Load(furionAssemblyName.Name);
 
             // 获取添加授权类型
             var authorizationServiceCollectionExtensionsType = furionAssembly.GetType("Microsoft.Extensions.DependencyInjection.AuthorizationServiceCollectionExtensions");
