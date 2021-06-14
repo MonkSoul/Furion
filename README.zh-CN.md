@@ -72,12 +72,6 @@
 - **[JoyAdmin](https://gitee.com/a106_admin/joy-admin)**：基于 `Furion` + `iviewadmin` 开发的管理系统
 - **[YShop](https://gitee.com/yell-run/yshop)**：基于 `Furion` + `Vue` 开发的移动电商项目
 
-## 🥦 系列教程
-
-- **Furion 视频教程：[https://space.bilibili.com/695987967](https://space.bilibili.com/695987967)**
-- Furion 使用例子：[https://gitee.com/monksoul/furion-samples](https://gitee.com/monksoul/furion-samples) **可能大部分示例已经不通用**
-- Furion 系列教程：[《学 .NET 5 从 Furion 开始》](https://gitee.com/dotnetchina/Furion/blob/main/tutorials) 系列
-
 ## 🌭 开源地址
 
 - Gitee：[https://gitee.com/dotnetchina/Furion](https://gitee.com/dotnetchina/Furion)
@@ -145,10 +139,6 @@ docker run --name furion -p 5000:80 furion:v2.8.6
 - 极其灵活：轻松面对多变复杂的需求
 - 极易维护：采用独特的架构思想，只为长久维护设计
 - 完整文档：提供完善的开发文档
-
-## 🥞 架构设计
-
-正在整理中...
 
 ## 🥝 功能模块
 

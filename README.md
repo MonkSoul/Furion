@@ -37,7 +37,7 @@ Make .NET development easier, more versatile, and more popular.
 >
 > But **Lazier** and **Worse** have similar pronunciation and no characteristics, and the meaning is not very good. I have been agonizing about the name change for several days.
 >
-> Just once in QQ group accidentally brush to chat record hair **Furion [fi:rɪən]** word, meaning is a prophet, at that moment, recognized it!
+> Just once in QQ group accidentally brush to chat record hair **`Furion [fi:rɪən]`** word, meaning is a prophet, at that moment, recognized it!
 >
 > `Furion` means "prophet" in Chinese, which is just in line with my original intention of creating the framework. So, `Furion` was born.
 
@@ -71,12 +71,6 @@ Kangaroo has the characteristics of **long legs, bagging and self running**.
 - **[Pear Admin](https://gitee.com/pear-admin/pear-admin-furion)**：General system based on `Furion` and `PearAdmin`.
 - **[JoyAdmin](https://gitee.com/a106_admin/joy-admin)**：General system based on `Furion` and `iviewadmin`.
 - **[YShop](https://gitee.com/yell-run/yshop)**：Mobile e-commerce project based on `Furion` and `Vue`.
-
-## 🥦 Tutorials
-
-- **Furion Video tutorial: [https://space.bilibili.com/695987967](https://space.bilibili.com/695987967)**
-- Furion Samples：[https://gitee.com/monksoul/furion-samples](https://gitee.com/monksoul/furion-samples) **Maybe most of the examples are not common anymore**
-- Furion Series of tutorials: [《Learn .NET 5 from Furion》](https://gitee.com/dotnetchina/Furion/blob/main/tutorials)
 
 ## 🌭 Souce Code
 
@@ -145,10 +139,6 @@ docker run --name furion -p 5000:80 furion:v2.8.6
 - **Extremely flexible**: easy to face the changing and complex needs
 - **Easy to maintain**: adopt unique architecture idea, only designed for long-term maintenance
 - **Perfect documentation**: provide complete development documentation
-
-## 🥞 Architecture
-
-Sort it out later...
 
 ## 🥝 Functions
 
