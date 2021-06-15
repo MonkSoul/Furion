@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.8.6
+// 框架版本：2.8.7
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -86,6 +86,9 @@ namespace Furion
             // 如果没有配置文件，中止执行
             if (!jsonFiles.Any()) return;
 
+            // 获取环境变量名
+            var envName = env.EnvironmentName;
+
             // 读取忽略的配置文件
             var ignoreConfigurationFiles = appsettingsConfiguration
                     .GetSection("IgnoreConfigurationFiles")
@@ -99,11 +102,8 @@ namespace Furion
                 ?? Array.Empty<string>();
 
             // 将所有文件进行分组
-            var jsonFilesGroups = SplitConfigFileNameToGroups(jsonFiles, environments)
-                                                                    .Where(u => !excludeJsonPrefixs.Contains(u.Key) && !u.Any(c => runtimeJsonSuffixs.Any(z => c.EndsWith(z)) || ignoreConfigurationFiles.Contains(Path.GetFileName(c))));
-
-            // 获取环境变量名
-            var envName = env.EnvironmentName;
+            var jsonFilesGroups = SplitConfigFileNameToGroups(jsonFiles, environments.Concat(new[] { envName }).ToArray())
+                                                                    .Where(u => !excludeJsonPrefixs.Contains(u.Key, StringComparer.OrdinalIgnoreCase) && !u.Any(c => runtimeJsonSuffixs.Any(z => c.EndsWith(z, StringComparison.OrdinalIgnoreCase)) || ignoreConfigurationFiles.Contains(Path.GetFileName(c), StringComparer.OrdinalIgnoreCase)));
 
             // 遍历所有配置分组
             foreach (var group in jsonFilesGroups)
@@ -116,7 +116,7 @@ namespace Furion
                 config.AddJsonFile(firstJsonFile, optional: true, reloadOnChange: true);
 
                 // 查找和当前环境相关的配置文件
-                var environmentJsonFile = orderGroup.FirstOrDefault(u => Path.GetFileNameWithoutExtension(u).EndsWith($".{envName}"));
+                var environmentJsonFile = orderGroup.FirstOrDefault(u => Path.GetFileNameWithoutExtension(u).EndsWith($".{envName}", StringComparison.OrdinalIgnoreCase));
                 if (environmentJsonFile != null && environmentJsonFile != firstJsonFile)
                 {
                     // 加载当前环境的配置文件
@@ -148,7 +148,8 @@ namespace Furion
         {
             "Development",
             "Staging",
-            "Production"
+            "Production",
+            "Test"
         };
 
         /// <summary>
@@ -160,9 +161,12 @@ namespace Furion
         private static IEnumerable<IGrouping<string, string>> SplitConfigFileNameToGroups(IEnumerable<string> configFiles, params string[] environments)
         {
             // 获取所有环境变量（包括自定义的）
-            var allEnvironments = environments != null && environments.Length > 0
-                ? internalEnvironments.Union(environments)
-                : internalEnvironments;
+            var allEnvironments = (
+                environments != null && environments.Length > 0
+                    ? internalEnvironments.Union(environments)
+                    : internalEnvironments
+                )
+                .Distinct(StringComparer.OrdinalIgnoreCase);
 
             // 分组
             return configFiles.GroupBy(u => Function(u, allEnvironments));
@@ -176,7 +180,7 @@ namespace Furion
                 // 获取倒数第二部分
                 var maybeEnvironment = fileNameParts[^2];
 
-                if (allEnvironments.Contains(maybeEnvironment)) return string.Join('.', fileNameParts.Take(fileNameParts.Length - 2));
+                if (allEnvironments.Contains(maybeEnvironment, StringComparer.OrdinalIgnoreCase)) return string.Join('.', fileNameParts.Take(fileNameParts.Length - 2));
                 else return string.Join('.', fileNameParts.Take(fileNameParts.Length - 1));
             }
         }

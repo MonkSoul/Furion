@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.8.6
+// 框架版本：2.8.7
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -692,7 +692,7 @@ namespace Furion.DynamicApiController
                 // 获取所有参数大于1的配置
                 var settingsVerbToHttpMethods = verbToHttpMethods
                     .Where(u => u.Length > 1)
-                    .ToDictionary(u => u[0].ToString(), u => u[1]?.ToString());
+                    .ToDictionary(u => u[0].ToString().ToLower(), u => u[1]?.ToString());
 
                 // 复写消息
                 defaultVerbToHttpMethods = defaultVerbToHttpMethods.AddOrUpdate(settingsVerbToHttpMethods);
