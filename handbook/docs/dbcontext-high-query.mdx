@@ -565,7 +565,7 @@ var result = rep.Entities
 `Furion` 框架提供了以下高性能实体集合：
 
 - `DetachedEntities`：脱轨/不追踪实体
-- `AsQueryable()`：不追踪实体
+- `AsQueryable(false)`：不追踪实体
 - `Entities.AsNoTracking()`：手动关闭实体追踪
 
 在 `EF Core` 中，复杂查询总是会生成一个 `sql`，也就是 `AsSingleQuery()`，我们也可以设置为 `AsSplitQuery()` 切割成多个查询。
