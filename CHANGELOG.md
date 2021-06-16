@@ -23,6 +23,7 @@
 - **问答答疑**
 
   - [答疑] 动态 WebAPI，自定义根据方法名生成 [HttpMethod] 规则报错 [#I3VKQG](https://gitee.com/dotnetchina/Furion/issues/I3VKQG)
+  - [答疑] `InsertAsync` 的时候提示 `ID` 为空 [#I3VS7E](https://gitee.com/dotnetchina/Furion/issues/I3VS7E)
 
 - **不做实现**
 
