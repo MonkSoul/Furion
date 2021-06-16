@@ -781,11 +781,32 @@ Task<User> GetData();
 var response = await "http://47.100.247.61/api/sysdata/categories".SetClient("github").PostAsync();
 ```
 
-## 19.7 关于同步请求
+## 19.7 关于PostAsAsync返回值非200时的示例
+
+`Furion` 提供了非常方便的请求并且序列化请求结果`PostAsAsync<T>`
+在2.8.8及以下版本，当返回结果的Http状态为非200时，会直接截断。考虑到请求接口的多样性，在2.8.8（不含）以上版本增加无视返回Http状态，直接序列化结果的方式
+```cs
+//请求并且序列化请求结果
+var result = await "https://api.facebook.com/"
+    //如果不加OnException，则会直接截断
+    .OnException((res,errors)=> {
+        //激活异步拦截 此处可以做记录日志操作 也可保持现状
+    })
+    .PostAsAsync<T>();
+```
+
+:::important 
+
+如果不加OnException，则会直接截断。
+如果需要复杂的Http Post请求，建议直接使用PostAsync,返回值为HttpResponseMessage，可以更灵活的控制结果。
+
+:::
+
+## 19.8 关于同步请求
 
 `Furion` 框架内部默认不提供同步请求操作，建议总是使用异步的方式请求。如在不能使用异步的情况下，可自行转换为同步执行。
 
-## 19.8 反馈与建议
+## 19.9 反馈与建议
 
 :::note 与我们交流
 
