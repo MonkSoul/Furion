@@ -306,6 +306,7 @@ namespace Furion.RemoteRequest
 
             // 读取流内容
             var stream = await SendAsStreamAsync(cancellationToken);
+            if (stream == default) return default;
 
             // 如果 T 是 Stream 类型，则返回
             if (typeof(T) == typeof(Stream)) return (T)(object)stream;
