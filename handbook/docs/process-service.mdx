@@ -343,9 +343,9 @@ namespace FurionWorkers
 通过 `sc.exe` 工具来管理并创建 `Windows` 服务，通过 **管理员模式** 并打开控制台，输入：
 
 ```cmd
-sc.exe create FurionWorkerServices binPath=C:\FurionWorker\FurionWorker.exe
+sc.exe create FurionWorkerServices binPath= C:\FurionWorker\FurionWorker.exe
 ```
-
+注意`=`后面要有一个空格  
 创建成功后可通过 `sc.exe query FurionWorkerServices` 查看服务状态。
 
 - **第五步**
