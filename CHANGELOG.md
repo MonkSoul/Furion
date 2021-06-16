@@ -13,6 +13,8 @@
 
 - **问题修复**
 
+  - [修复] `App.GetOptionsSnapshot<>` 从根服务解析异常 bug [#I3VS2X](https://gitee.com/dotnetchina/Furion/issues/I3VS2X)
+
 - **其他更改**
 
 - **文档变化**

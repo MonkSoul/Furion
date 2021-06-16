@@ -182,7 +182,8 @@ namespace Furion
         public static TOptions GetOptionsSnapshot<TOptions>(IServiceProvider serviceProvider = default)
             where TOptions : class, new()
         {
-            return GetService<IOptionsSnapshot<TOptions>>(serviceProvider ?? RootServices)?.Value;
+            // 这里不能从根服务解析，因为是 Scoped 作用域
+            return GetService<IOptionsSnapshot<TOptions>>(serviceProvider)?.Value;
         }
 
         /// <summary>
