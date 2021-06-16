@@ -4,9 +4,9 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.8.8
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
-//          Github：https://github.com/monksoul/Furion
+// 框架版本：2.8.9
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
+//          Github：https://github.com/monksoul/Furion 
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
@@ -303,7 +303,6 @@ namespace Furion.RemoteRequest
 
             // 读取流内容
             var stream = await SendAsStreamAsync(cancellationToken);
-            if (stream == default) return default;
 
             // 如果 T 是 Stream 类型，则返回
             if (typeof(T) == typeof(Stream)) return (T)(object)stream;

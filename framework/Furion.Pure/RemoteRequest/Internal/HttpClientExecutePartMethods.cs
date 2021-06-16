@@ -4,9 +4,9 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.8.8
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
-//          Github：https://github.com/monksoul/Furion
+// 框架版本：2.8.9
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
+//          Github：https://github.com/monksoul/Furion 
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
@@ -301,9 +301,6 @@ namespace Furion.RemoteRequest
                 return (T)(object)str;
             }
 
-            // 解析 Json 序列化提供器
-            var jsonSerializer = App.GetService(JsonSerialization.ProviderType ?? typeof(SystemTextJsonSerializerProvider), RequestScoped) as IJsonSerializerProvider;
-
             // 读取流内容
             var stream = await SendAsStreamAsync(cancellationToken);
 
@@ -314,6 +311,9 @@ namespace Furion.RemoteRequest
             var text = await streamReader.ReadToEndAsync();
             // 释放流
             await stream.DisposeAsync();
+
+            // 解析 Json 序列化提供器
+            var jsonSerializer = App.GetService(JsonSerialization.ProviderType ?? typeof(SystemTextJsonSerializerProvider), RequestScoped) as IJsonSerializerProvider;
 
             // 反序列化流
             var result = jsonSerializer.Deserialize<T>(text, JsonSerialization.JsonSerializerOptions);
@@ -329,9 +329,6 @@ namespace Furion.RemoteRequest
         {
             var response = await SendAsync(cancellationToken);
 
-            // 如果配置了异常拦截器，且请求不成功，则返回 T 默认值
-            if (ExceptionInterceptors != null && ExceptionInterceptors.Count > 0 && !response.IsSuccessStatusCode) return default;
-
             // 读取响应流
             var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
             return stream;
@@ -345,9 +342,6 @@ namespace Furion.RemoteRequest
         public async Task<string> SendAsStringAsync(CancellationToken cancellationToken = default)
         {
             var response = await SendAsync(cancellationToken);
-
-            // 如果配置了异常拦截器，且请求不成功，则返回 T 默认值
-            if (ExceptionInterceptors != null && ExceptionInterceptors.Count > 0 && !response.IsSuccessStatusCode) return default;
 
             // 读取响应报文
             var content = await response.Content.ReadAsStringAsync(cancellationToken);
