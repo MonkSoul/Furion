@@ -781,7 +781,7 @@ Task<User> GetData();
 var response = await "http://47.100.247.61/api/sysdata/categories".SetClient("github").PostAsync();
 ```
 
-## 19.7 关于返回值非 `200` 时忽略`Http状态`的示例
+## 19.7 关于返回值非 `200` 时忽略 `Http状态`
 
 `Furion` 提供了非常方便的请求并且序列化请求结果 `PostAsAsync<T>`
 在 `2.8.8` 及以下版本，当返回结果的 `Http` 状态为非 `200` 时，会直接截断。考虑到请求接口的多样性，在 `2.8.9` 及以上版本增加忽略返回 `Http` 状态，直接序列化结果的方式。
