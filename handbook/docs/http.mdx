@@ -781,10 +781,11 @@ Task<User> GetData();
 var response = await "http://47.100.247.61/api/sysdata/categories".SetClient("github").PostAsync();
 ```
 
-## 19.7 关于PostAsAsync返回值非200时的示例
+## 19.7 关于 `PostAsAsync` 返回值非 `200` 时的示例
 
-`Furion` 提供了非常方便的请求并且序列化请求结果`PostAsAsync<T>`
-在2.8.8及以下版本，当返回结果的Http状态为非200时，会直接截断。考虑到请求接口的多样性，在2.8.8（不含）以上版本增加无视返回Http状态，直接序列化结果的方式
+`Furion` 提供了非常方便的请求并且序列化请求结果 `PostAsAsync<T>`
+在 `2.8.8` 及以下版本，当返回结果的 `Http` 状态为非 `200` 时，会直接截断。考虑到请求接口的多样性，在 `2.8.8（不含）`以上版本增加无视返回 `Http` 状态，直接序列化结果的方式。
+
 ```cs
 //请求并且序列化请求结果
 var result = await "https://api.facebook.com/"
@@ -795,10 +796,10 @@ var result = await "https://api.facebook.com/"
     .PostAsAsync<T>();
 ```
 
-:::important 
+:::important 特别说明
 
-如果不加OnException，则会直接截断。
-如果需要复杂的Http Post请求，建议直接使用PostAsync,返回值为HttpResponseMessage，可以更灵活的控制结果。
+如果不加 `OnException`，则会直接截断。
+如果需要复杂的 `Http Post` 请求，建议直接使用 `PostAsync`,返回值为 `HttpResponseMessage`，可以更灵活的控制结果。
 
 :::
 
