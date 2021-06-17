@@ -2,6 +2,7 @@
 
 - **新特性**
 
+  - [新增] **应用全局未托管资源监听，并实现特定时机释放非托管资源** [#I3VXAU](https://gitee.com/dotnetchina/Furion/issues/I3VXAU)
   - [新增] 不包含 `EntityFramework.Core` 版本的 `Furion.Pure` 包[#I3VGW8](https://gitee.com/dotnetchina/Furion/issues/I3VGW8)
   - [新增] swagger 支持设置多语言方式，设置的语言自动添加到 api 地址后面 [#I3VDTD](https://gitee.com/dotnetchina/Furion/issues/I3VDTD)
   - [新增] 动态 WebAPI 支持 `[FromRoute]` 非必填（选填）参数设置 [#I3VFIM](https://gitee.com/dotnetchina/Furion/issues/I3VFIM)
@@ -10,6 +11,7 @@
 - **突破性变化**
 
   - [新增] `Furion` 所有包生成 `.snupkg` 包，支持开发阶段直接调试 `Furion` 所有包源码 [#I3VFIX](https://gitee.com/dotnetchina/Furion/issues/I3VFIX)
+  - [调整] `repository.BuildChange()` 方法的返回值，多返回一个 `IServiceScope` 对象 [#I3VX3D](https://gitee.com/dotnetchina/Furion/issues/I3VX3D)
 
 - **问题修复**
 

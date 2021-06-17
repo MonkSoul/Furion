@@ -5,14 +5,15 @@
 // 框架名称：Furion
 // 框架作者：百小僧
 // 框架版本：2.8.9
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
-//          Github：https://github.com/monksoul/Furion 
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -50,18 +51,20 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 重新构建并切换仓储
         /// </summary>
+        /// <remarks>特别注意，Scoped 必须手动释放</remarks>
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns>仓储</returns>
-        IRepository<TEntity> BuildChange<TEntity>()
+        (IRepository<TEntity> Repository, IServiceScope Scoped) BuildChange<TEntity>()
             where TEntity : class, IPrivateEntity, new();
 
         /// <summary>
         /// 重新构建并切换多数据库上下文仓储
         /// </summary>
+        /// <remarks>特别注意，Scoped 必须手动释放</remarks>
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <returns>仓储</returns>
-        IRepository<TEntity, TDbContextLocator> BuildChange<TEntity, TDbContextLocator>()
+        (IRepository<TEntity, TDbContextLocator> Repository, IServiceScope Scoped) BuildChange<TEntity, TDbContextLocator>()
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator;
 
@@ -474,18 +477,20 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 重新构建并切换仓储
         /// </summary>
+        /// <remarks>特别注意，Scoped 必须手动释放</remarks>
         /// <typeparam name="TChangeEntity">实体类型</typeparam>
         /// <returns>仓储</returns>
-        IRepository<TChangeEntity> BuildChange<TChangeEntity>()
-               where TChangeEntity : class, IPrivateEntity, new();
+        (IRepository<TChangeEntity> Repository, IServiceScope Scoped) BuildChange<TChangeEntity>()
+            where TChangeEntity : class, IPrivateEntity, new();
 
         /// <summary>
         /// 重新构建并切换多数据库上下文仓储
         /// </summary>
+        /// <remarks>特别注意，Scoped 必须手动释放</remarks>
         /// <typeparam name="TChangeEntity">实体类型</typeparam>
         /// <typeparam name="TChangeDbContextLocator">数据库上下文定位器</typeparam>
         /// <returns>仓储</returns>
-        IRepository<TChangeEntity, TChangeDbContextLocator> BuildChange<TChangeEntity, TChangeDbContextLocator>()
+        (IRepository<TChangeEntity, TChangeDbContextLocator> Repository, IServiceScope Scoped) BuildChange<TChangeEntity, TChangeDbContextLocator>()
             where TChangeEntity : class, IPrivateEntity, new()
             where TChangeDbContextLocator : class, IDbContextLocator;
     }

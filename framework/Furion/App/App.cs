@@ -5,8 +5,8 @@
 // 框架名称：Furion
 // 框架作者：百小僧
 // 框架版本：2.8.9
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
-//          Github：https://github.com/monksoul/Furion 
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
@@ -73,11 +73,6 @@ namespace Furion
         public static readonly IEnumerable<Type> EffectiveTypes;
 
         /// <summary>
-        /// 服务提供器
-        /// </summary>
-        public static IServiceProvider ServiceProvider => HttpContext?.RequestServices ?? InternalApp.InternalServices.BuildServiceProvider();
-
-        /// <summary>
         /// 存储根服务，可能为空
         /// </summary>
         public static IServiceProvider RootServices => InternalApp.RootServices;
@@ -91,6 +86,29 @@ namespace Furion
         /// 获取请求上下文用户
         /// </summary>
         public static ClaimsPrincipal User => HttpContext?.User;
+
+        /// <summary>
+        /// 未托管的对象即可
+        /// </summary>
+        public static readonly ConcurrentBag<IDisposable> UnmanagedObjects;
+
+        /// <summary>
+        /// 服务提供器
+        /// </summary>
+        public static IServiceProvider ServiceProvider
+        {
+            get
+            {
+                // 从 HttpContext 获取服务提供器
+                var servicesProvider = HttpContext?.RequestServices;
+                if (servicesProvider != null) return servicesProvider;
+
+                // 创建新的服务提供器，并存储起来
+                var newServicesProvider = InternalApp.InternalServices.BuildServiceProvider();
+                UnmanagedObjects.Add(newServicesProvider);
+                return newServicesProvider;
+            }
+        }
 
         /// <summary>
         /// 获取请求生命周期的服务
@@ -211,6 +229,9 @@ namespace Furion
         /// </summary>
         static App()
         {
+            // 未托管的对象
+            UnmanagedObjects = new ConcurrentBag<IDisposable>();
+
             // 编译配置
             Configuration = InternalApp.ConfigurationBuilder.Build();
 
@@ -284,6 +305,18 @@ namespace Furion
             }
 
             return (scanAssemblies, externalAssemblies);
+        }
+
+        /// <summary>
+        /// 释放所有未托管的对象
+        /// </summary>
+        public static void DisposeUnmanagedObjects()
+        {
+            while (!UnmanagedObjects.IsEmpty)
+            {
+                UnmanagedObjects.TryTake(out var serviceProvider);
+                serviceProvider?.Dispose();
+            }
         }
     }
 }

@@ -5,8 +5,8 @@
 // 框架名称：Furion
 // 框架作者：百小僧
 // 框架版本：2.8.9
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
-//          Github：https://github.com/monksoul/Furion 
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
@@ -76,25 +76,39 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 重新构建并切换仓储
         /// </summary>
+        /// <remarks>特别注意，Scoped 必须手动释放</remarks>
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns>仓储</returns>
-        public virtual IRepository<TEntity> BuildChange<TEntity>()
+        public virtual (IRepository<TEntity> Repository, IServiceScope Scoped) BuildChange<TEntity>()
             where TEntity : class, IPrivateEntity, new()
         {
-            return _serviceProvider.CreateScope().ServiceProvider.GetService<IRepository<TEntity>>();
+            var scoped = _serviceProvider.CreateScope();
+            var repository = scoped.ServiceProvider.GetService<IRepository<TEntity>>();
+
+            // 添加未托管对象
+            App.UnmanagedObjects.Add(scoped);
+
+            return (repository, scoped);
         }
 
         /// <summary>
         /// 重新构建并切换多数据库上下文仓储
         /// </summary>
+        /// <remarks>特别注意，Scoped 必须手动释放</remarks>
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <returns>仓储</returns>
-        public virtual IRepository<TEntity, TDbContextLocator> BuildChange<TEntity, TDbContextLocator>()
+        public virtual (IRepository<TEntity, TDbContextLocator> Repository, IServiceScope Scoped) BuildChange<TEntity, TDbContextLocator>()
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return _serviceProvider.CreateScope().ServiceProvider.GetService<IRepository<TEntity, TDbContextLocator>>();
+            var scoped = _serviceProvider.CreateScope();
+            var repository = scoped.ServiceProvider.GetService<IRepository<TEntity, TDbContextLocator>>();
+
+            // 添加未托管对象
+            App.UnmanagedObjects.Add(scoped);
+
+            return (repository, scoped);
         }
 
         /// <summary>
@@ -716,9 +730,10 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 重新构建并切换仓储
         /// </summary>
+        /// <remarks>特别注意，Scoped 必须手动释放</remarks>
         /// <typeparam name="TChangeEntity">实体类型</typeparam>
         /// <returns>仓储</returns>
-        public virtual IRepository<TChangeEntity> BuildChange<TChangeEntity>()
+        public virtual (IRepository<TChangeEntity> Repository, IServiceScope Scoped) BuildChange<TChangeEntity>()
             where TChangeEntity : class, IPrivateEntity, new()
         {
             return _repository.BuildChange<TChangeEntity>();
@@ -727,10 +742,11 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 重新构建并切换多数据库上下文仓储
         /// </summary>
+        /// <remarks>特别注意，Scoped 必须手动释放</remarks>
         /// <typeparam name="TChangeEntity">实体类型</typeparam>
         /// <typeparam name="TChangeDbContextLocator">数据库上下文定位器</typeparam>
         /// <returns>仓储</returns>
-        public virtual IRepository<TChangeEntity, TChangeDbContextLocator> BuildChange<TChangeEntity, TChangeDbContextLocator>()
+        public virtual (IRepository<TChangeEntity, TChangeDbContextLocator> Repository, IServiceScope Scoped) BuildChange<TChangeEntity, TChangeDbContextLocator>()
             where TChangeEntity : class, IPrivateEntity, new()
             where TChangeDbContextLocator : class, IDbContextLocator
         {
