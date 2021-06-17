@@ -34,6 +34,7 @@
   - [答疑] 动态 WebAPI，自定义根据方法名生成 [HttpMethod] 规则报错 [#I3VKQG](https://gitee.com/dotnetchina/Furion/issues/I3VKQG)
   - [答疑] `InsertAsync` 的时候提示 `ID` 为空 [#I3VS7E](https://gitee.com/dotnetchina/Furion/issues/I3VS7E)
   - [答疑] `FirstOrDefault` 自动过滤了 `TanantId` 字段 [#I3W0VH](https://gitee.com/dotnetchina/Furion/issues/I3W0VH)
+  - [答疑] 对方接口返回 `HttpConnectionResponseContent` 远程请求拿不到返回值 [#I3W17C](https://gitee.com/dotnetchina/Furion/issues/I3W17C)
 
 - **不做实现**
 

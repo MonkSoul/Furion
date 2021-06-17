@@ -809,7 +809,20 @@ var result = await "https://api.facebook.com/"
 
 `Furion` 框架内部默认不提供同步请求操作，建议总是使用异步的方式请求。如在不能使用异步的情况下，可自行转换为同步执行。
 
-## 19.9 反馈与建议
+## 19.9 疑难杂症
+
+有些时候，我们通过 `PostMan` 或者第三方工具测试正常，但是使用 `HttpClient` 无法获取结果，比如这个 [#I3W17C](https://gitee.com/dotnetchina/Furion/issues/I3W17C)
+
+这个时候，可能是服务器校验了 `User-Agent` 头，只需要添加 `Headers` 即可，如：
+
+```cs {3}
+await "http://xxxxxx/spi?code=S20210422002".OnRequesting(request =>
+            {
+                request.Headers.Add("User-Agent", "Edge");
+            }).GetAsStringAsync();
+```
+
+## 19.10 反馈与建议
 
 :::note 与我们交流
 

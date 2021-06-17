@@ -405,6 +405,13 @@ namespace Furion.RemoteRequest
                                          ? clientFactory.CreateClient()
                                          : clientFactory.CreateClient(ClientName);
 
+            // 添加默认 User-Agent
+            if (!httpClient.DefaultRequestHeaders.Contains("User-Agent"))
+            {
+                httpClient.DefaultRequestHeaders.Add("User-Agent",
+                                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.101 Safari/537.36 Edg/91.0.864.48");
+            }
+
             // 配置 HttpClient 拦截
             HttpClientInterceptors.ForEach(u =>
             {
