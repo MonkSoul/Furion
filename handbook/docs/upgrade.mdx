@@ -8,7 +8,46 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 **此章节只记录重大版本更新日志，小迭代版本不做更新。**想了解更多更新内容，可查阅 [CHANGELOG.md](https://gitee.com/dotnetchina/Furion/blob/master/CHANGELOG.md)
 
-## v2.7.0/2.8.0 （当前版本）
+## v2.9.0 （当前版本）
+
+- **新特性**
+
+  - [新增] **应用全局未托管资源监听，并实现特定时机释放非托管资源** [#I3VXAU](https://gitee.com/dotnetchina/Furion/issues/I3VXAU)
+  - [新增] 不包含 `EntityFramework.Core` 版本的 `Furion.Pure` 包[#I3VGW8](https://gitee.com/dotnetchina/Furion/issues/I3VGW8)
+  - [新增] swagger 支持设置多语言方式，设置的语言自动添加到 api 地址后面 [#I3VDTD](https://gitee.com/dotnetchina/Furion/issues/I3VDTD)
+  - [新增] 动态 WebAPI 支持 `[FromRoute]` 非必填（选填）参数设置 [#I3VFIM](https://gitee.com/dotnetchina/Furion/issues/I3VFIM)
+  - [新增] 动态 WebAPI 参数支持配置路由约束 [#I3VFIR](https://gitee.com/dotnetchina/Furion/issues/I3VFIR)
+  - [新增] `MD5` 和 `DESC` 加密支持 `大写` 输出 [#326](https://gitee.com/dotnetchina/Furion/pulls/326)
+
+- **突破性变化**
+
+  - [新增] `Furion` 所有包生成 `.snupkg` 包，支持开发阶段直接调试 `Furion` 所有包源码 [#I3VFIX](https://gitee.com/dotnetchina/Furion/issues/I3VFIX)
+  - [调整] `repository.BuildChange()` 方法的返回值，多返回一个 `IServiceScope` 对象 [#I3VX3D](https://gitee.com/dotnetchina/Furion/issues/I3VX3D)
+  - [调整] `JWT` 刷新 `Token` 方法 `AutoRefreshToken` 参数 `days` 改为 `minutes` [#I3VXNB](https://gitee.com/dotnetchina/Furion/issues/I3VXNB)
+
+- **问题修复**
+
+  - [修复] `App.GetOptionsSnapshot<>` 从根服务解析异常 bug [#I3VS2X](https://gitee.com/dotnetchina/Furion/issues/I3VS2X)
+  - [修复] 修复远程请求如果出现异常，返回 `Stream` 为 null 导致异常的问题 [#I3VSTU](https://gitee.com/dotnetchina/Furion/issues/I3VSTU)
+
+- **其他更改**
+
+  - [优化] 运行时内存，实现请求结束自动释放未托管资源 [#I3VXAU](https://gitee.com/dotnetchina/Furion/issues/I3VXAU)
+
+- **文档变化**
+
+  - [更新] `App` 静态类文档、远程请求文档、分表分库文档
+
+- **问答答疑**
+
+  - [答疑] 动态 WebAPI，自定义根据方法名生成 [HttpMethod] 规则报错 [#I3VKQG](https://gitee.com/dotnetchina/Furion/issues/I3VKQG)
+  - [答疑] `InsertAsync` 的时候提示 `ID` 为空 [#I3VS7E](https://gitee.com/dotnetchina/Furion/issues/I3VS7E)
+
+- **不做实现**
+
+---
+
+## v2.7.0/2.8.0 （已发布）
 
 - **新特性**
 
@@ -70,6 +109,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [答疑] 模块化动态加载插件支持通配符匹配.dll [#I3UDT8](https://gitee.com/dotnetchina/Furion/issues/I3UDT8)
   - [答疑] `MVC` 模式，在 `Controller` 里快捷方式创建 `View` 页面出错 [#I3UFGB](https://gitee.com/dotnetchina/Furion/issues/I3UFGB)
   - [答疑] 数据库迁移没有种子数据 [#I3UI7G](https://gitee.com/dotnetchina/Furion/issues/I3UI7G)
+  - [答疑] `SpareTimeAttribute` 中 根据 Cron 表达式 自动匹配 Cron 表达式格式化方式 [#I3UTKQ](https://gitee.com/dotnetchina/Furion/issues/I3UTKQ)
   - [答疑] 使用 `workService` 集成 `SqlSugar` 报错 [#I3V8HJ](https://gitee.com/dotnetchina/Furion/issues/I3V8HJ)
   - [答疑] `sqlserver 2008` 分页报错如何解决呢 [#I3VF96](https://gitee.com/dotnetchina/Furion/issues/I3VF96)
 

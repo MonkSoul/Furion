@@ -219,7 +219,7 @@ repository.Change<Entity, MyDbContextLocator2>();
 最后通过 `BuildChange<TEntity>` 切换即可。
 
 ```cs
-var rep = repository.BuildChange<Persion>();
+var (rep, scoped) = repository.BuildChange<Persion>();
 ```
 
 调用 `BuildChange` 方法之后会自动调用 `GetTableName()` 方法。

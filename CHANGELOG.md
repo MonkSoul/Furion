@@ -1,4 +1,4 @@
-## v2.9.0 （未发布版本）
+## v2.9.0 （当前版本）
 
 - **新特性**
 
@@ -7,6 +7,7 @@
   - [新增] swagger 支持设置多语言方式，设置的语言自动添加到 api 地址后面 [#I3VDTD](https://gitee.com/dotnetchina/Furion/issues/I3VDTD)
   - [新增] 动态 WebAPI 支持 `[FromRoute]` 非必填（选填）参数设置 [#I3VFIM](https://gitee.com/dotnetchina/Furion/issues/I3VFIM)
   - [新增] 动态 WebAPI 参数支持配置路由约束 [#I3VFIR](https://gitee.com/dotnetchina/Furion/issues/I3VFIR)
+  - [新增] `MD5` 和 `DESC` 加密支持 `大写` 输出 [#326](https://gitee.com/dotnetchina/Furion/pulls/326)
 
 - **突破性变化**
 
@@ -21,7 +22,11 @@
 
 - **其他更改**
 
+  - [优化] 运行时内存，实现请求结束自动释放未托管资源 [#I3VXAU](https://gitee.com/dotnetchina/Furion/issues/I3VXAU)
+
 - **文档变化**
+
+  - [更新] `App` 静态类文档、远程请求文档、分表分库文档
 
 - **问答答疑**
 
@@ -32,7 +37,7 @@
 
 ---
 
-## v2.7.0/2.8.0 （当前版本）
+## v2.7.0/2.8.0 （已发布）
 
 - **新特性**
 
