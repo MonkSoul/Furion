@@ -356,7 +356,7 @@ namespace Furion.DataEncryption
             if (!payload.ContainsKey(JwtRegisteredClaimNames.Exp))
             {
                 var minute = expiredTime ?? jwtSettings?.ExpiredTime ?? 20;
-                payload.Add(JwtRegisteredClaimNames.Exp, DateTimeOffset.Now.AddSeconds(minute * 60).ToUnixTimeSeconds());
+                payload.Add(JwtRegisteredClaimNames.Exp, DateTimeOffset.Now.AddMinutes(minute).ToUnixTimeSeconds());
             }
 
             if (!payload.ContainsKey(JwtRegisteredClaimNames.Iss))
