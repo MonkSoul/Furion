@@ -42,6 +42,9 @@ namespace Furion
             // 清除所有任务
             SpareTime.Dispose();
 
+            // 清除所有非托管资源
+            App.DisposeUnmanagedObjects();
+
             return Task.CompletedTask;
         }
     }

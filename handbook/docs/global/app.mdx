@@ -158,3 +158,15 @@ var processArchitecture = RuntimeInformation.ProcessArchitecture;   // => X64
 // 是否是64位操作系统
 var is64BitOperatingSystem = Environment.Is64BitOperatingSystem;    // => True
 ```
+
+## 1.20 获取框架底层所有未托管对象
+
+```cs
+var objs = App.UnmanagedObjects;
+```
+
+## 1.21 手动释放非托管对象
+
+```cs
+App.DisposeUnmanagedObjects();
+```

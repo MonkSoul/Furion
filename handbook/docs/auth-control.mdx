@@ -266,7 +266,7 @@ var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>()
             });
 
 // 获取刷新 token
-var refreshToken = JWTEncryption.GenerateRefreshToken(accessToken, 30); // 第二个参数是刷新 token 的有效期，默认三十天
+var refreshToken = JWTEncryption.GenerateRefreshToken(accessToken, 43200); // 第二个参数是刷新 token 的有效期（分钟），默认三十天
 
 // 设置请求报文头
 httpContextAccessor.HttpContext.Response.Headers["access-token"] = accessToken;
