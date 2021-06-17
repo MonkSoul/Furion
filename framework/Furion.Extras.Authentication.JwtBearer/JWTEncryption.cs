@@ -5,8 +5,8 @@
 // 框架名称：Furion
 // 框架作者：百小僧
 // 框架版本：2.8.9
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
-//          Github：https://github.com/monksoul/Furion 
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
+//          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
@@ -78,9 +78,9 @@ namespace Furion.DataEncryption
         /// 生成刷新 Token
         /// </summary>
         /// <param name="accessToken"></param>
-        /// <param name="days">刷新 Token 有效期（天）</param>
+        /// <param name="expiredTime">刷新 Token 有效期（分钟）</param>
         /// <returns></returns>
-        public static string GenerateRefreshToken(string accessToken, int days = 30)
+        public static string GenerateRefreshToken(string accessToken, int expiredTime = 43200)
         {
             // 分割Token
             var tokenParagraphs = accessToken.Split('.', StringSplitOptions.RemoveEmptyEntries);
@@ -97,7 +97,7 @@ namespace Furion.DataEncryption
                 { "k",tokenParagraphs[1].Substring(s,l) }
             };
 
-            return Encrypt(payload, days * 24 * 60);
+            return Encrypt(payload, expiredTime);
         }
 
         /// <summary>
@@ -161,11 +161,11 @@ namespace Furion.DataEncryption
         /// <param name="context"></param>
         /// <param name="httpContext"></param>
         /// <param name="expiredTime">新 Token 过期时间（分钟）</param>
-        /// <param name="days">新刷新 Token 有效期（天）</param>
+        /// <param name="refreshTokenExpiredTime">新刷新 Token 有效期（分钟）</param>
         /// <param name="tokenPrefix"></param>
         /// <param name="clockSkew"></param>
         /// <returns></returns>
-        public static bool AutoRefreshToken(AuthorizationHandlerContext context, DefaultHttpContext httpContext, long? expiredTime = null, int days = 30, string tokenPrefix = "Bearer ", long clockSkew = 5)
+        public static bool AutoRefreshToken(AuthorizationHandlerContext context, DefaultHttpContext httpContext, long? expiredTime = null, int refreshTokenExpiredTime = 43200, string tokenPrefix = "Bearer ", long clockSkew = 5)
         {
             // 如果验证有效，则跳过刷新
             if (context.User.Identity.IsAuthenticated) return true;
@@ -198,7 +198,7 @@ namespace Furion.DataEncryption
             // 返回新的 Token
             httpContext.Response.Headers["access-token"] = accessToken;
             // 返回新的 刷新Token
-            httpContext.Response.Headers["x-access-token"] = GenerateRefreshToken(accessToken, days);
+            httpContext.Response.Headers["x-access-token"] = GenerateRefreshToken(accessToken, refreshTokenExpiredTime);
 
             return true;
         }
