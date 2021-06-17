@@ -11,6 +11,7 @@
 // -----------------------------------------------------------------------------
 
 using Furion.DependencyInjection;
+using System.Collections.Generic;
 
 namespace Furion.UnifyResult
 {
@@ -25,5 +26,10 @@ namespace Furion.UnifyResult
         /// <para>默认：401，403，如果设置为 null，则标识所有状态码都返回 200 </para>
         /// </summary>
         public int[] Return200StatusCodes { get; set; } = new[] { 401, 403 };
+
+        /// <summary>
+        /// 适配（篡改）Http 状态码（只支持短路状态码，比如 401，403，404，500 等）
+        /// </summary>
+        public IDictionary<int, int> AdaptStatusCodes { get; set; }
     }
 }

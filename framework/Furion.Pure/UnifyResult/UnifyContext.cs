@@ -134,6 +134,19 @@ namespace Furion.UnifyResult
         /// <param name="options"></param>
         public static void SetResponseStatusCodes(HttpContext context, int statusCode, UnifyResultStatusCodesOptions options)
         {
+            // 篡改响应状态码
+            if (options.AdaptStatusCodes != null && options.AdaptStatusCodes.Count > 0)
+            {
+                foreach (var (originStatusCode, descStatusCode) in options.AdaptStatusCodes)
+                {
+                    if (statusCode == originStatusCode)
+                    {
+                        context.Response.StatusCode = descStatusCode;
+                        return;
+                    }
+                }
+            }
+
             // 如果为 null，所有状态码设置为 200
             if (options.Return200StatusCodes == null) context.Response.StatusCode = 200;
             // 否则只有里面的才设置为 200
