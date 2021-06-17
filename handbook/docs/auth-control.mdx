@@ -217,7 +217,7 @@ namespace Furion.Web.Core
     {
         public override async Task HandleAsync(AuthorizationHandlerContext context)
         {
-            // 常规授权（可以判断不是第三方）
+            // 常规授权（可以判断是不是第三方）
             var isAuthenticated = context.User.Identity.IsAuthenticated;
 
             // 第三方授权自定义
