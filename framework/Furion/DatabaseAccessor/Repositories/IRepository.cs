@@ -274,6 +274,26 @@ namespace Furion.DatabaseAccessor
         EntityEntry<TEntity> ChangeEntityState(EntityEntry<TEntity> entityEntry, EntityState entityState);
 
         /// <summary>
+        /// 检查实体跟踪状态
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="entityEntry"></param>
+        /// <param name="keyName"></param>
+        /// <returns></returns>
+        bool CheckTrackState(object id, out EntityEntry entityEntry, string keyName = default);
+
+        /// <summary>
+        /// 检查实体跟踪状态
+        /// </summary>
+        /// <typeparam name="TTrackEntity"></typeparam>
+        /// <param name="id"></param>
+        /// <param name="entityEntry"></param>
+        /// <param name="keyName"></param>
+        /// <returns></returns>
+        bool CheckTrackState<TTrackEntity>(object id, out EntityEntry entityEntry, string keyName = default)
+             where TTrackEntity : class, IPrivateEntity, new();
+
+        /// <summary>
         /// 判断是否被附加
         /// </summary>
         /// <param name="entity">实体</param>

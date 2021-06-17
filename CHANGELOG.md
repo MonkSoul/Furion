@@ -19,6 +19,7 @@
 
   - [修复] `App.GetOptionsSnapshot<>` 从根服务解析异常 bug [#I3VS2X](https://gitee.com/dotnetchina/Furion/issues/I3VS2X)
   - [修复] 修复远程请求如果出现异常，返回 `Stream` 为 null 导致异常的问题 [#I3VSTU](https://gitee.com/dotnetchina/Furion/issues/I3VSTU)
+  - [修复] 如果实体被跟踪后，无法执行删除操作 [#I3W08P](https://gitee.com/dotnetchina/Furion/issues/I3W08P)
 
 - **其他更改**
 

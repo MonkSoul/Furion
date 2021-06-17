@@ -488,15 +488,22 @@ namespace Furion.DatabaseAccessor
             var keyProperty = EntityType.FindPrimaryKey().Properties.AsEnumerable().FirstOrDefault()?.PropertyInfo;
             if (keyProperty == null) return default;
 
-            // 创建实体对象并设置主键值
+            // 判断当前主键是否被跟踪了
+            var tracking = CheckTrackState(key, out var entityEntry, keyProperty.Name);
+            if (tracking)
+            {
+                // 设置实体状态为已删除
+                if (isRealDelete) ChangeEntityState(entityEntry, EntityState.Deleted);
+
+                return entityEntry.Entity as TEntity;
+            }
+
+            // 如果没有被跟踪，创建实体对象并设置主键值
             var entity = Activator.CreateInstance<TEntity>();
             keyProperty.SetValue(entity, key);
 
-            if (isRealDelete)
-            {
-                // 设置实体状态为已删除
-                ChangeEntityState(entity, EntityState.Deleted);
-            }
+            // 设置实体状态为已删除
+            if (isRealDelete) ChangeEntityState(entity, EntityState.Deleted);
 
             return entity;
         }
@@ -511,7 +518,7 @@ namespace Furion.DatabaseAccessor
             var fakeDeleteProperty = EntityType.ClrType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                     .FirstOrDefault(u => u.IsDefined(typeof(FakeDeleteAttribute), true));
 
-            if (fakeDeleteProperty == null) throw new InvalidOperationException("No attributes marked as fake deleted were found");
+            if (fakeDeleteProperty == null) throw new InvalidOperationException("No attributes marked as fake deleted were found.");
 
             // 读取假删除的名和属性
             var fakeDeleteAttribute = fakeDeleteProperty.GetCustomAttribute<FakeDeleteAttribute>(true);
