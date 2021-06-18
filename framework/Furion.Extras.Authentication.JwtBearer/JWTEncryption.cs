@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -199,6 +200,10 @@ namespace Furion.DataEncryption
             httpContext.Response.Headers["access-token"] = accessToken;
             // 返回新的 刷新Token
             httpContext.Response.Headers["x-access-token"] = GenerateRefreshToken(accessToken, refreshTokenExpiredTime);
+
+            StringValues acehs;
+            httpContext.Response.Headers.TryGetValue("Access-Control-Expose-Headers", out acehs);
+            httpContext.Response.Headers["Access-Control-Expose-Headers"] = string.Join(',', StringValues.Concat(acehs, new StringValues(new[] { "access-token", "x-access-token" })));
 
             return true;
         }
