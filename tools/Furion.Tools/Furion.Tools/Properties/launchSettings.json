@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Furion.Tools": {
+      "commandName": "Project",
+      "commandLineArgs": "--version a"
+    }
+  }
+}

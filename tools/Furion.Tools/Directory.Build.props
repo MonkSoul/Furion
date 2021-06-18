@@ -1,0 +1,28 @@
+﻿<Project>
+	<PropertyGroup>
+		<Authors>百小僧</Authors>
+		<Company>Baiqian Co.,Ltd.</Company>
+		<Product>Furion</Product>
+		<Copyright>© 2020-2021 Furion, 百小僧, Baiqian Co.,Ltd.</Copyright>
+		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+		<PackageProjectUrl>https://furion.pro</PackageProjectUrl>
+		<RepositoryUrl>https://gitee.com/dotnetchina/Furion</RepositoryUrl>
+		<RepositoryType>Gitee</RepositoryType>
+		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+		<PackAsTool>true</PackAsTool>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageIcon>icon.png</PackageIcon>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="icon.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
+
+</Project>

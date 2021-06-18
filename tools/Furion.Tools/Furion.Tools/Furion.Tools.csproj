@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<version>0.0.1</version>
+		<ToolCommandName>furion</ToolCommandName>
+		<TargetFramework>net5.0</TargetFramework>
+		<Description>Furion 工具链。</Description>
+	</PropertyGroup>
+
+</Project>
