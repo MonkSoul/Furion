@@ -207,7 +207,7 @@ namespace Furion.DataEncryption
 
             // 处理 axios 问题
             httpContext.Response.Headers.TryGetValue(accessControlExposeKey, out var acehs);
-            httpContext.Response.Headers[accessControlExposeKey] = string.Join(',', StringValues.Concat(acehs, new StringValues(new[] { accessTokenKey, xAccessTokenKey })));
+            httpContext.Response.Headers[accessControlExposeKey] = string.Join(',', StringValues.Concat(acehs, new StringValues(new[] { accessTokenKey, xAccessTokenKey })).Distinct());
 
             return true;
         }
