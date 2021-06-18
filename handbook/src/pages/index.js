@@ -81,7 +81,7 @@ function Banner() {
             >
               一分钟上手
             </Link>
-            <div className="furion-version">v2.9.0</div>
+            <div className="furion-version">v2.9.1</div>
           </div>
         </div>
         <div className="furion-banner-item">
@@ -164,7 +164,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>483,391</div>
+            <div style={{ color: "#1fd898" }}>489,612</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
