@@ -196,14 +196,18 @@ namespace Furion.DataEncryption
             httpContext.User = claimsPrincipal;
             httpContext.SignInAsync(claimsPrincipal);
 
-            // 返回新的 Token
-            httpContext.Response.Headers["access-token"] = accessToken;
-            // 返回新的 刷新Token
-            httpContext.Response.Headers["x-access-token"] = GenerateRefreshToken(accessToken, refreshTokenExpiredTime);
+            string accessTokenKey = "access-token"
+                 , xAccessTokenKey = "x-access-token"
+                 , accessControlExposeKey = "Access-Control-Expose-Headers";
 
-            StringValues acehs;
-            httpContext.Response.Headers.TryGetValue("Access-Control-Expose-Headers", out acehs);
-            httpContext.Response.Headers["Access-Control-Expose-Headers"] = string.Join(',', StringValues.Concat(acehs, new StringValues(new[] { "access-token", "x-access-token" })));
+            // 返回新的 Token
+            httpContext.Response.Headers[accessTokenKey] = accessToken;
+            // 返回新的 刷新Token
+            httpContext.Response.Headers[xAccessTokenKey] = GenerateRefreshToken(accessToken, refreshTokenExpiredTime);
+
+            // 处理 axios 问题
+            httpContext.Response.Headers.TryGetValue(accessControlExposeKey, out var acehs);
+            httpContext.Response.Headers[accessControlExposeKey] = string.Join(',', StringValues.Concat(acehs, new StringValues(new[] { accessTokenKey, xAccessTokenKey })));
 
             return true;
         }
