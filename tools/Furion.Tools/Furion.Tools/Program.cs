@@ -7,9 +7,9 @@ namespace Furion.Tools
     /// dotnet tool install -g Furion.Tools --add-source ./
     /// dotnet tool install -g furion
     /// </summary>
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             // 填充变量
             Arguments.Populate();
