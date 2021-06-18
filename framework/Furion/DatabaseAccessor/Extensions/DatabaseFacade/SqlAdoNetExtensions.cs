@@ -47,8 +47,7 @@ namespace Furion.DatabaseAccessor
             using var dbDataReader = dbCommand.ExecuteReader(behavior);
 
             // 填充到 DataTable
-            using var dataTable = new DataTable();
-            dataTable.Load(dbDataReader);
+            var dataTable = dbDataReader.ToDataTable();
 
             // 清空命令参数
             dbCommand.Parameters.Clear();
@@ -77,8 +76,7 @@ namespace Furion.DatabaseAccessor
             using var dbDataReader = dbCommand.ExecuteReader(behavior);
 
             // 填充到 DataTable
-            using var dataTable = new DataTable();
-            dataTable.Load(dbDataReader);
+            var dataTable = dbDataReader.ToDataTable();
 
             // 清空命令参数
             dbCommand.Parameters.Clear();
@@ -108,8 +106,7 @@ namespace Furion.DatabaseAccessor
             using var dbDataReader = await dbCommand.ExecuteReaderAsync(behavior, cancellationToken);
 
             // 填充到 DataTable
-            using var dataTable = new DataTable();
-            dataTable.Load(dbDataReader);
+            var dataTable = dbDataReader.ToDataTable();
 
             // 清空命令参数
             dbCommand.Parameters.Clear();
@@ -139,8 +136,7 @@ namespace Furion.DatabaseAccessor
             using var dbDataReader = await dbCommand.ExecuteReaderAsync(behavior, cancellationToken);
 
             // 填充到 DataTable
-            using var dataTable = new DataTable();
-            dataTable.Load(dbDataReader);
+            var dataTable = dbDataReader.ToDataTable();
 
             // 清空命令参数
             dbCommand.Parameters.Clear();
@@ -357,26 +353,23 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="databaseFacade">ADO.NET 数据库对象</param>
         /// <param name="sql">sql 语句</param>
-        /// <param name="parameters">命令参数</param>
         /// <param name="commandType">命令类型</param>
+        /// <param name="parameters">命令参数</param>
+        /// <param name="behavior">行为</param>
         /// <returns>DataSet</returns>
-        public static DataSet DataAdapterFill(this DatabaseFacade databaseFacade, string sql, DbParameter[] parameters = null, CommandType commandType = CommandType.Text)
+        public static DataSet DataAdapterFill(this DatabaseFacade databaseFacade, string sql, DbParameter[] parameters = null, CommandType commandType = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default)
         {
-            // 处理 Sqlite 不支持 DataSet 问题
-            if (DbProvider.IsDatabaseFor(databaseFacade.ProviderName, DbProvider.Sqlite))
-            {
-                return SqliteDataSetFill(databaseFacade, sql, parameters, commandType);
-            }
-
             // 获取真实运行 Sql
             sql = DbHelpers.ResolveSqlConfiguration(sql);
 
-            // 初始化数据库连接对象、数据库命令对象和数据库适配器对象
-            var (_, dbCommand, dbDataAdapter) = databaseFacade.PrepareDbDataAdapter(sql, parameters, commandType);
+            // 初始化数据库连接对象和数据库命令对象
+            var (_, dbCommand) = databaseFacade.PrepareDbCommand(sql, parameters, commandType);
 
-            // 填充DataSet
-            using var dataSet = new DataSet();
-            dbDataAdapter.Fill(dataSet);
+            // 读取数据
+            using var dbDataReader = dbCommand.ExecuteReader(behavior);
+
+            // 填充到 DataSet
+            var dataSet = dbDataReader.ToDataSet();
 
             // 清空命令参数
             dbCommand.Parameters.Clear();
@@ -389,26 +382,23 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="databaseFacade">ADO.NET 数据库对象</param>
         /// <param name="sql">sql 语句</param>
-        /// <param name="model">命令模型</param>
         /// <param name="commandType">命令类型</param>
+        /// <param name="model">命令模型</param>
+        /// <param name="behavior">行为</param>
         /// <returns>(DataSet dataSet, DbParameter[] dbParameters)</returns>
-        public static (DataSet dataSet, DbParameter[] dbParameters) DataAdapterFill(this DatabaseFacade databaseFacade, string sql, object model, CommandType commandType = CommandType.Text)
+        public static (DataSet dataSet, DbParameter[] dbParameters) DataAdapterFill(this DatabaseFacade databaseFacade, string sql, object model, CommandType commandType = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default)
         {
-            // 处理 Sqlite 不支持 DataSet 问题
-            if (DbProvider.IsDatabaseFor(databaseFacade.ProviderName, DbProvider.Sqlite))
-            {
-                return SqliteDataSetFill(databaseFacade, sql, model, commandType);
-            }
-
             // 获取真实运行 Sql
             sql = DbHelpers.ResolveSqlConfiguration(sql);
 
-            // 初始化数据库连接对象、数据库命令对象和数据库适配器对象
-            var (_, dbCommand, dbDataAdapter, dbParameters) = databaseFacade.PrepareDbDataAdapter(sql, model, commandType);
+            // 初始化数据库连接对象和数据库命令对象
+            var (_, dbCommand, dbParameters) = databaseFacade.PrepareDbCommand(sql, model, commandType);
 
-            // 填充DataSet
-            using var dataSet = new DataSet();
-            dbDataAdapter.Fill(dataSet);
+            // 读取数据
+            using var dbDataReader = dbCommand.ExecuteReader(behavior);
+
+            // 填充到 DataSet
+            var dataSet = dbDataReader.ToDataSet();
 
             // 清空命令参数
             dbCommand.Parameters.Clear();
@@ -423,25 +413,22 @@ namespace Furion.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="parameters">命令参数</param>
         /// <param name="commandType">命令类型</param>
+        /// <param name="behavior">行为</param>
         /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns></returns>
-        public static async Task<DataSet> DataAdapterFillAsync(this DatabaseFacade databaseFacade, string sql, DbParameter[] parameters = null, CommandType commandType = CommandType.Text, CancellationToken cancellationToken = default)
+        /// <returns>DataSet</returns>
+        public static async Task<DataSet> DataAdapterFillAsync(this DatabaseFacade databaseFacade, string sql, DbParameter[] parameters = null, CommandType commandType = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default)
         {
-            // 处理 Sqlite 不支持 DataSet 问题
-            if (DbProvider.IsDatabaseFor(databaseFacade.ProviderName, DbProvider.Sqlite))
-            {
-                return await SqliteDataSetFillAsync(databaseFacade, sql, parameters, commandType, cancellationToken: cancellationToken);
-            }
-
             // 获取真实运行 Sql
             sql = DbHelpers.ResolveSqlConfiguration(sql);
 
-            // 初始化数据库连接对象、数据库命令对象和数据库适配器对象
-            var (_, dbCommand, dbDataAdapter) = await databaseFacade.PrepareDbDataAdapterAsync(sql, parameters, commandType, cancellationToken);
+            // 初始化数据库连接对象和数据库命令对象
+            var (_, dbCommand) = await databaseFacade.PrepareDbCommandAsync(sql, parameters, commandType, cancellationToken);
 
-            // 填充DataSet
-            using var dataSet = new DataSet();
-            dbDataAdapter.Fill(dataSet);
+            // 读取数据
+            using var dbDataReader = await dbCommand.ExecuteReaderAsync(behavior, cancellationToken);
+
+            // 填充到 DataSet
+            var dataSet = dbDataReader.ToDataSet();
 
             // 清空命令参数
             dbCommand.Parameters.Clear();
@@ -456,162 +443,27 @@ namespace Furion.DatabaseAccessor
         /// <param name="sql">sql 语句</param>
         /// <param name="model">命令模型</param>
         /// <param name="commandType">命令类型</param>
+        /// <param name="behavior">行为</param>
         /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns>(DataSet dbSet, DbParameter[] dbParameters)</returns>
-        public static async Task<(DataSet dbSet, DbParameter[] dbParameters)> DataAdapterFillAsync(this DatabaseFacade databaseFacade, string sql, object model, CommandType commandType = CommandType.Text, CancellationToken cancellationToken = default)
+        /// <returns>(DataSet dataSet, DbParameter[] dbParameters)</returns>
+        public static async Task<(DataSet dataSet, DbParameter[] dbParameters)> DataAdapterFillAsync(this DatabaseFacade databaseFacade, string sql, object model, CommandType commandType = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default)
         {
-            // 处理 Sqlite 不支持 DataSet 问题
-            if (DbProvider.IsDatabaseFor(databaseFacade.ProviderName, DbProvider.Sqlite))
-            {
-                return await SqliteDataSetFillAsync(databaseFacade, sql, model, commandType, cancellationToken: cancellationToken);
-            }
-
             // 获取真实运行 Sql
             sql = DbHelpers.ResolveSqlConfiguration(sql);
 
-            // 初始化数据库连接对象、数据库命令对象和数据库适配器对象
-            var (_, dbCommand, dbDataAdapter, dbParameters) = await databaseFacade.PrepareDbDataAdapterAsync(sql, model, commandType, cancellationToken);
+            // 初始化数据库连接对象和数据库命令对象
+            var (_, dbCommand, dbParameters) = await databaseFacade.PrepareDbCommandAsync(sql, model, commandType, cancellationToken);
 
-            // 填充DataSet
-            using var dataSet = new DataSet();
-            dbDataAdapter.Fill(dataSet);
+            // 读取数据
+            using var dbDataReader = await dbCommand.ExecuteReaderAsync(behavior, cancellationToken);
+
+            // 填充到 DataSet
+            var dataSet = dbDataReader.ToDataSet();
 
             // 清空命令参数
             dbCommand.Parameters.Clear();
 
             return (dataSet, dbParameters);
-        }
-
-        /// <summary>
-        /// Sqlite DataSet Fill
-        /// </summary>
-        /// <param name="databaseFacade">ADO.NET 数据库对象</param>
-        /// <param name="sql">sql 语句</param>
-        /// <param name="commandType">命令类型</param>
-        /// <param name="parameters">命令参数</param>
-        /// <param name="behavior">行为</param>
-        /// <returns>DataTable</returns>
-        private static DataSet SqliteDataSetFill(this DatabaseFacade databaseFacade, string sql, DbParameter[] parameters = null, CommandType commandType = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default)
-        {
-            // 获取真实运行 Sql
-            sql = DbHelpers.ResolveSqlConfiguration(sql);
-
-            var sqls = sql.Split(";", StringSplitOptions.RemoveEmptyEntries);
-
-            // 初始化数据库连接对象和数据库命令对象
-            var (_, dbCommand) = databaseFacade.PrepareDbCommand(string.Empty, parameters, commandType);
-
-            // 执行多个 Sql
-            var dataset = ExecuteSqlsForSqlite(behavior, sqls, dbCommand);
-
-            return dataset;
-        }
-
-        /// <summary>
-        /// Sqlite DataSet Fill
-        /// </summary>
-        /// <param name="databaseFacade">ADO.NET 数据库对象</param>
-        /// <param name="sql">sql 语句</param>
-        /// <param name="commandType">命令类型</param>
-        /// <param name="model">命令模型</param>
-        /// <param name="behavior">行为</param>
-        /// <returns>(DataTable dataTable, DbParameter[] dbParameters)</returns>
-        private static (DataSet dataSet, DbParameter[] dbParameters) SqliteDataSetFill(this DatabaseFacade databaseFacade, string sql, object model, CommandType commandType = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default)
-        {
-            // 获取真实运行 Sql
-            sql = DbHelpers.ResolveSqlConfiguration(sql);
-
-            var sqls = sql.Split(";", StringSplitOptions.RemoveEmptyEntries);
-
-            // 初始化数据库连接对象和数据库命令对象
-            var (_, dbCommand, dbParameters) = databaseFacade.PrepareDbCommand(string.Empty, model, commandType);
-
-            // 执行多个 Sql
-            var dataset = ExecuteSqlsForSqlite(behavior, sqls, dbCommand);
-
-            return (dataset, dbParameters);
-        }
-
-        /// <summary>
-        /// Sqlite DataSet Fill
-        /// </summary>
-        /// <param name="databaseFacade">ADO.NET 数据库对象</param>
-        /// <param name="sql">sql 语句</param>
-        /// <param name="commandType">命令类型</param>
-        /// <param name="parameters">命令参数</param>
-        /// <param name="behavior">行为</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>DataTable</returns>
-        private static async Task<DataSet> SqliteDataSetFillAsync(this DatabaseFacade databaseFacade, string sql, DbParameter[] parameters = null, CommandType commandType = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default)
-        {
-            // 获取真实运行 Sql
-            sql = DbHelpers.ResolveSqlConfiguration(sql);
-
-            var sqls = sql.Split(";", StringSplitOptions.RemoveEmptyEntries);
-
-            // 初始化数据库连接对象和数据库命令对象
-            var (_, dbCommand) = await databaseFacade.PrepareDbCommandAsync(string.Empty, parameters, commandType, cancellationToken);
-
-            // 执行多个 Sql
-            var dataset = ExecuteSqlsForSqlite(behavior, sqls, dbCommand);
-
-            return dataset;
-        }
-
-        /// <summary>
-        /// Sqlite DataSet Fill
-        /// </summary>
-        /// <param name="databaseFacade">ADO.NET 数据库对象</param>
-        /// <param name="sql">sql 语句</param>
-        /// <param name="commandType">命令类型</param>
-        /// <param name="model">命令模型</param>
-        /// <param name="behavior">行为</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>(DataTable dataTable, DbParameter[] dbParameters)</returns>
-        private static async Task<(DataSet dataSet, DbParameter[] dbParameters)> SqliteDataSetFillAsync(this DatabaseFacade databaseFacade, string sql, object model, CommandType commandType = CommandType.Text, CommandBehavior behavior = CommandBehavior.Default, CancellationToken cancellationToken = default)
-        {
-            // 获取真实运行 Sql
-            sql = DbHelpers.ResolveSqlConfiguration(sql);
-
-            var sqls = sql.Split(";", StringSplitOptions.RemoveEmptyEntries);
-
-            // 初始化数据库连接对象和数据库命令对象
-            var (_, dbCommand, dbParameters) = await databaseFacade.PrepareDbCommandAsync(string.Empty, model, commandType, cancellationToken);
-
-            // 执行多个 Sql
-            var dataset = ExecuteSqlsForSqlite(behavior, sqls, dbCommand);
-
-            return (dataset, dbParameters);
-        }
-
-        /// <summary>
-        /// 执行 Sqlite 多个 Sql
-        /// </summary>
-        /// <param name="behavior"></param>
-        /// <param name="sqls"></param>
-        /// <param name="dbCommand"></param>
-        /// <returns></returns>
-        private static DataSet ExecuteSqlsForSqlite(CommandBehavior behavior, string[] sqls, DbCommand dbCommand)
-        {
-            var dataset = new DataSet();
-
-            foreach (var itemSql in sqls)
-            {
-                dbCommand.CommandText = itemSql;
-
-                // 读取数据
-                using var dbDataReader = dbCommand.ExecuteReader(behavior);
-
-                // 填充到 DataTable
-                using var dataTable = new DataTable();
-                dataTable.Load(dbDataReader);
-
-                dataset.Tables.Add(dataTable);
-            }
-
-            // 清空命令参数
-            dbCommand.Parameters.Clear();
-            return dataset;
         }
     }
 }
