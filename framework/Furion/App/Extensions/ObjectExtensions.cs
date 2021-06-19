@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.9.2
+// 框架版本：2.9.3
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -29,26 +29,11 @@ namespace Furion.Extensions
     public static class ObjectExtensions
     {
         /// <summary>
-        /// 将 DateTimeOffset 转换成 DateTime
+        /// 将 DateTimeOffset 转换成本地 DateTime
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
         public static DateTime ConvertToDateTime(this DateTimeOffset dateTime)
-        {
-            if (dateTime.Offset.Equals(TimeSpan.Zero))
-                return dateTime.UtcDateTime;
-            else if (dateTime.Offset.Equals(TimeZoneInfo.Local.GetUtcOffset(dateTime.DateTime)))
-                return DateTime.SpecifyKind(dateTime.DateTime, DateTimeKind.Local);
-            else
-                return dateTime.DateTime;
-        }
-
-        /// <summary>
-        /// 将 DateTimeOffset 转换成 LocalDateTime
-        /// </summary>
-        /// <param name="dateTime"></param>
-        /// <returns></returns>
-        public static DateTime ConvertToLocalDateTime(this DateTimeOffset dateTime)
         {
             if (dateTime.Offset.Equals(TimeZoneInfo.Local.GetUtcOffset(dateTime.DateTime)))
                 return dateTime.ToLocalTime().DateTime;

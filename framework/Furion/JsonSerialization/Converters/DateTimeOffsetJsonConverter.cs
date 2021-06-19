@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.9.2
+// 框架版本：2.9.3
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -83,7 +83,7 @@ namespace Furion.JsonSerialization
         public override void Write(Utf8JsonWriter writer, DateTimeOffset value, JsonSerializerOptions options)
         {
             // 判断是否序列化成当地时间
-            var formatDateTime = OutputToLocalDateTime ? value.ConvertToLocalDateTime() : value;
+            var formatDateTime = OutputToLocalDateTime ? value.ConvertToDateTime() : value;
             writer.WriteStringValue(formatDateTime.ToString(Format));
         }
     }
