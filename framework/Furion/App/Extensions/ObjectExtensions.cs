@@ -44,6 +44,19 @@ namespace Furion.Extensions
         }
 
         /// <summary>
+        /// 将 DateTimeOffset 转换成 LocalDateTime
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime ConvertToLocalDateTime(this DateTimeOffset dateTime)
+        {
+            if (dateTime.Offset.Equals(TimeZoneInfo.Local.GetUtcOffset(dateTime.DateTime)))
+                return dateTime.ToLocalTime().DateTime;
+            else
+                return dateTime.DateTime;
+        }
+
+        /// <summary>
         /// 将 DateTime 转换成 DateTimeOffset
         /// </summary>
         /// <param name="dateTime"></param>
