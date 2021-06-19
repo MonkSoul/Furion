@@ -10,7 +10,6 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 
 namespace Furion.Localization
@@ -18,7 +17,6 @@ namespace Furion.Localization
     /// <summary>
     /// 常量、公共方法配置类
     /// </summary>
-    [SkipScan]
     internal static class Penetrates
     {
         /// <summary>

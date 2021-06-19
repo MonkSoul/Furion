@@ -10,7 +10,6 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,7 +21,6 @@ using System.Text.RegularExpressions;
 
 namespace Furion.DatabaseAccessor
 {
-    [SkipScan]
     internal static class DbHelpers
     {
         /// <summary>

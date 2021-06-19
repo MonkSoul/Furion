@@ -27,7 +27,6 @@ namespace Furion.DatabaseAccessor
     /// <summary>
     /// 数据库上下文构建器
     /// </summary>
-    [SkipScan]
     internal static class AppDbContextBuilder
     {
         /// <summary>

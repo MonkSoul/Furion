@@ -10,14 +10,11 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion.DependencyInjection;
-
 namespace Furion
 {
     /// <summary>
     /// 官方包定义
     /// </summary>
-    [SkipScan]
     internal static class AppExtra
     {
         /// <summary>

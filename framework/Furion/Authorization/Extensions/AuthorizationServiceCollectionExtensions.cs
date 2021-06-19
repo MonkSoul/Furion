@@ -38,7 +38,7 @@ namespace Microsoft.Extensions.DependencyInjection
             where TAuthorizationHandler : class, IAuthorizationHandler
         {
             // 注册授权策略提供器
-            services.TryAddSingleton<IAuthorizationPolicyProvider, AppAuthorizeProvider>();
+            services.TryAddSingleton<IAuthorizationPolicyProvider, AppAuthorizationPolicyProvider>();
 
             // 注册策略授权处理程序
             services.TryAddSingleton<IAuthorizationHandler, TAuthorizationHandler>();

@@ -10,6 +10,7 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
+using Furion.DatabaseAccessor;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
@@ -19,15 +20,14 @@ namespace Furion.DependencyInjection
     /// <summary>
     /// 创建作用域静态类
     /// </summary>
-    [SkipScan]
     public static partial class Scoped
     {
         /// <summary>
-        /// 创建一个作用域范围
+        /// 创建一个工作单元作用域
         /// </summary>
         /// <param name="handler"></param>
         /// <param name="scopeFactory"></param>
-        public static void Create(Action<IServiceScopeFactory, IServiceScope> handler, IServiceScopeFactory scopeFactory = default)
+        public static void CreateUow(Action<IServiceScopeFactory, IServiceScope> handler, IServiceScopeFactory scopeFactory = default)
         {
             // 禁止空调用
             if (handler == null) throw new ArgumentNullException(nameof(handler));
@@ -35,16 +35,18 @@ namespace Furion.DependencyInjection
             // 创建作用域
             using var scoped = CreateScope(ref scopeFactory);
 
-            // 执行方法
+            // 创建一个数据库上下文池
+            var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
             handler.Invoke(scopeFactory, scoped);
+            dbContextPool.SavePoolNow();
         }
 
         /// <summary>
-        /// 创建一个作用域范围
+        /// 创建一个工作单元作用域
         /// </summary>
         /// <param name="handler"></param>
         /// <param name="scopeFactory"></param>
-        public static async Task Create(Func<IServiceScopeFactory, IServiceScope, Task> handler, IServiceScopeFactory scopeFactory = default)
+        public static async Task CreateUow(Func<IServiceScopeFactory, IServiceScope, Task> handler, IServiceScopeFactory scopeFactory = default)
         {
             // 禁止空调用
             if (handler == null) throw new ArgumentNullException(nameof(handler));
@@ -52,18 +54,20 @@ namespace Furion.DependencyInjection
             // 创建作用域
             using var scoped = CreateScope(ref scopeFactory);
 
-            // 执行方法
+            // 创建一个数据库上下文池
+            var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
             await handler.Invoke(scopeFactory, scoped);
+            dbContextPool.SavePoolNow();
         }
 
         /// <summary>
-        /// 创建一个作用域范围
+        /// 创建一个工作单元作用域
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="handler"></param>
         /// <param name="scopeFactory"></param>
         /// <returns></returns>
-        public static T CreateRef<T>(Func<IServiceScopeFactory, IServiceScope, T> handler, IServiceScopeFactory scopeFactory = default)
+        public static T CreateUowRef<T>(Func<IServiceScopeFactory, IServiceScope, T> handler, IServiceScopeFactory scopeFactory = default)
         {
             // 禁止空调用
             if (handler == null) throw new ArgumentNullException(nameof(handler));
@@ -71,20 +75,22 @@ namespace Furion.DependencyInjection
             // 创建作用域
             using var scoped = CreateScope(ref scopeFactory);
 
-            // 执行方法
+            // 创建一个数据库上下文池
+            var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
             var result = handler.Invoke(scopeFactory, scoped);
+            dbContextPool.SavePoolNow();
 
             return result;
         }
 
         /// <summary>
-        /// 创建一个作用域范围
+        /// 创建一个工作单元作用域
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="handler"></param>
         /// <param name="scopeFactory"></param>
         /// <returns></returns>
-        public static async Task<T> CreateRef<T>(Func<IServiceScopeFactory, IServiceScope, Task<T>> handler, IServiceScopeFactory scopeFactory = default)
+        public static async Task<T> CreateUowRef<T>(Func<IServiceScopeFactory, IServiceScope, Task<T>> handler, IServiceScopeFactory scopeFactory = default)
         {
             // 禁止空调用
             if (handler == null) throw new ArgumentNullException(nameof(handler));
@@ -92,24 +98,12 @@ namespace Furion.DependencyInjection
             // 创建作用域
             using var scoped = CreateScope(ref scopeFactory);
 
-            // 执行方法
+            // 创建一个数据库上下文池
+            var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
             var result = await handler.Invoke(scopeFactory, scoped);
+            dbContextPool.SavePoolNow();
 
             return result;
-        }
-
-        /// <summary>
-        /// 创建一个作用域
-        /// </summary>
-        /// <param name="scopeFactory"></param>
-        /// <returns></returns>
-        private static IServiceScope CreateScope(ref IServiceScopeFactory scopeFactory)
-        {
-            scopeFactory ??= (App.RootServices ?? InternalApp.InternalServices.BuildServiceProvider()).GetService<IServiceScopeFactory>();
-
-            // 解析服务作用域工厂
-            var scoped = scopeFactory.CreateScope();
-            return scoped;
         }
     }
 }

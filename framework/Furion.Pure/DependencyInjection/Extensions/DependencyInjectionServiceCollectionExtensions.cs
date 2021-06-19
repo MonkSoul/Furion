@@ -45,18 +45,6 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// 扫描批量注册类型进行依赖注入
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="types"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddRegisterTypes(this IServiceCollection services, IEnumerable<Type> types)
-        {
-            services.AddScanDependencyInjection(types);
-            return services;
-        }
-
-        /// <summary>
         /// 添加接口代理
         /// </summary>
         /// <typeparam name="TDispatchProxy">代理类</typeparam>

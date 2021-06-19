@@ -10,7 +10,6 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion.DependencyInjection;
 using Furion.JsonSerialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -22,7 +21,6 @@ namespace Furion.DataValidation
     /// <summary>
     /// 验证上下文
     /// </summary>
-    [SkipScan]
     internal static class ValidatorContext
     {
         /// <summary>

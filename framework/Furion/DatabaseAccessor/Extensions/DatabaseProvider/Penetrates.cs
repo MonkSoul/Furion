@@ -10,7 +10,6 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Hosting;
@@ -22,7 +21,6 @@ namespace Furion.DatabaseAccessor
     /// <summary>
     /// 常量、公共方法配置类
     /// </summary>
-    [SkipScan]
     internal static class Penetrates
     {
         /// <summary>

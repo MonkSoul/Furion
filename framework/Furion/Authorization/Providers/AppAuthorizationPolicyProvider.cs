@@ -20,7 +20,7 @@ namespace Furion.Authorization
     /// <summary>
     /// 授权策略提供器
     /// </summary>
-    internal sealed class AppAuthorizeProvider : IAuthorizationPolicyProvider
+    internal sealed class AppAuthorizationPolicyProvider : IAuthorizationPolicyProvider
     {
         /// <summary>
         /// 默认回退策略
@@ -31,7 +31,7 @@ namespace Furion.Authorization
         /// 构造函数
         /// </summary>
         /// <param name="options"></param>
-        public AppAuthorizeProvider(IOptions<AuthorizationOptions> options)
+        public AppAuthorizationPolicyProvider(IOptions<AuthorizationOptions> options)
         {
             FallbackPolicyProvider = new DefaultAuthorizationPolicyProvider(options);
         }
