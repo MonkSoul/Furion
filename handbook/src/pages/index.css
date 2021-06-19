@@ -135,6 +135,10 @@
   border-radius: unset;
 }
 
+.system-window pre {
+  margin-bottom: 0 !important;
+}
+
 .blue-accent {
   --uni-border-color: #3fbbfe;
   --uni-box-shadow-color: rgba(63, 187, 254, 0.1);
