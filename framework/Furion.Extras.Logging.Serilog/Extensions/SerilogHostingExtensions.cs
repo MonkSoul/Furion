@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // 让 .NET 开发更简单，更通用，更流行。
 // Copyright © 2020-2021 Furion, 百小僧, Baiqian Co.,Ltd.
 //
@@ -9,7 +9,6 @@
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
-
 using Microsoft.AspNetCore.Hosting;
 using Serilog;
 using Serilog.Events;
@@ -42,8 +41,12 @@ namespace Microsoft.Extensions.Hosting
                 if (configAction != null) configAction.Invoke(config);
                 else
                 {
-                    config.WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}")
+                    var hasWriteTo = context.Configuration["Serilog:WriteTo:0:Name"];
+                    if (hasWriteTo == null)
+                    {
+                        config.WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}")
                           .WriteTo.File(Path.Combine("logs", "application.log"), LogEventLevel.Information, rollingInterval: RollingInterval.Day, retainedFileCountLimit: null, encoding: Encoding.UTF8);
+                    }
                 }
             });
 
@@ -68,8 +71,12 @@ namespace Microsoft.Extensions.Hosting
                 if (configAction != null) configAction.Invoke(config);
                 else
                 {
-                    config.WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}")
+                    var hasWriteTo = context.Configuration["Serilog:WriteTo:0:Name"];
+                    if (hasWriteTo == null)
+                    {
+                        config.WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {Properties:j}{NewLine}{Exception}")
                           .WriteTo.File(Path.Combine("logs", "application.log"), LogEventLevel.Information, rollingInterval: RollingInterval.Day, retainedFileCountLimit: null, encoding: Encoding.UTF8);
+                    }
                 }
             });
 
