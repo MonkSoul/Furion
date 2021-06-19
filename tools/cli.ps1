@@ -24,7 +24,7 @@ Param(
     #[string]$UseDatabaseNames
 )
 
-$FurTools = "Furion Tools v2.9.1";
+$FurTools = "Furion Tools v2.9.2";
 
 # 输出信息
 $copyright = @"
@@ -42,7 +42,7 @@ $copyright = @"
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：v2.9.1
+// 框架版本：v2.9.2
 // 源码地址：https://gitee.com/dotnetchina/Furion
 // 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
