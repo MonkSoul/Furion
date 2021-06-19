@@ -434,6 +434,18 @@ namespace Furion.TaskScheduler
         }
 
         /// <summary>
+        /// 获取当个任务信息
+        /// </summary>
+        /// <param name="workerName"></param>
+        /// <returns></returns>
+        public static SpareTimer GetWorker(string workerName)
+        {
+            if (string.IsNullOrWhiteSpace(workerName)) throw new ArgumentNullException(nameof(workerName));
+
+            return WorkerRecords.FirstOrDefault(u => u.Value.Timer.WorkerName == workerName).Value?.Timer;
+        }
+
+        /// <summary>
         /// 获取 Cron 表达式下一个发生时间
         /// </summary>
         /// <param name="expression"></param>

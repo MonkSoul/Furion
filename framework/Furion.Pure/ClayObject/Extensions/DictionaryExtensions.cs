@@ -37,6 +37,16 @@ namespace Furion.ClayObject.Extensions
             if (input is IDictionary<string, object> dictionary)
                 return dictionary;
 
+            if (input is Clay clay && clay.IsObject)
+            {
+                var dic = new Dictionary<string, object>();
+                foreach (KeyValuePair<string, dynamic> item in (dynamic)clay)
+                {
+                    dic.Add(item.Key, item.Value is Clay v ? v.ToDictionary() : item.Value);
+                }
+                return dic;
+            }
+
             var properties = input.GetType().GetProperties();
             var fields = input.GetType().GetFields();
             var members = properties.Cast<MemberInfo>().Concat(fields.Cast<MemberInfo>());

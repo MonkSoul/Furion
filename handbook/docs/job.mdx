@@ -552,7 +552,13 @@ SpareTime.Dispose();
 var workers = SpareTime.GetWorkers();
 ```
 
-### 26.8.8 解析 `Cron` 表达式
+### 26.8.8 获取当个任务
+
+```cs
+var worker = SpareTime.GetWorker("workerName");
+```
+
+### 26.8.9 解析 `Cron` 表达式
 
 ```cs
 var nextTime = SpareTime.GetCronNextOccurrence("* * * * *");

@@ -10,6 +10,7 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
+using Furion.ClayObject.Extensions;
 using Furion.DependencyInjection;
 using Furion.JsonSerialization;
 using System;
@@ -395,7 +396,15 @@ namespace Furion.ClayObject
         {
             if (obj == null) return JsonType.@null;
 
-            return Type.GetTypeCode(obj.GetType()) switch
+            var objType = obj.GetType();
+
+            // 将特别类型转换成 string
+            if (ToBeConvertStringTypes.Contains(objType)) return JsonType.@string;
+
+            // 处理循环 Clay 类型
+            if (obj is ExpandoObject) return JsonType.@object;
+
+            return Type.GetTypeCode(objType) switch
             {
                 TypeCode.Boolean => JsonType.boolean,
                 TypeCode.String or TypeCode.Char or TypeCode.DateTime => JsonType.@string,
@@ -452,6 +461,12 @@ namespace Furion.ClayObject
         /// <returns></returns>
         private static IEnumerable<XStreamingElement> CreateXObject(object obj)
         {
+            if (obj is ExpandoObject expando)
+            {
+                var dict = (IDictionary<string, object>)expando;
+                return dict.Select(a => new XStreamingElement(a.Key, CreateTypeAttr(GetJsonType(a.Value)), CreateJsonNode(a.Value)));
+            }
+
             return obj.GetType()
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Select(pi => new { pi.Name, Value = pi.GetValue(obj, null) })
@@ -504,6 +519,22 @@ namespace Furion.ClayObject
         private bool TrySet(string name, object value)
         {
             var type = GetJsonType(value);
+
+            // 处理循环 Clay 类型
+            if (value is Clay clay)
+            {
+                if (clay.IsObject) value = value.ToExpandoObject();
+                else if (clay.IsArray)
+                {
+                    var list = new List<object>();
+                    foreach (var item in (dynamic)clay)
+                    {
+                        list.Add(item is Clay c ? c.ToExpandoObject() : item);
+                    }
+                    value = list;
+                }
+            }
+
             var element = XmlElement.Element(name);
             if (element == null)
             {
@@ -560,6 +591,7 @@ namespace Furion.ClayObject
         private static dynamic DeserializeValue(XElement element, Type elementType)
         {
             var value = ToValue(element);
+
             if (value is Clay json)
             {
                 value = json.Deserialize(elementType);
@@ -618,5 +650,12 @@ namespace Furion.ClayObject
                 return list;
             }
         }
+
+        /// <summary>
+        /// 将被转换成字符串的类型
+        /// </summary>
+        private static readonly Type[] ToBeConvertStringTypes = new[] {
+            typeof(DateTimeOffset)
+        };
     }
 }

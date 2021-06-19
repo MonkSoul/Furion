@@ -63,13 +63,19 @@ SpareTime.Dispose();
 var workers = SpareTime.GetWorkers();
 ```
 
-## 12.8 解析 `Cron` 表达式
+## 12.8 获取当个任务
+
+```cs
+var worker = SpareTime.GetWorker("workerName");
+```
+
+## 12.9 解析 `Cron` 表达式
 
 ```cs
 var nextTime = SpareTime.GetCronNextOccurrence("* * * * *");
 ```
 
-## 12.9 `BackgroundService` 间隔定时任务
+## 12.10 `BackgroundService` 间隔定时任务
 
 ```cs
 // 间隔执行任务
@@ -79,7 +85,7 @@ await SpareTime.DoAsync(1000, () =>
 }, stoppingToken);
 ```
 
-## 12.10 `BackgroundService` `Cron` 定时任务
+## 12.11 `BackgroundService` `Cron` 定时任务
 
 ```cs
  // 执行 Cron 表达式任务

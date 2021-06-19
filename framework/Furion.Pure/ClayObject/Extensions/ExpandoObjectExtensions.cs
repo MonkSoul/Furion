@@ -34,6 +34,19 @@ namespace Furion.ClayObject.Extensions
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
 
+            if (value is Clay clay && clay.IsObject)
+            {
+                dynamic clayExpando = new ExpandoObject();
+                var dic = (IDictionary<string, object>)clayExpando;
+
+                foreach (KeyValuePair<string, dynamic> item in (dynamic)clay)
+                {
+                    dic.Add(item.Key, item.Value is Clay v ? v.ToExpandoObject() : item.Value);
+                }
+
+                return clayExpando;
+            }
+
             if (value is not ExpandoObject expando)
             {
                 expando = new ExpandoObject();
