@@ -434,7 +434,7 @@ namespace Furion.TaskScheduler
         }
 
         /// <summary>
-        /// 获取当个任务信息
+        /// 获取单个任务信息
         /// </summary>
         /// <param name="workerName"></param>
         /// <returns></returns>
