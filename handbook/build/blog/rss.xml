@@ -2,7 +2,7 @@
 <rss version="2.0">
     <channel>
         <title>Furion Blog</title>
-        <link>https://furion.pro/blog</link>
+        <link>https://furion.pro/furion/blog</link>
         <description>Furion Blog</description>
         <lastBuildDate>Fri, 18 Jun 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>

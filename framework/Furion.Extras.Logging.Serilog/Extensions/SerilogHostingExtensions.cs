@@ -9,6 +9,7 @@
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
+
 using Microsoft.AspNetCore.Hosting;
 using Serilog;
 using Serilog.Events;
@@ -41,6 +42,7 @@ namespace Microsoft.Extensions.Hosting
                 if (configAction != null) configAction.Invoke(config);
                 else
                 {
+                    // 判断是否有输出配置
                     var hasWriteTo = context.Configuration["Serilog:WriteTo:0:Name"];
                     if (hasWriteTo == null)
                     {
@@ -71,6 +73,7 @@ namespace Microsoft.Extensions.Hosting
                 if (configAction != null) configAction.Invoke(config);
                 else
                 {
+                    // 判断是否有输出配置
                     var hasWriteTo = context.Configuration["Serilog:WriteTo:0:Name"];
                     if (hasWriteTo == null)
                     {
