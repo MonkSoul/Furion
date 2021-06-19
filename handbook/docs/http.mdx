@@ -741,6 +741,20 @@ services.AddRemoteRequest(options=>
         c.DefaultRequestHeaders.Add("Accept", "application/vnd.facebook.v3+json");
         c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Sample");
     });
+
+    // 配置更多参数，比如 SSL 证书
+    services.AddHttpClient("github", c => {
+        // 其他配置
+    }
+    .ConfigurePrimaryHttpMessageHandler(u => new HttpClientHandler
+    {
+        ClientCertificateOptions = ClientCertificateOption.Manual,
+        ClientCertificates = {
+            new X509Certificate2("...","..."),
+            new X509Certificate2("...","..."),
+            new X509Certificate2("...","...")
+        }
+    });
 })
 ```
 
