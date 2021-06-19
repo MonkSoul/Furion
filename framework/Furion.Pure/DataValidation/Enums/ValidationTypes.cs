@@ -24,10 +24,10 @@ namespace Furion.DataValidation
         /// <summary>
         /// 数值类型
         /// <para>
-        /// 表达式：^\+?(:?(:?\d+\.\d+)|(:?\d+))|(-?\d+)(\.\d+)?$
+        /// 表达式：^\+?(:?(:?\d+\.\d+)?$|(:?\d+))?$|(-?\d+)(\.\d+)?$
         /// </para>
         /// </summary>
-        [Description("数值类型"), ValidationItemMetadata(@"^\+?(:?(:?\d+\.\d+)|(:?\d+))|(-?\d+)(\.\d+)?$", "The Value is not a numeric type.")]
+        [Description("数值类型"), ValidationItemMetadata(@"^\+?(:?(:?\d+\.\d+)?$|(:?\d+))?$|(-?\d+)(\.\d+)?$", "The Value is not a numeric type.")]
         Numeric,
 
         /// <summary>

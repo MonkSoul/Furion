@@ -25,6 +25,7 @@
   - [修复] 如果实体被跟踪后，无法执行删除操作 [#I3W08P](https://gitee.com/dotnetchina/Furion/issues/I3W08P)
   - [修复] 继承 `Serlig` 日志在 `Worker Service` 生成重复日志 bug [#I3WA0L](https://gitee.com/dotnetchina/Furion/issues/I3WA0L) [!331](https://gitee.com/dotnetchina/Furion/pulls/331)
   - [修复] `粘土对象` 动态添加 `Clay` 类型 bug [#I3W9LW](https://gitee.com/dotnetchina/Furion/issues/I3W9LW)
+  - [修复] `ValidationTypes.Numeric` 校验数值类型正则表达式错误 [#I3WADS](https://gitee.com/dotnetchina/Furion/issues/I3WADS)
 
 - **其他更改**
 
