@@ -83,7 +83,7 @@ namespace Furion.JsonSerialization
         public override void Write(Utf8JsonWriter writer, DateTimeOffset value, JsonSerializerOptions options)
         {
             // 判断是否序列化成当地时间
-            var formatDateTime = OutputToLocalDateTime ? value.ConvertToDateTime() : value;
+            var formatDateTime = OutputToLocalDateTime ? value.ConvertToLocalDateTime() : value;
             writer.WriteStringValue(formatDateTime.ToString(Format));
         }
     }
