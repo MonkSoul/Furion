@@ -44,6 +44,9 @@
   - [答疑] 查询方法 `FindOrDefault` 报错 [#I3W830](https://gitee.com/dotnetchina/Furion/issues/I3W830)
   - [答疑] `SqlNonQuery` 在 `UnitOfWork` 循环执行[#I3W8WW](https://gitee.com/dotnetchina/Furion/issues/I3W8WW)
   - [答疑] 因 `Swagger` 配置问题，导致 `Swagger` 中不能自动携带 token 授权的问题 [#I3W934](https://gitee.com/dotnetchina/Furion/issues/I3W934)
+  - [答疑] 远程请求 `SetBody` 参数识别不了[#I3WBM1](https://gitee.com/dotnetchina/Furion/issues/I3WBM1)
+  - [答疑] `Scoped.Create` 里执行 `sql.SqlNonQuery()` 或者 `obj.insert()` 问题[#I3WB5O](https://gitee.com/dotnetchina/Furion/issues/I3WB5O)
+  - [答疑] 调用函数或存储过程，怎么出参数据自定义对象？如 `Oracle`数据库的数组或记录 [#I3W71W](https://gitee.com/dotnetchina/Furion/issues/I3W71W)
 
 - **不做实现**
 
