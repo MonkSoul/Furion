@@ -38,19 +38,13 @@ namespace Furion.DatabaseAccessor
         internal static string OnTableTenantId = nameof(Entity.TenantId);
 
         /// <summary>
-        /// 未找到服务错误消息
-        /// </summary>
-        private const string NotFoundServiceErrorMessage = "{0} Service not registered or uninstalled.";
-
-        /// <summary>
         /// 获取非泛型仓储
         /// </summary>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
         public static IRepository GetRepository(IServiceProvider serviceProvider = default)
         {
-            return App.GetService<IRepository>(serviceProvider)
-                ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(IRepository)));
+            return App.GetService<IRepository>(serviceProvider);
         }
 
         /// <summary>
@@ -62,8 +56,7 @@ namespace Furion.DatabaseAccessor
         public static IRepository<TEntity> GetRepository<TEntity>(IServiceProvider serviceProvider = default)
             where TEntity : class, IPrivateEntity, new()
         {
-            return App.GetService<IRepository<TEntity>>(serviceProvider)
-                ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(IRepository<TEntity>)));
+            return App.GetService<IRepository<TEntity>>(serviceProvider);
         }
 
         /// <summary>
@@ -77,8 +70,7 @@ namespace Furion.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetService<IRepository<TEntity, TDbContextLocator>>(serviceProvider)
-                ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(IRepository<TEntity, TDbContextLocator>)));
+            return App.GetService<IRepository<TEntity, TDbContextLocator>>(serviceProvider);
         }
 
         /// <summary>
@@ -101,8 +93,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>ISqlRepository</returns>
         public static ISqlRepository GetSqlRepository(IServiceProvider serviceProvider = default)
         {
-            return App.GetService<ISqlRepository>(serviceProvider)
-                ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(ISqlRepository)));
+            return App.GetService<ISqlRepository>(serviceProvider);
         }
 
         /// <summary>
@@ -114,8 +105,7 @@ namespace Furion.DatabaseAccessor
         public static ISqlRepository<TDbContextLocator> GetSqlRepository<TDbContextLocator>(IServiceProvider serviceProvider = default)
             where TDbContextLocator : class, IDbContextLocator
         {
-            return App.GetService<ISqlRepository<TDbContextLocator>>(serviceProvider)
-                ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(ISqlRepository<TDbContextLocator>)));
+            return App.GetService<ISqlRepository<TDbContextLocator>>(serviceProvider);
         }
 
         /// <summary>
@@ -125,8 +115,7 @@ namespace Furion.DatabaseAccessor
         /// <returns>ISqlRepository</returns>
         public static IMSRepository GetMSRepository(IServiceProvider serviceProvider = default)
         {
-            return App.GetService<IMSRepository>(serviceProvider)
-                ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(IMSRepository)));
+            return App.GetService<IMSRepository>(serviceProvider);
         }
 
         /// <summary>
@@ -138,8 +127,7 @@ namespace Furion.DatabaseAccessor
         public static IMSRepository<TMasterDbContextLocator> GetMSRepository<TMasterDbContextLocator>(IServiceProvider serviceProvider = default)
             where TMasterDbContextLocator : class, IDbContextLocator
         {
-            return App.GetService<IMSRepository<TMasterDbContextLocator>>(serviceProvider)
-                ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(IMSRepository<TMasterDbContextLocator>)));
+            return App.GetService<IMSRepository<TMasterDbContextLocator>>(serviceProvider);
         }
 
         /// <summary>
@@ -150,8 +138,7 @@ namespace Furion.DatabaseAccessor
         public static TSqlDispatchProxy GetSqlProxy<TSqlDispatchProxy>(IServiceProvider serviceProvider = default)
             where TSqlDispatchProxy : class, ISqlDispatchProxy
         {
-            return App.GetService<TSqlDispatchProxy>(serviceProvider)
-                ?? throw new NotSupportedException(string.Format(NotFoundServiceErrorMessage, nameof(ISqlDispatchProxy)));
+            return App.GetService<TSqlDispatchProxy>(serviceProvider);
         }
 
         /// <summary>
