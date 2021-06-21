@@ -275,6 +275,12 @@ services.AddControllersWithViews()
         });
 ```
 
+:::note 小提示
+
+如果使用使用了 `DateTimeOffset` 类型，那么可以设置 `.AddDateFormatString("yyyy-MM-dd HH:mm:ss", true)` 第二个参数为 `true`，自动转换成本地时间。
+
+:::
+
 需引用 `System.Text.Json` 命名空间。
 
 - `Newtonsoft.Json` 方式

@@ -808,6 +808,10 @@ services.AddControllers()
         .AddInjectWithUnifyResult();
 ```
 
+### 6.5.25 `Swagger` 多语言支持
+
+在 `Furion 2.9.0 + ` 版本已经支持了 `Swagger` 文档地址 `?culture=en-US` 参数多语言转发功能了，也就是 `Swagger` 地址带 `?culture=` 参数将自动添加到每一个请求的 `api` 地址中。
+
 ## 6.6 `SpecificationDocumentSettings` 配置
 
 除了上述例子外，`Furion` 提供了一些配置选项，如：
@@ -1029,7 +1033,10 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     // 添加规范化结果状态码，需要在这里注册
     app.UseUnifyResultStatusCodes();
     // 或者更多配置
-    // app.UseUnifyResultStatusCodes(options => { options.Return200StatusCodes = new [] { 401, 403 }; });
+    // app.UseUnifyResultStatusCodes(options => {
+    //    options.Return200StatusCodes = new [] { 401, 403 }; // 配置返回 200 的状态码
+    //    options.AdaptStatusCodes = new Dictionary() { { 403, 401 } }; // 配置状态码转换自定义状态码（只支持短路状态码）
+    // });
     // 其他注册...
 }
 ```

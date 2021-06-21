@@ -27,6 +27,9 @@ sidebar_label: 20. 数据加解密
 var md5Hash = MD5Encryption.Encrypt("百小僧");  // 加密
 var isEqual = MD5Encryption.Compare("百小僧", md5Hash); // 比较
 return (md5Hash, isEqual);
+
+// 输出大写 MD5 加密
+var md5Hash = MD5Encryption.Encrypt("百小僧", true);
 ```
 
 ### 20.3.2 `DESC` 加解密

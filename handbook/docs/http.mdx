@@ -255,6 +255,12 @@ await "https://www.furion.pro/api/user/add".SetBody(new Dictionary<string , obje
 }, "application/x-www-form-urlencoded");
 ```
 
+:::important 特别注意
+
+如果请求 `Context-Type` 设置为 `application/x-www-form-urlencoded` 类型，那么底层自动将数据进行 `UrlEncode` 编码处理，无需外部处理。
+
+:::
+
 ### 19.4.9 设置 `Content-Type`
 
 ```cs

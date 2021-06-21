@@ -355,7 +355,15 @@ public class JobService : BackgroundService
 
 ## 18.9 关于日志文件重复生成问题
 
-我们需要修改 `Program.cs` 文件，如：
+日志重复生成的原因是创建了多个 `ILogger` 对象导致的，通常有两种解决方法：
+
+1. 设置 `字符串` 拓展日志作用域
+
+```cs
+"日志内容".SetLoggerScoped(serviceProvider).LogInformation();
+```
+
+2. 修改 `Program.cs` 注册方式
 
 ```cs {19}
 using Microsoft.AspNetCore.Hosting;
