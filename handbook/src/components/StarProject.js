@@ -14,7 +14,7 @@ export default function StarProject() {
         style={{ color: "white" }}
         title="点击查看 dotNET China 更多每周精选"
       >
-        dotNET China 每周精选第 <span style={{ color: "yellow" }}>10</span> 期
+        dotNET China 每周精选第 <span style={{ color: "yellow" }}>11</span> 期
       </a>
       <button className="furion-star-close" onClick={() => setShow(!show)}>
         {show ? "收缩" : "展开"}
@@ -23,19 +23,19 @@ export default function StarProject() {
         <a
           href="https://gitee.com/dotnetchina#-%E6%AF%8F%E5%91%A8%E7%B2%BE%E9%80%89%E9%A1%B9%E7%9B%AE-"
           target="_blank"
-          title="dotNET China 每周精选第 10 期"
+          title="dotNET China 每周精选第 11 期"
         >
-          <img src={useBaseUrl("img/CoreShop.png")} />
+          <img src={useBaseUrl("img/FastTunnel.png")} />
         </a>
       )}
       <a
         className="furion-star-title"
         style={{ color: "yellow" }}
-        href="https://gitee.com/CoreUnion/CoreShop"
+        href="https://gitee.com/Hgui/FastTunnel"
         target="_blank"
         title="点击查看项目详情"
       >
-        CoreShop
+        FastTunnel
       </a>
     </div>
   );
