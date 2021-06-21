@@ -51,6 +51,7 @@
 - **不做实现**
 
   - [无效] 数据库小写下划线字段，无法自动映射成小驼峰 [#I3W021](https://gitee.com/dotnetchina/Furion/issues/I3W021)
+  - [废弃] `EfCore 5` 直接多对多时进行 `SeedData` [#I3WDRJ](https://gitee.com/dotnetchina/Furion/issues/I3WDRJ)
 
 ---
 
