@@ -67,6 +67,8 @@ services.AddJwt();
 
 `JWT` 鉴权并未包含在 `Furion` 框架中，需要安装 `Furion` 框架提供的 `Furion.Extras.Authentication.JwtBearer` 拓展包。
 
+另外 `.AddJwt()` 必须在 `.AddControllers()` 之前注册。💡
+
 :::
 
 - 自定义 `Jwt` 配置（默认无需配置）
