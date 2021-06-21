@@ -1447,7 +1447,28 @@ public class SampleAsyncActionFilter : IAsyncActionFilter
 
 详细用法可参见 [ASP.NET Core 5.0 - 筛选器](https://docs.microsoft.com/zh-cn/aspnet/core/mvc/controllers/filters?view=aspnetcore-5.0)
 
-## 5.12 反馈与建议
+## 5.12 设置 `api` 超时请求时间
+
+在 `Program.cs` 中添加 `.UseKestrel` 配置即可，如：
+
+```cs {8-12}
+public static IHostBuilder CreateHostBuilder(string[] args)
+{
+    return Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(webBuilder =>
+        {
+            webBuilder.Inject()
+                      .UseStartup<Startup>()
+                      .UseKestrel(option =>
+                      {
+                          option.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(20);
+                          option.Limits.RequestHeadersTimeout = TimeSpan.FromMinutes(20);
+                      });
+        });
+}
+```
+
+## 5.13 反馈与建议
 
 :::note 与我们交流
 
