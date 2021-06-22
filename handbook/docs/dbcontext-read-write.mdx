@@ -311,7 +311,7 @@ namespace Furion.Application
         /// <returns></returns>
         public List<Person> Get()
         {
-            return _msRepository.Slave<Person>().AsEnumerable();
+            return _msRepository.Slave<Person>().AsEnumerable().ToList();
         }
 
         /// <summary>
