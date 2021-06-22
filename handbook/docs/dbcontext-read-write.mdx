@@ -241,7 +241,7 @@ namespace Furion.Application
         /// <returns></returns>
         public List<Person> Get()
         {
-            return _msRepository.Slave1<Person>().AsEnumerable();
+            return _msRepository.Slave1<Person>().AsEnumerable().ToList();
         }
     }
 }
@@ -324,7 +324,7 @@ namespace Furion.Application
                 // 这里写你的逻辑返回从库定位器
 
                 return 你的从库定位器;
-            }).AsEnumerable();
+            }).AsEnumerable().ToList();
         }
     }
 }
