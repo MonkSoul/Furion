@@ -735,11 +735,13 @@ var data = "select * from table".Change<MySqlDbContextLocator>().SqlQuery<Data>(
 var data = req.Change<MySqlDbContextLocator>().SqlQuery<Data>("select * from table");
 ```
 
-## 9.15.11 `懒人 Sql` 拓展共享作用域
+## 9.15.11 多线程共享作用域
 
-在 `Web` 请求（非多线程）中，`sql` 字符串拓展采用 `HttpContext.RequestServices` 作为服务作用域，和 `Web` 请求共存生命周期，请求结束，自动释放。
+默认情况下，所有的 `字符串` 和 `实体` 拓展都有自己独立维护的 `ServiceProvider` 作用域。
 
-但在 `非 Web` 或 `多线程` 或 `后台任务` 中使用 `sql` 字符串拓展需构建新的作用域并共享作用域，如：
+在 `Web` 请求中，默认是 `HttpContext.RequestServices`，但在 `非 Web`，如多线程操作，后台任务，事件总线等场景下会自动创建新的作用域，实际上这是非常不必要的内存开销。
+
+这时，我们只需要通过 `.SetXXXScoped(service)` 共享当前服务提供器作用域即可，如：
 
 ```cs
 Scoped.Create((fac, scope) => {

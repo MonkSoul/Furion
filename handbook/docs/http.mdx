@@ -829,17 +829,18 @@ var result = await "https://api.facebook.com/"
 
 `Furion` 框架内部默认不提供同步请求操作，建议总是使用异步的方式请求。如在不能使用异步的情况下，可自行转换为同步执行。
 
-## 19.9 疑难杂症
+## 19.9 多线程共享作用域
 
-有些时候，我们通过 `PostMan` 或者第三方工具测试正常，但是使用 `HttpClient` 无法获取结果，比如这个 [#I3W17C](https://gitee.com/dotnetchina/Furion/issues/I3W17C)
+默认情况下，所有的 `字符串` 和 `实体` 拓展都有自己独立维护的 `ServiceProvider` 作用域。
 
-这个时候，可能是服务器校验了 `User-Agent` 头，只需要添加 `Headers` 即可，如：
+在 `Web` 请求中，默认是 `HttpContext.RequestServices`，但在 `非 Web`，如多线程操作，后台任务，事件总线等场景下会自动创建新的作用域，实际上这是非常不必要的内存开销。
 
-```cs {3}
-await "http://xxxxxx/spi?code=S20210422002".OnRequesting(request =>
-            {
-                request.Headers.Add("User-Agent", "Edge");
-            }).GetAsStringAsync();
+这时，我们只需要通过 `.SetXXXScoped(service)` 共享当前服务提供器作用域即可，如：
+
+```cs
+Scoped.Create(async (fac, scope) => {
+   var response = await "https://www.furion.pro".SetRequestScoped(scope.ServiceProvider).PostAsync();
+});
 ```
 
 ## 19.10 反馈与建议
