@@ -34,6 +34,9 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IMvcBuilder AddMvcFilter<TFilter>(this IMvcBuilder mvcBuilder, Action<MvcOptions> extraConfigure = default)
             where TFilter : IFilterMetadata
         {
+            // 非 Web 环境跳过注册
+            if (App.WebHostEnvironment == default) return mvcBuilder;
+
             mvcBuilder.AddMvcOptions(options =>
             {
                 options.Filters.Add<TFilter>();
@@ -55,8 +58,8 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddMvcFilter<TFilter>(this IServiceCollection services, Action<MvcOptions> extraConfigure = default)
             where TFilter : IFilterMetadata
         {
-            // 只有 Web 环境才添加过滤器
-            if (App.WebHostEnvironment == null) return services;
+            // 非 Web 环境跳过注册
+            if (App.WebHostEnvironment == default) return services;
 
             services.Configure<MvcOptions>(options =>
             {
