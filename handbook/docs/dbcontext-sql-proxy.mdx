@@ -83,11 +83,11 @@ namespace Furion.Application
         DataTable GetPerson(int id);
 
         // 支持多数据库操作
-        [SqlExecute("select * from person", DbContextLocator = typeof(MySqlDbContextLocator))]
+        [SqlExecute("select * from person"), SqlDbContextLocator(typeof(MySqlDbContextLocator))]
         DataTable GetPerson();
 
         // 异步方式
-        [SqlExecute("select * from person", DbContextLocator = typeof(MySqlDbContextLocator))]
+        [SqlExecute("select * from person"), SqlDbContextLocator(typeof(MySqlDbContextLocator))]
         Task<DataTable> GetPersonAsync();
     }
 }
@@ -139,11 +139,11 @@ namespace Furion.Application
         List<Person> GetPerson(int id);
 
         // 支持多数据库操作
-        [SqlExecute("select * from person", DbContextLocator = typeof(MySqlDbContextLocator))]
+        [SqlExecute("select * from person"), SqlDbContextLocator(typeof(MySqlDbContextLocator)]
         List<Person> GetPerson();
 
         // 异步方式
-        [SqlExecute("select * from person", DbContextLocator = typeof(MySqlDbContextLocator))]
+        [SqlExecute("select * from person"), SqlDbContextLocator(typeof(MySqlDbContextLocator)]
         Task<List<Person>> GetPersonAsync();
     }
 }
@@ -179,14 +179,14 @@ namespace Furion.Application
         // 支持多数据库操作
         [SqlExecute(@"
             select * from person;
-            select * from student;", DbContextLocator = typeof(MySqlDbContextLocator))]
+            select * from student;"), SqlDbContextLocator(typeof(MySqlDbContextLocator)]
         DataSet GetData();
 
         // 异步方式
         [SqlExecute(@"
             select * from person;
             select * from student;
-            select 1;", DbContextLocator = typeof(MySqlDbContextLocator))]
+            select 1;"), SqlDbContextLocator(typeof(MySqlDbContextLocator)]
         Task<DataSet> GetDataAsync());
     }
 }
@@ -222,14 +222,14 @@ namespace Furion.Application
         // 支持多数据库操作
         [SqlExecute(@"
             select * from person;
-            select * from student;", DbContextLocator = typeof(MySqlDbContextLocator))]
+            select * from student;"), SqlDbContextLocator(typeof(MySqlDbContextLocator)]
         (List<Person>,List<Student>) GetData();
 
         // 异步方式
         [SqlExecute(@"
             select * from person;
             select * from student;
-            select 1;", DbContextLocator = typeof(MySqlDbContextLocator))]
+            select 1;"), SqlDbContextLocator(typeof(MySqlDbContextLocator)]
         Task<(List<Person>,List<Student>,int)> GetDataAsync();
     }
 }
@@ -467,14 +467,58 @@ List<Person> GetPerson(int id, string name, User user);
 
 ## 9.17.8 切换数据库
 
-`Sql` 代理方式的所有特性都支持 `DbContextLocator` 属性配置，如：
+`Sql` 代理方式的支持三种切换数据库的方式：
+
+### 9.17.8.1 单个方法方式
+
+主要通过在方法上贴 `[SqlDbContextLocator]` 特性
 
 ```cs {1}
-[SqlExecute("select * from person where id >@id and name like @name", DbContextLocator = typeof(MySqlDbContextLocator))]
-DataTable GetPerson(int id, string name);
+[SqlExecute("select * from person"), SqlDbContextLocator(typeof(MySqlDbContextLocator)]
+List<Person> GetPerson();
 ```
 
+### 9.17.8.2 接口方式
+
+在接口中贴 `[SqlDbContextLocator]` 特性，此方式下，接口所有方法将采用指定的数据库执行。
+
+```cs {1}
+[SqlDbContextLocator(typeof(MySqlDbContextLocator)]
+public interface ISql : ISqlDispatchProxy
+{
+    [SqlFunction("FN_Name")]    // 标量函数
+    string GetValue(MyParam dto);
+
+    [SqlProcedure("FN_Name")]   // 表值函数
+    List<Person> GetPersons(int id);
+}
+```
+
+### 9.17.8.3 运行时 `.Change` 方法切换
+
+除了以上两种 `静态` 配置方式，`Furion` 框架还提供 `动态` 方式，如：
+
+```cs {2,6}
+// 将 sql 代理数据库切换成特定数据库
+_sql.Change<MySqlDbContextLocator>();
+_sql.GetPerson();
+
+// 多次切换
+_sql.Change<OracleDbContextLocator>();
+_sql.GetPerson();
+
+// 还支持重置数据库上下文定位器为初始状态
+_sql.ResetIt();
+_sql.GetPerson();
+```
+
+:::important 关于优先级问题
+
+`.Change<>` 优先级大于 `方法贴 [SqlDbContextLocator]` 大于 `接口贴 [SqlDbContextLocator]`。
+
 默认情况下，不指定 `DbContextLocator` 属性，则为 `MasterDbContextLocator`。
+
+:::
 
 ## 9.17.9 反馈与建议
 

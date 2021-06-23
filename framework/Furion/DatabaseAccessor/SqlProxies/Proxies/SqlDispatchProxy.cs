@@ -40,6 +40,11 @@ namespace Furion.DatabaseAccessor
         public IServiceProvider Services { get; set; }
 
         /// <summary>
+        /// 数据库上下文定位器类型
+        /// </summary>
+        private Type DbContextLocator { get; set; }
+
+        /// <summary>
         /// 拦截同步方法
         /// </summary>
         /// <param name="method"></param>
@@ -47,6 +52,20 @@ namespace Furion.DatabaseAccessor
         /// <returns></returns>
         public override object Invoke(MethodInfo method, object[] args)
         {
+            // 切换数据库上下文
+            if (method.IsGenericMethod && method.Name == nameof(ISqlDispatchProxy.Change) && method.ReturnType == typeof(void))
+            {
+                DbContextLocator = method.GetGenericArguments().First();
+                return default;
+            }
+
+            // 重置数据库上下文定位器
+            if (method.Name == nameof(ISqlDispatchProxy.ResetIt) && method.ReturnType == typeof(void))
+            {
+                DbContextLocator = default;
+                return default;
+            }
+
             // 获取 Sql 代理方法信息
             var sqlProxyMethod = GetProxyMethod(method, args);
             return ExecuteSql(sqlProxyMethod);
@@ -242,8 +261,13 @@ namespace Furion.DatabaseAccessor
             // 获取方法真实返回值类型
             var returnType = method.GetRealReturnType();
 
+            // 获取方法所在类型
+            var declaringType = method.DeclaringType;
+
             // 获取数据库上下文
-            var dbContext = Db.GetDbContext(sqlProxyAttribute.DbContextLocator ?? typeof(MasterDbContextLocator), Services);
+            var dbContextLocatorType = GetDbContextLocator(method, declaringType, DbContextLocator);
+            var dbContext = Db.GetDbContext(dbContextLocatorType, Services);
+            if (dbContext == null) throw new InvalidCastException($" The locator `{dbContextLocatorType.Name}` is not bind.");
 
             // 转换方法参数
             var parameters = CombineDbParameter(method, args);
@@ -323,6 +347,30 @@ namespace Furion.DatabaseAccessor
                 return dic;
             }
             else return arguments.First();
+        }
+
+        /// <summary>
+        /// 获取上下文定位器
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="declaringType"></param>
+        /// <param name="instanceDbContextLocator"></param>
+        /// <returns></returns>
+        private static Type GetDbContextLocator(MethodInfo method, Type declaringType, Type instanceDbContextLocator)
+        {
+            // 如果运行时改变，则采用运行时版本（优先级最大）
+            if (instanceDbContextLocator != null) return instanceDbContextLocator;
+
+            // 获取上下文定位器
+            var dbContextLocatorType = method.IsDefined(typeof(SqlDbContextLocatorAttribute), true)
+                ? method.GetCustomAttribute<SqlDbContextLocatorAttribute>(true).Locator
+                : (
+                    declaringType.IsDefined(typeof(SqlDbContextLocatorAttribute), true)
+                    ? declaringType.GetCustomAttribute<SqlDbContextLocatorAttribute>(true).Locator
+                    : default
+                );
+
+            return dbContextLocatorType ?? typeof(MasterDbContextLocator);
         }
     }
 }

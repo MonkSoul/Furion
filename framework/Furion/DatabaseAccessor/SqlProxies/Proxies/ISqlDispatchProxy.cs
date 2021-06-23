@@ -17,5 +17,18 @@ namespace Furion.DatabaseAccessor
     /// </summary>
     public interface ISqlDispatchProxy
     {
+        /// <summary>
+        /// 切换数据库上下文定位器
+        /// </summary>
+        /// <typeparam name="TDbContextLocator"></typeparam>
+        /// <returns></returns>
+        public void Change<TDbContextLocator>()
+            where TDbContextLocator : IDbContextLocator
+        { }
+
+        /// <summary>
+        /// 重置运行时数据库上下文定位器
+        /// </summary>
+        public void ResetIt() { }
     }
 }

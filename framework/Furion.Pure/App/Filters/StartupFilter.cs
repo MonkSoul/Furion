@@ -41,10 +41,18 @@ namespace Furion
                 // 存储根服务
                 InternalApp.RootServices = app.ApplicationServices;
 
+                // 环境名
+                var environmentName = App.HostEnvironment.EnvironmentName;
+
                 // 设置响应报文头信息，标记框架类型
                 app.Use(async (context, next) =>
                 {
                     context.Request.EnableBuffering();  // 启动 Request Body 重复读，解决微信问题
+
+                    // 输出当前环境标识
+                    context.Response.Headers["environment"] = environmentName;
+
+                    // 执行下一个中间件
                     await next.Invoke();
 
                     // 释放所有未托管的服务提供器

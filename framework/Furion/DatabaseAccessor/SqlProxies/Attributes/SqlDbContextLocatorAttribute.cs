@@ -10,16 +10,28 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion.DependencyInjection;
 using System;
 
 namespace Furion.DatabaseAccessor
 {
     /// <summary>
-    /// Sql 执行代理基特性
+    /// Sql 代理指定定位器特性
     /// </summary>
-    [SkipScan, AttributeUsage(AttributeTargets.Method)]
-    public class SqlProxyAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method)]
+    public sealed class SqlDbContextLocatorAttribute : Attribute
     {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="dbContextLocator"></param>
+        public SqlDbContextLocatorAttribute(Type dbContextLocator)
+        {
+            Locator = dbContextLocator;
+        }
+
+        /// <summary>
+        /// 定位器
+        /// </summary>
+        public Type Locator { get; set; } = typeof(MasterDbContextLocator);
     }
 }
