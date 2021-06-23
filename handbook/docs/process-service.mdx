@@ -175,11 +175,48 @@ namespace FurionWorkers
 
 :::
 
-## 25.5 实现定时任务
+## 25.5 注册服务
+
+`Worker Service` 注册服务和 `Web` 略有不同，`Web` 主要在 `Starup.cs` 类中注册，`Worker Service` 在 `Program.cs` 启动类的 `ConfigureServices` 方法中注册，如：
+
+```cs {16-28}
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+namespace FurionWorkers
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .Inject()
+                .ConfigureServices((hostContext, services) =>
+                {
+                    // 注册数据库服务
+                    services.AddDatabaseAccessor(options =>
+                    {
+                        options.AddDb<DefaultDbContext>();
+                    });
+
+                    // 注册远程请求
+                    services.AddRemoteRequest();
+
+                    // 等等其他服务注册
+                });
+    }
+}
+```
+
+## 25.6 实现定时任务
 
 `Furion` 框架同时也为 `Worker Service` 提供了定时任务的支持。
 
-### 26.5.1 间隔执行方式
+### 26.6.1 间隔执行方式
 
 ```cs {23-27}
 using Furion.TaskScheduler;
@@ -215,7 +252,7 @@ namespace WorkerService1
 }
 ```
 
-### 26.5.2 `Cron` 表达式格式化方式，
+### 26.6.2 `Cron` 表达式格式化方式，
 
 ```cs {23-27}
 using Furion.TaskScheduler;
@@ -251,7 +288,7 @@ namespace WorkerService1
 }
 ```
 
-## 25.6 依赖注入使用
+## 25.7 依赖注入使用
 
 `Worker Service` 只为 `Worker` 提供了**单例作用域**的服务注入，如果需要注入瞬时或作用域对象，需手动创建作用域，如：
 
@@ -294,11 +331,11 @@ public class Worker : BackgroundService
 }
 ```
 
-## 25.7 部署到操作系统
+## 25.8 部署到操作系统
 
 `Worker Service` 支持部署到 `Windows Service` 中 或 `Linux 守护进程中`
 
-### 25.7.1 部署到 `Windows Service`
+### 25.8.1 部署到 `Windows Service`
 
 - **第一步**
 
@@ -345,6 +382,7 @@ namespace FurionWorkers
 ```cmd
 sc.exe create FurionWorkerServices binPath= C:\FurionWorker\FurionWorker.exe
 ```
+
 注意`=`后面要有一个空格  
 创建成功后可通过 `sc.exe query FurionWorkerServices` 查看服务状态。
 
@@ -362,7 +400,7 @@ sc.exe create FurionWorkerServices binPath= C:\FurionWorker\FurionWorker.exe
 
 :::
 
-### 25.7.2 部署到 `Linux 守护程序`
+### 25.8.2 部署到 `Linux 守护程序`
 
 - **第一步**
 
@@ -400,7 +438,7 @@ namespace FurionWorkers
 
 部署到 `Linux 守护进程` 就是这么简单。
 
-## 25.8 反馈与建议
+## 25.9 反馈与建议
 
 :::note 与我们交流
 
