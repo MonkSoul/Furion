@@ -331,7 +331,7 @@ namespace Furion.Core
 
 `Furion` 框架会自动扫描所有继承 `IEntity` 接口的类进行 `DbSet<TEntity>` 注册，也就是实现自动配置 `DbContext` 的 `OnModelCreating`。
 
-如果需要跳过自动注册，只需要贴 `[NonAutomatic]` 或 `[SkipScan]` 特性即可。一旦贴了此特性，那么就需要手动配置 `DbContext` 的 `OnModelCreating`
+如果需要跳过自动注册，只需要贴 `[Manual]` 或 `[SkipScan]` 特性即可。一旦贴了此特性，那么就需要手动配置 `DbContext` 的 `OnModelCreating`
 
 ## 9.3.6 配置列名及列类型
 

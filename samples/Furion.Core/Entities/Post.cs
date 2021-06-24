@@ -12,7 +12,6 @@ namespace Furion.Core
         public Post()
         {
             CreatedTime = DateTimeOffset.Now;
-            IsDeleted = false;
         }
 
         /// <summary>

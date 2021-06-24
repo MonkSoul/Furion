@@ -13,7 +13,6 @@ namespace Furion.Core
         public Person()
         {
             CreatedTime = DateTimeOffset.Now;
-            IsDeleted = false;
         }
 
         /// <summary>

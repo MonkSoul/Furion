@@ -206,32 +206,6 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
-        /// 构建假删除查询过滤器表达式
-        /// </summary>
-        /// <param name="entityBuilder">实体类型构建器</param>
-        /// <param name="dbContext">数据库上下文</param>
-        /// <param name="isDeletedKey">软删除属性名</param>
-        /// <param name="filterValue">过滤的值</param>
-        /// <returns>表达式</returns>
-        protected virtual LambdaExpression FakeDeleteQueryFilterExpression(EntityTypeBuilder entityBuilder, DbContext dbContext, string isDeletedKey = default, object filterValue = default)
-        {
-            isDeletedKey ??= nameof(Entity.IsDeleted);
-
-            // 获取实体构建器元数据
-            var metadata = entityBuilder.Metadata;
-            if (metadata.FindProperty(isDeletedKey) == null) return default;
-
-            // 创建表达式元素
-            var parameter = Expression.Parameter(metadata.ClrType, "u");
-            var properyName = Expression.Constant(isDeletedKey);
-            var propertyValue = Expression.Constant(filterValue ?? false);
-
-            var expressionBody = Expression.Equal(Expression.Call(typeof(EF), nameof(EF.Property), new[] { typeof(bool) }, parameter, properyName), propertyValue);
-            var expression = Expression.Lambda(expressionBody, parameter);
-            return expression;
-        }
-
-        /// <summary>
         /// 正在更改并跟踪的数据
         /// </summary>
         private Dictionary<EntityEntry, PropertyValues> ChangeTrackerEntities { get; set; }
@@ -250,7 +224,7 @@ namespace Furion.DatabaseAccessor
 
                 // 获取获取数据库操作上下文，跳过贴了 [NotChangedListener] 特性的实体
                 ChangeTrackerEntities = (dbContext).ChangeTracker.Entries()
-                    .Where(u => !u.Entity.GetType().IsDefined(typeof(NotChangedListenerAttribute), true) && (u.State == EntityState.Added || u.State == EntityState.Modified || u.State == EntityState.Deleted)).ToDictionary(u => u, u => u.GetDatabaseValues());
+                    .Where(u => !u.Entity.GetType().IsDefined(typeof(SuppressChangedListenerAttribute), true) && (u.State == EntityState.Added || u.State == EntityState.Modified || u.State == EntityState.Deleted)).ToDictionary(u => u, u => u.GetDatabaseValues());
 
                 AttachEntityChangedListener(eventData.Context, "OnChanging", ChangeTrackerEntities);
             }

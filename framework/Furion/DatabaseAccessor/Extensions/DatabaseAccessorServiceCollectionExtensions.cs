@@ -76,52 +76,16 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 DbContext dbContextResolve(Type locator, ITransient transient)
                 {
-                    // 判断定位器是否绑定了数据库上下文
-                    var isRegistered = Penetrates.DbContextWithLocatorCached.TryGetValue(locator, out var dbContextType);
-                    if (!isRegistered) throw new InvalidOperationException($"The DbContext for locator  `{locator.FullName}` binding was not found.");
-
-                    // 动态解析数据库上下文，创建新的对象
-                    var dbContext = provider.GetService(dbContextType) as DbContext;
-
-                    // 实现动态数据库上下文功能，刷新 OnModelCreating
-                    var dbContextAttribute = DbProvider.GetAppDbContextAttribute(dbContextType);
-                    if (dbContextAttribute?.Mode == DbContextMode.Dynamic)
-                    {
-                        DynamicModelCacheKeyFactory.RebuildModels();
-                    }
-
-                    // 添加数据库上下文到池中
-                    var dbContextPool = provider.GetService<IDbContextPool>();
-                    dbContextPool?.AddToPool(dbContext);
-
-                    return dbContext;
+                    return ResolveDbContext(provider, locator);
                 }
                 return (Func<Type, ITransient, DbContext>)dbContextResolve;
             });
 
             services.AddScoped(provider =>
             {
-                DbContext dbContextResolve(Type locator, IScoped serviceProvider)
+                DbContext dbContextResolve(Type locator, IScoped transient)
                 {
-                    // 判断定位器是否绑定了数据库上下文
-                    var isRegistered = Penetrates.DbContextWithLocatorCached.TryGetValue(locator, out var dbContextType);
-                    if (!isRegistered) throw new InvalidOperationException($"The DbContext for locator `{locator.FullName}` binding was not found.");
-
-                    // 动态解析数据库上下文
-                    var dbContext = provider.GetService(dbContextType) as DbContext;
-
-                    // 实现动态数据库上下文功能，刷新 OnModelCreating
-                    var dbContextAttribute = DbProvider.GetAppDbContextAttribute(dbContextType);
-                    if (dbContextAttribute?.Mode == DbContextMode.Dynamic)
-                    {
-                        DynamicModelCacheKeyFactory.RebuildModels();
-                    }
-
-                    // 添加数据库上下文到池中
-                    var dbContextPool = provider.GetService<IDbContextPool>();
-                    dbContextPool?.AddToPool(dbContext);
-
-                    return dbContext;
+                    return ResolveDbContext(provider, locator);
                 }
                 return (Func<Type, IScoped, DbContext>)dbContextResolve;
             });
@@ -182,6 +146,35 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddScoped<TDbContext>();
 
             return services;
+        }
+
+        /// <summary>
+        /// 通过定位器解析上下文
+        /// </summary>
+        /// <param name="provider"></param>
+        /// <param name="locator"></param>
+        /// <returns></returns>
+        private static DbContext ResolveDbContext(IServiceProvider provider, Type locator)
+        {
+            // 判断定位器是否绑定了数据库上下文
+            var isRegistered = Penetrates.DbContextWithLocatorCached.TryGetValue(locator, out var dbContextType);
+            if (!isRegistered) throw new InvalidOperationException($"The DbContext for locator `{locator.FullName}` binding was not found.");
+
+            // 动态解析数据库上下文
+            var dbContext = provider.GetService(dbContextType) as DbContext;
+
+            // 实现动态数据库上下文功能，刷新 OnModelCreating
+            var dbContextAttribute = DbProvider.GetAppDbContextAttribute(dbContextType);
+            if (dbContextAttribute?.Mode == DbContextMode.Dynamic)
+            {
+                DynamicModelCacheKeyFactory.RebuildModels();
+            }
+
+            // 添加数据库上下文到池中
+            var dbContextPool = provider.GetService<IDbContextPool>();
+            dbContextPool?.AddToPool(dbContext);
+
+            return dbContext;
         }
     }
 }

@@ -783,64 +783,6 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
-        /// 假删除
-        /// </summary>
-        /// <returns></returns>
-        public EntityEntry<TEntity> FakeDelete()
-        {
-            return GetRepository().FakeDelete(Entity);
-        }
-
-        /// <summary>
-        /// 假删除
-        /// </summary>
-        /// <returns></returns>
-        public Task<EntityEntry<TEntity>> FakeDeleteAsync()
-        {
-            return GetRepository().FakeDeleteAsync(Entity);
-        }
-
-        /// <summary>
-        /// 假删除并立即提交
-        /// </summary>
-        /// <returns></returns>
-        public EntityEntry<TEntity> FakeDeleteNow()
-        {
-            return GetRepository().FakeDeleteNow(Entity);
-        }
-
-        /// <summary>
-        /// 假删除并立即提交
-        /// </summary>
-        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <returns></returns>
-        public EntityEntry<TEntity> FakeDeleteNow(bool acceptAllChangesOnSuccess)
-        {
-            return GetRepository().FakeDeleteNow(Entity, acceptAllChangesOnSuccess);
-        }
-
-        /// <summary>
-        /// 假删除并立即提交
-        /// </summary>
-        /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns></returns>
-        public Task<EntityEntry<TEntity>> FakeDeleteNowAsync(CancellationToken cancellationToken = default)
-        {
-            return GetRepository().FakeDeleteNowAsync(Entity, cancellationToken);
-        }
-
-        /// <summary>
-        /// 假删除并立即提交
-        /// </summary>
-        /// <param name="acceptAllChangesOnSuccess">接受所有更改</param>
-        /// <param name="cancellationToken">异步取消令牌</param>
-        /// <returns></returns>
-        public Task<EntityEntry<TEntity>> FakeDeleteNowAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-        {
-            return GetRepository().FakeDeleteNowAsync(Entity, acceptAllChangesOnSuccess, cancellationToken);
-        }
-
-        /// <summary>
         /// 获取实体仓储
         /// </summary>
         /// <returns></returns>

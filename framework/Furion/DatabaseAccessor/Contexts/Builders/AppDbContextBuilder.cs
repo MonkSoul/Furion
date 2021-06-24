@@ -51,7 +51,7 @@ namespace Furion.DatabaseAccessor
         {
             // 扫描程序集，获取数据库实体相关类型
             EntityCorrelationTypes = App.EffectiveTypes.Where(t => (typeof(IPrivateEntity).IsAssignableFrom(t) || typeof(IPrivateModelBuilder).IsAssignableFrom(t))
-                && t.IsClass && !t.IsAbstract && !t.IsGenericType && !t.IsInterface && !t.IsDefined(typeof(NonAutomaticAttribute), true));
+                && t.IsClass && !t.IsAbstract && !t.IsGenericType && !t.IsInterface && !t.IsDefined(typeof(ManualAttribute), true));
 
             if (EntityCorrelationTypes.Any())
             {
@@ -63,7 +63,7 @@ namespace Furion.DatabaseAccessor
 
             // 查找所有数据库函数，必须是公开静态方法，且所在父类也必须是公开静态方法
             DbFunctionMethods = App.EffectiveTypes
-                .Where(t => t.IsAbstract && t.IsSealed && t.IsClass && !t.IsDefined(typeof(NonAutomaticAttribute), true))
+                .Where(t => t.IsAbstract && t.IsSealed && t.IsClass && !t.IsDefined(typeof(ManualAttribute), true))
                 .SelectMany(t => t.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => !m.IsDefined(typeof(SkipScanAttribute), false) && m.IsDefined(typeof(QueryableFunctionAttribute), true)));
         }
 

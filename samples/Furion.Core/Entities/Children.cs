@@ -11,7 +11,6 @@ namespace Furion.Core
         public Children()
         {
             CreatedTime = DateTimeOffset.Now;
-            IsDeleted = false;
         }
 
         /// <summary>

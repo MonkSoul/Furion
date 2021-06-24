@@ -12,7 +12,6 @@
 
 using Furion.DependencyInjection;
 using System;
-using System.Text.Json.Serialization;
 
 namespace Furion.DatabaseAccessor
 {
@@ -193,11 +192,5 @@ namespace Furion.DatabaseAccessor
         /// 更新时间
         /// </summary>
         public virtual DateTimeOffset? UpdatedTime { get; set; }
-
-        /// <summary>
-        /// 软删除
-        /// </summary>
-        [JsonIgnore, FakeDelete(true)]
-        public virtual bool IsDeleted { get; set; }
     }
 }
