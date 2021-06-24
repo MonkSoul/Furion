@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.10.0
+// 框架版本：2.10.1
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -18,8 +18,8 @@ namespace Furion.DependencyInjection
     /// 不被扫描和发现的特性
     /// </summary>
     /// <remarks>用于程序集扫描类型或方法时候</remarks>
-    [SkipScan, AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Enum)]
-    public class SkipScanAttribute : Attribute
+    [SuppressSniffer, AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Enum)]
+    public class SuppressSnifferAttribute : Attribute
     {
     }
 }

@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.10.0
+// 框架版本：2.10.1
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -21,7 +21,7 @@ namespace Furion.DatabaseAccessor
     /// 动态模型缓存工厂
     /// </summary>
     /// <remarks>主要用来实现数据库分表分库</remarks>
-    [SkipScan]
+    [SuppressSniffer]
     public class DynamicModelCacheKeyFactory : IModelCacheKeyFactory
     {
         /// <summary>

@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.10.0
+// 框架版本：2.10.1
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -31,7 +31,7 @@ namespace Furion.DatabaseAccessor
     /// 默认应用数据库上下文
     /// </summary>
     /// <typeparam name="TDbContext">数据库上下文</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public abstract class AppDbContext<TDbContext> : AppDbContext<TDbContext, MasterDbContextLocator>
         where TDbContext : DbContext
     {
@@ -49,7 +49,7 @@ namespace Furion.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TDbContext">数据库上下文</typeparam>
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public abstract class AppDbContext<TDbContext, TDbContextLocator> : DbContext
         where TDbContext : DbContext
         where TDbContextLocator : class, IDbContextLocator

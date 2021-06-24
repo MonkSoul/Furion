@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.10.0
+// 框架版本：2.10.1
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -27,7 +27,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     /// 依赖注入拓展类
     /// </summary>
-    [SkipScan]
+    [SuppressSniffer]
     public static class DependencyInjectionServiceCollectionExtensions
     {
         /// <summary>
@@ -289,7 +289,7 @@ namespace Microsoft.Extensions.DependencyInjection
         private static void AddTransientDispatchProxy(IServiceCollection services, Type type, Type proxyType, Type inter, bool hasTarget = true)
         {
             proxyType ??= GlobalServiceProxyType;
-            if (proxyType == null || (type != null && type.IsDefined(typeof(SkipProxyAttribute), true))) return;
+            if (proxyType == null || (type != null && type.IsDefined(typeof(SuppressProxyAttribute), true))) return;
 
             RegisterDispatchProxy(services, typeof(ITransient), proxyType);
             services.AddTransient(inter, provider =>
@@ -316,7 +316,7 @@ namespace Microsoft.Extensions.DependencyInjection
         private static void AddScopedDispatchProxy(IServiceCollection services, Type type, Type proxyType, Type inter, bool hasTarget = true)
         {
             proxyType ??= GlobalServiceProxyType;
-            if (proxyType == null || (type != null && type.IsDefined(typeof(SkipProxyAttribute), true))) return;
+            if (proxyType == null || (type != null && type.IsDefined(typeof(SuppressProxyAttribute), true))) return;
 
             RegisterDispatchProxy(services, typeof(IScoped), proxyType);
             services.AddScoped(inter, provider =>
@@ -343,7 +343,7 @@ namespace Microsoft.Extensions.DependencyInjection
         private static void AddSingletonDispatchProxy(IServiceCollection services, Type type, Type proxyType, Type inter, bool hasTarget = true)
         {
             proxyType ??= GlobalServiceProxyType;
-            if (proxyType == null || (type != null && type.IsDefined(typeof(SkipProxyAttribute), true))) return;
+            if (proxyType == null || (type != null && type.IsDefined(typeof(SuppressProxyAttribute), true))) return;
 
             RegisterDispatchProxy(services, typeof(ISingleton), proxyType);
             services.AddSingleton(inter, provider =>

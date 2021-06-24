@@ -573,7 +573,7 @@ services.AddScoped(typeof(ISpecService), provider = > {
 
 :::warning 关于动态 API 和服务的区别
 
-如果您的服务是动态 API，那么请使用 [动态 API - AOP 拦截](dynamic-api-controller#511-关于-aop-拦截)，原因是动态 API 本质是控制器，所以采用 `Filter` 方式。
+如果您的服务是动态 API，那么请使用 [动态 API - AOP 拦截](/docs/dynamic-api-controller#511-关于-aop-拦截)，原因是动态 API 本质是控制器，所以采用 `Filter` 方式。
 
 :::
 
@@ -705,11 +705,11 @@ namespace Furion.Application
 }
 ```
 
-这样就会拦截所有的 `Service`，当然也可以通过给特定类贴 `[SkipProxy]` 跳过全局拦截操作。
+这样就会拦截所有的 `Service`，当然也可以通过给特定类贴 `[SuppressProxy]` 跳过全局拦截操作。
 
 :::important 拦截优先级
 
-`[SkipProxy]` > `[Injection(Proxy = typeof(LogDispatchProxy))]` > `全局拦截`。
+`[SuppressProxy]` > `[Injection(Proxy = typeof(LogDispatchProxy))]` > `全局拦截`。
 
 :::
 

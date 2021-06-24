@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.10.0
+// 框架版本：2.10.1
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -22,7 +22,7 @@ namespace Furion.TaskScheduler
     /// Cron 表达式的解析器和调度程序
     /// <para>代码参考自：https://github.com/HangfireIO/Cronos </para>
     /// </summary>
-    [SkipScan]
+    [SuppressSniffer]
     public sealed class CronExpression : IEquatable<CronExpression>
     {
         private const long NotFound = 0;

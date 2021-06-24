@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.10.0
+// 框架版本：2.10.1
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -19,7 +19,7 @@ namespace Furion.DatabaseAccessor
     /// <summary>
     /// 默认主库主从仓储
     /// </summary>
-    [SkipScan]
+    [SuppressSniffer]
     public partial class MSRepository : MSRepository<MasterDbContextLocator>, IMSRepository
     {
         /// <summary>
@@ -37,7 +37,7 @@ namespace Furion.DatabaseAccessor
     /// 主从库仓储
     /// </summary>
     /// <typeparam name="TMasterDbContextLocator">主库</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public partial class MSRepository<TMasterDbContextLocator> : IMSRepository<TMasterDbContextLocator>
         where TMasterDbContextLocator : class, IDbContextLocator
     {
@@ -136,7 +136,7 @@ namespace Furion.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TMasterDbContextLocator">主库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator1">从库</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public partial class MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1> : IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1>
         where TMasterDbContextLocator : class, IDbContextLocator
         where TSlaveDbContextLocator1 : class, IDbContextLocator
@@ -184,7 +184,7 @@ namespace Furion.DatabaseAccessor
     /// <typeparam name="TMasterDbContextLocator">主库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator1">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator2">从库</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public partial class MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2>
         : MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1>
         , IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2>
@@ -225,7 +225,7 @@ namespace Furion.DatabaseAccessor
     /// <typeparam name="TSlaveDbContextLocator1">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator2">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator3">从库</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public partial class MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3>
         : MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2>
         , IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3>
@@ -268,7 +268,7 @@ namespace Furion.DatabaseAccessor
     /// <typeparam name="TSlaveDbContextLocator2">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator3">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator4">从库</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public partial class MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4>
         : MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3>
         , IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4>
@@ -313,7 +313,7 @@ namespace Furion.DatabaseAccessor
     /// <typeparam name="TSlaveDbContextLocator3">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator4">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator5">从库</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public partial class MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5>
         : MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4>
         , IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5>
@@ -360,7 +360,7 @@ namespace Furion.DatabaseAccessor
     /// <typeparam name="TSlaveDbContextLocator4">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator5">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator6">从库</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public partial class MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6>
         : MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5>
         , IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6>
@@ -409,7 +409,7 @@ namespace Furion.DatabaseAccessor
     /// <typeparam name="TSlaveDbContextLocator5">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator6">从库</typeparam>
     /// <typeparam name="TSlaveDbContextLocator7">从库</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public partial class MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6, TSlaveDbContextLocator7>
         : MSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6>
         , IMSRepository<TMasterDbContextLocator, TSlaveDbContextLocator1, TSlaveDbContextLocator2, TSlaveDbContextLocator3, TSlaveDbContextLocator4, TSlaveDbContextLocator5, TSlaveDbContextLocator6, TSlaveDbContextLocator7>

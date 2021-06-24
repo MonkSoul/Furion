@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.10.0
+// 框架版本：2.10.1
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -21,7 +21,7 @@ namespace Furion.DatabaseAccessor
     /// <summary>
     /// 数据库实体依赖基类
     /// </summary>
-    [SkipScan]
+    [SuppressSniffer]
     public abstract class EntityBase : EntityBase<int, MasterDbContextLocator>
     {
     }
@@ -30,7 +30,7 @@ namespace Furion.DatabaseAccessor
     /// 数据库实体依赖基类
     /// </summary>
     /// <typeparam name="TKey">主键类型</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public abstract class EntityBase<TKey> : EntityBase<TKey, MasterDbContextLocator>
     {
     }
@@ -40,7 +40,7 @@ namespace Furion.DatabaseAccessor
     /// </summary>
     /// <typeparam name="TKey">主键类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public abstract class EntityBase<TKey, TDbContextLocator1> : PrivateEntityBase<TKey>
         where TDbContextLocator1 : class, IDbContextLocator
     {
@@ -52,7 +52,7 @@ namespace Furion.DatabaseAccessor
     /// <typeparam name="TKey">主键类型</typeparam>
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2> : PrivateEntityBase<TKey>
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
@@ -66,7 +66,7 @@ namespace Furion.DatabaseAccessor
     /// <typeparam name="TDbContextLocator1">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3> : PrivateEntityBase<TKey>
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
@@ -82,7 +82,7 @@ namespace Furion.DatabaseAccessor
     /// <typeparam name="TDbContextLocator2">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4> : PrivateEntityBase<TKey>
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
@@ -100,7 +100,7 @@ namespace Furion.DatabaseAccessor
     /// <typeparam name="TDbContextLocator3">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5> : PrivateEntityBase<TKey>
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
@@ -120,7 +120,7 @@ namespace Furion.DatabaseAccessor
     /// <typeparam name="TDbContextLocator4">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6> : PrivateEntityBase<TKey>
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
@@ -142,7 +142,7 @@ namespace Furion.DatabaseAccessor
     /// <typeparam name="TDbContextLocator5">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7> : PrivateEntityBase<TKey>
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
@@ -166,7 +166,7 @@ namespace Furion.DatabaseAccessor
     /// <typeparam name="TDbContextLocator6">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator7">数据库上下文定位器</typeparam>
     /// <typeparam name="TDbContextLocator8">数据库上下文定位器</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public abstract class EntityBase<TKey, TDbContextLocator1, TDbContextLocator2, TDbContextLocator3, TDbContextLocator4, TDbContextLocator5, TDbContextLocator6, TDbContextLocator7, TDbContextLocator8> : PrivateEntityBase<TKey>
         where TDbContextLocator1 : class, IDbContextLocator
         where TDbContextLocator2 : class, IDbContextLocator
@@ -183,7 +183,7 @@ namespace Furion.DatabaseAccessor
     /// 数据库实体依赖基类（禁止外部继承）
     /// </summary>
     /// <typeparam name="TKey">主键类型</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public abstract class PrivateEntityBase<TKey> : IPrivateEntity
     {
         /// <summary>

@@ -894,7 +894,7 @@ namespace Furion.UnifyResult
     /// <summary>
     /// RESTful 风格返回值
     /// </summary>
-    [SkipScan, UnifyModel(typeof(RESTfulResult<>))]
+    [SuppressSniffer, UnifyModel(typeof(RESTfulResult<>))]
     public class RESTfulResultProvider : IUnifyResultProvider
     {
         /// <summary>

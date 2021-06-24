@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.10.0
+// 框架版本：2.10.1
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -31,7 +31,7 @@ namespace Furion.DatabaseAccessor
     /// <summary>
     /// 非泛型EF Core仓储实现
     /// </summary>
-    [SkipScan]
+    [SuppressSniffer]
     public partial class EFCoreRepository : IRepository
     {
         /// <summary>
@@ -155,7 +155,7 @@ namespace Furion.DatabaseAccessor
     /// EF Core仓储实现
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    [SkipScan]
+    [SuppressSniffer]
     public partial class EFCoreRepository<TEntity> : EFCoreRepository<TEntity, MasterDbContextLocator>
         , IRepository<TEntity>
         where TEntity : class, IPrivateEntity, new()
@@ -172,7 +172,7 @@ namespace Furion.DatabaseAccessor
     /// <summary>
     /// 多数据库上下文仓储
     /// </summary>
-    [SkipScan]
+    [SuppressSniffer]
     public partial class EFCoreRepository<TEntity, TDbContextLocator> : PrivateRepository<TEntity>
         , IRepository<TEntity, TDbContextLocator>
         where TEntity : class, IPrivateEntity, new()

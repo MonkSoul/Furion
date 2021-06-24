@@ -25,10 +25,14 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [调整] `[NotChangedListener]` 特性名称为 `[SuppressChangedListener]` [#I3XKLZ](https://gitee.com/dotnetchina/Furion/issues/I3XKLZ)
   - [调整] `[ManualSaveChanges]` 名称为 `[ManualCommit]` [#I3XKNP](https://gitee.com/dotnetchina/Furion/issues/I3XKNP)
   - [调整] **`DbContext.TenantIdQueryFilterExpression` 名称为 `DbContext.BuildTenantQueryFilter` [#I3XKTB](https://gitee.com/dotnetchina/Furion/issues/I3XKTB)**
+  - [调整] `[SkipScan]` 名称为 `[SuppressSniffer]` [#I3XN5N](https://gitee.com/dotnetchina/Furion/issues/I3XN5N)
+  - [调整] `[SkipProxy]` 名称为 `[SuppressProxy]` [#I3XN7O](https://gitee.com/dotnetchina/Furion/issues/I3XN7O)
   - [重构] `Sql` 执行，性能提升 20% [#I3W33U](https://gitee.com/dotnetchina/Furion/issues/I3W33U)
 
 - **问题修复**
 
+  - [修复] `.ToPagedList()` 分页方法传入小于或等于 0 的页码 [#I3XNAN](https://gitee.com/dotnetchina/Furion/issues/I3XNAN)
+  - [修复] `JSON` 序列化默认 `DateTimeOffset` 异常 [#I3XMOL](https://gitee.com/dotnetchina/Furion/issues/I3XMOL)
   - [修复] 继承 `Serlig` 日志在 `Worker Service` 生成重复日志 bug [#I3WA0L](https://gitee.com/dotnetchina/Furion/issues/I3WA0L) [!331](https://gitee.com/dotnetchina/Furion/pulls/331)
   - [修复] `粘土对象` 动态添加 `Clay` 类型 bug [#I3W9LW](https://gitee.com/dotnetchina/Furion/issues/I3W9LW)
   - [修复] `ValidationTypes.Numeric` 校验数值类型正则表达式错误 [#I3WADS](https://gitee.com/dotnetchina/Furion/issues/I3WADS)

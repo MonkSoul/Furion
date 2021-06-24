@@ -5,7 +5,7 @@ namespace Furion.Core
     /// <summary>
     /// 权限常量
     /// </summary>
-    [SkipScan]
+    [SuppressSniffer]
     public static class SecurityConst
     {
         public const string ViewRoles = "ViewRoles";

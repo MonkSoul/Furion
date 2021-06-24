@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.10.0
+// 框架版本：2.10.1
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -17,7 +17,7 @@ namespace Furion.DataEncryption.Extensions
     /// <summary>
     /// DataEncryption 字符串加密拓展
     /// </summary>
-    [SkipScan]
+    [SuppressSniffer]
     public static class DataEncryptionStringExtensions
     {
         /// <summary>
