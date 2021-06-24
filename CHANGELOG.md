@@ -1,4 +1,6 @@
-## v2.10.0 （未发布）
+## v2.10.0 （当前版本）
+
+> 该版本有多个破坏性更改，更新时请认真查看。
 
 - **新特性**
 
@@ -32,7 +34,11 @@
 
 - **问答答疑**
 
+  - [答疑] `dapper` 多个数据源如何继承 [#I3WUOI](https://gitee.com/dotnetchina/Furion/issues/I3WUOI)
+  - [答疑] 关于 `SpareTime` 多次执行问题[#I3XEQU](https://gitee.com/dotnetchina/Furion/issues/I3XEQU)
+
 - **不做实现**
+  - [废弃] `SpareTIme` 新增 `Dashboard` 控制台看板，同时可以对任务进行暂停、删除、查看[#I3XELY](https://gitee.com/dotnetchina/Furion/issues/I3XELY)
 
 ---
 
@@ -79,14 +85,11 @@
   - [答疑] 远程请求 `SetBody` 参数识别不了[#I3WBM1](https://gitee.com/dotnetchina/Furion/issues/I3WBM1)
   - [答疑] `Scoped.Create` 里执行 `sql.SqlNonQuery()` 或者 `obj.insert()` 问题[#I3WB5O](https://gitee.com/dotnetchina/Furion/issues/I3WB5O)
   - [答疑] 调用函数或存储过程，怎么出参数据自定义对象？如 `Oracle`数据库的数组或记录 [#I3W71W](https://gitee.com/dotnetchina/Furion/issues/I3W71W)
-  - [答疑] `dapper` 多个数据源如何继承 [#I3WUOI](https://gitee.com/dotnetchina/Furion/issues/I3WUOI)
-  - [答疑] 关于 `SpareTime` 多次执行问题[#I3XEQU](https://gitee.com/dotnetchina/Furion/issues/I3XEQU)
 
 - **不做实现**
 
   - [无效] 数据库小写下划线字段，无法自动映射成小驼峰 [#I3W021](https://gitee.com/dotnetchina/Furion/issues/I3W021)
   - [废弃] `EfCore 5` 直接多对多时进行 `SeedData` [#I3WDRJ](https://gitee.com/dotnetchina/Furion/issues/I3WDRJ)
-  - [废弃] `SpareTIme` 新增 `Dashboard` 控制台看板，同时可以对任务进行暂停、删除、查看[#I3XELY](https://gitee.com/dotnetchina/Furion/issues/I3XELY)
 
 ---
 

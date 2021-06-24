@@ -8,6 +8,50 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 **此章节只记录重大版本更新日志，小迭代版本不做更新。**想了解更多更新内容，可查阅 [CHANGELOG.md](https://gitee.com/dotnetchina/Furion/blob/master/CHANGELOG.md)
 
+## v2.10.0 （当前版本）
+
+> 该版本有多个破坏性更改，更新时请认真查看。
+
+- **新特性**
+
+  - [新增] `app.UseUnifyResultStatusCodes()` 可配置修改返回状态码 [#I3VZQH](https://gitee.com/dotnetchina/Furion/issues/I3VZQH)
+  - [新增] 远程请求添加默认 `User-Agent` 头 [#I3W17C](https://gitee.com/dotnetchina/Furion/issues/I3W17C)
+  - [新增] 支持 `Sql` 高级代理切换数据库上下文定位器 [#I3XFP6](https://gitee.com/dotnetchina/Furion/issues/I3XFP6) [#I3XDCR](https://gitee.com/dotnetchina/Furion/issues/I3XDCR)
+
+- **突破性变化**
+
+  - [移除] **`FakeDelete` 假删除/软删除所有功能 [#I3XKII](https://gitee.com/dotnetchina/Furion/issues/I3XKII)**
+  - [调整] `[NonAutomatic]` 特性名称为 `[Manual]` [#I3XKKX](https://gitee.com/dotnetchina/Furion/issues/I3XKKX)
+  - [调整] `[NotChangedListener]` 特性名称为 `[SuppressChangedListener]` [#I3XKLZ](https://gitee.com/dotnetchina/Furion/issues/I3XKLZ)
+  - [调整] `[ManualSaveChanges]` 名称为 `[ManualCommit]` [#I3XKNP](https://gitee.com/dotnetchina/Furion/issues/I3XKNP)
+  - [调整] **`DbContext.TenantIdQueryFilterExpression` 名称为 `DbContext.BuildTenantQueryFilter` [#I3XKTB](https://gitee.com/dotnetchina/Furion/issues/I3XKTB)**
+  - [重构] `Sql` 执行，性能提升 20% [#I3W33U](https://gitee.com/dotnetchina/Furion/issues/I3W33U)
+
+- **问题修复**
+
+  - [修复] 继承 `Serlig` 日志在 `Worker Service` 生成重复日志 bug [#I3WA0L](https://gitee.com/dotnetchina/Furion/issues/I3WA0L) [!331](https://gitee.com/dotnetchina/Furion/pulls/331)
+  - [修复] `粘土对象` 动态添加 `Clay` 类型 bug [#I3W9LW](https://gitee.com/dotnetchina/Furion/issues/I3W9LW)
+  - [修复] `ValidationTypes.Numeric` 校验数值类型正则表达式错误 [#I3WADS](https://gitee.com/dotnetchina/Furion/issues/I3WADS)
+
+- **其他更改**
+
+  - [移除] 框架无用代码、优化代码
+  - [优化] `Furion` 在 `非 Web` 环境下性能
+
+- **文档变化**
+
+  - [更新] 远程请求、日志、数据库上下文、远程请求文档
+
+- **问答答疑**
+
+  - [答疑] `dapper` 多个数据源如何继承 [#I3WUOI](https://gitee.com/dotnetchina/Furion/issues/I3WUOI)
+  - [答疑] 关于 `SpareTime` 多次执行问题[#I3XEQU](https://gitee.com/dotnetchina/Furion/issues/I3XEQU)
+
+- **不做实现**
+  - [废弃] `SpareTIme` 新增 `Dashboard` 控制台看板，同时可以对任务进行暂停、删除、查看[#I3XELY](https://gitee.com/dotnetchina/Furion/issues/I3XELY)
+
+---
+
 ## v2.9.0 （当前版本）
 
 - **新特性**
@@ -51,14 +95,11 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [答疑] 远程请求 `SetBody` 参数识别不了[#I3WBM1](https://gitee.com/dotnetchina/Furion/issues/I3WBM1)
   - [答疑] `Scoped.Create` 里执行 `sql.SqlNonQuery()` 或者 `obj.insert()` 问题[#I3WB5O](https://gitee.com/dotnetchina/Furion/issues/I3WB5O)
   - [答疑] 调用函数或存储过程，怎么出参数据自定义对象？如 `Oracle`数据库的数组或记录 [#I3W71W](https://gitee.com/dotnetchina/Furion/issues/I3W71W)
-  - [答疑] `dapper` 多个数据源如何继承 [#I3WUOI](https://gitee.com/dotnetchina/Furion/issues/I3WUOI)
-  - [答疑] 关于 `SpareTime` 多次执行问题[#I3XEQU](https://gitee.com/dotnetchina/Furion/issues/I3XEQU)
 
 - **不做实现**
 
   - [无效] 数据库小写下划线字段，无法自动映射成小驼峰 [#I3W021](https://gitee.com/dotnetchina/Furion/issues/I3W021)
   - [废弃] `EfCore 5` 直接多对多时进行 `SeedData` [#I3WDRJ](https://gitee.com/dotnetchina/Furion/issues/I3WDRJ)
-  - [废弃] `SpareTIme` 新增 `Dashboard` 控制台看板，同时可以对任务进行暂停、删除、查看[#I3XELY](https://gitee.com/dotnetchina/Furion/issues/I3XELY)
 
 ---
 
