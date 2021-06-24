@@ -64,7 +64,7 @@ namespace Furion.DatabaseAccessor
             var method = actionDescriptor.MethodInfo;
 
             // 判断是否手动提交
-            var isManualSaveChanges = method.IsDefined(typeof(ManualSaveChangesAttribute), true);
+            var isManualSaveChanges = method.IsDefined(typeof(ManualCommitAttribute), true);
 
             // 判断是否贴有工作单元特性
             if (!method.IsDefined(typeof(UnitOfWorkAttribute), true))

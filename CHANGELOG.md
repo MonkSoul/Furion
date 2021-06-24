@@ -1,3 +1,41 @@
+## v2.10.0 （未发布）
+
+- **新特性**
+
+  - [新增] `app.UseUnifyResultStatusCodes()` 可配置修改返回状态码 [#I3VZQH](https://gitee.com/dotnetchina/Furion/issues/I3VZQH)
+  - [新增] 远程请求添加默认 `User-Agent` 头 [#I3W17C](https://gitee.com/dotnetchina/Furion/issues/I3W17C)
+  - [新增] 支持 `Sql` 高级代理切换数据库上下文定位器 [#I3XFP6](https://gitee.com/dotnetchina/Furion/issues/I3XFP6) [#I3XDCR](https://gitee.com/dotnetchina/Furion/issues/I3XDCR)
+
+- **突破性变化**
+
+  - [移除] **`FakeDelete` 假删除/软删除所有功能 [#I3XKII](https://gitee.com/dotnetchina/Furion/issues/I3XKII)**
+  - [调整] `[NonAutomatic]` 特性名称为 `[Manual]` [#I3XKKX](https://gitee.com/dotnetchina/Furion/issues/I3XKKX)
+  - [调整] `[NotChangedListener]` 特性名称为 `[SuppressChangedListener]` [#I3XKLZ](https://gitee.com/dotnetchina/Furion/issues/I3XKLZ)
+  - [调整] `[ManualSaveChanges]` 名称为 `[ManualCommit]` [#I3XKNP](https://gitee.com/dotnetchina/Furion/issues/I3XKNP)
+  - [调整] **`DbContext.TenantIdQueryFilterExpression` 名称为 `DbContext.BuildTenantQueryFilter` [#I3XKTB](https://gitee.com/dotnetchina/Furion/issues/I3XKTB)**
+  - [重构] `Sql` 执行，性能提升 20% [#I3W33U](https://gitee.com/dotnetchina/Furion/issues/I3W33U)
+
+- **问题修复**
+
+  - [修复] 继承 `Serlig` 日志在 `Worker Service` 生成重复日志 bug [#I3WA0L](https://gitee.com/dotnetchina/Furion/issues/I3WA0L) [!331](https://gitee.com/dotnetchina/Furion/pulls/331)
+  - [修复] `粘土对象` 动态添加 `Clay` 类型 bug [#I3W9LW](https://gitee.com/dotnetchina/Furion/issues/I3W9LW)
+  - [修复] `ValidationTypes.Numeric` 校验数值类型正则表达式错误 [#I3WADS](https://gitee.com/dotnetchina/Furion/issues/I3WADS)
+
+- **其他更改**
+
+  - [移除] 框架无用代码、优化代码
+  - [优化] `Furion` 在 `非 Web` 环境下性能
+
+- **文档变化**
+
+  - [更新] 远程请求、日志、数据库上下文、远程请求文档
+
+- **问答答疑**
+
+- **不做实现**
+
+---
+
 ## v2.9.0 （当前版本）
 
 - **新特性**
@@ -8,13 +46,9 @@
   - [新增] 动态 WebAPI 支持 `[FromRoute]` 非必填（选填）参数设置 [#I3VFIM](https://gitee.com/dotnetchina/Furion/issues/I3VFIM)
   - [新增] 动态 WebAPI 参数支持配置路由约束 [#I3VFIR](https://gitee.com/dotnetchina/Furion/issues/I3VFIR)
   - [新增] `MD5` 和 `DESC` 加密支持 `大写` 输出 [#326](https://gitee.com/dotnetchina/Furion/pulls/326)
-  - [新增] `app.UseUnifyResultStatusCodes()` 可配置修改返回状态码 [#I3VZQH](https://gitee.com/dotnetchina/Furion/issues/I3VZQH)
-  - [新增] 远程请求添加默认 `User-Agent` 头 [#I3W17C](https://gitee.com/dotnetchina/Furion/issues/I3W17C)
-  - [新增] 支持 `Sql` 高级代理切换数据库上下文定位器 [#I3XFP6](https://gitee.com/dotnetchina/Furion/issues/I3XFP6) [#I3XDCR](https://gitee.com/dotnetchina/Furion/issues/I3XDCR)
 
 - **突破性变化**
 
-  - [重构] `Sql` 执行，性能提升 20% [#I3W33U](https://gitee.com/dotnetchina/Furion/issues/I3W33U)
   - [新增] `Furion` 所有包生成 `.snupkg` 包，支持开发阶段直接调试 `Furion` 所有包源码 [#I3VFIX](https://gitee.com/dotnetchina/Furion/issues/I3VFIX)
   - [调整] `repository.BuildChange()` 方法的返回值，多返回一个 `IServiceScope` 对象 [#I3VX3D](https://gitee.com/dotnetchina/Furion/issues/I3VX3D)
   - [调整] `JWT` 刷新 `Token` 方法 `AutoRefreshToken` 参数 `days` 改为 `minutes` [#I3VXNB](https://gitee.com/dotnetchina/Furion/issues/I3VXNB)
@@ -24,9 +58,6 @@
   - [修复] `App.GetOptionsSnapshot<>` 从根服务解析异常 bug [#I3VS2X](https://gitee.com/dotnetchina/Furion/issues/I3VS2X)
   - [修复] 修复远程请求如果出现异常，返回 `Stream` 为 null 导致异常的问题 [#I3VSTU](https://gitee.com/dotnetchina/Furion/issues/I3VSTU)
   - [修复] 如果实体被跟踪后，无法执行删除操作 [#I3W08P](https://gitee.com/dotnetchina/Furion/issues/I3W08P)
-  - [修复] 继承 `Serlig` 日志在 `Worker Service` 生成重复日志 bug [#I3WA0L](https://gitee.com/dotnetchina/Furion/issues/I3WA0L) [!331](https://gitee.com/dotnetchina/Furion/pulls/331)
-  - [修复] `粘土对象` 动态添加 `Clay` 类型 bug [#I3W9LW](https://gitee.com/dotnetchina/Furion/issues/I3W9LW)
-  - [修复] `ValidationTypes.Numeric` 校验数值类型正则表达式错误 [#I3WADS](https://gitee.com/dotnetchina/Furion/issues/I3WADS)
 
 - **其他更改**
 

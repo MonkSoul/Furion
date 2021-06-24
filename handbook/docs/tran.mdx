@@ -179,9 +179,9 @@ using (var scope = new TransactionScope(TransactionScopeOption.Required, new Tra
 
 `[UnitOfWork]` 特性只能用于控制器的 `Action` 中，一旦贴了 `[UnitOfWork]` 特性后，那么该请求自动启用工作单元模式，要么成功，要么失败。
 
-### 9.26.4.2 `[ManualSaveChanges]` 特性
+### 9.26.4.2 `[ManualCommit]` 特性
 
-默认情况下，`Furion` 框架会在一次成功请求之后自动调用 `SaveChanges()` 方法，如果选择手动调用 `SaveChanges()` 方法，可以在控制器 `Action` 中贴 `[ManualSaveChanges]` 特性即可。
+默认情况下，`Furion` 框架会在一次成功请求之后自动调用 `SaveChanges()` 方法，如果选择手动调用 `SaveChanges()` 方法，可以在控制器 `Action` 中贴 `[ManualCommit]` 特性即可。
 
 ## 9.26.5 反馈与建议
 

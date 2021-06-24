@@ -233,7 +233,7 @@ namespace Furion.EntityFramework.Core
 
         public void OnCreating(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator)
         {
-            entityBuilder.HasQueryFilter(TenantIdQueryFilterExpression(entityBuilder, dbContext));
+            entityBuilder.HasQueryFilter(BuildTenantQueryFilter(entityBuilder, dbContext));
         }
     }
 }
@@ -271,7 +271,7 @@ namespace Furion.EntityFramework.Core
 
         public void OnCreating(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator)
         {
-            entityBuilder.HasQueryFilter(TenantIdQueryFilterExpression(entityBuilder, dbContext));
+            entityBuilder.HasQueryFilter(BuildTenantQueryFilter(entityBuilder, dbContext));
         }
 
         protected override void SavingChangesEvent(DbContextEventData eventData, InterceptionResult<int> result)

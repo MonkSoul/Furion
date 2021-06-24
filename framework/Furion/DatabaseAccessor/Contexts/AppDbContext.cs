@@ -187,7 +187,7 @@ namespace Furion.DatabaseAccessor
         /// <param name="dbContext">数据库上下文</param>
         /// <param name="onTableTenantId">多租户Id属性名</param>
         /// <returns>表达式</returns>
-        protected virtual LambdaExpression TenantIdQueryFilterExpression(EntityTypeBuilder entityBuilder, DbContext dbContext, string onTableTenantId = default)
+        protected virtual LambdaExpression BuildTenantQueryFilter(EntityTypeBuilder entityBuilder, DbContext dbContext, string onTableTenantId = default)
         {
             onTableTenantId ??= Db.OnTableTenantId;
 
