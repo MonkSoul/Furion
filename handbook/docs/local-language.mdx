@@ -52,7 +52,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 ### 21.3.1 创建 `Lang.cs` 类
 
-`Furion` 框架采用一种比较特殊的方式动态注入多语言机制，所以必须遵守一个约定，那就是**必须在 `Web启动项目层` 根目录下添加 `Lang.cs` 空类**，也就是和 `Startup.cs` 和 `Progame.cs` 同级。
+`Furion` 框架采用一种比较特殊的方式动态注入多语言机制，所以必须遵守一个约定，那就是**必须在 `Web启动项目层` 根目录下添加 `Lang.cs` 空类**，也就是和 `Startup.cs` 和 `Program.cs` 同级。
 
 ```cs title="Furion.Web.Entry\Lang.cs"
 namespace Furion.Web.Entry
