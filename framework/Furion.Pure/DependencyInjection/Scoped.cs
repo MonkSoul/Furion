@@ -36,7 +36,7 @@ namespace Furion.DependencyInjection
             using var scoped = CreateScope(ref scopeFactory);
 
             // 执行方法
-            handler.Invoke(scopeFactory, scoped);
+            handler(scopeFactory, scoped);
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Furion.DependencyInjection
             using var scoped = CreateScope(ref scopeFactory);
 
             // 执行方法
-            await handler.Invoke(scopeFactory, scoped);
+            await handler(scopeFactory, scoped);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Furion.DependencyInjection
             using var scoped = CreateScope(ref scopeFactory);
 
             // 执行方法
-            var result = handler.Invoke(scopeFactory, scoped);
+            var result = handler(scopeFactory, scoped);
 
             return result;
         }
@@ -93,7 +93,7 @@ namespace Furion.DependencyInjection
             using var scoped = CreateScope(ref scopeFactory);
 
             // 执行方法
-            var result = await handler.Invoke(scopeFactory, scoped);
+            var result = await handler(scopeFactory, scoped);
 
             return result;
         }

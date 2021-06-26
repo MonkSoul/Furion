@@ -12,6 +12,7 @@
 
 using Furion.DependencyInjection;
 using System;
+using System.Threading.Tasks;
 
 namespace Furion.EventBus
 {
@@ -27,6 +28,16 @@ namespace Furion.EventBus
         /// <param name="messageId"></param>
         /// <param name="messageHandlers"></param>
         public static void Subscribe<T>(string messageId, params Action<string, object>[] messageHandlers)
+        {
+            InternalMessageCenter.Instance.Subscribe<T>(messageId, messageHandlers);
+        }
+
+        /// <summary>
+        /// 订阅消息
+        /// </summary>
+        /// <param name="messageId"></param>
+        /// <param name="messageHandlers"></param>
+        public static void Subscribe<T>(string messageId, params Func<string, object, Task>[] messageHandlers)
         {
             InternalMessageCenter.Instance.Subscribe<T>(messageId, messageHandlers);
         }
