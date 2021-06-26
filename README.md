@@ -84,7 +84,7 @@ Kangaroo has the characteristics of **long legs, bagging and self running**.
 - `Docker Hub` online Image
 
 ```shell
-docker run --name furion -p 5000:80 monksoul/furion:v2.10.1
+docker run --name furion -p 5000:80 monksoul/furion:v2.10.2
 ```
 
 - `Manually` pack Image.
@@ -92,13 +92,13 @@ docker run --name furion -p 5000:80 monksoul/furion:v2.10.1
 Open `CMD/Shell/PowerShell` and enter the `Furion` project root directory to package `Furion` image:
 
 ```shell
-docker build -t furion:v2.10.1 .
+docker build -t furion:v2.10.2 .
 ```
 
 When it build successful,then run `docker run`：
 
 ```shell
-docker run --name furion -p 5000:80 furion:v2.10.1
+docker run --name furion -p 5000:80 furion:v2.10.2
 ```
 
 ## 🥥 Packages

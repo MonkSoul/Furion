@@ -54,6 +54,13 @@ public class UserChangeSubscribeHandler : ISubscribeHandler
     {
         Console.WriteLine("我是"+eventId);
     }
+
+    // 支持异步
+    [SubscribeMessage("delete:user")]
+    public async Task SupportAsync(string eventId, object payload)
+    {
+        await MethodAsync();
+    }
 }
 ```
 

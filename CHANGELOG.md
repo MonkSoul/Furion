@@ -4,6 +4,7 @@
 
 - **新特性**
 
+  - [新增] `ISubscribeHandler` 支持异步方法定义 [#I3XYHJ](https://gitee.com/dotnetchina/Furion/issues/I3XYHJ)
   - [新增] `app.UseUnifyResultStatusCodes()` 可配置修改返回状态码 [#I3VZQH](https://gitee.com/dotnetchina/Furion/issues/I3VZQH)
   - [新增] 远程请求添加默认 `User-Agent` 头 [#I3W17C](https://gitee.com/dotnetchina/Furion/issues/I3W17C)
   - [新增] 支持 `Sql` 高级代理切换数据库上下文定位器 [#I3XFP6](https://gitee.com/dotnetchina/Furion/issues/I3XFP6) [#I3XDCR](https://gitee.com/dotnetchina/Furion/issues/I3XDCR)
@@ -21,6 +22,7 @@
 
 - **问题修复**
 
+  - [修复] 修复定时任务使用异步委托导致程序终止 bug [#I3XVZ0](https://gitee.com/dotnetchina/Furion/issues/I3XVZ0)
   - [修复] `.ToPagedList()` 分页方法传入小于或等于 0 的页码 [#I3XNAN](https://gitee.com/dotnetchina/Furion/issues/I3XNAN)
   - [修复] `JSON` 序列化默认 `DateTimeOffset` 异常 [#I3XMOL](https://gitee.com/dotnetchina/Furion/issues/I3XMOL)
   - [修复] 继承 `Serlig` 日志在 `Worker Service` 生成重复日志 bug [#I3WA0L](https://gitee.com/dotnetchina/Furion/issues/I3WA0L) [!331](https://gitee.com/dotnetchina/Furion/pulls/331)
@@ -40,6 +42,7 @@
 
   - [答疑] `dapper` 多个数据源如何继承 [#I3WUOI](https://gitee.com/dotnetchina/Furion/issues/I3WUOI)
   - [答疑] 关于 `SpareTime` 多次执行问题[#I3XEQU](https://gitee.com/dotnetchina/Furion/issues/I3XEQU)
+  - [答疑] 选项更改通知（热更新）：数据库里的数据更改了如何通知选项进行改变？ [#I3XYI8](https://gitee.com/dotnetchina/Furion/issues/I3XYI8)
 
 - **不做实现**
   - [废弃] `SpareTIme` 新增 `Dashboard` 控制台看板，同时可以对任务进行暂停、删除、查看[#I3XELY](https://gitee.com/dotnetchina/Furion/issues/I3XELY)
