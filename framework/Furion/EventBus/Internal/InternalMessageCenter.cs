@@ -4,9 +4,9 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.10.2
-// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
-//          Github：https://github.com/monksoul/Furion
+// 框架版本：2.10.3
+// 源码地址：Gitee： https://gitee.com/dotnetchina/Furion 
+//          Github：https://github.com/monksoul/Furion 
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
@@ -101,9 +101,7 @@ namespace Furion.EventBus
         /// <param name="messageId"></param>
         internal void Unsubscribe(string messageId)
         {
-            if (!MessageHandlerQueues.ContainsKey(messageId)) return;
-
-            MessageHandlerQueues.TryRemove(messageId, out _);
+            _ = MessageHandlerQueues.TryRemove(messageId, out _);
         }
 
         /// <summary>
@@ -141,12 +139,14 @@ namespace Furion.EventBus
 
             // 判断当前类型是否已经注册过
             var uniqueMessageId = $"{t.FullName}_{messageId}";
-            if (TypeMessageIdsRegisterTable.Contains(uniqueMessageId)) return;
-            TypeMessageIdsRegisterTable.Add(uniqueMessageId);
+            if (!TypeMessageIdsRegisterTable.Contains(uniqueMessageId))
+            {
+                TypeMessageIdsRegisterTable.Add(uniqueMessageId);
+            }
 
             // 如果没有包含事件Id，则添加
-            if (!MessageHandlerQueues.ContainsKey(messageId)) MessageHandlerQueues.TryAdd(messageId, messageHandlers);
-            else
+            var isAdded = MessageHandlerQueues.TryAdd(messageId, messageHandlers);
+            if (!isAdded)
             {
                 MessageHandlerQueues[messageId] = MessageHandlerQueues[messageId].Concat(messageHandlers).ToArray();
             }
