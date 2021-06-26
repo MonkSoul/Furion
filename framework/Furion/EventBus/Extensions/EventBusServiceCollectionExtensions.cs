@@ -13,9 +13,11 @@
 using Furion;
 using Furion.DependencyInjection;
 using Furion.EventBus;
+using Furion.Extensions;
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -42,8 +44,7 @@ namespace Microsoft.Extensions.DependencyInjection
                          .Where(m => m.IsDefined(typeof(SubscribeMessageAttribute), false)
                                                     && m.GetParameters().Length == 2
                                                     && m.GetParameters()[0].ParameterType == typeof(string)
-                                                    && m.GetParameters()[1].ParameterType == typeof(object)
-                                                    && m.ReturnType == typeof(void))
+                                                    && m.GetParameters()[1].ParameterType == typeof(object))
                          .GroupBy(m => m.DeclaringType));
 
             if (!typeMethods.Any()) return services;
@@ -58,8 +59,11 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 foreach (var method in item)
                 {
+                    // 判断是否是异步方法
+                    var isAsyncMethod = method.IsAsync();
+
                     // 创建委托类型
-                    var action = (Action<string, object>)Delegate.CreateDelegate(typeof(Action<string, object>), typeInstance, method.Name);
+                    var action = Delegate.CreateDelegate(isAsyncMethod ? typeof(Func<string, object, Task>) : typeof(Action<string, object>), typeInstance, method.Name);
 
                     // 获取所有消息特性
                     var subscribeMessageAttributes = method.GetCustomAttributes<SubscribeMessageAttribute>();
@@ -69,7 +73,14 @@ namespace Microsoft.Extensions.DependencyInjection
                     {
                         if (string.IsNullOrWhiteSpace(subscribeMessageAttribute.MessageId)) continue;
 
-                        InternalMessageCenter.Instance.Subscribe(item.Key, subscribeMessageAttribute.MessageId, action);
+                        if (isAsyncMethod)
+                        {
+                            InternalMessageCenter.Instance.Subscribe(item.Key, subscribeMessageAttribute.MessageId, (Func<string, object, Task>)action);
+                        }
+                        else
+                        {
+                            InternalMessageCenter.Instance.Subscribe(item.Key, subscribeMessageAttribute.MessageId, (Action<string, object>)action);
+                        }
                     }
                 }
             }

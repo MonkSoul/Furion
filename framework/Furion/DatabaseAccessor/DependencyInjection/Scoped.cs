@@ -37,7 +37,7 @@ namespace Furion.DependencyInjection
 
             // 创建一个数据库上下文池
             var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
-            handler.Invoke(scopeFactory, scoped);
+            handler(scopeFactory, scoped);
             dbContextPool.SavePoolNow();
         }
 
@@ -56,7 +56,7 @@ namespace Furion.DependencyInjection
 
             // 创建一个数据库上下文池
             var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
-            await handler.Invoke(scopeFactory, scoped);
+            await handler(scopeFactory, scoped);
             dbContextPool.SavePoolNow();
         }
 
@@ -77,7 +77,7 @@ namespace Furion.DependencyInjection
 
             // 创建一个数据库上下文池
             var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
-            var result = handler.Invoke(scopeFactory, scoped);
+            var result = handler(scopeFactory, scoped);
             dbContextPool.SavePoolNow();
 
             return result;
@@ -100,7 +100,7 @@ namespace Furion.DependencyInjection
 
             // 创建一个数据库上下文池
             var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
-            var result = await handler.Invoke(scopeFactory, scoped);
+            var result = await handler(scopeFactory, scoped);
             dbContextPool.SavePoolNow();
 
             return result;

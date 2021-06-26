@@ -111,7 +111,7 @@ namespace Furion.Extensions
         /// <returns></returns>
         internal static bool IsAsync(this MethodInfo method)
         {
-            return method.ReturnType.IsAsync();
+            return method.GetCustomAttribute<AsyncMethodBuilderAttribute>() != null || method.ReturnType.IsAsync();
         }
 
         /// <summary>
