@@ -37,16 +37,16 @@ sidebar_label: 29. 粘土对象
 dynamic clay = new Clay();
 
 // 从现有的对象创建
-var clay2 = Clay.Object(new {});
+dynamic clay2 = Clay.Object(new {});
 
 // 从 json 字符串创建，可用于第三方 API 对接，非常有用
-var clay3 = Clay.Parse(@"{""foo"":""json"", ""bar"":100, ""nest"":{ ""foobar"":true } }");
+dynamic clay3 = Clay.Parse(@"{""foo"":""json"", ""bar"":100, ""nest"":{ ""foobar"":true } }");
 ```
 
 ### 29.3.2 读取/获取属性
 
 ```cs
-var clay = Clay.Object(new
+dynamic clay = Clay.Object(new
 {
     Foo = "json",
     Bar = 100,
@@ -65,7 +65,7 @@ var r4 = clay["Nest"]["Foobar"]; // 还可以和 Javascript 一样通过索引�
 ### 29.3.3 新增属性
 
 ```cs
-var clay = Clay.Object(new
+dynamic clay = Clay.Object(new
 {
     Foo = "json",
     Bar = 100,
@@ -84,7 +84,7 @@ clay.Obj2 = new { Foo = "abc", Bar = 100 }; // 新增一个匿名类
 ### 29.3.4 更新属性值
 
 ```cs
-var clay = Clay.Object(new
+dynamic clay = Clay.Object(new
 {
     Foo = "json",
     Bar = 100,
@@ -103,7 +103,7 @@ clay.Nest["Foobar"] = true;
 ### 29.3.5 删除属性
 
 ```cs
-var clay = Clay.Object(new
+dynamic clay = Clay.Object(new
 {
     Foo = "json",
     Bar = 100,
@@ -124,7 +124,7 @@ clay.Arr(1);    // 支持数组作为方法删除
 ### 29.3.6 判断属性是否存在
 
 ```cs
-var clay = Clay.Object(new
+dynamic clay = Clay.Object(new
 {
     Foo = "json",
     Bar = 100,
@@ -145,7 +145,7 @@ var d = clay.Foooo(); // false;
 ### 29.3.7 遍历对象
 
 ```cs
-var clay = Clay.Object(new
+dynamic clay = Clay.Object(new
 {
     Foo = "json",
     Bar = 100,
@@ -205,7 +205,7 @@ var obj2 = clay.Solidify<City>();
 ### 29.3.10 输出 `JSON`
 
 ```cs
-var clay = Clay.Object(new
+dynamic clay = Clay.Object(new
 {
     Foo = "json",
     Bar = 100,
@@ -223,7 +223,7 @@ var json = clay.ToString(); // "{\"Foo\":\"json\",\"Bar\":100,\"Nest\":{\"Foobar
 ### 29.3.11 输出 `XML` 对象
 
 ```cs
-var clay = Clay.Object(new
+dynamic clay = Clay.Object(new
 {
     Foo = "json",
     Bar = 100,
