@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.10.3
+// 框架版本：2.10.4
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -50,7 +50,7 @@ namespace Furion
         /// <summary>
         /// 全局配置选项
         /// </summary>
-        public static readonly IConfiguration Configuration;
+        public static IConfiguration Configuration { get; internal set; }
 
         /// <summary>
         /// 获取Web主机环境，如，是否是开发环境，生产环境等

@@ -19,6 +19,9 @@ var value = configuration["xxx:xxx"];
 
 // 获取指定节点值并转成 T 类型
 var data = App.GetConfig<TConfig>("key:key2");
+
+// 重载/刷新配置
+App.Configuration.Reload();
 ```
 
 ## 1.3 获取环境对象
