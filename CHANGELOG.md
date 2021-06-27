@@ -4,6 +4,7 @@
 
 - **新特性**
 
+  - [新增] `App.Configuration.Reload()` 拓展 [#I3XYI8](https://gitee.com/dotnetchina/Furion/issues/I3XYI8)
   - [新增] `ISubscribeHandler` 支持异步方法定义 [#I3XYHJ](https://gitee.com/dotnetchina/Furion/issues/I3XYHJ)
   - [新增] `app.UseUnifyResultStatusCodes()` 可配置修改返回状态码 [#I3VZQH](https://gitee.com/dotnetchina/Furion/issues/I3VZQH)
   - [新增] 远程请求添加默认 `User-Agent` 头 [#I3W17C](https://gitee.com/dotnetchina/Furion/issues/I3W17C)
