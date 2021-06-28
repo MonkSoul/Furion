@@ -12,6 +12,7 @@
 
 using Furion.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace Furion.Extensions
 {
@@ -25,11 +26,12 @@ namespace Furion.Extensions
         /// 重载配置
         /// </summary>
         /// <param name="configuration"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static IConfiguration Reload(this IConfiguration configuration)
+        public static IConfiguration Reload(this IConfiguration configuration, IServiceProvider serviceProvider = default)
         {
             _ = configuration;
-            return App.Configuration = App.GetService<IConfiguration>(App.RootServices);
+            return App.Configuration = App.GetService<IConfiguration>(serviceProvider ?? App.RootServices);
         }
     }
 }
