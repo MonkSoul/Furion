@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.10.5
+// 框架版本：2.10.6
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -128,7 +128,7 @@ namespace Furion.TaskScheduler
         /// <param name="cancelInNoneNextTime"></param>
         /// <param name="cronFormat">配置 Cron 表达式格式化</param>
         /// <param name="executeType"></param>
-        public static void Do(string expression, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, CronFormat cronFormat = CronFormat.Standard, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
+        public static void Do(string expression, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, CronFormat? cronFormat = default, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
         {
             Do(() => GetCronNextOccurrence(expression, cronFormat), doWhat, workerName, description, startNow, cancelInNoneNextTime, executeType);
         }
@@ -144,7 +144,7 @@ namespace Furion.TaskScheduler
         /// <param name="cancelInNoneNextTime"></param>
         /// <param name="cronFormat">配置 Cron 表达式格式化</param>
         /// <param name="executeType"></param>
-        public static void Do(string expression, Func<SpareTimer, long, Task> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, CronFormat cronFormat = CronFormat.Standard, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
+        public static void Do(string expression, Func<SpareTimer, long, Task> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, CronFormat? cronFormat = default, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
         {
             Do(() => GetCronNextOccurrence(expression, cronFormat), doWhat, workerName, description, startNow, cancelInNoneNextTime, executeType);
         }
@@ -434,7 +434,7 @@ namespace Furion.TaskScheduler
         /// <param name="stoppingToken"></param>
         /// <param name="cronFormat"></param>
         /// <returns></returns>
-        public static Task DoAsync(string expression, Action doWhat, CancellationToken stoppingToken, CronFormat cronFormat = CronFormat.Standard)
+        public static Task DoAsync(string expression, Action doWhat, CancellationToken stoppingToken, CronFormat? cronFormat = default)
         {
             return DoAsync(() => GetCronNextOccurrence(expression, cronFormat), doWhat, stoppingToken);
         }
@@ -448,7 +448,7 @@ namespace Furion.TaskScheduler
         /// <param name="stoppingToken"></param>
         /// <param name="cronFormat"></param>
         /// <returns></returns>
-        public static Task DoAsync(string expression, Func<Task> doWhat, CancellationToken stoppingToken, CronFormat cronFormat = CronFormat.Standard)
+        public static Task DoAsync(string expression, Func<Task> doWhat, CancellationToken stoppingToken, CronFormat? cronFormat = default)
         {
             return DoAsync(() => GetCronNextOccurrence(expression, cronFormat), doWhat, stoppingToken);
         }
@@ -608,10 +608,17 @@ namespace Furion.TaskScheduler
         /// <param name="expression"></param>
         /// <param name="cronFormat"></param>
         /// <returns></returns>
-        public static DateTime? GetCronNextOccurrence(string expression, CronFormat cronFormat = CronFormat.Standard)
+        public static DateTime? GetCronNextOccurrence(string expression, CronFormat? cronFormat = default)
         {
+            // 自动化 CronFormat
+            if (cronFormat == default)
+            {
+                var parts = expression.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                cronFormat = parts.Length <= 5 ? CronFormat.Standard : CronFormat.IncludeSeconds;
+            }
+
             // 解析 Cron 表达式
-            var cronExpression = CronExpression.Parse(expression, cronFormat);
+            var cronExpression = CronExpression.Parse(expression, cronFormat.Value);
 
             // 获取下一个执行时间
             var nextTime = cronExpression.GetNextOccurrence(DateTimeOffset.Now, TimeZoneInfo.Local);

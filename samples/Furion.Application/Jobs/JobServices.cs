@@ -42,7 +42,7 @@ namespace Furion.Application
             SpareTime.Do(cron, (t, i) =>
             {
                 Console.WriteLine($"{t.WorkerName} -{t.Description} - {DateTime.Now:yyyy-MM-dd HH:mm:ss} - {i}");
-            }, jobName, "模拟测试任务", cronFormat: CronFormat.IncludeSeconds);
+            }, jobName, "模拟测试任务");
 
             return jobName;
         }

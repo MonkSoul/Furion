@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.10.5
+// 框架版本：2.10.6
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -103,6 +103,6 @@ namespace Furion.TaskScheduler
         /// <summary>
         /// Cron 表达式格式化方式
         /// </summary>
-        public CronFormat CronFormat { get; set; } = CronFormat.Standard;
+        public object CronFormat { get; set; }
     }
 }

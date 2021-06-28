@@ -19,6 +19,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] `app.UseUnifyResultStatusCodes()` 可配置修改返回状态码 [#I3VZQH](https://gitee.com/dotnetchina/Furion/issues/I3VZQH)
   - [新增] 远程请求添加默认 `User-Agent` 头 [#I3W17C](https://gitee.com/dotnetchina/Furion/issues/I3W17C)
   - [新增] 支持 `Sql` 高级代理切换数据库上下文定位器 [#I3XFP6](https://gitee.com/dotnetchina/Furion/issues/I3XFP6) [#I3XDCR](https://gitee.com/dotnetchina/Furion/issues/I3XDCR)
+  - [新增] 定时任务 `CronFormat` 自动识别 [#I3Y7GT](https://gitee.com/dotnetchina/Furion/issues/I3Y7GT)
 
 - **突破性变化**
 
@@ -33,6 +34,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **问题修复**
 
+  - [修复] 动态 WebAPI 扫描控制器没有屏蔽没有注册的第三方控制器 [#I3Y7TJ](https://gitee.com/dotnetchina/Furion/issues/I3Y7TJ)
   - [修复] `AppDbContext` 设置 `TablePrefix` 无效： [#I3Y57Q](https://gitee.com/dotnetchina/Furion/issues/I3Y57Q)
   - [修复] 修复定时任务使用异步委托导致程序终止 bug [#I3XVZ0](https://gitee.com/dotnetchina/Furion/issues/I3XVZ0)
   - [修复] 事件总线一个 `消息id` 对应多个 `Handler` 只触发第一个[#I3XYP0](https://gitee.com/dotnetchina/Furion/issues/I3XYP0)

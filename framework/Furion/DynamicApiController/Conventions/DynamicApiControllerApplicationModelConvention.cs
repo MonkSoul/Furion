@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.10.5
+// 框架版本：2.10.6
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -62,7 +62,7 @@ namespace Furion.DynamicApiController
         /// <param name="application">引用模型</param>
         public void Apply(ApplicationModel application)
         {
-            var controllers = application.Controllers.Where(u => !typeof(Controller).IsAssignableFrom(u.ControllerType));
+            var controllers = application.Controllers.Where(u => Penetrates.IsApiController(u.ControllerType));
             foreach (var controller in controllers)
             {
                 var controllerType = controller.ControllerType;

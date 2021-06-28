@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.10.5
+// 框架版本：2.10.6
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -80,7 +80,7 @@ namespace Microsoft.Extensions.DependencyInjection
                                 break;
                             // 执行 Cron 表达式任务
                             case SpareTimeTypes.Cron:
-                                SpareTime.Do(spareTimeAttribute.CronExpression, action, spareTimeAttribute.WorkerName, spareTimeAttribute.Description, spareTimeAttribute.StartNow, cronFormat: spareTimeAttribute.CronFormat, executeType: spareTimeAttribute.ExecuteType);
+                                SpareTime.Do(spareTimeAttribute.CronExpression, action, spareTimeAttribute.WorkerName, spareTimeAttribute.Description, spareTimeAttribute.StartNow, cronFormat: spareTimeAttribute.CronFormat == default ? default : (CronFormat)spareTimeAttribute.CronFormat, executeType: spareTimeAttribute.ExecuteType);
                                 break;
 
                             default:
