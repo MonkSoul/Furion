@@ -23,6 +23,7 @@
 
 - **问题修复**
 
+  - [修复] `AppDbContext` 设置 `TablePrefix` 无效： [#I3Y57Q](https://gitee.com/dotnetchina/Furion/issues/I3Y57Q)
   - [修复] 修复定时任务使用异步委托导致程序终止 bug [#I3XVZ0](https://gitee.com/dotnetchina/Furion/issues/I3XVZ0)
   - [修复] 事件总线一个 `消息id` 对应多个 `Handler` 只触发第一个[#I3XYP0](https://gitee.com/dotnetchina/Furion/issues/I3XYP0)
   - [修复] `.ToPagedList()` 分页方法传入小于或等于 0 的页码 [#I3XNAN](https://gitee.com/dotnetchina/Furion/issues/I3XNAN)
@@ -46,6 +47,8 @@
   - [答疑] `dapper` 多个数据源如何继承 [#I3WUOI](https://gitee.com/dotnetchina/Furion/issues/I3WUOI)
   - [答疑] 关于 `SpareTime` 多次执行问题[#I3XEQU](https://gitee.com/dotnetchina/Furion/issues/I3XEQU)
   - [答疑] 选项更改通知（热更新）：数据库里的数据更改了如何通知选项进行改变？ [#I3XYI8](https://gitee.com/dotnetchina/Furion/issues/I3XYI8)
+  - [答疑] `SaaS` 多租户添加时无法获取租户`Id` [#I3Y5CF](https://gitee.com/dotnetchina/Furion/issues/I3Y5CF)
+  - [答疑] 获取 `_httpContextAccessor.HttpContext` 为空[#I3Y6BI](https://gitee.com/dotnetchina/Furion/issues/I3Y6BI)
 
 - **不做实现**
   - [废弃] `SpareTIme` 新增 `Dashboard` 控制台看板，同时可以对任务进行暂停、删除、查看[#I3XELY](https://gitee.com/dotnetchina/Furion/issues/I3XELY)
