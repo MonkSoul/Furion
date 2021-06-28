@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // 让 .NET 开发更简单，更通用，更流行。
 // Copyright © 2020-2021 Furion, 百小僧, Baiqian Co.,Ltd.
 //
@@ -183,7 +183,7 @@ namespace Furion.DatabaseAccessor
             else
             {
                 // 添加表统一前后缀，排除视图
-                if (!string.IsNullOrWhiteSpace(appDbContextAttribute.TableSuffix) || !string.IsNullOrWhiteSpace(appDbContextAttribute.TableSuffix))
+                if (!string.IsNullOrWhiteSpace(appDbContextAttribute.TablePrefix) || !string.IsNullOrWhiteSpace(appDbContextAttribute.TableSuffix))
                 {
                     var tablePrefix = appDbContextAttribute.TablePrefix;
                     var tableSuffix = appDbContextAttribute.TableSuffix;
