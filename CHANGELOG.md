@@ -49,6 +49,7 @@
   - [答疑] 选项更改通知（热更新）：数据库里的数据更改了如何通知选项进行改变？ [#I3XYI8](https://gitee.com/dotnetchina/Furion/issues/I3XYI8)
   - [答疑] `SaaS` 多租户添加时无法获取租户`Id` [#I3Y5CF](https://gitee.com/dotnetchina/Furion/issues/I3Y5CF)
   - [答疑] 获取 `_httpContextAccessor.HttpContext` 为空[#I3Y6BI](https://gitee.com/dotnetchina/Furion/issues/I3Y6BI)
+  - [答疑] `Ubuntu` 中使用 `App.Configuration` 方法读取不到值 [#I3Y74H](https://gitee.com/dotnetchina/Furion/issues/I3Y74H)
 
 - **不做实现**
   - [废弃] `SpareTIme` 新增 `Dashboard` 控制台看板，同时可以对任务进行暂停、删除、查看[#I3XELY](https://gitee.com/dotnetchina/Furion/issues/I3XELY)
