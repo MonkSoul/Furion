@@ -39,6 +39,7 @@
 - **文档变化**
 
   - [更新] 远程请求、日志、数据库上下文、远程请求文档
+  - [更新] 配置文件 [#I3Y2EV](https://gitee.com/dotnetchina/Furion/issues/I3Y2EV)
 
 - **问答答疑**
 
