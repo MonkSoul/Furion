@@ -23,25 +23,34 @@ sidebar_label: 10.1. SqlSugar 集成
 使用非常简单，只需要在 `Startup.cs` 中添加 `services.AddSqlSugar(config)` 即可。如：
 
 ```cs
-services.AddSqlSugar(new ConnectionConfig
+#region 配置sqlsuagr（多库）
+List<ConnectionConfig> connectConfigList = new List<ConnectionConfig>();
+//数据库1
+connectConfigList.Add(new ConnectionConfig
 {
-    ConnectionString = "Server=.xxxxx",//连接符字串
-    DbType = DbType.SqlServer,
+    ConnectionString = "链接字符串1",
+    DbType = DbType.MySql,
     IsAutoCloseConnection = true,
-    InitKeyType = InitKeyType.Attribute//从特性读取主键自增信息
+    InitKeyType = InitKeyType.Attribute,
+    ConfigId = "0"
 });
+//数据库2
+connectConfigList.Add(new ConnectionConfig
+{
+    ConnectionString = "链接字符串2",
+    DbType = DbType.MySql,
+    IsAutoCloseConnection = true,
+    InitKeyType = InitKeyType.Attribute,
+    ConfigId = "1"
+});
+services.AddSqlSugar(connectConfigList.ToArray());
+#endregion 
 ```
 
 同时也可以添加更多配置，如：
 
 ```cs
-services.AddSqlSugar(new ConnectionConfig
-{
-    ConnectionString = "Server=.xxxxx",//连接符字串
-    DbType = DbType.SqlServer,
-    IsAutoCloseConnection = true,
-    InitKeyType = InitKeyType.Attribute//从特性读取主键自增信息
-},
+services.AddSqlSugar(connectConfigList.ToArray(),
 db =>
 {
     //处理日志事务
@@ -50,6 +59,7 @@ db =>
         Console.WriteLine(sql);
         Console.WriteLine(string.Join(",", pars?.Select(it => it.ParameterName + ":" + it.Value)));
         Console.WriteLine();
+        App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));                
     };
 });
 ```
