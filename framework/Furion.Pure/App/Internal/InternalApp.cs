@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.10.6
+// 框架版本：2.10.7
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -93,14 +93,8 @@ namespace Furion
                     .Get<string[]>()
                 ?? Array.Empty<string>();
 
-            // 读取自定义环境变量
-            var environments = appsettingsConfiguration
-                    .GetSection("Environments")
-                    .Get<string[]>()
-                ?? Array.Empty<string>();
-
             // 将所有文件进行分组
-            var jsonFilesGroups = SplitConfigFileNameToGroups(jsonFiles, environments.Concat(new[] { envName }).ToArray())
+            var jsonFilesGroups = SplitConfigFileNameToGroups(jsonFiles)
                                                                     .Where(u => !excludeJsonPrefixs.Contains(u.Key, StringComparer.OrdinalIgnoreCase) && !u.Any(c => runtimeJsonSuffixs.Any(z => c.EndsWith(z, StringComparison.OrdinalIgnoreCase)) || ignoreConfigurationFiles.Contains(Path.GetFileName(c), StringComparer.OrdinalIgnoreCase)));
 
             // 遍历所有配置分组
@@ -140,46 +134,23 @@ namespace Furion
         };
 
         /// <summary>
-        /// ASP.NET 5 内置环境标识
-        /// </summary>
-        private static readonly string[] internalEnvironments = new[]
-        {
-            "Development",
-            "Staging",
-            "Production",
-            "Test"
-        };
-
-        /// <summary>
         /// 对配置文件名进行分组
         /// </summary>
         /// <param name="configFiles"></param>
-        /// <param name="environments"></param>
         /// <returns></returns>
-        private static IEnumerable<IGrouping<string, string>> SplitConfigFileNameToGroups(IEnumerable<string> configFiles, params string[] environments)
+        private static IEnumerable<IGrouping<string, string>> SplitConfigFileNameToGroups(IEnumerable<string> configFiles)
         {
-            // 获取所有环境变量（包括自定义的）
-            var allEnvironments = (
-                environments != null && environments.Length > 0
-                    ? internalEnvironments.Union(environments)
-                    : internalEnvironments
-                )
-                .Distinct(StringComparer.OrdinalIgnoreCase);
-
             // 分组
-            return configFiles.GroupBy(u => Function(u, allEnvironments));
+            return configFiles.GroupBy(Function);
 
             // 本地函数
-            static string Function(string file, IEnumerable<string> allEnvironments)
+            static string Function(string file)
             {
                 // 根据 . 分隔
                 var fileNameParts = Path.GetFileName(file).Split('.', StringSplitOptions.RemoveEmptyEntries);
+                if (fileNameParts.Length == 2) return fileNameParts[0];
 
-                // 获取倒数第二部分
-                var maybeEnvironment = fileNameParts[^2];
-
-                if (allEnvironments.Contains(maybeEnvironment, StringComparer.OrdinalIgnoreCase)) return string.Join('.', fileNameParts.Take(fileNameParts.Length - 2));
-                else return string.Join('.', fileNameParts.Take(fileNameParts.Length - 1));
+                return string.Join('.', fileNameParts.Take(fileNameParts.Length - 2));
             }
         }
     }

@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.10.6
+// 框架版本：2.10.7
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -405,6 +405,11 @@ namespace Furion.RemoteRequest
                                          ? clientFactory.CreateClient()
                                          : clientFactory.CreateClient(ClientName);
 
+            // 判断命名客户端是否配置了 BaseAddress，且必须以 / 结尾
+            var httpClientOriginalString = httpClient.BaseAddress?.OriginalString;
+            if (!string.IsNullOrWhiteSpace(httpClientOriginalString) && !httpClientOriginalString.EndsWith("/"))
+                throw new InvalidOperationException($"The `{ClientName}` of HttpClient BaseAddress must be end with '/'.");
+
             // 添加默认 User-Agent
             if (!httpClient.DefaultRequestHeaders.Contains("User-Agent"))
             {
@@ -419,7 +424,7 @@ namespace Furion.RemoteRequest
             });
 
             // 打印发送请求
-            App.PrintToMiniProfiler(MiniProfilerCategory, "Sending", $"[{Method}] {httpClient.BaseAddress?.OriginalString}{request.RequestUri?.OriginalString}");
+            App.PrintToMiniProfiler(MiniProfilerCategory, "Sending", $"[{Method}] {httpClientOriginalString}{request.RequestUri?.OriginalString}");
 
             // 发送请求
             var response = await httpClient.SendAsync(request, cancellationToken);

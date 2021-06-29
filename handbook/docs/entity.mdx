@@ -38,7 +38,7 @@ sidebar_label: 9.3 数据库实体
 - `IEntity`：实体基接口，是所有实体的基接口
 - `IEntityNotKey`：无键实体接口，也就是视图、存储过程、函数依赖接口
 - `EntityBase`：实体基抽象类，内置了 `Id`，`TenantId` 字段
-- `Entity`：实体通用抽象类，继承自 `EntityBase`，同时内置 `CreatedTime`，`UpdatedTime`，`IsDeleted` 字段
+- `Entity`：实体通用抽象类，继承自 `EntityBase`，同时内置 `CreatedTime`，`UpdatedTime` 字段
 - `EntityNotKey`：无键实体抽象类，视图、存储过程、函数依赖抽象类
 
 :::important 实体定义位置
@@ -105,7 +105,7 @@ namespace Furion.Core
     public class User : Entity
     {
         // 无需定义 Id 属性
-        // 并自动添加 CreatedTime，UpdateTime，IsDeleted 属性
+        // 并自动添加 CreatedTime，UpdatedTime 属性
 
         /// <summary>
         /// 名称
