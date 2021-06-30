@@ -903,7 +903,7 @@ public string Get(int id, string name)
 
 在 `Furion v2.8.6` 版本中实现了 `[FromRoute]` 参数非必填功能，支持以下几种方式：
 
-```cs {2,6,11}
+```cs {2,6,11,16}
 // 方式一，通过可空 ?
 public object Method1(int id, Datetime? dateTime)
 {
@@ -916,6 +916,11 @@ public object Method1(int id, int age = 10)
 
 // 方式三，默认值 + 可空 ?
 public object Method1(int id, int? age = 10)
+{
+}
+
+// 方式四，[FromQuery] 修饰
+public object Method1(int id, [FromQuery]string keyword)
 {
 }
 ```

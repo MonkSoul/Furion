@@ -1,0 +1,174 @@
+---
+id: sesssion-state
+title: 32. 会话和状态管理
+sidebar_label: 32. 会话和状态管理
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+## 32.1 关于会话和状态管理
+
+`HTTP` 是无状态的协议。 默认情况下，`HTTP` 请求是不保留用户值的独立消息。但是我们可以通过以下几种方式保留请求用户数据：
+
+- `Cookie`：通常存储在客户端的数据，请求时带回服务端
+- `Session`：存储在服务端的数据（可以在存储在内存、进程等介质中）
+- `Query Strings`：通过 `Http` 请求地址参数共享
+- `HttpContext.Items`：存储在服务端端，只在请求声明周期内使用，请求结束自动销毁
+- `Cache`：服务端缓存，包括内存缓存、分布式内存缓存、IO 缓存、序列化缓存以及数据库缓存
+
+## 32.2 如何使用
+
+### 32.2.1 `Cookie` 使用
+
+使用 `Cookie` 非常简单，如：
+
+```cs
+// 读取 Cookies
+var value = httpContext.Request.Cookies["key"];
+
+// 设置 Cookies
+var option = new CookieOptions();
+option.Expires = DateTime.Now.AddMilliseconds(10);
+httpContext.Response.Cookies.Append(key, value, option);
+
+// 删除 Cookies
+httpContext.Response.Cookies.Delete(key);
+```
+
+:::note 特别说明
+
+`httpContext` 可以通过 `IHttpContextAccessor` 获取，也可以通过 `App.HttpContext` 获取。
+
+:::
+
+我们还可以通过 `Cookie` 实现授权功能及单点登录（SSO）：[网站共享 Cookie](https://docs.microsoft.com/zh-cn/aspnet/core/security/cookie-sharing?view=aspnetcore-5.0)
+
+### 32.2.2 `Session` 使用
+
+在使用 `Session` 之前，必须注册 `Session` 服务：（如果
+
+```cs {1,5,7-12,32,37,39}
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        // services.AddDistributedMemoryCache(); 框架内部已经默认注册
+
+        services.AddSession(options =>
+        {
+            options.IdleTimeout = TimeSpan.FromSeconds(10);
+            options.Cookie.HttpOnly = true;
+            options.Cookie.IsEssential = true;
+        }); // 注意在控制器之前注册！！！！
+
+        services.AddControllersWithViews();
+    }
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+        else
+        {
+            app.UseExceptionHandler("/Home/Error");
+            app.UseHsts();
+        }
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+
+        app.UseRouting();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.UseSession();
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapDefaultControllerRoute();
+            endpoints.MapRazorPages();
+        });
+    }
+}
+```
+
+:::important 中间件注册顺序
+
+`app.UseSession()` 必须在 `app.UseRouting()` 和 `app.UseEndpoints()` **之间**注册！
+
+:::
+
+- 常见例子：
+
+```cs
+// 读取 Session
+var byteArr = httpContext.Session.Get("key"); // 返回 byte[]
+var str = httpContext.Session.GetString("key");   // 返回 string[]
+var num = httpContext.Session.GetInt32("key");    // 返回 int
+
+// 设置 Session
+httpContext.Session.SetString("key", "value");  // 设置字符串
+httpContext.Session.SetInt32("key", 1); // 设置 int 类型
+```
+
+- **自定义设置任意类型拓展：**
+
+```cs
+public static class SessionExtensions
+{
+    public static void Set<T>(this ISession session, string key, T value)
+    {
+        session.SetString(key, JsonSerializer.Serialize(value));
+    }
+
+    public static T Get<T>(this ISession session, string key)
+    {
+        var value = session.GetString(key);
+        return value == null ? default : JsonSerializer.Deserialize<T>(value);
+    }
+}
+```
+
+- 防止 `Session ID` 改变或 `Session` 失效
+
+在 `Startup.cs` 的 `ConfigureServices` 配置即可：
+
+```cs
+services.Configure<CookiePolicyOptions>(options =>
+{
+ 　　options.CheckConsentNeeded = context => false; // 默认为true，改为false
+　　 options.MinimumSameSitePolicy = SameSiteMode.None;
+});
+```
+
+### 32.2.3 `Query Strings` 使用
+
+该方式使用非常简单，只需 `httpContext.Request.Query["key"]` 即可。
+
+### 32.2.4 `HttpContext.Items` 使用
+
+`HttpContext` 对象提供了 `Items` 集合属性，可以让我们在单次请求间共享数据，请求结束立即销毁，可以存储任何数据。使用也非常简单，如：
+
+```cs
+// 读取
+var value = httpContext.Items["key"];
+
+// 添加
+httpContext.Items["key"] = "任何值包括对象";
+
+// 删除
+httpContext.Items.Remove("key");
+```
+
+### 32.2.5 `Cache` 方式
+
+参见 [分布式缓存](/docs/cache) 文档
+
+## 32.3 反馈与建议
+
+:::note 与我们交流
+
+给 Furion 提 [Issue](https://gitee.com/dotnetchina/Furion/issues/new?issue)。

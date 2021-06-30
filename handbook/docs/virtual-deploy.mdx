@@ -1,16 +1,16 @@
 ---
 id: virtual-deploy
-title: 33.4 二级虚拟目录部署
-sidebar_label: 33.4 二级虚拟目录部署
+title: 34.4 二级虚拟目录部署
+sidebar_label: 34.4 二级虚拟目录部署
 ---
 
-## 33.4.1 关于二级虚拟目录
+## 34.4.1 关于二级虚拟目录
 
 通常我们的站点都是部署在网站的根目录下的，但是有些时候，我们可能将网站根目录下的目录作为二级站点或子站点，这个时候，就会出现 `404` 错误了。
 
 这个时候就需要进行一些特殊配置了。
 
-### 33.4.1.1 配置 `Startup.cs`
+### 34.4.1.1 配置 `Startup.cs`
 
 首先，我们需要配置 `Startup.cs` 中的 `Configure`，如：
 
@@ -24,7 +24,7 @@ public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
 }
 ```
 
-### 33.4.1.2 启用 `Swagger` 虚拟目录支持
+### 34.4.1.2 启用 `Swagger` 虚拟目录支持
 
 第二步，在 `appsettings.json` 配置文件（其他配置文件也可以）中添加以下配置：
 
@@ -36,7 +36,7 @@ public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
 }
 ```
 
-## 33.4.2 反馈与建议
+## 34.4.2 反馈与建议
 
 :::note 与我们交流
 

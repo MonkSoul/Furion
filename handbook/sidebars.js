@@ -170,21 +170,25 @@ module.exports = {
     },
     {
       type: "doc",
+      id: "sesssion-state",
+    },
+    {
+      type: "doc",
       id: "microservice",
     },
     {
       type: "category",
-      label: "33. 托管部署",
+      label: "34. 托管部署",
       items: ["deploy-iis", "deploy-docker", "deploy-nginx", "virtual-deploy"],
     },
     {
       type: "category",
-      label: "34. 持续部署集成",
+      label: "35. 持续部署集成",
       items: ["deploy-docker-auto", "devops"],
     },
     {
       type: "category",
-      label: "35. 测试指南",
+      label: "36. 测试指南",
       items: ["unittest", "performance", "benchmark"],
     },
     {

@@ -8,7 +8,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 **此章节只记录重大版本更新日志，小迭代版本不做更新。**想了解更多更新内容，可查阅 [CHANGELOG.md](https://gitee.com/dotnetchina/Furion/blob/master/CHANGELOG.md)
 
-## v2.10.0 （当前版本）
+## v2.10.x （当前版本）
 
 > 该版本有多个破坏性更改，更新时请认真查看。
 
@@ -20,6 +20,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [新增] 远程请求添加默认 `User-Agent` 头 [#I3W17C](https://gitee.com/dotnetchina/Furion/issues/I3W17C)
   - [新增] 支持 `Sql` 高级代理切换数据库上下文定位器 [#I3XFP6](https://gitee.com/dotnetchina/Furion/issues/I3XFP6) [#I3XDCR](https://gitee.com/dotnetchina/Furion/issues/I3XDCR)
   - [新增] 定时任务 `CronFormat` 自动识别 [#I3Y7GT](https://gitee.com/dotnetchina/Furion/issues/I3Y7GT)
+  - [新增] `Sql 高级代理` 拦截功能 [#I3YHG4](https://gitee.com/dotnetchina/Furion/issues/I3YHG4)
 
 - **突破性变化**
 
@@ -53,7 +54,8 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 - **文档变化**
 
-  - [更新] 远程请求、日志、数据库上下文、远程请求文档
+  - [新增] 会话和状态管理 文档 [#I3YI3G](https://gitee.com/dotnetchina/Furion/issues/I3YI3G)
+  - [更新] 远程请求、日志、数据库上下文、远程请求、`Sql` 高级代理文档
   - [更新] 配置文件 [#I3Y2EV](https://gitee.com/dotnetchina/Furion/issues/I3Y2EV)
 
 - **问答答疑**
@@ -64,9 +66,62 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [答疑] `SaaS` 多租户添加时无法获取租户`Id` [#I3Y5CF](https://gitee.com/dotnetchina/Furion/issues/I3Y5CF)
   - [答疑] 获取 `_httpContextAccessor.HttpContext` 为空[#I3Y6BI](https://gitee.com/dotnetchina/Furion/issues/I3Y6BI)
   - [答疑] `Ubuntu` 中使用 `App.Configuration` 方法读取不到值 [#I3Y74H](https://gitee.com/dotnetchina/Furion/issues/I3Y74H)
+  - [答疑] 数据库上下文作用域问题 [#I3YHXP](https://gitee.com/dotnetchina/Furion/issues/I3YHXP)
 
 - **不做实现**
+
   - [废弃] `SpareTIme` 新增 `Dashboard` 控制台看板，同时可以对任务进行暂停、删除、查看[#I3XELY](https://gitee.com/dotnetchina/Furion/issues/I3XELY)
+
+---
+
+## v2.9.0 （当前版本）
+
+- **新特性**
+
+  - [新增] **应用全局未托管资源监听，并实现特定时机释放非托管资源** [#I3VXAU](https://gitee.com/dotnetchina/Furion/issues/I3VXAU)
+  - [新增] 不包含 `EntityFramework.Core` 版本的 `Furion.Pure` 包[#I3VGW8](https://gitee.com/dotnetchina/Furion/issues/I3VGW8)
+  - [新增] swagger 支持设置多语言方式，设置的语言自动添加到 api 地址后面 [#I3VDTD](https://gitee.com/dotnetchina/Furion/issues/I3VDTD)
+  - [新增] 动态 WebAPI 支持 `[FromRoute]` 非必填（选填）参数设置 [#I3VFIM](https://gitee.com/dotnetchina/Furion/issues/I3VFIM)
+  - [新增] 动态 WebAPI 参数支持配置路由约束 [#I3VFIR](https://gitee.com/dotnetchina/Furion/issues/I3VFIR)
+  - [新增] `MD5` 和 `DESC` 加密支持 `大写` 输出 [#326](https://gitee.com/dotnetchina/Furion/pulls/326)
+
+- **突破性变化**
+
+  - [新增] `Furion` 所有包生成 `.snupkg` 包，支持开发阶段直接调试 `Furion` 所有包源码 [#I3VFIX](https://gitee.com/dotnetchina/Furion/issues/I3VFIX)
+  - [调整] `repository.BuildChange()` 方法的返回值，多返回一个 `IServiceScope` 对象 [#I3VX3D](https://gitee.com/dotnetchina/Furion/issues/I3VX3D)
+  - [调整] `JWT` 刷新 `Token` 方法 `AutoRefreshToken` 参数 `days` 改为 `minutes` [#I3VXNB](https://gitee.com/dotnetchina/Furion/issues/I3VXNB)
+
+- **问题修复**
+
+  - [修复] `App.GetOptionsSnapshot<>` 从根服务解析异常 bug [#I3VS2X](https://gitee.com/dotnetchina/Furion/issues/I3VS2X)
+  - [修复] 修复远程请求如果出现异常，返回 `Stream` 为 null 导致异常的问题 [#I3VSTU](https://gitee.com/dotnetchina/Furion/issues/I3VSTU)
+  - [修复] 如果实体被跟踪后，无法执行删除操作 [#I3W08P](https://gitee.com/dotnetchina/Furion/issues/I3W08P)
+
+- **其他更改**
+
+  - [优化] 运行时内存，实现请求结束自动释放未托管资源 [#I3VXAU](https://gitee.com/dotnetchina/Furion/issues/I3VXAU)
+
+- **文档变化**
+
+  - [更新] `App` 静态类文档、远程请求文档、分表分库文档
+
+- **问答答疑**
+
+  - [答疑] 动态 WebAPI，自定义根据方法名生成 [HttpMethod] 规则报错 [#I3VKQG](https://gitee.com/dotnetchina/Furion/issues/I3VKQG)
+  - [答疑] `InsertAsync` 的时候提示 `ID` 为空 [#I3VS7E](https://gitee.com/dotnetchina/Furion/issues/I3VS7E)
+  - [答疑] `FirstOrDefault` 自动过滤了 `TanantId` 字段 [#I3W0VH](https://gitee.com/dotnetchina/Furion/issues/I3W0VH)
+  - [答疑] 对方接口返回 `HttpConnectionResponseContent` 远程请求拿不到返回值 [#I3W17C](https://gitee.com/dotnetchina/Furion/issues/I3W17C)
+  - [答疑] 查询方法 `FindOrDefault` 报错 [#I3W830](https://gitee.com/dotnetchina/Furion/issues/I3W830)
+  - [答疑] `SqlNonQuery` 在 `UnitOfWork` 循环执行[#I3W8WW](https://gitee.com/dotnetchina/Furion/issues/I3W8WW)
+  - [答疑] 因 `Swagger` 配置问题，导致 `Swagger` 中不能自动携带 token 授权的问题 [#I3W934](https://gitee.com/dotnetchina/Furion/issues/I3W934)
+  - [答疑] 远程请求 `SetBody` 参数识别不了[#I3WBM1](https://gitee.com/dotnetchina/Furion/issues/I3WBM1)
+  - [答疑] `Scoped.Create` 里执行 `sql.SqlNonQuery()` 或者 `obj.insert()` 问题[#I3WB5O](https://gitee.com/dotnetchina/Furion/issues/I3WB5O)
+  - [答疑] 调用函数或存储过程，怎么出参数据自定义对象？如 `Oracle`数据库的数组或记录 [#I3W71W](https://gitee.com/dotnetchina/Furion/issues/I3W71W)
+
+- **不做实现**
+
+  - [无效] 数据库小写下划线字段，无法自动映射成小驼峰 [#I3W021](https://gitee.com/dotnetchina/Furion/issues/I3W021)
+  - [废弃] `EfCore 5` 直接多对多时进行 `SeedData` [#I3WDRJ](https://gitee.com/dotnetchina/Furion/issues/I3WDRJ)
 
 ---
 

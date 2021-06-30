@@ -1,4 +1,4 @@
-## v2.10.0 （当前版本）
+## v2.10.x （当前版本）
 
 > 该版本有多个破坏性更改，更新时请认真查看。
 
@@ -10,6 +10,7 @@
   - [新增] 远程请求添加默认 `User-Agent` 头 [#I3W17C](https://gitee.com/dotnetchina/Furion/issues/I3W17C)
   - [新增] 支持 `Sql` 高级代理切换数据库上下文定位器 [#I3XFP6](https://gitee.com/dotnetchina/Furion/issues/I3XFP6) [#I3XDCR](https://gitee.com/dotnetchina/Furion/issues/I3XDCR)
   - [新增] 定时任务 `CronFormat` 自动识别 [#I3Y7GT](https://gitee.com/dotnetchina/Furion/issues/I3Y7GT)
+  - [新增] `Sql 高级代理` 拦截功能 [#I3YHG4](https://gitee.com/dotnetchina/Furion/issues/I3YHG4)
 
 - **突破性变化**
 
@@ -43,7 +44,8 @@
 
 - **文档变化**
 
-  - [更新] 远程请求、日志、数据库上下文、远程请求文档
+  - [新增] 会话和状态管理 文档 [#I3YI3G](https://gitee.com/dotnetchina/Furion/issues/I3YI3G)
+  - [更新] 远程请求、日志、数据库上下文、远程请求、`Sql` 高级代理文档
   - [更新] 配置文件 [#I3Y2EV](https://gitee.com/dotnetchina/Furion/issues/I3Y2EV)
 
 - **问答答疑**
@@ -54,8 +56,10 @@
   - [答疑] `SaaS` 多租户添加时无法获取租户`Id` [#I3Y5CF](https://gitee.com/dotnetchina/Furion/issues/I3Y5CF)
   - [答疑] 获取 `_httpContextAccessor.HttpContext` 为空[#I3Y6BI](https://gitee.com/dotnetchina/Furion/issues/I3Y6BI)
   - [答疑] `Ubuntu` 中使用 `App.Configuration` 方法读取不到值 [#I3Y74H](https://gitee.com/dotnetchina/Furion/issues/I3Y74H)
+  - [答疑] 数据库上下文作用域问题 [#I3YHXP](https://gitee.com/dotnetchina/Furion/issues/I3YHXP)
 
 - **不做实现**
+
   - [废弃] `SpareTIme` 新增 `Dashboard` 控制台看板，同时可以对任务进行暂停、删除、查看[#I3XELY](https://gitee.com/dotnetchina/Furion/issues/I3XELY)
 
 ---

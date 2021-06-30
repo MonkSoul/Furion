@@ -520,7 +520,58 @@ _sql.GetPerson();
 
 :::
 
-## 9.17.9 反馈与建议
+## 9.17.9 `Sql` 代理拦截
+
+在 `Furion v2.10.8+` 版本新增了 `Sql` 代理拦截功能，可以篡改特定方法或所有代理方法实际执行的参数，如 `sql语句、参数、执行对象等等`。
+
+**若在 `Sql` 代理中实现拦截功能，必须满足两个条件**：
+
+- 方法必须是 `static` 静态方法且返回值为 `void` 且只有一个 `SqlProxyMethod` 参数
+- 方法必须贴 `[Interceptor]` 特性
+
+如：
+
+```cs {9,13-17,20-24,26-30,32-36}
+public interface ISql : ISqlDispatchProxy
+{
+    [SqlFunction("FN_Name")]
+    string GetValue(MyParam dto);
+
+    [SqlProcedure("FN_Name")]
+    List<Person> GetPersons(int id);
+
+    [SqlExecute("select name from person", InterceptorId = "GetPersonsByName")] // 通过 InterceptorId 解决方法名重载问题
+    Task<List<string>> GetPersons();
+
+    // 只拦截 GetValue 方法
+    [Interceptor(nameof(GetValue))]
+    static void 拦截1(SqlProxyMethod method)
+    {
+        method.FinalSql += " where id > 1"; // 篡改最终执行 sql
+    }
+
+    // 拦截 GetValue 和 GetPersons 方法
+    [Interceptor(nameof(GetValue), nameof(GetPersons))]
+    static void 拦截2(SqlProxyMethod method)
+    {
+        method.FinalSql += " where id > 1"; // 篡改最终执行 sql
+    }
+
+    [Interceptor("GetPersonsByName")]   // 对应上面的 InterceptorId 配置
+    static void 解决方法名重载拦截(SqlProxyMethod method)
+    {
+        // 。。。
+    }
+
+    [Interceptor]
+    static void 全局拦截(SqlProxyMethod method)
+    {
+        // 这里会拦截所有的方法
+    }
+}
+```
+
+## 9.17.10 反馈与建议
 
 :::note 与我们交流
 
