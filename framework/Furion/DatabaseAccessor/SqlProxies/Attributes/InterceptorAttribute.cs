@@ -16,14 +16,31 @@ using System;
 namespace Furion.DatabaseAccessor
 {
     /// <summary>
-    /// Sql 执行代理基特性
+    /// Sql 代理拦截器
     /// </summary>
+    /// <remarks>如果贴在静态方法中且 InterceptorId/MethodName 为空，则为全局拦截</remarks>
     [SuppressSniffer, AttributeUsage(AttributeTargets.Method)]
-    public class SqlProxyAttribute : Attribute
+    public class InterceptorAttribute : Attribute
     {
         /// <summary>
-        /// 配置拦截唯一 ID（比方法名优先级高）
+        /// 构造函数
         /// </summary>
-        public string InterceptorId { get; set; }
+        public InterceptorAttribute()
+        {
+        }
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="interceptorIds"></param>
+        public InterceptorAttribute(params string[] interceptorIds)
+        {
+            InterceptorIds = interceptorIds;
+        }
+
+        /// <summary>
+        /// 方法名称
+        /// </summary>
+        public string[] InterceptorIds { get; set; }
     }
 }

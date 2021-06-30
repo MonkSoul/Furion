@@ -257,11 +257,11 @@ namespace Furion.RemoteRequest
         /// 调用全局拦截
         /// </summary>
         /// <param name="httpClientPart"></param>
-        /// <param name="declareType"></param>
-        private static void CallGlobalInterceptors(HttpClientExecutePart httpClientPart, Type declareType)
+        /// <param name="declaringType"></param>
+        private static void CallGlobalInterceptors(HttpClientExecutePart httpClientPart, Type declaringType)
         {
             // 获取所有静态方法且贴有 [Interceptor] 特性
-            var interceptorMethods = declareType.GetMethods()
+            var interceptorMethods = declaringType.GetMethods()
                                                                   .Where(u => u.IsDefined(typeof(InterceptorAttribute), true));
 
             foreach (var method in interceptorMethods)

@@ -305,19 +305,26 @@ namespace Furion.DatabaseAccessor
                 Name = u.Name,
                 Value = args[i]
             });
+
             // 渲染模板
             finalSql = finalSql.Render(methodParameterInfos.ToDictionary(u => u.Name, u => u.Value));
 
             // 返回
-            return new SqlProxyMethod
+            var sqlProxyMethod = new SqlProxyMethod
             {
                 ParameterModel = parameters,
                 Context = dbContext,
                 ReturnType = returnType,
                 IsAsync = method.IsAsync(),
                 CommandType = commandType,
-                FinalSql = finalSql
+                FinalSql = finalSql,
+                InterceptorId = string.IsNullOrWhiteSpace(sqlProxyAttribute.InterceptorId) ? method.Name : sqlProxyAttribute.InterceptorId
             };
+
+            // 添加方法拦截
+            CallMethodInterceptors(declaringType, sqlProxyMethod);
+
+            return sqlProxyMethod;
         }
 
         /// <summary>
@@ -371,6 +378,31 @@ namespace Furion.DatabaseAccessor
                 );
 
             return dbContextLocatorType ?? typeof(MasterDbContextLocator);
+        }
+
+        /// <summary>
+        /// 添加方法拦截
+        /// </summary>
+        /// <param name="declaringType"></param>
+        /// <param name="sqlProxyMethod"></param>
+        private static void CallMethodInterceptors(Type declaringType, SqlProxyMethod sqlProxyMethod)
+        {
+            // 获取所有静态方法且贴有 [Interceptor] 特性
+            var interceptorMethods = declaringType.GetMethods()
+                                                                    .Where(u => u.IsDefined(typeof(InterceptorAttribute), true));
+
+            foreach (var method in interceptorMethods)
+            {
+                var interceptorAttribute = method.GetCustomAttribute<InterceptorAttribute>(true);
+
+                var interceptorIds = interceptorAttribute.InterceptorIds;
+
+                // 如果拦截Id数组不为空且包含当前拦截Id，则跳过
+                if (interceptorIds != null && interceptorIds.Length > 0 && !interceptorIds.Contains(sqlProxyMethod.InterceptorId, StringComparer.OrdinalIgnoreCase)) continue;
+
+                var onInterceptor = (Action<SqlProxyMethod>)Delegate.CreateDelegate(typeof(Action<SqlProxyMethod>), method);
+                onInterceptor(sqlProxyMethod);
+            }
         }
     }
 }
