@@ -4,12 +4,13 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.10.8
+// 框架版本：2.11.0
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
+using Furion.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -60,7 +61,7 @@ namespace Furion.DatabaseAccessor
                 }
 
                 dbParameter.ParameterName = property.Name;
-                dbParameter.Value = propertyValue;
+                dbParameter.Value = propertyValue.ChangeType(propertyValue.GetActualType());    // 解决 object/json 类型值
                 dbParameters.Add(dbParameter);
             }
 

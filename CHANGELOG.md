@@ -1,4 +1,4 @@
-## v2.10.x （当前版本）
+## v2.10/2.11 （当前版本）
 
 > 该版本有多个破坏性更改，更新时请认真查看。
 
@@ -34,6 +34,7 @@
   - [修复] 继承 `Serlig` 日志在 `Worker Service` 生成重复日志 bug [#I3WA0L](https://gitee.com/dotnetchina/Furion/issues/I3WA0L) [!331](https://gitee.com/dotnetchina/Furion/pulls/331)
   - [修复] `粘土对象` 动态添加 `Clay` 类型 bug [#I3W9LW](https://gitee.com/dotnetchina/Furion/issues/I3W9LW)
   - [修复] `ValidationTypes.Numeric` 校验数值类型正则表达式错误 [#I3WADS](https://gitee.com/dotnetchina/Furion/issues/I3WADS)
+  - [修复] 数据库命令参数 `DbParameter` 的 `Value` 是 `object` 类型的时候且不指定 [#I3YKM6](https://gitee.com/dotnetchina/Furion/issues/I3YKM6)
 
 - **其他更改**
 
@@ -57,6 +58,7 @@
   - [答疑] 获取 `_httpContextAccessor.HttpContext` 为空[#I3Y6BI](https://gitee.com/dotnetchina/Furion/issues/I3Y6BI)
   - [答疑] `Ubuntu` 中使用 `App.Configuration` 方法读取不到值 [#I3Y74H](https://gitee.com/dotnetchina/Furion/issues/I3Y74H)
   - [答疑] 数据库上下文作用域问题 [#I3YHXP](https://gitee.com/dotnetchina/Furion/issues/I3YHXP)
+  - [答疑] 使用 `UnitofWork` 提交事务，可以提交成功，但是系统会有错误 [#I3YIWU](https://gitee.com/dotnetchina/Furion/issues/I3YIWU)
 
 - **不做实现**
 

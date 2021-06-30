@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.10.8
+// 框架版本：2.11.0
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -17,6 +17,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -234,6 +235,7 @@ namespace Furion.Extensions
         internal static object ChangeType(this object obj, Type type)
         {
             if (type == null) return obj;
+            if (type == typeof(string)) return obj.ToString();
             if (obj == null) return type.IsValueType ? Activator.CreateInstance(type) : null;
 
             var underlyingType = Nullable.GetUnderlyingType(type);
@@ -288,6 +290,34 @@ namespace Furion.Extensions
                 }
             }
             return obj;
+        }
+
+        /// <summary>
+        /// 获取对象实际类型
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        internal static Type GetActualType(this object obj)
+        {
+            if (obj == null) return default;
+
+            var objType = obj.GetType();
+
+            // 处理 JSON 序列化问题
+            if (obj is JsonElement jsonElement)
+            {
+                return jsonElement.ValueKind switch
+                {
+                    JsonValueKind.Null => typeof(string),
+                    JsonValueKind.String => typeof(string),
+                    JsonValueKind.Number => typeof(long),
+                    JsonValueKind.True => typeof(bool),
+                    JsonValueKind.False => typeof(bool),
+                    _ => typeof(string)
+                };
+            }
+
+            return objType;
         }
     }
 }

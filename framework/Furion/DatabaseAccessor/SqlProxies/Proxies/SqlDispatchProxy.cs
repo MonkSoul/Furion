@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.10.8
+// 框架版本：2.11.0
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -318,6 +318,8 @@ namespace Furion.DatabaseAccessor
                 IsAsync = method.IsAsync(),
                 CommandType = commandType,
                 FinalSql = finalSql,
+                Method = method,
+                Arguments = args,
                 InterceptorId = string.IsNullOrWhiteSpace(sqlProxyAttribute.InterceptorId) ? method.Name : sqlProxyAttribute.InterceptorId
             };
 
@@ -353,6 +355,7 @@ namespace Furion.DatabaseAccessor
                 }
                 return dic;
             }
+            // 直接使用第一个模型转 DbParameters 参数
             else return arguments.First();
         }
 
