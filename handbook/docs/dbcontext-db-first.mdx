@@ -103,6 +103,12 @@ Furion Tools v1.0.0 您的输入是:
 
 这时，`Furion Tools` 会自动查找所有数据库配置连接字符串的 `.json` 文件：
 
+:::important 注意事项
+
+数据库连接字符串配置项需写到json配置文件中，且根节点需要写为 `ConnectionStrings` 。
+
+:::
+
 ```json {12-13}
 {
   "Logging": {
