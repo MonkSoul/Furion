@@ -235,8 +235,8 @@ namespace Furion.Extensions
         internal static object ChangeType(this object obj, Type type)
         {
             if (type == null) return obj;
-            if (type == typeof(string)) return obj.ToString();
-            if (type == typeof(Guid)) return Guid.Parse(obj.ToString());
+            if (type == typeof(string)) return obj?.ToString();
+            if (type == typeof(Guid) && obj != null) return Guid.Parse(obj.ToString());
             if (obj == null) return type.IsValueType ? Activator.CreateInstance(type) : null;
 
             var underlyingType = Nullable.GetUnderlyingType(type);
