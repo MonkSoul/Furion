@@ -303,6 +303,7 @@ namespace Furion.RemoteRequest
 
             // 读取流内容
             var stream = await SendAsStreamAsync(cancellationToken);
+            if (stream == null) return default;
 
             // 如果 T 是 Stream 类型，则返回
             if (typeof(T) == typeof(Stream)) return (T)(object)stream;
@@ -328,6 +329,7 @@ namespace Furion.RemoteRequest
         public async Task<Stream> SendAsStreamAsync(CancellationToken cancellationToken = default)
         {
             var response = await SendAsync(cancellationToken);
+            if (response == null) return default;
 
             // 读取响应流
             var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
@@ -342,6 +344,7 @@ namespace Furion.RemoteRequest
         public async Task<string> SendAsStringAsync(CancellationToken cancellationToken = default)
         {
             var response = await SendAsync(cancellationToken);
+            if (response == null) return default;
 
             // 读取响应报文
             var content = await response.Content.ReadAsStringAsync(cancellationToken);
@@ -426,11 +429,22 @@ namespace Furion.RemoteRequest
             // 打印发送请求
             App.PrintToMiniProfiler(MiniProfilerCategory, "Sending", $"[{Method}] {httpClientOriginalString}{request.RequestUri?.OriginalString}");
 
-            // 发送请求
-            var response = await httpClient.SendAsync(request, cancellationToken);
+            // 捕获异常
+            Exception exception = default;
+            HttpResponseMessage response = default;
+
+            try
+            {
+                // 发送请求
+                response = await httpClient.SendAsync(request, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+            }
 
             // 请求成功
-            if (response.IsSuccessStatusCode)
+            if (response?.IsSuccessStatusCode == true && exception == default)
             {
                 // 打印成功请求
                 App.PrintToMiniProfiler(MiniProfilerCategory, "Succeeded", $"[StatusCode: {response.StatusCode}] Succeeded");
@@ -445,10 +459,12 @@ namespace Furion.RemoteRequest
             else
             {
                 // 读取错误消息
-                var errors = await response.Content.ReadAsStringAsync(cancellationToken);
+                var errors = exception == null
+                    ? await response.Content.ReadAsStringAsync(cancellationToken)
+                    : exception.Message;
 
                 // 打印失败请求
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", $"[StatusCode: {response.StatusCode}] {errors}", true);
+                App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", $"[StatusCode: {response?.StatusCode}] {errors}", true);
 
                 // 抛出异常
                 if (ExceptionInterceptors == null || ExceptionInterceptors.Count == 0) throw new HttpRequestException(errors);
