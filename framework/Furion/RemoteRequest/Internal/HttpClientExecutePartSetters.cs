@@ -214,6 +214,17 @@ namespace Furion.RemoteRequest
         }
 
         /// <summary>
+        /// 设置超时时间（分钟）
+        /// </summary>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public HttpClientExecutePart SetTimeout(long timeout)
+        {
+            Timeout = timeout;
+            return this;
+        }
+
+        /// <summary>
         /// 设置 JSON 序列化提供器
         /// </summary>
         /// <typeparam name="TJsonSerializationProvider"></typeparam>

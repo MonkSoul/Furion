@@ -408,6 +408,13 @@ namespace Furion.RemoteRequest
                                          ? clientFactory.CreateClient()
                                          : clientFactory.CreateClient(ClientName);
 
+            // 只有大于 0 才设置超时时间
+            if (Timeout > 0)
+            {
+                // 设置请求超时时间
+                httpClient.Timeout = TimeSpan.FromMinutes(Timeout);
+            }
+
             // 判断命名客户端是否配置了 BaseAddress，且必须以 / 结尾
             var httpClientOriginalString = httpClient.BaseAddress?.OriginalString;
             if (!string.IsNullOrWhiteSpace(httpClientOriginalString) && !httpClientOriginalString.EndsWith("/"))

@@ -394,6 +394,12 @@ var res = await "https://www.furion.pro/upload".SetBody(new { id =1, name = "Fur
 var res = await "https://www.furion.pro/upload".SetRequestScoped(services);
 ```
 
+### 19.4.20 设置 `Timeout` 超时时间
+
+```cs
+var res = await "https://www.furion.pro/upload".SetTimeout(10); // 单位分钟
+```
+
 ## 19.5 `IHttpDispatchProxy` 代理方式
 
 ### 19.5.1 支持多种代理方式
@@ -721,9 +727,21 @@ public interface IHttp : IHttpDispatchProxy
 {
     [Post("https://www.furion.pro/upload")]
     Task<HttpRequestMessage> PostXXXAsync([Body("multipart/form-data")]User user, [BodyBytes("键","文件名")]Byte[] bytes);
-    Task<User> PostXXXAsync();
 }
 ```
+
+### 19.5.15 设置 `Timeout` 超时时间
+
+```cs
+[Timeout(1000)]
+public interface IHttp : IHttpDispatchProxy
+{
+    [Post("https://www.furion.pro/upload"), Timeout(500)]
+    Task<HttpRequestMessage> PostXXXAsync([Body]User user);
+}
+```
+
+方法的优先级高于接口定义的优先级。
 
 ## 19.6 多个请求客户端配置
 

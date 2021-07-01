@@ -113,6 +113,9 @@ namespace Furion.RemoteRequest
             // 设置请求客户端
             SetClient(method, httpClientPart, declaringType);
 
+            // 设置请求超时时间
+            SetTimeout(method, httpClientPart, declaringType);
+
             // 设置请求报文头
             SetHeaders(method, parameters, httpClientPart, declaringType);
 
@@ -154,6 +157,25 @@ namespace Furion.RemoteRequest
                     : default
                 );
             if (clientAttribute != null) httpClientPart.SetClient(clientAttribute.Name);
+        }
+
+        /// <summary>
+        /// 设置请求超时时间
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="httpClientPart"></param>
+        /// <param name="declaringType"></param>
+        private static void SetTimeout(MethodInfo method, HttpClientExecutePart httpClientPart, Type declaringType)
+        {
+            // 判断方法是否定义，如果没有再查找声明类
+            var timeout = method.IsDefined(typeof(TimeoutAttribute), true)
+                ? method.GetCustomAttribute<TimeoutAttribute>(true)
+                : (
+                    declaringType.IsDefined(typeof(TimeoutAttribute), true)
+                    ? declaringType.GetCustomAttribute<TimeoutAttribute>(true)
+                    : default
+                );
+            if (timeout != null) httpClientPart.SetTimeout(timeout.Minutes);
         }
 
         /// <summary>
