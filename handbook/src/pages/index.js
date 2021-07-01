@@ -297,6 +297,16 @@ function WhoUse() {
         <div className="furion-custom-img">
           <img src={useBaseUrl("img/jjd.png")} height="100" />
         </div>
+        <div className="furion-custom-img">
+          <a href="http://www.samfeng.cn/" target="_blank">
+            <img src={useBaseUrl("img/custom10.png")} height="100" />
+          </a>
+        </div>
+        <div className="furion-custom-img">
+          <a href="http://www.ketaisoft.com/" target="_blank">
+            <img src={useBaseUrl("img/custom11.png")} height="100" />
+          </a>
+        </div>
       </div>
       <div className="furion-who-des">
         <div style={{ maxWidth: 350 }}>
