@@ -236,6 +236,7 @@ namespace Furion.Extensions
         {
             if (type == null) return obj;
             if (type == typeof(string)) return obj.ToString();
+            if (type == typeof(Guid)) return Guid.Parse(obj.ToString());
             if (obj == null) return type.IsValueType ? Activator.CreateInstance(type) : null;
 
             var underlyingType = Nullable.GetUnderlyingType(type);
