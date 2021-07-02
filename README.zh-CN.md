@@ -60,8 +60,6 @@
 - 国内文档：[https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
 - 国外文档：[https://furion.pro](https://furion.pro)
 
-**目前文档正在逐步完善中。**
-
 ## 开源地址
 
 - Gitee：[https://gitee.com/dotnetchina/Furion](https://gitee.com/dotnetchina/Furion)
