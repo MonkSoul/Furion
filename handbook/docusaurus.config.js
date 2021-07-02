@@ -51,7 +51,7 @@ module.exports = {
         {
           to: "docs/upgrade",
           activeBasePath: "docs/upgrade",
-          label: "更新日志✨",
+          label: "更新日志",
           position: "left",
         },
         // {
@@ -96,7 +96,7 @@ module.exports = {
           activeBasePath: "docs/case",
         },
         {
-          label: "支持",
+          label: "支持✨",
           position: "right",
           to: "docs/donate",
           activeBasePath: "docs/donate",

@@ -279,6 +279,8 @@ services.AddControllersWithViews()
 
 如果使用使用了 `DateTimeOffset` 类型，那么可以设置 `.AddDateFormatString("yyyy-MM-dd HH:mm:ss", true)` 第二个参数为 `true`，自动转换成本地时间。
 
+如果使用了 `Mysql` 数据库，且使用了 `Pomelo.EntityFrameworkCore.MySql` 包，那么会出现时区问题，比如少 8 小时，可以尝试配置第二个参数为 `true`。
+
 :::
 
 需引用 `System.Text.Json` 命名空间。
