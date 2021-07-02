@@ -23,11 +23,11 @@ Make .NET development easier, more versatile, and more popular.
 
 </div>
 
-## 💐 Preface
+## Preface
 
 > Selfless dedication is not a fantasy. Sometimes, we can do it.
 
-## 🍕 Naming
+## Naming
 
 > The story goes like this:
 >
@@ -41,7 +41,7 @@ Make .NET development easier, more versatile, and more popular.
 >
 > `Furion` means "prophet" in Chinese, which is just in line with my original intention of creating the framework. So, `Furion` was born.
 
-## 🍔 About Logo
+## About Logo
 
 `Furion`'s logo design concept is based on [The Famous Kangaroo Theory](https://baike.baidu.com/item/%E8%A2%8B%E9%BC%A0%E7%90%86%E8%AE%BA).
 
@@ -55,21 +55,21 @@ Kangaroo has the characteristics of **long legs, bagging and self running**.
 <img src="./handbook/static/img/furionlogo.png" height="120"/>
 </p>
 
-## 🍟 Document
+## Document
 
 - Domestic documents: [https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
 - Foreign documents: [https://furion.pro](https://furion.pro)
 
 **At present, the document is gradually improving.**
 
-## 🌭 Souce Code
+## Souce Code
 
 - Gitee：[https://gitee.com/dotnetchina/Furion](https://gitee.com/dotnetchina/Furion)
 - GitHub：[https://github.com/monksoul/Furion](https://github.com/monksoul/Furion)
 - Docker：[https://hub.docker.com/r/monksoul/furion](https://hub.docker.com/r/monksoul/furion)
 - Nuget：[https://www.nuget.org/packages/Furion](https://www.nuget.org/packages/Furion)
 
-## 🍎 Features
+## Features
 
 - **New appearance**: Based on `.NET5/6` platform, no historical burden
 - **Easy to get started**: only one `Inject()` is needed to complete the configuration
@@ -79,7 +79,7 @@ Kangaroo has the characteristics of **long legs, bagging and self running**.
 - **Easy to maintain**: adopt unique architecture idea, only designed for long-term maintenance
 - **Perfect documentation**: provide complete development documentation
 
-## 🍻 Contribution
+## Contribution
 
 `Furion` follows the `Apache-2.0` open source agreement. You are welcome to submit `Pull Request` or `Issue`.
 
