@@ -12,6 +12,14 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
+:::important 系统提示禁止运行脚本解决
+
+如果出现 `cli.ps1` 无法运行的情况，如提示：`“因为在此系统上禁止运行脚本”`，只需要打开系统管理员 `CMD/Powershell` 执行：`set-ExecutionPolicy RemoteSigned` 命令并根据操作提示输入 `A` 即可。
+
+之后重启 `Visual Studio` 工具。
+
+:::
+
 ## 9.19.1 数据库开发方式
 
 `Furion` 提供两种主要方法来 **保持实体模型和数据库架构同步**。
