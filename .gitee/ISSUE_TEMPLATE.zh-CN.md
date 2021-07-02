@@ -12,6 +12,7 @@
 - [ ] Mvc
 - [ ] Razor Pages
 - [ ] Blazor Server
+- [ ] MinApp
 
 -----------
 
