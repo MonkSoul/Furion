@@ -61,6 +61,7 @@
   - [答疑] `Ubuntu` 中使用 `App.Configuration` 方法读取不到值 [#I3Y74H](https://gitee.com/dotnetchina/Furion/issues/I3Y74H)
   - [答疑] 数据库上下文作用域问题 [#I3YHXP](https://gitee.com/dotnetchina/Furion/issues/I3YHXP)
   - [答疑] 使用 `UnitofWork` 提交事务，可以提交成功，但是系统会有错误 [#I3YIWU](https://gitee.com/dotnetchina/Furion/issues/I3YIWU)
+  - [答疑] 数据库读写分离--非默认主库的从库随机该如何配置？ [#I3YVR7](https://gitee.com/dotnetchina/Furion/issues/I3YVR7)
 
 - **不做实现**
 
