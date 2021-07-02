@@ -294,6 +294,7 @@ namespace Furion.Tools.CommandLine
         /// </returns>
         public static Arguments Parse(string commandLineString = default, Type type = null, [CallerMemberName] string caller = default)
         {
+            _ = caller;
             commandLineString = commandLineString == default || string.IsNullOrEmpty(commandLineString) ? Environment.CommandLine : commandLineString;
 
             List<KeyValuePair<string, string>> argumentList;

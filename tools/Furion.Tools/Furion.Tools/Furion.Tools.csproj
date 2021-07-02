@@ -8,4 +8,8 @@
 		<Description>Furion 工具链。</Description>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<PackageReference Include="Furion.Tools.CommandLine" Version="1.0.1" />
+	</ItemGroup>
+
 </Project>

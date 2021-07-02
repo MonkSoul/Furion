@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31410.223
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Furion.Tools", "Furion.Tools\Furion.Tools.csproj", "{0FBC9092-8F93-43A3-BCCE-97F56AFC7E42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Tools", "Furion.Tools\Furion.Tools.csproj", "{0FBC9092-8F93-43A3-BCCE-97F56AFC7E42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Furion.Tools.CommandLine", "Furion.Tools.CommandLine\Furion.Tools.CommandLine.csproj", "{576F6D9F-BB49-4925-9F8F-7CD62B82A34D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{0FBC9092-8F93-43A3-BCCE-97F56AFC7E42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FBC9092-8F93-43A3-BCCE-97F56AFC7E42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FBC9092-8F93-43A3-BCCE-97F56AFC7E42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{576F6D9F-BB49-4925-9F8F-7CD62B82A34D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{576F6D9F-BB49-4925-9F8F-7CD62B82A34D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{576F6D9F-BB49-4925-9F8F-7CD62B82A34D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{576F6D9F-BB49-4925-9F8F-7CD62B82A34D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

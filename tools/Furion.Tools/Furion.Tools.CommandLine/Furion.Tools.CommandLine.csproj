@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<version>1.0.1</version>
+		<PackAsTool>false</PackAsTool>
+		<Description>Furion 解析控制台/命令行参数。</Description>
+	</PropertyGroup>
+
+</Project>
