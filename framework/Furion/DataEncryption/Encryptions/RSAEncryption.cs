@@ -54,7 +54,7 @@ namespace Furion.DataEncryption
         /// <summary>
         ///     生成RSA秘钥
         /// </summary>
-        /// <param name="keySize">大小必须为384到16384之间，且必须能被8整除</param>
+        /// <param name="keySize">大小必须为2048到16384之间，且必须能被8整除</param>
         /// <returns></returns>
         public static RsaSecretKey GenerateRsaSecretKey(int keySize)
         {
