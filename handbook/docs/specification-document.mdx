@@ -812,6 +812,29 @@ services.AddControllers()
 
 在 `Furion 2.9.0 + ` 版本已经支持了 `Swagger` 文档地址 `?culture=en-US` 参数多语言转发功能了，也就是 `Swagger` 地址带 `?culture=` 参数将自动添加到每一个请求的 `api` 地址中。
 
+### 6.5.26 自定义逻辑控制 `Swagger` 每一个 `api` 可见性
+
+有时候我们需要自定义 `Swagger` 接口可见性，比如根据权限，不同用户类型，各种逻辑控制，如：
+
+```cs
+// 也可以用 .AddInjectWithUnifyResult
+services.AddInject(swaggerGenConfigure: gen =>
+         {
+             gen.DocInclusionPredicate((currentGroup, apiDescription) =>
+             {
+                 // Furion 内部检查，必须放第一行
+                 var isShow = SpecificationDocumentBuilder.CheckApiDescriptionInCurrentGroup(currentGroup, apiDescription);
+
+                 // 获取当前方法
+                 _ = apiDescription.TryGetMethodInfo(out var method);
+
+                 // 有了方法，这里做你想做的事情，isShow 设置 true 可见，设置 false 不可见
+
+                 return isShow;
+             });
+         });
+```
+
 ## 6.6 `SpecificationDocumentSettings` 配置
 
 除了上述例子外，`Furion` 提供了一些配置选项，如：
