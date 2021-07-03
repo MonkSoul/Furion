@@ -109,5 +109,27 @@ namespace Furion.DataEncryption.Extensions
         {
             return PBKDF2Encryption.Compare(text, encryptText);
         }
+
+        /// <summary>
+        /// 字符串 RSA 解密
+        /// </summary>
+        /// <param name="text">需要解密的文本</param>
+        /// <param name="xmlPrivateKey">私钥</param>
+        /// <returns></returns>
+        public static string ToRSADecrypt(this string text, string xmlPrivateKey)
+        {
+            return RSAEncryption.Decrypt(text, xmlPrivateKey);
+        }
+
+        /// <summary>
+        /// 字符串 RSA 加密
+        /// </summary>
+        /// <param name="text">需要加密的文本</param>
+        /// <param name="xmlPublicKey">公钥</param>
+        /// <returns></returns>
+        public static string ToRSAEncrpyt(this string text, string xmlPublicKey)
+        {
+            return RSAEncryption.Encrypt(text, xmlPublicKey);
+        }
     }
 }

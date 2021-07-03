@@ -17,6 +17,7 @@ sidebar_label: 20. 数据加解密
 - `AES` 加解密
 - `JWT` 加解密
 - `PBKDF2` 加密
+- `RSA` 加解密
 
 ## 20.3 加解密使用
 
@@ -106,9 +107,21 @@ services.AddPBKDF2EncryptionOptions();
 
 :::
 
+### 20.3.6 `RSA` 加密
+
+```cs
+// 测试 RSA 加密
+var rsakey=RSAEncryption.GenerateRsaSecretKey(384);  //生成RSA秘钥 秘钥大小必须为384到16384，并且是8的倍数
+var basestring = RSAEncryption.Encrypt("百小僧",rsakey.PublicKey);  // 加密
+var str2 = RSAEncryption.Decrypt(basestring,rsakey.PrivateKey); // 解密
+return (basestring,str2);
+```
+
+
+
 ## 20.4 字符串拓展方式
 
-`Furion` 框架也提供了字符串拓展方式进行 `MD5加密、AES/DESC加解密`。
+`Furion` 框架也提供了字符串拓展方式进行 `MD5加密、AES/DESC加解密、RSA加解密`。
 
 ```cs
 using Furion.DataEncryption.Extensions;
@@ -128,6 +141,11 @@ var str = s.ToDESCDecrypt("sfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdfdfdfd");
 // PBKDF2 加密
 var s = "Furion".ToPBKDF2Encrypt();
 var b = "Furion".ToPBKDF2Compare(s);   // 比较
+
+// RSA 加解密
+var rsakey=RSAEncryption.GenerateRsaSecretKey(384);  //生成RSA秘钥 秘钥大小必须为384到16384，并且是8的倍数
+var s= "Furion".ToRSAEncrpyt(rsakey.PublicKey);  //加密
+var str=s.ToRSADecrypt(rsakey.PrivateKey);  //解密
 ```
 
 ## 20.5 反馈与建议
