@@ -58,8 +58,8 @@ namespace Furion.DataEncryption
         /// <returns></returns>
         public static RsaSecretKey GenerateRsaSecretKey(int keySize)
         {
-            if (keySize < 384 || keySize > 16384 || keySize % 8 != 0)
-                throw new ArgumentException("keySize must be between 384 and 16384 in size and must be divisible by 8.",
+            if (keySize < 2048 || keySize > 16384 || keySize % 8 != 0)
+                throw new ArgumentException("keySize must be between 2048 and 16384 in size and must be divisible by 8.",
                     "keySize");
             var rsaKey = new RsaSecretKey();
             using (var rsa = new RSACryptoServiceProvider(keySize))
