@@ -164,7 +164,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>621,916</div>
+            <div style={{ color: "#1fd898" }}>623,909</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>
@@ -336,8 +336,8 @@ function Links() {
         它们一样是优秀的项目/网站
       </h1>
       <div className="furion-links-content">
-        {urls.map((item) => (
-          <a href={item.url} target="_blank" title={item.title}>
+        {urls.map((item,i) => (
+          <a href={item.url} key={i} target="_blank" title={item.title}>
             {item.text}
           </a>
         ))}
