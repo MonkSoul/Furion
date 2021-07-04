@@ -81,7 +81,7 @@ function Banner() {
             >
               一分钟上手
             </Link>
-            <div className="furion-version">v2.11.2</div>
+            <div className="furion-version">v2.11.3</div>
           </div>
         </div>
         <div className="furion-banner-item">
@@ -152,7 +152,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#3fbbfe" }}>2750 +</div>
+            <div style={{ color: "#3fbbfe" }}>2800 +</div>
             <span className={isDarkTheme ? " dark" : ""}>Forks</span>
           </div>
         </div>
@@ -336,7 +336,7 @@ function Links() {
         它们一样是优秀的项目/网站
       </h1>
       <div className="furion-links-content">
-        {urls.map((item,i) => (
+        {urls.map((item, i) => (
           <a href={item.url} key={i} target="_blank" title={item.title}>
             {item.text}
           </a>
