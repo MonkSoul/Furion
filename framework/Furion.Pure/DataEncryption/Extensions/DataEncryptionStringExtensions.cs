@@ -90,27 +90,6 @@ namespace Furion.DataEncryption.Extensions
         }
 
         /// <summary>
-        /// 密码（字符串） PBKDF2 加密
-        /// </summary>
-        /// <param name="text">需要加密的文本（字符串）</param>
-        /// <returns></returns>
-        public static string ToPBKDF2Encrypt(this string text)
-        {
-            return PBKDF2Encryption.Encrypt(text);
-        }
-
-        /// <summary>
-        /// 使用 PBKDF2 算法验证密码（字符串）是否正确
-        /// </summary>
-        /// <param name="text">待验证的原始字符串（字符串）</param>
-        /// <param name="encryptText"></param>
-        /// <returns></returns>
-        public static bool ToPBKDF2Compare(this string text, string encryptText)
-        {
-            return PBKDF2Encryption.Compare(text, encryptText);
-        }
-
-        /// <summary>
         /// 字符串 RSA 加密
         /// </summary>
         /// <param name="text">需要加密的文本</param>
