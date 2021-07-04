@@ -111,13 +111,11 @@ services.AddPBKDF2EncryptionOptions();
 
 ```cs
 // 测试 RSA 加密
-var rsakey=RSAEncryption.GenerateRsaSecretKey(2048);  //生成RSA秘钥 秘钥大小必须为2048到16384，并且是8的倍数
-var basestring = RSAEncryption.Encrypt("百小僧",rsakey.PublicKey);  // 加密
-var str2 = RSAEncryption.Decrypt(basestring,rsakey.PrivateKey); // 解密
-return (basestring,str2);
+var (publicKey, privateKey) = RSAEncryption.GenerateSecretKey(2048);  //生成 RSA 秘钥 秘钥大小必须为 2048 到 16384，并且是 8 的倍数
+var basestring = RSAEncryption.Encrypt("百小僧", publicKey);  // 加密
+var str2 = RSAEncryption.Decrypt(basestring, privateKey); // 解密
+return (basestring, str2);
 ```
-
-
 
 ## 20.4 字符串拓展方式
 
@@ -143,9 +141,9 @@ var s = "Furion".ToPBKDF2Encrypt();
 var b = "Furion".ToPBKDF2Compare(s);   // 比较
 
 // RSA 加解密
-var rsakey=RSAEncryption.GenerateRsaSecretKey(2048);  //生成RSA秘钥 秘钥大小必须为2048到16384，并且是8的倍数
-var s= "Furion".ToRSAEncrpyt(rsakey.PublicKey);  //加密
-var str=s.ToRSADecrypt(rsakey.PrivateKey);  //解密
+var (publicKey, privateKey) = RSAEncryption.GenerateSecretKey(2048);  //生成 RSA 秘钥 秘钥大小必须为 2048 到 16384，并且是 8 的倍数
+var s= "Furion".ToRSAEncrpyt(publicKey);  // 加密
+var str=s.ToRSADecrypt(privateKey);  // 解密
 ```
 
 ## 20.5 反馈与建议

@@ -100,7 +100,7 @@ namespace Furion.DataEncryption.Extensions
         }
 
         /// <summary>
-        /// 使用 Pbkdf2 算法验证密码（字符串）是否正确
+        /// 使用 PBKDF2 算法验证密码（字符串）是否正确
         /// </summary>
         /// <param name="text">待验证的原始字符串（字符串）</param>
         /// <param name="encryptText"></param>
@@ -111,25 +111,25 @@ namespace Furion.DataEncryption.Extensions
         }
 
         /// <summary>
-        /// 字符串 RSA 解密
-        /// </summary>
-        /// <param name="text">需要解密的文本</param>
-        /// <param name="xmlPrivateKey">私钥</param>
-        /// <returns></returns>
-        public static string ToRSADecrypt(this string text, string xmlPrivateKey)
-        {
-            return RSAEncryption.Decrypt(text,xmlPrivateKey);
-        }
-
-        /// <summary>
         /// 字符串 RSA 加密
         /// </summary>
         /// <param name="text">需要加密的文本</param>
-        /// <param name="xmlPublicKey">公钥</param>
+        /// <param name="publicKey">公钥</param>
         /// <returns></returns>
-        public static string ToRSAEncrpyt(this string text, string xmlPublicKey)
+        public static string ToRSAEncrpyt(this string text, string publicKey)
         {
-            return RSAEncryption.Encrypt(text,xmlPublicKey);
+            return RSAEncryption.Encrypt(text, publicKey);
+        }
+
+        /// <summary>
+        /// 字符串 RSA 解密
+        /// </summary>
+        /// <param name="text">需要解密的文本</param>
+        /// <param name="privateKey">私钥</param>
+        /// <returns></returns>
+        public static string ToRSADecrypt(this string text, string privateKey)
+        {
+            return RSAEncryption.Decrypt(text, privateKey);
         }
     }
 }
