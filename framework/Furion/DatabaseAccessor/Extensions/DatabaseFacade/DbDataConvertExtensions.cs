@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.11.3
+// 框架版本：2.11.4
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -196,7 +196,7 @@ namespace Furion.DatabaseAccessor
             // 处理不传入 returnTypes 类型
             if (returnTypes == null || returnTypes.Length == 0)
             {
-                returnTypes = Enumerable.Range(0, dataTables.Count).Select(u => typeof(object)).ToArray();
+                returnTypes = Enumerable.Range(0, dataTables.Count).Select(u => typeof(List<object>)).ToArray();
             }
 
             // 处理 8 个结果集
