@@ -129,7 +129,7 @@ function Gitee() {
         完全开源免费
       </p>
       <h1 className={"furion-big-title" + (isDarkTheme ? " dark" : "")}>
-        代码托管在开源中国 Gitee
+        ⭐️ Gitee 平台 C# 语言最高星项目 ⭐️
       </h1>
       <div className="furion-gitee-log">
         <div
@@ -140,7 +140,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>6400 +</div>
+            <div style={{ color: "#723cff" }}>6410 +</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>

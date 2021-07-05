@@ -16,7 +16,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 [HttpGet, NonUnify]
 public IActionResult FileDownload(string path, string fileName)
 {
-    string filePath = Path.GetFullPath("~/temp/").Replace("~\\", "") + path;
+    string filePath = "这里获取完整的文件下载路径";
     return new FileStreamResult(new FileStream(filePath, FileMode.Open), "application/octet-stream") { FileDownloadName = fileName };
 }
 ```
@@ -49,6 +49,7 @@ public async Task<IActionResult> UploadFileAsync(List<IFormFile> files)
         }
     }
 
+    // 在动态 API 直接返回对象即可，无需 OK 和 IActionResult
     return Ok(new { count = files.Count, size });
 }
 ```
