@@ -29,13 +29,18 @@ public IActionResult FileDownload(string path, string fileName)
 [HttpPost, NonUnify]
 public async Task<IActionResult> UploadFileAsync(List<IFormFile> files)
 {
+    // 保存到网站根目录下的 uploads 目录
+    var savePath = Path.Combine(App.HostEnvironment.ContentRootPath, "uploads");
+    if(!Directory.Exists(savePath)) Directory.CreateDirectory(savePath);
+
     long size = files.Sum(f => f.Length);
 
     foreach (var formFile in files)
     {
         if (formFile.Length > 0)
         {
-            var filePath = Path.GetTempFileName();  // 可以替代为你需要存储的真实路径
+            // 避免文件名重复，采用 GUID 生成
+            var filePath = Path.Combine(savePath, Guid.NewGuid().ToString("N") + Path.GetExtension(formFile.FileName));  // 可以替代为你需要存储的真实路径
 
             using (var stream = System.IO.File.Create(filePath))
             {
