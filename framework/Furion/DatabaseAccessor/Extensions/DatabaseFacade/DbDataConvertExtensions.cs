@@ -184,7 +184,8 @@ namespace Furion.DatabaseAccessor
         /// <returns>List{object}</returns>
         public static List<object> ToList(this DataSet dataSet, params Type[] returnTypes)
         {
-            if (returnTypes == null || returnTypes.Length == 0) return default;
+            // 获取所有的 DataTable
+            var dataTables = dataSet.Tables;
 
             // 处理元组类型
             if (returnTypes.Length == 1 && returnTypes[0].IsValueType)
@@ -192,8 +193,11 @@ namespace Furion.DatabaseAccessor
                 returnTypes = returnTypes[0].GenericTypeArguments;
             }
 
-            // 获取所有的 DataTable
-            var dataTables = dataSet.Tables;
+            // 处理不传入 returnTypes 类型
+            if (returnTypes == null || returnTypes.Length == 0)
+            {
+                returnTypes = Enumerable.Range(0, dataTables.Count).Select(u => typeof(object)).ToArray();
+            }
 
             // 处理 8 个结果集
             if (returnTypes.Length >= 8)
