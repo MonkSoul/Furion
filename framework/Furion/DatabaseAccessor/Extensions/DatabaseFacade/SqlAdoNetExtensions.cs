@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.11.4
+// 框架版本：2.11.5
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -49,8 +49,8 @@ namespace Furion.DatabaseAccessor
             // 填充到 DataTable
             var dataTable = dbDataReader.ToDataTable();
 
-            // 清空命令参数
-            dbCommand.Parameters.Clear();
+            // 释放命令对象
+            dbCommand.Dispose();
 
             return dataTable;
         }
@@ -78,8 +78,8 @@ namespace Furion.DatabaseAccessor
             // 填充到 DataTable
             var dataTable = dbDataReader.ToDataTable();
 
-            // 清空命令参数
-            dbCommand.Parameters.Clear();
+            // 释放命令对象
+            dbCommand.Dispose();
 
             return (dataTable, dbParameters);
         }
@@ -108,8 +108,8 @@ namespace Furion.DatabaseAccessor
             // 填充到 DataTable
             var dataTable = dbDataReader.ToDataTable();
 
-            // 清空命令参数
-            dbCommand.Parameters.Clear();
+            // 释放命令对象
+            await dbCommand.DisposeAsync();
 
             return dataTable;
         }
@@ -138,8 +138,8 @@ namespace Furion.DatabaseAccessor
             // 填充到 DataTable
             var dataTable = dbDataReader.ToDataTable();
 
-            // 清空命令参数
-            dbCommand.Parameters.Clear();
+            // 释放命令对象
+            await dbCommand.DisposeAsync();
 
             return (dataTable, dbParameters);
         }
@@ -163,8 +163,8 @@ namespace Furion.DatabaseAccessor
             // 执行返回受影响行数
             var rowEffects = dbCommand.ExecuteNonQuery();
 
-            // 清空命令参数
-            dbCommand.Parameters.Clear();
+            // 释放命令对象
+            dbCommand.Dispose();
 
             return rowEffects;
         }
@@ -188,8 +188,8 @@ namespace Furion.DatabaseAccessor
             // 执行返回受影响行数
             var rowEffects = dbCommand.ExecuteNonQuery();
 
-            // 清空命令参数
-            dbCommand.Parameters.Clear();
+            // 释放命令对象
+            dbCommand.Dispose();
 
             return (rowEffects, dbParameters);
         }
@@ -214,8 +214,8 @@ namespace Furion.DatabaseAccessor
             // 执行返回受影响行数
             var rowEffects = await dbCommand.ExecuteNonQueryAsync(cancellationToken);
 
-            // 清空命令参数
-            dbCommand.Parameters.Clear();
+            // 释放命令对象
+            await dbCommand.DisposeAsync();
 
             return rowEffects;
         }
@@ -240,8 +240,8 @@ namespace Furion.DatabaseAccessor
             // 执行返回受影响行数
             var rowEffects = await dbCommand.ExecuteNonQueryAsync(cancellationToken);
 
-            // 清空命令参数
-            dbCommand.Parameters.Clear();
+            // 释放命令对象
+            await dbCommand.DisposeAsync();
 
             return (rowEffects, dbParameters);
         }
@@ -265,8 +265,8 @@ namespace Furion.DatabaseAccessor
             // 执行返回单行单列的值
             var result = dbCommand.ExecuteScalar();
 
-            // 清空命令参数
-            dbCommand.Parameters.Clear();
+            // 释放命令对象
+            dbCommand.Dispose();
 
             return result != DBNull.Value ? result : default;
         }
@@ -290,8 +290,8 @@ namespace Furion.DatabaseAccessor
             // 执行返回单行单列的值
             var result = dbCommand.ExecuteScalar();
 
-            // 清空命令参数
-            dbCommand.Parameters.Clear();
+            // 释放命令对象
+            dbCommand.Dispose();
 
             return (result != DBNull.Value ? result : default, dbParameters);
         }
@@ -316,8 +316,8 @@ namespace Furion.DatabaseAccessor
             // 执行返回单行单列的值
             var result = await dbCommand.ExecuteScalarAsync(cancellationToken);
 
-            // 清空命令参数
-            dbCommand.Parameters.Clear();
+            // 释放命令对象
+            await dbCommand.DisposeAsync();
 
             return result != DBNull.Value ? result : default;
         }
@@ -342,8 +342,8 @@ namespace Furion.DatabaseAccessor
             // 执行返回单行单列的值
             var result = await dbCommand.ExecuteScalarAsync(cancellationToken);
 
-            // 清空命令参数
-            dbCommand.Parameters.Clear();
+            // 释放命令对象
+            await dbCommand.DisposeAsync();
 
             return (result != DBNull.Value ? result : default, dbParameters);
         }
@@ -371,8 +371,8 @@ namespace Furion.DatabaseAccessor
             // 填充到 DataSet
             var dataSet = dbDataReader.ToDataSet();
 
-            // 清空命令参数
-            dbCommand.Parameters.Clear();
+            // 释放命令对象
+            dbCommand.Dispose();
 
             return dataSet;
         }
@@ -400,8 +400,8 @@ namespace Furion.DatabaseAccessor
             // 填充到 DataSet
             var dataSet = dbDataReader.ToDataSet();
 
-            // 清空命令参数
-            dbCommand.Parameters.Clear();
+            // 释放命令对象
+            dbCommand.Dispose();
 
             return (dataSet, dbParameters);
         }
@@ -430,8 +430,8 @@ namespace Furion.DatabaseAccessor
             // 填充到 DataSet
             var dataSet = dbDataReader.ToDataSet();
 
-            // 清空命令参数
-            dbCommand.Parameters.Clear();
+            // 释放命令对象
+            await dbCommand.DisposeAsync();
 
             return dataSet;
         }
@@ -460,8 +460,8 @@ namespace Furion.DatabaseAccessor
             // 填充到 DataSet
             var dataSet = dbDataReader.ToDataSet();
 
-            // 清空命令参数
-            dbCommand.Parameters.Clear();
+            // 释放命令对象
+            await dbCommand.DisposeAsync();
 
             return (dataSet, dbParameters);
         }

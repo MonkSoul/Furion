@@ -44,7 +44,7 @@ function Banner() {
             <span
               style={{ fontSize: 14, fontWeight: "normal", color: "#8759ff" }}
             >
-              [fi:rɪən]
+              [fu:rɪən]
             </span>
           </div>
           <div className="furion-banner-description">
@@ -81,7 +81,7 @@ function Banner() {
             >
               一分钟上手
             </Link>
-            <div className="furion-version">v2.11.4</div>
+            <div className="furion-version">v2.11.5</div>
           </div>
         </div>
         <div className="furion-banner-item">
@@ -140,7 +140,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#723cff" }}>6420 +</div>
+            <div style={{ color: "#723cff" }}>6500 +</div>
             <span className={isDarkTheme ? " dark" : ""}>Stars</span>
           </div>
         </div>
@@ -164,7 +164,7 @@ function Gitee() {
             className={"furion-log-jiao" + (isDarkTheme ? " dark" : "")}
           ></div>
           <div className="furion-log-number">
-            <div style={{ color: "#1fd898" }}>625,116</div>
+            <div style={{ color: "#1fd898" }}>629,646</div>
             <span className={isDarkTheme ? " dark" : ""}>Downloads</span>
           </div>
         </div>

@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.11.4
+// 框架版本：2.11.5
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -73,7 +73,10 @@ namespace Furion
         /// <param name="configuration"></param>
         public void PostConfigure(AppSettingsOptions options, IConfiguration configuration)
         {
-            options.InjectMiniProfiler ??= true;
+            // 非 Web 环境总是 false
+            if (App.WebHostEnvironment == default) options.InjectMiniProfiler = false;
+            else options.InjectMiniProfiler ??= true;
+
             options.EnabledDistributedMemoryCache ??= true;
             options.InjectSpecificationDocument ??= true;
             options.EnabledReferenceAssemblyScan ??= false;
