@@ -14,8 +14,6 @@ using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
-using StackExchange.Profiling;
-using StackExchange.Profiling.Data;
 using System;
 using System.Collections.Concurrent;
 using System.Data;
@@ -317,8 +315,9 @@ namespace Furion.DatabaseAccessor
                 var conn = item.Value.Database.GetDbConnection();
                 if (conn.State == ConnectionState.Open)
                 {
-                    var wrapConn = InjectMiniProfiler ? new ProfiledDbConnection(conn, MiniProfiler.Current) : conn;
-                    wrapConn.Close();
+                    conn.Close();
+                    // 打印数据库关闭信息
+                    App.PrintToMiniProfiler("sql", $"Close", $"Connection Close()");
                 }
             }
         }

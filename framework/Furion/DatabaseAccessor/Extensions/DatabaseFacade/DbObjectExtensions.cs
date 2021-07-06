@@ -16,8 +16,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using StackExchange.Profiling;
-using StackExchange.Profiling.Data;
 using System.Data;
 using System.Data.Common;
 using System.Text;
@@ -43,11 +41,6 @@ namespace Furion.DatabaseAccessor
         private static readonly bool IsDevelopment;
 
         /// <summary>
-        /// MiniProfiler 组件状态
-        /// </summary>
-        private static readonly bool InjectMiniProfiler;
-
-        /// <summary>
         /// 是否打印数据库连接信息到 MiniProfiler 中
         /// </summary>
         private static readonly bool IsPrintDbConnectionInfo;
@@ -65,7 +58,6 @@ namespace Furion.DatabaseAccessor
             IsDevelopment = App.HostEnvironment.IsDevelopment();
 
             var appsettings = App.Settings;
-            InjectMiniProfiler = appsettings.InjectMiniProfiler.Value;
             IsPrintDbConnectionInfo = appsettings.PrintDbConnectionInfo.Value;
             IsLogEntityFrameworkCoreSqlExecuteCommand = appsettings.LogEntityFrameworkCoreSqlExecuteCommand.Value;
         }
@@ -84,11 +76,8 @@ namespace Furion.DatabaseAccessor
             var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType);
             SetDbParameters(databaseFacade.ProviderName, ref dbCommand, parameters);
 
-            // 记录 Sql 执行命令日志
-            LogSqlExecuteCommand(databaseFacade, dbCommand);
-
             // 打开数据库连接
-            OpenConnection(databaseFacade, dbConnection);
+            OpenConnection(databaseFacade, dbConnection, dbCommand);
 
             // 返回
             return (dbConnection, dbCommand);
@@ -108,11 +97,8 @@ namespace Furion.DatabaseAccessor
             var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType);
             SetDbParameters(databaseFacade.ProviderName, ref dbCommand, model, out var dbParameters);
 
-            // 记录 Sql 执行命令日志
-            LogSqlExecuteCommand(databaseFacade, dbCommand);
-
             // 打开数据库连接
-            OpenConnection(databaseFacade, dbConnection);
+            OpenConnection(databaseFacade, dbConnection, dbCommand);
 
             // 返回
             return (dbConnection, dbCommand, dbParameters);
@@ -133,11 +119,8 @@ namespace Furion.DatabaseAccessor
             var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType);
             SetDbParameters(databaseFacade.ProviderName, ref dbCommand, parameters);
 
-            // 记录 Sql 执行命令日志
-            LogSqlExecuteCommand(databaseFacade, dbCommand);
-
             // 打开数据库连接
-            await OpenConnectionAsync(databaseFacade, dbConnection, cancellationToken);
+            await OpenConnectionAsync(databaseFacade, dbConnection, dbCommand, cancellationToken);
 
             // 返回
             return (dbConnection, dbCommand);
@@ -158,11 +141,8 @@ namespace Furion.DatabaseAccessor
             var (dbConnection, dbCommand) = databaseFacade.CreateDbCommand(sql, commandType);
             SetDbParameters(databaseFacade.ProviderName, ref dbCommand, model, out var dbParameters);
 
-            // 记录 Sql 执行命令日志
-            LogSqlExecuteCommand(databaseFacade, dbCommand);
-
             // 打开数据库连接
-            await OpenConnectionAsync(databaseFacade, dbConnection, cancellationToken);
+            await OpenConnectionAsync(databaseFacade, dbConnection, dbCommand, cancellationToken);
 
             // 返回
             return (dbConnection, dbCommand, dbParameters);
@@ -181,7 +161,7 @@ namespace Furion.DatabaseAccessor
             DbProvider.CheckStoredProcedureSupported(databaseFacade.ProviderName, commandType);
 
             // 判断是否启用 MiniProfiler 组件，如果有，则包装链接
-            var dbConnection = InjectMiniProfiler ? new ProfiledDbConnection(databaseFacade.GetDbConnection(), MiniProfiler.Current) : databaseFacade.GetDbConnection();
+            var dbConnection = databaseFacade.GetDbConnection();
 
             // 创建数据库命令对象
             var dbCommand = dbConnection.CreateCommand();
@@ -204,7 +184,8 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="databaseFacade">ADO.NET 数据库对象</param>
         /// <param name="dbConnection">数据库连接对象</param>
-        private static void OpenConnection(DatabaseFacade databaseFacade, DbConnection dbConnection)
+        /// <param name="dbCommand"></param>
+        private static void OpenConnection(DatabaseFacade databaseFacade, DbConnection dbConnection, DbCommand dbCommand)
         {
             // 判断连接字符串是否关闭，如果是，则开启
             if (dbConnection.State == ConnectionState.Closed)
@@ -212,8 +193,11 @@ namespace Furion.DatabaseAccessor
                 dbConnection.Open();
 
                 // 打印数据库连接信息到 MiniProfiler
-                PrintConnectionToMiniProfiler(databaseFacade, dbConnection);
+                PrintConnectionToMiniProfiler(databaseFacade, dbConnection, false);
             }
+
+            // 记录 Sql 执行命令日志
+            LogSqlExecuteCommand(databaseFacade, dbCommand);
         }
 
         /// <summary>
@@ -221,9 +205,10 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="databaseFacade">ADO.NET 数据库对象</param>
         /// <param name="dbConnection">数据库连接对象</param>
+        /// <param name="dbCommand"></param>
         /// <param name="cancellationToken">异步取消令牌</param>
         /// <returns></returns>
-        private static async Task OpenConnectionAsync(DatabaseFacade databaseFacade, DbConnection dbConnection, CancellationToken cancellationToken = default)
+        private static async Task OpenConnectionAsync(DatabaseFacade databaseFacade, DbConnection dbConnection, DbCommand dbCommand, CancellationToken cancellationToken = default)
         {
             // 判断连接字符串是否关闭，如果是，则开启
             if (dbConnection.State == ConnectionState.Closed)
@@ -231,8 +216,11 @@ namespace Furion.DatabaseAccessor
                 await dbConnection.OpenAsync(cancellationToken);
 
                 // 打印数据库连接信息到 MiniProfiler
-                PrintConnectionToMiniProfiler(databaseFacade, dbConnection);
+                PrintConnectionToMiniProfiler(databaseFacade, dbConnection, true);
             }
+
+            // 记录 Sql 执行命令日志
+            LogSqlExecuteCommand(databaseFacade, dbCommand);
         }
 
         /// <summary>
@@ -271,8 +259,12 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="databaseFacade">ADO.NET 数据库对象</param>
         /// <param name="dbConnection">数据库连接对象</param>
-        private static void PrintConnectionToMiniProfiler(DatabaseFacade databaseFacade, DbConnection dbConnection)
+        /// <param name="isAsync"></param>
+        private static void PrintConnectionToMiniProfiler(DatabaseFacade databaseFacade, DbConnection dbConnection, bool isAsync)
         {
+            // 打印数据库连接信息
+            App.PrintToMiniProfiler("sql", $"Open{(isAsync ? "Async" : string.Empty)}", $"Connection Open{(isAsync ? "Async" : string.Empty)}()");
+
             if (IsDevelopment && IsPrintDbConnectionInfo)
             {
                 var connectionId = databaseFacade.GetService<IRelationalConnection>()?.ConnectionId;
@@ -288,6 +280,9 @@ namespace Furion.DatabaseAccessor
         /// <param name="dbCommand"></param>
         private static void LogSqlExecuteCommand(DatabaseFacade databaseFacade, DbCommand dbCommand)
         {
+            // 打印执行 SQL
+            App.PrintToMiniProfiler("sql", "Execution", dbCommand.CommandText);
+
             // 判断是否启用
             if (!IsLogEntityFrameworkCoreSqlExecuteCommand) return;
 

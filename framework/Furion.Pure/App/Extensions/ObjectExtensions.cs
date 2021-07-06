@@ -112,17 +112,8 @@ namespace Furion.Extensions
         /// <returns></returns>
         internal static bool IsAsync(this MethodInfo method)
         {
-            return method.GetCustomAttribute<AsyncMethodBuilderAttribute>() != null || method.ReturnType.IsAsync();
-        }
-
-        /// <summary>
-        /// 判断类型是否是异步类型
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        internal static bool IsAsync(this Type type)
-        {
-            return type.ToString().StartsWith(typeof(Task).FullName);
+            return method.GetCustomAttribute<AsyncMethodBuilderAttribute>() != null
+                || method.ReturnType.ToString().StartsWith(typeof(Task).FullName);
         }
 
         /// <summary>
