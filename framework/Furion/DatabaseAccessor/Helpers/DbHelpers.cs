@@ -112,11 +112,19 @@ namespace Furion.DatabaseAccessor
             if (dbParameterAttribute.DbType != null)
             {
                 var type = dbParameterAttribute.DbType.GetType();
-                if (type.IsEnum && typeof(DbType).IsAssignableFrom(type))
+                if (type.IsEnum)
                 {
-                    dbParameter.DbType = (DbType)dbParameterAttribute.DbType;
+                    // 处理通用 DbType 类型
+                    if (typeof(DbType).IsAssignableFrom(type)) dbParameter.DbType = (DbType)dbParameterAttribute.DbType;
+
+                    // 解决 Oracle 数据库游标类型参数
+                    if (type.FullName.Equals("Oracle.ManagedDataAccess.Client.OracleDbType", StringComparison.OrdinalIgnoreCase))
+                    {
+                        dbParameter.GetType().GetProperty("OracleDbType")?.SetValue(dbParameter, dbParameterAttribute.DbType);
+                    }
                 }
             }
+
             // 设置大小，解决NVarchar，Varchar 问题
             if (dbParameterAttribute.Size > 0)
             {

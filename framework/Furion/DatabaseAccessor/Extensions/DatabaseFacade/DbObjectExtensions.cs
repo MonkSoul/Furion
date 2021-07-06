@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Data;
 using System.Data.Common;
 using System.Text;
@@ -299,7 +300,13 @@ namespace Furion.DatabaseAccessor
             for (var i = 0; i < parameters.Count; i++)
             {
                 var parameter = parameters[i];
-                sqlLogBuilder.Append($"{parameter.ParameterName}='{parameter.Value}' (Size = {parameter.Size}) (DbType = {parameter.DbType})");
+                var parameterType = parameter.GetType();
+
+                // 处理 OracleParameter 参数打印
+                var dbType = parameterType.FullName.Equals("Oracle.ManagedDataAccess.Client.OracleParameter", StringComparison.OrdinalIgnoreCase)
+                    ? parameterType.GetProperty("OracleDbType").GetValue(parameter) : parameter.DbType;
+
+                sqlLogBuilder.Append($"{parameter.ParameterName}='{parameter.Value}' (Size = {parameter.Size}) (DbType = {dbType})");
                 if (i < parameters.Count - 1) sqlLogBuilder.Append(", ");
             }
 

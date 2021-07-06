@@ -10,8 +10,6 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
-using Furion.DatabaseAccessor.Models;
-
 namespace Furion.DatabaseAccessor
 {
     /// <summary>
@@ -23,10 +21,5 @@ namespace Furion.DatabaseAccessor
         /// Sql 语句
         /// </summary>
         public string Sql { get; set; }
-
-        /// <summary>
-        /// Sql 参数
-        /// </summary>
-        public SqlTemplateParameter[] Params { get; set; }
     }
 }
