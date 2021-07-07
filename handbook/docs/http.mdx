@@ -397,7 +397,7 @@ var res = await "https://www.furion.pro/upload".SetRequestScoped(services);
 ### 19.4.20 设置 `Timeout` 超时时间
 
 ```cs
-var res = await "https://www.furion.pro/upload".SetTimeout(10); // 单位分钟
+var res = await "https://www.furion.pro/upload".SetTimeout(10); // 单位秒
 ```
 
 ## 19.5 `IHttpDispatchProxy` 代理方式
@@ -736,7 +736,7 @@ public interface IHttp : IHttpDispatchProxy
 [Timeout(1000)]
 public interface IHttp : IHttpDispatchProxy
 {
-    [Post("https://www.furion.pro/upload"), Timeout(500)]
+    [Post("https://www.furion.pro/upload"), Timeout(500)]   // 单位秒
     Task<HttpRequestMessage> PostXXXAsync([Body]User user);
 }
 ```

@@ -10,6 +10,8 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -2156,7 +2158,13 @@ namespace Furion.DatabaseAccessor
         /// <returns></returns>
         private IPrivateSqlRepository GetSqlRepository()
         {
-            return App.GetService(typeof(ISqlRepository<>).MakeGenericType(DbContextLocator), ContextScoped) as IPrivateSqlRepository;
+            var repository = App.GetService(typeof(ISqlRepository<>).MakeGenericType(DbContextLocator), ContextScoped) as IPrivateSqlRepository;
+            // 设置超时时间
+            if (Timeout > 0)
+            {
+                repository.Context.Database.SetCommandTimeout(TimeSpan.FromSeconds(Timeout));
+            }
+            return repository;
         }
     }
 }

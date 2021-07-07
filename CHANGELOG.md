@@ -15,11 +15,14 @@
   - [新增] 远程请求配置 `Timeout` 超时时间 [#I3YPPK](https://gitee.com/dotnetchina/Furion/issues/I3YPPK)
   - [新增] 新增 `RSA` 加密算法 [#I3YZNU](https://gitee.com/dotnetchina/Furion/issues/I3YZNU) [!345](https://gitee.com/dotnetchina/Furion/pulls/345)
   - [新增] `DataTable` 和 `DataSet` 支持不指定强类型返回 [#I3Z6RI](https://gitee.com/dotnetchina/Furion/issues/I3Z6RI)
+  - [新增] `Sql` 字符串拓展方法设置 `Timeout` 超时时间 [#I3ZKWF](https://gitee.com/dotnetchina/Furion/issues/I3ZKWF)
+  - [新增] `Sql` 高级代理 `[Timeout]` 特性，设置超时时间 [#I3ZKWF](https://gitee.com/dotnetchina/Furion/issues/I3ZKWF)
 
 - **突破性变化**
 
   - [移除] **`FakeDelete` 假删除/软删除所有功能 [#I3XKII](https://gitee.com/dotnetchina/Furion/issues/I3XKII)**
   - [移除] **移除 `PBKDF2` 加密算法 [#I3Z0IO](https://gitee.com/dotnetchina/Furion/issues/I3Z0IO)**
+  - [调整] 远程请求设置超时时间单位由 `分钟` 改为 `秒` [#I3YPPK](https://gitee.com/dotnetchina/Furion/issues/I3YPPK)
   - [调整] `[NonAutomatic]` 特性名称为 `[Manual]` [#I3XKKX](https://gitee.com/dotnetchina/Furion/issues/I3XKKX)
   - [调整] `[NotChangedListener]` 特性名称为 `[SuppressChangedListener]` [#I3XKLZ](https://gitee.com/dotnetchina/Furion/issues/I3XKLZ)
   - [调整] `[ManualSaveChanges]` 名称为 `[ManualCommit]` [#I3XKNP](https://gitee.com/dotnetchina/Furion/issues/I3XKNP)

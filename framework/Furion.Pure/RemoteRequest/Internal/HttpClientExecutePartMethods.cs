@@ -415,7 +415,7 @@ namespace Furion.RemoteRequest
             if (Timeout > 0)
             {
                 // 设置请求超时时间
-                httpClient.Timeout = TimeSpan.FromMinutes(Timeout);
+                httpClient.Timeout = TimeSpan.FromSeconds(Timeout);
             }
 
             // 判断命名客户端是否配置了 BaseAddress，且必须以 / 结尾

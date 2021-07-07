@@ -14,6 +14,7 @@ using Furion.DependencyInjection;
 using Furion.Extensions;
 using Furion.Reflection;
 using Furion.Templates.Extensions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -269,6 +270,10 @@ namespace Furion.DatabaseAccessor
             var dbContext = Db.GetDbContext(dbContextLocatorType, Services);
             if (dbContext == null) throw new InvalidCastException($" The locator `{dbContextLocatorType.Name}` is not bind.");
 
+            // 设置 ADO.NET 超时时间
+            var timeout = GetDbContextTimeout(method, declaringType);
+            if (timeout != null && timeout.Value > 0) dbContext.Database.SetCommandTimeout(timeout.Value);
+
             // 转换方法参数
             var parameters = CombineDbParameter(method, args);
 
@@ -327,6 +332,26 @@ namespace Furion.DatabaseAccessor
             CallMethodInterceptors(declaringType, sqlProxyMethod);
 
             return sqlProxyMethod;
+        }
+
+        /// <summary>
+        /// 获取 ADO.NET 超时时间
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="declaringType"></param>
+        /// <returns></returns>
+        private static int? GetDbContextTimeout(MethodInfo method, Type declaringType)
+        {
+            // 判断方法是否定义，如果没有再查找声明类
+            var timeout = method.IsDefined(typeof(TimeoutAttribute), true)
+                ? method.GetCustomAttribute<TimeoutAttribute>(true)
+                : (
+                    declaringType.IsDefined(typeof(TimeoutAttribute), true)
+                    ? declaringType.GetCustomAttribute<TimeoutAttribute>(true)
+                    : default
+                );
+
+            return timeout?.Seconds;
         }
 
         /// <summary>

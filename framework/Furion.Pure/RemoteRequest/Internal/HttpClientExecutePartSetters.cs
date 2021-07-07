@@ -214,7 +214,7 @@ namespace Furion.RemoteRequest
         }
 
         /// <summary>
-        /// 设置超时时间（分钟）
+        /// 设置超时时间（秒）
         /// </summary>
         /// <param name="timeout"></param>
         /// <returns></returns>

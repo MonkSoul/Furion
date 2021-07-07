@@ -571,7 +571,18 @@ public interface ISql : ISqlDispatchProxy
 }
 ```
 
-## 9.17.10 反馈与建议
+## 9.17.10 设置超时时间
+
+```cs
+[Timeout(1000)]
+public interface ISql : ISqlDispatchProxy
+{
+    [SqlFunction("FN_Name"), Timeout(500)]   // 单位秒
+    string GetValue(MyParam dto);
+}
+```
+
+## 9.17.11 反馈与建议
 
 :::note 与我们交流
 

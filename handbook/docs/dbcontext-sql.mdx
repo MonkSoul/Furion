@@ -601,7 +601,13 @@ var persons = await "FN_Name".SqlFunctionQueryAsync<Person>();
 var persons = await "FN_Name".SqlFunctionQueryAsync<Person>(new {id = 1});
 ```
 
-## 9.15.5 `ISqlRepository` 操作
+## 9.15.5 设置超时时间
+
+```cs
+var data = "select * from table".SetTimeout(100).SqlQuery();
+```
+
+## 9.15.6 `ISqlRepository` 操作
 
 `ISqlRepository` 仓储是专门处理 `Sql` 操作的，无需实体方式，所有接口和 `懒人无敌` 方式一样：
 
@@ -650,7 +656,7 @@ var persons = sqlRepository.SqlQuery<Person>("select * from person where id > @i
 
 :::
 
-## 9.15.6 `IRepository` 操作
+## 9.15.7 `IRepository` 操作
 
 `IRepository` 也能操作 `sql`，调用方法也是和上面一致的，如：
 
@@ -664,7 +670,7 @@ var dataTable = repository.Sql().SqlQuery("select * from person");
 
 :::
 
-## 9.15.7 `IRepository<TEntity>` 操作
+## 9.15.8 `IRepository<TEntity>` 操作
 
 `IRepository<TEntity>` 也能操作 `sql`，调用方法也是和上面一致的，如：
 
@@ -678,7 +684,7 @@ var dataTable = personRepository.SqlQuery("select * from person");
 
 :::
 
-## 9.15.8 关于 `Sql` 参数
+## 9.15.9 关于 `Sql` 参数
 
 所有 `sql`、`存储过程`，`函数` 参数都支持四种方式：
 
@@ -693,11 +699,11 @@ var dataTable = personRepository.SqlQuery("select * from person");
 
 :::
 
-## 9.15.9 多数据库 `Sql` 操作 💯 💛
+## 9.15.10 多数据库 `Sql` 操作 💯 💛
 
 `Furion` 框架拥有非常灵活的多数据库操作方式，只需通过多**数据库上下文定位器**即可动态切换数据库。
 
-### 9.15.9.1 懒人无敌 🐮 方式
+### 9.15.10.1 懒人无敌 🐮 方式
 
 ```cs
 var dataTable = "select * from person".Change<MySqlDbContextLocator>().SqlQuery();
@@ -711,19 +717,19 @@ var persons = "select * from person whre id > @id".Change<SqliteDbContextLocator
 
 :::
 
-### 9.15.9.2 `ISqlRepository` 方式
+### 9.15.10.2 `ISqlRepository` 方式
 
 只需要通过 `ISqlRepository<TDbContextLocator>` 注入或通过 `sqlRepository.Change<TDbContextLocator>()` 切换。
 
-### 9.15.9.3 `IRepository` 方式
+### 9.15.10.3 `IRepository` 方式
 
 只需要通过 `repository.Change<TDbContextLocator>()` 获取即可。
 
-### 9.15.9.4 `IRepository<TEntity>` 方式
+### 9.15.10.4 `IRepository<TEntity>` 方式
 
 只需要通过 `IRepository<TEntity, TDbContextLocator>` 注入或通过 `personRepository.Change<TEntity, TDbContextLocator>()` 切换。
 
-## 9.15.10 切换数据库
+## 9.15.11 切换数据库
 
 在 `Furion` 框架中，不管是懒人模式还是仓储模式都是通过 `.Change<TDbContextLocator>` 方式切换数据库，如：
 
@@ -735,7 +741,7 @@ var data = "select * from table".Change<MySqlDbContextLocator>().SqlQuery<Data>(
 var data = req.Change<MySqlDbContextLocator>().SqlQuery<Data>("select * from table");
 ```
 
-## 9.15.11 多线程共享作用域
+## 9.15.12 多线程共享作用域
 
 默认情况下，所有的 `字符串` 和 `实体` 拓展都有自己独立维护的 `ServiceProvider` 作用域。
 
@@ -749,7 +755,7 @@ Scoped.Create((fac, scope) => {
 });
 ```
 
-## 9.15.12 反馈与建议
+## 9.15.13 反馈与建议
 
 :::note 与我们交流
 

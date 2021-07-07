@@ -27,6 +27,11 @@ namespace Furion.DatabaseAccessor
         public string SqlString { get; private set; }
 
         /// <summary>
+        /// 设置超时时间
+        /// </summary>
+        public int Timeout { get; private set; }
+
+        /// <summary>
         /// 数据库上下文定位器
         /// </summary>
         public Type DbContextLocator { get; private set; } = typeof(MasterDbContextLocator);

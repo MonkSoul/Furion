@@ -24,15 +24,15 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="minutes"></param>
-        public TimeoutAttribute(long minutes)
+        /// <param name="seconds"></param>
+        public TimeoutAttribute(long seconds)
         {
-            Minutes = minutes;
+            Seconds = seconds;
         }
 
         /// <summary>
-        /// 超时时间（分钟）
+        /// 超时时间（秒）
         /// </summary>
-        public long Minutes { get; set; }
+        public long Seconds { get; set; }
     }
 }

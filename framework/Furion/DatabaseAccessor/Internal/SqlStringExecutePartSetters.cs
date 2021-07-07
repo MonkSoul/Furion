@@ -31,6 +31,17 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
+        /// 设置 ADO.NET 超时时间
+        /// </summary>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public SqlStringExecutePart SetTimeout(int timeout)
+        {
+            Timeout = timeout;
+            return this;
+        }
+
+        /// <summary>
         /// 设置数据库执行作用域
         /// </summary>
         /// <param name="serviceProvider"></param>

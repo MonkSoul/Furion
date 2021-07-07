@@ -13,10 +13,10 @@
 using Furion.DependencyInjection;
 using System;
 
-namespace Furion.RemoteRequest
+namespace Furion.DatabaseAccessor
 {
     /// <summary>
-    /// 配置客户端请求超时时间
+    /// 配置 ADO.NET 超时时间
     /// </summary>
     [SuppressSniffer, AttributeUsage(AttributeTargets.Interface | AttributeTargets.Method)]
     public class TimeoutAttribute : Attribute
@@ -25,7 +25,7 @@ namespace Furion.RemoteRequest
         /// 构造函数
         /// </summary>
         /// <param name="seconds"></param>
-        public TimeoutAttribute(long seconds)
+        public TimeoutAttribute(int seconds)
         {
             Seconds = seconds;
         }
@@ -33,6 +33,6 @@ namespace Furion.RemoteRequest
         /// <summary>
         /// 超时时间（秒）
         /// </summary>
-        public long Seconds { get; set; }
+        public int Seconds { get; set; }
     }
 }

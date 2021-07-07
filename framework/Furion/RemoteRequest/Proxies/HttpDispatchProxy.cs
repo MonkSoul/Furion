@@ -175,7 +175,7 @@ namespace Furion.RemoteRequest
                     ? declaringType.GetCustomAttribute<TimeoutAttribute>(true)
                     : default
                 );
-            if (timeout != null) httpClientPart.SetTimeout(timeout.Minutes);
+            if (timeout != null) httpClientPart.SetTimeout(timeout.Seconds);
         }
 
         /// <summary>
