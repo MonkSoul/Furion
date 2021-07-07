@@ -33,12 +33,20 @@ namespace Furion.DependencyInjection
             if (handler == null) throw new ArgumentNullException(nameof(handler));
 
             // 创建作用域
-            using var scoped = CreateScope(ref scopeFactory);
+            var (scoped, serviceProvider) = CreateScope(ref scopeFactory);
 
             // 创建一个数据库上下文池
             var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
+
+            // 执行方法
             handler(scopeFactory, scoped);
+
+            // 提交工作单元
             dbContextPool.SavePoolNow();
+
+            // 释放
+            scoped.Dispose();
+            serviceProvider?.Dispose();
         }
 
         /// <summary>
@@ -52,12 +60,20 @@ namespace Furion.DependencyInjection
             if (handler == null) throw new ArgumentNullException(nameof(handler));
 
             // 创建作用域
-            using var scoped = CreateScope(ref scopeFactory);
+            var (scoped, serviceProvider) = CreateScope(ref scopeFactory);
 
             // 创建一个数据库上下文池
             var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
+
+            // 执行方法
             await handler(scopeFactory, scoped);
+
+            // 提交工作单元
             dbContextPool.SavePoolNow();
+
+            // 释放
+            scoped.Dispose();
+            if (serviceProvider != null) await serviceProvider.DisposeAsync();
         }
 
         /// <summary>
@@ -73,12 +89,20 @@ namespace Furion.DependencyInjection
             if (handler == null) throw new ArgumentNullException(nameof(handler));
 
             // 创建作用域
-            using var scoped = CreateScope(ref scopeFactory);
+            var (scoped, serviceProvider) = CreateScope(ref scopeFactory);
 
             // 创建一个数据库上下文池
             var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
+
+            // 执行方法
             var result = handler(scopeFactory, scoped);
+
+            // 提交工作单元
             dbContextPool.SavePoolNow();
+
+            // 释放
+            scoped.Dispose();
+            serviceProvider?.Dispose();
 
             return result;
         }
@@ -96,12 +120,20 @@ namespace Furion.DependencyInjection
             if (handler == null) throw new ArgumentNullException(nameof(handler));
 
             // 创建作用域
-            using var scoped = CreateScope(ref scopeFactory);
+            var (scoped, serviceProvider) = CreateScope(ref scopeFactory);
 
             // 创建一个数据库上下文池
             var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
+
+            // 执行方法
             var result = await handler(scopeFactory, scoped);
+
+            // 提交工作单元
             dbContextPool.SavePoolNow();
+
+            // 释放
+            scoped.Dispose();
+            if (serviceProvider != null) await serviceProvider.DisposeAsync();
 
             return result;
         }

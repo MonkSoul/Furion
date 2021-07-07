@@ -192,9 +192,9 @@ namespace Furion.RemoteRequest.Extensions
         /// <param name="requestUrl"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public static HttpClientExecutePart SetTimeout(this string requestUrl, long timeout)
+        public static HttpClientExecutePart SetClientTimeout(this string requestUrl, long timeout)
         {
-            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetTimeout(timeout);
+            return new HttpClientExecutePart().SetRequestUrl(requestUrl).SetClientTimeout(timeout);
         }
 
         /// <summary>

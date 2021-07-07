@@ -604,7 +604,7 @@ var persons = await "FN_Name".SqlFunctionQueryAsync<Person>(new {id = 1});
 ## 9.15.5 设置超时时间
 
 ```cs
-var data = "select * from table".SetTimeout(100).SqlQuery();
+var data = "select * from table".SetCommandTimeout(100).SqlQuery();
 ```
 
 ## 9.15.6 `ISqlRepository` 操作

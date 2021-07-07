@@ -35,7 +35,7 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public SqlStringExecutePart SetTimeout(int timeout)
+        public SqlStringExecutePart SetCommandTimeout(int timeout)
         {
             Timeout = timeout;
             return this;

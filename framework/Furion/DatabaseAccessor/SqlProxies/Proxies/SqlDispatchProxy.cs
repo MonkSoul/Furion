@@ -271,7 +271,7 @@ namespace Furion.DatabaseAccessor
             if (dbContext == null) throw new InvalidCastException($" The locator `{dbContextLocatorType.Name}` is not bind.");
 
             // 设置 ADO.NET 超时时间
-            var timeout = GetDbContextTimeout(method, declaringType);
+            var timeout = GetCommandTimeout(method, declaringType);
             if (timeout != null && timeout.Value > 0) dbContext.Database.SetCommandTimeout(timeout.Value);
 
             // 转换方法参数
@@ -340,7 +340,7 @@ namespace Furion.DatabaseAccessor
         /// <param name="method"></param>
         /// <param name="declaringType"></param>
         /// <returns></returns>
-        private static int? GetDbContextTimeout(MethodInfo method, Type declaringType)
+        private static int? GetCommandTimeout(MethodInfo method, Type declaringType)
         {
             // 判断方法是否定义，如果没有再查找声明类
             var timeout = method.IsDefined(typeof(TimeoutAttribute), true)

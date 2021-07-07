@@ -218,7 +218,7 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public HttpClientExecutePart SetTimeout(long timeout)
+        public HttpClientExecutePart SetClientTimeout(long timeout)
         {
             Timeout = timeout;
             return this;

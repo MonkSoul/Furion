@@ -66,9 +66,9 @@ namespace Furion.DatabaseAccessor.Extensions
         /// <param name="sql"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public static SqlStringExecutePart SetTimeout(this string sql, int timeout)
+        public static SqlStringExecutePart SetCommandTimeout(this string sql, int timeout)
         {
-            return new SqlStringExecutePart().SetSqlString(sql).SetTimeout(timeout);
+            return new SqlStringExecutePart().SetSqlString(sql).SetCommandTimeout(timeout);
         }
 
         /// <summary>

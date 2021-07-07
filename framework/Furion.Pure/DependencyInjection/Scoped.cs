@@ -33,10 +33,14 @@ namespace Furion.DependencyInjection
             if (handler == null) throw new ArgumentNullException(nameof(handler));
 
             // 创建作用域
-            using var scoped = CreateScope(ref scopeFactory);
+            var (scoped, serviceProvider) = CreateScope(ref scopeFactory);
 
             // 执行方法
             handler(scopeFactory, scoped);
+
+            // 释放
+            scoped.Dispose();
+            serviceProvider?.Dispose();
         }
 
         /// <summary>
@@ -50,10 +54,14 @@ namespace Furion.DependencyInjection
             if (handler == null) throw new ArgumentNullException(nameof(handler));
 
             // 创建作用域
-            using var scoped = CreateScope(ref scopeFactory);
+            var (scoped, serviceProvider) = CreateScope(ref scopeFactory);
 
             // 执行方法
             await handler(scopeFactory, scoped);
+
+            // 释放
+            scoped.Dispose();
+            if (serviceProvider != null) await serviceProvider.DisposeAsync();
         }
 
         /// <summary>
@@ -69,10 +77,14 @@ namespace Furion.DependencyInjection
             if (handler == null) throw new ArgumentNullException(nameof(handler));
 
             // 创建作用域
-            using var scoped = CreateScope(ref scopeFactory);
+            var (scoped, serviceProvider) = CreateScope(ref scopeFactory);
 
             // 执行方法
             var result = handler(scopeFactory, scoped);
+
+            // 释放
+            scoped.Dispose();
+            serviceProvider?.Dispose();
 
             return result;
         }
@@ -90,10 +102,14 @@ namespace Furion.DependencyInjection
             if (handler == null) throw new ArgumentNullException(nameof(handler));
 
             // 创建作用域
-            using var scoped = CreateScope(ref scopeFactory);
+            var (scoped, serviceProvider) = CreateScope(ref scopeFactory);
 
             // 执行方法
             var result = await handler(scopeFactory, scoped);
+
+            // 释放
+            scoped.Dispose();
+            if (serviceProvider != null) await serviceProvider.DisposeAsync();
 
             return result;
         }
@@ -103,13 +119,24 @@ namespace Furion.DependencyInjection
         /// </summary>
         /// <param name="scopeFactory"></param>
         /// <returns></returns>
-        private static IServiceScope CreateScope(ref IServiceScopeFactory scopeFactory)
+        private static (IServiceScope Scoped, ServiceProvider ServiceProvider) CreateScope(ref IServiceScopeFactory scopeFactory)
         {
-            scopeFactory ??= (App.RootServices ?? InternalApp.InternalServices.BuildServiceProvider()).GetService<IServiceScopeFactory>();
+            ServiceProvider undisposeServiceProvider = default;
+
+            if (scopeFactory == null)
+            {
+                if (App.RootServices != null) scopeFactory = App.RootServices.GetService<IServiceScopeFactory>();
+                else
+                {
+                    // 这里创建了一个待释放服务提供器
+                    undisposeServiceProvider = InternalApp.InternalServices.BuildServiceProvider();
+                    scopeFactory = undisposeServiceProvider.GetService<IServiceScopeFactory>();
+                }
+            }
 
             // 解析服务作用域工厂
             var scoped = scopeFactory.CreateScope();
-            return scoped;
+            return (scoped, undisposeServiceProvider);
         }
     }
 }
