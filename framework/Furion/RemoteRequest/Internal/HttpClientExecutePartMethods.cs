@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.11.6
+// 框架版本：2.12.0
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -312,6 +312,9 @@ namespace Furion.RemoteRequest
             var text = await streamReader.ReadToEndAsync();
             // 释放流
             await stream.DisposeAsync();
+
+            // 如果字符串为空，则返回默认值
+            if (string.IsNullOrWhiteSpace(text)) return default;
 
             // 解析 Json 序列化提供器
             var jsonSerializer = App.GetService(JsonSerialization.ProviderType ?? typeof(SystemTextJsonSerializerProvider), RequestScoped) as IJsonSerializerProvider;

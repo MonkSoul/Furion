@@ -16,7 +16,7 @@ sidebar_label: 20. 数据加解密
 - `DESC` 加解密
 - `AES` 加解密
 - `JWT` 加解密
-- `PBKDF2` 加密（`Furion v2.11.6 +` 版本已移除）
+- `PBKDF2` 加密（`Furion v2.12.0 +` 版本已移除）
 - `RSA` 加解密
 
 ## 20.3 加解密使用
@@ -75,7 +75,7 @@ var (isValid, tokenData) = JWTEncryption.Validate("你的token"); // 验证token
 
 ### 20.3.5 `PBKDF2` 加密
 
-**`Furion v2.11.6 +` 版本已移除。**
+**`Furion v2.12.0 +` 版本已移除。**
 
 ```cs
 // 测试 PBKDF2 加密，比较
@@ -138,7 +138,7 @@ var str = s.ToAESDecrypt("sfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdfdfdfd");
 var s = "Furion".ToDESCEncrypt("sfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdfdfdfd");
 var str = s.ToDESCDecrypt("sfdsfdsfdsfdsfdsfdsfdsfdsfdfdsfdsfdfdfdfd");
 
-// PBKDF2 加密（`Furion v2.11.6 +` 版本已移除！！！！！！！！）
+// PBKDF2 加密（`Furion v2.12.0 +` 版本已移除！！！！！！！！）
 var s = "Furion".ToPBKDF2Encrypt();
 var b = "Furion".ToPBKDF2Compare(s);   // 比较
 

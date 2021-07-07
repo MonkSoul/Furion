@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.11.6
+// 框架版本：2.12.0
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -275,7 +275,7 @@ namespace Furion
             var dependencyContext = DependencyContext.Default;
 
             // 读取项目程序集或 Furion 官方发布的包，或手动添加引用的dll，或配置特定的包前缀
-            var scanAssemblies = dependencyContext.CompileLibraries
+            var scanAssemblies = dependencyContext.RuntimeLibraries
                 .Where(u =>
                        (u.Type == "project" && !excludeAssemblyNames.Any(j => u.Name.EndsWith(j))) ||
                        (u.Type == "package" && (u.Name.StartsWith(nameof(Furion)) || supportPackageNamePrefixs.Any(p => u.Name.StartsWith(p)))) ||
