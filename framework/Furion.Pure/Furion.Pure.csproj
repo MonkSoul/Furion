@@ -8,6 +8,16 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="SpecificationDocument\Assets\index-mini-profiler.html" />
+	  <None Remove="SpecificationDocument\Assets\index.html" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="SpecificationDocument\Assets\index-mini-profiler.html" />
+	  <EmbeddedResource Include="SpecificationDocument\Assets\index.html" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
@@ -15,12 +25,6 @@
 		<PackageReference Include="Furion.Pure.Extras.DependencyModel.CodeAnalysis" Version="2.11.6" />
 		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Update="TaskScheduler\Internal\SpareTimer.cs">
-	    <SubType>Component</SubType>
-	  </Compile>
 	</ItemGroup>
 
 </Project>
