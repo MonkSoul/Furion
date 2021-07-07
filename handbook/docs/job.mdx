@@ -643,8 +643,7 @@ SpareTime.Do(1000, (timer,count) => {
         // 解析其他服务
         var otherService = services.GetService<XXX>();
         var otherService2 = App.GetService<XXX>(services);
-    }
-
+    });
 }, "任务标识");
 ```
 
@@ -667,7 +666,7 @@ public void DoSomething1(SpareTimer timer, long count)
         // 解析其他服务
         var otherService = services.GetService<XXX>();
         var otherService2 = App.GetService<XXX>(services);
-    }
+    });
 }
 ```
 
