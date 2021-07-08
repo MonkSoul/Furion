@@ -29,24 +29,11 @@ namespace Furion.DependencyInjection
         /// <param name="scopeFactory"></param>
         public static void CreateUow(Action<IServiceScopeFactory, IServiceScope> handler, IServiceScopeFactory scopeFactory = default)
         {
-            // 禁止空调用
-            if (handler == null) throw new ArgumentNullException(nameof(handler));
-
-            // 创建作用域
-            var (scoped, serviceProvider) = CreateScope(ref scopeFactory);
-
-            // 创建一个数据库上下文池
-            var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
-
-            // 执行方法
-            handler(scopeFactory, scoped);
-
-            // 提交工作单元
-            dbContextPool.SavePoolNow();
-
-            // 释放
-            scoped.Dispose();
-            serviceProvider?.Dispose();
+            CreateUow(async (fac, scope) =>
+            {
+                handler(fac, scope);
+                await Task.CompletedTask;
+            }, scopeFactory).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -85,26 +72,12 @@ namespace Furion.DependencyInjection
         /// <returns></returns>
         public static T CreateUowRef<T>(Func<IServiceScopeFactory, IServiceScope, T> handler, IServiceScopeFactory scopeFactory = default)
         {
-            // 禁止空调用
-            if (handler == null) throw new ArgumentNullException(nameof(handler));
-
-            // 创建作用域
-            var (scoped, serviceProvider) = CreateScope(ref scopeFactory);
-
-            // 创建一个数据库上下文池
-            var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
-
-            // 执行方法
-            var result = handler(scopeFactory, scoped);
-
-            // 提交工作单元
-            dbContextPool.SavePoolNow();
-
-            // 释放
-            scoped.Dispose();
-            serviceProvider?.Dispose();
-
-            return result;
+            return CreateUowRef(async (fac, scope) =>
+            {
+                var result = handler(fac, scope);
+                await Task.CompletedTask;
+                return result;
+            }, scopeFactory).GetAwaiter().GetResult();
         }
 
         /// <summary>
