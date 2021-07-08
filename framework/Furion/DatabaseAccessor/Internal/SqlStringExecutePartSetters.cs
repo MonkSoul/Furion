@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.12.1
+// 框架版本：2.12.2
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -33,7 +33,7 @@ namespace Furion.DatabaseAccessor
         /// <summary>
         /// 设置 ADO.NET 超时时间
         /// </summary>
-        /// <param name="timeout"></param>
+        /// <param name="timeout">单位秒</param>
         /// <returns></returns>
         public SqlStringExecutePart SetCommandTimeout(int timeout)
         {

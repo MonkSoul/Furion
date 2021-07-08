@@ -37,7 +37,7 @@ Make .NET development easier, more versatile, and more popular.
 >
 > But **Lazier** and **Worse** have similar pronunciation and no characteristics, and the meaning is not very good. I have been agonizing about the name change for several days.
 >
-> Just once in QQ group accidentally brush to chat record hair **`Furion [fi:rɪən]`** word, meaning is a prophet, at that moment, recognized it!
+> Just once in QQ group accidentally brush to chat record hair **`Furion [fu:rɪən]`** word, meaning is a prophet, at that moment, recognized it!
 >
 > `Furion` means "prophet" in Chinese, which is just in line with my original intention of creating the framework. So, `Furion` was born.
 
