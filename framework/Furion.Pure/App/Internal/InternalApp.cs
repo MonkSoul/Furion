@@ -100,19 +100,16 @@ namespace Furion
             // 遍历所有配置分组
             foreach (var group in jsonFilesGroups)
             {
-                // 根据文件名长度排序
-                var orderGroup = group.OrderBy(u => Path.GetFileName(u).Length);
-                var firstJsonFile = orderGroup.First();
+                // 限制查找的 json 文件组
+                var limitFileNames = new[] { $"{group.Key}.json", $"{group.Key}.{envName}.json" };
 
-                // 默认加载第一个
-                config.AddJsonFile(firstJsonFile, optional: true, reloadOnChange: true);
+                // 查找默认配置和环境配置
+                var files = group.Where(u => limitFileNames.Contains(Path.GetFileName(u), StringComparer.OrdinalIgnoreCase));
 
-                // 查找和当前环境相关的配置文件
-                var environmentJsonFile = orderGroup.FirstOrDefault(u => Path.GetFileNameWithoutExtension(u).EndsWith($".{envName}", StringComparison.OrdinalIgnoreCase));
-                if (environmentJsonFile != null && environmentJsonFile != firstJsonFile)
+                // 循环加载
+                foreach (var jsonFile in files)
                 {
-                    // 加载当前环境的配置文件
-                    config.AddJsonFile(environmentJsonFile, optional: true, reloadOnChange: true);
+                    config.AddJsonFile(jsonFile, optional: true, reloadOnChange: true);
                 }
             }
         }
