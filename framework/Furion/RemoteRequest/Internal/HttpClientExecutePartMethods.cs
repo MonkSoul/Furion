@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.12.2
+// 框架版本：2.12.3
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -320,7 +320,7 @@ namespace Furion.RemoteRequest
             var jsonSerializer = App.GetService(JsonSerialization.ProviderType ?? typeof(SystemTextJsonSerializerProvider), RequestScoped) as IJsonSerializerProvider;
 
             // 反序列化流
-            var result = jsonSerializer.Deserialize<T>(text, JsonSerialization.JsonSerializerOptions);
+            var result = jsonSerializer.Deserialize<T>(text, JsonSerialization.JsonSerializerOptions, false);
             return result;
         }
 
@@ -587,7 +587,7 @@ namespace Furion.RemoteRequest
 
             // 解析序列化工具
             var jsonSerializer = App.GetService(JsonSerialization.ProviderType, RequestScoped) as IJsonSerializerProvider;
-            return jsonSerializer.Serialize(body, JsonSerialization.JsonSerializerOptions);
+            return jsonSerializer.Serialize(body, JsonSerialization.JsonSerializerOptions, false);
         }
     }
 }

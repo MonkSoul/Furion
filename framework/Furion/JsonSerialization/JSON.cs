@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.12.2
+// 框架版本：2.12.3
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -36,11 +36,12 @@ namespace Furion.JsonSerialization
         /// </summary>
         /// <param name="value"></param>
         /// <param name="jsonSerializerOptions"></param>
+        /// <param name="inherit">是否继承全局配置，默认 true</param>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static string Serialize(object value, object jsonSerializerOptions = default, IServiceProvider serviceProvider = default)
+        public static string Serialize(object value, object jsonSerializerOptions = default, bool inherit = true, IServiceProvider serviceProvider = default)
         {
-            return GetJsonSerializer(serviceProvider).Serialize(value, jsonSerializerOptions);
+            return GetJsonSerializer(serviceProvider).Serialize(value, jsonSerializerOptions, inherit);
         }
 
         /// <summary>
@@ -49,11 +50,12 @@ namespace Furion.JsonSerialization
         /// <typeparam name="T"></typeparam>
         /// <param name="json"></param>
         /// <param name="jsonSerializerOptions"></param>
+        /// <param name="inherit">是否继承全局配置，默认 true</param>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public static T Deserialize<T>(string json, object jsonSerializerOptions = default, IServiceProvider serviceProvider = default)
+        public static T Deserialize<T>(string json, object jsonSerializerOptions = default, bool inherit = true, IServiceProvider serviceProvider = default)
         {
-            return GetJsonSerializer(serviceProvider).Deserialize<T>(json, jsonSerializerOptions);
+            return GetJsonSerializer(serviceProvider).Deserialize<T>(json, jsonSerializerOptions, inherit);
         }
 
         /// <summary>

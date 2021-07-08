@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.12.2
+// 框架版本：2.12.3
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -22,8 +22,9 @@ namespace Furion.JsonSerialization
         /// </summary>
         /// <param name="value"></param>
         /// <param name="jsonSerializerOptions"></param>
+        /// <param name="inherit">是否继承全局配置，默认 true</param>
         /// <returns></returns>
-        string Serialize(object value, object jsonSerializerOptions = default);
+        string Serialize(object value, object jsonSerializerOptions = default, bool inherit = true);
 
         /// <summary>
         /// 反序列化字符串
@@ -31,8 +32,9 @@ namespace Furion.JsonSerialization
         /// <typeparam name="T"></typeparam>
         /// <param name="json"></param>
         /// <param name="jsonSerializerOptions"></param>
+        /// <param name="inherit">是否继承全局配置，默认 true</param>
         /// <returns></returns>
-        T Deserialize<T>(string json, object jsonSerializerOptions = default);
+        T Deserialize<T>(string json, object jsonSerializerOptions = default, bool inherit = true);
 
         /// <summary>
         /// 返回读取全局配置的 JSON 选项

@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.12.2
+// 框架版本：2.12.3
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -12,7 +12,6 @@
 
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using System.Text.Json;
 
 namespace Furion.JsonSerialization
@@ -24,28 +23,15 @@ namespace Furion.JsonSerialization
     public class SystemTextJsonSerializerProvider : IJsonSerializerProvider, ISingleton
     {
         /// <summary>
-        /// 获取 JSON 配置选项
-        /// </summary>
-        private readonly JsonOptions _jsonOptions;
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="options"></param>
-        public SystemTextJsonSerializerProvider(IOptions<JsonOptions> options)
-        {
-            _jsonOptions = options.Value;
-        }
-
-        /// <summary>
         /// 序列化对象
         /// </summary>
         /// <param name="value"></param>
         /// <param name="jsonSerializerOptions"></param>
+        /// <param name="inherit">是否继承全局配置，默认 true</param>
         /// <returns></returns>
-        public string Serialize(object value, object jsonSerializerOptions = null)
+        public string Serialize(object value, object jsonSerializerOptions = null, bool inherit = true)
         {
-            return JsonSerializer.Serialize(value, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerOptions);
+            return JsonSerializer.Serialize(value, (jsonSerializerOptions ?? (inherit ? GetSerializerOptions() : default)) as JsonSerializerOptions);
         }
 
         /// <summary>
@@ -54,10 +40,11 @@ namespace Furion.JsonSerialization
         /// <typeparam name="T"></typeparam>
         /// <param name="json"></param>
         /// <param name="jsonSerializerOptions"></param>
+        /// <param name="inherit">是否继承全局配置，默认 true</param>
         /// <returns></returns>
-        public T Deserialize<T>(string json, object jsonSerializerOptions = null)
+        public T Deserialize<T>(string json, object jsonSerializerOptions = null, bool inherit = true)
         {
-            return JsonSerializer.Deserialize<T>(json, (jsonSerializerOptions ?? GetSerializerOptions()) as JsonSerializerOptions);
+            return JsonSerializer.Deserialize<T>(json, (jsonSerializerOptions ?? (inherit ? GetSerializerOptions() : default)) as JsonSerializerOptions);
         }
 
         /// <summary>
@@ -66,7 +53,7 @@ namespace Furion.JsonSerialization
         /// <returns></returns>
         public object GetSerializerOptions()
         {
-            return _jsonOptions?.JsonSerializerOptions;
+            return App.GetOptions<JsonOptions>()?.JsonSerializerOptions;
         }
     }
 }
