@@ -6,6 +6,16 @@ sidebar_label: 12. 依赖注入/控制反转
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
+:::tip 阅前必读
+
+由于很多朋友第一次接触 `依赖注入/控制反转` 的架构理念，所以没搞明白 `作用域` 和 `多线程解析服务` 的问题，从而不正确的使用导致内存不断飙高，正确的方式应该是：
+
+- 尽可能的采用构造函数注入（如果这个类支持）
+- 在非静态中（**但在 Web 请求有效的声明周期内**）可安全使用 `App.GetService<>` 解析服务，如果是非 `IScoped` 作用域，优先推荐 `App.RootServices.GetService<>` 方式
+- 🤐 **在非 `Web` 环境、多线程环境、物联网等环境（含事件总线、定时任务等）必须采用 `Scoped.Create()` 方式创建作用域且服务在内部委托中解析！** 🤐
+
+:::
+
 ## 12.1 依赖注入
 
 所谓依赖注入，是指程序运行过程中，如果需要调用另一个对象协助时，无须在代码中创建被调用者，而是依赖于外部的注入。
@@ -688,7 +698,7 @@ public class TestService: ITestService, ITransient
 
 之后 `SayHello` 方法被调用的时候就可以实现动态拦截了，比如这里写日志。
 
-### 12.12.3 `全局Aop拦截`
+### 12.12.4 `全局Aop拦截`
 
 `Furion` 框架也提供了全局拦截的方式，只需要将 `IDispatchProxy` 修改为 `IGlobalDispatchProxy` 即可。
 
@@ -713,7 +723,7 @@ namespace Furion.Application
 
 :::
 
-### 12.12.3 `AOP` 注入解析服务
+### 12.12.4 `AOP` 注入解析服务
 
 `Furion` 框架未提供 `Proxy` 构造函数注入功能，但是提供了 `Services` 属性，如果需要解析服务，则可以通过以下方式：
 
@@ -723,7 +733,7 @@ var someServices = Services.GetService<ISomeService>(); // 推荐方式
 var someServices = App.GetService<ISomeService>();
 ```
 
-### 12.12.3 `AOP` 的作用
+### 12.12.4 `AOP` 的作用
 
 这种面向切面的能力（动态拦截/代理）可以实现很多很多功能，如：
 

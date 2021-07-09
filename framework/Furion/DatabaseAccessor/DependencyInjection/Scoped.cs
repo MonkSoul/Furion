@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.12.3
+// 框架版本：2.12.4
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -49,18 +49,27 @@ namespace Furion.DependencyInjection
             // 创建作用域
             var (scoped, serviceProvider) = CreateScope(ref scopeFactory);
 
-            // 创建一个数据库上下文池
-            var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
+            try
+            {
+                // 创建一个数据库上下文池
+                var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
 
-            // 执行方法
-            await handler(scopeFactory, scoped);
+                // 执行方法
+                await handler(scopeFactory, scoped);
 
-            // 提交工作单元
-            dbContextPool.SavePoolNow();
-
-            // 释放
-            scoped.Dispose();
-            if (serviceProvider != null) await serviceProvider.DisposeAsync();
+                // 提交工作单元
+                dbContextPool.SavePoolNow();
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                // 释放
+                scoped.Dispose();
+                if (serviceProvider != null) await serviceProvider.DisposeAsync();
+            }
         }
 
         /// <summary>
@@ -95,18 +104,29 @@ namespace Furion.DependencyInjection
             // 创建作用域
             var (scoped, serviceProvider) = CreateScope(ref scopeFactory);
 
-            // 创建一个数据库上下文池
-            var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
+            T result = default;
 
-            // 执行方法
-            var result = await handler(scopeFactory, scoped);
+            try
+            {
+                // 创建一个数据库上下文池
+                var dbContextPool = scoped.ServiceProvider.GetService<IDbContextPool>();
 
-            // 提交工作单元
-            dbContextPool.SavePoolNow();
+                // 执行方法
+                result = await handler(scopeFactory, scoped);
 
-            // 释放
-            scoped.Dispose();
-            if (serviceProvider != null) await serviceProvider.DisposeAsync();
+                // 提交工作单元
+                dbContextPool.SavePoolNow();
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                // 释放
+                scoped.Dispose();
+                if (serviceProvider != null) await serviceProvider.DisposeAsync();
+            }
 
             return result;
         }
