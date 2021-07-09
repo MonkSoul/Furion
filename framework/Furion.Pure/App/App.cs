@@ -88,7 +88,7 @@ namespace Furion
         public static ClaimsPrincipal User => HttpContext?.User;
 
         /// <summary>
-        /// 未托管的对象即可
+        /// 未托管的对象集合
         /// </summary>
         public static readonly ConcurrentBag<IDisposable> UnmanagedObjects;
 
