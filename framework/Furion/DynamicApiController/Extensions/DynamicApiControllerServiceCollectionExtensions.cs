@@ -15,7 +15,6 @@ using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -120,9 +119,6 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             // 添加应用模型转换器
             options.Conventions.Add(new DynamicApiControllerApplicationModelConvention());
-
-            // 添加 Xml 支持
-            options.InputFormatters.Add(new XmlSerializerInputFormatter(options));
         }
     }
 }

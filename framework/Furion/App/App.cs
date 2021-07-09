@@ -45,7 +45,20 @@ namespace Furion
         /// <summary>
         /// 应用全局配置
         /// </summary>
-        public static AppSettingsOptions Settings => _settings ??= GetOptions<AppSettingsOptions>();
+        public static AppSettingsOptions Settings
+        {
+            get
+            {
+                if (_settings == null)
+                {
+                    // 由于该配置在任何时候都可用，包括 Startup.cs 中，所以总是构建服务
+                    using var serviceProvider = InternalApp.InternalServices.BuildServiceProvider();
+                    _settings = serviceProvider.GetService<IOptions<AppSettingsOptions>>().Value;
+                }
+
+                return _settings;
+            }
+        }
 
         /// <summary>
         /// 全局配置选项
@@ -93,20 +106,30 @@ namespace Furion
         public static readonly ConcurrentBag<IDisposable> UnmanagedObjects;
 
         /// <summary>
-        /// 服务提供器
+        /// 解析服务提供器
         /// </summary>
-        public static IServiceProvider ServiceProvider
+        /// <param name="serviceType"></param>
+        /// <returns></returns>
+        public static IServiceProvider GetServiceProvider(Type serviceType)
         {
-            get
-            {
-                // 从 HttpContext 获取服务提供器
-                var servicesProvider = HttpContext?.RequestServices;
-                if (servicesProvider != null) return servicesProvider;
+            // 通过注册集合中查找服务类型
+            var serviceDescriptors = InternalApp.InternalServices.Where(u => u.ServiceType == (serviceType.IsGenericType ? serviceType.GetGenericTypeDefinition() : serviceType));
 
-                // 创建新的服务提供器，并存储起来
-                var newServicesProvider = InternalApp.InternalServices.BuildServiceProvider();
-                UnmanagedObjects.Add(newServicesProvider);
-                return newServicesProvider;
+            // 判断是否是 Scoped 注册生命周期
+            var isScopeLifetime = serviceDescriptors.Any(u => u.Lifetime == ServiceLifetime.Scoped);
+
+            // 如果不是 Scoped 作用域，优先采用 InternalApp.RootServices 解析
+            if (!isScopeLifetime && InternalApp.RootServices != null) return InternalApp.RootServices;
+
+            // 第二选择是反射获取 HttpContext 对象
+            var httpContext = HttpContext;
+            if (httpContext?.RequestServices != null) return httpContext.RequestServices;
+            else
+            {
+                // 第三选择才是动态构建
+                var undisposeServiceProvider = InternalApp.InternalServices.BuildServiceProvider();
+                UnmanagedObjects.Add(undisposeServiceProvider);
+                return undisposeServiceProvider;
             }
         }
 
@@ -130,7 +153,7 @@ namespace Furion
         /// <returns></returns>
         public static object GetService(Type type, IServiceProvider serviceProvider = default)
         {
-            return (serviceProvider ?? ServiceProvider).GetService(type);
+            return (serviceProvider ?? GetServiceProvider(type)).GetService(type);
         }
 
         /// <summary>
@@ -153,7 +176,7 @@ namespace Furion
         /// <returns></returns>
         public static object GetRequiredService(Type type, IServiceProvider serviceProvider = default)
         {
-            return (serviceProvider ?? ServiceProvider).GetRequiredService(type);
+            return (serviceProvider ?? GetServiceProvider(type)).GetRequiredService(type);
         }
 
         /// <summary>
@@ -314,8 +337,7 @@ namespace Furion
         {
             while (!UnmanagedObjects.IsEmpty)
             {
-                UnmanagedObjects.TryTake(out var serviceProvider);
-                serviceProvider?.Dispose();
+                UnmanagedObjects.TryTake(out var _);
             }
         }
     }

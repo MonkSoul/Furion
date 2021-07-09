@@ -332,6 +332,9 @@ namespace Furion.TaskScheduler
                     }
                     finally
                     {
+                        // 释放未托管对象
+                        App.DisposeUnmanagedObjects();
+
                         // 处理串行执行问题
                         currentRecord.IsCompleteOfPrev = true;
 

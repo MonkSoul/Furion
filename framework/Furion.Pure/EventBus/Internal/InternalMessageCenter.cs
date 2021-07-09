@@ -82,7 +82,18 @@ namespace Furion.EventBus
             {
                 foreach (var eventHandler in messageHandlers)
                 {
-                    if (isSync) eventHandler(messageId, payload).GetAwaiter().GetResult();
+                    if (isSync)
+                    {
+                        try
+                        {
+                            eventHandler(messageId, payload).GetAwaiter().GetResult();
+                        }
+                        finally
+                        {
+                            // 释放未托管对象
+                            App.DisposeUnmanagedObjects();
+                        }
+                    }
                     else
                     {
                         // 采用后台线程执行

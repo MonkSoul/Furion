@@ -108,7 +108,6 @@ namespace Furion.DataValidation
 
                 // 设置返回的响应类型
                 result.ContentTypes.Add(MediaTypeNames.Application.Json);
-                result.ContentTypes.Add(MediaTypeNames.Application.Xml);
 
                 context.Result = result;
             }

@@ -12,6 +12,7 @@
 
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.Text.Json;
 
 namespace Furion.JsonSerialization
@@ -22,6 +23,20 @@ namespace Furion.JsonSerialization
     [Injection(Order = -999)]
     public class SystemTextJsonSerializerProvider : IJsonSerializerProvider, ISingleton
     {
+        /// <summary>
+        /// 获取 JSON 配置选项
+        /// </summary>
+        private readonly JsonOptions _jsonOptions;
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="options"></param>
+        public SystemTextJsonSerializerProvider(IOptions<JsonOptions> options)
+        {
+            _jsonOptions = options.Value;
+        }
+
         /// <summary>
         /// 序列化对象
         /// </summary>
@@ -53,7 +68,7 @@ namespace Furion.JsonSerialization
         /// <returns></returns>
         public object GetSerializerOptions()
         {
-            return App.GetOptions<JsonOptions>()?.JsonSerializerOptions;
+            return _jsonOptions?.JsonSerializerOptions;
         }
     }
 }
