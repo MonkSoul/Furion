@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.12.5
+// 框架版本：2.12.6
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -40,7 +40,7 @@ namespace Furion
         /// <summary>
         /// 私有设置，避免重复解析
         /// </summary>
-        private static AppSettingsOptions _settings;
+        internal static AppSettingsOptions _settings;
 
         /// <summary>
         /// 应用全局配置
@@ -51,7 +51,7 @@ namespace Furion
             {
                 if (_settings == null)
                 {
-                    // 由于该配置在任何时候都可用，包括 Startup.cs 中，所以总是构建服务
+                    // 由于该配置在任何时候都可用，包括 Startup.cs 中，所以采用首次构建服务方式
                     using var serviceProvider = InternalApp.InternalServices.BuildServiceProvider();
                     _settings = serviceProvider.GetService<IOptions<AppSettingsOptions>>().Value;
                 }
@@ -115,18 +115,16 @@ namespace Furion
             // 通过注册集合中查找服务类型
             var serviceDescriptors = InternalApp.InternalServices.Where(u => u.ServiceType == (serviceType.IsGenericType ? serviceType.GetGenericTypeDefinition() : serviceType));
 
-            // 判断是否是 Scoped 注册生命周期
-            var isScopeLifetime = serviceDescriptors.Any(u => u.Lifetime == ServiceLifetime.Scoped);
-
-            // 如果不是 Scoped 作用域，优先采用 InternalApp.RootServices 解析
-            if (!isScopeLifetime && InternalApp.RootServices != null) return InternalApp.RootServices;
+            // 由于很多人的不正确使用，所以这里改为单例才从根服务解析，瞬时作用域不再从根服务解析
+            var isSingletonLifetime = serviceDescriptors.Any(u => u.Lifetime == ServiceLifetime.Singleton);
+            if (isSingletonLifetime && InternalApp.RootServices != null) return InternalApp.RootServices;
 
             // 第二选择是反射获取 HttpContext 对象
             var httpContext = HttpContext;
             if (httpContext?.RequestServices != null) return httpContext.RequestServices;
             else
             {
-                // 第三选择才是动态构建
+                // 第三选择才是动态构建服务提供器
                 var undisposeServiceProvider = InternalApp.InternalServices.BuildServiceProvider();
                 UnmanagedObjects.Add(undisposeServiceProvider);
                 return undisposeServiceProvider;

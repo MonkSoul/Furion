@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.12.5
+// 框架版本：2.12.6
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -31,6 +31,7 @@ namespace Furion.Extensions
         public static IConfiguration Reload(this IConfiguration configuration, IServiceProvider serviceProvider = default)
         {
             _ = configuration;
+            App._settings = default;
             return App.Configuration = App.GetService<IConfiguration>(serviceProvider ?? App.RootServices);
         }
     }

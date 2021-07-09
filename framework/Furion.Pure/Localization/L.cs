@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.12.5
+// 框架版本：2.12.6
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -48,12 +48,12 @@ namespace Furion.Localization
         /// <summary>
         /// String 多语言
         /// </summary>
-        public static IStringLocalizer @Text => LangType == null ? null : App.GetService<IStringLocalizerFactory>()?.Create(LangType);
+        public static IStringLocalizer @Text => LangType == null ? null : App.GetService<IStringLocalizerFactory>(App.RootServices)?.Create(LangType);
 
         /// <summary>
         /// Html 多语言
         /// </summary>
-        public static IHtmlLocalizer @Html => LangType == null ? null : App.GetService<IHtmlLocalizerFactory>()?.Create(LangType);
+        public static IHtmlLocalizer @Html => LangType == null ? null : App.GetService<IHtmlLocalizerFactory>(App.RootServices)?.Create(LangType);
 
         /// <summary>
         /// 设置多语言区域
