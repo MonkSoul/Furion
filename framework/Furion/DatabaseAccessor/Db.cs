@@ -177,42 +177,5 @@ namespace Furion.DatabaseAccessor
         {
             return GetDbContext(typeof(TDbContextLocator), serviceProvider);
         }
-
-        /// <summary>
-        /// 获取新的瞬时数据库上下文
-        /// </summary>
-        /// <param name="serviceProvider"></param>
-        /// <returns></returns>
-        public static DbContext GetNewDbContext(IServiceProvider serviceProvider = default)
-        {
-            return GetNewDbContext(typeof(MasterDbContextLocator), serviceProvider);
-        }
-
-        /// <summary>
-        /// 获取新的瞬时数据库上下文
-        /// </summary>
-        /// <param name="dbContextLocator"></param>
-        /// <param name="serviceProvider"></param>
-        /// <returns></returns>
-        public static DbContext GetNewDbContext(Type dbContextLocator, IServiceProvider serviceProvider = default)
-        {
-            // 判断是否注册了数据库上下文
-            if (!Penetrates.DbContextWithLocatorCached.ContainsKey(dbContextLocator)) return default;
-
-            var dbContextResolve = App.GetService<Func<Type, ITransient, DbContext>>(serviceProvider);
-            return dbContextResolve(dbContextLocator, default);
-        }
-
-        /// <summary>
-        /// 获取新的瞬时数据库上下文
-        /// </summary>
-        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
-        /// <param name="serviceProvider"></param>
-        /// <returns></returns>
-        public static DbContext GetNewDbContext<TDbContextLocator>(IServiceProvider serviceProvider = default)
-            where TDbContextLocator : class, IDbContextLocator
-        {
-            return GetNewDbContext(typeof(TDbContextLocator), serviceProvider);
-        }
     }
 }

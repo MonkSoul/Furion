@@ -71,16 +71,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // 注册多数据库仓储
             services.TryAddScoped(typeof(IDbRepository<>), typeof(DbRepository<>));
 
-            // 解析数据库上下文
-            services.AddTransient(provider =>
-            {
-                DbContext dbContextResolve(Type locator, ITransient transient)
-                {
-                    return ResolveDbContext(provider, locator);
-                }
-                return (Func<Type, ITransient, DbContext>)dbContextResolve;
-            });
-
+            // 注册解析数据库上下文委托
             services.AddScoped(provider =>
             {
                 DbContext dbContextResolve(Type locator, IScoped transient)

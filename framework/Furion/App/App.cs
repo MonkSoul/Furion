@@ -98,6 +98,7 @@ namespace Furion
         /// <summary>
         /// 获取请求上下文用户
         /// </summary>
+        /// <remarks>只有授权访问的页面或接口才存在值，否则为 null</remarks>
         public static ClaimsPrincipal User => HttpContext?.User;
 
         /// <summary>
@@ -238,7 +239,7 @@ namespace Furion
             if (Settings.InjectMiniProfiler != true) return;
 
             // 打印消息
-            var customTiming = MiniProfiler.Current.CustomTiming(category, string.IsNullOrWhiteSpace(message) ? $"{category.ToTitleCase()} {state}" : message, state);
+            var customTiming = MiniProfiler.Current?.CustomTiming(category, string.IsNullOrWhiteSpace(message) ? $"{category.ToTitleCase()} {state}" : message, state);
             if (customTiming == null) return;
 
             // 判断是否是警告消息
@@ -333,10 +334,7 @@ namespace Furion
         /// </summary>
         public static void DisposeUnmanagedObjects()
         {
-            while (!UnmanagedObjects.IsEmpty)
-            {
-                UnmanagedObjects.TryTake(out var _);
-            }
+            UnmanagedObjects.Clear();
         }
     }
 }

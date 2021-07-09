@@ -12,6 +12,7 @@
 
 using Furion.DependencyInjection;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -310,6 +311,19 @@ namespace Furion.Extensions
             }
 
             return objType;
+        }
+
+        /// <summary>
+        /// 清空线程安全集合
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        internal static void Clear<T>(this ConcurrentBag<T> list)
+        {
+            while (!list.IsEmpty)
+            {
+                list.TryTake(out var _);
+            }
         }
     }
 }

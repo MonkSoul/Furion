@@ -99,6 +99,9 @@ namespace Furion
                     method.Invoke(startup, ResolveMethodParameterInstances(app, method));
                 }
             }
+
+            // 释放内存
+            App.AppStartups.Clear();
         }
 
         /// <summary>
