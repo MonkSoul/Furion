@@ -462,8 +462,8 @@ public class JobWorker : ISpareTimeWorker
         Console.WriteLine($"一共执行了：{count} 次");
     }
 
-    // 读取配置文件，通过 {配置路径}
-    [SpareTime("{MyJob:Time}", "jobName6", StartNow = true, DoOnce = true)]
+    // 读取配置文件，通过 #(配置路径)
+    [SpareTime("#(MyJob:Time)", "jobName6", StartNow = true, DoOnce = true)]
     public void DoSomething5(SpareTimer timer, long count)
     {
         Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));

@@ -14,6 +14,7 @@ using Furion.DependencyInjection;
 using Furion.Extensions;
 using Furion.FriendlyException;
 using Furion.JsonSerialization;
+using Furion.Templates.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
@@ -97,7 +98,7 @@ namespace Furion.UnifyResult
                     var actionIfExceptionAttribute = typeExceptionAttributes.FirstOrDefault(u => u.ExceptionType == context.Exception.GetType())
                             ?? typeExceptionAttributes.FirstOrDefault(u => u.ExceptionType == null);
 
-                    if (actionIfExceptionAttribute is { ErrorMessage: not null }) errors = actionIfExceptionAttribute.ErrorMessage;
+                    if (actionIfExceptionAttribute is { ErrorMessage: not null }) errors = actionIfExceptionAttribute.ErrorMessage.Render();
                 }
                 else errors = errorMessage;
             }

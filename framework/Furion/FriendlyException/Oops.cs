@@ -14,6 +14,7 @@ using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.Extensions;
 using Furion.Localization;
+using Furion.Templates.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
@@ -385,14 +386,17 @@ namespace Furion.FriendlyException
         /// <returns></returns>
         private static string MontageErrorMessage(string errorMessage, string errorCode = default)
         {
-            if (errorMessage.StartsWith("[Validation]")) return errorMessage;
+            // 支持读取配置渲染
+            var realErrorMessage = errorMessage.Render();
+
+            if (realErrorMessage.StartsWith("[Validation]")) return realErrorMessage;
 
             // 多语言处理
-            errorMessage = L.Text == null ? errorMessage : L.Text[errorMessage];
+            realErrorMessage = L.Text == null ? realErrorMessage : L.Text[realErrorMessage];
 
             return (_friendlyExceptionSettings.HideErrorCode == true || string.IsNullOrWhiteSpace(errorCode)
                 ? string.Empty
-                : $"[{errorCode}] ") + errorMessage;
+                : $"[{errorCode}] ") + realErrorMessage;
         }
     }
 }

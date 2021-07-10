@@ -59,7 +59,7 @@ namespace Furion.FriendlyException
         public Type ExceptionType { get; set; }
 
         /// <summary>
-        /// 私有异常消息
+        /// 私有错误消息
         /// </summary>
         private string _errorMessage;
 
@@ -68,8 +68,8 @@ namespace Furion.FriendlyException
         /// </summary>
         public string ErrorMessage
         {
-            get => Oops.FormatErrorMessage(_errorMessage, Args);
-            set => _errorMessage = value;
+            get => _errorMessage;
+            set => _errorMessage = Oops.FormatErrorMessage(value, Args);
         }
 
         /// <summary>

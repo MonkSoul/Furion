@@ -12,6 +12,7 @@
 
 using Furion.DependencyInjection;
 using Furion.JsonSerialization;
+using Furion.Templates.Extensions;
 using Furion.VirtualFileServer;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.FileProviders;
@@ -151,10 +152,13 @@ namespace Furion.SensitiveDetection
         /// <param name="text"></param>
         private async Task<Dictionary<string, List<int>>> FoundSensitiveWordsAsync(string text)
         {
+            // 支持读取配置渲染
+            var realText = text.Render();
+
             // 获取词库
             var sensitiveWords = await GetWordsAsync();
 
-            var stringBuilder = new StringBuilder(text);
+            var stringBuilder = new StringBuilder(realText);
             var tempStringBuilder = new StringBuilder();
 
             // 记录脱敏词汇出现位置和次数

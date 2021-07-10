@@ -12,6 +12,7 @@
 
 using Furion.DependencyInjection;
 using Furion.Extensions;
+using Furion.Templates.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Concurrent;
@@ -189,7 +190,7 @@ namespace Furion.DataValidation
                     if (isValid != false) isValid = false;
                     // 添加错误消息
                     results.Add(new ValidationResult(
-                        string.Format(validationItemMetadata.DefaultErrorMessage, value, validationName)));
+                        string.Format(validationItemMetadata.DefaultErrorMessage.Render(), value, validationName)));
                 }
             }
 
@@ -277,7 +278,7 @@ namespace Furion.DataValidation
             // 查找所有 [ValidationMessageType] 类型中的 [ValidationMessage] 消息定义
             var customErrorMessages = ValidationMessageTypes.SelectMany(u => u.GetFields()
                     .Where(u => u.IsDefined(typeof(ValidationMessageAttribute))))
-                .ToDictionary(u => u.Name, u => u.GetCustomAttribute<ValidationMessageAttribute>().ErrorMessage);
+                .ToDictionary(u => u.Name, u => u.GetCustomAttribute<ValidationMessageAttribute>().ErrorMessage.Render());
 
             // 加载配置文件配置
             var validationTypeMessageSettings = App.GetOptions<ValidationTypeMessageSettingsOptions>();

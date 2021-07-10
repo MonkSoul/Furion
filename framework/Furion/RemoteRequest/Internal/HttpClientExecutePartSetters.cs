@@ -12,6 +12,7 @@
 
 using Furion.ClayObject.Extensions;
 using Furion.JsonSerialization;
+using Furion.Templates.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -36,7 +37,8 @@ namespace Furion.RemoteRequest
                 requestUrl = requestUrl[1..];
             }
 
-            RequestUrl = requestUrl;
+            // 支持读取配置渲染
+            RequestUrl = requestUrl.Render();
             return this;
         }
 

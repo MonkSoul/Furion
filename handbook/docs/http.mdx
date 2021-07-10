@@ -400,6 +400,20 @@ var res = await "https://www.furion.pro/upload".SetRequestScoped(services);
 var res = await "https://www.furion.pro/upload".SetClientTimeout(10); // 单位秒
 ```
 
+### 19.4.21 支持模板配置
+
+```cs
+var res = await "#(Furion:Address)/upload".GetAsync();
+```
+
+```json
+{
+  "Furion": {
+    "Address": "https://www.furion.pro"
+  }
+}
+```
+
 ## 19.5 `IHttpDispatchProxy` 代理方式
 
 ### 19.5.1 支持多种代理方式
@@ -738,6 +752,30 @@ public interface IHttp : IHttpDispatchProxy
 {
     [Post("https://www.furion.pro/upload"), Timeout(500)]   // 单位秒
     Task<HttpRequestMessage> PostXXXAsync([Body]User user);
+}
+```
+
+### 19.4.20 设置 `Timeout` 超时时间
+
+```cs
+var res = await "https://www.furion.pro/upload".SetClientTimeout(10); // 单位秒
+```
+
+### 19.5.16 支持模板配置
+
+```cs
+public interface IHttp : IHttpDispatchProxy
+{
+    [Post("#(Furion:Address)/upload")]
+    Task<HttpRequestMessage> PostXXXAsync([Body]User user);
+}
+```
+
+```json
+{
+  "Furion": {
+    "Address": "https://www.furion.pro"
+  }
 }
 ```
 

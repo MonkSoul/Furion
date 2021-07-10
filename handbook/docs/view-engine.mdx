@@ -321,7 +321,29 @@ Task<IViewEngineTemplate<T>> CompileAsync<T>(string content, Action<IViewEngineO
     where T : IViewEngineModel;
 ```
 
-## 17.6 反馈与建议
+## 17.8 简易模板
+
+`Furion` 除了内置视图引擎之外，还支持以下几种模板替换，如，强类型模板：
+
+```cs
+// 提供数据模板方式
+var str = "我叫{name}".Render(new Dictionary{ {"name", "Furion"} });
+var str = "我叫{Name}".Render(new { Name = "Furion" });
+var str = "我叫{Detail.Name}".Render(new { Detail = new { Name = "Furoin" } });
+
+// 从配置读取方式
+var str = "我叫#(Furion:Address)".Render();
+```
+
+```json
+{
+  "Furion": {
+    "Address": "https://www.furion.pro"
+  }
+}
+```
+
+## 17.7 反馈与建议
 
 :::note 与我们交流
 

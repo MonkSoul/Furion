@@ -28,17 +28,32 @@ namespace Furion.FriendlyException
         /// <param name="args">格式化参数</param>
         public ErrorCodeItemMetadataAttribute(string errorMessage, params object[] args)
         {
-            ErrorMessage = Oops.FormatErrorMessage(errorMessage, args);
+            ErrorMessage = errorMessage;
+            Args = args;
         }
+
+        /// <summary>
+        /// 私有错误消息
+        /// </summary>
+        private string _errorMessage;
 
         /// <summary>
         /// 错误消息
         /// </summary>
-        public string ErrorMessage { get; set; }
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set => _errorMessage = Oops.FormatErrorMessage(value, Args);
+        }
 
         /// <summary>
         /// 错误码
         /// </summary>
         public object ErrorCode { get; set; }
+
+        /// <summary>
+        /// 格式化参数
+        /// </summary>
+        public object[] Args { get; set; }
     }
 }

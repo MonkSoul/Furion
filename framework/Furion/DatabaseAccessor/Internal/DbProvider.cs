@@ -11,6 +11,7 @@
 // -----------------------------------------------------------------------------
 
 using Furion.DependencyInjection;
+using Furion.Templates.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -146,14 +147,17 @@ namespace Furion.DatabaseAccessor
         public static string GetConnectionString<TDbContext>(string connectionString = default)
             where TDbContext : DbContext
         {
-            if (!string.IsNullOrWhiteSpace(connectionString)) return connectionString;
+            // 支持读取配置渲染
+            var realConnectionString = connectionString.Render();
+
+            if (!string.IsNullOrWhiteSpace(realConnectionString)) return realConnectionString;
 
             // 如果没有配置数据库连接字符串，那么查找特性
             var dbContextAttribute = GetAppDbContextAttribute(typeof(TDbContext));
             if (dbContextAttribute == null) return default;
 
-            // 获取特性连接字符串
-            var connStr = dbContextAttribute.ConnectionString;
+            // 获取特性连接字符串（渲染配置模板）
+            var connStr = dbContextAttribute.ConnectionString.Render();
 
             if (string.IsNullOrWhiteSpace(connStr)) return default;
             // 如果包含 = 符号，那么认为是连接字符串

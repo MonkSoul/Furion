@@ -11,6 +11,7 @@
 // -----------------------------------------------------------------------------
 
 using Furion.TaskScheduler;
+using Furion.Templates.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace Furion.EventBus
         /// <summary>
         /// 类型消息 Id 注册表
         /// </summary>
-        private readonly ConcurrentBag<string> TypeMessageIdsRegisterTable = new();
+        private readonly ConcurrentBag<string> MessageIdRegisterTable = new();
 
         /// <summary>
         /// 私有构造函数
@@ -78,7 +79,10 @@ namespace Furion.EventBus
         /// <param name="isSync">是否同步执行</param>
         internal void Send(string messageId, object payload = null, bool isSync = false)
         {
-            if (MessageHandlerQueues.TryGetValue(messageId, out var messageHandlers))
+            // 支持读取配置渲染
+            var realMessageId = messageId.Render();
+
+            if (MessageHandlerQueues.TryGetValue(realMessageId, out var messageHandlers))
             {
                 foreach (var eventHandler in messageHandlers)
                 {
@@ -86,7 +90,7 @@ namespace Furion.EventBus
                     {
                         try
                         {
-                            eventHandler(messageId, payload).GetAwaiter().GetResult();
+                            eventHandler(realMessageId, payload).GetAwaiter().GetResult();
                         }
                         finally
                         {
@@ -99,7 +103,7 @@ namespace Furion.EventBus
                         // 采用后台线程执行
                         SpareTime.DoIt(async () =>
                         {
-                            await eventHandler(messageId, payload);
+                            await eventHandler(realMessageId, payload);
                         });
                     }
                 }
@@ -148,18 +152,21 @@ namespace Furion.EventBus
         {
             if (messageHandlers == null || messageHandlers.Length == 0) return;
 
+            // 支持读取配置渲染
+            var realMessageId = messageId.Render();
+
             // 判断当前类型是否已经注册过
-            var uniqueMessageId = $"{t.FullName}_{messageId}";
-            if (!TypeMessageIdsRegisterTable.Contains(uniqueMessageId))
+            var uniqueMessageId = $"{t.FullName}_{realMessageId}";
+            if (!MessageIdRegisterTable.Contains(uniqueMessageId))
             {
-                TypeMessageIdsRegisterTable.Add(uniqueMessageId);
+                MessageIdRegisterTable.Add(uniqueMessageId);
             }
 
             // 如果没有包含事件Id，则添加
-            var isAdded = MessageHandlerQueues.TryAdd(messageId, messageHandlers);
+            var isAdded = MessageHandlerQueues.TryAdd(realMessageId, messageHandlers);
             if (!isAdded)
             {
-                MessageHandlerQueues[messageId] = MessageHandlerQueues[messageId].Concat(messageHandlers).ToArray();
+                MessageHandlerQueues[realMessageId] = MessageHandlerQueues[realMessageId].Concat(messageHandlers).ToArray();
             }
         }
     }

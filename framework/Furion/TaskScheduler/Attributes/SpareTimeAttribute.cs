@@ -44,8 +44,8 @@ namespace Furion.TaskScheduler
             // 支持从配置文件读取
             var realValue = expressionOrKey.Render();
 
-            // 如果能够转换成整型，则采用间隔
-            if (long.TryParse(realValue, out var interval))
+            // 如果能够转换成整型，则采用间隔，间隔时间必须大于 0
+            if (long.TryParse(realValue, out var interval) && interval > 0)
             {
                 Interval = interval;
                 Type = SpareTimeTypes.Interval;

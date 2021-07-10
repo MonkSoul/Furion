@@ -29,7 +29,12 @@ namespace Furion.Templates.Extensions
         /// <summary>
         /// 模板正则表达式
         /// </summary>
-        private const string templatePattern = @"\{(?<p>.+?)\}";
+        private const string commonTemplatePattern = @"\{(?<p>.+?)\}";
+
+        /// <summary>
+        /// 读取配置模板正则表达式
+        /// </summary>
+        private const string configTemplatePattern = @"\#\((?<p>.*?)\)";
 
         /// <summary>
         /// 渲染模板
@@ -59,10 +64,10 @@ namespace Furion.Templates.Extensions
             if (templateData == null || templateData.Count == 0) return template;
 
             // 判断字符串是否包含模板
-            if (!Regex.IsMatch(template, templatePattern)) return template;
+            if (!Regex.IsMatch(template, commonTemplatePattern)) return template;
 
             // 获取所有匹配的模板
-            var templateValues = Regex.Matches(template, templatePattern)
+            var templateValues = Regex.Matches(template, commonTemplatePattern)
                                                        .Select(u => new {
                                                            Template = u.Groups["p"].Value,
                                                            Value = MatchTemplateValue(u.Groups["p"].Value, templateData)
@@ -88,10 +93,10 @@ namespace Furion.Templates.Extensions
             if (template == null) return default;
 
             // 判断字符串是否包含模板
-            if (!Regex.IsMatch(template, templatePattern)) return template;
+            if (!Regex.IsMatch(template, configTemplatePattern)) return template;
 
             // 获取所有匹配的模板
-            var templateValues = Regex.Matches(template, templatePattern)
+            var templateValues = Regex.Matches(template, configTemplatePattern)
                                                        .Select(u => new {
                                                            Template = u.Groups["p"].Value,
                                                            Value = App.Configuration[u.Groups["p"].Value]
@@ -100,7 +105,7 @@ namespace Furion.Templates.Extensions
             // 循环替换模板
             foreach (var item in templateValues)
             {
-                template = template.Replace($"{{{item.Template}}}", encode ? Uri.EscapeDataString(item.Value?.ToString() ?? string.Empty) : item.Value?.ToString());
+                template = template.Replace($"#({item.Template})", encode ? Uri.EscapeDataString(item.Value?.ToString() ?? string.Empty) : item.Value?.ToString());
             }
 
             return template;

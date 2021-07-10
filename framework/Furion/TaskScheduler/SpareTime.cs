@@ -11,6 +11,7 @@
 // -----------------------------------------------------------------------------
 
 using Furion.DependencyInjection;
+using Furion.Templates.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -613,15 +614,18 @@ namespace Furion.TaskScheduler
         /// <returns></returns>
         public static DateTime? GetCronNextOccurrence(string expression, CronFormat? cronFormat = default)
         {
+            // 支持从配置模板读取
+            var realExpression = expression.Render();
+
             // 自动化 CronFormat
             if (cronFormat == default)
             {
-                var parts = expression.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                var parts = realExpression.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 cronFormat = parts.Length <= 5 ? CronFormat.Standard : CronFormat.IncludeSeconds;
             }
 
             // 解析 Cron 表达式
-            var cronExpression = CronExpression.Parse(expression, cronFormat.Value);
+            var cronExpression = CronExpression.Parse(realExpression, cronFormat.Value);
 
             // 获取下一个执行时间
             var nextTime = cronExpression.GetNextOccurrence(DateTimeOffset.Now, TimeZoneInfo.Local);

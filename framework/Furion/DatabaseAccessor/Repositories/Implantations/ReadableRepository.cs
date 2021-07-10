@@ -10,6 +10,7 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
+using Furion.Templates.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using System;
@@ -908,10 +909,10 @@ namespace Furion.DatabaseAccessor
         /// <returns>IQueryable</returns>
         public virtual IQueryable<TEntity> FromSqlRaw(string sql, params object[] parameters)
         {
-            // 获取真实运行 Sql
-            sql = DbHelpers.ResolveSqlConfiguration(sql);
+            // 支持读取配置渲染
+            var realSql = sql.Render();
 
-            return Entities.FromSqlRaw(sql, parameters);
+            return Entities.FromSqlRaw(realSql, parameters);
         }
 
         /// <summary>
@@ -924,9 +925,6 @@ namespace Furion.DatabaseAccessor
         /// <returns>IQueryable</returns>
         public virtual IQueryable<TEntity> FromSqlInterpolated(FormattableString sql)
         {
-            // 获取真实运行 Sql
-            //sql = DbHelpers.ResolveSqlConfiguration(sql);
-
             return Entities.FromSqlInterpolated(sql);
         }
     }

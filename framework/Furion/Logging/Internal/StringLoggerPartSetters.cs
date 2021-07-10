@@ -10,6 +10,7 @@
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
 // -----------------------------------------------------------------------------
 
+using Furion.Templates.Extensions;
 using Microsoft.Extensions.Logging;
 using System;
 
@@ -26,7 +27,8 @@ namespace Furion.Logging
         /// <param name="message"></param>
         public StringLoggerPart SetMessage(string message)
         {
-            Message = message;
+            // 支持读取配置渲染
+            Message = message.Render();
             return this;
         }
 
