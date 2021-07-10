@@ -402,6 +402,8 @@ var res = await "https://www.furion.pro/upload".SetClientTimeout(10); // 单位�
 
 ### 19.4.21 支持模板配置
 
+模板格式为：`#(配置路径)`
+
 ```cs
 var res = await "#(Furion:Address)/upload".GetAsync();
 ```
@@ -762,6 +764,8 @@ var res = await "https://www.furion.pro/upload".SetClientTimeout(10); // 单位�
 ```
 
 ### 19.5.16 支持模板配置
+
+模板格式为：`#(配置路径)`
 
 ```cs
 public interface IHttp : IHttpDispatchProxy
