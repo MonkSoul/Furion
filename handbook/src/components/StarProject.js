@@ -17,7 +17,7 @@ export default function StarProject() {
         dotNET China 每周精选第 <span style={{ color: "yellow" }}>12</span> 期
       </a> */}
       <button className="furion-star-close" onClick={() => setShow(!show)}>
-        {show ? "收缩" : "展开"}
+        {show ? "收起" : "展开"}
       </button>
       {show && (
         <a
