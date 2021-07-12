@@ -161,15 +161,5 @@ namespace Furion.DynamicApiController
                 .Where(u => u.Length > 0)
                 .ToArray();
         }
-
-        /// <summary>
-        /// 获取骆驼命名第一个单词
-        /// </summary>
-        /// <param name="str">字符串</param>
-        /// <returns>首单词</returns>
-        internal static string GetCamelCaseFirstWord(string str)
-        {
-            return SplitCamelCase(str).First();
-        }
     }
 }
