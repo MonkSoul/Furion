@@ -406,7 +406,15 @@ public class Program
 
 如果只需要**一次性读取**配置信息，则使用配置，否则应该使用 《[4.2 选项](options.mdx)》代替。
 
-## 4.1.10 重载配置
+## 4.1.10 实现配置中心
+
+`ASP.NET Core` 除了通过配置文件读取配置信息外，还支持自定义 `配置提供程序`，通过 `配置提供程序` 可以实现配置中心，比如通过数据库提供配置。
+
+具体实现查看微软官方文档：[https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/configuration/?view=aspnetcore-5.0#custom-configuration-provider](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/configuration/?view=aspnetcore-5.0#custom-configuration-provider)
+
+采用该方式后，如果数据发生改变可调用 `App.Configuration.Reload()` 刷新即可。
+
+## 4.1.11 重载配置
 
 `Furion` 会在应用启动的时候对 `IConfiguration` 进行静态缓存，如果使用了 `App.Configuration` 静态属性且配置数据已发生变更，则调用以下方法刷新即可：
 
@@ -414,7 +422,7 @@ public class Program
 App.Configuration.Reload();
 ```
 
-## 4.1.11 反馈与建议
+## 4.1.12 反馈与建议
 
 :::note 与我们交流
 
