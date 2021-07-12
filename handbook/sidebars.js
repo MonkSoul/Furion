@@ -287,5 +287,9 @@ module.exports = {
       type: "doc",
       id: "global/fs",
     },
+    {
+      type: "doc",
+      id: "global/jwt",
+    },
   ],
 };

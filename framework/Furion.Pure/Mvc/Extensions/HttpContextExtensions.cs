@@ -11,6 +11,8 @@
 // -----------------------------------------------------------------------------
 
 using Furion.DependencyInjection;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using System.Linq;
 using System.Text;
 
 namespace Microsoft.AspNetCore.Http
@@ -31,6 +33,16 @@ namespace Microsoft.AspNetCore.Http
             where TAttribute : class
         {
             return httpContext.GetEndpoint()?.Metadata?.GetMetadata<TAttribute>();
+        }
+
+        /// <summary>
+        /// 获取 控制器/Action 描述器
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
+        public static ControllerActionDescriptor GetControllerActionDescriptor(this HttpContext httpContext)
+        {
+            return httpContext.GetEndpoint()?.Metadata?.FirstOrDefault(u => u is ControllerActionDescriptor) as ControllerActionDescriptor;
         }
 
         /// <summary>

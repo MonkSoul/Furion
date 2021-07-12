@@ -23,7 +23,7 @@ namespace Furion.LinqBuilder
     public static class LinqExpression
     {
         /// <summary>
-        /// [EF Core] 创建 Linq/Lambda 表达式
+        /// 创建 Linq/Lambda 表达式
         /// </summary>
         /// <typeparam name="TSource">泛型类型</typeparam>
         /// <param name="expression">表达式</param>
@@ -34,7 +34,7 @@ namespace Furion.LinqBuilder
         }
 
         /// <summary>
-        /// [EF Core] 创建 Linq/Lambda 表达式，支持索引器
+        /// 创建 Linq/Lambda 表达式，支持索引器
         /// </summary>
         /// <typeparam name="TSource">泛型类型</typeparam>
         /// <param name="expression">表达式</param>
@@ -45,7 +45,7 @@ namespace Furion.LinqBuilder
         }
 
         /// <summary>
-        /// [EF Core] 创建 And 表达式
+        /// 创建 And 表达式
         /// </summary>
         /// <typeparam name="TSource">泛型类型</typeparam>
         /// <returns>新的表达式</returns>
@@ -55,7 +55,7 @@ namespace Furion.LinqBuilder
         }
 
         /// <summary>
-        /// [EF Core] 创建 And 表达式，支持索引器
+        /// 创建 And 表达式，支持索引器
         /// </summary>
         /// <typeparam name="TSource">泛型类型</typeparam>
         /// <returns>新的表达式</returns>
@@ -65,7 +65,7 @@ namespace Furion.LinqBuilder
         }
 
         /// <summary>
-        /// [EF Core] 创建 Or 表达式
+        /// 创建 Or 表达式
         /// </summary>
         /// <typeparam name="TSource">泛型类型</typeparam>
         /// <returns>新的表达式</returns>
@@ -75,7 +75,7 @@ namespace Furion.LinqBuilder
         }
 
         /// <summary>
-        /// [EF Core] 创建 Or 表达式，支持索引器
+        /// 创建 Or 表达式，支持索引器
         /// </summary>
         /// <typeparam name="TSource">泛型类型</typeparam>
         /// <returns>新的表达式</returns>

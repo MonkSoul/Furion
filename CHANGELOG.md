@@ -7,6 +7,7 @@
 - **突破性变化**
 
   - [移除] `Db.GetNewDbContext()` 静态方法 [#I400BK](https://gitee.com/dotnetchina/Furion/issues/I400BK)
+  - [移除] 数据库模块时态表拓展支持 [#I405HI](https://gitee.com/dotnetchina/Furion/issues/I405HI)
   - [调整] `IJsonSerializerProvider` 接口参数，新增 `inherit` 参数 [#I3ZQU5](https://gitee.com/dotnetchina/Furion/issues/I3ZQU5)
 
 - **问题修复**

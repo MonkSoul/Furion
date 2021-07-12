@@ -24,7 +24,7 @@ namespace System.Linq
     public static class IEnumerableExtensions
     {
         /// <summary>
-        /// [EF Core] 根据条件成立再构建 Where 查询
+        /// 根据条件成立再构建 Where 查询
         /// </summary>
         /// <typeparam name="TSource">泛型类型</typeparam>
         /// <param name="sources">集合对象</param>
@@ -37,7 +37,7 @@ namespace System.Linq
         }
 
         /// <summary>
-        /// [EF Core] 根据条件成立再构建 Where 查询，支持索引器
+        /// 根据条件成立再构建 Where 查询，支持索引器
         /// </summary>
         /// <typeparam name="TSource">泛型类型</typeparam>
         /// <param name="sources">集合对象</param>
@@ -50,7 +50,7 @@ namespace System.Linq
         }
 
         /// <summary>
-        /// [EF Core] 与操作合并多个表达式
+        /// 与操作合并多个表达式
         /// </summary>
         /// <typeparam name="TSource">泛型类型</typeparam>
         /// <param name="sources">集合对象</param>
@@ -70,7 +70,7 @@ namespace System.Linq
         }
 
         /// <summary>
-        /// [EF Core] 与操作合并多个表达式，支持索引器
+        /// 与操作合并多个表达式，支持索引器
         /// </summary>
         /// <typeparam name="TSource">泛型类型</typeparam>
         /// <param name="sources">集合对象</param>
@@ -90,7 +90,7 @@ namespace System.Linq
         }
 
         /// <summary>
-        /// [EF Core] 根据条件成立再构建 WhereOr 查询
+        /// 根据条件成立再构建 WhereOr 查询
         /// </summary>
         /// <typeparam name="TSource">泛型类型</typeparam>
         /// <param name="sources">集合对象</param>
@@ -107,7 +107,7 @@ namespace System.Linq
         }
 
         /// <summary>
-        /// [EF Core] 根据条件成立再构建 WhereOr 查询，支持索引器
+        /// 根据条件成立再构建 WhereOr 查询，支持索引器
         /// </summary>
         /// <typeparam name="TSource">泛型类型</typeparam>
         /// <param name="sources">集合对象</param>
