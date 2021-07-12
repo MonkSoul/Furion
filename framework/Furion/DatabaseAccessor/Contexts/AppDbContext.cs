@@ -223,7 +223,7 @@ namespace Furion.DatabaseAccessor
                 var dbContext = eventData.Context;
 
                 // 获取获取数据库操作上下文，跳过贴了 [NotChangedListener] 特性的实体
-                ChangeTrackerEntities = (dbContext).ChangeTracker.Entries()
+                ChangeTrackerEntities = dbContext.ChangeTracker.Entries()
                     .Where(u => !u.Entity.GetType().IsDefined(typeof(SuppressChangedListenerAttribute), true) && (u.State == EntityState.Added || u.State == EntityState.Modified || u.State == EntityState.Deleted)).ToDictionary(u => u, u => u.GetDatabaseValues());
 
                 AttachEntityChangedListener(eventData.Context, "OnChanging", ChangeTrackerEntities);
@@ -243,6 +243,9 @@ namespace Furion.DatabaseAccessor
             if (EnabledEntityChangedListener) AttachEntityChangedListener(eventData.Context, "OnChanged", ChangeTrackerEntities);
 
             SavedChangesEvent(eventData, result);
+
+            // 清空跟踪实体
+            ChangeTrackerEntities.Clear();
         }
 
         /// <summary>
@@ -255,6 +258,9 @@ namespace Furion.DatabaseAccessor
             if (EnabledEntityChangedListener) AttachEntityChangedListener(eventData.Context, "OnChangeFailed", ChangeTrackerEntities);
 
             SaveChangesFailedEvent(eventData);
+
+            // 清空跟踪实体
+            ChangeTrackerEntities.Clear();
         }
 
         /// <summary>
@@ -275,7 +281,7 @@ namespace Furion.DatabaseAccessor
                 var entryEntity = trackerEntities.Key;
                 var entity = entryEntity.Entity;
 
-                // 获取该实体类型的种子配置
+                // 获取该实体类型监听配置
                 var entitiesTypeByChanged = entityChangedTypes
                     .Where(u => u.GetInterfaces()
                         .Any(i => i.HasImplementedRawGeneric(typeof(IPrivateEntityChangedListener<>)) && i.GenericTypeArguments.Contains(entity.GetType())));
