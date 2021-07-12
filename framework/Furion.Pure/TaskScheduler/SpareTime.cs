@@ -183,8 +183,8 @@ namespace Furion.TaskScheduler
         {
             if (doWhat == null) return;
 
-            // 每秒检查一次
-            Do(1000, async (timer, tally) =>
+            // 每 0.5 秒检查一次
+            Do(500, async (timer, tally) =>
             {
                 // 获取下一个执行的时间
                 var nextLocalTime = nextTimeHandler();
@@ -499,9 +499,14 @@ namespace Furion.TaskScheduler
                 await doWhat();
             }
             catch { }
-            finally { }
+            finally
+            {
+                // 释放委托内存
+                App.DisposeUnmanagedObjects();
+            }
 
-            await Task.Delay(1000, stoppingToken);
+            // 每 0.5 秒检查一次
+            await Task.Delay(500, stoppingToken);
         }
 
         /// <summary>

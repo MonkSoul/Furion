@@ -12,6 +12,7 @@
 
 - **问题修复**
 
+  - [修复] `Worker Services` 定时任务边界值问题导致跳过单次任务 [#I405NI](https://gitee.com/dotnetchina/Furion/issues/I405NI)
   - [修复] `Worker Services` 独立发布后程序集扫描失效 bug [#I3ZH3X](https://gitee.com/dotnetchina/Furion/issues/I3ZH3X)
 
 - **其他更改**
