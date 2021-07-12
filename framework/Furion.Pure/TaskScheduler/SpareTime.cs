@@ -160,7 +160,7 @@ namespace Furion.TaskScheduler
         /// <param name="startNow"></param>
         /// <param name="cancelInNoneNextTime">在下一个空时间取消任务</param>
         /// <param name="executeType"></param>
-        public static void Do(Func<DateTime?> nextTimeHandler, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
+        public static void Do(Func<DateTimeOffset?> nextTimeHandler, Action<SpareTimer, long> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
         {
             Do(nextTimeHandler, async (s, i) =>
             {
@@ -179,12 +179,12 @@ namespace Furion.TaskScheduler
         /// <param name="startNow"></param>
         /// <param name="cancelInNoneNextTime">在下一个空时间取消任务</param>
         /// <param name="executeType"></param>
-        public static void Do(Func<DateTime?> nextTimeHandler, Func<SpareTimer, long, Task> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
+        public static void Do(Func<DateTimeOffset?> nextTimeHandler, Func<SpareTimer, long, Task> doWhat = default, string workerName = default, string description = default, bool startNow = true, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
         {
             if (doWhat == null) return;
 
-            // 每 0.5 秒检查一次
-            Do(500, async (timer, tally) =>
+            // 每 1s 秒检查一次
+            Do(1000, async (timer, tally) =>
             {
                 // 获取下一个执行的时间
                 var nextLocalTime = nextTimeHandler();
@@ -212,7 +212,7 @@ namespace Furion.TaskScheduler
                 currentRecord.Timer.Tally = timer.Tally = currentRecord.CronActualTally;
 
                 // 只有时间相等才触发
-                var interval = (nextLocalTime.Value - DateTime.Now).TotalSeconds;
+                var interval = (nextLocalTime.Value - DateTimeOffset.Now).TotalSeconds;
                 if (Math.Floor(interval) != 0)
                 {
                     UpdateWorkerRecord(workerName, currentRecord);
@@ -465,7 +465,7 @@ namespace Furion.TaskScheduler
         /// <param name="doWhat"></param>
         /// <param name="stoppingToken"></param>
         /// <returns></returns>
-        public static Task DoAsync(Func<DateTime?> nextTimeHandler, Action doWhat, CancellationToken stoppingToken)
+        public static Task DoAsync(Func<DateTimeOffset?> nextTimeHandler, Action doWhat, CancellationToken stoppingToken)
         {
             return DoAsync(nextTimeHandler, async () =>
             {
@@ -482,7 +482,7 @@ namespace Furion.TaskScheduler
         /// <param name="doWhat"></param>
         /// <param name="stoppingToken"></param>
         /// <returns></returns>
-        public static async Task DoAsync(Func<DateTime?> nextTimeHandler, Func<Task> doWhat, CancellationToken stoppingToken)
+        public static async Task DoAsync(Func<DateTimeOffset?> nextTimeHandler, Func<Task> doWhat, CancellationToken stoppingToken)
         {
             if (doWhat == null) return;
 
@@ -491,7 +491,7 @@ namespace Furion.TaskScheduler
             if (nextLocalTime == null) return;
 
             // 只有时间相等才触发
-            var interval = (nextLocalTime.Value - DateTime.Now).TotalSeconds;
+            var interval = (nextLocalTime.Value - DateTimeOffset.Now).TotalSeconds;
             if (Math.Floor(interval) != 0) return;
 
             try
@@ -505,8 +505,8 @@ namespace Furion.TaskScheduler
                 App.DisposeUnmanagedObjects();
             }
 
-            // 每 0.5 秒检查一次
-            await Task.Delay(500, stoppingToken);
+            // 每 1s 秒检查一次
+            await Task.Delay(1000, stoppingToken);
         }
 
         /// <summary>
@@ -617,7 +617,7 @@ namespace Furion.TaskScheduler
         /// <param name="expression"></param>
         /// <param name="cronFormat"></param>
         /// <returns></returns>
-        public static DateTime? GetCronNextOccurrence(string expression, CronFormat? cronFormat = default)
+        public static DateTimeOffset? GetCronNextOccurrence(string expression, CronFormat? cronFormat = default)
         {
             // 支持从配置模板读取
             var realExpression = expression.Render();
@@ -634,7 +634,7 @@ namespace Furion.TaskScheduler
 
             // 获取下一个执行时间
             var nextTime = cronExpression.GetNextOccurrence(DateTimeOffset.Now, TimeZoneInfo.Local);
-            return nextTime?.DateTime;
+            return nextTime;
         }
 
         /// <summary>
