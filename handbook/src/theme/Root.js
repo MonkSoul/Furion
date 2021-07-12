@@ -9,7 +9,7 @@ function Root({ children }) {
       <GiveMeStar />
       {children}
       <JoinGroup />
-      {/* <StarProject /> */}
+      <StarProject />
     </>
   );
 }

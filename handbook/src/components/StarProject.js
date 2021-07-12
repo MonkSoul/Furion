@@ -7,7 +7,7 @@ export default function StarProject() {
 
   return (
     <div className="furion-star-project">
-      <a
+      {/* <a
         className="furion-star-title"
         href="https://gitee.com/dotnetchina#-%E6%AF%8F%E5%91%A8%E7%B2%BE%E9%80%89%E9%A1%B9%E7%9B%AE-"
         target="_blank"
@@ -15,27 +15,27 @@ export default function StarProject() {
         title="点击查看 dotNET China 更多每周精选"
       >
         dotNET China 每周精选第 <span style={{ color: "yellow" }}>12</span> 期
-      </a>
+      </a> */}
       <button className="furion-star-close" onClick={() => setShow(!show)}>
         {show ? "收缩" : "展开"}
       </button>
       {show && (
         <a
-          href="https://gitee.com/dotnetchina#-%E6%AF%8F%E5%91%A8%E7%B2%BE%E9%80%89%E9%A1%B9%E7%9B%AE-"
+          href="https://www.processon.com/"
           target="_blank"
-          title="dotNET China 每周精选第 12 期"
+          title="免费在线流程图思维导图"
         >
-          <img src={useBaseUrl("img/FastTunnel.png")} />
+          <img src={useBaseUrl("img/processon.png")} />
         </a>
       )}
       <a
         className="furion-star-title"
         style={{ color: "yellow" }}
-        href="https://gitee.com/Hgui/FastTunnel"
+        href="https://www.processon.com/"
         target="_blank"
-        title="点击查看项目详情"
+        title="点击查看跳转"
       >
-        FastTunnel
+        ProcessOn
       </a>
     </div>
   );
