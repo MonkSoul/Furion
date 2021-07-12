@@ -35,7 +35,7 @@ export default function StarProject() {
         target="_blank"
         title="点击查看跳转"
       >
-        ProcessOn
+        点击进入 ProcessOn
       </a>
     </div>
   );
