@@ -8,7 +8,37 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 **此章节只记录重大版本更新日志，小迭代版本不做更新。**想了解更多更新内容，可查阅 [CHANGELOG.md](https://gitee.com/dotnetchina/Furion/blob/master/CHANGELOG.md)
 
-## v2.10/2.11/2.12 （当前版本）
+## v2.13（当前版本）
+
+- **新特性**
+
+  - [新增] 建议模板功能，支持远程请求、数据库模块、日志模块、事件总线模块、定时任务模块、异常模块、数据校验模块 [#I402BL](https://gitee.com/dotnetchina/Furion/issues/I402BL)
+  - [新增] `404` 状态码规范化默认处理 [#I408F5](https://gitee.com/dotnetchina/Furion/issues/I408F5)
+
+- **突破性变化**
+
+  - [移除] `Db.GetNewDbContext()` 静态方法 [#I400BK](https://gitee.com/dotnetchina/Furion/issues/I400BK)
+  - [移除] 数据库模块时态表拓展支持 [#I405HI](https://gitee.com/dotnetchina/Furion/issues/I405HI)
+  - [调整] `IJsonSerializerProvider` 接口参数，新增 `inherit` 参数 [#I3ZQU5](https://gitee.com/dotnetchina/Furion/issues/I3ZQU5)
+
+- **问题修复**
+
+  - [修复] `Worker Services` 定时任务边界值问题导致跳过单次任务 [#I405NI](https://gitee.com/dotnetchina/Furion/issues/I405NI)
+  - [修复] `Worker Services` 独立发布后程序集扫描失效 bug [#I3ZH3X](https://gitee.com/dotnetchina/Furion/issues/I3ZH3X)
+  - [修复] 远程请求如果配置了 `Client` 客户端但传入了空 `RequestUrl` 地址导致异常问题 [#I40BC6](https://gitee.com/dotnetchina/Furion/issues/I40BC6)
+  - [修复] 规范化结果篡改非短路端状态码出现异常 bug [#I408F5](https://gitee.com/dotnetchina/Furion/issues/I408F5)
+
+- **其他更改**
+
+- **文档变化**
+
+- **问答答疑**
+
+- **不做实现**
+
+---
+
+## v2.10/2.11/2.12 （已发布）
 
 > 该版本有多个破坏性更改，更新时请认真查看。
 
@@ -50,7 +80,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - [修复] 事件总线一个 `消息id` 对应多个 `Handler` 只触发第一个[#I3XYP0](https://gitee.com/dotnetchina/Furion/issues/I3XYP0)
   - [修复] `.ToPagedList()` 分页方法传入小于或等于 0 的页码 [#I3XNAN](https://gitee.com/dotnetchina/Furion/issues/I3XNAN)
   - [修复] `JSON` 序列化默认 `DateTimeOffset` 异常 [#I3XMOL](https://gitee.com/dotnetchina/Furion/issues/I3XMOL)
-  - [修复] 集成 `Serilog` 日志在 `Worker Service` 生成重复日志 bug [#I3WA0L](https://gitee.com/dotnetchina/Furion/issues/I3WA0L) [!331](https://gitee.com/dotnetchina/Furion/pulls/331)
+  - [修复] 继承 `Serilog` 日志在 `Worker Service` 生成重复日志 bug [#I3WA0L](https://gitee.com/dotnetchina/Furion/issues/I3WA0L) [!331](https://gitee.com/dotnetchina/Furion/pulls/331)
   - [修复] `粘土对象` 动态添加 `Clay` 类型 bug [#I3W9LW](https://gitee.com/dotnetchina/Furion/issues/I3W9LW)
   - [修复] `ValidationTypes.Numeric` 校验数值类型正则表达式错误 [#I3WADS](https://gitee.com/dotnetchina/Furion/issues/I3WADS)
   - [修复] 数据库命令参数 `DbParameter` 的 `Value` 是 `object` 类型的时候且不指定 [#I3YKM6](https://gitee.com/dotnetchina/Furion/issues/I3YKM6)
