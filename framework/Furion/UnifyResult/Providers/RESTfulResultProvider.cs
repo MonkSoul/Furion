@@ -112,32 +112,39 @@ namespace Furion.UnifyResult
             {
                 // 处理 401 状态码
                 case StatusCodes.Status401Unauthorized:
-                    await context.Response.WriteAsJsonAsync(new RESTfulResult<object>
-                    {
-                        StatusCode = StatusCodes.Status401Unauthorized,
-                        Succeeded = false,
-                        Data = null,
-                        Errors = "401 Unauthorized",
-                        Extras = UnifyContext.Take(),
-                        Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-                    }, App.GetOptions<JsonOptions>()?.JsonSerializerOptions);
+                    await WriteAsJsonAsync(context, statusCode, "401 Unauthorized");
                     break;
                 // 处理 403 状态码
                 case StatusCodes.Status403Forbidden:
-                    await context.Response.WriteAsJsonAsync(new RESTfulResult<object>
-                    {
-                        StatusCode = StatusCodes.Status403Forbidden,
-                        Succeeded = false,
-                        Data = null,
-                        Errors = "403 Forbidden",
-                        Extras = UnifyContext.Take(),
-                        Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-                    }, App.GetOptions<JsonOptions>()?.JsonSerializerOptions);
+                    await WriteAsJsonAsync(context, statusCode, "403 Forbidden");
+                    break;
+                // 处理 404 状态码
+                case StatusCodes.Status404NotFound:
+                    await WriteAsJsonAsync(context, statusCode, "404 NotFound");
                     break;
 
-                default:
-                    break;
+                default: break;
             }
+        }
+
+        /// <summary>
+        /// 写入响应 Json
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="statusCode"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        private static async Task WriteAsJsonAsync(HttpContext context, int statusCode, string message)
+        {
+            await context.Response.WriteAsJsonAsync(new RESTfulResult<object>
+            {
+                StatusCode = statusCode,
+                Succeeded = false,
+                Data = null,
+                Errors = message,
+                Extras = UnifyContext.Take(),
+                Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+            }, App.GetOptions<JsonOptions>()?.JsonSerializerOptions);
         }
     }
 }

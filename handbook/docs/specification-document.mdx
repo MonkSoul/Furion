@@ -1044,7 +1044,7 @@ services.AddControllers()
 
 :::important 特别注意
 
-默认情况下，规范化结果不会对 `401` 和 `403` 状态码进行规范化处理，如需启动该状态码处理，只需在 `Startup.cs` 中的 `Configure` 中启用接口：
+默认情况下，规范化结果不会对 `401` 和 `403`、`404` 状态码进行规范化处理，如需启动该状态码处理，只需在 `Startup.cs` 中的 `Configure` 中启用接口：
 
 ```cs
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -1057,8 +1057,8 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     app.UseUnifyResultStatusCodes();
     // 或者更多配置
     // app.UseUnifyResultStatusCodes(options => {
-    //    options.Return200StatusCodes = new [] { 401, 403 }; // 配置返回 200 的状态码
-    //    options.AdaptStatusCodes = new Dictionary() { { 403, 401 } }; // 配置状态码转换自定义状态码（只支持短路状态码）
+    //    options.Return200StatusCodes = new [] { 401, 403, 404 }; // 配置返回 200 的状态码
+    //    options.AdaptStatusCodes = new Dictionary() { { 403, 401, 404 } }; // 配置状态码转换自定义状态码（只支持短路状态码）
     // });
     // 其他注册...
 }

@@ -3,6 +3,7 @@
 - **新特性**
 
   - [新增] 建议模板功能，支持远程请求、数据库模块、日志模块、事件总线模块、定时任务模块、异常模块、数据校验模块 [#I402BL](https://gitee.com/dotnetchina/Furion/issues/I402BL)
+  - [新增] `404` 状态码规范化默认处理 [#I408F5](https://gitee.com/dotnetchina/Furion/issues/I408F5)
 
 - **突破性变化**
 
@@ -14,6 +15,8 @@
 
   - [修复] `Worker Services` 定时任务边界值问题导致跳过单次任务 [#I405NI](https://gitee.com/dotnetchina/Furion/issues/I405NI)
   - [修复] `Worker Services` 独立发布后程序集扫描失效 bug [#I3ZH3X](https://gitee.com/dotnetchina/Furion/issues/I3ZH3X)
+  - [修复] 远程请求如果配置了 `Client` 客户端但传入了空 `RequestUrl` 地址导致异常问题 [#I40BC6](https://gitee.com/dotnetchina/Furion/issues/I40BC6)
+  - [修复] 规范化结果篡改非短路端状态码出现异常 bug [#I408F5](https://gitee.com/dotnetchina/Furion/issues/I408F5)
 
 - **其他更改**
 

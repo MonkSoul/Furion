@@ -364,8 +364,8 @@ namespace Furion.RemoteRequest
             // 检查是否配置了请求方法
             if (Method == null) throw new NullReferenceException(nameof(Method));
 
-            // 检查请求地址
-            if (string.IsNullOrWhiteSpace(RequestUrl)) throw new NullReferenceException(RequestUrl);
+            // 检查请求地址，只有 Client 不配置才检查空
+            if (string.IsNullOrWhiteSpace(ClientName) && string.IsNullOrWhiteSpace(RequestUrl)) throw new NullReferenceException(RequestUrl);
 
             // 处理模板问题
             RequestUrl = RequestUrl.Render(Templates, true);

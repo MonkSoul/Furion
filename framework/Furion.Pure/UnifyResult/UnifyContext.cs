@@ -138,17 +138,15 @@ namespace Furion.UnifyResult
             // 篡改响应状态码
             if (options.AdaptStatusCodes != null && options.AdaptStatusCodes.Count > 0)
             {
-                foreach (var (originStatusCode, descStatusCode) in options.AdaptStatusCodes)
+                var adaptStatusCode = options.AdaptStatusCodes.FirstOrDefault(u => u.Key == statusCode);
+                if (adaptStatusCode.Key > 0)
                 {
-                    if (statusCode == originStatusCode)
-                    {
-                        context.Response.StatusCode = descStatusCode;
-                        return;
-                    }
+                    context.Response.StatusCode = adaptStatusCode.Value;
+                    return;
                 }
             }
 
-            // 如果为 null，所有状态码设置为 200
+            // 如果为 null，则所有请求错误的状态码设置为 200
             if (options.Return200StatusCodes == null) context.Response.StatusCode = 200;
             // 否则只有里面的才设置为 200
             else if (options.Return200StatusCodes.Contains(statusCode)) context.Response.StatusCode = 200;
@@ -180,13 +178,13 @@ namespace Furion.UnifyResult
         }
 
         /// <summary>
-        /// 是否跳过成功返回结果规范处理（状态码 200~209 ）
+        /// 检查请求成功是否进行规范化处理
         /// </summary>
         /// <param name="method"></param>
         /// <param name="unifyResult"></param>
         /// <param name="isWebRequest"></param>
-        /// <returns></returns>
-        internal static bool IsSkipUnifyHandlerOnSucceedReturn(MethodInfo method, out IUnifyResultProvider unifyResult, bool isWebRequest = true)
+        /// <returns>返回 true 跳过处理，否则进行规范化处理</returns>
+        internal static bool CheckSucceeded(MethodInfo method, out IUnifyResultProvider unifyResult, bool isWebRequest = true)
         {
             // 判断是否跳过规范化处理
             var isSkip = !IsEnabledUnifyHandle
@@ -200,17 +198,17 @@ namespace Furion.UnifyResult
                 return isSkip;
             }
 
-            unifyResult = isSkip ? null : App.GetService<IUnifyResultProvider>();
+            unifyResult = isSkip ? null : App.RootServices.GetService<IUnifyResultProvider>();
             return unifyResult == null || isSkip;
         }
 
         /// <summary>
-        /// 是否跳过规范化处理（包括任意状态：成功，失败或其他状态码）
+        /// 检查请求失败（验证失败、抛异常）是否进行规范化处理
         /// </summary>
         /// <param name="method"></param>
         /// <param name="unifyResult"></param>
-        /// <returns></returns>
-        internal static bool IsSkipUnifyHandler(MethodInfo method, out IUnifyResultProvider unifyResult)
+        /// <returns>返回 true 跳过处理，否则进行规范化处理</returns>
+        internal static bool CheckFailed(MethodInfo method, out IUnifyResultProvider unifyResult)
         {
             // 判断是否跳过规范化处理
             var isSkip = !IsEnabledUnifyHandle
@@ -225,19 +223,22 @@ namespace Furion.UnifyResult
         }
 
         /// <summary>
-        /// 是否跳过特定状态码规范化处理（如，处理 401，403 状态码情况）
+        /// 检查短路状态码（>=400）是否进行规范化处理
         /// </summary>
         /// <param name="context"></param>
         /// <param name="unifyResult"></param>
-        /// <returns></returns>
-        internal static bool IsSkipUnifyHandlerOnSpecifiedStatusCode(HttpContext context, out IUnifyResultProvider unifyResult)
+        /// <param name="intercept404StatusCodes"></param>
+        /// <returns>返回 true 跳过处理，否则进行规范化处理</returns>
+        internal static bool CheckStatusCode(HttpContext context, bool intercept404StatusCodes, out IUnifyResultProvider unifyResult)
         {
-            // 获取终点路由特性
-            var endpointFeature = context.Features.Get<IEndpointFeature>();
-            if (endpointFeature == null)
+            IEndpointFeature endpointFeature = default;
+
+            // 处理 404 问题
+            if (!(intercept404StatusCodes && context.Response.StatusCode == StatusCodes.Status404NotFound))
             {
-                unifyResult = null;
-                return true;
+                // 获取终点路由特性
+                endpointFeature = context.Features.Get<IEndpointFeature>();
+                if (endpointFeature == null) return (unifyResult = null) == null;
             }
 
             // 判断是否跳过规范化处理

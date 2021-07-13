@@ -101,7 +101,7 @@ namespace Furion.DataValidation
             var (validationResults, validateFaildMessage, _) = ValidatorContext.OutputValidationInfo(modelState);
 
             // 判断是否跳过规范化结果
-            if (isMvcController || UnifyContext.IsSkipUnifyHandler(actionDescriptor.MethodInfo, out var unifyResult))
+            if (isMvcController || UnifyContext.CheckFailed(actionDescriptor.MethodInfo, out var unifyResult))
             {
                 // 返回 400 错误
                 var result = new BadRequestObjectResult(modelState);

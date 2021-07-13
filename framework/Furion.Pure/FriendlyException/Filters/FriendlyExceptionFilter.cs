@@ -75,7 +75,7 @@ namespace Microsoft.AspNetCore.Mvc.Filters
             var errorMessage = isValidationMessage ? exception.Message[validationFlag.Length..] : exception.Message;
 
             // 判断是否跳过规范化结果
-            if (UnifyContext.IsSkipUnifyHandler(actionDescriptor.MethodInfo, out var unifyResult))
+            if (UnifyContext.CheckFailed(actionDescriptor.MethodInfo, out var unifyResult))
             {
                 // 解析异常信息
                 var (StatusCode, _, Errors) = UnifyContext.GetExceptionMetadata(context);

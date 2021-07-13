@@ -54,7 +54,7 @@ namespace Furion.UnifyResult
             var actionExecutedContext = await next();
 
             // 如果没有异常再执行
-            if (actionExecutedContext.Exception == null && !UnifyContext.IsSkipUnifyHandlerOnSucceedReturn(actionDescriptor.MethodInfo, out var unifyResult))
+            if (actionExecutedContext.Exception == null && !UnifyContext.CheckSucceeded(actionDescriptor.MethodInfo, out var unifyResult))
             {
                 // 处理规范化结果
                 if (unifyResult != null)

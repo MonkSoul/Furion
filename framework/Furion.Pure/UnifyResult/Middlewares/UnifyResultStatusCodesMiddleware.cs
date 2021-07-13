@@ -33,14 +33,21 @@ namespace Furion.UnifyResult
         private readonly UnifyResultStatusCodesOptions _options;
 
         /// <summary>
+        /// 是否拦截 404 状态码
+        /// </summary>
+        private readonly bool _intercept404StatusCodes;
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="next"></param>
         /// <param name="options"></param>
-        public UnifyResultStatusCodesMiddleware(RequestDelegate next, UnifyResultStatusCodesOptions options)
+        /// <param name="intercept404StatusCodes"></param>
+        public UnifyResultStatusCodesMiddleware(RequestDelegate next, UnifyResultStatusCodesOptions options, bool intercept404StatusCodes)
         {
             _next = next;
             _options = options;
+            _intercept404StatusCodes = intercept404StatusCodes;
         }
 
         /// <summary>
@@ -52,8 +59,11 @@ namespace Furion.UnifyResult
         {
             await _next(context);
 
+            // 只有请求错误（短路状态码）才支持规范化处理
+            if (context.Response.StatusCode < 400) return;
+
             // 处理规范化结果
-            if (!UnifyContext.IsSkipUnifyHandlerOnSpecifiedStatusCode(context, out var unifyResult))
+            if (!UnifyContext.CheckStatusCode(context, _intercept404StatusCodes, out var unifyResult))
             {
                 await unifyResult.OnResponseStatusCodes(context, context.Response.StatusCode, _options);
             }
