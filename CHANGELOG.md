@@ -2,7 +2,7 @@
 
 - **新特性**
 
-  - [新增] 建议模板功能，支持远程请求、数据库模块、日志模块、事件总线模块、定时任务模块、异常模块、数据校验模块 [#I402BL](https://gitee.com/dotnetchina/Furion/issues/I402BL)
+  - [新增] 简易字符串模板功能，支持远程请求、数据库模块、日志模块、事件总线模块、定时任务模块、异常模块、数据校验模块 [#I402BL](https://gitee.com/dotnetchina/Furion/issues/I402BL)
   - [新增] `404` 状态码规范化默认处理 [#I408F5](https://gitee.com/dotnetchina/Furion/issues/I408F5)
 
 - **突破性变化**
