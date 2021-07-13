@@ -92,7 +92,7 @@ public  Person(IMapper mapper)
 
 ```cs
 var destinations = context.Sources
-        .Select(c => new Destination {
+        .Select(p => new Destination {
             Id = p.Id,
             Name = p.Name,
             Surname = p.Surname,
