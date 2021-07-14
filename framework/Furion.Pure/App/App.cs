@@ -119,18 +119,8 @@ namespace Furion
             // 由于很多人的不正确使用，所以这里改为单例才从根服务解析，瞬时作用域不再从根服务解析
             var isSingletonLifetime = serviceDescriptors.Any(u => u.Lifetime == ServiceLifetime.Singleton);
 
-            // 第一选择，判断根服务对象是否有效
-            if (InternalApp.RootServices != null)
-            {
-                // 如果是单例生存周期，直接返回根服务即可
-                if (isSingletonLifetime) return InternalApp.RootServices;
-                else
-                {
-                    // 从根服务中解析一个服务提供器
-                    var serviceProvider = InternalApp.RootServices.GetService<IServiceProvider>();
-                    if (serviceProvider != null) return serviceProvider;
-                }
-            }
+            // 第一选择，判断是否是单例注册，如果是直接返回根服务提供器
+            if (isSingletonLifetime && InternalApp.RootServices != null) return InternalApp.RootServices;
 
             // 第二选择是反射获取 HttpContext 对象
             var httpContext = HttpContext;
