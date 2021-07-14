@@ -124,7 +124,7 @@ namespace Furion.DataEncryption
             var distributedCache = InternalHttpContext.Current()?.RequestServices?.GetService<IDistributedCache>();
 
             // 处理token并发容错问题
-            var nowTime = DateTimeOffset.Now;
+            var nowTime = DateTimeOffset.UtcNow;
             var cachedValue = distributedCache?.GetString(blacklistRefreshKey);
             var isRefresh = !string.IsNullOrWhiteSpace(cachedValue);    // 判断是否刷新过
             if (isRefresh)
@@ -350,7 +350,7 @@ namespace Furion.DataEncryption
         private static (IDictionary<string, object> Payload, JWTSettingsOptions JWTSettings) CombinePayload(IDictionary<string, object> payload, long? expiredTime = null)
         {
             var jwtSettings = GetJWTSettings();
-            var datetimeOffset = DateTimeOffset.Now;
+            var datetimeOffset = DateTimeOffset.UtcNow;
 
             if (!payload.ContainsKey(JwtRegisteredClaimNames.Iat))
             {
@@ -365,7 +365,7 @@ namespace Furion.DataEncryption
             if (!payload.ContainsKey(JwtRegisteredClaimNames.Exp))
             {
                 var minute = expiredTime ?? jwtSettings?.ExpiredTime ?? 20;
-                payload.Add(JwtRegisteredClaimNames.Exp, DateTimeOffset.Now.AddMinutes(minute).ToUnixTimeSeconds());
+                payload.Add(JwtRegisteredClaimNames.Exp, DateTimeOffset.UtcNow.AddMinutes(minute).ToUnixTimeSeconds());
             }
 
             if (!payload.ContainsKey(JwtRegisteredClaimNames.Iss))

@@ -26,7 +26,7 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         public Tenant()
         {
-            CreatedTime = DateTimeOffset.Now;
+            CreatedTime = DateTimeOffset.UtcNow;
         }
 
         /// <summary>
