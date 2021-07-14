@@ -107,6 +107,18 @@ public class JobWorker : ISpareTimeWorker
     {
         Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
     }
+
+    /// <summary>
+    /// 3s 后执行（支持异步）
+    /// </summary>
+    /// <param name="timer"></param>
+    /// <param name="count"></param>
+    [SpareTime(3000, "jobName", DoOnce = true, StartNow = true)]
+    public async Task DoSomethingAsync(SpareTimer timer, long count)
+    {
+        Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+        await Task.Completed;
+    }
 }
 ```
 
@@ -338,6 +350,19 @@ public class JobWorker : ISpareTimeWorker
         Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
         Console.WriteLine($"一共执行了：{count} 次");
     }
+
+    /// <summary>
+    /// 每分钟执行（支持异步）
+    /// </summary>
+    /// <param name="timer"></param>
+    /// <param name="count"></param>
+    [SpareTime("* * * * *", "jobName", StartNow = true)]
+    public async Task DoSomethingAsync(SpareTimer timer, long count)
+    {
+        Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+        Console.WriteLine($"一共执行了：{count} 次");
+        await Task.Completed;
+    }
 }
 ```
 
@@ -468,6 +493,15 @@ public class JobWorker : ISpareTimeWorker
     {
         Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
         Console.WriteLine($"一共执行了：{count} 次");
+    }
+
+    // 支持异步
+    [SpareTime(1000, "jobName1", StartNow = true)]
+    public async Task DoSomethingAsync(SpareTimer timer, long count)
+    {
+        Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+        Console.WriteLine($"一共执行了：{count} 次");
+        await Task.Completed;
     }
 }
 ```

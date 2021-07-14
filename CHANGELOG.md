@@ -4,6 +4,7 @@
 
   - [新增] 简易字符串模板功能，支持远程请求、数据库模块、日志模块、事件总线模块、定时任务模块、异常模块、数据校验模块 [#I402BL](https://gitee.com/dotnetchina/Furion/issues/I402BL)
   - [新增] `404` 状态码规范化默认处理 [#I408F5](https://gitee.com/dotnetchina/Furion/issues/I408F5)
+  - [新增] 定时任务 `ISpareTimeWorker` 声明方式支持异步方法 [#I40KWR](https://gitee.com/dotnetchina/Furion/issues/I40KWR)
 
 - **突破性变化**
 
@@ -19,6 +20,9 @@
   - [修复] 规范化结果篡改非短路端状态码出现异常 bug [#I408F5](https://gitee.com/dotnetchina/Furion/issues/I408F5)
 
 - **其他更改**
+
+  - [优化] `App.GetServiceProvider(type)` 解析服务性能 [#I40KXN](https://gitee.com/dotnetchina/Furion/issues/I40KXN)
+  - [调整] 视图引擎保存成文件流默认缓存区大小，从 `4096` 提升只 `8192` [#I40KH5](https://gitee.com/dotnetchina/Furion/issues/I40KH5)
 
 - **文档变化**
 

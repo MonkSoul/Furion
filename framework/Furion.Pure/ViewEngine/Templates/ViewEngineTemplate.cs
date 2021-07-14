@@ -80,17 +80,17 @@ namespace Furion.ViewEngine
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public Task SaveToFileAsync(string fileName)
+        public async Task SaveToFileAsync(string fileName)
         {
             using var fileStream = new FileStream(
                 path: Penetrates.GetTemplateFileName(fileName),
                 mode: FileMode.OpenOrCreate,
                 access: FileAccess.Write,
                 share: FileShare.None,
-                bufferSize: 4096,
+                bufferSize: 8192,
                 useAsync: true);
 
-            return assemblyByteCode.CopyToAsync(fileStream);
+            await assemblyByteCode.CopyToAsync(fileStream);
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Furion.ViewEngine
                 mode: FileMode.Open,
                 access: FileAccess.Read,
                 share: FileShare.None,
-                bufferSize: 4096,
+                bufferSize: 8192,
                 useAsync: true))
             {
                 await fileStream.CopyToAsync(memoryStream);
@@ -244,16 +244,17 @@ namespace Furion.ViewEngine
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public Task SaveToFileAsync(string fileName)
+        public async Task SaveToFileAsync(string fileName)
         {
             using var fileStream = new FileStream(
                 path: Penetrates.GetTemplateFileName(fileName),
                 mode: FileMode.CreateNew,
                 access: FileAccess.Write,
                 share: FileShare.None,
-                bufferSize: 4096,
+                bufferSize: 8192,
                 useAsync: true);
-            return assemblyByteCode.CopyToAsync(fileStream);
+
+            await assemblyByteCode.CopyToAsync(fileStream);
         }
 
         /// <summary>
@@ -305,7 +306,7 @@ namespace Furion.ViewEngine
                 mode: FileMode.Open,
                 access: FileAccess.Read,
                 share: FileShare.None,
-                bufferSize: 4096,
+                bufferSize: 8192,
                 useAsync: true))
             {
                 await fileStream.CopyToAsync(memoryStream);

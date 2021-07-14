@@ -12,10 +12,12 @@
 
 using Furion;
 using Furion.DependencyInjection;
+using Furion.Extensions;
 using Furion.TaskScheduler;
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -42,8 +44,7 @@ namespace Microsoft.Extensions.DependencyInjection
                          .Where(m => m.IsDefined(typeof(SpareTimeAttribute), false)
                                                     && m.GetParameters().Length == 2
                                                     && m.GetParameters()[0].ParameterType == typeof(SpareTimer)
-                                                    && m.GetParameters()[1].ParameterType == typeof(long)
-                                                    && m.ReturnType == typeof(void))
+                                                    && m.GetParameters()[1].ParameterType == typeof(long))
                          .GroupBy(m => m.DeclaringType));
 
             if (!taskMethods.Any()) return services;
@@ -58,8 +59,11 @@ namespace Microsoft.Extensions.DependencyInjection
 
                 foreach (var method in item)
                 {
+                    // 判断是否是异步方法
+                    var isAsyncMethod = method.IsAsync();
+
                     // 创建委托类型
-                    var action = (Action<SpareTimer, long>)Delegate.CreateDelegate(typeof(Action<SpareTimer, long>), typeInstance, method.Name);
+                    var action = Delegate.CreateDelegate(isAsyncMethod ? typeof(Func<SpareTimer, long, Task>) : typeof(Action<SpareTimer, long>), typeInstance, method.Name);
 
                     // 获取所有任务特性
                     var spareTimeAttributes = method.GetCustomAttributes<SpareTimeAttribute>();
@@ -73,14 +77,39 @@ namespace Microsoft.Extensions.DependencyInjection
                             case SpareTimeTypes.Interval:
                                 // 执行一次
                                 if (spareTimeAttribute.DoOnce)
-                                    SpareTime.DoOnce(spareTimeAttribute.Interval, action, spareTimeAttribute.WorkerName, spareTimeAttribute.Description, spareTimeAttribute.StartNow, executeType: spareTimeAttribute.ExecuteType);
+                                {
+                                    if (isAsyncMethod)
+                                    {
+                                        SpareTime.DoOnce(spareTimeAttribute.Interval, (Func<SpareTimer, long, Task>)action, spareTimeAttribute.WorkerName, spareTimeAttribute.Description, spareTimeAttribute.StartNow, executeType: spareTimeAttribute.ExecuteType);
+                                    }
+                                    else
+                                    {
+                                        SpareTime.DoOnce(spareTimeAttribute.Interval, (Action<SpareTimer, long>)action, spareTimeAttribute.WorkerName, spareTimeAttribute.Description, spareTimeAttribute.StartNow, executeType: spareTimeAttribute.ExecuteType);
+                                    }
+                                }
                                 // 不间断执行
                                 else
-                                    SpareTime.Do(spareTimeAttribute.Interval, action, spareTimeAttribute.WorkerName, spareTimeAttribute.Description, spareTimeAttribute.StartNow, executeType: spareTimeAttribute.ExecuteType);
+                                {
+                                    if (isAsyncMethod)
+                                    {
+                                        SpareTime.Do(spareTimeAttribute.Interval, (Func<SpareTimer, long, Task>)action, spareTimeAttribute.WorkerName, spareTimeAttribute.Description, spareTimeAttribute.StartNow, executeType: spareTimeAttribute.ExecuteType);
+                                    }
+                                    else
+                                    {
+                                        SpareTime.Do(spareTimeAttribute.Interval, (Action<SpareTimer, long>)action, spareTimeAttribute.WorkerName, spareTimeAttribute.Description, spareTimeAttribute.StartNow, executeType: spareTimeAttribute.ExecuteType);
+                                    }
+                                }
                                 break;
                             // 执行 Cron 表达式任务
                             case SpareTimeTypes.Cron:
-                                SpareTime.Do(spareTimeAttribute.CronExpression, action, spareTimeAttribute.WorkerName, spareTimeAttribute.Description, spareTimeAttribute.StartNow, cronFormat: spareTimeAttribute.CronFormat == default ? default : (CronFormat)spareTimeAttribute.CronFormat, executeType: spareTimeAttribute.ExecuteType);
+                                if (isAsyncMethod)
+                                {
+                                    SpareTime.Do(spareTimeAttribute.CronExpression, (Func<SpareTimer, long, Task>)action, spareTimeAttribute.WorkerName, spareTimeAttribute.Description, spareTimeAttribute.StartNow, cronFormat: spareTimeAttribute.CronFormat == default ? default : (CronFormat)spareTimeAttribute.CronFormat, executeType: spareTimeAttribute.ExecuteType);
+                                }
+                                else
+                                {
+                                    SpareTime.Do(spareTimeAttribute.CronExpression, (Action<SpareTimer, long>)action, spareTimeAttribute.WorkerName, spareTimeAttribute.Description, spareTimeAttribute.StartNow, cronFormat: spareTimeAttribute.CronFormat == default ? default : (CronFormat)spareTimeAttribute.CronFormat, executeType: spareTimeAttribute.ExecuteType);
+                                }
                                 break;
 
                             default:
