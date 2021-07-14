@@ -25,7 +25,7 @@ namespace Microsoft.EntityFrameworkCore
     public static class EFCoreExtensions
     {
         /// <summary>
-        /// [EF Core] 根据条件成立再构建 Include 查询
+        /// 根据条件成立再构建 Include 查询
         /// </summary>
         /// <typeparam name="TSource">泛型类型</typeparam>
         /// <typeparam name="TProperty">泛型属性类型</typeparam>

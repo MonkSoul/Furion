@@ -72,7 +72,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.TryAddScoped(typeof(IDbRepository<>), typeof(DbRepository<>));
 
             // 注册解析数据库上下文委托
-            services.AddScoped(provider =>
+            services.TryAddScoped(provider =>
             {
                 DbContext dbContextResolve(Type locator, IScoped transient)
                 {

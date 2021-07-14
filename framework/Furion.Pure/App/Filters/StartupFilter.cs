@@ -123,6 +123,7 @@ namespace Furion
                 var parameter = parameters[i];
                 parameterInstances[i] = app.ApplicationServices.GetRequiredService(parameter.ParameterType);
             }
+
             return parameterInstances;
         }
     }
