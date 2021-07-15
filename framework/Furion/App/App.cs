@@ -93,7 +93,7 @@ namespace Furion
         /// <summary>
         /// 获取请求上下文
         /// </summary>
-        public static HttpContext HttpContext => HttpContextLocal.Current();
+        public static HttpContext HttpContext => InternalApp.RootServices?.GetService<IHttpContextAccessor>()?.HttpContext;
 
         /// <summary>
         /// 获取请求上下文用户

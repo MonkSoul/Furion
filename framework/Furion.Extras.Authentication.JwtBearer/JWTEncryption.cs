@@ -119,9 +119,13 @@ namespace Furion.DataEncryption
             var (isValid, token, _) = Validate(refreshToken);
             if (!isValid) return default;
 
+            // 解析 HttpContext
+            var (serviceProvider, httpContext) = GetCurrentHttpContext();
+            using var _ = serviceProvider;  // 自动释放内存
+
             // 判断这个刷新Token 是否已刷新过
             var blacklistRefreshKey = "BLACKLIST_REFRESH_TOKEN:" + refreshToken;
-            var distributedCache = InternalHttpContext.Current()?.RequestServices?.GetService<IDistributedCache>();
+            var distributedCache = httpContext?.RequestServices?.GetService<IDistributedCache>();
 
             // 处理token并发容错问题
             var nowTime = DateTimeOffset.UtcNow;
@@ -310,7 +314,11 @@ namespace Furion.DataEncryption
         /// <returns></returns>
         public static JWTSettingsOptions GetJWTSettings()
         {
-            return InternalHttpContext.Current()?.RequestServices?.GetService<IOptions<JWTSettingsOptions>>()?.Value ?? SetDefaultJwtSettings(new JWTSettingsOptions());
+            // 解析 HttpContext
+            var (serviceProvider, httpContext) = GetCurrentHttpContext();
+            using var _ = serviceProvider;  // 自动释放内存
+
+            return httpContext?.RequestServices?.GetService<IOptions<JWTSettingsOptions>>()?.Value ?? SetDefaultJwtSettings(new JWTSettingsOptions());
         }
 
         /// <summary>
@@ -412,6 +420,20 @@ namespace Furion.DataEncryption
             options.Algorithm ??= SecurityAlgorithms.HmacSha256;
 
             return options;
+        }
+
+        /// <summary>
+        /// 获取当前的 HttpContext
+        /// </summary>
+        /// <returns></returns>
+        private static (ServiceProvider ServiceProvider, HttpContext httpContext) GetCurrentHttpContext()
+        {
+            var services = new ServiceCollection();
+            // 添加 HttContext 访问器
+            services.AddHttpContextAccessor();
+
+            var serviceProvider = services.BuildServiceProvider();
+            return (serviceProvider, serviceProvider.GetService<IHttpContextAccessor>()?.HttpContext);
         }
 
         /// <summary>
