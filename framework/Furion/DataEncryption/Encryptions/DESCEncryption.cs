@@ -32,7 +32,7 @@ namespace Furion.DataEncryption
         /// <returns></returns>
         public static string Encrypt(string text, string skey, bool uppercase = false)
         {
-            using var des = new DESCryptoServiceProvider();
+            using var des = DES.Create();
             byte[] inputByteArray;
             inputByteArray = Encoding.Default.GetBytes(text);
 
@@ -63,7 +63,7 @@ namespace Furion.DataEncryption
         /// <returns></returns>
         public static string Decrypt(string hash, string skey, bool uppercase = false)
         {
-            using var des = new DESCryptoServiceProvider();
+            using var des = DES.Create();
             int len;
             len = hash.Length / 2;
             var inputByteArray = new byte[len];
