@@ -28,10 +28,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="App\Web\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Compile Update="TaskScheduler\Internal\SpareTimer.cs">
 	    <SubType>Component</SubType>
 	  </Compile>
