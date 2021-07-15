@@ -1059,7 +1059,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     // app.UseUnifyResultStatusCodes(options => {
     //    options.Return200StatusCodes = new [] { 401, 403, 404 }; // 配置返回 200 的状态码
     //    options.AdaptStatusCodes = new Dictionary() { { 403, 401, 404 } }; // 配置状态码转换自定义状态码（只支持短路状态码）
-    // });
+    // }, true);
     // 其他注册...
 }
 ```

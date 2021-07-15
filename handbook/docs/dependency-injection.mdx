@@ -698,7 +698,7 @@ public class TestService: ITestService, ITransient
 
 之后 `SayHello` 方法被调用的时候就可以实现动态拦截了，比如这里写日志。
 
-### 12.13.3 `全局Aop拦截`
+### 12.13.4 `全局Aop拦截`
 
 `Furion` 框架也提供了全局拦截的方式，只需要将 `IDispatchProxy` 修改为 `IGlobalDispatchProxy` 即可。
 
@@ -723,7 +723,7 @@ namespace Furion.Application
 
 :::
 
-### 12.13.3 `AOP` 注入解析服务
+### 12.13.4 `AOP` 注入解析服务
 
 `Furion` 框架未提供 `Proxy` 构造函数注入功能，但是提供了 `Services` 属性，如果需要解析服务，则可以通过以下方式：
 
@@ -733,7 +733,7 @@ var someServices = Services.GetService<ISomeService>(); // 推荐方式
 var someServices = App.GetService<ISomeService>();
 ```
 
-### 12.13.3 `AOP` 的作用
+### 12.13.4 `AOP` 的作用
 
 这种面向切面的能力（动态拦截/代理）可以实现很多很多功能，如：
 

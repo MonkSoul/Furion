@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.13.3
+// 框架版本：2.13.4
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -25,7 +25,7 @@ namespace Furion.UnifyResult
         /// 设置返回 200 状态码列表
         /// <para>默认：401，403，404，如果设置为 null，则标识所有状态码都返回 200 </para>
         /// </summary>
-        public int[] Return200StatusCodes { get; set; } = new[] { 404, 401, 403 };
+        public int[] Return200StatusCodes { get; set; } = new[] { 401, 403, 404 };
 
         /// <summary>
         /// 适配（篡改）Http 状态码（只支持短路状态码，比如 401，403，404，500 等）
