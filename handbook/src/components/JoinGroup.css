@@ -17,7 +17,7 @@
   margin: 1em auto 0 auto;
 }
 
-.furion-join-group button {
+.furion-join-group a {
   display: block;
   margin: 0;
   padding: 0;
@@ -30,6 +30,8 @@
   padding: 0.5em 0;
   min-width: 15em;
   cursor: pointer;
+  text-decoration: none;
+  display: block;
 }
 
 .furion-join-group button:hover {
