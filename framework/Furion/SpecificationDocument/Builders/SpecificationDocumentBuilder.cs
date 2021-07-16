@@ -43,6 +43,11 @@ namespace Furion.SpecificationDocument
         private static readonly SpecificationDocumentSettingsOptions _specificationDocumentSettings;
 
         /// <summary>
+        /// 应用全局配置
+        /// </summary>
+        private static readonly AppSettingsOptions _appSettings;
+
+        /// <summary>
         /// 分组信息
         /// </summary>
         private static readonly IEnumerable<GroupExtraInfo> DocumentGroupExtras;
@@ -64,6 +69,7 @@ namespace Furion.SpecificationDocument
         {
             // 载入配置
             _specificationDocumentSettings = App.GetOptions<SpecificationDocumentSettingsOptions>();
+            _appSettings = App.Settings;
 
             // 初始化常量
             _groupOrderRegex = new Regex(@"@(?<order>[0-9]+$)");
@@ -111,7 +117,7 @@ namespace Furion.SpecificationDocument
                 {
                     // 默认 Server
                     var servers = new List<OpenApiServer> {
-                        new OpenApiServer { Url = $"{request.Scheme}://{request.Host.Value}{_specificationDocumentSettings.VirtualPath}",Description="Default" }
+                        new OpenApiServer { Url = $"{request.Scheme}://{request.Host.Value}{_appSettings.VirtualPath}",Description="Default" }
                     };
                     servers.AddRange(_specificationDocumentSettings.Servers);
 
@@ -337,7 +343,7 @@ namespace Furion.SpecificationDocument
 
                 // 替换路由模板
                 var routeTemplate = _specificationDocumentSettings.RouteTemplate.Replace("{documentName}", Uri.EscapeDataString(group));
-                swaggerUIOptions.SwaggerEndpoint($"{_specificationDocumentSettings.VirtualPath}/{routeTemplate}", groupOpenApiInfo?.Title ?? group);
+                swaggerUIOptions.SwaggerEndpoint($"{_appSettings.VirtualPath}/{routeTemplate}", groupOpenApiInfo?.Title ?? group);
             }
         }
 
