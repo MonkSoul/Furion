@@ -23,11 +23,6 @@ namespace Furion.DatabaseAccessor
     internal sealed class SqlConnectionProfilerInterceptor : DbConnectionInterceptor
     {
         /// <summary>
-        /// MiniProfiler 分类名
-        /// </summary>
-        private const string MiniProfilerCategory = "connection";
-
-        /// <summary>
         /// 是否打印数据库连接信息
         /// </summary>
         private readonly bool IsPrintDbConnectionInfo;
@@ -79,7 +74,7 @@ namespace Furion.DatabaseAccessor
         private void PrintConnectionToMiniProfiler(DbConnection connection, ConnectionEventData eventData)
         {
             // 打印连接信息消息
-            App.PrintToMiniProfiler(MiniProfilerCategory, "Information", $"[Connection Id: {eventData.ConnectionId}] / [Database: {connection.Database}]{(IsPrintDbConnectionInfo ? $" / [Connection String: {connection.ConnectionString}]" : string.Empty)}");
+            App.PrintToMiniProfiler("connection", "Information", $"[Connection Id: {eventData.ConnectionId}] / [Database: {connection.Database}]{(IsPrintDbConnectionInfo ? $" / [Connection String: {connection.ConnectionString}]" : string.Empty)}");
         }
     }
 }
