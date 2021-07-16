@@ -34,7 +34,7 @@ namespace Furion.ConfigurableOptions
         /// <param name="jsonKey">appsetting.json 对应键</param>
         public OptionsSettingsAttribute(string jsonKey)
         {
-            JsonKey = jsonKey;
+            Path = jsonKey;
         }
 
         /// <summary>
@@ -49,18 +49,18 @@ namespace Furion.ConfigurableOptions
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="jsonKey">appsetting.json 对应键</param>
+        /// <param name="path">appsetting.json 对应键</param>
         /// <param name="postConfigureAll">启动所有实例进行后期配置</param>
-        public OptionsSettingsAttribute(string jsonKey, bool postConfigureAll)
+        public OptionsSettingsAttribute(string path, bool postConfigureAll)
         {
-            JsonKey = jsonKey;
+            Path = path;
             PostConfigureAll = postConfigureAll;
         }
 
         /// <summary>
-        /// 对应配置文件中的Key
+        /// 对应配置文件中的路径
         /// </summary>
-        public string JsonKey { get; set; }
+        public string Path { get; set; }
 
         /// <summary>
         /// 对所有配置实例进行后期配置

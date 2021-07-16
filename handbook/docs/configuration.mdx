@@ -61,19 +61,19 @@ import TabItem from "@theme/TabItem";
 在 `Furion` 框架中，提供了两种读取方式：
 
 - 依赖注入 `IConfiguration` 对象读取
-- 通过 `App.Configuration[jsonKey]` 读取
+- 通过 `App.Configuration[path]` 读取
 
 <Tabs
-  defaultValue="App.Configuration[jsonKey]"
+  defaultValue="App.Configuration[path]"
   values={[
     {
-      label: "App.Configuration[jsonKey]",
-      value: "App.Configuration[jsonKey]",
+      label: "App.Configuration[path]",
+      value: "App.Configuration[path]",
     },
     { label: "依赖注入方式", value: "依赖注入方式" }
   ]}
 >
-  <TabItem value="App.Configuration[jsonKey]">
+  <TabItem value="App.Configuration[path]">
 
 ```cs {11-13}
 using Microsoft.AspNetCore.Mvc;
@@ -155,7 +155,7 @@ public IConfiguration Configuration { get; set; }
 ### 4.1.2.3 如何选择读取方式
 
 - 在可依赖注入类中，依赖注入 `IConfiguration` 读取
-- 在静态类/非依赖注入类中，选择 `App.Configuration[jsonKey]` 读取
+- 在静态类/非依赖注入类中，选择 `App.Configuration[path]` 读取
 
 ## 4.1.3 `路径符` 查找节点
 
@@ -290,7 +290,7 @@ var companyName = App.Configuration["AppInfo:Tier2:Tier3:Tier4...Tiern1:Tiern3..
 <Tabs
   defaultValue="jtl"
   values={[
-    {label: 'App.Configuration[jsonKey]', value: 'jtl'},
+    {label: 'App.Configuration[path]', value: 'jtl'},
     {label: '依赖注入方式', value: 'ylzr'}
   ]}>
   <TabItem value="jtl">

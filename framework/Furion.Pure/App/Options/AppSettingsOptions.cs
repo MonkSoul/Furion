@@ -52,9 +52,9 @@ namespace Furion
         public bool? PrintDbConnectionInfo { get; set; }
 
         /// <summary>
-        /// 是否记录 EFCore Sql 执行命令日志
+        /// 是否输出原始 Sql 执行日志（ADO.NET）
         /// </summary>
-        public bool? LogEntityFrameworkCoreSqlExecuteCommand { get; set; }
+        public bool? OutputOriginalSqlExecuteLog { get; set; }
 
         /// <summary>
         /// 配置支持的包前缀名
@@ -82,7 +82,7 @@ namespace Furion
             options.EnabledReferenceAssemblyScan ??= false;
             options.ExternalAssemblies ??= Array.Empty<string>();
             options.PrintDbConnectionInfo ??= true;
-            options.LogEntityFrameworkCoreSqlExecuteCommand ??= true;
+            options.OutputOriginalSqlExecuteLog ??= true;
             options.SupportPackageNamePrefixs ??= Array.Empty<string>();
             options.EnabledVirtualFileServer ??= true;
         }

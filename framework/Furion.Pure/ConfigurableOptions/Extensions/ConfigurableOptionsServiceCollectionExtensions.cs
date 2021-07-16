@@ -41,12 +41,12 @@ namespace Microsoft.Extensions.DependencyInjection
             var optionsType = typeof(TOptions);
             var optionsSettings = optionsType.GetCustomAttribute<OptionsSettingsAttribute>(false);
 
-            // 获取键名
-            var jsonKey = GetOptionsJsonKey(optionsSettings, optionsType);
+            // 获取配置路径
+            var path = GetConfigurationPath(optionsSettings, optionsType);
 
             // 配置选项（含验证信息）
             var configurationRoot = App.Configuration;
-            var optionsConfiguration = configurationRoot.GetSection(jsonKey);
+            var optionsConfiguration = configurationRoot.GetSection(path);
 
             // 配置选项监听
             if (typeof(IConfigurableOptionsListener<TOptions>).IsAssignableFrom(optionsType))
@@ -98,12 +98,12 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// 获取选项键
+        /// 获取配置路径
         /// </summary>
         /// <param name="optionsSettings">选项配置特性</param>
         /// <param name="optionsType">选项类型</param>
         /// <returns></returns>
-        private static string GetOptionsJsonKey(OptionsSettingsAttribute optionsSettings, Type optionsType)
+        private static string GetConfigurationPath(OptionsSettingsAttribute optionsSettings, Type optionsType)
         {
             // 默认后缀
             var defaultStuffx = nameof(Options);
@@ -112,8 +112,8 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 // // 没有贴 [OptionsSettings]，如果选项类以 `Options` 结尾，则移除，否则返回类名称
                 null => optionsType.Name.EndsWith(defaultStuffx) ? optionsType.Name[0..^defaultStuffx.Length] : optionsType.Name,
-                // 如果贴有 [OptionsSettings] 特性，但未指定 JsonKey 参数，则直接返回类名，否则返回 JsonKey
-                _ => optionsSettings != null && string.IsNullOrWhiteSpace(optionsSettings.JsonKey) ? optionsType.Name : optionsSettings.JsonKey,
+                // 如果贴有 [OptionsSettings] 特性，但未指定 Path 参数，则直接返回类名，否则返回 Path
+                _ => optionsSettings != null && string.IsNullOrWhiteSpace(optionsSettings.Path) ? optionsType.Name : optionsSettings.Path,
             };
         }
     }

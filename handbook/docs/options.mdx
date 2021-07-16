@@ -90,7 +90,7 @@ namespace Furion.Web.Core
 
 在 `Furion` 框架中，提供了多种读取方式：
 
-- 通过 `App.GetOptions<TOptions>(jsonKey)` 读取（**不推荐**）
+- 通过 `App.GetOptions<TOptions>(path)` 读取（**不推荐**）
 - 通过依赖注入以下实例读取：
   - `IOptions<TOptions>`
   - `IOptionsSnapshot<TOptions>`
@@ -101,17 +101,17 @@ namespace Furion.Web.Core
   - `App.GetOptionsSnapshot<TOptions>()`
 
 <Tabs
-  defaultValue="App.GetOptions<TOptions>(jsonKey)"
+  defaultValue="App.GetOptions<TOptions>(path)"
   values={[
     {
-      label: "App.GetOptions<TOptions>(jsonKey)",
-      value: "App.GetOptions<TOptions>(jsonKey)",
+      label: "App.GetOptions<TOptions>(path)",
+      value: "App.GetOptions<TOptions>(path)",
     },
     { label: "依赖注入方式", value: "依赖注入方式" },
     { label: "App.GetOptions<TOptions>()", value: "App.GetOptions<TOptions>()" }
   ]}
 >
-  <TabItem value="App.GetOptions<TOptions>(jsonKey)">
+  <TabItem value="App.GetOptions<TOptions>(path)">
 
 ```cs {13-16}
 using Furion.Application;
@@ -225,7 +225,7 @@ namespace Furion.Web.Entry.Controllers
 
 :::caution 特别注意
 
-`App.GetOptions<TOptions>(jsonKey)` 静态方法 区别于没有参数的 `App.GetOptions<TOptions>()` 静态方法，前者实际上还是 **配置**，只不过做了强类型解析，后者则通过 `IOptions<TOptions>` 解析。
+`App.GetOptions<TOptions>(path)` 静态方法 区别于没有参数的 `App.GetOptions<TOptions>()` 静态方法，前者实际上还是 **配置**，只不过做了强类型解析，后者则通过 `IOptions<TOptions>` 解析。
 
 两者源码如下：
 
@@ -245,11 +245,11 @@ namespace Furion
         /// 获取选项
         /// </summary>
         /// <typeparam name="TOptions">强类型选项类</typeparam>
-        /// <param name="jsonKey">配置中对应的Key</param>
+        /// <param name="path">配置中对应的Key</param>
         /// <returns></returns>
-        public static TOptions GetOptions<TOptions>(string jsonKey)
+        public static TOptions GetOptions<TOptions>(string path)
             where TOptions : class
-            => Configuration.GetSection(jsonKey).Get<TOptions>();
+            => Configuration.GetSection(path).Get<TOptions>();
 
         /// <summary>
         /// 获取选项
@@ -265,13 +265,13 @@ namespace Furion
 }
 ```
 
-通过上述代码得知，为什么不推荐使用 `App.GetOptions<TOptions>(jsonKey)` 读取，因为这种方式无法应用选项验证、默认配置、更改通知等功能。
+通过上述代码得知，为什么不推荐使用 `App.GetOptions<TOptions>(path)` 读取，因为这种方式无法应用选项验证、默认配置、更改通知等功能。
 
 :::
 
 ### 4.2.3.5 如何选择读取方式
 
-- 如果选项需要在多个地方使用，则无论任何时候都不推荐使用 `App.GetOptions<TOptions>(jsonKey)`
+- 如果选项需要在多个地方使用，则无论任何时候都不推荐使用 `App.GetOptions<TOptions>(path)`
 - 在可依赖注入类中，依赖注入 `IOptions[Snapshot|Monitor]<TOptions>` 读取
 - 在静态类/非依赖注入类中，选择 `App.GetOptions[Snapshot|Monitor]<TOptions>()` 读取
 
@@ -313,7 +313,7 @@ namespace Furion
   - 以 `Options` 结尾，则去除 `Options` 字符串
   - 否则返回 `类名称`
 - **贴了 `[OptionsSettings]` 特性**
-  - 如果配置了 `JsonKey` 属性，则返回 `JsonKey` 的值
+  - 如果配置了 `Path` 属性，则返回 `Path` 的值
   - 否则返回 `类名称`
 
 <Tabs
@@ -351,7 +351,7 @@ public class AppInfoSettings : IConfigurableOptions
 
   <TabItem value="has-optionsettings">
 
-- 配置了 `JsonKey` 属性，则键名为：`AppSettings:AppInfo`
+- 配置了 `Path` 属性，则键名为：`AppSettings:AppInfo`
 
 ```cs {1}
 [OptionsSettings("AppSettings:AppInfo")]
@@ -363,7 +363,7 @@ public class AppInfoOptions : IConfigurableOptions
 }
 ```
 
-- 没有配置 `JsonKey` 属性，，则键名为：`AppInfoSettings`
+- 没有配置 `Path` 属性，，则键名为：`AppInfoSettings`
 
 ```cs {1}
 [OptionsSettings]
@@ -382,7 +382,7 @@ public class AppInfoSettings : IConfigurableOptions
 
 选项类可以通过 `[OptionsSettings]` 来配置查找路径值。
 
-- `JsonKey`：对应配置文件中的键，支持 **分层键** 字符串，参见：《[4.1 配置 - 4.1.3 路径符 查找节点](configuration/#413-路径符-查找节点)》
+- `Path`：对应配置文件中的键，支持 **分层键** 字符串，参见：《[4.1 配置 - 4.1.3 路径符 查找节点](configuration/#413-路径符-查找节点)》
 - `PostConfigureAll`：选项后期配置，默认 `false`。[ASP.NET Core - 选项 - 选项后期配置](https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/configuration/options?view=aspnetcore-3.1#options-post-configuration)
 
 ## 4.2.7 选项验证
