@@ -83,16 +83,16 @@ namespace Furion
 
             // 处理【部署】二级虚拟目录
             var virtualPath = App.Settings.VirtualPath;
-            if (virtualPath.Length > 1)
+            if (!string.IsNullOrWhiteSpace(virtualPath) && virtualPath.StartsWith("/"))
             {
-                app.Map(virtualPath, _app => useStartups(startups, _app));
+                app.Map(virtualPath, _app => UseStartups(startups, _app));
                 return;
             }
 
-            useStartups(startups, app);
+            UseStartups(startups, app);
         }
 
-        private static void useStartups(IEnumerable<AppStartup> startups, IApplicationBuilder app)
+        private static void UseStartups(IEnumerable<AppStartup> startups, IApplicationBuilder app)
         {
             // 遍历所有
             foreach (var startup in startups)

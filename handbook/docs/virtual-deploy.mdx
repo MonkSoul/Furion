@@ -10,28 +10,14 @@ sidebar_label: 34.4 二级虚拟目录部署
 
 这个时候就需要进行一些特殊配置了。
 
-### 34.4.1.1 配置 `Startup.cs`
+### 34.4.1.1 配置 `AppSettings`
 
-首先，我们需要配置 `Startup.cs` 中的 `Configure`，如：
+我们只需要配置 `AppSettings` 即可：
 
-```cs {3}
-public void Configure(IApplicationBuilder application, IWebHostEnvironment env)
+```json
 {
-    application.Map("/二级目录", app=>
-    {
-        // 其他中间件代码全部在这里面写
-    });
-}
-```
-
-### 34.4.1.2 启用 `Swagger` 虚拟目录支持
-
-第二步，在 `appsettings.json` 配置文件（其他配置文件也可以）中添加以下配置：
-
-```json {2-3}
-{
-  "SpecificationDocumentSettings": {
-    "VirtualPath": "/二级目录"
+  "AppSettings": {
+    "VirtualPath": "虚拟目录"
   }
 }
 ```

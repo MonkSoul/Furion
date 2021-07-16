@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -80,6 +81,19 @@ namespace Furion
             var startups = App.AppStartups.Reverse();
             if (!startups.Any()) return;
 
+            // 处理【部署】二级虚拟目录
+            var virtualPath = App.Settings.VirtualPath;
+            if (!string.IsNullOrWhiteSpace(virtualPath) && virtualPath.StartsWith("/"))
+            {
+                app.Map(virtualPath, _app => UseStartups(startups, _app));
+                return;
+            }
+
+            UseStartups(startups, app);
+        }
+
+        private static void UseStartups(IEnumerable<AppStartup> startups, IApplicationBuilder app)
+        {
             // 遍历所有
             foreach (var startup in startups)
             {

@@ -67,6 +67,11 @@ namespace Furion
         public bool? EnabledVirtualFileServer { get; set; }
 
         /// <summary>
+        /// 【部署】二级虚拟目录
+        /// </summary>
+        public string VirtualPath { get; set; }
+
+        /// <summary>
         /// 后期配置
         /// </summary>
         /// <param name="options"></param>
@@ -85,6 +90,7 @@ namespace Furion
             options.OutputOriginalSqlExecuteLog ??= true;
             options.SupportPackageNamePrefixs ??= Array.Empty<string>();
             options.EnabledVirtualFileServer ??= true;
+            options.VirtualPath ??= string.Empty;
         }
     }
 }

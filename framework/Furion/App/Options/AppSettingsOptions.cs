@@ -90,7 +90,7 @@ namespace Furion
             options.OutputOriginalSqlExecuteLog ??= true;
             options.SupportPackageNamePrefixs ??= Array.Empty<string>();
             options.EnabledVirtualFileServer ??= true;
-            options.VirtualPath ??= "";
+            options.VirtualPath ??= string.Empty;
         }
     }
 }

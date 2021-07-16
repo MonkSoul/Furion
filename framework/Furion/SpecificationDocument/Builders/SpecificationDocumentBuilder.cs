@@ -184,7 +184,7 @@ namespace Furion.SpecificationDocument
             // 配置文档标题
             swaggerUIOptions.DocumentTitle = _specificationDocumentSettings.DocumentTitle;
 
-            // 配置UI地址
+            // 配置UI地址（处理二级虚拟目录）
             swaggerUIOptions.RoutePrefix = _specificationDocumentSettings.RoutePrefix ?? routePrefix ?? "api";
 
             // 文档展开设置
