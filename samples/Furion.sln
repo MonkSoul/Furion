@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Web.Entry", "Furion.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion", "..\framework\Furion\Furion.csproj", "{0DEBEF63-A7EB-472C-A8E0-6AA673C8CCA9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Furion.Extras.Authentication.JwtBearer", "..\framework\Furion.Extras.Authentication.JwtBearer\Furion.Extras.Authentication.JwtBearer.csproj", "{6272165E-47BF-4D66-A844-71C660C83BAF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,10 +51,6 @@ Global
 		{0DEBEF63-A7EB-472C-A8E0-6AA673C8CCA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DEBEF63-A7EB-472C-A8E0-6AA673C8CCA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DEBEF63-A7EB-472C-A8E0-6AA673C8CCA9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6272165E-47BF-4D66-A844-71C660C83BAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6272165E-47BF-4D66-A844-71C660C83BAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6272165E-47BF-4D66-A844-71C660C83BAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6272165E-47BF-4D66-A844-71C660C83BAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
