@@ -61,7 +61,7 @@ namespace Furion.DatabaseAccessor
 
             var appsettings = App.Settings;
             IsPrintDbConnectionInfo = appsettings.PrintDbConnectionInfo.Value;
-            IsLogEntityFrameworkCoreSqlExecuteCommand = appsettings.LogEntityFrameworkCoreSqlExecuteCommand.Value;
+            IsLogEntityFrameworkCoreSqlExecuteCommand = appsettings.OutputOriginalSqlExecuteLog.Value;
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
-        /// 记录 Sql 执行命令日志
+        /// 输出原始 Sql 执行日志（ADO.NET）
         /// </summary>
         /// <param name="databaseFacade"></param>
         /// <param name="dbCommand"></param>
