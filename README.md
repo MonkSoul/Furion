@@ -41,20 +41,6 @@ Make .NET development easier, more versatile, and more popular.
 >
 > `Furion` means "prophet" in Chinese, which is just in line with my original intention of creating the framework. So, `Furion` was born.
 
-## About Logo
-
-`Furion`'s logo design concept is based on [The Famous Kangaroo Theory](https://baike.baidu.com/item/%E8%A2%8B%E9%BC%A0%E7%90%86%E8%AE%BA).
-
-Kangaroo has the characteristics of **long legs, bagging and self running**.
-
-- `Long legs`: It means that `Furion` has steady legs, walks in the forefront of science and technology, goes further and runs faster.
-- `Brood bag`: Small bags and big achievements. It is expected that `Furion` can breed more. Net excellent developers and vibrant ecology.
-- `Self run`: `Furion` itself should keep learning, making progress, innovating and developing.
-
-<p>
-<img src="./handbook/static/img/furionlogo.png" height="120"/>
-</p>
-
 ## Document
 
 - Domestic documents: [https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)

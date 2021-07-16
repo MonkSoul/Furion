@@ -41,20 +41,6 @@
 >
 > `Furion` 中文有 `先知` 的意思，恰好符合我创造框架的初衷。所以，**`Furion`** 就诞生了。
 
-## 关于标志
-
-`Furion` 标志设计理念是借鉴著名的 [袋鼠理论](https://baike.baidu.com/item/%E8%A2%8B%E9%BC%A0%E7%90%86%E8%AE%BA) 设计的。
-
-袋鼠具有**长腿、育袋、自我奔跑**特点。
-
-- `长腿`：代表着 `Furion` 拥有稳健的双腿，走在科技的前沿，走的更远，跑的更快。
-- `育袋`：小育袋、大作为。期待 `Furion` 能够育孕出更多 .NET 优秀开发者和生机勃勃的生态。
-- `自我奔跑`：`Furion` 自身也要不断学习、不断进步、不断创新、不断开拓。
-
-<p>
-<img src="./handbook/static/img/furionlogo.png" height="120"/>
-</p>
-
 ## 文档手册
 
 - 国内文档：[https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
