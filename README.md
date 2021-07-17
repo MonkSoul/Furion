@@ -26,9 +26,9 @@ Make .NET development easier, more versatile, and more popular.
 ## Features
 
 - **New appearance**: Based on `.NET5/6` platform, no historical burden
+- **Very few dependencies**: the framework relies on only two third-party packages
 - **Easy to get started**: only one `Inject()` is needed to complete the configuration
 - **Fast development**: built in rich enterprise application development functions
-- **Very few dependencies**: the framework relies on only two third-party packages
 - **Extremely flexible**: easy to face the changing and complex needs
 - **Easy to maintain**: adopt unique architecture idea, only designed for long-term maintenance
 - **Perfect documentation**: provide complete development documentation
@@ -46,9 +46,7 @@ Make .NET development easier, more versatile, and more popular.
 
 ## Contribution
 
-`Furion` follows the `Apache-2.0` open source agreement. You are welcome to submit `Pull Request` or `Issue`.
-
-If you want to contribute to a project, check out the [Contribution Guide](https://dotnetchina.gitee.io/furion/docs/contribute). Thank you for your contribution to `Furion`.
+`Furion` follows the `Apache-2.0` open source agreement. You are welcome to submit `Pull Request` or `Issue`. If you want to contribute to a project, check out the [Contribution Guide](https://dotnetchina.gitee.io/furion/docs/contribute). Thank you for your contribution to `Furion`.
 
 [![Giteye chart](https://chart.giteye.net/gitee/dotnetchina/Furion/ZS49EPL6.png)](https://giteye.net/chart/ZS49EPL6)
 

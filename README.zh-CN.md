@@ -26,9 +26,9 @@
 ## 框架特点
 
 - 全新面貌：基于 `.NET5/6` 平台，没有历史包袱
+- 极少依赖：框架只依赖两个第三方包
 - 极易入门：只需要一个 `Inject()` 即可完成配置
 - 极速开发：内置丰富的企业应用开发功能
-- 极少依赖：框架只依赖两个第三方包
 - 极其灵活：轻松面对多变复杂的需求
 - 极易维护：采用独特的架构思想，只为长久维护设计
 - 完整文档：提供完善的开发文档
@@ -46,9 +46,7 @@
 
 ## 贡献代码
 
-`Furion` 遵循 `Apache-2.0` 开源协议，欢迎大家提交 `PR` 或 `Issue`。
-
-如果要为项目做出贡献，请查看 [贡献指南](https://dotnetchina.gitee.io/furion/docs/contribute)。感谢每一位为 `Furion` 贡献代码的朋友。
+`Furion` 遵循 `Apache-2.0` 开源协议，欢迎大家提交 `PR` 或 `Issue`。如果要为项目做出贡献，请查看 [贡献指南](https://dotnetchina.gitee.io/furion/docs/contribute)。感谢每一位为 `Furion` 贡献代码的朋友。
 
 [![Giteye chart](https://chart.giteye.net/gitee/dotnetchina/Furion/ZS49EPL6.png)](https://giteye.net/chart/ZS49EPL6)
 
