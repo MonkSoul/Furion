@@ -23,23 +23,15 @@ Make .NET development easier, more versatile, and more popular.
 
 </div>
 
-## Preface
+## Features
 
-> Selfless dedication is not a fantasy. Sometimes, we can do it.
-
-## Naming
-
-> The story goes like this:
->
-> Since Microsoft announced the news of the `.NET 5` platform, I have been thinking about developing a development framework based on the `.NET 5` platform. I wants to be the first to eat the `.NET 5` crab.
->
-> At the beginning, I thought of `Lazier` as the name of the framework, which means `更懒` in Chinese. In line with my "all simple, just to be lazy" development philosophy.
->
-> But **Lazier** and **Worse** have similar pronunciation and no characteristics, and the meaning is not very good. I have been agonizing about the name change for several days.
->
-> Just once in QQ group accidentally brush to chat record hair **`Furion [fu:rɪən]`** word, meaning is a prophet, at that moment, recognized it!
->
-> `Furion` means "prophet" in Chinese, which is just in line with my original intention of creating the framework. So, `Furion` was born.
+- **New appearance**: Based on `.NET5/6` platform, no historical burden
+- **Easy to get started**: only one `Inject()` is needed to complete the configuration
+- **Fast development**: built in rich enterprise application development functions
+- **Very few dependencies**: the framework relies on only two third-party packages
+- **Extremely flexible**: easy to face the changing and complex needs
+- **Easy to maintain**: adopt unique architecture idea, only designed for long-term maintenance
+- **Perfect documentation**: provide complete development documentation
 
 ## Document
 
@@ -51,16 +43,6 @@ Make .NET development easier, more versatile, and more popular.
 - Gitee：[https://gitee.com/dotnetchina/Furion](https://gitee.com/dotnetchina/Furion)
 - GitHub：[https://github.com/monksoul/Furion](https://github.com/monksoul/Furion)
 - Nuget：[https://www.nuget.org/packages/Furion](https://www.nuget.org/packages/Furion)
-
-## Features
-
-- **New appearance**: Based on `.NET5/6` platform, no historical burden
-- **Easy to get started**: only one `Inject()` is needed to complete the configuration
-- **Fast development**: built in rich enterprise application development functions
-- **Very few dependencies**: the framework relies on only two third-party packages
-- **Extremely flexible**: easy to face the changing and complex needs
-- **Easy to maintain**: adopt unique architecture idea, only designed for long-term maintenance
-- **Perfect documentation**: provide complete development documentation
 
 ## Contribution
 
