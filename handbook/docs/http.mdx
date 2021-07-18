@@ -83,7 +83,7 @@ public interface IHttp : IHttpDispatchProxy
 
 ```cs {9,16}
 using Furion.DynamicApiController;
-using Furion.RemoteRequest;
+using Furion.RemoteRequest.Extensions;
 
 namespace Furion.Application
 {
@@ -120,7 +120,7 @@ var response = await "https://www.furion.pro/patch".PatchAsync();
 var response = await "https://www.furion.pro/head".HeadAsync();
 ```
 
-需引入 `using Furion.RemoteRequest` 命名空间。
+需引入 `using Furion.RemoteRequest.Extensions` 命名空间。
 
   </TabItem>
 </Tabs>
