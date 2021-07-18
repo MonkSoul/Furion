@@ -811,7 +811,7 @@ services.AddRemoteRequest(options=>
     // 配置更多参数，比如 SSL 证书
     services.AddHttpClient("github", c => {
         // 其他配置
-    }
+    })
     .ConfigurePrimaryHttpMessageHandler(u => new HttpClientHandler
     {
         ClientCertificateOptions = ClientCertificateOption.Manual,
