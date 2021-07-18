@@ -31,7 +31,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddObjectMapper(this IServiceCollection services)
         {
             // 判断是否安装了 Mapster 程序集
-            var objectMapperAssembly = App.Assemblies.FirstOrDefault(u => u.GetName().Name.Equals(AppExtra.OBJECTMAPPER_MAPSTER));
+            var objectMapperAssembly = App.Assemblies.FirstOrDefault(u => u.GetName().Name.Equals("Furion.Extras.ObjectMapper.Mapster"));
             if (objectMapperAssembly != null)
             {
                 // 加载 ObjectMapper 拓展类型和拓展方法
