@@ -12,8 +12,6 @@
 
 using Furion;
 using Furion.DependencyInjection;
-using Swashbuckle.AspNetCore.Swagger;
-using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 
 namespace Microsoft.AspNetCore.Builder
@@ -29,12 +27,15 @@ namespace Microsoft.AspNetCore.Builder
         /// </summary>
         /// <param name="app"></param>
         /// <param name="routePrefix">空字符串将为首页</param>
-        /// <param name="swaggerConfigure"></param>
-        /// <param name="swaggerUIConfigure"></param>
+        /// <param name="configure"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseInject(this IApplicationBuilder app, string routePrefix = default, Action<SwaggerOptions> swaggerConfigure = null, Action<SwaggerUIOptions> swaggerUIConfigure = null)
+        public static IApplicationBuilder UseInject(this IApplicationBuilder app, string routePrefix = default, Action<InjectMiddlewareOptions> configure = null)
         {
-            app.UseSpecificationDocuments(routePrefix, swaggerConfigure, swaggerUIConfigure);
+            // 载入中间件配置选项
+            var configureOptions = new InjectMiddlewareOptions();
+            configure?.Invoke(configureOptions);
+
+            app.UseSpecificationDocuments(routePrefix, configureOptions?.SpecificationDocumentConfigure);
             return app;
         }
 

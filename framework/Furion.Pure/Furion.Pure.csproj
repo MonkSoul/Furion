@@ -28,9 +28,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="TaskScheduler\Internal\SpareTimer.cs">
-	    <SubType>Component</SubType>
-	  </Compile>
+	  <Folder Include="UnifyResult\Extensions\Options\" />
 	</ItemGroup>
 
 </Project>

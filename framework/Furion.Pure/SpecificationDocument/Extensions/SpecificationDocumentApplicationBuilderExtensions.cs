@@ -13,8 +13,6 @@
 using Furion;
 using Furion.DependencyInjection;
 using Furion.SpecificationDocument;
-using Swashbuckle.AspNetCore.Swagger;
-using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 
 namespace Microsoft.AspNetCore.Builder
@@ -30,19 +28,22 @@ namespace Microsoft.AspNetCore.Builder
         /// </summary>
         /// <param name="app"></param>
         /// <param name="routePrefix"></param>
-        /// <param name="swaggerConfigure"></param>
-        /// <param name="swaggerUIConfigure"></param>
+        /// <param name="configure"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseSpecificationDocuments(this IApplicationBuilder app, string routePrefix = default, Action<SwaggerOptions> swaggerConfigure = null, Action<SwaggerUIOptions> swaggerUIConfigure = null)
+        public static IApplicationBuilder UseSpecificationDocuments(this IApplicationBuilder app, string routePrefix = default, Action<SpecificationDocumentMiddlewareOptions> configure = default)
         {
             // 判断是否启用规范化文档
             if (App.Settings.InjectSpecificationDocument != true) return app;
 
+            // 载入服务配置选项
+            var configureOptions = new SpecificationDocumentMiddlewareOptions();
+            configure?.Invoke(configureOptions);
+
             // 配置 Swagger 全局参数
-            app.UseSwagger(options => SpecificationDocumentBuilder.Build(options, swaggerConfigure));
+            app.UseSwagger(options => SpecificationDocumentBuilder.Build(options, configureOptions?.SwaggerConfigure));
 
             // 配置 Swagger UI 参数
-            app.UseSwaggerUI(options => SpecificationDocumentBuilder.BuildUI(options, routePrefix, swaggerUIConfigure));
+            app.UseSwaggerUI(options => SpecificationDocumentBuilder.BuildUI(options, routePrefix, configureOptions?.SwaggerUIConfigure));
 
             return app;
         }

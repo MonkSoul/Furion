@@ -14,7 +14,6 @@ using Furion;
 using Furion.DependencyInjection;
 using Furion.UnifyResult;
 using Microsoft.Extensions.Hosting;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -36,14 +35,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Mvc 注入基础配置（带Swagger）
         /// </summary>
         /// <param name="mvcBuilder">Mvc构建器</param>
-        /// <param name="swaggerGenConfigure"></param>
+        /// <param name="configure"></param>
         /// <returns>IMvcBuilder</returns>
-        public static IMvcBuilder AddInject(this IMvcBuilder mvcBuilder, Action<SwaggerGenOptions> swaggerGenConfigure = null)
+        public static IMvcBuilder AddInject(this IMvcBuilder mvcBuilder, Action<InjectServiceOptions> configure = null)
         {
-            mvcBuilder.AddSpecificationDocuments(swaggerGenConfigure)
-                      .AddDynamicApiControllers()
-                      .AddDataValidation()
-                      .AddFriendlyException();
+            mvcBuilder.Services.AddInject(configure);
 
             return mvcBuilder;
         }
@@ -53,13 +49,17 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services">服务集合</param>
         /// <returns>IMvcBuilder</returns>
-        /// <param name="swaggerGenConfigure"></param>
-        public static IServiceCollection AddInject(this IServiceCollection services, Action<SwaggerGenOptions> swaggerGenConfigure = null)
+        /// <param name="configure"></param>
+        public static IServiceCollection AddInject(this IServiceCollection services, Action<InjectServiceOptions> configure = null)
         {
-            services.AddSpecificationDocuments(swaggerGenConfigure)
+            // 载入服务配置选项
+            var configureOptions = new InjectServiceOptions();
+            configure?.Invoke(configureOptions);
+
+            services.AddSpecificationDocuments(configureOptions?.SpecificationDocumentConfigure)
                     .AddDynamicApiControllers()
-                    .AddDataValidation()
-                    .AddFriendlyException();
+                    .AddDataValidation(configureOptions?.DataValidationConfigure)
+                    .AddFriendlyException(configureOptions?.FriendlyExceptionConfigure);
 
             return services;
         }
@@ -68,14 +68,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Mvc 注入基础配置
         /// </summary>
         /// <param name="mvcBuilder">Mvc构建器</param>
-        /// <param name="includeDynamicApiController"></param>
+        /// <param name="configure"></param>
         /// <returns>IMvcBuilder</returns>
-        public static IMvcBuilder AddInjectBase(this IMvcBuilder mvcBuilder, bool includeDynamicApiController = true)
+        public static IMvcBuilder AddInjectBase(this IMvcBuilder mvcBuilder, Action<InjectServiceOptions> configure = null)
         {
-            if (includeDynamicApiController) mvcBuilder.AddDynamicApiControllers();
-
-            mvcBuilder.AddDataValidation()
-                      .AddFriendlyException();
+            mvcBuilder.Services.AddInjectBase(configure);
 
             return mvcBuilder;
         }
@@ -84,14 +81,16 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Mvc 注入基础配置
         /// </summary>
         /// <param name="services">服务集合</param>
-        /// <param name="includeDynamicApiController"></param>
+        /// <param name="configure"></param>
         /// <returns>IMvcBuilder</returns>
-        public static IServiceCollection AddInjectBase(this IServiceCollection services, bool includeDynamicApiController = true)
+        public static IServiceCollection AddInjectBase(this IServiceCollection services, Action<InjectServiceOptions> configure = null)
         {
-            if (includeDynamicApiController) services.AddDynamicApiControllers();
+            // 载入服务配置选项
+            var configureOptions = new InjectServiceOptions();
+            configure?.Invoke(configureOptions);
 
-            services.AddDataValidation()
-                    .AddFriendlyException();
+            services.AddDataValidation(configureOptions?.DataValidationConfigure)
+                    .AddFriendlyException(configureOptions?.FriendlyExceptionConfigure);
 
             return services;
         }
@@ -100,12 +99,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Mvc 注入基础配置和规范化结果
         /// </summary>
         /// <param name="mvcBuilder"></param>
-        /// <param name="swaggerGenConfigure"></param>
+        /// <param name="configure"></param>
         /// <returns></returns>
-        public static IMvcBuilder AddInjectWithUnifyResult(this IMvcBuilder mvcBuilder, Action<SwaggerGenOptions> swaggerGenConfigure = null)
+        public static IMvcBuilder AddInjectWithUnifyResult(this IMvcBuilder mvcBuilder, Action<InjectServiceOptions> configure = null)
         {
-            mvcBuilder.AddInject(swaggerGenConfigure)
-                      .AddUnifyResult();
+            mvcBuilder.Services.AddInjectWithUnifyResult(configure);
 
             return mvcBuilder;
         }
@@ -114,11 +112,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 注入基础配置和规范化结果
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="swaggerGenConfigure"></param>
+        /// <param name="configure"></param>
         /// <returns></returns>
-        public static IServiceCollection AddInjectWithUnifyResult(this IServiceCollection services, Action<SwaggerGenOptions> swaggerGenConfigure = null)
+        public static IServiceCollection AddInjectWithUnifyResult(this IServiceCollection services, Action<InjectServiceOptions> configure = null)
         {
-            services.AddInject(swaggerGenConfigure)
+            services.AddInject(configure)
                     .AddUnifyResult();
 
             return services;
@@ -129,13 +127,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="TUnifyResultProvider"></typeparam>
         /// <param name="mvcBuilder"></param>
-        /// <param name="swaggerGenConfigure"></param>
+        /// <param name="configure"></param>
         /// <returns></returns>
-        public static IMvcBuilder AddInjectWithUnifyResult<TUnifyResultProvider>(this IMvcBuilder mvcBuilder, Action<SwaggerGenOptions> swaggerGenConfigure = null)
+        public static IMvcBuilder AddInjectWithUnifyResult<TUnifyResultProvider>(this IMvcBuilder mvcBuilder, Action<InjectServiceOptions> configure = null)
             where TUnifyResultProvider : class, IUnifyResultProvider
         {
-            mvcBuilder.AddInject(swaggerGenConfigure)
-                      .AddUnifyResult<TUnifyResultProvider>();
+            mvcBuilder.Services.AddInjectWithUnifyResult<TUnifyResultProvider>(configure);
 
             return mvcBuilder;
         }
@@ -144,13 +141,13 @@ namespace Microsoft.Extensions.DependencyInjection
         /// Mvc 注入基础配置和规范化结果
         /// </summary>
         /// <typeparam name="TUnifyResultProvider"></typeparam>
-        /// <param name="swaggerGenConfigure"></param>
+        /// <param name="configure"></param>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddInjectWithUnifyResult<TUnifyResultProvider>(this IServiceCollection services, Action<SwaggerGenOptions> swaggerGenConfigure = null)
+        public static IServiceCollection AddInjectWithUnifyResult<TUnifyResultProvider>(this IServiceCollection services, Action<InjectServiceOptions> configure = null)
             where TUnifyResultProvider : class, IUnifyResultProvider
         {
-            services.AddInject(swaggerGenConfigure)
+            services.AddInject(configure)
                     .AddUnifyResult<TUnifyResultProvider>();
 
             return services;

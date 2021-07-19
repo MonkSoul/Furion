@@ -13,6 +13,7 @@
 using Furion.DataValidation;
 using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -27,19 +28,13 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="TValidationMessageTypeProvider">验证类型消息提供器</typeparam>
         /// <param name="mvcBuilder"></param>
-        /// <param name="enabledGlobalDataValidationFilter">启用全局验证过滤器</param>
-        /// <param name="suppressImplicitRequiredAttributeForNonNullableReferenceTypes">禁止C# 8.0 验证非可空引用类型</param>
+        /// <param name="configure"></param>
         /// <returns></returns>
-        public static IMvcBuilder AddDataValidation<TValidationMessageTypeProvider>(this IMvcBuilder mvcBuilder, bool enabledGlobalDataValidationFilter = true, bool suppressImplicitRequiredAttributeForNonNullableReferenceTypes = true)
+        public static IMvcBuilder AddDataValidation<TValidationMessageTypeProvider>(this IMvcBuilder mvcBuilder, Action<DataValidationServiceOptions> configure = null)
             where TValidationMessageTypeProvider : class, IValidationMessageTypeProvider
         {
-            var services = mvcBuilder.Services;
-
             // 添加全局数据验证
-            mvcBuilder.AddDataValidation(enabledGlobalDataValidationFilter, suppressImplicitRequiredAttributeForNonNullableReferenceTypes);
-
-            // 单例注册验证消息提供器
-            services.AddSingleton<IValidationMessageTypeProvider, TValidationMessageTypeProvider>();
+            mvcBuilder.Services.AddDataValidation<TValidationMessageTypeProvider>(configure);
 
             return mvcBuilder;
         }
@@ -49,14 +44,13 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="TValidationMessageTypeProvider">验证类型消息提供器</typeparam>
         /// <param name="services"></param>
-        /// <param name="enabledGlobalDataValidationFilter">启用全局验证过滤器</param>
-        /// <param name="suppressImplicitRequiredAttributeForNonNullableReferenceTypes">禁止C# 8.0 验证非可空引用类型</param>
+        /// <param name="configure"></param>
         /// <returns></returns>
-        public static IServiceCollection AddDataValidation<TValidationMessageTypeProvider>(this IServiceCollection services, bool enabledGlobalDataValidationFilter = true, bool suppressImplicitRequiredAttributeForNonNullableReferenceTypes = true)
+        public static IServiceCollection AddDataValidation<TValidationMessageTypeProvider>(this IServiceCollection services, Action<DataValidationServiceOptions> configure = null)
             where TValidationMessageTypeProvider : class, IValidationMessageTypeProvider
         {
             // 添加全局数据验证
-            services.AddDataValidation(enabledGlobalDataValidationFilter, suppressImplicitRequiredAttributeForNonNullableReferenceTypes);
+            services.AddDataValidation(configure);
 
             // 单例注册验证消息提供器
             services.AddSingleton<IValidationMessageTypeProvider, TValidationMessageTypeProvider>();
@@ -68,32 +62,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 添加全局数据验证
         /// </summary>
         /// <param name="mvcBuilder"></param>
-        /// <param name="enabledGlobalDataValidationFilter">启用全局验证过滤器</param>
-        /// <param name="suppressImplicitRequiredAttributeForNonNullableReferenceTypes">禁止C# 8.0 验证非可空引用类型</param>
+        /// <param name="configure"></param>
         /// <returns></returns>
-        public static IMvcBuilder AddDataValidation(this IMvcBuilder mvcBuilder, bool enabledGlobalDataValidationFilter = true, bool suppressImplicitRequiredAttributeForNonNullableReferenceTypes = true)
+        public static IMvcBuilder AddDataValidation(this IMvcBuilder mvcBuilder, Action<DataValidationServiceOptions> configure = null)
         {
-            var services = mvcBuilder.Services;
-
-            // 添加验证配置文件支持
-            services.AddConfigurableOptions<ValidationTypeMessageSettingsOptions>();
-
-            // 判断是否启用全局
-            if (enabledGlobalDataValidationFilter)
-            {
-                // 关闭引用类型空检查
-                mvcBuilder.ConfigureApiBehaviorOptions(options =>
-                {
-                    options.SuppressModelStateInvalidFilter = true;
-                });
-
-                // 添加全局数据验证
-                mvcBuilder.AddMvcFilter<DataValidationFilter>(options =>
-                {
-                    // 关闭空引用对象验证
-                    options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = suppressImplicitRequiredAttributeForNonNullableReferenceTypes;
-                });
-            }
+            mvcBuilder.Services.AddDataValidation(configure);
 
             return mvcBuilder;
         }
@@ -102,16 +75,19 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 添加全局数据验证
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="enabledGlobalDataValidationFilter">启用全局验证过滤器</param>
-        /// <param name="suppressImplicitRequiredAttributeForNonNullableReferenceTypes">禁止C# 8.0 验证非可空引用类型</param>
+        /// <param name="configure"></param>
         /// <returns></returns>
-        public static IServiceCollection AddDataValidation(this IServiceCollection services, bool enabledGlobalDataValidationFilter = true, bool suppressImplicitRequiredAttributeForNonNullableReferenceTypes = true)
+        public static IServiceCollection AddDataValidation(this IServiceCollection services, Action<DataValidationServiceOptions> configure = null)
         {
             // 添加验证配置文件支持
             services.AddConfigurableOptions<ValidationTypeMessageSettingsOptions>();
 
+            // 载入服务配置选项
+            var configureOptions = new DataValidationServiceOptions();
+            configure?.Invoke(configureOptions);
+
             // 判断是否启用全局
-            if (enabledGlobalDataValidationFilter)
+            if (configureOptions.EnableGlobalDataValidation)
             {
                 // 添加自定义验证
                 services.Configure<ApiBehaviorOptions>(options =>
@@ -123,7 +99,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 services.AddMvcFilter<DataValidationFilter>(options =>
                 {
                     // 关闭空引用对象验证
-                    options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = suppressImplicitRequiredAttributeForNonNullableReferenceTypes;
+                    options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = configureOptions.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes;
                 });
             }
 

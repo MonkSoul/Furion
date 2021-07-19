@@ -13,7 +13,6 @@
 using Furion;
 using Furion.DependencyInjection;
 using Furion.SpecificationDocument;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -27,10 +26,23 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// 添加规范化文档服务
         /// </summary>
-        /// <param name="services">服务集合</param>
-        /// <param name="swaggerGenConfigure">自定义配置</param>
+        /// <param name="mvcBuilder">Mvc 构建器</param>
+        /// <param name="configure">自定义配置</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddSpecificationDocuments(this IServiceCollection services, Action<SwaggerGenOptions> swaggerGenConfigure = null)
+        public static IMvcBuilder AddSpecificationDocuments(this IMvcBuilder mvcBuilder, Action<SpecificationDocumentServiceOptions> configure = default)
+        {
+            mvcBuilder.Services.AddSpecificationDocuments(configure);
+
+            return mvcBuilder;
+        }
+
+        /// <summary>
+        /// 添加规范化文档服务
+        /// </summary>
+        /// <param name="services">服务集合</param>
+        /// <param name="configure">自定义配置</param>
+        /// <returns>服务集合</returns>
+        public static IServiceCollection AddSpecificationDocuments(this IServiceCollection services, Action<SpecificationDocumentServiceOptions> configure = default)
         {
             // 判断是否启用规范化文档
             if (App.Settings.InjectSpecificationDocument != true) return services;
@@ -38,32 +50,14 @@ namespace Microsoft.Extensions.DependencyInjection
             // 添加配置
             services.AddConfigurableOptions<SpecificationDocumentSettingsOptions>();
 
+            // 载入服务配置选项
+            var configureOptions = new SpecificationDocumentServiceOptions();
+            configure?.Invoke(configureOptions);
+
             // 添加Swagger生成器服务
-            services.AddSwaggerGen(options => SpecificationDocumentBuilder.BuildGen(options, swaggerGenConfigure));
+            services.AddSwaggerGen(options => SpecificationDocumentBuilder.BuildGen(options, configureOptions?.SwaggerGenConfigure));
 
             return services;
-        }
-
-        /// <summary>
-        /// 添加规范化文档服务
-        /// </summary>
-        /// <param name="mvcBuilder">Mvc 构建器</param>
-        /// <param name="swaggerGenConfigure">自定义配置</param>
-        /// <returns>服务集合</returns>
-        public static IMvcBuilder AddSpecificationDocuments(this IMvcBuilder mvcBuilder, Action<SwaggerGenOptions> swaggerGenConfigure = null)
-        {
-            // 判断是否启用规范化文档
-            if (App.Settings.InjectSpecificationDocument != true) return mvcBuilder;
-
-            var services = mvcBuilder.Services;
-
-            // 添加配置
-            services.AddConfigurableOptions<SpecificationDocumentSettingsOptions>();
-
-            // 添加Swagger生成器服务
-            services.AddSwaggerGen(options => SpecificationDocumentBuilder.BuildGen(options, swaggerGenConfigure));
-
-            return mvcBuilder;
         }
     }
 }
