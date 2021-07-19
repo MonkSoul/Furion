@@ -51,7 +51,7 @@ namespace Microsoft.Extensions.Hosting
                 InternalApp.HostEnvironment = hostContext.HostingEnvironment;
 
                 // 加载配置
-                InternalApp.AddConfigureFiles(configurationBuilder, hostContext.HostingEnvironment);
+                InternalApp.AddJsonFiles(configurationBuilder, hostContext.HostingEnvironment);
             });
 
             // 自动注入 AddApp() 服务

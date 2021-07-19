@@ -76,6 +76,11 @@ namespace Furion
         public static IHostEnvironment HostEnvironment => InternalApp.HostEnvironment;
 
         /// <summary>
+        /// 存储根服务，可能为空
+        /// </summary>
+        public static IServiceProvider RootServices => InternalApp.RootServices;
+
+        /// <summary>
         /// 应用有效程序集
         /// </summary>
         public static readonly IEnumerable<Assembly> Assemblies;
@@ -84,11 +89,6 @@ namespace Furion
         /// 有效程序集类型
         /// </summary>
         public static readonly IEnumerable<Type> EffectiveTypes;
-
-        /// <summary>
-        /// 存储根服务，可能为空
-        /// </summary>
-        public static IServiceProvider RootServices => InternalApp.RootServices;
 
         /// <summary>
         /// 获取请求上下文

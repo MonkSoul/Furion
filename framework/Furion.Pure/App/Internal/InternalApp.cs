@@ -52,25 +52,11 @@ namespace Furion
         internal static IHostEnvironment HostEnvironment;
 
         /// <summary>
-        /// 添加配置文件
-        /// </summary>
-        /// <param name="configurationBuilder"></param>
-        /// <param name="hostEnvironment"></param>
-        internal static void AddConfigureFiles(IConfigurationBuilder configurationBuilder, IHostEnvironment hostEnvironment)
-        {
-            var appsettingsConfiguration = configurationBuilder.Build();
-
-            // 加载 json 配置
-            AddJsonConfigureFiles(configurationBuilder, hostEnvironment, appsettingsConfiguration);
-        }
-
-        /// <summary>
         /// 加载自定义 .json 配置文件
         /// </summary>
         /// <param name="configurationBuilder"></param>
         /// <param name="hostEnvironment"></param>
-        /// <param name="appsettingsConfiguration"></param>
-        private static void AddJsonConfigureFiles(IConfigurationBuilder configurationBuilder, IHostEnvironment hostEnvironment, IConfiguration appsettingsConfiguration)
+        internal static void AddJsonFiles(IConfigurationBuilder configurationBuilder, IHostEnvironment hostEnvironment)
         {
             // 获取程序目录下的所有配置文件（只限顶级目标，不递归查找）
             var jsonFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.json", SearchOption.TopDirectoryOnly)
@@ -85,7 +71,7 @@ namespace Furion
             var envName = hostEnvironment.EnvironmentName;
 
             // 读取忽略的配置文件
-            var ignoreConfigurationFiles = appsettingsConfiguration
+            var ignoreConfigurationFiles = configurationBuilder.Build()
                     .GetSection("IgnoreConfigurationFiles")
                     .Get<string[]>()
                 ?? Array.Empty<string>();

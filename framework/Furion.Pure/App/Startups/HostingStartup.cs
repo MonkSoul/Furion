@@ -37,10 +37,10 @@ namespace Furion
                 InternalApp.HostEnvironment = InternalApp.WebHostEnvironment = hostContext.HostingEnvironment;
 
                 // 加载配置
-                InternalApp.AddConfigureFiles(configurationBuilder, InternalApp.HostEnvironment);
+                InternalApp.AddJsonFiles(configurationBuilder, hostContext.HostingEnvironment);
             });
 
-            // 自动注入 AddApp() 服务
+            // 应用初始化服务
             builder.ConfigureServices((hostContext, services) =>
             {
                 // 存储配置对象
