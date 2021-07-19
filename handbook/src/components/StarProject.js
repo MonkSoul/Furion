@@ -7,35 +7,35 @@ export default function StarProject() {
 
   return (
     <div className="furion-star-project">
-      {/* <a
+      <a
         className="furion-star-title"
-        href="https://gitee.com/dotnetchina#-%E6%AF%8F%E5%91%A8%E7%B2%BE%E9%80%89%E9%A1%B9%E7%9B%AE-"
+        href="https://gitee.com/monksoul"
         target="_blank"
         style={{ color: "white" }}
-        title="点击查看 dotNET China 更多每周精选"
+        title="打开微信扫一扫关注百小僧公众号"
       >
-        dotNET China 每周精选第 <span style={{ color: "yellow" }}>12</span> 期
-      </a> */}
+        微信公众号
+      </a>
       <button className="furion-star-close" onClick={() => setShow(!show)}>
         {show ? "收起" : "展开"}
       </button>
       {show && (
         <a
-          href="https://www.processon.com/"
+          href="https://gitee.com/monksoul"
           target="_blank"
-          title="免费在线流程图思维导图"
+          title="打开微信扫一扫关注百小僧公众号"
         >
-          <img src={useBaseUrl("img/processon.png")} />
+          <img src={useBaseUrl("img/monksoul.jpg")} />
         </a>
       )}
       <a
         className="furion-star-title"
         style={{ color: "yellow" }}
-        href="https://www.processon.com/"
+        href="https://gitee.com/monksoul"
         target="_blank"
-        title="点击查看跳转"
+        title="打开微信扫一扫关注百小僧公众号"
       >
-        点击进入 ProcessOn
+        百小僧别吹牛
       </a>
     </div>
   );
