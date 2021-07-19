@@ -401,6 +401,28 @@ services.AddControllersWithViews()
 
 无需配置。
 
+### 23.5.9 不区分大小写
+
+- `System.Text.Json` 方式
+
+```cs
+services.AddControllersWithViews()
+        .AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+        });
+```
+
+需引用 `System.Text.Json` 命名空间。
+
+- `Newtonsoft.Json` 方式
+
+:::tip 更多序列化配置
+
+这里只列举常用见的序列化配置，如需查看更多配置，可查阅 [System.Text.Json 文档](https://docs.microsoft.com/zh-cn/dotnet/standard/serialization/system-text-json-configure-options?pivots=dotnet-5-0)
+
+:::
+
 ## 23.6 `DataTable`、`DataSet`、`Tuple` 元组等序列化问题
 
 由于默认 `Furion` 采用 `System.Text.Json` 进行序列化，但是不支持复杂类型，如 `DataTable` 、 `DataSet`、`Tuple` 元组，所以需要更换成 `NewtonsoftJson` 即可，见 [JSON 序列化 - 23.5.1 自定义序列化提供器](./json-serialization#2351-自定义序列化提供器)
