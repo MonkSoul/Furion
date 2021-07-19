@@ -4,7 +4,7 @@
 //
 // 框架名称：Furion
 // 框架作者：百小僧
-// 框架版本：2.14.0
+// 框架版本：2.14.1
 // 源码地址：Gitee： https://gitee.com/dotnetchina/Furion
 //          Github：https://github.com/monksoul/Furion
 // 开源协议：Apache-2.0（https://gitee.com/dotnetchina/Furion/blob/master/LICENSE）
@@ -551,7 +551,7 @@ namespace Furion.DatabaseAccessor
         /// 获取所有数据库上下文
         /// </summary>
         /// <returns>ConcurrentBag{DbContext}</returns>
-        public ConcurrentDictionary<Guid, DbContext> GetDbContexts()
+        public virtual ConcurrentDictionary<Guid, DbContext> GetDbContexts()
         {
             return _dbContextPool.GetDbContexts();
         }
