@@ -45,10 +45,10 @@ namespace Microsoft.Extensions.Hosting
         /// <returns>IWebHostBuilder</returns>
         public static IHostBuilder Inject(this IHostBuilder hostBuilder, bool autoRegisterBackgroundService = true)
         {
-            hostBuilder.ConfigureAppConfiguration((hostingContext, config) =>
+            hostBuilder.ConfigureAppConfiguration((hostContext, config) =>
             {
                 // 存储环境对象
-                InternalApp.HostEnvironment = hostingContext.HostingEnvironment;
+                InternalApp.HostEnvironment = hostContext.HostingEnvironment;
 
                 // 加载配置
                 InternalApp.AddConfigureFiles(config, InternalApp.HostEnvironment);

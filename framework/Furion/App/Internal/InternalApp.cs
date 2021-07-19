@@ -60,20 +60,20 @@ namespace Furion
         {
             var appsettingsConfiguration = config.Build();
 
-            // 加载配置
-            AutoAddJsonFiles(config, env, appsettingsConfiguration);
+            // 加载 json 配置
+            AddJsonConfigureFiles(config, env, appsettingsConfiguration);
 
             // 存储配置
             ConfigurationBuilder = config;
         }
 
         /// <summary>
-        /// 自动加载自定义 .json 配置文件
+        /// 加载自定义 .json 配置文件
         /// </summary>
         /// <param name="config"></param>
         /// <param name="env"></param>
         /// <param name="appsettingsConfiguration"></param>
-        private static void AutoAddJsonFiles(IConfigurationBuilder config, IHostEnvironment env, IConfiguration appsettingsConfiguration)
+        private static void AddJsonConfigureFiles(IConfigurationBuilder config, IHostEnvironment env, IConfiguration appsettingsConfiguration)
         {
             // 获取程序目录下的所有配置文件（只限顶级目标，不递归查找）
             var jsonFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.json", SearchOption.TopDirectoryOnly)
