@@ -7,6 +7,8 @@
   box-shadow: 0 2px 20px 0 rgb(0 0 0 / 40%);
   border-radius: 4px;
   overflow: hidden;
+  background-color: #182c61;
+  padding: 10px;
 }
 
 .furion-star-project img {
@@ -35,7 +37,6 @@
 }
 
 .furion-star-title {
-  background-color: #182c61;
   color: #fff;
   text-align: center;
   font-size: 14px;

@@ -6,37 +6,23 @@ export default function StarProject() {
   const [show, setShow] = useState(true);
 
   return (
-    <div className="furion-star-project">
-      <a
-        className="furion-star-title"
-        href="https://gitee.com/monksoul"
-        target="_blank"
-        style={{ color: "white" }}
-        title="打开微信扫一扫关注百小僧公众号"
-      >
-        微信公众号
-      </a>
-      <button className="furion-star-close" onClick={() => setShow(!show)}>
-        {show ? "收起" : "展开"}
-      </button>
+    <div className="furion-star-project" onClick={() => setShow(!show)}>
       {show && (
-        <a
-          href="https://gitee.com/monksoul"
-          target="_blank"
-          title="打开微信扫一扫关注百小僧公众号"
-        >
-          <img src={useBaseUrl("img/monksoul.jpg")} />
-        </a>
+        <div className="furion-star-title" style={{ color: "white" }}>
+          微信公众号
+        </div>
       )}
-      <a
-        className="furion-star-title"
-        style={{ color: "yellow" }}
-        href="https://gitee.com/monksoul"
-        target="_blank"
+      <button className="furion-star-close">{show ? "收起" : "展开"}</button>
+      <img
+        src={useBaseUrl("img/monksoul.jpg")}
+        style={{ height: show ? null : 100 }}
         title="打开微信扫一扫关注百小僧公众号"
-      >
-        百小僧别吹牛
-      </a>
+      />
+      {show && (
+        <div className="furion-star-title" style={{ color: "yellow" }}>
+          百小僧别吹牛
+        </div>
+      )}
     </div>
   );
 }
