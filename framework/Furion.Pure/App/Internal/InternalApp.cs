@@ -54,23 +54,23 @@ namespace Furion
         /// <summary>
         /// 添加配置文件
         /// </summary>
-        /// <param name="config"></param>
-        /// <param name="env"></param>
-        internal static void AddConfigureFiles(IConfigurationBuilder config, IHostEnvironment env)
+        /// <param name="configurationBuilder"></param>
+        /// <param name="hostEnvironment"></param>
+        internal static void AddConfigureFiles(IConfigurationBuilder configurationBuilder, IHostEnvironment hostEnvironment)
         {
-            var appsettingsConfiguration = config.Build();
+            var appsettingsConfiguration = configurationBuilder.Build();
 
             // 加载 json 配置
-            AddJsonConfigureFiles(config, env, appsettingsConfiguration);
+            AddJsonConfigureFiles(configurationBuilder, hostEnvironment, appsettingsConfiguration);
         }
 
         /// <summary>
         /// 加载自定义 .json 配置文件
         /// </summary>
-        /// <param name="config"></param>
-        /// <param name="env"></param>
+        /// <param name="configurationBuilder"></param>
+        /// <param name="hostEnvironment"></param>
         /// <param name="appsettingsConfiguration"></param>
-        private static void AddJsonConfigureFiles(IConfigurationBuilder config, IHostEnvironment env, IConfiguration appsettingsConfiguration)
+        private static void AddJsonConfigureFiles(IConfigurationBuilder configurationBuilder, IHostEnvironment hostEnvironment, IConfiguration appsettingsConfiguration)
         {
             // 获取程序目录下的所有配置文件（只限顶级目标，不递归查找）
             var jsonFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.json", SearchOption.TopDirectoryOnly)
@@ -82,7 +82,7 @@ namespace Furion
             if (!jsonFiles.Any()) return;
 
             // 获取环境变量名
-            var envName = env.EnvironmentName;
+            var envName = hostEnvironment.EnvironmentName;
 
             // 读取忽略的配置文件
             var ignoreConfigurationFiles = appsettingsConfiguration
@@ -107,7 +107,7 @@ namespace Furion
                 // 循环加载
                 foreach (var jsonFile in files)
                 {
-                    config.AddJsonFile(jsonFile, optional: true, reloadOnChange: true);
+                    configurationBuilder.AddJsonFile(jsonFile, optional: true, reloadOnChange: true);
                 }
             }
         }

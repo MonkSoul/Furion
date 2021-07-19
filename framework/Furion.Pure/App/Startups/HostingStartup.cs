@@ -31,13 +31,13 @@ namespace Furion
         public void Configure(IWebHostBuilder builder)
         {
             // 自动装载配置
-            builder.ConfigureAppConfiguration((hostContext, config) =>
+            builder.ConfigureAppConfiguration((hostContext, configurationBuilder) =>
             {
                 // 存储环境对象
                 InternalApp.HostEnvironment = InternalApp.WebHostEnvironment = hostContext.HostingEnvironment;
 
                 // 加载配置
-                InternalApp.AddConfigureFiles(config, InternalApp.HostEnvironment);
+                InternalApp.AddConfigureFiles(configurationBuilder, InternalApp.HostEnvironment);
             });
 
             // 自动注入 AddApp() 服务
