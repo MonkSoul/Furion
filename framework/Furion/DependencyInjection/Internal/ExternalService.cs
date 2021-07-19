@@ -41,7 +41,7 @@ namespace Furion.DependencyInjection
         /// <summary>
         /// 注册选项
         /// </summary>
-        public InjectionPatterns Pattern { get; set; } = InjectionPatterns.SelfWithFirstInterface;
+        public InjectionPatterns Pattern { get; set; } = InjectionPatterns.All;
 
         /// <summary>
         /// 注册别名

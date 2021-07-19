@@ -38,14 +38,6 @@ public class AppService
 }
 ```
 
-### 通过 `HttpContextLocal` 静态类
-
-`Furion` 框架提供了 `HttpContextLocal` 静态类方式获取 `HttpContext`，如：
-
-```cs
-var HttpContext = HttpContextLocal.Current();
-```
-
 ### 通过 `App.HttpContext`
 
 `App` 静态类也提供了 `App.HttpContext` 获取 `HttpContext` 对象。

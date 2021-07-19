@@ -302,7 +302,76 @@ public class JobService : BackgroundService
 
 :::
 
-## 9.4.6 反馈与建议
+## 9.4.6 自定义仓储
+
+有些时候我们需要自定义仓储，拓展现有的仓储功能，可参考以下代码（含定位器仓储和默认仓储实现）
+
+```cs
+/// <summary>
+/// 自定义仓储接口
+/// </summary>
+/// <typeparam name="TEntity"></typeparam>
+/// <typeparam name="TDbContextLocator"></typeparam>
+public interface IMyRepository<TEntity, TDbContextLocator> : IPrivateRepository<TEntity>
+    where TEntity : class, IPrivateEntity, new()
+    where TDbContextLocator : class, IDbContextLocator
+{
+    /// <summary>
+    /// 自定义方法
+    /// </summary>
+    void MyMethod();
+}
+
+/// <summary>
+/// 自定义仓储实现类
+/// </summary>
+/// <typeparam name="TEntity"></typeparam>
+/// <typeparam name="TDbContextLocator"></typeparam>
+public class MyRepository<TEntity, TDbContextLocator> : PrivateRepository<TEntity>, IMyRepository<TEntity, TDbContextLocator>, IScoped
+    where TEntity : class, IPrivateEntity, new()
+    where TDbContextLocator : class, IDbContextLocator
+{
+    /// <summary>
+    /// 实现基类构造函数
+    /// </summary>
+    /// <param name="serviceProvider"></param>
+    public MyRepository(IServiceProvider serviceProvider)
+        : base(typeof(TDbContextLocator), serviceProvider)
+    {
+    }
+
+    /// <summary>
+    /// 自定义方法
+    /// </summary>
+    public void MyMethod()
+    {
+        throw new System.NotImplementedException();
+    }
+}
+
+/// <summary>
+/// 默认数据库自定义仓储接口
+/// </summary>
+/// <typeparam name="TEntity"></typeparam>
+public interface IMyRepository<TEntity> : IMyRepository<TEntity, MasterDbContextLocator>
+    where TEntity : class, IPrivateEntity, new()
+{
+}
+
+/// <summary>
+/// 默认数据库自定义仓储实现
+/// </summary>
+/// <typeparam name="TEntity"></typeparam>
+public class MyRepository<TEntity> : MyRepository<TEntity, MasterDbContextLocator>, IMyRepository<TEntity>, IScoped
+    where TEntity : class, IPrivateEntity, new()
+{
+    public MyRepository(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
+}
+```
+
+## 9.4.7 反馈与建议
 
 :::note 与我们交流
 

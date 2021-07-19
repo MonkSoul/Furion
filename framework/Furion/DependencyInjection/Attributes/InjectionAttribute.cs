@@ -27,7 +27,7 @@ namespace Furion.DependencyInjection
         public InjectionAttribute(params Type[] expectInterfaces)
         {
             Action = InjectionActions.Add;
-            Pattern = InjectionPatterns.SelfWithFirstInterface;
+            Pattern = InjectionPatterns.All;
             ExpectInterfaces = expectInterfaces ?? Array.Empty<Type>();
             Order = 0;
         }
@@ -40,7 +40,7 @@ namespace Furion.DependencyInjection
         public InjectionAttribute(InjectionActions action, params Type[] expectInterfaces)
         {
             Action = action;
-            Pattern = InjectionPatterns.SelfWithFirstInterface;
+            Pattern = InjectionPatterns.All;
             ExpectInterfaces = expectInterfaces ?? Array.Empty<Type>();
             Order = 0;
         }

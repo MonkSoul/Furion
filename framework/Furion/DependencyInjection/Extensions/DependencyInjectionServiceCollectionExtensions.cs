@@ -160,7 +160,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // 只注册第一个接口
             if (injectionAttribute.Pattern is InjectionPatterns.FirstInterface or InjectionPatterns.SelfWithFirstInterface)
             {
-                RegisterType(services, registerType, type, injectionAttribute, canInjectInterfaces.First());
+                RegisterType(services, registerType, type, injectionAttribute, canInjectInterfaces.Last());
             }
             // 注册多个接口
             else if (injectionAttribute.Pattern is InjectionPatterns.ImplementedInterfaces or InjectionPatterns.All)
