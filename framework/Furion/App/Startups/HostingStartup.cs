@@ -46,9 +46,6 @@ namespace Furion
                 // 存储配置对象
                 InternalApp.Configuration = hostContext.Configuration;
 
-                // 添加主机启动停止监听
-                services.AddHostedService<AppHostedService>();
-
                 // 注册 Startup 过滤器
                 services.AddTransient<IStartupFilter, StartupFilter>();
 
