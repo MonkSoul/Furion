@@ -37,9 +37,9 @@ namespace Furion
         internal static IServiceProvider RootServices;
 
         /// <summary>
-        /// 全局配置构建器
+        /// 配置对象
         /// </summary>
-        internal static IConfigurationBuilder ConfigurationBuilder;
+        internal static IConfiguration Configuration;
 
         /// <summary>
         /// 获取Web主机环境
@@ -62,9 +62,6 @@ namespace Furion
 
             // 加载 json 配置
             AddJsonConfigureFiles(config, env, appsettingsConfiguration);
-
-            // 存储配置
-            ConfigurationBuilder = config;
         }
 
         /// <summary>

@@ -63,7 +63,7 @@ namespace Furion
         /// <summary>
         /// 全局配置选项
         /// </summary>
-        public static IConfiguration Configuration { get; internal set; }
+        public static IConfiguration Configuration => InternalApp.Configuration;
 
         /// <summary>
         /// 获取Web主机环境，如，是否是开发环境，生产环境等
@@ -255,9 +255,6 @@ namespace Furion
         {
             // 未托管的对象
             UnmanagedObjects = new ConcurrentBag<IDisposable>();
-
-            // 编译配置
-            Configuration = InternalApp.ConfigurationBuilder.Build();
 
             // 加载程序集
             var assObject = GetAssemblies();

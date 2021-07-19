@@ -55,10 +55,13 @@ namespace Microsoft.Extensions.Hosting
             });
 
             // 自动注入 AddApp() 服务
-            hostBuilder.ConfigureServices(services =>
+            hostBuilder.ConfigureServices((hostContext, services) =>
             {
                 // 添加主机启动停止监听
                 services.AddHostedService<AppHostedService>();
+
+                // 存储配置对象
+                InternalApp.Configuration = hostContext.Configuration;
 
                 // 添加全局配置和存储服务提供器
                 InternalApp.InternalServices = services;

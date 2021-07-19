@@ -43,6 +43,9 @@ namespace Furion
             // 自动注入 AddApp() 服务
             builder.ConfigureServices((hostContext, services) =>
             {
+                // 存储配置对象
+                InternalApp.Configuration = hostContext.Configuration;
+
                 // 添加主机启动停止监听
                 services.AddHostedService<AppHostedService>();
 
