@@ -46,8 +46,6 @@
 
 ## 贡献代码
 
-`Furion` 遵循 `Apache-2.0` 开源协议，欢迎大家提交 `PR` 或 `Issue`。如果要为项目做出贡献，请查看 [贡献指南](https://dotnetchina.gitee.io/furion/docs/contribute)。感谢每一位为 `Furion` 贡献代码的朋友。
+`Furion` 遵循 `Apache-2.0` 开源协议，欢迎大家提交 `Pull Request` 或 `Issue`。如果要为项目做出贡献，请查看 [贡献指南](https://dotnetchina.gitee.io/furion/docs/contribute)。感谢每一位为 `Furion` 贡献代码的朋友。
 
 [![Giteye chart](https://chart.giteye.net/gitee/dotnetchina/Furion/ZS49EPL6.png)](https://giteye.net/chart/ZS49EPL6)
-
-**特别鸣谢 [TLog 作者](https://gitee.com/bryan31) 提供的贡献者实时头像。**
