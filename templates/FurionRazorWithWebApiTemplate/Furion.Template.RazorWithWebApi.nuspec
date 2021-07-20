@@ -9,6 +9,6 @@
       <packageType name="Template" />
     </packageTypes>
     <icon>icon.png</icon>
-    <license type="expression">Apache-2.0</license>
+    <license type="expression">MulanPSL-2.0</license>
   </metadata>
 </package>
