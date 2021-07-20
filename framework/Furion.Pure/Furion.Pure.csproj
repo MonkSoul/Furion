@@ -27,10 +27,4 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Compile Update="TaskScheduler\Internal\SpareTimer.cs">
-	    <SubType>Component</SubType>
-	  </Compile>
-	</ItemGroup>
-
 </Project>
