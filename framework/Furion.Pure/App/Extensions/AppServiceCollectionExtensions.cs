@@ -264,9 +264,9 @@ namespace Microsoft.Extensions.DependencyInjection
             // 扫描所有继承 AppStartup 的类
             var startups = App.EffectiveTypes
                 .Where(u => typeof(AppStartup).IsAssignableFrom(u) && u.IsClass && !u.IsAbstract && !u.IsGenericType)
-                .OrderByDescending(u => GetOrder(u));
+                .OrderByDescending(u => GetStartupOrder(u));
 
-            // 注册自定义 starup
+            // 注册自定义 startup
             foreach (var type in startups)
             {
                 var startup = Activator.CreateInstance(type) as AppStartup;
@@ -295,11 +295,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="type">排序类型</param>
         /// <returns>int</returns>
-        private static int GetOrder(Type type)
+        private static int GetStartupOrder(Type type)
         {
-            return !type.IsDefined(typeof(AppStartupAttribute), true)
-                ? 0
-                : type.GetCustomAttribute<AppStartupAttribute>(true).Order;
+            return !type.IsDefined(typeof(AppStartupAttribute), true) ? 0 : type.GetCustomAttribute<AppStartupAttribute>(true).Order;
         }
     }
 }
