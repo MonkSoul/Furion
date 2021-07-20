@@ -712,20 +712,36 @@ public int Age { get; set; }
 ```cs
 public void ConfigureServices(IServiceCollection services)
 {
-    services.AddInject(swaggerGenConfigure: gen => {
-        // 配置 Swagger Gen
-    });
+    services.AddInject(options =>
+            {
+                options.SpecificationDocumentConfigure = spt =>
+                {
+                    spt.SwaggerGenConfigure = gen =>
+                    {
+                        // 配置 Swagger Gen
+                    };
+                };
+            });
 }
 ```
 
 ```cs
  public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
  {
-    app.UseInject(swaggerConfigure: options => {
-       // 配置 Swagger Options
-    }, swaggerUIConfigure: ui => {
-       // 配置 Swagger UI
-    });
+      app.UseInject(configure: options =>
+        {
+            options.SpecificationDocumentConfigure = spt =>
+            {
+                spt.SwaggerConfigure = swg =>
+                {
+                    // 配置 Swagger Options
+                };
+                spt.SwaggerUIConfigure = ui =>
+                {
+                    // 配置 Swagger UI
+                };
+            };
+        });
 }
 
 ```
@@ -736,9 +752,15 @@ public void ConfigureServices(IServiceCollection services)
 
 ```cs
 services.AddControllersWithViews()
-        .AddInject(swaggerGenConfigure: options =>
+        .AddInject(options =>
         {
-            options.CustomSchemaIds(x => x.FullName);
+            options.SpecificationDocumentConfigure = spt =>
+            {
+                spt.SwaggerGenConfigure = gen =>
+                {
+                    gen.CustomSchemaIds(x => x.FullName);
+                };
+            };
         });
 ```
 
@@ -818,21 +840,27 @@ services.AddControllers()
 
 ```cs
 // 也可以用 .AddInjectWithUnifyResult
-services.AddInject(swaggerGenConfigure: gen =>
-         {
-             gen.DocInclusionPredicate((currentGroup, apiDescription) =>
-             {
-                 // Furion 内部检查，必须放第一行
-                 var isShow = SpecificationDocumentBuilder.CheckApiDescriptionInCurrentGroup(currentGroup, apiDescription);
+services.AddInject(options =>
+        {
+            options.SpecificationDocumentConfigure = spt =>
+            {
+                spt.SwaggerGenConfigure = gen =>
+                {
+                    gen.DocInclusionPredicate((currentGroup, apiDescription) =>
+                    {
+                        // Furion 内部检查，必须放第一行
+                        var isShow = SpecificationDocumentBuilder.CheckApiDescriptionInCurrentGroup(currentGroup, apiDescription);
 
-                 // 获取当前方法
-                 _ = apiDescription.TryGetMethodInfo(out var method);
+                        // 获取当前方法
+                        _ = apiDescription.TryGetMethodInfo(out var method);
 
-                 // 有了方法，这里做你想做的事情，isShow 设置 true 可见，设置 false 不可见
+                        // 有了方法，这里做你想做的事情，isShow 设置 true 可见，设置 false 不可见
 
-                 return isShow;
-             });
-         });
+                        return isShow;
+                    });
+                };
+            };
+        });
 ```
 
 ## 6.6 `SpecificationDocumentSettings` 配置
