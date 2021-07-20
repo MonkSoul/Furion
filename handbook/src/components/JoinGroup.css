@@ -38,3 +38,9 @@
 .furion-join-group button:hover {
   background: rgba(135, 89, 255, 0.9);
 }
+
+@media screen and (max-width: 1024px) {
+  .furion-join-group {
+    display: none;
+  }
+}
