@@ -2,9 +2,9 @@ using Xunit;
 
 namespace Furion.UnitTests
 {
-    public class UnitTest1
+    public class FurionUnitTest
     {
-        public UnitTest1()
+        public FurionUnitTest()
         {
             //var services = new ServiceCollection();
             //var serviceProvider = services.BuildServiceProvider();
