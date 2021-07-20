@@ -13,39 +13,33 @@
 
 <div align="center">
 
-Make .NET development easier, more versatile, and more popular.
+让 .NET 开发更简单，更通用，更流行。
 
 </div>
 
-<div align="center">
+## 框架特点
 
-**English | [简体中文](./README.zh-CN.md)**
+- 全新面貌：基于 `.NET5/6` 平台，没有历史包袱
+- 极少依赖：框架只依赖两个第三方包
+- 极易入门：只需要一个 `Inject()` 即可完成配置
+- 极速开发：内置丰富的企业应用开发功能
+- 极其灵活：轻松面对多变复杂的需求
+- 极易维护：采用独特的架构思想，只为长久维护设计
+- 完整文档：提供完善的开发文档
 
-</div>
+## 文档手册
 
-## Features
+- 国内文档：[https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
+- 国外文档：[https://furion.pro](https://furion.pro)
 
-- **New appearance**: Based on `.NET5/6` platform, no historical burden
-- **Very few dependencies**: the framework relies on only two third-party packages
-- **Easy to get started**: only one `Inject()` is needed to complete the configuration
-- **Fast development**: built in rich enterprise application development functions
-- **Extremely flexible**: easy to face the changing and complex needs
-- **Easy to maintain**: adopt unique architecture idea, only designed for long-term maintenance
-- **Perfect documentation**: provide complete development documentation
-
-## Document
-
-- Domestic documents: [https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
-- Foreign documents: [https://furion.pro](https://furion.pro)
-
-## Souce Code
+## 开源地址
 
 - Gitee：[https://gitee.com/dotnetchina/Furion](https://gitee.com/dotnetchina/Furion)
 - GitHub：[https://github.com/monksoul/Furion](https://github.com/monksoul/Furion)
 - Nuget：[https://www.nuget.org/packages/Furion](https://www.nuget.org/packages/Furion)
 
-## Contribution
+## 贡献代码
 
-`Furion` follows the [MulanPSL-2.0](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) open source agreement. You are welcome to submit `Pull Request` or `Issue`. If you want to contribute to a project, check out the [Contribution Guide](https://dotnetchina.gitee.io/furion/docs/contribute). Thank you for your contribution to `Furion`.
+`Furion` 遵循 [MulanPSL-2.0](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) 开源协议，欢迎大家提交 `Pull Request` 或 `Issue`。如果要为项目做出贡献，请查看 [贡献指南](https://dotnetchina.gitee.io/furion/docs/contribute)。感谢每一位为 `Furion` 贡献代码的朋友。
 
 [![Giteye chart](https://chart.giteye.net/gitee/dotnetchina/Furion/ZS49EPL6.png)](https://giteye.net/chart/ZS49EPL6)
