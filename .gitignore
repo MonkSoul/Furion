@@ -340,6 +340,7 @@ ASALocalRun/
 # BeatPulse healthcheck temp database 
 healthchecksdb
 
+# NodeJS node_modules
 handbook/node_modules
 
 # .NET Comments
