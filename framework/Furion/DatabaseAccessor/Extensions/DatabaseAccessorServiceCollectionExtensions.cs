@@ -139,13 +139,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 通过定位器解析上下文
         /// </summary>
         /// <param name="provider"></param>
-        /// <param name="locator"></param>
+        /// <param name="dbContextLocator"></param>
         /// <returns></returns>
-        private static DbContext ResolveDbContext(IServiceProvider provider, Type locator)
+        private static DbContext ResolveDbContext(IServiceProvider provider, Type dbContextLocator)
         {
-            // 判断定位器是否绑定了数据库上下文
-            var isRegistered = Penetrates.DbContextWithLocatorCached.TryGetValue(locator, out var dbContextType);
-            if (!isRegistered) throw new InvalidOperationException($"The DbContext for locator `{locator.FullName}` binding was not found.");
+            // 判断数据库上下文定位器是否绑定
+            Penetrates.CheckDbContextLocator(dbContextLocator, out var dbContextType);
 
             // 动态解析数据库上下文
             var dbContext = provider.GetService(dbContextType) as DbContext;

@@ -83,6 +83,18 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
+        /// 获取特定数据库上下文仓储
+        /// </summary>
+        /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+        /// <param name="serviceProvider"></param>
+        /// <returns></returns>
+        public static IDbRepository<TDbContextLocator> GetDbRepository<TDbContextLocator>(IServiceProvider serviceProvider = default)
+            where TDbContextLocator : class, IDbContextLocator
+        {
+            return App.GetService<IDbRepository<TDbContextLocator>>(serviceProvider);
+        }
+
+        /// <summary>
         /// 获取Sql仓储
         /// </summary>
         /// <param name="serviceProvider"></param>
@@ -127,7 +139,7 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
-        /// 获取Sql代理
+        /// 获取 Sql 代理
         /// </summary>
         /// <param name="serviceProvider"></param>
         /// <returns>ISqlRepository</returns>
@@ -138,7 +150,7 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
-        /// 获取作用域数据库上下文
+        /// 获取默认数据库上下文
         /// </summary>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
@@ -148,22 +160,22 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
-        /// 获取作用域数据库上下文
+        /// 获取特定数据库上下文
         /// </summary>
         /// <param name="dbContextLocator">数据库上下文定位器</param>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
         public static DbContext GetDbContext(Type dbContextLocator, IServiceProvider serviceProvider = default)
         {
-            // 判断是否注册了数据库上下文
-            if (!Penetrates.DbContextWithLocatorCached.ContainsKey(dbContextLocator)) return default;
+            // 判断数据库上下文定位器是否绑定
+            Penetrates.CheckDbContextLocator(dbContextLocator, out _);
 
             var dbContextResolve = App.GetService<Func<Type, IScoped, DbContext>>(serviceProvider);
             return dbContextResolve(dbContextLocator, default);
         }
 
         /// <summary>
-        /// 获取作用域数据库上下文
+        /// 获取特定数据库上下文
         /// </summary>
         /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
         /// <param name="serviceProvider"></param>

@@ -79,8 +79,7 @@ namespace Furion.DatabaseAccessor
             where TEntity : class, IPrivateEntity, new()
         {
             // 判断数据库主库是否注册
-            var isRegister = Penetrates.DbContextWithLocatorCached.TryGetValue(typeof(TMasterDbContextLocator), out var dbContextType);
-            if (!isRegister) throw new InvalidCastException($" The locator `{typeof(TMasterDbContextLocator).Name}` is not bind.");
+            Penetrates.CheckDbContextLocator(typeof(TMasterDbContextLocator), out var dbContextType);
 
             // 获取主库贴的特性
             var appDbContextAttribute = DbProvider.GetAppDbContextAttribute(dbContextType);
@@ -106,18 +105,17 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <returns></returns>
-        public virtual IPrivateReadableRepository<TEntity> Slave<TEntity>(Func<Type> locatorHandle)
+        public virtual IPrivateReadableRepository<TEntity> Slave<TEntity>(Func<Type> locatorHandler)
             where TEntity : class, IPrivateEntity, new()
         {
-            if (locatorHandle == null) throw new ArgumentNullException(nameof(locatorHandle));
+            if (locatorHandler == null) throw new ArgumentNullException(nameof(locatorHandler));
 
             // 获取定位器类型
-            var dbContextLocatorType = locatorHandle();
+            var dbContextLocatorType = locatorHandler();
             if (!typeof(IDbContextLocator).IsAssignableFrom(dbContextLocatorType)) throw new InvalidCastException($"{dbContextLocatorType.Name} is not assignable from {nameof(IDbContextLocator)}.");
 
             // 判断从库定位器是否绑定
-            var isRegister = Penetrates.DbContextWithLocatorCached.TryGetValue(dbContextLocatorType, out _);
-            if (!isRegister) throw new InvalidCastException($" The slave locator `{dbContextLocatorType.Name}` is not bind.");
+            Penetrates.CheckDbContextLocator(dbContextLocatorType, out _);
 
             // 解析从库定位器
             var repository = _serviceProvider.GetService(typeof(IRepository<,>).MakeGenericType(typeof(TEntity), dbContextLocatorType)) as IPrivateRepository<TEntity>;

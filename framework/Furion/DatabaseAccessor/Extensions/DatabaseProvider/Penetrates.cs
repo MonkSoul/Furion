@@ -64,6 +64,17 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
+        /// 检查数据库上下文是否绑定
+        /// </summary>
+        /// <param name="dbContextLocatorType"></param>
+        /// <param name="dbContextType"></param>
+        /// <returns></returns>
+        internal static void CheckDbContextLocator(Type dbContextLocatorType, out Type dbContextType)
+        {
+            if (!DbContextWithLocatorCached.TryGetValue(dbContextLocatorType, out dbContextType)) throw new InvalidCastException($" The dbcontext locator `{dbContextLocatorType.Name}` is not bind.");
+        }
+
+        /// <summary>
         /// 数据库数据库拦截器
         /// </summary>
         /// <param name="interceptors">拦截器</param>

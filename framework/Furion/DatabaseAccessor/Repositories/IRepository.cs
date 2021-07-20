@@ -96,7 +96,7 @@ namespace Furion.DatabaseAccessor
     /// 仓储接口
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
-    public partial interface IRepository<TEntity> : IPrivateRepository<TEntity>
+    public partial interface IRepository<TEntity> : IRepository<TEntity, MasterDbContextLocator>
         , IWritableRepository<TEntity>
         , IReadableRepository<TEntity>
         , ISqlRepository
