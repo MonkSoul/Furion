@@ -24,7 +24,7 @@ Param(
     #[string]$UseDatabaseNames
 )
 
-$FurTools = "Furion Tools v2.14.0";
+$FurTools = "Furion Tools v2.14.1";
 
 # 输出信息
 $copyright = @"
@@ -36,15 +36,6 @@ $copyright = @"
 // | |  | |_| | |  | | (_) | | | |    | | (_) | (_) | \__ \
 // |_|   \__,_|_|  |_|\___/|_| |_|    |_|\___/ \___/|_|___/
 //                                                         
-// // --------------------------------------------------------------------------
-// 让 .NET 开发更简单，更通用，更流行。
-// Copyright © 2020 Furion, Baiqian Co.,Ltd.
-//
-// 框架名称：Furion
-// 框架作者：百小僧
-// 框架版本：v2.14.0
-// 源码地址：https://gitee.com/dotnetchina/Furion
-// 开源协议：Apache-2.0（http://www.apache.org/licenses/LICENSE-2.0）
 // -----------------------------------------------------------------------------
 "@;
 

@@ -7,7 +7,7 @@
 
 <div align="center">
 
-[![star](https://gitee.com/dotnetchina/Furion/badge/star.svg?theme=gvp)](https://gitee.com/dotnetchina/Furion/stargazers) [![fork](https://gitee.com/dotnetchina/Furion/badge/fork.svg?theme=gvp)](https://gitee.com/dotnetchina/Furion/members) [![GitHub stars](https://img.shields.io/github/stars/MonkSoul/Furion?logo=github)](https://github.com/MonkSoul/Furion/stargazers) [![GitHub forks](https://img.shields.io/github/forks/MonkSoul/Furion?logo=github)](https://github.com/MonkSoul/Furion/network) [![GitHub license](https://img.shields.io/badge/license-Apache%202.0-yellow)](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) [![nuget](https://img.shields.io/nuget/v/Furion.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion)
+[![star](https://gitee.com/dotnetchina/Furion/badge/star.svg?theme=gvp)](https://gitee.com/dotnetchina/Furion/stargazers) [![fork](https://gitee.com/dotnetchina/Furion/badge/fork.svg?theme=gvp)](https://gitee.com/dotnetchina/Furion/members) [![GitHub stars](https://img.shields.io/github/stars/MonkSoul/Furion?logo=github)](https://github.com/MonkSoul/Furion/stargazers) [![GitHub forks](https://img.shields.io/github/forks/MonkSoul/Furion?logo=github)](https://github.com/MonkSoul/Furion/network) [![GitHub license](https://img.shields.io/badge/license-MulanPSL--2.0-orange)](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) [![nuget](https://img.shields.io/nuget/v/Furion.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion)
 
 </div>
 
@@ -46,6 +46,6 @@ Make .NET development easier, more versatile, and more popular.
 
 ## Contribution
 
-`Furion` follows the `Apache-2.0` open source agreement. You are welcome to submit `Pull Request` or `Issue`. If you want to contribute to a project, check out the [Contribution Guide](https://dotnetchina.gitee.io/furion/docs/contribute). Thank you for your contribution to `Furion`.
+`Furion` follows the [MulanPSL-2.0](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE) open source agreement. You are welcome to submit `Pull Request` or `Issue`. If you want to contribute to a project, check out the [Contribution Guide](https://dotnetchina.gitee.io/furion/docs/contribute). Thank you for your contribution to `Furion`.
 
 [![Giteye chart](https://chart.giteye.net/gitee/dotnetchina/Furion/ZS49EPL6.png)](https://giteye.net/chart/ZS49EPL6)
