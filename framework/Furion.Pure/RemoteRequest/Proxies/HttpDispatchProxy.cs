@@ -107,10 +107,10 @@ namespace Furion.RemoteRequest
             var declaringType = method.DeclaringType;
 
             // 设置请求客户端
-            SetClient(method, httpClientPart, declaringType);
+            SetClient(method, httpClientPart);
 
             // 设置请求超时时间
-            SetClientTimeout(method, httpClientPart, declaringType);
+            SetClientTimeout(method, httpClientPart);
 
             // 设置请求报文头
             SetHeaders(method, parameters, httpClientPart, declaringType);
@@ -125,7 +125,7 @@ namespace Furion.RemoteRequest
             SetValidation(parameters);
 
             // 设置序列化
-            SetJsonSerialization(method, parameters, httpClientPart, declaringType);
+            SetJsonSerialization(method, parameters, httpClientPart);
 
             // 配置全局拦截
             CallGlobalInterceptors(httpClientPart, declaringType);
@@ -141,17 +141,10 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="method"></param>
         /// <param name="httpClientPart"></param>
-        /// <param name="declaringType"></param>
-        private static void SetClient(MethodInfo method, HttpClientExecutePart httpClientPart, Type declaringType)
+        private static void SetClient(MethodInfo method, HttpClientExecutePart httpClientPart)
         {
-            // 设置 Client 名称，判断方法是否定义，如果没有再查找声明类
-            var clientAttribute = method.IsDefined(typeof(ClientAttribute), true)
-                ? method.GetCustomAttribute<ClientAttribute>(true)
-                : (
-                    declaringType.IsDefined(typeof(ClientAttribute), true)
-                    ? declaringType.GetCustomAttribute<ClientAttribute>(true)
-                    : default
-                );
+            // 设置 Client 名称
+            var clientAttribute = method.GetFoundAttribute<ClientAttribute>(true);
             if (clientAttribute != null) httpClientPart.SetClient(clientAttribute.Name);
         }
 
@@ -160,17 +153,10 @@ namespace Furion.RemoteRequest
         /// </summary>
         /// <param name="method"></param>
         /// <param name="httpClientPart"></param>
-        /// <param name="declaringType"></param>
-        private static void SetClientTimeout(MethodInfo method, HttpClientExecutePart httpClientPart, Type declaringType)
+        private static void SetClientTimeout(MethodInfo method, HttpClientExecutePart httpClientPart)
         {
             // 判断方法是否定义，如果没有再查找声明类
-            var timeout = method.IsDefined(typeof(TimeoutAttribute), true)
-                ? method.GetCustomAttribute<TimeoutAttribute>(true)
-                : (
-                    declaringType.IsDefined(typeof(TimeoutAttribute), true)
-                    ? declaringType.GetCustomAttribute<TimeoutAttribute>(true)
-                    : default
-                );
+            var timeout = method.GetFoundAttribute<TimeoutAttribute>(true);
             if (timeout != null) httpClientPart.SetClientTimeout(timeout.Seconds);
         }
 
@@ -253,17 +239,10 @@ namespace Furion.RemoteRequest
         /// <param name="method"></param>
         /// <param name="parameters"></param>
         /// <param name="httpClientPart"></param>
-        /// <param name="declaringType"></param>
-        private static void SetJsonSerialization(MethodInfo method, IEnumerable<MethodParameterInfo> parameters, HttpClientExecutePart httpClientPart, Type declaringType)
+        private static void SetJsonSerialization(MethodInfo method, IEnumerable<MethodParameterInfo> parameters, HttpClientExecutePart httpClientPart)
         {
             // 配置序列化
-            var jsonSerializationAttribute = method.IsDefined(typeof(JsonSerializationAttribute), true)
-                ? method.GetCustomAttribute<JsonSerializationAttribute>(true)
-                : (
-                    declaringType.IsDefined(typeof(JsonSerializationAttribute), true)
-                    ? declaringType.GetCustomAttribute<JsonSerializationAttribute>(true)
-                    : default
-                );
+            var jsonSerializationAttribute = method.GetFoundAttribute<JsonSerializationAttribute>(true);
             if (jsonSerializationAttribute != null)
             {
                 var jsonSerializerOptionsParameter = parameters.FirstOrDefault(u => u.Parameter.IsDefined(typeof(JsonSerializerOptionsAttribute), true));

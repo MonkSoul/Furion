@@ -321,5 +321,32 @@ namespace Furion.Extensions
                 list.TryTake(out var _);
             }
         }
+
+        /// <summary>
+        /// 查找方法指定特性，如果没找到则继续查找声明类
+        /// </summary>
+        /// <typeparam name="TAttribute"></typeparam>
+        /// <param name="method"></param>
+        /// <param name="inherit"></param>
+        /// <returns></returns>
+        internal static TAttribute GetFoundAttribute<TAttribute>(this MethodInfo method, bool inherit)
+            where TAttribute : Attribute
+        {
+            // 获取方法所在类型
+            var declaringType = method.DeclaringType;
+
+            var attributeType = typeof(TAttribute);
+
+            // 判断方法是否定义指定特性，如果没有再查找声明类
+            var foundAttribute = method.IsDefined(attributeType, inherit)
+                ? method.GetCustomAttribute<TAttribute>(inherit)
+                : (
+                    declaringType.IsDefined(attributeType, inherit)
+                    ? declaringType.GetCustomAttribute<TAttribute>(inherit)
+                    : default
+                );
+
+            return foundAttribute;
+        }
     }
 }

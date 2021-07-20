@@ -8,6 +8,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="UnifyResult\Extensions\Options\**" />
+	  <EmbeddedResource Remove="UnifyResult\Extensions\Options\**" />
+	  <None Remove="UnifyResult\Extensions\Options\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Remove="SpecificationDocument\Assets\index-mini-profiler.html" />
 		<None Remove="SpecificationDocument\Assets\index.html" />
 	</ItemGroup>
@@ -25,10 +31,6 @@
 		<PackageReference Include="Furion.Extras.DependencyModel.CodeAnalysis" Version="2.14.1" />
 		<PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="UnifyResult\Extensions\Options\" />
 	</ItemGroup>
 
 </Project>

@@ -262,12 +262,12 @@ namespace Furion.DatabaseAccessor
             var declaringType = method.DeclaringType;
 
             // 获取数据库上下文
-            var dbContextLocatorType = GetDbContextLocator(method, declaringType, DbContextLocator);
+            var dbContextLocatorType = GetDbContextLocator(method, DbContextLocator);
             var dbContext = Db.GetDbContext(dbContextLocatorType, Services);
             if (dbContext == null) throw new InvalidCastException($" The locator `{dbContextLocatorType.Name}` is not bind.");
 
             // 设置 ADO.NET 超时时间
-            var timeout = GetCommandTimeout(method, declaringType);
+            var timeout = method.GetFoundAttribute<TimeoutAttribute>(true)?.Seconds;
             if (timeout != null && timeout.Value > 0) dbContext.Database.SetCommandTimeout(timeout.Value);
 
             // 转换方法参数
@@ -331,26 +331,6 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
-        /// 获取 ADO.NET 超时时间
-        /// </summary>
-        /// <param name="method"></param>
-        /// <param name="declaringType"></param>
-        /// <returns></returns>
-        private static int? GetCommandTimeout(MethodInfo method, Type declaringType)
-        {
-            // 判断方法是否定义，如果没有再查找声明类
-            var timeout = method.IsDefined(typeof(TimeoutAttribute), true)
-                ? method.GetCustomAttribute<TimeoutAttribute>(true)
-                : (
-                    declaringType.IsDefined(typeof(TimeoutAttribute), true)
-                    ? declaringType.GetCustomAttribute<TimeoutAttribute>(true)
-                    : default
-                );
-
-            return timeout?.Seconds;
-        }
-
-        /// <summary>
         /// 创建数据库命令参数字典
         /// </summary>
         /// <param name="method"></param>
@@ -384,24 +364,17 @@ namespace Furion.DatabaseAccessor
         /// 获取上下文定位器
         /// </summary>
         /// <param name="method"></param>
-        /// <param name="declaringType"></param>
         /// <param name="instanceDbContextLocator"></param>
         /// <returns></returns>
-        private static Type GetDbContextLocator(MethodInfo method, Type declaringType, Type instanceDbContextLocator)
+        private static Type GetDbContextLocator(MethodInfo method, Type instanceDbContextLocator)
         {
             // 如果运行时改变，则采用运行时版本（优先级最大）
             if (instanceDbContextLocator != null) return instanceDbContextLocator;
 
-            // 获取上下文定位器
-            var dbContextLocatorType = method.IsDefined(typeof(SqlDbContextLocatorAttribute), true)
-                ? method.GetCustomAttribute<SqlDbContextLocatorAttribute>(true).Locator
-                : (
-                    declaringType.IsDefined(typeof(SqlDbContextLocatorAttribute), true)
-                    ? declaringType.GetCustomAttribute<SqlDbContextLocatorAttribute>(true).Locator
-                    : default
-                );
+            // 查找特性
+            var sqlDbContextLocatorAttribute = method.GetFoundAttribute<SqlDbContextLocatorAttribute>(true);
 
-            return dbContextLocatorType ?? typeof(MasterDbContextLocator);
+            return sqlDbContextLocatorAttribute?.Locator ?? typeof(MasterDbContextLocator);
         }
 
         /// <summary>
