@@ -262,13 +262,7 @@ namespace Furion.DatabaseAccessor
             var declaringType = method.DeclaringType;
 
             // 获取数据库上下文
-            var dbContextLocatorType = GetDbContextLocator(method, DbContextLocator);
-            var dbContext = Db.GetDbContext(dbContextLocatorType, Services);
-            if (dbContext == null) throw new InvalidCastException($" The locator `{dbContextLocatorType.Name}` is not bind.");
-
-            // 设置 ADO.NET 超时时间
-            var timeout = method.GetFoundAttribute<TimeoutAttribute>(true)?.Seconds;
-            if (timeout != null && timeout.Value > 0) dbContext.Database.SetCommandTimeout(timeout.Value);
+            var dbContext = GetDbContext(method);
 
             // 转换方法参数
             var parameters = CombineDbParameter(method, args);
@@ -361,20 +355,24 @@ namespace Furion.DatabaseAccessor
         }
 
         /// <summary>
-        /// 获取上下文定位器
+        /// 获取数据库上下文
         /// </summary>
         /// <param name="method"></param>
-        /// <param name="instanceDbContextLocator"></param>
         /// <returns></returns>
-        private static Type GetDbContextLocator(MethodInfo method, Type instanceDbContextLocator)
+        private DbContext GetDbContext(MethodInfo method)
         {
-            // 如果运行时改变，则采用运行时版本（优先级最大）
-            if (instanceDbContextLocator != null) return instanceDbContextLocator;
+            // 解析数据库上下文定位器
+            var dbContextLocator = DbContextLocator
+                ?? method.GetFoundAttribute<SqlDbContextLocatorAttribute>(true)?.Locator
+                ?? typeof(MasterDbContextLocator);
 
-            // 查找特性
-            var sqlDbContextLocatorAttribute = method.GetFoundAttribute<SqlDbContextLocatorAttribute>(true);
+            var dbContext = Db.GetDbContext(dbContextLocator, Services);
 
-            return sqlDbContextLocatorAttribute?.Locator ?? typeof(MasterDbContextLocator);
+            // 设置 ADO.NET 超时时间
+            var timeout = method.GetFoundAttribute<TimeoutAttribute>(true)?.Seconds;
+            if (timeout != null && timeout.Value > 0) dbContext.Database.SetCommandTimeout(timeout.Value);
+
+            return dbContext;
         }
 
         /// <summary>

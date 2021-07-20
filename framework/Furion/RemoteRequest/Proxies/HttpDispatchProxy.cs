@@ -107,7 +107,8 @@ namespace Furion.RemoteRequest
             var declaringType = method.DeclaringType;
 
             // 设置请求客户端
-            SetClient(method, httpClientPart);
+            var clientAttribute = method.GetFoundAttribute<ClientAttribute>(true);
+            if (clientAttribute != null) httpClientPart.SetClient(clientAttribute.Name);
 
             // 设置请求超时时间
             var timeout = method.GetFoundAttribute<TimeoutAttribute>(true)?.Seconds;
@@ -135,18 +136,6 @@ namespace Furion.RemoteRequest
             SetInterceptors(parameters, httpClientPart);
 
             return httpClientPart;
-        }
-
-        /// <summary>
-        /// 设置客户端信息
-        /// </summary>
-        /// <param name="method"></param>
-        /// <param name="httpClientPart"></param>
-        private static void SetClient(MethodInfo method, HttpClientExecutePart httpClientPart)
-        {
-            // 设置 Client 名称
-            var clientAttribute = method.GetFoundAttribute<ClientAttribute>(true);
-            if (clientAttribute != null) httpClientPart.SetClient(clientAttribute.Name);
         }
 
         /// <summary>
