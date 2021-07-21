@@ -9,6 +9,7 @@
 using Furion.DataValidation;
 using Furion.DependencyInjection;
 using Furion.Extensions;
+using Furion.JsonSerialization;
 using Furion.Reflection;
 using System;
 using System.Collections.Generic;
@@ -103,9 +104,6 @@ namespace Furion.RemoteRequest
                           .SetTemplates(parameters.ToDictionary(u => u.Name, u => u.Value))
                           .SetRequestScoped(Services);
 
-            // 获取方法所在类型
-            var declaringType = method.DeclaringType;
-
             // 设置请求客户端
             var clientAttribute = method.GetFoundAttribute<ClientAttribute>(true);
             if (clientAttribute != null) httpClientPart.SetClient(clientAttribute.Name);
@@ -115,7 +113,7 @@ namespace Furion.RemoteRequest
             if (timeout != null && timeout.Value > 0) httpClientPart.SetClientTimeout(timeout.Value);
 
             // 设置请求报文头
-            SetHeaders(method, parameters, httpClientPart, declaringType);
+            SetHeaders(method, parameters, httpClientPart);
 
             // 设置 Url 地址参数
             SetQueries(parameters, httpClientPart);
@@ -126,11 +124,11 @@ namespace Furion.RemoteRequest
             // 设置验证
             SetValidation(parameters);
 
-            // 设置序列化
+            // 设置序列化提供器
             SetJsonSerialization(method, parameters, httpClientPart);
 
             // 配置全局拦截
-            CallGlobalInterceptors(httpClientPart, declaringType);
+            CallGlobalInterceptors(httpClientPart, method.DeclaringType);
 
             // 设置请求拦截
             SetInterceptors(parameters, httpClientPart);
@@ -219,13 +217,16 @@ namespace Furion.RemoteRequest
         /// <param name="httpClientPart"></param>
         private static void SetJsonSerialization(MethodInfo method, IEnumerable<MethodParameterInfo> parameters, HttpClientExecutePart httpClientPart)
         {
-            // 配置序列化
-            var jsonSerializationAttribute = method.GetFoundAttribute<JsonSerializationAttribute>(true);
-            if (jsonSerializationAttribute != null)
-            {
-                var jsonSerializerOptionsParameter = parameters.FirstOrDefault(u => u.Parameter.IsDefined(typeof(JsonSerializerOptionsAttribute), true));
-                httpClientPart.SetJsonSerialization(jsonSerializationAttribute.ProviderType, jsonSerializerOptionsParameter?.Value);
-            }
+            // 判断方法是否自定义序列化选项
+            var jsonSerializerOptions = parameters.FirstOrDefault(u => u.Parameter.IsDefined(typeof(JsonSerializerOptionsAttribute), true))?.Value
+                                                        // 获取静态方法且贴有 [JsonSerializerOptions] 特性的缺省配置
+                                                        ?? method.DeclaringType.GetMethods()
+                                                                               .FirstOrDefault(u => u.IsDefined(typeof(JsonSerializerOptionsAttribute), true))
+                                                                               ?.Invoke(null, null);
+
+            // 查询自定义序列化提供器，如果没找到，默认 SystemTextJsonSerializerProvider
+            var jsonSerializerProvider = method.GetFoundAttribute<JsonSerializationAttribute>(true)?.ProviderType ?? typeof(SystemTextJsonSerializerProvider);
+            httpClientPart.SetJsonSerialization(jsonSerializerProvider, jsonSerializerOptions);
         }
 
         /// <summary>
@@ -326,9 +327,10 @@ namespace Furion.RemoteRequest
         /// <param name="method"></param>
         /// <param name="parameters"></param>
         /// <param name="httpClientPart"></param>
-        /// <param name="declaringType"></param>
-        private static void SetHeaders(MethodInfo method, IEnumerable<MethodParameterInfo> parameters, HttpClientExecutePart httpClientPart, Type declaringType)
+        private static void SetHeaders(MethodInfo method, IEnumerable<MethodParameterInfo> parameters, HttpClientExecutePart httpClientPart)
         {
+            var declaringType = method.DeclaringType;
+
             // 获取声明类请求报文头
             var declaringTypeHeaders = (declaringType.IsDefined(typeof(HeadersAttribute), true)
                 ? declaringType.GetCustomAttributes<HeadersAttribute>(true)

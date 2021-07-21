@@ -12,9 +12,9 @@ using System;
 namespace Furion.RemoteRequest
 {
     /// <summary>
-    /// 配置序列化
+    /// 配置序列化选项
     /// </summary>
-    [SuppressSniffer, AttributeUsage(AttributeTargets.Parameter)]
+    [SuppressSniffer, AttributeUsage(AttributeTargets.Method | AttributeTargets.Parameter)]
     public class JsonSerializerOptionsAttribute : Attribute
     {
     }

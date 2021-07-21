@@ -131,7 +131,7 @@ namespace Furion
         }
 
         /// <summary>
-        /// 获取请求生命周期的服务
+        /// 获取请求生存周期的服务
         /// </summary>
         /// <typeparam name="TService"></typeparam>
         /// <param name="serviceProvider"></param>
@@ -143,7 +143,7 @@ namespace Furion
         }
 
         /// <summary>
-        /// 获取请求生命周期的服务
+        /// 获取请求生存周期的服务
         /// </summary>
         /// <param name="type"></param>
         /// <param name="serviceProvider"></param>
@@ -154,7 +154,7 @@ namespace Furion
         }
 
         /// <summary>
-        /// 获取请求生命周期的服务
+        /// 获取请求生存周期的服务
         /// </summary>
         /// <typeparam name="TService"></typeparam>
         /// <param name="serviceProvider"></param>
@@ -166,7 +166,7 @@ namespace Furion
         }
 
         /// <summary>
-        /// 获取请求生命周期的服务
+        /// 获取请求生存周期的服务
         /// </summary>
         /// <param name="type"></param>
         /// <param name="serviceProvider"></param>

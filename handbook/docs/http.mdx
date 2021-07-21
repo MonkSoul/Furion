@@ -551,6 +551,20 @@ public interface IHttp : IHttpDispatchProxy
 
     [Post("https://www.furion.pro/post"), JsonSerialization(typeof(NewtonsoftJsonSerializerProvider))]
     Task<HttpResponseMessage> PostXXXAsync([Body]User user, [JsonSerializerOptions]object jsonSerializerOptions = default);
+
+    /// <summary>
+    /// 缺省序列化配置
+    /// </summary>
+    /// <returns></returns>
+    [JsonSerializerOptions]
+    static object GetJsonSerializerOptions()
+    {
+        // 这里也可以通过 JSON.GetSerializerOptions<JsonSerializerOptions>() 获取 Startup.cs 中的配置
+        return new JsonSerializerOptions
+        {
+
+        };
+    }
 }
 ```
 

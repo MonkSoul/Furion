@@ -7,6 +7,7 @@
   - [新增] 定时任务 `ISpareTimeWorker` 声明方式支持异步方法 [#I40KWR](https://gitee.com/dotnetchina/Furion/issues/I40KWR)
   - [新增] 自动配置二级虚拟目录 [!354](https://gitee.com/dotnetchina/Furion/pulls/354)
   - [新增] `Db.GetDbRepository<定位器>()` 静态方法 [#I41MZP](https://gitee.com/dotnetchina/Furion/issues/I41MZP)
+  - [新增] 远程请求缺省序列化配置选项 [#I41PBW](https://gitee.com/dotnetchina/Furion/issues/I41PBW)
 
 - **突破性变化**
 
@@ -24,6 +25,7 @@
   - [修复] 规范化结果篡改非短路端状态码出现异常 bug [#I408F5](https://gitee.com/dotnetchina/Furion/issues/I408F5)
   - [修复] 自动扫描接口进行依赖注入获取首个接口错误 bug [#I41D1M](https://gitee.com/dotnetchina/Furion/issues/I41D1M)
   - [修复] `IRepository<TEntity>` 没有实现 `IRepository<TEntity, TDbContextLocator>` 问题 [#I41MZP](https://gitee.com/dotnetchina/Furion/issues/I41MZP)
+  - [修复] 远程请求缺省序列化 bug [#I41PBW](https://gitee.com/dotnetchina/Furion/issues/I41PBW)
 
 - **其他更改**
 
