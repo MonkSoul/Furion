@@ -529,7 +529,7 @@ namespace $CoreProject
 "@;
     
     # 写入文件
-    $finalClass | Set-Content $filePath;
+    Set-Content -Path $filePath -Value $finalClass -Encoding utf8;
 
     # 打印生成后代码
     Write-Output "$FurTools 成功生成 $fileName.cs 实体代码";
