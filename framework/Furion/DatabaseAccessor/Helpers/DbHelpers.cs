@@ -142,28 +142,8 @@ namespace Furion.DatabaseAccessor
             // 检查是否支持函数
             DbProvider.CheckFunctionSupported(providerName, dbFunctionType);
 
-            parameters ??= Array.Empty<DbParameter>();
-
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"SELECT{(dbFunctionType == DbFunctionType.Table ? " * FROM" : "")} {funcName}(");
-
-            // 生成函数参数
-            for (var i = 0; i < parameters.Length; i++)
-            {
-                var sqlParameter = parameters[i];
-
-                // 处理不同数据库的占位符
-                stringBuilder.Append(FixSqlParameterPlaceholder(providerName, sqlParameter.ParameterName));
-
-                // 处理最后一个参数逗号
-                if (i != parameters.Length - 1)
-                {
-                    stringBuilder.Append(", ");
-                }
-            }
-            stringBuilder.Append("); ");
-
-            return stringBuilder.ToString();
+            // 生成数据库表值函数 sql
+            return GenerateDbFunctionSql(providerName, dbFunctionType, funcName, parameters.Select(u => u.ParameterName).ToArray());
         }
 
         /// <summary>
@@ -188,26 +168,8 @@ namespace Furion.DatabaseAccessor
                 ? Array.Empty<PropertyInfo>()
                 : modelType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
-            var stringBuilder = new StringBuilder();
-
-            stringBuilder.Append($"SELECT{(dbFunctionType == DbFunctionType.Table ? " * FROM" : "")} {funcName}(");
-
-            for (var i = 0; i < properities.Length; i++)
-            {
-                var property = properities[i];
-
-                stringBuilder.Append(FixSqlParameterPlaceholder(providerName, property.Name));
-
-                // 处理最后一个参数逗号
-                if (i != properities.Length - 1)
-                {
-                    stringBuilder.Append(", ");
-                }
-            }
-
-            stringBuilder.Append("); ");
-
-            return stringBuilder.ToString();
+            // 生成数据库表值函数 sql
+            return GenerateDbFunctionSql(providerName, dbFunctionType, funcName, properities.Select(u => u.Name).ToArray());
         }
 
         /// <summary>
@@ -353,6 +315,38 @@ namespace Furion.DatabaseAccessor
 
             // 查询返回值
             returnValue = parameters.FirstOrDefault(u => u.Direction == ParameterDirection.ReturnValue)?.Value;
+        }
+
+        /// <summary>
+        /// 生存表值函数 sql
+        /// </summary>
+        /// <param name="providerName"></param>
+        /// <param name="dbFunctionType"></param>
+        /// <param name="funcName"></param>
+        /// <param name="parameterNames"></param>
+        /// <returns></returns>
+        private static string GenerateDbFunctionSql(string providerName, DbFunctionType dbFunctionType, string funcName, string[] parameterNames)
+        {
+            var stringBuilder = new StringBuilder();
+
+            stringBuilder.Append($"SELECT{(dbFunctionType == DbFunctionType.Table ? " * FROM" : "")} {funcName}(");
+
+            for (var i = 0; i < parameterNames.Length; i++)
+            {
+                var propertyName = parameterNames[i];
+
+                stringBuilder.Append(FixSqlParameterPlaceholder(providerName, propertyName));
+
+                // 处理最后一个参数逗号
+                if (i != parameterNames.Length - 1)
+                {
+                    stringBuilder.Append(", ");
+                }
+            }
+
+            stringBuilder.Append("); ");
+
+            return stringBuilder.ToString();
         }
     }
 }
