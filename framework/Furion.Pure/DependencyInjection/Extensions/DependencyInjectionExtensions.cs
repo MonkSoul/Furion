@@ -68,22 +68,6 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <summary>
         /// 注册服务（如果服务存在，覆盖注册）
         /// </summary>
-        /// <param name="dependencyType"></param>
-        /// <typeparam name="TService"></typeparam>
-        /// <param name="collection"></param>
-        internal static IServiceCollection InnerAdd<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TService>(this IServiceCollection collection, Type dependencyType)
-            where TService : class
-        {
-            Call(dependencyType, MethodBase.GetCurrentMethod()
-                , new object[] { collection }
-                , new[] { typeof(TService) });
-
-            return collection;
-        }
-
-        /// <summary>
-        /// 注册服务（如果服务存在，覆盖注册）
-        /// </summary>
         /// <typeparam name="TService"></typeparam>
         /// <param name="dependencyType"></param>
         /// <param name="collection"></param>
@@ -94,24 +78,6 @@ namespace Microsoft.Extensions.DependencyInjection
             Call(dependencyType, MethodBase.GetCurrentMethod()
                 , new object[] { collection, implementationFactory }
                 , new[] { typeof(TService) });
-
-            return collection;
-        }
-
-        /// <summary>
-        /// 注册服务（如果服务存在，覆盖注册）
-        /// </summary>
-        /// <param name="dependencyType"></param>
-        /// <typeparam name="TService"></typeparam>
-        /// <typeparam name="TImplementation"></typeparam>
-        /// <param name="collection"></param>
-        internal static IServiceCollection InnerAdd<TService, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>(this IServiceCollection collection, Type dependencyType)
-            where TService : class
-            where TImplementation : class, TService
-        {
-            Call(dependencyType, MethodBase.GetCurrentMethod()
-                , new object[] { collection }
-                , new[] { typeof(TService), typeof(TImplementation) });
 
             return collection;
         }
@@ -134,69 +100,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="dependencyType"></param>
         /// <param name="collection"></param>
         /// <param name="service"></param>
-        /// <param name="implementationFactory"></param>
-        internal static void InnerTryAdd(this IServiceCollection collection, Type dependencyType, Type service, Func<IServiceProvider, object> implementationFactory)
-        {
-            Call(dependencyType, MethodBase.GetCurrentMethod()
-                , new object[] { collection, service, implementationFactory });
-        }
-
-        /// <summary>
-        /// 注册服务（如果服务存在，跳过注册）
-        /// </summary>
-        /// <param name="dependencyType"></param>
-        /// <param name="collection"></param>
-        /// <param name="service"></param>
         /// <param name="implementationType"></param>
         internal static void InnerTryAdd(this IServiceCollection collection, Type dependencyType, Type service, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type implementationType)
         {
             Call(dependencyType, MethodBase.GetCurrentMethod()
                 , new object[] { collection, service, implementationType });
-        }
-
-        /// <summary>
-        /// 注册服务（如果服务存在，跳过注册）
-        /// </summary>
-        /// <param name="dependencyType"></param>
-        /// <typeparam name="TService"></typeparam>
-        /// <param name="collection"></param>
-        internal static void InnerTryAdd<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TService>(this IServiceCollection collection, Type dependencyType)
-            where TService : class
-        {
-            Call(dependencyType, MethodBase.GetCurrentMethod()
-                , new object[] { collection }
-                , new[] { typeof(TService) });
-        }
-
-        /// <summary>
-        /// 注册服务（如果服务存在，跳过注册）
-        /// </summary>
-        /// <typeparam name="TService"></typeparam>
-        /// <param name="dependencyType"></param>
-        /// <param name="collection"></param>
-        /// <param name="implementationFactory"></param>
-        internal static void InnerTryAdd<TService>(this IServiceCollection collection, Type dependencyType, Func<IServiceProvider, TService> implementationFactory)
-            where TService : class
-        {
-            Call(dependencyType, MethodBase.GetCurrentMethod()
-                , new object[] { collection, implementationFactory }
-                , new[] { typeof(TService) });
-        }
-
-        /// <summary>
-        /// 注册服务（如果服务存在，跳过注册）
-        /// </summary>
-        /// <param name="dependencyType"></param>
-        /// <typeparam name="TService"></typeparam>
-        /// <typeparam name="TImplementation"></typeparam>
-        /// <param name="collection"></param>
-        internal static void InnerTryAdd<TService, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>(this IServiceCollection collection, Type dependencyType)
-            where TService : class
-            where TImplementation : class, TService
-        {
-            Call(dependencyType, MethodBase.GetCurrentMethod()
-                , new object[] { collection }
-                , new[] { typeof(TService), typeof(TImplementation) });
         }
 
         /// <summary>
