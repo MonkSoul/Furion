@@ -636,7 +636,7 @@ public interface IHttp : IHttpDispatchProxy
 {
     // 通过参数拦截
     [Post("https://www.furion.pro/post")]
-    Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.HttpClient)] Action<HttpRequestMessage> action = default);
+    Task<HttpResponseMessage> PostXXXAsync([Interceptor(InterceptorTypes.Client)] Action<HttpRequestMessage> action = default);
 
     // 全局拦截，类中每一个方法都会触发
     [Interceptor(InterceptorTypes.Client)]
