@@ -6,7 +6,6 @@
 // THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
-using Furion.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -18,7 +17,6 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>
     /// 依赖注入拓展类
     /// </summary>
-    [SuppressSniffer]
     internal static class DependencyInjectionExtensions
     {
         /// <summary>
