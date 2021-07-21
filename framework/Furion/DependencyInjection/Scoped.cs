@@ -122,7 +122,7 @@ namespace Furion.DependencyInjection
                 else
                 {
                     // 这里创建了一个待释放服务提供器
-                    undisposeServiceProvider = InternalApp.InternalServices.BuildServiceProvider();
+                    undisposeServiceProvider = new ServiceCollection().BuildServiceProvider();
                     scopeFactory = undisposeServiceProvider.GetService<IServiceScopeFactory>();
                 }
             }
