@@ -12,7 +12,6 @@ using Furion.Extensions;
 using Furion.Localization;
 using Furion.Templates.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -60,7 +59,7 @@ namespace Furion.FriendlyException
         static Oops()
         {
             ErrorMethods = new ConcurrentDictionary<MethodBase, MethodIfException>();
-            _friendlyExceptionSettings = App.GetService<IOptions<FriendlyExceptionSettingsOptions>>().Value;
+            _friendlyExceptionSettings = App.GetOptions<FriendlyExceptionSettingsOptions>();
             ErrorCodeTypes = GetErrorCodeTypes();
             ErrorCodeMessages = GetErrorCodeMessages();
         }
@@ -73,7 +72,7 @@ namespace Furion.FriendlyException
         /// <returns>异常实例</returns>
         public static Exception Oh(string errorMessage, params object[] args)
         {
-            return new AppFriendlyException(FormatErrorMessage(MontageErrorMessage(errorMessage), args), default);
+            return new AppFriendlyException(MontageErrorMessage(errorMessage, default, args), default);
         }
 
         /// <summary>
@@ -85,7 +84,7 @@ namespace Furion.FriendlyException
         /// <returns>异常实例</returns>
         public static Exception Oh(string errorMessage, Type exceptionType, params object[] args)
         {
-            return Activator.CreateInstance(exceptionType, new object[] { FormatErrorMessage(MontageErrorMessage(errorMessage), args) }) as Exception;
+            return Activator.CreateInstance(exceptionType, new object[] { MontageErrorMessage(errorMessage, default, args) }) as Exception;
         }
 
         /// <summary>
@@ -205,17 +204,6 @@ namespace Furion.FriendlyException
         }
 
         /// <summary>
-        /// 格式化错误消息
-        /// </summary>
-        /// <param name="errorMessage">错误消息</param>
-        /// <param name="args">格式化参数</param>
-        /// <returns></returns>
-        internal static string FormatErrorMessage(string errorMessage, params object[] args)
-        {
-            return args == null || args.Length == 0 ? errorMessage : string.Format(errorMessage, args);
-        }
-
-        /// <summary>
         /// 获取错误码消息
         /// </summary>
         /// <param name="errorCode"></param>
@@ -236,11 +224,9 @@ namespace Furion.FriendlyException
                 ? (ErrorCodeMessages.GetValueOrDefault(errorCode.ToString()) ?? _friendlyExceptionSettings.DefaultErrorMessage)
                 : ifExceptionAttribute.ErrorMessage;
 
-            // 采用 [IfException] 格式化参数覆盖
-            errorCodeMessage = FormatErrorMessage(errorCodeMessage, ifExceptionAttribute?.Args);
-
             // 字符串格式化
-            return FormatErrorMessage(MontageErrorMessage(errorCodeMessage, errorCode.ToString()), args);
+            return MontageErrorMessage(errorCodeMessage, errorCode.ToString()
+                , args != null && args.Length > 0 ? args : ifExceptionAttribute?.Args);
         }
 
         /// <summary>
@@ -277,7 +263,7 @@ namespace Furion.FriendlyException
                 .Where(u => u.IsDefined(typeof(ErrorCodeTypeAttribute), true) && u.IsEnum);
 
             // 获取错误代码提供器中定义的类型
-            var errorCodeTypeProvider = App.GetService<IErrorCodeTypeProvider>();
+            var errorCodeTypeProvider = App.GetService<IErrorCodeTypeProvider>(App.RootServices);
             if (errorCodeTypeProvider is { Definitions: not null }) errorCodeTypes = errorCodeTypes.Concat(errorCodeTypeProvider.Definitions);
 
             return errorCodeTypes.Distinct();
@@ -322,7 +308,7 @@ namespace Furion.FriendlyException
         {
             var args = errorCodes.Skip(2).ToArray();
             var errorMessage = errorCodes[1].ToString();
-            return FormatErrorMessage(errorMessage, args);
+            return errorMessage.Format(args);
         }
 
         /// <summary>
@@ -371,7 +357,7 @@ namespace Furion.FriendlyException
         private static (object Key, string Value) GetErrorCodeItemMessage(FieldInfo fieldInfo)
         {
             var errorCodeItemMetadata = fieldInfo.GetCustomAttribute<ErrorCodeItemMetadataAttribute>();
-            return (errorCodeItemMetadata.ErrorCode ?? fieldInfo.Name, errorCodeItemMetadata.ErrorMessage);
+            return (errorCodeItemMetadata.ErrorCode ?? fieldInfo.Name, errorCodeItemMetadata.ErrorMessage.Format(errorCodeItemMetadata.Args));
         }
 
         /// <summary>
@@ -379,8 +365,9 @@ namespace Furion.FriendlyException
         /// </summary>
         /// <param name="errorMessage"></param>
         /// <param name="errorCode"></param>
+        /// <param name="args"></param>
         /// <returns></returns>
-        private static string MontageErrorMessage(string errorMessage, string errorCode = default)
+        private static string MontageErrorMessage(string errorMessage, string errorCode, params object[] args)
         {
             // 支持读取配置渲染
             var realErrorMessage = errorMessage.Render();
@@ -390,9 +377,11 @@ namespace Furion.FriendlyException
             // 多语言处理
             realErrorMessage = L.Text == null ? realErrorMessage : L.Text[realErrorMessage];
 
-            return (_friendlyExceptionSettings.HideErrorCode == true || string.IsNullOrWhiteSpace(errorCode)
+            var msg = (_friendlyExceptionSettings.HideErrorCode == true || string.IsNullOrWhiteSpace(errorCode)
                 ? string.Empty
                 : $"[{errorCode}] ") + realErrorMessage;
+
+            return msg.Format(args);
         }
     }
 }

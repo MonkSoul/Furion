@@ -94,7 +94,7 @@ namespace Furion.Logging
         /// <returns></returns>
         public StringLoggerPart SetLoggerScoped(IServiceProvider serviceProvider)
         {
-            LoggerScoped = serviceProvider;
+            LoggerScoped = serviceProvider ?? App.RootServices;
             return this;
         }
     }

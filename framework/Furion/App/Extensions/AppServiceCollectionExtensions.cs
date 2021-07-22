@@ -10,6 +10,7 @@ using Furion;
 using Furion.DependencyInjection;
 using Furion.UnifyResult;
 using Microsoft.Extensions.Hosting;
+using StackExchange.Profiling.Storage;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -195,20 +196,23 @@ namespace Microsoft.Extensions.DependencyInjection
             // 注册全局 Startup 扫描
             services.AddStartups();
 
+            // 添加对象映射
+            services.AddObjectMapper();
+
+            // 添加虚拟文件服务
+            if (appSettings.EnabledVirtualFileServer == true) services.AddVirtualFileServer();
+
             // 注册MiniProfiler 组件
             if (appSettings.InjectMiniProfiler == true)
             {
                 services.AddMiniProfiler(options =>
                 {
                     options.RouteBasePath = MiniProfilerRouteBasePath;
+                    (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromSeconds(1);
+                    options.EnableMvcFilterProfiling = false;
+                    options.EnableMvcViewProfiling = false;
                 }).AddRelationalDiagnosticListener();
             }
-
-            // 添加对象映射
-            services.AddObjectMapper();
-
-            // 添加虚拟文件服务
-            if (appSettings.EnabledVirtualFileServer == true) services.AddVirtualFileServer();
 
             // 自定义服务
             configure?.Invoke(services);

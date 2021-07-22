@@ -29,7 +29,8 @@ namespace Furion.SpecificationDocument
         {
             swaggerDoc.Tags = swaggerDoc.Tags
                                         .OrderByDescending(u => GetTagOrder(u.Name))
-                                        .ThenBy(u => u.Name).ToArray();
+                                        .ThenBy(u => u.Name)
+                                        .ToArray();
         }
 
         /// <summary>
@@ -39,11 +40,8 @@ namespace Furion.SpecificationDocument
         /// <returns></returns>
         private static int GetTagOrder(string tag)
         {
-            if (Penetrates.ControllerOrderCollection.ContainsKey(tag))
-            {
-                return Penetrates.ControllerOrderCollection[tag];
-            }
-            return default;
+            var isExist = Penetrates.ControllerOrderCollection.TryGetValue(tag, out var order);
+            return isExist ? order : default;
         }
     }
 }

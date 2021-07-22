@@ -32,6 +32,13 @@ namespace Microsoft.AspNetCore.Builder
             configure?.Invoke(configureOptions);
 
             app.UseSpecificationDocuments(routePrefix, configureOptions?.SpecificationDocumentConfigure);
+
+            // 启用 MiniProfiler组件
+            if (App.Settings.InjectMiniProfiler == true)
+            {
+                app.UseMiniProfiler();
+            }
+
             return app;
         }
 
@@ -53,12 +60,6 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns>应用构建器</returns>
         internal static IApplicationBuilder UseApp(this IApplicationBuilder app, Action<IApplicationBuilder> configure = null)
         {
-            // 启用 MiniProfiler组件
-            if (App.Settings.InjectMiniProfiler == true)
-            {
-                app.UseMiniProfiler();
-            }
-
             // 调用自定义服务
             configure?.Invoke(app);
             return app;

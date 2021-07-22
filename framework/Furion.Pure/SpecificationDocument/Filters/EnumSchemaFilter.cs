@@ -8,6 +8,7 @@
 
 using Furion.DependencyInjection;
 using Furion.JsonSerialization;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
@@ -32,10 +33,9 @@ namespace Furion.SpecificationDocument
         /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="serializerProvider"></param>
-        public EnumSchemaFilter(IJsonSerializerProvider serializerProvider)
+        public EnumSchemaFilter()
         {
-            _serializerProvider = serializerProvider;
+            _serializerProvider = App.RootServices.GetService<IJsonSerializerProvider>();
         }
 
         /// <summary>

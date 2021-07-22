@@ -259,7 +259,7 @@ namespace Furion.DataValidation
                 .Where(u => u.IsDefined(typeof(ValidationMessageTypeAttribute), true) && u.IsEnum);
 
             // 加载自定义验证消息类型提供器
-            var validationMessageTypeProvider = App.GetService<IValidationMessageTypeProvider>();
+            var validationMessageTypeProvider = App.GetService<IValidationMessageTypeProvider>(App.RootServices);
             if (validationMessageTypeProvider is { Definitions: not null }) validationMessageTypes = validationMessageTypes.Concat(validationMessageTypeProvider.Definitions);
 
             return validationMessageTypes.Distinct();

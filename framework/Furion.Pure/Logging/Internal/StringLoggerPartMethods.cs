@@ -70,8 +70,8 @@ namespace Furion.Logging
         public void Log()
         {
             var logger = !string.IsNullOrWhiteSpace(CategoryName)
-                ? App.GetService<ILoggerFactory>(LoggerScoped ?? App.RootServices)?.CreateLogger(CategoryName)
-                : App.GetService(typeof(ILogger<>).MakeGenericType(CategoryType), LoggerScoped ?? App.RootServices) as ILogger;
+                ? App.GetService<ILoggerFactory>(LoggerScoped)?.CreateLogger(CategoryName)
+                : App.GetService(typeof(ILogger<>).MakeGenericType(CategoryType), LoggerScoped) as ILogger;
 
             // 如果没有异常且事件Id为空
             if (Exception == null && EventId == null)

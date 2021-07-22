@@ -314,7 +314,7 @@ namespace Furion.RemoteRequest
         /// <returns></returns>
         public HttpClientExecutePart SetRequestScoped(IServiceProvider serviceProvider)
         {
-            RequestScoped = serviceProvider;
+            RequestScoped = serviceProvider ?? App.RootServices;
             return this;
         }
     }

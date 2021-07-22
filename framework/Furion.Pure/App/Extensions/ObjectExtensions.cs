@@ -348,5 +348,16 @@ namespace Furion.Extensions
 
             return foundAttribute;
         }
+
+        /// <summary>
+        /// 格式化字符串
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        internal static string Format(this string str, params object[] args)
+        {
+            return args == null || args.Length == 0 ? str : string.Format(str, args);
+        }
     }
 }

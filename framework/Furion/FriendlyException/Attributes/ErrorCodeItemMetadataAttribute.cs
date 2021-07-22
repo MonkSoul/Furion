@@ -27,20 +27,10 @@ namespace Furion.FriendlyException
             ErrorMessage = errorMessage;
             Args = args;
         }
-
-        /// <summary>
-        /// 私有错误消息
-        /// </summary>
-        private string _errorMessage;
-
         /// <summary>
         /// 错误消息
         /// </summary>
-        public string ErrorMessage
-        {
-            get => _errorMessage;
-            set => _errorMessage = Oops.FormatErrorMessage(value, Args);
-        }
+        public string ErrorMessage { get; set; }
 
         /// <summary>
         /// 错误码
