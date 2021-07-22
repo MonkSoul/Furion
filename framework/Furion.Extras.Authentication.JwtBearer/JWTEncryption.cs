@@ -129,7 +129,7 @@ namespace Furion.DataEncryption
             var isRefresh = !string.IsNullOrWhiteSpace(cachedValue);    // 判断是否刷新过
             if (isRefresh)
             {
-                var refreshTime = DateTimeOffset.Parse(cachedValue);
+                var refreshTime = DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(cachedValue));
                 // 处理并发时容差值
                 if ((nowTime - refreshTime).TotalSeconds > clockSkew) return default;
             }
@@ -148,7 +148,7 @@ namespace Furion.DataEncryption
                                          .ToDictionary(u => u.Type, u => (object)u.Value);
 
             // 交换成功后登记刷新Token，标记失效
-            if (!isRefresh) distributedCache?.SetString(blacklistRefreshKey, nowTime.ToString(), new DistributedCacheEntryOptions
+            if (!isRefresh) distributedCache?.SetString(blacklistRefreshKey, nowTime.ToUnixTimeMilliseconds().ToString(), new DistributedCacheEntryOptions
             {
                 AbsoluteExpiration = DateTimeOffset.FromUnixTimeSeconds(token.GetPayloadValue<long>(JwtRegisteredClaimNames.Exp))
             });
