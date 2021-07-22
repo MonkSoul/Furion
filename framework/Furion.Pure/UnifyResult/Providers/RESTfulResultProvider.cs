@@ -114,10 +114,6 @@ namespace Furion.UnifyResult
                 case StatusCodes.Status403Forbidden:
                     await WriteAsJsonAsync(context, statusCode, "403 Forbidden");
                     break;
-                // 处理 404 状态码
-                case StatusCodes.Status404NotFound:
-                    await WriteAsJsonAsync(context, statusCode, "404 NotFound");
-                    break;
 
                 default: break;
             }

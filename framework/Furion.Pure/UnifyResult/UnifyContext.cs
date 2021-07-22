@@ -223,19 +223,12 @@ namespace Furion.UnifyResult
         /// </summary>
         /// <param name="context"></param>
         /// <param name="unifyResult"></param>
-        /// <param name="intercept404StatusCodes"></param>
         /// <returns>返回 true 跳过处理，否则进行规范化处理</returns>
-        internal static bool CheckStatusCode(HttpContext context, bool intercept404StatusCodes, out IUnifyResultProvider unifyResult)
+        internal static bool CheckStatusCode(HttpContext context, out IUnifyResultProvider unifyResult)
         {
-            IEndpointFeature endpointFeature = default;
-
-            // 处理 404 问题
-            if (!(intercept404StatusCodes && context.Response.StatusCode == StatusCodes.Status404NotFound))
-            {
-                // 获取终点路由特性
-                endpointFeature = context.Features.Get<IEndpointFeature>();
-                if (endpointFeature == null) return (unifyResult = null) == null;
-            }
+            // 获取终点路由特性
+            var endpointFeature = context.Features.Get<IEndpointFeature>();
+            if (endpointFeature == null) return (unifyResult = null) == null;
 
             // 判断是否跳过规范化处理
             var isSkip = !IsEnabledUnifyHandle

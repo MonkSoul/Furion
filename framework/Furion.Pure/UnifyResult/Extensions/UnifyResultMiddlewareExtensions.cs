@@ -23,16 +23,15 @@ namespace Microsoft.AspNetCore.Builder
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="optionsBuilder"></param>
-        /// <param name="intercept404StatusCodes">是否拦截 404 状态码</param>
         /// <returns></returns>
-        public static IApplicationBuilder UseUnifyResultStatusCodes(this IApplicationBuilder builder, Action<UnifyResultStatusCodesOptions> optionsBuilder = default, bool intercept404StatusCodes = false)
+        public static IApplicationBuilder UseUnifyResultStatusCodes(this IApplicationBuilder builder, Action<UnifyResultStatusCodesOptions> optionsBuilder = default)
         {
             // 获取配置
             var unifyResultStatusCodesOptions = new UnifyResultStatusCodesOptions();
             optionsBuilder?.Invoke(unifyResultStatusCodesOptions);
 
             // 注册中间件
-            builder.UseMiddleware<UnifyResultStatusCodesMiddleware>(unifyResultStatusCodesOptions, intercept404StatusCodes);
+            builder.UseMiddleware<UnifyResultStatusCodesMiddleware>(unifyResultStatusCodesOptions);
 
             return builder;
         }
