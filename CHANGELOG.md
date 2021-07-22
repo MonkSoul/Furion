@@ -26,6 +26,7 @@
   - [修复] 自动扫描接口进行依赖注入获取首个接口错误 bug [#I41D1M](https://gitee.com/dotnetchina/Furion/issues/I41D1M)
   - [修复] `IRepository<TEntity>` 没有实现 `IRepository<TEntity, TDbContextLocator>` 问题 [#I41MZP](https://gitee.com/dotnetchina/Furion/issues/I41MZP)
   - [修复] 远程请求缺省序列化 bug [#I41PBW](https://gitee.com/dotnetchina/Furion/issues/I41PBW)
+  - [修复] 修复 `AppDbContext.Tenant` 多租户空异常 问题 [#I421DA](https://gitee.com/dotnetchina/Furion/issues/I421DA)
 
 - **其他更改**
 
