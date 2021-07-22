@@ -149,7 +149,7 @@ namespace Furion.DatabaseAccessor
                 // 从分布式缓存中读取或查询数据库
                 var tenantCachedKey = $"MULTI_TENANT:{host}";
                 var distributedCache = serviceProvider.GetService<IDistributedCache>();
-                var cachedValue = distributedCache.GetString(tenantCachedKey);
+                var cachedValue = distributedCache?.GetString(tenantCachedKey);
 
                 // 当前租户
                 Tenant currentTenant;
@@ -160,14 +160,15 @@ namespace Furion.DatabaseAccessor
                 // 如果 Key 不存在
                 if (string.IsNullOrWhiteSpace(cachedValue))
                 {
-                    // 获取新的租户数据库上下文
-                    var tenantDbContext = serviceProvider.GetService<Func<Type, ITransient, DbContext>>()(typeof(MultiTenantDbContextLocator), default);
-                    if (tenantDbContext == null) return default;
+                    // 解析租户上下文
+                    var dbContextResolve = serviceProvider.GetService<Func<Type, IScoped, DbContext>>();
+                    if (dbContextResolve == null) return default;
 
+                    var tenantDbContext = dbContextResolve(typeof(MultiTenantDbContextLocator), default);
                     currentTenant = tenantDbContext.Set<Tenant>().AsNoTracking().FirstOrDefault(u => u.Host == host);
                     if (currentTenant != null)
                     {
-                        distributedCache.SetString(tenantCachedKey, jsonSerializerProvider.Serialize(currentTenant));
+                        distributedCache?.SetString(tenantCachedKey, jsonSerializerProvider.Serialize(currentTenant));
                     }
                 }
                 else currentTenant = jsonSerializerProvider.Deserialize<Tenant>(cachedValue);
