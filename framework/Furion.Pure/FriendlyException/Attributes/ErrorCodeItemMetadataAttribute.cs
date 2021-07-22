@@ -27,6 +27,7 @@ namespace Furion.FriendlyException
             ErrorMessage = errorMessage;
             Args = args;
         }
+
         /// <summary>
         /// 错误消息
         /// </summary>
