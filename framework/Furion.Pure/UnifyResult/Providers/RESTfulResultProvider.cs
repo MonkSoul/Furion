@@ -32,17 +32,9 @@ namespace Furion.UnifyResult
         public IActionResult OnException(ExceptionContext context)
         {
             // 解析异常信息
-            var (StatusCode, _, Errors) = UnifyContext.GetExceptionMetadata(context);
+            var (statusCode, _, errors) = UnifyContext.GetExceptionMetadata(context);
 
-            return new JsonResult(new RESTfulResult<object>
-            {
-                StatusCode = StatusCode,
-                Succeeded = false,
-                Data = null,
-                Errors = Errors,
-                Extras = UnifyContext.Take(),
-                Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-            });
+            return new JsonResult(RESTfulResult(statusCode, errors: errors));
         }
 
         /// <summary>
@@ -57,18 +49,15 @@ namespace Furion.UnifyResult
             if (context.Result is ContentResult contentResult) data = contentResult.Content;
             // 处理对象结果
             else if (context.Result is ObjectResult objectResult) data = objectResult.Value;
+            // 处理无返回值
             else if (context.Result is EmptyResult) data = null;
             else return null;
 
-            return new JsonResult(new RESTfulResult<object>
-            {
-                StatusCode = context.Result is EmptyResult ? StatusCodes.Status204NoContent : StatusCodes.Status200OK,  // 处理没有返回值情况 204
-                Succeeded = true,
-                Data = data,
-                Errors = null,
-                Extras = UnifyContext.Take(),
-                Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-            });
+            var statusCode = context.Result is EmptyResult
+                ? StatusCodes.Status204NoContent // 处理没有返回值情况 204
+                : StatusCodes.Status200OK;
+
+            return new JsonResult(RESTfulResult(statusCode, true, data));
         }
 
         /// <summary>
@@ -81,19 +70,11 @@ namespace Furion.UnifyResult
         /// <returns></returns>
         public IActionResult OnValidateFailed(ActionExecutingContext context, ModelStateDictionary modelStates, IEnumerable<ValidateFailedModel> validationResults, string validateFailedMessage)
         {
-            return new JsonResult(new RESTfulResult<object>
-            {
-                StatusCode = StatusCodes.Status400BadRequest,
-                Succeeded = false,
-                Data = null,
-                Errors = validationResults,
-                Extras = UnifyContext.Take(),
-                Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-            });
+            return new JsonResult(RESTfulResult(StatusCodes.Status400BadRequest, errors: validationResults));
         }
 
         /// <summary>
-        /// 处理输出状态码
+        /// 特定状态码返回值
         /// </summary>
         /// <param name="context"></param>
         /// <param name="statusCode"></param>
@@ -108,35 +89,37 @@ namespace Furion.UnifyResult
             {
                 // 处理 401 状态码
                 case StatusCodes.Status401Unauthorized:
-                    await WriteAsJsonAsync(context, statusCode, "401 Unauthorized");
+                    await context.Response.WriteAsJsonAsync(RESTfulResult(statusCode, errors: "401 Unauthorized")
+                        , App.GetOptions<JsonOptions>()?.JsonSerializerOptions);
                     break;
                 // 处理 403 状态码
                 case StatusCodes.Status403Forbidden:
-                    await WriteAsJsonAsync(context, statusCode, "403 Forbidden");
+                    await context.Response.WriteAsJsonAsync(RESTfulResult(statusCode, errors: "403 Forbidden")
+                        , App.GetOptions<JsonOptions>()?.JsonSerializerOptions);
                     break;
-
                 default: break;
             }
         }
 
         /// <summary>
-        /// 写入响应 Json
+        /// 返回 RESTful 风格结果集
         /// </summary>
-        /// <param name="context"></param>
         /// <param name="statusCode"></param>
-        /// <param name="message"></param>
+        /// <param name="succeeded"></param>
+        /// <param name="data"></param>
+        /// <param name="errors"></param>
         /// <returns></returns>
-        private static async Task WriteAsJsonAsync(HttpContext context, int statusCode, string message)
+        private static RESTfulResult<object> RESTfulResult(int statusCode, bool succeeded = default, object data = default, object errors = default)
         {
-            await context.Response.WriteAsJsonAsync(new RESTfulResult<object>
+            return new RESTfulResult<object>
             {
                 StatusCode = statusCode,
-                Succeeded = false,
-                Data = null,
-                Errors = message,
+                Succeeded = succeeded,
+                Data = data,
+                Errors = errors,
                 Extras = UnifyContext.Take(),
                 Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-            }, App.GetOptions<JsonOptions>()?.JsonSerializerOptions);
+            };
         }
     }
 }

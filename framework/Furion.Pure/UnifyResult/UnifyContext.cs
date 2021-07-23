@@ -55,7 +55,7 @@ namespace Furion.UnifyResult
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public static (int StatusCode, object ErrorCode, object Errors) GetExceptionMetadata(ExceptionContext context)
+        public static (int statusCode, object errorCode, object errors) GetExceptionMetadata(ExceptionContext context)
         {
             // 获取错误码
             var errorCode = context.Exception is AppFriendlyException friendlyException ? friendlyException?.ErrorCode : default;

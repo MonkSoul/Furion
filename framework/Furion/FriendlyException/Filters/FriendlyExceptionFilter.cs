@@ -56,15 +56,15 @@ namespace Microsoft.AspNetCore.Mvc.Filters
             if (UnifyContext.CheckFailed(actionDescriptor.MethodInfo, out var unifyResult))
             {
                 // 解析异常信息
-                var (StatusCode, _, Errors) = UnifyContext.GetExceptionMetadata(context);
+                var (statusCode, _, errors) = UnifyContext.GetExceptionMetadata(context);
 
                 // 解析 JSON 序列化提供器
                 var jsonSerializer = App.RootServices.GetService<IJsonSerializerProvider>();
 
                 context.Result = new ContentResult
                 {
-                    Content = jsonSerializer.Serialize(Errors),
-                    StatusCode = StatusCode
+                    Content = jsonSerializer.Serialize(errors),
+                    StatusCode = statusCode
                 };
             }
             else context.Result = unifyResult.OnException(context);
