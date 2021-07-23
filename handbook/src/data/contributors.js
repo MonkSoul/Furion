@@ -831,6 +831,12 @@ const contributors = [
     photo:
       "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAABFklEQVRoQ+2UwQ0BYRCFZ08iDnrQgEKcFKAKd4k23DSgig09SHCTcBBEIjbWKsBhZ2UwZr89v53MvO+9P9mOOoXU6Es4ODhtCAcHLBCGcDAHiHQwoC/nQBjCwRwg0sGA8mgRaSIdzIGPRrrZ7Uu7N5ak0ZL8vJPjbCjZZvFTCznY0n4IE2nLPOlm0WGdTzoVHabDuqRYquiwpZt0mA5b5kk3iw7rfNKp6DAd1iXFUkWHLd2sdYcf15Nkq1SKPCv19L5fyiWdlOreEXwt0lWWu63ncpgOqvyi1nKw2qo/FX6UsEdPONgjFcudIGzppsdZEPZIxXInCFu66XEWhD1SsdwJwpZuepwFYY9ULHeCsKWbHmfVjvATUOxdeMexngcAAAAASUVORK5CYII=",
   },
+  {
+    author: "Q1",
+    link: "https://gitee.com/yqyx",
+    photo:
+      "https://portrait.gitee.com/uploads/avatars/user/458/1374721_yqyx_1602561388.png!avatar200",
+  },
 ];
 
 export default contributors;
