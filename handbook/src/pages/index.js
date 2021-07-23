@@ -81,7 +81,7 @@ function Banner() {
             >
               一分钟上手
             </Link>
-            <div className="furion-version">v2.14.8</div>
+            <div className="furion-version">v2.15.0</div>
           </div>
         </div>
         <div className="furion-banner-item">

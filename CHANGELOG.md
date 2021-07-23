@@ -1,4 +1,27 @@
-## v2.13/v2.14（当前版本）
+## v2.15（当前版本）
+
+- **新特性**
+
+  - [新增] `Db.GetDbRepository<定位器>()` 静态方法 [#I41MZP](https://gitee.com/dotnetchina/Furion/issues/I41MZP)
+  - [新增] 远程请求缺省序列化配置选项 [#I41PBW](https://gitee.com/dotnetchina/Furion/issues/I41PBW)
+
+- **问题修复**
+
+  - [修复] 自动扫描接口进行依赖注入获取首个接口错误 bug [#I41D1M](https://gitee.com/dotnetchina/Furion/issues/I41D1M)
+  - [修复] `IRepository<TEntity>` 没有实现 `IRepository<TEntity, TDbContextLocator>` 问题 [#I41MZP](https://gitee.com/dotnetchina/Furion/issues/I41MZP)
+  - [修复] 远程请求缺省序列化 bug [#I41PBW](https://gitee.com/dotnetchina/Furion/issues/I41PBW)
+  - [修复] 修复 `AppDbContext.Tenant` 多租户空异常问题 [#I421DA](https://gitee.com/dotnetchina/Furion/issues/I421DA)
+  - [修复] `Worker Service` 多个 `Worker` 定时任务阻塞问题 [82a79cc](https://gitee.com/dotnetchina/Furion/commit/82a79cce0a3d9b09f4090b7363c3b78327c76846)
+  - [修复] `Jwt` 自动刷新机制时区处理问题，主要针对国外用户 [#I41UB1](https://gitee.com/dotnetchina/Furion/issues/I41UB1) [82a79cc](https://gitee.com/dotnetchina/Furion/commit/82a79cce0a3d9b09f4090b7363c3b78327c76846)
+
+- **其他更改**
+
+  - [优化] **系统启动性能，从 106M 减少到 84M**
+  - [优化] **大量底层代码，包大小从 391Kb 减少到 350Kb（不带注释版本仅 64Kb）**
+
+---
+
+## v2.13/v2.14（已发布）
 
 - **新特性**
 
@@ -6,8 +29,6 @@
   - [新增] `404` 状态码规范化默认处理 [#I408F5](https://gitee.com/dotnetchina/Furion/issues/I408F5)
   - [新增] 定时任务 `ISpareTimeWorker` 声明方式支持异步方法 [#I40KWR](https://gitee.com/dotnetchina/Furion/issues/I40KWR)
   - [新增] 自动配置二级虚拟目录 [!354](https://gitee.com/dotnetchina/Furion/pulls/354)
-  - [新增] `Db.GetDbRepository<定位器>()` 静态方法 [#I41MZP](https://gitee.com/dotnetchina/Furion/issues/I41MZP)
-  - [新增] 远程请求缺省序列化配置选项 [#I41PBW](https://gitee.com/dotnetchina/Furion/issues/I41PBW)
 
 - **突破性变化**
 
@@ -23,23 +44,11 @@
   - [修复] `Worker Services` 独立发布后程序集扫描失效 bug [#I3ZH3X](https://gitee.com/dotnetchina/Furion/issues/I3ZH3X)
   - [修复] 远程请求如果配置了 `Client` 客户端但传入了空 `RequestUrl` 地址导致异常问题 [#I40BC6](https://gitee.com/dotnetchina/Furion/issues/I40BC6)
   - [修复] 规范化结果篡改非短路端状态码出现异常 bug [#I408F5](https://gitee.com/dotnetchina/Furion/issues/I408F5)
-  - [修复] 自动扫描接口进行依赖注入获取首个接口错误 bug [#I41D1M](https://gitee.com/dotnetchina/Furion/issues/I41D1M)
-  - [修复] `IRepository<TEntity>` 没有实现 `IRepository<TEntity, TDbContextLocator>` 问题 [#I41MZP](https://gitee.com/dotnetchina/Furion/issues/I41MZP)
-  - [修复] 远程请求缺省序列化 bug [#I41PBW](https://gitee.com/dotnetchina/Furion/issues/I41PBW)
-  - [修复] 修复 `AppDbContext.Tenant` 多租户空异常问题 [#I421DA](https://gitee.com/dotnetchina/Furion/issues/I421DA)
-  - [修复] `Worker Service` 多个 `Worker` 定时任务阻塞问题 [82a79cc](https://gitee.com/dotnetchina/Furion/commit/82a79cce0a3d9b09f4090b7363c3b78327c76846)
-  - [修复] `Jwt` 自动刷新机制时区处理问题 [#I41UB1](https://gitee.com/dotnetchina/Furion/issues/I41UB1) [82a79cc](https://gitee.com/dotnetchina/Furion/commit/82a79cce0a3d9b09f4090b7363c3b78327c76846)
 
 - **其他更改**
 
   - [优化] `App.GetServiceProvider(type)` 解析服务性能 [#I40KXN](https://gitee.com/dotnetchina/Furion/issues/I40KXN)
   - [调整] 视图引擎保存成文件流默认缓存区大小，从 `4096` 提升至 `8192` [#I40KH5](https://gitee.com/dotnetchina/Furion/issues/I40KH5)
-
-- **文档变化**
-
-- **问答答疑**
-
-- **不做实现**
 
 ---
 
