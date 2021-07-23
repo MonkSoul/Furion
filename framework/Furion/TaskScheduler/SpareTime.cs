@@ -415,13 +415,10 @@ namespace Furion.TaskScheduler
             var interval = intervalHandler();
             if (interval <= 0) return;
 
-            try
-            {
-                await doWhat();
-            }
-            catch { }
-            finally { }
+            // 开启不阻塞执行
+            DoIt(doWhat);
 
+            // 延迟指定秒数
             await Task.Delay(interval, stoppingToken);
         }
 
