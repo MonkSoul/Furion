@@ -26,7 +26,9 @@
   - [修复] 自动扫描接口进行依赖注入获取首个接口错误 bug [#I41D1M](https://gitee.com/dotnetchina/Furion/issues/I41D1M)
   - [修复] `IRepository<TEntity>` 没有实现 `IRepository<TEntity, TDbContextLocator>` 问题 [#I41MZP](https://gitee.com/dotnetchina/Furion/issues/I41MZP)
   - [修复] 远程请求缺省序列化 bug [#I41PBW](https://gitee.com/dotnetchina/Furion/issues/I41PBW)
-  - [修复] 修复 `AppDbContext.Tenant` 多租户空异常 问题 [#I421DA](https://gitee.com/dotnetchina/Furion/issues/I421DA)
+  - [修复] 修复 `AppDbContext.Tenant` 多租户空异常问题 [#I421DA](https://gitee.com/dotnetchina/Furion/issues/I421DA)
+  - [修复] `Worker Service` 多个 `Worker` 定时任务阻塞问题 [82a79cc](https://gitee.com/dotnetchina/Furion/commit/82a79cce0a3d9b09f4090b7363c3b78327c76846)
+  - [修复] `Jwt` 自动刷新机制时区处理问题 [#I41UB1](https://gitee.com/dotnetchina/Furion/issues/I41UB1) [82a79cc](https://gitee.com/dotnetchina/Furion/commit/82a79cce0a3d9b09f4090b7363c3b78327c76846)
 
 - **其他更改**
 
