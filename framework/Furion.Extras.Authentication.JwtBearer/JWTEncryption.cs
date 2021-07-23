@@ -112,7 +112,7 @@ namespace Furion.DataEncryption
             if (_isValid) return default;
 
             // 判断刷新Token 是否过期
-            var (isValid, token, _) = Validate(refreshToken);
+            var (isValid, refreshTokenObj, _) = Validate(refreshToken);
             if (!isValid) return default;
 
             // 解析 HttpContext
@@ -139,19 +139,23 @@ namespace Furion.DataEncryption
             if (tokenParagraphs.Length < 3) return default;
 
             // 判断各个部分是否匹配
-            if (!token.GetPayloadValue<string>("f").Equals(tokenParagraphs[0])) return default;
-            if (!token.GetPayloadValue<string>("e").Equals(tokenParagraphs[2])) return default;
-            if (!tokenParagraphs[1].Substring(token.GetPayloadValue<int>("s"), token.GetPayloadValue<int>("l")).Equals(token.GetPayloadValue<string>("k"))) return default;
+            if (!refreshTokenObj.GetPayloadValue<string>("f").Equals(tokenParagraphs[0])) return default;
+            if (!refreshTokenObj.GetPayloadValue<string>("e").Equals(tokenParagraphs[2])) return default;
+            if (!tokenParagraphs[1].Substring(refreshTokenObj.GetPayloadValue<int>("s"), refreshTokenObj.GetPayloadValue<int>("l")).Equals(refreshTokenObj.GetPayloadValue<string>("k"))) return default;
 
+            // 获取过期 Token 的存储信息
             var oldToken = ReadJwtToken(expiredToken);
             var payload = oldToken.Claims.Where(u => !StationaryClaimTypes.Contains(u.Type))
                                          .ToDictionary(u => u.Type, u => (object)u.Value);
 
             // 交换成功后登记刷新Token，标记失效
-            if (!isRefresh) distributedCache?.SetString(blacklistRefreshKey, nowTime.Ticks.ToString(), new DistributedCacheEntryOptions
+            if (!isRefresh)
             {
-                AbsoluteExpiration = DateTimeOffset.FromUnixTimeSeconds(token.GetPayloadValue<long>(JwtRegisteredClaimNames.Exp))
-            });
+                distributedCache?.SetString(blacklistRefreshKey, nowTime.Ticks.ToString(), new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpiration = DateTimeOffset.FromUnixTimeSeconds(refreshTokenObj.GetPayloadValue<long>(JwtRegisteredClaimNames.Exp))
+                });
+            }
 
             return Encrypt(payload, expiredTime);
         }

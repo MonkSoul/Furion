@@ -62,7 +62,7 @@ namespace Furion.TaskScheduler
         /// <param name="interval"></param>
         /// <param name="cancelInNoneNextTime"></param>
         /// <param name="executeType"></param>
-        public static void DoIt(Action doWhat = default, double interval = 30, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
+        public static void DoIt(Action doWhat = default, double interval = 10, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
         {
             if (doWhat == null) return;
 
@@ -77,7 +77,7 @@ namespace Furion.TaskScheduler
         /// <param name="interval"></param>
         /// <param name="cancelInNoneNextTime"></param>
         /// <param name="executeType"></param>
-        public static void DoIt(Func<Task> doWhat = default, double interval = 30, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
+        public static void DoIt(Func<Task> doWhat = default, double interval = 10, bool cancelInNoneNextTime = true, SpareTimeExecuteTypes executeType = SpareTimeExecuteTypes.Parallel)
         {
             if (doWhat == null) return;
 
@@ -490,16 +490,8 @@ namespace Furion.TaskScheduler
             var interval = (nextLocalTime.Value - DateTimeOffset.UtcNow).TotalSeconds;
             if (Math.Floor(interval) != 0) return;
 
-            try
-            {
-                await doWhat();
-            }
-            catch { }
-            finally
-            {
-                // 释放委托内存
-                App.DisposeUnmanagedObjects();
-            }
+            // 开启不阻塞执行
+            DoIt(doWhat);
 
             // 每 1s 秒检查一次
             await Task.Delay(1000, stoppingToken);
@@ -522,7 +514,7 @@ namespace Furion.TaskScheduler
             // 启动任务
             if (!timer.Enabled)
             {
-                // 如果任务过去是失败的，则清楚异常信息后启动
+                // 如果任务过去是失败的，则清除异常信息后启动
                 if (timer.Status == SpareTimeStatus.Failed) timer.Exception.Clear();
 
                 timer.Status = SpareTimeStatus.Running;
@@ -629,7 +621,7 @@ namespace Furion.TaskScheduler
             var cronExpression = CronExpression.Parse(realExpression, cronFormat.Value);
 
             // 获取下一个执行时间
-            var nextTime = cronExpression.GetNextOccurrence(DateTimeOffset.UtcNow, TimeZoneInfo.Local);
+            var nextTime = cronExpression.GetNextOccurrence(DateTimeOffset.UtcNow, TimeZoneInfo.Utc);
             return nextTime;
         }
 
