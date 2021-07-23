@@ -60,7 +60,7 @@ namespace Microsoft.Extensions.Hosting
                 InternalApp.InternalServices = services;
 
                 // 初始化应用服务
-                services.AddHostApp();
+                services.AddApp();
 
                 // 自动注册 BackgroundService
                 if (autoRegisterBackgroundService) services.AddAppHostedService();

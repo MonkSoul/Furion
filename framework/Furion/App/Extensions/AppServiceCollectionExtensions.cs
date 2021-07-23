@@ -190,9 +190,6 @@ namespace Microsoft.Extensions.DependencyInjection
             // 注册全局依赖注入
             services.AddDependencyInjection();
 
-            // 添加 HttContext 访问器
-            services.AddHttpContextAccessor();
-
             // 注册全局 Startup 扫描
             services.AddStartups();
 
@@ -202,51 +199,24 @@ namespace Microsoft.Extensions.DependencyInjection
             // 添加虚拟文件服务
             if (appSettings.EnabledVirtualFileServer == true) services.AddVirtualFileServer();
 
-            // 注册MiniProfiler 组件
-            if (appSettings.InjectMiniProfiler == true)
+            // 只有 Web 环境才注册
+            if (App.WebHostEnvironment != null)
             {
-                services.AddMiniProfiler(options =>
+                // 添加 HttContext 访问器
+                services.AddHttpContextAccessor();
+
+                // 注册MiniProfiler 组件
+                if (appSettings.InjectMiniProfiler == true)
                 {
-                    options.RouteBasePath = MiniProfilerRouteBasePath;
-                    (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromSeconds(1);
-                    options.EnableMvcFilterProfiling = false;
-                    options.EnableMvcViewProfiling = false;
-                }).AddRelationalDiagnosticListener();
+                    services.AddMiniProfiler(options =>
+                    {
+                        options.RouteBasePath = MiniProfilerRouteBasePath;
+                        (options.Storage as MemoryCacheStorage).CacheDuration = TimeSpan.FromSeconds(1);
+                        options.EnableMvcFilterProfiling = false;
+                        options.EnableMvcViewProfiling = false;
+                    }).AddRelationalDiagnosticListener();
+                }
             }
-
-            // 自定义服务
-            configure?.Invoke(services);
-
-            return services;
-        }
-
-        /// <summary>
-        /// 添加主机应用配置
-        /// </summary>
-        /// <param name="services">服务集合</param>
-        /// <param name="configure">服务配置</param>
-        /// <returns>服务集合</returns>
-        internal static IServiceCollection AddHostApp(this IServiceCollection services, Action<IServiceCollection> configure = null)
-        {
-            // 注册全局配置选项
-            services.AddConfigurableOptions<AppSettingsOptions>();
-            var appSettings = App.Settings;
-
-            // 注册内存和分布式内存
-            services.AddMemoryCache();  // .NET 5.0.3+ 需要手动注册了
-            if (appSettings.EnabledDistributedMemoryCache == true) services.AddDistributedMemoryCache();
-
-            // 注册全局依赖注入
-            services.AddDependencyInjection();
-
-            // 注册全局 Startup 扫描
-            services.AddStartups();
-
-            // 添加对象映射
-            services.AddObjectMapper();
-
-            // 添加虚拟文件服务
-            if (appSettings.EnabledVirtualFileServer == true) services.AddVirtualFileServer();
 
             // 自定义服务
             configure?.Invoke(services);
