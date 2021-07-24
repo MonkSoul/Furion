@@ -64,7 +64,7 @@ namespace Furion
             if (!jsonFiles.Any()) return;
 
             // 获取环境变量名
-            var envName = hostEnvironment?.EnvironmentName ?? "Unknown";
+            var envName = hostEnvironment?.EnvironmentName ?? Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT") ?? "Unknown";
 
             // 读取忽略的配置文件
             var ignoreConfigurationFiles = configurationBuilder.Build()

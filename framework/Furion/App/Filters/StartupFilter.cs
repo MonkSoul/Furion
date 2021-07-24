@@ -39,7 +39,7 @@ namespace Furion
                 InternalApp.RootServices = app.ApplicationServices;
 
                 // 环境名
-                var environmentName = App.HostEnvironment?.EnvironmentName ?? "Unknown";
+                var envName = App.HostEnvironment?.EnvironmentName ?? "Unknown";
 
                 // 设置响应报文头信息，标记框架类型
                 app.Use(async (context, next) =>
@@ -47,7 +47,7 @@ namespace Furion
                     context.Request.EnableBuffering();  // 启动 Request Body 重复读，解决微信问题
 
                     // 输出当前环境标识
-                    context.Response.Headers["environment"] = environmentName;
+                    context.Response.Headers["environment"] = envName;
 
                     // 执行下一个中间件
                     await next.Invoke();
