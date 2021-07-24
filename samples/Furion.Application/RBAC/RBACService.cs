@@ -56,7 +56,7 @@ namespace Furion.Application
         {
             // 验证用户名和密码
             var user = _userRepository.FirstOrDefault(u => u.Account.Equals(input.Account) && u.Password.Equals(input.Password), false)
-                ?? throw Oops.Oh(1000);
+                ?? throw Oops.Bah(1000);
 
             var output = user.Adapt<LoginOutput>();
 

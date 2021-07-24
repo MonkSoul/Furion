@@ -67,9 +67,22 @@ namespace Furion.FriendlyException
         /// <param name="errorMessage">异常消息</param>
         /// <param name="args">String.Format 参数</param>
         /// <returns>异常实例</returns>
-        public static AppFriendlyException Law(string errorMessage, params object[] args)
+        public static AppFriendlyException Bah(string errorMessage, params object[] args)
         {
             var friendlyException = Oh(errorMessage, typeof(ValidationException), args).StatusCode(StatusCodes.Status400BadRequest);
+            friendlyException.ValidationException = true;
+            return friendlyException;
+        }
+
+        /// <summary>
+        /// 抛出业务异常日志
+        /// </summary>
+        /// <param name="errorCode">错误码</param>
+        /// <param name="args">String.Format 参数</param>
+        /// <returns>异常实例</returns>
+        public static AppFriendlyException Bah(object errorCode, params object[] args)
+        {
+            var friendlyException = Oh(errorCode, typeof(ValidationException), args).StatusCode(StatusCodes.Status400BadRequest);
             friendlyException.ValidationException = true;
             return friendlyException;
         }
