@@ -62,7 +62,7 @@ namespace Furion.FriendlyException
         }
 
         /// <summary>
-        /// 抛出业务异常日志
+        /// 抛出业务异常信息
         /// </summary>
         /// <param name="errorMessage">异常消息</param>
         /// <param name="args">String.Format 参数</param>
@@ -75,7 +75,7 @@ namespace Furion.FriendlyException
         }
 
         /// <summary>
-        /// 抛出业务异常日志
+        /// 抛出业务异常信息
         /// </summary>
         /// <param name="errorCode">错误码</param>
         /// <param name="args">String.Format 参数</param>
