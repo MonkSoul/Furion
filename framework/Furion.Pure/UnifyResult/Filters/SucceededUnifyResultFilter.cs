@@ -48,32 +48,30 @@ namespace Furion.UnifyResult
             // 如果没有异常再执行
             if (actionExecutedContext.Exception == null && !UnifyContext.CheckSucceededNonUnify(actionDescriptor.MethodInfo, out var unifyResult))
             {
-                // 处理规范化结果
-                if (unifyResult != null)
+                if (unifyResult == null) return;
+
+                // 处理 BadRequestObjectResult 验证结果
+                if (actionExecutedContext.Result is BadRequestObjectResult badRequestObjectResult)
                 {
-                    // 处理 BadRequestObjectResult 验证结果
-                    if (actionExecutedContext.Result is BadRequestObjectResult badRequestObjectResult)
+                    // 解析验证消息
+                    var validationMetadata = ValidatorContext.GetValidationMetadata(badRequestObjectResult.Value);
+
+                    var result = unifyResult.OnValidateFailed(context, validationMetadata);
+                    if (result != null) actionExecutedContext.Result = result;
+
+                    // 打印验证失败信息
+                    App.PrintToMiniProfiler("validation", "Failed", $"Validation Failed:\r\n{validationMetadata.Message}", true);
+                }
+                else
+                {
+                    IActionResult result = default;
+
+                    // 检查是否是有效的结果（可进行规范化的结果）
+                    if (UnifyContext.CheckVaildResult(actionExecutedContext.Result, out var data))
                     {
-                        // 解析验证消息
-                        var validationMetadata = ValidatorContext.GetValidationMetadata(badRequestObjectResult.Value);
-
-                        var result = unifyResult.OnValidateFailed(context, validationMetadata);
-                        if (result != null) actionExecutedContext.Result = result;
-
-                        // 打印验证失败信息
-                        App.PrintToMiniProfiler("validation", "Failed", $"Validation Failed:\r\n{validationMetadata.Message}", true);
+                        result = unifyResult.OnSucceeded(actionExecutedContext, data);
                     }
-                    else
-                    {
-                        IActionResult result = default;
-
-                        // 检查是否是有效的结果（可进行规范化的结果）
-                        if (UnifyContext.CheckVaildResult(actionExecutedContext.Result, out var data))
-                        {
-                            result = unifyResult.OnSucceeded(actionExecutedContext, data);
-                        }
-                        if (result != null) actionExecutedContext.Result = result;
-                    }
+                    if (result != null) actionExecutedContext.Result = result;
                 }
             }
         }
