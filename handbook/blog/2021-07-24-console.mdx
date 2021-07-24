@@ -1,0 +1,62 @@
+---
+slug: console
+title: 5. 在控制台中使用
+author: dotNET China
+author_title: 让 .NET 开发更简单，更通用，更流行。
+author_url: https://www.chinadot.net
+author_image_url: https://i.loli.net/2021/01/19/M8q5a3OTZWUKicl.png
+tags: [furion, furos, .net, .netcore, .net5, .net6]
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+`Furion` 从 `v2.15.3+` 版本开始，支持全平台应用程序开发，包括 `Web`，`控制台`，`WinForm`，`WPF`，`Xamarin/MAUI` 等。
+
+在控制台中使用示例：
+
+```cs
+using Furion;
+using Furion.DependencyInjection;
+using Furion.RemoteRequest.Extensions;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // 创建一个服务容器
+            var services = Inject.Create();
+            // 注册服务
+            services.AddRemoteRequest();
+            // 所有服务注册完毕后调用 Build() 构建
+            services.Build();
+
+            // 使用
+            var helloService = App.GetService<IHelloService>();
+            Console.WriteLine(helloService.SayHello());
+
+            Console.WriteLine("=============");
+
+            var baidu = "https://www.baidu.com".GetAsStringAsync().GetAwaiter().GetResult();
+            Console.WriteLine(baidu);
+        }
+    }
+
+    public interface IHelloService
+    {
+        string SayHello();
+    }
+    public class HelloService : IHelloService, ITransient
+    {
+        public string SayHello()
+        {
+            return "Hello Furion.";
+        }
+    }
+}
+```
+
+以上代码通过 `var services = Inject.Create();` 创建一个服务集合，最后通过 `services.Build()` 即可完成初始化。

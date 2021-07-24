@@ -4,9 +4,16 @@
         <title>Furion Blog</title>
         <link>https://furion.pro/furion/blog</link>
         <description>Furion Blog</description>
-        <lastBuildDate>Thu, 15 Jul 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 24 Jul 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[5. 在控制台中使用]]></title>
+            <link>https://furion.pro/furion/blog/console</link>
+            <guid>console</guid>
+            <pubDate>Sat, 24 Jul 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Furion 从 v2.15.3+ 版本开始，支持全平台应用程序开发，包括 Web，控制台，WinForm，WPF，Xamarin/MAUI 等。]]></description>
+        </item>
         <item>
             <title><![CDATA[4. .NET 6 Preview 6 尝鲜]]></title>
             <link>https://furion.pro/furion/blog/net6-preview6</link>
