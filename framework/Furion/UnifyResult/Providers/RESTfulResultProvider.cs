@@ -80,6 +80,7 @@ namespace Furion.UnifyResult
                     await context.Response.WriteAsJsonAsync(RESTfulResult(statusCode, errors: "403 Forbidden")
                         , App.GetOptions<JsonOptions>()?.JsonSerializerOptions);
                     break;
+
                 default: break;
             }
         }
