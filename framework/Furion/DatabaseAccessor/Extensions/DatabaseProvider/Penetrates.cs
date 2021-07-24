@@ -49,7 +49,7 @@ namespace Furion.DatabaseAccessor
             return (serviceProvider, options) =>
             {
                 // 只有开发环境开启
-                if (App.HostEnvironment.IsDevelopment())
+                if (App.HostEnvironment?.IsDevelopment() ?? false)
                 {
                     options/*.UseLazyLoadingProxies()*/
                              .EnableDetailedErrors()

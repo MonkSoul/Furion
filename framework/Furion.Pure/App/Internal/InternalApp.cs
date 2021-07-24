@@ -64,7 +64,7 @@ namespace Furion
             if (!jsonFiles.Any()) return;
 
             // 获取环境变量名
-            var envName = hostEnvironment.EnvironmentName;
+            var envName = hostEnvironment?.EnvironmentName ?? "Unknown";
 
             // 读取忽略的配置文件
             var ignoreConfigurationFiles = configurationBuilder.Build()
@@ -72,9 +72,12 @@ namespace Furion
                     .Get<string[]>()
                 ?? Array.Empty<string>();
 
+            // 处理控制台应用程序
+            var _excludeJsonPrefixs = hostEnvironment == default ? excludeJsonPrefixs.Where(u => !u.Equals("appsettings")) : excludeJsonPrefixs;
+
             // 将所有文件进行分组
             var jsonFilesGroups = SplitConfigFileNameToGroups(jsonFiles)
-                                                                    .Where(u => !excludeJsonPrefixs.Contains(u.Key, StringComparer.OrdinalIgnoreCase) && !u.Any(c => runtimeJsonSuffixs.Any(z => c.EndsWith(z, StringComparison.OrdinalIgnoreCase)) || ignoreConfigurationFiles.Contains(Path.GetFileName(c), StringComparer.OrdinalIgnoreCase)));
+                                                                    .Where(u => !_excludeJsonPrefixs.Contains(u.Key, StringComparer.OrdinalIgnoreCase) && !u.Any(c => runtimeJsonSuffixs.Any(z => c.EndsWith(z, StringComparison.OrdinalIgnoreCase)) || ignoreConfigurationFiles.Contains(Path.GetFileName(c), StringComparer.OrdinalIgnoreCase)));
 
             // 遍历所有配置分组
             foreach (var group in jsonFilesGroups)

@@ -39,7 +39,7 @@ namespace Furion
                 InternalApp.RootServices = app.ApplicationServices;
 
                 // 环境名
-                var environmentName = App.HostEnvironment.EnvironmentName;
+                var environmentName = App.HostEnvironment?.EnvironmentName ?? "Unknown";
 
                 // 设置响应报文头信息，标记框架类型
                 app.Use(async (context, next) =>

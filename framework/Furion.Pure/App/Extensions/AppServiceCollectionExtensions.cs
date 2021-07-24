@@ -172,6 +172,17 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
+        /// 供控制台构建根服务
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static void Build(this IServiceCollection services)
+        {
+            var rootServices = services.BuildServiceProvider(false);
+            InternalApp.RootServices = rootServices;
+        }
+
+        /// <summary>
         /// 添加应用配置
         /// </summary>
         /// <param name="services">服务集合</param>

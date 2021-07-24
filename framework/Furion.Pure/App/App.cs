@@ -109,6 +109,9 @@ namespace Furion
         /// <returns></returns>
         public static IServiceProvider GetServiceProvider(Type serviceType)
         {
+            // 处理控制台应用程序
+            if (HostEnvironment == default) return RootServices;
+
             // 通过注册集合中查找服务类型
             var serviceDescriptors = InternalApp.InternalServices.Where(u => u.ServiceType == (serviceType.IsGenericType ? serviceType.GetGenericTypeDefinition() : serviceType));
 

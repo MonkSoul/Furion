@@ -53,7 +53,7 @@ namespace Furion.DatabaseAccessor
         /// </summary>
         static DbObjectExtensions()
         {
-            IsDevelopment = App.HostEnvironment.IsDevelopment();
+            IsDevelopment = App.HostEnvironment?.IsDevelopment() ?? false;
 
             var appsettings = App.Settings;
             IsPrintDbConnectionInfo = appsettings.PrintDbConnectionInfo.Value;
