@@ -52,7 +52,7 @@ namespace Furion.UnifyResult
             if (context.Response.StatusCode < 400 && context.Response.StatusCode == 404) return;
 
             // 处理规范化结果
-            if (!UnifyContext.CheckStatusCode(context, out var unifyResult))
+            if (!UnifyContext.CheckStatusCodeNonUnify(context, out var unifyResult))
             {
                 await unifyResult.OnResponseStatusCodes(context, context.Response.StatusCode, _options);
             }

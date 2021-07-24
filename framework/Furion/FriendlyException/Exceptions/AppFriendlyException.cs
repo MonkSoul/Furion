@@ -7,6 +7,7 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DependencyInjection;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Runtime.Serialization;
 
@@ -32,6 +33,7 @@ namespace Furion.FriendlyException
         /// <param name="errorCode"></param>
         public AppFriendlyException(string message, object errorCode) : base(message)
         {
+            ErrorMessage = message;
             ErrorCode = errorCode;
         }
 
@@ -43,6 +45,7 @@ namespace Furion.FriendlyException
         /// <param name="innerException"></param>
         public AppFriendlyException(string message, object errorCode, Exception innerException) : base(message, innerException)
         {
+            ErrorMessage = message;
             ErrorCode = errorCode;
         }
 
@@ -59,5 +62,20 @@ namespace Furion.FriendlyException
         /// 错误码
         /// </summary>
         public object ErrorCode { get; set; }
+
+        /// <summary>
+        /// 错误消息（支持 Object 对象）
+        /// </summary>
+        public object ErrorMessage { get; set; }
+
+        /// <summary>
+        /// 状态码
+        /// </summary>
+        public int StatusCode { get; set; } = StatusCodes.Status500InternalServerError;
+
+        /// <summary>
+        /// 是否是数据验证异常
+        /// </summary>
+        public bool ValidationException { get; set; } = false;
     }
 }

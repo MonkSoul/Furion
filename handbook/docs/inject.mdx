@@ -98,14 +98,6 @@ namespace Furion.Web.Entry
 `AddInjectBase()` 包含以下基础功能注册：
 
 ```cs
-services.AddDynamicApiControllers()
-        .AddDataValidation()
-        .AddFriendlyException();
-```
-
-如果传入 `AddInjectBase(false)`，则相当于以下功能注册（不包含动态 API）：
-
-```cs
 services.AddDataValidation()
         .AddFriendlyException();
 ```

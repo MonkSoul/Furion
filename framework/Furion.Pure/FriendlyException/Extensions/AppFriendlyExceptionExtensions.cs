@@ -7,34 +7,26 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DependencyInjection;
+using Microsoft.AspNetCore.Http;
 
-namespace Furion.DataValidation
+namespace Furion.FriendlyException
 {
     /// <summary>
-    /// 验证失败模型
+    /// 异常拓展
     /// </summary>
     [SuppressSniffer]
-    public sealed class ValidateFailedModel
+    public static class AppFriendlyExceptionExtensions
     {
         /// <summary>
-        /// 构造函数
+        /// 设置异常状态码
         /// </summary>
-        /// <param name="field"></param>
-        /// <param name="messages"></param>
-        public ValidateFailedModel(string field, string[] messages)
+        /// <param name="exception"></param>
+        /// <param name="statusCode"></param>
+        /// <returns></returns>
+        public static AppFriendlyException StatusCode(this AppFriendlyException exception, int statusCode = StatusCodes.Status500InternalServerError)
         {
-            Field = field;
-            Messages = messages;
+            exception.StatusCode = statusCode;
+            return exception;
         }
-
-        /// <summary>
-        /// 出错字段
-        /// </summary>
-        public string Field { get; set; }
-
-        /// <summary>
-        /// 错误列表
-        /// </summary>
-        public string[] Messages { get; set; }
     }
 }

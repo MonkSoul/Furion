@@ -11,10 +11,12 @@ using Furion.DynamicApiController;
 using Furion.Extensions;
 using Furion.Localization;
 using Furion.Templates.Extensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
@@ -28,11 +30,6 @@ namespace Furion.FriendlyException
     [SuppressSniffer]
     public static class Oops
     {
-        /// <summary>
-        /// MiniProfiler 分类名
-        /// </summary>
-        private const string MiniProfilerCategory = "errors";
-
         /// <summary>
         /// 方法错误异常特性
         /// </summary>
@@ -65,12 +62,25 @@ namespace Furion.FriendlyException
         }
 
         /// <summary>
+        /// 抛出业务异常日志
+        /// </summary>
+        /// <param name="errorMessage">异常消息</param>
+        /// <param name="args">String.Format 参数</param>
+        /// <returns>异常实例</returns>
+        public static AppFriendlyException Law(string errorMessage, params object[] args)
+        {
+            var friendlyException = Oh(errorMessage, typeof(ValidationException), args).StatusCode(StatusCodes.Status400BadRequest);
+            friendlyException.ValidationException = true;
+            return friendlyException;
+        }
+
+        /// <summary>
         /// 抛出字符串异常
         /// </summary>
         /// <param name="errorMessage">异常消息</param>
         /// <param name="args">String.Format 参数</param>
         /// <returns>异常实例</returns>
-        public static Exception Oh(string errorMessage, params object[] args)
+        public static AppFriendlyException Oh(string errorMessage, params object[] args)
         {
             return new AppFriendlyException(MontageErrorMessage(errorMessage, default, args), default);
         }
@@ -82,9 +92,11 @@ namespace Furion.FriendlyException
         /// <param name="exceptionType">具体异常类型</param>
         /// <param name="args">String.Format 参数</param>
         /// <returns>异常实例</returns>
-        public static Exception Oh(string errorMessage, Type exceptionType, params object[] args)
+        public static AppFriendlyException Oh(string errorMessage, Type exceptionType, params object[] args)
         {
-            return Activator.CreateInstance(exceptionType, new object[] { MontageErrorMessage(errorMessage, default, args) }) as Exception;
+            var exceptionMessage = MontageErrorMessage(errorMessage, default, args);
+            return new AppFriendlyException(exceptionMessage, default,
+                Activator.CreateInstance(exceptionType, new object[] { exceptionMessage }) as Exception);
         }
 
         /// <summary>
@@ -93,7 +105,7 @@ namespace Furion.FriendlyException
         /// <param name="errorCode">错误码</param>
         /// <param name="args">String.Format 参数</param>
         /// <returns>异常实例</returns>
-        public static Exception Oh(object errorCode, params object[] args)
+        public static AppFriendlyException Oh(object errorCode, params object[] args)
         {
             return new AppFriendlyException(GetErrorCodeMessage(errorCode, args), errorCode);
         }
@@ -105,9 +117,11 @@ namespace Furion.FriendlyException
         /// <param name="exceptionType">具体异常类型</param>
         /// <param name="args">String.Format 参数</param>
         /// <returns>异常实例</returns>
-        public static Exception Oh(object errorCode, Type exceptionType, params object[] args)
+        public static AppFriendlyException Oh(object errorCode, Type exceptionType, params object[] args)
         {
-            return Activator.CreateInstance(exceptionType, new object[] { GetErrorCodeMessage(errorCode, args) }) as Exception;
+            var exceptionMessage = GetErrorCodeMessage(errorCode, args);
+            return new AppFriendlyException(exceptionMessage, errorCode,
+                Activator.CreateInstance(exceptionType, new object[] { exceptionMessage }) as Exception);
         }
 
         /// <summary>
@@ -173,34 +187,6 @@ namespace Furion.FriendlyException
                     if (retryTimeout > 0) Thread.Sleep(retryTimeout);
                 }
             }
-        }
-
-        /// <summary>
-        /// 打印错误到 MiniProfiler 中
-        /// </summary>
-        /// <param name="exception"></param>
-        internal static void PrintToMiniProfiler(Exception exception)
-        {
-            // 判断是否注入 MiniProfiler 组件
-            if (App.Settings.InjectMiniProfiler != true) return;
-
-            // 获取异常堆栈
-            var traceFrame = new StackTrace(exception, true).GetFrame(0);
-
-            // 获取出错的文件名
-            var exceptionFileName = traceFrame.GetFileName();
-
-            // 获取出错的行号
-            var exceptionFileLineNumber = traceFrame.GetFileLineNumber();
-
-            // 打印错误文件名和行号
-            if (!string.IsNullOrWhiteSpace(exceptionFileName) && exceptionFileLineNumber > 0)
-            {
-                App.PrintToMiniProfiler(MiniProfilerCategory, "Locator", $"{exceptionFileName}:line {exceptionFileLineNumber}", true);
-            }
-
-            // 打印完整的堆栈信息
-            App.PrintToMiniProfiler(MiniProfilerCategory, "StackTrace", exception.ToString(), true);
         }
 
         /// <summary>
@@ -372,11 +358,10 @@ namespace Furion.FriendlyException
             // 支持读取配置渲染
             var realErrorMessage = errorMessage.Render();
 
-            if (realErrorMessage.StartsWith("[Validation]")) return realErrorMessage;
-
             // 多语言处理
             realErrorMessage = L.Text == null ? realErrorMessage : L.Text[realErrorMessage];
 
+            // 判断是否隐藏错误码
             var msg = (_friendlyExceptionSettings.HideErrorCode == true || string.IsNullOrWhiteSpace(errorCode)
                 ? string.Empty
                 : $"[{errorCode}] ") + realErrorMessage;

@@ -8,7 +8,7 @@
 
 using Furion.DependencyInjection;
 using Furion.FriendlyException;
-using Furion.JsonSerialization;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -126,17 +126,26 @@ namespace Furion.DataValidation
         public static void ThrowValidateFailedModel(this DataValidationResult dataValidationResult)
         {
             if (!dataValidationResult.IsValid)
-                throw Oops.Oh("[Validation]" + JSON.Serialize(
-                    dataValidationResult.ValidationResults
-                    .Select(u => new {
-                        MemberNames = u.MemberNames.Any() ? u.MemberNames : new[] { $"{dataValidationResult.MemberOrValue}" },
-                        u.ErrorMessage
-                    })
-                    .OrderBy(u => u.MemberNames.First())
-                    .GroupBy(u => u.MemberNames.First())
-                    .Select(u =>
-                        new ValidateFailedModel(u.Key,
-                            u.Select(c => c.ErrorMessage).ToArray()))));
+            {
+                // 解析验证失败消息，输出统一格式
+                var validationFailMessage =
+                      dataValidationResult.ValidationResults
+                      .Select(u => new {
+                          MemberNames = u.MemberNames.Any() ? u.MemberNames : new[] { $"{dataValidationResult.MemberOrValue}" },
+                          u.ErrorMessage
+                      })
+                      .OrderBy(u => u.MemberNames.First())
+                      .GroupBy(u => u.MemberNames.First())
+                      .ToDictionary(x => x.Key, u => u.Select(c => c.ErrorMessage).ToArray());
+
+                // 抛出验证失败异常
+                throw new AppFriendlyException(default, default, new ValidationException())
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    ValidationException = true,
+                    ErrorMessage = validationFailMessage,
+                };
+            }
         }
     }
 }

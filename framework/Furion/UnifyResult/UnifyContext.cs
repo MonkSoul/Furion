@@ -9,14 +9,15 @@
 using Furion.DependencyInjection;
 using Furion.Extensions;
 using Furion.FriendlyException;
-using Furion.JsonSerialization;
 using Furion.Templates.Extensions;
+using Furion.UnifyResult.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
@@ -46,60 +47,61 @@ namespace Furion.UnifyResult
         internal static string UnifyResultExtrasKey = "UNIFY_RESULT_EXTRAS";
 
         /// <summary>
-        /// 规范化结果状态码
-        /// </summary>
-        internal static string UnifyResultStatusCodeKey = "UNIFY_RESULT_STATUS_CODE";
-
-        /// <summary>
         /// 获取异常元数据
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public static (int statusCode, object errorCode, object errors) GetExceptionMetadata(ExceptionContext context)
+        public static ExceptionMetadata GetExceptionMetadata(ExceptionContext context)
         {
-            // 获取错误码
-            var errorCode = context.Exception is AppFriendlyException friendlyException ? friendlyException?.ErrorCode : default;
+            object errorCode = default;
+            object errors = default;
+            var statusCode = StatusCodes.Status500InternalServerError;
+            var isValidationException = false; // 判断是否是验证异常
+            var isFriendlyException = false;
 
-            // 读取规范化状态码信息
-            var statusCode = Get(UnifyResultStatusCodeKey) ?? StatusCodes.Status500InternalServerError;
-
-            // 优先获取内部异常
-            var errorMessage = context.Exception?.InnerException?.Message ?? context.Exception.Message;
-            var validationFlag = "[Validation]";
+            // 判断是否是友好异常
+            if (context.Exception is AppFriendlyException friendlyException)
+            {
+                isFriendlyException = true;
+                errorCode = friendlyException.ErrorCode;
+                statusCode = friendlyException.StatusCode;
+                isValidationException = friendlyException.ValidationException;
+                errors = friendlyException.ErrorMessage;
+            }
 
             // 处理验证失败异常
-            object errors = default;
-            if (errorMessage.StartsWith(validationFlag))
-            {
-                // 处理结果
-                errors = JSON.Deserialize<object>(errorMessage[validationFlag.Length..]);
-
-                // 设置为400状态码
-                statusCode = StatusCodes.Status400BadRequest;
-            }
-            else
+            if (!isValidationException)
             {
                 // 判断是否定义了全局类型异常
                 var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
 
                 // 查找所有全局定义异常
-                var typeExceptionAttributes = actionDescriptor.MethodInfo
-                            .GetCustomAttributes<IfExceptionAttribute>()
+                var ifExceptionAttributes = actionDescriptor.MethodInfo
+                            .GetCustomAttributes<IfExceptionAttribute>(true)
                             .Where(u => u.ErrorCode == null);
 
                 // 处理全局异常
-                if (typeExceptionAttributes.Any())
+                if (ifExceptionAttributes.Any())
                 {
                     // 首先判断是否有相同类型的异常
-                    var actionIfExceptionAttribute = typeExceptionAttributes.FirstOrDefault(u => u.ExceptionType == context.Exception.GetType())
-                            ?? typeExceptionAttributes.FirstOrDefault(u => u.ExceptionType == null);
+                    var actionIfExceptionAttribute = ifExceptionAttributes.FirstOrDefault(u => u.ExceptionType ==
+                                                    (isFriendlyException && context.Exception.InnerException != null
+                                                                        ? context.Exception.InnerException.GetType()
+                                                                        : context.Exception.GetType()))
+                            ?? ifExceptionAttributes.FirstOrDefault(u => u.ExceptionType == null);
 
+                    // 支持渲染配置文件
                     if (actionIfExceptionAttribute is { ErrorMessage: not null }) errors = actionIfExceptionAttribute.ErrorMessage.Render();
                 }
-                else errors = errorMessage;
+                else errors = context.Exception?.InnerException?.Message ?? context.Exception.Message;
             }
 
-            return ((int)statusCode, errorCode, errors);
+            return new ExceptionMetadata
+            {
+                StatusCode = statusCode,
+                ErrorCode = errorCode,
+                Errors = errors
+            };
         }
 
         /// <summary>
@@ -150,37 +152,13 @@ namespace Furion.UnifyResult
         }
 
         /// <summary>
-        /// 设置规范化结果信息
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        internal static void Set(string key, object value)
-        {
-            var items = App.HttpContext?.Items;
-            if (items != null && items.ContainsKey(key)) items.Remove(key);
-            items?.Add(key, value);
-        }
-
-        /// <summary>
-        /// 读取规范化结果信息
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        internal static object Get(string key)
-        {
-            object value = null;
-            App.HttpContext?.Items?.TryGetValue(key, out value);
-            return value;
-        }
-
-        /// <summary>
         /// 检查请求成功是否进行规范化处理
         /// </summary>
         /// <param name="method"></param>
         /// <param name="unifyResult"></param>
         /// <param name="isWebRequest"></param>
         /// <returns>返回 true 跳过处理，否则进行规范化处理</returns>
-        internal static bool CheckSucceeded(MethodInfo method, out IUnifyResultProvider unifyResult, bool isWebRequest = true)
+        internal static bool CheckSucceededNonUnify(MethodInfo method, out IUnifyResultProvider unifyResult, bool isWebRequest = true)
         {
             // 判断是否跳过规范化处理
             var isSkip = !IsEnabledUnifyHandle
@@ -204,7 +182,7 @@ namespace Furion.UnifyResult
         /// <param name="method"></param>
         /// <param name="unifyResult"></param>
         /// <returns>返回 true 跳过处理，否则进行规范化处理</returns>
-        internal static bool CheckFailed(MethodInfo method, out IUnifyResultProvider unifyResult)
+        internal static bool CheckFailedNonUnify(MethodInfo method, out IUnifyResultProvider unifyResult)
         {
             // 判断是否跳过规范化处理
             var isSkip = !IsEnabledUnifyHandle
@@ -224,7 +202,7 @@ namespace Furion.UnifyResult
         /// <param name="context"></param>
         /// <param name="unifyResult"></param>
         /// <returns>返回 true 跳过处理，否则进行规范化处理</returns>
-        internal static bool CheckStatusCode(HttpContext context, out IUnifyResultProvider unifyResult)
+        internal static bool CheckStatusCodeNonUnify(HttpContext context, out IUnifyResultProvider unifyResult)
         {
             // 获取终点路由特性
             var endpointFeature = context.Features.Get<IEndpointFeature>();
@@ -237,6 +215,49 @@ namespace Furion.UnifyResult
 
             unifyResult = isSkip ? null : context.RequestServices.GetService<IUnifyResultProvider>();
             return unifyResult == null || isSkip;
+        }
+
+        /// <summary>
+        /// 检查是否是有效的结果（可进行规范化的结果）
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        internal static bool CheckVaildResult(IActionResult result, out object data)
+        {
+            data = default;
+
+            // 排除以下结果，跳过规范化处理
+            var isDataResult = result switch
+            {
+                ViewResult => false,
+                PartialViewResult => false,
+                FileResult => false,
+                ChallengeResult => false,
+                SignInResult => false,
+                SignOutResult => false,
+                RedirectToPageResult => false,
+                RedirectToRouteResult => false,
+                RedirectResult => false,
+                RedirectToActionResult => false,
+                LocalRedirectResult => false,
+                ForbidResult => false,
+                ViewComponentResult => false,
+                PageResult => false,
+                _ => true,
+            };
+
+            // 目前支持返回值 ActionResult
+            if (isDataResult) data = result switch
+            {
+                // 处理内容结果
+                ContentResult content => content.Content,
+                // 处理对象结果
+                ObjectResult obj => obj.Value,
+                _ => null
+            };
+
+            return isDataResult;
         }
     }
 }

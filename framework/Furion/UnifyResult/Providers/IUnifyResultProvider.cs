@@ -7,11 +7,10 @@
 // See the Mulan PSL v2 for more details.
 
 using Furion.DataValidation;
+using Furion.UnifyResult.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Furion.UnifyResult
@@ -25,25 +24,25 @@ namespace Furion.UnifyResult
         /// 异常返回值
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="metadata"></param>
         /// <returns></returns>
-        IActionResult OnException(ExceptionContext context);
+        IActionResult OnException(ExceptionContext context, ExceptionMetadata metadata);
 
         /// <summary>
         /// 成功返回值
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="data"></param>
         /// <returns></returns>
-        IActionResult OnSucceeded(ActionExecutedContext context);
+        IActionResult OnSucceeded(ActionExecutedContext context, object data);
 
         /// <summary>
         /// 验证失败返回值
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="modelStates"></param>
-        /// <param name="validationResults"></param>
-        /// <param name="validateFailedMessage"></param>
+        /// <param name="metadata"></param>
         /// <returns></returns>
-        IActionResult OnValidateFailed(ActionExecutingContext context, ModelStateDictionary modelStates, IEnumerable<ValidateFailedModel> validationResults, string validateFailedMessage);
+        IActionResult OnValidateFailed(ActionExecutingContext context, ValidationMetadata metadata);
 
         /// <summary>
         /// 拦截返回状态码

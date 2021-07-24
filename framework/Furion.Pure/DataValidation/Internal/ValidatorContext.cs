@@ -20,14 +20,14 @@ namespace Furion.DataValidation
     internal static class ValidatorContext
     {
         /// <summary>
-        /// 输出验证信息
+        /// 获取验证错误信息
         /// </summary>
         /// <param name="errors"></param>
         /// <returns></returns>
-        internal static (IEnumerable<ValidateFailedModel> validationResults, string validateFaildMessage, ModelStateDictionary modelState) OutputValidationInfo(object errors)
+        internal static ValidationMetadata GetValidationMetadata(object errors)
         {
             ModelStateDictionary _modelState = null;
-            IEnumerable<ValidateFailedModel> validationResults = null;
+            Dictionary<string, string[]> validationResults = null;
 
             // 如果是模型验证字典类型
             if (errors is ModelStateDictionary modelState)
@@ -35,28 +35,31 @@ namespace Furion.DataValidation
                 _modelState = modelState;
                 // 将验证错误信息转换成字典并序列化成 Json
                 validationResults = modelState.Where(u => modelState[u.Key].ValidationState == ModelValidationState.Invalid)
-                        .Select(u =>
-                           new ValidateFailedModel(u.Key,
-                               modelState[u.Key].Errors.Select(c => c.ErrorMessage).ToArray()));
+                        .ToDictionary(u => u.Key, u => modelState[u.Key].Errors.Select(c => c.ErrorMessage).ToArray());
             }
             // 如果是 ValidationProblemDetails 特殊类型
             else if (errors is ValidationProblemDetails validation)
             {
                 validationResults = validation.Errors
-                    .Select(u =>
-                        new ValidateFailedModel(u.Key,
-                            u.Value.ToArray()));
+                    .ToDictionary(u => u.Key, u => u.Value.ToArray());
+            }
+            // 如果是字典类型
+            else if (errors is Dictionary<string, string[]> dicResults)
+            {
+                validationResults = dicResults;
             }
             // 其他类型
-            else validationResults = new List<ValidateFailedModel>
+            else validationResults = new Dictionary<string, string[]>
             {
-                new ValidateFailedModel(string.Empty,new[]{errors?.ToString()})
+                {string.Empty, new[]{errors?.ToString()}}
             };
 
-            // 序列化
-            var validateFaildMessage = JSON.Serialize(validationResults);
-
-            return (validationResults, validateFaildMessage, _modelState);
+            return new ValidationMetadata
+            {
+                ValidationResult = validationResults,
+                Message = JSON.Serialize(validationResults),
+                ModelState = _modelState
+            };
         }
     }
 }

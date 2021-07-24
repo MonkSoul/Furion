@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.Net.Mime;
 
 namespace Furion.DataValidation
 {
@@ -48,39 +47,29 @@ namespace Furion.DataValidation
         /// <param name="context"></param>
         public void OnActionExecuting(ActionExecutingContext context)
         {
+            // 获取控制器/方法信息
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
-            // 判断是否是 Mvc 控制器
-            var isMvcController = typeof(Controller).IsAssignableFrom(actionDescriptor.ControllerTypeInfo);
-
             var method = actionDescriptor.MethodInfo;
-            var modelState = context.ModelState;
 
             // 跳过验证类型
             var nonValidationAttributeType = typeof(NonValidationAttribute);
 
-            // 如果贴了 [NonValidation] 特性 或 所在类型贴了 [NonValidation] 特性，则跳过验证
+            // 如果参数为 0或贴了 [NonValidation] 特性 或所在类型贴了 [NonValidation] 特性，则跳过验证
             if (actionDescriptor.Parameters.Count == 0 ||
                 method.IsDefined(nonValidationAttributeType, true) ||
-                method.ReflectedType.IsDefined(nonValidationAttributeType, true))
-            {
-                // 打印验证跳过消息
-                //if (!isMvcController) App.PrintToMiniProfiler(MiniProfilerCategory, "Skipped");
-                return;
-            }
+                method.DeclaringType.IsDefined(nonValidationAttributeType, true)) return;
 
-            // 如果动作方法参数为 0 或 验证通过，则跳过，
-            if (modelState.IsValid)
-            {
-                // 打印验证成功消息
-                if (!isMvcController) App.PrintToMiniProfiler(MiniProfilerCategory, "Succeeded");
-                return;
-            }
+            // 获取验证状态
+            var modelState = context.ModelState;
+
+            // 判断是否验证成功
+            if (modelState.IsValid) return;
 
             // 返回验证失败结果
-            if (!isMvcController && context.Result == null && !modelState.IsValid)
+            if (context.Result == null && !modelState.IsValid)
             {
                 // 设置验证失败结果
-                SetValidateFailedResult(context, modelState, actionDescriptor, isMvcController);
+                SetValidateFailedResult(context, modelState, actionDescriptor);
             }
         }
 
@@ -90,27 +79,21 @@ namespace Furion.DataValidation
         /// <param name="context">动作方法执行上下文</param>
         /// <param name="modelState">模型验证状态</param>
         /// <param name="actionDescriptor"></param>
-        /// <param name="isMvcController"></param>
-        private static void SetValidateFailedResult(ActionExecutingContext context, ModelStateDictionary modelState, ControllerActionDescriptor actionDescriptor, bool isMvcController)
+        private static void SetValidateFailedResult(ActionExecutingContext context, ModelStateDictionary modelState, ControllerActionDescriptor actionDescriptor)
         {
             // 解析验证消息
-            var (validationResults, validateFaildMessage, _) = ValidatorContext.OutputValidationInfo(modelState);
+            var validationMetadata = ValidatorContext.GetValidationMetadata(modelState);
 
             // 判断是否跳过规范化结果
-            if (isMvcController || UnifyContext.CheckFailed(actionDescriptor.MethodInfo, out var unifyResult))
+            if (UnifyContext.CheckFailedNonUnify(actionDescriptor.MethodInfo, out var unifyResult))
             {
-                // 返回 400 错误
-                var result = new BadRequestObjectResult(modelState);
-
-                // 设置返回的响应类型
-                result.ContentTypes.Add(MediaTypeNames.Application.Json);
-
-                context.Result = result;
+                // 返回 400 状态码
+                context.Result = new BadRequestObjectResult(modelState);
             }
-            else context.Result = unifyResult.OnValidateFailed(context, modelState, validationResults, validateFaildMessage);
+            else context.Result = unifyResult.OnValidateFailed(context, validationMetadata);
 
             // 打印验证失败信息
-            if (!isMvcController) App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", $"Validation Failed:\r\n{validateFaildMessage}", true);
+            App.PrintToMiniProfiler(MiniProfilerCategory, "Failed", $"Validation Failed:\r\n{validationMetadata.Message}", true);
         }
 
         /// <summary>

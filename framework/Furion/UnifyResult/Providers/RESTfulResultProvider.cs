@@ -8,12 +8,11 @@
 
 using Furion.DataValidation;
 using Furion.DependencyInjection;
+using Furion.UnifyResult.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Furion.UnifyResult
@@ -28,49 +27,33 @@ namespace Furion.UnifyResult
         /// 异常返回值
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="metadata"></param>
         /// <returns></returns>
-        public IActionResult OnException(ExceptionContext context)
+        public IActionResult OnException(ExceptionContext context, ExceptionMetadata metadata)
         {
-            // 解析异常信息
-            var (statusCode, _, errors) = UnifyContext.GetExceptionMetadata(context);
-
-            return new JsonResult(RESTfulResult(statusCode, errors: errors));
+            return new JsonResult(RESTfulResult(metadata.StatusCode, errors: metadata.Errors));
         }
 
         /// <summary>
         /// 成功返回值
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="data"></param>
         /// <returns></returns>
-        public IActionResult OnSucceeded(ActionExecutedContext context)
+        public IActionResult OnSucceeded(ActionExecutedContext context, object data)
         {
-            object data;
-            // 处理内容结果
-            if (context.Result is ContentResult contentResult) data = contentResult.Content;
-            // 处理对象结果
-            else if (context.Result is ObjectResult objectResult) data = objectResult.Value;
-            // 处理无返回值
-            else if (context.Result is EmptyResult) data = null;
-            else return null;
-
-            var statusCode = context.Result is EmptyResult
-                ? StatusCodes.Status204NoContent // 处理没有返回值情况 204
-                : StatusCodes.Status200OK;
-
-            return new JsonResult(RESTfulResult(statusCode, true, data));
+            return new JsonResult(RESTfulResult(StatusCodes.Status200OK, true, data));
         }
 
         /// <summary>
         /// 验证失败返回值
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="modelStates"></param>
-        /// <param name="validationResults"></param>
-        /// <param name="validateFailedMessage"></param>
+        /// <param name="metadata"></param>
         /// <returns></returns>
-        public IActionResult OnValidateFailed(ActionExecutingContext context, ModelStateDictionary modelStates, IEnumerable<ValidateFailedModel> validationResults, string validateFailedMessage)
+        public IActionResult OnValidateFailed(ActionExecutingContext context, ValidationMetadata metadata)
         {
-            return new JsonResult(RESTfulResult(StatusCodes.Status400BadRequest, errors: validationResults));
+            return new JsonResult(RESTfulResult(StatusCodes.Status400BadRequest, errors: metadata.ValidationResult));
         }
 
         /// <summary>
