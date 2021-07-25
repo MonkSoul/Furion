@@ -3,7 +3,7 @@ using Xunit;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-[assembly: TestFramework("Furion.UnitTests._", "Furion.UnitTests")]
+[assembly: TestFramework("Furion.UnitTests.Initialize", "Furion.UnitTests")]
 namespace Furion.UnitTests
 {
     public sealed class Initialize : XunitTestFramework
