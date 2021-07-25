@@ -15,7 +15,7 @@ namespace Furion.SpecificationDocument
     /// <summary>
     /// 规范化结果中间件配置选项
     /// </summary>
-    public sealed class SpecificationDocumentMiddlewareOptions
+    public sealed class SpecificationDocumentConfigureOptions
     {
         /// <summary>
         /// Swagger 配置

@@ -26,13 +26,13 @@ namespace Microsoft.AspNetCore.Builder
         /// <param name="routePrefix"></param>
         /// <param name="configure"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseSpecificationDocuments(this IApplicationBuilder app, string routePrefix = default, Action<SpecificationDocumentMiddlewareOptions> configure = default)
+        public static IApplicationBuilder UseSpecificationDocuments(this IApplicationBuilder app, string routePrefix = default, Action<SpecificationDocumentConfigureOptions> configure = default)
         {
             // 判断是否启用规范化文档
             if (App.Settings.InjectSpecificationDocument != true) return app;
 
             // 载入服务配置选项
-            var configureOptions = new SpecificationDocumentMiddlewareOptions();
+            var configureOptions = new SpecificationDocumentConfigureOptions();
             configure?.Invoke(configureOptions);
 
             // 配置 Swagger 全局参数

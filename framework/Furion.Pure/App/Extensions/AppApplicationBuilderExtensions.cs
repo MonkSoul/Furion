@@ -25,10 +25,10 @@ namespace Microsoft.AspNetCore.Builder
         /// <param name="routePrefix">空字符串将为首页</param>
         /// <param name="configure"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseInject(this IApplicationBuilder app, string routePrefix = default, Action<InjectMiddlewareOptions> configure = null)
+        public static IApplicationBuilder UseInject(this IApplicationBuilder app, string routePrefix = default, Action<InjectConfigureOptions> configure = null)
         {
             // 载入中间件配置选项
-            var configureOptions = new InjectMiddlewareOptions();
+            var configureOptions = new InjectConfigureOptions();
             configure?.Invoke(configureOptions);
 
             app.UseSpecificationDocuments(routePrefix, configureOptions?.SpecificationDocumentConfigure);
