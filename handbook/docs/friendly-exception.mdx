@@ -296,6 +296,8 @@ throw Oops.Oh("哈哈哈哈");
 throw Oops.Oh(errorCode: "x1001");
 throw Oops.Oh(1000, typeof(Exception));
 throw Oops.Oh(1000).StatusCode(400);    // 设置错误码
+throw Oops.Bah("用户名或密码错误"); // 抛出业务异常，状态码为 400
+throw Oops.Bah(1000);
 ```
 
 ## 7.7 多个异常信息类型

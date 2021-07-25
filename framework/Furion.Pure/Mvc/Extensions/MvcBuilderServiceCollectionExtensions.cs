@@ -25,21 +25,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="TFilter"></typeparam>
         /// <param name="mvcBuilder"></param>
-        /// <param name="extraConfigure"></param>
+        /// <param name="configure"></param>
         /// <returns></returns>
-        public static IMvcBuilder AddMvcFilter<TFilter>(this IMvcBuilder mvcBuilder, Action<MvcOptions> extraConfigure = default)
+        public static IMvcBuilder AddMvcFilter<TFilter>(this IMvcBuilder mvcBuilder, Action<MvcOptions> configure = default)
             where TFilter : IFilterMetadata
         {
-            // 非 Web 环境跳过注册
-            if (App.WebHostEnvironment == default) return mvcBuilder;
-
-            mvcBuilder.AddMvcOptions(options =>
-            {
-                options.Filters.Add<TFilter>();
-
-                // 其他额外配置
-                extraConfigure?.Invoke(options);
-            });
+            mvcBuilder.Services.AddMvcFilter<TFilter>(configure);
 
             return mvcBuilder;
         }
@@ -49,9 +40,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="TFilter"></typeparam>
         /// <param name="services"></param>
-        /// <param name="extraConfigure"></param>
+        /// <param name="configure"></param>
         /// <returns></returns>
-        public static IServiceCollection AddMvcFilter<TFilter>(this IServiceCollection services, Action<MvcOptions> extraConfigure = default)
+        public static IServiceCollection AddMvcFilter<TFilter>(this IServiceCollection services, Action<MvcOptions> configure = default)
             where TFilter : IFilterMetadata
         {
             // 非 Web 环境跳过注册
@@ -62,7 +53,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.Filters.Add<TFilter>();
 
                 // 其他额外配置
-                extraConfigure?.Invoke(options);
+                configure?.Invoke(options);
             });
 
             return services;

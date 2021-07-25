@@ -148,25 +148,11 @@ namespace Furion.FriendlyException
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
 
-            // 不断重试
-            while (true)
-            {
-                try
-                {
-                    action(); return;
-                }
-                catch (Exception ex)
-                {
-                    // 如果可重试次数小于或等于0，则终止重试
-                    if (--numRetries <= 0) throw;
-
-                    // 如果填写了 exceptionTypes 且异常类型不在 exceptionTypes 之内，则终止重试
-                    if (exceptionTypes != null && exceptionTypes.Length > 0 && !exceptionTypes.Any(u => u.IsAssignableFrom(ex.GetType()))) throw;
-
-                    // 如果可重试异常数大于 0，则间隔指定时间后继续执行
-                    if (retryTimeout > 0) Thread.Sleep(retryTimeout);
-                }
-            }
+            _ = Retry(() =>
+              {
+                  action();
+                  return 0;
+              }, numRetries, retryTimeout, exceptionTypes);
         }
 
         /// <summary>

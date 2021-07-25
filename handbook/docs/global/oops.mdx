@@ -49,3 +49,10 @@ Oops.Retry(() => {
 
 }, 3, 1000, typeof(ArgumentNullException));
 ```
+
+## 4.6 抛出业务异常
+
+```cs
+throw Oops.Bah("用户名或密码错误");
+throw Oops.Bah(1000);
+```
